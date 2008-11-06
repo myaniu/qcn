@@ -1,4 +1,4 @@
-need to ship a USB sensor:
+we should ship USB sensors to:
 
 David Anderson
 UBC Space Sciences Lab
