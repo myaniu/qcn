@@ -1,0 +1,3 @@
+#!/bin/bash
+zip  qcnusb-ppc.zip install_ppc README.ppc.txt pre-install.sh post-install.sh qcnusb edu.stanford.qcn.qcnusb.plist
+mv qcnusb-ppc.zip ../../bin/

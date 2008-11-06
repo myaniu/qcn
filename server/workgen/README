@@ -1,0 +1,5 @@
+Copy the program to /var/www/boinc/qcnalpha or wherever you need to run it
+Also note the templates dir should be under /var/www/boinc/qcnalpha!
+
+should just make clean && make -- it will move the executable qcn_workgen to /var/www/boinc/qcnalpha/bin
+

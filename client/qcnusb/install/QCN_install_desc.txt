@@ -1,0 +1,3 @@
+This will install a small program (200KB disk, which uses at most 3MB of memory/RAM) that will allow support for external USB accelerometers (currently the JoyWarrior 24F8 from codemercs.com).  
+
+This program will run at startup, and remain idle until a BOINC client running the Quake Catcher Network is detected, then it should use only 1-2% of CPU time.  When BOINC/QCN quits or isn't running, this service should go back to idle (0% CPU).

@@ -1,0 +1,4 @@
+cp -rf inc/* /var/www/boinc/qcnalpha/html/inc/
+cp -rf ops/* /var/www/boinc/qcnalpha/html/ops/
+cp -rf project/* /var/www/boinc/qcnalpha/html/project/
+cp -rf user/* /var/www/boinc/qcnalpha/html/user/

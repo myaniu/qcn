@@ -1,0 +1,67 @@
+#!/bin/sh
+#if have 2nd arg, it forces boinc build, 3rd arg forced boinc Mac PPC build
+if (test $2) then
+   rm -rf boinc
+   ./getboinc
+#  note copying over our "quiet" boinc_zip -q
+   cp server/boincmods/zip/boinc_zip.cpp boinc/zip/
+   cd boinc
+#   cd boinc/mac_build
+#   if (test $3) then
+#      xcodebuild -project boinc.xcodeproj -configuration i386_Deployment clean build
+#   else
+#      xcodebuild -project boinc.xcodeproj -configuration i386_Deployment clean build
+#   fi
+   ./_autosetup
+if ( test "`uname -s`" = "Darwin" ) then
+   ./configure --with-apple-opengl-framework --disable-client --disable-server
+else
+   echo "don't forget the Linux vpn: sudo vpnclient connect stanford"
+   ./configure --disable-client --disable-server
+fi
+   make clean
+   make
+#   g++ boinc/api/macglutfix.m -c -o boinc/api/macglutfix.o
+#   cd ../../
+   cd ../
+fi
+# at least update boinc cvs?
+svn update boinc
+cd boinc
+make distclean
+./_autosetup
+if ( test "`uname -s`" = "Darwin" ) then
+   ./configure --with-apple-opengl-framework --disable-client --disable-server
+else
+   echo "don't forget the Linux vpn: sudo vpnclient connect stanford"
+   ./configure --disable-client --disable-server
+fi
+make clean
+make
+cd ..
+# don't need to build ntp often, just when making the executables to distribute
+#tar xzf ntp-4.2.4p5.tar.gz
+#cd ntp-4.2.4p5
+#./configure --disable-shared --without-crypto
+#make clean && make
+#cd ../
+./set-version $1
+./_autosetup
+if ( test "`uname -s`" = "Darwin" ) then
+./configure --with-apple-opengl-framework --disable-server
+else
+./configure --disable-server
+fi
+make clean
+make
+#if ( test "`uname -s`" = "Darwin" ) then
+#cd client/qcnlive
+#if ( test "`uname -p`" = "i386" ) then
+#xcodebuild -project qcnlive.xcodeproj -configuration 'Release' clean build
+#else
+#xcodebuild -project qcnlive.xcodeproj -configuration 'Release PowerPC' clean build
+#fi
+#fi
+#cd ../../
+cd client/bin
+./deploy $1

@@ -1,0 +1,179 @@
+<?xml version="1.0" ?>
+<boinc>
+  <config>
+    <upload_dir>
+      /var/www/boinc/qcnalpha/upload
+    </upload_dir>
+    <long_name>
+      QCN Alpha Test
+    </long_name>
+    <cgi_url>http://qcn.stanford.edu/qcnalpha_cgi/</cgi_url>
+    <msg_to_host/>
+    <sched_debug_level>
+      5
+    </sched_debug_level>
+    <debug_send/>
+    <debug_version_select/>
+    <uldl_dir_fanout>
+      1024
+    </uldl_dir_fanout>
+    <download_url>http://qcn.stanford.edu/qcnalpha/download</download_url>
+    <db_user>qcn</db_user>
+    <log_dir>/var/www/boinc/qcnalpha/log_qcn-web</log_dir>
+    <app_dir>/var/www/boinc/qcnalpha/apps</app_dir>
+    <download_dir>/var/www/boinc/qcnalpha/download</download_dir>
+    <fuh_debug_level>0</fuh_debug_level>
+    <master_url>http://qcn.stanford.edu/qcnalpha/</master_url>
+    <host>qcn-web</host>
+    <db_name>
+      qcnalpha
+    </db_name>
+    <shmem_key>
+      0x11119030
+    </shmem_key>
+    <show_results>1</show_results>
+    <key_dir>
+      /var/www/boinc/qcnalpha/keys/
+    </key_dir>
+    <upload_url>
+      http://qcn.stanford.edu/qcnalpha_cgi/file_upload_handler
+    </upload_url>
+    <db_passwd>
+      1QCNQuake
+    </db_passwd>
+    <db_host>
+      db-private
+    </db_host>
+    <non_cpu_intensive>
+       1
+    </non_cpu_intensive>
+    <daily_result_quota>
+       10
+    </daily_result_quota>
+    <max_wus_in_progress>
+      1
+    </max_wus_in_progress>
+    <max_wus_to_send>
+      5 
+    </max_wus_to_send>
+  </config>
+  <tasks>
+    <task>
+      <output>
+        db_dump.out
+      </output>
+      <cmd>
+        db_dump -d 0 -dump_spec ../db_dump_spec.xml
+      </cmd>
+      <period>
+        24 hours
+      </period>
+    </task>
+    <task>
+      <output>
+        update_uotd.out
+      </output>
+      <cmd>
+        run_in_ops update_uotd.php
+      </cmd>
+      <period>
+        1 days
+      </period>
+    </task>
+    <task>
+      <output>
+        update_forum_activities.out
+      </output>
+      <cmd>
+        run_in_ops update_forum_activities.php
+      </cmd>
+      <period>
+        1 hour
+      </period>
+    </task>
+    <task>
+      <output>
+        do_stats.out
+      </output>
+      <cmd>
+        do_stats.py
+      </cmd>
+      <period>
+        1 hours
+      </period>
+    </task>
+    <task>
+      <output>
+        update_stats.out
+      </output>
+      <cmd>
+        update_stats -update_users -update_teams -update_hosts
+      </cmd>
+      <period>
+        7 days
+      </period>
+    </task>
+    <task>
+      <output>
+        update_profile_pages.out
+      </output>
+      <cmd>
+        run_in_ops update_profile_pages.php
+      </cmd>
+      <period>
+        24 hours
+      </period>
+    </task>
+    <task>
+      <output>
+        generate_maptrig.out
+      </output>
+      <cmd>
+        generate_maptrig.sh
+      </cmd>
+      <period>
+        10 minutes
+      </period>
+    </task>
+    <task>
+      <output>
+        get_quakes.out
+      </output>
+      <cmd>
+        parse-usgs-rss.py
+      </cmd>
+      <period>
+        4 minutes
+      </period>
+    </task>
+    <task>
+      <output>
+        team_import.out
+      </output>
+      <cmd>
+        run_in_ops team_import.php
+      </cmd>
+      <period>
+        24 hours
+      </period>
+    </task>
+  </tasks>
+  <daemons>
+    <daemon>
+      <cmd>
+        feeder
+      </cmd>
+    </daemon>
+    <daemon>
+      <cmd>
+        transitioner
+      </cmd>
+    </daemon>
+    <daemon>
+      <cmd>
+        file_deleter
+      </cmd>
+    </daemon>
+  </daemons>
+</boinc>
+

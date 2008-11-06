@@ -1,0 +1,30 @@
+#!/bin/bash
+#converts an image & sets as login screen
+#example:  loginscreen "/System/Library/CoreServices/Finder.app/Contents/Resources/vortex.png"
+CONVERT="/usr/local/ImageMagick-6.3.8/bin/convert"
+DESTPIC="/tmp/login.jpg"
+PICRES="2560x1600!"
+if [ $1 ]; then
+  if [ -f $CONVERT ]; then
+    if [ -f $1 ]; then
+      if [ `$CONVERT -sample $PICRES $1 $DESTPIC` ]; then
+        echo loginscreen: Error converting $1 to $PICRES
+        exit 1
+      else
+        sudo mv /System/Library/CoreServices/DefaultDesktop.jpg /System/Library/CoreServices/DefaultDesktop.jpg.bak
+        sudo mv $DESTPIC /System/Library/CoreServices/DefaultDesktop.jpg
+        # Tiger use below
+        #sudo defaults write /Library/Preferences/com.apple.loginwindow DesktopPicture $DESTPIC
+      fi
+    else
+      echo loginscreen: $1 image file not found
+      exit 2
+    fi
+  else
+    echo loginscreen: $CONVERT program not found
+    exit 3
+  fi
+else
+  echo Usage: ./loginscreen \"full_path_to_login_screen_file\"
+  exit 4
+fi

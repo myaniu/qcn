@@ -1,0 +1,11 @@
+# run as root in crontab i.e.
+#59 2 * * * /root/boinc_restart >> /root/boinc_restart.log
+#!/bin/bash
+echo Restarting web server and BOINC procs at `/bin/date -u`
+#sudo /bin/chown boinc:boinc /var/www/boinc/qcnalpha/download/* -R
+sudo -u boinc /var/www/boinc/qcnalpha/bin/stop
+#sudo /bin/chown boinc:boinc /var/www/boinc/qcnalpha/apps/* -R
+/home/carlgt1/qcn/server/config/updateversions
+sudo -u boinc /var/www/boinc/qcnalpha/bin/start
+sudo /etc/init.d/httpd restart
+echo Finished restart at `/bin/date -u`

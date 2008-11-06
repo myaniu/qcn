@@ -1,0 +1,70 @@
+need to ship a USB sensor:
+
+David Anderson
+UBC Space Sciences Lab
+7 Gauss Way
+Berkeley CA  94720
+
+
+Peter Sláčik
+Pri Šajbách 14/A
+83106 Bratislava
+Slovak Republic
+
+
+Hubert J. Casner
+915 Jackson Av
+Raymond, WA 98577
+
+
+QCNLive
+
+cut-and-paste doesn't work for lat,lng in local prefs box -- also a way to integrate google maps lookup?
+
+priorities are QCNLive with start-stop recording and a few other cosmetics and
+functionality issues. 
+
+a) 10 second (or 1 minute or 10 minute) numbers on the horizontal so it is even easier to see.  
+b) An option to scale the vertical and horizontal scales to various levels.  Not just scaled & absolute.
+c) A scroll bar at the bottom to more fluidly move back through time.
+d) Tick marks that move against our current tick marks in 10 second intervals.
+
+e) They would particularly like to see a way to read sensor data back into QCNLive. (this is something I would love too, but doesn’t need to be done right away).
+
+IRIS has access to lots of tools that we could integrate into QCN: For example:
+http://rev.seis.sc.edu/stations.html
+http://rev.seis.sc.edu/
+
+todo:
+
+When you do get around to qcnwx, there are some things I'd like
+added/changed.
+
+1) I'd like to add a button for record/stop recording, so that users can
+output the series they want.
+
+2) Several users have requested an xyz output instead of sac. So, I'd like a
+switch to toggle back and forth between xyz and sac output.
+
+3) output jpg files to a pic directory rather than sac directory
+
+------------------------
+
+* small program to verify accelerometer is on the system and what type(s) found
+
+------------------------
+
+trigger map:
+
+Can we add the plate boundaries (like with the globe viewing)?  Elizabeth
+may have the faults for California as well. That would be really cool!!!! If
+those could be button options either on the side or on the map it would be
+great!!!!!
+
+Could we have a plot of recent earthquakes? Either as a button option on the
+same map, or as a second identical map.  The USGS has maps for these
+earthquakes, but I figure it is nice to have maps in the same format.
+
+------------------------
+
+

@@ -1,0 +1,2 @@
+rm -f smsdev.zip
+/usr/bin/zip -r smsdev.zip . -x zipup -x \*.svn\*

@@ -1,0 +1,16 @@
+#!/bin/bash
+if [ `uname -s` = "Darwin" ]; then
+if [ `uname -p` = "i386" ]; then
+   rm -rf ../../bin/qcnusb-intel.mpkg
+   rm -f ../../bin/qcnusb-intel.zip
+   /Developer/usr/bin/packagemaker --doc installer.pmdoc --out ../../bin/qcnusb-intel.mpkg
+   cd ../../bin
+   zip -r qcnusb-intel.zip qcnusb-intel.mpkg
+else
+   rm -rf ../../bin/qcnusb-ppc.mpkg
+   rm -f ../../bin/qcnusb-ppc.zip
+   /Developer/Tools/packagemaker
+   cd ../../bin
+   zip -r qcnusb-ppc.zip qcnusb-ppc.mpkg
+fi
+fi

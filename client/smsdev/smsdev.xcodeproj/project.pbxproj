@@ -1,0 +1,205 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 42;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		E35A98A60E2566DB003A6461 /* csensor_test.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E35A98A00E2566DB003A6461 /* csensor_test.cpp */; };
+		E35A98A70E2566DB003A6461 /* csensor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E35A98A20E2566DB003A6461 /* csensor.cpp */; };
+		E35A98A80E2566DB003A6461 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E35A98A50E2566DB003A6461 /* main.cpp */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		E35A98980E2566AD003A6461 /* smsdev.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = smsdev.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E35A989B0E2566AD003A6461 /* smsdev-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "smsdev-Info.plist"; sourceTree = "<group>"; };
+		E35A98A00E2566DB003A6461 /* csensor_test.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = csensor_test.cpp; sourceTree = "<group>"; };
+		E35A98A10E2566DB003A6461 /* csensor_test.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = csensor_test.h; sourceTree = "<group>"; };
+		E35A98A20E2566DB003A6461 /* csensor.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = csensor.cpp; sourceTree = "<group>"; };
+		E35A98A30E2566DB003A6461 /* csensor.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = csensor.h; sourceTree = "<group>"; };
+		E35A98A40E2566DB003A6461 /* define.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = define.h; sourceTree = "<group>"; };
+		E35A98A50E2566DB003A6461 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		E35A98960E2566AD003A6461 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		E35A98840E256163003A6461 = {
+			isa = PBXGroup;
+			children = (
+				E35A98A00E2566DB003A6461 /* csensor_test.cpp */,
+				E35A98A10E2566DB003A6461 /* csensor_test.h */,
+				E35A98A20E2566DB003A6461 /* csensor.cpp */,
+				E35A98A30E2566DB003A6461 /* csensor.h */,
+				E35A98A40E2566DB003A6461 /* define.h */,
+				E35A98A50E2566DB003A6461 /* main.cpp */,
+				E35A98990E2566AD003A6461 /* Products */,
+				E35A989B0E2566AD003A6461 /* smsdev-Info.plist */,
+			);
+			sourceTree = "<group>";
+		};
+		E35A98990E2566AD003A6461 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E35A98980E2566AD003A6461 /* smsdev.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		E35A98970E2566AD003A6461 /* smsdev */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E35A989C0E2566AE003A6461 /* Build configuration list for PBXNativeTarget "smsdev" */;
+			buildPhases = (
+				E35A98940E2566AD003A6461 /* Resources */,
+				E35A98950E2566AD003A6461 /* Sources */,
+				E35A98960E2566AD003A6461 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = smsdev;
+			productName = smsdev;
+			productReference = E35A98980E2566AD003A6461 /* smsdev.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		E35A98860E256163003A6461 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = E35A98870E256163003A6461 /* Build configuration list for PBXProject "smsdev" */;
+			hasScannedForEncodings = 0;
+			mainGroup = E35A98840E256163003A6461;
+			productRefGroup = E35A98990E2566AD003A6461 /* Products */;
+			projectDirPath = "";
+			targets = (
+				E35A98970E2566AD003A6461 /* smsdev */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		E35A98940E2566AD003A6461 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		E35A98950E2566AD003A6461 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E35A98A60E2566DB003A6461 /* csensor_test.cpp in Sources */,
+				E35A98A70E2566DB003A6461 /* csensor.cpp in Sources */,
+				E35A98A80E2566DB003A6461 /* main.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		E35A98880E256163003A6461 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+			};
+			name = Debug;
+		};
+		E35A98890E256163003A6461 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+			};
+			name = Release;
+		};
+		E35A989D0E2566AE003A6461 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
+				INFOPLIST_FILE = "smsdev-Info.plist";
+				INSTALL_PATH = "$(HOME)/Applications";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Carbon,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = smsdev;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				WRAPPER_EXTENSION = app;
+				ZERO_LINK = NO;
+			};
+			name = Debug;
+		};
+		E35A989E0E2566AE003A6461 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
+				INFOPLIST_FILE = "smsdev-Info.plist";
+				INSTALL_PATH = "$(HOME)/Applications";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Carbon,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = smsdev;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				WRAPPER_EXTENSION = app;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		E35A98870E256163003A6461 /* Build configuration list for PBXProject "smsdev" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E35A98880E256163003A6461 /* Debug */,
+				E35A98890E256163003A6461 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E35A989C0E2566AE003A6461 /* Build configuration list for PBXNativeTarget "smsdev" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E35A989D0E2566AE003A6461 /* Debug */,
+				E35A989E0E2566AE003A6461 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = E35A98860E256163003A6461 /* Project object */;
+}

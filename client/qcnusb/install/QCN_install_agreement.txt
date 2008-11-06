@@ -1,0 +1,3 @@
+Although this software has been thoroughly tested, the QCN project and Stanford University, Univ. of California at Riverside, and their colleagues
+cannot guarantee that this software will run successfully on your computer.
+

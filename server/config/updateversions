@@ -1,0 +1,4 @@
+#!/bin/bash
+cd /var/www/boinc/qcnalpha
+export LD_LIBRARY_PATH=/usr/local/mysql/lib
+bin/update_versions

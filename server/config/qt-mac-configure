@@ -1,0 +1,2 @@
+#./configure -debug-and-release -static -no-fast -exceptions -stl -plugin-sql-mysql -no-qt3support -platform macx-g++ -universal -system-zlib -system-libpng -system-libjpeg
+./configure -exceptions -stl -no-qt3support -platform macx-g++ -arch x86 -system-zlib -system-libpng -system-libjpeg

@@ -1,0 +1,8 @@
+#!/bin/bash
+/bin/rm -f /tmp/qcn-backup.sql.gz
+/bin/nice -n19 /usr/local/mysql/bin/mysqldump -h db-private -u root -pPASSWORD --all-databases > /tmp/qcn-backup.sql
+/bin/nice -n19 /bin/gzip /tmp/qcn-backup.sql
+# note for the following line need to have .ssh id between root & carlgt1 setup
+# also make sure that '.ssh/known_hosts' is setup to receive connections
+/bin/nice -n19 /usr/bin/scp /tmp/qcn-backup.sql.gz carlgt1@upl-private:
+/bin/rm -f /tmp/qcn-backup.sql.gz

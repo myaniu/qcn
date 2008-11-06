@@ -1,0 +1,3 @@
+rm -f multitexture
+gcc -I/usr/X11/include multitexture.c -framework Cocoa -framework OpenGL -framework GLUT -o multitexture 
+./multitexture

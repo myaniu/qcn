@@ -1,0 +1,39 @@
+BASEDIR = $(top_builddir)
+
+#if ($(IS_I386)
+#   BOINC_DIR = $(BASEDIR)/boinc/mac_build/build/`uname -p`_Deployment
+#else
+#   BOINC_DIR = $(BASEDIR)/boinc/mac_build/build/`uname -p`_Deployment
+#endif
+
+BOINC_DIR = $(BASEDIR)/boinc
+
+BOINC_LIB = -L$(BOINC_DIR)/api -lboinc_api -lboinc_graphics2 -L$(BOINC_DIR)/zip -lboinc_zip -L$(BOINC_DIR)/lib -lboinc
+
+#ZIPARCH_DIR = $(BASEDIR)/ziparchive/ZipArchive
+#BOINC_LIB = -L$(BOINC_DIR)/api -lboinc_api -lboinc_graphics2 -L$(BOINC_DIR)/lib -lboinc -L$(ZIPARCH_DIR) -lziparch
+
+UTILDIR = $(BASEDIR)/client/util
+MAINDIR = $(BASEDIR)/client/main
+GRAPHICSDIR = $(BASEDIR)/client/graphics
+STRIP = strip
+
+PTHREAD_CFLAGS = @PTHREAD_CFLAGS@
+PTHREAD_LIBS = @PTHREAD_LIBS@
+
+AM_CPPFLAGS = \
+        -Wall \
+        -DQCN -D_THREAD_SAFE -D_ZLIB \
+        -O2 \
+        -I$(BASEDIR) \
+        -I$(MAINDIR) \
+        -I$(UTILDIR) \
+        -I$(BOINC_DIR)/lib \
+        -I$(BOINC_DIR)/api \
+        -I$(BOINC_DIR)/zip \
+        -I$(GRAPHICSDIR) \
+        -I/usr/include -I/usr/local/include 
+#-I$(ZIPARCH_DIR) 
+
+AM_LDFLAGS = -L$(UTILDIR)
+

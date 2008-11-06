@@ -1,0 +1,114 @@
+include $(top_srcdir)/Makefile.incl
+
+client-bin: @CLIENT_BIN_FILENAME@
+
+BINARY = @CLIENT_BIN_FILENAME@_$(QCN_VERSION_STRING)_$(build)
+
+QCNUSBDIR = $(BASEDIR)/client/qcnusb
+
+#NTPBASEDIR = $(BASEDIR)/ntp-4.2.4p5
+#LIBNTPDIR        = $(NTPBASEDIR)/libntp
+#NTPINCLUDEDIR    = $(NTPBASEDIR)/include
+#NTPDATEDIR       = $(NTPBASEDIR)/ntpdate
+
+if OS_DARWIN
+   #  also note need to have the following settings in environment for Leopard and higher OS X (i.e. >=10.5)
+   # DEVELOPER_SDK_DIR=/Developer/SDKs
+   # LDFLAGS="-isysroot /Developer/SDKs/MacOSX10.4u.sdk -Wl,-syslibroot,/Developer/SDKs/MacOSX10.4u.sdk -arch i386"
+   # CPPFLAGS="-I/usr/include -I/usr/local/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch i386"
+   # CFLAGS="-I/usr/include -I/usr/local/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch i386"
+   # CXXFLAGS="-I/usr/include -I/usr/local/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch i386"
+   # SDKROOT="/Developer/SDKs/MacOSX10.4u.sdk"
+   # MACOSX_DEPLOYMENT_TARGET=10.4
+   # export DEVELOPER_SDK_DIR LDFLAGS CPPFLAGS CFLAGS CXXFLAGS SDKROOT MACOSX_DEPLOYMENT_TARGET
+   # LIBS += -Wl,-stack_size -Wl,2000000 -Lmotionnodeaccel/ -weak-lMotionNodeAccelAPI -framework IOKit -framework Foundation -framework ScreenSaver -framework Carbon -framework Cocoa
+   STACKSIZE = -Wl,-stack_size -Wl,2000000
+   LIBS += -bind_at_load -framework IOKit -framework Foundation -framework ScreenSaver -framework Carbon -framework Cocoa
+   # LIBS += @CLIENTLIBS@ -L$(LIBNTPDIR) -lntp -ldl $(BOINC_LIB)
+   LIBS += @CLIENTLIBS@ -ldl $(BOINC_LIB)
+   # UTIL_CPP = $(UTILDIR)/qcn_util.cpp $(UTILDIR)/qcn_semaphore.cpp
+   SENSORS = \
+           $(MAINDIR)/csensor_mac_laptop.cpp \
+           $(MAINDIR)/csensor_mac_usb_generic.cpp \
+           $(MAINDIR)/csensor_mac_usb_jw.cpp \
+           $(MAINDIR)/csensor_usb_motionnodeaccel.cpp
+else
+   # must be Linux because I'm sure not using autoconf on Windows! ;-)
+   STACKSIZE = --stack=2000000
+   # LIBS += -z lazy -L$(LIBNTPDIR) -lntp -ldl $(BOINC_LIB) @CLIENTLIBS@
+   LIBS += -z lazy -ldl $(BOINC_LIB) @CLIENTLIBS@
+   SENSORS  = \
+        $(MAINDIR)/csensor_linux_usb_jw.cpp \
+        $(MAINDIR)/csensor_usb_motionnodeaccel.cpp 
+endif
+
+bin_PROGRAMS = qcn qcndemo
+
+           #$(UTILDIR)/qcn_ntpdate.c 
+qcn_SOURCES = \
+           $(UTILDIR)/sac.cpp \
+           $(UTILDIR)/qcn_thread.cpp \
+           $(UTILDIR)/trickleup.cpp \
+           $(UTILDIR)/trickledown.cpp \
+           $(UTILDIR)/md5.cpp \
+           $(UTILDIR)/execproc.cpp \
+           $(UTILDIR)/qcn_util.cpp \
+           $(UTILDIR)/qcn_signal.cpp \
+           $(MAINDIR)/cserialize.cpp \
+           $(UTILDIR)/gzstream.cpp \
+           $(MAINDIR)/qcn_shmem.cpp \
+           $(MAINDIR)/csensor.cpp \
+           $(SENSORS) \
+           $(QCNUSBDIR)/qcn_shmem_usb.cpp \
+           $(MAINDIR)/qcn_thread_sensor.cpp \
+           $(MAINDIR)/qcn_thread_time.cpp \
+           $(MAINDIR)/main.cpp
+
+qcn_DEPENDENCIES =
+#qcn_CFLAGS = -I$(NTPINCLUDEDIR) -I$(NTPDATEDIR) $(AM_CPPFLAGS) $(PTHREAD_CFLAGS)
+qcn_CPPFLAGS = -D_USE_NTPDATE_EXEC_ -I$(QCNUSBDIR) $(AM_CPPFLAGS) $(PTHREAD_CFLAGS)
+#qcn_CPPFLAGS = -I$(QCNUSBDIR) $(AM_CPPFLAGS) $(PTHREAD_CFLAGS)
+qcn_LDFLAGS = $(LIBS) $(AM_LDFLAGS) -lstdc++ $(STACKSIZE) $(PTHREAD_LIBS)
+qcn_LDADD = 
+
+qcndemo_SOURCES = \
+           $(UTILDIR)/qcn_thread.cpp \
+           $(UTILDIR)/qcn_util.cpp \
+           $(UTILDIR)/qcn_signal.cpp \
+           $(MAINDIR)/cserialize.cpp \
+           $(UTILDIR)/gzstream.cpp \
+           $(UTILDIR)/md5.cpp \
+           $(MAINDIR)/qcn_shmem.cpp \
+           $(MAINDIR)/qcndemo.cpp
+
+qcndemo_DEPENDENCIES =
+qcndemo_CPPFLAGS = -DQCNDEMO $(qcn_CPPFLAGS)
+qcndemo_LDFLAGS = $(qcn_LDFLAGS)
+qcndemo_LDADD = $(qcn_LDADD)
+
+.PHONY: moveover
+
+qcndir = $(BASEDIR)/bin
+
+all-local: client-bin qcndemo moveover 
+
+moveover:
+	mv @CLIENT_BIN_FILENAME@ $(BINARY)
+	$(STRIP) $(BINARY)
+	mkdir -p $(top_srcdir)/client/test/projects/qcn.edu_qcn
+	mv $(BINARY) $(top_srcdir)/client/bin/
+	cp $(top_srcdir)/client/bin/$(BINARY) $(top_srcdir)/client/test/projects/qcn.edu_qcn/
+	$(STRIP) qcndemo
+	mv qcndemo ../test/
+
+## these source files need to be specified because no rule uses them.
+
+#EXTRA_DIST = *.h \
+#    mac \
+#    translation \
+#    win
+#
+clean-local:
+	rm -f @CLIENT_BIN_FILENAME@ $(BINARY) ../test/qcndemo $(top_srcdir)/client/bin/*qcn_* $(top_srcdir)/client/test/projects/qcn.edu_qcn/*qcn_* 
+
+
