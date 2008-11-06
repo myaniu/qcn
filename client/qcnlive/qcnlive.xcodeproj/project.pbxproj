@@ -17,7 +17,6 @@
 		E378CDB50D64E96C008A3885 /* qcn-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E378CDB40D64E96C008A3885 /* qcn-Info.plist */; };
 		E390FE420D65DE7600479F9A /* myframe.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E390FE410D65DE7600479F9A /* myframe.cpp */; };
 		E390FE620D65DF7500479F9A /* myglpane.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E390FE610D65DF7500479F9A /* myglpane.cpp */; };
-		E3A0F8530EA175F300BDC273 /* qcn_ntpdate.c in Sources */ = {isa = PBXBuildFile; fileRef = E3A0F8520EA175F300BDC273 /* qcn_ntpdate.c */; };
 		E3B747B10E8C6E9800D401EB /* qcn_shmem_usb.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3B747B00E8C6E9800D401EB /* qcn_shmem_usb.cpp */; };
 		E3C0E7780D64E9A40099B905 /* qcnwx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C0E7760D64E9A40099B905 /* qcnwx.cpp */; };
 		E3C0E7C10D64E9BE0099B905 /* sac.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C0E7A40D64E9BE0099B905 /* sac.cpp */; };
@@ -61,7 +60,6 @@
 		E390FCED0D65C65900479F9A /* icons.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = icons.h; sourceTree = "<group>"; };
 		E390FE410D65DE7600479F9A /* myframe.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = myframe.cpp; sourceTree = "<group>"; };
 		E390FE610D65DF7500479F9A /* myglpane.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = myglpane.cpp; sourceTree = "<group>"; };
-		E3A0F8520EA175F300BDC273 /* qcn_ntpdate.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = qcn_ntpdate.c; path = ../util/qcn_ntpdate.c; sourceTree = SOURCE_ROOT; };
 		E3B747A60E8C6DFC00D401EB /* csensor_mac_laptop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = csensor_mac_laptop.h; path = ../main/csensor_mac_laptop.h; sourceTree = SOURCE_ROOT; };
 		E3B747A80E8C6DFC00D401EB /* csensor_mac_usb_jw.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = csensor_mac_usb_jw.h; path = ../main/csensor_mac_usb_jw.h; sourceTree = SOURCE_ROOT; };
 		E3B747AD0E8C6E3800D401EB /* qcn_shmem_usb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = qcn_shmem_usb.h; path = ../qcnusb/qcn_shmem_usb.h; sourceTree = SOURCE_ROOT; };
@@ -94,7 +92,6 @@
 		E3C0E7DD0D64E9E00099B905 /* cserialize.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = cserialize.h; path = ../main/cserialize.h; sourceTree = SOURCE_ROOT; };
 		E3C0E7DE0D64E9E00099B905 /* main.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = main.h; path = ../main/main.h; sourceTree = SOURCE_ROOT; };
 		E3C0E7DF0D64E9E00099B905 /* qcn_shmem.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = qcn_shmem.h; path = ../main/qcn_shmem.h; sourceTree = SOURCE_ROOT; };
-		E3C0E7E00D64E9E00099B905 /* qcn_thread_main.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = qcn_thread_main.h; path = ../main/qcn_thread_main.h; sourceTree = SOURCE_ROOT; };
 		E3C0E7E10D64E9E00099B905 /* qcn_thread_sensor.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = qcn_thread_sensor.h; path = ../main/qcn_thread_sensor.h; sourceTree = SOURCE_ROOT; };
 		E3C0E7E20D64E9E00099B905 /* qcn_thread_time.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = qcn_thread_time.h; path = ../main/qcn_thread_time.h; sourceTree = SOURCE_ROOT; };
 		E3C0E7E40D64E9E00099B905 /* checkboincstatus.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = checkboincstatus.h; path = ../util/checkboincstatus.h; sourceTree = SOURCE_ROOT; };
@@ -212,7 +209,6 @@
 		E3C0E7A30D64E9BE0099B905 /* util */ = {
 			isa = PBXGroup;
 			children = (
-				E3A0F8520EA175F300BDC273 /* qcn_ntpdate.c */,
 				E3D49FE90D6F74C70088DE83 /* qcn_curl.cpp */,
 				E3C0E7A40D64E9BE0099B905 /* sac.cpp */,
 				E3C0E7A50D64E9BE0099B905 /* gzstream.cpp */,
@@ -306,7 +302,6 @@
 				E3C0E7DD0D64E9E00099B905 /* cserialize.h */,
 				E3C0E7DE0D64E9E00099B905 /* main.h */,
 				E3C0E7DF0D64E9E00099B905 /* qcn_shmem.h */,
-				E3C0E7E00D64E9E00099B905 /* qcn_thread_main.h */,
 				E3C0E7E10D64E9E00099B905 /* qcn_thread_sensor.h */,
 				E3C0E7E20D64E9E00099B905 /* qcn_thread_time.h */,
 			);
@@ -471,7 +466,6 @@
 				E371C7F90E2AB5D0009B4DAA /* csensor_mac_usb_jw.cpp in Sources */,
 				E3B747B10E8C6E9800D401EB /* qcn_shmem_usb.cpp in Sources */,
 				E358972D0E912E54005C1D94 /* mac_backtrace.cpp in Sources */,
-				E3A0F8530EA175F300BDC273 /* qcn_ntpdate.c in Sources */,
 				E30AB1150EBB776E00DABFEF /* csensor_usb_motionnodeaccel.cpp in Sources */,
 				E30AB0EB0EBB9C0600DA7E81 /* dlgsettings.cpp in Sources */,
 			);
@@ -512,9 +506,6 @@
 					../graphics,
 					/usr/local/include,
 					/usr/include,
-					"../../ntp-4.2.4p5",
-					"../../ntp-4.2.4p5/include",
-					"../../ntp-4.2.4p5/ntpdate",
 				);
 				INFOPLIST_FILE = "qcn-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
@@ -523,13 +514,13 @@
 					../../boinc/api,
 					../../boinc/zip,
 					/usr/local/lib,
-					"../../ntp-4.2.4p5/libntp",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
 				OBJROOT = build;
 				OTHER_CFLAGS = (
 					"-Wall",
 					"-W",
+					"-D_USE_NTPDATE_EXEC_",
 					"-DQCNLIVE",
 					"-DHAVE_CONFIG_H",
 					"-DGRAPHICS_PROGRAM",
@@ -558,7 +549,6 @@
 					"-lz",
 					"-lm",
 					"-lldap",
-					"-lntp",
 					"-framework",
 					AGL,
 					"-framework",
@@ -625,9 +615,6 @@
 					../graphics,
 					/usr/local/include,
 					/usr/include,
-					"../../ntp-4.2.4p5",
-					"../../ntp-4.2.4p5/include",
-					"../../ntp-4.2.4p5/ntpdate",
 				);
 				INFOPLIST_FILE = "qcn-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
@@ -636,13 +623,13 @@
 					../../boinc/api,
 					../../boinc/zip,
 					/usr/local/lib,
-					"../../ntp-4.2.4p5/libntp",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				OBJROOT = build;
 				OTHER_CFLAGS = (
 					"-Wall",
 					"-W",
+					"-D_USE_NTPDATE_EXEC_",
 					"-DQCNLIVE",
 					"-DHAVE_CONFIG_H",
 					"-DGRAPHICS_PROGRAM",
@@ -671,7 +658,6 @@
 					"-lz",
 					"-lm",
 					"-lldap",
-					"-lntp",
 					"-framework",
 					AGL,
 					"-framework",
@@ -722,9 +708,6 @@
 					../graphics,
 					/usr/local/include,
 					/usr/include,
-					"../../ntp-4.2.4p5",
-					"../../ntp-4.2.4p5/include",
-					"../../ntp-4.2.4p5/ntpdate",
 				);
 				INFOPLIST_FILE = "qcn-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
@@ -733,13 +716,13 @@
 					../../boinc/api,
 					../../boinc/zip,
 					/usr/local/lib,
-					"../../ntp-4.2.4p5/libntp",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				OBJROOT = build;
 				OTHER_CFLAGS = (
 					"-Wall",
 					"-W",
+					"-D_USE_NTPDATE_EXEC_",
 					"-DQCNLIVE",
 					"-DHAVE_CONFIG_H",
 					"-DGRAPHICS_PROGRAM",
@@ -768,7 +751,6 @@
 					"-lz",
 					"-lm",
 					"-lldap",
-					"-lntp",
 					"-framework",
 					AGL,
 					"-framework",
