@@ -170,9 +170,12 @@ void MyFrame::OnFileSettings(wxCommandEvent& WXUNUSED(evt))
 	 if (pcds) {
 		if (pcds->ShowModal() == wxID_OK)  {
 		   // accept values
+	           statusBar->SetStatusText(wxString("Saving your settings and updating earthquake list", wxConvUTF8));
 		   pcds->SaveValues();  // save to the global variables
 		   // call our save function to write values to disk
 		   pMyApp->set_qcnlive_prefs(); 
+                   pMyApp->CreateBOINCInitFile();
+                   qcn_graphics::getProjectPrefs();
 		}
 		pcds->Destroy();
 		delete pcds;
@@ -261,7 +264,7 @@ void MyFrame::OnActionEarth(wxCommandEvent& evt)
 	     EarthRotate(false);
 		 break;
 	case ID_TOOL_ACTION_EARTH_USGS:
-		 statusBar->SetStatusText(wxString("Opening USGS website for selected earthquake", wxConvUTF8));
+	     statusBar->SetStatusText(wxString("Opening USGS website for selected earthquake", wxConvUTF8));
 	     qcn_graphics::earth.checkURLClick(true);
 	     break;
 	case ID_TOOL_ACTION_EARTH_LATEST:

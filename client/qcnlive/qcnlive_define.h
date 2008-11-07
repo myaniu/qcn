@@ -6,6 +6,16 @@
 #define QCNGUI_XML_PREFS_FILE  "qcnliveprefs.xml"
 //#define QCNGUI_XML_GRAPHICS_PREFS_FILE  "graphicsprefs.xml"
 
+#define XML_LATITUDE   "lat"
+#define XML_LONGITUDE  "lng"
+#define XML_X          "x"
+#define XML_Y          "y"
+#define XML_WIDTH      "w"
+#define XML_HEIGHT     "h"
+#define XML_STATION    "stn"
+#define XML_ELEVATION  "elm"
+#define XML_FLOOR      "elf"
+
 // URL for the earthquake xml listing
 #define QCNGUI_URL_QUAKE "http://qcn.stanford.edu/qcnalpha/download/qcn-quake.xml"
 
@@ -38,7 +48,7 @@
 <team_name></team_name>\n \
 <project_dir>init</project_dir>\n \
 <boinc_dir>.</boinc_dir>\n \
-<wu_name>qcnwx</wu_name>\n \
+<wu_name>%s</wu_name>\n \
 <slot>0</slot>\n \
 <wu_cpu_time>0.000000</wu_cpu_time>\n \
 <user_total_credit>0.000000</user_total_credit>\n \
@@ -58,7 +68,7 @@
 
 #define QCNGUI_INIT_2 "\n</project_preferences>\n \
 <host_info>\n \
-<domain_name>demo</domain_name>\n \
+<domain_name>%s</domain_name>\n \
 </host_info>\n \
 </app_init_data>\n"
 

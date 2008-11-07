@@ -67,8 +67,9 @@ bool MyApp::CreateBOINCInitFile()
     if (bInit || !boinc_file_exists(QCNGUI_BOINC_INIT_FILE)) {
        FILE* fInitFile = fopen(QCNGUI_BOINC_INIT_FILE, "w");
   	   if (fInitFile) {
-	      fprintf(fInitFile, QCNGUI_INIT_1, (int)(atof(QCN_VERSION_STRING)*100.0f));
-	      fprintf(fInitFile, "%s%s", strQuake, QCNGUI_INIT_2);
+	      fprintf(fInitFile, QCNGUI_INIT_1, (int)(atof(QCN_VERSION_STRING)*100.0f), sm->strMyStation[0]!=0x00 ? sm->strMyStation : "qcnlive");
+	      fprintf(fInitFile, "%s", strQuake);
+	      fprintf(fInitFile, QCNGUI_INIT_2, sm->strMyStation[0]!=0x00 ? sm->strMyStation : "qcnlive");
 	      fclose(fInitFile);
 	      fInitFile = NULL;
 	   }
@@ -97,6 +98,10 @@ bool MyApp::MainInit()
 	
     // CMC - start init QCN/BOINC stuff -- this gets the latest quake data and creates a boinc-style init_data.xml file
     CreateBOINCInitFile();
+
+    qcn_main::g_bDemo = true;
+    qcn_util::ResetCounter(WHERE_MAIN_STARTUP);  // this is the one and only place ResetCounter is called outside of the sensor thread, so it's safe
+    qcn_main::parseArgs(0, NULL); // parse args has to be done early in startup, right after the first ResetCounter usually
 
     qcn_main::g_threadMain = new CQCNThread(QCNThreadMain);
     return qcn_main::g_threadMain ? qcn_main::g_threadMain->Start() : false;  // note returns whether main thread was created & started OK
@@ -137,17 +142,23 @@ bool MyApp::get_qcnlive_prefs()
     wxSize wxsize = ::wxGetDisplaySize();
 
     // parse the settings, but default to sensible sizes in case they don't make sense
-    if (!parse_int(strRead, "<x>", myRect.x) || myRect.x<0)
+    char strParse[16];  // make the tag from the define which don't have the <>
+    sprintf(strParse, "<%s>", XML_X);
+    if (!parse_int(strRead, strParse, myRect.x) || myRect.x<0)
         myRect.x = 100;
-    if (!parse_int(strRead, "<y>", myRect.y) || myRect.y<0)
+    sprintf(strParse, "<%s>", XML_Y);
+    if (!parse_int(strRead, strParse, myRect.y) || myRect.y<0)
         myRect.y = 100;
-    if (!parse_int(strRead, "<w>", myRect.width) || myRect.width<100 || myRect.width > wxsize.GetWidth())
+    sprintf(strParse, "<%s>", XML_WIDTH);
+    if (!parse_int(strRead, strParse, myRect.width) || myRect.width<100 || myRect.width > wxsize.GetWidth())
         myRect.width = 600;
-    if (!parse_int(strRead, "<h>", myRect.height) || myRect.height<100 || myRect.height > wxsize.GetHeight())
+    sprintf(strParse, "<%s>", XML_HEIGHT);
+    if (!parse_int(strRead, strParse, myRect.height) || myRect.height<100 || myRect.height > wxsize.GetHeight())
         myRect.height = 400;
     
     // check for valid lat/lng range
-    if (parse_double(strRead, "<lat>", (double&) sm->dMyLatitude)) {
+    sprintf(strParse, "<%s>", XML_LATITUDE);
+    if (parse_double(strRead, strParse, (double&) sm->dMyLatitude)) {
       if (sm->dMyLatitude < -90.0f || sm->dMyLatitude > 90.0f) {
         sm->dMyLatitude = NO_LAT;
       }
@@ -156,7 +167,8 @@ bool MyApp::get_qcnlive_prefs()
         sm->dMyLatitude = NO_LAT;
     }
 
-    if (parse_double(strRead, "<lng>", (double&) sm->dMyLongitude)) {
+    sprintf(strParse, "<%s>", XML_LONGITUDE);
+    if (parse_double(strRead, strParse, (double&) sm->dMyLongitude)) {
       if (sm->dMyLongitude < -180.0f || sm->dMyLongitude > 180.0f) {
         sm->dMyLongitude = NO_LNG;
       }
@@ -165,12 +177,15 @@ bool MyApp::get_qcnlive_prefs()
         sm->dMyLongitude = NO_LNG;
     }
 
-    if (!parse_str(strRead, "<stn>", (char*) sm->strMyStation, SIZEOF_STATION_STRING))
+    sprintf(strParse, "<%s>", XML_STATION);
+    if (!parse_str(strRead, strParse, (char*) sm->strMyStation, SIZEOF_STATION_STRING))
        memset((char*) sm->strMyStation, 0x00, SIZEOF_STATION_STRING);
 
     // elevation data
-    parse_double(strRead, "<elm>", (double&) sm->dMyElevationMeter);
-    parse_int(strRead, "<elf>", (int&) sm->iMyElevationFloor);
+    sprintf(strParse, "<%s>", XML_ELEVATION);
+    parse_double(strRead, strParse, (double&) sm->dMyElevationMeter);
+    sprintf(strParse, "<%s>", XML_FLOOR);
+    parse_int(strRead, strParse, (int&) sm->iMyElevationFloor);
 
     return true;
 }
@@ -184,25 +199,25 @@ bool MyApp::set_qcnlive_prefs()
     }
 
     // just save a string of pseudo-XML	
-    fprintf(fp, "<x>%d</x>\n"
-                "<y>%d</y>\n"
-                "<w>%d</w>\n"
-                "<h>%d</h>\n"
-                "<lat>%f</lat>\n"
-                "<lng>%f</lng>\n"
-                "<stn>%s</stn>\n"
-                "<elm>%f</elm>\n"
-                "<elf>%d</elf>\n"
+    fprintf(fp, "<%s>%d</%s>\n"
+                "<%s>%d</%s>\n"
+                "<%s>%d</%s>\n"
+                "<%s>%d</%s>\n"
+                "<%s>%f</%s>\n"
+                "<%s>%f</%s>\n"
+                "<%s>%s</%s>\n"
+                "<%s>%f</%s>\n"
+                "<%s>%d</%s>\n"
                         ,
-                    myRect.x,  
-                    myRect.y, 
-                    myRect.width, 
-                    myRect.height, 
-                    sm->dMyLatitude, 
-                    sm->dMyLongitude, 
-                    sm->strMyStation, 
-                    sm->dMyElevationMeter, 
-                    sm->iMyElevationFloor
+                    XML_X, myRect.x, XML_X,
+                    XML_Y, myRect.y, XML_Y, 
+                    XML_WIDTH, myRect.width, XML_WIDTH, 
+                    XML_HEIGHT, myRect.height, XML_HEIGHT,
+                    XML_LATITUDE, sm->dMyLatitude, XML_LATITUDE,
+                    XML_LONGITUDE, sm->dMyLongitude, XML_LONGITUDE,
+                    XML_STATION, sm->strMyStation, XML_STATION,
+                    XML_ELEVATION, sm->dMyElevationMeter, XML_ELEVATION,
+                    XML_FLOOR, sm->iMyElevationFloor, XML_FLOOR
     );
 
     fclose(fp);
@@ -244,10 +259,6 @@ bool MyApp::OnInit()
     }
 
     // clear memory and setup important vars below
-    qcn_main::g_bDemo = true;
-    qcn_util::ResetCounter(WHERE_MAIN_STARTUP);  // this is the one and only place ResetCounter is called outside of the sensor thread, so it's safe
-    qcn_main::parseArgs(0, NULL); // parse args has to be done early in startup, right after the first ResetCounter usually
-
     get_qcnlive_prefs();
 
     frame = new MyFrame(myRect, this);
