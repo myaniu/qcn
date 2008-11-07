@@ -14,7 +14,10 @@ int main(int argc, char** argv) {
     char strApp[16];
     long int lNumWU;
     char* wu_template;
-    char* infiles[1] = {"qcn_input_file"};
+    //char* infiles[3] = {"qcn_t1", "qcn_t2", "qcn_t3"};
+    char* infileA[1] = {"qcn_t1"};
+    char* infileB[1] = {"qcn_t2"};
+    char* infileC[1] = {"qcn_t3"};
     char path[1024];
 
     if (argc!=4) {
@@ -52,16 +55,59 @@ int main(int argc, char** argv) {
 
     // write input file in the download directory
     //
+    char strWrite[64];
     sprintf(path, "%s/%s", config.download_dir, infiles[0]);
     FILE* f = fopen(path, "w");
-    fwrite("test qcn input", 10, sizeof(char), f);
+    strcpy(strWrite, "Test QCN Input");
+    fwrite(strWrite, 1+strlen(strWrite), sizeof(char), f);
     fclose(f);
+
+    float fSigCutoff = 3.0f;
+
+    sprintf(path, "%s/%s", config.download_dir, infileA[0]);
+    FILE* f = fopen(path, "w");
+    sprintf(strWrite, "<fsig>%.2f</fsig>\n<fsta>%.2f</fsta>\n", fSigCutoff, 0.00f);
+    fwrite(strWrite, 1+strlen(strWrite), sizeof(char), f);
+    fclose(f);
+
+    sprintf(path, "%s/%s", config.download_dir, infileB[0]);
+    FILE* f = fopen(path, "w");
+    sprintf(strWrite, "<fsig>%.2f</fsig>\n<fsta>%.2f</fsta>\n", fSigCutoff, 2.00f);
+    fwrite(strWrite, 1+strlen(strWrite), sizeof(char), f);
+    fclose(f);
+
+    sprintf(path, "%s/%s", config.download_dir, infileC[0]);
+    FILE* f = fopen(path, "w");
+    sprintf(strWrite, "<fsig>%.2f</fsig>\n<fsta>%.2f</fsta>\n", fSigCutoff, 3.00f);
+    fwrite(strWrite, 1+strlen(strWrite), sizeof(char), f);
+    fclose(f);
+
+
+    // read the template
     read_file_malloc("templates/qcn_input.xml", wu_template);
+
+    float fShortTermAvg = 3.0f;
+    char **inFileUse;
 
     for (long int i = 0L; i < lNumWU; i++)  {
        wu.clear();     // zeroes all fields
 
-       sprintf(wu.name, "%s_%06ld", strWU, i);
+       switch(i%3) {
+          case 0:
+            fShortTermAvg = 0.0f;
+            inFileUse = infileA;
+            break;
+          case 1:
+            fShortTermAvg = 2.0f;
+            inFileUse = infileB;
+            break;
+          case 2:
+            fShortTermAvg = 3.0f;
+            inFileUse = infileC;
+            break;
+       }
+
+       sprintf(wu.name, "%s_sc%03d_sta%03d_%06ld", strWU, (int)(fSigCutoff * 100.0f), (int)(fShortTermAvg * 100.0f), i);
        wu.appid = app.id;
        wu.min_quorum = 1;
        wu.target_nresults = 1;
@@ -79,7 +125,7 @@ int main(int argc, char** argv) {
           wu_template,
           "templates/qcn_output.xml",
           "templates/qcn_output.xml",
-          (const char**) infiles,
+          (const char**) inFileUse,
           1,
           config,
           NULL,
