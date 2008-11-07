@@ -246,7 +246,9 @@ int qcn_main(int argc, char **argv)
 #endif
 
     if (g_iQCNReturn) return ERR_INIT; // return init error
-#ifndef QCNLIVE
+#ifdef QCNLIVE
+    parseArgs(0, NULL);
+#else
     // create shared mem segment for data & graphics -- if running the GUI this is done in the main GUI app (i.e. gui/qcnmac.cpp)
     sm = (CQCNShMem*) boinc_graphics_make_shmem((char*) QCN_SHMEM, sizeof(CQCNShMem));
     if (sm) {
