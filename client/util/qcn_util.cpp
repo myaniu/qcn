@@ -153,7 +153,10 @@ void getBOINCInitData(const e_where eWhere)
         cTerm = strchr((const char*) dataBOINC.project_dir, '\\') ? '\\' : '/';
         cOK = cTerm; // for the first char below
       }
-#ifndef QCNDEMO // just an odd quirk of the qcndemo program, bypass this section because of the refs to strPathTrigger qcndemo doesn't know about
+
+ // just an odd quirk of the qcndemo & qcn_graphics program, bypass this section because of the refs to strPathTrigger qcndemo doesn't know about
+ // but note we need this for qcnlive!
+#if (!defined(QCNDEMO) && !defined(QCNGRAPHICS))
       if (qcn_main::g_bDemo) {
 #ifdef QCNLIVE
         sprintf((char*) qcn_main::g_strPathTrigger, "..%csac", qcn_util::cPathSeparator());

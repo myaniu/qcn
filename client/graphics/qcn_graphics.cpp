@@ -457,17 +457,14 @@ void draw_text_user()
         } else if (sm->lOffset >=0 && sm->lOffset < sm->iWindow ) {  // we're in our calibration window
             sprintf(buf, "%s sensor calibration in progress...", sm->strSensor);
             txf_render_string(.1, 0.003, 0.01, 0.0, isize, red, 0, buf);
-        } else if (sm->bDemo) {
-            sprintf(buf, "Demo Mode - With %s Accelerometer", sm->strSensor);
-            txf_render_string(.1, 0.003, 0.01, 0.0, isize, red, 0, buf);
-        } else if (dtime()-sm->update_time > 5) {
-            txf_render_string(.1, 0.003, 0.01, 0.0, isize, red, 0, (char*) "QCN Not Running");
-   //     } else if (sm->statusBOINC.suspended) {
-   //         txf_render_string(.1, 0.003, 0.01, 0.0, isize, red, 0, (char*) "QCN Suspended");
         } else if (sm->strSensor[0] != 0x00) {
             sprintf(buf, "Using %s Accelerometer", sm->strSensor);
             txf_render_string(.1, 0.003, 0.01, 0.0, isize, red, 0, buf);
+        } else if (dtime()-sm->update_time > 5) {
+            txf_render_string(.1, 0.003, 0.01, 0.0, isize, red, 0, (char*) "QCN Not Running");
         }
+   //     } else if (sm->statusBOINC.suspended) {
+   //         txf_render_string(.1, 0.003, 0.01, 0.0, isize, red, 0, (char*) "QCN Suspended");
     } 
 
 //#ifndef QCNLIVE  // QCNLIVE writes to the status bar on the window
@@ -1403,7 +1400,7 @@ void Init()
 
     // setup the window widths depending on sm->dt
     // note sm->dt could possibly be 0, if so use the DT constant (.02)
-    float fdt = (sm && sm->dt) ? sm->dt : DT;
+    float fdt = (sm && sm->dt) ? sm->dt : g_DT;
     awinsize[0] = (long) (60.0/ fdt);    // 1 minute = 60 seconds / dt // 3000 pts
     awinsize[1] = (long) (600.0/fdt);   // 10 minutes = 60 seconds / dt // 30000 pts
     awinsize[2] = (long) (3600.0/fdt);  // 1 minute = 60 seconds / dt // 180000 pts
