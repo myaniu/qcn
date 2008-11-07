@@ -25,7 +25,6 @@
 		E3C0E7C40D64E9BE0099B905 /* qcn_thread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C0E7A70D64E9BE0099B905 /* qcn_thread.cpp */; };
 		E3C0E7C50D64E9BE0099B905 /* trickleup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C0E7A80D64E9BE0099B905 /* trickleup.cpp */; };
 		E3C0E7C60D64E9BE0099B905 /* trickledown.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C0E7A90D64E9BE0099B905 /* trickledown.cpp */; };
-		E3C0E7C70D64E9BE0099B905 /* checkboincstatus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C0E7AA0D64E9BE0099B905 /* checkboincstatus.cpp */; };
 		E3C0E7C80D64E9BE0099B905 /* md5.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C0E7AB0D64E9BE0099B905 /* md5.cpp */; };
 		E3C0E7C90D64E9BE0099B905 /* execproc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C0E7AC0D64E9BE0099B905 /* execproc.cpp */; };
 		E3C0E7CA0D64E9BE0099B905 /* qcn_util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C0E7AD0D64E9BE0099B905 /* qcn_util.cpp */; };
@@ -73,7 +72,6 @@
 		E3C0E7A70D64E9BE0099B905 /* qcn_thread.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = qcn_thread.cpp; path = ../util/qcn_thread.cpp; sourceTree = SOURCE_ROOT; };
 		E3C0E7A80D64E9BE0099B905 /* trickleup.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = trickleup.cpp; path = ../util/trickleup.cpp; sourceTree = SOURCE_ROOT; };
 		E3C0E7A90D64E9BE0099B905 /* trickledown.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = trickledown.cpp; path = ../util/trickledown.cpp; sourceTree = SOURCE_ROOT; };
-		E3C0E7AA0D64E9BE0099B905 /* checkboincstatus.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = checkboincstatus.cpp; path = ../util/checkboincstatus.cpp; sourceTree = SOURCE_ROOT; };
 		E3C0E7AB0D64E9BE0099B905 /* md5.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = md5.cpp; path = ../util/md5.cpp; sourceTree = SOURCE_ROOT; };
 		E3C0E7AC0D64E9BE0099B905 /* execproc.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = execproc.cpp; path = ../util/execproc.cpp; sourceTree = SOURCE_ROOT; };
 		E3C0E7AD0D64E9BE0099B905 /* qcn_util.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = qcn_util.cpp; path = ../util/qcn_util.cpp; sourceTree = SOURCE_ROOT; };
@@ -217,7 +215,6 @@
 				E3C0E7AD0D64E9BE0099B905 /* qcn_util.cpp */,
 				E3C0E7A80D64E9BE0099B905 /* trickleup.cpp */,
 				E3C0E7A90D64E9BE0099B905 /* trickledown.cpp */,
-				E3C0E7AA0D64E9BE0099B905 /* checkboincstatus.cpp */,
 				E3C0E7AB0D64E9BE0099B905 /* md5.cpp */,
 				E3C0E7AC0D64E9BE0099B905 /* execproc.cpp */,
 			);
@@ -443,7 +440,6 @@
 				E3C0E7C40D64E9BE0099B905 /* qcn_thread.cpp in Sources */,
 				E3C0E7C50D64E9BE0099B905 /* trickleup.cpp in Sources */,
 				E3C0E7C60D64E9BE0099B905 /* trickledown.cpp in Sources */,
-				E3C0E7C70D64E9BE0099B905 /* checkboincstatus.cpp in Sources */,
 				E3C0E7C80D64E9BE0099B905 /* md5.cpp in Sources */,
 				E3C0E7C90D64E9BE0099B905 /* execproc.cpp in Sources */,
 				E3C0E7CA0D64E9BE0099B905 /* qcn_util.cpp in Sources */,

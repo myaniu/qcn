@@ -5,57 +5,6 @@
 			sepNavWindowFrame = "{{15, 88}, {1370, 935}}";
 		};
 	};
-	E303B4A60EBBB44A0039C881 /* myframe.cpp:155 */ = {
-		isa = PBXFileBreakpoint;
-		actions = (
-		);
-		breakpointStyle = 0;
-		continueAfterActions = 0;
-		countType = 0;
-		delayBeforeContinue = 0;
-		fileReference = E390FE410D65DE7600479F9A /* myframe.cpp */;
-		functionName = "MyFrame::OnFileSettings(wxCommandEvent& evt)";
-		hitCount = 0;
-		ignoreCount = 0;
-		lineNumber = 155;
-		location = QCNLive;
-		modificationTime = 247702067.499705;
-		state = 1;
-	};
-	E303B4A80EBBB4520039C881 /* myframe.cpp:160 */ = {
-		isa = PBXFileBreakpoint;
-		actions = (
-		);
-		breakpointStyle = 0;
-		continueAfterActions = 0;
-		countType = 0;
-		delayBeforeContinue = 0;
-		fileReference = E390FE410D65DE7600479F9A /* myframe.cpp */;
-		functionName = "MyFrame::OnFileSettings(wxCommandEvent& evt)";
-		hitCount = 0;
-		ignoreCount = 0;
-		lineNumber = 160;
-		location = QCNLive;
-		modificationTime = 247702067.499724;
-		state = 1;
-	};
-	E303B4B40EBBB4BC0039C881 /* myframe.cpp:159 */ = {
-		isa = PBXFileBreakpoint;
-		actions = (
-		);
-		breakpointStyle = 0;
-		continueAfterActions = 0;
-		countType = 0;
-		delayBeforeContinue = 0;
-		fileReference = E390FE410D65DE7600479F9A /* myframe.cpp */;
-		functionName = "MyFrame::OnFileSettings(wxCommandEvent& evt)";
-		hitCount = 0;
-		ignoreCount = 0;
-		lineNumber = 159;
-		location = QCNLive;
-		modificationTime = 247702067.49973;
-		state = 1;
-	};
 	E30AB0EA0EBB9C0600DA7E81 /* dlgsettings.cpp */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {1196, 2800}}";
@@ -79,6 +28,75 @@
 			sepNavVisRect = "{{0, 4239}, {1160, 819}}";
 			sepNavWindowFrame = "{{352, 76}, {1199, 948}}";
 		};
+	};
+	E3463C200EC42D6E004A5ADF /* main.cpp:273 */ = {
+		isa = PBXFileBreakpoint;
+		actions = (
+		);
+		breakpointStyle = 0;
+		continueAfterActions = 0;
+		countType = 0;
+		delayBeforeContinue = 0;
+		fileReference = E3C0E7B30D64E9BE0099B905 /* main.cpp */;
+		functionName = "qcn_main(int argc, char **argv)";
+		hitCount = 1;
+		ignoreCount = 0;
+		lineNumber = 273;
+		location = QCNLive;
+		modificationTime = 247737728.385721;
+		state = 1;
+	};
+	E3463C2F0EC42DC5004A5ADF /* main.cpp:280 */ = {
+		isa = PBXFileBreakpoint;
+		actions = (
+		);
+		breakpointStyle = 0;
+		continueAfterActions = 0;
+		countType = 0;
+		delayBeforeContinue = 0;
+		fileReference = E3C0E7B30D64E9BE0099B905 /* main.cpp */;
+		functionName = "qcn_main(int argc, char **argv)";
+		hitCount = 0;
+		ignoreCount = 0;
+		lineNumber = 280;
+		modificationTime = 247737797.056258;
+		state = 1;
+	};
+	E3463C310EC42DC7004A5ADF /* main.cpp:292 */ = {
+		isa = PBXFileBreakpoint;
+		actions = (
+		);
+		breakpointStyle = 0;
+		continueAfterActions = 0;
+		countType = 0;
+		delayBeforeContinue = 0;
+		fileReference = E3C0E7B30D64E9BE0099B905 /* main.cpp */;
+		functionName = "qcn_main(int argc, char **argv)";
+		hitCount = 0;
+		ignoreCount = 0;
+		lineNumber = 292;
+		modificationTime = 247737799.783896;
+		state = 1;
+	};
+	E3463C330EC42DCF004A5ADF /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = E3C0E7B30D64E9BE0099B905 /* main.cpp */;
+		name = "main.cpp: 292";
+		rLen = 0;
+		rLoc = 11271;
+		rType = 0;
+		vrLen = 2663;
+		vrLoc = 9556;
+	};
+	E34CC4170EC42CAE00B35E6C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = E3C0E7B30D64E9BE0099B905 /* main.cpp */;
+		name = "main.cpp: 251";
+		rLen = 1;
+		rLoc = 9284;
+		rType = 0;
+		vrLen = 2626;
+		vrLoc = 8109;
 	};
 	E371C7F60E2AB5D0009B4DAA /* csensor_mac_laptop.cpp */ = {
 		uiCtxt = {
@@ -139,13 +157,9 @@
 			E3A499ED0D64E62A00E51CDF /* QCNLive */,
 		);
 		breakpoints = (
-			E303B4A60EBBB44A0039C881 /* myframe.cpp:155 */,
-			E303B4A80EBBB4520039C881 /* myframe.cpp:160 */,
-			E303B4B40EBBB4BC0039C881 /* myframe.cpp:159 */,
-			E3FD3D3C0EC3A01F00C8A155 /* qcnwx.cpp:294 */,
-			E3FD3D420EC3A03D00C8A155 /* myglpane.cpp:61 */,
-			E3FD3D4F0EC3A22400C8A155 /* qcnwx.cpp:92 */,
-			E3FD3D510EC3A23000C8A155 /* qcnwx.cpp:234 */,
+			E3463C200EC42D6E004A5ADF /* main.cpp:273 */,
+			E3463C2F0EC42DC5004A5ADF /* main.cpp:280 */,
+			E3463C310EC42DC7004A5ADF /* main.cpp:292 */,
 		);
 		codeSenseManager = E3A499E20D64E60400E51CDF /* Code sense */;
 		executables = (
@@ -248,8 +262,12 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 247701078;
-			PBXWorkspaceStateSaveDate = 247701078;
+			PBXPerProjectTemplateStateSaveDate = 247737546;
+			PBXWorkspaceStateSaveDate = 247737546;
+		};
+		perUserProjectItems = {
+			E3463C330EC42DCF004A5ADF /* PBXTextBookmark */ = E3463C330EC42DCF004A5ADF /* PBXTextBookmark */;
+			E34CC4170EC42CAE00B35E6C /* PBXTextBookmark */ = E34CC4170EC42CAE00B35E6C /* PBXTextBookmark */;
 		};
 		sourceControlManager = E3A499E10D64E60400E51CDF /* Source Control */;
 		userBuildSettings = {
@@ -327,9 +345,9 @@
 	};
 	E3C0E7760D64E9A40099B905 /* qcnwx.cpp */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1174, 5292}}";
-			sepNavSelRange = "{9536, 0}";
-			sepNavVisRange = "{8682, 1541}";
+			sepNavIntBoundsRect = "{{0, 0}, {1196, 5502}}";
+			sepNavSelRange = "{9635, 0}";
+			sepNavVisRange = "{9081, 956}";
 			sepNavVisRect = "{{0, 2496}, {1000, 343}}";
 			sepNavWindowFrame = "{{266, 130}, {1233, 783}}";
 		};
@@ -350,6 +368,13 @@
 			sepNavVisRange = "{5460, 777}";
 			sepNavVisRect = "{{0, 7}, {1160, 819}}";
 			sepNavWindowFrame = "{{284, 75}, {1199, 948}}";
+		};
+	};
+	E3C0E7A70D64E9BE0099B905 /* qcn_thread.cpp */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1196, 2352}}";
+			sepNavSelRange = "{4320, 0}";
+			sepNavVisRange = "{1423, 851}";
 		};
 	};
 	E3C0E7A80D64E9BE0099B905 /* trickleup.cpp */ = {
@@ -405,11 +430,11 @@
 	};
 	E3C0E7B30D64E9BE0099B905 /* main.cpp */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1141, 7518}}";
-			sepNavSelRange = "{4151, 5}";
-			sepNavVisRange = "{2538, 2490}";
+			sepNavIntBoundsRect = "{{0, 0}, {1141, 10752}}";
+			sepNavSelRange = "{11271, 0}";
+			sepNavVisRange = "{9556, 2663}";
 			sepNavVisRect = "{{0, 0}, {1161, 818}}";
-			sepNavWindowFrame = "{{61, 75}, {1200, 947}}";
+			sepNavWindowFrame = "{{265, 81}, {1200, 947}}";
 		};
 	};
 	E3C0E7B80D64E9BE0099B905 /* qcn_graphics.cpp */ = {
@@ -545,73 +570,5 @@
 			sepNavVisRect = "{{0, 0}, {1000, 343}}";
 			sepNavWindowFrame = "{{15, 75}, {1199, 948}}";
 		};
-	};
-	E3FD3D3C0EC3A01F00C8A155 /* qcnwx.cpp:294 */ = {
-		isa = PBXFileBreakpoint;
-		actions = (
-		);
-		breakpointStyle = 0;
-		continueAfterActions = 0;
-		countType = 0;
-		delayBeforeContinue = 0;
-		fileReference = E3C0E7760D64E9A40099B905 /* qcnwx.cpp */;
-		functionName = "MyApp::OnInit()";
-		hitCount = 1;
-		ignoreCount = 0;
-		lineNumber = 294;
-		location = QCNLive;
-		modificationTime = 247702120.4038;
-		state = 1;
-	};
-	E3FD3D420EC3A03D00C8A155 /* myglpane.cpp:61 */ = {
-		isa = PBXFileBreakpoint;
-		actions = (
-		);
-		breakpointStyle = 0;
-		continueAfterActions = 0;
-		countType = 0;
-		delayBeforeContinue = 0;
-		fileReference = E390FE610D65DF7500479F9A /* myglpane.cpp */;
-		functionName = "MyGLPane::MyGLPane(MyFrame* parent, int* aiAttrib)";
-		hitCount = 0;
-		ignoreCount = 0;
-		lineNumber = 61;
-		location = QCNLive;
-		modificationTime = 247702067.499841;
-		state = 1;
-	};
-	E3FD3D4F0EC3A22400C8A155 /* qcnwx.cpp:92 */ = {
-		isa = PBXFileBreakpoint;
-		actions = (
-		);
-		breakpointStyle = 0;
-		continueAfterActions = 0;
-		countType = 0;
-		delayBeforeContinue = 0;
-		fileReference = E3C0E7760D64E9A40099B905 /* qcnwx.cpp */;
-		functionName = "MyApp::MainInit()";
-		hitCount = 1;
-		ignoreCount = 0;
-		lineNumber = 92;
-		location = QCNLive;
-		modificationTime = 247702112.897943;
-		state = 1;
-	};
-	E3FD3D510EC3A23000C8A155 /* qcnwx.cpp:234 */ = {
-		isa = PBXFileBreakpoint;
-		actions = (
-		);
-		breakpointStyle = 0;
-		continueAfterActions = 0;
-		countType = 0;
-		delayBeforeContinue = 0;
-		fileReference = E3C0E7760D64E9A40099B905 /* qcnwx.cpp */;
-		functionName = "MyApp::OnInit()";
-		hitCount = 1;
-		ignoreCount = 0;
-		lineNumber = 234;
-		location = QCNLive;
-		modificationTime = 247702071.235793;
-		state = 1;
 	};
 }
