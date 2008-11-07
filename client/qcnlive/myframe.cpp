@@ -168,18 +168,15 @@ void MyFrame::OnFileSettings(wxCommandEvent& WXUNUSED(evt))
 {
      CDialogSettings* pcds = new CDialogSettings(this, wxID_FILE_SETTINGS);
 	 if (pcds) {
-		if (pcds->ShowModal() == wxID_OK)  {
-		   // accept values
-	       statusBar->SetStatusText(wxString("Saving your settings and updating earthquake list", wxConvUTF8));
-		   pcds->SaveValues();  // save to the global variables
-		   // call our save function to write values to disk
-		   pMyApp->set_qcnlive_prefs(); 
-           strcpy(sm->wu_name, sm->strMyStation);
-           pMyApp->CreateBOINCInitFile();
-           qcn_graphics::getProjectPrefs();
-		}
-		pcds->Destroy();
-		delete pcds;
+	    if (pcds->ShowModal() == wxID_OK)  {
+	       // accept values
+	       //statusBar->SetStatusText(wxString("Saving your settings and updating earthquake list", wxConvUTF8));
+	       pcds->SaveValues();  // save to the global variables
+	       // call our save function to write values to disk
+	      pMyApp->set_qcnlive_prefs(); 
+	    }
+	    pcds->Destroy();
+	    delete pcds;
 	 }
 }
 

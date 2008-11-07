@@ -68,9 +68,9 @@ bool MyApp::CreateBOINCInitFile()
     if (bInit || !boinc_file_exists(QCNGUI_BOINC_INIT_FILE)) {
        FILE* fInitFile = fopen(QCNGUI_BOINC_INIT_FILE, "w");
   	   if (fInitFile) {
-	      fprintf(fInitFile, QCNGUI_INIT_1, (int)(atof(QCN_VERSION_STRING)*100.0f), strlen(sm->strMyStation)>0 ? sm->strMyStation : "qcnlive");
+	      fprintf(fInitFile, QCNGUI_INIT_1, (int)(atof(QCN_VERSION_STRING)*100.0f), "qcnlive");
 	      fprintf(fInitFile, "%s", strQuake);
-	      fprintf(fInitFile, QCNGUI_INIT_2, strlen(sm->strMyStation)>0 ? sm->strMyStation : "qcnlive");
+	      fprintf(fInitFile, QCNGUI_INIT_2, "qcnlive");
 	      fclose(fInitFile);
 	      fInitFile = NULL;
 	   }
@@ -97,15 +97,15 @@ bool MyApp::MainInit()
            fprintf(stderr, "Can't redirect stdout for qcnwx!\n");
 	}
 	
-    // clear memory and setup important vars below
-    get_qcnlive_prefs();
-
     // CMC - start init QCN/BOINC stuff -- this gets the latest quake data and creates a boinc-style init_data.xml file
     CreateBOINCInitFile();
 
     qcn_main::g_bDemo = true;
     qcn_util::ResetCounter(WHERE_MAIN_STARTUP);  // this is the one and only place ResetCounter is called outside of the sensor thread, so it's safe
     qcn_main::parseArgs(0, NULL); // parse args has to be done early in startup, right after the first ResetCounter usually
+
+    // clear memory and setup important vars below
+    get_qcnlive_prefs();
 
     qcn_main::g_threadMain = new CQCNThread(QCNThreadMain);
     return qcn_main::g_threadMain ? qcn_main::g_threadMain->Start() : false;  // note returns whether main thread was created & started OK
@@ -185,6 +185,10 @@ bool MyApp::get_qcnlive_prefs()
     if (!parse_str(strRead, strParse, (char*) sm->strMyStation, SIZEOF_STATION_STRING))
        memset((char*) sm->strMyStation, 0x00, SIZEOF_STATION_STRING);
 
+    if (strlen(sm->strMyStation)>0) {
+       strcpy(sm->wu_name, sm->strMyStation);
+    }
+
     // elevation data
     sprintf(strParse, "<%s>", XML_ELEVATION);
     parse_double(strRead, strParse, (double&) sm->dMyElevationMeter);
@@ -197,6 +201,7 @@ bool MyApp::get_qcnlive_prefs()
 bool MyApp::set_qcnlive_prefs()
 {
     FILE *fp; 
+    if (strlen(sm->strMyStation)>0) strcpy(sm->wu_name, sm->strMyStation); // copy station name to workunit name
     if ( (fp = fopen(QCNGUI_XML_PREFS_FILE, "w")) == NULL) {
        fprintf(stdout, "Error opening file %s\n", QCNGUI_XML_PREFS_FILE);
        return false;
@@ -261,6 +266,7 @@ bool MyApp::OnInit()
         fprintf(stderr, "failed to create shared mem segment %s, exiting\n", QCNGUI_SHMEM);
         return false;
     }
+    strcpy(sm->wu_name, "qcnlive");
 
     frame = new MyFrame(myRect, this);
 	if (!frame) return false;  // big error if can't make the window frame!
