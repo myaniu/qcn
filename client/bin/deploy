@@ -6,7 +6,6 @@ fi
          # init/earthmask.rgb  # disable for now
 uplstring='init/Helvetica.txf \
          init/earthday4096.jpg \
-         init/init_data.xml \
          init/splash.png \
          init/earthnight4096.jpg \
          init/logo.jpg'

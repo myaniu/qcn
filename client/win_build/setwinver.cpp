@@ -90,8 +90,7 @@ int deploy_qcn()
 		"init/splash.png",
 		"init/logo.jpg",
 		"init/ntpdate_4.2.4p5_windows_intelx86.exe",
-		"init/earthnight4096.jpg",
-		"init/init_data.xml"
+		"init/earthnight4096.jpg"
 	);
 	fprintf(stdout, "Executing %s\n", strCmd);
 
