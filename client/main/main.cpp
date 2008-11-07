@@ -246,6 +246,14 @@ int qcn_main(int argc, char **argv)
 #endif
 
     if (g_iQCNReturn) return ERR_INIT; // return init error
+
+#if defined(QCNLIVE) || defined(QCNDEMO)
+    g_bDemo = true;
+#else
+    g_bDemo = boinc_is_standalone();
+#endif
+    g_bReadOnly = false;
+
 #ifndef QCNLIVE
     // create shared mem segment for data & graphics -- if running the GUI this is done in the main GUI app (i.e. gui/qcnmac.cpp)
     sm = (CQCNShMem*) boinc_graphics_make_shmem((char*) QCN_SHMEM, sizeof(CQCNShMem));
@@ -688,13 +696,6 @@ bool CheckTriggers(bool bForce)
 
 void parseArgs(int argc, char* argv[])
 {
-#if defined(QCNLIVE) || defined(QCNDEMO)
-    g_bDemo = true;
-#else
-    g_bDemo = boinc_is_standalone();
-#endif
-    g_bReadOnly = false;
-
     g_fPerturb[PERTURB_SIG_CUTOFF] = DEFAULT_SIG_CUTOFF;
     g_fPerturb[PERTURB_SHORT_TERM_AVG_MAG] = DEFAULT_SHORT_TERM_AVG_MAG;
   

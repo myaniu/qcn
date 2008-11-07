@@ -159,11 +159,11 @@ void getBOINCInitData(const e_where eWhere)
 #if !defined(QCNDEMO) && !defined(QCNGRAPHICS)
       if (qcn_main::g_bDemo) {
 #ifdef QCNLIVE
-        sprintf((char*) qcn_main::g_strPathTrigger, "..%csac", qcn_util::cPathSeparator());
+        sprintf((char*) qcn_main::g_strPathTrigger, "..%cdata", qcn_util::cPathSeparator());
         sprintf((char*) sm->strPathImage, "..%cimages", qcn_util::cPathSeparator());
 #else
         sprintf((char*) qcn_main::g_strPathTrigger,
-           "..%c..%csac", cTerm, cTerm
+           "..%c..%cdata", cTerm, cTerm
         );
         sprintf((char*) sm->strPathImage,
            "..%c..%cimages", cTerm, cTerm
