@@ -211,8 +211,10 @@ typedef unsigned int JDIMENSION;
 
 #ifdef NEED_FAR_POINTERS
 #define FAR  far
-#else
+#else  // CMC added so don't overwrite FAR definition
+#ifndef FAR
 #define FAR
+#endif
 #endif
 
 

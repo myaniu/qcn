@@ -9,8 +9,9 @@
 #else  // Mac & Linux thread function ptr
   void* QCNThreadMain(void*)
 #endif
-{
-	return (void*) qcn_main::qcn_main(0, NULL);
+{ 
+    qcn_main::qcn_main(0, NULL);
+    return 0;
 }
 
 // the next two will be used in the main thread, but declare here (outside the thread)

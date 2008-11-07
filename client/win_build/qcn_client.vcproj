@@ -284,10 +284,6 @@
 				Name="Util"
 				>
 				<File
-					RelativePath="..\util\checkboincstatus.cpp"
-					>
-				</File>
-				<File
 					RelativePath="..\util\execproc.cpp"
 					>
 				</File>
