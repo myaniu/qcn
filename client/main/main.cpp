@@ -295,7 +295,7 @@ int qcn_main(int argc, char **argv)
        }
     }
 
-    // now get the input file
+    // now get the input file (if we're not in demo mode, i.e. running "live" under BOINC)
     if (!g_bDemo)  {
       char strData[_MAX_PATH], strResolve[_MAX_PATH];
       memset(strResolve, 0x00, _MAX_PATH);
