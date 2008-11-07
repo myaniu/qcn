@@ -247,17 +247,11 @@ int qcn_main(int argc, char **argv)
 
     if (g_iQCNReturn) return ERR_INIT; // return init error
 
-#if defined(QCNLIVE) || defined(QCNDEMO)
-    g_bDemo = true;
-#else
-    g_bDemo = boinc_is_standalone();
-#endif
-    g_bReadOnly = false;
-
 #ifndef QCNLIVE
     // create shared mem segment for data & graphics -- if running the GUI this is done in the main GUI app (i.e. gui/qcnmac.cpp)
     sm = (CQCNShMem*) boinc_graphics_make_shmem((char*) QCN_SHMEM, sizeof(CQCNShMem));
     if (sm) {
+        g_bDemo = boinc_is_standalone();
         qcn_util::ResetCounter(WHERE_MAIN_STARTUP);  // this is the one and only place ResetCounter is called outside of the sensor thread, so it's safe
         parseArgs(argc, argv);
     }
