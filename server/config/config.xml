@@ -161,7 +161,7 @@
   <daemons>
     <daemon>
       <cmd>
-        feeder
+        feeder -random_order
       </cmd>
     </daemon>
     <daemon>
