@@ -51,6 +51,7 @@ class CQCNShMem : public CSerialize
     // this section should not be reset on a clear as their values are good as long as QCN is running
     double dt; // this is the delta-time between point readings, currently .02 for the Mac sensor
     float fSignificanceFilterCutoff;
+    float fShortTermAvgMag;
 
     // some important sensor stuff - iWindow is the "time window" i.e. 1 minute of data points
     long iWindow;

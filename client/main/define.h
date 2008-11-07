@@ -84,6 +84,7 @@ typedef vector<string> ZipFileList;
 #define EXCEPTION_SHUTDOWN 1
 
 #define DEFAULT_SIGCUTOFF 3.0f
+#define DEFAULT_SHORT_TERM_AVG_MAG 3.0f
 
 // process ID offsets into the qcn_shmem_usb array (sm->alPID)
 #define PID_USB  0

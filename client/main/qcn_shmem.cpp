@@ -94,6 +94,7 @@ void CQCNShMem::clear(bool bAll)
         // start with some values that really shouldn't be 0 ever
         dt = DT;
         fSignificanceFilterCutoff = DEFAULT_SIGCUTOFF;
+        fShortTermAvgMag = DEFAULT_SHORT_TERM_AVG_MAG;
         iWindow = (int) (cfTimeWindow / DT);  // number of points in time window
 #ifdef QCNLIVE
         bDemo = true; // set demo mode
@@ -109,6 +110,7 @@ void CQCNShMem::clear(bool bAll)
     pshmem->bTriggerLock = true;  // rudimentary locking
     pshmem->dt = dt; // this is the delta-time between point readings, currently .02 for the Mac sensor
     pshmem->fSignificanceFilterCutoff = fSignificanceFilterCutoff;
+    pshmem->fShortTermAvgMag = fShortTermAvgMag;
     pshmem->iWindow = iWindow;
     pshmem->bReadOnly = bReadOnly;
     pshmem->bDemo = bDemo;

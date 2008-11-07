@@ -553,7 +553,28 @@ extern void* QCNThreadSensor(void*)
       sm->fmag[sm->lOffset]= sqrt(QCN_SQR(sm->x0[sm->lOffset]-sm->xa[sm->lOffset-1])+
          QCN_SQR(sm->y0[sm->lOffset]-sm->ya[sm->lOffset-1])+QCN_SQR(sm->z0[sm->lOffset]-sm->za[sm->lOffset-1]));
 
-      sm->fsig[sm->lOffset]= sm->fmag[sm->lOffset]/sqrt(sm->vari[sm->lOffset-1] + 1.0e-3f);  // .001 to prevent divide-by-zero but so we capture any fmag & vari
+// CMC added Jesse's mod to have a short term avg mag, and put this var in shared mem so it can be perturbed
+    //  sm->fsig[sm->lOffset]= sm->fmag[sm->lOffset]/sqrt(sm->vari[sm->lOffset-1] + 1.0e-3f);  // .001 to prevent divide-by-zero but so we capture any fmag & vari
+
+// jesse added a short term average magnitude rather than an instantaneous
+//    magnitude.  eventually fShortTermAvgMag should be turned into a variable to
+//    passed into here.  In theory the larger fShortTermAvgMag is, the harder it will
+//    be to trigger with a delta function. fShortTermAvgMag should vary from 1 to ~5
+//    (5 is looking at 10Hz variations rather than 50).
+//      int fShortTermAvgMag = 3;
+      sm->fsig[sm->lOffset]=sm->fmag[sm->lOffset] /
+                            sqrt(sm->vari[sm->lOffset-1] + 1.0e-3f);
+// .001 to prevent divide-by-zero but so we capture any fmag & vari
+      if (sm->fShortTermAvgMag > 0) {
+         for (int i_off = 1; i_off < sm->fShortTermAvgMag, i_off++){
+            sm->fsig[sm->lOffset]=sm->fsig[sm->lOffset] +
+                             sm->fmag[sm->lOffset-i_off] /
+                             sqrt(sm->vari[sm->lOffset-1] + 1.0e-3f);
+// .001 to prevent divide-by-zero but so we capture any fmag & vari
+         }
+         sm->fsig[sm->lOffset]=sm->fsig[sm->lOffset]/ (float) (sm->fShortTermAvgMag + 1);
+// Normalize average magnitude over window
+      }
 
       // test max/min
       sm->testMinMax(sm->x0[sm->lOffset], E_DX);
