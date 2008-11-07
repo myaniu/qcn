@@ -10,7 +10,7 @@
   void* QCNThreadMain(void*)
 #endif
 {
-	return qcn_main::qcn_main(0, NULL);
+	return (void*) qcn_main::qcn_main(0, NULL);
 }
 
 // the next two will be used in the main thread, but declare here (outside the thread)
