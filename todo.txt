@@ -20,6 +20,7 @@ Workunits:
 fShortTermAvgMag = 3.0 -- If we could run half of the computers on a fShortTermAvgMag=2
 and half with fShortTermAvgMag=0
 
+
 QCNLive
 
 cut-and-paste doesn't work for lat,lng in local prefs box -- also a way to integrate google maps lookup?
@@ -39,6 +40,19 @@ http://rev.seis.sc.edu/stations.html
 http://rev.seis.sc.edu/
 
 todo:
+
+Station Name: SNAME
+Longitude: -117.12321
+Latitude: 34.92834
+Elevation: 239
+Floor: 0
+File Start Time: 11/07/2008 12:34:20
+File End Time: 11/07/2008 12:35:40
+ Time,       x,       y,       z
+0.000,  -1.293,   2.393,  -0.123
+0.020, -12.129, 129.010,  19.010
+0.040,  -8.010,   1.001,  -0.999
+
 
 When you do get around to qcnwx, there are some things I'd like
 added/changed.
