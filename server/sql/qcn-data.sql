@@ -119,6 +119,9 @@ CREATE TABLE qcn_finalstats
 ALTER TABLE qcn_finalstats ADD UNIQUE INDEX qcn_finalstats_hostid (hostid,resultid);
 ALTER TABLE qcn_finalstats ADD INDEX qcn_finalstats_resultid (resultid);
 
+/* make the index for result(random) */
+ALTER TABLE result ADD INDEX result_random (random);
+
 /* Now generate the stored procedures */
 
 SOURCE do_final_trigger.sql;
