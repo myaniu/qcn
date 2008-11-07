@@ -313,7 +313,7 @@ int qcn_main(int argc, char **argv)
          if (!parse_double(tmpbuf, XML_SIG_CUTOFF, dTemp)) return ERR_INPUT_PARSE;  // make it a fatal error if can't parse input file
          g_fPerturb[PERTURB_SIG_CUTOFF] = (float) dTemp;
 
-         if (!parse_double(tmpbuf, XML_SHORT_TERM_AVG_MAG, dTemp)) return ERR_INPUT_PARSE
+         if (!parse_double(tmpbuf, XML_SHORT_TERM_AVG_MAG, dTemp)) return ERR_INPUT_PARSE;
          g_fPerturb[PERTURB_SHORT_TERM_AVG_MAG] = (float) dTemp;
             
          if (tmpbuf) free(tmpbuf);
