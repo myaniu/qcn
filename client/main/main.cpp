@@ -688,7 +688,11 @@ bool CheckTriggers(bool bForce)
 
 void parseArgs(int argc, char* argv[])
 {
-    g_bDemo = false;
+#if defined(QCNLIVE) || defined(QCNDEMO)
+    g_bDemo = true;
+#else
+    g_bDemo = boinc_is_standalone();
+#endif
     g_bReadOnly = false;
 
     g_fPerturb[PERTURB_SIG_CUTOFF] = DEFAULT_SIG_CUTOFF;
