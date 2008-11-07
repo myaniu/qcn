@@ -16,6 +16,9 @@ Hubert J. Casner
 915 Jackson Av
 Raymond, WA 98577
 
+Workunits:
+fShortTermAvgMag = 3.0 -- If we could run half of the computers on a fShortTermAvgMag=2
+and half with fShortTermAvgMag=0
 
 QCNLive
 
