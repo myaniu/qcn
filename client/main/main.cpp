@@ -319,6 +319,14 @@ int qcn_main(int argc, char **argv)
          if (tmpbuf) free(tmpbuf);
       }
     } // end getting the input file data if not in demo mode
+
+    // print out our values just as a "sanity check"
+    fprintf(stdout, "Significance Filter Cutoff    = %f\n", g_fPerturb[PERTURB_SIG_CUTOFF]);
+    fprintf(stdout, "Short Term Average Magnitude  = %f\n", g_fPerturb[PERTURB_SHORT_TERM_AVG_MAG]);
+    fflush(stdout);
+    fprintf(stderr, "Significance Filter Cutoff    = %f\n", g_fPerturb[PERTURB_SIG_CUTOFF]);
+    fprintf(stderr, "Short Term Average Magnitude  = %f\n", g_fPerturb[PERTURB_SHORT_TERM_AVG_MAG]);
+    fflush(stderr);
  
     // OK, if not in demo mode, now get rid of old trigger files i.e. more than two weeks old
     if (!g_bDemo) qcn_util::removeOldTriggers((const char*) g_strPathTrigger);
@@ -731,7 +739,7 @@ void parseArgs(int argc, char* argv[])
               fprintf(stdout, "Running in demo mode; no live sensor data used, no output.\n");
               fflush(stdout);
             }
-        } */
+        } 
 
         if (sm && !strcmp(argv[i], "--sigcutoff")) { // override the default sigcutoff
           // if this is present, the next arg is the sig cutoff filter value
@@ -739,7 +747,7 @@ void parseArgs(int argc, char* argv[])
              g_fPerturb[PERTURB_SIG_CUTOFF] = (float) atof(argv[i+1]);
           }
         }
-
+        */
 
         if (sm && !strcmp(argv[i], "--demo"))
         {   // run in demo mode
@@ -749,12 +757,6 @@ void parseArgs(int argc, char* argv[])
             fflush(stdout);
         }
     }
-    fprintf(stdout, "Significance Filter Cutoff    = %f\n", g_fPerturb[PERTURB_SIG_CUTOFF]);
-    fprintf(stdout, "Short Term Average Magnitude  = %f\n", g_fPerturb[PERTURB_SHORT_TERM_AVG_MAG]);
-    fflush(stdout);
-    fprintf(stderr, "Significance Filter Cutoff    = %f\n", g_fPerturb[PERTURB_SIG_CUTOFF]);
-    fprintf(stderr, "Short Term Average Magnitude  = %f\n", g_fPerturb[PERTURB_SHORT_TERM_AVG_MAG]);
-    fflush(stderr);
 }
 
 } // namespace qcn_main
