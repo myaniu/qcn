@@ -291,10 +291,33 @@ int qcn_main(int argc, char **argv)
           fprintf(stderr, "QCN exiting, can't make directory %s\n", sm->strPathImage);
           fprintf(stdout, "QCN exiting, can't make directory %s\n", sm->strPathImage);
           fflush(stdout);
-          return ERR_DIR_TRIGGER;
+          return ERR_DIR_IMAGES;
        }
     }
 
+    // now get the input file
+    if (!g_bDemo)  {
+      char strData[_MAX_PATH], strResolve[_MAX_PATH];
+      memset(strResolve, 0x00, _MAX_PATH);
+      memset(strData, 0x00, _MAX_PATH);
+      if (boinc_resolve_filename(QCN_INPUT_LOGICAL_NAME, strResolve, _MAX_PATH) && !strResolve[0]) {
+        // this name didn't resolve, return!
+        fprintf(stderr, "Input file %s not resolved!\n", QCN_INPUT_LOGICAL_NAME);
+        return ERR_INPUT_FILE;
+      }
+
+      char* tmpbuf = NULL;
+      // OK, we resolved the file, so let's open & parse it
+      if (!read_file_malloc(strResolve, tmpbuf) && tmpbuf) {
+         if (!parse_double(tmpbuf, XML_SIG_CUTOFF, g_fPerturb[PERTURB_SIG_CUTOFF])) 
+             g_fPerturb[PERTURB_SIG_CUTOFF] = DEFAULT_SIG_CUTOFF;
+
+         if (!parse_double(tmpbuf, XML_SHORT_TERM_AVG_MAG, g_fPerturb[XML_SHORT_TERM_AVG_MAG])) 
+             g_fPerturb[PERTURB_SHORT_TERM_AVG_MAG] = DEFAULT_SHORT_TERM_AVG_MAG;
+            
+         if (tmpbuf) free(tmpbuf);
+      }
+    } // end getting the input file data if not in demo mode
  
     // OK, if not in demo mode, now get rid of old trigger files i.e. more than two weeks old
     if (!g_bDemo) qcn_util::removeOldTriggers((const char*) g_strPathTrigger);

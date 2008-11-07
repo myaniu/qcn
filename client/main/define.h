@@ -28,6 +28,8 @@ typedef vector<string> ZipFileList;
 #define QCN_SQR(A)   ((A)*(A))
 #define QCN_ROUND(A) (((A)>=0) ? (long)((A) + .5) : (long)((A) - .5))
 
+#define QCN_INPUT_LOGICAL_NAME "qcn_0"
+
 #ifdef _WIN32
   #include <windows.h>
 
@@ -88,17 +90,8 @@ typedef vector<string> ZipFileList;
 #define DEFAULT_SIG_CUTOFF 3.0f
 #define DEFAULT_SHORT_TERM_AVG_MAG 3.0f
 
-enum e_perturb { PERTURB_SIG_CUTOFF,  
-                 PERTURB_SHORT_TERM_AVG_MAG, 
-                 PERTURB_3,
-                 PERTURB_4,
-                 PERTURB_5,
-                 PERTURB_6,
-                 PERTURB_7,
-                 PERTURB_8,
-                 PERTURB_9,
-                 PERTURB_10
-               };
+#define XML_SIG_CUTOFF         "<fsig>"
+#define XML_SHORT_TERM_AVG_MAG "<fsta>"
 
 // process ID offsets into the qcn_shmem_usb array (sm->alPID)
 #define PID_USB  0
@@ -117,7 +110,7 @@ const double g_DT_SLOW = 0.10f;      // delta t sampling interval for slow/troub
 // common QCN defines & return codes can go here
 
 enum e_os      { OS_MAC_INTEL, OS_MAC_PPC, OS_WINDOWS, OS_LINUX };
-enum e_retcode { ERR_NONE = 0, ERR_NO_SENSOR = 99, ERR_SHMEM, ERR_TIME_CHANGE, ERR_INIT, ERR_CRASH, ERR_DIR_TRIGGER, ERR_ABORT, ERR_NUM_RESET, ERR_HEARTBEAT, ERR_SUSPEND, ERR_TIMEOUT, ERR_CREATE_THREAD };
+enum e_retcode { ERR_NONE = 0, ERR_NO_SENSOR = 99, ERR_SHMEM, ERR_TIME_CHANGE, ERR_INIT, ERR_CRASH, ERR_DIR_TRIGGER, ERR_DIR_IMAGES, ERR_INPUT_FILE, ERR_ABORT, ERR_NUM_RESET, ERR_HEARTBEAT, ERR_SUSPEND, ERR_TIMEOUT, ERR_CREATE_THREAD };
 enum e_maxmin  { E_DX, E_DY, E_DZ, E_DS };
 enum e_view    { VIEW_PLOT_3D = 1, VIEW_PLOT_2D, VIEW_EARTH_DAY, VIEW_EARTH_NIGHT, VIEW_EARTH_COMBINED, VIEW_CUBE }; 
 enum e_trigger { TRIGGER_UNSET, TRIGGER_IMMEDIATE, TRIGGER_1MIN, TRIGGER_ALL, TRIGGER_DEMO };  // note TRIGGER_DEMO after TRIGGER_ALL so just gets used once
