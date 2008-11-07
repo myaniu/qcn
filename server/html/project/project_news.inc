@@ -1,5 +1,13 @@
 <?php
 $project_news = array(
+   array("November 7, 2008",
+"New version 4.25 is up for all platforms - this version perturbs some of the sensitivity algorithm used to detect triggers.  It will hopefully lead to less 'false positive' triggers/trickles as well as help us 'fine tune' our algorithm.<BR>",
+ "New version 4.25, All Platforms, Tests Triggering Algorithm"
+    ),
+   array("November 4, 2008",
+"New version 4.22 is up for all platforms.  This has improved error handling.  If you are using the JoyWarrior 24F8 external USB accelerometer, you will want to upgrade the QCN USB driver software <A HREF=http://qcn.stanford.edu/download/qcnusb-intel.zip>for Intel Mac</A> or <A HREF=http://qcn.stanford.edu/download/qcnusb-ppc.zip>for PowerPC Macs</A>.<BR>",
+ "New version 4.22, All Platforms"
+    ),
    array("October 30, 2008",
  "In honor of my hometown team the Philadelphia Phillies winning the World Series, I put up a new version (4.00) that will track how much time you've run QCN, and grant BOINC 'cobblestone' credits accordingly.  This new version also has some improved graphics in the screensaver (in my biased opinion :-).<BR>The 'bouncing cube' now shows a plot of your accelerometer on each cube face, the earth view has a nice multitexture of the earth at day and night (if your graphics card supports it), and in screensaver mode it will cycle through these different scenes so you will get some variety.  Also I have made workunits shorter - that way after a 'day' of run-time on QCN, you will get a new workunit and new software versions.  This is an 'optional' upgrade now if you 'Abort' your current workunit or 'Reset Project.'  Once we have a few people running 4.00+ for a few days I will send out an automatic message to upgrade.<BR>",
  "New Version 4.00, With BOINC Credits and Graphics Upgrades"
