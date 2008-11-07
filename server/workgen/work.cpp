@@ -13,7 +13,7 @@ int main(int argc, char** argv) {
     char strWU[32];
     char strApp[16];
     long int lNumWU;
-    char* wu_template;
+    char* wu_template = NULL;
     //char* infiles[3] = {"qcn_t1", "qcn_t2", "qcn_t3"};
     char* infileA[1] = {"qcn_t1"};
     char* infileB[1] = {"qcn_t2"};
@@ -145,5 +145,6 @@ int main(int argc, char** argv) {
           NULL
       );
     }
+    if (wu_template) free(wu_template);
 }
 
