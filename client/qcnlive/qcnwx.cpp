@@ -70,7 +70,7 @@ bool MyApp::CreateBOINCInitFile()
   	   if (fInitFile) {
 	      fprintf(fInitFile, QCNGUI_INIT_1, (int)(atof(QCN_VERSION_STRING)*100.0f), strlen(sm->strMyStation)>0 ? sm->strMyStation : "qcnlive");
 	      fprintf(fInitFile, "%s", strQuake);
-	      fprintf(fInitFile, QCNGUI_INIT_2, sm->strMyStation[0]!=0x00 ? sm->strMyStation : "qcnlive");
+	      fprintf(fInitFile, QCNGUI_INIT_2, strlen(sm->strMyStation)>0 ? sm->strMyStation : "qcnlive");
 	      fclose(fInitFile);
 	      fInitFile = NULL;
 	   }
