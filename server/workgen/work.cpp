@@ -18,6 +18,7 @@ int main(int argc, char** argv) {
     char* infileA[1] = {"qcn_t1"};
     char* infileB[1] = {"qcn_t2"};
     char* infileC[1] = {"qcn_t3"};
+    char* infileD[1] = {"qcn_t4"};
     char path[1024];
 
     if (argc!=4) {
@@ -74,11 +75,17 @@ int main(int argc, char** argv) {
 
     sprintf(path, "%s/%s", config.download_dir, infileB[0]);
     f = fopen(path, "w");
-    sprintf(strWrite, "<fsig>%.2f</fsig>\n<fsta>%.2f</fsta>\n", fSigCutoff, 2.00f);
+    sprintf(strWrite, "<fsig>%.1f</fsig>\n<fsta>%.2f</fsta>\n", fSigCutoff, 1.00f);
     fwrite(strWrite, 1+strlen(strWrite), sizeof(char), f);
     fclose(f);
 
     sprintf(path, "%s/%s", config.download_dir, infileC[0]);
+    f = fopen(path, "w");
+    sprintf(strWrite, "<fsig>%.2f</fsig>\n<fsta>%.2f</fsta>\n", fSigCutoff, 2.00f);
+    fwrite(strWrite, 1+strlen(strWrite), sizeof(char), f);
+    fclose(f);
+
+    sprintf(path, "%s/%s", config.download_dir, infileD[0]);
     f = fopen(path, "w");
     sprintf(strWrite, "<fsig>%.2f</fsig>\n<fsta>%.2f</fsta>\n", fSigCutoff, 3.00f);
     fwrite(strWrite, 1+strlen(strWrite), sizeof(char), f);
@@ -89,23 +96,27 @@ int main(int argc, char** argv) {
     read_file_malloc("templates/qcn_input.xml", wu_template);
 
     float fShortTermAvg = 3.0f;
-    char **inFileUse;
+    char **inFileUse = NULL;
 
     for (long int i = 0L; i < lNumWU; i++)  {
        wu.clear();     // zeroes all fields
 
-       switch(i%3) {
+       switch(i%4) {
           case 0:
             fShortTermAvg = 0.0f;
             inFileUse = infileA;
             break;
           case 1:
-            fShortTermAvg = 2.0f;
+            fShortTermAvg = 1.0f;
             inFileUse = infileB;
             break;
           case 2:
-            fShortTermAvg = 3.0f;
+            fShortTermAvg = 2.0f;
             inFileUse = infileC;
+            break;
+          case 3:
+            fShortTermAvg = 3.0f;
+            inFileUse = infileD;
             break;
        }
 
