@@ -675,12 +675,12 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq, bool bTrigger) {
        // CMC note -- we bypass this if a trigger trickle
        if (!bTrigger) { // don't send the big quake list on a trigger trickle
          char* strTemp  = new char[APP_VERSION_XML_BLOB_SIZE];
-         char* strQuake = new char[APP_VERSION_XML_BLOB_SIZE];
+         char* strQuake = NULL; // CMC note - read_file_malloc allocates this, make sure to free it! new char[APP_VERSION_XML_BLOB_SIZE];
          memset(strTemp,  0x00, sizeof(char) * APP_VERSION_XML_BLOB_SIZE);
-         memset(strQuake, 0x00, sizeof(char) * APP_VERSION_XML_BLOB_SIZE);
+         //memset(strQuake, 0x00, sizeof(char) * APP_VERSION_XML_BLOB_SIZE);
          if (boinc_file_exists("../qcn-quake.xml"))
             read_file_malloc("../qcn-quake.xml", strQuake); // strQuake holds the quake file contents
-         if (strlen(strQuake)>1 && strstr(strQuake, "<quakes>") && strstr(strQuake, "</quakes>")) { // we have valid quake data
+         if (strQuake && strlen(strQuake)>1 && strstr(strQuake, "<quakes>") && strstr(strQuake, "</quakes>")) { // we have valid quake data
            char* strWhere = strstr(user.project_prefs, "</project_specific>");
            if (strWhere) { // we found </project so prefs exist, insert quake in the middle
                strTemp[0] = '\n'; // seems to like a leading newline?
@@ -703,7 +703,8 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq, bool bTrigger) {
            fputs("\n", fout);
          }
          delete [] strTemp;
-         delete [] strQuake;
+         //delete [] strQuake;
+         if (strQuake) free(strQuake);  // note malloc was used for strQuake, so use free, not delete[]!
          // end CMC mods
        }  // CMC note -- we bypass this if a trigger trickle
 
