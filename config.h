@@ -364,13 +364,13 @@
 #define PACKAGE_NAME "QCN"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "QCN 4.23"
+#define PACKAGE_STRING "QCN 4.25"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "qcn"
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "4.23"
+#define PACKAGE_VERSION "4.25"
 
 /* Define to the necessary symbol if this constant uses a non-standard name on
    your system. */
@@ -395,7 +395,7 @@
 /* #undef UTMP_LOCATION */
 
 /* Version number of package */
-#define VERSION "4.23"
+#define VERSION "4.25"
 
 /* Define to prevent redefinition of INT32 in jconfig.h */
 /* #undef XMD_H */

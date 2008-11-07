@@ -3,8 +3,6 @@
 if (test $2) then
    rm -rf boinc
    ./getboinc
-#  note copying over our "quiet" boinc_zip -q
-   cp server/boincmods/zip/boinc_zip.cpp boinc/zip/
    cd boinc
 #   cd boinc/mac_build
 #   if (test $3) then
