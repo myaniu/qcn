@@ -414,10 +414,10 @@ void draw_text_user()
     }
 #else
     if (sm) {
-      txf_render_string(.1, 0, .125, 0, MSG_SIZE_NORMAL, white, 0, (char*) sm->dataBOINC.user_name);
-      //txf_render_string(.1, 0, 0.10, 0, MSG_SIZE_NORMAL, white, 0, (char*) sm->dataBOINC.team_name);
+      txf_render_string(.1, 0, .125, 0, MSG_SIZE_NORMAL, white, 0, (char*) sm->user_name);
+      //txf_render_string(.1, 0, 0.10, 0, MSG_SIZE_NORMAL, white, 0, (char*) sm->team_name);
 
-      sprintf(buf, "WU #: %s", sm->dataBOINC.wu_name);
+      sprintf(buf, "WU #: %s", sm->wu_name);
       txf_render_string(.1, 0, 0.105, 0, MSG_SIZE_NORMAL, white, 0, buf);
 
       char strTime[32];
@@ -454,7 +454,7 @@ void draw_text_user()
     if (sm) {
         if (!sm->bSensorFound) {
             txf_render_string(.1, 0.003, 0.01, 0.0, isize, red, 0, (char*) "Demo Mode - Sensor Not Found");
-        } else if (sm->lOffset >=0 && sm->lOffset < (cfTimeWindow / (sm->dt ? sm->dt : DT) ) ) {  // we're in our calibration window
+        } else if (sm->lOffset >=0 && sm->lOffset < sm->iWindow ) {  // we're in our calibration window
             sprintf(buf, "%s sensor calibration in progress...", sm->strSensor);
             txf_render_string(.1, 0.003, 0.01, 0.0, isize, red, 0, buf);
         } else if (sm->bDemo) {
@@ -462,8 +462,8 @@ void draw_text_user()
             txf_render_string(.1, 0.003, 0.01, 0.0, isize, red, 0, buf);
         } else if (dtime()-sm->update_time > 5) {
             txf_render_string(.1, 0.003, 0.01, 0.0, isize, red, 0, (char*) "QCN Not Running");
-        } else if (sm->statusBOINC.suspended) {
-            txf_render_string(.1, 0.003, 0.01, 0.0, isize, red, 0, (char*) "QCN Suspended");
+   //     } else if (sm->statusBOINC.suspended) {
+   //         txf_render_string(.1, 0.003, 0.01, 0.0, isize, red, 0, (char*) "QCN Suspended");
         } else if (sm->strSensor[0] != 0x00) {
             sprintf(buf, "Using %s Accelerometer", sm->strSensor);
             txf_render_string(.1, 0.003, 0.01, 0.0, isize, red, 0, buf);
@@ -1012,12 +1012,12 @@ extern void ResetPlotArray()
 const char* ScreenshotJPG()
 {
    double dblTime;
-   if (sm && sm->strPathTrigger) {
+   if (sm && sm->strPathImage) {
 	  dblTime = dtime();
       g_iJPG = 0;
       memset(g_strJPG, 0x00, sizeof(char) * _MAX_PATH);
 	  sprintf(g_strJPG, "%s%c%ld_%ld_%d.jpg",
-                sm->strPathTrigger,
+                sm->strPathImage,
                 qcn_util::cPathSeparator(),
 	         (long) dblTime, 
 		      (long) ( (double) (dblTime - (long) dblTime) * 1000000.0f),

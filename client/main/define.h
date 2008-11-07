@@ -83,8 +83,22 @@ typedef vector<string> ZipFileList;
 // for the sensor try/catch
 #define EXCEPTION_SHUTDOWN 1
 
-#define DEFAULT_SIGCUTOFF 3.0f
+#define MAX_PERTURB 10
+
+#define DEFAULT_SIG_CUTOFF 3.0f
 #define DEFAULT_SHORT_TERM_AVG_MAG 3.0f
+
+enum e_perturb { PERTURB_SIG_CUTOFF,  
+                 PERTURB_SHORT_TERM_AVG_MAG, 
+                 PERTURB_3,
+                 PERTURB_4,
+                 PERTURB_5,
+                 PERTURB_6,
+                 PERTURB_7,
+                 PERTURB_8,
+                 PERTURB_9,
+                 PERTURB_10
+               };
 
 // process ID offsets into the qcn_shmem_usb array (sm->alPID)
 #define PID_USB  0
@@ -96,9 +110,9 @@ typedef vector<string> ZipFileList;
 
 #define ALL_ACCESS 0666
 
-const float cfTimeWindow = 60.0f;  // time window in seconds
-const double DT = 0.02f;          // delta t sampling interval, i.e. target time between points
-const double DT_SLOW = 0.10f;      // delta t sampling interval for slow/troublesome machines (i.e. can't keep up at <3 samples per dt=.02)
+const float g_cfTimeWindow = 60.0f;  // time window in seconds
+const double g_DT = 0.02f;          // delta t sampling interval, i.e. target time between points
+const double g_DT_SLOW = 0.10f;      // delta t sampling interval for slow/troublesome machines (i.e. can't keep up at <3 samples per dt=.02)
 
 // common QCN defines & return codes can go here
 

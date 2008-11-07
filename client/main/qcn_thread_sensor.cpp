@@ -45,7 +45,7 @@ void doTrigger(bool bReal = true, long lOffsetStart = 0L, long lOffsetEnd = 0L);
 void initDemoCounters(bool bReset)
 {
    // first, if in demo mode and init'ing from a timing error reset, write out what we can
-   if (bReset && sm->bDemo && g_dStartDemoTime > 0.0f) {
+   if (bReset && qcn_main::g_bDemo && g_dStartDemoTime > 0.0f) {
         checkDemoTrigger(true);
    }
    g_dStartDemoTime = 0.0f;
@@ -62,7 +62,7 @@ void checkDemoTrigger(bool bForce)
     if (g_dStartDemoTime > 0.0f) { // we have a valid start time
        //double dTimeOffset, dTimeOffsetTime;      
        //qcn_util::getTimeOffset((const double*) sm->dTimeServerTime, (const double*) sm->dTimeServerOffset, (const double) sm->t0active, dTimeOffset, dTimeOffsetTime);
-       if (bForce || ((sm->t0active + sm->dTimeOffset) >= g_dStartDemoTime))  { // OK, this time matches what we wanted, so do a trigger now!
+       if (bForce || ((sm->t0active + qcn_main::g_dTimeOffset) >= g_dStartDemoTime))  { // OK, this time matches what we wanted, so do a trigger now!
           g_lDemoOffsetEnd = sm->lOffset; 
           doTrigger(false, g_lDemoOffsetStart, g_lDemoOffsetEnd);  // note we're passing in the offset which is just before the next 10 minute period
           g_lDemoOffsetStart = sm->lOffset; // set next start point
@@ -77,9 +77,9 @@ double getNextDemoTimeInterval()
    // the BOINC lib/util.C dday() function returns the double for the start of the day
    //double dTimeOffset, dTimeOffsetTime;
    //qcn_util::getTimeOffset((const double*) sm->dTimeServerTime, (const double*) sm->dTimeServerOffset, (const double) sm->t0active, dTimeOffset, dTimeOffsetTime);
-   double dDay = qcn_util::qcn_dday(sm->t0active + sm->dTimeOffset);
+   double dDay = qcn_util::qcn_dday(sm->t0active + qcn_main::g_dTimeOffset);
    // roll forward to an even 10-minute boundary, time adjusted with the value above
-   return ((long)(DEMO_TRIGGER_TIME_SECONDS) * (1 + ((long)((sm->t0active + sm->dTimeOffset) - dDay)/((long)(DEMO_TRIGGER_TIME_SECONDS))))) + dDay;
+   return ((long)(DEMO_TRIGGER_TIME_SECONDS) * (1 + ((long)((sm->t0active + qcn_main::g_dTimeOffset) - dDay)/((long)(DEMO_TRIGGER_TIME_SECONDS))))) + dDay;
 }
 
 // first off let's setup the sensor class detection code
@@ -321,7 +321,7 @@ extern void* QCNThreadSensor(void*)
 
     //const int iNumResetInitial = sm->iNumReset;  // initialize to total num reset, so we can see how many failures in current session
     const int iNumResetInitial = 0; // change to 0, don't use the saved reset number, reset to 0 every wraparound
-    sm->vectTrigger.clear();
+    qcn_main::g_vectTrigger.clear();
     while (sm->lOffset > -1) {  // start the main loop
       if (qcn_main::g_iStop || !sm) goto done;  // handle quit request
       if (qcn_main::g_threadSensor->IsSuspended()) {
@@ -354,7 +354,7 @@ extern void* QCNThreadSensor(void*)
                fprintf(stderr, "No motion sensor found!\n");
                fprintf(stdout, "No motion sensor found!\n");
 #ifndef QCNLIVE 
-               //trickleup::qcnTrickleUp("", "nosensor", (const char*) sm->dataBOINC.wu_name);  // trickle the fact that there is no sensor found
+               //trickleup::qcnTrickleUp("", "nosensor", (const char*) sm->wu_name);  // trickle the fact that there is no sensor found
 #endif
                g_bSensorTrickle = true;
             }
@@ -565,14 +565,14 @@ extern void* QCNThreadSensor(void*)
       sm->fsig[sm->lOffset]=sm->fmag[sm->lOffset] /
                             sqrt(sm->vari[sm->lOffset-1] + 1.0e-3f);
 // .001 to prevent divide-by-zero but so we capture any fmag & vari
-      if (sm->fShortTermAvgMag > 0) {
-         for (int i_off = 1; i_off < sm->fShortTermAvgMag; i_off++) {
+      if (qcn_main::g_fPerturb[PERTURB_SHORT_TERM_AVG_MAG] > 0) {
+         for (int i_off = 1; i_off < (int) qcn_main::g_fPerturb[PERTURB_SHORT_TERM_AVG_MAG]; i_off++) {
             sm->fsig[sm->lOffset]=sm->fsig[sm->lOffset] +
                              sm->fmag[sm->lOffset-i_off] /
                              sqrt(sm->vari[sm->lOffset-1] + 1.0e-3f);
 // .001 to prevent divide-by-zero but so we capture any fmag & vari
          }
-         sm->fsig[sm->lOffset]=sm->fsig[sm->lOffset]/ (float) (sm->fShortTermAvgMag + 1);
+         sm->fsig[sm->lOffset]=sm->fsig[sm->lOffset]/ (qcn_main::g_fPerturb[PERTURB_SHORT_TERM_AVG_MAG] + 1.0f);
 // Normalize average magnitude over window
       }
 
@@ -590,7 +590,7 @@ extern void* QCNThreadSensor(void*)
 //#endif
         sm->sgmx = sm->fsig[sm->lOffset];
         sm->itl=0;
-        if ( (sm->fsig[sm->lOffset]>sm->fSignificanceFilterCutoff) && (sm->fmag[sm->lOffset]>0.125) ) {  // >2 sigma (90% Conf)
+        if ( (sm->fsig[sm->lOffset] > qcn_main::g_fPerturb[PERTURB_SIG_CUTOFF]) && (sm->fmag[sm->lOffset]>0.125) ) {  // >2 sigma (90% Conf)
           // lock & update now if this trigger is >.5 second from the last
           double dTime; 
           long lTime;
@@ -616,7 +616,7 @@ extern void* QCNThreadSensor(void*)
 
       // if we've hit a boundary for Demo SAC output (currently 10 minutes) force a "trigger" (writes 0-10 minutes of data)
       // put the demo start time on an even time boundary i.e. every 10 minutes from midnight
-      if (sm->bDemo) { // have to check versus ntpd server time
+      if (qcn_main::g_bDemo) { // have to check versus ntpd server time
            if (g_dStartDemoTime == 0.0f && sm->lOffset > (300.0 / sm->dt)) {
              // five minutes has gone by from start of calibration, long enough for ntpd lookup to have finished with one retry if first failed
              g_dStartDemoTime = getNextDemoTimeInterval();
@@ -653,7 +653,7 @@ void doTrigger(bool bReal, long lOffsetStart, long lOffsetEnd)
 #endif
 */
             //double dTimeTrigger, dTimeOffset, dTimeOffsetTime;
-            CTriggerInfo ti;
+            STriggerInfo ti;
             // trigger happened when user interacting, so flag so don't really trickle/trigger
             // dTimeInteractive is set in the graphics thread/program when a button is clicked or key is pressed
             // if this interaction time + a decay offset (usually 60 seconds) is exceeded by the trigger time, it's a valid trigger
@@ -678,9 +678,9 @@ void doTrigger(bool bReal, long lOffsetStart, long lOffsetEnd)
             //if (!ti.bInteractive || ti.bDemo) { // only do filename stuff & inc counter if demo mode or non-interactive trigger
                //qcn_util::getTimeOffset((const double*) sm->dTimeServerTime, (const double*) sm->dTimeServerOffset, (const double) dTimeTrigger, dTimeOffset, dTimeOffsetTime);
                qcn_util::set_trigger_file((char*) ti.strFile,
-                  (const char*) sm->dataBOINC.wu_name,
+                  (const char*) sm->wu_name,
                   bReal ? ++sm->iNumTrigger : sm->iNumTrigger,
-                  QCN_ROUND(dTimeTrigger + sm->dTimeOffset),
+                  QCN_ROUND(dTimeTrigger + qcn_main::g_dTimeOffset),
                   bReal
                );
                if (bReal) {
@@ -693,7 +693,7 @@ void doTrigger(bool bReal, long lOffsetStart, long lOffsetEnd)
 
             // add this to our vector in sm
             ti.bSent = false;
-            sm->vectTrigger.push_back(ti);
+            qcn_main::g_vectTrigger.push_back(ti);
             sm->iout = ti.lOffsetEnd + (int)(60.0f/sm->dt);                           //  TIME STEP TO OUTPUT FILE
             sm->itm = ti.lOffsetEnd + (2*sm->iWindow); // set end of data collection/file I/O for two minutes from this trigger point
             if (sm->itm > MAXI) sm->itm -= MAXI;  // note itm is adjusted for wraparound

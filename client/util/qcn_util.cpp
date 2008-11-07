@@ -120,63 +120,86 @@ double qcn_dday(double dNow) {
 }
 
 #ifndef QCN_USB
-void retrieveBOINC_APP_INIT_DATA()
+void retrieveProjectPrefs(APP_INIT_DATA* pdataBOINC)
 {
       boinc_parse_init_data_file(); // parse the file for BOINC
-      boinc_get_init_data_p((APP_INIT_DATA*) &sm->dataBOINC);
-      if (sm->dataBOINC.project_preferences) { // copy proj prefs over to a separate struct since it is unstable in shared mem (malloc'd by BOINC)
+      boinc_get_init_data_p((APP_INIT_DATA*) pdataBOINC);
+      if (pdataBOINC->project_preferences) { // copy proj prefs over to a separate struct since it is unstable in shared mem (malloc'd by BOINC)
          memset((char*) sm->strProjectPreferences, 0x00, sizeof(char) * MAX_PROJPREFS);
-         strlcpy((char*) sm->strProjectPreferences, sm->dataBOINC.project_preferences, MAX_PROJPREFS);
-         free(sm->dataBOINC.project_preferences); // explicitly free the boinc ref so it doesn't get memory leak
-         sm->dataBOINC.project_preferences = NULL;
+         strlcpy((char*) sm->strProjectPreferences, pdataBOINC->project_preferences, MAX_PROJPREFS);
+         free(pdataBOINC->project_preferences); // explicitly free the boinc ref so it doesn't get memory leak
+         pdataBOINC->project_preferences = NULL;
       }
 }
 
 void getBOINCInitData(const e_where eWhere)
 {
-   // just needed on startup and when we get proj prefs
-    fprintf(stderr, "qcn_util::getBOINCInitData requested at %f\n", dtime());
     if (!sm) return;
+    APP_INIT_DATA dataBOINC;  // useful BOINC user prefs, i.e. for graphics
+    // just needed on startup and when we get proj prefs
+    fprintf(stderr, "qcn_util::getBOINCInitData requested at %f\n", dtime());
     // workunit will never change during program
     if (eWhere == WHERE_MAIN_STARTUP)  { // only the main.cpp (i.e. not the thread) can set this
       sm->setTriggerLock();
-      retrieveBOINC_APP_INIT_DATA();
+      retrieveProjectPrefs(&dataBOINC);
 
       // set trigger path -- note sm->strPathTrigger will NOT have appropriate \ or / at the end
       // in main.cpp -- the program checks for and creates this path if it doesn't exist (i.e. ../../sac or ../../projects/qcn/triggers)
-      char cTerm = sm->dataBOINC.project_dir[strlen((const char*) sm->dataBOINC.project_dir)-1];
+      char cTerm = dataBOINC.project_dir[strlen((const char*) dataBOINC.project_dir)-1];
       char cOK = 0x00;
       if (cTerm != '\\' && cTerm != '/') {
         // Look for Windows \ dir marker, if found set that in cTerm
         // note all strPath Trigger's will have \ or / at the end for convenience
-        cTerm = strchr((const char*) sm->dataBOINC.project_dir, '\\') ? '\\' : '/';
+        cTerm = strchr((const char*) dataBOINC.project_dir, '\\') ? '\\' : '/';
         cOK = cTerm; // for the first char below
       }
-      if (sm->bDemo) {
+      if (qcn_main::g_bDemo) {
 #ifdef QCNLIVE
-        sprintf((char*) sm->strPathTrigger, "..%csac", qcn_util::cPathSeparator());
+        sprintf((char*) qcn_main::g_strPathTrigger, "..%csac", qcn_util::cPathSeparator());
+        sprintf((char*) sm->strPathImage, "..%cimages", qcn_util::cPathSeparator());
 #else
-        sprintf((char*) sm->strPathTrigger,
+        sprintf((char*) qcn_main::g_strPathTrigger,
            "..%c..%csac", cTerm, cTerm
+        );
+        sprintf((char*) sm->strPathImage,
+           "..%c..%cimages", cTerm, cTerm
         );
 #endif
       }
       else {
             // check if has a \ or / directory terminator character
-        sprintf((char*) sm->strPathTrigger,
+        sprintf((char*) qcn_main::g_strPathTrigger,
            "%s%c%s",
-           sm->dataBOINC.project_dir,
+           dataBOINC.project_dir,
                    cOK,
            DIR_TRIGGER
         );
+        sprintf((char*) sm->strPathImage,
+           "%s%cimages",
+           dataBOINC.project_dir,
+                   cOK
+        );
       }
+
+      // other important stuff to transfer from dataBOINC to sm-> now that project_prefs & img & trigger paths set
+    strcpy(sm->user_name, dataBOINC.user_name);
+    strcpy(sm->team_name, dataBOINC.team_name);
+    strcpy(sm->project_dir, dataBOINC.project_dir);
+    strcpy(sm->boinc_dir, dataBOINC.boinc_dir);
+    strcpy(sm->wu_name, dataBOINC.wu_name);
+
+    sm->userid = dataBOINC.userid;
+    sm->hostid = dataBOINC.hostid;
+    sm->teamid = dataBOINC.teamid;
+
       sm->releaseTriggerLock();
-      fprintf(stdout, "Trigger SAC Files will be stored in \n%s\nand removed after a month.\n", sm->strPathTrigger);
+      fprintf(stdout, "Trigger SAC Files will be stored in \n%s\nand removed after a month.\n", qcn_main::g_strPathTrigger);
+      fprintf(stdout, "Image Files will be stored in %s\n", sm->strPathImage);
       fflush(stdout);
     }
     else if (eWhere == WHERE_MAIN_PROJPREFS) {  // just want to get new projprefs, if any
        sm->setTriggerLock();
-       retrieveBOINC_APP_INIT_DATA();
+       retrieveProjectPrefs(&dataBOINC);
        sm->releaseTriggerLock();
     }
 }
@@ -201,9 +224,9 @@ void ResetCounter(const e_where eWhere, const int iNumResetInitial)
     double dTimeStart = dtime();
     bool bFinishedDemoTrigger = false;
     bool bHaveDemoTrigger = false;
-    while (!sm->vectTrigger.empty() && !bFinishedDemoTrigger && (dtime() - dTimeStart) < 10.0f)  {
-       for (unsigned int i = 0; i < sm->vectTrigger.size(); i++) {
-         CTriggerInfo& ti = sm->vectTrigger.at(i);
+    while (!qcn_main::g_vectTrigger.empty() && !bFinishedDemoTrigger && (dtime() - dTimeStart) < 10.0f)  {
+       for (unsigned int i = 0; i < qcn_main::g_vectTrigger.size(); i++) {
+         STriggerInfo& ti = qcn_main::g_vectTrigger.at(i);
          if (ti.bDemo) { // we're just concerned with demo triggers
             bHaveDemoTrigger = true;
             break;
@@ -235,17 +258,17 @@ void ResetCounter(const e_where eWhere, const int iNumResetInitial)
 
        // bump up the DT value (.1 vs .02) -- note MAXI now holds 4.2 hours of time not just 1 hour!
        if ((sm->iNumReset - iNumResetInitial) > SLUGGISH_MACHINE_THRESHOLD) 
-         sm->dt = DT_SLOW;  // too many failures this session (10), try a lower dt
+         sm->dt = g_DT_SLOW;  // too many failures this session (10), try a lower dt
        else
-         sm->dt = DT;
+         sm->dt = g_DT;
     }
     sm->lOffset = 0;              //  LOOP BACK THRU DATA SERIES
-    sm->iWindow = (int) (cfTimeWindow / sm->dt);  // number of points in time window
+    sm->iWindow = (int) (g_cfTimeWindow / (sm->dt > 0 ? sm->dt : g_DT));  // number of points in time window
 
     // this resets the t0check & t0active, call right before you start accessing the sensor for mean_xyz
     sm->resetSampleClock();   
 
-    sm->vectTrigger.clear(); // erase all trigger elements if any
+    qcn_main::g_vectTrigger.clear(); // erase all trigger elements if any
 
     // shared memory setup, so get the init data into the shared mem struct
     // never call this from the thread
@@ -307,7 +330,7 @@ void removeOldTriggers(const char* strPathTrigger)
 
     dTimeCurrent = dtime();
     //getTimeOffset((const double*) sm->dTimeServerTime, (const double*) sm->dTimeServerOffset, dTimeCurrent, dTimeOffset, dTimeOffsetTime);
-    lTimeDelete = (long) (dTimeCurrent - TIME_FILE_DELETE + sm->dTimeOffset); // delete files with a timestamp older than two weeks
+    lTimeDelete = (long) (dTimeCurrent - TIME_FILE_DELETE + qcn_main::g_dTimeOffset); // delete files with a timestamp older than two weeks
 
     ZipFileList zfl;
 
@@ -349,7 +372,7 @@ bool set_trigger_file(char* strTrigger, const char* strWU, const int iTrigger, c
         char strDir[_MAX_PATH], strDay[16];
         dtime_to_string((double) lTime, 'd', strDay);
         sprintf(strDir, "%s%c%s", 
-           (const char*) sm->strPathTrigger, 
+           (const char*) qcn_main::g_strPathTrigger, 
            qcn_util::cPathSeparator(),
            strDay
         );

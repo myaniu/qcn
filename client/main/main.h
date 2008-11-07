@@ -40,6 +40,7 @@
 // setup the shared memory segment (a class that resides in shared mem) for the QCN (& graphics) app
 #include <list>
 using std::list;
+using std::vector;
 
 #include "csensor.h"
 
@@ -79,21 +80,41 @@ extern CQCNShMem* volatile sm;
 extern char **environ;   // environment for Mac & Linux to call execve (in execproc.cpp)
 #endif
 
+struct STriggerInfo
+{ // info needed to describe a trigger
+  public:
+    STriggerInfo() { clear(); };
+    void clear() { memset(this, 0x00, sizeof(STriggerInfo)); };
+
+    long lOffsetStart;  // the array offset the trigger occurred
+    long lOffsetEnd;    // the array offset the trigger occurred
+    int iWUEvent;      // the number of this trigger within the workunit (i.e. 1 through 9999)
+    int iLevel;        // what level of file I/O this trigger has had (see the enum in define.h, i.e. TRIGGER_IMMEDIATE, TRIGGER_ALL)
+    char strFile[_MAX_PATH]; // the filename associated with this trigger
+    char strChecksum[SIZEOF_CHECKSUM]; // the checksum for the strFile filename associated with this trigger
+    bool bSent;        // whether the trickle has been sent for this trigger
+    bool bDemo;        // flag if this is a real reportable event or just a per-minute trickle trigger in Demo mode
+    bool bInteractive; // this trigger happened in interactive mode, so don't really trickle
+    bool bRemove;      // flag that it's safe to remove this trigger, all processed
+};
+
 namespace qcn_main  {
 
+extern int qcn_main(int argc, char **argv);
 void signal_handler(int iSignal);
 extern void parseArgs(int argc, char*argv[]); // startup arguments such as --demo and --dump are found here
 extern void doMainQuit(const bool& bFinish = false, const int& errcode = 0);
 
 #ifndef QCN_USB
 bool CheckTriggers(bool bForce);
-bool CheckTriggerFile(CTriggerInfo* ti, bool bForce);      // write the trickle file for the latest trigger
-bool CheckTriggerTrickle(CTriggerInfo* ti);   // send a trickle when a trigger is hit
+bool CheckTriggerFile(struct STriggerInfo* ti, bool bForce);      // write the trickle file for the latest trigger
+bool CheckTriggerTrickle(struct STriggerInfo* ti);   // send a trickle when a trigger is hit
 #endif
 
 int do_checkpoint(MFILE& mf, int nchars);
 void update_sharedmem();
 
+// global data within the namespace
 // some globals to extern within the qcn_main namespace
 extern CSensor* volatile g_psms; // pointer to the CSensor - so we can closePort() on a signal error
 extern e_endian volatile g_endian;
@@ -110,12 +131,26 @@ extern CQCNThread* volatile g_threadMain;
 
 extern int  volatile g_iQCNReturn; // qcn return code
 
-extern int qcn_main(int argc, char **argv);
-
 #ifndef GRAPHICS_PROGRAM
-  extern const float cfTimeWindow;  // time window in seconds
-  extern const double DT;    // delta t sampling interval
+  extern const float g_cfTimeWindow;  // time window in seconds
+  extern const double g_DT;    // delta t sampling interval
 #endif
+
+  extern float g_fPerturb[MAX_PERTURB];  // define 10 vars we will perturb
+
+  extern bool g_bReadOnly;
+  extern bool g_bDemo;
+
+  extern char g_strPathTrigger[_MAX_PATH];  // this is the path to trigger, doesn't change after startup
+
+  extern BOINC_STATUS g_statusBOINC;
+
+  extern double g_dTimeOffset;  // the time offset between client & server, +/- in seconds difference from server
+  extern double g_dTimeSync;    // the (unadjusted client) time this element was retrieved
+  extern double g_dTimeSyncRetry; // retry time for the time sync thread
+
+  extern vector<struct STriggerInfo> g_vectTrigger;  // a list for all the trigger info, use bTriggerLock to control access for writing
+
 } // namespace qcn_main
 
 #endif //_MAIN_H_

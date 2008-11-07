@@ -3,7 +3,7 @@
 
 #ifndef QCN_MAC_USB
 
-#include "qcn_shmem.h"
+struct STriggerInfo;
 
 namespace sacio {
 
@@ -20,7 +20,7 @@ extern int sacio
 (
   const int n1, 
   const int n2, 
-  CTriggerInfo* ti
+  struct STriggerInfo* ti
 );
 
 // sac constants we're using, ref http://terra.rice.edu/comp.res/apps/S/sac/docs/FileFormatPt2.html

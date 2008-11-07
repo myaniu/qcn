@@ -78,7 +78,7 @@ void* QCNThreadTime(void*)
 #ifdef QCNLIVE
 		NULL,
 #else
-		(const char*) sm->dataBOINC.project_dir, 
+		(const char*) sm->project_dir, 
 #endif
 		strReply, iLenReply);
 
@@ -90,9 +90,9 @@ void* QCNThreadTime(void*)
     } 
     if (bRet) { // successful, set it for 15 minutes
        fprintf(stdout, "Synchronized server time at local time = %f   offset = %f   elapsed time = %f\n",
-           sm->dTimeSync, sm->dTimeOffset, sm->dTimeSync - dTimeStart);
+           qcn_main::g_dTimeSync, qcn_main::g_dTimeOffset, qcn_main::g_dTimeSync - dTimeStart);
        fflush(stdout);
-       sm->dTimeSyncRetry = dTimeNow + 900.0f;  // 15 minutes until the next sync
+       qcn_main::g_dTimeSyncRetry = dTimeNow + 900.0f;  // 15 minutes until the next sync
     }
     else { // try again in two minutes
        if (qcn_main::g_iStop) {
@@ -105,9 +105,9 @@ void* QCNThreadTime(void*)
        }
        fflush(stdout);
        fflush(stderr);
-       sm->dTimeSyncRetry = dTimeNow + 180.0f;  // set next sync try in 3 minutes if still running!
-       sm->dTimeSync = 0.0f;
-       sm->dTimeOffset = 0.0f;
+       qcn_main::g_dTimeSyncRetry = dTimeNow + 180.0f;  // set next sync try in 3 minutes if still running!
+       qcn_main::g_dTimeSync = 0.0f;
+       qcn_main::g_dTimeOffset = 0.0f;
     } 
     sm->releaseTriggerLock();
 
@@ -116,7 +116,7 @@ void* QCNThreadTime(void*)
     const char* ntpdateargs[NTPDATE_ARGC] = NTPDATE_ARGS; 
     double volatile myTimeOffset = 0.0f;
     if (!sm || qcn_main::g_iStop || qcn_main::g_threadTime->IsSuspended()) {
-        sm->dTimeSyncRetry = dtime() + 120.0f;  // set next sync try in 2 minute if still running!
+        qcn_main::g_dTimeSyncRetry = dtime() + 120.0f;  // set next sync try in 2 minute if still running!
         goto done; // try a graceful exit if shutting down
     }
 
@@ -131,27 +131,27 @@ void* QCNThreadTime(void*)
         if (iRetVal == -1) {
             fprintf(stderr, "Stop signal received in ntpdate at %f - leaving thread\n", dtime());
         }
-        sm->dTimeSyncRetry = dtime() + 120.0f;  // set next sync try in 2 minute if still running!
+        qcn_main::g_dTimeSyncRetry = dtime() + 120.0f;  // set next sync try in 2 minute if still running!
         goto done; // try a graceful exit if shutting down
     }
 
     sm->setTriggerLock();
     if (!iRetVal) { // good return value
-       sm->dTimeSync = dtime();
-       sm->dTimeOffset = myTimeOffset;
-       //sm->dTimeSyncRetry = sm->dTimeSync + 900.0f;  // next sync in 15 minutes 
-       sm->dTimeSyncRetry = sm->dTimeSync + 1.0f;  // next sync in 15 minutes 
+       qcn_main::g_dTimeSync = dtime();
+       qcn_main::g_dTimeOffset = myTimeOffset;
+       //qcn_main::g_dTimeSyncRetry = qcn_main::g_dTimeSync + 900.0f;  // next sync in 15 minutes 
+       qcn_main::g_dTimeSyncRetry = qcn_main::g_dTimeSync + 1.0f;  // next sync in 15 minutes 
         fprintf(stdout, "Synchronized server time at local time = %f   offset = %f   elapsed time = %f\n",
-           sm->dTimeSync, sm->dTimeOffset, sm->dTimeSync - dTimeNow);
+           qcn_main::g_dTimeSync, qcn_main::g_dTimeOffset, qcn_main::g_dTimeSync - dTimeNow);
            //addTimeSync(dTimeLocal, myTimeOffset);
     } 
     else { // at the very least we know to set btimeOffset to false
        // hmm, should we reset if failed, but we have a good time 10 minutes ago?
-       sm->dTimeSync = 0.0f;
-       sm->dTimeOffset = 0.0f;
-       sm->dTimeSyncRetry = dtime() + 180.0f;  // next sync try in 3 minutes 
+       qcn_main::g_dTimeSync = 0.0f;
+       qcn_main::g_dTimeOffset = 0.0f;
+       qcn_main::g_dTimeSyncRetry = dtime() + 180.0f;  // next sync try in 3 minutes 
        fprintf(stderr, "Server time synchronization failed - elapsed time = %f - retry at %.2f\n", 
-           dtime() - dTimeNow, sm->dTimeSyncRetry);
+           dtime() - dTimeNow, qcn_main::g_dTimeSyncRetry);
        fflush(stderr);
     }
     sm->releaseTriggerLock();
@@ -202,10 +202,10 @@ bool parseReplyToTimeOffset(const char* strReply, const double dTimeLocal)
     dTimeOffset = atof(strOffset);
     delete [] strOffset;
 
-    // OK, if we made it here then we can set the sm->dTimeOffset & sm->dTimeSync
+    // OK, if we made it here then we can set the qcn_main::g_dTimeOffset & qcn_main::g_dTimeSync
     //addTimeSync(dTimeLocal, dTimeOffset);
-    sm->dTimeOffset = dTimeOffset;
-    sm->dTimeSync = dTimeLocal;
+    qcn_main::g_dTimeOffset = dTimeOffset;
+    qcn_main::g_dTimeSync = dTimeLocal;
 
     return true;
 }

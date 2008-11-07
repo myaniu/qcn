@@ -13,13 +13,7 @@
  *      the system has been checked for endian-ness in main.cpp, the global g_endian is ENDIAN_LITTLE or ENDIAN_BIG
  ***/
 
-#include <stdio.h>
 #include "main.h"
-#include "sac.h"
-#include "md5.h"
-#include "str_util.h"   // boinc string utils
-#include "util.h"       // boinc utils e.g. dtime() dday()
-#include "mfile.h"
 
 // two ways to use zip, boinc_zip lib or the ziparchive lib (CZipArchive class)
 #ifdef ZIPARCHIVE
@@ -161,7 +155,7 @@ extern int sacio
 (
   const int n1, 
   const int n2, 
-  CTriggerInfo* ti 
+  struct STriggerInfo* ti 
 )
 {
     boinc_begin_critical_section();
@@ -216,14 +210,14 @@ extern int sacio
 
        // note the adjustment for server offset time 
        if (j == 0) {
-          dTimeZero = sm->t0[lOff] + sm->dTimeOffset;
+          dTimeZero = sm->t0[lOff] + qcn_main::g_dTimeOffset;
           //t[0] = (float) dTimeZero;
           t[0] = 0.0f;
        }
        else {
           // this will make the point corrected for the difference between client and server time, also filenames will be correct
           //t[j] = (float) (sm->t0[lOff] + dTimeOffset); //  - dTimeZero); 
-          t[j] = (float) (sm->t0[lOff] + sm->dTimeOffset - dTimeZero); 
+          t[j] = (float) (sm->t0[lOff] + qcn_main::g_dTimeOffset - dTimeZero); 
        }
        fTemp = t[j];
        float_swap((QCN_CBYTE*) &fTemp, t[j]);
@@ -307,7 +301,7 @@ extern int sacio
        strcpy(sacdata.s[ess_kinst], qcn_main::g_psms->getTypeStrShort());
     }
 
-    strcpy(sacdata.s[ess_kuser0],  sm->dTimeSync > 0.0f ? "TSYNC" : "NOTSYNC");   // flag that time was synchronized to server or not
+    strcpy(sacdata.s[ess_kuser0],  qcn_main::g_dTimeSync > 0.0f ? "TSYNC" : "NOTSYNC");   // flag that time was synchronized to server or not
     sprintf(sacdata.s[ess_kevnm], "%07d", ti->iWUEvent);   // number of event
 
     // if they entered a station ID then use it
@@ -320,7 +314,7 @@ extern int sacio
     }
 #else
     // use their hostid so we can lookup into the database table if needed
-    sprintf(sacdata.s[ess_kstnm], "%07d", sm->dataBOINC.hostid);
+    sprintf(sacdata.s[ess_kstnm], "%07d", sm->hostid);
 #endif
 
     // use dTimeZero for the reference time
@@ -358,7 +352,7 @@ extern int sacio
     // now print filenames which is workunit name, time, & number of trigger, then send to wsac0
     ifname = (int) strlen((const char*) ti->strFile) - 4; // this is where the zip will be
     memset(fname, 0x00, _MAX_PATH);
-    sprintf(fname, "%s%c", (const char*) sm->strPathTrigger, qcn_util::cPathSeparator());
+    sprintf(fname, "%s%c", (const char*) qcn_main::g_strPathTrigger, qcn_util::cPathSeparator());
     strncat(fname, (const char*) ti->strFile, ifname);
     strlcat(fname, ".?.sac", _MAX_PATH);
 
@@ -454,7 +448,7 @@ extern int sacio
 
     if (zfl.size()>0) {
        // now make sure the zip file is stored in sm->strPathTrigger + ti->strFile
-       string strZip((const char*) sm->strPathTrigger);  // note it DOES NOT HAVE appropriate \ or / at the end
+       string strZip((const char*) qcn_main::g_strPathTrigger);  // note it DOES NOT HAVE appropriate \ or / at the end
        strZip += qcn_util::cPathSeparator();
        strZip += (const char*) ti->strFile;
        boinc_delete_file(strZip.c_str());  // we may be overwriting, delete first

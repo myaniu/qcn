@@ -8,19 +8,6 @@
 #include "qcn_util.h"
 #include "util.h" // boinc, for dtime()
 
-void CTriggerInfo::clear()
-{
-   memset(this, 0x00, sizeof(CTriggerInfo));
-   bSent = false;
-   bDemo = false;
-   bRemove = false;
-}
-
-CTriggerInfo::CTriggerInfo()
-{
-   clear();
-}
-
 CQCNShMem::CQCNShMem()
 {
     clear(true);
@@ -87,18 +74,11 @@ void CQCNShMem::clear(bool bAll)
 {
     // don't zap dataBOINC, so copy over first
     if (bAll) { // clear it all, no need to save, this would be the first thing called, basically constructor
-        // take care of some special objects i.e. databoinc & vectTrigger
-        vectTrigger.clear();
         memset(this, 0x00, sizeof(CQCNShMem));
 
         // start with some values that really shouldn't be 0 ever
-        dt = DT;
-        fSignificanceFilterCutoff = DEFAULT_SIGCUTOFF;
-        fShortTermAvgMag = DEFAULT_SHORT_TERM_AVG_MAG;
-        iWindow = (int) (cfTimeWindow / DT);  // number of points in time window
-#ifdef QCNLIVE
-        bDemo = true; // set demo mode
-#endif
+        dt = g_DT;
+        iWindow = (int) (g_cfTimeWindow / g_DT);  // number of points in time window
         return;
     }
 
@@ -108,32 +88,43 @@ void CQCNShMem::clear(bool bAll)
     // copy over important, persistent fields we want to preserve
     bTriggerLock = true;
     pshmem->bTriggerLock = true;  // rudimentary locking
+
     pshmem->dt = dt; // this is the delta-time between point readings, currently .02 for the Mac sensor
-    pshmem->fSignificanceFilterCutoff = fSignificanceFilterCutoff;
-    pshmem->fShortTermAvgMag = fShortTermAvgMag;
     pshmem->iWindow = iWindow;
-    pshmem->bReadOnly = bReadOnly;
-    pshmem->bDemo = bDemo;
+    strcpy(pshmem->strPathImage, strPathImage);  // path to the images
+
     pshmem->iNumTrigger = iNumTrigger;        // the total number of triggers for this workunit
-    pshmem->iNumUpload = iNumUpload;         // the total number of uploads for this workunit
-    pshmem->iNumReset = iNumReset;          // the number of timing resets this session has had (diags which can be trickled up)
+    pshmem->iNumUpload  = iNumUpload;         // the total number of uploads for this workunit
+    pshmem->iNumReset   = iNumReset;          // the number of timing resets this session has had (diags which can be trickled up)
     pshmem->dMyLatitude = dMyLatitude; 
     pshmem->dMyLongitude = dMyLongitude; 
     pshmem->dMyElevationMeter = dMyElevationMeter; 
     pshmem->iMyElevationFloor = iMyElevationFloor; 
     strcpy(pshmem->strMyStation, strMyStation);
-    strcpy(pshmem->strPathTrigger, strPathTrigger);  // this is the path to trigger, doesn't change after startup
-    memcpy(&pshmem->dataBOINC, &dataBOINC, sizeof(APP_INIT_DATA));  // useful BOINC user prefs, i.e. for graphics
-    strcpy(pshmem->strProjectPreferences, strProjectPreferences); // need to copy this separately as dataBOINC.project_preferences is dynamic string
+
     // BOINC status values -- called regularly in main::update_sharedmem() to update
     pshmem->fraction_done = fraction_done;
     pshmem->update_time = update_time;
     pshmem->cpu_time = cpu_time;
     pshmem->clock_time = clock_time;
-    memcpy(&pshmem->statusBOINC, &statusBOINC, sizeof(BOINC_STATUS));
-    pshmem->dTimeOffset = dTimeOffset;  // the time offset between client & server, +/- in seconds difference from server
-    pshmem->dTimeSync = dTimeSync;    // the (unadjusted client) time this element was retrieved
-    pshmem->dTimeSyncRetry = dTimeSyncRetry; // retry time for the time sync thread
+
+    // BOINC APP_INIT_DATA stuff kept in shared memory for easy graphics access etc
+    strcpy(pshmem->user_name, user_name);
+    strcpy(pshmem->team_name, team_name);
+    strcpy(pshmem->project_dir, project_dir);
+    strcpy(pshmem->boinc_dir, boinc_dir);
+    strcpy(pshmem->wu_name, wu_name);
+
+    pshmem->userid = userid;
+    pshmem->teamid = teamid;
+    pshmem->hostid = hostid;
+
+    strcpy(pshmem->strProjectPreferences, strProjectPreferences);  // need to copy this separately as dataBOINC.project_preferences is dynamic string
+    pshmem->slot = slot;
+    pshmem->user_total_credit = user_total_credit;
+    pshmem->user_expavg_credit = user_expavg_credit;
+    pshmem->host_total_credit = host_total_credit;
+    pshmem->host_expavg_credit = host_expavg_credit;
 
     // this "atomic" copy back should be safe
     memcpy(this, pshmem, sizeof(CQCNShMem));

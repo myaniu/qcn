@@ -77,6 +77,23 @@ namespace qcn_main  {
   CQCNThread* volatile g_threadTime = NULL;
   CQCNThread* volatile g_threadMain = NULL;
 
+  float g_fPerturb[MAX_PERTURB];  // our potential perturbation points (just 2 used now - sig cutoff, and avg short-term )
+
+  bool g_bReadOnly = false;
+
+  bool g_bDemo = false;
+
+  char g_strPathTrigger[_MAX_PATH];  // this is the path to trigger, doesn't change after startup
+
+  BOINC_STATUS g_statusBOINC;
+
+  double g_dTimeOffset;  // the time offset between client & server, +/- in seconds difference from server
+  double g_dTimeSync;    // the (unadjusted client) time this element was retrieved
+  double g_dTimeSyncRetry; // retry time for the time sync thread
+
+  vector<struct STriggerInfo> g_vectTrigger;  // a list for all the trigger info, use bTriggerLock to control access for writing
+
+
 // function to send the final trigger as the workunit is done either normal or via a crash or abort
 void sendFinalTrickle()
 {
@@ -96,7 +113,7 @@ void sendFinalTrickle()
           XML_CPU_TIME, sm->cpu_time, XML_CPU_TIME
         );
         // upload the qcn_prefs.xml file
-        trickleup::qcnTrickleUp(strFinal, "finalstats", (const char*) sm->dataBOINC.wu_name);  // trickle the final stats, basically like uploading qcnprefs.xml file
+        trickleup::qcnTrickleUp(strFinal, "finalstats", (const char*) sm->wu_name);  // trickle the final stats, basically like uploading qcnprefs.xml file
       }
 }
 
@@ -175,7 +192,7 @@ void update_sharedmem()
 {
     static double dLastTime = 0.0f;
     if (g_iStop || !sm) return;
-    boinc_get_status((BOINC_STATUS*) &sm->statusBOINC);
+    boinc_get_status((BOINC_STATUS*) &g_statusBOINC);
     if (!g_bSuspended) { // use the global suspended flag, since it will go through once anyway to set the suspend status
         sm->fraction_done = boinc_get_fraction_done();
         if (sm->bSensorFound) { 
@@ -253,19 +270,32 @@ int qcn_main(int argc, char **argv)
 */
 
     // make our trigger zip data dir if it doesn't exist
-    if (! boinc_file_exists((const char*) sm->strPathTrigger) ) {
+    if (g_strPathTrigger && ! boinc_file_exists((const char*) g_strPathTrigger) ) {
        // now open dir to see if exists
-       if (boinc_mkdir((const char*) sm->strPathTrigger)) {
+       if (boinc_mkdir((const char*) g_strPathTrigger)) {
           // OK, now it's a fatal error
-          fprintf(stderr, "QCN exiting, can't make directory %s\n", sm->strPathTrigger);
-          fprintf(stdout, "QCN exiting, can't make directory %s\n", sm->strPathTrigger);
+          fprintf(stderr, "QCN exiting, can't make directory %s\n", g_strPathTrigger);
+          fprintf(stdout, "QCN exiting, can't make directory %s\n", g_strPathTrigger);
           fflush(stdout);
           return ERR_DIR_TRIGGER;
        }
     }
+   
+    // make our images directory -- this is stored in sm->strPathImage
+    if (sm->strPathImage && ! boinc_file_exists((const char*) sm->strPathImage) ) {
+       // now open dir to see if exists
+       if (boinc_mkdir((const char*) sm->strPathImage)) {
+          // OK, now it's a fatal error
+          fprintf(stderr, "QCN exiting, can't make directory %s\n", sm->strPathImage);
+          fprintf(stdout, "QCN exiting, can't make directory %s\n", sm->strPathImage);
+          fflush(stdout);
+          return ERR_DIR_TRIGGER;
+       }
+    }
+
  
     // OK, if not in demo mode, now get rid of old trigger files i.e. more than two weeks old
-    if (!sm->bDemo) qcn_util::removeOldTriggers((const char*) sm->strPathTrigger);
+    if (!g_bDemo) qcn_util::removeOldTriggers((const char*) g_strPathTrigger);
 
     int iTrickleDown = -1; // use this to check for trickle downs every 2000 seconds
     int iQuakeList   = 0;  // use this to get a new quake list every hour or so, note it won't get it upon startup
@@ -297,13 +327,13 @@ int qcn_main(int argc, char **argv)
            goto done; 
         }
 #ifdef __USE_BOINC_OPTIONS
-        if (sm->statusBOINC.quit_request) {
+        if (g_statusBOINC.quit_request) {
            fprintf(stderr, "Quit request from BOINC!\n");
            doMainQuit();
            goto done; 
         }
         else  {
-          if (sm->statusBOINC.suspended) {
+          if (g_statusBOINC.suspended) {
              // check current local suspend flag
              if (!g_bSuspended) { // mark that we're suspended if not already set
                 fprintf(stderr, "Suspend request from BOINC!\n");
@@ -324,13 +354,13 @@ int qcn_main(int argc, char **argv)
                 if ((dtime() - sm->update_time) > TIME_ERROR_SECONDS) sm->iNumReset--;
              }
              else {
-                if (sm->statusBOINC.no_heartbeat) { // quit non-fatally
+                if (g_statusBOINC.no_heartbeat) { // quit non-fatally
                    fprintf(stderr, "No heartbeat from BOINC!\n");
                    doMainQuit();
                    goto done; 
                 }
                 else {
-                   if (sm->statusBOINC.abort_request) { // quit fatally
+                   if (g_statusBOINC.abort_request) { // quit fatally
                      sm->eStatus = ERR_ABORT; // set abort flag for the hell of it
                      fprintf(stderr, "Abort request from BOINC!\n");
                      doMainQuit(true, ERR_ABORT);
@@ -348,7 +378,7 @@ int qcn_main(int argc, char **argv)
         } 
 #endif  // __USE_BOINC_OPTIONS
 
-        if (!g_iStop && !sm->bReadOnly && !g_threadSensor->IsRunning()) {
+        if (!g_iStop && !g_bReadOnly && !g_threadSensor->IsRunning()) {
            // we're not in readonly mode, and sensor thread hasn't started -- note we run the sensor in bDemo mode!
            // do the thread
            if (!g_threadSensor->Start()) { // Start() shows that the thread was made OK
@@ -370,9 +400,9 @@ int qcn_main(int argc, char **argv)
         // maybe pass in the server as a command-line argument in case we switch or mirror?
         // note -- try to do time check in demo mode, but not readonly mode
         // added a sensor thread, found, and object check, i.e. no need to check time if no sensor, right?
-        if (!g_iStop && sm && !sm->bReadOnly && !g_threadTime->IsRunning()
+        if (!g_iStop && sm && !g_bReadOnly && !g_threadTime->IsRunning()
           && g_threadSensor->IsRunning() && sm->bSensorFound && g_psms
-          && sm->dTimeSyncRetry < sm->update_time) {  
+          && g_dTimeSyncRetry < sm->update_time) {  
            // we're not in readonly/demo mode, and just starting or it's time to check
 
            // do the thread
@@ -395,7 +425,7 @@ int qcn_main(int argc, char **argv)
         // check boinc checkpoint time, this is fast so we can call every .2 seconds
         if (boinc_time_to_checkpoint()) boinc_checkpoint_completed();
 
-        if (!g_iStop && !sm->bDemo && !sm->bReadOnly)  { // only active BOINC workunits need to do the following (i.e. not demo/readonly)
+        if (!g_iStop && !g_bDemo && !g_bReadOnly)  { // only active BOINC workunits need to do the following (i.e. not demo/readonly)
 
           // Trickle Down Check -- i.e. for file requests or to abort workunit
           // check for trickledown every 200 seconds, i.e. when mod 1000
@@ -417,12 +447,12 @@ int qcn_main(int argc, char **argv)
           // unnecessary for demo mode -- but should we wget or curl the latest quake list, perhaps just in the ./runme script?
           if (!g_iStop && !(++iQuakeList % QUAKELIST_CHECK))  {
              iQuakeList = 0;  // reset counter to 0 if not already zero
-             trickleup::qcnTrickleUp("<quake>send</quake>\n", "quakelist", (const char*) sm->dataBOINC.wu_name);  // request a new quake list
+             trickleup::qcnTrickleUp("<quake>send</quake>\n", "quakelist", (const char*) sm->wu_name);  // request a new quake list
           }
 
           // Parse Prefs of New Quake List
-          if (!g_iStop && sm->statusBOINC.reread_init_data_file)  { // should have gotten a quakelist by now
-             sm->statusBOINC.reread_init_data_file = 0;
+          if (!g_iStop && g_statusBOINC.reread_init_data_file)  { // should have gotten a quakelist by now
+             g_statusBOINC.reread_init_data_file = 0;
              fprintf(stderr, "qcn_main::BOINC requested reread of init data file at %f\n", dtime());
              qcn_util::getBOINCInitData(WHERE_MAIN_PROJPREFS);  // reread project_prefs since may have changed, send in 1 to fake it's in a thread so doesn't reset anything else
           }
@@ -430,7 +460,7 @@ int qcn_main(int argc, char **argv)
         }
 
         // if done 1 wall-clock day, or we got an abort request (i.e. trickle-down msgs), then quit workunit
-        if (!sm->bDemo && !sm->bReadOnly 
+        if (!g_bDemo && !g_bReadOnly 
           && (sm->clock_time >= 86400.0f || sm->eStatus == ERR_ABORT)) {
             // seems to be a race condition upon a quit, so just exit
             //CheckTriggers(true); // check triggers and force to write if necessary
@@ -464,7 +494,7 @@ done:
     return g_iQCNReturn;
 }
 
-bool CheckTriggerFile(CTriggerInfo* ti, bool bForce)
+bool CheckTriggerFile(struct STriggerInfo* ti, bool bForce)
 {  
     if (!ti->lOffsetEnd) return true;   // we're not in a trigger, just return true so this element gets deleted
 
@@ -533,7 +563,7 @@ bool CheckTriggerFile(CTriggerInfo* ti, bool bForce)
     return (bool) (ti->iLevel > TRIGGER_ALL);  // return true means it will delete this iterator
 }
 
-bool CheckTriggerTrickle(CTriggerInfo* ti)
+bool CheckTriggerTrickle(struct STriggerInfo* ti)
 {
     if (!ti->lOffsetEnd || ti->bSent || ti->bDemo || ti->bInteractive) {
        return true;  // if no offset and/or already sent or a demo mode trickle (i.e. per-minute trigger) or interactive mode, can just return
@@ -548,11 +578,7 @@ bool CheckTriggerTrickle(CTriggerInfo* ti)
     char *strTrigger = new char[512];
     memset(strTrigger, 0x00, sizeof(char) * 512);
 
-    //double dTimeOffset, dTimeOffsetTime, dTriggerTime;
-    //qcn_util::getTimeOffset((const double*) sm->dTimeServerTime, (const double*) sm->dTimeServerOffset, (const double) sm->t0[ti->lOffsetEnd], dTimeOffset, dTimeOffsetTime);
-
-    double dTriggerTime = sm->t0[ti->lOffsetEnd] + sm->dTimeOffset; // this is the adjusted time of the trigger, i.e. should match server time
-
+    double dTriggerTime = sm->t0[ti->lOffsetEnd] + g_dTimeOffset; // this is the adjusted time of the trigger, i.e. should match server time
 
     // Trigger field tags:
     //    result_name = unique boinc work name [BOINC Scheduler adds]
@@ -592,13 +618,13 @@ bool CheckTriggerTrickle(CTriggerInfo* ti)
        ti->strFile,
        sm->iNumReset,
        sm->dt,
-       sm->dTimeSync>0.0f ? sm->dTimeSync + sm->dTimeOffset : 0.0f,  // note we're sending the local client offset sync time adjusted to server time!
-       sm->dTimeOffset, 
+       g_dTimeSync>0.0f ? g_dTimeSync + g_dTimeOffset : 0.0f,  // note we're sending the local client offset sync time adjusted to server time!
+       g_dTimeOffset, 
           XML_CLOCK_TIME, sm->clock_time, XML_CLOCK_TIME,
           XML_CPU_TIME, sm->cpu_time, XML_CPU_TIME
     );
 
-    trickleup::qcnTrickleUp(strTrigger, "trigger", (const char*) sm->dataBOINC.wu_name);  // send a trigger for this trickle
+    trickleup::qcnTrickleUp(strTrigger, "trigger", (const char*) sm->wu_name);  // send a trigger for this trickle
 
     // filename already set in ti->strFile
     fprintf(stdout, "Trigger detected at offset %ld  time %f  write at %ld - zip file %s\n", 
@@ -614,15 +640,15 @@ bool CheckTriggers(bool bForce)
 {
 #ifdef _DEBUG
 			static int iCount = -1;
-			if (iCount != (int) sm->vectTrigger.size()) {
-				iCount = (int) sm->vectTrigger.size();
-			    fprintf(stdout, "DEBUG:  %d Outstanding Triggers\n", (int) sm->vectTrigger.size());
+			if (iCount != (int) g_vectTrigger.size()) {
+				iCount = (int) g_vectTrigger.size();
+			    fprintf(stdout, "DEBUG:  %d Outstanding Triggers\n", (int) g_vectTrigger.size());
 			}
 #endif
         int iRemove = 0;
-        if (!sm->vectTrigger.empty()) { // there are triggers to monitor, go through the vector
-		   for (unsigned int i = 0; i < sm->vectTrigger.size(); i++) {
-		     CTriggerInfo& ti = sm->vectTrigger.at(i);
+        if (!g_vectTrigger.empty()) { // there are triggers to monitor, go through the vector
+		   for (unsigned int i = 0; i < g_vectTrigger.size(); i++) {
+		     STriggerInfo& ti = g_vectTrigger.at(i);
              if (ti.lOffsetEnd) { // there's a non-zero lOffset, so better check for trickle or file I/O
                 if (!bForce) CheckTriggerTrickle(&ti); // note too late for a trigger if bForce is on, but maybe not for file I/O below
                 if (CheckTriggerFile(&ti, bForce)) {  // check that it's time for trigger file I/O after this trickledd
@@ -640,14 +666,14 @@ bool CheckTriggers(bool bForce)
            }
 
 		   if (iRemove) { // we need to delete some old triggers
-			   vector<CTriggerInfo>::iterator itTrigger = sm->vectTrigger.begin();
-			   while (itTrigger != sm->vectTrigger.end()) {
+			   vector<STriggerInfo>::iterator itTrigger = g_vectTrigger.begin();
+			   while (itTrigger != g_vectTrigger.end()) {
 				   if (itTrigger->bRemove) {
 						sm->setTriggerLock();
-						itTrigger = sm->vectTrigger.erase(itTrigger); 
+						itTrigger = g_vectTrigger.erase(itTrigger); 
 						sm->releaseTriggerLock();
 #ifdef _DEBUG
-			fprintf(stdout, "DEBUG:  Removed Old Trigger, %d remain\n", (int) sm->vectTrigger.size());
+			fprintf(stdout, "DEBUG:  Removed Old Trigger, %d remain\n", (int) g_vectTrigger.size());
 #endif
 				   }
 				   else {
@@ -662,9 +688,14 @@ bool CheckTriggers(bool bForce)
 
 void parseArgs(int argc, char* argv[])
 {
-    sm->bDemo = false;
-    sm->bReadOnly = false;
-    sm->fSignificanceFilterCutoff = DEFAULT_SIGCUTOFF;
+    g_bDemo = false;
+    g_bReadOnly = false;
+
+    g_fPerturb[PERTURB_SIG_CUTOFF] = DEFAULT_SIG_CUTOFF;
+    g_fPerturb[PERTURB_SHORT_TERM_AVG_MAG] = DEFAULT_SHORT_TERM_AVG_MAG;
+  
+    // CMC here 
+    // workunit name _fs??_ the ?? is sig cutoff, _stam??_ is short-term-avg mag 
 
     // parse command-line arguments, right now just an optional memory dump that can be loaded
     for (int i=0; i<argc; i++) { /*
@@ -682,21 +713,25 @@ void parseArgs(int argc, char* argv[])
         if (sm && !strcmp(argv[i], "--sigcutoff")) { // override the default sigcutoff
           // if this is present, the next arg is the sig cutoff filter value
           if ((i+1)<argc && argv[i+1]) {
-             sm->fSignificanceFilterCutoff = (float) atof(argv[i+1]);
+             g_fPerturb[PERTURB_SIG_CUTOFF] = (float) atof(argv[i+1]);
           }
         }
 
 
         if (sm && !strcmp(argv[i], "--demo"))
         {   // run in demo mode
-            sm->bDemo = true; // flag it's in demo mode
+            g_bDemo = true; // flag it's in demo mode
             fprintf(stdout, "QCN running in interactive mode - time sync to server, but no trigger trickles to server.\n");
                       fprintf(stdout, "All SAC file output in sac/ subdirectory\n");
             fflush(stdout);
         }
     }
-    fprintf(stdout, "Significance Filter Cutoff = %f\n", sm->fSignificanceFilterCutoff);
+    fprintf(stdout, "Significance Filter Cutoff    = %f\n", g_fPerturb[PERTURB_SIG_CUTOFF]);
+    fprintf(stdout, "Short Term Average Magnitude  = %f\n", g_fPerturb[PERTURB_SHORT_TERM_AVG_MAG]);
     fflush(stdout);
+    fprintf(stderr, "Significance Filter Cutoff    = %f\n", g_fPerturb[PERTURB_SIG_CUTOFF]);
+    fprintf(stderr, "Short Term Average Magnitude  = %f\n", g_fPerturb[PERTURB_SHORT_TERM_AVG_MAG]);
+    fflush(stderr);
 }
 
 } // namespace qcn_main

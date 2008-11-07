@@ -135,7 +135,7 @@ void processTrickleDown(void)
           strip_whitespace(strTemp);
           // note strPathTrigger DOES NOT HAVE / or \ on the end
           sprintf(strFullPath, "%s%c%s",
-            sm->strPathTrigger,
+            qcn_main::g_strPathTrigger,
             qcn_util::cPathSeparator(),
             strTemp
           );
