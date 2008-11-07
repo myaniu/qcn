@@ -153,6 +153,7 @@ void getBOINCInitData(const e_where eWhere)
         cTerm = strchr((const char*) dataBOINC.project_dir, '\\') ? '\\' : '/';
         cOK = cTerm; // for the first char below
       }
+#ifndef QCNDEMO
       if (qcn_main::g_bDemo) {
 #ifdef QCNLIVE
         sprintf((char*) qcn_main::g_strPathTrigger, "..%csac", qcn_util::cPathSeparator());
@@ -196,6 +197,7 @@ void getBOINCInitData(const e_where eWhere)
       fprintf(stdout, "Trigger SAC Files will be stored in \n%s\nand removed after a month.\n", qcn_main::g_strPathTrigger);
       fprintf(stdout, "Image Files will be stored in %s\n", sm->strPathImage);
       fflush(stdout);
+#endif // ndef QCNDEMO
     }
     else if (eWhere == WHERE_MAIN_PROJPREFS) {  // just want to get new projprefs, if any
        sm->setTriggerLock();
