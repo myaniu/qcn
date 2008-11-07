@@ -245,6 +245,7 @@ bool MyApp::OnInit()
 
     // clear memory and setup important vars below
     qcn_util::ResetCounter(WHERE_MAIN_STARTUP);  // this is the one and only place ResetCounter is called outside of the sensor thread, so it's safe
+    qcn_main::parseArgs(0, NULL); // parse args has to be done early in startup, right after the first ResetCounter usually
 
     get_qcnlive_prefs();
 

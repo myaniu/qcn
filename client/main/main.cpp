@@ -246,9 +246,7 @@ int qcn_main(int argc, char **argv)
 #endif
 
     if (g_iQCNReturn) return ERR_INIT; // return init error
-#ifdef QCNLIVE
-    parseArgs(0, NULL);
-#else
+#ifndef QCNLIVE
     // create shared mem segment for data & graphics -- if running the GUI this is done in the main GUI app (i.e. gui/qcnmac.cpp)
     sm = (CQCNShMem*) boinc_graphics_make_shmem((char*) QCN_SHMEM, sizeof(CQCNShMem));
     if (sm) {
@@ -260,7 +258,7 @@ int qcn_main(int argc, char **argv)
         fprintf(stdout, "failed to create shared mem segment\n");
         return ERR_SHMEM;
     }
-#endif
+#endif  // QCNLIVE sets up it's own memory and does it's own parseArgs & ResetCounter
 
 /* move update_sharedmem to our main while loop which is 5Hz
     if (sm && !sm->bReadOnly) {
