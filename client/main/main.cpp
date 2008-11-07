@@ -307,13 +307,14 @@ int qcn_main(int argc, char **argv)
       }
 
       char* tmpbuf = NULL;
+      double dTemp = 0.0f;
       // OK, we resolved the file, so let's open & parse it
       if (!read_file_malloc(strResolve, tmpbuf) && tmpbuf) {
-         if (!parse_double(tmpbuf, XML_SIG_CUTOFF, g_fPerturb[PERTURB_SIG_CUTOFF])) 
-             g_fPerturb[PERTURB_SIG_CUTOFF] = DEFAULT_SIG_CUTOFF;
+         if (!parse_double(tmpbuf, XML_SIG_CUTOFF, dTemp)) return ERR_INPUT_PARSE;  // make it a fatal error if can't parse input file
+         g_fPerturb[PERTURB_SIG_CUTOFF] = (float) dTemp;
 
-         if (!parse_double(tmpbuf, XML_SHORT_TERM_AVG_MAG, g_fPerturb[XML_SHORT_TERM_AVG_MAG])) 
-             g_fPerturb[PERTURB_SHORT_TERM_AVG_MAG] = DEFAULT_SHORT_TERM_AVG_MAG;
+         if (!parse_double(tmpbuf, XML_SHORT_TERM_AVG_MAG, dTemp)) return ERR_INPUT_PARSE
+         g_fPerturb[PERTURB_SHORT_TERM_AVG_MAG] = (float) dTemp;
             
          if (tmpbuf) free(tmpbuf);
       }
