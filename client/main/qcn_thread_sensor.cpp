@@ -566,7 +566,7 @@ extern void* QCNThreadSensor(void*)
                             sqrt(sm->vari[sm->lOffset-1] + 1.0e-3f);
 // .001 to prevent divide-by-zero but so we capture any fmag & vari
       if (sm->fShortTermAvgMag > 0) {
-         for (int i_off = 1; i_off < sm->fShortTermAvgMag, i_off++){
+         for (int i_off = 1; i_off < sm->fShortTermAvgMag; i_off++) {
             sm->fsig[sm->lOffset]=sm->fsig[sm->lOffset] +
                              sm->fmag[sm->lOffset-i_off] /
                              sqrt(sm->vari[sm->lOffset-1] + 1.0e-3f);
