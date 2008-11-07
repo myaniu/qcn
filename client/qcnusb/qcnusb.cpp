@@ -277,7 +277,7 @@ int main(int argc, char** argv)
     }
 
     // setup some basic vars
-    sm->dt = DT;
+    sm->dt = g_DT;
     sm->bSensorFound = false;
     sm->eSensor = SENSOR_NOTFOUND;
 
