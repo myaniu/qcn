@@ -306,11 +306,11 @@ extern int sacio
 
     // if they entered a station ID then use it
 #ifdef QCNLIVE
-    if (strlen((const char*) sm->strMyStation)>=1) {
+    if (strlen((const char*) sm->strMyStation)>0) {
         strlcpy(sacdata.s[ess_kstnm], (const char*) sm->strMyStation, SIZEOF_STATION_STRING);
     }
     else { // use their hostid so we can lookup into the database table if needed
-        strcpy(sacdata.s[ess_kstnm], "QCNLive");
+        strcpy(sacdata.s[ess_kstnm], "qcnlive");
     }
 #else
     // use their hostid so we can lookup into the database table if needed
