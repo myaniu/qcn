@@ -81,7 +81,7 @@ int deploy_qcn()
 
 		// "init/earthmask.rgb",   // multitexturing mask -- seems to crash for some people though
 	sprintf_s(strCmd, 1024, "%s qcnlive-win.zip "
-		"%s %s %s %s %s %s %s %s %s %s", ZIPCMD,
+		"%s %s %s %s %s %s %s %s %s", ZIPCMD,
 		"qcnlive.exe",
 		"init/MotionNodeAccelAPI.dll",
 		"init/qcnwin.ico",
