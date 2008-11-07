@@ -56,11 +56,13 @@ int main(int argc, char** argv) {
     // write input file in the download directory
     //
     char strWrite[64];
+  /*
     sprintf(path, "%s/%s", config.download_dir, infiles[0]);
     FILE* f = fopen(path, "w");
     strcpy(strWrite, "Test QCN Input");
     fwrite(strWrite, 1+strlen(strWrite), sizeof(char), f);
     fclose(f);
+  */
 
     float fSigCutoff = 3.0f;
 
@@ -71,13 +73,13 @@ int main(int argc, char** argv) {
     fclose(f);
 
     sprintf(path, "%s/%s", config.download_dir, infileB[0]);
-    FILE* f = fopen(path, "w");
+    f = fopen(path, "w");
     sprintf(strWrite, "<fsig>%.2f</fsig>\n<fsta>%.2f</fsta>\n", fSigCutoff, 2.00f);
     fwrite(strWrite, 1+strlen(strWrite), sizeof(char), f);
     fclose(f);
 
     sprintf(path, "%s/%s", config.download_dir, infileC[0]);
-    FILE* f = fopen(path, "w");
+    f = fopen(path, "w");
     sprintf(strWrite, "<fsig>%.2f</fsig>\n<fsta>%.2f</fsta>\n", fSigCutoff, 3.00f);
     fwrite(strWrite, 1+strlen(strWrite), sizeof(char), f);
     fclose(f);
