@@ -351,12 +351,14 @@ for (int i = 0 ; i < argc ; i++) {
       // read pipe output into our buffer
       while (!feof(fPipe) && !ferror(fPipe)) {
            if (*g_piStop) {
-               kill(-pid, SIGINT); // note the - before pid - kills all in the process group created, also see killpg
+               //kill(-pid, SIGINT); // note the - before pid - kills all in the process group created, also see killpg
+               kill(-pid, SIGKILL); // note the - before pid - kills all in the process group created, also see killpg
                iRetVal = -pid;
                break;
            }
            if (dtime() > dEndTime) { // timeout
-               kill(-pid, SIGINT); // note the - before pid - kills all in the process group created, also see killpg
+               //kill(-pid, SIGINT); // note the - before pid - kills all in the process group created, also see killpg
+               kill(-pid, SIGKILL); // note the - before pid - kills all in the process group created, also see killpg
                iRetVal = 2;
                break;
            }
