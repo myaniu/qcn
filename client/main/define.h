@@ -93,6 +93,19 @@ typedef vector<string> ZipFileList;
 #define XML_SIG_CUTOFF         "<fsig>"
 #define XML_SHORT_TERM_AVG_MAG "<fsta>"
 
+enum e_perturb {
+    PERTURB_SIG_CUTOFF,
+    PERTURB_SHORT_TERM_AVG_MAG,
+    PERTURB_3,
+    PERTURB_4,
+    PERTURB_5,
+    PERTURB_6,
+    PERTURB_7,
+    PERTURB_8,
+    PERTURB_9,
+    PERTURB_10
+};
+
 // process ID offsets into the qcn_shmem_usb array (sm->alPID)
 #define PID_USB  0
 #define PID_QCN  1
