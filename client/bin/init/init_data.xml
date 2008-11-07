@@ -5,7 +5,7 @@
  <team_name></team_name>
  <project_dir>init</project_dir>
  <boinc_dir>.</boinc_dir>
- <wu_name>carlgt1</wu_name>
+ <wu_name>carlc</wu_name>
  <slot>0</slot>
  <wu_cpu_time>0.000000</wu_cpu_time>
  <user_total_credit>0.000000</user_total_credit>
@@ -23,7 +23,7 @@
  <rsc_disk_bound>100000000.000000</rsc_disk_bound>
  <project_preferences>
 <quakes>
-<qu001>  6.1|2008/11/07 16:04:34|  -6.6740| 129.0580| 130.00|Banda Sea|http://earthquake.usgs.gov/eqcenter/recenteqsww/Quakes/at00607387.php</qu001>
+<qu001>  6.0|2008/11/07 16:04:21|  -7.0559| 128.8838|  10.00|Kepulauan Barat Daya, Indonesia|http://earthquake.usgs.gov/eqcenter/recenteqsww/Quakes/us2008zcbf.php</qu001>
 <qu002>  2.5|2008/11/07 12:53:21|  54.0511|-165.0960|  23.90|Fox Islands, Aleutian Islands, Alaska|http://earthquake.usgs.gov/eqcenter/recenteqsww/Quakes/ak00076900.php</qu002>
 <qu003>  5.0|2008/11/07 12:07:29| -14.9966| 167.7455|  35.00|Vanuatu|http://earthquake.usgs.gov/eqcenter/recenteqsww/Quakes/us2008zca7.php</qu003>
 <qu004>  5.8|2008/11/07 09:40:04| -14.8902| 168.0597|  35.00|Vanuatu|http://earthquake.usgs.gov/eqcenter/recenteqsww/Quakes/us2008zcaz.php</qu004>
@@ -344,6 +344,6 @@
 
 </project_preferences>
  <host_info>
- <domain_name>demo</domain_name>
+ <domain_name>carlc</domain_name>
  </host_info>
  </app_init_data>

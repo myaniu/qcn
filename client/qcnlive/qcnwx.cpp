@@ -99,10 +99,6 @@ bool MyApp::MainInit()
     // CMC - start init QCN/BOINC stuff -- this gets the latest quake data and creates a boinc-style init_data.xml file
     CreateBOINCInitFile();
 
-    qcn_main::g_bDemo = true;
-    qcn_util::ResetCounter(WHERE_MAIN_STARTUP);  // this is the one and only place ResetCounter is called outside of the sensor thread, so it's safe
-    qcn_main::parseArgs(0, NULL); // parse args has to be done early in startup, right after the first ResetCounter usually
-
     qcn_main::g_threadMain = new CQCNThread(QCNThreadMain);
     return qcn_main::g_threadMain ? qcn_main::g_threadMain->Start() : false;  // note returns whether main thread was created & started OK
 }
@@ -257,6 +253,9 @@ bool MyApp::OnInit()
         fprintf(stderr, "failed to create shared mem segment %s, exiting\n", QCNGUI_SHMEM);
         return false;
     }
+    qcn_main::g_bDemo = true;
+    qcn_util::ResetCounter(WHERE_MAIN_STARTUP);  // this is the one and only place ResetCounter is called outside of the sensor thread, so it's safe
+    qcn_main::parseArgs(0, NULL); // parse args has to be done early in startup, right after the first ResetCounter usually
 
     // clear memory and setup important vars below
     get_qcnlive_prefs();
