@@ -1,9 +1,8 @@
-#include "qcn_shmem.h"
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
+#include "qcn_shmem.h"
 #include "str_util.h"  // boinc strlcpy etc
 #include "qcn_util.h"
 #include "util.h" // boinc, for dtime()
@@ -103,42 +102,28 @@ void CQCNShMem::clear(bool bAll)
     pshmem->iMyElevationFloor = iMyElevationFloor; 
     strcpy(pshmem->strMyStation, strMyStation);
 
-    // BOINC status values -- called regularly in main::update_sharedmem() to update
-    pshmem->fraction_done = fraction_done;
-    pshmem->update_time = update_time;
-    pshmem->cpu_time = cpu_time;
-    pshmem->clock_time = clock_time;
+    pshmem->clock_time  = clock_time;
+	pshmem->cpu_time    = cpu_time;
+	pshmem->update_time = update_time;
+	pshmem->fraction_done = fraction_done;
 
-/*
-    // BOINC APP_INIT_DATA stuff kept in shared memory for easy graphics access etc
-    strcpy(pshmem->user_name, user_name);
-    strcpy(pshmem->team_name, team_name);
-    strcpy(pshmem->project_dir, project_dir);
-    strcpy(pshmem->boinc_dir, boinc_dir);
-    strcpy(pshmem->wu_name, wu_name);
+    memcpy(&pshmem->statusBOINC, &statusBOINC, sizeof(BOINC_STATUS));
 
-    pshmem->userid = userid;
-    pshmem->teamid = teamid;
-    pshmem->hostid = hostid;
-
-	if (strProjectPreferences) {
-		pshmem->strProjectPreferences = strdup(strProjectPreferences);
-		free(strProjectPreferences);
-		strProjectPreferences = NULL;
+	// handle project prefs special - note dataBOINC.proj_pref would already have been freed
+	if (dataBOINC.project_preferences) {
+		strlcpy(strProjectPreferences, dataBOINC.project_preferences, SIZEOF_PROJECT_PREFERENCES);
+		free(dataBOINC.project_preferences);
+		dataBOINC.project_preferences = NULL;
 	}
-	else {
-		pshmem->strProjectPreferences = NULL;
-	}
-	memcpy(&pshmem->dataBOINC, &dataBOINC, sizeof(APP_INIT_DATA));
 
-    pshmem->slot = slot;
-    pshmem->user_total_credit = user_total_credit;
-    pshmem->user_expavg_credit = user_expavg_credit;
-    pshmem->host_total_credit = host_total_credit;
-    pshmem->host_expavg_credit = host_expavg_credit;
-*/
+	memset(pshmem->strProjectPreferences, 0x00, SIZEOF_PROJECT_PREFERENCES);
+	strlcpy(pshmem->strProjectPreferences, strProjectPreferences, SIZEOF_PROJECT_PREFERENCES);
 
-    // this "atomic" copy back should be safe
+	// now copy over, projectprefs is safely in strProjectPreferences
+	// and we freed the memory from the dataBOINC.project_prefs
+    memcpy(&pshmem->dataBOINC, &dataBOINC, sizeof(APP_INIT_DATA));
+
+	// this "atomic" copy back should be safe
     memcpy(this, pshmem, sizeof(CQCNShMem));
     resetMinMax();
     delete pshmem;

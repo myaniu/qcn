@@ -382,7 +382,7 @@ extern void* QCNThreadSensor(void*)
          sm->resetSampleClock();
          sm->tstart = sm->t0active;
          try { // sensor mean throws an exception if we're shutting down
-            if (! qcn_main::g_psms->mean_xyz()) {
+            if (!qcn_main::g_psms || ! qcn_main::g_psms->mean_xyz()) {
                fprintf(stderr, "Error 0 in sensor thread mean_xyz()\n");
                fprintf(stdout, "Error 0 in sensor thread mean_xyz()\n");
             }
@@ -419,9 +419,11 @@ extern void* QCNThreadSensor(void*)
              // probably a timing error, so retry master (outermost) loop
              initDemoCounters(true);
              qcn_util::ResetCounter(WHERE_THREAD_SENSOR_INITIAL_MEAN, iNumResetInitial);
-             qcn_main::g_psms->closePort();  // close the port, it will be reopened above
-             delete qcn_main::g_psms;
-             qcn_main::g_psms = NULL;
+			if (qcn_main::g_psms) {
+				qcn_main::g_psms->closePort();  // close the port, it will be reopened above
+                delete qcn_main::g_psms;
+                qcn_main::g_psms = NULL;
+			}
 //#ifdef _DEBUG
 //    bDebugTest = true;
 //#endif
@@ -442,9 +444,11 @@ extern void* QCNThreadSensor(void*)
          if (!getBaseline(qcn_main::g_psms)) {
              initDemoCounters(true);
              qcn_util::ResetCounter(WHERE_THREAD_SENSOR_BASELINE, iNumResetInitial);  // probably a timing error, so retry master (outermost) loop
-             qcn_main::g_psms->closePort();  // close the port, it will be reopened above
-             delete qcn_main::g_psms;
-             qcn_main::g_psms = NULL;
+			if (qcn_main::g_psms) {
+				qcn_main::g_psms->closePort();  // close the port, it will be reopened above
+                delete qcn_main::g_psms;
+                qcn_main::g_psms = NULL;
+			}
 //#ifdef _DEBUG
 //    bDebugTest = true;
 //#endif
@@ -501,9 +505,11 @@ extern void* QCNThreadSensor(void*)
          //sm->bWrapped = true;
          qcn_util::set_qcn_counter();
          sm->lOffset = 0;  // don't reset, that's only for drastic errors i.e. bad timing errors
-         qcn_main::g_psms->closePort();  // close the port, it will be reopened above
-         delete qcn_main::g_psms;
-         qcn_main::g_psms = NULL;
+			if (qcn_main::g_psms) {
+				qcn_main::g_psms->closePort();  // close the port, it will be reopened above
+                delete qcn_main::g_psms;
+                qcn_main::g_psms = NULL;
+			}
          continue;
       }
 #ifdef _DEBUG
@@ -512,12 +518,14 @@ extern void* QCNThreadSensor(void*)
       sm->itl++;  // our placeholder for max sig position
 
       try {
-         if (!qcn_main::g_psms->mean_xyz()) { // bad error, clock must have changed
+         if (!qcn_main::g_psms || ! qcn_main::g_psms->mean_xyz()) {// bad error, clock must have changed or lost sensor
             initDemoCounters(true);
             qcn_util::ResetCounter(WHERE_THREAD_SENSOR_TIME_ERROR, iNumResetInitial);
-            qcn_main::g_psms->closePort();  // close the port, it will be reopened above
-            delete qcn_main::g_psms;
-            qcn_main::g_psms = NULL;
+			if (qcn_main::g_psms) {
+				qcn_main::g_psms->closePort();  // close the port, it will be reopened above
+                delete qcn_main::g_psms;
+                qcn_main::g_psms = NULL;
+			}
             continue;
          }  
       }  
@@ -634,8 +642,8 @@ done: // ending, perhaps from a g_iStop request in the wxWidgets myApp::OnExit()
     if (qcn_main::g_psms) {
          qcn_main::g_psms->closePort();  // close the port, it will be reopened above
          delete qcn_main::g_psms;
+		 qcn_main::g_psms = NULL;
     }
-    qcn_main::g_psms = NULL;
     if (qcn_main::g_threadSensor) qcn_main::g_threadSensor->SetRunning(false);  // mark the thread as being done
     return 0;
 }
@@ -677,7 +685,7 @@ void doTrigger(bool bReal, long lOffsetStart, long lOffsetEnd)
             //if (!ti.bInteractive || ti.bDemo) { // only do filename stuff & inc counter if demo mode or non-interactive trigger
                //qcn_util::getTimeOffset((const double*) sm->dTimeServerTime, (const double*) sm->dTimeServerOffset, (const double) dTimeTrigger, dTimeOffset, dTimeOffsetTime);
                qcn_util::set_trigger_file((char*) ti.strFile,
-				   (const char*) qcn_util::dataBOINC.wu_name,
+				   (const char*) sm->dataBOINC.wu_name,
                   bReal ? ++sm->iNumTrigger : sm->iNumTrigger,
                   QCN_ROUND(dTimeTrigger + qcn_main::g_dTimeOffset),
                   bReal

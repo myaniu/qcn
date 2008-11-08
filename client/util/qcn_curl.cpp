@@ -3,18 +3,23 @@
 namespace qcn_curl {
 
 // we need a few globals such as curl write functions and our big global shared mem struct sm
-const long BYTESIZE_CURL = 131072;   // max length to write a curl reply is our qcn_shmem.h (really define.h) MAX_PROJPREFS (132KB)
+const long BYTESIZE_CURL =  102400L;   // max length to write a curl reply
 long g_curlBytes = 0L;    // cumulative bytes written by curl write function
 
 // decl for curl write function
 size_t qcnwx_curl_write_data(void *ptr, size_t size, size_t nmemb, void *stream)
 {
-   int iLeft = BYTESIZE_CURL - g_curlBytes - 1;
-   if (iLeft > 0 && size > 0) { // we have some room left to write
+   long lLeft = BYTESIZE_CURL - g_curlBytes - (long)(size * nmemb);
+   if (size > 0 && g_curlBytes < BYTESIZE_CURL) { // we have some room left to write
       strlcat((char*) stream, (char*) ptr, BYTESIZE_CURL);
+	  if (lLeft > 0) { //we have enough room left for simple strlcat
+         g_curlBytes += (long)(size * nmemb);
+	  }
+	  else { // we ran out of room just set g_curlBytes to BYTESIZE_CURL
+		  g_curlBytes = BYTESIZE_CURL;
+	  }
    }
-   g_curlBytes += (size * nmemb);
-   return size * nmemb;
+   return size * nmemb; // no matter what, return that we handled everything
 }
 
 // decl for curl function

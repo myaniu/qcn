@@ -9,10 +9,6 @@
  *
  */
 
-#ifndef QCN_USB
-#include "app_ipc.h"   // we are putting the APP_INIT_DATA dataBOINC in qcn_util
-#endif
-
 #ifndef _WIN32
 #include <sys/time.h>
 #endif
@@ -43,7 +39,6 @@ float mod(float x1, float y1);
 
 // useful functions just for the main program & qcnlive
 #ifndef QCN_USB
-extern struct APP_INIT_DATA dataBOINC;  // note that we are making an instance of BOINC's APP_INIT_DATA
 void getBOINCInitData(const e_where eWhere);
 #endif
 

@@ -81,7 +81,7 @@ bool CSensorUSBMotionNodeAccel::detect()
 #ifdef QCNLIVE  // it will already be in init, so just load the module name
    sstrDLL = "";
 #else  // live boinc - check in project directory
-   sstrDLL = (const char*) qcn_util::dataBOINC.project_dir; 
+   sstrDLL = (const char*) sm->dataBOINC.project_dir; 
    sstrDLL += qcn_util::cPathSeparator();
 #endif
    sstrDLL += m_cstrDLL;

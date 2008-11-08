@@ -98,7 +98,7 @@ bool MyApp::MainInit()
 	}
 	
     // CMC - start init QCN/BOINC stuff -- this gets the latest quake data and creates a boinc-style init_data.xml file
-    CreateBOINCInitFile();
+	CreateBOINCInitFile();
 
     qcn_main::g_bDemo = true;
     qcn_util::ResetCounter(WHERE_MAIN_STARTUP);  // this is the one and only place ResetCounter is called outside of the sensor thread, so it's safe
@@ -186,7 +186,7 @@ bool MyApp::get_qcnlive_prefs()
        memset((char*) sm->strMyStation, 0x00, SIZEOF_STATION_STRING);
 
     if (strlen(sm->strMyStation)>0) {
-		strcpy(qcn_util::dataBOINC.wu_name, sm->strMyStation);
+		strcpy(sm->dataBOINC.wu_name, sm->strMyStation);
     }
 
     // elevation data
@@ -201,7 +201,7 @@ bool MyApp::get_qcnlive_prefs()
 bool MyApp::set_qcnlive_prefs()
 {
     FILE *fp; 
-	if (strlen(sm->strMyStation)>0) strcpy(qcn_util::dataBOINC.wu_name, sm->strMyStation); // copy station name to workunit name
+	if (strlen(sm->strMyStation)>0) strcpy(sm->dataBOINC.wu_name, sm->strMyStation); // copy station name to workunit name
     if ( (fp = fopen(QCNGUI_XML_PREFS_FILE, "w")) == NULL) {
        fprintf(stdout, "Error opening file %s\n", QCNGUI_XML_PREFS_FILE);
        return false;
@@ -266,7 +266,7 @@ bool MyApp::OnInit()
         fprintf(stderr, "failed to create shared mem segment %s, exiting\n", QCNGUI_SHMEM);
         return false;
     }
-	strcpy(qcn_util::dataBOINC.wu_name, "qcnlive");
+	strcpy(sm->dataBOINC.wu_name, "qcnlive");
 
     frame = new MyFrame(myRect, this);
 	if (!frame) return false;  // big error if can't make the window frame!
@@ -367,9 +367,9 @@ int MyApp::OnExit()
 	//if (myJPEGHandler) delete myJPEGHandler;
 	//if (myPNGHandler) delete myPNGHandler;
 		// free proj prefs just to be safe, destructor for APP_INIT_DATA should do it
-	if (qcn_util::dataBOINC.project_preferences) {
-	   free(qcn_util::dataBOINC.project_preferences);
-	   qcn_util::dataBOINC.project_preferences = NULL;
+	if (sm->dataBOINC.project_preferences) {
+	   free(sm->dataBOINC.project_preferences);
+	   sm->dataBOINC.project_preferences = NULL;
 	}
 
 	int iCtr = 0;

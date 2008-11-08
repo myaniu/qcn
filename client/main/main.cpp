@@ -85,8 +85,6 @@ namespace qcn_main  {
 
   char g_strPathTrigger[_MAX_PATH];  // this is the path to trigger, doesn't change after startup
 
-  BOINC_STATUS g_statusBOINC;
-
   double g_dTimeOffset;  // the time offset between client & server, +/- in seconds difference from server
   double g_dTimeSync;    // the (unadjusted client) time this element was retrieved
   double g_dTimeSyncRetry; // retry time for the time sync thread
@@ -113,7 +111,7 @@ void sendFinalTrickle()
           XML_CPU_TIME, sm->cpu_time, XML_CPU_TIME
         );
         // upload the qcn_prefs.xml file
-		trickleup::qcnTrickleUp(strFinal, "finalstats", (const char*) qcn_util::dataBOINC.wu_name);  // trickle the final stats, basically like uploading qcnprefs.xml file
+		trickleup::qcnTrickleUp(strFinal, "finalstats", (const char*) sm->dataBOINC.wu_name);  // trickle the final stats, basically like uploading qcnprefs.xml file
       }
 }
 
@@ -132,9 +130,9 @@ void doMainQuit(const bool& bFinish, const int& errcode)
   qcn_util::set_qcn_counter(); // write our settings to disk
 
   // free project prefs
-   if (qcn_util::dataBOINC.project_preferences) {
-	   free(qcn_util::dataBOINC.project_preferences);
-	   qcn_util::dataBOINC.project_preferences = NULL;
+   if (sm->dataBOINC.project_preferences) {
+	   free(sm->dataBOINC.project_preferences);
+	   sm->dataBOINC.project_preferences = NULL;
 	}
 
   //fprintf(stdout, "Quitting QCN...\n");
@@ -201,9 +199,10 @@ void update_sharedmem()
 {
     static double dLastTime = 0.0f;
     if (g_iStop || !sm) return;
-    boinc_get_status((BOINC_STATUS*) &g_statusBOINC);
-    if (!g_bSuspended) { // use the global suspended flag, since it will go through once anyway to set the suspend status
-        sm->fraction_done = boinc_get_fraction_done();
+    boinc_get_status(&sm->statusBOINC);
+
+	if (!g_bSuspended) { // use the global suspended flag, since it will go through once anyway to set the suspend status
+		sm->fraction_done = boinc_get_fraction_done();
         if (sm->bSensorFound) { 
             sm->update_time = dtime();
             // important -- only count time if they have a sensor!
@@ -369,7 +368,7 @@ int qcn_main(int argc, char **argv)
            goto done; 
         }
 #ifdef __USE_BOINC_OPTIONS
-        if (g_statusBOINC.quit_request) {
+        if (sm->statusBOINC.quit_request) {
            fprintf(stderr, "Quit request from BOINC!\n");
 		   // if we were suspended, then quitting, bump up iNumReset if needed
 		   // since it was decremented in the suspend
@@ -378,7 +377,7 @@ int qcn_main(int argc, char **argv)
            goto done; 
         }
         else  {
-          if (g_statusBOINC.suspended) {
+          if (sm->statusBOINC.suspended) {
              // check current local suspend flag
              if (!g_bSuspended) { // mark that we're suspended if not already set
                 fprintf(stderr, "Suspend request from BOINC!\n");
@@ -399,13 +398,13 @@ int qcn_main(int argc, char **argv)
                 if ((dtime() - sm->update_time) > TIME_ERROR_SECONDS) sm->iNumReset--;
              }
              else {
-                if (g_statusBOINC.no_heartbeat) { // quit non-fatally
+                if (sm->statusBOINC.no_heartbeat) { // quit non-fatally
                    fprintf(stderr, "No heartbeat from BOINC!\n");
                    doMainQuit();
                    goto done; 
                 }
                 else {
-                   if (g_statusBOINC.abort_request) { // quit fatally
+                   if (sm->statusBOINC.abort_request) { // quit fatally
                      sm->eStatus = ERR_ABORT; // set abort flag for the hell of it
                      fprintf(stderr, "Abort request from BOINC!\n");
                      doMainQuit(true, ERR_ABORT);
@@ -492,12 +491,12 @@ int qcn_main(int argc, char **argv)
           // unnecessary for demo mode -- but should we wget or curl the latest quake list, perhaps just in the ./runme script?
           if (!g_iStop && !(++iQuakeList % QUAKELIST_CHECK))  {
              iQuakeList = 0;  // reset counter to 0 if not already zero
-             trickleup::qcnTrickleUp("<quake>send</quake>\n", "quakelist", (const char*) qcn_util::dataBOINC.wu_name);  // request a new quake list
+             trickleup::qcnTrickleUp("<quake>send</quake>\n", "quakelist", (const char*) sm->dataBOINC.wu_name);  // request a new quake list
           }
 
           // Parse Prefs of New Quake List
-          if (!g_iStop && g_statusBOINC.reread_init_data_file)  { // should have gotten a quakelist by now
-             g_statusBOINC.reread_init_data_file = 0;
+          if (!g_iStop && sm->statusBOINC.reread_init_data_file)  { // should have gotten a quakelist by now
+             sm->statusBOINC.reread_init_data_file = 0;
              fprintf(stderr, "qcn_main::BOINC requested reread of init data file at %f\n", dtime());
              qcn_util::getBOINCInitData(WHERE_MAIN_PROJPREFS);  // reread project_prefs since may have changed, send in 1 to fake it's in a thread so doesn't reset anything else
           }
@@ -506,19 +505,30 @@ int qcn_main(int argc, char **argv)
 
         // if done 1 wall-clock day, or we got an abort request (i.e. trickle-down msgs), then quit workunit
         if (!g_bDemo && !g_bReadOnly 
-          && (sm->clock_time >= 86400.0f || sm->eStatus == ERR_ABORT)) {
+          && (sm->clock_time >= WORKUNIT_COMPLETION_TIME_ELAPSED || sm->eStatus == ERR_ABORT)) {
             // seems to be a race condition upon a quit, so just exit
             //CheckTriggers(true); // check triggers and force to write if necessary
             doMainQuit(true, sm->eStatus == ERR_ABORT ? ERR_ABORT : ERR_TIMEOUT); // do the little timer loop
             goto done;
         }
         else { // update fraction done 
-            boinc_fraction_done((float) sm->clock_time / 86400.0f);
+            boinc_fraction_done((float) sm->clock_time / WORKUNIT_COMPLETION_TIME_ELAPSED);
             CheckTriggers(false);
         }
 
         usleep(MAIN_LOOP_SLEEP_MICROSECONDS); // 5Hz should be fast enough to monitor things such as trickles, stop/suspend requests etc
-    } 
+
+	/* test the memory leaks from the BOINC parse_init_data()
+#ifdef _DEBUG
+		if (!(++iQuakeList % 30)) {
+          for (int i = 0; i < 3000; i++) qcn_util::ResetCounter(WHERE_MAIN_PROJPREFS, 0);
+		  doMainQuit(false, 0);
+		  goto done;
+		}
+#endif
+	*/
+
+	} 
 
 done:
 #ifndef QCNLIVE
@@ -669,7 +679,7 @@ bool CheckTriggerTrickle(struct STriggerInfo* ti)
           XML_CPU_TIME, sm->cpu_time, XML_CPU_TIME
     );
 
-    trickleup::qcnTrickleUp(strTrigger, "trigger", (const char*) qcn_util::dataBOINC.wu_name);  // send a trigger for this trickle
+    trickleup::qcnTrickleUp(strTrigger, "trigger", (const char*) sm->dataBOINC.wu_name);  // send a trigger for this trickle
 
     // filename already set in ti->strFile
     fprintf(stdout, "Trigger detected at offset %ld  time %f  write at %ld - zip file %s\n", 

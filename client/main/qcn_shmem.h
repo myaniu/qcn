@@ -48,33 +48,14 @@ class CQCNShMem : public CSerialize
     int    iMyElevationFloor;   // 'station' floor (-1=basement, 0=ground floor, 1=first floor, etc)
     char strMyStation[SIZEOF_STATION_STRING]; // 'station' name
 
-    // BOINC status values -- called regularly in main::update_sharedmem() to update
-    double fraction_done;
-    double update_time;
-    double cpu_time;
-    double clock_time;
+	double clock_time;
+	double cpu_time;
+	double update_time;
+	double fraction_done;
 
-/*
-	APP_INIT_DATA dataBOINC;
-    // BOINC APP_INIT_DATA stuff important to use for graphics etc
-    char user_name[256];
-    char team_name[256];
-    char project_dir[256];
-    char boinc_dir[256];
-    char wu_name[256];
-
-    int userid;
-    int teamid;
-    int hostid;
-
-    //char strProjectPreferences[MAX_PROJPREFS]; // need to copy this separately as dataBOINC.project_preferences is dynamic string
-	char* strProjectPreferences;
-    int slot;
-    double user_total_credit;
-    double user_expavg_credit;
-    double host_total_credit;
-    double host_expavg_credit;
-*/
+	BOINC_STATUS statusBOINC;
+    APP_INIT_DATA dataBOINC;
+	char strProjectPreferences[SIZEOF_PROJECT_PREFERENCES];
 
     // end of "persistent" values
 

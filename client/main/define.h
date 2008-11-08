@@ -66,6 +66,9 @@ typedef vector<string> ZipFileList;
 #define NUM_BUTTON_JW  8
 #define NUM_AXES_JW    3
 
+#define WORKUNIT_COMPLETION_TIME_ELAPSED 86400.0f
+#define SIZEOF_PROJECT_PREFERENCES 131072
+
 // the size of a self-appointed station string
 #define SIZEOF_STATION_STRING 8
  

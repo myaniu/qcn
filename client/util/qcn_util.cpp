@@ -120,19 +120,26 @@ double qcn_dday(double dNow) {
 }
 
 #ifndef QCN_USB
-struct APP_INIT_DATA dataBOINC;  // note that we are making an instance of BOINC's APP_INIT_DATA
 
 void retrieveProjectPrefs()
 {
-	if (dataBOINC.project_preferences) {
-		free(dataBOINC.project_preferences);
-		dataBOINC.project_preferences = NULL;
+	if (sm->dataBOINC.project_preferences) {
+		free(sm->dataBOINC.project_preferences);
+		sm->dataBOINC.project_preferences = NULL;
 	}
       boinc_parse_init_data_file(); // parse the file for BOINC
-      boinc_get_init_data(dataBOINC);
+      boinc_get_init_data_p(&sm->dataBOINC);
+
+   // now copy over project prefs to sm->strProjectPref and free the boinc ref to proj_prefs
+	memset(sm->strProjectPreferences, 0x00, SIZEOF_PROJECT_PREFERENCES);
+	if (sm->dataBOINC.project_preferences) {
+        strlcpy(sm->strProjectPreferences, sm->dataBOINC.project_preferences, SIZEOF_PROJECT_PREFERENCES);
+		free(sm->dataBOINC.project_preferences);
+		sm->dataBOINC.project_preferences = NULL;
+	}
 #ifdef QCNLIVE
 	// reset workunit name to station for qcn live
-	if (strlen(sm->strMyStation)>0) strcpy(qcn_util::dataBOINC.wu_name, sm->strMyStation); // copy station name to workunit name
+	if (strlen(sm->strMyStation)>0) strcpy(sm->dataBOINC.wu_name, sm->strMyStation); // copy station name to workunit name
 #endif
 }
 
@@ -148,12 +155,12 @@ void getBOINCInitData(const e_where eWhere)
 
       // set trigger path -- note sm->strPathTrigger will NOT have appropriate \ or / at the end
       // in main.cpp -- the program checks for and creates this path if it doesn't exist (i.e. ../../sac or ../../projects/qcn/triggers)
-      char cTerm = dataBOINC.project_dir[strlen((const char*) dataBOINC.project_dir)-1];
+      char cTerm = sm->dataBOINC.project_dir[strlen((const char*) sm->dataBOINC.project_dir)-1];
       char cOK = 0x00;
       if (cTerm != '\\' && cTerm != '/') {
         // Look for Windows \ dir marker, if found set that in cTerm
         // note all strPath Trigger's will have \ or / at the end for convenience
-        cTerm = strchr((const char*) dataBOINC.project_dir, '\\') ? '\\' : '/';
+        cTerm = strchr((const char*) sm->dataBOINC.project_dir, '\\') ? '\\' : '/';
         cOK = cTerm; // for the first char below
       }
 
@@ -177,29 +184,17 @@ void getBOINCInitData(const e_where eWhere)
             // check if has a \ or / directory terminator character
         sprintf((char*) qcn_main::g_strPathTrigger,
            "%s%c%s",
-           dataBOINC.project_dir,
+           sm->dataBOINC.project_dir,
                    cOK,
            DIR_TRIGGER
         );
         sprintf((char*) sm->strPathImage,
            "%s%cimages",
-           dataBOINC.project_dir,
+           sm->dataBOINC.project_dir,
                    cOK
         );
       }
 
-  /*
-      // other important stuff to transfer from dataBOINC to sm-> now that project_prefs & img & trigger paths set
-    strcpy(sm->user_name, dataBOINC.user_name);
-    strcpy(sm->team_name, dataBOINC.team_name);
-    strcpy(sm->project_dir, dataBOINC.project_dir);
-    strcpy(sm->boinc_dir, dataBOINC.boinc_dir);
-    strcpy(sm->wu_name, dataBOINC.wu_name);
-
-    sm->userid = dataBOINC.userid;
-    sm->hostid = dataBOINC.hostid;
-    sm->teamid = dataBOINC.teamid;
-  */
       sm->releaseTriggerLock();
       fprintf(stdout, "Trigger SAC Files will be stored in \n%s\nand removed after a month.\n", qcn_main::g_strPathTrigger);
       fprintf(stdout, "Image Files will be stored in %s\n", sm->strPathImage);
@@ -218,8 +213,10 @@ void getBOINCInitData(const e_where eWhere)
 
 void ResetCounter(const e_where eWhere, const int iNumResetInitial)
 {    // set some important values here
+    static bool bInHere = false; // check we're not already in here, i.e. multithreaded collision
 
-    if (qcn_main::g_iStop) return;   // check for stop signal
+    if (bInHere || qcn_main::g_iStop) return;   // check for stop signal
+    bInHere = true;
 
     fprintf(stdout, "qcn_util::ResetCounter(%d)\n", eWhere);
     fflush(stdout);
@@ -291,6 +288,7 @@ void ResetCounter(const e_where eWhere, const int iNumResetInitial)
 
     // set flag to get the time sync with server
     //sm->bTimeCheck = true;
+    bInHere = false;  // set so can come in again
 }
 
 void getLastTrigger(double& dTime, long& lTime)

@@ -313,8 +313,9 @@ extern int sacio
         strcpy(sacdata.s[ess_kstnm], "qcnlive");
     }
 #else
-    // use their hostid so we can lookup into the database table if needed
-	sprintf(sacdata.s[ess_kstnm], "%07d", qcn_util::dataBOINC.hostid);
+    // CMC here - hostid doesn't seem to get filled in dataBOINC - maybe use host_info.domain_name?
+	// use their hostid so we can lookup into the database table if needed
+	sprintf(sacdata.s[ess_kstnm], "%07d", sm->dataBOINC.hostid);
 #endif
 
     // use dTimeZero for the reference time

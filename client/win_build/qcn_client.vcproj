@@ -369,6 +369,14 @@
 			Name="Resource Files"
 			>
 		</Filter>
+		<File
+			RelativePath=".\qcn_client.rc"
+			>
+		</File>
+		<File
+			RelativePath=".\resource.h"
+			>
+		</File>
 	</Files>
 	<Globals>
 	</Globals>

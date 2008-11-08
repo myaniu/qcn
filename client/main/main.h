@@ -143,8 +143,6 @@ extern int  volatile g_iQCNReturn; // qcn return code
 
   extern char g_strPathTrigger[_MAX_PATH];  // this is the path to trigger, doesn't change after startup
 
-  extern BOINC_STATUS g_statusBOINC;
-
   extern double g_dTimeOffset;  // the time offset between client & server, +/- in seconds difference from server
   extern double g_dTimeSync;    // the (unadjusted client) time this element was retrieved
   extern double g_dTimeSyncRetry; // retry time for the time sync thread
