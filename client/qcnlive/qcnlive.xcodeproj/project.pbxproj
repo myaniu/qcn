@@ -45,22 +45,22 @@
 /* Begin PBXFileReference section */
 		E3000F1E0D64FC9F00204B4F /* qcnmac.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = qcnmac.icns; sourceTree = "<group>"; };
 		E30AB0EA0EBB9C0600DA7E81 /* dlgsettings.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = dlgsettings.cpp; sourceTree = "<group>"; };
-		E30AB1140EBB776D00DABFEF /* csensor_usb_motionnodeaccel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = csensor_usb_motionnodeaccel.cpp; path = ../main/csensor_usb_motionnodeaccel.cpp; sourceTree = SOURCE_ROOT; };
+		E30AB1140EBB776D00DABFEF /* csensor_usb_motionnodeaccel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = csensor_usb_motionnodeaccel.cpp; path = ../sensor/csensor_usb_motionnodeaccel.cpp; sourceTree = SOURCE_ROOT; };
 		E30AB11A0EBB9DAC00DA7E81 /* dlgsettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dlgsettings.h; sourceTree = "<group>"; };
 		E30AB11B0EBB9DAC00DA7E81 /* myframe.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = myframe.h; sourceTree = "<group>"; };
 		E30AB11C0EBB9DAC00DA7E81 /* myglpane.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = myglpane.h; sourceTree = "<group>"; };
 		E30AB11D0EBB9DAC00DA7E81 /* qcnlive_define.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = qcnlive_define.h; sourceTree = "<group>"; };
-		E30F9E9C0DEC6D4C0000FACE /* csensor.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = csensor.cpp; path = ../main/csensor.cpp; sourceTree = SOURCE_ROOT; };
-		E30F9E9E0DEC6D5F0000FACE /* csensor.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = csensor.h; path = ../main/csensor.h; sourceTree = SOURCE_ROOT; };
+		E30F9E9C0DEC6D4C0000FACE /* csensor.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = csensor.cpp; path = ../sensor/csensor.cpp; sourceTree = SOURCE_ROOT; };
+		E30F9E9E0DEC6D5F0000FACE /* csensor.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = csensor.h; path = ../sensor/csensor.h; sourceTree = SOURCE_ROOT; };
 		E358972C0E912E54005C1D94 /* mac_backtrace.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mac_backtrace.cpp; path = ../../boinc/lib/mac/mac_backtrace.cpp; sourceTree = SOURCE_ROOT; };
-		E371C7F60E2AB5D0009B4DAA /* csensor_mac_laptop.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = csensor_mac_laptop.cpp; path = ../main/csensor_mac_laptop.cpp; sourceTree = SOURCE_ROOT; };
-		E371C7F70E2AB5D0009B4DAA /* csensor_mac_usb_jw.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = csensor_mac_usb_jw.cpp; path = ../main/csensor_mac_usb_jw.cpp; sourceTree = SOURCE_ROOT; };
+		E371C7F60E2AB5D0009B4DAA /* csensor_mac_laptop.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = csensor_mac_laptop.cpp; path = ../sensor/csensor_mac_laptop.cpp; sourceTree = SOURCE_ROOT; };
+		E371C7F70E2AB5D0009B4DAA /* csensor_mac_usb_jw.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = csensor_mac_usb_jw.cpp; path = ../sensor/csensor_mac_usb_jw.cpp; sourceTree = SOURCE_ROOT; };
 		E378CDB40D64E96C008A3885 /* qcn-Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; path = "qcn-Info.plist"; sourceTree = "<group>"; };
 		E390FCED0D65C65900479F9A /* icons.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = icons.h; sourceTree = "<group>"; };
 		E390FE410D65DE7600479F9A /* myframe.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = myframe.cpp; sourceTree = "<group>"; };
 		E390FE610D65DF7500479F9A /* myglpane.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = myglpane.cpp; sourceTree = "<group>"; };
-		E3B747A60E8C6DFC00D401EB /* csensor_mac_laptop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = csensor_mac_laptop.h; path = ../main/csensor_mac_laptop.h; sourceTree = SOURCE_ROOT; };
-		E3B747A80E8C6DFC00D401EB /* csensor_mac_usb_jw.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = csensor_mac_usb_jw.h; path = ../main/csensor_mac_usb_jw.h; sourceTree = SOURCE_ROOT; };
+		E3B747A60E8C6DFC00D401EB /* csensor_mac_laptop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = csensor_mac_laptop.h; path = ../sensor/csensor_mac_laptop.h; sourceTree = SOURCE_ROOT; };
+		E3B747A80E8C6DFC00D401EB /* csensor_mac_usb_jw.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = csensor_mac_usb_jw.h; path = ../sensor/csensor_mac_usb_jw.h; sourceTree = SOURCE_ROOT; };
 		E3B747AD0E8C6E3800D401EB /* qcn_shmem_usb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = qcn_shmem_usb.h; path = ../qcnusb/qcn_shmem_usb.h; sourceTree = SOURCE_ROOT; };
 		E3B747B00E8C6E9800D401EB /* qcn_shmem_usb.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = qcn_shmem_usb.cpp; path = ../qcnusb/qcn_shmem_usb.cpp; sourceTree = SOURCE_ROOT; };
 		E3C0E7700D64E9870099B905 /* QCNLive.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QCNLive.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -79,7 +79,7 @@
 		E3C0E7B00D64E9BE0099B905 /* qcn_thread_sensor.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = qcn_thread_sensor.cpp; path = ../main/qcn_thread_sensor.cpp; sourceTree = SOURCE_ROOT; };
 		E3C0E7B10D64E9BE0099B905 /* qcn_thread_time.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = qcn_thread_time.cpp; path = ../main/qcn_thread_time.cpp; sourceTree = SOURCE_ROOT; };
 		E3C0E7B30D64E9BE0099B905 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = ../main/main.cpp; sourceTree = SOURCE_ROOT; };
-		E3C0E7B40D64E9BE0099B905 /* cserialize.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = cserialize.cpp; path = ../main/cserialize.cpp; sourceTree = SOURCE_ROOT; };
+		E3C0E7B40D64E9BE0099B905 /* cserialize.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = cserialize.cpp; path = ../util/cserialize.cpp; sourceTree = SOURCE_ROOT; };
 		E3C0E7B80D64E9BE0099B905 /* qcn_graphics.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = qcn_graphics.cpp; path = ../graphics/qcn_graphics.cpp; sourceTree = SOURCE_ROOT; };
 		E3C0E7B90D64E9BE0099B905 /* qcn_earth.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = qcn_earth.cpp; path = ../graphics/qcn_earth.cpp; sourceTree = SOURCE_ROOT; };
 		E3C0E7BA0D64E9BE0099B905 /* qcn_cube.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = qcn_cube.cpp; path = ../graphics/qcn_cube.cpp; sourceTree = SOURCE_ROOT; };
@@ -87,7 +87,7 @@
 		E3C0E7BC0D64E9BE0099B905 /* coastline.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = coastline.cpp; path = ../graphics/coastline.cpp; sourceTree = SOURCE_ROOT; };
 		E3C0E7BD0D64E9BE0099B905 /* plate_boundary.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = plate_boundary.cpp; path = ../graphics/plate_boundary.cpp; sourceTree = SOURCE_ROOT; };
 		E3C0E7DC0D64E9E00099B905 /* define.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = define.h; path = ../main/define.h; sourceTree = SOURCE_ROOT; };
-		E3C0E7DD0D64E9E00099B905 /* cserialize.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = cserialize.h; path = ../main/cserialize.h; sourceTree = SOURCE_ROOT; };
+		E3C0E7DD0D64E9E00099B905 /* cserialize.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = cserialize.h; path = ../util/cserialize.h; sourceTree = SOURCE_ROOT; };
 		E3C0E7DE0D64E9E00099B905 /* main.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = main.h; path = ../main/main.h; sourceTree = SOURCE_ROOT; };
 		E3C0E7DF0D64E9E00099B905 /* qcn_shmem.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = qcn_shmem.h; path = ../main/qcn_shmem.h; sourceTree = SOURCE_ROOT; };
 		E3C0E7E10D64E9E00099B905 /* qcn_thread_sensor.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = qcn_thread_sensor.h; path = ../main/qcn_thread_sensor.h; sourceTree = SOURCE_ROOT; };

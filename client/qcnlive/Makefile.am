@@ -25,9 +25,9 @@ if OS_DARWIN
    LIBS += @CLIENTLIBS@ -ldl $(BOINC_LIB) -lwx_mac_gl-2.8
    # UTIL_CPP = $(UTILDIR)/qcn_util.cpp $(UTILDIR)/qcn_semaphore.cpp
    SENSORS = \
-           $(MAINDIR)/csensor_mac_laptop.cpp \
-           $(MAINDIR)/csensor_mac_usb_jw.cpp \
-           $(MAINDIR)/csensor_usb_motionnodeaccel.cpp
+           $(SENSORDIR)/csensor_mac_laptop.cpp \
+           $(SENSORDIR)/csensor_mac_usb_jw.cpp \
+           $(SENSORDIR)/csensor_usb_motionnodeaccel.cpp
 else
    # must be Linux because I'm sure not using autoconf on Windows! ;-)
    BINARY = $(top_srcdir)/client/bin/qcnlive
@@ -36,8 +36,8 @@ else
    # LIBS += -z lazy -L$(LIBNTPDIR) -lntp -ldl $(BOINC_LIB) $(GLUT_LIBS) -lwx_x11univ_gl-2.8 @CLIENTLIBS@ 
    LIBS += -z lazy -ldl $(BOINC_LIB) $(GLUT_LIBS) -lwx_x11univ_gl-2.8 @CLIENTLIBS@ 
    SENSORS  = \
-        $(MAINDIR)/csensor_linux_usb_jw.cpp \
-        $(MAINDIR)/csensor_usb_motionnodeaccel.cpp 
+        $(SENSORDIR)/csensor_linux_usb_jw.cpp \
+        $(SENSORDIR)/csensor_usb_motionnodeaccel.cpp 
 endif
 
 LIBS += /usr/local/lib/libpng.a /usr/local/lib/libjpeg.a
@@ -68,9 +68,9 @@ qcnlive_SOURCES = \
       $(GRAPHICSDIR)/nation_boundary.cpp \
       $(GRAPHICSDIR)/coastline.cpp \
       $(GRAPHICSDIR)/plate_boundary.cpp \
-           $(MAINDIR)/cserialize.cpp \
+           $(UTILDIR)/cserialize.cpp \
            $(MAINDIR)/qcn_shmem.cpp \
-           $(MAINDIR)/csensor.cpp \
+           $(SENSORDIR)/csensor.cpp \
            $(MAINDIR)/qcn_thread_sensor.cpp \
            $(MAINDIR)/qcn_thread_time.cpp \
            $(MAINDIR)/main.cpp \

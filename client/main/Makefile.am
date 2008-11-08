@@ -28,18 +28,18 @@ if OS_DARWIN
    LIBS += @CLIENTLIBS@ -ldl $(BOINC_LIB)
    # UTIL_CPP = $(UTILDIR)/qcn_util.cpp $(UTILDIR)/qcn_semaphore.cpp
    SENSORS = \
-           $(MAINDIR)/csensor_mac_laptop.cpp \
-           $(MAINDIR)/csensor_mac_usb_generic.cpp \
-           $(MAINDIR)/csensor_mac_usb_jw.cpp \
-           $(MAINDIR)/csensor_usb_motionnodeaccel.cpp
+           $(SENSORDIR)/csensor_mac_laptop.cpp \
+           $(SENSORDIR)/csensor_mac_usb_generic.cpp \
+           $(SENSORDIR)/csensor_mac_usb_jw.cpp \
+           $(SENSORDIR)/csensor_usb_motionnodeaccel.cpp
 else
    # must be Linux because I'm sure not using autoconf on Windows! ;-)
    STACKSIZE = --stack=2000000
    # LIBS += -z lazy -L$(LIBNTPDIR) -lntp -ldl $(BOINC_LIB) @CLIENTLIBS@
    LIBS += -z lazy -ldl $(BOINC_LIB) @CLIENTLIBS@
    SENSORS  = \
-        $(MAINDIR)/csensor_linux_usb_jw.cpp \
-        $(MAINDIR)/csensor_usb_motionnodeaccel.cpp 
+        $(SENSORDIR)/csensor_linux_usb_jw.cpp \
+        $(SENSORDIR)/csensor_usb_motionnodeaccel.cpp 
 endif
 
 bin_PROGRAMS = qcn qcndemo
@@ -54,10 +54,10 @@ qcn_SOURCES = \
            $(UTILDIR)/execproc.cpp \
            $(UTILDIR)/qcn_util.cpp \
            $(UTILDIR)/qcn_signal.cpp \
-           $(MAINDIR)/cserialize.cpp \
+           $(UTILDIR)/cserialize.cpp \
            $(UTILDIR)/gzstream.cpp \
            $(MAINDIR)/qcn_shmem.cpp \
-           $(MAINDIR)/csensor.cpp \
+           $(SENSORDIR)/csensor.cpp \
            $(SENSORS) \
            $(QCNUSBDIR)/qcn_shmem_usb.cpp \
            $(MAINDIR)/qcn_thread_sensor.cpp \
@@ -75,7 +75,7 @@ qcndemo_SOURCES = \
            $(UTILDIR)/qcn_thread.cpp \
            $(UTILDIR)/qcn_util.cpp \
            $(UTILDIR)/qcn_signal.cpp \
-           $(MAINDIR)/cserialize.cpp \
+           $(UTILDIR)/cserialize.cpp \
            $(UTILDIR)/gzstream.cpp \
            $(UTILDIR)/md5.cpp \
            $(MAINDIR)/qcn_shmem.cpp \

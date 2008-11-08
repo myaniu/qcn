@@ -27,8 +27,8 @@ LIBS += @CLIENTLIBS@ $(BOINC_LIB)
 bin_PROGRAMS = qcnusb test
 
 qcnusb_SOURCES = \
-           $(MAINDIR)/csensor.cpp \
-           $(MAINDIR)/csensor_mac_usb_jw.cpp \
+           $(SENSORDIR)/csensor.cpp \
+           $(SENSORDIR)/csensor_mac_usb_jw.cpp \
            $(UTIL_CPP) \
            ./qcn_shmem_usb.cpp \
            ./qcnusb.cpp 

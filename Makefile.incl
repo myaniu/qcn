@@ -15,6 +15,7 @@ BOINC_LIB = -L$(BOINC_DIR)/api -lboinc_api -lboinc_graphics2 -L$(BOINC_DIR)/zip 
 
 UTILDIR = $(BASEDIR)/client/util
 MAINDIR = $(BASEDIR)/client/main
+SENSORDIR = $(BASEDIR)/client/sensor
 GRAPHICSDIR = $(BASEDIR)/client/graphics
 STRIP = strip
 
@@ -27,6 +28,7 @@ AM_CPPFLAGS = \
         -O2 \
         -I$(BASEDIR) \
         -I$(MAINDIR) \
+        -I$(SENSORDIR) \
         -I$(UTILDIR) \
         -I$(BOINC_DIR)/lib \
         -I$(BOINC_DIR)/api \

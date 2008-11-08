@@ -29,7 +29,7 @@ bin_PROGRAMS = qcn_graphics
       
 qcn_graphics_SOURCES = \
       $(UTILDIR)/qcn_signal.cpp \
-      $(MAINDIR)/cserialize.cpp \
+      $(UTILDIR)/cserialize.cpp \
       $(UTILDIR)/gzstream.cpp \
       $(MAINDIR)/qcn_shmem.cpp \
       $(GRAPHICSDIR)/qcn_graphics.cpp \
