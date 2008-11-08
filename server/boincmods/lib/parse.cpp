@@ -175,7 +175,6 @@ int dup_element_contents(FILE* in, const char* end_tag, char** pp) {
 }
 
 int dup_element(FILE* in, const char* tag_name, char** pp) {
-int dup_element(FILE* in, const char* tag_name, char** pp) {
     char buf[256], end_tag[256];
     int retval;
 	long iStart; // initial start of file operations
