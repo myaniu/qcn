@@ -99,9 +99,10 @@ CEarth::CEarth()
 
 void CEarth::Cleanup()
 {
-    for (int i = 0; i < iMaxTextures; i++) {
+   for (int i = 0; i < iMaxTextures; i++) {
        if (texture[i].id) { // free earth day texture if required
           glDeleteTextures(1, (const GLuint*) &(texture[i].id));
+		  texture[i].id = 0;
        }
     }
 
@@ -186,7 +187,7 @@ void CEarth::Idle()
 
 void CEarth::LoadEarthTexture()
 {
-    char strImg[_MAX_PATH];
+   char strImg[_MAX_PATH];
 #ifdef _EARTH_COMBINE_
     char* pstrEarth[iMaxTextures] = { IMG_EARTH_DAY, IMG_EARTH_NIGHT, IMG_EARTH_MASK };
 #else

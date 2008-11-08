@@ -126,12 +126,14 @@ void doMainQuit(const bool& bFinish, const int& errcode)
   g_bFinished = bFinish;
   g_iQCNReturn = (errcode == ERR_TIMEOUT ? ERR_NONE : errcode);  // note a timeout error is "normal" exit
   g_iStop = TRUE; // try and sleep a little to give the threads a chance to stop, a second should suffice
-  g_threadSensor->Stop();
-  g_threadTime->Stop();
+  if (g_threadSensor) g_threadSensor->Stop();
+  if (g_threadTime) g_threadTime->Stop();
   int iStopCtr = 0;
   qcn_util::set_qcn_counter(); // write our settings to disk
   //fprintf(stdout, "Quitting QCN...\n");
-  while ((g_threadSensor->IsRunning() || g_threadTime->IsRunning()) && iStopCtr++ < 3000) { // wait up to 3 seconds, I believe BOINC gives us 5 seconds to quit
+  while (g_threadSensor && g_threadTime
+	   && (g_threadSensor->IsRunning() || g_threadTime->IsRunning()) 
+	   && iStopCtr++ < 3000) { // wait up to 3 seconds, I believe BOINC gives us 5 seconds to quit
      usleep(1000);
   }
   if (g_threadTime) {
@@ -251,7 +253,7 @@ int qcn_main(int argc, char **argv)
     // create shared mem segment for data & graphics -- if running the GUI this is done in the main GUI app (i.e. gui/qcnmac.cpp)
     sm = (CQCNShMem*) boinc_graphics_make_shmem((char*) QCN_SHMEM, sizeof(CQCNShMem));
     if (sm) {
-        g_bDemo = boinc_is_standalone();
+		g_bDemo = boinc_is_standalone() ? true : false;
         qcn_util::ResetCounter(WHERE_MAIN_STARTUP);  // this is the one and only place ResetCounter is called outside of the sensor thread, so it's safe
         parseArgs(argc, argv);
     }
@@ -725,7 +727,6 @@ void parseArgs(int argc, char* argv[])
     g_fPerturb[PERTURB_SIG_CUTOFF] = DEFAULT_SIG_CUTOFF;
     g_fPerturb[PERTURB_SHORT_TERM_AVG_MAG] = DEFAULT_SHORT_TERM_AVG_MAG;
   
-    // CMC here 
     // workunit name _fs??_ the ?? is sig cutoff, _stam??_ is short-term-avg mag 
 
     // parse command-line arguments, right now just an optional memory dump that can be loaded

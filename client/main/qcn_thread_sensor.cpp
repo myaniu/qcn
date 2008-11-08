@@ -100,7 +100,6 @@ bool getSensor(CSensor* volatile *ppsms)
        if (qcn_main::g_iStop || !sm || qcn_main::g_threadSensor->IsSuspended()) return false;  // handle quit request
        switch(i) {
 		   case 0:   // try the USB driver first
-// CMC here
 //#define GENERIC
 #ifdef GENERIC
                          if (boinc_is_standalone()) 

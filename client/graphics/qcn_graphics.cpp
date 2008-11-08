@@ -1039,6 +1039,7 @@ void parse_quake_info(char* strQuake, int ctr, e_quake eType)
    // sixth is a text description
  
  
+   const int iLenBuf = 256;
    const int iMax = 7; // max # of sections
    if ((int) strlen(strQuake) <= iMax) return; // must be an error, string too short!
 
@@ -1047,7 +1048,7 @@ void parse_quake_info(char* strQuake, int ctr, e_quake eType)
    char* strWhere[iMax+1] = { strQuake, NULL, NULL, NULL, NULL, NULL, NULL, strQuake+strlen(strQuake) }; 
    SQuake sq; // a temp struct to use for the vector assign
    sq.num = ctr;
-   char* buf = new char[1024];
+   char* buf = new char[iLenBuf];
 
 /*
 5.2|2007/11/21 08:09:15          |-32.901       | -179.221 |    53.9     |SOUTH OF THE KERMADEC ISLANDS
@@ -1058,7 +1059,7 @@ void parse_quake_info(char* strQuake, int ctr, e_quake eType)
         strWhere[i] = (char*) strchr((const char*) strWhere[i-1]+1, (int) delim);	
   
      if (strWhere[i-1]) { 
-        memset(buf,0x00,1024);
+        memset(buf,0x00,iLenBuf);
         strncpy(buf, strWhere[i-1] + ((i==1) ? 0 : 1), strWhere[i] - strWhere[i-1] - ((i==1) ? 0 : 1));
         //fprintf(stdout, "buf[%d] = %s\n", i, buf);
 
@@ -1247,8 +1248,8 @@ void parse_project_prefs()
    if (!sm || !strlen(sm->strProjectPreferences)) return;
 
    int iTotal = 0;
-   int iLen = 1024; 
-   char* quake = new char[iLen];
+   int iLenQuake = 512; 
+   char* quake = new char[iLenQuake];
    char strTmp[16];
    int ctr = 0; 
    bool bGo = true;
@@ -1263,7 +1264,8 @@ void parse_project_prefs()
 */
    while (bGo) {
       sprintf(strTmp, "<qu%03d>", ++ctr);
-      if (parse_str((const char*) sm->strProjectPreferences, strTmp, quake, iLen)) {
+	  memset(quake, 0x00, iLenQuake);
+      if (parse_str((const char*) sm->strProjectPreferences, strTmp, quake, iLenQuake)) {
         //fprintf(stdout, "%s\n", quake);
         iTotal++;
         parse_quake_info(quake, ctr, QUAKE_CURRENT);
@@ -1276,7 +1278,8 @@ void parse_project_prefs()
    ctr = 0;
    while (bGo) {
       sprintf(strTmp, "<wequ%03d>", ++ctr);
-      if (parse_str((const char*) sm->strProjectPreferences, strTmp, quake, iLen)) {
+	  memset(quake, 0x00, iLenQuake);
+      if (parse_str((const char*) sm->strProjectPreferences, strTmp, quake, iLenQuake)) {
         //fprintf(stdout, "%s\n", quake);
         iTotal++;
         parse_quake_info(quake, iTotal, QUAKE_WORLD85);
