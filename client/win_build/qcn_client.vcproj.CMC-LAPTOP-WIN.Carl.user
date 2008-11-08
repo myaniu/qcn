@@ -10,7 +10,7 @@
 			>
 			<DebugSettings
 				Command="$(TargetPath)"
-				WorkingDirectory=""
+				WorkingDirectory="c:\qcn\client\test\slots\0"
 				CommandArguments=""
 				Attach="false"
 				DebuggerType="3"
@@ -22,7 +22,7 @@
 				SQLDebugging=""
 				Environment=""
 				EnvironmentMerge="true"
-				DebuggerFlavor=""
+				DebuggerFlavor="0"
 				MPIRunCommand=""
 				MPIRunArguments=""
 				MPIRunWorkingDirectory=""
@@ -37,8 +37,8 @@
 			Name="Release|Win32"
 			>
 			<DebugSettings
-				Command="$(TargetPath)"
-				WorkingDirectory=""
+				Command="..\bin\qcn_4.25_windows_intelx86.exe"
+				WorkingDirectory="c:\qcn\client\test\slots\0"
 				CommandArguments=""
 				Attach="false"
 				DebuggerType="3"
@@ -50,7 +50,7 @@
 				SQLDebugging=""
 				Environment=""
 				EnvironmentMerge="true"
-				DebuggerFlavor=""
+				DebuggerFlavor="0"
 				MPIRunCommand=""
 				MPIRunArguments=""
 				MPIRunWorkingDirectory=""

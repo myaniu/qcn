@@ -677,7 +677,7 @@ void doTrigger(bool bReal, long lOffsetStart, long lOffsetEnd)
             //if (!ti.bInteractive || ti.bDemo) { // only do filename stuff & inc counter if demo mode or non-interactive trigger
                //qcn_util::getTimeOffset((const double*) sm->dTimeServerTime, (const double*) sm->dTimeServerOffset, (const double) dTimeTrigger, dTimeOffset, dTimeOffsetTime);
                qcn_util::set_trigger_file((char*) ti.strFile,
-                  (const char*) sm->wu_name,
+				   (const char*) qcn_util::dataBOINC.wu_name,
                   bReal ? ++sm->iNumTrigger : sm->iNumTrigger,
                   QCN_ROUND(dTimeTrigger + qcn_main::g_dTimeOffset),
                   bReal

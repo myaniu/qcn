@@ -16,6 +16,8 @@
 #include <setupapi.h>
 #include "csensor.h"
 
+#define _USE_DLL_
+
 #ifndef _USE_DLL_
 // the following is the opcode into the HP laptop accelerometer to return xyz
 #define HP_XYZ_IO_CODE 0xCF50601A

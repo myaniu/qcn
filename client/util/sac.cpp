@@ -314,7 +314,7 @@ extern int sacio
     }
 #else
     // use their hostid so we can lookup into the database table if needed
-    sprintf(sacdata.s[ess_kstnm], "%07d", sm->hostid);
+	sprintf(sacdata.s[ess_kstnm], "%07d", qcn_util::dataBOINC.hostid);
 #endif
 
     // use dTimeZero for the reference time

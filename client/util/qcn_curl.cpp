@@ -3,7 +3,7 @@
 namespace qcn_curl {
 
 // we need a few globals such as curl write functions and our big global shared mem struct sm
-const long BYTESIZE_CURL = MAX_PROJPREFS;   // max length to write a curl reply is our qcn_shmem.h (really define.h) MAX_PROJPREFS (132KB)
+const long BYTESIZE_CURL = 131072;   // max length to write a curl reply is our qcn_shmem.h (really define.h) MAX_PROJPREFS (132KB)
 long g_curlBytes = 0L;    // cumulative bytes written by curl write function
 
 // decl for curl write function

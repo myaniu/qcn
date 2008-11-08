@@ -113,7 +113,7 @@ void sendFinalTrickle()
           XML_CPU_TIME, sm->cpu_time, XML_CPU_TIME
         );
         // upload the qcn_prefs.xml file
-        trickleup::qcnTrickleUp(strFinal, "finalstats", (const char*) sm->wu_name);  // trickle the final stats, basically like uploading qcnprefs.xml file
+		trickleup::qcnTrickleUp(strFinal, "finalstats", (const char*) qcn_util::dataBOINC.wu_name);  // trickle the final stats, basically like uploading qcnprefs.xml file
       }
 }
 
@@ -130,6 +130,13 @@ void doMainQuit(const bool& bFinish, const int& errcode)
   if (g_threadTime) g_threadTime->Stop();
   int iStopCtr = 0;
   qcn_util::set_qcn_counter(); // write our settings to disk
+
+  // free project prefs
+   if (qcn_util::dataBOINC.project_preferences) {
+	   free(qcn_util::dataBOINC.project_preferences);
+	   qcn_util::dataBOINC.project_preferences = NULL;
+	}
+
   //fprintf(stdout, "Quitting QCN...\n");
   while (g_threadSensor && g_threadTime
 	   && (g_threadSensor->IsRunning() || g_threadTime->IsRunning()) 
@@ -272,7 +279,6 @@ int qcn_main(int argc, char **argv)
         //boinc_register_timer_callback(update_sharedmem);   // this means update_sharedmem will be automatically called once per second
     }
 */
-
     // make our trigger zip data dir if it doesn't exist
     if (g_strPathTrigger && ! boinc_file_exists((const char*) g_strPathTrigger) ) {
        // now open dir to see if exists
@@ -483,7 +489,7 @@ int qcn_main(int argc, char **argv)
           // unnecessary for demo mode -- but should we wget or curl the latest quake list, perhaps just in the ./runme script?
           if (!g_iStop && !(++iQuakeList % QUAKELIST_CHECK))  {
              iQuakeList = 0;  // reset counter to 0 if not already zero
-             trickleup::qcnTrickleUp("<quake>send</quake>\n", "quakelist", (const char*) sm->wu_name);  // request a new quake list
+             trickleup::qcnTrickleUp("<quake>send</quake>\n", "quakelist", (const char*) qcn_util::dataBOINC.wu_name);  // request a new quake list
           }
 
           // Parse Prefs of New Quake List
@@ -509,7 +515,6 @@ int qcn_main(int argc, char **argv)
         }
 
         usleep(MAIN_LOOP_SLEEP_MICROSECONDS); // 5Hz should be fast enough to monitor things such as trickles, stop/suspend requests etc
-
     } 
 
 done:
@@ -526,6 +531,7 @@ done:
       boinc_finish(g_iQCNReturn); // this never returns, note ERR_TIMEOUT is 0 (normal end is a timeout)
     }
 #endif
+	
     if (g_threadMain) g_threadMain->SetRunning(false);  // self-referential pointer to flag the thread is running 
     return g_iQCNReturn;
 }
@@ -660,7 +666,7 @@ bool CheckTriggerTrickle(struct STriggerInfo* ti)
           XML_CPU_TIME, sm->cpu_time, XML_CPU_TIME
     );
 
-    trickleup::qcnTrickleUp(strTrigger, "trigger", (const char*) sm->wu_name);  // send a trigger for this trickle
+    trickleup::qcnTrickleUp(strTrigger, "trigger", (const char*) qcn_util::dataBOINC.wu_name);  // send a trigger for this trickle
 
     // filename already set in ti->strFile
     fprintf(stdout, "Trigger detected at offset %ld  time %f  write at %ld - zip file %s\n", 

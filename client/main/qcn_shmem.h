@@ -54,6 +54,8 @@ class CQCNShMem : public CSerialize
     double cpu_time;
     double clock_time;
 
+/*
+	APP_INIT_DATA dataBOINC;
     // BOINC APP_INIT_DATA stuff important to use for graphics etc
     char user_name[256];
     char team_name[256];
@@ -65,13 +67,14 @@ class CQCNShMem : public CSerialize
     int teamid;
     int hostid;
 
-    char strProjectPreferences[MAX_PROJPREFS]; // need to copy this separately as dataBOINC.project_preferences is dynamic string
-
+    //char strProjectPreferences[MAX_PROJPREFS]; // need to copy this separately as dataBOINC.project_preferences is dynamic string
+	char* strProjectPreferences;
     int slot;
     double user_total_credit;
     double user_expavg_credit;
     double host_total_credit;
     double host_expavg_credit;
+*/
 
     // end of "persistent" values
 

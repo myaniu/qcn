@@ -78,7 +78,7 @@ void* QCNThreadTime(void*)
 #ifdef QCNLIVE
 		NULL,
 #else
-		(const char*) sm->project_dir, 
+		(const char*) qcn_util::dataBOINC.project_dir, 
 #endif
 		strReply, iLenReply);
 

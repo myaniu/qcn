@@ -120,28 +120,31 @@ double qcn_dday(double dNow) {
 }
 
 #ifndef QCN_USB
-void retrieveProjectPrefs(APP_INIT_DATA* pdataBOINC)
+struct APP_INIT_DATA dataBOINC;  // note that we are making an instance of BOINC's APP_INIT_DATA
+
+void retrieveProjectPrefs()
 {
+	if (dataBOINC.project_preferences) {
+		free(dataBOINC.project_preferences);
+		dataBOINC.project_preferences = NULL;
+	}
       boinc_parse_init_data_file(); // parse the file for BOINC
-      boinc_get_init_data_p((APP_INIT_DATA*) pdataBOINC);
-      if (pdataBOINC->project_preferences) { // copy proj prefs over to a separate struct since it is unstable in shared mem (malloc'd by BOINC)
-         memset((char*) sm->strProjectPreferences, 0x00, sizeof(char) * MAX_PROJPREFS);
-         strlcpy((char*) sm->strProjectPreferences, pdataBOINC->project_preferences, MAX_PROJPREFS);
-         free(pdataBOINC->project_preferences); // explicitly free the boinc ref so it doesn't get memory leak
-         pdataBOINC->project_preferences = NULL;
-      }
+      boinc_get_init_data(dataBOINC);
+#ifdef QCNLIVE
+	// reset workunit name to station for qcn live
+	if (strlen(sm->strMyStation)>0) strcpy(qcn_util::dataBOINC.wu_name, sm->strMyStation); // copy station name to workunit name
+#endif
 }
 
 void getBOINCInitData(const e_where eWhere)
 {
     if (!sm) return;
-    APP_INIT_DATA dataBOINC;  // useful BOINC user prefs, i.e. for graphics
     // just needed on startup and when we get proj prefs
     fprintf(stderr, "qcn_util::getBOINCInitData requested at %f\n", dtime());
     // workunit will never change during program
     if (eWhere == WHERE_MAIN_STARTUP)  { // only the main.cpp (i.e. not the thread) can set this
       sm->setTriggerLock();
-      retrieveProjectPrefs(&dataBOINC);
+      retrieveProjectPrefs();
 
       // set trigger path -- note sm->strPathTrigger will NOT have appropriate \ or / at the end
       // in main.cpp -- the program checks for and creates this path if it doesn't exist (i.e. ../../sac or ../../projects/qcn/triggers)
@@ -185,6 +188,7 @@ void getBOINCInitData(const e_where eWhere)
         );
       }
 
+  /*
       // other important stuff to transfer from dataBOINC to sm-> now that project_prefs & img & trigger paths set
     strcpy(sm->user_name, dataBOINC.user_name);
     strcpy(sm->team_name, dataBOINC.team_name);
@@ -195,7 +199,7 @@ void getBOINCInitData(const e_where eWhere)
     sm->userid = dataBOINC.userid;
     sm->hostid = dataBOINC.hostid;
     sm->teamid = dataBOINC.teamid;
-
+  */
       sm->releaseTriggerLock();
       fprintf(stdout, "Trigger SAC Files will be stored in \n%s\nand removed after a month.\n", qcn_main::g_strPathTrigger);
       fprintf(stdout, "Image Files will be stored in %s\n", sm->strPathImage);
@@ -204,7 +208,7 @@ void getBOINCInitData(const e_where eWhere)
     }
     else if (eWhere == WHERE_MAIN_PROJPREFS) {  // just want to get new projprefs, if any
        sm->setTriggerLock();
-       retrieveProjectPrefs(&dataBOINC);
+       retrieveProjectPrefs();
        sm->releaseTriggerLock();
     }
 }

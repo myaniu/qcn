@@ -188,6 +188,10 @@ void Cleanup()
    bool bInHere = false;
    if (bInHere) return; // in case called more than once 
    fprintf(stderr, "Cleaning up graphics objects...\n");
+   if (qcn_util::dataBOINC.project_preferences) {
+	   free(qcn_util::dataBOINC.project_preferences);
+	   qcn_util::dataBOINC.project_preferences = NULL;
+	}
    earth.Cleanup();
    vsq.clear();
    bInHere = true;
@@ -414,10 +418,10 @@ void draw_text_user()
     }
 #else
     if (sm) {
-      txf_render_string(.1, 0, .125, 0, MSG_SIZE_NORMAL, white, 0, (char*) sm->user_name);
+		txf_render_string(.1, 0, .125, 0, MSG_SIZE_NORMAL, white, 0, (char*) qcn_util::dataBOINC.user_name);
       //txf_render_string(.1, 0, 0.10, 0, MSG_SIZE_NORMAL, white, 0, (char*) sm->team_name);
 
-      sprintf(buf, "WU #: %s", sm->wu_name);
+      sprintf(buf, "WU #: %s", qcn_util::dataBOINC.wu_name);
       txf_render_string(.1, 0, 0.105, 0, MSG_SIZE_NORMAL, white, 0, buf);
 
       char strTime[32];
@@ -1245,7 +1249,7 @@ void SetScaled(bool scaleit)
 void parse_project_prefs()
 {
    // this is where we can get a list of earthquakes 
-   if (!sm || !strlen(sm->strProjectPreferences)) return;
+   if (!sm || !strlen(qcn_util::dataBOINC.project_preferences)) return;
 
    int iTotal = 0;
    int iLenQuake = 512; 
@@ -1265,7 +1269,7 @@ void parse_project_prefs()
    while (bGo) {
       sprintf(strTmp, "<qu%03d>", ++ctr);
 	  memset(quake, 0x00, iLenQuake);
-      if (parse_str((const char*) sm->strProjectPreferences, strTmp, quake, iLenQuake)) {
+      if (parse_str((const char*) qcn_util::dataBOINC.project_preferences, strTmp, quake, iLenQuake)) {
         //fprintf(stdout, "%s\n", quake);
         iTotal++;
         parse_quake_info(quake, ctr, QUAKE_CURRENT);
@@ -1279,7 +1283,7 @@ void parse_project_prefs()
    while (bGo) {
       sprintf(strTmp, "<wequ%03d>", ++ctr);
 	  memset(quake, 0x00, iLenQuake);
-      if (parse_str((const char*) sm->strProjectPreferences, strTmp, quake, iLenQuake)) {
+      if (parse_str((const char*) qcn_util::dataBOINC.project_preferences, strTmp, quake, iLenQuake)) {
         //fprintf(stdout, "%s\n", quake);
         iTotal++;
         parse_quake_info(quake, iTotal, QUAKE_WORLD85);
@@ -1291,14 +1295,14 @@ void parse_project_prefs()
 
 #ifndef QCNLIVE  // don't change in qcnlive mode - user selects the screen!
    // get station lat/lng (in QCNLive this is done elsewhere)
-   parse_double((const char*) sm->strProjectPreferences, "<lat>", (double&) sm->dMyLatitude);  
-   parse_double((const char*) sm->strProjectPreferences, "<lng>", (double&) sm->dMyLongitude);  
-   parse_str((const char*) sm->strProjectPreferences, "<stn>", (char*) sm->strMyStation, SIZEOF_STATION_STRING); 
+   parse_double((const char*) qcn_util::dataBOINC.project_preferences, "<lat>", (double&) sm->dMyLatitude);  
+   parse_double((const char*) qcn_util::dataBOINC.project_preferences, "<lng>", (double&) sm->dMyLongitude);  
+   parse_str((const char*) qcn_util::dataBOINC.project_preferences, "<stn>", (char*) sm->strMyStation, SIZEOF_STATION_STRING); 
 #endif
 
    // now get preferred view screensaver prefs if not set on cmd line
    if (!iFullScreenView) { // cmd line overrides prefs
-     parse_int((const char*) sm->strProjectPreferences, "<ssp>", iFullScreenView);  
+     parse_int((const char*) qcn_util::dataBOINC.project_preferences, "<ssp>", iFullScreenView);  
    }
 
 #ifndef QCNLIVE  // don't change in qcnlive mode - user selects the screen!

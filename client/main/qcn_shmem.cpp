@@ -15,6 +15,7 @@ CQCNShMem::CQCNShMem()
 
 CQCNShMem::~CQCNShMem()
 {
+	// if (strProjectPreferences) free(strProjectPreferences);
 }
 
 bool CQCNShMem::setTriggerLock()
@@ -108,6 +109,7 @@ void CQCNShMem::clear(bool bAll)
     pshmem->cpu_time = cpu_time;
     pshmem->clock_time = clock_time;
 
+/*
     // BOINC APP_INIT_DATA stuff kept in shared memory for easy graphics access etc
     strcpy(pshmem->user_name, user_name);
     strcpy(pshmem->team_name, team_name);
@@ -119,12 +121,22 @@ void CQCNShMem::clear(bool bAll)
     pshmem->teamid = teamid;
     pshmem->hostid = hostid;
 
-    strcpy(pshmem->strProjectPreferences, strProjectPreferences);  // need to copy this separately as dataBOINC.project_preferences is dynamic string
+	if (strProjectPreferences) {
+		pshmem->strProjectPreferences = strdup(strProjectPreferences);
+		free(strProjectPreferences);
+		strProjectPreferences = NULL;
+	}
+	else {
+		pshmem->strProjectPreferences = NULL;
+	}
+	memcpy(&pshmem->dataBOINC, &dataBOINC, sizeof(APP_INIT_DATA));
+
     pshmem->slot = slot;
     pshmem->user_total_credit = user_total_credit;
     pshmem->user_expavg_credit = user_expavg_credit;
     pshmem->host_total_credit = host_total_credit;
     pshmem->host_expavg_credit = host_expavg_credit;
+*/
 
     // this "atomic" copy back should be safe
     memcpy(this, pshmem, sizeof(CQCNShMem));
