@@ -289,8 +289,6 @@ struct FDSET_GROUP {
 #define TRICKLE_DOWN_SEND         "<sendme>"
 #define TRICKLE_DOWN_SEND_END_TAG "</sendme>"
 
-//#define MAX_PROJPREFS 131072
-
 // this is the max number of the array index awinsize used to shift the graphics window 
 #define MAX_KEY_WINSIZE 2
 // the reduction/rebin for the data array size for the graphics
