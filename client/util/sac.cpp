@@ -304,18 +304,19 @@ extern int sacio
     strcpy(sacdata.s[ess_kuser0],  qcn_main::g_dTimeSync > 0.0f ? "TSYNC" : "NOTSYNC");   // flag that time was synchronized to server or not
     sprintf(sacdata.s[ess_kevnm], "%07d", ti->iWUEvent);   // number of event
 
-    // if they entered a station ID then use it
 #ifdef QCNLIVE
+    // if they entered a station ID then use it
     if (strlen((const char*) sm->strMyStation)>0) {
         strlcpy(sacdata.s[ess_kstnm], (const char*) sm->strMyStation, SIZEOF_STATION_STRING);
     }
-    else { // use their hostid so we can lookup into the database table if needed
+    else { // just note that it's from qcnlive
         strcpy(sacdata.s[ess_kstnm], "qcnlive");
     }
 #else
     // CMC here - hostid doesn't seem to get filled in dataBOINC - maybe use host_info.domain_name?
 	// use their hostid so we can lookup into the database table if needed
-	sprintf(sacdata.s[ess_kstnm], "%07d", sm->dataBOINC.hostid);
+	//sprintf(sacdata.s[ess_kstnm], "%07d", sm->dataBOINC.hostid);
+	strcpy(sacdata.s[ess_kstnm], "boinc");
 #endif
 
     // use dTimeZero for the reference time
