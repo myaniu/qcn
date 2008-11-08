@@ -362,7 +362,7 @@ function show_trigger($hostid, $heading, $private=true)
 
    $sql = "select t.id,result_name,time_trigger,time_received,"
        . "time_sync,sync_offset,significance, magnitude, " . $sqllatlng 
-       . "file, dt, numreset, s.description, sw_version,runtime_cpu,runtime_clock "
+       . "dt, numreset, s.description, sw_version,runtime_cpu,runtime_clock "
        . "from qcn_trigger t, qcn_sensor s where t.type_sensor=s.id and hostid=$hostid order by time_trigger desc limit 50";
    $result=$db->do_query($sql);
    echo "<H2>$heading</H2>\n";
@@ -378,7 +378,6 @@ function show_trigger($hostid, $heading, $private=true)
              <th>Magnitude</th>
              <th>Latitude</th>
              <th>Longitude</th>
-             <th>File</th>
              <th>Delta T</th>
              <th>Num Reset</th>
              <th>Sensor Type</th>
@@ -399,13 +398,12 @@ function show_trigger($hostid, $heading, $private=true)
                    <td>" . round($row[7],6) . "</td>
                    <td>" . round($row[8],6) . "</td>
                    <td>" . round($row[9],6) . "</td>
-                   <td>$row[10]</td>
-                   <td>" . ($row[11] ? $row[11] : 0) . "</td>
+                   <td>" . ($row[10] ? $row[10] : 0) . "</td>
+                   <td>$row[11]</td>
                    <td>$row[12]</td>
                    <td>$row[13]</td>
                    <td>$row[14]</td>
                    <td>$row[15]</td>
-                   <td>$row[16]</td>
               </tr>";
       }
    }
