@@ -40,7 +40,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				WholeProgramOptimization="false"
-				AdditionalIncludeDirectories="../../;../main;../util;../../zlib;../../boinc/zip;../../boinc/lib;../../boinc/api"
+				AdditionalIncludeDirectories="../../;../main;../util;../sensor;../../zlib;../../boinc/zip;../../boinc/lib;../../boinc/api"
 				PreprocessorDefinitions="_USE_NTPDATE_EXEC_;_WIN32;WIN32;_DEBUG;_CRT_SECURE_NO_DEPRECATE;_ZLIB;APP_GRAPHICS"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -197,23 +197,23 @@
 				>
 			</File>
 			<File
-				RelativePath="..\main\csensor.h"
+				RelativePath="..\sensor\csensor.h"
 				>
 			</File>
 			<File
-				RelativePath="..\main\csensor_win_laptop_hp.h"
+				RelativePath="..\sensor\csensor_win_laptop_hp.h"
 				>
 			</File>
 			<File
-				RelativePath="..\main\csensor_win_laptop_thinkpad.h"
+				RelativePath="..\sensor\csensor_win_laptop_thinkpad.h"
 				>
 			</File>
 			<File
-				RelativePath="..\main\csensor_win_usb_jw.h"
+				RelativePath="..\sensor\csensor_win_usb_jw.h"
 				>
 			</File>
 			<File
-				RelativePath="..\main\cserialize.h"
+				RelativePath="..\util\cserialize.h"
 				>
 			</File>
 			<File
@@ -320,27 +320,27 @@
 				Name="Main"
 				>
 				<File
-					RelativePath="..\main\csensor.cpp"
+					RelativePath="..\sensor\csensor.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\main\csensor_usb_motionnodeaccel.cpp"
+					RelativePath="..\sensor\csensor_usb_motionnodeaccel.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\main\csensor_win_laptop_hp.cpp"
+					RelativePath="..\sensor\csensor_win_laptop_hp.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\main\csensor_win_laptop_thinkpad.cpp"
+					RelativePath="..\sensor\csensor_win_laptop_thinkpad.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\main\csensor_win_usb_jw.cpp"
+					RelativePath="..\sensor\csensor_win_usb_jw.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\main\cserialize.cpp"
+					RelativePath="..\util\cserialize.cpp"
 					>
 				</File>
 				<File

@@ -208,7 +208,7 @@
 				Name="Main"
 				>
 				<File
-					RelativePath="..\main\cserialize.cpp"
+					RelativePath="..\util\cserialize.cpp"
 					>
 				</File>
 				<File

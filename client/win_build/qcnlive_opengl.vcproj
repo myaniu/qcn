@@ -40,7 +40,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../../zlib;../../curl/include;../../freeglut/include;../../;../main;../util;../graphics;../../boinc/lib;../../boinc/zip;&quot;..\..\jpeg-6b&quot;;../../boinc/api;&quot;$(OGRE_HOME)\include&quot;;&quot;$(OGRE_HOME)\include\CEGUI&quot;"
+				AdditionalIncludeDirectories="../../zlib;../../curl/include;../../freeglut/include;../../;../main;../util;../sensor;../graphics;../../boinc/lib;../../boinc/zip;&quot;..\..\jpeg-6b&quot;;../../boinc/api;&quot;$(OGRE_HOME)\include&quot;;&quot;$(OGRE_HOME)\include\CEGUI&quot;"
 				PreprocessorDefinitions="QCNLIVE;GRAPHICS_PROGRAM;FREEGLUT_STATIC;CURL_STATICLIB;_ZLIB;_CRT_SECURE_NO_DEPRECATE;APP_GRAPHICS;WIN32;_MT;_DLL;_DEBUG"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -120,7 +120,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="../../zlib;../../curl/include;../../freeglut/include;../../;../main;../util;../graphics;../../boinc/lib;../../boinc/zip;&quot;..\..\jpeg-6b&quot;;../../boinc/api"
+				AdditionalIncludeDirectories="../../zlib;../../curl/include;../../freeglut/include;../../;../main;../util;../sensor;../graphics;../../boinc/lib;../../boinc/zip;&quot;..\..\jpeg-6b&quot;;../../boinc/api"
 				PreprocessorDefinitions="QCNLIVE;GRAPHICS_PROGRAM;FREEGLUT_STATIC;CURL_STATICLIB;_ZLIB;_CRT_SECURE_NO_DEPRECATE;APP_GRAPHICS;WIN32;_MT;_DLL;NDEBUG"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
@@ -269,19 +269,19 @@
 					>
 				</File>
 				<File
-					RelativePath="..\main\csensor.h"
+					RelativePath="..\sensor\csensor.h"
 					>
 				</File>
 				<File
-					RelativePath="..\main\csensor_win_thinkpad.h"
+					RelativePath="..\sensor\csensor_win_thinkpad.h"
 					>
 				</File>
 				<File
-					RelativePath="..\main\csensor_win_usb_jw.h"
+					RelativePath="..\sensor\csensor_win_usb_jw.h"
 					>
 				</File>
 				<File
-					RelativePath="..\main\cserialize.h"
+					RelativePath="..\util\cserialize.h"
 					>
 				</File>
 				<File
@@ -305,19 +305,19 @@
 				Name="Source Files"
 				>
 				<File
-					RelativePath="..\main\csensor.cpp"
+					RelativePath="..\sensor\csensor.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\main\csensor_win_thinkpad.cpp"
+					RelativePath="..\sensor\csensor_win_thinkpad.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\main\csensor_win_usb_jw.cpp"
+					RelativePath="..\sensor\csensor_win_usb_jw.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\main\cserialize.cpp"
+					RelativePath="..\util\cserialize.cpp"
 					>
 				</File>
 				<File
