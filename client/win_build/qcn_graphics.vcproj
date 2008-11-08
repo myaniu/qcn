@@ -208,10 +208,6 @@
 				Name="Main"
 				>
 				<File
-					RelativePath="..\util\cserialize.cpp"
-					>
-				</File>
-				<File
 					RelativePath="..\main\qcn_shmem.cpp"
 					>
 				</File>
@@ -219,6 +215,10 @@
 			<Filter
 				Name="Util"
 				>
+				<File
+					RelativePath="..\util\cserialize.cpp"
+					>
+				</File>
 				<File
 					RelativePath="..\util\gzstream.cpp"
 					>

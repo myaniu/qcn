@@ -78,7 +78,7 @@ bool CSerialize::deserialize(void* ptr, long len, const char* lpcszFile)
         }
         catch(...)
         {
-           fprintf(stdout, "CQCNShMem::deserialize: Cannot deserialize file %s\n", lpcszFile);
+           fprintf(stdout, "CSerialize::deserialize: Cannot deserialize file %s\n", lpcszFile);
             retval = false;
         }
         bInHere = false;

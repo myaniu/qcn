@@ -371,6 +371,9 @@ int qcn_main(int argc, char **argv)
 #ifdef __USE_BOINC_OPTIONS
         if (g_statusBOINC.quit_request) {
            fprintf(stderr, "Quit request from BOINC!\n");
+		   // if we were suspended, then quitting, bump up iNumReset if needed
+		   // since it was decremented in the suspend
+           // if (g_bSuspended && (dtime() - sm->update_time) > TIME_ERROR_SECONDS) sm->iNumReset--;
            doMainQuit();
            goto done; 
         }

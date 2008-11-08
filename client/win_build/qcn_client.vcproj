@@ -284,6 +284,10 @@
 				Name="Util"
 				>
 				<File
+					RelativePath="..\util\cserialize.cpp"
+					>
+				</File>
+				<File
 					RelativePath="..\util\execproc.cpp"
 					>
 				</File>
@@ -320,6 +324,26 @@
 				Name="Main"
 				>
 				<File
+					RelativePath="..\main\main.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\main\qcn_shmem.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\main\qcn_thread_sensor.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\main\qcn_thread_time.cpp"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Sensor"
+				>
+				<File
 					RelativePath="..\sensor\csensor.cpp"
 					>
 				</File>
@@ -337,26 +361,6 @@
 				</File>
 				<File
 					RelativePath="..\sensor\csensor_win_usb_jw.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\util\cserialize.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\main\main.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\main\qcn_shmem.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\main\qcn_thread_sensor.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\main\qcn_thread_time.cpp"
 					>
 				</File>
 			</Filter>
