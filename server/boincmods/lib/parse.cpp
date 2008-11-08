@@ -197,10 +197,12 @@ int dup_element(FILE* in, const char* tag_name, char** pp) {
 	if (!strBig) return ERR_XML_PARSE; 
 	memset(strBig, 0x00, sizeof(char) * iMax);
 	iRead = fread(strBig, sizeof(char), iMax, in); // read it all in
+    /*
 	if (iRead != iMax) { // paranoid, we can return if the byte sizes don't match
 		free(strBig);
 		return ERR_XML_PARSE;
 	}
+	*/
 
 	// strBig is the file size, so of course project_prefs will fit!
 	// now get start and end points of the tag in question
