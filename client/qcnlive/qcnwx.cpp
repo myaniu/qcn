@@ -337,7 +337,7 @@ void MyApp::GetLatestQuakeList()
     frame->statusBar->SetStatusText(wxString("Getting recent earthquake list...", wxConvUTF8));
     // this sequence will get the latest earthquake list
     if (! CreateBOINCInitFile()) {
-	frame->statusBar->SetStatusText(wxString("Failed to get the latest earthquake list, try again later!", wxConvUTF8));
+	    frame->statusBar->SetStatusText(wxString("Failed to get the latest earthquake list, try again later!", wxConvUTF8));
         return; // may as well split
     }
     qcn_graphics::getProjectPrefs(); // we have the strProjectPrefs so can get earthquake data now, this is in qcn_graphics.cpp
