@@ -44,6 +44,7 @@ cd ..
 #make clean && make
 #cd ../
 ./set-version $1
+make distclean
 ./_autosetup
 if ( test "`uname -s`" = "Darwin" ) then
 ./configure --with-apple-opengl-framework --disable-server
