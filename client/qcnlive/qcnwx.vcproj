@@ -39,7 +39,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../../zlib;../../curl/include;../../freeglut/include;../../;../main;../util;../sensor;../graphics;../../boinc/lib;../../boinc/zip;&quot;..\..\jpeg-6b&quot;;C:\wxWidgets\lib\vc_lib\mswd;C:\wxWidgets\include;../../boinc/api"
+				AdditionalIncludeDirectories="../../zlib;../../curl/include;../../freeglut/include;../../;../main;../util;../sensor;../graphics;../../boinc/lib;../../boinc/zip;&quot;..\..\jpeg-6b&quot;;\wxWidgets\lib\vc_lib\mswd;\wxWidgets\include;../../boinc/api"
 				PreprocessorDefinitions="_USE_NTPDATE_EXEC_;QCNLIVE;GRAPHICS_PROGRAM;FREEGLUT_STATIC;CURL_STATICLIB;_ZLIB;_CRT_SECURE_NO_DEPRECATE;APP_GRAPHICS;WIN32;_WIN32;_DEBUG;__WXMSW__;__WXDEBUG__"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -125,7 +125,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="../../zlib;../../curl/include;../../freeglut/include;../../;../main;../util;../sensor;../graphics;../../boinc/lib;../../boinc/zip;&quot;..\..\jpeg-6b&quot;;C:\wxWidgets\lib\vc_lib\msw;C:\wxWidgets\include;../../boinc/api"
+				AdditionalIncludeDirectories="../../zlib;../../curl/include;../../freeglut/include;../../;../main;../util;../sensor;../graphics;../../boinc/lib;../../boinc/zip;&quot;..\..\jpeg-6b&quot;;\wxWidgets\lib\vc_lib\msw;\wxWidgets\include;../../boinc/api"
 				PreprocessorDefinitions="_USE_NTPDATE_EXEC_;QCNLIVE;GRAPHICS_PROGRAM;FREEGLUT_STATIC;CURL_STATICLIB;_ZLIB;_CRT_SECURE_NO_DEPRECATE;APP_GRAPHICS;WIN32;_WIN32;NDEBUG;__WXMSW__"
 				RuntimeLibrary="2"
 			/>
@@ -303,7 +303,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\graphics\qcn_cube.cpp"
+				RelativePath="..\graphics\qcn_cube_qcnlive.cpp"
 				>
 			</File>
 			<File

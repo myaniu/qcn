@@ -1,4 +1,4 @@
-we should ship USB sensors to:
+﻿we should ship USB sensors to:
 
 David Anderson
 UBC Space Sciences Lab
@@ -19,6 +19,63 @@ Raymond, WA 98577
 QCNLive
 
 cut-and-paste doesn't work for lat,lng in local prefs box -- also a way to integrate google maps lookup?
+
+for the following refer to doc/Sensor_Directions.pdf
+
+We received a little feedback from our friends at IRIS regarding QCNLive.
+First, they really like it (that's good news). They made a few suggestions
+to make QCNLive more student/teacher friendly (remember many of our users
+are at a 6th grade or younger comprehension level). Fortunately many of
+these suggestions are on our list. I interspersed my comments in BOLD.
+
+A) Seismogram Viewing:
+1) Vertical axes for x,y,z,&s (I THINK THIS IS ON YOUR LIST ANYWAYS).
+
+2) Can you start with significance toggled off? Without
+explanation, it is hard to understand for first-timers. Let them
+get used to x, y, & z, then significance. (WE SHOULD PROBABLY DEFINE
+SIGNIFICANCE SOMWHERE IN THE PROGRAM - SIGNAL SIGNIFICANCE = (CURRENT
+SIGNAL) / (NOISE IN THE LAST MINUTE) )
+
+3) Make the forward & backward time motions more fluid. Make the time
+zoom more fluid - not just static 1 min, 10 min, 60 min. (I THINK
+THIS IS ALSO ON YOUR LIST. ALSO IF YOU COULD ALLOW THE USER TO ZOOM
+MORE FLUIDLY ON THE VERTICAL AXIS, THAT WOULD BE AWESOME!)
+
+4) Make a diagram of what directions x, y, & z are. (I MADE 2 QUICK
+LITTLE FIGURES - ATTACHED HERE. FEEL FREE TO MAKE A FIGURE OF YOUR
+OWN OR CHANGE THE FIGURES ANY WAY YOU WANT.)
+
+(I JUST NOTICED THAT WE SHOULD PROBABLY RE-DEFINE X, Y, & Z FOR THE
+MOTION NODE. Z SHOULD BE UP. X TO RIGHT WHEN USB CABLE IS POINTED
+AWAY FROM YOU. Y SHOULD BE IN THE DIRECTION THAT THE USB CABLE IS
+POINTING OUT OF THE BOX. THIS MAKES IT THE SAME AS THE MAC.)
+
+5) Can you make the text easier to read? Some of the colored text words
+are hard to read on the black background. (OR COULD WE CHANGE THE
+BLACK BACKGROUND TO WHITE OR GREY FOR QCNLive? BOLD MIGHT WORK TOO.
+WHATEVER IS EASIEST/BEST IS FINE BY ME.).
+
+6) Can you simplify the box. It is hard to understand. I think there is
+too much going on. (I'VE TALKED TO A FEW PEOPLE ABOUT THIS BOX. MOST
+OF THEM LIKE IT, BUT HAVE TROUBLE UNDERSTANDING IT. IF WE CAN MAKE
+THE BOX MOVE RIGHT FOR POSITIVE X, UP FOR POSITIVE Z, AND INTO THE
+SCREEN FOR POSITIVE Y, THAT WOULD DO THE TRICK. STOP IT FROM
+ROTATING. HAVE IT GROW AND SHRINK FOR LARGER MAGNITUDE?).
+
+7) A link from the software to an instructional website would be use for
+after the user has played with it. (I REALLY LIKE THIS. A LEARN MORE
+BUTTON THAT LINKS BACK TO QCN).
+
+B) Glove Viewing:
+1) Can you have a scale on the right that shows the size of a 2, 3, 4,
+5, 6, 7, and 8+ magnitude earthquake? (I think this is a great idea!)
+
+2) Also a legend on the right showing blue circle=historic event, red
+circle=last week eq.
+
+3) Can you increase small yellow font size? It is hard to read on many
+displays.
 
 priorities are QCNLive with start-stop recording and a few other cosmetics and
 functionality issues. 
