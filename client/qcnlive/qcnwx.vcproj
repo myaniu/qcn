@@ -303,7 +303,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\graphics\qcn_cube_qcnlive.cpp"
+				RelativePath="..\graphics\qcn_cube.cpp"
 				>
 			</File>
 			<File
