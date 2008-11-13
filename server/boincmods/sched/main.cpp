@@ -434,21 +434,13 @@ int main(int argc, char** argv) {
         goto done;
     }
 
-// CMC here -- changed fcgi to always force an attach to shmem, 
-//    otherwise if feeder croaked the cached ssp in apache mod_fcgi 
-//    always acts like it has a valid ssp & feeder shmem
-#ifdef _USING_FCGI_
-    attach_to_feeder_shmem();  // force an attach to the feeder, since this is global & not reset between connections in fcgi
-#else
     if (!ssp) {
         attach_to_feeder_shmem();
     }
-#endif
     if (!ssp) {
         send_message("Server error: can't attach shared memory", 3600);
         goto done;
     }
-//  CMC end change
 
     if (use_files) {
         struct stat statbuf;
