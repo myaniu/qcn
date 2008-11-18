@@ -48,6 +48,10 @@ typedef vector<string> ZipFileList;
 */
 #define QCN_ROUND(A) (((A)>=0) ? (long)((A) + .5) : (long)((A) - .5))
 
+/*! 
+   \def QCN_INPUT_LOGICAL_NAME "qcn_0"
+   default BOINC/QCN input file logical name while will get resolved to a real input file in boinc/projects/qcn directory
+*/
 #define QCN_INPUT_LOGICAL_NAME "qcn_0"
 
 #ifdef _WIN32
