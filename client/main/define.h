@@ -1,6 +1,17 @@
 #ifndef _DEFINE_H_
 #define _DEFINE_H_
 
+/**
+  \file    define.h
+  \author  Carl Christensen, carlgt1@yahoo.com
+  
+ *  global defines used for the Quake Catcher Network client, graphics, and QCNLive programs
+
+ *  Created by Carl Christensen on 08/11/2007.
+ *  Copyright 2007 Stanford University. All rights reserved.
+ *
+*/
+
 #include <stdlib.h>
 #include <vector>
 #include <string>
@@ -25,7 +36,16 @@ typedef vector<string> ZipFileList;
 #endif
 
 // first define some useful match functions
+/*! 
+   \def QCN_SQR(A} 
+   takes \a A to the second power (i.e. \a A^2 or \a A**2) 
+*/
 #define QCN_SQR(A)   ((A)*(A))
+
+/*! 
+   \def QCN_ROUND(A)
+   rounds \a A up or down from double/float to a long 
+*/
 #define QCN_ROUND(A) (((A)>=0) ? (long)((A) + .5) : (long)((A) - .5))
 
 #define QCN_INPUT_LOGICAL_NAME "qcn_0"

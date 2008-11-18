@@ -1,9 +1,12 @@
 #ifndef _QCN_MAIN_H_
 #define _QCN_MAIN_H_
-/*
- *  main.h -- main header file for the Quake Catcher Network
- *  qcn
- *
+/*!
+  \file    main.h
+  \author  Carl Christensen, carlgt1@yahoo.com
+  
+ *  main header file for the Quake Catcher Network
+ *  declares the qcn_main namespace and globals as defined below
+
  *  Created by Carl Christensen on 08/11/2007.
  *  Copyright 2007 Stanford University. All rights reserved.
  *
@@ -68,6 +71,9 @@ using std::vector;
 
 using std::string;
 
+/*! 
+   global shared memory variable (sm) which contains all of the sensor output
+*/
 #ifdef QCN_USB
 #include "qcn_shmem_usb.h"
 extern CQCNUSBSensor* volatile sm;
@@ -77,7 +83,9 @@ extern CQCNShMem* volatile sm;
 #endif
 
 #ifndef _WIN32
-extern char **environ;   // environment for Mac & Linux to call execve (in execproc.cpp)
+/*! environment for Mac & Linux to call execve (in execproc.cpp)
+*/
+extern char **environ;   
 #endif
 
 struct STriggerInfo
@@ -98,9 +106,22 @@ struct STriggerInfo
     bool bRemove;      // flag that it's safe to remove this trigger, all processed
 };
 
+/*! 
+   qcn_main namespace declaration
+*/
+
 namespace qcn_main  {
 
+/*! 
+   the main entry point to the QCN client program (also used for QCNLive)
+   \param[in] argc The number of arguments i.e. command-line arguments
+   \param[in] argv The arguments as an array of strings
+*/
 extern int qcn_main(int argc, char **argv);
+/*! 
+   signal handling
+   \param[in] iSignal The signal passed i.e. SIGTERM etc
+*/
 void signal_handler(int iSignal);
 extern void parseArgs(int argc, char*argv[]); // startup arguments such as --demo and --dump are found here
 extern void doMainQuit(const bool& bFinish = false, const int& errcode = 0);
