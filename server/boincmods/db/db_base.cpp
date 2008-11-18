@@ -43,7 +43,7 @@ int DB_CONN::open(char* db_name, char* db_host, char* db_user, char* dbpassword)
     if (!mysql) return ERR_DB_CANT_INIT;
 
     // enable auto-reconnect if the option is available (from mysql v 5.13 onwards)
-#if MYSQL_VERSION_ID >= 50013
+#if MYSQL_VERSION_ID >= 50106
     my_bool mbReconnect = 1;
     mysql_options(mysql, MYSQL_OPT_RECONNECT, &mbReconnect);
     system("/bin/touch /tmp/auto_recon");
@@ -51,7 +51,15 @@ int DB_CONN::open(char* db_name, char* db_host, char* db_user, char* dbpassword)
 
     mysql = mysql_real_connect(mysql, db_host, db_user, dbpassword, db_name, 0, 0, 0);
     if (mysql == 0) return ERR_DB_CANT_CONNECT;
-    return 0;
+
+	// handle the bug where you need to reset the OPT_RECONNECT after mysql_real_connect
+#if MYSQL_VERSION_ID >= 50013 && MYSQL_VERSION_ID < 50106
+    my_bool mbReconnect = 1;
+    mysql_options(mysql, MYSQL_OPT_RECONNECT, &mbReconnect);
+    system("/bin/touch /tmp/auto_recon");
+#endif
+
+	return 0;
 }
 
 void DB_CONN::close() {
