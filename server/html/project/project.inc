@@ -360,10 +360,11 @@ function show_trigger($hostid, $heading, $private=true)
       $sqllatlng = "latitude lat, longitude lng, ";
    }
 
+   // CMC note - DBNAME gets replaced by appropriate database name in the db->do_query()
    $sql = "select t.id,result_name,time_trigger,time_received,"
        . "time_sync,sync_offset,significance, magnitude, " . $sqllatlng 
        . "dt, numreset, s.description, sw_version,runtime_cpu,runtime_clock "
-       . "from qcn_trigger t, qcn_sensor s where t.type_sensor=s.id and hostid=$hostid order by time_trigger desc limit 50";
+       . "from DBNAME.qcn_trigger t, DBNAME.qcn_sensor s where t.type_sensor=s.id and hostid=$hostid order by time_trigger desc limit 50";
    $result=$db->do_query($sql);
    echo "<H2>$heading</H2>\n";
    echo "<H3>Last 50 Triggers for this Computer</H3>\n";
