@@ -65,10 +65,11 @@ EXTRA_DIST = \
     server_types.h \
     start
 
+
 # CMC note we have added the qcn_trigger file below
 cgi_SOURCES = \
+     ../../server/trigger/qcn_trigger.cpp \
     edf_sim.cpp \
-    ../../server/trigger/qcn_trigger.cpp \
     handle_request.cpp \
     hr.cpp \
     hr_info.cpp \
@@ -158,6 +159,7 @@ sched_driver_SOURCES = sched_driver.cpp
 # because its stdio is different
 # CMC note we have added the qcn_trigger file below
 fcgi_SOURCES = \
+     ../../server/trigger/qcn_trigger.cpp \
     handle_request.cpp \
     hr.cpp \
     hr_info.cpp \
@@ -178,7 +180,6 @@ fcgi_SOURCES = \
     server_types.cpp \
 	time_stats_log.cpp \
     edf_sim.cpp \
-    ../../server/trigger/qcn_trigger.cpp \
     ../db/boinc_db.cpp \
     ../db/db_base.cpp \
     ../lib/base64.cpp \

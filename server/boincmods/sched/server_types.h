@@ -162,8 +162,9 @@ struct WORK_REQ {
     bool daily_result_quota_exceeded;
     int  daily_result_quota; // for this machine: number of cpus * daily_quota/cpu
     bool cache_size_exceeded;
+    bool no_jobs_available;     // project has no work right now
     int nresults_on_host;
-        // How many results from this project are (or should be) on the host.
+        // How many results from this project are in progress on the host.
         // Initially this is the number of "other_results"
         // reported in the request message.
         // If the resend_lost_results option is used,
@@ -365,7 +366,6 @@ struct SCHEDULER_REPLY {
     void insert_workunit_unique(WORKUNIT&);
     void insert_result(RESULT&);
     void insert_message(USER_MESSAGE&);
-    bool work_needed(bool locality_sched=false);
     void set_delay(double);
     void got_good_result();     // adjust max_results_day
     void got_bad_result();      // adjust max_results_day
