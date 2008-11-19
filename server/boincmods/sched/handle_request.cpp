@@ -58,6 +58,7 @@ using namespace std;
 #ifdef _USING_FCGI_
 #include "boinc_fcgi.h"
 #endif
+
 // CMC -- need to include our trigger file from the qcn svn tree
 #include "../../server/trigger/qcn_trigger.h"
 // CMC end section
@@ -386,7 +387,9 @@ lookup_user_and_make_new_host:
                     "[HOST#%d] [USER#%d] User has another host with same CPID.\n",
                     host.id, host.userid
                 );
-                mark_results_over(host);
+                if (!config.multiple_clients_per_host) {
+                    mark_results_over(host);
+                }
                 goto got_host;
             }
         }
@@ -407,7 +410,9 @@ make_new_host:
                 "[HOST#%d] [USER#%d] Found similar existing host for this user - assigned.\n",
                 host.id, host.userid
             );
-            mark_results_over(host);
+            if (!config.multiple_clients_per_host) {
+                mark_results_over(host);
+            }
             goto got_host;
         }
         // either of the above cases,
@@ -762,7 +767,7 @@ int send_result_abort( SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
             ); 
             // send user message 
             char buf[256];
-            sprintf(buf, "Result %s is no longer usable\n", orp.name.c_str());
+            sprintf(buf, "Result %s is no longer usable", orp.name.c_str());
             USER_MESSAGE um(buf, "high");
             reply.insert_message(um);
         } else if (orp.abort_if_not_started) {
@@ -1110,11 +1115,9 @@ void handle_msgs_from_host(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         mfh.hostid = reply.host.id;
         mfh.handled = false;
         safe_strcpy(mfh.xml, md.msg_text.c_str());
-        log_messages.printf(MSG_NORMAL,
-            "got msg from host; variety %s \n",
-            mfh.variety
-        );
+
    // CMC -- handle triggers via handle_qcn_trigger
+        retval = 0;
         if (!strcmp(mfh.variety, "trigger")) { // it's a trigger
             retval = handle_qcn_trigger(&mfh);
         }
@@ -1123,6 +1126,12 @@ void handle_msgs_from_host(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
                retval = mfh.insert(); // not a trigger and not a quakelist, process as normal (probably a "nosensor" msg)
             }
         }
+        log_messages.printf(MSG_NORMAL,
+            "got msg from host; variety %s \n",
+            mfh.variety
+        );
+       // retval = mfh.insert();
+
    // CMC end section
         if (retval) {
             log_messages.printf(MSG_CRITICAL,
@@ -1391,9 +1400,9 @@ void process_request(
     // if last RPC was within config.min_sendwork_interval, don't send work
     //
     // CMC here -- don't send work on a trickle trigger, only on other trickles or requests
-     if (!bTrigger && !have_no_work && ok_to_send_work && sreq.work_req_seconds > 0) {
-     //if (!have_no_work && ok_to_send_work && sreq.work_req_seconds > 0) {
-     // CMC here - end replacement - dont' forget } below!
+    if (!bTrigger && !have_no_work && ok_to_send_work && sreq.work_req_seconds > 0) {
+    //if (!have_no_work && ok_to_send_work && sreq.work_req_seconds > 0) {
+    // CMC here - end replacement - dont' forget } below!
         if (config.min_sendwork_interval) {
             double diff = dtime() - last_rpc_time;
             if (diff < config.min_sendwork_interval) {
@@ -1422,6 +1431,7 @@ void process_request(
     handle_msgs_from_host(sreq, reply);
     // CMC here -- don't bother with msgs_to_host on a trickle trigger
     if (!bTrigger && config.msg_to_host) {
+    //if (config.msg_to_host) {
         handle_msgs_to_host(reply);
     }
 
@@ -1429,6 +1439,7 @@ void process_request(
     if (!bTrigger) {
        update_host_record(initial_host, reply.host, reply.user);
     }
+
 leave:
     if (!have_no_work) {
         ssp->restore_work(g_pid);
@@ -1476,7 +1487,7 @@ void handle_request(FILE* fin, FILE* fout, char* code_sign_key) {
 
     const char* p = sreq.parse(fin);
     if (!p){
-         // CMC here -- sreq has been parsed, see if contains a trigger
+       // CMC here -- sreq has been parsed, see if contains a trigger
          //  loop through the msg_from_host vector and see that all entries are variety "trigger"
          //  IFF all entries are "trigger" should we bypass (i.e. may be part of another msg)
          unsigned int iTrigger = 0, iCount = 0;
@@ -1519,7 +1530,7 @@ void handle_request(FILE* fin, FILE* fout, char* code_sign_key) {
         log_user_messages(sreply);
     }
 
-// CMC -- next line to send a new param to SCHEDULER_REPLY::write e.g. to bypass quake list for project prefs etc
+  // CMC -- next line to send a new param to SCHEDULER_REPLY::write e.g. to bypass quake list for project prefs etc
      sreply.write(fout, sreq, bTrigger);
      //sreply.write(fout, sreq);
 
@@ -1528,4 +1539,4 @@ void handle_request(FILE* fin, FILE* fout, char* code_sign_key) {
     }
 }
 
-const char *BOINC_RCSID_2ac231f9de = "$Id: handle_request.cpp 16107 2008-10-01 22:07:35Z davea $";
+const char *BOINC_RCSID_2ac231f9de = "$Id: handle_request.cpp 16445 2008-11-07 04:13:08Z davea $";
