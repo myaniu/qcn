@@ -9,15 +9,16 @@ make distclean
 ./_autosetup
 ./configure
 make
-cd sched
+#cd sched
 # CMC - bypass the fcgi stuff 
-mv cgi cgi.orig
-mv file_upload_handler file_upload_handler.orig
-make fcgi
-make fcgi_file_upload_handler
-mv fcgi cgi
-mv fcgi_file_upload_handler file_upload_handler
+#mv cgi cgi.orig
+#mv file_upload_handler file_upload_handler.orig
+#make fcgi
+#make fcgi_file_upload_handler
+#mv fcgi cgi
+#mv fcgi_file_upload_handler file_upload_handler
 strip cgi
 strip file_upload_handler
-cd ../../
+#cd ../../
+cd ../
 echo "If built OK, go to boinc/tools and run ./upgrade"
