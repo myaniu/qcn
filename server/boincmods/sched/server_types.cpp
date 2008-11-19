@@ -33,7 +33,6 @@ using namespace std;
 #include "server_types.h"
 // CMC here
 #include "filesys.h"
-
 #ifdef _USING_FCGI_
 #include "boinc_fcgi.h"
 #endif
@@ -529,6 +528,7 @@ SCHEDULER_REPLY::~SCHEDULER_REPLY() {
 // quakes and other big messages (i.e. project prefs) for a trigger trickle to
 // expedite the trigger process
 int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq, bool bTrigger) {
+//int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq) {
     unsigned int i;
     char buf[BLOB_SIZE];
 
@@ -572,6 +572,7 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq, bool bTrigger) {
       }
   }
  // CMC end block to bypass on triggers
+
     log_messages.printf(MSG_NORMAL,
         "Sending reply to [HOST#%d]: %d results, delay req %f [scheduler ran %f seconds]\n",
         host.id, wreq.nresults, request_delay, elapsed_wallclock_time() 
