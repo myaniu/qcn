@@ -98,11 +98,16 @@ QUERY_TRIGGER_HOST_LIST = "select hostid,count(*) from qcn_trigger "
 
 # note that we want to get host & trigger records matching a quake
 # or it was a prior request that we haven't received anything in the past 3 days with up to 10 tries
-QUERY_TRIGGER_HOST_WHERE = " (usgs_quakeid>0 and " +\
+# also note we give up for triggers older than 30 days as they would have been deleted by QCN 
+# (also the retry every 3 days for 10 times should have given enough chances to get them)
+QUERY_TRIGGER_HOST_WHERE = " (" +\
+                         "usgs_quakeid>0 and " +\
                          "(time_filereq is null or time_filereq=0) " +\
                          " OR " +\
                          " ((time_filereq + (3600.0*24.0*3.0)) < unix_timestamp() " +\
-                         " AND received_file <= 10) ) "
+                         " AND received_file <= 10) " +\
+                         " AND (time_trigger + (3600.0*24.0*30.0)) > unix_timestamp() " +\
+                         ") "
 
 DBNAME = "qcnalpha"
 DBHOST = "db-private"
