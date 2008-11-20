@@ -15,7 +15,9 @@ to be:
 
 cgi_LDADD = -lcurl $(LDADD)
 
+This should already be in the Makefile under qcn/server/boincmods/sched/Makefile.am
+
 Also note you need to copy the qcn/server/boincmods files to their appropriate
 place (boinc/db or boinc/sched) as this has the appropriate lines to include
-these mods for the triggers.
+these mods for the triggers.  This should already be in the qcn/build_server script.
 
