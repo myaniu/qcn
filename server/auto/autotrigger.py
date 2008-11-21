@@ -21,61 +21,10 @@
 #
 '''
 
-Regarding the 1-degree box: is this 1 degree on each side of the eq, or 1/2
-degree on each side?
+note this now uses the built-in-to-mysql-server functions in qcn/server/sql_functions
 
-Several Comments:
-
-1) Can we account for the longitudes shrinking at the poles (actual distance
-per degree longitude decreases as cos(latitude)). I'd hate to miss data at
-higher latitude just because the longitudes converge.
-
-2) Can we make the spatial window around the eq a circle rather than a
-square? Square is a fine first cut (because it is fast), but distance from
-the eq is circular. I have subroutines that do this sort of thing if you
-want.
-
-3) Is there a way to scale the magnitude-distance (M-D) relationship? The
-relation, [ D <= (M-4) ], would use a bigger data collection area for bigger
-earthquakes. We'd probably want to collect 4.0 and smaller if the eq is less
-than 0.1 degree away.
-
-M <=  4.0:    D <= 0.1 Deg
-M <=  4.5:    D <= 0.5 Deg
-M <=  5.0:    D <= 1.0 Deg
-M <=  5.5:    D <= 1.5 Deg
-M <=  6.0:    D <= 2.0 Deg
-M <=  6.5:    D <= 2.5 Deg
-M <=  7.0:    D <= 3.0 Deg
-M <=  7.5:    D <= 3.5 Deg
-M <=  8.0:    D <= 4.0 Deg
-M <=  8.5:    D <= 4.5 Deg
-M <=  9.0:    D <= 5.0 Deg
-M <=  9.5:    D <= 5.5 Deg
-M <= 10.0:    D <= 6.0 Deg
-
-4) Can we do a similar thing for distance-timing? Timing should fall in a
-window after the earthquake. The timing should depend on the distance from
-the earthquake and the velocities of the slowest S wave and the fastest P
-wave [13(sec/deg)*D(deg) <= T (sec) <= 38(sec/deg)*D(deg)]:
-
-D <= 0.0 Deg:    0.0 <= T <=   0.0 sec
-D <= 0.5 Deg:    6.5 <= T <=  18.5 sec
-D <= 1.0 Deg:   13.0 <= T <=  37.1 sec
-D <= 1.5 Deg:   19.5 <= T <=  55.6 sec
-D <= 2.0 Deg:   26.0 <= T <=  74.1 sec
-D <= 2.5 Deg:   32.5 <= T <=  92.7 sec
-D <= 3.0 Deg:   39.0 <= T <= 111.2 sec
-D <= 3.5 Deg:   45.5 <= T <= 129.7 sec
-D <= 4.0 Deg:   52.0 <= T <= 148.3 sec
-D <= 4.5 Deg:   58.5 <= T <= 166.8 sec
-D <= 5.0 Deg:   65.0 <= T <= 185.3 sec
-D <= 5.5 Deg:   71.5 <= T <= 203.8 sec
-D <= 6.0 Deg:   78.0 <= T <= 222.4 sec
-
-This should hopefully cut down on the number of false positives because of
-the shortened time window and lesser distance for smaller eq's.
-
+basically it provides a more intelligent way to test for the 'closeness' of an earthquake
+to a QCN trigger
 
 '''
 
@@ -84,14 +33,7 @@ import traceback, sys, string, MySQLdb, mx.DateTime
 from datetime import datetime
 from time import strptime, mktime
 
-# set latitude & longitude "window" in degree (i.e. quake +/- LAT_WINDOW & LON_WINDOW away)
-LAT_WINDOW = 1.5
-LON_WINDOW = 1.5
-
-# time window of 120 seconds before & after UTC time of USGS event?
-TIME_WINDOW = 120.0
-
-QUERY_QUAKE_PROCESSED = "select id, time_utc, latitude, longitude " +\
+QUERY_QUAKE_PROCESSED = "select id, time_utc, latitude, longitude, magnitude " +\
                         "from usgs_quake where processed is null or not processed"
 
 QUERY_TRIGGER_HOST_LIST = "select hostid,count(*) from qcn_trigger "
@@ -129,13 +71,14 @@ def updateQuakeTrigger(dbconn):
          # for each "unprocessed" quake, set matches in trigger table
          print "Updating triggers for quake # " + str(rowQuake[0])
          cTrig = dbconn.cursor()
+
          cTrig.execute("update qcn_trigger t set t.usgs_quakeid = " + str(rowQuake[0]) +\
-            " where t.latitude between " + str(rowQuake[2] - LAT_WINDOW) +\
-                       " and " + str(rowQuake[2] + LAT_WINDOW) +\
-                    " and t.longitude between "  + str(rowQuake[3] - LON_WINDOW) +\
-                       " and " + str(rowQuake[3] + LON_WINDOW) +\
-                    " and t.time_trigger between "  + str(rowQuake[1] - TIME_WINDOW) +\
-                       " and " + str(rowQuake[1] + TIME_WINDOW) )
+            " where quake_hit_test(t.latitude, t.longitude, t.time_trigger, t.type_sensor, " +\
+               str(rowQuake[2]) + ", " +\
+               str(rowQuake[3]) + ", " +\
+               str(rowQuake[1]) + ", " +\
+               str(rowQuake[4]) +\
+            ") > 0 " )
 
          cTrig.execute("update usgs_quake set processed=true where id = " + str(rowQuake[0]))
          
