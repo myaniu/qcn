@@ -73,7 +73,8 @@ def updateQuakeTrigger(dbconn):
          cTrig = dbconn.cursor()
 
          cTrig.execute("update qcn_trigger t set t.usgs_quakeid = " + str(rowQuake[0]) +\
-            " WHERE ABS(t.time_trigger - " + str(rowQuake[1]) + ") < 300 " +\
+            " WHERE t.time_trigger BETWEEN " + str(rowQuake[1]-120.0) + " AND " str(rowQuake[1]+120.0) +\
+            " AND t.time_sync > 0 " +\
             " AND quake_hit_test(t.latitude, t.longitude, t.time_trigger, t.type_sensor, " +\
                str(rowQuake[2]) + ", " +\
                str(rowQuake[3]) + ", " +\
