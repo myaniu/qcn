@@ -81,17 +81,20 @@ BEGIN
     SELECT COUNT(id) INTO l_count FROM qcn_finalstats WHERE hostid=l_hostid AND resultid=l_resultid;
     IF l_count=0 THEN
        INSERT INTO qcn_finalstats (hostid, resultid, time_received, runtime_clock, runtime_cpu)
-          VALUES (l_hostid, l_resultid, UNIX_TIMESTAMP(), l_runtime_clock, l_runtime_cpu);
+          VALUES (l_hostid, l_resultid, UNIX_TIMESTAMP(), 
+              IF(l_runtime_clock>100000,100000,l_runtime_clock), IF(l_runtime_cpu>100000,100000,l_runtime_cpu));
     ELSE
         SELECT IFNULL(id,0) INTO l_finalid FROM qcn_finalstats 
             WHERE hostid=l_hostid AND resultid=l_resultid;
         IF l_finalid>0 THEN
            UPDATE qcn_finalstats 
-             SET time_received=UNIX_TIMESTAMP(), runtime_clock=l_runtime_clock, runtime_cpu=l_runtime_cpu
+             SET time_received=UNIX_TIMESTAMP(), runtime_clock=IF(l_runtime_clock>100000,100000,l_runtime_clock), 
+                 runtime_cpu=IF(l_runtime_cpu>100000,100000,l_runtime_cpu)
               WHERE id=l_finalid;
         ELSE  /* probably should never get here since the l_count above catches it */
            INSERT INTO qcn_finalstats (hostid, resultid, time_received, runtime_clock, runtime_cpu)
-               VALUES (l_hostid, l_resultid, UNIX_TIMESTAMP(), l_runtime_clock, l_runtime_cpu);
+               VALUES (l_hostid, l_resultid, UNIX_TIMESTAMP(), 
+                  IF(l_runtime_clock>100000,100000,l_runtime_clock), IF(l_runtime_cpu>100000,100000,l_runtime_cpu));
         END IF;
     END IF;
   
