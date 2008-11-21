@@ -164,7 +164,7 @@ my_bool quake_hit_test_init(UDF_INIT *initid, UDF_ARGS *args, char *message)
 { // args should be 8 floats or double ("real")
   if (args->arg_count != 8) 
   {
-    sprintf(message,"args (trig_lat, trig_lon, trig_time_utc, trig_sensor, quake_lat, quake_lon, quake_time_utc, quake_mag)");
+    sprintf(message,"params (tr_lat, tr_lon, tr_time_utc, tr_sensor, qu_lat, qu_lon, qu_time_utc, qu_mag)");
     return 1;
   }
 
@@ -178,7 +178,14 @@ my_bool quake_hit_test_init(UDF_INIT *initid, UDF_ARGS *args, char *message)
     || args->args[7] == 0
   )
   {
-    sprintf(message,"%d Null arguments", args->arg_count);
+    sprintf(message,"%d null params (tr_lat, tr_lon, tr_time_utc, tr_sensor, qu_lat, qu_lon, qu_time_utc, qu_mag)", args->arg_count );
+    return 1;
+  }
+
+  // see if magnitude is normal
+  const double dMag = atof(args->args[7]);
+  if (dMag < 0.0f || dMag > 11.0f) {  // check for ridiculous mag value
+    sprintf(message,"Invalid magnitude %f", dMag);
     return 1;
   }
 
@@ -376,19 +383,19 @@ longlong quake_hit_test(UDF_INIT *initid, UDF_ARGS *args, char *is_null, char *e
 
   // first off check the time, if not close then can just return without the distance check  
   if (fabs(dTimeQuake-dTimeTrig) > 300.0f) { // don't bother if the quake was more than 5 minutes, no matter distance & mag
-     return -1;
+     return -1L;
   }
  
   // get the distance between the trigger & quake event
   dDistanceMeters = distance_vincenty(lat1, lon1, lat2, lon2, is_null);
-  if (dDistanceMeters == 0.0f || *is_null != 0x00) return -1; // invalid distance (or else they're right on top of the quake? :-)
+  if (dDistanceMeters == 0.0f || *is_null != 0x00) return -2L; // invalid distance (or else they're right on top of the quake? :-)
 
   // OK, now check the time, based on the distance and the slowest wave
   dTimeWindow = dDistanceMeters / dVelocitySlow;  // this will be the time window to check
 
   // if the trigger falls within the time window of the quake, continue to evaluate based on distance, else return 0
   if (fabs(dTimeQuake-dTimeTrig) > (3.0f * dTimeWindow)) { // too far away based on time to bother with detection
-     return -2;  // note the fudge factor of 3.0 using above, just to give a bigger window for testing now
+     return -3L;  // note the fudge factor of 3.0 using above, just to give a bigger window for testing now
   }
 
   // see if the distance is within our magnitude check, based on sensor type
@@ -414,7 +421,7 @@ longlong quake_hit_test(UDF_INIT *initid, UDF_ARGS *args, char *is_null, char *e
    // than a different (coarser) sensor, etc
    dDistanceMax = 1000.0f * powf( 2.0f , dMagnitude - (5.4f - sqrt(iSensorFactor-1)) );
    
-   return dDistanceMax > dDistanceMeters ? (int) ceil(dDistanceMax-dDistanceMeters) : 0;   // if our max distance exceeds trigger distance, return 1, else 0 
+   return dDistanceMax > dDistanceMeters ? (int) ceil(dDistanceMax-dDistanceMeters) : -5L;   // if our max distance exceeds trigger distance, return 1, else 0 
 
 }
 
