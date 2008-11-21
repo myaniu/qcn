@@ -9,9 +9,9 @@ all:
 #	$(CXX) time_range.cpp -o time_range
 #	$(CXX) mag_dist.cpp -o mag_dist
 #	$(CXX) mag_dist.cpp -o mag_dist
-        rm -f udf_qcn.so
+	rm -f udf_qcn.so
 	$(CC) $(INCLUDEDIR) -fPIC  -shared -o udf_qcn.so udf_qcn.c
-        sudo cp udf_qcn.so $(BINDIR)
+	sudo cp udf_qcn.so $(BINDIR)
 
 julday.o:
 	$(CC) julday.c ../clib/julday.c -o $(BIN)julday.1
