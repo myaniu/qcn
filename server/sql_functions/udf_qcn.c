@@ -1,31 +1,6 @@
 /*
 ** QCN functions that are dynamically loaded into mysqld, based on mysql source code sql/udf_example.c
-**
-** by simply doing 'make udf_qcn.so'.
-**
-** After the library is made one must notify mysqld about the new
-** functions with the commands:
-**
-** CREATE FUNCTION lat_lon_distance_m RETURNS REAL SONAME "udf_qcn.so";
-
-**
-** After this the functions will work exactly like native MySQL functions.
-** Functions should be created only once.
-**
-** The functions can be deleted by:
-**
-** DROP FUNCTION lat_lon_distance_m;
-**
-** The CREATE FUNCTION and DROP FUNCTION update the func@mysql table. All
-** Active function will be reloaded on every restart of server
-** (if --skip-grant-tables is not given)
-**
-** If you get problems with undefined symbols when loading the shared
-** library, you should verify that mysqld is compiled with the -rdynamic
-** option.
-**
-** If you can't get AGGREGATES to work, check that you have the column
-** 'type' in the mysql.func table.  If not, run 'mysql_fix_privilege_tables'.
+** see README.txt for usage
 **
 */
 
