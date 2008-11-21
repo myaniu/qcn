@@ -72,7 +72,7 @@ def updateQuakeTrigger(dbconn):
          print "Updating triggers for quake # " + str(rowQuake[0])
          cTrig = dbconn.cursor()
 
-         cTrig.execute("update qcn_trigger t set t.usgs_quakeid = " + str(rowQuake[0]) +\
+         ig.execute("update qcn_trigger t set t.usgs_quakeid = " + str(rowQuake[0]) +\
             " where quake_hit_test(t.latitude, t.longitude, t.time_trigger, t.type_sensor, " +\
                str(rowQuake[2]) + ", " +\
                str(rowQuake[3]) + ", " +\
