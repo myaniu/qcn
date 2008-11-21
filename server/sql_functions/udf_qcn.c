@@ -109,18 +109,19 @@ double lat_lon_distance_m(UDF_INIT *initid, UDF_ARGS *args, char *is_null, char 
 
 my_bool lat_lon_distance_m_init(UDF_INIT *initid, UDF_ARGS *args, char *message)
 { // args should be 4 floats or double ("real")
-  if (args->arg_count != 4 
-       || args->arg_type[0] != REAL_RESULT
-       || args->arg_type[1] != REAL_RESULT
-       || args->arg_type[2] != REAL_RESULT
-       || args->arg_type[3] != REAL_RESULT
-       || args->args[0] == 0
-       || args->args[1] == 0
-       || args->args[2] == 0
-       || args->args[3] == 0
+  if (args->arg_count != 4) 
+  {
+    sprintf(message,"Wrong %d arguments to lat_lon_distance_m - need two lat/lon real pairs", args->arg_count);
+    return 1;
+  }
+
+  if ( args->args[0] == 0
+    || args->args[1] == 0
+    || args->args[2] == 0
+    || args->args[3] == 0
   )
   {
-    strcpy(message,"Wrong arguments to lat_lon_distance_m - need two lat/lon real pairs");
+    sprintf(message,"%d Null arguments to lat_lon_distance_m - need two lat/lon real pairs", args->arg_count);
     return 1;
   }
 
