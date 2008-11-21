@@ -343,11 +343,11 @@ longlong quake_hit_test(UDF_INIT *initid, UDF_ARGS *args, char *is_null, char *e
 
   // OK, now check the time, based on the distance and the slowest wave
   dTimeWindow = dDistanceMeters / dVelocitySlow;  // this will be the time window to check
-  if (dTimeWindow < 1.0f) dTimeWindow = 1.0f;  // always test within a second at least
+  if (dTimeWindow < 60.0f) dTimeWindow = 60.0f;  // always test within 60 seconds
 
   // if the trigger falls within the time window of the quake, continue to evaluate based on distance, else return 0
-  if (fabs(dTimeQuake-dTimeTrig) > (3.0f * dTimeWindow)) { // too far away based on time to bother with detection
-     return -3L;  // note the fudge factor of 3.0 using above, just to give a bigger window for testing now
+  if (fabs(dTimeQuake-dTimeTrig) > dTimeWindow) { // too far away based on time to bother with detection
+     return -3L;  
   }
 
   // see if the distance is within our magnitude check, based on sensor type
