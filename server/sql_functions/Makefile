@@ -1,12 +1,13 @@
 CC    = gcc
 CXX   = g++
+INCLUDEDIR  = -I../../../setup/mysql-6.0.7-alpha
 
 all:
-	$(CC) get_ang_dist.c -o get_ang_dist
-	$(CXX) time_range.cpp -o time_range
-	$(CXX) mag_dist.cpp -o mag_dist
-	$(CXX) mag_dist.cpp -o mag_dist
-	$(CC) -fPIC  -shared -o udf_qcn.so udf_qcn.c
+#	$(CC) get_ang_dist.c -o get_ang_dist
+#	$(CXX) time_range.cpp -o time_range
+#	$(CXX) mag_dist.cpp -o mag_dist
+#	$(CXX) mag_dist.cpp -o mag_dist
+	$(CC) $(INCLUDEDIR) -fPIC  -shared -o udf_qcn.so udf_qcn.c
 
 julday.o:
 	$(CC) julday.c ../clib/julday.c -o $(BIN)julday.1
