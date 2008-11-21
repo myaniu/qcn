@@ -117,40 +117,6 @@ my_bool lat_lon_distance_m_init(UDF_INIT *initid, UDF_ARGS *args, char *message)
     return 1;
   }
 
-/*
-  if ( args->args[0] == 0
-    || args->args[1] == 0
-    || args->args[2] == 0
-    || args->args[3] == 0
-  )
-  {
-    sprintf(message,"%d Null arguments to lat_lon_distance_m - need two lat/lon real pairs", args->arg_count);
-    return 1;
-  }
-
-
-  // check values of lat/lon
-  double dLat[2], dLon[2];
-  dLat[0] = atof(args->args[0]);
-  dLon[0] = atof(args->args[1]);
-  dLat[1] = atof(args->args[2]);
-  dLon[1] = atof(args->args[3]);
-
-  // check latitude
-  if ( dLat[0] < -90.0f || dLat[1] < -90.0f 
-    || dLat[0] > 90.0f  || dLat[1] > 90.0f) {
-    strcpy(message,"Latitude must be in the range [-90.0, 90.0]");
-    return 1;
-  }
-
-  // check longitude
-  if ( dLon[0] < -180.0f || dLon[1] < -180.0f 
-    || dLon[0] > 180.0f  || dLon[1] > 180.0f) {
-    strcpy(message,"Longitude must be in the range [-180.0, 180.0]");
-    return 1;
-  }
-*/
-
   // force args to be real
   args->arg_type[0] = REAL_RESULT;
   args->arg_type[1] = REAL_RESULT;
@@ -289,6 +255,22 @@ double lat_lon_distance_m(UDF_INIT *initid, UDF_ARGS *args, char *is_null, char 
   const double lon1 = *((double*) args->args[1]);
   const double lat2 = *((double*) args->args[2]);
   const double lon2 = *((double*) args->args[3]);
+
+  // check values of lat/lon
+  // check latitude
+  if ( lat1 < -90.0f || lat2 < -90.0f
+    || lat1 > 90.0f  || lat2 > 90.0f) {
+    //strcpy(message,"Latitude must be in the range [-90.0, 90.0]");
+    return 0.0f;
+  }
+
+  // check longitude
+  if ( lon1 < -180.0f || lon2 < -180.0f
+    || lon1 > 180.0f  || lon2 > 180.0f) {
+    //strcpy(message,"Longitude must be in the range [-180.0, 180.0]");
+    return 0.0f;
+  }
+
   return distance_vincenty(lat1, lon1, lat2, lon2, is_null);
 }
 
