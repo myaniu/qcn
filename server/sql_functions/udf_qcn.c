@@ -388,10 +388,11 @@ longlong quake_hit_test(UDF_INIT *initid, UDF_ARGS *args, char *is_null, char *e
  
   // get the distance between the trigger & quake event
   dDistanceMeters = distance_vincenty(lat1, lon1, lat2, lon2, is_null);
-  if (dDistanceMeters == 0.0f || *is_null != 0x00) return -2L; // invalid distance (or else they're right on top of the quake? :-)
+  if (*is_null != 0x00) return -2L; // invalid distance (or else they're right on top of the quake? :-)
 
   // OK, now check the time, based on the distance and the slowest wave
   dTimeWindow = dDistanceMeters / dVelocitySlow;  // this will be the time window to check
+  if (dTimeWindow < 1.0f) dTimeWindow = 1.0f;  // always test within a second at least
 
   // if the trigger falls within the time window of the quake, continue to evaluate based on distance, else return 0
   if (fabs(dTimeQuake-dTimeTrig) > (3.0f * dTimeWindow)) { // too far away based on time to bother with detection
@@ -419,9 +420,10 @@ longlong quake_hit_test(UDF_INIT *initid, UDF_ARGS *args, char *is_null, char *e
    // get a value for max distance to check (in meters) based on quake magnitude & sensor type
    // the idea is that a smaller quake but with a better sensor will have a greater search range in distance
    // than a different (coarser) sensor, etc
-   dDistanceMax = 1000.0f * powf( 2.0f , dMagnitude - (5.4f - sqrt(iSensorFactor-1)) );
-   
-   return dDistanceMax > dDistanceMeters ? (int) ceil(dDistanceMax-dDistanceMeters) : -5L;   // if our max distance exceeds trigger distance, return 1, else 0 
+   // note multiply by 10 kilometer, this gives a range from 10-200km from mag 4 through 8
+   dDistanceMax = 10000.0f * powf( 2.0f , dMagnitude - (5.4f - sqrt(iSensorFactor-1)) );
+   // if our max distance exceeds trigger distance, return >0 (actually distance/diff in m), else 0 
+   return (longlong) (dDistanceMax > dDistanceMeters ? ceil(dDistanceMax-dDistanceMeters) : 0L);  
 
 }
 
