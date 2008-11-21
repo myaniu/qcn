@@ -1,6 +1,7 @@
 CC    = gcc
 CXX   = g++
-INCLUDEDIR  = -I../../../setup/mysql-6.0.7-alpha
+#INCLUDEDIR  = -I../../../setup/mysql-6.0.7-alpha/include
+INCLUDEDIR  = -I/usr/local/mysql/include
 
 all:
 #	$(CC) get_ang_dist.c -o get_ang_dist

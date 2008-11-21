@@ -107,7 +107,7 @@ double lat_lon_distance_m(UDF_INIT *initid, UDF_ARGS *args, char *is_null, char 
 ** message should contain something usefull!
 **************************************************************************/
 
-my_bool lat_lon_distance_m_init(UDF_INIT *initid, UDF_ARGS *args, char *message);
+my_bool lat_lon_distance_m_init(UDF_INIT *initid, UDF_ARGS *args, char *message)
 { // args should be 4 floats or double ("real")
   if (args->arg_count != 4 
        || args->arg_type[0] != REAL_RESULT
@@ -125,7 +125,7 @@ my_bool lat_lon_distance_m_init(UDF_INIT *initid, UDF_ARGS *args, char *message)
   }
 
   // check values of lat/lon
-  double dLat[2], dLon[2]
+  double dLat[2], dLon[2];
   dLat[0] = atof(args->args[0]);
   dLon[0] = atof(args->args[1]);
   dLat[1] = atof(args->args[2]);
@@ -234,8 +234,8 @@ double distance_vincenty(double lat1, double lon1, double lat2, double lon2, cha
   double deltaSigma = B*sinSigma*(cos2SigmaM+B/4.0f*(cosSigma*(-1.0f+2.0f*cos2SigmaM*cos2SigmaM)-
     B/6.0f*cos2SigmaM*(-3.0f+4.0f*sinSigma*sinSigma)*(-3.0f+4.0f*cos2SigmaM*cos2SigmaM)));
 
-   return b*A*(sigma-deltaSigma)
-}                                                                                                                                                                78,2          43%
+  return b*A*(sigma-deltaSigma);
+}
 
 double lat_lon_distance_m(UDF_INIT *initid, UDF_ARGS *args, char *is_null, char *error)
 {
