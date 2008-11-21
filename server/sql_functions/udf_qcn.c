@@ -34,6 +34,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <math.h>
 #ifdef __WIN__
 typedef unsigned __int64 ulonglong;	/* Microsofts 64 bit types */
 typedef __int64 longlong;
@@ -42,6 +43,7 @@ typedef unsigned long long ulonglong;
 typedef long long longlong;
 #endif /*__WIN__*/
 #else
+#include <math.h>
 #include <my_global.h>
 #include <my_sys.h>
 #if defined(MYSQL_SERVER)
@@ -67,7 +69,7 @@ double lat_lon_distance_m(UDF_INIT *initid, UDF_ARGS *args, char *is_null, char 
 // lat_lon_distance_m --- find the distance in meters between two lat/lon points
 my_bool quake_hit_test_init(UDF_INIT *initid, UDF_ARGS *args, char *message);
 void quake_hit_test_deinit(UDF_INIT *initid);
-int quake_hit_test(UDF_INIT *initid, UDF_ARGS *args, char *is_null, char *error);
+longlong quake_hit_test(UDF_INIT *initid, UDF_ARGS *args, char *is_null, char *error);
 
 /*************************************************************************
 ** Example of init function
@@ -162,7 +164,7 @@ my_bool quake_hit_test_init(UDF_INIT *initid, UDF_ARGS *args, char *message)
 { // args should be 8 floats or double ("real")
   if (args->arg_count != 8) 
   {
-    sprintf(message,"quake_hit_test args (trig_lat, trig_lon, trig_time_utc, trig_sensor, quake_lat, quake_lon, quake_time_utc, quake_mag)");
+    sprintf(message,"args (trig_lat, trig_lon, trig_time_utc, trig_sensor, quake_lat, quake_lon, quake_time_utc, quake_mag)");
     return 1;
   }
 
@@ -351,7 +353,7 @@ mysql> select * from qcn_sensor;
 
 */
 
-int quake_hit_test(UDF_INIT *initid, UDF_ARGS *args, char *is_null, char *error)
+longlong quake_hit_test(UDF_INIT *initid, UDF_ARGS *args, char *is_null, char *error)
 {
   const int iSensor = (int) (*((double*) args->args[3]));
   const double lat1 = *((double*) args->args[0]);
@@ -370,21 +372,23 @@ int quake_hit_test(UDF_INIT *initid, UDF_ARGS *args, char *is_null, char *error)
   double dTimeWindow = 0.0f;
   int iSensorFactor = 0;
 
+  *is_null = 0x00;
+
   // first off check the time, if not close then can just return without the distance check  
   if (fabs(dTimeQuake-dTimeTrig) > 300.0f) { // don't bother if the quake was more than 5 minutes, no matter distance & mag
-     return 0;
+     return -1;
   }
  
   // get the distance between the trigger & quake event
   dDistanceMeters = distance_vincenty(lat1, lon1, lat2, lon2, is_null);
-  if (dDistanceMeters == 0.0f) return 0; // invalid distance (or else they're right on top of the quake? :-)
+  if (dDistanceMeters == 0.0f || *is_null != 0x00) return -1; // invalid distance (or else they're right on top of the quake? :-)
 
   // OK, now check the time, based on the distance and the slowest wave
   dTimeWindow = dDistanceMeters / dVelocitySlow;  // this will be the time window to check
 
   // if the trigger falls within the time window of the quake, continue to evaluate based on distance, else return 0
   if (fabs(dTimeQuake-dTimeTrig) > (3.0f * dTimeWindow)) { // too far away based on time to bother with detection
-     return 0;  // not the fudge factor of 3.0 using above, just to give a bigger window for testing now
+     return -2;  // note the fudge factor of 3.0 using above, just to give a bigger window for testing now
   }
 
   // see if the distance is within our magnitude check, based on sensor type
@@ -410,7 +414,7 @@ int quake_hit_test(UDF_INIT *initid, UDF_ARGS *args, char *is_null, char *error)
    // than a different (coarser) sensor, etc
    dDistanceMax = 1000.0f * powf( 2.0f , dMagnitude - (5.4f - sqrt(iSensorFactor-1)) );
    
-   return dDistanceMax > dDistanceMeters ? 1 : 0;   // if our max distance exceeds trigger distance, return 1, else 0 
+   return dDistanceMax > dDistanceMeters ? (int) ceil(dDistanceMax-dDistanceMeters) : 0;   // if our max distance exceeds trigger distance, return 1, else 0 
 
 }
 
