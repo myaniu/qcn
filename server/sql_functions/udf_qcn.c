@@ -49,15 +49,10 @@ typedef long long longlong;
 #else
 /* when compiled as standalone */
 #include <string.h>
-#define strmov(a,b) stpcpy(a,b)
-#define bzero(a,b) memset(a,0,b)
-#define memcpy_fixed(a,b,c) memcpy(a,b,c)
 #endif
 #endif
 #include <mysql.h>
 #include <ctype.h>
-
-static pthread_mutex_t LOCK_hostname;
 
 // need dlopen to dynamically load symbols
 
@@ -66,8 +61,13 @@ static pthread_mutex_t LOCK_hostname;
 // lat_lon_distance_m --- find the distance in meters between two lat/lon points
 my_bool lat_lon_distance_m_init(UDF_INIT *initid, UDF_ARGS *args, char *message);
 void lat_lon_distance_m_deinit(UDF_INIT *initid);
-double distance_vincenty(double lat1, double lon1, double lat2, double lon2, char *is_null);
+double distance_vincenty(const double lat1, const double lon1, const double lat2, const double lon2, char *is_null);
 double lat_lon_distance_m(UDF_INIT *initid, UDF_ARGS *args, char *is_null, char *error);
+
+// lat_lon_distance_m --- find the distance in meters between two lat/lon points
+my_bool quake_hit_test_init(UDF_INIT *initid, UDF_ARGS *args, char *message);
+void quake_hit_test_deinit(UDF_INIT *initid);
+int quake_hit_test(UDF_INIT *initid, UDF_ARGS *args, char *is_null, char *error);
 
 /*************************************************************************
 ** Example of init function
@@ -158,6 +158,64 @@ my_bool lat_lon_distance_m_init(UDF_INIT *initid, UDF_ARGS *args, char *message)
   return 0;
 }
 
+my_bool quake_hit_test_init(UDF_INIT *initid, UDF_ARGS *args, char *message)
+{ // args should be 8 floats or double ("real")
+  if (args->arg_count != 8) 
+  {
+    sprintf(message,"quake_hit_test args (trig_lat, trig_lon, trig_time_utc, trig_sensor, quake_lat, quake_lon, quake_time_utc, quake_mag)");
+    return 1;
+  }
+
+  if ( args->args[0] == 0
+    || args->args[1] == 0
+    || args->args[2] == 0
+    || args->args[3] == 0
+    || args->args[4] == 0
+    || args->args[5] == 0
+    || args->args[6] == 0
+    || args->args[7] == 0
+  )
+  {
+    sprintf(message,"%d Null arguments", args->arg_count);
+    return 1;
+  }
+
+  // check values of lat/lon
+  double dLat[2], dLon[2];
+  dLat[0] = atof(args->args[0]);
+  dLon[0] = atof(args->args[1]);
+  dLat[1] = atof(args->args[4]);
+  dLon[1] = atof(args->args[5]);
+
+  // check latitude
+  if ( dLat[0] < -90.0f || dLat[1] < -90.0f
+    || dLat[0] > 90.0f  || dLat[1] > 90.0f) {
+    strcpy(message,"Latitude must be in the range [-90.0, 90.0]");
+    return 1;
+  }
+
+  // check longitude
+  if ( dLon[0] < -180.0f || dLon[1] < -180.0f
+    || dLon[0] > 180.0f  || dLon[1] > 180.0f) {
+    strcpy(message,"Longitude must be in the range [-180.0, 180.0]");
+    return 1;
+  }
+
+  // force args to be real
+  args->arg_type[0] = REAL_RESULT;
+  args->arg_type[1] = REAL_RESULT;
+  args->arg_type[2] = REAL_RESULT;
+  args->arg_type[3] = REAL_RESULT;
+  args->arg_type[4] = REAL_RESULT;
+  args->arg_type[5] = REAL_RESULT;
+  args->arg_type[6] = REAL_RESULT;
+  args->arg_type[7] = REAL_RESULT;
+
+  initid->maybe_null = 0; // never null, either 0 or 1 (FALSE/TRUE)
+
+  return 0;
+}
+
 /****************************************************************************
 ** Deinit function. This should free all resources allocated by
 ** this function.
@@ -169,6 +227,11 @@ void lat_lon_distance_m_deinit(UDF_INIT *initid)
 {
 }
 
+void quake_hit_test_deinit(UDF_INIT *initid)
+{
+}
+
+/***************************************************************************
 /***************************************************************************
 ** UDF double function.
 ** Arguments:
@@ -194,7 +257,7 @@ void lat_lon_distance_m_deinit(UDF_INIT *initid)
  */
 // the implementation of lat_lon_distance_m
 
-double distance_vincenty(double lat1, double lon1, double lat2, double lon2, char *is_null)
+double distance_vincenty(const double lat1, const double lon1, const double lat2, const double lon2, char *is_null)
 {
   const double a = 6378137.0f, b = 6356752.3142f,  f = 1.0f / 298.257223563f;  // WGS-84 ellipsiod
 
@@ -255,11 +318,100 @@ double lat_lon_distance_m(UDF_INIT *initid, UDF_ARGS *args, char *is_null, char 
   double lat2 = atof(args->args[2]);
   double lon2 = atof(args->args[3]);
   */
-  double lat1 = *((double*) args->args[0]);
-  double lon1 = *((double*) args->args[1]);
-  double lat2 = *((double*) args->args[2]);
-  double lon2 = *((double*) args->args[3]);
+  const double lat1 = *((double*) args->args[0]);
+  const double lon1 = *((double*) args->args[1]);
+  const double lat2 = *((double*) args->args[2]);
+  const double lon2 = *((double*) args->args[3]);
   return distance_vincenty(lat1, lon1, lat2, lon2, is_null);
+}
+
+/* quake hit test - return 1 if the host trigger was within range of the quake, 0 otherwise
+  // parameters will have been verified by the _init():
+  //  args: trig_lat, trig_lng, trig_time_utc, trig_sensor, quake_lat, quake_lon, quake_time_utc, quake_mag
+
+  // note that times are UTC-coordinated and are the number of seconds since the 'epoch' (1/1/1970)
+
+iSensor is:
+
+mysql> select * from qcn_sensor;
++----+--------+---------------------------+
+| id | is_usb | description               |
++----+--------+---------------------------+
+|  0 |      0 | Not Found                 |
+|  1 |      0 | Mac PPC 1                 |
+|  2 |      0 | Mac PPC 2                 |
+|  3 |      0 | Mac PPC 3                 |
+|  4 |      0 | Mac Intel                 |
+|  5 |      0 | Lenovo Thinkpad (Windows) |
+|  6 |      0 | HP Laptop (Windows)       |
+|  7 |      1 | JoyWarrior 24F8 USB       |
+|  8 |      1 | MotionNode Accel USB      |
++----+--------+---------------------------+
+9 rows in set (0.00 sec)
+
+*/
+
+int quake_hit_test(UDF_INIT *initid, UDF_ARGS *args, char *is_null, char *error)
+{
+  const int iSensor = (int) (*((double*) args->args[3]));
+  const double lat1 = *((double*) args->args[0]);
+  const double lon1 = *((double*) args->args[1]);
+  const double lat2 = *((double*) args->args[4]);
+  const double lon2 = *((double*) args->args[5]);
+  const double dTimeTrig  = *((double*) args->args[2]);
+  const double dTimeQuake = *((double*) args->args[6]);
+  const double dMagnitude = *((double*) args->args[7]);
+ 
+  const double dVelocityFast = 7700.0f;  // P-wave speed in meters/second
+  const double dVelocitySlow = 2800.0f;  // S-wave speed in meters/second
+
+  double dDistanceMeters = 0.0f;
+  double dDistanceMax = 0.0f;
+  double dTimeWindow = 0.0f;
+  int iSensorFactor = 0;
+
+  // first off check the time, if not close then can just return without the distance check  
+  if (fabs(dTimeQuake-dTimeTrig) > 300.0f) { // don't bother if the quake was more than 5 minutes, no matter distance & mag
+     return 0;
+  }
+ 
+  // get the distance between the trigger & quake event
+  double dDistanceMeters = distance_vincenty(lat1, lon1, lat2, lon2, is_null);
+  if (dDistanceMeters == 0.0f) return 0; // invalid distance (or else they're right on top of the quake? :-)
+
+  // OK, now check the time, based on the distance and the slowest wave
+  dTimeWindow = dDistanceMeters / dVelocitySlow;  // this will be the time window to check
+
+  // if the trigger falls within the time window of the quake, continue to evaluate based on distance, else return 0
+  if (fabs(dTimeQuake-dTimeTrig) > (3.0f * dTimeWindow)) { // too far away based on time to bother with detection
+     return 0;  // not the fudge factor of 3.0 using above, just to give a bigger window for testing now
+  }
+
+  // see if the distance is within our magnitude check, based on sensor type
+  switch (iSensor) { // depending on sensor type, we may want to widen the range, i.e. THinkpads suck & MotionNodes are good
+     case 1:
+     case 2:
+     case 3:
+     case 4:  // Mac's are pretty good
+        iSensorFactor = 2;
+        break;
+     case 7:  // JoyWarrior is pretty sensitive
+        iSensorFactor = 3;
+        break;
+     case 8:   // MotionNode is most sensitive
+        iSensorFactor = 4;
+        break;
+     default:  // default to "coarse" sensor i.e. Thinkpad
+        iSensorFactor = 1;
+  }
+
+   // get a value for max distance to check (in meters) based on quake magnitude & sensor type
+   // the idea is that a smaller quake but with a better sensor will have a greater search range in distance
+   // than a different (coarser) sensor, etc
+   dDistanceMax = 1000.0f * powf( 2.0f , dMagnitude - (5.4f - sqrt(iSensorFactor-1)) );
+   
+   return dDistanceMax > dDistanceMeters ? 1 : 0;   // if our max distance exceeds trigger distance, return 1, else 0 
+
 }
 
 #endif /* HAVE_DLOPEN */
