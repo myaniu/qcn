@@ -27,14 +27,14 @@ BEGIN
     INSERT INTO qcn_recalcresult
       (SELECT resultid,
        exp(-(abs(unix_timestamp()-time_received))*0.69314718/604800.0) weight,
-         (50.0*runtime_clock)/86400.0 total_credit
+         (50.0*IF(runtime_clock>100000,100000,runtime_clock))/86400.0 total_credit
          FROM qcn_finalstats);
 
     /* note the left join below to ignore triggers for resultid's that we received a final stats trickle for above */
     INSERT INTO qcn_recalcresult
       (SELECT r.id resultid,                              
        exp(-(abs(unix_timestamp()-max(t.time_received))*0.69314718/604800.0)) weight,
-         (50.0*max(t.runtime_clock)/86400.0) total_credit
+         (50.0*IF(MAX(t.runtime_clock)>100000,100000.0,MAX(t.runtime_clock)))/86400.0 total_credit
          FROM result r
            LEFT JOIN qcn_finalstats f ON r.id=f.resultid 
            JOIN qcn_trigger t ON r.name=t.result_name
