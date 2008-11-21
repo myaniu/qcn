@@ -117,6 +117,7 @@ my_bool lat_lon_distance_m_init(UDF_INIT *initid, UDF_ARGS *args, char *message)
     return 1;
   }
 
+/*
   if ( args->args[0] == 0
     || args->args[1] == 0
     || args->args[2] == 0
@@ -148,6 +149,7 @@ my_bool lat_lon_distance_m_init(UDF_INIT *initid, UDF_ARGS *args, char *message)
     strcpy(message,"Longitude must be in the range [-180.0, 180.0]");
     return 1;
   }
+*/
 
   // force args to be real
   args->arg_type[0] = REAL_RESULT;
@@ -155,7 +157,8 @@ my_bool lat_lon_distance_m_init(UDF_INIT *initid, UDF_ARGS *args, char *message)
   args->arg_type[2] = REAL_RESULT;
   args->arg_type[3] = REAL_RESULT;
 
-  initid->maybe_null = 1; // return null on error
+  args->maybe_null[0] = args->maybe_null[1] = args->maybe_null[2] = args->maybe_null[3] = 0x00;
+  initid->maybe_null = 0; // return null on error
 
   return 0;
 }
@@ -168,48 +171,6 @@ my_bool quake_hit_test_init(UDF_INIT *initid, UDF_ARGS *args, char *message)
     return 1;
   }
 
-  if ( args->args[0] == 0
-    || args->args[1] == 0
-    || args->args[2] == 0
-    || args->args[3] == 0
-    || args->args[4] == 0
-    || args->args[5] == 0
-    || args->args[6] == 0
-    || args->args[7] == 0
-  )
-  {
-    sprintf(message,"%d null params (tr_lat, tr_lon, tr_time_utc, tr_sensor, qu_lat, qu_lon, qu_time_utc, qu_mag)", args->arg_count );
-    return 1;
-  }
-
-  // see if magnitude is normal
-  const double dMag = atof(args->args[7]);
-  if (dMag < 0.0f || dMag > 11.0f) {  // check for ridiculous mag value
-    sprintf(message,"Invalid magnitude %f", dMag);
-    return 1;
-  }
-
-  // check values of lat/lon
-  double dLat[2], dLon[2];
-  dLat[0] = atof(args->args[0]);
-  dLon[0] = atof(args->args[1]);
-  dLat[1] = atof(args->args[4]);
-  dLon[1] = atof(args->args[5]);
-
-  // check latitude
-  if ( dLat[0] < -90.0f || dLat[1] < -90.0f
-    || dLat[0] > 90.0f  || dLat[1] > 90.0f) {
-    strcpy(message,"Latitude must be in the range [-90.0, 90.0]");
-    return 1;
-  }
-
-  // check longitude
-  if ( dLon[0] < -180.0f || dLon[1] < -180.0f
-    || dLon[0] > 180.0f  || dLon[1] > 180.0f) {
-    strcpy(message,"Longitude must be in the range [-180.0, 180.0]");
-    return 1;
-  }
-
   // force args to be real
   args->arg_type[0] = REAL_RESULT;
   args->arg_type[1] = REAL_RESULT;
@@ -219,6 +180,9 @@ my_bool quake_hit_test_init(UDF_INIT *initid, UDF_ARGS *args, char *message)
   args->arg_type[5] = REAL_RESULT;
   args->arg_type[6] = REAL_RESULT;
   args->arg_type[7] = REAL_RESULT;
+
+  args->maybe_null[0] = args->maybe_null[1] = args->maybe_null[2] = args->maybe_null[3] = 0x00;
+  args->maybe_null[4] = args->maybe_null[5] = args->maybe_null[6] = args->maybe_null[7] = 0x00;
 
   initid->maybe_null = 0; // never null, either 0 or 1 (FALSE/TRUE)
 
@@ -321,12 +285,6 @@ double distance_vincenty(const double lat1, const double lon1, const double lat2
 
 double lat_lon_distance_m(UDF_INIT *initid, UDF_ARGS *args, char *is_null, char *error)
 {
-  /*
-  double lat1 = atof(args->args[0]);
-  double lon1 = atof(args->args[1]);
-  double lat2 = atof(args->args[2]);
-  double lon2 = atof(args->args[3]);
-  */
   const double lat1 = *((double*) args->args[0]);
   const double lon1 = *((double*) args->args[1]);
   const double lat2 = *((double*) args->args[2]);
@@ -380,6 +338,42 @@ longlong quake_hit_test(UDF_INIT *initid, UDF_ARGS *args, char *is_null, char *e
   int iSensorFactor = 0;
 
   *is_null = 0x00;
+/*
+  if ( args->args[0] == 0
+    || args->args[1] == 0
+    || args->args[2] == 0
+    || args->args[3] == 0
+    || args->args[4] == 0
+    || args->args[5] == 0
+    || args->args[6] == 0
+    || args->args[7] == 0
+  )
+  {
+//    sprintf(message,"%d null params (tr_lat, tr_lon, tr_time_utc, tr_sensor, qu_lat, qu_lon, qu_time_utc, qu_mag)", args->arg_count );
+    return -100L;
+  }
+*/
+
+  // see if magnitude is normal
+  if (dMagnitude < 0.0f || dMagnitude > 11.0f) {  // check for ridiculous mag value
+    //sprintf(message,"Invalid magnitude %f", dMag);
+    return -101L;
+  }
+
+  // check values of lat/lon
+  // check latitude
+  if ( lat1 < -90.0f || lat2 < -90.0f
+    || lat1 > 90.0f  || lat2 > 90.0f) {
+    //strcpy(message,"Latitude must be in the range [-90.0, 90.0]");
+    return -102L;
+  }
+
+  // check longitude
+  if ( lon1 < -180.0f || lon2 < -180.0f
+    || lon1 > 180.0f  || lon2 > 180.0f) {
+    //strcpy(message,"Longitude must be in the range [-180.0, 180.0]");
+    return -103L;
+  }
 
   // first off check the time, if not close then can just return without the distance check  
   if (fabs(dTimeQuake-dTimeTrig) > 300.0f) { // don't bother if the quake was more than 5 minutes, no matter distance & mag
