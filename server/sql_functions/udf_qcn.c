@@ -153,6 +153,8 @@ my_bool lat_lon_distance_m_init(UDF_INIT *initid, UDF_ARGS *args, char *message)
   args->arg_type[2] = REAL_RESULT;
   args->arg_type[3] = REAL_RESULT;
 
+  initid->maybe_null = 1; // return null on error
+
   return 0;
 }
 
