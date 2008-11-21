@@ -176,7 +176,7 @@ void lat_lon_distance_m_deinit(UDF_INIT *initid)
 
 /*  Vincenty Inverse Solution of Geodesics on the Ellipsoid */
 #define PI 3.14159265f
-#define TO_RAD(A) ((A) * PI / 180.0f)
+#define TO_RAD(Z) ((Z) * PI / 180.0f)
 
 /*
  * Calculate geodesic distance (in m) between two points specified by latitude/longitude 
@@ -188,9 +188,9 @@ double distance_vincenty(double lat1, double lon1, double lat2, double lon2, cha
 {
   const double a = 6378137.0f, b = 6356752.3142f,  f = 1.0f / 298.257223563f;  // WGS-84 ellipsiod
 
-  double L = toRad(fabs(lon2-lon1));
-  double U1 = atan((1.0f-f) * tan(toRad(lat1)));
-  double U2 = atan((1.0f-f) * tan(toRad(lat2)));
+  double L = TO_RAD(fabs(lon2-lon1));
+  double U1 = atan((1.0f-f) * tan(TO_RAD(lat1)));
+  double U2 = atan((1.0f-f) * tan(TO_RAD(lat2)));
   double sinU1 = sin(U1), cosU1 = cos(U1);
   double sinU2 = sin(U2), cosU2 = cos(U2);
 
