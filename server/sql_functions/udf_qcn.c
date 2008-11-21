@@ -125,6 +125,7 @@ my_bool lat_lon_distance_m_init(UDF_INIT *initid, UDF_ARGS *args, char *message)
     return 1;
   }
 
+
   // check values of lat/lon
   double dLat[2], dLon[2];
   dLat[0] = atof(args->args[0]);
@@ -145,6 +146,12 @@ my_bool lat_lon_distance_m_init(UDF_INIT *initid, UDF_ARGS *args, char *message)
     strcpy(message,"Longitude must be in the range [-180.0, 180.0]");
     return 1;
   }
+
+  // force args to be real
+  args->arg_type[0] = REAL_RESULT;
+  args->arg_type[1] = REAL_RESULT;
+  args->arg_type[2] = REAL_RESULT;
+  args->arg_type[3] = REAL_RESULT;
 
   return 0;
 }
@@ -240,10 +247,16 @@ double distance_vincenty(double lat1, double lon1, double lat2, double lon2, cha
 
 double lat_lon_distance_m(UDF_INIT *initid, UDF_ARGS *args, char *is_null, char *error)
 {
+  /*
   double lat1 = atof(args->args[0]);
   double lon1 = atof(args->args[1]);
   double lat2 = atof(args->args[2]);
   double lon2 = atof(args->args[3]);
+  */
+  double lat1 = *((double*) args->args[0]);
+  double lon1 = *((double*) args->args[1]);
+  double lat2 = *((double*) args->args[2]);
+  double lon2 = *((double*) args->args[3]);
   return distance_vincenty(lat1, lon1, lat2, lon2, is_null);
 }
 
