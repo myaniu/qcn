@@ -1,92 +1,26 @@
 /*
 ** QCN functions that are dynamically loaded into mysqld, based on mysql source code sql/udf_example.c
 **
-** The functions name, type and shared library is saved in the new system
-** table 'func'.  To be able to create new functions one must have write
-** privilege for the database 'mysql'.	If one starts MySQL with
-** --skip-grant, then UDF initialization will also be skipped.
-**
-** Syntax for the new commands are:
-** create function <function_name> returns {string|real|integer}
-**		  soname <name_of_shared_library>
-** drop function <function_name>
-**
-** Each defined function may have a xxxx_init function and a xxxx_deinit
-** function.  The init function should alloc memory for the function
-** and tell the main function about the max length of the result
-** (for string functions), number of decimals (for double functions) and
-** if the result may be a null value.
-**
-** If a function sets the 'error' argument to 1 the function will not be
-** called anymore and mysqld will return NULL for all calls to this copy
-** of the function.
-**
-** All strings arguments to functions are given as string pointer + length
-** to allow handling of binary data.
-** Remember that all functions must be thread safe. This means that one is not
-** allowed to alloc any global or static variables that changes!
-** If one needs memory one should alloc this in the init function and free
-** this on the __deinit function.
-**
-** Note that the init and __deinit functions are only called once per
-** SQL statement while the value function may be called many times
-**
-** Function 'metaphon' returns a metaphon string of the string argument.
-** This is something like a soundex string, but it's more tuned for English.
-**
-** Function 'myfunc_double' returns summary of codes of all letters
-** of arguments divided by summary length of all its arguments.
-**
-** Function 'myfunc_int' returns summary length of all its arguments.
-**
-** Function 'sequence' returns an sequence starting from a certain number.
-**
-** Function 'myfunc_argument_name' returns name of argument.
-**
-** On the end is a couple of functions that converts hostnames to ip and
-** vice versa.
-**
-** A dynamicly loadable file should be compiled shared.
-** (something like: gcc -fPIC -shared -o my_func.so myfunc.cc).
-** You can easily get all switches right by doing:
-** cd sql ; make udf_example.o
-** Take the compile line that make writes, remove the '-c' near the end of
-** the line and add -shared -o udf_example.so to the end of the compile line.
-** The resulting library (udf_example.so) should be copied to some dir
-** searched by ld. (/usr/lib ?)
-** If you are using gcc, then you should be able to create the udf_example.so
-** by simply doing 'make udf_example.so'.
+** by simply doing 'make udf_qcn.so'.
 **
 ** After the library is made one must notify mysqld about the new
 ** functions with the commands:
 **
-** CREATE FUNCTION metaphon RETURNS STRING SONAME "udf_example.so";
-** CREATE FUNCTION myfunc_double RETURNS REAL SONAME "udf_example.so";
-** CREATE FUNCTION myfunc_int RETURNS INTEGER SONAME "udf_example.so";
-** CREATE FUNCTION sequence RETURNS INTEGER SONAME "udf_example.so";
-** CREATE FUNCTION lookup RETURNS STRING SONAME "udf_example.so";
-** CREATE FUNCTION reverse_lookup RETURNS STRING SONAME "udf_example.so";
-** CREATE AGGREGATE FUNCTION avgcost RETURNS REAL SONAME "udf_example.so";
-** CREATE FUNCTION myfunc_argument_name RETURNS STRING SONAME "udf_example.so";
+** CREATE FUNCTION lat_lon_distance_m RETURNS REAL SONAME "udf_qcn.so";
+
 **
 ** After this the functions will work exactly like native MySQL functions.
 ** Functions should be created only once.
 **
 ** The functions can be deleted by:
 **
-** DROP FUNCTION metaphon;
-** DROP FUNCTION myfunc_double;
-** DROP FUNCTION myfunc_int;
-** DROP FUNCTION lookup;
-** DROP FUNCTION reverse_lookup;
-** DROP FUNCTION avgcost;
-** DROP FUNCTION myfunc_argument_name;
+** DROP FUNCTION lat_lon_distance_m;
 **
 ** The CREATE FUNCTION and DROP FUNCTION update the func@mysql table. All
 ** Active function will be reloaded on every restart of server
 ** (if --skip-grant-tables is not given)
 **
-** If you ge problems with undefined symbols when loading the shared
+** If you get problems with undefined symbols when loading the shared
 ** library, you should verify that mysqld is compiled with the -rdynamic
 ** option.
 **
@@ -125,22 +59,15 @@ typedef long long longlong;
 
 static pthread_mutex_t LOCK_hostname;
 
+// need dlopen to dynamically load symbols
+
 #ifdef HAVE_DLOPEN
 
-/* These must be right or mysqld will not find the symbol! */
-
-my_bool metaphon_init(UDF_INIT *initid, UDF_ARGS *args, char *message);
-void metaphon_deinit(UDF_INIT *initid);
-char *metaphon(UDF_INIT *initid, UDF_ARGS *args, char *result,
-	       unsigned long *length, char *is_null, char *error);
-
-my_bool avgcost_init( UDF_INIT* initid, UDF_ARGS* args, char* message );
-void avgcost_deinit( UDF_INIT* initid );
-void avgcost_reset( UDF_INIT* initid, UDF_ARGS* args, char* is_null, char *error );
-void avgcost_clear( UDF_INIT* initid, char* is_null, char *error );
-void avgcost_add( UDF_INIT* initid, UDF_ARGS* args, char* is_null, char *error );
-double avgcost( UDF_INIT* initid, UDF_ARGS* args, char* is_null, char *error );
-
+// lat_lon_distance_m --- find the distance in meters between two lat/lon points
+my_bool lat_lon_distance_m_init(UDF_INIT *initid, UDF_ARGS *args, char *message);
+void lat_lon_distance_m_deinit(UDF_INIT *initid);
+double distance_vincenty(double lat1, double lon1, double lat2, double lon2, char *is_null);
+double lat_lon_distance_m(UDF_INIT *initid, UDF_ARGS *args, char *is_null, char *error);
 
 /*************************************************************************
 ** Example of init function
@@ -180,16 +107,44 @@ double avgcost( UDF_INIT* initid, UDF_ARGS* args, char* is_null, char *error );
 ** message should contain something usefull!
 **************************************************************************/
 
-#define MAXMETAPH 8
-
-my_bool metaphon_init(UDF_INIT *initid, UDF_ARGS *args, char *message)
-{
-  if (args->arg_count != 1 || args->arg_type[0] != STRING_RESULT)
+my_bool lat_lon_distance_m_init(UDF_INIT *initid, UDF_ARGS *args, char *message);
+{ // args should be 4 floats or double ("real")
+  if (args->arg_count != 4 
+       || args->arg_type[0] != REAL_RESULT
+       || args->arg_type[1] != REAL_RESULT
+       || args->arg_type[2] != REAL_RESULT
+       || args->arg_type[3] != REAL_RESULT
+       || args->args[0] == 0
+       || args->args[1] == 0
+       || args->args[2] == 0
+       || args->args[3] == 0
+  )
   {
-    strcpy(message,"Wrong arguments to metaphon;  Use the source");
+    strcpy(message,"Wrong arguments to lat_lon_distance_m - need two lat/lon real pairs");
     return 1;
   }
-  initid->max_length=MAXMETAPH;
+
+  // check values of lat/lon
+  double dLat[2], dLon[2]
+  dLat[0] = atof(args->args[0]);
+  dLon[0] = atof(args->args[1]);
+  dLat[1] = atof(args->args[2]);
+  dLon[1] = atof(args->args[3]);
+
+  // check latitude
+  if ( dLat[0] < -90.0f || dLat[1] < -90.0f 
+    || dLat[0] > 90.0f  || dLat[1] > 90.0f) {
+    strcpy(message,"Latitude must be in the range [-90.0, 90.0]");
+    return 1;
+  }
+
+  // check longitude
+  if ( dLon[0] < -180.0f || dLon[1] < -180.0f 
+    || dLon[0] > 180.0f  || dLon[1] > 180.0f) {
+    strcpy(message,"Longitude must be in the range [-180.0, 180.0]");
+    return 1;
+  }
+
   return 0;
 }
 
@@ -200,915 +155,95 @@ my_bool metaphon_init(UDF_INIT *initid, UDF_ARGS *args, char *message)
 ** initid	Return value from xxxx_init
 ****************************************************************************/
 
-
-void metaphon_deinit(UDF_INIT *initid __attribute__((unused)))
+void lat_lon_distance_m_deinit(UDF_INIT *initid)
 {
 }
-
-/***************************************************************************
-** UDF string function.
-** Arguments:
-** initid	Structure filled by xxx_init
-** args		The same structure as to xxx_init. This structure
-**		contains values for all parameters.
-**		Note that the functions MUST check and convert all
-**		to the type it wants!  Null values are represented by
-**		a NULL pointer
-** result	Possible buffer to save result. At least 255 byte long.
-** length	Pointer to length of the above buffer.	In this the function
-**		should save the result length
-** is_null	If the result is null, one should store 1 here.
-** error	If something goes fatally wrong one should store 1 here.
-**
-** This function should return a pointer to the result string.
-** Normally this is 'result' but may also be an alloced string.
-***************************************************************************/
-
-/* Character coding array */
-static char codes[26] =  {
-    1,16,4,16,9,2,4,16,9,2,0,2,2,2,1,4,0,2,4,4,1,0,0,0,8,0
- /* A  B C  D E F G  H I J K L M N O P Q R S T U V W X Y Z*/
-    };
-
-/*--- Macros to access character coding array -------------*/
-
-#define ISVOWEL(x)  (codes[(x) - 'A'] & 1)	/* AEIOU */
-
-    /* Following letters are not changed */
-#define NOCHANGE(x) (codes[(x) - 'A'] & 2)	/* FJLMNR */
-
-    /* These form diphthongs when preceding H */
-#define AFFECTH(x) (codes[(x) - 'A'] & 4)	/* CGPST */
-
-    /* These make C and G soft */
-#define MAKESOFT(x) (codes[(x) - 'A'] & 8)	/* EIY */
-
-    /* These prevent GH from becoming F */
-#define NOGHTOF(x)  (codes[(x) - 'A'] & 16)	/* BDH */
-
-
-char *metaphon(UDF_INIT *initid __attribute__((unused)),
-               UDF_ARGS *args, char *result, unsigned long *length,
-               char *is_null, char *error __attribute__((unused)))
-{
-  const char *word=args->args[0];
-  const char *w_end;
-  char *org_result;
-  char *n, *n_start, *n_end; /* pointers to string */
-  char *metaph_end;	     /* pointers to end of metaph */
-  char ntrans[32];	     /* word with uppercase letters */
-  int  KSflag;		     /* state flag for X to KS */
-
-  if (!word)					/* Null argument */
-  {
-    *is_null=1;
-    return 0;
-  }
-  w_end=word+args->lengths[0];
-  org_result=result;
-
-  /*--------------------------------------------------------
-   *  Copy word to internal buffer, dropping non-alphabetic
-   *  characters and converting to uppercase.
-   *-------------------------------------------------------*/
-
-  for (n = ntrans + 1, n_end = ntrans + sizeof(ntrans)-2;
-	word != w_end && n < n_end; word++ )
-    if ( isalpha ( *word ))
-      *n++ = toupper ( *word );
-
-  if ( n == ntrans + 1 )	/* return empty string if 0 bytes */
-  {
-    *length=0;
-    return result;
-  }
-  n_end = n;			/* set n_end to end of string */
-  ntrans[0] = 'Z';		/* ntrans[0] should be a neutral char */
-  n[0]=n[1]=0;			/* pad with nulls */
-  n = ntrans + 1;		/* assign pointer to start */
-
-  /*------------------------------------------------------------
-   *  check for all prefixes:
-   *		PN KN GN AE WR WH and X at start.
-   *----------------------------------------------------------*/
-
-  switch ( *n ) {
-  case 'P':
-  case 'K':
-  case 'G':
-    if ( n[1] == 'N')
-      *n++ = 0;
-    break;
-  case 'A':
-    if ( n[1] == 'E')
-      *n++ = 0;
-    break;
-  case 'W':
-    if ( n[1] == 'R' )
-      *n++ = 0;
-    else
-      if ( *(n + 1) == 'H')
-      {
-	n[1] = *n;
-	*n++ = 0;
-      }
-    break;
-  case 'X':
-    *n = 'S';
-    break;
-  }
-
-  /*------------------------------------------------------------
-   *  Now, loop step through string, stopping at end of string
-   *  or when the computed metaph is MAXMETAPH characters long
-   *----------------------------------------------------------*/
-
-  KSflag = 0; /* state flag for KS translation */
-
-  for (metaph_end = result + MAXMETAPH, n_start = n;
-	n < n_end && result < metaph_end; n++ )
-  {
-
-    if ( KSflag )
-    {
-      KSflag = 0;
-      *result++ = *n;
-    }
-    else
-    {
-      /* drop duplicates except for CC */
-      if ( *( n - 1 ) == *n && *n != 'C' )
-	continue;
-
-      /* check for F J L M N R or first letter vowel */
-      if ( NOCHANGE ( *n ) ||
-	   ( n == n_start && ISVOWEL ( *n )))
-	*result++ = *n;
-      else
-	switch ( *n ) {
-	case 'B':	 /* check for -MB */
-	  if ( n < n_end || *( n - 1 ) != 'M' )
-	    *result++ = *n;
-	  break;
-
-	case 'C': /* C = X ("sh" sound) in CH and CIA */
-	  /*   = S in CE CI and CY	      */
-	  /*	 dropped in SCI SCE SCY       */
-	  /* else K			      */
-	  if ( *( n - 1 ) != 'S' ||
-	       !MAKESOFT ( n[1]))
-	  {
-	    if ( n[1] == 'I' && n[2] == 'A' )
-	      *result++ = 'X';
-	    else
-	      if ( MAKESOFT ( n[1]))
-		*result++ = 'S';
-	      else
-		if ( n[1] == 'H' )
-		  *result++ = (( n == n_start &&
-				 !ISVOWEL ( n[2])) ||
-			       *( n - 1 ) == 'S' ) ?
-		    (char)'K' : (char)'X';
-		else
-		  *result++ = 'K';
-	  }
-	  break;
-
-	case 'D':  /* J before DGE, DGI, DGY, else T */
-	  *result++ =
-	    ( n[1] == 'G' &&
-	      MAKESOFT ( n[2])) ?
-	    (char)'J' : (char)'T';
-	  break;
-
-	case 'G':   /* complicated, see table in text */
-	  if (( n[1] != 'H' || ISVOWEL ( n[2]))
-	      && (
-		  n[1] != 'N' ||
-		  (
-		   (n + 1) < n_end  &&
-		   (
-		    n[2] != 'E' ||
-		    *( n + 3 ) != 'D'
-		    )
-		   )
-		  )
-	      && (
-		  *( n - 1 ) != 'D' ||
-		  !MAKESOFT ( n[1])
-		  )
-	      )
-	    *result++ =
-	      ( MAKESOFT ( *( n  + 1 )) &&
-		n[2] != 'G' ) ?
-	      (char)'J' : (char)'K';
-	  else
-	    if ( n[1] == 'H'   &&
-		!NOGHTOF( *( n - 3 )) &&
-		*( n - 4 ) != 'H')
-	      *result++ = 'F';
-	  break;
-
-	case 'H':   /* H if before a vowel and not after */
-	  /* C, G, P, S, T */
-
-	  if ( !AFFECTH ( *( n - 1 )) &&
-	       ( !ISVOWEL ( *( n - 1 )) ||
-		 ISVOWEL ( n[1])))
-	    *result++ = 'H';
-	  break;
-
-	case 'K':    /* K = K, except dropped after C */
-	  if ( *( n - 1 ) != 'C')
-	    *result++ = 'K';
-	  break;
-
-	case 'P':    /* PH = F, else P = P */
-	  *result++ = *( n +  1 ) == 'H'
-	    ? (char)'F' : (char)'P';
-	  break;
-	case 'Q':   /* Q = K (U after Q is already gone */
-	  *result++ = 'K';
-	  break;
-
-	case 'S':   /* SH, SIO, SIA = X ("sh" sound) */
-	  *result++ = ( n[1] == 'H' ||
-			( *(n  + 1) == 'I' &&
-			  ( n[2] == 'O' ||
-			    n[2] == 'A')))  ?
-	    (char)'X' : (char)'S';
-	  break;
-
-	case 'T':  /* TIO, TIA = X ("sh" sound) */
-	  /* TH = 0, ("th" sound ) */
-	  if ( *( n  + 1 ) == 'I' && ( n[2] == 'O'
-				      || n[2] == 'A') )
-	    *result++ = 'X';
-	  else
-	    if ( n[1] == 'H' )
-	      *result++ = '0';
-	    else
-	      if ( *( n + 1) != 'C' || n[2] != 'H')
-		*result++ = 'T';
-	  break;
-
-	case 'V':     /* V = F */
-	  *result++ = 'F';
-	  break;
-
-	case 'W':     /* only exist if a vowel follows */
-	case 'Y':
-	  if ( ISVOWEL ( n[1]))
-	    *result++ = *n;
-	  break;
-
-	case 'X':     /* X = KS, except at start */
-	  if ( n == n_start )
-	    *result++ = 'S';
-	  else
-	  {
-	    *result++ = 'K'; /* insert K, then S */
-	    KSflag = 1; /* this flag will cause S to be
-			   inserted on next pass thru loop */
-	  }
-	  break;
-
-	case 'Z':
-	  *result++ = 'S';
-	  break;
-	}
-    }
-  }
-  *length= (unsigned long) (result - org_result);
-  return org_result;
-}
-
 
 /***************************************************************************
 ** UDF double function.
 ** Arguments:
-** initid	Structure filled by xxx_init
-** args		The same structure as to xxx_init. This structure
-**		contains values for all parameters.
-**		Note that the functions MUST check and convert all
-**		to the type it wants!  Null values are represented by
-**		a NULL pointer
-** is_null	If the result is null, one should store 1 here.
-** error	If something goes fatally wrong one should store 1 here.
+** initid       Structure filled by xxx_init
+** args         The same structure as to xxx_init. This structure
+**              contains values for all parameters.
+**              Note that the functions MUST check and convert all
+**              to the type it wants!  Null values are represented by
+**              a NULL pointer
+** is_null      If the result is null, one should store 1 here.
+** error        If something goes fatally wrong one should store 1 here.
 **
 ** This function should return the result.
 ***************************************************************************/
 
-my_bool myfunc_double_init(UDF_INIT *initid, UDF_ARGS *args, char *message)
-{
-  uint i;
-
-  if (!args->arg_count)
-  {
-    strcpy(message,"myfunc_double must have at least one argument");
-    return 1;
-  }
-  /*
-  ** As this function wants to have everything as strings, force all arguments
-  ** to strings.
-  */
-  for (i=0 ; i < args->arg_count; i++)
-    args->arg_type[i]=STRING_RESULT;
-  initid->maybe_null=1;		/* The result may be null */
-  initid->decimals=2;		/* We want 2 decimals in the result */
-  initid->max_length=6;		/* 3 digits + . + 2 decimals */
-  return 0;
-}
-
-
-double myfunc_double(UDF_INIT *initid __attribute__((unused)), UDF_ARGS *args,
-                     char *is_null, char *error __attribute__((unused)))
-{
-  unsigned long val = 0;
-  unsigned long v = 0;
-  uint i, j;
-
-  for (i = 0; i < args->arg_count; i++)
-  {
-    if (args->args[i] == NULL)
-      continue;
-    val += args->lengths[i];
-    for (j=args->lengths[i] ; j-- > 0 ;)
-      v += args->args[i][j];
-  }
-  if (val)
-    return (double) v/ (double) val;
-  *is_null=1;
-  return 0.0;
-}
-
-
-/***************************************************************************
-** UDF long long function.
-** Arguments:
-** initid	Return value from xxxx_init
-** args		The same structure as to xxx_init. This structure
-**		contains values for all parameters.
-**		Note that the functions MUST check and convert all
-**		to the type it wants!  Null values are represented by
-**		a NULL pointer
-** is_null	If the result is null, one should store 1 here.
-** error	If something goes fatally wrong one should store 1 here.
-**
-** This function should return the result as a long long
-***************************************************************************/
-
-/* This function returns the sum of all arguments */
-
-longlong myfunc_int(UDF_INIT *initid __attribute__((unused)), UDF_ARGS *args,
-                    char *is_null __attribute__((unused)),
-                    char *error __attribute__((unused)))
-{
-  longlong val = 0;
-  uint i;
-
-  for (i = 0; i < args->arg_count; i++)
-  {
-    if (args->args[i] == NULL)
-      continue;
-    switch (args->arg_type[i]) {
-    case STRING_RESULT:			/* Add string lengths */
-      val += args->lengths[i];
-      break;
-    case INT_RESULT:			/* Add numbers */
-      val += *((longlong*) args->args[i]);
-      break;
-    case REAL_RESULT:			/* Add numers as longlong */
-      val += (longlong) *((double*) args->args[i]);
-      break;
-    default:
-      break;
-    }
-  }
-  return val;
-}
+/*  Vincenty Inverse Solution of Geodesics on the Ellipsoid */
+#define PI 3.14159265f
+#define TO_RAD(A) ((A) * PI / 180.0f)
 
 /*
-  At least one of _init/_deinit is needed unless the server is started
-  with --allow_suspicious_udfs.
-*/
-my_bool myfunc_int_init(UDF_INIT *initid __attribute__((unused)),
-                        UDF_ARGS *args __attribute__((unused)),
-                        char *message __attribute__((unused)))
+ * Calculate geodesic distance (in m) between two points specified by latitude/longitude 
+ * (in numeric degrees) using Vincenty inverse formula for ellipsoids
+ */
+// the implementation of lat_lon_distance_m
+
+double distance_vincenty(double lat1, double lon1, double lat2, double lon2, char *is_null)
 {
-  return 0;
-}
+  const double a = 6378137.0f, b = 6356752.3142f,  f = 1.0f / 298.257223563f;  // WGS-84 ellipsiod
 
-/*
-  Simple example of how to get a sequences starting from the first argument
-  or 1 if no arguments have been given
-*/
+  double L = toRad(fabs(lon2-lon1));
+  double U1 = atan((1.0f-f) * tan(toRad(lat1)));
+  double U2 = atan((1.0f-f) * tan(toRad(lat2)));
+  double sinU1 = sin(U1), cosU1 = cos(U1);
+  double sinU2 = sin(U2), cosU2 = cos(U2);
 
-my_bool sequence_init(UDF_INIT *initid, UDF_ARGS *args, char *message)
-{
-  if (args->arg_count > 1)
-  {
-    strmov(message,"This function takes none or 1 argument");
-    return 1;
-  }
-  if (args->arg_count)
-    args->arg_type[0]= INT_RESULT;		/* Force argument to int */
+  double lambda = L, lambdaP;
+  double sinLambda, cosLambda, sinSigma, sigma, cosSigma, sinAlpha, cosSqAlpha, cos2SigmaM;
+  int iterLimit = 0;
 
-  if (!(initid->ptr=(char*) malloc(sizeof(longlong))))
-  {
-    strmov(message,"Couldn't allocate memory");
-    return 1;
-  }
-  bzero(initid->ptr,sizeof(longlong));
-  /* 
-    sequence() is a non-deterministic function : it has different value 
-    even if called with the same arguments.
-  */
-  initid->const_item=0;
-  return 0;
-}
+  *is_null = 0x00;
 
-void sequence_deinit(UDF_INIT *initid)
-{
-  if (initid->ptr)
-    free(initid->ptr);
-}
-
-longlong sequence(UDF_INIT *initid __attribute__((unused)), UDF_ARGS *args,
-                  char *is_null __attribute__((unused)),
-                  char *error __attribute__((unused)))
-{
-  ulonglong val=0;
-  if (args->arg_count)
-    val= *((longlong*) args->args[0]);
-  return ++*((longlong*) initid->ptr) + val;
-}
-
-
-/****************************************************************************
-** Some functions that handles IP and hostname conversions
-** The orignal function was from Zeev Suraski.
-**
-** CREATE FUNCTION lookup RETURNS STRING SONAME "udf_example.so";
-** CREATE FUNCTION reverse_lookup RETURNS STRING SONAME "udf_example.so";
-**
-****************************************************************************/
-
-#ifdef __WIN__
-#include <winsock2.h>
-#else
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
-#include <netdb.h>
-#endif
-
-my_bool lookup_init(UDF_INIT *initid, UDF_ARGS *args, char *message);
-void lookup_deinit(UDF_INIT *initid);
-char *lookup(UDF_INIT *initid, UDF_ARGS *args, char *result,
-	     unsigned long *length, char *null_value, char *error);
-my_bool reverse_lookup_init(UDF_INIT *initid, UDF_ARGS *args, char *message);
-void reverse_lookup_deinit(UDF_INIT *initid);
-char *reverse_lookup(UDF_INIT *initid, UDF_ARGS *args, char *result,
-		     unsigned long *length, char *null_value, char *error);
-
-
-/****************************************************************************
-** lookup IP for an hostname.
-**
-** This code assumes that gethostbyname_r exists and inet_ntoa() is thread
-** safe (As it is in Solaris)
-****************************************************************************/
-
-
-my_bool lookup_init(UDF_INIT *initid, UDF_ARGS *args, char *message)
-{
-  if (args->arg_count != 1 || args->arg_type[0] != STRING_RESULT)
-  {
-    strmov(message,"Wrong arguments to lookup;  Use the source");
-    return 1;
-  }
-  initid->max_length=11;
-  initid->maybe_null=1;
-#if !defined(HAVE_GETHOSTBYADDR_R) || !defined(HAVE_SOLARIS_STYLE_GETHOST)
-  (void) pthread_mutex_init(&LOCK_hostname,MY_MUTEX_INIT_SLOW);
-#endif
-  return 0;
-}
-
-void lookup_deinit(UDF_INIT *initid __attribute__((unused)))
-{
-#if !defined(HAVE_GETHOSTBYADDR_R) || !defined(HAVE_SOLARIS_STYLE_GETHOST)
-  (void) pthread_mutex_destroy(&LOCK_hostname);
-#endif
-}
-
-char *lookup(UDF_INIT *initid __attribute__((unused)), UDF_ARGS *args,
-             char *result, unsigned long *res_length, char *null_value,
-             char *error __attribute__((unused)))
-{
-  uint length;
-  char name_buff[256];
-  struct hostent *hostent;
-#if defined(HAVE_GETHOSTBYADDR_R) && defined(HAVE_SOLARIS_STYLE_GETHOST)
-  int tmp_errno;
-  char hostname_buff[2048];
-  struct hostent tmp_hostent;
-#endif
-  struct in_addr in;
-
-  if (!args->args[0] || !(length=args->lengths[0]))
-  {
-    *null_value=1;
-    return 0;
-  }
-  if (length >= sizeof(name_buff))
-    length=sizeof(name_buff)-1;
-  memcpy(name_buff,args->args[0],length);
-  name_buff[length]=0;
-#if defined(HAVE_GETHOSTBYADDR_R) && defined(HAVE_SOLARIS_STYLE_GETHOST)
-  if (!(hostent=gethostbyname_r(name_buff,&tmp_hostent,hostname_buff,
-				sizeof(hostname_buff), &tmp_errno)))
-  {
-    *null_value=1;
-    return 0;
-  }
-#else
-  pthread_mutex_lock(&LOCK_hostname);
-  if (!(hostent= gethostbyname((char*) name_buff)))
-  {
-    pthread_mutex_unlock(&LOCK_hostname);
-    *null_value= 1;
-    return 0;
-  }
-  pthread_mutex_unlock(&LOCK_hostname);
-#endif
-  memcpy_fixed((char*) &in,(char*) *hostent->h_addr_list, sizeof(in.s_addr));
-  *res_length= (ulong) (strmov(result, inet_ntoa(in)) - result);
-  return result;
-}
-
-
-/****************************************************************************
-** return hostname for an IP number.
-** The functions can take as arguments a string "xxx.xxx.xxx.xxx" or
-** four numbers.
-****************************************************************************/
-
-my_bool reverse_lookup_init(UDF_INIT *initid, UDF_ARGS *args, char *message)
-{
-  if (args->arg_count == 1)
-    args->arg_type[0]= STRING_RESULT;
-  else if (args->arg_count == 4)
-    args->arg_type[0]=args->arg_type[1]=args->arg_type[2]=args->arg_type[3]=
-      INT_RESULT;
-  else
-  {
-    strmov(message,
-	   "Wrong number of arguments to reverse_lookup;  Use the source");
-    return 1;
-  }
-  initid->max_length=32;
-  initid->maybe_null=1;
-#if !defined(HAVE_GETHOSTBYADDR_R) || !defined(HAVE_SOLARIS_STYLE_GETHOST)
-  (void) pthread_mutex_init(&LOCK_hostname,MY_MUTEX_INIT_SLOW);
-#endif
-  return 0;
-}
-
-void reverse_lookup_deinit(UDF_INIT *initid __attribute__((unused)))
-{
-#if !defined(HAVE_GETHOSTBYADDR_R) || !defined(HAVE_SOLARIS_STYLE_GETHOST)
-  (void) pthread_mutex_destroy(&LOCK_hostname);
-#endif
-}
-
-char *reverse_lookup(UDF_INIT *initid __attribute__((unused)), UDF_ARGS *args,
-                     char *result, unsigned long *res_length,
-                     char *null_value, char *error __attribute__((unused)))
-{
-#if defined(HAVE_GETHOSTBYADDR_R) && defined(HAVE_SOLARIS_STYLE_GETHOST)
-  char name_buff[256];
-  struct hostent tmp_hostent;
-  int tmp_errno;
-#endif
-  struct hostent *hp;
-  unsigned long taddr;
-  uint length;
-
-  if (args->arg_count == 4)
-  {
-    if (!args->args[0] || !args->args[1] ||!args->args[2] ||!args->args[3])
-    {
-      *null_value=1;
-      return 0;
+  do {
+    sinLambda = sin(lambda);
+    cosLambda = cos(lambda);
+    sinSigma = sqrt((cosU2*sinLambda) * (cosU2*sinLambda) +
+      (cosU1*sinU2-sinU1*cosU2*cosLambda) * (cosU1*sinU2-sinU1*cosU2*cosLambda));
+    if (sinSigma==0.0f) {
+        return 0.0f;  // co-incident points
     }
-    sprintf(result,"%d.%d.%d.%d",
-	    (int) *((longlong*) args->args[0]),
-	    (int) *((longlong*) args->args[1]),
-	    (int) *((longlong*) args->args[2]),
-	    (int) *((longlong*) args->args[3]));
-  }
-  else
-  {					/* string argument */
-    if (!args->args[0])			/* Return NULL for NULL values */
-    {
-      *null_value=1;
-      return 0;
-    }
-    length=args->lengths[0];
-    if (length >= (uint) *res_length-1)
-      length=(uint) *res_length;
-    memcpy(result,args->args[0],length);
-    result[length]=0;
+    cosSigma = sinU1*sinU2 + cosU1*cosU2*cosLambda;
+    sigma = atan2(sinSigma, cosSigma);
+    sinAlpha = cosU1 * cosU2 * sinLambda / sinSigma;
+    cosSqAlpha = 1.00f - sinAlpha*sinAlpha;
+
+    // equatorial line: cosSqAlpha=0 (§6)
+    if (cosSqAlpha == 0.0f) cos2SigmaM = 0.0f;
+    else cos2SigmaM = cosSigma - (2.0f*sinU1*sinU2/cosSqAlpha);
+
+    double C = f/16.0f * cosSqAlpha*(4.0f + f * (4.0f - (3.0f*cosSqAlpha)));
+    lambdaP = lambda;
+    lambda = L + (1.0f-C) * f * sinAlpha *
+      (sigma + C*sinSigma*(cos2SigmaM+C*cosSigma*(-1.0f+2.0f*cos2SigmaM*cos2SigmaM)));
+  } while (fabs(lambda-lambdaP) > 1.0e-12f && ++iterLimit<20);
+
+  if (iterLimit==20) {
+      *is_null = 0x01;
+      return 0.0f; // formula failed to converge
   }
 
-  taddr = inet_addr(result);
-  if (taddr == (unsigned long) -1L)
-  {
-    *null_value=1;
-    return 0;
-  }
-#if defined(HAVE_GETHOSTBYADDR_R) && defined(HAVE_SOLARIS_STYLE_GETHOST)
-  if (!(hp=gethostbyaddr_r((char*) &taddr,sizeof(taddr), AF_INET,
-			   &tmp_hostent, name_buff,sizeof(name_buff),
-			   &tmp_errno)))
-  {
-    *null_value=1;
-    return 0;
-  }
-#else
-  pthread_mutex_lock(&LOCK_hostname);
-  if (!(hp= gethostbyaddr((char*) &taddr, sizeof(taddr), AF_INET)))
-  {
-    pthread_mutex_unlock(&LOCK_hostname);
-    *null_value= 1;
-    return 0;
-  }
-  pthread_mutex_unlock(&LOCK_hostname);
-#endif
-  *res_length=(ulong) (strmov(result,hp->h_name) - result);
-  return result;
-}
+  double uSq = cosSqAlpha * (a*a - b*b) / (b*b);
+  double A = 1.0f + uSq/16384.0f*(4096.0f+uSq*(-768.0f+uSq*(320.0f-175.0f*uSq)));
+  double B = uSq/1024.0f * (256.0f+uSq*(-128.0f+uSq*(74.0f-47.0f*uSq)));
+  double deltaSigma = B*sinSigma*(cos2SigmaM+B/4.0f*(cosSigma*(-1.0f+2.0f*cos2SigmaM*cos2SigmaM)-
+    B/6.0f*cos2SigmaM*(-3.0f+4.0f*sinSigma*sinSigma)*(-3.0f+4.0f*cos2SigmaM*cos2SigmaM)));
 
-/*
-** Syntax for the new aggregate commands are:
-** create aggregate function <function_name> returns {string|real|integer}
-**		  soname <name_of_shared_library>
-**
-** Syntax for avgcost: avgcost( t.quantity, t.price )
-**	with t.quantity=integer, t.price=double
-** (this example is provided by Andreas F. Bobak <bobak@relog.ch>)
-*/
+   return b*A*(sigma-deltaSigma)
+}                                                                                                                                                                78,2          43%
 
-
-struct avgcost_data
+double lat_lon_distance_m(UDF_INIT *initid, UDF_ARGS *args, char *is_null, char *error)
 {
-  ulonglong	count;
-  longlong	totalquantity;
-  double	totalprice;
-};
-
-
-/*
-** Average Cost Aggregate Function.
-*/
-my_bool
-avgcost_init( UDF_INIT* initid, UDF_ARGS* args, char* message )
-{
-  struct avgcost_data*	data;
-
-  if (args->arg_count != 2)
-  {
-    strcpy(
-	   message,
-	   "wrong number of arguments: AVGCOST() requires two arguments"
-	   );
-    return 1;
-  }
-
-  if ((args->arg_type[0] != INT_RESULT) || (args->arg_type[1] != REAL_RESULT) )
-  {
-    strcpy(
-	   message,
-	   "wrong argument type: AVGCOST() requires an INT and a REAL"
-	   );
-    return 1;
-  }
-
-  /*
-  **	force arguments to double.
-  */
-  /*args->arg_type[0]	= REAL_RESULT;
-    args->arg_type[1]	= REAL_RESULT;*/
-
-  initid->maybe_null	= 0;		/* The result may be null */
-  initid->decimals	= 4;		/* We want 4 decimals in the result */
-  initid->max_length	= 20;		/* 6 digits + . + 10 decimals */
-
-  if (!(data = (struct avgcost_data*) malloc(sizeof(struct avgcost_data))))
-  {
-    strmov(message,"Couldn't allocate memory");
-    return 1;
-  }
-  data->totalquantity	= 0;
-  data->totalprice	= 0.0;
-
-  initid->ptr = (char*)data;
-
-  return 0;
+  double lat1 = atof(args->args[0]);
+  double lon1 = atof(args->args[1]);
+  double lat2 = atof(args->args[2]);
+  double lon2 = atof(args->args[3]);
+  return distance_vincenty(lat1, lon1, lat2, lon2, is_null);
 }
-
-void
-avgcost_deinit( UDF_INIT* initid )
-{
-  free(initid->ptr);
-}
-
-
-/* This is only for MySQL 4.0 compability */
-void
-avgcost_reset(UDF_INIT* initid, UDF_ARGS* args, char* is_null, char* message)
-{
-  avgcost_clear(initid, is_null, message);
-  avgcost_add(initid, args, is_null, message);
-}
-
-/* This is needed to get things to work in MySQL 4.1.1 and above */
-
-void
-avgcost_clear(UDF_INIT* initid, char* is_null __attribute__((unused)),
-              char* message __attribute__((unused)))
-{
-  struct avgcost_data* data = (struct avgcost_data*)initid->ptr;
-  data->totalprice=	0.0;
-  data->totalquantity=	0;
-  data->count=		0;
-}
-
-
-void
-avgcost_add(UDF_INIT* initid, UDF_ARGS* args,
-            char* is_null __attribute__((unused)),
-            char* message __attribute__((unused)))
-{
-  if (args->args[0] && args->args[1])
-  {
-    struct avgcost_data* data	= (struct avgcost_data*)initid->ptr;
-    longlong quantity		= *((longlong*)args->args[0]);
-    longlong newquantity	= data->totalquantity + quantity;
-    double price		= *((double*)args->args[1]);
-
-    data->count++;
-
-    if (   ((data->totalquantity >= 0) && (quantity < 0))
-	   || ((data->totalquantity <  0) && (quantity > 0)) )
-    {
-      /*
-      **	passing from + to - or from - to +
-      */
-      if (   ((quantity < 0) && (newquantity < 0))
-	     || ((quantity > 0) && (newquantity > 0)) )
-      {
-	data->totalprice	= price * (double)newquantity;
-      }
-      /*
-      **	sub q if totalq > 0
-      **	add q if totalq < 0
-      */
-      else
-      {
-	price		  = data->totalprice / (double)data->totalquantity;
-	data->totalprice  = price * (double)newquantity;
-      }
-      data->totalquantity = newquantity;
-    }
-    else
-    {
-      data->totalquantity	+= quantity;
-      data->totalprice		+= price * (double)quantity;
-    }
-
-    if (data->totalquantity == 0)
-      data->totalprice = 0.0;
-  }
-}
-
-
-double
-avgcost( UDF_INIT* initid, UDF_ARGS* args __attribute__((unused)),
-         char* is_null, char* error __attribute__((unused)))
-{
-  struct avgcost_data* data = (struct avgcost_data*)initid->ptr;
-  if (!data->count || !data->totalquantity)
-  {
-    *is_null = 1;
-    return 0.0;
-  }
-
-  *is_null = 0;
-  return data->totalprice/(double)data->totalquantity;
-}
-
-my_bool myfunc_argument_name_init(UDF_INIT *initid, UDF_ARGS *args,
-				  char *message);
-char *myfunc_argument_name(UDF_INIT *initid, UDF_ARGS *args, char *result,
-			   unsigned long *length, char *null_value,
-			   char *error);
-
-my_bool myfunc_argument_name_init(UDF_INIT *initid, UDF_ARGS *args,
-				  char *message)
-{
-  if (args->arg_count != 1)
-  {
-    strmov(message,"myfunc_argument_name_init accepts only one argument");
-    return 1;
-  }
-  initid->max_length= args->attribute_lengths[0];
-  initid->maybe_null= 1;
-  initid->const_item= 1;
-  return 0;
-}
-
-char *myfunc_argument_name(UDF_INIT *initid __attribute__((unused)),
-                           UDF_ARGS *args, char *result,
-                           unsigned long *length, char *null_value,
-                           char *error __attribute__((unused)))
-{
-  if (!args->attributes[0])
-  {
-    null_value= 0;
-    return 0;
-  }
-  (*length)--; /* space for ending \0 (for debugging purposes) */
-  if (*length > args->attribute_lengths[0])
-    *length= args->attribute_lengths[0];
-  memcpy(result, args->attributes[0], *length);
-  result[*length]= 0;
-  return result;
-}
-
-
-
-my_bool is_const_init(UDF_INIT *initid, UDF_ARGS *args, char *message)
-{
-  if (args->arg_count != 1)
-  {
-    strmov(message, "IS_CONST accepts only one argument");
-    return 1;
-  }
-  initid->ptr= (char*)((args->args[0] != NULL) ? 1UL : 0);
-  return 0;
-}
-
-char * is_const(UDF_INIT *initid, UDF_ARGS *args __attribute__((unused)),
-                char *result, unsigned long *length,
-                char *is_null, char *error __attribute__((unused)))
-{
-  if (initid->ptr != 0) {
-    sprintf(result, "const");
-  } else {
-    sprintf(result, "not const");
-  }
-  *is_null= 0;
-  *length= strlen(result);
-  return result;
-}
-
-
-
-my_bool check_const_len_init(UDF_INIT *initid, UDF_ARGS *args, char *message)
-{
-  if (args->arg_count != 1)
-  {
-    strmov(message, "CHECK_CONST_LEN accepts only one argument");
-    return 1;
-  }
-  if (args->args[0] == 0)
-  {
-    initid->ptr= (char*)"Not constant";
-  }
-  else if(strlen(args->args[0]) == args->lengths[0])
-  {
-    initid->ptr= (char*)"Correct length";
-  }
-  else
-  {
-    initid->ptr= (char*)"Wrong length";
-  }
-  initid->max_length = 100;
-  return 0;
-}
-
-char * check_const_len(UDF_INIT *initid, UDF_ARGS *args __attribute__((unused)),
-                char *result, unsigned long *length,
-                char *is_null, char *error __attribute__((unused)))
-{
-  strmov(result, initid->ptr);
-  *length= strlen(result);
-  *is_null= 0;
-  return result;
-}
-
 
 #endif /* HAVE_DLOPEN */
