@@ -376,7 +376,7 @@ int quake_hit_test(UDF_INIT *initid, UDF_ARGS *args, char *is_null, char *error)
   }
  
   // get the distance between the trigger & quake event
-  double dDistanceMeters = distance_vincenty(lat1, lon1, lat2, lon2, is_null);
+  dDistanceMeters = distance_vincenty(lat1, lon1, lat2, lon2, is_null);
   if (dDistanceMeters == 0.0f) return 0; // invalid distance (or else they're right on top of the quake? :-)
 
   // OK, now check the time, based on the distance and the slowest wave
