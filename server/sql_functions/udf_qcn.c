@@ -41,7 +41,7 @@ void lat_lon_distance_m_deinit(UDF_INIT *initid);
 double distance_vincenty(const double lat1, const double lon1, const double lat2, const double lon2, char *is_null);
 double lat_lon_distance_m(UDF_INIT *initid, UDF_ARGS *args, char *is_null, char *error);
 
-// lat_lon_distance_m --- find the distance in meters between two lat/lon points
+// quake_hit_test --- a smarter algorithm to test 'closeness' of a QCN host trigger to a reported USGS seismic event
 my_bool quake_hit_test_init(UDF_INIT *initid, UDF_ARGS *args, char *message);
 void quake_hit_test_deinit(UDF_INIT *initid);
 longlong quake_hit_test(UDF_INIT *initid, UDF_ARGS *args, char *is_null, char *error);
@@ -98,6 +98,7 @@ my_bool lat_lon_distance_m_init(UDF_INIT *initid, UDF_ARGS *args, char *message)
   args->arg_type[2] = REAL_RESULT;
   args->arg_type[3] = REAL_RESULT;
 
+  // don't allow nulls
   args->maybe_null[0] = args->maybe_null[1] = args->maybe_null[2] = args->maybe_null[3] = 0x00;
   initid->maybe_null = 0; // return null on error
 
@@ -122,6 +123,7 @@ my_bool quake_hit_test_init(UDF_INIT *initid, UDF_ARGS *args, char *message)
   args->arg_type[6] = REAL_RESULT;
   args->arg_type[7] = REAL_RESULT;
 
+  // don't allow nulls
   args->maybe_null[0] = args->maybe_null[1] = args->maybe_null[2] = args->maybe_null[3] = 0x00;
   args->maybe_null[4] = args->maybe_null[5] = args->maybe_null[6] = args->maybe_null[7] = 0x00;
 
@@ -255,7 +257,7 @@ double lat_lon_distance_m(UDF_INIT *initid, UDF_ARGS *args, char *is_null, char 
 
   // note that times are UTC-coordinated and are the number of seconds since the 'epoch' (1/1/1970)
 
-iSensor is:
+iSensor is currently (as of November 2008):
 
 mysql> select * from qcn_sensor;
 +----+--------+---------------------------+
