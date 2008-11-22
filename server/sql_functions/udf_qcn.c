@@ -371,8 +371,8 @@ longlong quake_hit_test(UDF_INIT *initid, UDF_ARGS *args, char *is_null, char *e
    // get a value for max distance to check (in meters) based on quake magnitude & sensor type
    // the idea is that a smaller quake but with a better sensor will have a greater search range in distance
    // than a different (coarser) sensor, etc
-   // note multiply by 30 kilometer, this gives a range from 30-600km from mag 4 through 8
-   dDistanceMax = 30000.0f * powf( 2.0f , dMagnitude - (5.4f - sqrt(iSensorFactor-1)) );
+   // note multiply by 50 kilometer, this gives a range from 50-1000km from mag 4 through 8
+   dDistanceMax = 50000.0f * powf( 2.0f , dMagnitude - (5.4f - sqrt(iSensorFactor-1)) );
    // if our max distance exceeds trigger distance, return >0 (actually distance/diff in m), else 0 
    return (longlong) (dDistanceMax > dDistanceMeters ? ceil(dDistanceMax-dDistanceMeters) : 0L);  
 
