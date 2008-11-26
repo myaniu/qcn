@@ -44,6 +44,7 @@
 
 ///////////////////////////////////////////////////////////////////////////////
 
+
 require_once("../inc/util.inc");
 require_once("../inc/db.inc");
 require_once("../inc/xml.inc");
@@ -113,6 +114,7 @@ function show_status($host, $function, $running) {
     echo $htmlstring;
     return 0;
 }
+
 
 function show_daemon_status($host, $pidname, $progname, $disabled) {
     $running = daemon_status($host, $pidname, $progname, $disabled);

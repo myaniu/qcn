@@ -1,5 +1,9 @@
 <?php
 $project_news = array(
+   array("November 22, 2008",
+"The 'ScienCentral' channel has <A HREF=http://www.youtube.com/watch?v=5TYBAk2FUeI>posted a short (two minute) video-clip regarding the Quake-Catcher Network featuring an interview with Prof. Jesse Lawrence of Stanford.</A><BR>",
+ "ScienceCentral video about QCN on YouTube"
+    ),
    array("November 7, 2008",
 "New version 4.25 is up for all platforms - this version perturbs some of the sensitivity algorithm used to detect triggers.  It will hopefully lead to less 'false positive' triggers/trickles as well as help us 'fine tune' our algorithm.<BR>",
  "New version 4.25, All Platforms, Tests Triggering Algorithm"

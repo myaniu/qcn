@@ -50,7 +50,8 @@ function show_forum_summary($forum) {
     </tr>";
 }
 
-page_head(tra("%1 Message boards", PROJECT));
+include "./temp_top.php";
+//page_head(tra("%1 Message boards", PROJECT));
 
 show_forum_header($user);
 
@@ -158,7 +159,8 @@ if ($user) {
     }
 }
 
-page_tail();
+include "./temp_bot.php";
+//page_tail();
 flush();
 BoincForumLogging::cleanup();
 

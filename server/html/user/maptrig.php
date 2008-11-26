@@ -6,15 +6,15 @@ require_once('../inc/translation.inc');
 require_once('../inc/phoogle.inc');
 require_once('../project/project_specific_prefs.inc');
 
-$cx = $_GET['cx'];
-$cy = $_GET['cy'];
-$zoom = $_GET['zoom'];
-$mapwidth = $_GET['width'];
-$mapheight = $_GET['height'];
-$timeint = $_GET['timeint'];  // H / D / M / W - blank or H is 4-hourly, D = day, M=month, W = week
+$cx = get_int("cx", true);
+$cy = get_int("cy", true);
+$zoom = get_int("zoom", true);
+$mapwidth = get_int("width", true);
+$mapheight = get_int("height", true);
+$timeint = get_int("timeint", true);  // H / D / M / W - blank or H is 4-hourly, D = day, M=month, W = week
 
 //see if hostid gets a value
-$hostid = (int) $_GET['hostid'];  // note the (int) so it's a safe sql statement i.e. no sql injection string
+$hostid = get_int("hostid", true);  // note the (int) so it's a safe sql statement i.e. no sql injection string
 if ($hostid>0) {
   db_init();
   $sqlhost = "select round(latitude,2) lat, round(longitude,2) lng from qcn_trigger where hostid=$hostid order by time_trigger desc limit 1";

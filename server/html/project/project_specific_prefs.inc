@@ -193,10 +193,14 @@ function project_specific_prefs_edit($prefs, $error=false) {
 //
 function project_specific_prefs_parse_form(&$error) {
     $color_scheme = $_GET["color_scheme"];
-    $ssp = $_GET["ssp"];
+    $ssp = get_int("ssp");
     $max_frames_sec = $_GET["max_frames_sec"];
     $lat = $_GET["lat"];
     $lng = $_GET["lng"];
+    if (!verify_numeric($lat, -90.0, 90.0) || !verify_numeric($lng, -180.0, 180)) {
+       $lat = '';
+       $lng = '';
+    }
 
     // add and modify this line for other user
     // editable values that should be validated

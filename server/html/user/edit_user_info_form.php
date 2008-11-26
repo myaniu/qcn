@@ -23,7 +23,9 @@ require_once("../inc/countries.inc");
 db_init();
 $user = get_logged_in_user();
 
-page_head("Edit account information");
+include "./temp_top.php";
+
+//page_head("Edit account information");
 
 echo "<form method=post action=edit_user_info_action.php>";
 start_table();
@@ -45,6 +47,8 @@ row2("Postal (ZIP) code<br><font size=-2>Optional</font>",
 row2("", "<input type=submit value='Update info'>");
 end_table();
 echo "</form>\n";
-page_tail();
+
+include "./temp_bot.php";
+//page_tail();
 
 ?>
