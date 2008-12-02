@@ -33,8 +33,10 @@ else { // get the first host record for this user i.e. they may be a new user
 
 if (!$hostid || $host->userid != $user->id)
 {
+//   include "./temp_top.php";
    page_head("Invalid Host");
    echo "<BR>It appears that you do not own this host machine, therefore you cannot edit location preferences!<BR>";
+//   include "./temp_bot.php";
    page_tail();
    exit();
 }
@@ -111,6 +113,7 @@ if (!$hll || !$buserset)
    $bnewuser = true;
 }
 
+//include "./temp_top.php";
 page_head("Edit Host Location/Network Address Map Information", null, null, "", true, $psprefs);
 echo "<H1>Edit Host Location/Network Address Map Information</H1>";
 
@@ -260,6 +263,7 @@ echo "   <input type=\"hidden\" name=\"txthidHOST\" id=\"txthidHOST\" value=\"" 
 echo "   <input type=\"hidden\" name=\"txthidIP\" id=\"txthidIP\" value=\"" . $_SERVER['REMOTE_ADDR'] . "\">\n";
 echo "</form>\n";
 
+//include "./temp_bot.php";
 page_tail();
 
 ?>
