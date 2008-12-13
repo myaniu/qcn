@@ -16,6 +16,27 @@ Hubert J. Casner
 915 Jackson Av
 Raymond, WA 98577
 
+Standardize/Normalize readings to +/- 2g
+
+So, I've been playing with the new JW sensors that arrived.  I wanted to
+test them out before shipping them.  It seems to me that triggers for the
+USB sensors respond very differently than the triggers for the internal Mac
+sensor, even though the two should be about the same sensitivity. My first
+thought was that this difference is due to a hard-wired value above which
+the fmag must be for a trigger (1.25) and the fact that the different
+sensors provide different values for the same force/g. For the Macs, 1g =
+257. For JW 1g = 1 (I think).  We should normalize each sensor by it's
+sensitivity, so that 1g = 1g. I think this can be done for the mac laptops
+by dividing x, y, & z by 257 in the sensor/csensor_mac_laptop.cpp within
+CSensorMacLaptop::read_xyz (lines 261-263).  I think we then must divide the
+value above which fmag must be equal to by 257 for the triggering to stay
+even (Line 600 in client/main/qcn_thread_sensor.cpp).  Once this is done, I
+think the USB sensors will trigger better for the JW.
+
+I tried to change things on my local computer but I seem to be having some
+weirdness with svn/ and the making of QCNLive.
+
+
 QCNLive
 
 cut-and-paste doesn't work for lat,lng in local prefs box -- also a way to integrate google maps lookup?
