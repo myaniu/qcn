@@ -1,20 +1,7 @@
-﻿we should ship USB sensors to:
+qcnlive
 
-David Anderson
-UBC Space Sciences Lab
-7 Gauss Way
-Berkeley CA  94720
+At File>Local Settings is the ability to set your location in Lat/Long, elevation and floors. Since there was nothing in the install manuals regarding this, how important is the information? Also the nomenclature for the Longitude is opposite that used by Google Maps. For Google, West is negative, an accepted convention. QCNLive uses (-180[E] to 180[W]).
 
-
-Peter Sláčik
-Pri Šajbách 14/A
-83106 Bratislava
-Slovak Republic
-
-
-Hubert J. Casner
-915 Jackson Av
-Raymond, WA 98577
 
 Standardize/Normalize readings to +/- 2g
 
