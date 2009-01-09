@@ -1,5 +1,8 @@
 qcn
 
+Important -- need to scale to m/sec-squared, not g, as low values (i.e. g's) won't trigger
+so instead of +/- 2g make it +/- 19.6 meters per second-squared
+
 Sensor Location w/ floorWednesday, January 7, 2009 1:45 PM
 Quick question: Any chance you can include floor number in the BOINC side
 computer location/Google apps like you did for the QCN_Live locatino?
