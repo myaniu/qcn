@@ -1,11 +1,8 @@
 qcn
 
+--
 Important -- need to scale to m/sec-squared, not g, as low values (i.e. g's) won't trigger
 so instead of +/- 2g make it +/- 19.6 meters per second-squared
-
-Sensor Location w/ floorWednesday, January 7, 2009 1:45 PM
-Quick question: Any chance you can include floor number in the BOINC side
-computer location/Google apps like you did for the QCN_Live locatino?
 
 Sort of. The current triggering limit is set for the -256 to +256 range (I
 thought this was for +/- 1g) at 0.125.  The USB sensors are on the -2 to 2
@@ -18,7 +15,11 @@ If we scale all series to units of m/s^2 and scale the threshold to 0.005,
 then it should be good.
 
 Does this make any sense?
+--
 
+Sensor Location w/ floorWednesday, January 7, 2009 1:45 PM
+Quick question: Any chance you can include floor number in the BOINC side
+computer location/Google apps like you did for the QCN_Live locatino?
 
 qcnlive
 
