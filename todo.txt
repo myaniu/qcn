@@ -7,6 +7,19 @@ Sensor Location w/ floorWednesday, January 7, 2009 1:45 PM
 Quick question: Any chance you can include floor number in the BOINC side
 computer location/Google apps like you did for the QCN_Live locatino?
 
+Sort of. The current triggering limit is set for the -256 to +256 range (I
+thought this was for +/- 1g) at 0.125.  The USB sensors are on the -2 to 2
+range (if I remember correctly).  The threshold for
+(sm->fmag[sm->lOffset]>0.125) on line ~600 is then 256 higher for the USB
+sensor than for the Mac.  This means that for a trigger we need 0.125 g on a
+USB sensor even to trigger.
+
+If we scale all series to units of m/s^2 and scale the threshold to 0.005,
+then it should be good.
+
+Does this make any sense?
+
+
 qcnlive
 
 At File>Local Settings is the ability to set your location in Lat/Long, elevation and floors. Since there was nothing in the install manuals regarding this, how important is the information? Also the nomenclature for the Longitude is opposite that used by Google Maps. For Google, West is negative, an accepted convention. QCNLive uses (-180[E] to 180[W]).
