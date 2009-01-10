@@ -39,22 +39,22 @@ QUERY_QUAKE_PROCESSED = "select id, time_utc, latitude, longitude, magnitude " +
 QUERY_TRIGGER_HOST_LIST = "select hostid,count(*) from qcn_trigger "
 
 # note that we want to get host & trigger records matching a quake
-# or it was a prior request that we haven't received anything in the past 3 days with up to 10 tries
+# or it was a prior request that we haven't received anything in the past 8 hours with up to 90 tries
 # also note we give up for triggers older than 30 days as they would have been deleted by QCN 
-# (also the retry every 3 days for 10 times should have given enough chances to get them)
+# (also the retry every 8 hours for 90 tries should have given enough chances to get them)
 QUERY_TRIGGER_HOST_WHERE = " (" +\
                          "usgs_quakeid>0 and " +\
-                         "(time_filereq is null or time_filereq=0) " +\
+                         "((time_filereq is null or time_filereq=0) " +\
                          " OR " +\
-                         " ((time_filereq + (3600.0*24.0*3.0)) < unix_timestamp() " +\
-                         " AND received_file <= 10) " +\
-                         " AND (time_trigger + (3600.0*24.0*30.0)) > unix_timestamp() " +\
+                         " ((time_filereq + (3600.0*8.0)) < unix_timestamp() " +\
+                         " AND received_file <= 90) " +\
+                         " AND (time_trigger + (3600.0*24.0*30.0)) > unix_timestamp() ) " +\
                          ") "
 
 DBNAME = "qcnalpha"
 DBHOST = "db-private"
 DBUSER = "root"
-DBPASSWD = ""
+DBPASSWD = "PASSWORD"
 
 def updateQuakeTrigger(dbconn):
    # this will update the trigger table with usgs quake events
@@ -72,10 +72,6 @@ def updateQuakeTrigger(dbconn):
          print "Updating triggers for quake # " + str(rowQuake[0])
          cTrig = dbconn.cursor()
 
-         # note this query constrains (for optimization) triggers within a 4 minute window of the quake
-         # and also only gets triggers that were time sync'd to the server in that time
-         # last but not least - it uses a custom mysql function (see qcn/server/sql_functions) to bring
-         # back a 'score' of how close the trigger was to this event (>0 means the quake was near the trigger host)
          strSQL = "update qcn_trigger t set t.usgs_quakeid = " + str(rowQuake[0]) +\
             " WHERE t.time_trigger BETWEEN " + str(rowQuake[1]-120.0) + " AND " + str(rowQuake[1]+120.0) +\
             " AND t.time_sync > 0 " +\
