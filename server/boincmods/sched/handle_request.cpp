@@ -1429,16 +1429,11 @@ void process_request(
 
 
     handle_msgs_from_host(sreq, reply);
-    // CMC here -- don't bother with msgs_to_host on a trickle trigger
-    if (!bTrigger && config.msg_to_host) {
-    //if (config.msg_to_host) {
+    if (config.msg_to_host) {
         handle_msgs_to_host(reply);
     }
 
-    // CMC no need to update host record on a trigger?
-    if (!bTrigger) {
-       update_host_record(initial_host, reply.host, reply.user);
-    }
+    update_host_record(initial_host, reply.host, reply.user);
 
 leave:
     if (!have_no_work) {
