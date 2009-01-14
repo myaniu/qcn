@@ -1,5 +1,12 @@
 <?php
 $project_news = array(
+   array("January 14, 2009",
+"<A HREF=\"http://qcn.stanford.edu/learning/requests.php\">QCN's USB sensors are now available for order</a>. 
+ The sensors are $5 for K-12 teachers, and $49 for everyone else.  
+  With your help, we can grow
+the network larger, better, and faster! Thanks for your support!<BR>",
+ "External USB Sensors Available"
+  ),
    array("November 22, 2008",
 "The 'ScienCentral' channel has <A HREF=http://www.youtube.com/watch?v=5TYBAk2FUeI>posted a short (two minute) video-clip regarding the Quake-Catcher Network featuring an interview with Prof. Jesse Lawrence of Stanford.</A><BR>",
  "ScienceCentral video about QCN on YouTube"

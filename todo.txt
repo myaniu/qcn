@@ -1,6 +1,37 @@
 qcn
 
 --
+I think we'll need to add a new trickle for a status/state of health report.
+It would be very helpful to know how much of the time the sensor is working,
+and working properly.
+
+Reason 1: A USB sensor that is properly mounted to the floor and running all
+the time, should only trigger in the event of a big earthquake.  We won't
+know if it is running until we get the trigger.  If we are to run statistics
+on the sensors, we need to know a rough number of sensors connected to the
+network.
+
+Reason 2: The USB sensors are not showing up on our maps due to just
+triggers!
+
+So I was thinking it would be nice to have a trickle that uploaded a state
+of health message every 15 minutes, giving a few pieces of information.  The
+info that could be useful would be:
+    1) Computer ID/info
+    2) NTP time & timing error
+    3) running properly=1, calibrating=0, or no sensor found=-1
+    4) Anything else we need?
+
+It might be helpful if the same trickle uploaded every time the computer
+started re-calibrating due to timing error.
+
+Reason 3: It would help us to create a time series of the state of health
+signals.  That way we'd be able to determine if the computer was operating
+properly or having troubles.
+
+How hard would this be to implement?
+
+--
 Important -- need to scale to m/sec-squared, not g, as low values (i.e. g's) won't trigger
 so instead of +/- 2g make it +/- 19.6 meters per second-squared
 
