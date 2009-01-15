@@ -246,7 +246,7 @@ int qcn_main(int argc, char **argv)
     optBOINC.handle_trickle_ups   = true;
     optBOINC.handle_trickle_downs = true;
     optBOINC.send_status_msgs = true;
-    optBOINC.worker_thread_stack_size = 1048576L;
+    //optBOINC.worker_thread_stack_size = 1048576L;
     optBOINC.backwards_compatible_graphics = true;
     g_iQCNReturn = boinc_init_options(&optBOINC); // use our own options & start the boinc init
 #else
