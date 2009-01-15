@@ -12,7 +12,7 @@ BOINC_BASEDIR = $(BASEDIR)/boinc
 #   BOINC_LIB = -L$(BOINC_DIR) -lboinc -lboinc_api -lboinc_graphics2 -L$(BOINC_BASEDIR)/zip -lboinc_zip
 #else
    BOINC_DIR = $(BOINC_BASEDIR)
-   BOINC_LIB = $(BOINC_DIR)/api/libboinc_api.a $(BOINC_DIR)/lib/libboinc_graphics2.a $(BOINC_DIR)/lib/libboinc.a $(BOINC_DIR)/zip/libboinc_zip.a
+   BOINC_LIB = $(BOINC_DIR)/api/libboinc_api.a $(BOINC_DIR)/api/libboinc_graphics2.a $(BOINC_DIR)/lib/libboinc.a $(BOINC_DIR)/zip/libboinc_zip.a
 #endif
 
 
