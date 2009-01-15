@@ -193,10 +193,12 @@ inline bool CSensorUSBMotionNodeAccel::read_xyz(float& x1, float& y1, float& z1)
     MotionNodeAccel::real_type a[3];  // for data calibrated to "g"
     a[0] = a[1] = a[2] = 0.0f;
     bool bRet = false;
+    // note that x/y/z should be scaled to +/- 2g, return values as +/- 2.0f*EARTH_G (in define.h: 9.78033 m/s^2)
+    // MotionNode returns +/-2g values so just multiply by EARTH_G
     if (m_node && m_node->sample() && m_node->get_sensor(a)) {
-        x1 = a[0];
-        y1 = a[1];
-        z1 = a[2];
+        x1 = a[0] * EARTH_G;
+        y1 = a[1] * EARTH_G;
+        z1 = a[2] * EARTH_G;
         bRet = true;
     }
     return bRet;

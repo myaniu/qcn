@@ -262,6 +262,13 @@ inline bool CSensorMacLaptop::read_xyz(float& x1, float& y1, float& z1)
          y1 = outputStructurePPC.y;                     /* FRONT-TO-BACK POSITION        */
          z1 = outputStructurePPC.z;                     /* VERTICAL POSITION  */
       } 
+    
+      // note that x/y/z should be scaled to +/- 2g, return values as +/- 2.0f*EARTH_G (in define.h: 9.78033 m/s^2)
+      // mac's seem to be 256 = 2g, so divide each value by 128 * multiply by EARTH_G
+      x1 = (x1 / 128.0) * EARTH_G;
+      y1 = (y1 / 128.0) * EARTH_G;
+      z1 = (z1 / 128.0) * EARTH_G;
+ 
       return true;
 }
 

@@ -526,8 +526,9 @@ inline bool CSensorMacUSBJW::read_xyz(float& x1, float& y1, float& z1)
       hidEvent.longValue = 0;
 
       result = (*m_USBDevHandle[0])->getElementValue(m_USBDevHandle[0], m_cookies.gAxisCookie[i], &hidEvent);
+      // note that x/y/z should be scaled to +/- 2g, return values as +/- 2.0f*EARTH_G (in define.h: 9.78033 m/s^2)
       if (result == kIOReturnSuccess) 
-         fVal[i]  = ((float) hidEvent.value - 512.0f) / 256.0f;
+         fVal[i]  = (((float) hidEvent.value - 512.0f) / 256.0f) * EARTH_G;
     }
 
     x1 = fVal[0]; y1 = fVal[1]; z1 = fVal[2];

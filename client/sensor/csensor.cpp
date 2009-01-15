@@ -182,7 +182,7 @@ inline bool CSensor::mean_xyz()
    do {
        if (sm->lSampleSize < SAMPLE_SIZE) {  // note we only get a sample if sample size < 10
            x1 = y1 = z1 = 0.0f; 
-    	   result = read_xyz(x1, y1, z1);
+    	   result = read_xyz(x1, y1, z1);   // note that x/y/z should be scaled to +/- 2g, return values as +/- 2.0f*EARTH_G (in define.h: 9.78033 m/s^2)
            if (!result) return false;
 	       *px2 += x1; 
            *py2 += y1; 

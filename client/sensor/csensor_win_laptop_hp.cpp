@@ -300,6 +300,8 @@ bool CSensorWinHP::detect()
 
 bool CSensorWinHP::read_xyz(float& x1, float& y1, float& z1)
 {
+    // note that x/y/z should be scaled to +/- 2g, return values as +/- 2.0f*EARTH_G (in define.h: 9.78033 m/s^2)
+
     if (m_device == INVALID_HANDLE_VALUE) return false; // obviously we need a valid, open handle!
 
     bool bRetVal = false;

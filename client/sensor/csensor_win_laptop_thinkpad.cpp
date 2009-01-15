@@ -76,12 +76,13 @@ bool CSensorWinThinkpad::detect()
 
 bool CSensorWinThinkpad::read_xyz(float& x1, float& y1, float& z1)
 {
+   // note x/y/z values should be +/-2g where g = 9.78 (see define.h:: EARTH_G)
 	bool bRetVal = true;
 	try {
 		memset(&m_ThinkpadData, 0x00, sizeof(m_ThinkpadData));
 		m_getDataThinkpad(&m_ThinkpadData);
-		x1 = ((float) m_ThinkpadData.x - 512.0f) / 64.0f;
-		y1 = ((float) m_ThinkpadData.y - 512.0f) / 64.0f;
+		x1 = (((float) m_ThinkpadData.x - 512.0f) / 256.0f) * EARTH_G;
+		y1 = (((float) m_ThinkpadData.y - 512.0f) / 256.0f) * EARTH_G;
 		z1 = 0.0f;
 	}
 	catch(...) {

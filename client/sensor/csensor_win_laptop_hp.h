@@ -99,6 +99,7 @@ class CSensorWinHP  : public CSensor
 #else
       bool getDevice();  // gets the m_device directly without using the DLL
 #endif
+    // note that x/y/z should be scaled to +/- 2g, return values as +/- 2.0f*EARTH_G (in define.h: 9.78033 m/s^2)
       virtual bool read_xyz(float& x1, float& y1, float& z1);  
 
    public:

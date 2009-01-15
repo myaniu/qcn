@@ -114,6 +114,9 @@ typedef vector<string> ZipFileList;
 
 #define MAX_PERTURB 10
 
+// earth's gravity in meters per second-squared
+#define EARTH_G 9.78033f
+
 #define DEFAULT_SIG_CUTOFF 3.0f
 #define DEFAULT_SHORT_TERM_AVG_MAG 3.0f
 
