@@ -3,11 +3,11 @@
 if (test $2) then
    rm -rf boinc
    ./getboinc
-cd boinc/mac_build
-chmod uog+rx *.sh
-./BuildMacBOINC.sh
+#cd boinc/mac_build
+#chmod uog+rx *.sh
+#./BuildMacBOINC.sh
 
-#   cd boinc
+   cd boinc
 #   cd boinc/mac_build
 #   if (test $3) then
 #      xcodebuild -project boinc.xcodeproj -configuration i386_Deployment clean build
@@ -15,17 +15,17 @@ chmod uog+rx *.sh
 #      xcodebuild -project boinc.xcodeproj -configuration i386_Deployment clean build
 #   fi
 #   ./_autosetup
-#if ( test "`uname -s`" = "Darwin" ) then
-#   ./configure --with-apple-opengl-framework --disable-client --disable-server
-#else
- #  echo "don't forget the Linux vpn: sudo vpnclient connect stanford"
- #  ./configure --disable-client --disable-server
-#fi
-#   make clean
-#   make
+if ( test "`uname -s`" = "Darwin" ) then
+   ./configure --with-apple-opengl-framework --disable-fcgi --disable-manager --disable-client --disable-server
+else
+#  echo "don't forget the Linux vpn: sudo vpnclient connect stanford"
+  ./configure --disable-fcgi --disable-manager --disable-client --disable-server
+fi
+   make clean
+   make
 #   g++ boinc/api/macglutfix.m -c -o boinc/api/macglutfix.o
-   cd ../../
-#   cd ../
+#   cd ../../
+  cd ../
 fi
 # at least update boinc cvs?
 svn update boinc
