@@ -11,7 +11,8 @@ BOINC_BASEDIR = $(BASEDIR)/boinc
 #   BOINC_DIR = $(BASEDIR)/boinc/mac_build/build/Deployment
 #   BOINC_LIB = -L$(BOINC_DIR) -lboinc -lboinc_api -lboinc_graphics2 -L$(BOINC_BASEDIR)/zip -lboinc_zip
 #else
-   BOINC_LIB = -L$(BOINC_BASEDIR)/api -lboinc_api -lboinc_graphics2 -L$(BOINC_BASEDIR)/zip -lboinc_zip -L$(BOINC_BASEDIR)/lib -lboinc
+   BOINC_DIR = $(BOINC_BASEDIR)
+   BOINC_LIB = -L$(BOINC_DIR)/api -lboinc_api -lboinc_graphics2 -L$(BOINC_DIR)/zip -lboinc_zip -L$(BOINC_DIR)/lib -lboinc
 #endif
 
 
