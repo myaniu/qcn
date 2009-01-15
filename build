@@ -16,10 +16,10 @@ if (test $2) then
 #   fi
    ./_autosetup
 if ( test "`uname -s`" = "Darwin" ) then
-   ./configure --with-apple-opengl-framework --enable-client-release --disable-fcgi --disable-manager --disable-client --disable-server
+   ./configure --with-apple-opengl-framework --disable-fcgi --disable-manager --disable-client --disable-server
 else
 #  echo "don't forget the Linux vpn: sudo vpnclient connect stanford"
-  ./configure --enable-client-release --disable-fcgi --disable-manager --disable-client --disable-server
+  ./configure --disable-fcgi --disable-manager --disable-client --disable-server
 fi
    make clean
    make
@@ -33,10 +33,10 @@ cd boinc
 make distclean
 ./_autosetup
 if ( test "`uname -s`" = "Darwin" ) then
-   ./configure --with-apple-opengl-framework --enable-client-release --disable-fcgi --disable-manager --disable-client --disable-server
+   ./configure --with-apple-opengl-framework --disable-fcgi --disable-manager --disable-client --disable-server
 else
    echo "don't forget the Linux vpn: sudo vpnclient connect stanford"
-   ./configure --enable-client-release --disable-fcgi --disable-manager --disable-client --disable-server
+   ./configure --disable-fcgi --disable-manager --disable-client --disable-server
 fi
 make clean
 make
