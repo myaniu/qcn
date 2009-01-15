@@ -1,7 +1,7 @@
 #! /bin/sh
 
 # libtoolT - Provide generalized library-building support services.
-# Generated automatically by  (GNU qcn 4.27)
+# Generated automatically by  (GNU qcn 4.30)
 # NOTE: Changes made to this file will be lost: look at ltmain.sh.
 #
 # Copyright (C) 1996, 1997, 1998, 1999, 2000, 2001
@@ -66,7 +66,7 @@ fast_install=needless
 
 # The host system.
 host_alias=
-host=i686-apple-darwin9.5.0
+host=i686-apple-darwin9.6.0
 
 # An echo program that does not interpret backslashes.
 echo="/bin/echo"
@@ -6787,7 +6787,7 @@ fast_install=needless
 
 # The host system.
 host_alias=
-host=i686-apple-darwin9.5.0
+host=i686-apple-darwin9.6.0
 
 # An echo program that does not interpret backslashes.
 echo="/bin/echo"
@@ -7083,7 +7083,7 @@ fast_install=needless
 
 # The host system.
 host_alias=
-host=i686-apple-darwin9.5.0
+host=i686-apple-darwin9.6.0
 
 # An echo program that does not interpret backslashes.
 echo="/bin/echo"
