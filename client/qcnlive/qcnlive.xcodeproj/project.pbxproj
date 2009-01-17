@@ -530,8 +530,6 @@
 				);
 				OTHER_LDFLAGS = (
 					"-bind_at_load",
-					"-L../main/motionnodeaccel/",
-					"-weak-lMotionNodeAccelAPI",
 					"-lwx_mac-2.8",
 					"-lwx_mac_gl-2.8",
 					"-lboinc",
@@ -639,8 +637,6 @@
 				);
 				OTHER_LDFLAGS = (
 					"-bind_at_load",
-					"-L../main/motionnodeaccel/",
-					"-weak-lMotionNodeAccelAPI",
 					"-lwx_mac-2.8",
 					"-lwx_mac_gl-2.8",
 					"-lboinc",
@@ -732,8 +728,6 @@
 				);
 				OTHER_LDFLAGS = (
 					"-bind_at_load",
-					"-L../main/motionnodeaccel/",
-					"-weak-lMotionNodeAccelAPI",
 					"-lwx_mac-2.8",
 					"-lwx_mac_gl-2.8",
 					"-lboinc",

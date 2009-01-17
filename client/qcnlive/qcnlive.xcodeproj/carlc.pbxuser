@@ -43,7 +43,7 @@
 		ignoreCount = 0;
 		lineNumber = 273;
 		location = QCNLive;
-		modificationTime = 247737728.385721;
+		modificationTime = 253910791.006312;
 		state = 1;
 	};
 	E3463C2F0EC42DC5004A5ADF /* main.cpp:280 */ = {
@@ -59,7 +59,8 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 280;
-		modificationTime = 247737797.056258;
+		location = QCNLive;
+		modificationTime = 253910772.011994;
 		state = 1;
 	};
 	E3463C310EC42DC7004A5ADF /* main.cpp:292 */ = {
@@ -72,31 +73,12 @@
 		delayBeforeContinue = 0;
 		fileReference = E3C0E7B30D64E9BE0099B905 /* main.cpp */;
 		functionName = "qcn_main(int argc, char **argv)";
-		hitCount = 0;
+		hitCount = 2;
 		ignoreCount = 0;
 		lineNumber = 292;
-		modificationTime = 247737799.783896;
+		location = QCNLive;
+		modificationTime = 253910805.394035;
 		state = 1;
-	};
-	E3463C330EC42DCF004A5ADF /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = E3C0E7B30D64E9BE0099B905 /* main.cpp */;
-		name = "main.cpp: 292";
-		rLen = 0;
-		rLoc = 11271;
-		rType = 0;
-		vrLen = 2663;
-		vrLoc = 9556;
-	};
-	E34CC4170EC42CAE00B35E6C /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = E3C0E7B30D64E9BE0099B905 /* main.cpp */;
-		name = "main.cpp: 251";
-		rLen = 1;
-		rLoc = 9284;
-		rType = 0;
-		vrLen = 2626;
-		vrLoc = 8109;
 	};
 	E371C7F60E2AB5D0009B4DAA /* csensor_mac_laptop.cpp */ = {
 		uiCtxt = {
@@ -262,12 +244,8 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 247737546;
-			PBXWorkspaceStateSaveDate = 247737546;
-		};
-		perUserProjectItems = {
-			E3463C330EC42DCF004A5ADF /* PBXTextBookmark */ = E3463C330EC42DCF004A5ADF /* PBXTextBookmark */;
-			E34CC4170EC42CAE00B35E6C /* PBXTextBookmark */ = E34CC4170EC42CAE00B35E6C /* PBXTextBookmark */;
+			PBXPerProjectTemplateStateSaveDate = 253910432;
+			PBXWorkspaceStateSaveDate = 253910432;
 		};
 		sourceControlManager = E3A499E10D64E60400E51CDF /* Source Control */;
 		userBuildSettings = {
@@ -430,9 +408,9 @@
 	};
 	E3C0E7B30D64E9BE0099B905 /* main.cpp */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1141, 10752}}";
-			sepNavSelRange = "{11271, 0}";
-			sepNavVisRange = "{9556, 2663}";
+			sepNavIntBoundsRect = "{{0, 0}, {1196, 10990}}";
+			sepNavSelRange = "{10597, 0}";
+			sepNavVisRange = "{32250, 954}";
 			sepNavVisRect = "{{0, 0}, {1161, 818}}";
 			sepNavWindowFrame = "{{265, 81}, {1200, 947}}";
 		};

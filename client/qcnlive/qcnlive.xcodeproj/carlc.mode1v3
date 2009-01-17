@@ -195,48 +195,7 @@
 	<key>Notifications</key>
 	<array/>
 	<key>OpenEditors</key>
-	<array>
-		<dict>
-			<key>Content</key>
-			<dict>
-				<key>PBXProjectModuleGUID</key>
-				<string>E34CC4150EC42CAE00B35E6C</string>
-				<key>PBXProjectModuleLabel</key>
-				<string>main.cpp</string>
-				<key>PBXSplitModuleInNavigatorKey</key>
-				<dict>
-					<key>Split0</key>
-					<dict>
-						<key>PBXProjectModuleGUID</key>
-						<string>E34CC4160EC42CAE00B35E6C</string>
-						<key>PBXProjectModuleLabel</key>
-						<string>main.cpp</string>
-						<key>_historyCapacity</key>
-						<integer>0</integer>
-						<key>bookmark</key>
-						<string>E3463C330EC42DCF004A5ADF</string>
-						<key>history</key>
-						<array>
-							<string>E34CC4170EC42CAE00B35E6C</string>
-						</array>
-					</dict>
-					<key>SplitCount</key>
-					<string>1</string>
-				</dict>
-				<key>StatusBarVisibility</key>
-				<true/>
-			</dict>
-			<key>Geometry</key>
-			<dict>
-				<key>Frame</key>
-				<string>{{0, 20}, {1200, 850}}</string>
-				<key>PBXModuleWindowStatusBarHidden2</key>
-				<false/>
-				<key>RubberWindowFrame</key>
-				<string>265 137 1200 891 0 0 1680 1028 </string>
-			</dict>
-		</dict>
-	</array>
+	<array/>
 	<key>PerspectiveWidths</key>
 	<array>
 		<integer>-1</integer>
@@ -315,7 +274,8 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>0</integer>
+									<integer>6</integer>
+									<integer>5</integer>
 								</array>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateVisibleRectKey</key>
@@ -419,9 +379,9 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>E3463C130EC42CE9004A5ADF</string>
+				<string>E3ABACB20F225DC5007C816D</string>
 				<string>1CE0B1FE06471DED0097A5F4</string>
-				<string>E3463C140EC42CE9004A5ADF</string>
+				<string>E3ABACB30F225DC5007C816D</string>
 				<string>1CE0B20306471E060097A5F4</string>
 				<string>1CE0B20506471E060097A5F4</string>
 			</array>
@@ -553,14 +513,13 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>E3463C2B0EC42D79004A5ADF</string>
-		<string>E3463C2C0EC42D79004A5ADF</string>
-		<string>E3463C2D0EC42D79004A5ADF</string>
+		<string>E3ABACC60F225F36007C816D</string>
+		<string>E3ABACC70F225F36007C816D</string>
+		<string>E3ABACC80F225F36007C816D</string>
 		<string>1C78EAAD065D492600B07095</string>
-		<string>1CD10A99069EF8BA00B06720</string>
 		<string>E35897320E912E8A005C1D94</string>
 		<string>/Users/carlc/qcn/client/qcnlive/qcnlive.xcodeproj</string>
-		<string>E34CC4150EC42CAE00B35E6C</string>
+		<string>1CD10A99069EF8BA00B06720</string>
 	</array>
 	<key>WindowString</key>
 	<string>153 208 1391 776 0 0 1680 1028 </string>
@@ -601,6 +560,8 @@
 							<string>375pt</string>
 						</dict>
 						<dict>
+							<key>BecomeActive</key>
+							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
@@ -640,7 +601,7 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>E35897320E912E8A005C1D94</string>
-				<string>E3463C230EC42D79004A5ADF</string>
+				<string>E3ABACB70F225DE6007C816D</string>
 				<string>1CD0528F0623707200166675</string>
 				<string>XCMainBuildResultsModuleGUID</string>
 			</array>
@@ -760,13 +721,13 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>1CD10A99069EF8BA00B06720</string>
-				<string>E3463C240EC42D79004A5ADF</string>
+				<string>E3ABACBF0F225F36007C816D</string>
 				<string>1C162984064C10D400B95A72</string>
-				<string>E3463C250EC42D79004A5ADF</string>
-				<string>E3463C260EC42D79004A5ADF</string>
-				<string>E3463C270EC42D79004A5ADF</string>
-				<string>E3463C280EC42D79004A5ADF</string>
-				<string>E3463C290EC42D79004A5ADF</string>
+				<string>E3ABACC00F225F36007C816D</string>
+				<string>E3ABACC10F225F36007C816D</string>
+				<string>E3ABACC20F225F36007C816D</string>
+				<string>E3ABACC30F225F36007C816D</string>
+				<string>E3ABACC40F225F36007C816D</string>
 			</array>
 			<key>ToolbarConfiguration</key>
 			<string>xcode.toolbar.config.debugV3</string>
@@ -775,7 +736,7 @@
 			<key>WindowToolGUID</key>
 			<string>1CD10A99069EF8BA00B06720</string>
 			<key>WindowToolIsVisible</key>
-			<false/>
+			<true/>
 		</dict>
 		<dict>
 			<key>FirstTimeWindowDisplayed</key>
@@ -932,7 +893,7 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>1C78EAAD065D492600B07095</string>
-				<string>E3463C2A0EC42D79004A5ADF</string>
+				<string>E3ABACC50F225F36007C816D</string>
 				<string>1C78EAAC065D492600B07095</string>
 			</array>
 			<key>ToolbarConfiguration</key>
