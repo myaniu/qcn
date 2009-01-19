@@ -1359,7 +1359,7 @@ int graphics_main(int argc, char** argv)
 
     getSharedMemory();
 
-   g_bThreadGraphics = true;
+    g_bThreadGraphics = true;
 
 #ifndef QCNLIVE
     boinc_graphics_loop(argc, argv);
