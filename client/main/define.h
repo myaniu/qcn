@@ -322,7 +322,7 @@ struct FDSET_GROUP {
 // this is the max number of the array index awinsize used to shift the graphics window 
 #define MAX_KEY_WINSIZE 2
 // the reduction/rebin for the data array size for the graphics
-#define PLOT_ARRAY_SIZE 500
+#define PLOT_ARRAY_SIZE 600
 
 // this is used for the boinc_sleep interval for a sensor, it's basically dt/SAMPLING_FREQUENCY each sleep interval
 // which seems to yield 5-10 samples per dt

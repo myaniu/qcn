@@ -156,8 +156,10 @@ static int g_iJPG = 0;
 // the main entry point for BOINC standalone graphics (i.e. separate executable)
 int main(int argc, char** argv) 
 {
+#ifndef _DEBUG
    atexit(qcn_graphics_exit);
    qcn_signal::InstallHandlers(graphics_signal_handler);   // note this is set to ignore SIGPIPE by default
+#endif
    return qcn_graphics::graphics_main(argc, argv);
 }
 
@@ -189,7 +191,7 @@ void Cleanup()
    if (bInHere) return; // in case called more than once 
    fprintf(stderr, "Cleaning up graphics objects...\n");
   // free project prefs
-   if (sm->dataBOINC.project_preferences) {
+   if (sm && sm->dataBOINC.project_preferences) {
 	   free(sm->dataBOINC.project_preferences);
 	   sm->dataBOINC.project_preferences = NULL;
 	}
@@ -262,7 +264,7 @@ void getSharedMemory()
         // boinc_graphics_get_shmem() must be called after 
         // boinc_parse_init_data_file()
         boinc_parse_init_data_file();  // important to call this before the graphics shmem call
-        sm = (CQCNShMem*) boinc_graphics_get_shmem((char*) QCN_SHMEM);
+        sm = static_cast<CQCNShMem*>(boinc_graphics_get_shmem((char*) QCN_SHMEM));
 /*
         if (sm && g_strFile && g_strFile[0] != 0x00) {
                strcpy((char*) sm->strCurFile, g_strFile);
@@ -637,17 +639,23 @@ bool setupPlotMemory(const long lOffset)
     long ii, jj;
     float fAvg[4];
     switch(key_winsize) {
-      case 0: // 1 minute = 3000 pts, if PLOT_ARRAY_SIZE=1000 we avg 3 points to 1
-         iRebin = (int) (60.0 / sm->dt) / PLOT_ARRAY_SIZE;  // for dt=.02, 3000 points,  for dt=.1, 600 pts, div by 500 iRebin = 6 or 1
+      case 0: // 1 minute = 3000 pts, if PLOT_ARRAY_SIZE=600 we avg 5 points to 1
+         iRebin = (int) ceil(60.0 / sm->dt) / PLOT_ARRAY_SIZE;  // for dt=.02, 3000 points,  for dt=.1, 600 pts, div by 500 iRebin = 6 or 1
          break;
       case 1: // 10 minutes = 30000 pts
-         iRebin = (int) (600.0 / sm->dt) / PLOT_ARRAY_SIZE; // for dt=.02, 30000 points,  for dt=.1, 6000 pts, iRebin = 60 or 12
+         iRebin = (int) ceil(600.0 / sm->dt) / PLOT_ARRAY_SIZE; // for dt=.02, 30000 points,  for dt=.1, 6000 pts, iRebin = 60 or 12
         break;
       case 2: // 1 hour = 180000 pts 
-         iRebin = (int) (3600.0 / sm->dt) / PLOT_ARRAY_SIZE; // for dt=.02, 180000 points,  for dt=.1, 36000 pts, iRebin = 360 or 72
+         iRebin = (int) ceil(3600.0 / sm->dt) / PLOT_ARRAY_SIZE; // for dt=.02, 180000 points,  for dt=.1, 36000 pts, iRebin = 360 or 72
          break;
       default:  iRebin = 10; // should never get here!
     }
+
+	if (iRebin < 1) {
+	  // shouldn't happen but just in case
+	  bInHere = false;
+      return false;
+	}
 
     // it would be easiest if we shift our array on iRebin-divisable boundaries -- that way each recalc will have the same values
     // in each rebin "section" i.e. 0-5 / 6-11 / 12-17 / etc.  That way we shouldn't have to bother with the bNewPoint logic as the
@@ -762,12 +770,20 @@ bool setupPlotMemory(const long lOffset)
     // now try a simple averaging rebinning to get the array down to manageable size (1000 pts)
     for (ii = 0; ii < awinsize[key_winsize]/iRebin; ii++) {
       fAvg[E_DX] = fAvg[E_DY] = fAvg[E_DZ] = fAvg[E_DS]  = 0.0f;
-      for (jj = 0; jj < iRebin; jj++) {
-        fAvg[E_DX] += af[E_DX][(ii*iRebin)+jj];
-        fAvg[E_DY] += af[E_DY][(ii*iRebin)+jj];
-        fAvg[E_DZ] += af[E_DZ][(ii*iRebin)+jj];
-        fAvg[E_DS] += af[E_DS][(ii*iRebin)+jj];
-      }
+	  if (iRebin == 1) {
+			fAvg[E_DX] = af[E_DX][ii];
+			fAvg[E_DY] = af[E_DY][ii];
+			fAvg[E_DZ] = af[E_DZ][ii];
+			fAvg[E_DS] = af[E_DS][ii];
+	  }
+	  else {
+		  for (jj = 0; jj < iRebin; jj++) {
+			fAvg[E_DX] += af[E_DX][(ii*iRebin)+jj];
+			fAvg[E_DY] += af[E_DY][(ii*iRebin)+jj];
+			fAvg[E_DZ] += af[E_DZ][(ii*iRebin)+jj];
+			fAvg[E_DS] += af[E_DS][(ii*iRebin)+jj];
+		  }
+	  }
 /*
         fAvg[E_DX] += (af[E_DX][(ii*iRebin)+jj] * 
           (g_eView == VIEW_PLOT_2D && !bScaled && key_winsize > 0 ? (af[E_DX][(ii*iRebin)+jj] > 0.0f ? 5.0f : 1.0f) : 1.0f)); 

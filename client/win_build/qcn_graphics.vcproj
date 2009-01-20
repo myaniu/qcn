@@ -69,6 +69,10 @@
 				IgnoreDefaultLibraryNames=""
 				GenerateDebugInformation="true"
 				SubSystem="1"
+				HeapReserveSize="33554432"
+				HeapCommitSize="33554432"
+				StackReserveSize="33554432"
+				StackCommitSize="33554432"
 			/>
 			<Tool
 				Name="VCALinkTool"
