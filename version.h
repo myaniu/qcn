@@ -7,13 +7,13 @@
 #define QCN_MAJOR_VERSION 4
 
 /* Minor part of QCN version number */
-#define QCN_MINOR_VERSION 31
+#define QCN_MINOR_VERSION 32
 
 /* Release part of QCN version number */
 #define QCN_RELEASE 
 
 /* String representation of QCN version number */
-#define QCN_VERSION_STRING "4.31"
+#define QCN_VERSION_STRING "4.32"
 
 #if (defined(_WIN32) || defined(__APPLE__))
 /* Name of package */
@@ -26,13 +26,13 @@
 #define PACKAGE_NAME "QCN"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "QCN 4.31"
+#define PACKAGE_STRING "QCN 4.32"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "qcn"
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "4.31"
+#define PACKAGE_VERSION "4.32"
 
 #endif /* #if (defined(_WIN32) || defined(__APPLE__)) */
 
