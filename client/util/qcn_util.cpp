@@ -260,13 +260,14 @@ void ResetCounter(const e_where eWhere, const int iNumResetInitial)
 
        qcn_util::set_qcn_counter();  // save our current counters
 
-       sm->clear();   // clear out shared mem unless we read it in a file above!  it saves important vars such as iNumReset though
-
+       sm->clear();   // clear out shared mem unless we read it in a file above!  it saves important vars such as dt & iNumReset though
+/*
        // bump up the DT value (.1 vs .02) -- note MAXI now holds 4.2 hours of time not just 1 hour!
        if ((sm->iNumReset - iNumResetInitial) > SLUGGISH_MACHINE_THRESHOLD) 
          sm->dt = g_DT_SLOW;  // too many failures this session (10), try a lower dt
        else
          sm->dt = g_DT;
+ */
     }
     sm->lOffset = 0;              //  LOOP BACK THRU DATA SERIES
     sm->iWindow = (int) (g_cfTimeWindow / (sm->dt > 0 ? sm->dt : g_DT));  // number of points in time window
