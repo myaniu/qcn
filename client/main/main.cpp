@@ -424,8 +424,10 @@ int qcn_main(int argc, char **argv)
 
         if (!g_iStop && !g_bReadOnly && !g_threadSensor->IsRunning()) {
            // we're not in readonly mode, and sensor thread hasn't started -- note we run the sensor in bDemo mode!
-           // do the thread
-           if (!g_threadSensor->Start()) { // Start() shows that the thread was made OK
+           // do the thread, note the bool in Start() -- this signifies that the thread should run at higher priority
+           // the sensor thread should run at higher priority so as to minimize "dropouts" from the high frequency
+           // 50-500Hz sensor hardware access
+           if (!g_threadSensor->Start(true)) { // Start() shows that the thread was made OK
            //if (!g_threadSensor->IsRunning()) { // IsRunning() shows that we made it to inside of the thread which set the bool to true
               fprintf(stderr, "Sensor thread failed to start\n");
            }

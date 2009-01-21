@@ -64,11 +64,12 @@ bool CQCNThread::Start(bool bHighPriority);
         return false;
     }
 
-//#ifdef QCNLIVE
-//    ::SetThreadPriority(m_handleThread, THREAD_PRIORITY_NORMAL); // no need for low priority in the GUI
-//#else
+// use higher priority for QCNLive
+#ifdef QCNLIVE
+    ::SetThreadPriority(m_handleThread, bHighPriority ? THREAD_PRIORITY_HIGHEST : THREAD_PRIORITY_NORMAL);
+#else
     ::SetThreadPriority(m_handleThread, bHighPriority ? THREAD_PRIORITY_HIGHEST : THREAD_PRIORITY_IDLE);
-//#endif
+#endif
 
 /*
     ::DuplicateHandle(
@@ -109,13 +110,27 @@ bool CQCNThread::Start(bool bHighPriority);
 #else   // POSIX threads (pthreads) for Mac & Linux
     // the thread will have the priority class of the process i.e. idle if under BOINC, normal if under QCNLIVE
     pthread_attr_t thread_attrs;
+
+    // get initial threat attributes
     pthread_attr_init(&thread_attrs);
+
+    // set stack size for thread
     if (pthread_attr_setstacksize(&thread_attrs, m_lStackSize)) {
        fprintf(stderr, "CQCNThread::Start(): Error in setting thread stack size of %ld\n", m_lStackSize);
     } /*
     else {
        fprintf(stdout, "Successfully set thread stack size of %ld\n", m_lStackSize);
     } */
+
+    // set priority level if higher priority required
+    if (bHighPriority) {
+      sched_param sparam;
+      pthread_attr_getschedparam (&thread_attrs, &sparam);  // first get the default scheduling params
+      sparam.sched_priority = 20;  // set the high priority
+      pthread_attr_setschedparam (&thread_attrs, &sparam);  // set the new high priority in the sched_param
+    }
+
+    // now create the POSIX thread using our attributes
     int retval = pthread_create(&m_handleThread, &thread_attrs, m_funcptr, NULL);
     if (retval) {
         fprintf(stderr, "CQCNThread::Start(): pthread_create(): %d", retval);
