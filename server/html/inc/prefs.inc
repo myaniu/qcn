@@ -440,8 +440,8 @@ function default_prefs_global() {
     $p->hangup_if_dialed = true;
     $p->work_buf_min_days = 0;
     $p->work_buf_additional_days = 0.25;
-    $p->max_cpus = 16;
-    $p->max_ncpus_pct = 100;
+    $p->max_cpus = 1;
+    $p->max_ncpus_pct = 50;
     $p->cpu_usage_limit = 100;
     $p->disk_interval = 60;
     $dp = get_disk_space_config();
