@@ -111,27 +111,33 @@ bool CQCNThread::Start(bool bHighPriority)
     // the thread will have the priority class of the process i.e. idle if under BOINC, normal if under QCNLIVE
     pthread_attr_t thread_attrs;
     sched_param sparam;
+    int iRet = 0;
 
     // get initial threat attributes
-    pthread_attr_init(&thread_attrs);
+    iRet = pthread_attr_init(&thread_attrs);
 
     // set stack size for thread
-    if (pthread_attr_setstacksize(&thread_attrs, m_lStackSize)) {
-       fprintf(stderr, "CQCNThread::Start(): Error in setting thread stack size of %ld\n", m_lStackSize);
+    if (iRet || (iRet = pthread_attr_setstacksize(&thread_attrs, m_lStackSize))) {
+       fprintf(stderr, "CQCNThread::Start(): Error in setting thread stack size of %ld - iRet = %d\n", m_lStackSize, iRet);
     } /*
     else {
        fprintf(stdout, "Successfully set thread stack size of %ld\n", m_lStackSize);
     } */
 
     // set priority level if higher priority required
-    pthread_attr_getschedparam (&thread_attrs, &sparam);  // first get the default scheduling params
-    sparam.sched_priority = bHighPriority ? 30 : 0;  // set the priority level
-    pthread_attr_setschedparam (&thread_attrs, &sparam);  // set the new high priority in the sched_param
+    if (bHighPriority) {
+      iRet = pthread_attr_getschedparam (&thread_attrs, &sparam);  // first get the default scheduling params
+      sparam.sched_priority = 30;  // set the priority level
+      // set the new high priority in the sched_param
+      if (iRet || (iRet = pthread_attr_setschedparam (&thread_attrs, &sparam))) {
+         fprintf(stderr, "CQCNThread::Start(): Error in setting thread priority %d\n", iRet);
+      }
+    }
 
     // now create the POSIX thread using our attributes
-    int retval = pthread_create(&m_handleThread, &thread_attrs, m_funcptr, NULL);
-    if (retval) {
-        fprintf(stderr, "CQCNThread::Start(): pthread_create(): %d", retval);
+    iRet = pthread_create(&m_handleThread, &thread_attrs, m_funcptr, NULL);
+    if (iRet) {
+        fprintf(stderr, "CQCNThread::Start(): pthread_create(): %d", iRet);
         return false;
     }
 #endif  // POSIX threads
