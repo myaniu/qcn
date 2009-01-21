@@ -37,7 +37,7 @@ void CQCNThread::SetFunctionPointer(QCNThreadFunctionPointer ptrfunc)
    m_funcptr = ptrfunc; 
 }
 
-bool CQCNThread::Start()
+bool CQCNThread::Start(bool bHighPriority);
 {
     if (!m_funcptr) {
        fprintf(stderr, "CQCNThread: No function pointer set\n");
@@ -64,11 +64,11 @@ bool CQCNThread::Start()
         return false;
     }
 
-#ifdef QCNLIVE
-    ::SetThreadPriority(m_handleThread, THREAD_PRIORITY_NORMAL); // no need for low priority in the GUI
-#else
-    ::SetThreadPriority(m_handleThread, THREAD_PRIORITY_IDLE);
-#endif
+//#ifdef QCNLIVE
+//    ::SetThreadPriority(m_handleThread, THREAD_PRIORITY_NORMAL); // no need for low priority in the GUI
+//#else
+    ::SetThreadPriority(m_handleThread, bHighPriority ? THREAD_PRIORITY_HIGHEST : THREAD_PRIORITY_IDLE);
+//#endif
 
 /*
     ::DuplicateHandle(

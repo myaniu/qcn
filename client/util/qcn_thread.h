@@ -29,7 +29,7 @@ class CQCNThread
       ~CQCNThread();
       
       void SetFunctionPointer(QCNThreadFunctionPointer ptrfunc);
-      bool Start();
+      bool Start(bool bHighPriority = false);
       bool Stop();
       bool Suspend();
       bool Resume();
