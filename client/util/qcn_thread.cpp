@@ -37,7 +37,7 @@ void CQCNThread::SetFunctionPointer(QCNThreadFunctionPointer ptrfunc)
    m_funcptr = ptrfunc; 
 }
 
-bool CQCNThread::Start(bool bHighPriority);
+bool CQCNThread::Start(bool bHighPriority)
 {
     if (!m_funcptr) {
        fprintf(stderr, "CQCNThread: No function pointer set\n");
