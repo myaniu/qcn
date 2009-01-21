@@ -379,6 +379,7 @@ int qcn_main(int argc, char **argv)
         else  {
           if (sm->statusBOINC.suspended) {
              // check current local suspend flag
+#ifdef _DEBUG
              if (!g_bSuspended) { // mark that we're suspended if not already set
                 fprintf(stderr, "Suspend request from BOINC!\n");
                 g_bSuspended = true;
@@ -386,8 +387,10 @@ int qcn_main(int argc, char **argv)
                 g_threadTime->Suspend();
                 // now suspend just quits - but eventually should sleep the threads & resume later
              }
+#endif
           }
           else { // not suspended, check if we think we're suspended!
+#ifdef _DEBUG
              if (g_bSuspended) { // mark that we're resuming
                 fprintf(stderr, "Resume request from BOINC!\n");
                 g_bSuspended = false;
@@ -398,6 +401,7 @@ int qcn_main(int argc, char **argv)
                 if ((dtime() - sm->update_time) > TIME_ERROR_SECONDS) sm->iNumReset--;
              }
              else {
+#endif
                 if (sm->statusBOINC.no_heartbeat) { // quit non-fatally
                    fprintf(stderr, "No heartbeat from BOINC!\n");
                    doMainQuit();
@@ -411,7 +415,9 @@ int qcn_main(int argc, char **argv)
                      goto done; 
                    }
                 }
+#ifdef _DEBUG
              }
+#endif
           }
         }
 
