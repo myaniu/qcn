@@ -99,6 +99,13 @@ bool execute_curl(const char* strURL, char* strReply, const int iLen);
 // decl for curl write function
 size_t qcn_curl_write_data(void *ptr, size_t size, size_t nmemb, void *stream);
 
+// the qcn_quakelist will insert a record from a quakelist trigger 
+// so that we can get basic diagnostics on a host running QCN (i.e. number of reset errors, last time sync & offset etc)
+int handle_qcn_quakelist(const DB_MSG_FROM_HOST* pmfh)
+{
+}
+
+// handle_qcn_trigger processes the trigger trickle, does the geoip or database lookup as appropriate, inserts into qcn_trigger
 int handle_qcn_trigger(const DB_MSG_FROM_HOST* pmfh)
 {
      // instantiate the objects
