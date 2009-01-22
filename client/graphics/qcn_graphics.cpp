@@ -462,10 +462,10 @@ void draw_text_user()
         if (!sm->bSensorFound) {
             txf_render_string(.1, 0.003, 0.01, 0.0, isize, red, 0, (char*) "Demo Mode - Sensor Not Found");
         } else if (sm->lOffset >=0 && sm->lOffset < sm->iWindow ) {  // we're in our calibration window
-            sprintf(buf, "%s sensor calibration in progress...", sm->strSensor);
+            sprintf(buf, "%s sensor calibration in progress (Reset %d)", sm->strSensor, sm->iNumReset);
             txf_render_string(.1, 0.003, 0.01, 0.0, isize, red, 0, buf);
         } else if (sm->strSensor[0] != 0x00) {
-            sprintf(buf, "Using %s Accelerometer", sm->strSensor);
+            sprintf(buf, "Using %s Accelerometer (Reset %d)", sm->strSensor, sm->iNumReset);
             txf_render_string(.1, 0.003, 0.01, 0.0, isize, red, 0, buf);
         } else if (dtime()-sm->update_time > 5) {
             txf_render_string(.1, 0.003, 0.01, 0.0, isize, red, 0, (char*) "QCN Not Running");
