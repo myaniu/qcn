@@ -62,8 +62,8 @@ rm -f qcnsftp.up
 echo chdir /var/www/boinc/qcnalpha/download >> qcnsftp.up
 echo put \*.zip >> qcnsftp.up
 echo chdir /var/www/boinc/qcnalpha/apps/qcnalpha >> qcnsftp.up
-echo -mkdir qcn_$1_$suffix >> qcnsftp.up
-echo chdir qcn_$1_$suffix >> qcnsftp.up
+echo -mkdir qcn_$1_$suffix__nci >> qcnsftp.up
+echo chdir qcn_$1_$suffix__nci >> qcnsftp.up
 echo put qcn_$1_$suffix >> qcnsftp.up
 echo put graphics_app=qcn_graphics_$1_$suffix >> qcnsftp.up
 echo put init/Helvetica.txf >> qcnsftp.up
