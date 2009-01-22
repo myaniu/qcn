@@ -1,5 +1,18 @@
 qcn
 
+-- higher priority levels
+OK, here's a fix for this:
+make your app version of plan class "nci"
+(this just means adding "__nci" to the directory name under apps/; see
+http://boinc.berkeley.edu/trac/wiki/UpdateVersions and
+http://boinc.berkeley.edu/trac/wiki/AppPlan
+
+and upgrade to the latest scheduler.
+This will tell the client that your app uses .01 of a CPU.
+Then the very latest client (i.e. 6.8, whenever we release it)
+will run the app at process priority BELOW_NORMAL_PRIORITY_CLASS
+(i.e., above idle).
+
 --
 I think we'll need to add a new trickle for a status/state of health report.
 It would be very helpful to know how much of the time the sensor is working,
