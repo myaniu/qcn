@@ -110,8 +110,8 @@ int deploy_qcn()
 	fprintf(fBatch, "cd /var/www/boinc/qcnalpha/download\n");
 	fprintf(fBatch, "put qcnlive-win.zip\n");
 	fprintf(fBatch, "cd /var/www/boinc/qcnalpha/apps/qcnalpha\n");
-	fprintf(fBatch, "mkdir qcn_%s_%s\n", QCN_VERSION_STRING, "windows_intelx86.exe");
-	fprintf(fBatch, "cd qcn_%s_%s\n", QCN_VERSION_STRING, "windows_intelx86.exe");
+	fprintf(fBatch, "mkdir qcn_%s_%s__nci\n", QCN_VERSION_STRING, "windows_intelx86.exe");
+	fprintf(fBatch, "cd qcn_%s_%s__nci\n", QCN_VERSION_STRING, "windows_intelx86.exe");
 	fprintf(fBatch, "put qcn_%s_%s\n", QCN_VERSION_STRING, "windows_intelx86.exe");
 	fprintf(fBatch, "put graphics_app=qcn_graphics_%s_%s\n", QCN_VERSION_STRING, "windows_intelx86.exe");
 	fprintf(fBatch, "put init/Helvetica.txf\n");
