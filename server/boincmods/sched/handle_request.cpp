@@ -1122,7 +1122,11 @@ void handle_msgs_from_host(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
             retval = handle_qcn_trigger(&mfh);
         }
         else {
-            if (strcmp(mfh.variety, "quakelist")) { // skip quakelist requests, that's handled in the proj prefs
+            if (!strcmp(mfh.variety, "quakelist")) { // quakelist / status trickle
+               retval = mfh.insert(); // not a trigger and not a quakelist, process as normal (probably a "nosensor" msg)
+               //retval = handle_qcn_quakelist(&mfh);
+            }
+            else { // not a real trigger or quakelist trickle, insert into msg_from_host table as usual
                retval = mfh.insert(); // not a trigger and not a quakelist, process as normal (probably a "nosensor" msg)
             }
         }
