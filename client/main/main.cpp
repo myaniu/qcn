@@ -502,7 +502,8 @@ int qcn_main(int argc, char **argv)
              iQuakeList = 0;  // reset counter to 0 if not already zero
              boinc_begin_critical_section();
              memset(strTrigger, 0x00, sizeof(char) * 512);
-             sprintf(strTrigger, "<quake>send</quake>\n", 
+             sprintf(strTrigger, 
+                 "<quake>send</quake>\n"
                  "<vr>%s</vr>\n"
                  "<sms>%d</sms>\n"
                  "<reset>%d</reset>\n"
