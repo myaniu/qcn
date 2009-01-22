@@ -33,9 +33,14 @@ using namespace std;
 #include "server_types.h"
 // CMC here
 #include "filesys.h"
+
 #ifdef _USING_FCGI_
 #include "boinc_fcgi.h"
 #endif
+
+SCHEDULER_REQUEST* g_request;
+SCHEDULER_REPLY* g_reply;
+WORK_REQ* g_wreq;
 
 // remove (by truncating) any quotes from the given string.
 // This is for things (e.g. authenticator) that will be used in
@@ -117,14 +122,12 @@ int CLIENT_PLATFORM::parse(FILE* fin) {
 
 
 void WORK_REQ::insert_no_work_message(USER_MESSAGE& um) {
-    bool found = false;
     for (unsigned int i=0; i<no_work_messages.size(); i++) {
         if (!strcmp(um.message.c_str(), no_work_messages.at(i).message.c_str())){
-            found = true;
-            break;
+            return;
         }
     }
-    if (!found) no_work_messages.push_back(um);
+    no_work_messages.push_back(um);
 }
 
 
@@ -150,6 +153,8 @@ const char* SCHEDULER_REQUEST::parse(FILE* fin) {
     core_client_release = 0;
     rpc_seqno = 0;
     work_req_seconds = 0;
+    cpu_req_secs = 0;
+    cpu_req_instances = 0;
     resource_share_fraction = 1.0;
     rrs_fraction = 1.0;
     prrs_fraction = 1.0;
@@ -215,6 +220,8 @@ const char* SCHEDULER_REQUEST::parse(FILE* fin) {
         if (parse_int(buf, "<core_client_minor_version>", core_client_minor_version)) continue;
         if (parse_int(buf, "<core_client_release>", core_client_release)) continue;
         if (parse_double(buf, "<work_req_seconds>", work_req_seconds)) continue;
+        if (parse_double(buf, "<cpu_req_secs>", cpu_req_secs)) continue;
+        if (parse_double(buf, "<cpu_req_instances>", cpu_req_instances)) continue;
         if (parse_double(buf, "<resource_share_fraction>", resource_share_fraction)) continue;
         if (parse_double(buf, "<rrs_fraction>", rrs_fraction)) continue;
         if (parse_double(buf, "<prrs_fraction>", prrs_fraction)) continue;
@@ -528,7 +535,6 @@ SCHEDULER_REPLY::~SCHEDULER_REPLY() {
 // quakes and other big messages (i.e. project prefs) for a trigger trickle to
 // expedite the trigger process
 int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq, bool bTrigger) {
-//int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq) {
     unsigned int i;
     char buf[BLOB_SIZE];
 
@@ -560,7 +566,8 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq, bool bTrigger) {
     //
  // CMC block to bypass on triggers
    if (!bTrigger) {
-      if (request_delay || config.min_sendwork_interval) {
+    if (request_delay || config.min_sendwork_interval) {
+//    if (request_delay || config.min_sendwork_interval) {
         double min_delay_needed = 1.01*config.min_sendwork_interval;
         if (min_delay_needed < config.min_sendwork_interval+1) {
             min_delay_needed = config.min_sendwork_interval+1;
@@ -569,13 +576,13 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq, bool bTrigger) {
             request_delay=min_delay_needed; 
         }
         fprintf(fout, "<request_delay>%f</request_delay>\n", request_delay);
-      }
+    }
   }
- // CMC end block to bypass on triggers
-
+  // CMC end block to bypass on triggers
+ 
     log_messages.printf(MSG_NORMAL,
-        "Sending reply to [HOST#%d]: %d results, delay req %f [scheduler ran %f seconds]\n",
-        host.id, wreq.nresults, request_delay, elapsed_wallclock_time() 
+        "Sending reply to [HOST#%d]: %d results, delay req %f\n",
+        host.id, wreq.nresults, request_delay
     );
 
     if (sreq.core_client_version <= 419) {
@@ -618,7 +625,7 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq, bool bTrigger) {
     );
 
     if (config.request_time_stats_log) {
-        if (!have_time_stats_log(*this)) {
+        if (!have_time_stats_log()) {
             fprintf(fout, "<send_time_stats_log>1</send_time_stats_log>\n");
         }
     }
@@ -1035,7 +1042,6 @@ int HOST::parse(FILE* fin) {
         if (match_tag(buf, "</host_info>")) return 0;
         if (parse_int(buf, "<timezone>", timezone)) continue;
         if (parse_str(buf, "<domain_name>", domain_name, sizeof(domain_name))) continue;
-        if (parse_str(buf, "<serialnum>", serialnum, sizeof(serialnum))) continue;
         if (parse_str(buf, "<ip_addr>", last_ip_addr, sizeof(last_ip_addr))) continue;
         if (parse_str(buf, "<host_cpid>", host_cpid, sizeof(host_cpid))) continue;
         if (parse_int(buf, "<p_ncpus>", p_ncpus)) continue;
@@ -1068,8 +1074,7 @@ int HOST::parse(FILE* fin) {
         if (match_tag(buf, "<accelerators>")) continue;
 
 #if 1
-        // not sure where thees fields belong in the above
-        // categories
+        // not sure where these fields belong in the above categories
         //
         if (match_tag(buf, "<cpu_caps>")) continue;
         if (match_tag(buf, "<cache_l1>")) continue;
@@ -1093,7 +1098,7 @@ int HOST::parse_time_stats(FILE* fin) {
         if (parse_double(buf, "<on_frac>", on_frac)) continue;
         if (parse_double(buf, "<connected_frac>", connected_frac)) continue;
         if (parse_double(buf, "<active_frac>", active_frac)) continue;
-        if (parse_double(buf, "<cpu_efficiency>", cpu_efficiency)) continue;
+#if 0
         if (match_tag(buf, "<outages>")) continue;
         if (match_tag(buf, "<outage>")) continue;
         if (match_tag(buf, "<start>")) continue;
@@ -1102,6 +1107,7 @@ int HOST::parse_time_stats(FILE* fin) {
             "HOST::parse_time_stats(): unrecognized: %s\n",
             buf
         );
+#endif
     }
     return ERR_XML_PARSE;
 }
@@ -1212,4 +1218,4 @@ void PROJECT_FILES::init() {
     read_file_malloc("../project_files.xml", text);
 }
 
-const char *BOINC_RCSID_ea659117b3 = "$Id: server_types.cpp 16113 2008-10-02 19:16:09Z davea $";
+const char *BOINC_RCSID_ea659117b3 = "$Id: server_types.cpp 16890 2009-01-12 23:05:49Z boincadm $";

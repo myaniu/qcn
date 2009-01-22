@@ -36,15 +36,6 @@ struct APP_INFO {
 	int work_available;
 };
 
-// Details concerning a host
-//
-struct HOST_INFO {
-	bool allow_non_preferred_apps;
-	bool allow_beta_work;
-	bool reliable;
-	std::vector<APP_INFO> preferred_apps;
-};
-
 // represents a resource (disk etc.) that the client may not have enough of
 //
 struct RESOURCE {
@@ -89,7 +80,13 @@ struct HOST_USAGE {
         avg_ncpus = 1;
         max_ncpus = 1;
         flops = x;
+        if (flops <= 0) flops = 1e9;
         strcpy(cmdline, "");
+    }
+    double cuda_instances() {
+        COPROC* cp = coprocs.lookup("CUDA");
+        if (cp) return cp->count;
+        return 0;
     }
     ~HOST_USAGE(){}
 };
@@ -106,20 +103,49 @@ struct BEST_APP_VERSION {
 // Note: this is zeroed out in SCHEDULER_REPLY constructor
 //
 struct WORK_REQ {
+    // Flags used by old-style scheduling,
+    // while making multiple passes through the work array
     bool infeasible_only;
     bool reliable_only;
     bool user_apps_only;
     bool beta_only;
-        // The above are used by old-style (non-score-based) scheduling
 
-    HOST_INFO host_info;
+    // user preferences
+    bool no_gpus;
+	bool allow_non_preferred_apps;
+	bool allow_beta_work;
+	std::vector<APP_INFO> preferred_apps;
+
+	bool reliable;
+        // whether the host is classified as "reliable"
+        // (misnomer: means low turnaround time and low error rate
+
+    bool trust;
+        // whether to send unreplicated jobs
+
+    // 6.7+ clients send separate requests for different resource types:
+    //
+    double cpu_req_secs;        // instance-seconds requested
+    double cpu_req_instances;   // number of idle instances, use if possible
+    double cuda_req_secs;
+    double cuda_req_instances;
+    inline bool need_cpu() {
+        return (cpu_req_secs>0) || (cpu_req_instances>0);
+    }
+    inline bool need_cuda() {
+        return (cuda_req_secs>0) || (cuda_req_instances>0);
+    }
+
+    // older clients send send a single number, the requested duration of jobs
+    //
     double seconds_to_fill;
-		// in "normalized CPU seconds"; see
-        // http://boinc.berkeley.edu/trac/wiki/ClientSched#NormalizedCPUTime
+
+    // true if new-type request
+    //
+    bool rsc_spec_request;
+
     double disk_available;
     int nresults;
-    double running_frac;
-    bool trust;     // allow unreplicated jobs to be sent
 
     // The following keep track of the "easiest" job that was rejected
     // by EDF simulation.
@@ -155,12 +181,14 @@ struct WORK_REQ {
 
     bool no_allowed_apps_available;
     bool excessive_work_buf;
-    bool no_app_version;
     bool hr_reject_temp;
     bool hr_reject_perm;
-    bool outdated_core;
+    bool outdated_client;
+    bool gpu_too_slow;
+    bool no_gpus_prefs;
     bool daily_result_quota_exceeded;
-    int  daily_result_quota; // for this machine: number of cpus * daily_quota/cpu
+    int total_max_results_day;
+        // host.max_results_day * (NCPUS + NCUDA*cuda_multiplier)
     bool cache_size_exceeded;
     bool no_jobs_available;     // project has no work right now
     int nresults_on_host;
@@ -268,6 +296,8 @@ struct SCHEDULER_REQUEST {
     int rpc_seqno;
     double work_req_seconds;
 		// in "normalized CPU seconds" (see work_req.php)
+    double cpu_req_secs;
+    double cpu_req_instances;
     double resource_share_fraction;
         // this project's fraction of total resource share
     double rrs_fraction;
@@ -367,8 +397,10 @@ struct SCHEDULER_REPLY {
     void insert_result(RESULT&);
     void insert_message(USER_MESSAGE&);
     void set_delay(double);
-    void got_good_result();     // adjust max_results_day
-    void got_bad_result();      // adjust max_results_day
 };
+
+extern SCHEDULER_REQUEST* g_request;
+extern SCHEDULER_REPLY* g_reply;
+extern WORK_REQ* g_wreq;
 
 #endif
