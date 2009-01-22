@@ -3,8 +3,7 @@
 
 include $(top_srcdir)/Makefile.incl
 
-# CMC note: cgi needs libcurl because of QCN requirements (i.e. GeoIP lookup)
-AM_CPPFLAGS += $(MYSQL_CFLAGS) $(PTHREAD_CFLAGS) -lcurl
+AM_CPPFLAGS += $(MYSQL_CFLAGS) $(PTHREAD_CFLAGS)
 AM_LDFLAGS += -static
 
 if ENABLE_LIBRARIES
@@ -114,7 +113,7 @@ EXTRA_DIST = \
     start
 
 # CMC note we have added the qcn_trigger file below
-cgi_SOURCES = \
+cgi_sources = \
     ../../server/trigger/qcn_trigger.cpp \
     edf_sim.cpp \
     handle_request.cpp \
