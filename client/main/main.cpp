@@ -498,8 +498,31 @@ int qcn_main(int argc, char **argv)
           // check for new quake list every hour, i.e. when mod 1000
           // unnecessary for demo mode -- but should we wget or curl the latest quake list, perhaps just in the ./runme script?
           if (!g_iStop && !(++iQuakeList % QUAKELIST_CHECK))  {
+             char *strTrigger = new char[512];
              iQuakeList = 0;  // reset counter to 0 if not already zero
-             trickleup::qcnTrickleUp("<quake>send</quake>\n", "quakelist", (const char*) sm->dataBOINC.wu_name);  // request a new quake list
+             boinc_begin_critical_section();
+             memset(strTrigger, 0x00, sizeof(char) * 512);
+             sprintf(strTrigger, "<quake>send</quake>\n", 
+                 "<vr>%s</vr>\n"
+                 "<sms>%d</sms>\n"
+                 "<reset>%d</reset>\n"
+                 "<dt>%f</dt>\n"
+                 "<tsync>%f</tsync>\n"
+                 "<toff>%f</toff>\n"
+                 "<%s>%.2f</%s>\n"
+                 "<%s>%.2f</%s>\n",
+                 QCN_VERSION_STRING,
+                 sm->eSensor,
+                 sm->iNumReset,
+                 sm->dt,
+                 g_dTimeSync>0.0f ? g_dTimeSync + g_dTimeOffset : 0.0f,  // note we're sending the local client offset sync time adjusted to server time!
+                 g_dTimeOffset,
+                 XML_CLOCK_TIME, sm->clock_time, XML_CLOCK_TIME,
+                 XML_CPU_TIME, sm->cpu_time, XML_CPU_TIME
+              );
+              trickleup::qcnTrickleUp(strTrigger, "quakelist", (const char*) sm->dataBOINC.wu_name);  // request a new quake list
+              delete [] strTrigger;
+              boinc_end_critical_section();
           }
 
           // Parse Prefs of New Quake List
