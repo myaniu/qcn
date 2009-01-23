@@ -58,6 +58,7 @@ else
    suffix=i686-pc-linux-gnu
    ntpdv=$ntpversion$suffix
    cp qcn_$1_$suffix qcn_$1_$suffix$ncisuffix
+   mv qcn_$1_$suffix qcn_$2_$suffix
    cp graphics_app=qcn_graphics_$1_$suffix graphics_app=qcn_graphics_$2_$suffix
    rm -f qcnlive-linux.zip
    zip -r qcnlive-linux.zip qcnlive init/Helvetica.txf init/earthmask.rgb init/earthday4096.jpg \
