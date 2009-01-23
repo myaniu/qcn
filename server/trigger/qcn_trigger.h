@@ -24,6 +24,10 @@ using namespace std;
 #include <errno.h>
 #include <sys/stat.h>
 
+#ifdef _USING_FCGI_
+#include "boinc_fcgi.h"
+#endif
+
 #include "boinc_db.h"
 #include "backend_lib.h"
 #include "error_numbers.h"
@@ -34,10 +38,6 @@ using namespace std;
 #include "server_types.h"
 #include "sched_util.h"
 #include "sched_msgs.h"
-
-#ifdef _USING_FCGI_
-#include "boinc_fcgi.h"
-#endif
 
 // the curl executable to use for Maxmind GeoIP queries (would linking to curl lib be better?  but have to tell BOINC)
 //#define EXEC_CURL     "/usr/local/bin/curl"
