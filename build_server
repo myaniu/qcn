@@ -7,7 +7,7 @@ cd boinc
 cp -rf ../server/boincmods/* .
 make distclean
 ./_autosetup
-./configure
+./configure --disable-client
 make
 cd sched
 mv cgi cgi.orig
@@ -19,4 +19,4 @@ mv fcgi_file_upload_handler file_upload_handler
 strip cgi
 strip file_upload_handler
 cd ../../
-echo "If built OK, go to boinc/tools and run ./upgrade"
+echo "If built OK, go to boinc/tools and run ./upgrade, but backup /var/www/boinc/qcnalpha/html first!"
