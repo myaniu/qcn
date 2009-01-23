@@ -60,7 +60,7 @@ int main(int argc, char** argv)
 	}
 	else {
 		fprintf(stdout, "Successfully renamed %s to %s!\n", strIn, strOut[0]);
-                boinc_file_copy(strOut[0], strOut[1]);
+                boinc_copy(strOut[0], strOut[1]);
 	}
 	return 0;
 }
