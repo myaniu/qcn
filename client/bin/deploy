@@ -1,8 +1,10 @@
 #!/bin/bash
-if ( test "$1" = "" or test "$2" = "") then
-   echo Usage:  ./deploy VERSION_NUMBER_NCI VERSION_NUMBER
+if ( test "$1" = "" || test "$2" = "") then
+   echo Usage:  ./deploy VERSION_NUMBER_NCI VERSION_NUMBER_REGULAR
+   echo 'NCI should usually be one higher than regular version number'
    exit 1
 fi
+
 # init/earthmask.rgb  # disable for now
 ncisuffix='__nci'
 uplstring='init/Helvetica.txf \
@@ -46,8 +48,9 @@ if ( test "`uname -s`" = "Darwin" ) then
       mv qcnusb-ppc.zip ../../bin/
       cd ../../bin/
    fi
-   cp qcn_$1_$suffix`uname -r` qcn_$1_$suffix
+   cp qcn_$1_$suffix`uname -r` qcn_$2_$suffix
    mv qcn_$1_$suffix`uname -r` qcn_$1_$suffix$ncisuffix
+   cp graphics_app=qcn_graphics_$1_$suffix`uname -r` graphics_app=qcn_graphics_$2_$suffix
    mv graphics_app=qcn_graphics_$1_$suffix`uname -r` graphics_app=qcn_graphics_$1_$suffix
 else
    # Linux -- uname -p below returns 'unknown'!
@@ -55,6 +58,7 @@ else
    suffix=i686-pc-linux-gnu
    ntpdv=$ntpversion$suffix
    cp qcn_$1_$suffix qcn_$1_$suffix$ncisuffix
+   cp graphics_app=qcn_graphics_$1_$suffix graphics_app=qcn_graphics_$2_$suffix
    rm -f qcnlive-linux.zip
    zip -r qcnlive-linux.zip qcnlive init/Helvetica.txf init/earthmask.rgb init/earthday4096.jpg \
          init/$ntpdv $uplstring \
@@ -67,10 +71,26 @@ rm -f qcnsftp.up
 echo chdir /var/www/boinc/qcnalpha/download >> qcnsftp.up
 echo put \*.zip >> qcnsftp.up
 echo chdir /var/www/boinc/qcnalpha/apps/qcnalpha >> qcnsftp.up
-echo -mkdir $appspath >> qcnsftp.up
-echo chdir $appspath >> qcnsftp.up
+echo -mkdir $appspathone >> qcnsftp.up
+echo chdir $appspathone >> qcnsftp.up
 echo put qcn_$1_$suffix$ncisuffix >> qcnsftp.up
 echo put graphics_app=qcn_graphics_$1_$suffix >> qcnsftp.up
+echo put init/Helvetica.txf >> qcnsftp.up
+#echo put init/earthmask.rgb >> qcnsftp.up
+echo put init/earthday4096.jpg >> qcnsftp.up
+echo put init/earthnight4096.jpg >> qcnsftp.up
+echo put init/$ntpdv >> qcnsftp.up
+echo put init/logo.jpg >> qcnsftp.up
+if ( test "`uname -s`" = "Darwin" ) then
+   echo put init/libMotionNodeAccelAPI.dylib >> qcnsftp.up
+else
+   echo put init/libMotionNodeAccelAPI.so >> qcnsftp.up
+fi
+echo chdir ../ >> qcnsftp.up
+echo -mkdir $appspathtwo >> qcnsftp.up
+echo chdir $appspathtwo >> qcnsftp.up
+echo put qcn_$2_$suffix >> qcnsftp.up
+echo put graphics_app=qcn_graphics_$2_$suffix >> qcnsftp.up
 echo put init/Helvetica.txf >> qcnsftp.up
 #echo put init/earthmask.rgb >> qcnsftp.up
 echo put init/earthday4096.jpg >> qcnsftp.up
