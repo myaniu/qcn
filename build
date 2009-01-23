@@ -1,6 +1,6 @@
 #!/bin/sh
 #if have 2nd arg, it forces boinc build, 3rd arg forced boinc Mac PPC build
-if ( test "$1" = "" or test "$2" = "") then
+if ( test "$1" = "" || test "$2" = "") then
    echo Usage:  ./deploy VERSION_NUMBER_NCI VERSION_NUMBER_REGULAR
    echo 'NCI should usually be one higher than regular version number'
    exit 1
