@@ -12,8 +12,8 @@ make
 cd sched
 mv cgi cgi.orig
 mv file_upload_handler file_upload_handler.orig
-make fcgi
-make fcgi_file_upload_handler
+#make fcgi
+#make fcgi_file_upload_handler
 mv fcgi cgi
 mv fcgi_file_upload_handler file_upload_handler
 strip cgi
