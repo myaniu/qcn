@@ -38,7 +38,10 @@ int main(int argc, char** argv)
 
 	char strIn[_MAX_PATH], strOut[_MAX_PATH];
 	sprintf_s(strIn, _MAX_PATH, "%s\\%s.exe", argv[2], argv[1]);
-	sprintf_s(strOut, _MAX_PATH, "%s\\%s_%s_windows_intelx86.exe", argv[3], argv[1], QCN_VERSION_STRING); 
+        if (strstr(argv[1], "qcn_graphics"))
+	   sprintf_s(strOut, _MAX_PATH, "%s\\%s_%s_windows_intelx86.exe", argv[3], argv[1], QCN_VERSION_STRING); 
+	else
+           sprintf_s(strOut, _MAX_PATH, "%s\\%s_%s_windows_intelx86__nci.exe", argv[3], argv[1], QCN_VERSION_STRING); 
 
 	if (!boinc_file_exists(strIn)) {
 		fprintf(stdout, "Input file %s not found!\n", strIn, strOut);
@@ -110,9 +113,9 @@ int deploy_qcn()
 	fprintf(fBatch, "cd /var/www/boinc/qcnalpha/download\n");
 	fprintf(fBatch, "put qcnlive-win.zip\n");
 	fprintf(fBatch, "cd /var/www/boinc/qcnalpha/apps/qcnalpha\n");
-	fprintf(fBatch, "mkdir qcn_%s_%s__nci\n", QCN_VERSION_STRING, "windows_intelx86.exe");
-	fprintf(fBatch, "cd qcn_%s_%s__nci\n", QCN_VERSION_STRING, "windows_intelx86.exe");
-	fprintf(fBatch, "put qcn_%s_%s\n", QCN_VERSION_STRING, "windows_intelx86.exe");
+	fprintf(fBatch, "mkdir qcn_%s_%s\n", QCN_VERSION_STRING, "windows_intelx86__nci.exe");
+	fprintf(fBatch, "cd qcn_%s_%s\n", QCN_VERSION_STRING, "windows_intelx86__nci.exe");
+	fprintf(fBatch, "put qcn_%s_%s\n", QCN_VERSION_STRING, "windows_intelx86__nci.exe");
 	fprintf(fBatch, "put graphics_app=qcn_graphics_%s_%s\n", QCN_VERSION_STRING, "windows_intelx86.exe");
 	fprintf(fBatch, "put init/Helvetica.txf\n");
 	fprintf(fBatch, "put init/earthday4096.jpg\n");
