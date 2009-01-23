@@ -15,6 +15,9 @@
 int deploy_qcn();  // send exe's to QCN server
 #endif
 
+const int g_version_major = QCN_MAJOR_VERSION;
+const int g_version_minor = QCN_MINOR_VERSION;
+
 // simple program to rename Windows QCN programs to full BOINC format
 int main(int argc, char** argv)
 {
@@ -36,23 +39,28 @@ int main(int argc, char** argv)
 		return 1;
 	}
 
-	char strIn[_MAX_PATH], strOut[_MAX_PATH];
+	char strIn[_MAX_PATH], strOut[2][_MAX_PATH];
 	sprintf_s(strIn, _MAX_PATH, "%s\\%s.exe", argv[2], argv[1]);
-        if (strstr(argv[1], "qcn_graphics"))
-	   sprintf_s(strOut, _MAX_PATH, "%s\\%s_%s_windows_intelx86.exe", argv[3], argv[1], QCN_VERSION_STRING); 
-	else
-           sprintf_s(strOut, _MAX_PATH, "%s\\%s_%s_windows_intelx86__nci.exe", argv[3], argv[1], QCN_VERSION_STRING); 
+        if (strstr(argv[1], "qcn_graphics")) {
+	   sprintf_s(strOut[0], _MAX_PATH, "%s\\%s_%d.%d_windows_intelx86.exe", argv[3], argv[1], g_version_major, g_version_minor); 
+	   sprintf_s(strOut[1], _MAX_PATH, "%s\\%s_%d.%d_windows_intelx86.exe", argv[3], argv[1], g_version_major, g_version_minor - 1); 
+	} else {
+	   sprintf_s(strOut[0], _MAX_PATH, "%s\\%s_%d.%d_windows_intelx86__nci.exe", argv[3], argv[1], g_version_major, g_version_minor); 
+	   sprintf_s(strOut[1], _MAX_PATH, "%s\\%s_%d.%d_windows_intelx86.exe", argv[3], argv[1], g_version_major, g_version_minor - 1); 
+        }
 
 	if (!boinc_file_exists(strIn)) {
-		fprintf(stdout, "Input file %s not found!\n", strIn, strOut);
+		fprintf(stdout, "Input file %s not found!\n", strIn, strOut[0]);
 		return 1;
 	}
-	if (boinc_file_exists(strOut)) boinc_delete_file(strOut);
-	if (rename(strIn, strOut)) {
-		fprintf(stdout, "Failed to rename %s to %s!\n", strIn, strOut);
+	if (boinc_file_exists(strOut[0])) boinc_delete_file(strOut[0]);
+	if (boinc_file_exists(strOut[1])) boinc_delete_file(strOut[1]);
+	if (rename(strIn, strOut[0])) {
+		fprintf(stdout, "Failed to rename %s to %s!\n", strIn, strOut[0]);
 	}
 	else {
-		fprintf(stdout, "Successfully renamed %s to %s!\n", strIn, strOut);
+		fprintf(stdout, "Successfully renamed %s to %s!\n", strIn, strOut[0]);
+                boinc_file_copy(strOut[0], strOut[1]);
 	}
 	return 0;
 }
@@ -113,6 +121,7 @@ int deploy_qcn()
 	fprintf(fBatch, "cd /var/www/boinc/qcnalpha/download\n");
 	fprintf(fBatch, "put qcnlive-win.zip\n");
 	fprintf(fBatch, "cd /var/www/boinc/qcnalpha/apps/qcnalpha\n");
+
 	fprintf(fBatch, "mkdir qcn_%s_%s\n", QCN_VERSION_STRING, "windows_intelx86__nci.exe");
 	fprintf(fBatch, "cd qcn_%s_%s\n", QCN_VERSION_STRING, "windows_intelx86__nci.exe");
 	fprintf(fBatch, "put qcn_%s_%s\n", QCN_VERSION_STRING, "windows_intelx86__nci.exe");
@@ -124,6 +133,7 @@ int deploy_qcn()
 	fprintf(fBatch, "put init/logo.jpg\n");
 	fprintf(fBatch, "put init/ntpdate_4.2.4p5_windows_intelx86.exe\n");
         fprintf(fBatch, "put init/MotionNodeAccelAPI.dll\n");
+
 	fprintf(fBatch, "exit\n");
 	fclose(fBatch);
 
