@@ -122,17 +122,33 @@ int deploy_qcn()
 	fprintf(fBatch, "put qcnlive-win.zip\n");
 	fprintf(fBatch, "cd /var/www/boinc/qcnalpha/apps/qcnalpha\n");
 
-	fprintf(fBatch, "mkdir qcn_%s_%s\n", QCN_VERSION_STRING, "windows_intelx86__nci.exe");
-	fprintf(fBatch, "cd qcn_%s_%s\n", QCN_VERSION_STRING, "windows_intelx86__nci.exe");
-	fprintf(fBatch, "put qcn_%s_%s\n", QCN_VERSION_STRING, "windows_intelx86__nci.exe");
-	fprintf(fBatch, "put graphics_app=qcn_graphics_%s_%s\n", QCN_VERSION_STRING, "windows_intelx86.exe");
+	//NCI
+	fprintf(fBatch, "mkdir qcn_%d.%d_%s\n", g_version_major, g_version_minor, "windows_intelx86__nci.exe");
+	fprintf(fBatch, "cd qcn_%d.%d_%s\n", g_version_major, g_version_minor, "windows_intelx86__nci.exe");
+	fprintf(fBatch, "put qcn_%d.%d_%s\n", g_version_major, g_version_minor, "windows_intelx86__nci.exe");
+	fprintf(fBatch, "put graphics_app=qcn_graphics_%d.%d_%s\n", g_version_major, g_version_minor, "windows_intelx86.exe");
 	fprintf(fBatch, "put init/Helvetica.txf\n");
 	fprintf(fBatch, "put init/earthday4096.jpg\n");
 //	fprintf(fBatch, "put init/earthmask.rgb\n");   // mask for multitexturing - but seems to crash some people bad!
 	fprintf(fBatch, "put init/earthnight4096.jpg\n");
 	fprintf(fBatch, "put init/logo.jpg\n");
 	fprintf(fBatch, "put init/ntpdate_4.2.4p5_windows_intelx86.exe\n");
-        fprintf(fBatch, "put init/MotionNodeAccelAPI.dll\n");
+    fprintf(fBatch, "put init/MotionNodeAccelAPI.dll\n");
+
+    fprintf(fBatch, "cd ../\n");
+
+	//old style BOINC
+	fprintf(fBatch, "mkdir qcn_%d.%d_%s\n", g_version_major, g_version_minor - 1, "windows_intelx86.exe");
+	fprintf(fBatch, "cd qcn_%d.%d_%s\n", g_version_major, g_version_minor - 1, "windows_intelx86.exe");
+	fprintf(fBatch, "put qcn_%d.%d_%s\n", g_version_major, g_version_minor - 1, "windows_intelx86.exe");
+	fprintf(fBatch, "put graphics_app=qcn_graphics_%d.%d_%s\n", g_version_major - 1, g_version_minor, "windows_intelx86.exe");
+	fprintf(fBatch, "put init/Helvetica.txf\n");
+	fprintf(fBatch, "put init/earthday4096.jpg\n");
+//	fprintf(fBatch, "put init/earthmask.rgb\n");   // mask for multitexturing - but seems to crash some people bad!
+	fprintf(fBatch, "put init/earthnight4096.jpg\n");
+	fprintf(fBatch, "put init/logo.jpg\n");
+	fprintf(fBatch, "put init/ntpdate_4.2.4p5_windows_intelx86.exe\n");
+    fprintf(fBatch, "put init/MotionNodeAccelAPI.dll\n");
 
 	fprintf(fBatch, "exit\n");
 	fclose(fBatch);
