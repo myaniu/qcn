@@ -57,7 +57,7 @@
       1
     </ignore_delay_bound>
     <max_wus_to_send>
-      5 
+      1 
     </max_wus_to_send>
   </config>
   <tasks>
