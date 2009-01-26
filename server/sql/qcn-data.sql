@@ -87,13 +87,13 @@ runtime_cpu double,
 ping boolean not null default 0
 );
 
-create index qcn_trigger_time on qcn_trigger (time_trigger desc);
-create index qcn_trigger_hostid on qcn_trigger(hostid, time_trigger);
-create index qcn_trigger_timelatlng on qcn_trigger(time_trigger, latitude, longitude);
+create index qcn_trigger_time on qcn_trigger (time_trigger desc, ping asc);
+create index qcn_trigger_hostid on qcn_trigger(hostid, time_trigger, ping);
+create index qcn_trigger_timelatlng on qcn_trigger(time_trigger, latitude, longitude, ping);
 create index qcn_trigger_hostid_filereq on qcn_trigger(hostid,time_filereq,received_file);
 create index qcn_trigger_quakeid on qcn_trigger (usgs_quakeid);
 create index qcn_trigger_file on qcn_trigger (file);
-create index qcn_trigger_result_name on qcn_trigger (result_name,id);
+create index qcn_trigger_result_name on qcn_trigger (result_name,id,ping);
 
 /* temp tables for stats */
 CREATE TABLE qcn_recalcresult (resultid int(11) NOT NULL PRIMARY KEY, weight double, total_credit double);
