@@ -106,6 +106,7 @@ struct QCN_TRIGGER
     char file_url[64];
     double runtime_clock;
     double runtime_cpu;
+    int ping;
 };
 
 class DB_QCN_HOST_IPADDR : public DB_BASE, public QCN_HOST_IPADDR 
