@@ -1519,10 +1519,6 @@ void handle_request(FILE* fin, FILE* fout, char* code_sign_key) {
          }
          // set a bool bTrigger which we can bypass big scheduler requests (e.g. work request & quake download)
          bTrigger = (bool) (iTrigger > 0 && iTrigger == iCount); // note all trickles must be triggers, and must have 1 trickle at least!
-         log_messages.printf(MSG_DEBUG,
-            "[HOST#%d] handle_request.C:: bTrigger = %s  iCount = %05d  iTrigger = %05d\n",
-            sreq.hostid, bTrigger ? "true" : "false", iCount, iTrigger
-         );
 
          // CMC end section
           process_request(code_sign_key, bTrigger);
