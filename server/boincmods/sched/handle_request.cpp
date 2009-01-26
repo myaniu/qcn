@@ -1110,11 +1110,11 @@ void handle_msgs_from_host() {
    // CMC -- handle triggers via handle_qcn_trigger
         retval = 0;
         if (!strcmp(mfh.variety, "trigger")) { // it's a trigger
-            retval = handle_qcn_trigger(&mfh);
+            retval = handle_qcn_trigger(&mfh, false);
         }
         else {
             if (!strcmp(mfh.variety, "quakelist")) { // quakelist / status trickle
-               retval = handle_qcn_quakelist(&mfh);
+               retval = handle_qcn_trigger(&mfh, true);
             }
             else { // not a real trigger or quakelist trickle, insert into msg_from_host table as usual
                retval = mfh.insert(); // not a trigger and not a quakelist, process as normal (probably a "nosensor" msg)

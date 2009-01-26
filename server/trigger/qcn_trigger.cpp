@@ -101,8 +101,6 @@ size_t qcn_curl_write_data(void *ptr, size_t size, size_t nmemb, void *stream);
 
 // the qcn_quakelist will insert a record from a quakelist trigger 
 // so that we can get basic diagnostics on a host running QCN (i.e. number of reset errors, last time sync & offset etc)
-int handle_qcn_quakelist(const DB_MSG_FROM_HOST* pmfh)
-{
    // a quakelist trigger is sent to get the new quake list and update the qcn_trigger table with a 
    // "ping" trigger so we know they are online and working
    /* the data sent is in this form, note there are no 'real' trigger info i.e. trigger time, fsig, etc:
@@ -121,9 +119,6 @@ int handle_qcn_quakelist(const DB_MSG_FROM_HOST* pmfh)
 <cpt>14.02</cpt>
 
    */
-
-   return handle_qcn_trigger(pmfh, true);
-}
 
 // handle_qcn_trigger processes the trigger trickle, does the geoip or database lookup as appropriate, inserts into qcn_trigger
 // note optional param bPing -- if true then insert a "ping" trigger, i.e. just to let us know the host is online, no seismic data sent
