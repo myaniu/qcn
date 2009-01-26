@@ -1113,7 +1113,7 @@ void handle_msgs_from_host() {
             retval = handle_qcn_trigger(&mfh, false);
         }
         else {
-            if (!strcmp(mfh.variety, "quakelist")) { // quakelist / status trickle
+            if (!strcmp(mfh.variety, "quakelist")) { // quakelist / status "ping" trickle
                retval = handle_qcn_trigger(&mfh, true);
             }
             else { // not a real trigger or quakelist trickle, insert into msg_from_host table as usual

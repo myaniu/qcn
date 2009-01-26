@@ -53,7 +53,7 @@ using namespace std;
 
 extern DB_CONN boinc_db;
 
-extern int handle_qcn_trigger(const DB_MSG_FROM_HOST* pmfh, bool bPing = false);
+extern int handle_qcn_trigger(const DB_MSG_FROM_HOST* pmfh, bool bPing);
 
 // structures matching the mySQL tables for QCN defined by qcn/server/qcn-data.sql
 
