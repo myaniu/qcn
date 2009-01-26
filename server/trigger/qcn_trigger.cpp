@@ -167,6 +167,15 @@ int handle_qcn_trigger(const DB_MSG_FROM_HOST* pmfh, bool bPing)
        qtrig.ping = 0;
      }
 
+     if (qtrig.hostid == 0 || strlen(qtrig.ipaddr)<4 || strlen(result_name)<4) {
+         log_messages.printf(
+             SCHED_MSG_LOG::MSG_CRITICAL,
+            "[QCN] [HOST#%d] [RESULTNAME=%s] [TIME=%lf] Insufficient data for QCN %s trickle!\n",
+            qtrig.hostid, qtrig.result_name, qtrig.time_received, bPing ? "ping" : "trigger" 
+         );
+         return 0;
+     }
+
      /*
        // so at this point, for qtrig we lack:
        latitude       double       YES        NULL            
