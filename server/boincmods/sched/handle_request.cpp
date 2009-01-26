@@ -1110,11 +1110,12 @@ void handle_msgs_from_host() {
    // CMC -- handle triggers via handle_qcn_trigger
         retval = 0;
         if (!strcmp(mfh.variety, "trigger")) { // it's a trigger
-            retval = handle_qcn_trigger(&mfh, false);
+            retval = handle_qcn_trigger(&mfh);
         }
         else {
-            if (!strcmp(mfh.variety, "quakelist")) { // quakelist / status "ping" trickle
-               retval = handle_qcn_trigger(&mfh, true);
+            if (!strcmp(mfh.variety, "quakelist")) { // quakelist / status trickle
+               retval = mfh.insert(); // not a trigger and not a quakelist, process as normal (probably a "nosensor" msg)
+               //retval = handle_qcn_quakelist(&mfh);
             }
             else { // not a real trigger or quakelist trickle, insert into msg_from_host table as usual
                retval = mfh.insert(); // not a trigger and not a quakelist, process as normal (probably a "nosensor" msg)
@@ -1511,13 +1512,18 @@ void handle_request(FILE* fin, FILE* fout, char* code_sign_key) {
               // this is a trigger so bump up our counter
               iTrigger++;
               // tack on the external IP address -- msg_text is a std::string
+              sreq.msgs_from_host[iCount].msg_text += "<extip>";
+              //sreq.msgs_from_host[iCount].msg_text += getenv("REMOTE_ADDR");
+              sreq.msgs_from_host[iCount].msg_text += get_remote_addr();
+              sreq.msgs_from_host[iCount].msg_text += "</extip>\n";
            }
-           sreq.msgs_from_host[iCount].msg_text += "<extip>";
-           sreq.msgs_from_host[iCount].msg_text += get_remote_addr();
-           sreq.msgs_from_host[iCount].msg_text += "</extip>\n";
          }
          // set a bool bTrigger which we can bypass big scheduler requests (e.g. work request & quake download)
          bTrigger = (bool) (iTrigger > 0 && iTrigger == iCount); // note all trickles must be triggers, and must have 1 trickle at least!
+         log_messages.printf(MSG_DEBUG,
+            "[HOST#%d] handle_request.C:: bTrigger = %s  iCount = %05d  iTrigger = %05d\n",
+            sreq.hostid, bTrigger ? "true" : "false", iCount, iTrigger
+         );
 
          // CMC end section
           process_request(code_sign_key, bTrigger);
