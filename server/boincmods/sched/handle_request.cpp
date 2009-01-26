@@ -1511,11 +1511,10 @@ void handle_request(FILE* fin, FILE* fout, char* code_sign_key) {
               // this is a trigger so bump up our counter
               iTrigger++;
               // tack on the external IP address -- msg_text is a std::string
-              sreq.msgs_from_host[iCount].msg_text += "<extip>";
-              //sreq.msgs_from_host[iCount].msg_text += getenv("REMOTE_ADDR");
-              sreq.msgs_from_host[iCount].msg_text += get_remote_addr();
-              sreq.msgs_from_host[iCount].msg_text += "</extip>\n";
            }
+           sreq.msgs_from_host[iCount].msg_text += "<extip>";
+           sreq.msgs_from_host[iCount].msg_text += get_remote_addr();
+           sreq.msgs_from_host[iCount].msg_text += "</extip>\n";
          }
          // set a bool bTrigger which we can bypass big scheduler requests (e.g. work request & quake download)
          bTrigger = (bool) (iTrigger > 0 && iTrigger == iCount); // note all trickles must be triggers, and must have 1 trickle at least!
