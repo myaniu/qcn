@@ -53,8 +53,8 @@ using namespace std;
 
 extern DB_CONN boinc_db;
 
-extern int handle_qcn_trigger(const DB_MSG_FROM_HOST* pmfh);
 extern int handle_qcn_quakelist(const DB_MSG_FROM_HOST* pmfh);
+extern int handle_qcn_trigger(const DB_MSG_FROM_HOST* pmfh, bool bPing = false);
 
 // structures matching the mySQL tables for QCN defined by qcn/server/qcn-data.sql
 
@@ -218,10 +218,11 @@ public:
         "received_file=%d,"
         "file_url='%s',"
         "runtime_clock=%f,"
-        "runtime_cpu=%f",
+        "runtime_cpu=%f,",
+        "ping=%d",
         hostid, ipaddr, result_name, time_trigger, time_sync, sync_offset,
         significance, magnitude, latitude, longitude, depth_km, file, dt, numreset, type_sensor, sw_version,
-        usgs_quakeid, received_file, file_url, runtime_clock, runtime_cpu 
+        usgs_quakeid, received_file, file_url, runtime_clock, runtime_cpu, ping
       );
     }
 
@@ -252,6 +253,7 @@ public:
       strcpy2(file_url, r[i++]);
       runtime_clock = safe_atof(r[i++]);
       runtime_cpu = safe_atof(r[i++]);
+      ping = safe_atoi(r[i++]);
     }
 };
 

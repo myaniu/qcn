@@ -103,10 +103,31 @@ size_t qcn_curl_write_data(void *ptr, size_t size, size_t nmemb, void *stream);
 // so that we can get basic diagnostics on a host running QCN (i.e. number of reset errors, last time sync & offset etc)
 int handle_qcn_quakelist(const DB_MSG_FROM_HOST* pmfh)
 {
+   // a quakelist trigger is sent to get the new quake list and update the qcn_trigger table with a 
+   // "ping" trigger so we know they are online and working
+   /* the data sent is in this form, note there are no 'real' trigger info i.e. trigger time, fsig, etc:
+     // although it does try to matchup lat/lng based on ip address as usual
+
+| 26969 |  1232995120 |   4332 | quakelist  |       0 |       <result_name>qb_sc300_sta000_005344_0</result_name>
+      <time>1232995114</time>
+<quake>send</quake>
+<vr>4.36</vr>
+<sms>5</sms>
+<reset>127</reset>
+<dt>0.020000</dt>
+<tsync>1232995106.023949</tsync>
+<toff>0.256735</toff>
+<wct>43622.91</wct>
+<cpt>14.02</cpt>
+
+   */
+
+   return handle_qcn_trigger(pmfh, true);
 }
 
 // handle_qcn_trigger processes the trigger trickle, does the geoip or database lookup as appropriate, inserts into qcn_trigger
-int handle_qcn_trigger(const DB_MSG_FROM_HOST* pmfh)
+// note optional param bPing -- if true then insert a "ping" trigger, i.e. just to let us know the host is online, no seismic data sent
+int handle_qcn_trigger(const DB_MSG_FROM_HOST* pmfh, bool bPing)
 {
      // instantiate the objects
      DB_QCN_HOST_IPADDR qhip;
@@ -120,10 +141,6 @@ int handle_qcn_trigger(const DB_MSG_FROM_HOST* pmfh)
      parse_str(pmfh->xml, "<result_name>", qtrig.result_name, sizeof(qtrig.result_name));
      parse_double(pmfh->xml, "<vr>", qtrig.sw_version);
      parse_int(pmfh->xml, "<sms>", qtrig.type_sensor);
-     parse_double(pmfh->xml, "<ctime>", qtrig.time_trigger);
-     parse_double(pmfh->xml, "<fsig>", qtrig.significance);
-     parse_double(pmfh->xml, "<fmag>", qtrig.magnitude);
-     parse_str(pmfh->xml, "<file>", qtrig.file, sizeof(qtrig.file));
      parse_int(pmfh->xml, "<reset>", qtrig.numreset);
      parse_double(pmfh->xml, "<dt>", qtrig.dt);
      parse_double(pmfh->xml, "<tsync>", qtrig.time_sync);
@@ -133,6 +150,21 @@ int handle_qcn_trigger(const DB_MSG_FROM_HOST* pmfh)
      parse_str(pmfh->xml, "<extip>", strIP, 32);
 
      qtrig.time_received = dtime();  // mark current server time as time_received, this gets overridden by database unix_timestamp() in qcn_trigger.h db_print
+
+     if (bPing) { // skip some of the 'real' trigger fields if we are just doing a 'ping' trigger
+       qtrig.time_trigger = time_received;
+       qtrig.significance = 0.0f;
+       qtrig.magnitude = 0.0f;
+       strcpy(qtrig.file, "");
+       qtrig.ping = 1;
+     }
+     else {
+       parse_double(pmfh->xml, "<ctime>", qtrig.time_trigger);
+       parse_double(pmfh->xml, "<fsig>", qtrig.significance);
+       parse_double(pmfh->xml, "<fmag>", qtrig.magnitude);
+       parse_str(pmfh->xml, "<file>", qtrig.file, sizeof(qtrig.file));
+       qtrig.ping = 0;
+     }
 
      /*
        // so at this point, for qtrig we lack:
