@@ -136,22 +136,16 @@ int handle_qcn_trigger(const DB_MSG_FROM_HOST* pmfh, bool bPing)
        qtrig.significance = 0.0f;
        qtrig.magnitude = 0.0f;
        strcpy(qtrig.file,"");
-       //qtrig.ping = 1;
-       return 0;
+       qtrig.ping = 1;
      }
      else {
        parse_double(pmfh->xml, "<ctime>", qtrig.time_trigger);
        parse_double(pmfh->xml, "<fsig>", qtrig.significance);
        parse_double(pmfh->xml, "<fmag>", qtrig.magnitude);
        parse_str(pmfh->xml, "<file>", qtrig.file, sizeof(qtrig.file));
-       //qtrig.ping = 0;
+       qtrig.ping = 0;
      }
 
-         log_messages.printf(
-           SCHED_MSG_LOG::MSG_NORMAL,
-           "[QCN] [HOST#%d] [RESULTNAME=%s] [TIME=%lf] Processing QCN %s trickle message from IP %s\n",
-           qtrig.hostid, qtrig.result_name, qtrig.time_received, bPing ? "ping" : "trigger", qtrig.ipaddr
-         );
 
      /*
        // so at this point, for qtrig we lack:
@@ -200,6 +194,12 @@ int handle_qcn_trigger(const DB_MSG_FROM_HOST* pmfh, bool bPing)
      qhip.hostid = qtrig.hostid; // important -- copy over ipaddr & hostid into other structs
      strcpy(qhip.ipaddr, qtrig.ipaddr);
      strcpy(qgip.ipaddr, qtrig.ipaddr);
+
+     log_messages.printf(
+           SCHED_MSG_LOG::MSG_NORMAL,
+           "[QCN] [HOST#%d] [RESULTNAME=%s] [TIME=%lf] Processing QCN %s trickle message from IP %s\n",
+           qtrig.hostid, qtrig.result_name, qtrig.time_received, bPing ? "ping" : "trigger", qtrig.ipaddr
+     );
 
      // note if IP address is '' then this just becomes the user pref lat/lng if they input a record with no IP address
      // also note the sort order, non-geoip lookups (i.e. user-entered lat/lng/ipaddr) get sorted to the top

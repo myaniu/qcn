@@ -84,7 +84,7 @@ received_file tinyint(1),
 file_url varchar(128),
 runtime_clock double,
 runtime_cpu double,
-ping bit not null default 0
+ping boolean not null default 0
 );
 
 create index qcn_trigger_time on qcn_trigger (time_trigger desc);
