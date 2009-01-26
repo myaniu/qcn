@@ -158,6 +158,9 @@ public:
 
     void db_print(char* buf)
     {
+      ESCAPE(city);
+      ESCAPE(country);
+      ESCAPE(region);
       sprintf(buf,
         "ipaddr='%s',"
         "time_lookup=%f,"
@@ -168,6 +171,9 @@ public:
         "longitude=%f",
         ipaddr, time_lookup, country, region, city, latitude, longitude
       );
+      UNESCAPE(city);
+      UNESCAPE(country);
+      UNESCAPE(region);
     }
 
     void db_parse(MYSQL_ROW& r)
