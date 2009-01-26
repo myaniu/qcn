@@ -131,6 +131,12 @@ int handle_qcn_trigger(const DB_MSG_FROM_HOST* pmfh, bool bPing)
      char strIP[32]; // temp holder for IP address
      int iRetVal = 0;
 
+     log_messages.printf(
+         SCHED_MSG_LOG::MSG_NORMAL,
+         "[QCN] [HOST#%d] [RESULTNAME=%s] [TIME=%lf] Processing QCN %s trickle!\n",
+         qtrig.hostid, qtrig.result_name, qtrig.time_received, bPing ? "ping" : "trigger" 
+     );
+
      // parse out all the data into the qtrig object;
      qtrig.hostid = pmfh->hostid; // don't parse hostid, it's in the msg_from_host struct!
      parse_str(pmfh->xml, "<result_name>", qtrig.result_name, sizeof(qtrig.result_name));
