@@ -508,6 +508,7 @@ int qcn_main(int argc, char **argv)
                  "<sms>%d</sms>\n"
                  "<reset>%d</reset>\n"
                  "<dt>%f</dt>\n"
+                 "<ctime>%f</ctime>\n"
                  "<tsync>%f</tsync>\n"
                  "<toff>%f</toff>\n"
                  "<%s>%.2f</%s>\n"
@@ -516,6 +517,7 @@ int qcn_main(int argc, char **argv)
                  sm->eSensor,
                  sm->iNumReset,
                  sm->dt,
+                 dtime() + g_dTimeSync>0.0f ? g_dTimeOffset : 0.0f,  // note we're sending the local client offset sync time adjusted to server time!
                  g_dTimeSync>0.0f ? g_dTimeSync + g_dTimeOffset : 0.0f,  // note we're sending the local client offset sync time adjusted to server time!
                  g_dTimeOffset,
                  XML_CLOCK_TIME, sm->clock_time, XML_CLOCK_TIME,
