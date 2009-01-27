@@ -499,6 +499,7 @@ int qcn_main(int argc, char **argv)
              // unnecessary for demo mode -- but should we wget or curl the latest quake list, perhaps just in the ./runme script?
              //if (!g_iStop && !(++iQuakeList % QUAKELIST_CHECK))  {
 
+        // CMC HERE this seems to be 15 minutes for Macs but 30 minutes for Win (should be 30 for 9000 count * .2 seconds per loop)
              // this skips the very first time in i.e. when we're just starting up
              if (!g_iStop && iTrickleDown > 0) { // !(++iQuakeList % QUAKELIST_CHECK))  {
                 char *strTrigger = new char[512];
