@@ -283,10 +283,10 @@ struct FDSET_GROUP {
 #define TIME_FILE_DELETE  2592000L
 #define MAIN_LOOP_SLEEP_MICROSECONDS 200000L
 
-// check trickledown and quake list about every hour (2000 seconds, i.e. when loop gone through .2sec * 10,000 times)
+// check trickledown and quake list about every hour (1/2 hour = 1800 seconds, i.e. when loop gone through .2sec * 9,000 times)
 // note this depends on the above value for MAIN_LOOP_SLEEP_MICROSECONDS!
-#define COUNTER_CHECK   10000L
-#define COUNTER_TRICKLE 11000L
+#define COUNTER_CHECK   9000L
+//#define COUNTER_TRICKLE 11000L
 
 // check for clock time offset every 15 minutes
 #define TIME_CHECK      10000L
