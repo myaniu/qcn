@@ -521,8 +521,8 @@ int qcn_main(int argc, char **argv)
                     sm->eSensor,
                     sm->iNumReset,
                     sm->dt,
-                    dtime()     + dTrigTimeOffset, // note we're sending the local client offset sync time adjusted to server time!
-                    g_dTimeSync + dTrigTimeOffset, // adj sync time with the offset if exists
+                    g_dTimeCurrent + dTrigTimeOffset, // note we're sending the local client offset sync time adjusted to server time!
+                    g_dTimeSync    + dTrigTimeOffset, // adj sync time with the offset if exists
                     g_dTimeOffset,
                     XML_CLOCK_TIME, sm->clock_time, XML_CLOCK_TIME,
                     XML_CPU_TIME, sm->cpu_time, XML_CPU_TIME
