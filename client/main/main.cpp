@@ -85,9 +85,12 @@ namespace qcn_main  {
 
   char g_strPathTrigger[_MAX_PATH];  // this is the path to trigger, doesn't change after startup
 
-  double g_dTimeOffset;  // the time offset between client & server, +/- in seconds difference from server
-  double g_dTimeSync;    // the (unadjusted client) time this element was retrieved
-  double g_dTimeSyncRetry; // retry time for the time sync thread
+  double g_dTimeOffset = 0.0f;  // the time offset between client & server, +/- in seconds difference from server
+  double g_dTimeSync = 0.0f;    // the (unadjusted client) time this element was retrieved
+  double g_dTimeSyncRetry = 0.0f; // retry time for the time sync thread
+  double g_dTimeCurrent  = 0.0f;   // current time in the main thread, so we can check in half-hour for trigger trickle etc
+  double g_dTimeLastPing = 0.0f;   // time of the last ping, if g_dTimeCurrent is greather than this by a half-hour, re-ping
+  bool   g_bFirstPing = false;     // flag that we did the first ping trickle
 
   vector<struct STriggerInfo> g_vectTrigger;  // a list for all the trigger info, use bTriggerLock to control access for writing
 
@@ -198,13 +201,14 @@ void qcnmain_sigpipe(int iSignal)
 void update_sharedmem() 
 {
     static double dLastTime = 0.0f;
+    g_dTimeCurrent = dtime();
     if (g_iStop || !sm) return;
     boinc_get_status(&sm->statusBOINC);
 
 	if (!g_bSuspended) { // use the global suspended flag, since it will go through once anyway to set the suspend status
 		sm->fraction_done = boinc_get_fraction_done();
         if (sm->bSensorFound) { 
-            sm->update_time = dtime();
+            sm->update_time = g_dTimeCurrent;
             // important -- only count time if they have a sensor!
             // otherwise any idiot who wants easy credits can just run QCN with no sensor
             boinc_wu_cpu_time((double&) sm->cpu_time);  // this is the entire workunit cpu time, which we want
@@ -337,9 +341,6 @@ int qcn_main(int argc, char **argv)
  
     // OK, if not in demo mode, now get rid of old trigger files i.e. more than two weeks old
     if (!g_bDemo) qcn_util::removeOldTriggers((const char*) g_strPathTrigger);
-
-    int iTrickleDown = -1; // use this to check for trickle downs every 2000 seconds
-    //int iQuakeList   = -1; // use this to get a new quake list every hour or so, note it won't get it upon startup
 
     // create time & sensor thread objects
     g_threadSensor = new CQCNThread(QCNThreadSensor);
@@ -479,11 +480,13 @@ int qcn_main(int argc, char **argv)
 
         if (!g_iStop && !g_bDemo && !g_bReadOnly)  { // only active BOINC workunits need to do the following (i.e. not demo/readonly)
 
-          // Trickle Down Check -- i.e. for file requests or to abort workunit
-          // check for trickledown every 200 seconds, i.e. when mod 1000
+          // Trickle Down & Ping Trickle Check -- i.e. for file requests or to abort workunit
+          // check every half-hour
           // unnecessary for demo mode
-		  iTrickleDown++;  // seems to be a precedence/OS problem if ++iTrickleDown in the below if statement, so put outside here
-          if (!(iTrickleDown % COUNTER_CHECK))  {
+          if ((g_dTimeLastPing + INTERVAL_PING_SECONDS) <= g_dTimeCurrent) { // time for a ping trickle & trickle down check
+
+             g_dTimeLastPing = g_dTimeCurrent + INTERVAL_PING_SECONDS;  // set the next interval
+
              trickledown::processTrickleDown();  // from util/trickledown.cpp
 
              // this is also a good spot to check for massive numbers of resets (time adjustments) for this workunit
@@ -492,22 +495,19 @@ int qcn_main(int argc, char **argv)
                  doMainQuit(true, ERR_NUM_RESET);
                  goto done;
              }
-          //}
 
              // New Quake List -- now done with trickle down request about every 17 minutes
              // check for new quake list every hour, i.e. when mod 1000
              // unnecessary for demo mode -- but should we wget or curl the latest quake list, perhaps just in the ./runme script?
              //if (!g_iStop && !(++iQuakeList % QUAKELIST_CHECK))  {
 
-        // CMC HERE this seems to be 15 minutes for Macs but 30 minutes for Win (should be 30 for 9000 count * .2 seconds per loop)
              // this skips the very first time in i.e. when we're just starting up
-             if (!g_iStop && iTrickleDown > 0) { // !(++iQuakeList % QUAKELIST_CHECK))  {
+             if (!g_iStop && g_bFirstPing) {
                 char *strTrigger = new char[512];
                 double dTrigTimeOffset = g_dTimeSync>0.0f ? g_dTimeOffset : 0.0f;
                 boinc_begin_critical_section();
                 memset(strTrigger, 0x00, sizeof(char) * 512);
                 sprintf(strTrigger, 
-                    "<quake>send</quake>\n"
                     "<vr>%s</vr>\n"
                     "<sms>%d</sms>\n"
                     "<reset>%d</reset>\n"
@@ -531,8 +531,8 @@ int qcn_main(int argc, char **argv)
                 delete [] strTrigger;
                 boinc_end_critical_section();
               }
-              iTrickleDown = 0;  // reset counter to 0 if not already zero
-          } // COUNTER_CHECK does trickle down check/processing as well as quakelist/ping
+              if (!g_bFirstPing) g_bFirstPing = true; // set this flag so it will do a ping trickle next time through
+          } // trickle down check/processing as well as quakelist/ping
 
           // Parse Prefs of New Quake List
           if (!g_iStop && sm->statusBOINC.reread_init_data_file)  { // should have gotten a quakelist by now

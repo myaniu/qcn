@@ -146,6 +146,9 @@ enum e_perturb {
 
 #define ALL_ACCESS 0666
 
+// trickle-down check & ping trickle interval is a half-hour
+#define INTERVAL_PING_SECONDS 1800.0f
+
 const float g_cfTimeWindow = 60.0f;  // time window in seconds
 const double g_DT = 0.02f;          // delta t sampling interval, i.e. target time between points
 const double g_DT_SLOW = 0.10f;      // delta t sampling interval for slow/troublesome machines (i.e. can't keep up at <3 samples per dt=.02)
@@ -286,7 +289,7 @@ struct FDSET_GROUP {
 
 // check trickledown and quake list about every hour (1/2 hour = 1800 seconds, i.e. when loop gone through .2sec * 9,000 times)
 // note this depends on the above value for MAIN_LOOP_SLEEP_MICROSECONDS!
-#define COUNTER_CHECK   9000L
+//#define COUNTER_CHECK   9000L
 //#define COUNTER_TRICKLE 11000L
 
 // check for clock time offset every 15 minutes
