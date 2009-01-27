@@ -339,7 +339,7 @@ int qcn_main(int argc, char **argv)
     if (!g_bDemo) qcn_util::removeOldTriggers((const char*) g_strPathTrigger);
 
     int iTrickleDown = -1; // use this to check for trickle downs every 2000 seconds
-    int iQuakeList   = -1; // use this to get a new quake list every hour or so, note it won't get it upon startup
+    //int iQuakeList   = -1; // use this to get a new quake list every hour or so, note it won't get it upon startup
 
     // create time & sensor thread objects
     g_threadSensor = new CQCNThread(QCNThreadSensor);
@@ -483,7 +483,6 @@ int qcn_main(int argc, char **argv)
           // check for trickledown every 200 seconds, i.e. when mod 1000
           // unnecessary for demo mode
           if (!(++iTrickleDown % COUNTER_CHECK))  {
-             iTrickleDown = 0;  // reset counter to 0 if not already zero
              trickledown::processTrickleDown();  // from util/trickledown.cpp
 
              // this is also a good spot to check for massive numbers of resets (time adjustments) for this workunit
@@ -494,38 +493,42 @@ int qcn_main(int argc, char **argv)
              }
           //}
 
-          // New Quake List
-          // check for new quake list every hour, i.e. when mod 1000
-          // unnecessary for demo mode -- but should we wget or curl the latest quake list, perhaps just in the ./runme script?
-          //if (!g_iStop && !(++iQuakeList % QUAKELIST_CHECK))  {
-             char *strTrigger = new char[512];
-             iQuakeList = 0;  // reset counter to 0 if not already zero
-             boinc_begin_critical_section();
-             memset(strTrigger, 0x00, sizeof(char) * 512);
-             sprintf(strTrigger, 
-                 "<quake>send</quake>\n"
-                 "<vr>%s</vr>\n"
-                 "<sms>%d</sms>\n"
-                 "<reset>%d</reset>\n"
-                 "<dt>%f</dt>\n"
-                 "<ctime>%f</ctime>\n"
-                 "<tsync>%f</tsync>\n"
-                 "<toff>%f</toff>\n"
-                 "<%s>%.2f</%s>\n"
-                 "<%s>%.2f</%s>\n",
-                 QCN_VERSION_STRING,
-                 sm->eSensor,
-                 sm->iNumReset,
-                 sm->dt,
-                 dtime() + g_dTimeSync>0.0f ? g_dTimeOffset : 0.0f,  // note we're sending the local client offset sync time adjusted to server time!
-                 g_dTimeSync>0.0f ? g_dTimeSync + g_dTimeOffset : 0.0f,  // note we're sending the local client offset sync time adjusted to server time!
-                 g_dTimeOffset,
-                 XML_CLOCK_TIME, sm->clock_time, XML_CLOCK_TIME,
-                 XML_CPU_TIME, sm->cpu_time, XML_CPU_TIME
-              );
-              trickleup::qcnTrickleUp(strTrigger, "quakelist", (const char*) sm->dataBOINC.wu_name);  // request a new quake list
-              delete [] strTrigger;
-              boinc_end_critical_section();
+             // New Quake List -- now done with trickle down request about every 17 minutes
+             // check for new quake list every hour, i.e. when mod 1000
+             // unnecessary for demo mode -- but should we wget or curl the latest quake list, perhaps just in the ./runme script?
+             //if (!g_iStop && !(++iQuakeList % QUAKELIST_CHECK))  {
+
+             // this skips the very first time in i.e. when we're just starting up
+             if (!g_iStop && iTrickleDown > 0) { // !(++iQuakeList % QUAKELIST_CHECK))  {
+                char *strTrigger = new char[512];
+                boinc_begin_critical_section();
+                memset(strTrigger, 0x00, sizeof(char) * 512);
+                sprintf(strTrigger, 
+                    "<quake>send</quake>\n"
+                    "<vr>%s</vr>\n"
+                    "<sms>%d</sms>\n"
+                    "<reset>%d</reset>\n"
+                    "<dt>%f</dt>\n"
+                    "<ctime>%f</ctime>\n"
+                    "<tsync>%f</tsync>\n"
+                    "<toff>%f</toff>\n"
+                    "<%s>%.2f</%s>\n"
+                    "<%s>%.2f</%s>\n",
+                    QCN_VERSION_STRING,
+                    sm->eSensor,
+                    sm->iNumReset,
+                    sm->dt,
+                    dtime() + g_dTimeSync>0.0f ? g_dTimeOffset : 0.0f,  // note we're sending the local client offset sync time adjusted to server time!
+                    g_dTimeSync>0.0f ? g_dTimeSync + g_dTimeOffset : 0.0f,  // note we're sending the local client offset sync time adjusted to server time!
+                    g_dTimeOffset,
+                    XML_CLOCK_TIME, sm->clock_time, XML_CLOCK_TIME,
+                    XML_CPU_TIME, sm->cpu_time, XML_CPU_TIME
+                );
+                trickleup::qcnTrickleUp(strTrigger, "quakelist", (const char*) sm->dataBOINC.wu_name);  // request a new quake list
+                delete [] strTrigger;
+                boinc_end_critical_section();
+              }
+              iTrickleDown = 0;  // reset counter to 0 if not already zero
           } // COUNTER_CHECK does trickle down check/processing as well as quakelist/ping
 
           // Parse Prefs of New Quake List
