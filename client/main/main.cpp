@@ -89,7 +89,7 @@ namespace qcn_main  {
   double g_dTimeSync = 0.0f;    // the (unadjusted client) time this element was retrieved
   double g_dTimeSyncRetry = 0.0f; // retry time for the time sync thread
   double g_dTimeCurrent  = 0.0f;   // current time in the main thread, so we can check in half-hour for trigger trickle etc
-  double g_dTimeLastPing = 0.0f;   // time of the last ping, if g_dTimeCurrent is greather than this by a half-hour, re-ping
+  double g_dTimeNextPing = 0.0f;   // time of the next ping, if g_dTimeCurrent is greather than this, time for a trigger trickle
   bool   g_bFirstPing = false;     // flag that we did the first ping trickle
 
   vector<struct STriggerInfo> g_vectTrigger;  // a list for all the trigger info, use bTriggerLock to control access for writing
@@ -371,9 +371,9 @@ int qcn_main(int argc, char **argv)
 #ifdef __USE_BOINC_OPTIONS
         if (sm->statusBOINC.quit_request) {
            fprintf(stderr, "Quit request from BOINC!\n");
-		   // if we were suspended, then quitting, bump up iNumReset if needed
-		   // since it was decremented in the suspend
-           // if (g_bSuspended && (dtime() - sm->update_time) > TIME_ERROR_SECONDS) sm->iNumReset--;
+	   // if we were suspended, then quitting, bump up iNumReset if needed
+	   // since it was decremented in the suspend
+           // if (g_bSuspended && (g_dTimeCurrent - sm->update_time) > TIME_ERROR_SECONDS) sm->iNumReset--;
            doMainQuit();
            goto done; 
         }
@@ -399,7 +399,7 @@ int qcn_main(int argc, char **argv)
                 g_threadTime->Resume();
                 // rollback the iNumReset counter by one, since this will obviously reset
                 // if it's over our time limit
-                if ((dtime() - sm->update_time) > TIME_ERROR_SECONDS) sm->iNumReset--;
+                if ((g_dTimeCurrent - sm->update_time) > TIME_ERROR_SECONDS) sm->iNumReset--;
              }
              else {
 #endif
@@ -483,9 +483,9 @@ int qcn_main(int argc, char **argv)
           // Trickle Down & Ping Trickle Check -- i.e. for file requests or to abort workunit
           // check every half-hour
           // unnecessary for demo mode
-          if ((g_dTimeLastPing + INTERVAL_PING_SECONDS) <= g_dTimeCurrent) { // time for a ping trickle & trickle down check
+          if (g_dTimeNextPing < g_dTimeCurrent) { // time for a ping trickle & trickle down check
 
-             g_dTimeLastPing = g_dTimeCurrent + INTERVAL_PING_SECONDS;  // set the next interval
+             g_dTimeNextPing = g_dTimeCurrent + INTERVAL_PING_SECONDS;  // set the next interval
 
              trickledown::processTrickleDown();  // from util/trickledown.cpp
 
@@ -537,7 +537,7 @@ int qcn_main(int argc, char **argv)
           // Parse Prefs of New Quake List
           if (!g_iStop && sm->statusBOINC.reread_init_data_file)  { // should have gotten a quakelist by now
              sm->statusBOINC.reread_init_data_file = 0;
-             fprintf(stderr, "qcn_main::BOINC requested reread of init data file at %f\n", dtime());
+             fprintf(stderr, "qcn_main::BOINC requested reread of init data file at %f\n", g_dTimeCurrent);
              qcn_util::getBOINCInitData(WHERE_MAIN_PROJPREFS);  // reread project_prefs since may have changed, send in 1 to fake it's in a thread so doesn't reset anything else
           }
 
