@@ -1234,7 +1234,8 @@ void process_request(
         warn_user_if_core_client_upgrade_scheduled();
     }
 
-    if (requesting_work()) {
+// CMC here - add !bTrigger to next line
+    if (!bTrigger && requesting_work()) {
         if (config.locality_scheduling || config.enable_assignment) {
             have_no_work = false;
         } else {
@@ -1252,7 +1253,8 @@ void process_request(
     // this isn't an initial RPC,
     // and client is requesting work, return without accessing DB
     //
-    if (
+// CMC here - add !bTrigger to next line
+    if (!bTrigger && 
         config.nowork_skip
         && requesting_work()
         && have_no_work
@@ -1399,7 +1401,8 @@ void process_request(
         }
     }
     
-    if (requesting_work()) {
+// CMC here - add !bTrigger to next line
+    if (!bTrigger && requesting_work()) {
         if (!send_code_sign_key(code_sign_key)) {
             ok_to_send_work = false;
         }
