@@ -133,7 +133,7 @@ int handle_qcn_trigger(const DB_MSG_FROM_HOST* pmfh, bool bPing)
      qtrig.time_received = dtime();  // mark current server time as time_received, this gets overridden by database unix_timestamp() in qcn_trigger.h db_print
 
      if (bPing) {
-       if (qtrig.time_trigger < 1) qtrig.time_trigger = qtrig.time_received; // sometimes trigtime/<ctime> is sent, older versions it wasn't
+       if (qtrig.time_trigger < 1.0f) qtrig.time_trigger = qtrig.time_received; // sometimes trigtime/<ctime> is sent, older versions it wasn't
        qtrig.significance = 0.0f;
        qtrig.magnitude = 0.0f;
        strcpy(qtrig.file,"");
