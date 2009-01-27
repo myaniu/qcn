@@ -282,6 +282,7 @@ struct FDSET_GROUP {
 // delete files over a month old
 #define TIME_FILE_DELETE  2592000L
 #define MAIN_LOOP_SLEEP_MICROSECONDS 200000L
+#define MAIN_LOOP_SLEEP_SECONDS 0.2f
 
 // check trickledown and quake list about every hour (1/2 hour = 1800 seconds, i.e. when loop gone through .2sec * 9,000 times)
 // note this depends on the above value for MAIN_LOOP_SLEEP_MICROSECONDS!
