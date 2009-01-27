@@ -139,7 +139,7 @@ void doMainQuit(const bool& bFinish, const int& errcode)
   while (g_threadSensor && g_threadTime
 	   && (g_threadSensor->IsRunning() || g_threadTime->IsRunning()) 
 	   && iStopCtr++ < 3000) { // wait up to 3 seconds, I believe BOINC gives us 5 seconds to quit
-     usleep(1000);
+     usleep(1000L);
   }
   if (g_threadTime) {
         delete g_threadTime;
@@ -441,7 +441,7 @@ int qcn_main(int argc, char **argv)
               int iStartup = 0;
               while (! g_threadSensor->IsRunning() && iStartup++<1000) {
                     if (g_iStop) goto done;
-                    usleep(1000);
+                    usleep(1000L);
               }
            }
         }
@@ -466,7 +466,7 @@ int qcn_main(int argc, char **argv)
               int iStartup = 0;
               while (! g_threadTime->IsRunning() && iStartup++<1000)  {
                     if (g_iStop) goto done;
-                    usleep(1000);
+                    usleep(1000L);
               }
            }
         }
@@ -482,7 +482,8 @@ int qcn_main(int argc, char **argv)
           // Trickle Down Check -- i.e. for file requests or to abort workunit
           // check for trickledown every 200 seconds, i.e. when mod 1000
           // unnecessary for demo mode
-          if (!(++iTrickleDown % COUNTER_CHECK))  {
+		  iTrickleDown++;  // seems to be a precedence/OS problem if ++iTrickleDown in the below if statement, so put outside here
+          if (!(iTrickleDown % COUNTER_CHECK))  {
              trickledown::processTrickleDown();  // from util/trickledown.cpp
 
              // this is also a good spot to check for massive numbers of resets (time adjustments) for this workunit

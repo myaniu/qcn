@@ -58,7 +58,7 @@ typedef vector<string> ZipFileList;
   #include <windows.h>
 
 // make a usleep function for Windows Sleep (which is in milliseconds)
-  #define usleep(A) ::Sleep((DWORD) ((long) A/1000L))
+  #define usleep(A) ::Sleep((DWORD) ((A)/1000L))
   #pragma warning( disable : 4786 )  // Disable warning messages for vector
   #pragma warning( disable : 4996 )  // Disable warning messages for "obsolete" libs
 
