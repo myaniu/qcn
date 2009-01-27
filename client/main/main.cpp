@@ -555,8 +555,8 @@ int qcn_main(int argc, char **argv)
             CheckTriggers(false);
         }
 
-        //usleep(MAIN_LOOP_SLEEP_MICROSECONDS); // 5Hz should be fast enough to monitor things such as trickles, stop/suspend requests etc
-        boinc_sleep(MAIN_LOOP_SLEEP_SECONDS);
+        usleep(MAIN_LOOP_SLEEP_MICROSECONDS); // 5Hz should be fast enough to monitor things such as trickles, stop/suspend requests etc
+        //boinc_sleep(MAIN_LOOP_SLEEP_SECONDS);
 
 	/* test the memory leaks from the BOINC parse_init_data()
 #ifdef _DEBUG

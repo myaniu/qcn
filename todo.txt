@@ -1,5 +1,7 @@
 qcn
 
+-- client/main.cpp --- why does the loop for the ping/quakelist trigger go 15 minutes on Mac's, but 30 minutes on Win (should be 30)
+
 -- higher priority levels
 OK, here's a fix for this:
 make your app version of plan class "nci"
