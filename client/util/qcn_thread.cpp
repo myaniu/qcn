@@ -132,9 +132,11 @@ bool CQCNThread::Start(bool bHighPriority)
       if (iRet || (iRet = pthread_attr_setschedparam (&thread_attrs, &sparam))) {
          fprintf(stderr, "CQCNThread::Start(): Error in setting thread priority %d\n", iRet);
       }
+#ifdef _DEBUG
       else {
          fprintf(stderr, "CQCNThread::Start(): Thread priority set to high\n");
       }
+#endif
     }
 
     // now create the POSIX thread using our attributes
