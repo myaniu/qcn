@@ -288,10 +288,6 @@ struct FDSET_GROUP {
 #define COUNTER_CHECK   10000L
 #define COUNTER_TRICKLE 11000L
 
-// time for quakelist - 30K * .2 seconds 
-#define QUAKELIST_CHECK   30000L
-#define QUAKEPROC_CHECK   31000L
-
 // check for clock time offset every 15 minutes
 #define TIME_CHECK      10000L
 #define MAX_NUM_RESET    1000L     // maximum number of reset errors per workunit
