@@ -206,7 +206,7 @@ void CDialogSettings::CreateControls()
 
     // control 2 - Longitude
     itemStaticText7 = new wxStaticText;
-    itemStaticText7->Create( this, wxID_STATIC, _("Longitude (-180 [E] to 180 [W]):"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemStaticText7->Create( this, wxID_STATIC, _("Longitude (-180 [W] to 180 [E]):"), wxDefaultPosition, wxDefaultSize, 0 );
     itemFlexGridSizer5->Add(itemStaticText7, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     m_textctrlLongitude = new wxTextCtrl;

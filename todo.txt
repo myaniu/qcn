@@ -1,82 +1,8 @@
 qcn
 
--- client/main.cpp --- why does the loop for the ping/quakelist trigger go 15 minutes on Mac's, but 30 minutes on Win (should be 30)
-
--- higher priority levels
-OK, here's a fix for this:
-make your app version of plan class "nci"
-(this just means adding "__nci" to the directory name under apps/; see
-http://boinc.berkeley.edu/trac/wiki/UpdateVersions and
-http://boinc.berkeley.edu/trac/wiki/AppPlan
-
-and upgrade to the latest scheduler.
-This will tell the client that your app uses .01 of a CPU.
-Then the very latest client (i.e. 6.8, whenever we release it)
-will run the app at process priority BELOW_NORMAL_PRIORITY_CLASS
-(i.e., above idle).
-
---
-I think we'll need to add a new trickle for a status/state of health report.
-It would be very helpful to know how much of the time the sensor is working,
-and working properly.
-
-Reason 1: A USB sensor that is properly mounted to the floor and running all
-the time, should only trigger in the event of a big earthquake.  We won't
-know if it is running until we get the trigger.  If we are to run statistics
-on the sensors, we need to know a rough number of sensors connected to the
-network.
-
-Reason 2: The USB sensors are not showing up on our maps due to just
-triggers!
-
-So I was thinking it would be nice to have a trickle that uploaded a state
-of health message every 15 minutes, giving a few pieces of information.  The
-info that could be useful would be:
-    1) Computer ID/info
-    2) NTP time & timing error
-    3) running properly=1, calibrating=0, or no sensor found=-1
-    4) Anything else we need?
-
-It might be helpful if the same trickle uploaded every time the computer
-started re-calibrating due to timing error.
-
-Reason 3: It would help us to create a time series of the state of health
-signals.  That way we'd be able to determine if the computer was operating
-properly or having troubles.
-
-How hard would this be to implement?
-
---
-
 Sensor Location w/ floorWednesday, January 7, 2009 1:45 PM
 Quick question: Any chance you can include floor number in the BOINC side
 computer location/Google apps like you did for the QCN_Live locatino?
-
-qcnlive
-
-At File>Local Settings is the ability to set your location in Lat/Long, elevation and floors. Since there was nothing in the install manuals regarding this, how important is the information? Also the nomenclature for the Longitude is opposite that used by Google Maps. For Google, West is negative, an accepted convention. QCNLive uses (-180[E] to 180[W]).
-
-
-Standardize/Normalize readings to +/- 2g
-
-So, I've been playing with the new JW sensors that arrived.  I wanted to
-test them out before shipping them.  It seems to me that triggers for the
-USB sensors respond very differently than the triggers for the internal Mac
-sensor, even though the two should be about the same sensitivity. My first
-thought was that this difference is due to a hard-wired value above which
-the fmag must be for a trigger (1.25) and the fact that the different
-sensors provide different values for the same force/g. For the Macs, 1g =
-257. For JW 1g = 1 (I think).  We should normalize each sensor by it's
-sensitivity, so that 1g = 1g. I think this can be done for the mac laptops
-by dividing x, y, & z by 257 in the sensor/csensor_mac_laptop.cpp within
-CSensorMacLaptop::read_xyz (lines 261-263).  I think we then must divide the
-value above which fmag must be equal to by 257 for the triggering to stay
-even (Line 600 in client/main/qcn_thread_sensor.cpp).  Once this is done, I
-think the USB sensors will trigger better for the JW.
-
-I tried to change things on my local computer but I seem to be having some
-weirdness with svn/ and the making of QCNLive.
-
 
 QCNLive
 
@@ -197,5 +123,4 @@ same map, or as a second identical map.  The USGS has maps for these
 earthquakes, but I figure it is nice to have maps in the same format.
 
 ------------------------
-
 
