@@ -111,7 +111,7 @@ void sendFinalTrickle()
           XML_CPU_TIME, sm->cpu_time, XML_CPU_TIME
         );
         // upload the qcn_prefs.xml file
-		trickleup::qcnTrickleUp(strFinal, "finalstats", (const char*) sm->dataBOINC.wu_name);  // trickle the final stats, basically like uploading qcnprefs.xml file
+        trickleup::qcnTrickleUp(strFinal, "finalstats", (const char*) sm->dataBOINC.wu_name);  // trickle the final stats, basically like uploading qcnprefs.xml file
       }
 }
 
@@ -501,6 +501,7 @@ int qcn_main(int argc, char **argv)
              // this skips the very first time in i.e. when we're just starting up
              if (!g_iStop && iTrickleDown > 0) { // !(++iQuakeList % QUAKELIST_CHECK))  {
                 char *strTrigger = new char[512];
+                double dTrigTimeOffset = g_dTimeSync>0.0f ? g_dTimeOffset : 0.0f;
                 boinc_begin_critical_section();
                 memset(strTrigger, 0x00, sizeof(char) * 512);
                 sprintf(strTrigger, 
@@ -518,8 +519,8 @@ int qcn_main(int argc, char **argv)
                     sm->eSensor,
                     sm->iNumReset,
                     sm->dt,
-                    dtime() + g_dTimeSync>0.0f ? g_dTimeOffset : 0.0f,  // note we're sending the local client offset sync time adjusted to server time!
-                    g_dTimeSync>0.0f ? g_dTimeSync + g_dTimeOffset : 0.0f,  // note we're sending the local client offset sync time adjusted to server time!
+                    dtime()     + dTrigTimeOffset, // note we're sending the local client offset sync time adjusted to server time!
+                    g_dTimeSync + dTrigTimeOffset, // adj sync time with the offset if exists
                     g_dTimeOffset,
                     XML_CLOCK_TIME, sm->clock_time, XML_CLOCK_TIME,
                     XML_CPU_TIME, sm->cpu_time, XML_CPU_TIME
