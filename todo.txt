@@ -4,6 +4,8 @@ Sensor Location w/ floorWednesday, January 7, 2009 1:45 PM
 Quick question: Any chance you can include floor number in the BOINC side
 computer location/Google apps like you did for the QCN_Live locatino?
 
+qcn grapics - username can get garbled html i.e. >Henry becomes &amp&gtHenry
+
 QCNLive
 
 cut-and-paste doesn't work for lat,lng in local prefs box -- also a way to integrate google maps lookup?
