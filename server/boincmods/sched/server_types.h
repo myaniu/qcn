@@ -103,6 +103,8 @@ struct BEST_APP_VERSION {
 // Note: this is zeroed out in SCHEDULER_REPLY constructor
 //
 struct WORK_REQ {
+    bool anonymous_platform;
+
     // Flags used by old-style scheduling,
     // while making multiple passes through the work array
     bool infeasible_only;
@@ -320,6 +322,7 @@ struct SCHEDULER_REQUEST {
     HOST host;      // request message is parsed into here.
                     // does NOT contain the full host record.
     COPROCS coprocs;
+    COPROC_CUDA* coproc_cuda;
     std::vector<RESULT> results;
         // completed results being reported
     std::vector<MSG_FROM_HOST_DESC> msgs_from_host;
