@@ -42,9 +42,9 @@ QUERY_TRIGGER_HOST_LIST = "select hostid,count(*) from qcn_trigger "
 # or it was a prior request that we haven't received anything in the past day with up to 20 tries
 # also note we give up for triggers older than 30 days as they would have been deleted by QCN 
 # (also the retry every 8 hours for 90 tries should have given enough chances to get them)
-QUERY_TRIGGER_HOST_WHERE = " (" +\
-                         "usgs_quakeid>0 and " +\
-                         "((time_filereq is null or time_filereq=0) " +\
+QUERY_TRIGGER_HOST_WHERE = " (ping=0 AND " +\
+                         "usgs_quakeid>0 AND " +\
+                         "((time_filereq is null OR time_filereq=0) " +\
                          " OR " +\
                          " ((time_filereq + (3600.0*24.0)) < unix_timestamp() " +\
                          " AND received_file <= 20) " +\
