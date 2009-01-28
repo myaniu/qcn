@@ -368,6 +368,7 @@ function show_trigger($hostid, $heading, $private=true)
    $result=$db->do_query($sql);
    echo "<H2>$heading</H2>\n";
    echo "<H3>Last 50 Triggers for this Computer</H3>\n";
+   echo "<H5>(NB: a blue row is a 'ping' trigger to see who is running QCN)</H5>\n";
    start_table();
    echo "<tr><th>Trigger ID</th>
              <th>Result Name</th>
