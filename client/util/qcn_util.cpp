@@ -119,6 +119,31 @@ double qcn_dday(double dNow) {
     return (dNow-fmod(dNow, SECONDS_PER_DAY));
 }
 
+void string_tidy(char* strIn, int length)
+{
+   // this will tidy up a string, i.e. remove BOINC string tokens for ampersand (&), <, >, etc
+/*
+    >  &amp;gt;
+    <  &amp;lt;
+    &  &amp;amp;
+*/
+    std::string strTemp(strIn);
+    size_t pos[2];
+    const int  ciSearch = 3;
+    const char cstrSearch[ciSearch][10] = { "&amp;gt;", "&amp;lt;", "&amp;amp;" };
+    const char cstrReal[ciSearch][2]     = { ">", "<", "&" };
+
+    for (int i = 0; i < ciSearch; i++) {
+      while ( (pos[0] = strTemp.find(cstrSearch[i])) != std::string::npos) {
+          pos[1] = strlen(cstrSearch[i]);
+          strTemp.replace(pos[0], pos[1], cstrReal[i]);
+      }
+    }
+
+    memset(strIn, 0x00, length);
+    strncpy(strIn, strTemp.c_str(), length);
+}
+
 #ifndef QCN_USB
 
 void retrieveProjectPrefs()
@@ -129,6 +154,10 @@ void retrieveProjectPrefs()
 	}
       boinc_parse_init_data_file(); // parse the file for BOINC
       boinc_get_init_data_p(&sm->dataBOINC);
+
+      // translate weird tokens from names, i.e. >, <, & etc
+      string_tidy(&sm-dataBOINC->user_name, 256);
+      string_tidy(&sm-dataBOINC->team_name, 256);
 
    // now copy over project prefs to sm->strProjectPref and free the boinc ref to proj_prefs
 	memset(sm->strProjectPreferences, 0x00, SIZEOF_PROJECT_PREFERENCES);

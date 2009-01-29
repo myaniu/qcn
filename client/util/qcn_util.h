@@ -34,6 +34,7 @@ void FormatElapsedTime(const double& dTime, char* strFormat, int iLen);
 char cPathSeparator(); // returns path sep, i.e. for strPathTrigger
 void dtime_to_string(const double dtime, const char cType, char* strTime);
 double qcn_dday(double dNow);
+void string_tidy(char* strIn, int length);
 e_endian check_endian(void);
 float mod(float x1, float y1);
 
