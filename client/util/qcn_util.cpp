@@ -156,8 +156,8 @@ void retrieveProjectPrefs()
       boinc_get_init_data_p(&sm->dataBOINC);
 
       // translate weird tokens from names, i.e. >, <, & etc
-      string_tidy(&sm->dataBOINC->user_name, 256);
-      string_tidy(&sm->dataBOINC->team_name, 256);
+      string_tidy(sm->dataBOINC.user_name, 256);
+      string_tidy(sm->dataBOINC.team_name, 256);
 
    // now copy over project prefs to sm->strProjectPref and free the boinc ref to proj_prefs
 	memset(sm->strProjectPreferences, 0x00, SIZEOF_PROJECT_PREFERENCES);
