@@ -148,16 +148,16 @@ void string_tidy(char* strIn, int length)
 
 void retrieveProjectPrefs()
 {
-	if (sm->dataBOINC.project_preferences) {
+      if (sm->dataBOINC.project_preferences) {
 		free(sm->dataBOINC.project_preferences);
 		sm->dataBOINC.project_preferences = NULL;
-	}
+      }
       boinc_parse_init_data_file(); // parse the file for BOINC
       boinc_get_init_data_p(&sm->dataBOINC);
 
       // translate weird tokens from names, i.e. >, <, & etc
-      string_tidy(&sm-dataBOINC->user_name, 256);
-      string_tidy(&sm-dataBOINC->team_name, 256);
+      string_tidy(&sm->dataBOINC->user_name, 256);
+      string_tidy(&sm->dataBOINC->team_name, 256);
 
    // now copy over project prefs to sm->strProjectPref and free the boinc ref to proj_prefs
 	memset(sm->strProjectPreferences, 0x00, SIZEOF_PROJECT_PREFERENCES);
