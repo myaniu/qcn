@@ -1,12 +1,9 @@
 qcn
 
-Sensor Location w/ floorWednesday, January 7, 2009 1:45 PM
+Sensor Location w/ floor
 Quick question: Any chance you can include floor number in the BOINC side
 computer location/Google apps like you did for the QCN_Live locatino?
 
-qcn graphics - username can get garbled html i.e. >Henry becomes &amp&gtHenry
-I have just a very small and non important bug : when displaying the graphics, you display the user name. My full user name is [AF>FRANCE>ALPES>38]preverdy
-but the application displays [AF&amp;gt;FRANCE&amp;gt;ALPES&amp;gt;38]preverdy. So it displays "&amp;gt;" instead of ">
 QCNLive
 
 cut-and-paste doesn't work for lat,lng in local prefs box -- also a way to integrate google maps lookup?
