@@ -32,12 +32,15 @@ class CSensorLinuxUSBJW  : public CSensor
 
       virtual bool read_xyz(float& x1, float& y1, float& z1);  
 
+      bool testJoystick();  // tests that it really is the JoyWarrior & sets to "raw data" mode
+
    public:
       CSensorLinuxUSBJW();
       virtual ~CSensorLinuxUSBJW();
 
       virtual bool detect();    // this detects the Mac USB sensor
       virtual void closePort(); // closes the port if open
+
 };
 
 #endif

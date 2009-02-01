@@ -31,6 +31,7 @@ void CSensorLinuxUSBJW::closePort()
 {
   if (m_fdJoy > -1) {
      close(m_fdJoy);
+     m_fdJoy = -1;
   }
   if (m_piAxes) {
      free(m_piAxes);
@@ -42,7 +43,7 @@ void CSensorLinuxUSBJW::closePort()
   }
 
   if (getPort() > -1) { // nothing really left to close, as it's just the joystick #
-    fprintf(stdout, "Joywarrior 24F8 closed!\n");
+    fprintf(stdout, "Joywarrior 24F8 closed on Linux joystick port!\n");
     fflush(stdout);
   }
   setType();
@@ -104,66 +105,10 @@ inline bool CSensorLinuxUSBJW::read_xyz(float& x1, float& y1, float& z1)
     return true;
 }
 
-bool CSensorLinuxUSBJW::detect()
+// tests
+bool CSensorLinuxUSBJW::testJoystick()
 {
-   setType();
-   setPort();
-
-/*
-   CMC HERE
-     1) need to move logic around so keeps going through joysticks after opening one and isn't a JW
-
-     2) set for raw data reading:
-
-#include <sys/ioctl.h> 
-#include <linux/joystick.h>
-
-#define MAX_AXES 16
-
-int i,j;
-int fd;
-struct js_corr corr[MAX_AXES]
-
-fd = open ("/dev/input/js0", O_RDONLY);
-
-// Zero correction coefficient structure and set all axes to Raw mode 
-for (i=0; i<MAX_AXES; i++) {
-corr[i].type = JS_CORR_NONE;
-corr[i].prec = 0;
-for (j=0; j<8; j++) {
-corr[i].coeff[j] = 0;
-}
-}
-
-if (ioctl(fd, JSIOCSCORR, &corr)) {
-perror("error setting correction");
-exit(1);
-}
-
-close(fd);
-
-I'm sure you already open and close the device in your existing implementation, so all you need to add is the ioctl call and data structure initialisation. There is a lot more detail in the kernel sources see :-
-
-.../drivers/input/joydev.c
-...include/linux/joystick.h
-   
-
-*/
-
-   bool bFound = false;
-   const char* strJWEnum[LINUX_JOYSTICK_NUM] = LINUX_JOYSTICK_ARRAY;
-   // go through and try potential Linux joystick devices from define.h
-   int i;
-   for (i = 0; i < LINUX_JOYSTICK_NUM; i++) {
-      if (! boinc_file_exists(strJWEnum[i]) ) continue; // first see if file (device) exists
-      if( ( m_fdJoy = open(strJWEnum[i], O_RDONLY)) != -1 ) {
-         bFound = true;
-         break;  // found a joystick, hopefully a JW24F8!
-      }
-   }
-   if (!bFound) return false;  // didn't open a fd to the joystick device, can just return
-
-   // if made it here, then we have opened a joystick
+   // if made it here, then we have opened a joystick file descriptor
    m_iNumAxes = 0;
    m_iNumButtons = 0;
    memset(m_strJoystick, 0x00, 80);
@@ -173,18 +118,18 @@ I'm sure you already open and close the device in your existing implementation, 
    ioctl(m_fdJoy, JSIOCGNAME(80), m_strJoystick);
 
    // compare the name of device, and number of buttons & axes with valid JoyWarrior values
-   if (strcmp(m_strJoystick, IDSTR_JW) 
-     || m_iNumButtons != NUM_BUTTON_JW 
+   if (strcmp(m_strJoystick, IDSTR_JW)
+     || m_iNumButtons != NUM_BUTTON_JW
      || m_iNumAxes != NUM_AXES_JW) {
          closePort();  // this far in, we need to close the port!
          return false;
-   }  
+   }
 
    m_piAxes = (int *) calloc( m_iNumAxes, sizeof( int ) );
    memset(m_piAxes, 0x00, sizeof(int) * m_iNumAxes);
    m_strButton = (char *) calloc( m_iNumButtons, sizeof( char ) );
    memset(m_strButton, 0x00, sizeof(char) * m_iNumButtons);
-   
+  
    fcntl( m_fdJoy, F_SETFL, O_NONBLOCK );   // use non-blocking mode
 
    // try a read
@@ -195,10 +140,47 @@ I'm sure you already open and close the device in your existing implementation, 
       return false;
    }
 
+   // if made it here, then it's a joywarrior, set to raw data mode
+   int i,j;
+   struct js_corr corr[NUM_AXES_JW]
+
+   // Zero correction coefficient structure and set all axes to Raw mode 
+   for (i=0; i<NUM_AXES_JW; i++) {
+     corr[i].type = JS_CORR_NONE;
+     corr[i].prec = 0;
+     for (j=0; j<8; j++) {
+        corr[i].coeff[j] = 0;
+     }
+   }
+
+   if (ioctl(m_fdJoy, JSIOCSCORR, &corr)) {
+      fprintf(stderr, "CSensorLinuxUSBJW:: error setting correction for raw data reads\n");
+   }
+
    fprintf(stdout, "%s detected on joystick device %s\n", m_strJoystick, strJWEnum[i]);
 
    setType(SENSOR_USB_JW);
    setPort(getTypeEnum());
+   
+   return true; // if here we can return true, i.e Joywarrior found on Linux joystick port, and hopefully set to read raw data
+}
+
+// try and open up the JoyWarrior file descriptor
+bool CSensorLinuxUSBJW::detect()
+{
+   setType();
+   setPort();
+
+   bool bFound = false;
+   const char* strJWEnum[LINUX_JOYSTICK_NUM] = LINUX_JOYSTICK_ARRAY;
+   // go through and try potential Linux joystick devices from define.h
+   int i;
+   for (i = 0; i < LINUX_JOYSTICK_NUM; i++) {
+      if (! boinc_file_exists(strJWEnum[i]) ) continue; // first see if file (device) exists
+      if ( ( m_fdJoy = open(strJWEnum[i], O_RDONLY)) != -1 && testJoystick() ) {
+         break;  // found a JW24F8
+      }
+   }
 
    return (bool)(getTypeEnum() == SENSOR_USB_JW);
 }
