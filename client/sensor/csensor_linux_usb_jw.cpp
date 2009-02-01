@@ -109,6 +109,47 @@ bool CSensorLinuxUSBJW::detect()
    setType();
    setPort();
 
+/*
+   CMC HERE
+     1) need to move logic around so keeps going through joysticks after opening one and isn't a JW
+
+     2) set for raw data reading:
+
+#include <sys/ioctl.h> 
+#include <linux/joystick.h>
+
+#define MAX_AXES 16
+
+int i,j;
+int fd;
+struct js_corr corr[MAX_AXES]
+
+fd = open ("/dev/input/js0", O_RDONLY);
+
+// Zero correction coefficient structure and set all axes to Raw mode 
+for (i=0; i<MAX_AXES; i++) {
+corr[i].type = JS_CORR_NONE;
+corr[i].prec = 0;
+for (j=0; j<8; j++) {
+corr[i].coeff[j] = 0;
+}
+}
+
+if (ioctl(fd, JSIOCSCORR, &corr)) {
+perror("error setting correction");
+exit(1);
+}
+
+close(fd);
+
+I'm sure you already open and close the device in your existing implementation, so all you need to add is the ioctl call and data structure initialisation. There is a lot more detail in the kernel sources see :-
+
+.../drivers/input/joydev.c
+...include/linux/joystick.h
+   
+
+*/
+
    bool bFound = false;
    const char* strJWEnum[LINUX_JOYSTICK_NUM] = LINUX_JOYSTICK_ARRAY;
    // go through and try potential Linux joystick devices from define.h
