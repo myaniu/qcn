@@ -105,7 +105,7 @@ inline bool CSensorLinuxUSBJW::read_xyz(float& x1, float& y1, float& z1)
     return true;
 }
 
-// tests
+// tests the open joystick file descriptor to see if it's really a JW, and set to read rawdata
 bool CSensorLinuxUSBJW::testJoystick()
 {
    // if made it here, then we have opened a joystick file descriptor
