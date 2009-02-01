@@ -1,7 +1,5 @@
 qcn
 
-Linux -- check notes in client/sensor/*linux.cpp
-
 Sensor Location w/ floor
 Quick question: Any chance you can include floor number in the BOINC side
 computer location/Google apps like you did for the QCN_Live locatino?
