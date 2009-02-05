@@ -4,6 +4,16 @@ Sensor Location w/ floor
 Quick question: Any chance you can include floor number in the BOINC side
 computer location/Google apps like you did for the QCN_Live locatino?
 
+low priority:
+1) An email notification every time we receive a trigger overlapping with a
+USGS quake. That way we know right away. Set a threshold of 3.8, so we don't
+get a bunch of junk.
+
+2) A map of quakes that have associated qcn triggers (low priority, but
+would help).  I can probably get a grad student on this or something, but it
+would be nice to have it automatically updating.
+
+
 QCNLive
 
 cut-and-paste doesn't work for lat,lng in local prefs box -- also a way to integrate google maps lookup?
