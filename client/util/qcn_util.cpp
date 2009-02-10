@@ -293,7 +293,7 @@ void ResetCounter(const e_where eWhere, const int iNumResetInitial)
 
        // reset potential upload info/ctrs
        sm->iContinuousCounter = 0;
-       sm->bUploadFlag = false;
+       sm->bFlagUpload = false;
        memset(sm->strFileUpload, 0x00, sizeof(char) * _MAX_PATH);
 
 /*
