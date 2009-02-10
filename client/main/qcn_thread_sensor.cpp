@@ -502,14 +502,15 @@ extern void* QCNThreadSensor(void*)
  // 4)
       // increment our main counter, if bigger than array size we have to reset & continue!
       if (++sm->lOffset >= MAXI)  {
-         sm->iContinuousCounter++; // increment how many times we've been through the array
+         sm->iContinuousCounter++; // increment how many times we've been through the array without a reset
  
  // CMC - randomly upload whole array for JoyWarriors
          if (qcn_main::g_psms->getTypeEnum() == SENSOR_USB_JW || qcn_main::g_psms->getTypeEnum() == SENSOR_USB_MOTIONNODEACCEL) { 
-             // they're using a JW -- do a random test to see if we want to upload this array
-             if (sm->iNumUpload < 4 && (sm->iContinuousCounter == (1 + (random() % 24)))) { // this will get a number from 1 to 24 which should match our continuous counter
-                  uploadSACMem(); 
-             }
+            // they're using a JW -- do a random test to see if we want to upload this array
+            srandomdev();
+            if (sm->iNumUpload < 4 && (sm->iContinuousCounter == (1 + (random() % 10)))) { // this will get a number from 1 to 10 which should match our continuous counter
+                 uploadSACMem(); 
+            }
          }
 
          //ResetCounter(WHERE_WRAPAROUND);  // don't reset, that's only for drastic errors i.e. bad timing errors
@@ -517,11 +518,11 @@ extern void* QCNThreadSensor(void*)
          //sm->bWrapped = true;
          qcn_util::set_qcn_counter();
          sm->lOffset = 0;  // don't reset, that's only for drastic errors i.e. bad timing errors
-			if (qcn_main::g_psms) {
-				qcn_main::g_psms->closePort();  // close the port, it will be reopened above
-                delete qcn_main::g_psms;
-                qcn_main::g_psms = NULL;
-			}
+         if (qcn_main::g_psms) {
+	     qcn_main::g_psms->closePort();  // close the port, it will be reopened above
+             delete qcn_main::g_psms;
+             qcn_main::g_psms = NULL;
+         }
          continue;
       }
 #ifdef _DEBUG
