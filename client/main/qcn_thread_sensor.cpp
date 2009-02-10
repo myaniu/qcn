@@ -723,5 +723,64 @@ void doTrigger(bool bReal, long lOffsetStart, long lOffsetEnd)
 // use to upload the entire array to a SAC file which in turn gets zipped and uploaded - used to randomly test hosts
 void uploadSACMem()
 { // note -- this will take a little time so we will "miss" a few seconds at most until the recalibration begins again, probably not a big deal...
-}
 
+        char strResolve[_MAX_PATH], strZip[20];
+        char strTemp[_MAX_PATH];
+        char strFullPath[_MAX_PATH];
+
+        memset(strResolve, 0x00, _MAX_PATH);
+        memset(strZip, 0x00, 20);
+        memset(strTemp, 0x00, _MAX_PATH);
+        memset(strFullPath, 0x00, _MAX_PATH);
+
+        // get an empty zip slot to use --- 1 through 20 (MAX_UPLOAD)
+        // we already have the slot from sm->iNumUpload
+        int iSlot = (int) sm->iNumUpload;
+        iSlot++;  // increment the upload slot counter
+        if (iSlot<1 || iSlot>MAX_UPLOAD) {  // sanity check, only zip file #'s 1 through MAX_UPLOAD (20) reserved for intermediate uploading
+          fprintf(stdout, "No zip slots left for upload file!\n");
+          return;
+        }
+
+        // OK now we can resolve the zip filename
+        // try and resolve the filename qcnout1.zip
+        sprintf(strZip, "qcnout%d.zip", iSlot);
+        if (boinc_resolve_filename(strZip, strResolve, _MAX_PATH) && !strResolve[0]) {
+          // this zip name didn't resolve, free sz mem and return!
+          fprintf(stdout, "Upload zip filename %s not resolved for random upload file!\n", strZip);
+          return;
+        }
+
+        // OK if we're here then we have a boinc name for the zip file
+        // make a "dummy" trigger for this "event"
+        struct STriggerInfo sti;
+
+        sti.lOffsetStart = 0L;
+        sti.lOffsetEnd = MAXI-1;
+        sti.iWUEvent = iContinuousCounter;
+        iLevel = TRIGGER_ALL;
+
+        qcn_util::set_trigger_file(sti.strFile,
+                  (const char*) sm->dataBOINC.wu_name,
+                  sm->iNumTrigger,
+                  QCN_ROUND(dtime()),
+                  true, "usb"
+        );
+
+        sacio::sacio(0, MAXI-1, &sti);
+
+       // OK, so zip sti.strFile
+        boinc_begin_critical_section(); 
+        boinc_zip(ZIP_IT, strResolve, sti.strFile);
+        boinc_end_critical_section(); 
+
+        if (boinc_file_exists(strResolve)) { // send this file, whether it was just made or made previously
+           // note boinc_upload_file (intermediate uploads) requires the logical boinc filename ("soft link")!
+           qcn_util::sendIntermediateUpload(strZip, strResolve);  // the logical name gets resolved by boinc_upload_file into full path zip file 
+           sm->iNumUpload = iSlot;  // set the num upload which was successfully incremented & processed above
+           sm->setTriggerLock();  // we can be confident we have locked the trigger bool when this returns
+           qcn_util::set_qcn_counter();
+           sm->releaseTriggerLock();
+        }
+        boinc_delete_file(sti.strFile); // don't need this file any more
+}

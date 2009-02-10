@@ -418,10 +418,15 @@ void removeOldTriggers(const char* strPathTrigger)
     }
 }
 
-bool set_trigger_file(char* strTrigger, const char* strWU, const int iTrigger, const long lTime, bool bReal)
+bool set_trigger_file(char* strTrigger, const char* strWU, const int iTrigger, const long lTime, bool bReal, const char* strExtra)
 {
      if (bReal) {
-        sprintf(strTrigger, "%s_%06d_%ld.zip", strWU, iTrigger, lTime);
+        if (strExtra) {
+           sprintf(strTrigger, "%s_%06d_%ld_%s.zip", strWU, iTrigger, lTime, strExtra);
+        }
+        else {
+           sprintf(strTrigger, "%s_%06d_%ld.zip", strWU, iTrigger, lTime);
+        }
      }
      else  {// add subdirectory of trig number date for demo mode
         char strDir[_MAX_PATH], strDay[16];
@@ -446,9 +451,16 @@ bool set_trigger_file(char* strTrigger, const char* strWU, const int iTrigger, c
            strDay,
            qcn_util::cPathSeparator()
         );
-        sprintf(strTrigger, "%s%s_%06d_%ld.zip", 
+        if (strExtra) {
+          sprintf(strTrigger, "%s%s_%06d_%ld_%s.zip", 
+            strDir, 
+            strWU, iTrigger, lTime, strExtra);
+        }
+        else {
+          sprintf(strTrigger, "%s%s_%06d_%ld.zip", 
             strDir, 
             strWU, iTrigger, lTime);
+        }
      }
      return true;
 }

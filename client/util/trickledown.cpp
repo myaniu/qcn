@@ -112,8 +112,8 @@ void processTrickleDown(void)
         // OK now we can resolve the zip filename
         // try and resolve the filename qcnout1.zip
         sprintf(strZip, "qcnout%d.zip", iSlot);
-        if (boinc_resolve_filename(strZip, strResolve, _MAX_PATH) && !strResolve[0])
-        { // this zip name didn't resolve, free sz mem and return!
+        if (boinc_resolve_filename(strZip, strResolve, _MAX_PATH) && !strResolve[0]) {
+          // this zip name didn't resolve, free sz mem and return!
           fprintf(stdout, "Upload zip filename %s not resolved!\n", strZip);
           delete [] szTrickleDown;
           return;
