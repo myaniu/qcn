@@ -4,6 +4,7 @@
 #include "qcn_thread_sensor.h"
 #include "sac.h"
 #include "csensor.h"
+#include "boinc_zip.h"
 
 #ifdef __APPLE_CC__
   #include "csensor_mac_laptop.h"
@@ -757,8 +758,8 @@ void uploadSACMem()
 
         sti.lOffsetStart = 0L;
         sti.lOffsetEnd = MAXI-1;
-        sti.iWUEvent = iContinuousCounter;
-        iLevel = TRIGGER_ALL;
+        sti.iWUEvent = sm->iContinuousCounter;
+        sti.iLevel = TRIGGER_ALL;
 
         qcn_util::set_trigger_file(sti.strFile,
                   (const char*) sm->dataBOINC.wu_name,
