@@ -321,6 +321,9 @@ extern void* QCNThreadSensor(void*)
     sm->lOffset = 0;
     sm->releaseTriggerLock();
 
+    // seed random number generator
+    srand((unsigned) time(NULL));
+
     //const int iNumResetInitial = sm->iNumReset;  // initialize to total num reset, so we can see how many failures in current session
     const int iNumResetInitial = 0; // change to 0, don't use the saved reset number, reset to 0 every wraparound
     qcn_main::g_vectTrigger.clear();
@@ -509,8 +512,8 @@ extern void* QCNThreadSensor(void*)
          if (!qcn_main::g_bDemo && 
            (qcn_main::g_psms->getTypeEnum() == SENSOR_USB_JW || qcn_main::g_psms->getTypeEnum() == SENSOR_USB_MOTIONNODEACCEL)) { 
             // they're using a JW -- do a random test to see if we want to upload this array
-            srand((unsigned) time(NULL));
-            if (sm->iNumUpload < 4 && (sm->iContinuousCounter == (1 + (rand() % 10)))) { // this will get a number from 1 to 10 which should match our continuous counter
+            if (rand() < RAND_MAX/20) { // 20% chance to do an upload
+                //if (sm->iNumUpload < 4 && (sm->iContinuousCounter == (1 + (rand() % 10)))) { // this will get a number from 1 to 10 which should match our continuous counter
                  uploadSACMem(); 
             }
          }
