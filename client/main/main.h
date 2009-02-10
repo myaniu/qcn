@@ -160,6 +160,7 @@ extern int  volatile g_iQCNReturn; // qcn return code
   extern float g_fPerturb[MAX_PERTURB];  // define 10 vars we will perturb
 
   extern bool g_bDemo;
+  extern int  g_iContinuousCounter; // counts how many times this run has been through
   extern bool g_bReadOnly;
 
   extern char g_strPathTrigger[_MAX_PATH];  // this is the path to trigger, doesn't change after startup

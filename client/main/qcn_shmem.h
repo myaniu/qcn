@@ -34,6 +34,10 @@ class CQCNShMem : public CSerialize
     // this section should not be reset on a clear as their values are good as long as QCN is running
     double dt; // this is the delta-time between point readings, currently .02 for the Mac sensor
 
+    int iContinuousCounter; // keeps count of how many times (without reset) we've been through the array (i.e. 1.5 hours
+    bool bFlagUpload; // flag that we need to upload
+    char strFileUpload[_MAX_PATH];
+
     // some important sensor stuff - iWindow is the "time window" i.e. 1 minute of data points
     long iWindow;
     char strPathImage[_MAX_PATH];  // path to the images

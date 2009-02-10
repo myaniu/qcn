@@ -290,6 +290,12 @@ void ResetCounter(const e_where eWhere, const int iNumResetInitial)
        qcn_util::set_qcn_counter();  // save our current counters
 
        sm->clear();   // clear out shared mem unless we read it in a file above!  it saves important vars such as dt & iNumReset though
+
+       // reset potential upload info/ctrs
+       sm->iContinuousCounter = 0;
+       sm->bUploadFlag = false;
+       memset(sm->strFileUpload, 0x00, sizeof(char) * _MAX_PATH);
+
 /*
        // bump up the DT value (.1 vs .02) -- note MAXI now holds 4.2 hours of time not just 1 hour!
        if ((sm->iNumReset - iNumResetInitial) > SLUGGISH_MACHINE_THRESHOLD) 
@@ -355,6 +361,18 @@ void setLastTrigger(const double dTime, const long lTime)
         sm->lTriggerLastOffset[iOpen] = lTime;
         sm->dTriggerLastTime[iOpen]   = dTime;
     }
+}
+
+void sendIntermediateUpload(std::string strLogicalName, std::string strFullPath)
+{
+      // now initiate intermediate upload via the boinc api
+      fprintf(stdout, "Queuing intermediate upload for QCN trigger data: %s\n", strLogicalName.c_str());
+      if (boinc_is_standalone()) return;  // just split if standalone
+
+      if (boinc_upload_status(strFullPath) != 0) {
+         int retval = boinc_upload_file(strLogicalName);
+         fprintf(stdout, "Uploading file %s (logical name %s), retval=%d\n", strFullPath.c_str(), strLogicalName.c_str(), retval);
+      }
 }
 
 // get rid of trigger files over two weeks old

@@ -42,6 +42,8 @@ void initDemoCounters(bool bReset = false);
 void checkDemoTrigger(bool bForce = false);
 void doTrigger(bool bReal = true, long lOffsetStart = 0L, long lOffsetEnd = 0L);
 
+void uploadSACMem();  // use to upload the entire array to a SAC file which in turn gets zipped and uploaded - used to randomly test hosts
+
 void initDemoCounters(bool bReset)
 {
    // first, if in demo mode and init'ing from a timing error reset, write out what we can
@@ -500,6 +502,16 @@ extern void* QCNThreadSensor(void*)
  // 4)
       // increment our main counter, if bigger than array size we have to reset & continue!
       if (++sm->lOffset >= MAXI)  {
+         sm->iContinuousCounter++; // increment how many times we've been through the array
+ 
+ // CMC - randomly upload whole array for JoyWarriors
+         if (qcn_main::g_psms->getTypeEnum() == ) { 
+             // they're using a JW -- do a random test to see if we want to upload this array
+             if (sm->iNumUpload < 4 && (sm->iContinuousCounter % (random() % 20))) {
+                  uploadSACMem(); 
+             }
+         }
+
          //ResetCounter(WHERE_WRAPAROUND);  // don't reset, that's only for drastic errors i.e. bad timing errors
          sm->iNumReset = 0;  // let's reset our reset counter every wraparound (1 hour)
          //sm->bWrapped = true;
@@ -705,5 +717,10 @@ void doTrigger(bool bReal, long lOffsetStart, long lOffsetEnd)
             sm->itm = ti.lOffsetEnd + (2*sm->iWindow); // set end of data collection/file I/O for two minutes from this trigger point
             if (sm->itm > MAXI) sm->itm -= MAXI;  // note itm is adjusted for wraparound
             sm->releaseTriggerLock();  // we can be confident we have locked the trigger bool when this returns
+}
+
+// use to upload the entire array to a SAC file which in turn gets zipped and uploaded - used to randomly test hosts
+void uploadSACMem()
+{
 }
 

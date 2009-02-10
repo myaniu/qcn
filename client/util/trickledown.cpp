@@ -48,18 +48,6 @@ values
 
 namespace trickledown {
 
-void sendIntermediateUpload(std::string strLogicalName, std::string strFullPath)
-{
-      // now initiate intermediate upload via the boinc api
-      fprintf(stdout, "Queuing intermediate upload for QCN trigger data: %s\n", strLogicalName.c_str());
-      if (boinc_is_standalone()) return;  // just split if standalone
-
-      if (boinc_upload_status(strFullPath) != 0) {
-         int retval = boinc_upload_file(strLogicalName);
-         fprintf(stdout, "Uploading file %s (logical name %s), retval=%d\n", strFullPath.c_str(), strLogicalName.c_str(), retval);
-      }
-}
-
 bool getTrickleDown(char* strTrickle, int iSize)
 {
         bool bRet = false;
@@ -191,7 +179,7 @@ void processTrickleDown(void)
           }
           if (boinc_file_exists(strResolve)) { // send this file, whether it was just made or made previously
              // note boinc_upload_file (intermediate uploads) requires the logical boinc filename ("soft link")!
-             sendIntermediateUpload(strZip, strResolve);  // the logical name gets resolved by boinc_upload_file into full path zip file 
+             qcn_util::sendIntermediateUpload(strZip, strResolve);  // the logical name gets resolved by boinc_upload_file into full path zip file 
           }
         }
      } // end trickle-down file sendlist
