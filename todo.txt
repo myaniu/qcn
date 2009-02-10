@@ -1,4 +1,10 @@
-qcn
+qcn 
+
+usb sensor data uploads
+ - for USB run continuos, i.e. after first "loop" (1.5 hr) through array, 
+   randomly get data for the next run or two for a workunit
+ - dump this data to sac files which can have intermediate upload
+ - can they start/stop on the GMT hour?
 
 Sensor Location w/ floor
 Quick question: Any chance you can include floor number in the BOINC side
