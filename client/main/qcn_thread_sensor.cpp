@@ -505,7 +505,7 @@ extern void* QCNThreadSensor(void*)
          sm->iContinuousCounter++; // increment how many times we've been through the array
  
  // CMC - randomly upload whole array for JoyWarriors
-         if (qcn_main::g_psms->getTypeEnum() == ) { 
+         if (qcn_main::g_psms->getTypeEnum() == SENSOR_USB_JW || qcn_main::g_psms->getTypeEnum() == SENSOR_USB_MOTIONNODEACCEL) { 
              // they're using a JW -- do a random test to see if we want to upload this array
              if (sm->iNumUpload < 4 && (sm->iContinuousCounter % (random() % 20))) {
                   uploadSACMem(); 
