@@ -509,8 +509,8 @@ extern void* QCNThreadSensor(void*)
          if (!qcn_main::g_bDemo && 
            (qcn_main::g_psms->getTypeEnum() == SENSOR_USB_JW || qcn_main::g_psms->getTypeEnum() == SENSOR_USB_MOTIONNODEACCEL)) { 
             // they're using a JW -- do a random test to see if we want to upload this array
-            srandomdev();
-            if (sm->iNumUpload < 4 && (sm->iContinuousCounter == (1 + (random() % 10)))) { // this will get a number from 1 to 10 which should match our continuous counter
+            srand((unsigned) time(NULL));
+            if (sm->iNumUpload < 4 && (sm->iContinuousCounter == (1 + (rand() % 10)))) { // this will get a number from 1 to 10 which should match our continuous counter
                  uploadSACMem(); 
             }
          }
