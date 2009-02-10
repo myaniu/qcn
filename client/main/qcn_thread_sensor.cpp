@@ -507,7 +507,7 @@ extern void* QCNThreadSensor(void*)
  // CMC - randomly upload whole array for JoyWarriors
          if (qcn_main::g_psms->getTypeEnum() == SENSOR_USB_JW || qcn_main::g_psms->getTypeEnum() == SENSOR_USB_MOTIONNODEACCEL) { 
              // they're using a JW -- do a random test to see if we want to upload this array
-             if (sm->iNumUpload < 4 && (sm->iContinuousCounter % (random() % 20))) {
+             if (sm->iNumUpload < 4 && (sm->iContinuousCounter == (1 + (random() % 24)))) { // this will get a number from 1 to 24 which should match our continuous counter
                   uploadSACMem(); 
              }
          }
@@ -721,6 +721,6 @@ void doTrigger(bool bReal, long lOffsetStart, long lOffsetEnd)
 
 // use to upload the entire array to a SAC file which in turn gets zipped and uploaded - used to randomly test hosts
 void uploadSACMem()
-{
+{ // note -- this will take a little time so we will "miss" a few seconds at most until the recalibration begins again, probably not a big deal...
 }
 
