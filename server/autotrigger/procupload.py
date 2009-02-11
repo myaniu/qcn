@@ -68,7 +68,7 @@ def processSingleZipFile(dbconn, myzipfile):
       # get the files within the zip
       infiles = myzip.namelist()
          
-     for name in infiles:
+      for name in infiles:
         outfile = open(os.path.join(UPLOAD_WEB_DIR, name), 'wb')
         outfile.write(myzip.read(name))
         outfile.close()
