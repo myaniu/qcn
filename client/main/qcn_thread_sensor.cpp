@@ -733,9 +733,9 @@ void uploadSACMem(const long lCurTime)
 { // note -- this will take a little time so we will "miss" a few seconds at most until the recalibration begins again, probably not a big deal...
 
         int iSlot = (int) sm->iNumUpload;
-        char strResolve[_MAX_PATH], strZip[20];
+        char strResolve[_MAX_PATH], strLogical[20];
         memset(strResolve, 0x00, _MAX_PATH);
-        memset(strZip, 0x00, 20);
+        memset(strLogical, 0x00, 20);
 
         // get an empty zip slot to use --- 1 through 20 (MAX_UPLOAD)
         // we already have the slot from sm->iNumUpload
@@ -747,10 +747,10 @@ void uploadSACMem(const long lCurTime)
 
         // OK now we can resolve the zip filename
         // try and resolve the filename qcnout1.zip
-        sprintf(strZip, "qcnout%d.zip", iSlot);
-        if (boinc_resolve_filename(strZip, strResolve, _MAX_PATH) && !strResolve[0]) {
+        sprintf(strLogical, "qcnout%d.zip", iSlot);
+        if (boinc_resolve_filename(strLogical, strResolve, _MAX_PATH) && !strResolve[0]) {
           // this zip name didn't resolve, free sz mem and return!
-          fprintf(stderr, "%ld - Upload zip filename %s not resolved for random upload file!\n", lCurTime,strZip);
+          fprintf(stderr, "%ld - Upload zip filename %s not resolved for random upload file!\n", lCurTime, strLogical);
           return;
         }
 
@@ -773,14 +773,19 @@ void uploadSACMem(const long lCurTime)
         fprintf(stderr, "%ld - Creating upload file %s\n", lCurTime, sti.strFile);
         sacio::sacio(0, MAXI-1, &sti);
 
+        // now make sure the zip file is stored in sm->strPathTrigger + ti->strFile
+        string strZip((const char*) qcn_main::g_strPathTrigger);  // note it DOES NOT HAVE appropriate \ or / at the end
+        strZip += qcn_util::cPathSeparator();
+        strZip += (const char*) sti.strFile;
+
         // OK, so zip sti.strFile
         boinc_begin_critical_section(); 
-        boinc_zip(ZIP_IT, strResolve, sti.strFile);
+        boinc_zip(ZIP_IT, strResolve, strZip);
         boinc_end_critical_section(); 
 
         if (boinc_file_exists(strResolve)) { // send this file, whether it was just made or made previously
            // note boinc_upload_file (intermediate uploads) requires the logical boinc filename ("soft link")!
-           qcn_util::sendIntermediateUpload(strZip, strResolve);  // the logical name gets resolved by boinc_upload_file into full path zip file 
+           qcn_util::sendIntermediateUpload(strLogical, strResolve);  // the logical name gets resolved by boinc_upload_file into full path zip file 
            sm->iNumUpload = iSlot;  // set the num upload which was successfully incremented & processed above
            sm->setTriggerLock();  // we can be confident we have locked the trigger bool when this returns
            //qcn_util::set_qcn_counter();  // this is done elsewhere i.e. in the main loop of the sensor thread right after this call
@@ -789,5 +794,5 @@ void uploadSACMem(const long lCurTime)
         else {
             fprintf(stderr, "%ld - Upload zip file %s not found\n", lCurTime, strResolve);
         }
-        boinc_delete_file(sti.strFile); // don't need this file any more
+        boinc_delete_file(strZip); // don't need this file any more
 }
