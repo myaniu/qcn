@@ -313,10 +313,10 @@ extern int sacio
         strcpy(sacdata.s[ess_kstnm], "qcnlive");
     }
 #else
-    // CMC here - hostid doesn't seem to get filled in dataBOINC - maybe use host_info.domain_name?
-	// use their hostid so we can lookup into the database table if needed
-	//sprintf(sacdata.s[ess_kstnm], "%07d", sm->dataBOINC.hostid);
-	strcpy(sacdata.s[ess_kstnm], "boinc");
+    // hostid should be in APP_INIT_DATA in BOINC now
+    // use their hostid so we can lookup into the database table if needed
+    sprintf(sacdata.s[ess_kstnm], "%07d", sm->dataBOINC.hostid);
+   //strcpy(sacdata.s[ess_kstnm], "boinc");
 #endif
 
     // use dTimeZero for the reference time
