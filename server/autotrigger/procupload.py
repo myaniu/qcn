@@ -68,19 +68,24 @@ def processSingleZipFile(dbconn, myzipfile):
       # get the files within the zip
       infiles = myzip.namelist()
          
-      for name in infiles:
-         #if name.endswith('/'):  # CMC we'll never have subdirs
-         #   os.mkdir(os.path.join(dir, name))
-         #else:
-         outfile = open(os.path.join(UPLOAD_WEB_DIR, name), 'wb')
-         outfile.write(myzip.read(name))
-         outfile.close()
+     for name in infiles:
+        outfile = open(os.path.join(UPLOAD_WEB_DIR, name), 'wb')
+        outfile.write(myzip.read(name))
+        outfile.close()
 
-         # now update the qcn_trigger table!
-         myCursor.execute("UPDATE qcn_trigger SET received_file=100, " +\
+        if not name.endswith("_usb.zip"):
+            # this is an upload from a usb test zip file
+        #else: 
+            # this is a regular trigger
+            #if name.endswith('/'):  # CMC we'll never have subdirs
+            #   os.mkdir(os.path.join(dir, name))
+            #else:
+
+            # now update the qcn_trigger table!
+            myCursor.execute("UPDATE qcn_trigger SET received_file=100, " +\
                           "file_url='" + URL_DOWNLOAD_BASE + name + "' " +\
                           "WHERE file='" + name + "'")
-         dbconn.commit()
+            dbconn.commit()
 
       myzip.close()
       shutil.move(fullzippath, UPLOAD_BACKUP_DIR)
