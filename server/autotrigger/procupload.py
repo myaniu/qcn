@@ -21,6 +21,7 @@ URL_DOWNLOAD_BASE = "http://qcn-upl.stanford.edu/trigger/"
 
 # CMC note -- make sure these paths exist, or they will be created!
 UPLOAD_WEB_DIR = "/var/www/trigger/"
+UPLOAD_USB_WEB_DIR = "/var/www/trigger/usb/"
 UPLOAD_BOINC_DIR = "/var/www/boinc/qcnalpha/upload/"
 UPLOAD_BACKUP_DIR = "/home/boinc/upload_backup/"
 UNZIP_CMD = "/usr/bin/unzip -o -d " + UPLOAD_WEB_DIR + " " 
@@ -69,17 +70,16 @@ def processSingleZipFile(dbconn, myzipfile):
       infiles = myzip.namelist()
          
       for name in infiles:
-        outfile = open(os.path.join(UPLOAD_WEB_DIR, name), 'wb')
-        outfile.write(myzip.read(name))
-        outfile.close()
-
-        if not name.endswith("_usb.zip"):
+        if name.endswith("_usb.zip"):
             # this is an upload from a usb test zip file
-        #else: 
+            outfile = open(os.path.join(UPLOAD_USB_WEB_DIR, name), 'wb')
+            outfile.write(myzip.read(name))
+            outfile.close()
+        else: 
             # this is a regular trigger
-            #if name.endswith('/'):  # CMC we'll never have subdirs
-            #   os.mkdir(os.path.join(dir, name))
-            #else:
+            outfile = open(os.path.join(UPLOAD_WEB_DIR, name), 'wb')
+            outfile.write(myzip.read(name))
+            outfile.close()
 
             # now update the qcn_trigger table!
             myCursor.execute("UPDATE qcn_trigger SET received_file=100, " +\
@@ -191,6 +191,10 @@ def updateTriggerFile(filename, dbconn):
 def checkPaths():
    if not os.access(UPLOAD_WEB_DIR, os.F_OK | os.W_OK):
       print UPLOAD_WEB_DIR + " directory for UPLOAD_WEB_DIR does not exist or not writable!"
+      return 1
+   
+   if not os.access(UPLOAD_USB_WEB_DIR, os.F_OK | os.W_OK):
+      print UPLOAD_USB_WEB_DIR + " directory for UPLOAD_USB_WEB_DIR does not exist or not writable!"
       return 1
    
    if not os.access(UPLOAD_BOINC_DIR, os.F_OK | os.W_OK):
