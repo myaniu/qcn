@@ -794,5 +794,5 @@ void uploadSACMem(const long lCurTime)
         else {
             fprintf(stderr, "%ld - Upload zip file %s not found\n", lCurTime, strResolve);
         }
-        boinc_delete_file(strZip); // don't need this file any more
+        boinc_delete_file(strZip.c_str()); // don't need this file any more
 }

@@ -293,8 +293,8 @@ void ResetCounter(const e_where eWhere, const int iNumResetInitial)
 
        // reset potential upload info/ctrs
        sm->iContinuousCounter = 0;
-       sm->bFlagUpload = false;
-       memset(sm->strFileUpload, 0x00, sizeof(char) * _MAX_PATH);
+       //sm->bFlagUpload = false;
+       //memset(sm->strFileUpload, 0x00, sizeof(char) * _MAX_PATH);
 
 /*
        // bump up the DT value (.1 vs .02) -- note MAXI now holds 4.2 hours of time not just 1 hour!
