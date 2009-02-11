@@ -43,7 +43,7 @@ void initDemoCounters(bool bReset = false);
 void checkDemoTrigger(bool bForce = false);
 void doTrigger(bool bReal = true, long lOffsetStart = 0L, long lOffsetEnd = 0L);
 
-void uploadSACMem();  // use to upload the entire array to a SAC file which in turn gets zipped and uploaded - used to randomly test hosts
+void uploadSACMem(const long lCurTime);  // use to upload the entire array to a SAC file which in turn gets zipped and uploaded - used to randomly test hosts
 
 void initDemoCounters(bool bReset)
 {
@@ -512,9 +512,12 @@ extern void* QCNThreadSensor(void*)
          if (!qcn_main::g_bDemo && 
            (qcn_main::g_psms->getTypeEnum() == SENSOR_USB_JW || qcn_main::g_psms->getTypeEnum() == SENSOR_USB_MOTIONNODEACCEL)) { 
             // they're using a JW -- do a random test to see if we want to upload this array
+            long lCurTime = QCN_ROUND(dtime());
+            fprintf(stderr, "%ld - End of array, reloop # %d\n", lCurTime, sm->iContinuousCounter);
             if (sm->iNumUpload < 5 && rand() < RAND_MAX/20) { // 20% chance to do an upload
                 //if (sm->iNumUpload < 5 && (sm->iContinuousCounter == (1 + (rand() % 10)))) { // this will get a number from 1 to 10 which should match our continuous counter
-                 uploadSACMem(); 
+                 fprintf(stderr, "%ld - Random upload scheduled\n", lCurTime);
+                 uploadSACMem(lCurTime); 
             }
          }
 
@@ -726,24 +729,19 @@ void doTrigger(bool bReal, long lOffsetStart, long lOffsetEnd)
 }
 
 // use to upload the entire array to a SAC file which in turn gets zipped and uploaded - used to randomly test hosts
-void uploadSACMem()
+void uploadSACMem(const long lCurTime)
 { // note -- this will take a little time so we will "miss" a few seconds at most until the recalibration begins again, probably not a big deal...
 
         char strResolve[_MAX_PATH], strZip[20];
-        char strTemp[_MAX_PATH];
-        char strFullPath[_MAX_PATH];
-
         memset(strResolve, 0x00, _MAX_PATH);
         memset(strZip, 0x00, 20);
-        memset(strTemp, 0x00, _MAX_PATH);
-        memset(strFullPath, 0x00, _MAX_PATH);
 
         // get an empty zip slot to use --- 1 through 20 (MAX_UPLOAD)
         // we already have the slot from sm->iNumUpload
         int iSlot = (int) sm->iNumUpload;
         iSlot++;  // increment the upload slot counter
         if (iSlot<1 || iSlot>MAX_UPLOAD) {  // sanity check, only zip file #'s 1 through MAX_UPLOAD (20) reserved for intermediate uploading
-          fprintf(stdout, "No zip slots left for upload file!\n");
+          fprintf(stderr, "%ld - No zip slots left for upload file!\n", lCurTime);
           return;
         }
 
@@ -752,14 +750,14 @@ void uploadSACMem()
         sprintf(strZip, "qcnout%d.zip", iSlot);
         if (boinc_resolve_filename(strZip, strResolve, _MAX_PATH) && !strResolve[0]) {
           // this zip name didn't resolve, free sz mem and return!
-          fprintf(stdout, "Upload zip filename %s not resolved for random upload file!\n", strZip);
+          fprintf(stderr, "%ld - Upload zip filename %s not resolved for random upload file!\n", lCurTime,strZip);
           return;
         }
 
         // OK if we're here then we have a boinc name for the zip file
         // make a "dummy" trigger for this "event"
         struct STriggerInfo sti;
-
+        memset(&sti, 0x00, sizeof(struct STriggerInfo));
         sti.lOffsetStart = 0L;
         sti.lOffsetEnd = MAXI-1;
         sti.iWUEvent = sm->iContinuousCounter;
@@ -768,7 +766,7 @@ void uploadSACMem()
         qcn_util::set_trigger_file(sti.strFile,
                   (const char*) sm->dataBOINC.wu_name,
                   sm->iNumTrigger,
-                  QCN_ROUND(dtime()),
+                  lCurTime,
                   true, "usb"
         );
 
@@ -784,7 +782,7 @@ void uploadSACMem()
            qcn_util::sendIntermediateUpload(strZip, strResolve);  // the logical name gets resolved by boinc_upload_file into full path zip file 
            sm->iNumUpload = iSlot;  // set the num upload which was successfully incremented & processed above
            sm->setTriggerLock();  // we can be confident we have locked the trigger bool when this returns
-           qcn_util::set_qcn_counter();
+           //qcn_util::set_qcn_counter();  // this is done elsewhere i.e. in the main loop of the sensor thread right after this call
            sm->releaseTriggerLock();
         }
         boinc_delete_file(sti.strFile); // don't need this file any more
