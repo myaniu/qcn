@@ -782,9 +782,6 @@ void uploadSACMem(const long lCurTime)
         boinc_begin_critical_section(); 
         boinc_zip(ZIP_IT, strResolve, strZip);
         sm->iNumUpload = iSlot;  // set the num upload which was successfully incremented & processed above
-        sm->setTriggerLock();  // we can be confident we have locked the trigger bool when this returns
-        //qcn_util::set_qcn_counter();  // this is done elsewhere i.e. in the main loop of the sensor thread right after this call
-        sm->releaseTriggerLock();
         boinc_delete_file(strZip.c_str());  // don't need the original zip, since it's in the strResolve zip name
         strcpy(sm->strUploadLogical, strLogical);
         strcpy(sm->strUploadResolve, strResolve);
