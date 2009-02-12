@@ -733,9 +733,9 @@ void uploadSACMem(const long lCurTime)
 { // note -- this will take a little time so we will "miss" a few seconds at most until the recalibration begins again, probably not a big deal...
 
         int iSlot = (int) sm->iNumUpload;
-        char strResolve[_MAX_PATH], strLogical[20];
+        char strResolve[_MAX_PATH], strLogical[_MAX_PATH_LOGICAL];
         memset(strResolve, 0x00, _MAX_PATH);
-        memset(strLogical, 0x00, 20);
+        memset(strLogical, 0x00, _MAX_PATH_LOGICAL);
 
         // get an empty zip slot to use --- 1 through 20 (MAX_UPLOAD)
         // we already have the slot from sm->iNumUpload
@@ -781,18 +781,12 @@ void uploadSACMem(const long lCurTime)
         // OK, so zip sti.strFile
         boinc_begin_critical_section(); 
         boinc_zip(ZIP_IT, strResolve, strZip);
+        sm->iNumUpload = iSlot;  // set the num upload which was successfully incremented & processed above
+        sm->setTriggerLock();  // we can be confident we have locked the trigger bool when this returns
+        //qcn_util::set_qcn_counter();  // this is done elsewhere i.e. in the main loop of the sensor thread right after this call
+        sm->releaseTriggerLock();
+        boinc_delete_file(strZip.c_str());  // don't need the original zip, since it's in the strResolve zip name
+        strcpy(sm->strUploadLogical, strLogical);
+        strcpy(sm->strUploadResolve, strResolve);
         boinc_end_critical_section(); 
-
-        if (boinc_file_exists(strResolve)) { // send this file, whether it was just made or made previously
-           // note boinc_upload_file (intermediate uploads) requires the logical boinc filename ("soft link")!
-           qcn_util::sendIntermediateUpload(strLogical, strResolve);  // the logical name gets resolved by boinc_upload_file into full path zip file 
-           sm->iNumUpload = iSlot;  // set the num upload which was successfully incremented & processed above
-           sm->setTriggerLock();  // we can be confident we have locked the trigger bool when this returns
-           //qcn_util::set_qcn_counter();  // this is done elsewhere i.e. in the main loop of the sensor thread right after this call
-           sm->releaseTriggerLock();
-        }
-        else {
-            fprintf(stderr, "%ld - Upload zip file %s not found\n", lCurTime, strResolve);
-        }
-        boinc_delete_file(strZip.c_str()); // don't need this file any more
 }

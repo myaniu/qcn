@@ -91,8 +91,8 @@ void CQCNShMem::clear(bool bAll)
 
     pshmem->dt = dt; // this is the delta-time between point readings, currently .02 for the Mac sensor
     pshmem->iContinuousCounter = iContinuousCounter; // keeps count of how many times (without reset) we've been through the array (i.e. 1.5 hours
-    //pshmem->bFlagUpload = bFlagUpload; // flag that we need to upload
-    //strcpy(pshmem->strFileUpload, strFileUpload);  // path to the upload file
+    strcpy(pshmem->strUploadLogical, strUploadLogical);  // path to the upload file
+    strcpy(pshmem->strUploadResolve, strUploadResolve);  // path to the upload file
     pshmem->iWindow = iWindow;
     strcpy(pshmem->strPathImage, strPathImage);  // path to the images
 

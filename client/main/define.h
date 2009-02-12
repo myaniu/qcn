@@ -311,6 +311,7 @@ struct FDSET_GROUP {
 #ifndef _MAX_PATH
    #define _MAX_PATH 255
 #endif
+#define _MAX_PATH_LOGICAL 20
 #define SIZEOF_CHECKSUM 33
 
 #define TRICKLE_DOWN_ABORT        "<abort>"
