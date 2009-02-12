@@ -514,7 +514,7 @@ extern void* QCNThreadSensor(void*)
             // they're using a JW -- do a random test to see if we want to upload this array
             long lCurTime = QCN_ROUND(dtime() + qcn_main::g_dTimeOffset);
             fprintf(stderr, "%ld - USB Sensor - End of array - reloop # %d\n", lCurTime, sm->iContinuousCounter);
-            if (sm->iNumUpload < 5 && rand() < RAND_MAX/20) { // 20% chance to do an upload
+            if (sm->iNumUpload < 5 && rand() < (RAND_MAX/5)) { // 20% chance to do an upload
                 //if (sm->iNumUpload < 5 && (sm->iContinuousCounter == (1 + (rand() % 10)))) { // this will get a number from 1 to 10 which should match our continuous counter
                  fprintf(stderr, "%ld - Random upload scheduled # %d\n", lCurTime, sm->iNumUpload);
                  uploadSACMem(lCurTime); 
