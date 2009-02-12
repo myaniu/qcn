@@ -759,7 +759,7 @@ void uploadSACMem(const long lCurTime)
         struct STriggerInfo sti;
         memset(&sti, 0x00, sizeof(struct STriggerInfo));
         sti.lOffsetStart = 0L;
-        sti.lOffsetEnd = MAXI-1;
+        sti.lOffsetEnd = MAXI;
         sti.iWUEvent = sm->iContinuousCounter;
         sti.iLevel = TRIGGER_ALL;
 
@@ -771,7 +771,7 @@ void uploadSACMem(const long lCurTime)
         );
 
         fprintf(stderr, "%ld - Creating upload file %s\n", lCurTime, sti.strFile);
-        sacio::sacio(0, MAXI-1, &sti);
+        sacio::sacio(0, MAXI, &sti);
 
         // now make sure the zip file is stored in sm->strPathTrigger + ti->strFile
         string strZip((const char*) qcn_main::g_strPathTrigger);  // note it DOES NOT HAVE appropriate \ or / at the end
