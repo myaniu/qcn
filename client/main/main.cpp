@@ -507,7 +507,9 @@ int qcn_main(int argc, char **argv)
              trickledown::processTrickleDown();  // from util/trickledown.cpp
 
              // see if we have an intermediate upload
+#ifndef QCNLIVE
              checkForUpload();
+#endif
 
              // this is also a good spot to check for massive numbers of resets (time adjustments) for this workunit
              if (sm->iNumReset > MAX_NUM_RESET) { // this computer sucks, trickle up and exit workunit
