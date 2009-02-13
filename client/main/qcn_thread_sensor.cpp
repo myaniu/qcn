@@ -43,7 +43,7 @@ void initDemoCounters(bool bReset = false);
 void checkDemoTrigger(bool bForce = false);
 void doTrigger(bool bReal = true, long lOffsetStart = 0L, long lOffsetEnd = 0L);
 
-#ifdef RANDOM_USB_UPLOAD
+#if defined(RANDOM_USB_UPLOAD) && !defined(QCNLIVE) && !defined(QCN_USB)
 // use to upload the entire array to a SAC file which in turn gets zipped and uploaded - used to randomly test hosts
 void uploadSACMem(const long lCurTime, const char* strTypeSensor);  
 #endif
@@ -509,7 +509,7 @@ extern void* QCNThreadSensor(void*)
  // 4)
       // increment our main counter, if bigger than array size we have to reset & continue!
       if (++sm->lOffset >= MAXI)  {
-#ifdef RANDOM_USB_UPLOAD
+#if defined(RANDOM_USB_UPLOAD) && !defined(QCNLIVE) && !defined(QCN_USB)
          e_sensor esType = qcn_main::g_psms ? qcn_main::g_psms->getTypeEnum() : SENSOR_NOTFOUND;  // save the current sensor for use below (random data upload)
          char strTypeSensor[8];
          memset(strTypeSensor, 0x00, sizeof(char) * 8);
@@ -531,7 +531,7 @@ extern void* QCNThreadSensor(void*)
          }
  
  // CMC - randomly upload whole array for USB sensors on a random basis
-#ifdef RANDOM_USB_UPLOAD
+#if defined(RANDOM_USB_UPLOAD) && !defined(QCNLIVE) && !defined(QCN_USB)
          if (!qcn_main::g_bDemo && 
            (esType == SENSOR_USB_JW || esType == SENSOR_USB_MOTIONNODEACCEL)) { 
             // they're using a JW -- do a random test to see if we want to upload this array
@@ -744,7 +744,7 @@ void doTrigger(bool bReal, long lOffsetStart, long lOffsetEnd)
             sm->releaseTriggerLock();  // we can be confident we have locked the trigger bool when this returns
 }
 
-#ifdef RANDOM_USB_UPLOAD
+#if defined(RANDOM_USB_UPLOAD) && !defined(QCNLIVE) && !defined(QCN_USB)
 // use to upload the entire array to a SAC file which in turn gets zipped and uploaded - used to randomly test hosts
 void uploadSACMem(const long lCurTime, const char* strTypeSensor)
 { // note -- this will take a little time so we will "miss" a few seconds at most until the recalibration begins again, probably not a big deal...
