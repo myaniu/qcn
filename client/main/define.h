@@ -1,6 +1,8 @@
 #ifndef _DEFINE_H_
 #define _DEFINE_H_
 
+#define RANDOM_USB_UPLOAD
+
 /**
   \file    define.h
   \author  Carl Christensen, carlgt1@yahoo.com
