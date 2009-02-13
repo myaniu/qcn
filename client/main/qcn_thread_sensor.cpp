@@ -509,10 +509,12 @@ extern void* QCNThreadSensor(void*)
  // 4)
       // increment our main counter, if bigger than array size we have to reset & continue!
       if (++sm->lOffset >= MAXI)  {
+#ifdef RANDOM_USB_UPLOAD
          e_sensor esType = qcn_main::g_psms ? qcn_main::g_psms->getTypeEnum() : SENSOR_NOTFOUND;  // save the current sensor for use below (random data upload)
          char strTypeSensor[8];
          memset(strTypeSensor, 0x00, sizeof(char) * 8);
          if (qcn_main::g_psms) strncpy(strTypeSensor, qcn_main::g_psms->getTypeStrShort(), 7);
+#endif
 
          sm->iContinuousCounter++; // increment how many times we've been through the array without a reset
 
