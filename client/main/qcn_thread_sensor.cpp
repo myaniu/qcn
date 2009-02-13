@@ -507,8 +507,18 @@ extern void* QCNThreadSensor(void*)
       // increment our main counter, if bigger than array size we have to reset & continue!
       if (++sm->lOffset >= MAXI)  {
          sm->iContinuousCounter++; // increment how many times we've been through the array without a reset
+
+         // close the port first -- because if running as a service (Mac JoyWarrior) this will cause a timing lag/reset error
+         // as the port is still monitoring, but the big file I/O below will cause this thread to suspend a few seconds
+         sm->iNumReset = 0;  // let's reset our reset counter every wraparound (1 hour)
+         sm->lOffset = 0;  // don't reset, that's only for drastic errors i.e. bad timing errors
+         if (qcn_main::g_psms) {
+	     qcn_main::g_psms->closePort();  // close the port, it will be reopened above
+             delete qcn_main::g_psms;
+             qcn_main::g_psms = NULL;
+         }
  
- // CMC - randomly upload whole array for JoyWarriors
+ // CMC - randomly upload whole array for USB sensors on a random basis
          if (!qcn_main::g_bDemo && 
            (qcn_main::g_psms->getTypeEnum() == SENSOR_USB_JW || qcn_main::g_psms->getTypeEnum() == SENSOR_USB_MOTIONNODEACCEL)) { 
             // they're using a JW -- do a random test to see if we want to upload this array
@@ -522,15 +532,8 @@ extern void* QCNThreadSensor(void*)
          }
 
          //ResetCounter(WHERE_WRAPAROUND);  // don't reset, that's only for drastic errors i.e. bad timing errors
-         sm->iNumReset = 0;  // let's reset our reset counter every wraparound (1 hour)
          //sm->bWrapped = true;
          qcn_util::set_qcn_counter();
-         sm->lOffset = 0;  // don't reset, that's only for drastic errors i.e. bad timing errors
-         if (qcn_main::g_psms) {
-	     qcn_main::g_psms->closePort();  // close the port, it will be reopened above
-             delete qcn_main::g_psms;
-             qcn_main::g_psms = NULL;
-         }
          continue;
       }
 #ifdef _DEBUG
@@ -783,19 +786,20 @@ void uploadSACMem(const long lCurTime)
         boinc_zip(ZIP_IT, strResolve, strZip);
         sm->iNumUpload = iSlot;  // set the num upload which was successfully incremented & processed above
         boinc_delete_file(strZip.c_str());  // don't need the original zip, since it's in the strResolve zip name
-        strcpy(sm->strUploadLogical, strLogical);
-        strcpy(sm->strUploadResolve, strResolve);
+        //strcpy(sm->strUploadLogical, strLogical);
+        //strcpy(sm->strUploadResolve, strResolve);
         boinc_end_critical_section(); 
 
         // moved from main, this shouldn't bother the sensor thread
-        if (sm 
-           && strlen(sm->strUploadResolve)>1 
-           && strlen(sm->strUploadLogical)>1 
-           && boinc_file_exists(sm->strUploadResolve)) { // send this file, whether it was just made or made previously
+        //if (sm 
+        //   && strlen(sm->strUploadResolve)>1 
+        //   && strlen(sm->strUploadLogical)>1 
+        //   && boinc_file_exists(sm->strUploadResolve)) { // send this file, whether it was just made or made previously
+        if (boinc_file_exists(strResolve)) { // send this file, whether it was just made or made previously
              // note boinc_upload_file (intermediate uploads) requires the logical boinc filename ("soft link")!
-             qcn_util::sendIntermediateUpload(sm->strUploadLogical, sm->strUploadResolve);  // the logical name gets resolved by boinc_upload_file into full path zip file 
-             memset(sm->strUploadResolve, 0x00, sizeof(char) * _MAX_PATH);
-             memset(sm->strUploadLogical, 0x00, sizeof(char) * _MAX_PATH_LOGICAL);
+             qcn_util::sendIntermediateUpload(strLogical, strResolve);  // the logical name gets resolved by boinc_upload_file into full path zip file 
+             //qcn_util::sendIntermediateUpload(sm->strUploadLogical, sm->strUploadResolve);  // the logical name gets resolved by boinc_upload_file into full path zip file 
+             //memset(sm->strUploadResolve, 0x00, sizeof(char) * _MAX_PATH);
+             //memset(sm->strUploadLogical, 0x00, sizeof(char) * _MAX_PATH_LOGICAL);
         }
-
 }

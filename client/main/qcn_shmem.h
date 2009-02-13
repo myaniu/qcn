@@ -35,8 +35,8 @@ class CQCNShMem : public CSerialize
     double dt; // this is the delta-time between point readings, currently .02 for the Mac sensor
 
     int iContinuousCounter; // keeps count of how many times (without reset) we've been through the array (i.e. 1.5 hours
-    char strUploadLogical[_MAX_PATH_LOGICAL];
-    char strUploadResolve[_MAX_PATH];
+    //char strUploadLogical[_MAX_PATH_LOGICAL];
+    //char strUploadResolve[_MAX_PATH];
 
     // some important sensor stuff - iWindow is the "time window" i.e. 1 minute of data points
     long iWindow;
