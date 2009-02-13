@@ -786,4 +786,16 @@ void uploadSACMem(const long lCurTime)
         strcpy(sm->strUploadLogical, strLogical);
         strcpy(sm->strUploadResolve, strResolve);
         boinc_end_critical_section(); 
+
+        // moved from main, this shouldn't bother the sensor thread
+        if (sm 
+           && strlen(sm->strUploadResolve)>1 
+           && strlen(sm->strUploadLogical)>1 
+           && boinc_file_exists(sm->strUploadResolve)) { // send this file, whether it was just made or made previously
+             // note boinc_upload_file (intermediate uploads) requires the logical boinc filename ("soft link")!
+             qcn_util::sendIntermediateUpload(sm->strUploadLogical, sm->strUploadResolve);  // the logical name gets resolved by boinc_upload_file into full path zip file 
+             memset(sm->strUploadResolve, 0x00, sizeof(char) * _MAX_PATH);
+             memset(sm->strUploadLogical, 0x00, sizeof(char) * _MAX_PATH_LOGICAL);
+        }
+
 }

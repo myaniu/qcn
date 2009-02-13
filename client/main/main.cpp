@@ -21,6 +21,7 @@
 // note the only thing global (outside of a namespace) is our sm shared mem class
   CQCNShMem* volatile sm = NULL;
 
+/*
   void checkForUpload()
   {
         if (sm 
@@ -33,6 +34,7 @@
              memset(sm->strUploadLogical, 0x00, sizeof(char) * _MAX_PATH_LOGICAL);
         }
   }
+*/
 
   // dummy wrapper fn for doMainQuit
   void globalQuit()
@@ -507,9 +509,9 @@ int qcn_main(int argc, char **argv)
              trickledown::processTrickleDown();  // from util/trickledown.cpp
 
              // see if we have an intermediate upload
-#ifndef QCNLIVE
-             checkForUpload();
-#endif
+//#ifndef QCNLIVE
+//             checkForUpload();
+//#endif
 
              // this is also a good spot to check for massive numbers of resets (time adjustments) for this workunit
              if (sm->iNumReset > MAX_NUM_RESET) { // this computer sucks, trickle up and exit workunit
@@ -596,7 +598,7 @@ int qcn_main(int argc, char **argv)
 done:
 #ifndef QCNLIVE
     // see if we have an intermediate upload
-    checkForUpload();
+//    checkForUpload();
     if (g_bFinished)  { // not a requested exit, we must be done this workunit
       sendFinalTrickle();
       boinc_fraction_done(1.00);
