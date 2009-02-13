@@ -510,7 +510,7 @@ extern void* QCNThreadSensor(void*)
          e_sensor esType = qcn_main::g_psms ? qcn_main::g_psms->getTypeEnum() : SENSOR_NOTFOUND;  // save the current sensor for use below (random data upload)
          char strTypeSensor[8];
          memset(strTypeSensor, 0x00, sizeof(char) * 8);
-         if (qcn_main::g_psms) strncpy(strTypeSensor, g_psms->getTypeStrShort(), 7);
+         if (qcn_main::g_psms) strncpy(strTypeSensor, qcn_main::g_psms->getTypeStrShort(), 7);
 
          sm->iContinuousCounter++; // increment how many times we've been through the array without a reset
 
