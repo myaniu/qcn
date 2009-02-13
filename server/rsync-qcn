@@ -1,0 +1,1 @@
+rsync -av carlgt1@qcn-upl.stanford.edu:/var/www/trigger/usb/*.zip qcnusb/
