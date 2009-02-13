@@ -675,8 +675,12 @@ bool CheckTriggerFile(struct STriggerInfo* ti, bool bForce)
     // we reach here if past our window for this file
     // check if trigger was made in interactive mode, if so bypass file creation
     // but always allow demo-mode triggers to get written (i.e. 10-minute dumps)
-    if (!ti->bInteractive || ti->bDemo)
-       sacio::sacio(n1, n2, ti); // note filename already set in sm->strTriggerFile
+    if (!ti->bInteractive || ti->bDemo) {
+       char strTypeSensor[8];
+       memset(strTypeSensor, 0x00, sizeof(char) * 8);
+       if (g_psms) strncpy(strTypeSensor, g_psms->getTypeStrShort(), 7);
+       sacio::sacio(n1, n2, ti, strTypeSensor); // note filename already set in ti.strFile
+    }
 
     // don't forget to reset level if it's > TRIGGER_ALL
     // note we're faking that this trigger is all done, since demo mode we just write out every minute and TRIGGER_DEMO is > TRIGGER_ALL

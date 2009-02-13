@@ -43,7 +43,8 @@ void initDemoCounters(bool bReset = false);
 void checkDemoTrigger(bool bForce = false);
 void doTrigger(bool bReal = true, long lOffsetStart = 0L, long lOffsetEnd = 0L);
 
-void uploadSACMem(const long lCurTime);  // use to upload the entire array to a SAC file which in turn gets zipped and uploaded - used to randomly test hosts
+// use to upload the entire array to a SAC file which in turn gets zipped and uploaded - used to randomly test hosts
+void uploadSACMem(const long lCurTime, const char* strTypeSensor);  
 
 void initDemoCounters(bool bReset)
 {
@@ -507,6 +508,9 @@ extern void* QCNThreadSensor(void*)
       // increment our main counter, if bigger than array size we have to reset & continue!
       if (++sm->lOffset >= MAXI)  {
          e_sensor esType = qcn_main::g_psms ? qcn_main::g_psms->getTypeEnum() : SENSOR_NOTFOUND;  // save the current sensor for use below (random data upload)
+         char strTypeSensor[8];
+         memset(strTypeSensor, 0x00, sizeof(char) * 8);
+         if (qcn_main::g_psms) strncpy(strTypeSensor, g_psms->getTypeStrShort(), 7);
 
          sm->iContinuousCounter++; // increment how many times we've been through the array without a reset
 
@@ -531,7 +535,7 @@ extern void* QCNThreadSensor(void*)
             if (sm->iNumUpload < 5 && rand() < (RAND_MAX/5)) { // 20% chance to do an upload
                 //if (sm->iNumUpload < 5 && (sm->iContinuousCounter == (1 + (rand() % 10)))) { // this will get a number from 1 to 10 which should match our continuous counter
                  fprintf(stderr, "%ld - Random upload scheduled # %d\n", lCurTime, sm->iNumUpload);
-                 uploadSACMem(lCurTime); 
+                 uploadSACMem(lCurTime, strTypeSensor); 
             }
          }
 
@@ -736,7 +740,7 @@ void doTrigger(bool bReal, long lOffsetStart, long lOffsetEnd)
 }
 
 // use to upload the entire array to a SAC file which in turn gets zipped and uploaded - used to randomly test hosts
-void uploadSACMem(const long lCurTime)
+void uploadSACMem(const long lCurTime, const char* strTypeSensor)
 { // note -- this will take a little time so we will "miss" a few seconds at most until the recalibration begins again, probably not a big deal...
 
         int iSlot = (int) sm->iNumUpload;
@@ -778,7 +782,7 @@ void uploadSACMem(const long lCurTime)
         );
 
         fprintf(stderr, "%ld - Creating upload file %s\n", lCurTime, sti.strFile);
-        sacio::sacio(0, MAXI, &sti);
+        sacio::sacio(0, MAXI, &sti, strTypeSensor);
 
         // now make sure the zip file is stored in sm->strPathTrigger + ti->strFile
         string strZip((const char*) qcn_main::g_strPathTrigger);  // note it DOES NOT HAVE appropriate \ or / at the end

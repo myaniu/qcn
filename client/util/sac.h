@@ -20,7 +20,8 @@ extern int sacio
 (
   const int n1, 
   const int n2, 
-  struct STriggerInfo* ti
+  struct STriggerInfo* ti,
+  const char* strSensorType
 );
 
 // sac constants we're using, ref http://terra.rice.edu/comp.res/apps/S/sac/docs/FileFormatPt2.html

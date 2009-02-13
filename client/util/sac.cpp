@@ -155,7 +155,8 @@ extern int sacio
 (
   const int n1, 
   const int n2, 
-  struct STriggerInfo* ti 
+  struct STriggerInfo* ti,
+  const char* strSensorType 
 )
 {
     boinc_begin_critical_section();
@@ -297,9 +298,12 @@ extern int sacio
 
     strcpy(sacdata.s[ess_knetwk], "QC");  // call the network QC, squeeze wu name in kevnm (QC not QCN, due to tradition of 2-chars)
 
+/* CMC now passing in the sensor type str
     if (qcn_main::g_psms && sm->bSensorFound) {
        strcpy(sacdata.s[ess_kinst], qcn_main::g_psms->getTypeStrShort());
     }
+*/
+    strncpy(sacdata.s[ess_kinst], strSensorType, 7);
 
     strcpy(sacdata.s[ess_kuser0],  qcn_main::g_dTimeSync > 0.0f ? "TSYNC" : "NOTSYNC");   // flag that time was synchronized to server or not
     sprintf(sacdata.s[ess_kevnm], "%07d", ti->iWUEvent);   // number of event
