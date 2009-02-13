@@ -506,12 +506,16 @@ extern void* QCNThreadSensor(void*)
  // 4)
       // increment our main counter, if bigger than array size we have to reset & continue!
       if (++sm->lOffset >= MAXI)  {
+         e_sensor esType = qcn_main::g_psms ? qcn_main::g_psms->getTypeEnum() : SENSOR_NOTFOUND;  // save the current sensor for use below (random data upload)
+
          sm->iContinuousCounter++; // increment how many times we've been through the array without a reset
 
          // close the port first -- because if running as a service (Mac JoyWarrior) this will cause a timing lag/reset error
          // as the port is still monitoring, but the big file I/O below will cause this thread to suspend a few seconds
          sm->iNumReset = 0;  // let's reset our reset counter every wraparound (1 hour)
          sm->lOffset = 0;  // don't reset, that's only for drastic errors i.e. bad timing errors
+
+         // close the open port
          if (qcn_main::g_psms) {
 	     qcn_main::g_psms->closePort();  // close the port, it will be reopened above
              delete qcn_main::g_psms;
@@ -520,7 +524,7 @@ extern void* QCNThreadSensor(void*)
  
  // CMC - randomly upload whole array for USB sensors on a random basis
          if (!qcn_main::g_bDemo && 
-           (qcn_main::g_psms->getTypeEnum() == SENSOR_USB_JW || qcn_main::g_psms->getTypeEnum() == SENSOR_USB_MOTIONNODEACCEL)) { 
+           (esType == SENSOR_USB_JW || esType == SENSOR_USB_MOTIONNODEACCEL)) { 
             // they're using a JW -- do a random test to see if we want to upload this array
             long lCurTime = QCN_ROUND(dtime() + qcn_main::g_dTimeOffset);
             fprintf(stderr, "%ld - USB Sensor - End of array - reloop # %d\n", lCurTime, sm->iContinuousCounter);
