@@ -43,8 +43,10 @@ void initDemoCounters(bool bReset = false);
 void checkDemoTrigger(bool bForce = false);
 void doTrigger(bool bReal = true, long lOffsetStart = 0L, long lOffsetEnd = 0L);
 
+#ifdef RANDOM_USB_UPLOAD
 // use to upload the entire array to a SAC file which in turn gets zipped and uploaded - used to randomly test hosts
 void uploadSACMem(const long lCurTime, const char* strTypeSensor);  
+#endif
 
 void initDemoCounters(bool bReset)
 {
@@ -527,6 +529,7 @@ extern void* QCNThreadSensor(void*)
          }
  
  // CMC - randomly upload whole array for USB sensors on a random basis
+#ifdef RANDOM_USB_UPLOAD
          if (!qcn_main::g_bDemo && 
            (esType == SENSOR_USB_JW || esType == SENSOR_USB_MOTIONNODEACCEL)) { 
             // they're using a JW -- do a random test to see if we want to upload this array
@@ -538,7 +541,7 @@ extern void* QCNThreadSensor(void*)
                  uploadSACMem(lCurTime, strTypeSensor); 
             }
          }
-
+#endif
          //ResetCounter(WHERE_WRAPAROUND);  // don't reset, that's only for drastic errors i.e. bad timing errors
          //sm->bWrapped = true;
          qcn_util::set_qcn_counter();
@@ -739,6 +742,7 @@ void doTrigger(bool bReal, long lOffsetStart, long lOffsetEnd)
             sm->releaseTriggerLock();  // we can be confident we have locked the trigger bool when this returns
 }
 
+#ifdef RANDOM_USB_UPLOAD
 // use to upload the entire array to a SAC file which in turn gets zipped and uploaded - used to randomly test hosts
 void uploadSACMem(const long lCurTime, const char* strTypeSensor)
 { // note -- this will take a little time so we will "miss" a few seconds at most until the recalibration begins again, probably not a big deal...
@@ -811,3 +815,6 @@ void uploadSACMem(const long lCurTime, const char* strTypeSensor)
              //memset(sm->strUploadLogical, 0x00, sizeof(char) * _MAX_PATH_LOGICAL);
         }
 }
+#endif
+
+

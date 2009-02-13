@@ -22,6 +22,7 @@
   CQCNShMem* volatile sm = NULL;
 
 /*
+  // CMC used to send uploads from this (main) thread, but seems OK to leave in the sensor thread since it's at the end of a monitoring session
   void checkForUpload()
   {
         if (sm 
