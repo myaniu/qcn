@@ -65,9 +65,10 @@ class DbConn {
         $query = "select * from DBNAME.$table where $clause";
   // CMC here - sort by time sent desc
         if ($table == "result") {
-            //$query += " ORDER BY received_time DESC, sent_time DESC";
-            $query += " ORDER BY sent_time DESC";
+            //$query .= " ORDER BY received_time DESC, sent_time DESC";
+            $query .= " ORDER BY sent_time DESC ";
         }
+
   // end CMC
         $result = $this->do_query($query);
         if (!$result) {
