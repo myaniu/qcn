@@ -25,7 +25,6 @@ CREATE PROCEDURE do_final_trigger()
 BEGIN
 
  DECLARE l_msgid INT(11);
- DECLARE l_hostid INT(11);
  DECLARE l_resultid INT(11); 
  DECLARE l_triggerid INT(11);
  DECLARE l_finalid INT(11);
@@ -37,7 +36,7 @@ BEGIN
 
  /* now get a cursor resultset with the latest msg_from_host (trickle) records */
  DECLARE curNew CURSOR FOR 
-   SELECT m.id, m.hostid, r.id resultid,
+   SELECT m.id, r.id resultid,
        SUBSTRING(xml, INSTR(xml, '<result_name>') + LENGTH('<result_name>'), 
                  INSTR(xml, '</result_name>') 
                     - INSTR(xml, '<result_name>') 
@@ -71,29 +70,29 @@ BEGIN
  
  trickle_loop: LOOP
     /* get a row from our big sql statement above */
-    FETCH curNew INTO l_msgid, l_hostid, l_resultid, l_result_name, l_runtime_clock, l_runtime_cpu;
+    FETCH curNew INTO l_msgid, l_resultid, l_result_name, l_runtime_clock, l_runtime_cpu;
 
     IF l_done_msg=1 THEN
        LEAVE trickle_loop;
     END IF;
 
     /* -- probably safer and faster to just insert a "final trigger" record for the stats */
-    SELECT COUNT(id) INTO l_count FROM qcn_finalstats WHERE hostid=l_hostid AND resultid=l_resultid;
+    SELECT COUNT(id) INTO l_count FROM qcn_finalstats WHERE resultid=l_resultid;
     IF l_count=0 THEN
-       INSERT INTO qcn_finalstats (hostid, resultid, time_received, runtime_clock, runtime_cpu)
-          VALUES (l_hostid, l_resultid, UNIX_TIMESTAMP(), 
+       INSERT INTO qcn_finalstats (resultid, time_received, runtime_clock, runtime_cpu)
+          VALUES (l_resultid, UNIX_TIMESTAMP(), 
               IF(l_runtime_clock>100000,100000,l_runtime_clock), IF(l_runtime_cpu>100000,100000,l_runtime_cpu));
     ELSE
         SELECT IFNULL(id,0) INTO l_finalid FROM qcn_finalstats 
-            WHERE hostid=l_hostid AND resultid=l_resultid;
+            WHERE resultid=l_resultid;
         IF l_finalid>0 THEN
            UPDATE qcn_finalstats 
              SET time_received=UNIX_TIMESTAMP(), runtime_clock=IF(l_runtime_clock>100000,100000,l_runtime_clock), 
                  runtime_cpu=IF(l_runtime_cpu>100000,100000,l_runtime_cpu)
               WHERE id=l_finalid;
         ELSE  /* probably should never get here since the l_count above catches it */
-           INSERT INTO qcn_finalstats (hostid, resultid, time_received, runtime_clock, runtime_cpu)
-               VALUES (l_hostid, l_resultid, UNIX_TIMESTAMP(), 
+           INSERT INTO qcn_finalstats (resultid, time_received, runtime_clock, runtime_cpu)
+               VALUES (l_resultid, UNIX_TIMESTAMP(), 
                   IF(l_runtime_clock>100000,100000,l_runtime_clock), IF(l_runtime_cpu>100000,100000,l_runtime_cpu));
         END IF;
     END IF;

@@ -110,15 +110,13 @@ ALTER TABLE qcn_stats ADD INDEX qcn_stats_teamid (teamid);
 CREATE TABLE qcn_finalstats
 (
     id int(11) auto_increment NOT NULL PRIMARY KEY,
-    hostid int(11) NOT NULL,
     resultid int(11) NOT NULL,
     time_received double NOT NULL DEFAULT 0,
     runtime_clock double NOT NULL DEFAULT 0,
     runtime_cpu double NOT NULL DEFAULT 0
 );
 
-ALTER TABLE qcn_finalstats ADD UNIQUE INDEX qcn_finalstats_hostid (hostid,resultid);
-ALTER TABLE qcn_finalstats ADD INDEX qcn_finalstats_resultid (resultid);
+ALTER TABLE qcn_finalstats ADD UNIQUE INDEX qcn_finalstats_resultid (resultid);
 
 /* make the index for result(random) */
 ALTER TABLE result ADD INDEX result_random (random);
