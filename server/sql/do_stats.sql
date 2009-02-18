@@ -49,7 +49,7 @@ BEGIN
        WHERE r.id=c.resultid AND r.userid=u.id;
 
     UPDATE result u SET granted_credit=
-      ROUND(IFNULL((SELECT total_credit FROM qcn_recalcresult r WHERE r.resultid=u.id),0),3), claimed_credit=granted_credit;
+      ROUND(IFNULL((SELECT total_credit FROM qcn_recalcresult r WHERE r.resultid=u.id),0),3), claimed_credit=granted_credit, validate_state=3;
 
     UPDATE user u SET total_credit=IFNULL((select sum(total_credit) from 
           qcn_stats r WHERE r.userid=u.id),0),
