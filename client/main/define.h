@@ -27,7 +27,7 @@ using std::string;
 using std::vector;
 
 // define this to allow random uploading of sensor SAC files
-#define RANDOM_USB_UPLOAD
+// #define RANDOM_USB_UPLOAD
 
 #ifndef _chdir
 #define _chdir chdir
