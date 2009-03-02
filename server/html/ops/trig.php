@@ -116,6 +116,7 @@ echo "<html><head>
 </script>
   <title>QCN Trigger Listing</title>
 </head><body " . BODY_COLOR . ">\n";
+ echo "<h5>";
   echo TABLE . "<tr " . TITLE_COLOR . "><td>" . TITLE_FONT . "<font size=\"6\"><b><a href=\"trig.php\">".PROJECT.":</a>  QCN Trigger Listing </b></font></td></tr></table>\n";
 
 
@@ -139,10 +140,14 @@ Constraints:<br><br>
   Lon Min: <input id=\"LonMin\" name=\"LonMin\" value=\"$strLonMin\">
   Lon Max: <input id=\"LonMax\" name=\"LonMax\" value=\"$strLonMax\">
 <BR><BR>
+
+
   <input type=\"checkbox\" id=\"cbUseSensor\" name=\"cbUseSensor\" value=\"1\" " . ($bUseSensor ? "checked" : "") . "> Use Sensor Constraint
-<BR>
+
 <select name=\"type_sensor\" id=\"type_sensor\">
+
 ";
+echo "<H5>";
 
   for ($i = 0; $i < sizeof($arrSensor); $i++)  {
      echo "<option value=" . $arrSensor[$i][0];
@@ -154,8 +159,11 @@ echo "</select>
   <BR><BR>
   <input type=\"checkbox\" id=\"cbUseTime\" name=\"cbUseTime\" value=\"1\" " . ($bUseTime ? "checked" : "") . "> Use Time Constraint
 <BR>
-Start Time (UTC):
 ";
+
+
+echo "<ul><table><tr><td>
+Start Time (UTC):";
 
 if ($dateStart) {
   echo "<script>DateInput('date_start', true, 'YYYY-MM-DD', '$dateStart')</script>";
@@ -186,10 +194,9 @@ for ($i = 0; $i < 60; $i++) {
 echo "
 </select>
 
-<BR><BR>
+</td><td>
 
-End Time (UTC):
-";
+End Time (UTC):";
 
 if ($dateEnd) {
   echo "<script>DateInput('date_end', true, 'YYYY-MM-DD', '$dateEnd')</script>";
@@ -219,10 +226,13 @@ for ($i = 0; $i < 60; $i++) {
 }
 
 echo "
-</select>
+</select> </tr></table> </UL>
 ";
 
 echo "<BR><BR>Sort Order: ";
+
+echo "<H7>";
+
 echo "<select name=\"rb_sort\" id=\"rb_sort\">
 ";
    echo "<option value=\"maga\" ";
@@ -271,7 +281,7 @@ echo "<select name=\"rb_sort\" id=\"rb_sort\">
 // end the form
 echo "<BR><BR>
    <input type=\"submit\" value=\"Submit Constraints\" />
-   </form>";
+   </form> <H7>";
 
 $whereString = "1=1";
 

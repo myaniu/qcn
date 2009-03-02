@@ -24,10 +24,12 @@ define("MAP_TRIGGER", "img/trigger_latest.jpg");
 define("MAP_TRIGGER_D", "img/trigger_latest_d.jpg");
 define("MAP_TRIGGER_W", "img/trigger_latest_w.jpg");
 define("MAP_TRIGGER_M", "img/trigger_latest_m.jpg");
+define("MAP_TRIGGER_H", "img/trigger_latest_h.jpg");
 define("MIN_MAGNITUDE", "2.0");
 define("MIN_MAGNITUDE_D", "3.0");
 define("MIN_MAGNITUDE_W", "3.5");
 define("MIN_MAGNITUDE_M", "4.0");
+define("MIN_MAGNITUDE_H", "3.0");
 
 // CMC have default global preferences
 define("GLOBAL_PREFS_DEFAULT", "<global_preferences>\n"

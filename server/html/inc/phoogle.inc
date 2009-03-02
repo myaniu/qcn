@@ -279,16 +279,16 @@ function drawPlateBoundary() { // CMC - draws the plate boundaries in purple on 
 			var iconUSB    = new GIcon();
                    	iconQuake.image  = \"img/qcn_32_quake.png\";
 			iconQuake.iconSize = new GSize(32, 32);
-			iconQuake.iconAnchor = new GPoint(6, 20);
+			iconQuake.iconAnchor = new GPoint(3, 10);
 			iconQuake.infoWindowAnchor = new GPoint(15, 15);
                    	iconUSB.image  = \"img/qcn_32_usb.png\";
-			iconUSB.iconSize = new GSize(32, 32);
-			iconUSB.iconAnchor = new GPoint(1, 1);
-			iconUSB.infoWindowAnchor = new GPoint(15, 15);
+			iconUSB.iconSize = new GSize(24,24);
+			iconUSB.iconAnchor = new GPoint(3, 10);
+			iconUSB.infoWindowAnchor = new GPoint(10, 10);
                    	iconLaptop.image  = \"img/qcn_32_laptop.png\";
-			iconLaptop.iconSize = new GSize(32, 32);
-			iconLaptop.iconAnchor = new GPoint(6, 20);
-			iconLaptop.infoWindowAnchor = new GPoint(15, 15);
+			iconLaptop.iconSize = new GSize(24,24);
+			iconLaptop.iconAnchor = new GPoint(3, 10);
+			iconLaptop.infoWindowAnchor = new GPoint(10, 10);
                     ";
 
 		if ($this->showControl){

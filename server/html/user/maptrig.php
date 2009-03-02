@@ -82,14 +82,14 @@ if ($mapwidth) {
    $pm->setWidth($mapwidth);
 }
 else {
-   $pm->setWidth(900);
+   $pm->setWidth(700);
 }
 
 if ($mapheight) {
    $pm->setHeight($mapheight);
 }
 else {
-   $pm->setHeight(700);
+   $pm->setHeight(500);
 }
 
 if ($cx && $cy) {
@@ -118,6 +118,8 @@ for ($i = 0; $i < sizeof($data); $i++) {
 }
 
 $pm->showMap();
+
+echo "<center><h5><a href=maptrig.php?timeint=H>Hour</a> - <a href=maptrig.php?timeint=D>Day</a> - <a href=maptrig.php?timeint=W>Week</a> - <a href=maptrig.php?timeint=M>Month</a>";
 
 page_tail();
 
