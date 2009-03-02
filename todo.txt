@@ -13,6 +13,10 @@ get a bunch of junk.
 would help).  I can probably get a grad student on this or something, but it
 would be nice to have it automatically updating.
 
+doc/sac2png or sac2jpeg -- on the server we can generate an image from the SAC uploads
+Create a png file for each uploaded data group
+(S,X,Y,Z). The script requires sac (including sgftops) and imagemagick
+(http://www.imagemagick.org - available through fink/fink commander 
 
 QCNLive
 
