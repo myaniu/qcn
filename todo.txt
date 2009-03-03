@@ -138,3 +138,32 @@ earthquakes, but I figure it is nice to have maps in the same format.
 
 ------------------------
 
+Carl,
+
+Yes, it generally looks pretty good. It was mainly to support the main thing/you for several years.  We’re bringing in some collaborators 1) to help sell the thing as a product with community-wide demand, and 2) to get help with aspects like how QCN relates to structural engineering, getting a bunch of sensors in Columbia, and relating QCN to other early warning systems like Elarms.  It has a $1.2M pricetag, which will probably rise to 1.5 in the final proposal.  I’m inclined to front-load the proposal to get more funding sooner, which will fit better with the current infusion of funds into NSF by Obama.
+
+For the proposal I think we’re going to need to work on things like:
+Ways to share data in real/near-real time with the users & scientists
+Redundant data collection (i.e. qcn-columbia)
+Real-time data analysis/earthquake detection
+Automatic clustering algorithms to group sensors/triggers for detection
+linked with redundant data collection
+organized by location
+cluster must be large enough for statistics to work
+depends on number of USB/regular sensors
+Include data from regular networks
+Automatic detection algorithms
+Locate event (for eq verification)
+Determine event magnitude from distances/amplitudes
+Notifications for large events (delayed by a minute or so – first to us, then to everyone)
+Automatic adjustments for trigger parameters for sensors that trigger too often.
+Automatic adjustments for slower sampling rate if NTP drifts. 0.02-0.2-0.5-1 sps.
+Incorporate data from regular sensor networks
+Make separate qcn system for week-long building analyses where we collect data continuously on all sensors in a building – requires additional information like floor/level.
+We’ll want to group this data by building
+We’ll want to run some automatic codes on the data (this could be distributed as well)
+See http://pangea.stanford.edu/~gprieto/images/fmov1.avi for example of building results
+
+From your view what are the major challenges for cyber-boinc-qcn.
+
+ 
