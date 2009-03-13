@@ -4,24 +4,52 @@ Sensor Location w/ floor
 Quick question: Any chance you can include floor number in the BOINC side
 computer location/Google apps like you did for the QCN_Live locatino?
 
+---------------------------
 low priority:
 1) An email notification every time we receive a trigger overlapping with a
 USGS quake. That way we know right away. Set a threshold of 3.8, so we don't
 get a bunch of junk.
 
+---------------------------
 2) A map of quakes that have associated qcn triggers (low priority, but
 would help).  I can probably get a grad student on this or something, but it
 would be nice to have it automatically updating.
 
+---------------------------
 doc/sac2png or sac2jpeg -- on the server we can generate an image from the SAC uploads
 Create a png file for each uploaded data group
 (S,X,Y,Z). The script requires sac (including sgftops) and imagemagick
 (http://www.imagemagick.org - available through fink/fink commander 
 
+---------------------------
+
+trigger levels
+
+We will probably have to try various thresholds for the different sensors and see how many triggers we get. Presumably we will also have an idea of 'noise level' from those continuous records for the JW and MN. The UCLA trip was postponed again, so I don't yet have the instrument response to do the noise study. Hopefully that will happen this week or next (once their equipment is fixed).
+
+I don't think we should do a changing trigger threshold - what if we are trying to catch many aftershocks- we don't want to arbitrarily damp those out? - also we don't necessarily want one trigger per hour for the JW/MN because hopefully we will only get triggers for earthquakes on these, so it could be days/months between triggers if they are in a quiet site.
+
+--E
+
+
+On Tue, Mar 10, 2009 at 8:23 AM, Jesse Fisher Lawrence <jflawrence@stanford.edu> wrote:
+I’ve been wondering about this as well.  Right now I think we have a single threshold for all the sensors, which is tuned for the Macs (0.1m/s/s – which is 2.5 times the resolution of the sensor).  We are definitely going to have to adjust the threashold according to the sensor type.  I was thinking that we could have two changes to the threshold:
+
+Use a different starting thresholds for each sensor.  My proposed values are:
+MN = 0.02
+JW = 0.06
+Apple = 0.1
+Thinkpad = 0.2
+If more than 1 real trigger happens in an hour, we should double the trigger threshold.  If 0 real triggers happen in the past 2 hours then halve the threshold. This will auto-adjust the triggers so that we balance the tradeoff of minimizing the number of false triggers and maximizing the sensitivity.
+
+---------------------------
+
+
 QCNLive
 
 cut-and-paste doesn't work for lat,lng in local prefs box -- also a way to integrate google maps lookup?
 
+---------------------------
 for the following refer to doc/Sensor_Directions.pdf
 
 We received a little feedback from our friends at IRIS regarding QCNLive.
@@ -69,6 +97,8 @@ ROTATING. HAVE IT GROW AND SHRINK FOR LARGER MAGNITUDE?).
 after the user has played with it. (I REALLY LIKE THIS. A LEARN MORE
 BUTTON THAT LINKS BACK TO QCN).
 
+---------------------------
+
 B) Globe Viewing:
 1) Can you have a scale on the right that shows the size of a 2, 3, 4,
 5, 6, 7, and 8+ magnitude earthquake? (I think this is a great idea!)
@@ -93,7 +123,9 @@ IRIS has access to lots of tools that we could integrate into QCN: For example:
 http://rev.seis.sc.edu/stations.html
 http://rev.seis.sc.edu/
 
-todo:
+---------------------------
+
+todo sensor text output:
 
 Station Name: SNAME
 Longitude: -117.12321
