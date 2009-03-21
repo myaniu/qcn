@@ -23,6 +23,10 @@ Create a png file for each uploaded data group
 
 ---------------------------
 
+linux ntpdate zombie procs --- look into cleaning up if ntpdate fails
+
+---------------------------
+
 trigger levels
 
 We will probably have to try various thresholds for the different sensors and see how many triggers we get. Presumably we will also have an idea of 'noise level' from those continuous records for the JW and MN. The UCLA trip was postponed again, so I don't yet have the instrument response to do the noise study. Hopefully that will happen this week or next (once their equipment is fixed).
