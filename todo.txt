@@ -2,7 +2,22 @@ qcn
 
 invoice +50% for time @ $50/hr rate to get $75
 
+--------------------
+
 priorities -- trigger levels, qcnlive 2-d graphics, sac2jpeg/server-side & edit sac data
+
+---------------------------
+
+trigger levels
+
+I’ve been wondering about this as well.  Right now I think we have a single threshold for all the sensors, which is tuned for the Macs (0.1m/s/s – which is 2.5 times the resolution of the sensor).  We are definitely going to have to adjust the threashold according to the sensor type.  I was thinking that we could have two changes to the threshold:
+
+Use a different starting thresholds for each sensor.  My proposed values are:
+
+MN = 0.01
+JW = 0.025
+Apple = 0.1
+Thinkpad = 0.2
 
 --------------------
 
@@ -43,19 +58,6 @@ Create a png file for each uploaded data group
 - put this on the server-side for triggers uploaded so we get a snapshot
 - also at the same time input fields into sac hdr for trigger - i.e. lat/lng/depth, IDEP m/sec, magnitude, neventid etc
 - also adjust sac data info for matching USGS quake time:  b = k2time - usgs_time
-
----------------------------
-
-trigger levels
-
-I’ve been wondering about this as well.  Right now I think we have a single threshold for all the sensors, which is tuned for the Macs (0.1m/s/s – which is 2.5 times the resolution of the sensor).  We are definitely going to have to adjust the threashold according to the sensor type.  I was thinking that we could have two changes to the threshold:
-
-Use a different starting thresholds for each sensor.  My proposed values are:
-
-MN = 0.01
-JW = 0.025
-Apple = 0.1
-Thinkpad = 0.2
 
 ---------------------------
 
