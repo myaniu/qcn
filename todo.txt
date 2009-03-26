@@ -1,5 +1,23 @@
 qcn 
 
+invoice +50% for time @ $50/hr rate to get $75
+
+priorities -- trigger levels, qcnlive 2-d graphics, sac2jpeg/server-side & edit sac data
+
+--------------------
+
+qcnlive save view/open problem -- on Jesse's Mac it doesn't save or open in the proper place
+
+---------------------------
+
+if number of resets > 20 drop graphics to 2-D only as it may be a graphics problem
+
+---------------------------
+
+linux ntpdate zombie procs --- look into cleaning up if ntpdate fails
+
+--------------------
+
 Sensor Location w/ floor
 Quick question: Any chance you can include floor number in the BOINC side
 computer location/Google apps like you did for the QCN_Live locatino?
@@ -17,43 +35,45 @@ would be nice to have it automatically updating.
 
 ---------------------------
 doc/sac2png or sac2jpeg -- on the server we can generate an image from the SAC uploads
+
 Create a png file for each uploaded data group
 (S,X,Y,Z). The script requires sac (including sgftops) and imagemagick
 (http://www.imagemagick.org - available through fink/fink commander 
 
----------------------------
-
-linux ntpdate zombie procs --- look into cleaning up if ntpdate fails
+- put this on the server-side for triggers uploaded so we get a snapshot
+- also at the same time input fields into sac hdr for trigger - i.e. lat/lng/depth, IDEP m/sec, magnitude, neventid etc
+- also adjust sac data info for matching USGS quake time:  b = k2time - usgs_time
 
 ---------------------------
 
 trigger levels
 
-We will probably have to try various thresholds for the different sensors and see how many triggers we get. Presumably we will also have an idea of 'noise level' from those continuous records for the JW and MN. The UCLA trip was postponed again, so I don't yet have the instrument response to do the noise study. Hopefully that will happen this week or next (once their equipment is fixed).
-
-I don't think we should do a changing trigger threshold - what if we are trying to catch many aftershocks- we don't want to arbitrarily damp those out? - also we don't necessarily want one trigger per hour for the JW/MN because hopefully we will only get triggers for earthquakes on these, so it could be days/months between triggers if they are in a quiet site.
-
---E
-
-
-On Tue, Mar 10, 2009 at 8:23 AM, Jesse Fisher Lawrence <jflawrence@stanford.edu> wrote:
 I’ve been wondering about this as well.  Right now I think we have a single threshold for all the sensors, which is tuned for the Macs (0.1m/s/s – which is 2.5 times the resolution of the sensor).  We are definitely going to have to adjust the threashold according to the sensor type.  I was thinking that we could have two changes to the threshold:
 
 Use a different starting thresholds for each sensor.  My proposed values are:
-MN = 0.02
-JW = 0.06
+
+MN = 0.01
+JW = 0.025
 Apple = 0.1
 Thinkpad = 0.2
-If more than 1 real trigger happens in an hour, we should double the trigger threshold.  If 0 real triggers happen in the past 2 hours then halve the threshold. This will auto-adjust the triggers so that we balance the tradeoff of minimizing the number of false triggers and maximizing the sensitivity.
 
 ---------------------------
 
+extra amplitude information - send max amplitude for past second info at 1 second intervals after a trigger 
+   -- send 1/2/3/4 at 4 sec trickle, then 5/6/7/8 as trickle after 8 seconds
+
+---------------------------
 
 QCNLive
 
 cut-and-paste doesn't work for lat,lng in local prefs box -- also a way to integrate google maps lookup?
 
+- basically "clone" the SeisMac look & functionality for 2-D view, i.e. white background
+
+  button for signif to disappear (sig defaults to off), output to text (see elesewhere)
+
 ---------------------------
+
 for the following refer to doc/Sensor_Directions.pdf
 
 We received a little feedback from our friends at IRIS regarding QCNLive.
@@ -129,6 +149,7 @@ http://rev.seis.sc.edu/
 
 ---------------------------
 
+Recording
 todo sensor text output:
 
 Station Name: SNAME
@@ -158,6 +179,35 @@ switch to toggle back and forth between xyz and sac output.
 ------------------------
 
 * small program to verify accelerometer is on the system and what type(s) found
+
+------------------------
+
+move qcnalpha to just qcn i.e. alpha test is over
+
+------------------------
+
+qcn building studies
+
+make a "qcn/bldg" site for a qcn app that continuously records & uploads
+
+delete data every day, constrain accts to invitation-only or premade accts
+
+------------------------
+
+computer location info: street address, floor, and height on computer location info page
+
+------------------------
+
+monitoring:  setup a mysql proc for monitoring 4 second window
+ - base on doc/LOC.tar.gz for generating & detecting triggers
+ - perhaps a web-based java system for interactive trigger generation, display, detection
+
+------------------------
+
+redundant server: proposal to "mirror" QCN data via the clients to UC-Riverside and potentially another local server (i.e. Columbia)
+- QCN as acct mgr or more complicated?
+- triggers and uploads sent to all servers, probably a scheduler mod to affix the 3rd server
+- regional ntpdate to their local server (which is ntpdate sync'd to qcn-upl)
 
 ------------------------
 
