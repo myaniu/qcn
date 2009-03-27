@@ -4,6 +4,41 @@ invoice +50% for time @ $50/hr rate to get $75
 
 --------------------
 
+I was looking into a "mobile" qcn setup.  the tough bit is the Internet service (if we use a phone); and the cheap netbook ($239) doesn't have 802.11n.  the solar power looks feasible, although there's a neat netbook solar-powered case for $499.
+
+another possibility other than cell-phone is some sort of "long distance wifi" such as we were talking about: 
+http://www.wi-fiplanet.com/columns/article.php/2191841
+
+so with $150 for the accel & the tmobile Internet doing it for under $500 is a bit of a stretch:
+
+USB accelerometer nano-g
+$150?
+
+Acer Aspire One netbook
+802.11b/g, 3-cell lithium battery, Intel Atom N270 Proc 1.6GHz,1GB RAM, 8GB SS drive, 3 USB 2.0 ports, Win XP Home
+2.2 lbs, 6.7" deep, max 12W TDP -> 2.5W CPU, 6W chipset, 3.3W controller
+battery up to 3 hrs, up to 7 hours for the 6-cell battery (higher cost), 12v
+$239.99 from Best Buy Outlet
+
+USB "cell-phone Internet"
+http://finance.yahoo.com/news/TMobile-gets-into-the-game-of-apf-14735768.html
+T-Mobile 1-yr contract $100 for USB dongle, $60/mth for 5GB traffic
+$100 initially
+
+Solar Power Laptop Bag
+http://www.legitreviews.com/news/5448/
+$499
+
+12W/12V Solar panel
+http://www.earthtechproducts.com/p2007.html
+$170
+
+Wagan Tech Solar Epower 12W
+http://www.batteryjunction.com/wagan-2448.html
+$138
+
+--------------------
+
 priorities -- trigger levels, qcnlive 2-d graphics, sac2jpeg/server-side & edit sac data
 
 ---------------------------
