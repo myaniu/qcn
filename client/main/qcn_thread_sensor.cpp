@@ -422,7 +422,7 @@ extern void* QCNThreadSensor(void*)
             case SENSOR_USB_JW:
                g_fThreshold = 0.025f;
                break;
-            case SENSOR_USB_MOTIONNODEACCEL
+            case SENSOR_USB_MOTIONNODEACCEL:
                g_fThreshold = 0.01f;
                break;
             default:
