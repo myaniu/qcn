@@ -120,8 +120,8 @@ bool MyApp::get_qcnlive_prefs()
     memset(strRead, 0x00, _MAX_PATH);
 	
     // basic defaults
-    myRect.x = 100;
-    myRect.y = 100;
+    myRect.x = 200;
+    myRect.y = 200;
     myRect.width = 600;
     myRect.height = 400;
 
@@ -149,10 +149,10 @@ bool MyApp::get_qcnlive_prefs()
     char strParse[16];  // make the tag from the define which don't have the <>
     sprintf(strParse, "<%s>", XML_X);
     if (!parse_int(strRead, strParse, myRect.x) || myRect.x<0)
-        myRect.x = 100;
+        myRect.x = 200;
     sprintf(strParse, "<%s>", XML_Y);
     if (!parse_int(strRead, strParse, myRect.y) || myRect.y<0)
-        myRect.y = 100;
+        myRect.y = 200;
     sprintf(strParse, "<%s>", XML_WIDTH);
     if (!parse_int(strRead, strParse, myRect.width) || myRect.width<100 || myRect.width > wxsize.GetWidth())
         myRect.width = 600;
