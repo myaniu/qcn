@@ -33,6 +33,7 @@ double g_dStartDemoTime = 0.0f;
 bool   g_bStartDemoEvenTime = false;  // after the first demo trigger write (10 minutes), set it to be an even 10 minute interval start time
 long   g_lDemoOffsetStart = 0L;
 long   g_lDemoOffsetEnd = 0L;
+float  g_fThreshold = 0.10f;
 
 // forward declaration for useful functions in this file
 bool getSensor(CSensor* volatile *ppsms);
@@ -406,7 +407,29 @@ extern void* QCNThreadSensor(void*)
              continue;
          }
 
-         fprintf(stdout,"Start of monitoring at time %f  interval %f\n", sm->tstart, sm->dt);
+         // CMC -- use different threshold values based on sensor type
+         switch(sm->eSensor) {
+            case SENSOR_MAC_PPC_TYPE1:
+            case SENSOR_MAC_PPC_TYPE2:
+            case SENSOR_MAC_PPC_TYPE3:
+            case SENSOR_MAC_INTEL:
+               g_fThreshold = 0.10f;
+               break;
+            case SENSOR_WIN_HP:
+            case SENSOR_WIN_THINKPAD:
+               g_fThreshold = 0.20f;
+               break;
+            case SENSOR_USB_JW:
+               g_fThreshold = 0.025f;
+               break;
+            case SENSOR_USB_MOTIONNODEACCEL
+               g_fThreshold = 0.01f;
+               break;
+            default:
+               g_fThreshold = 0.10f;
+         }
+
+         fprintf(stdout,"Start of monitoring at time %f  interval %f  threshold %f\n", sm->tstart, sm->dt, g_fThreshold);
          fprintf(stdout,"Initial sensor values:  x0=%f  y0=%f  z0=%f  sample size=%ld  dt=%f\n", sm->x0[0], sm->y0[0], sm->z0[0], sm->lSampleSize, sm->dt);
          fflush(stdout);
 
@@ -634,7 +657,9 @@ extern void* QCNThreadSensor(void*)
 //#endif
         sm->sgmx = sm->fsig[sm->lOffset];
         sm->itl=0;
-        if ( (sm->fsig[sm->lOffset] > qcn_main::g_fPerturb[PERTURB_SIG_CUTOFF]) && (sm->fmag[sm->lOffset]>0.125) ) {  // >2 sigma (90% Conf)
+
+        // CMC note: the threshold values are from above after sensor detection, the peturb values for sig cutoff are from the workunit generation
+        if ( (sm->fsig[sm->lOffset] > qcn_main::g_fPerturb[PERTURB_SIG_CUTOFF]) && (sm->fmag[sm->lOffset] > g_fThreshold) ) {  // was 0.125,  >2 sigma (90% Conf)
           // lock & update now if this trigger is >.5 second from the last
           double dTime; 
           long lTime;
