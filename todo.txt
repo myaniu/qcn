@@ -8,9 +8,7 @@ priorities -- trigger levels, qcnlive 2-d graphics, sac2jpeg/server-side & edit 
 
 ---------------------------
 
-trigger levels
-
-done 
+* trigger levels
 
 I’ve been wondering about this as well.  Right now I think we have a single threshold for all the sensors, which is tuned for the Macs (0.1m/s/s – which is 2.5 times the resolution of the sensor).  We are definitely going to have to adjust the threashold according to the sensor type.  I was thinking that we could have two changes to the threshold:
 
