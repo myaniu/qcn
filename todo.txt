@@ -208,6 +208,8 @@ added/changed.
 1) I'd like to add a button for record/stop recording, so that users can
 output the series they want.
 
+1a) turn off the "always recording" on QCN since we can select a range now
+
 2) Several users have requested an xyz output instead of sac. So, I'd like a
 switch to toggle back and forth between xyz and sac output.
 
