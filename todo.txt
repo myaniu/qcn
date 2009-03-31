@@ -4,6 +4,17 @@ invoice +50% for time @ $50/hr rate to get $75
 
 --------------------
 
+dump out memory if we think a computer "survived" a quake - i.e. on the "ping trickle"
+check a list of computers that were on during a known quake event, and dump the memory
+out and schedule an upload
+
+Is there a way to have sensors upload data even if there were
+no trigger by checking ever 15 minutes if there was an earthquake in last
+hour. If so, it will window and upload the appropriate data to the server
+(if it is within some predefined distance magnitude range).  Just checking.
+
+--------------------
+
 I was looking into a "mobile" qcn setup.  the tough bit is the Internet service (if we use a phone); and the cheap netbook ($239) doesn't have 802.11n.  the solar power looks feasible, although there's a neat netbook solar-powered case for $499.
 
 another possibility other than cell-phone is some sort of "long distance wifi" such as we were talking about: 
