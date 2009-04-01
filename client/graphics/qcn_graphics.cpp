@@ -95,6 +95,8 @@ void app_graphics_init()
 
 static const float xax[2] = { -15.0, 44.0 };
 static const float yax[4] = { -25.0, -10.0, 8.0, 21.0 };
+static const float xax_qcnlive[3] = { -45.0, 42.0, 47.0 };
+static const float yax_qcnlive[5] = { -27.0, -12.0, 3.0, 18.0, 21.0 };
 
 static GLfloat* colorsPlot[4] = { green, yellow, blue, red };
 // time of the latest trigger, so we don't have them less than a second away, note unadjusted wrt server time!
@@ -959,35 +961,12 @@ void draw_plots_2d()
     glFlush();
 }
 
-// CMC HERE
-void draw_plots_2d_qcnlive() 
-{
-    if (!sm) return; // not much point in continuing if shmem isn't setup!
 
-    // set the background colour white for qcnlive 2d view
-    glColor4fv(white);
-    glClearColor(255.0f, 255.0f, 255.0f, 255.0f);
+void draw_tick_marks_qcnlive()
+{  // draw vertical blue lines every 1/10/60/600 seconds depending on view size
 
-    init_camera(viewpoint_distance[g_eView], 45.0f);
-    init_lights();
-    scale_screen(g_width, g_height);
-
-    // should just be simple draw each graph in 2D using the info in dx/dy/dz/ds?
-    
-    glPushMatrix();
-    mode_unshaded();
-    glEnable(GL_LINE_SMOOTH);
-
-    float* fdata = NULL;
-
-	float xmin = xax[0] - 10.0f;
-	float xmax = xax[1] + 2.0f;
-	float ymin = yax[E_DX] - 8.8f;
-    float ymax = yax[E_DS] + 12.0f;
-
-    for (int ee = E_DX; ee <= E_DS; ee++)  {
-		 // draw the tick marks in black
-         glColor4fv(black);
+	  // since we're ripping off SeisMac - tick marks are actually big blue vertical lines across all graphics every 1/10/60/600 seconds
+         glColor4fv(blue);
          glLineWidth(1);
 
          int iUpper = 6;
@@ -1007,96 +986,12 @@ void draw_plots_2d_qcnlive()
 			   fTick = 0.5f;
 		    }			   
             glBegin(GL_LINES);
-            glVertex2f(xax[0] + fDelta, yax[ee] - fTick);
-            glVertex2f(xax[0] + fDelta, yax[ee] + fTick);
+            glVertex2f(xax[0] + fDelta, yax[0] - fTick);
+            glVertex2f(xax[0] + fDelta, yax[0] + fTick);
             glEnd();
 		 }
-	
-         switch(ee) {
-            case E_DX:  fdata = (float*) aryg[E_DX]; break;
-            case E_DY:  fdata = (float*) aryg[E_DY]; break;
-            case E_DZ:  fdata = (float*) aryg[E_DZ]; break;
-            case E_DS:  fdata = (float*) aryg[E_DS]; break;
-         }
-
-         // first draw the axes
-         glLineWidth(2);
-         glBegin(GL_LINES);
-         glVertex2f(xax[0], yax[ee]);
-         glVertex2f(xax[1], yax[ee]);
-         glEnd();
-		 		 
-		 float fmaxfactor;  // scale y -axes
-		 if (fabs(l_fmax[ee]) > fabs(l_fmin[ee]))
-		      fmaxfactor = fabs(l_fmax[ee]);
-         else
-		      fmaxfactor = fabs(l_fmin[ee]);
 		 
-		 if (fmaxfactor == 0) 
-		     fmaxfactor = 1.0f;
-		 else
-		     fmaxfactor = MAX_PLOT_HEIGHT / fmaxfactor;
-		 
-         glLineWidth(1);
- 	     glColor4fv((GLfloat*) colorsPlot[ee]);  // set the color for data
-         glBegin(GL_LINE_STRIP);
-		 float fy;
-         for (int i=0; i<PLOT_ARRAY_SIZE; i++) {
-          if (fdata[i] != 0.0f)  {
-		    /*if (bScaled) { // don't divide by fmax
-			   fy = fdata[i] * fmaxfactor; // (ee == E_DS ? fdata[i] : (MAX_PLOT_HEIGHT * fdata[i]));
-			}
-			else {
-			   fy = fdata[i] * fmaxfactor; // (ee == E_DS ? fdata[i] : (MAX_PLOT_HEIGHT * fdata[i] / (l_fmax[ee] != 0 ? l_fmax[ee] : 1.0f)));
-			}
-			*/
-			fy = fdata[i] * fmaxfactor;
-			
-			//if (fy > 10.0f) fy = 10.0f; // too high!
-			//if (fy < -10.0f) fy = -10.0f; // too low!
-			
-            glVertex2f(
-              xax[0] + (((float) i / (float) PLOT_ARRAY_SIZE) * (xax[1]-xax[0])), 
-              yax[ee] + fy
-            );
-		   }
-         }
-         glEnd();
-    }
-	
-	// draw boxes around the plots
-	 glColor4fv((GLfloat*) black);
-	 glLineWidth(3);
-	 
-	 glBegin(GL_LINE_LOOP);	 
-	 glVertex2f(xmin+.1, ymax);  // top line
-	 glVertex2f(xmax-.1, ymax);
-	 glVertex2f(xmax-.1, ymin);  
-     glVertex2f(xmin+.1, ymin);  
-     glVertex2f(xmin,ymax);
-	 glEnd();
-
-	 glBegin(GL_LINES);	 
-     glVertex2f(xmin, yax[E_DS] - 3.0f);  // top line (ds)
-     glVertex2f(xmax, yax[E_DS] - 3.0f);  
-     glEnd();
-	 		 
-	 glBegin(GL_LINES);	 
-     glVertex2f(xmin, yax[E_DZ] - 10.0f);  // z
-     glVertex2f(xmax, yax[E_DZ] - 10.0f);  
-     glEnd();
-	 		 
-	 glBegin(GL_LINES);	 
-     glVertex2f(xmin, yax[E_DY] - 8.0f);  // y
-     glVertex2f(xmax, yax[E_DY] - 8.0f); 
-     glEnd();
-		 
-    glPopMatrix();    
-    glFlush();
-}
-
-void draw_triggers()
-{
+/*
     // show the triggers, if any
     glPushMatrix();
     for (int i = 0; i < MAX_TRIGGER_LAST; i++) {
@@ -1117,6 +1012,186 @@ void draw_triggers()
        }
     }
     glPopMatrix();
+*/
+}
+
+void draw_triggers()
+{
+    // show the triggers, if any
+    glPushMatrix();
+    for (int i = 0; i < MAX_TRIGGER_LAST; i++) {
+       if (dTriggerLastTime[i] > 0.0f) { // there's a trigger here
+	     float fWhere;
+	     if (g_eView == VIEW_PLOT_2D) {
+            fWhere = xax_qcnlive[0] + ( ((float) (lTriggerLastOffset[i]) / (float) PLOT_ARRAY_SIZE) * (xax_qcnlive[1]-xax_qcnlive[0]));
+		 }
+		 else  {
+            fWhere = xax[0] + ( ((float) (lTriggerLastOffset[i]) / (float) PLOT_ARRAY_SIZE) * (xax[1]-xax[0]));
+         }
+		 
+         //fprintf(stdout, "%d  dTriggerLastTime=%f  lTriggerLastOffset=%ld  fWhere=%f\n",
+         //    i, dTriggerLastTime[i], lTriggerLastOffset[i], fWhere);
+         //fflush(stdout);
+         glColor4fv((GLfloat*) magenta);
+         glLineWidth(1);
+         glLineStipple(4, 0xAAAA);
+         glEnable(GL_LINE_STIPPLE);
+         glBegin(GL_LINE_STRIP);
+         glVertex2f(fWhere, Y_TRIGGER_LAST);
+         glVertex2f(fWhere, -Y_TRIGGER_LAST);
+         glEnd();
+         glDisable(GL_LINE_STIPPLE);
+       }
+    }
+    glPopMatrix();
+    glFlush();
+}
+
+
+// CMC HERE
+void draw_plots_2d_qcnlive() 
+{
+
+/*
+- boxes should be even, as well as plotting since all +/- 19.6 m/s2, sig 0 - 10
+- bouncing ball at "tip" where drawn
+- vertical blue lines every second with time label drawn underneath
+- horizontal grey line every vertical tick mark
+- light pink center axes
+- S/X/Y/Z on right side with vertical axis
+*/
+
+    if (!sm) return; // not much point in continuing if shmem isn't setup!
+
+    // set the background colour white for qcnlive 2d view
+    glColor4fv(white);
+    glClearColor(255.0f, 255.0f, 255.0f, 255.0f);
+
+    init_camera(viewpoint_distance[g_eView], 45.0f);
+    init_lights();
+    scale_screen(g_width, g_height);
+
+    // should just be simple draw each graph in 2D using the info in dx/dy/dz/ds?
+    
+    glPushMatrix();
+    mode_unshaded();
+    glEnable(GL_LINE_SMOOTH);
+
+    float* fdata = NULL;
+
+    // each plot section is 15 units high
+    // static const float xax_qcnlive[3] = { -45.0, 45.0, 48.0 };
+    // static const float yax_qcnlive[5] = { -27.0, -12.0, 3.0, 18.0, 21.0 };
+
+	float xmin = xax_qcnlive[0] - 2.0f;
+	float xmax = xax_qcnlive[1] + 2.0f;
+	float ymin = yax_qcnlive[E_DX] - 5.0f;
+    float ymax = yax_qcnlive[E_DS] + 15.0f;
+
+    for (int ee = E_DX; ee <= E_DS; ee++)  {
+	
+         switch(ee) {
+            case E_DX:  fdata = (float*) aryg[E_DX]; break;
+            case E_DY:  fdata = (float*) aryg[E_DY]; break;
+            case E_DZ:  fdata = (float*) aryg[E_DZ]; break;
+            case E_DS:  fdata = (float*) aryg[E_DS]; break;
+         }
+
+         // first draw the axes
+         glLineWidth(2);
+     	 glColor4fv(grey);
+         glBegin(GL_LINES);
+         glVertex2f(xax_qcnlive[0], yax_qcnlive[ee] + (ee==E_DS ? 0.2f : 7.5f));
+         glVertex2f(xax_qcnlive[1], yax_qcnlive[ee] + (ee==E_DS ? 0.2f : 7.5f));
+         glEnd();
+
+         // x/y/z data points are +/- 19.6 m/s2 -- significance is 0-? make it 0-10		 		 
+
+/*
+		 float fmaxfactor;  // scale y -axes
+		 if (fabs(l_fmax[ee]) > fabs(l_fmin[ee]))
+		      fmaxfactor = fabs(l_fmax[ee]);
+         else
+		      fmaxfactor = fabs(l_fmin[ee]);
+		 
+		 if (fmaxfactor == 0) 
+		     fmaxfactor = 1.0f;
+		 else
+		     fmaxfactor = MAX_PLOT_HEIGHT_QCNLIVE / fmaxfactor;
+*/
+		 
+         glLineWidth(1);
+ 	     glColor4fv((GLfloat*) colorsPlot[ee]);  // set the color for data
+         glBegin(GL_LINE_STRIP);
+		 float fy;
+         for (int i=0; i<PLOT_ARRAY_SIZE; i++) {
+		 /*
+          if (fdata[i] != 0.0f)  {
+			fy = fdata[i] * fmaxfactor;
+			
+			//if (fy > 10.0f) fy = 10.0f; // too high!
+			//if (fy < -10.0f) fy = -10.0f; // too low!
+			
+            glVertex2f(
+              xax_qcnlive[0] + (((float) i / (float) PLOT_ARRAY_SIZE) * (xax_qcnlive[1]-xax_qcnlive[0])), 
+              yax_qcnlive[ee] + ( ee == E_DS ? 1.0f : 7.5f) + fy
+            );
+			*/
+            glVertex2f(
+              xax_qcnlive[0] + (((float) i / (float) PLOT_ARRAY_SIZE) * (xax_qcnlive[1]-xax_qcnlive[0])), 
+              yax_qcnlive[ee] + ( ee == E_DS ? 1.0f : 7.5f) + ( fdata[i] * ( PLOT_ARRAY_SIZE /  19.2f ))
+            );
+		   //}
+         }
+         glEnd();
+    }
+
+
+	
+	// draw boxes around the plots
+	 glColor4fv((GLfloat*) black);
+	 glLineWidth(3);
+	 
+	 glBegin(GL_LINE_LOOP);	 
+	 glVertex2f(xmin, ymax);  // top line
+	 glVertex2f(xmax, ymax);
+	 glVertex2f(xmax, ymin);  
+     glVertex2f(xmin, ymin);  
+     glVertex2f(xmin,ymax);
+	 glEnd();
+
+	 glBegin(GL_LINES);	 
+     glVertex2f(xmin, yax_qcnlive[E_DS]);  // top line (ds)
+     glVertex2f(xmax, yax_qcnlive[E_DS]);  
+     glEnd();
+	 		 
+	 glBegin(GL_LINES);	 
+     glVertex2f(xmin, yax_qcnlive[E_DZ]);  // z
+     glVertex2f(xmax, yax_qcnlive[E_DZ]);  
+     glEnd();
+	 		 
+	 glBegin(GL_LINES);	 
+     glVertex2f(xmin, yax_qcnlive[E_DY]);  // y
+     glVertex2f(xmax, yax_qcnlive[E_DY]); 
+     glEnd();
+
+	 glBegin(GL_LINES);	 
+     glVertex2f(xmin, yax_qcnlive[E_DX]);  // x
+     glVertex2f(xmax, yax_qcnlive[E_DX]); 
+     glEnd();
+	 
+	 // right side loop for labels etc
+	 glBegin(GL_LINE_LOOP);	 
+	 glVertex2f(xmax, ymax);
+	 glVertex2f(xmax + 5.0f, ymax);
+	 glVertex2f(xmax + 5.0f, ymin);
+	 glVertex2f(xmax, ymin);
+	 glEnd();
+		 
+    glPopMatrix();    
+	
+	draw_tick_marks_qcnlive();
+	
     glFlush();
 }
 
