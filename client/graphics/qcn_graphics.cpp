@@ -822,6 +822,10 @@ void draw_plots_2d()
 {
     if (!sm) return; // not much point in continuing if shmem isn't setup!
 
+    // set the background colour black
+    glColor4fv(white);
+    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+
     init_camera(viewpoint_distance[g_eView], 45.0f);
     init_lights();
     scale_screen(g_width, g_height);
