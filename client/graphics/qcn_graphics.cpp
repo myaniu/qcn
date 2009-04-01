@@ -484,6 +484,10 @@ void draw_text_user()
     ortho_done();
 }
 
+void draw_text_plot_qcnlive() 
+{
+}
+
 void draw_text_plot() 
 {  // this draws the seismic sensor/accelerometer labels
     char buf[128];
@@ -573,6 +577,7 @@ void draw_text_plot()
         }
 
    if (g_eView == VIEW_PLOT_2D) {
+/*
       switch (key_winsize) {
         case 0:
           txf_render_string(.1, 0, 0.18, 0, MSG_SIZE_SMALL, white, 0, (char*) "Small Tick Mark = 1 Second");
@@ -587,6 +592,7 @@ void draw_text_plot()
           txf_render_string(.1, 0, 0.16, 0, MSG_SIZE_SMALL, white, 0, (char*) "Large Tick Mark = 10 Minutes");
           break;
 	  }
+*/
 	}
 
 	char strt[2][32];
@@ -953,6 +959,142 @@ void draw_plots_2d()
     glFlush();
 }
 
+// CMC HERE
+void draw_plots_2d_qcnlive() 
+{
+    if (!sm) return; // not much point in continuing if shmem isn't setup!
+
+    // set the background colour white for qcnlive 2d view
+    glColor4fv(white);
+    glClearColor(255.0f, 255.0f, 255.0f, 255.0f);
+
+    init_camera(viewpoint_distance[g_eView], 45.0f);
+    init_lights();
+    scale_screen(g_width, g_height);
+
+    // should just be simple draw each graph in 2D using the info in dx/dy/dz/ds?
+    
+    glPushMatrix();
+    mode_unshaded();
+    glEnable(GL_LINE_SMOOTH);
+
+    float* fdata = NULL;
+
+	float xmin = xax[0] - 10.0f;
+	float xmax = xax[1] + 2.0f;
+	float ymin = yax[E_DX] - 8.8f;
+    float ymax = yax[E_DS] + 12.0f;
+
+    for (int ee = E_DX; ee <= E_DS; ee++)  {
+		 // draw the tick marks in black
+         glColor4fv(black);
+         glLineWidth(1);
+
+         int iUpper = 6;
+		 int iInterval = 10;
+		 switch (key_winsize) {
+		    case 0: iUpper = 6; iInterval = 10; break;
+		    case 1: iUpper = 10; iInterval = 6; break;
+		    case 2: iUpper = 6; iInterval = 10; break;
+		 }
+         for (int ii = 0; ii <= (iUpper * iInterval); ii++)  {
+            float fTick;
+            float fDelta = (float) ii * ((xax[1] - xax[0]) / (float) (iUpper * iInterval));   // tick every second, 10 seconds, minute, i.e. always 1/60th of the window!
+            if (!(ii % iInterval)) {  // large tick mark
+			   fTick = 1.0f;
+			}
+			else {
+			   fTick = 0.5f;
+		    }			   
+            glBegin(GL_LINES);
+            glVertex2f(xax[0] + fDelta, yax[ee] - fTick);
+            glVertex2f(xax[0] + fDelta, yax[ee] + fTick);
+            glEnd();
+		 }
+	
+         switch(ee) {
+            case E_DX:  fdata = (float*) aryg[E_DX]; break;
+            case E_DY:  fdata = (float*) aryg[E_DY]; break;
+            case E_DZ:  fdata = (float*) aryg[E_DZ]; break;
+            case E_DS:  fdata = (float*) aryg[E_DS]; break;
+         }
+
+         // first draw the axes
+         glLineWidth(2);
+         glBegin(GL_LINES);
+         glVertex2f(xax[0], yax[ee]);
+         glVertex2f(xax[1], yax[ee]);
+         glEnd();
+		 		 
+		 float fmaxfactor;  // scale y -axes
+		 if (fabs(l_fmax[ee]) > fabs(l_fmin[ee]))
+		      fmaxfactor = fabs(l_fmax[ee]);
+         else
+		      fmaxfactor = fabs(l_fmin[ee]);
+		 
+		 if (fmaxfactor == 0) 
+		     fmaxfactor = 1.0f;
+		 else
+		     fmaxfactor = MAX_PLOT_HEIGHT / fmaxfactor;
+		 
+         glLineWidth(1);
+ 	     glColor4fv((GLfloat*) colorsPlot[ee]);  // set the color for data
+         glBegin(GL_LINE_STRIP);
+		 float fy;
+         for (int i=0; i<PLOT_ARRAY_SIZE; i++) {
+          if (fdata[i] != 0.0f)  {
+		    /*if (bScaled) { // don't divide by fmax
+			   fy = fdata[i] * fmaxfactor; // (ee == E_DS ? fdata[i] : (MAX_PLOT_HEIGHT * fdata[i]));
+			}
+			else {
+			   fy = fdata[i] * fmaxfactor; // (ee == E_DS ? fdata[i] : (MAX_PLOT_HEIGHT * fdata[i] / (l_fmax[ee] != 0 ? l_fmax[ee] : 1.0f)));
+			}
+			*/
+			fy = fdata[i] * fmaxfactor;
+			
+			//if (fy > 10.0f) fy = 10.0f; // too high!
+			//if (fy < -10.0f) fy = -10.0f; // too low!
+			
+            glVertex2f(
+              xax[0] + (((float) i / (float) PLOT_ARRAY_SIZE) * (xax[1]-xax[0])), 
+              yax[ee] + fy
+            );
+		   }
+         }
+         glEnd();
+    }
+	
+	// draw boxes around the plots
+	 glColor4fv((GLfloat*) black);
+	 glLineWidth(3);
+	 
+	 glBegin(GL_LINE_LOOP);	 
+	 glVertex2f(xmin+.1, ymax);  // top line
+	 glVertex2f(xmax-.1, ymax);
+	 glVertex2f(xmax-.1, ymin);  
+     glVertex2f(xmin+.1, ymin);  
+     glVertex2f(xmin,ymax);
+	 glEnd();
+
+	 glBegin(GL_LINES);	 
+     glVertex2f(xmin, yax[E_DS] - 3.0f);  // top line (ds)
+     glVertex2f(xmax, yax[E_DS] - 3.0f);  
+     glEnd();
+	 		 
+	 glBegin(GL_LINES);	 
+     glVertex2f(xmin, yax[E_DZ] - 10.0f);  // z
+     glVertex2f(xmax, yax[E_DZ] - 10.0f);  
+     glEnd();
+	 		 
+	 glBegin(GL_LINES);	 
+     glVertex2f(xmin, yax[E_DY] - 8.0f);  // y
+     glVertex2f(xmax, yax[E_DY] - 8.0f); 
+     glEnd();
+		 
+    glPopMatrix();    
+    glFlush();
+}
+
 void draw_triggers()
 {
     // show the triggers, if any
@@ -984,6 +1126,10 @@ void draw_plots_3d()
     if (!sm) return; // not much point in continuing if shmem isn't setup!
 
     // use jiggle array to move around graph in x/y/z depending on values
+
+    // set background color black
+    glColor4fv(black);
+    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
     init_camera(viewpoint_distance[g_eView]);
 
@@ -1580,32 +1726,39 @@ void Render(int xs, int ys, double time_of_day)
     
     // draw logo first - it's in background
     //
-    draw_logo();
 
     switch (g_eView) {
        case VIEW_PLOT_2D:
-          draw_plots_2d();
+//    draw_logo();
+//          draw_plots_2d();
+          draw_plots_2d_qcnlive();
           draw_triggers();
-          draw_text_plot();
+          draw_text_plot_qcnlive();
+//          draw_text_plot();
+//          draw_text_user();
           break;
        case VIEW_PLOT_3D:
+          draw_logo();
           draw_plots_3d();
           draw_triggers();
           draw_text_plot();
+          draw_text_user();
           break;
        case VIEW_EARTH_DAY:
        case VIEW_EARTH_NIGHT:
        case VIEW_EARTH_COMBINED:
+          draw_logo();
           earth.RenderScene(g_width, g_height, viewpoint_distance[g_eView], pitch_angle[g_eView], roll_angle[g_eView]);
           earth.RenderText();
+          draw_text_user();
           break;
        case VIEW_CUBE:
+          draw_logo();
           cube.RenderScene(g_width, g_height, viewpoint_distance[g_eView], pitch_angle[g_eView], roll_angle[g_eView]);
-	  cube.RenderText();
-	  break;
+		  cube.RenderText();
+          draw_text_user();
+		  break;
     }
-
-    draw_text_user();
 
     glFinish();
 

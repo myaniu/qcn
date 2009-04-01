@@ -67,6 +67,17 @@ Thinkpad = 0.2
 
 --------------------
 
+seismacing
+
+- boxes should be even, as well as plotting since all +/- 19.6 m/s2, sig 0 - 10
+- bouncing ball at "tip" where drawn
+- vertical blue lines every second with time label drawn underneath
+- horizontal grey line every vertical tick mark
+- light pink center axes
+- S/X/Y/Z on right side with vertical axis
+
+--------------------
+
 qcnlive save view/open problem -- on Jesse's Mac it doesn't save or open in the proper place
 
 ---------------------------
