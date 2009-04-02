@@ -25,9 +25,11 @@ GLfloat cyan[4] = {0., 1., 1., 1.};
 GLfloat dark_blue[4] = {  1.0f/255.f,   1.0f/255.f, 101.0f/255.f, 1.0f};
 GLfloat dark_green[4] = { 32.0f/255.f, 101.0f/255.f,   8.0f/255.f, 1.0f};
 GLfloat black[4] = {0., 0., 0., 1.};
+GLfloat black_trans[4] = {0., 0., 0., .8};
 GLfloat trans_red[4] = {1., 0., 0., .5};
 GLfloat trans_yellow[4] = {1., 1., 0., .5};
-GLfloat grey[4] = {.5,.5,.5,.5};
+GLfloat grey[4] = {.5,.5,.5,.3};
+GLfloat grey_trans[4] = {.5,.5,.5,.1};
 GLfloat white_trans[4] = {1., 1., 1., 0.50f};
 
 #ifndef QCNLIVE
@@ -95,7 +97,7 @@ void app_graphics_init()
 
 static const float xax[2] = { -15.0, 44.0 };
 static const float yax[4] = { -25.0, -10.0, 8.0, 21.0 };
-static const float xax_qcnlive[3] = { -45.0, 42.0, 47.0 };
+static const float xax_qcnlive[3] = { -47.0, 44.0, 49.0 };
 static const float yax_qcnlive[5] = { -27.0, -12.0, 3.0, 18.0, 21.0 };
 
 static GLfloat* colorsPlot[4] = { green, yellow, blue, red };
@@ -842,6 +844,9 @@ void draw_plots_2d()
     
     glPushMatrix();
     mode_unshaded();
+	
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glEnable(GL_BLEND);
     glEnable(GL_LINE_SMOOTH);
 
     float* fdata = NULL;
@@ -965,6 +970,8 @@ void draw_plots_2d()
 void draw_tick_marks_qcnlive()
 {  // draw vertical blue lines every 1/10/60/600 seconds depending on view size
 
+return;
+
 	  // since we're ripping off SeisMac - tick marks are actually big blue vertical lines across all graphics every 1/10/60/600 seconds
          glColor4fv(blue);
          glLineWidth(1);
@@ -1075,16 +1082,19 @@ void draw_plots_2d_qcnlive()
     
     glPushMatrix();
     mode_unshaded();
-    glEnable(GL_LINE_SMOOTH);
+
+	glEnable (GL_LINE_SMOOTH);
+	glEnable (GL_BLEND);
+	glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glHint (GL_LINE_SMOOTH_HINT, GL_NICEST);
+	glLineWidth(1.5);
 
     float* fdata = NULL;
 
     // each plot section is 15 units high
-    // static const float xax_qcnlive[3] = { -45.0, 45.0, 48.0 };
-    // static const float yax_qcnlive[5] = { -27.0, -12.0, 3.0, 18.0, 21.0 };
 
-	float xmin = xax_qcnlive[0] - 2.0f;
-	float xmax = xax_qcnlive[1] + 2.0f;
+	float xmin = xax_qcnlive[0] - 0.1f;
+	float xmax = xax_qcnlive[1] + 0.1f;
 	float ymin = yax_qcnlive[E_DX] - 5.0f;
     float ymax = yax_qcnlive[E_DS] + 15.0f;
 
@@ -1101,8 +1111,8 @@ void draw_plots_2d_qcnlive()
          glLineWidth(2);
      	 glColor4fv(grey);
          glBegin(GL_LINES);
-         glVertex2f(xax_qcnlive[0], yax_qcnlive[ee] + (ee==E_DS ? 0.2f : 7.5f));
-         glVertex2f(xax_qcnlive[1], yax_qcnlive[ee] + (ee==E_DS ? 0.2f : 7.5f));
+         glVertex2f(xax_qcnlive[0], yax_qcnlive[ee] + (ee==E_DS ? 0.5f : 7.5f));
+         glVertex2f(xax_qcnlive[1], yax_qcnlive[ee] + (ee==E_DS ? 0.5f : 7.5f));
          glEnd();
 
          // x/y/z data points are +/- 19.6 m/s2 -- significance is 0-? make it 0-10		 		 
@@ -1122,26 +1132,18 @@ void draw_plots_2d_qcnlive()
 		 
          glLineWidth(1);
  	     glColor4fv((GLfloat*) colorsPlot[ee]);  // set the color for data
+		 glLineWidth(1.5f);
          glBegin(GL_LINE_STRIP);
-		 float fy;
+
          for (int i=0; i<PLOT_ARRAY_SIZE; i++) {
-		 /*
           if (fdata[i] != 0.0f)  {
-			fy = fdata[i] * fmaxfactor;
-			
-			//if (fy > 10.0f) fy = 10.0f; // too high!
-			//if (fy < -10.0f) fy = -10.0f; // too low!
 			
             glVertex2f(
               xax_qcnlive[0] + (((float) i / (float) PLOT_ARRAY_SIZE) * (xax_qcnlive[1]-xax_qcnlive[0])), 
-              yax_qcnlive[ee] + ( ee == E_DS ? 1.0f : 7.5f) + fy
+              yax_qcnlive[ee] + ( ee == E_DS ? 1.0f : 7.5f) + ( fdata[i] * ( 7.5f / ( ee == E_DS ? 10.0f : 19.2f ) ))
             );
-			*/
-            glVertex2f(
-              xax_qcnlive[0] + (((float) i / (float) PLOT_ARRAY_SIZE) * (xax_qcnlive[1]-xax_qcnlive[0])), 
-              yax_qcnlive[ee] + ( ee == E_DS ? 1.0f : 7.5f) + ( fdata[i] * ( PLOT_ARRAY_SIZE /  19.2f ))
-            );
-		   //}
+			
+		   }
          }
          glEnd();
     }
@@ -1149,35 +1151,35 @@ void draw_plots_2d_qcnlive()
 
 	
 	// draw boxes around the plots
-	 glColor4fv((GLfloat*) black);
-	 glLineWidth(3);
+	 glColor4fv((GLfloat*) black_trans);
+	 glLineWidth(2);
 	 
 	 glBegin(GL_LINE_LOOP);	 
 	 glVertex2f(xmin, ymax);  // top line
-	 glVertex2f(xmax, ymax);
-	 glVertex2f(xmax, ymin);  
+	 glVertex2f(xmax + 5.0f, ymax);
+	 glVertex2f(xmax + 5.0f, ymin);  
      glVertex2f(xmin, ymin);  
      glVertex2f(xmin,ymax);
 	 glEnd();
 
 	 glBegin(GL_LINES);	 
      glVertex2f(xmin, yax_qcnlive[E_DS]);  // top line (ds)
-     glVertex2f(xmax, yax_qcnlive[E_DS]);  
+     glVertex2f(xmax + 5.0f, yax_qcnlive[E_DS]);  
      glEnd();
 	 		 
 	 glBegin(GL_LINES);	 
      glVertex2f(xmin, yax_qcnlive[E_DZ]);  // z
-     glVertex2f(xmax, yax_qcnlive[E_DZ]);  
+     glVertex2f(xmax + 5.0f, yax_qcnlive[E_DZ]);  
      glEnd();
 	 		 
 	 glBegin(GL_LINES);	 
      glVertex2f(xmin, yax_qcnlive[E_DY]);  // y
-     glVertex2f(xmax, yax_qcnlive[E_DY]); 
+     glVertex2f(xmax + 5.0f, yax_qcnlive[E_DY]); 
      glEnd();
 
 	 glBegin(GL_LINES);	 
      glVertex2f(xmin, yax_qcnlive[E_DX]);  // x
-     glVertex2f(xmax, yax_qcnlive[E_DX]); 
+     glVertex2f(xmax + 5.0f, yax_qcnlive[E_DX]); 
      glEnd();
 	 
 	 // right side loop for labels etc

@@ -214,10 +214,10 @@
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>E394AA570F8433F300994945</string>
+						<string>E344F08F0F845FDE00622A1C</string>
 						<key>history</key>
 						<array>
-							<string>E3AEE4D00F84013F00152D57</string>
+							<string>E394AA570F8433F300994945</string>
 						</array>
 					</dict>
 					<key>SplitCount</key>
@@ -254,10 +254,10 @@
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>E394AA580F8433F300994945</string>
+						<string>E344F0900F845FDE00622A1C</string>
 						<key>history</key>
 						<array>
-							<string>E3AEE4D10F84013F00152D57</string>
+							<string>E394AA580F8433F300994945</string>
 						</array>
 					</dict>
 					<key>SplitCount</key>
@@ -470,9 +470,9 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>E394A9C70F8414F600994945</string>
+				<string>E344F0530F8457E900622A1C</string>
 				<string>1CE0B1FE06471DED0097A5F4</string>
-				<string>E394A9C80F8414F600994945</string>
+				<string>E344F0540F8457E900622A1C</string>
 				<string>1CE0B20306471E060097A5F4</string>
 				<string>1CE0B20506471E060097A5F4</string>
 			</array>
@@ -605,9 +605,9 @@
 	<key>WindowOrderList</key>
 	<array>
 		<string>1C78EAAD065D492600B07095</string>
+		<string>E35897320E912E8A005C1D94</string>
 		<string>E389CC2B0F2299BE00E82798</string>
 		<string>1CD10A99069EF8BA00B06720</string>
-		<string>E35897320E912E8A005C1D94</string>
 		<string>/Users/carlc/qcn/client/qcnlive/qcnlive.xcodeproj</string>
 		<string>E30659DA0F82E34100DA32B5</string>
 	</array>
@@ -628,14 +628,12 @@
 					<key>Dock</key>
 					<array>
 						<dict>
-							<key>BecomeActive</key>
-							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
 								<string>1CD0528F0623707200166675</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>qcn_graphics.cpp</string>
+								<string></string>
 								<key>StatusBarVisibility</key>
 								<true/>
 							</dict>
@@ -691,7 +689,7 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>E35897320E912E8A005C1D94</string>
-				<string>E394A9D40F84198900994945</string>
+				<string>E344F0600F84585700622A1C</string>
 				<string>1CD0528F0623707200166675</string>
 				<string>XCMainBuildResultsModuleGUID</string>
 			</array>
@@ -702,7 +700,7 @@
 			<key>WindowToolGUID</key>
 			<string>E35897320E912E8A005C1D94</string>
 			<key>WindowToolIsVisible</key>
-			<true/>
+			<false/>
 		</dict>
 		<dict>
 			<key>FirstTimeWindowDisplayed</key>
@@ -811,13 +809,13 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>1CD10A99069EF8BA00B06720</string>
-				<string>E394A9CB0F8414F600994945</string>
+				<string>E344F0570F8457E900622A1C</string>
 				<string>1C162984064C10D400B95A72</string>
-				<string>E394A9CC0F8414F600994945</string>
-				<string>E394A9CD0F8414F600994945</string>
-				<string>E394A9CE0F8414F600994945</string>
-				<string>E394A9CF0F8414F600994945</string>
-				<string>E394A9D00F8414F600994945</string>
+				<string>E344F0580F8457E900622A1C</string>
+				<string>E344F0590F8457E900622A1C</string>
+				<string>E344F05A0F8457E900622A1C</string>
+				<string>E344F05B0F8457E900622A1C</string>
+				<string>E344F05C0F8457E900622A1C</string>
 			</array>
 			<key>ToolbarConfiguration</key>
 			<string>xcode.toolbar.config.debugV3</string>
@@ -983,7 +981,7 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>1C78EAAD065D492600B07095</string>
-				<string>E394A9D50F84198900994945</string>
+				<string>E344F0610F84585700622A1C</string>
 				<string>1C78EAAC065D492600B07095</string>
 			</array>
 			<key>ToolbarConfiguration</key>
