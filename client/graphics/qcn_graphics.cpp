@@ -32,10 +32,6 @@ GLfloat grey[4] = {.5,.5,.5,.3};
 GLfloat grey_trans[4] = {.5,.5,.5,.1};
 GLfloat white_trans[4] = {1., 1., 1., 0.50f};
 
-int g_iZoomLevel = 0;
-int g_aiTimePoint[10];
-char g_astrTimeValue[10][10];
-
 #ifndef QCNLIVE
 
 void qcn_graphics_exit()
@@ -109,6 +105,11 @@ static GLfloat* colorsPlot[4] = { green, yellow, blue, red };
 // the "LastRebin" will be the actual displayed array offset position after the rebin
 static double dTriggerLastTime[MAX_TRIGGER_LAST];    
 static long lTriggerLastOffset[MAX_TRIGGER_LAST];
+static long lTimeLast[MAX_TRIGGER_LAST];    
+static long lTimeLastOffset[MAX_TRIGGER_LAST];
+static int g_iTimeCtr = 0;
+static int g_iZoomLevel = 0;
+
 
 static int  iFullScreenView = 0;  // user preferred view, can be set on cmd line
 
@@ -153,8 +154,6 @@ static bool bScaled = false;             // scaled is usually for 3D pics, but c
 static char* g_strFile = NULL;           // optional file of shared memory serialization
 static bool bResetArray = true;          // reset our plot memory array, otherwise it will just try to push a "live" point onto the array
 static float aryg[4][PLOT_ARRAY_SIZE];   // the data points for plotting -- DS DX DY DZ
-//long lTriggerLast[2];         // trigger points for plotting a vertical line
-//char  strTriggerLast[64];         // a string to display last trigger info
 
 // current view is an enum i.e. { VIEW_PLOT_3D = 1, VIEW_PLOT_2D, VIEW_EARTH_DAY, VIEW_EARTH_NIGHT, VIEW_EARTH_COMBINED, VIEW_CUBE }; 
 static char g_strJPG[_MAX_PATH];
@@ -245,8 +244,10 @@ void getProjectPrefs()
     bInHere = false;
 }
 
-int getLastTrigger(const long lTriggerCheck, const int iWinSizeArray, const int iRebin)  // we may need to see if this trigger lies within a "rebin" range for aryg
-{
+int getLastTrigger(const long lTriggerCheck, const int iWinSizeArray, const int iRebin, const bool bFirst)  // we may need to see if this trigger lies within a "rebin" range for aryg
+{  // this sets up the vertical views, i.e. trigger & time marker
+
+  static long lCheckTime = 0L;
   int iRet = 0;
   int i;
 
@@ -261,6 +262,21 @@ int getLastTrigger(const long lTriggerCheck, const int iWinSizeArray, const int 
      dTriggerLastTime[i] = sm->dTriggerLastTime[i];
   }
 
+  if (g_eView == VIEW_PLOT_2D) { // only need the timing markers on 2d view
+    // first point is never a boundary, but mark second for next time
+	if (bFirst) {
+	   lCheckTime = (long)(sm->t0[lTriggerCheck]) + 1; // bump up next second to check
+	}
+	else {
+	   if (sm->t0[lTriggerCheck] > lCheckTime && g_iTimeCtr < MAX_TRIGGER_LAST) {
+	       lTimeLast[g_iTimeCtr] = lCheckTime;
+		   lTimeLastOffset[g_iTimeCtr] = iWinSizeArray / iRebin;
+		   g_iTimeCtr++;
+	       lCheckTime++;  // bump up to check next second
+	   }
+	}
+  }
+  
   return iRet;
 
 }
@@ -715,15 +731,18 @@ bool setupPlotMemory(const long lOffset)
       memset((void*) aryg[ii], 0x00, sizeof(float) * PLOT_ARRAY_SIZE);
     }
 
-    // reset our trigger list
+    // reset our trigger list & timer values
     memset(dTriggerLastTime, 0x00, sizeof(double) * MAX_TRIGGER_LAST);
     memset(lTriggerLastOffset, 0x00, sizeof(long) * MAX_TRIGGER_LAST);
-
+    memset(lTimeLast, 0x00, sizeof(long) * MAX_TRIGGER_LAST);
+    memset(lTimeLastOffset, 0x00, sizeof(long) * MAX_TRIGGER_LAST);
+    g_iTimeCtr = 0;
+	
     if (lOff > 0)  {  // all points exist in our window, so we can just go into lOffset - winsize and copy/scale from there
       dtw[0] = sm->t0[lOff];  // this will be the timestamp for the beginning of the window, i.e. "awinsize[key_winsize] ticks ago"
 
       for (ii = 0; ii < awinsize[key_winsize]; ii++) { 
-        getLastTrigger(lOff, ii, iRebin);  // we may need to see if this trigger lies within a "rebin" range for aryg
+        getLastTrigger(lOff, ii, iRebin, (const bool) (ii==0));  // we may need to see if this trigger lies within a "rebin" range for aryg
 #ifdef QCNLIVE   // use the bScaled value, defaults to normal 2D/absolute & 3D/scaled, but user can change
         if (! bScaled) {
 #else   // 2D is always absolute, 3D is scaled
@@ -755,7 +774,7 @@ bool setupPlotMemory(const long lOffset)
       //fflush(stdout);
 
       for (ii = 0; ii < awinsize[key_winsize]; ii++) {
-        getLastTrigger(lStart, ii, iRebin);  // we may need to see if this trigger lies within a "rebin" range for aryg
+        getLastTrigger(lStart, ii, iRebin, (const bool) (ii==0));  // we may need to see if this trigger lies within a "rebin" range for aryg
 #ifdef QCNLIVE   // use the bScaled value, defaults to normal 2D/absolute & 3D/scaled, but user can change
         if (! bScaled) {
 #else   // 2D is always absolute, 3D is scaled
@@ -978,8 +997,7 @@ void draw_plots_2d()
 void draw_tick_marks_qcnlive()
 {  // draw vertical blue lines every 1/10/60/600 seconds depending on view size
 
-return;
-
+/*
 	  // since we're ripping off SeisMac - tick marks are actually big blue vertical lines across all graphics every 1/10/60/600 seconds
          glColor4fv(blue);
          glLineWidth(1);
@@ -1005,29 +1023,34 @@ return;
             glVertex2f(xax[0] + fDelta, yax[0] + fTick);
             glEnd();
 		 }
+*/
 		 
-/*
-    // show the triggers, if any
+    // show the time markers, if any
     glPushMatrix();
     for (int i = 0; i < MAX_TRIGGER_LAST; i++) {
-       if (dTriggerLastTime[i] > 0.0f) { // there's a trigger here
-         float fWhere = xax[0] + ( ((float) (lTriggerLastOffset[i]) / (float) PLOT_ARRAY_SIZE) * (xax[1]-xax[0]));
+       if (lTimeLast[i] > 0) { // there's a marker to place here
+	     float fWhere;
+	     if (g_eView == VIEW_PLOT_2D) {
+            fWhere = xax_qcnlive[0] + ( ((float) (lTimeLastOffset[i]) / (float) PLOT_ARRAY_SIZE) * (xax_qcnlive[1]-xax_qcnlive[0]));
+		 }
+		 else  {
+            fWhere = xax[0] + ( ((float) (lTimeLastOffset[i]) / (float) PLOT_ARRAY_SIZE) * (xax[1]-xax[0]));
+         }
          //fprintf(stdout, "%d  dTriggerLastTime=%f  lTriggerLastOffset=%ld  fWhere=%f\n",
          //    i, dTriggerLastTime[i], lTriggerLastOffset[i], fWhere);
          //fflush(stdout);
-         glColor4fv((GLfloat*) magenta);
+         glColor4fv((GLfloat*) blue);
          glLineWidth(1);
-         glLineStipple(4, 0xAAAA);
-         glEnable(GL_LINE_STIPPLE);
+         //glLineStipple(4, 0xAAAA);
+         //glEnable(GL_LINE_STIPPLE);
          glBegin(GL_LINE_STRIP);
          glVertex2f(fWhere, Y_TRIGGER_LAST);
          glVertex2f(fWhere, -Y_TRIGGER_LAST);
          glEnd();
-         glDisable(GL_LINE_STIPPLE);
+         //glDisable(GL_LINE_STIPPLE);
        }
     }
     glPopMatrix();
-*/
 }
 
 void draw_triggers()
