@@ -800,10 +800,6 @@ bool setupPlotMemory(const long lOffset)
 	l_fmax[E_DX] = l_fmax[E_DY] = l_fmax[E_DZ] = l_fmax[E_DS] = -10000;
 	l_fmin[E_DX] = l_fmin[E_DY] = l_fmin[E_DZ] = l_fmin[E_DS] = 10000;
 
-// CMC HERE -- set points for time info i.e. 11:10:01  11:10:02  etc 
-// g_aiTimePoint[10]
-// g_astrTimeValue[10][10]
-
     // now try a simple averaging rebinning to get the array down to manageable size (1000 pts)
     for (ii = 0; ii < awinsize[key_winsize]/iRebin; ii++) {
       fAvg[E_DX] = fAvg[E_DY] = fAvg[E_DZ] = fAvg[E_DS]  = 0.0f;
