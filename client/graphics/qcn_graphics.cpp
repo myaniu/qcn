@@ -21,6 +21,7 @@ GLfloat white[4] = {1., 1., 1., 1.};
 GLfloat red[4] = {1., 0., 0., 1.};
 GLfloat green[4] = {0., 1., 0., 1.};
 GLfloat yellow[4] = {1., 1., 0., 1.};
+GLfloat orange[4] = {1., .5, 0., 1.};
 GLfloat blue[4] = {0., 0., 1., 1.};
 GLfloat magenta[4] = {1., 0., 1., 1.};
 GLfloat cyan[4] = {0., 1., 1., 1.};
@@ -33,6 +34,7 @@ GLfloat trans_yellow[4] = {1., 1., 0., .5};
 GLfloat grey[4] = {.5,.5,.5,.3};
 GLfloat grey_trans[4] = {.5,.5,.5,.1};
 GLfloat white_trans[4] = {1., 1., 1., 0.50f};
+GLfloat light_blue[4] = {0., 0., .5f, .5f};
 
 #ifndef QCNLIVE
 
@@ -545,7 +547,7 @@ void draw_text_plot_qcnlive()
        if (lTimeLast[i] > 0) { // there's a marker to place here
 	     float fWhere = (float) (lTimeLastOffset[i]) / (float) PLOT_ARRAY_SIZE;
 		 qcn_util::dtime_to_string((const double) lTimeLast[i], 'h', strTime);
-         txf_render_string(.1, fWhere - 0.042f, 0.050f, 0, MSG_SIZE_SMALL, blue, 0, (char*) strTime);
+         txf_render_string(.1, fWhere - 0.042f, 0.050f, 0, MSG_SIZE_SMALL, light_blue, 0, (char*) strTime);
 	   }
 	}
    ortho_done();
@@ -894,9 +896,21 @@ void draw_plots_2d()
 {
     if (!sm) return; // not much point in continuing if shmem isn't setup!
 
-    // set the background colour black
-    glColor4fv(white);
+    // set the background colour black for screensaver, white for qcnlive
+
+	// CMC -- maybe an optional toggle for black/white background?
+#ifdef QCNLIVE
+#ifndef _DEBUG
+	glColor4fv(white);
+    glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+#else
+	glColor4fv(black);
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+#endif
+#else
+    glColor4fv(black);
+    glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+#endif
 
     init_camera(viewpoint_distance[g_eView], 45.0f);
     init_lights();
@@ -1046,7 +1060,7 @@ void draw_tick_marks_qcnlive()
          //fprintf(stdout, "%d  dTriggerLastTime=%f  lTriggerLastOffset=%ld  fWhere=%f\n",
          //    i, dTriggerLastTime[i], lTriggerLastOffset[i], fWhere);
          //fflush(stdout);
-         glColor4fv((GLfloat*) blue);
+         glColor4fv((GLfloat*) light_blue);
          glLineWidth(1);
          //glLineStipple(4, 0xAAAA);
          //glEnable(GL_LINE_STIPPLE);
@@ -1100,17 +1114,29 @@ void draw_plots_2d_qcnlive()
 /*
 - boxes should be even, as well as plotting since all +/- 19.6 m/s2, sig 0 - 10
 - bouncing ball at "tip" where drawn
-- vertical blue lines every second with time label drawn underneath
-- horizontal grey line every vertical tick mark
-- light pink center axes
 - S/X/Y/Z on right side with vertical axis
+- toggle background colors black/white?
 */
 
     if (!sm) return; // not much point in continuing if shmem isn't setup!
 
-    // set the background colour white for qcnlive 2d view
-    glColor4fv(white);
-    glClearColor(255.0f, 255.0f, 255.0f, 255.0f);
+#ifdef QCNLIVE
+#if 0
+#ifdef _DEBUG
+	glColor4fv(white);
+    glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+#else
+	glColor4fv(black);
+    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+#endif
+#endif
+	glColor4fv(white);
+    glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+
+#else
+    glColor4fv(black);
+    glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+#endif
 
     init_camera(viewpoint_distance[g_eView], 45.0f);
     init_lights();
@@ -1149,21 +1175,29 @@ void draw_plots_2d_qcnlive()
 		 // draw 2 above & 2 below and one in the middle
 		 float yfactor = 2.50f;
 		 for (int j = -2; j <= 2; j++) {
-             if (j == 0)
-				 glLineWidth(3);
-			 else
-				 glLineWidth(1);
+			 if (ee == E_DS) {
+				 if (j == -2)
+					 glLineWidth(3);
+				 else
+					 glLineWidth(1);
+			 }
+			 else {
+				 if (j == 0)
+					 glLineWidth(3);
+				 else
+					 glLineWidth(1);
+			 }
 
      		 glColor4fv(grey);
 			 glBegin(GL_LINES);
 
 			 if (ee == E_DS) {
 				 glVertex2f(xax_qcnlive[0], yax_qcnlive[ee] + .5f + (yfactor * (float) (j+2)));
-				 glVertex2f(xax_qcnlive[1], yax_qcnlive[ee] + 7.5f + (yfactor * (float) j));
+				 glVertex2f(xax_qcnlive[1], yax_qcnlive[ee] + .5f + (yfactor * (float) (j+2)));
 			 }
 			 else { 
-				 glVertex2f(xax_qcnlive[0], yax_qcnlive[ee] + (ee==E_DS ? 0.5f : 7.5f) + (yfactor * (float) j));
-				 glVertex2f(xax_qcnlive[1], yax_qcnlive[ee] + (ee==E_DS ? 0.5f : 7.5f) + (yfactor * (float) j));
+				 glVertex2f(xax_qcnlive[0], yax_qcnlive[ee] + 7.5f + (yfactor * (float) j));
+				 glVertex2f(xax_qcnlive[1], yax_qcnlive[ee] + 7.5f + (yfactor * (float) j));
 			 }
 
 			 glEnd();
@@ -1194,7 +1228,7 @@ void draw_plots_2d_qcnlive()
 			
             glVertex2f(
               xax_qcnlive[0] + (((float) i / (float) PLOT_ARRAY_SIZE) * (xax_qcnlive[1]-xax_qcnlive[0])), 
-              yax_qcnlive[ee] + ( ee == E_DS ? 1.0f : 7.5f) + ( fdata[i] * ( 7.5f / ( ee == E_DS ? 10.0f : 19.2f ) ))
+              yax_qcnlive[ee] + ( ee == E_DS ? .5f : 7.5f) + ( fdata[i] * ( 7.5f / ( ee == E_DS ? 7.0f : 19.2f ) ))
             );
 			
 		   }
