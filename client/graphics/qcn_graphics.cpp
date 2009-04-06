@@ -14,6 +14,8 @@
 using std::string;
 using std::vector;
 
+const float Y_TRIGGER_LAST[2] = { -28.0f, 33.0f };
+
 // note the colors are extern'd in define.h, so keep outside the namespace qcn_graphics
 GLfloat white[4] = {1., 1., 1., 1.};
 GLfloat red[4] = {1., 0., 0., 1.};
@@ -159,6 +161,8 @@ static float aryg[4][PLOT_ARRAY_SIZE];   // the data points for plotting -- DS D
 static char g_strJPG[_MAX_PATH];
 static int g_iJPG = 0;
 
+static int g_TimerTick = 5;
+
 #ifndef QCNLIVE  
 // the main entry point for BOINC standalone graphics (i.e. separate executable)
 int main(int argc, char** argv) 
@@ -246,10 +250,13 @@ void getProjectPrefs()
 
 int getLastTrigger(const long lTriggerCheck, const int iWinSizeArray, const int iRebin, const bool bFirst)  // we may need to see if this trigger lies within a "rebin" range for aryg
 {  // this sets up the vertical views, i.e. trigger & time marker
-
+  static long lTimeStart = 0L;
   static long lCheckTime = 0L;
   int iRet = 0;
   int i;
+  bool bProc = false;
+
+  if (bFirst) { lTimeStart = 0L; } // reset static counters on first entry
 
   for (i = 0; i < MAX_TRIGGER_LAST; i++)  {
      // check if this offset matches a trigger and is within a rounding error for the time
@@ -264,16 +271,23 @@ int getLastTrigger(const long lTriggerCheck, const int iWinSizeArray, const int 
 
   if (g_eView == VIEW_PLOT_2D) { // only need the timing markers on 2d view
     // first point is never a boundary, but mark second for next time
-	if (bFirst) {
-	   lCheckTime = (long)(sm->t0[lTriggerCheck]) + 1; // bump up next second to check
+    long lTimeTest = (long)(sm->t0[lTriggerCheck]);
+	if ((lCheckTime == 0 || lTimeStart == 0) && lTimeTest > 1e09L) {  // it's our first time in and our point is a valid start time
+	   lCheckTime = lTimeTest;
+	   lTimeStart = lTimeTest;
+       lTimeLast[g_iTimeCtr] = lCheckTime;
+	   bProc = true;
 	}
 	else {
 	   if (sm->t0[lTriggerCheck] > lCheckTime && g_iTimeCtr < MAX_TRIGGER_LAST) {
 	       lTimeLast[g_iTimeCtr] = lCheckTime;
-		   lTimeLastOffset[g_iTimeCtr] = iWinSizeArray / iRebin;
-		   g_iTimeCtr++;
-	       lCheckTime++;  // bump up to check next second
+		   bProc = true;
 	   }
+	}
+	if (bProc && g_iTimeCtr < MAX_TRIGGER_LAST) {  // we hit a timer interval, so setup the array
+	   lTimeLastOffset[g_iTimeCtr] = iWinSizeArray / iRebin;
+	   g_iTimeCtr++;
+       lCheckTime += g_TimerTick;  // bump up to check next second
 	}
   }
   
@@ -510,6 +524,22 @@ void draw_text_user()
 
 void draw_text_plot_qcnlive() 
 {
+   // draw text on top
+   mode_unshaded();
+   mode_ortho();
+
+   // now draw time text at the bottom
+   char strTime[16];
+   //txf_render_string(.1, fWhere, Y_TRIGGER_LAST[0] - 3.0f, 0, 800, blue, 0, (char*) strTime);
+    // CMC HERE
+    for (int i = 0; i < MAX_TRIGGER_LAST; i++) {
+       if (lTimeLast[i] > 0) { // there's a marker to place here
+	     float fWhere = (float) (lTimeLastOffset[i]) / (float) PLOT_ARRAY_SIZE;
+         sprintf(strTime, "%ld", lTimeLast[i]);
+         txf_render_string(.1, fWhere - 0.04f, 0.050f, 0, MSG_SIZE_SMALL, blue, 0, (char*) strTime);
+	   }
+	}
+   ortho_done();
 }
 
 void draw_text_plot() 
@@ -992,34 +1022,7 @@ void draw_plots_2d()
 
 void draw_tick_marks_qcnlive()
 {  // draw vertical blue lines every 1/10/60/600 seconds depending on view size
-
-/*
-	  // since we're ripping off SeisMac - tick marks are actually big blue vertical lines across all graphics every 1/10/60/600 seconds
-         glColor4fv(blue);
-         glLineWidth(1);
-
-         int iUpper = 6;
-		 int iInterval = 10;
-		 switch (key_winsize) {
-		    case 0: iUpper = 6; iInterval = 10; break;
-		    case 1: iUpper = 10; iInterval = 6; break;
-		    case 2: iUpper = 6; iInterval = 10; break;
-		 }
-         for (int ii = 0; ii <= (iUpper * iInterval); ii++)  {
-            float fTick;
-            float fDelta = (float) ii * ((xax[1] - xax[0]) / (float) (iUpper * iInterval));   // tick every second, 10 seconds, minute, i.e. always 1/60th of the window!
-            if (!(ii % iInterval)) {  // large tick mark
-			   fTick = 1.0f;
-			}
-			else {
-			   fTick = 0.5f;
-		    }			   
-            glBegin(GL_LINES);
-            glVertex2f(xax[0] + fDelta, yax[0] - fTick);
-            glVertex2f(xax[0] + fDelta, yax[0] + fTick);
-            glEnd();
-		 }
-*/
+	  // note the labels underneath are drawn in draw_text_plot_qcnlive
 		 
     // show the time markers, if any
     glPushMatrix();
@@ -1040,8 +1043,8 @@ void draw_tick_marks_qcnlive()
          //glLineStipple(4, 0xAAAA);
          //glEnable(GL_LINE_STIPPLE);
          glBegin(GL_LINE_STRIP);
-         glVertex2f(fWhere, Y_TRIGGER_LAST);
-         glVertex2f(fWhere, -Y_TRIGGER_LAST);
+         glVertex2f(fWhere, Y_TRIGGER_LAST[0]);
+         glVertex2f(fWhere, Y_TRIGGER_LAST[1]);
          glEnd();
          //glDisable(GL_LINE_STIPPLE);
        }
@@ -1067,12 +1070,12 @@ void draw_triggers()
          //    i, dTriggerLastTime[i], lTriggerLastOffset[i], fWhere);
          //fflush(stdout);
          glColor4fv((GLfloat*) magenta);
-         glLineWidth(1);
+         glLineWidth(2);
          glLineStipple(4, 0xAAAA);
          glEnable(GL_LINE_STIPPLE);
          glBegin(GL_LINE_STRIP);
-         glVertex2f(fWhere, Y_TRIGGER_LAST);
-         glVertex2f(fWhere, -Y_TRIGGER_LAST);
+         glVertex2f(fWhere, Y_TRIGGER_LAST[0]);
+         glVertex2f(fWhere, Y_TRIGGER_LAST[1]);
          glEnd();
          glDisable(GL_LINE_STIPPLE);
        }
