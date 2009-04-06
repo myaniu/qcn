@@ -250,13 +250,13 @@ void getProjectPrefs()
 
 int getLastTrigger(const long lTriggerCheck, const int iWinSizeArray, const int iRebin, const bool bFirst)  // we may need to see if this trigger lies within a "rebin" range for aryg
 {  // this sets up the vertical views, i.e. trigger & time marker
-  static long lTimeStart = 0L;
+  static long lStartTime = 0L;
   static long lCheckTime = 0L;
   int iRet = 0;
   int i;
   bool bProc = false;
 
-  if (bFirst) { lTimeStart = 0L; } // reset static counters on first entry
+  if (bFirst) lStartTime = 0L;
 
   for (i = 0; i < MAX_TRIGGER_LAST; i++)  {
      // check if this offset matches a trigger and is within a rounding error for the time
@@ -270,13 +270,22 @@ int getLastTrigger(const long lTriggerCheck, const int iWinSizeArray, const int 
   }
 
   if (g_eView == VIEW_PLOT_2D) { // only need the timing markers on 2d view
+	  // CMC here -- use a mod of the time interval with time - sm->dTimeStart
     // first point is never a boundary, but mark second for next time
     long lTimeTest = (long)(sm->t0[lTriggerCheck]);
-	if ((lCheckTime == 0 || lTimeStart == 0) && lTimeTest > 1e09L) {  // it's our first time in and our point is a valid start time
-	   lCheckTime = lTimeTest;
-	   lTimeStart = lTimeTest;
-       lTimeLast[g_iTimeCtr] = lCheckTime;
-	   bProc = true;
+	if (lStartTime == 0L) {  // it's our first time in and our point is a valid start time
+	   long lMult = (long)(sm->t0[lTriggerCheck] - sm->dTimeStart) / g_TimerTick;
+	   long lMod = (long)(sm->t0[lTriggerCheck] - sm->dTimeStart) % g_TimerTick;
+	   if (sm->t0[lTriggerCheck] >= sm->dTimeStart 
+		  && lMod == 0 
+		  && (sm->t0[lTriggerCheck] - (float((long) sm->t0[lTriggerCheck]))) < 0.10f ) { 
+           // get the even increment of sm->t0 from dTimeStart
+		   //long lMult = (sm->t0[lTriggerCheck] - sm->dTimeStart) / g_TimerTick;
+		   lCheckTime = sm->t0[lTriggerCheck];
+	       lTimeLast[g_iTimeCtr] = lCheckTime;
+		   lStartTime = lCheckTime;
+		   bProc = true;
+	   }
 	}
 	else {
 	   if (sm->t0[lTriggerCheck] > lCheckTime && g_iTimeCtr < MAX_TRIGGER_LAST) {
@@ -532,11 +541,11 @@ void draw_text_plot_qcnlive()
    char strTime[16];
    //txf_render_string(.1, fWhere, Y_TRIGGER_LAST[0] - 3.0f, 0, 800, blue, 0, (char*) strTime);
     // CMC HERE
-    for (int i = 0; i < MAX_TRIGGER_LAST; i++) {
+    for (int i = 0; i < g_iTimeCtr; i++) {
        if (lTimeLast[i] > 0) { // there's a marker to place here
 	     float fWhere = (float) (lTimeLastOffset[i]) / (float) PLOT_ARRAY_SIZE;
-         sprintf(strTime, "%ld", lTimeLast[i]);
-         txf_render_string(.1, fWhere - 0.04f, 0.050f, 0, MSG_SIZE_SMALL, blue, 0, (char*) strTime);
+		 qcn_util::dtime_to_string((const double) lTimeLast[i], 'h', strTime);
+         txf_render_string(.1, fWhere - 0.042f, 0.050f, 0, MSG_SIZE_SMALL, blue, 0, (char*) strTime);
 	   }
 	}
    ortho_done();
@@ -1019,14 +1028,13 @@ void draw_plots_2d()
     glFlush();
 }
 
-
 void draw_tick_marks_qcnlive()
 {  // draw vertical blue lines every 1/10/60/600 seconds depending on view size
 	  // note the labels underneath are drawn in draw_text_plot_qcnlive
 		 
     // show the time markers, if any
     glPushMatrix();
-    for (int i = 0; i < MAX_TRIGGER_LAST; i++) {
+    for (int i = 0; i < g_iTimeCtr; i++) {
        if (lTimeLast[i] > 0) { // there's a marker to place here
 	     float fWhere;
 	     if (g_eView == VIEW_PLOT_2D) {
@@ -1138,12 +1146,28 @@ void draw_plots_2d_qcnlive()
          }
 
          // first draw the axes
-         glLineWidth(2);
-     	 glColor4fv(grey);
-         glBegin(GL_LINES);
-         glVertex2f(xax_qcnlive[0], yax_qcnlive[ee] + (ee==E_DS ? 0.5f : 7.5f));
-         glVertex2f(xax_qcnlive[1], yax_qcnlive[ee] + (ee==E_DS ? 0.5f : 7.5f));
-         glEnd();
+		 // draw 2 above & 2 below and one in the middle
+		 float yfactor = 2.50f;
+		 for (int j = -2; j <= 2; j++) {
+             if (j == 0)
+				 glLineWidth(3);
+			 else
+				 glLineWidth(1);
+
+     		 glColor4fv(grey);
+			 glBegin(GL_LINES);
+
+			 if (ee == E_DS) {
+				 glVertex2f(xax_qcnlive[0], yax_qcnlive[ee] + .5f + (yfactor * (float) (j+2)));
+				 glVertex2f(xax_qcnlive[1], yax_qcnlive[ee] + 7.5f + (yfactor * (float) j));
+			 }
+			 else { 
+				 glVertex2f(xax_qcnlive[0], yax_qcnlive[ee] + (ee==E_DS ? 0.5f : 7.5f) + (yfactor * (float) j));
+				 glVertex2f(xax_qcnlive[1], yax_qcnlive[ee] + (ee==E_DS ? 0.5f : 7.5f) + (yfactor * (float) j));
+			 }
+
+			 glEnd();
+		 }
 
          // x/y/z data points are +/- 19.6 m/s2 -- significance is 0-? make it 0-10		 		 
 
