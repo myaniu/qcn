@@ -111,8 +111,10 @@ function addGeoPoint($lat,$long,$infoHTML,$is_quake,$is_usb){  // CMC modified f
 *               (thus eliminating the need for two different show methods from version 1.0)
 */
 
-function centerMap($lat,$long){
-    $this->centerMap = "map.centerAndZoom(new GPoint(".$long.",".$lat."), ".$this->zoomLevel.");\n";
+function centerMap($lat,$long){ 
+    $this->centerMap = "map.setCenter(" 
+       . "new GLatLng(" . $lat . "," . $long . "), " . $this->zoomLevel . ");\n";
+    //$this->centerMap = "map.centerAndZoom(new GPoint(".$long.",".$lat."), ".$this->zoomLevel.");\n";
 }
   
 /* 
@@ -261,18 +263,56 @@ function drawPlateBoundary() { // CMC - draws the plate boundaries in purple on 
 * @description  Displays the Google Map on the page
 */
 	function showMap(){
+
+            if ($this->mapWidth == 1 || $this->mapHeight == 1) { //set defaults and autosize
+                $this->mapWidth = 800;
+                $this->mapHeight = 600;
 		echo "\n<div id=\"map\" style=\"width: ".$this->mapWidth."px; height: ".$this->mapHeight."px\">\n</div>\n";
-		echo "    <script type=\"text/javascript\">\n
-    	function showmap(){
-				//<![CDATA[\n
-    		if (GBrowserIsCompatible()) {\n
-      		var map = new GMap(document.getElementById(\"map\"));\n";
+		echo "    <script type=\"text/javascript\">
+    var winwidth = 800;
+    var winheight = 600;
+    //Opera Netscape 6 Netscape 4x Mozilla 
+    if (window.innerWidth || window.innerHeight){ 
+      winwidth = window.innerWidth; 
+      winheight = window.innerHeight; 
+    } 
+    //IE Mozilla 
+    if (document.body.clientWidth || document.body.clientHeight){ 
+       winwidth = document.body.clientWidth; 
+       winheight = document.body.clientHeight; 
+    }
+    function showmap(){
+                         //<![CDATA[
+                if (GBrowserIsCompatible()) {
+      		   var map = new GMap2(document.getElementById(\"map\"), 
+                      { size:new GSize(winwidth-100, winheight-200), 
+                          draggableCursor:\"move\", 
+                          draggingCursor:\"crosshair\" 
+                        });
+                 ";
+            }
+            else { // we've sent in explicit sizes
+		echo "<div id=\"map\" style=\"width: ".$this->mapWidth."px; height: ".$this->mapHeight."px\">\n</div>
+		    <script type=\"text/javascript\">
+                    function showmap(){
+                                //<![CDATA[
+                     if (GBrowserIsCompatible()) {
+      		        var map = new GMap2(document.getElementById(\"map\"));
+                      ";
+            }
+
+
       		if (empty($this->centerMap)){
-             echo "map.centerAndZoom(new GPoint(".$this->validPoints[0]['long'].",".$this->validPoints[0]['lat']."), ".$this->zoomLevel.");\n";
-             }else{
-               echo $this->centerMap;
-               }   
-                    // CMC modified to use  station or quake icons
+                   echo "map.setCenter(
+                       new GLatLng(" . $this->validPoints[0]['lat'] 
+                       . ", " . $this->validPoints[0]['long'] . "), 
+                         $this->zoomLevel
+                       );\n";
+                }else{
+                    echo $this->centerMap;
+                }   
+
+                   // CMC modified to use  station or quake icons
 		    echo "}\n
 			var iconQuake  = new GIcon();
 			var iconLaptop = new GIcon();

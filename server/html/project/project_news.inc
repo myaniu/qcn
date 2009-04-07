@@ -1,5 +1,10 @@
 <?php
 $project_news = array(
+   array("March 30, 2009",
+"<A HREF=\"http://earthquake.usgs.gov/eqcenter/recenteqsww/Quakes/nc40234037.php\">At least four QCN participant's machines detected today's San Jose earthquke.</A>
+  Also for the first time the external USB JoyWarrior sensor was used to detect a quake (it's previously just been Mac laptops).  So keep running QCN and thanks for participating!<BR>" ,
+ "QCN Participant Machines Detect Today's San Jose M4.2 Quake"
+  ),
    array("January 14, 2009",
 "<A HREF=\"http://qcn.stanford.edu/learning/requests.php\">QCN's USB sensors are now available for order</a>. 
  The sensors are $5 for K-12 teachers, and $49 for everyone else.  

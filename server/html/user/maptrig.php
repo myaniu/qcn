@@ -33,7 +33,7 @@ $title = "";
 
     $mapimg = MAP_TRIGGER;
     $cachedatafile = CACHE_PATH_MAPTRIG;
-    $legendbase = "Legend: <IMG SRC=\"img/qcn_32_laptop.png\"> = QCN participant laptop, <IMG SRC=\"img/qcn_32_usb.png\"> = QCN participant USB sensor, <IMG SRC=\"img/qcn_32_quake.png\"> = Earthquake of minimum magnitude ";
+    $legendbase = "Legend: <IMG SRC=\"img/qcn_32_laptop.png\"> = QCN participant laptop, <IMG SRC=\"img/qcn_32_usb.png\"> = QCN participant USB sensor, <IMG SRC=\"img/qcn_32_quake.png\"> = USGS-reported Earthquake of minimum magnitude ";
     switch($timeint) {
        case "D":
           $mapimg = MAP_TRIGGER_D;
@@ -67,7 +67,8 @@ page_head(tra($title), null, $title, "", true, null, true);
 
 echo "<h3>" . $title . "</h3>";
 echo "<h5>" . $legend . "</h5>";
-echo "<h7>Note: locations changed at the kilometer-level to protect privacy</h7>";
+echo "<h7>Note: locations changed at the kilometer-level to protect privacy</h7><BR>";
+echo "<I>click and drag to move map; on empty region - left dbl-click to zoom in, right dbl-click to zoom out</I><BR>";
 
 $pm = new PhoogleMap();
 
@@ -75,21 +76,21 @@ if ($zoom) {
    $pm->zoomLevel = $zoom;
 }
 else {
-   $pm->zoomLevel = 13;
+   $pm->zoomLevel = 5;
 }
 
 if ($mapwidth) {
    $pm->setWidth($mapwidth);
 }
 else {
-   $pm->setWidth(700);
+   $pm->setWidth(1);
 }
 
 if ($mapheight) {
    $pm->setHeight($mapheight);
 }
 else {
-   $pm->setHeight(500);
+   $pm->setHeight(1);
 }
 
 if ($cx && $cy) {
