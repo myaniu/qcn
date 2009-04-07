@@ -1,3 +1,4 @@
+#!/bin/bash
 # note -- as you edit a file on the server, add a line here to get it locally, also don't forget to add it to subversion (& commit)
 scp carlgt1@qcn-web:/var/www/boinc/qcnalpha/gui_urls.xml ../config/
 scp carlgt1@qcn-web:/var/www/boinc/qcnalpha/config.xml ../config/

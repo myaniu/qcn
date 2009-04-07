@@ -151,12 +151,37 @@ echo "
    var lastOverlay = new Array(5);
    var micon = new Array(5);
    var map;
+   var geocoder;
    var iSelect = 0;
 
    function getElement(aID)
    {
      return (document.getElementById) ? document.getElementById(aID)
                                       : document.all[aID];
+   }
+
+   function clickedAddressLookup(addrline) {
+
+       geocoder.getLatLng(
+          addrline,
+          function(point) {
+            if (!point) {
+              alert(addrline + \" not found\");
+            } else { /*
+              map.setCenter(point, 13);
+              var marker = new GMarker(point);
+              map.addOverlay(marker);
+              marker.openInfoWindowHtml(address);
+              */
+              if (iSelect < 0) { iSelect = 0; }
+              getElement(\"lat\" + iSelect).value = point.y;
+              getElement(\"lng\" + iSelect).value = point.x;
+              getElement(\"lnm\" + iSelect).value = addrline;
+              addMarker(map, point);
+              clickedRadio(iSelect, 1);
+            }
+         }
+       );
    }
 
    function clickedRadio(num, isselected) {
@@ -221,7 +246,8 @@ echo "
    function showMap() 
    {
       if (!GBrowserIsCompatible()) return;
-      map  = new GMap(getElement(\"map\"));
+      map  = new GMap2(getElement(\"map\"));
+      geocoder = new GClientGeocoder();
       for (i = 0 ; i < 5 ; i++) {
         lastOverlay[i] = null;
         micon[i] = new GIcon();
