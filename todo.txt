@@ -4,6 +4,14 @@ invoice +50% for time @ $50/hr rate to get $75
 
 --------------------
 
+- wxwidget scrollbar & controls for IRIS/SeisMac-style QCNLive 2D view
+
+- QCNLive 2D - maybe try grey background - main thing is printing so it's not all black ink in the background etc, and colors show up OK, i.e. may have to "intercept" the jpeg call to force a white background etc
+
+- change 1.33 factor to 1.1 for USB sensors -- if this doesn't end up working to catch longer period quakes, we may need to setup "parallel arrays" to supersample every second and compare previous (i.e. parallel to the "normal" 50Hz detection algorithm)
+
+--------------------
+
 dump out memory if we think a computer "survived" a quake - i.e. on the "ping trickle"
 check a list of computers that were on during a known quake event, and dump the memory
 out and schedule an upload
