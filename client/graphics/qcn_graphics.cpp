@@ -274,9 +274,9 @@ int getLastTrigger(const long lTriggerCheck, const int iWinSizeArray, const int 
   if (g_eView == VIEW_PLOT_2D) { // only need the timing markers on 2d view
 	  // CMC here -- use a mod of the time interval with time - sm->dTimeStart
     // first point is never a boundary, but mark second for next time
-    long lTimeTest = (long)(sm->t0[lTriggerCheck]);
+    //long lTimeTest = (long)(sm->t0[lTriggerCheck]);
 	if (lStartTime == 0L) {  // it's our first time in and our point is a valid start time
-	   long lMult = (long)(sm->t0[lTriggerCheck] - sm->dTimeStart) / g_TimerTick;
+	   //long lMult = (long)(sm->t0[lTriggerCheck] - sm->dTimeStart) / g_TimerTick;
 	   long lMod = (long)(sm->t0[lTriggerCheck] - sm->dTimeStart) % g_TimerTick;
 	   if (sm->t0[lTriggerCheck] >= sm->dTimeStart 
 		  && lMod == 0 

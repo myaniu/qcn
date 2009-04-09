@@ -133,7 +133,7 @@ MyFrame::MyFrame(const wxRect& rect, MyApp* papp)
     menuView = new wxMenu;
     menuOptions = new wxMenu;
     menuBar = new wxMenuBar;
-
+	
     menuBar->Append(menuFile, wxString("&File", wxConvUTF8));
     menuBar->Append(menuView, wxString("&View", wxConvUTF8));
     menuBar->Append(menuOptions, wxString("&Options", wxConvUTF8));
@@ -210,14 +210,14 @@ void MyFrame::OnQuit(wxCommandEvent& WXUNUSED(evt))
 
 void MyFrame::OnAbout(wxCommandEvent& WXUNUSED(evt))
 {
-    wxMessageBox(
-            _T("QCNLive version "
-               QCN_VERSION_STRING
-               "\n\nVisit us on the web at:\n\n"
-               "http://qcn.stanford.edu\n\n"
-               "(c) 2008 Stanford University School of Earth Sciences"), 
-            _T("About QCNLive")
-     );
+	wxAboutDlgInfo myAboutBox;
+	myAboutBox.SetVersion(wxString(QCN_VERSION_STRING));
+	myAboutBox.SetName(wxT("QCNLive"));
+	myAboutBox.SetWebSite(wxT("http://qcn.stanford.edu"), wxT("Quake-Catcher Network Website"));
+	myAboutBox.SetCopyright(wxT("(c) 2009 Stanford University")); 
+	myAboutBox.AddDeveloper(wxT("Carl Christensen  (carlgt1@yahoo.com"));
+
+    wxAboutBox(myAboutBox);
 }
 
 void MyFrame::OnSize(wxSizeEvent& evt)
