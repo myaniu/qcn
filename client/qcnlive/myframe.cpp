@@ -50,7 +50,8 @@ enum e_tool_action_sensor {
     ID_TOOL_ACTION_SENSOR_RECORD,
     ID_TOOL_ACTION_SENSOR_FORWARD,
     ID_TOOL_ACTION_SENSOR_ABSOLUTE,
-    ID_TOOL_ACTION_SENSOR_SCALED
+    ID_TOOL_ACTION_SENSOR_SCALED,
+	ID_TOOL_ACTION_SENSOR_SCROLLBAR
 };
 
 BEGIN_EVENT_TABLE(MyFrame, wxFrame)
@@ -664,6 +665,9 @@ void MyFrame::ToolBarSensor(int iView)
 	   wxsLong[3]
 	);
     menuOptions->Append(ID_TOOL_ACTION_SENSOR_BACK, wxsShort[3], wxsLong[3]);
+
+	scrollBar = new wxScrollBar(toolBar, ID_TOOL_ACTION_SENSOR_SCROLLBAR);
+	toolBar->AddControl(scrollBar);
 
 	m_ptbBase = toolBar->AddRadioTool(ID_TOOL_ACTION_SENSOR_STOP, 
        wxsShort[4],

@@ -24,6 +24,7 @@ class MyFrame : public wxFrame
     MyGLPane* glPane;
         wxBoxSizer* sizer;
     wxToolBar* toolBar;
+	wxScrollBar* scrollBar;
     //wxButtonBar* toolBar;
         wxStatusBar* statusBar;
         MyApp* pMyApp;
