@@ -20,7 +20,8 @@ const float Y_TRIGGER_LAST[2] = { -28.0f, 33.0f };
 GLfloat white[4] = {1., 1., 1., 1.};
 GLfloat red[4] = {1., 0., 0., 1.};
 GLfloat green[4] = {0., 1., 0., 1.};
-GLfloat yellow[4] = {1., 1., 0., 1.};
+//GLfloat yellow[4] = {1., 1., 0., 1.};
+GLfloat yellow[4] = {1., .5, 0., 1.};
 GLfloat orange[4] = {1., .5, 0., 1.};
 GLfloat blue[4] = {0., 0., 1., 1.};
 GLfloat magenta[4] = {1., 0., 1., 1.};
@@ -272,7 +273,7 @@ int getLastTrigger(const long lTriggerCheck, const int iWinSizeArray, const int 
   }
 
   if (g_eView == VIEW_PLOT_2D) { // only need the timing markers on 2d view
-	  // CMC here -- use a mod of the time interval with time - sm->dTimeStart
+	// use a mod of the time interval with time - sm->dTimeStart
     // first point is never a boundary, but mark second for next time
     //long lTimeTest = (long)(sm->t0[lTriggerCheck]);
 	if (lStartTime == 0L) {  // it's our first time in and our point is a valid start time
@@ -542,7 +543,6 @@ void draw_text_plot_qcnlive()
    // now draw time text at the bottom
    char strTime[16];
    //txf_render_string(.1, fWhere, Y_TRIGGER_LAST[0] - 3.0f, 0, 800, blue, 0, (char*) strTime);
-    // CMC HERE
     for (int i = 0; i < g_iTimeCtr; i++) {
        if (lTimeLast[i] > 0) { // there's a marker to place here
 	     float fWhere = (float) (lTimeLastOffset[i]) / (float) PLOT_ARRAY_SIZE;
@@ -550,7 +550,68 @@ void draw_text_plot_qcnlive()
          txf_render_string(.1, fWhere - 0.042f, 0.050f, 0, MSG_SIZE_SMALL, light_blue, 0, (char*) strTime);
 	   }
 	}
-   ortho_done();
+
+	// labels for each axis
+	const float fAxisLabel = 1.063f;
+	const float fVertLabel = 0.992f;
+
+    txf_render_string(.1, fAxisLabel, 0.60f, 0, MSG_SIZE_NORMAL, red, 0, "Significance", 90.0f);
+    txf_render_string(.1, fAxisLabel, 0.46f, 0, MSG_SIZE_NORMAL, blue, 0, "Z Axis", 90.0f);
+    txf_render_string(.1, fAxisLabel, 0.30f, 0, MSG_SIZE_NORMAL, yellow, 0, "Y Axis", 90.0f);
+    txf_render_string(.1, fAxisLabel, 0.14f, 0, MSG_SIZE_NORMAL, green, 0, "X Axis", 90.0f);
+
+	// labels for significance
+    txf_render_string(.1, fVertLabel, 0.578f, 0, MSG_SIZE_SMALL, black, 0, " 0.00", 0.0f);
+    txf_render_string(.1, fVertLabel, 0.603f, 0, MSG_SIZE_SMALL, black, 0, " 1.67", 0.0f);
+    txf_render_string(.1, fVertLabel, 0.632f, 0, MSG_SIZE_SMALL, black, 0, " 3.33", 0.0f);
+    txf_render_string(.1, fVertLabel, 0.657f, 0, MSG_SIZE_SMALL, black, 0, " 5.00", 0.0f);
+    txf_render_string(.1, fVertLabel, 0.686f, 0, MSG_SIZE_SMALL, black, 0, " 6.67", 0.0f);
+    txf_render_string(.1, fVertLabel, 0.712f, 0, MSG_SIZE_SMALL, black, 0, " 8.33", 0.0f);
+    txf_render_string(.1, fVertLabel, 0.728f, 0, MSG_SIZE_SMALL, black, 0, "10.00", 0.0f);
+
+	// labels for Z axis
+    txf_render_string(.1, fVertLabel, 0.413f, 0, MSG_SIZE_SMALL, black, 0, "-19.62", 0.0f);
+/*
+	txf_render_string(.1, fVertLabel, 0.38f, 0, MSG_SIZE_SMALL, black, 0, "-19.62", 0.0f);
+    txf_render_string(.1, fVertLabel, 0.40f, 0, MSG_SIZE_SMALL, black, 0, "-13.08", 0.0f);
+    txf_render_string(.1, fVertLabel, 0.42f, 0, MSG_SIZE_SMALL, black, 0, "-6.54", 0.0f);
+    txf_render_string(.1, fVertLabel, 0.44f, 0, MSG_SIZE_SMALL, black, 0, "0.00", 0.0f);
+    txf_render_string(.1, fVertLabel, 0.46f, 0, MSG_SIZE_SMALL, black, 0, "+6.54", 0.0f);
+    txf_render_string(.1, fVertLabel, 0.48f, 0, MSG_SIZE_SMALL, black, 0, "+13.08", 0.0f);
+    txf_render_string(.1, fVertLabel, 0.50f, 0, MSG_SIZE_SMALL, black, 0, "+19.62", 0.0f);
+*/
+
+	// labels for Y axis
+    txf_render_string(.1, fVertLabel, 0.248f, 0, MSG_SIZE_SMALL, black, 0, "-19.62", 0.0f);
+/*
+    txf_render_string(.1, fVertLabel, 0.105f, 0, MSG_SIZE_SMALL, black, 0, "-13.08", 0.0f);
+    txf_render_string(.1, fVertLabel, 0.13f, 0, MSG_SIZE_SMALL, black, 0, "-6.54", 0.0f);
+    txf_render_string(.1, fVertLabel, 0.157f, 0, MSG_SIZE_SMALL, black, 0, "0.00", 0.0f);
+    txf_render_string(.1, fVertLabel, 0.185f, 0, MSG_SIZE_SMALL, black, 0, "+6.54", 0.0f);
+    txf_render_string(.1, fVertLabel, 0.215f, 0, MSG_SIZE_SMALL, black, 0, "+13.08", 0.0f);
+    txf_render_string(.1, fVertLabel, 0.235f, 0, MSG_SIZE_SMALL, black, 0, "+19.62", 0.0f);
+
+	txf_render_string(.1, fVertLabel, 0.24f, 0, MSG_SIZE_SMALL, black, 0, "-19.62", 0.0f);
+    txf_render_string(.1, fVertLabel, 0.26f, 0, MSG_SIZE_SMALL, black, 0, "-13.08", 0.0f);
+    txf_render_string(.1, fVertLabel, 0.28f, 0, MSG_SIZE_SMALL, black, 0, "- 6.54", 0.0f);
+    txf_render_string(.1, fVertLabel, 0.30f, 0, MSG_SIZE_SMALL, black, 0, "  0.00", 0.0f);
+    txf_render_string(.1, fVertLabel, 0.32f, 0, MSG_SIZE_SMALL, black, 0, "+ 6.54", 0.0f);
+    txf_render_string(.1, fVertLabel, 0.34f, 0, MSG_SIZE_SMALL, black, 0, "+13.08", 0.0f);
+    txf_render_string(.1, fVertLabel, 0.36f, 0, MSG_SIZE_SMALL, black, 0, "+19.62", 0.0f);
+*/
+	// labels for X axis
+    txf_render_string(.1, fVertLabel, 0.084f, 0, MSG_SIZE_SMALL, black, 0, "-19.62", 0.0f);
+    txf_render_string(.1, fVertLabel, 0.105f, 0, MSG_SIZE_SMALL, black, 0, "-13.08", 0.0f);
+    txf_render_string(.1, fVertLabel, 0.13f, 0, MSG_SIZE_SMALL, black, 0, "-6.54", 0.0f);
+    txf_render_string(.1, fVertLabel, 0.157f, 0, MSG_SIZE_SMALL, black, 0, "0.00", 0.0f);
+    txf_render_string(.1, fVertLabel, 0.185f, 0, MSG_SIZE_SMALL, black, 0, "+6.54", 0.0f);
+    txf_render_string(.1, fVertLabel, 0.215f, 0, MSG_SIZE_SMALL, black, 0, "+13.08", 0.0f);
+    txf_render_string(.1, fVertLabel, 0.235f, 0, MSG_SIZE_SMALL, black, 0, "+19.62", 0.0f);
+
+	// units label (meters per second per second
+    txf_render_string(.1, fVertLabel, 0.063f, 0, MSG_SIZE_SMALL, black, 0, "m/s/s", 0.0f);
+
+	ortho_done();
 }
 
 void draw_text_plot() 
@@ -892,156 +953,6 @@ bool setupPlotMemory(const long lOffset)
     return true;
 }
 
-void draw_plots_2d() 
-{
-    if (!sm) return; // not much point in continuing if shmem isn't setup!
-
-    // set the background colour black for screensaver, white for qcnlive
-
-	// CMC -- maybe an optional toggle for black/white background?
-#ifdef QCNLIVE
-#ifndef _DEBUG
-	glColor4fv(white);
-    glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-#else
-	glColor4fv(black);
-    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-#endif
-#else
-    glColor4fv(black);
-    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-#endif
-
-    init_camera(viewpoint_distance[g_eView], 45.0f);
-    init_lights();
-    scale_screen(g_width, g_height);
-
-    // should just be simple draw each graph in 2D using the info in dx/dy/dz/ds?
-    
-    glPushMatrix();
-    mode_unshaded();
-	
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	glEnable(GL_BLEND);
-    glEnable(GL_LINE_SMOOTH);
-
-    float* fdata = NULL;
-
-	float xmin = xax[0] - 10.0f;
-	float xmax = xax[1] + 2.0f;
-	float ymin = yax[E_DX] - 8.8f;
-    float ymax = yax[E_DS] + 12.0f;
-
-    for (int ee = E_DX; ee <= E_DS; ee++)  {
-		 // draw the tick marks in white
-         glColor4fv(white_trans);
-         glLineWidth(1);
-
-         int iUpper = 6;
-		 int iInterval = 10;
-		 switch (key_winsize) {
-		    case 0: iUpper = 6; iInterval = 10; break;
-		    case 1: iUpper = 10; iInterval = 6; break;
-		    case 2: iUpper = 6; iInterval = 10; break;
-		 }
-         for (int ii = 0; ii <= (iUpper * iInterval); ii++)  {
-            float fTick;
-            float fDelta = (float) ii * ((xax[1] - xax[0]) / (float) (iUpper * iInterval));   // tick every second, 10 seconds, minute, i.e. always 1/60th of the window!
-            if (!(ii % iInterval)) {  // large tick mark
-			   fTick = 1.0f;
-			}
-			else {
-			   fTick = 0.5f;
-		    }			   
-            glBegin(GL_LINES);
-            glVertex2f(xax[0] + fDelta, yax[ee] - fTick);
-            glVertex2f(xax[0] + fDelta, yax[ee] + fTick);
-            glEnd();
-		 }
-	
-         switch(ee) {
-            case E_DX:  fdata = (float*) aryg[E_DX]; break;
-            case E_DY:  fdata = (float*) aryg[E_DY]; break;
-            case E_DZ:  fdata = (float*) aryg[E_DZ]; break;
-            case E_DS:  fdata = (float*) aryg[E_DS]; break;
-         }
-
-         // first draw the axes
-         glLineWidth(2);
-         glBegin(GL_LINES);
-         glVertex2f(xax[0], yax[ee]);
-         glVertex2f(xax[1], yax[ee]);
-         glEnd();
-		 		 
-		 float fmaxfactor;  // scale y -axes
-		 if (fabs(l_fmax[ee]) > fabs(l_fmin[ee]))
-		      fmaxfactor = fabs(l_fmax[ee]);
-         else
-		      fmaxfactor = fabs(l_fmin[ee]);
-		 
-		 if (fmaxfactor == 0) 
-		     fmaxfactor = 1.0f;
-		 else
-		     fmaxfactor = MAX_PLOT_HEIGHT / fmaxfactor;
-		 
-         glLineWidth(1);
- 	     glColor4fv((GLfloat*) colorsPlot[ee]);  // set the color for data
-         glBegin(GL_LINE_STRIP);
-		 float fy;
-         for (int i=0; i<PLOT_ARRAY_SIZE; i++) {
-          if (fdata[i] != 0.0f)  {
-		    /*if (bScaled) { // don't divide by fmax
-			   fy = fdata[i] * fmaxfactor; // (ee == E_DS ? fdata[i] : (MAX_PLOT_HEIGHT * fdata[i]));
-			}
-			else {
-			   fy = fdata[i] * fmaxfactor; // (ee == E_DS ? fdata[i] : (MAX_PLOT_HEIGHT * fdata[i] / (l_fmax[ee] != 0 ? l_fmax[ee] : 1.0f)));
-			}
-			*/
-			fy = fdata[i] * fmaxfactor;
-			
-			//if (fy > 10.0f) fy = 10.0f; // too high!
-			//if (fy < -10.0f) fy = -10.0f; // too low!
-			
-            glVertex2f(
-              xax[0] + (((float) i / (float) PLOT_ARRAY_SIZE) * (xax[1]-xax[0])), 
-              yax[ee] + fy
-            );
-		   }
-         }
-         glEnd();
-    }
-	
-	// draw boxes around the plots
-	 glColor4fv((GLfloat*) grey);
-	 glLineWidth(3);
-	 
-	 glBegin(GL_LINE_LOOP);	 
-	 glVertex2f(xmin, ymax);  // top line
-	 glVertex2f(xmax, ymax);
-	 glVertex2f(xmax, ymin);  
-     glVertex2f(xmin, ymin);  
-     glVertex2f(xmin,ymax);
-	 glEnd();
-
-	 glBegin(GL_LINES);	 
-     glVertex2f(xmin, yax[E_DS] - 3.0f);  // top line (ds)
-     glVertex2f(xmax, yax[E_DS] - 3.0f);  
-     glEnd();
-	 		 
-	 glBegin(GL_LINES);	 
-     glVertex2f(xmin, yax[E_DZ] - 10.0f);  // z
-     glVertex2f(xmax, yax[E_DZ] - 10.0f);  
-     glEnd();
-	 		 
-	 glBegin(GL_LINES);	 
-     glVertex2f(xmin, yax[E_DY] - 8.0f);  // y
-     glVertex2f(xmax, yax[E_DY] - 8.0f); 
-     glEnd();
-		 
-    glPopMatrix();    
-    glFlush();
-}
-
 void draw_tick_marks_qcnlive()
 {  // draw vertical blue lines every 1/10/60/600 seconds depending on view size
 	  // note the labels underneath are drawn in draw_text_plot_qcnlive
@@ -1107,7 +1018,6 @@ void draw_triggers()
 }
 
 
-// CMC HERE
 void draw_plots_2d_qcnlive() 
 {
 
@@ -1173,8 +1083,8 @@ void draw_plots_2d_qcnlive()
 
          // first draw the axes
 		 // draw 2 above & 2 below and one in the middle
-		 float yfactor = 2.50f;
-		 for (int j = -2; j <= 2; j++) {
+		 const float yfactor = 2.50f, xfactor = 0.00f;
+		 for (int j = -2; j <= 3; j++) {
 			 if (ee == E_DS) {
 				 if (j == -2)
 					 glLineWidth(3);
@@ -1193,11 +1103,13 @@ void draw_plots_2d_qcnlive()
 
 			 if (ee == E_DS) {
 				 glVertex2f(xax_qcnlive[0], yax_qcnlive[ee] + .5f + (yfactor * (float) (j+2)));
-				 glVertex2f(xax_qcnlive[1], yax_qcnlive[ee] + .5f + (yfactor * (float) (j+2)));
+				 glVertex2f(xax_qcnlive[1] + xfactor, yax_qcnlive[ee] + .5f + (yfactor * (float) (j+2)));
 			 }
 			 else { 
-				 glVertex2f(xax_qcnlive[0], yax_qcnlive[ee] + 7.5f + (yfactor * (float) j));
-				 glVertex2f(xax_qcnlive[1], yax_qcnlive[ee] + 7.5f + (yfactor * (float) j));
+				 if (j<3) { // only sig E_DS get's the j=3 line
+					 glVertex2f(xax_qcnlive[0], yax_qcnlive[ee] + 7.5f + (yfactor * (float) j));
+					 glVertex2f(xax_qcnlive[1] + xfactor, yax_qcnlive[ee] + 7.5f + (yfactor * (float) j));
+				 }
 			 }
 
 			 glEnd();
@@ -1234,14 +1146,27 @@ void draw_plots_2d_qcnlive()
 		   }
          }
          glEnd();
-    }
+
+		 // plot a "colored pointer" at the end for ease of seeing current value?
+		if (fdata[PLOT_ARRAY_SIZE-1] != 0.0f)  {
+			float x1 = xax_qcnlive[0] + (xax_qcnlive[1]-xax_qcnlive[0]);
+			float y1 = yax_qcnlive[ee] + ( ee == E_DS ? .5f : 7.5f) + ( fdata[PLOT_ARRAY_SIZE-1] * ( 7.5f / ( ee == E_DS ? 7.0f : 19.2f ) ));
+			const float fRadius = 1.4f;
+			float fAngle = PI/8.0f;
+
+			glBegin(GL_TRIANGLE_FAN);
+			glVertex2f(x1, y1);
+			glVertex2f(x1 + (cos(fAngle) * fRadius), y1 + (sin(fAngle) * fRadius));
+			glVertex2f(x1 + (cos(-fAngle) * fRadius), y1 + (sin(-fAngle) * fRadius));
+			glEnd();
+		} // colored pointer
+	}
 
 
 	
 	// draw boxes around the plots
-	 glColor4fv((GLfloat*) black_trans);
-	 glLineWidth(2);
-	 
+
+	 /*
 	 glBegin(GL_LINE_LOOP);	 
 	 glVertex2f(xmin, ymax);  // top line
 	 glVertex2f(xmax + 5.0f, ymax);
@@ -1249,34 +1174,60 @@ void draw_plots_2d_qcnlive()
      glVertex2f(xmin, ymin);  
      glVertex2f(xmin,ymax);
 	 glEnd();
+	 */
+	 const float fExt = 7.0f;
+	 const float fFudge = 0.02f;
+
+	 glColor4fv((GLfloat*) black);
+	 glLineWidth(2);
+
+	 glBegin(GL_LINES);	   // really top line! :-)
+     glVertex2f(xmin, ymax-fFudge); 
+     glVertex2f(xmax + fExt, ymax-fFudge);  
+     glEnd();
+
+	 glBegin(GL_LINES);	   // left side
+     glVertex2f(xmin+fFudge, ymin); 
+     glVertex2f(xmin+fFudge, ymax-fFudge);  
+     glEnd();
 
 	 glBegin(GL_LINES);	 
      glVertex2f(xmin, yax_qcnlive[E_DS]);  // top line (ds)
-     glVertex2f(xmax + 5.0f, yax_qcnlive[E_DS]);  
+     glVertex2f(xmax + fExt, yax_qcnlive[E_DS]);  
      glEnd();
 	 		 
 	 glBegin(GL_LINES);	 
      glVertex2f(xmin, yax_qcnlive[E_DZ]);  // z
-     glVertex2f(xmax + 5.0f, yax_qcnlive[E_DZ]);  
+     glVertex2f(xmax + fExt, yax_qcnlive[E_DZ]);  
      glEnd();
 	 		 
+	 // bottom section
 	 glBegin(GL_LINES);	 
      glVertex2f(xmin, yax_qcnlive[E_DY]);  // y
-     glVertex2f(xmax + 5.0f, yax_qcnlive[E_DY]); 
+     glVertex2f(xmax + fExt, yax_qcnlive[E_DY]); 
      glEnd();
 
 	 glBegin(GL_LINES);	 
      glVertex2f(xmin, yax_qcnlive[E_DX]);  // x
-     glVertex2f(xmax + 5.0f, yax_qcnlive[E_DX]); 
+     glVertex2f(xmax + fExt, yax_qcnlive[E_DX]); 
      glEnd();
-	 
+
+	 glColor4fv((GLfloat*) grey);
+	 glRectf(xmin, yax_qcnlive[E_DX], xmax+fExt, ymin);  // bottom rectangle (timer ticks)
+
+	 //right side rectangular region
+	 glRectf(xmax, ymax, xmax+fExt, yax_qcnlive[E_DX]);
+
+	 /*
 	 // right side loop for labels etc
 	 glBegin(GL_LINE_LOOP);	 
 	 glVertex2f(xmax, ymax);
 	 glVertex2f(xmax + 5.0f, ymax);
-	 glVertex2f(xmax + 5.0f, ymin);
-	 glVertex2f(xmax, ymin);
+	 glVertex2f(xmax + 5.0f, yax_qcnlive[E_DX]);
+	 glVertex2f(xmax, yax_qcnlive[E_DX]);
 	 glEnd();
+	 */
+	 //glColor4fv(light_blue);
 		 
     glPopMatrix();    
 	
@@ -1894,12 +1845,9 @@ void Render(int xs, int ys, double time_of_day)
     switch (g_eView) {
        case VIEW_PLOT_2D:
 //    draw_logo();
-//          draw_plots_2d();
           draw_plots_2d_qcnlive();
           draw_triggers();
           draw_text_plot_qcnlive();
-//          draw_text_plot();
-//          draw_text_user();
           break;
        case VIEW_PLOT_3D:
           draw_logo();
@@ -1945,7 +1893,9 @@ void Resize(int w, int h)
 
 void MouseMove(int x, int y, int left, int middle, int right)
 {
-    mouseSX = x;
+	if (g_eView != VIEW_EARTH_DAY && g_eView != VIEW_EARTH_NIGHT && g_eView != VIEW_EARTH_COMBINED) return;
+
+	mouseSX = x;
     mouseSY = y;
 
     if (earth.IsShown()) {
@@ -1973,7 +1923,9 @@ void MouseMove(int x, int y, int left, int middle, int right)
 
 void MouseButton(int x, int y, int which, int is_down)
 {
-    if (sm) sm->dTimeInteractive = dtime();
+	if (g_eView != VIEW_EARTH_DAY && g_eView != VIEW_EARTH_NIGHT && g_eView != VIEW_EARTH_COMBINED) return;
+
+	if (sm) sm->dTimeInteractive = dtime();
 
     mouseX = x;
     mouseY = y;

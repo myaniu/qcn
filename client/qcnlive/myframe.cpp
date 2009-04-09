@@ -214,6 +214,7 @@ void MyFrame::OnQuit(wxCommandEvent& WXUNUSED(evt))
 void MyFrame::OnAbout(wxCommandEvent& WXUNUSED(evt))
 {
 	wxAboutDialogInfo myAboutBox;
+	myAboutBox.SetIcon(wxIcon("qcnwin.ico", wxBITMAP_TYPE_ICO));
 	myAboutBox.SetVersion(wxString(QCN_VERSION_STRING));
 	myAboutBox.SetName(wxT("QCNLive"));
 	myAboutBox.SetWebSite(wxT("http://qcn.stanford.edu"), wxT("Quake-Catcher Network Website"));
@@ -243,30 +244,30 @@ void MyFrame::OnActionView(wxCommandEvent& evt)
                 qcn_graphics::earth.SetMapCombined();
 	     else 
                 qcn_graphics::earth.SetMapNight();
-	     ToolBarEarth();
          m_view = evt.GetId();
+	     ToolBarEarth();
 	     bChanged = true;
 	     break;
 	 case ID_TOOL_VIEW_SENSOR_2D:
 	     qcn_graphics::g_eView = VIEW_PLOT_2D;
 		 // note only redraw sensor toolbar if not coming from a sensor view already
          //if (m_view != ID_TOOL_VIEW_SENSOR_2D && m_view != ID_TOOL_VIEW_SENSOR_3D) ToolBarSensor(evt.GetId());
-         ToolBarSensor2D();
          m_view = evt.GetId();
+         ToolBarSensor2D();
          bChanged = true;
 		 break;
 	 case ID_TOOL_VIEW_SENSOR_3D:
 	     qcn_graphics::g_eView = VIEW_PLOT_3D;
 		 // note only redraw sensor toolbar if not coming from a sensor view already
          //if (m_view != ID_TOOL_VIEW_SENSOR_2D && m_view != ID_TOOL_VIEW_SENSOR_3D) ToolBarSensor(evt.GetId());
-         ToolBarSensor3D();
          m_view = evt.GetId();
+         ToolBarSensor3D();
          bChanged = true;
 		 break;
 	 case ID_TOOL_VIEW_CUBE:
 	     qcn_graphics::g_eView = VIEW_CUBE;
-		 ToolBarCube();
          m_view = evt.GetId();
+		 ToolBarCube();
 		 bChanged = true;
 		 break;
 	}
@@ -661,8 +662,8 @@ void MyFrame::ToolBarSensor2D()
     wxsLong[9].assign("Starts recording the sensor output");
 
 	//if (scrollBar) delete scrollBar;
-	wxSlider* pslider = new wxSlider(toolBar, ID_TOOL_ACTION_SENSOR_SCROLLBAR, 5, 0, 5);
-	toolBar->AddControl(pslider);
+	//wxSlider* pslider = new wxSlider(toolBar, ID_TOOL_ACTION_SENSOR_SCROLLBAR, 5, 0, 5);
+	//toolBar->AddControl(pslider);
 
 	toolBar->AddSeparator();
 
