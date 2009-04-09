@@ -61,7 +61,8 @@ BEGIN_EVENT_TABLE(MyFrame, wxFrame)
 
     EVT_MENU(wxID_EXIT, MyFrame::OnQuit)
     EVT_MENU(wxID_FILE_SETTINGS, MyFrame::OnFileSettings)
-    EVT_MENU(wxID_HELP, MyFrame::OnAbout)
+    //EVT_MENU(wxID_HELP, MyFrame::OnAbout)
+    EVT_MENU(wxID_ABOUT, MyFrame::OnAbout)
 
 	EVT_MENU(ID_TOOL_VIEW_EARTH, MyFrame::OnActionView)
 	EVT_MENU(ID_TOOL_VIEW_SENSOR_2D, MyFrame::OnActionView)
@@ -128,7 +129,9 @@ MyFrame::MyFrame(const wxRect& rect, MyApp* papp)
     menuFile->Append(wxID_EXIT, wxString("E&xit", wxConvUTF8), wxString("Quit QCNLive", wxConvUTF8));
 
     menuHelp = new wxMenu;
-    menuHelp->Append(wxID_HELP, wxString("&About", wxConvUTF8), wxString("About QCNLive", wxConvUTF8));
+#ifndef __WX_MAC__  // Mac's have a default about box btn
+    menuHelp->Append(wxID_ABOUT, wxString("&About", wxConvUTF8), wxString("About QCNLive", wxConvUTF8));
+#endif
 
     menuView = new wxMenu;
     menuOptions = new wxMenu;
@@ -210,12 +213,13 @@ void MyFrame::OnQuit(wxCommandEvent& WXUNUSED(evt))
 
 void MyFrame::OnAbout(wxCommandEvent& WXUNUSED(evt))
 {
-	wxAboutDlgInfo myAboutBox;
+	wxAboutDialogInfo myAboutBox;
 	myAboutBox.SetVersion(wxString(QCN_VERSION_STRING));
 	myAboutBox.SetName(wxT("QCNLive"));
 	myAboutBox.SetWebSite(wxT("http://qcn.stanford.edu"), wxT("Quake-Catcher Network Website"));
 	myAboutBox.SetCopyright(wxT("(c) 2009 Stanford University")); 
-	myAboutBox.AddDeveloper(wxT("Carl Christensen  (carlgt1@yahoo.com"));
+	//myAboutBox.AddDeveloper(wxT("Carl Christensen  (carlgt1@yahoo.com"));
+	myAboutBox.SetDescription(wxT("This software is provided free of charge for educational purposes.\n\nPlease visit us on the web:\n"));
 
     wxAboutBox(myAboutBox);
 }
