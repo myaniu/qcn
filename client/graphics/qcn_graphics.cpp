@@ -909,7 +909,7 @@ void draw_plots_2d()
 #endif
 #else
     glColor4fv(black);
-    glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 #endif
 
     init_camera(viewpoint_distance[g_eView], 45.0f);
@@ -1135,7 +1135,7 @@ void draw_plots_2d_qcnlive()
 
 #else
     glColor4fv(black);
-    glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 #endif
 
     init_camera(viewpoint_distance[g_eView], 45.0f);
@@ -1746,7 +1746,6 @@ void Init()
 
     // set the background colour black
     glColor4fv(black);
-
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
     // enable hidden-surface-removal

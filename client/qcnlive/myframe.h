@@ -20,10 +20,12 @@ class MyFrame : public wxFrame
     void AddScreenshotItem();
     void SetToggleEarth();
     void SetToggleSensor();
+	void SetupToolbars();
 
     MyGLPane* glPane;
         wxBoxSizer* sizer;
     wxToolBar* toolBar;
+	wxToolBar* toolBar2DPlot;
 	wxScrollBar* scrollBar;
     //wxButtonBar* toolBar;
         wxStatusBar* statusBar;

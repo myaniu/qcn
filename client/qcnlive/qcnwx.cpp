@@ -320,6 +320,10 @@ bool MyApp::OnInit()
 
     frame->SetPosition(myRect.GetPosition());
     frame->SetSize(myRect.GetSize());
+
+	// setup the toolbar controls for the 2D Plot, i.e. a horiz scrollbar, buttons for scaling etc
+	frame->SetupToolbars();
+
 	frame->Show();
 
 	// setup & start the timer for getting the next earthquake list from the qcn server

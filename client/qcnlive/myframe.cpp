@@ -13,8 +13,9 @@
 #include "icons32.h"   // 32x32
 #include "dlgsettings.h"
 
-const int ID_TOOL_ACTION_CAMERA = 998;
-const int ID_TOOLBAR = 999;
+const int ID_TOOL_ACTION_CAMERA = 999;
+const int ID_TOOLBAR = 998;
+const int ID_TOOLBAR_2DPLOT = 997;
 
 //#define QCN_TOOLBAR_IMG(mytbimg) wxBitmap(mytbimg, wxBITMAP_TYPE_XPM, 32, 32)
 #define QCN_TOOLBAR_IMG(mytbimg) wxBitmap(mytbimg, wxBITMAP_TYPE_XPM)
@@ -101,13 +102,9 @@ END_EVENT_TABLE()
 
 
 MyFrame::MyFrame(const wxRect& rect, MyApp* papp) 
- : wxFrame(NULL, -1,  wxT("QCNLive"), rect.GetPosition(), rect.GetSize()), pMyApp(papp)
+ : wxFrame(NULL, -1,  wxT("QCNLive"), rect.GetPosition(), rect.GetSize()), pMyApp(papp), glPane(NULL), scrollBar(NULL), toolBar(NULL), toolBar2DPlot(NULL)
 {
-	//toolBar = CreateToolBar(wxNO_BORDER|wxHORIZONTAL|wxTB_FLAT, ID_TOOLBAR);
-    //toolBar->SetMargins(2,2); 
-	toolBar = CreateToolBar(wxNO_BORDER|wxHORIZONTAL, ID_TOOLBAR);
-	toolBar->SetToolBitmapSize(wxSize(32,32));
-		 
+
     statusBar = CreateStatusBar();
 	m_view = ID_TOOL_VIEW_EARTH;  // set view to 0
 	m_ptbBase = NULL; // no toolbar base yet
@@ -145,9 +142,34 @@ MyFrame::MyFrame(const wxRect& rect, MyApp* papp)
     // Associate the menu bar with the frame
     SetMenuBar(menuBar);
 
-    ToolBarView();
-    ToolBarEarth(true);
-	 
+}
+
+void MyFrame::SetupToolbars()
+{
+	toolBar = CreateToolBar(wxNO_BORDER|wxHORIZONTAL, ID_TOOLBAR);
+
+	if (toolBar) {
+		toolBar->SetToolBitmapSize(wxSize(32,32));
+
+		ToolBarView();
+		ToolBarEarth(true);
+		 
+		//scrollBar = new wxScrollBar(toolBar, ID_TOOL_ACTION_SENSOR_SCROLLBAR);
+		//scrollBar->Hide();
+	}
+
+/*
+	if (glPane) {
+		toolBar2DPlot = new wxToolBar((wxWindow*) glPane, ID_TOOLBAR_2DPLOT, wxDefaultPosition, wxDefaultSize, 
+			wxTB_HORIZONTAL | wxTB_RIGHT | wxTB_BOTTOM, 
+			//wxTB_BOTTOM | wxTB_RIGHT | wxTB_HORIZONTAL | wxNO_BORDER, 
+			wxT("2D Plot Controls"));
+		scrollBar = new wxScrollBar(toolBar2DPlot, ID_TOOL_ACTION_SENSOR_SCROLLBAR);
+		toolBar2DPlot->AddControl(scrollBar);
+		toolBar2DPlot->Realize();
+		toolBar2DPlot->Show(true);
+	}
+*/
 }
 
 void MyFrame::OnCloseWindow(wxCloseEvent& wxc)
@@ -225,9 +247,9 @@ void MyFrame::OnActionView(wxCommandEvent& evt)
 	 case ID_TOOL_VIEW_SENSOR_3D:
 	     qcn_graphics::g_eView = ((evt.GetId() == ID_TOOL_VIEW_SENSOR_2D) ? VIEW_PLOT_2D : VIEW_PLOT_3D );
 		 // note only redraw sensor toolbar if not coming from a sensor view already
-         if (m_view != ID_TOOL_VIEW_SENSOR_2D && m_view != ID_TOOL_VIEW_SENSOR_3D) ToolBarSensor(evt.GetId());
-         m_view = evt.GetId();
+         //if (m_view != ID_TOOL_VIEW_SENSOR_2D && m_view != ID_TOOL_VIEW_SENSOR_3D) ToolBarSensor(evt.GetId());
          ToolBarSensor(evt.GetId());
+         m_view = evt.GetId();
          bChanged = true;
 		 break;
 	 case ID_TOOL_VIEW_CUBE:
@@ -627,6 +649,14 @@ void MyFrame::ToolBarSensor(int iView)
     wxsShort[9].assign("&Record sensor output");
     wxsLong[9].assign("Starts recording the sensor output");
 
+	if (iView == ID_TOOL_VIEW_SENSOR_2D) {
+		//if (scrollBar) delete scrollBar;
+		scrollBar = new wxScrollBar(toolBar, ID_TOOL_ACTION_SENSOR_SCROLLBAR);
+		toolBar->AddControl(scrollBar);
+	}
+
+	toolBar->AddSeparator();
+
 	m_ptbBase = toolBar->AddRadioTool(ID_TOOL_ACTION_SENSOR_01, 
 	   wxsShort[0], 
 	   QCN_TOOLBAR_IMG(xpm_icon_one),
@@ -665,9 +695,6 @@ void MyFrame::ToolBarSensor(int iView)
 	   wxsLong[3]
 	);
     menuOptions->Append(ID_TOOL_ACTION_SENSOR_BACK, wxsShort[3], wxsLong[3]);
-
-	scrollBar = new wxScrollBar(toolBar, ID_TOOL_ACTION_SENSOR_SCROLLBAR);
-	toolBar->AddControl(scrollBar);
 
 	m_ptbBase = toolBar->AddRadioTool(ID_TOOL_ACTION_SENSOR_STOP, 
        wxsShort[4],

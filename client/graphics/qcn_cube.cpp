@@ -159,7 +159,10 @@ void CCube::RenderScene( GLsizei iWidth, GLsizei iHeight, GLfloat viewpoint, GLf
     static float size[4] = {.3,.3,.3,.3};
     //static float newsize[4] = {.3,.3,.3,.3};
 	
-    m_iWidth = iWidth;
+    glColor4fv(black);
+    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+
+	m_iWidth = iWidth;
     m_iHeight = iHeight;
     m_viewpoint = viewpoint;
  
