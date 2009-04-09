@@ -12,9 +12,9 @@ t.sync_offset, t.significance, t.magnitude as trigger_mag,
 t.latitude as trigger_lat, t.longitude as trigger_lon, t.file as trigger_file, t.dt as delta_t,
 t.numreset, s.description as sensor_description, t.sw_version, t.usgs_quakeid, t.time_filereq as trigger_timereq, 
 t.received_file, t.file_url
-from 
+FROM
   qcn_trigger t LEFT OUTER JOIN usgs_quake q ON t.usgs_quakeid = q.id
-   LEFT JOIN qcn_sensor s ON t.type_sensor = s.id
+   LEFT JOIN qcn_sensor s ON t.type_sensor = s.id 
 ";
 
 /*
@@ -124,7 +124,7 @@ echo "<html><head>
 if (!$bUseFile && !$bUseQuake && !$bUseLat && !$bUseTime && !$bUseSensor) $bUseQuake = 1;
 
 echo "
-<form method=\"get\" action=trig.php >
+<form name='formSelect' method=\"get\" action=trig.php >
 <HR>
 Constraints:<br><br>
   <input type=\"checkbox\" id=\"cbUseFile\" name=\"cbUseFile\" value=\"1\" " . ($bUseFile ? "checked" : "") . "> Only Show If Files Received
@@ -283,7 +283,7 @@ echo "<BR><BR>
    <input type=\"submit\" value=\"Submit Constraints\" />
    </form> <H7>";
 
-$whereString = "1=1";
+$whereString = "t.ping=0";
 
 if ($bUseFile) {
    $whereString .= " AND t.received_file = 100 ";
@@ -372,8 +372,30 @@ $last = $start_at + $entries_to_show;
 //
 //$html_text=str_replace('<', '&lt;', str_replace('>', '&gt;', $main_query));
 //echo "<p>Query: <b>$html_text</b><p>\n";
+
+echo "
+<script type=\"text/javascript\">
    
-echo "<HR>";
+function SetAllCheckBoxes(FormName, FieldName, CheckValue)
+{
+	if(!document.forms[FormName])
+		return;
+	var objCheckBoxes = document.forms[FormName].elements[FieldName];
+	if(!objCheckBoxes)
+		return;
+	var countCheckBoxes = objCheckBoxes.length;
+	if(!countCheckBoxes)
+		objCheckBoxes.checked = CheckValue;
+	else
+		// set the check value for all check boxes
+		for(var i = 0; i < countCheckBoxes; i++)
+	           if (! objCheckBoxes[i].disabled)
+                      objCheckBoxes[i].checked = CheckValue;
+}
+</script>
+<HR>
+";
+
  
 $start_1_offset = $start_at + 1;
 echo "
@@ -431,7 +453,7 @@ echo "<p>\n";
 
 $result = mysql_query($main_query);
 if ($result) {
-    echo "<form method=\"get\" action=trigreq.php >";
+    echo "<form name=\"formDetail\" method=\"get\" action=trigreq.php >";
     start_table();
     qcn_trigger_header();
     while ($res = mysql_fetch_object($result)) {
@@ -445,7 +467,10 @@ if ($result) {
 
 echo "
   <input type=\"submit\" value=\"Submit Trigger File Requests\" />
+  <input type=\"button\" value=\"Check All\" onclick=\"SetAllCheckBoxes('formDetail', 'cb_reqfile[]', true);\" >
+  <input type=\"button\" value=\"Uncheck All\" onclick=\"SetAllCheckBoxes('formDetail', 'cb_reqfile[]', false);\" >
   </form>";
+
 
 if ($start_at || $last < $count) {
     echo "<table border=\"1\"><tr><td width=\"100\">";
