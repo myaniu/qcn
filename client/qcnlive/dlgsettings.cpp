@@ -293,7 +293,7 @@ void CDialogSettings::OnLongitudeUpdated( wxCommandEvent& WXUNUSED(event) )
 
 void CDialogSettings::OnStationUpdated( wxCommandEvent& WXUNUSED(event) )
 {
-	int iLen = m_textctrlStation->GetValue().Len();
+	int iLen = (int) m_textctrlStation->GetValue().Len();
     if ( iLen > SIZEOF_STATION_STRING-1 ) {
 	     char *strErr = new char[_MAX_PATH];
 		 sprintf(strErr, "Error: Station should be a maximum of %d alphanumeric characters in length, not %d", 

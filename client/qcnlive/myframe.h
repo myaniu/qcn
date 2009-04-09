@@ -14,7 +14,8 @@ class MyFrame : public wxFrame
     void ToolBarView();
     void Toggle(const int id, const bool bOn  = true, const bool bView = false);
     void ToolBarEarth(bool bFirst = false);
-    void ToolBarSensor(int iView);
+    void ToolBarSensor2D();
+    void ToolBarSensor3D();
     void ToolBarCube();
     void EarthRotate(bool bAuto = true);
     void AddScreenshotItem();
@@ -23,13 +24,13 @@ class MyFrame : public wxFrame
 	void SetupToolbars();
 
     MyGLPane* glPane;
-        wxBoxSizer* sizer;
+    wxBoxSizer* sizer;
     wxToolBar* toolBar;
-	wxToolBar* toolBar2DPlot;
-	wxScrollBar* scrollBar;
+	//wxToolBar* toolBar2DPlot;
+	//wxScrollBar* scrollBar;
     //wxButtonBar* toolBar;
-        wxStatusBar* statusBar;
-        MyApp* pMyApp;
+    wxStatusBar* statusBar;
+    MyApp* pMyApp;
 
   private:
 
