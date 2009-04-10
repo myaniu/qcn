@@ -71,6 +71,9 @@ typedef vector<string> ZipFileList;
 #ifdef GRAPHICS_PROGRAM
 #include "boinc_gl.h"
 #include "texfont.h"
+#define TXF_HELVETICA 0
+#define TXF_COURIER   12
+// #define FONT_HELVETICA  "Helvetica.txf"
 #endif
 
 #define KEY_SHIFT 16
@@ -378,7 +381,6 @@ enum e_drawtype { NATION = 0, PLATE, COUNTRY, COASTLINE };
 #define TEXTURE_X 4096
 #define TEXTURE_Y 2048
 #define IMG_LOGO        "logo.jpg"
-#define FONT_HELVETICA  "Helvetica.txf"
 
 #define PI 3.14159265f
 

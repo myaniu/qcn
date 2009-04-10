@@ -437,69 +437,69 @@ void draw_text_user()
    mode_ortho();
 
     if (!sm) {
-       txf_render_string(.1, 0, 0, 0, 800, red, 0, (char*) "No shared memory, QCN not running?");
+       txf_render_string(.1, 0, 0, TXF_HELVETICA, 800, red, 0, (char*) "No shared memory, QCN not running?");
        return;
     }
 
 /*
     sprintf(buf, "mouse x=%d  y=%d", mouseSX, mouseSY);
-    txf_render_string(.1, 0, .04, 0, MSG_SIZE_NORMAL, red, 0, buf);
+    txf_render_string(.1, 0, .04, TXF_HELVETICA, MSG_SIZE_NORMAL, red, 0, buf);
 */
 
     // user info
 #ifdef QCNLIVE
    if (strlen((const char*) sm->strMyStation)>0) {
       sprintf(buf, "Station: %s", (const char*) sm->strMyStation);
-      txf_render_string(.1, 0, .12, 0, MSG_SIZE_BIG, green, 0, buf);
+      txf_render_string(.1, 0, .12, TXF_HELVETICA, MSG_SIZE_BIG, green, 0, buf);
    }
 
    if (sm && earth.IsShown() && sm->dMyLatitude != NO_LAT && sm->dMyLongitude != NO_LNG
 	    && sm->dMyLatitude != 0.0f && sm->dMyLongitude != 0.0f) {
        sprintf(buf, "Location: %.4f, %.4f", sm->dMyLatitude, sm->dMyLongitude);
-       txf_render_string(.1, 0, .09, 0, MSG_SIZE_BIG, green, 0, buf);
+       txf_render_string(.1, 0, .09, TXF_HELVETICA, MSG_SIZE_BIG, green, 0, buf);
    }
 
    if (sm) {
       char strTime[32];
       qcn_util::FormatElapsedTime((const double&) sm->clock_time, strTime, 32);
       sprintf(buf, "Run Time: %s", strTime);
-      txf_render_string(.1, 0, 0.06, 0, MSG_SIZE_NORMAL, white, 0, buf);
+      txf_render_string(.1, 0, 0.06, TXF_HELVETICA, MSG_SIZE_NORMAL, white, 0, buf);
 
       qcn_util::FormatElapsedTime((const double&) sm->cpu_time, strTime, 32);
       sprintf(buf, "CPU Time: %s", strTime);
-      txf_render_string(.1, 0, 0.04, 0, MSG_SIZE_NORMAL, white, 0, buf);
+      txf_render_string(.1, 0, 0.04, TXF_HELVETICA, MSG_SIZE_NORMAL, white, 0, buf);
     }
 #else
     if (sm) {
-		txf_render_string(.1, 0, .125, 0, MSG_SIZE_NORMAL, white, 0, (char*) sm->dataBOINC.user_name);
-      //txf_render_string(.1, 0, 0.10, 0, MSG_SIZE_NORMAL, white, 0, (char*) sm->dataBOINC.team_name);
+		txf_render_string(.1, 0, .125, TXF_HELVETICA, MSG_SIZE_NORMAL, white, 0, (char*) sm->dataBOINC.user_name);
+      //txf_render_string(.1, 0, 0.10, TXF_HELVETICA, MSG_SIZE_NORMAL, white, 0, (char*) sm->dataBOINC.team_name);
 
       sprintf(buf, "WU #: %s", sm->dataBOINC.wu_name);
-      txf_render_string(.1, 0, 0.105, 0, MSG_SIZE_NORMAL, white, 0, buf);
+      txf_render_string(.1, 0, 0.105, TXF_HELVETICA, MSG_SIZE_NORMAL, white, 0, buf);
 
       char strTime[32];
       qcn_util::FormatElapsedTime((const double&) sm->clock_time, strTime, 32);
       sprintf(buf, "Run Time: %s", strTime);
-      txf_render_string(.1, 0, 0.085, 0, MSG_SIZE_NORMAL, white, 0, buf);
+      txf_render_string(.1, 0, 0.085, TXF_HELVETICA, MSG_SIZE_NORMAL, white, 0, buf);
 
       qcn_util::FormatElapsedTime((const double&) sm->cpu_time, strTime, 32);
       sprintf(buf, "CPU Time: %s", strTime);
-      txf_render_string(.1, 0, 0.065, 0, MSG_SIZE_NORMAL, white, 0, buf);
+      txf_render_string(.1, 0, 0.065, TXF_HELVETICA, MSG_SIZE_NORMAL, white, 0, buf);
 
       sprintf(buf, "%.2f Percent Complete", 100.0f * sm->fraction_done);
-      txf_render_string(.1, 0, 0.045, 0, MSG_SIZE_NORMAL, white, 0, buf);
+      txf_render_string(.1, 0, 0.045, TXF_HELVETICA, MSG_SIZE_NORMAL, white, 0, buf);
 
       if (sm && earth.IsShown() && sm->dMyLatitude != NO_LAT && sm->dMyLongitude != NO_LNG
   	    && sm->dMyLatitude != 0.0f && sm->dMyLongitude != 0.0f) {
          sprintf(buf, "Home Map Location: %.3f, %.3f", sm->dMyLatitude, sm->dMyLongitude);
-         txf_render_string(.1, 0, .025, 0, MSG_SIZE_NORMAL, green, 0, buf);
+         txf_render_string(.1, 0, .025, TXF_HELVETICA, MSG_SIZE_NORMAL, green, 0, buf);
       }
     }
 #endif
 
 #ifdef KEYVIEW
     sprintf(buf, "keys:  dn=%d  dnalt=%d  up=%d upalt=%d", key_press, key_press_alt, key_up, key_up_alt);
-    txf_render_string(.1, 0, 0, 0, 800, red, .6, buf);
+    txf_render_string(.1, 0, 0, TXF_HELVETICA, 800, red, .6, buf);
 #endif
 
 //#ifdef QCNLIVE
@@ -510,17 +510,17 @@ void draw_text_user()
 
     if (sm) {
         if (!sm->bSensorFound) {
-            txf_render_string(.1, 0.003, 0.01, 0.0, isize, red, 0, (char*) "Demo Mode - Sensor Not Found");
+            txf_render_string(.1, 0.003, 0.01,TXF_HELVETICA, isize, red, 0, (char*) "Demo Mode - Sensor Not Found");
         } else if (sm->lOffset >=0 && sm->lOffset < sm->iWindow ) {  // we're in our calibration window
             sprintf(buf, "%s sensor calibration in progress (Reset %d)", sm->strSensor, sm->iNumReset);
-            txf_render_string(.1, 0.003, 0.01, 0.0, isize, red, 0, buf);
+            txf_render_string(.1, 0.003, 0.01, TXF_HELVETICA, isize, red, 0, buf);
         } else if (sm->strSensor[0] != 0x00) {
             sprintf(buf, "Using %s Accelerometer (Reset %d)", sm->strSensor, sm->iNumReset);
-            txf_render_string(.1, 0.003, 0.01, 0.0, isize, red, 0, buf);
+            txf_render_string(.1, 0.003, 0.01, TXF_HELVETICA, isize, red, 0, buf);
         } else if (dtime()-sm->update_time > 5) {
-            txf_render_string(.1, 0.003, 0.01, 0.0, isize, red, 0, (char*) "QCN Not Running");
+            txf_render_string(.1, 0.003, 0.01, TXF_HELVETICA, isize, red, 0, (char*) "QCN Not Running");
         } else if (sm->statusBOINC.suspended) {
-            txf_render_string(.1, 0.003, 0.01, 0.0, isize, red, 0, (char*) "QCN Suspended");
+            txf_render_string(.1, 0.003, 0.01, TXF_HELVETICA, isize, red, 0, (char*) "QCN Suspended");
 		}
     } 
 
@@ -528,7 +528,7 @@ void draw_text_user()
       // if we wrote a JPG file, display a message for a little bit (200 frame refreshes ~ 7 seconds)
       if (++g_iJPG < 200 && g_strJPG[0] != 0x00) { // we have written a JPG file
         sprintf(buf, "Screenshot saved to: %s", g_strJPG);
-        txf_render_string(.1, 0.003, 0.03, 0, MSG_SIZE_SMALL, yellow, 0, buf);
+        txf_render_string(.1, 0.003, 0.03, TXF_HELVETICA, MSG_SIZE_SMALL, yellow, 0, buf);
       }
 //#endif
     ortho_done();
@@ -542,12 +542,12 @@ void draw_text_plot_qcnlive()
 
    // now draw time text at the bottom
    char strTime[16];
-   //txf_render_string(.1, fWhere, Y_TRIGGER_LAST[0] - 3.0f, 0, 800, blue, 0, (char*) strTime);
+   //txf_render_string(.1, fWhere, Y_TRIGGER_LAST[0] - 3.0f, TXF_HELVETICA, 800, blue, 0, (char*) strTime);
     for (int i = 0; i < g_iTimeCtr; i++) {
        if (lTimeLast[i] > 0) { // there's a marker to place here
 	     float fWhere = (float) (lTimeLastOffset[i]) / (float) PLOT_ARRAY_SIZE;
 		 qcn_util::dtime_to_string((const double) lTimeLast[i], 'h', strTime);
-         txf_render_string(.1, fWhere - 0.042f, 0.050f, 0, MSG_SIZE_SMALL, light_blue, 0, (char*) strTime);
+         txf_render_string(.1, fWhere - 0.042f, 0.050f, TXF_HELVETICA, MSG_SIZE_SMALL, light_blue, 0, (char*) strTime);
 	   }
 	}
 
@@ -555,61 +555,61 @@ void draw_text_plot_qcnlive()
 	const float fAxisLabel = 1.063f;
 	const float fVertLabel = 0.992f;
 
-    txf_render_string(.1, fAxisLabel, 0.60f, 0, MSG_SIZE_NORMAL, red, 0, "Significance", 90.0f);
-    txf_render_string(.1, fAxisLabel, 0.46f, 0, MSG_SIZE_NORMAL, blue, 0, "Z Axis", 90.0f);
-    txf_render_string(.1, fAxisLabel, 0.30f, 0, MSG_SIZE_NORMAL, yellow, 0, "Y Axis", 90.0f);
-    txf_render_string(.1, fAxisLabel, 0.14f, 0, MSG_SIZE_NORMAL, green, 0, "X Axis", 90.0f);
+    txf_render_string(.1, fAxisLabel, 0.60f, TXF_HELVETICA, MSG_SIZE_NORMAL, red, 0, "Significance", 90.0f);
+    txf_render_string(.1, fAxisLabel, 0.46f, TXF_HELVETICA, MSG_SIZE_NORMAL, blue, 0, "Z Axis", 90.0f);
+    txf_render_string(.1, fAxisLabel, 0.30f, TXF_HELVETICA, MSG_SIZE_NORMAL, yellow, 0, "Y Axis", 90.0f);
+    txf_render_string(.1, fAxisLabel, 0.14f, TXF_HELVETICA, MSG_SIZE_NORMAL, green, 0, "X Axis", 90.0f);
 
 	// labels for significance
-    txf_render_string(.1, fVertLabel, 0.578f, 0, MSG_SIZE_SMALL, black, 0, " 0.00", 0.0f);
-    txf_render_string(.1, fVertLabel, 0.603f, 0, MSG_SIZE_SMALL, black, 0, " 1.67", 0.0f);
-    txf_render_string(.1, fVertLabel, 0.632f, 0, MSG_SIZE_SMALL, black, 0, " 3.33", 0.0f);
-    txf_render_string(.1, fVertLabel, 0.657f, 0, MSG_SIZE_SMALL, black, 0, " 5.00", 0.0f);
-    txf_render_string(.1, fVertLabel, 0.686f, 0, MSG_SIZE_SMALL, black, 0, " 6.67", 0.0f);
-    txf_render_string(.1, fVertLabel, 0.712f, 0, MSG_SIZE_SMALL, black, 0, " 8.33", 0.0f);
-    txf_render_string(.1, fVertLabel, 0.728f, 0, MSG_SIZE_SMALL, black, 0, "10.00", 0.0f);
+    txf_render_string(.1, fVertLabel, 0.578f, TXF_COURIER, MSG_SIZE_SMALL, black, TXF_COURIER, " 0.00", 0.0f);
+    txf_render_string(.1, fVertLabel, 0.603f, TXF_COURIER, MSG_SIZE_SMALL, black, TXF_COURIER, " 1.67", 0.0f);
+    txf_render_string(.1, fVertLabel, 0.632f, TXF_COURIER, MSG_SIZE_SMALL, black, TXF_COURIER, " 3.33", 0.0f);
+    txf_render_string(.1, fVertLabel, 0.657f, TXF_COURIER, MSG_SIZE_SMALL, black, TXF_COURIER, " 5.00", 0.0f);
+    txf_render_string(.1, fVertLabel, 0.686f, TXF_COURIER, MSG_SIZE_SMALL, black, TXF_COURIER, " 6.67", 0.0f);
+    txf_render_string(.1, fVertLabel, 0.712f, TXF_COURIER, MSG_SIZE_SMALL, black, TXF_COURIER, " 8.33", 0.0f);
+    txf_render_string(.1, fVertLabel, 0.728f, TXF_COURIER, MSG_SIZE_SMALL, black, TXF_COURIER, "10.00", 0.0f);
 
 	// labels for Z axis
-    txf_render_string(.1, fVertLabel, 0.413f, 0, MSG_SIZE_SMALL, black, 0, "-19.62", 0.0f);
+    txf_render_string(.1, fVertLabel, 0.413f, TXF_COURIER, MSG_SIZE_SMALL, black, TXF_COURIER, "-19.62", 0.0f);
 /*
-	txf_render_string(.1, fVertLabel, 0.38f, 0, MSG_SIZE_SMALL, black, 0, "-19.62", 0.0f);
-    txf_render_string(.1, fVertLabel, 0.40f, 0, MSG_SIZE_SMALL, black, 0, "-13.08", 0.0f);
-    txf_render_string(.1, fVertLabel, 0.42f, 0, MSG_SIZE_SMALL, black, 0, "-6.54", 0.0f);
-    txf_render_string(.1, fVertLabel, 0.44f, 0, MSG_SIZE_SMALL, black, 0, "0.00", 0.0f);
-    txf_render_string(.1, fVertLabel, 0.46f, 0, MSG_SIZE_SMALL, black, 0, "+6.54", 0.0f);
-    txf_render_string(.1, fVertLabel, 0.48f, 0, MSG_SIZE_SMALL, black, 0, "+13.08", 0.0f);
-    txf_render_string(.1, fVertLabel, 0.50f, 0, MSG_SIZE_SMALL, black, 0, "+19.62", 0.0f);
+	txf_render_string(.1, fVertLabel, 0.38f, TXF_COURIER, MSG_SIZE_SMALL, black, TXF_COURIER, "-19.62", 0.0f);
+    txf_render_string(.1, fVertLabel, 0.40f, TXF_COURIER, MSG_SIZE_SMALL, black, TXF_COURIER, "-13.08", 0.0f);
+    txf_render_string(.1, fVertLabel, 0.42f, TXF_COURIER, MSG_SIZE_SMALL, black, TXF_COURIER, "-6.54", 0.0f);
+    txf_render_string(.1, fVertLabel, 0.44f, TXF_COURIER, MSG_SIZE_SMALL, black, TXF_COURIER, "0.00", 0.0f);
+    txf_render_string(.1, fVertLabel, 0.46f, TXF_COURIER, MSG_SIZE_SMALL, black, TXF_COURIER, "+6.54", 0.0f);
+    txf_render_string(.1, fVertLabel, 0.48f, TXF_COURIER, MSG_SIZE_SMALL, black, TXF_COURIER, "+13.08", 0.0f);
+    txf_render_string(.1, fVertLabel, 0.50f, TXF_COURIER, MSG_SIZE_SMALL, black, TXF_COURIER, "+19.62", 0.0f);
 */
 
 	// labels for Y axis
-    txf_render_string(.1, fVertLabel, 0.248f, 0, MSG_SIZE_SMALL, black, 0, "-19.62", 0.0f);
+    txf_render_string(.1, fVertLabel, 0.248f, TXF_COURIER, MSG_SIZE_SMALL, black, TXF_COURIER, "-19.62", 0.0f);
 /*
-    txf_render_string(.1, fVertLabel, 0.105f, 0, MSG_SIZE_SMALL, black, 0, "-13.08", 0.0f);
-    txf_render_string(.1, fVertLabel, 0.13f, 0, MSG_SIZE_SMALL, black, 0, "-6.54", 0.0f);
-    txf_render_string(.1, fVertLabel, 0.157f, 0, MSG_SIZE_SMALL, black, 0, "0.00", 0.0f);
-    txf_render_string(.1, fVertLabel, 0.185f, 0, MSG_SIZE_SMALL, black, 0, "+6.54", 0.0f);
-    txf_render_string(.1, fVertLabel, 0.215f, 0, MSG_SIZE_SMALL, black, 0, "+13.08", 0.0f);
-    txf_render_string(.1, fVertLabel, 0.235f, 0, MSG_SIZE_SMALL, black, 0, "+19.62", 0.0f);
+    txf_render_string(.1, fVertLabel, 0.105f, TXF_COURIER, MSG_SIZE_SMALL, black, TXF_COURIER, "-13.08", 0.0f);
+    txf_render_string(.1, fVertLabel, 0.13f, TXF_COURIER, MSG_SIZE_SMALL, black, TXF_COURIER, "-6.54", 0.0f);
+    txf_render_string(.1, fVertLabel, 0.157f, TXF_COURIER, MSG_SIZE_SMALL, black, TXF_COURIER, "0.00", 0.0f);
+    txf_render_string(.1, fVertLabel, 0.185f, TXF_COURIER, MSG_SIZE_SMALL, black, TXF_COURIER, "+6.54", 0.0f);
+    txf_render_string(.1, fVertLabel, 0.215f, TXF_COURIER, MSG_SIZE_SMALL, black, TXF_COURIER, "+13.08", 0.0f);
+    txf_render_string(.1, fVertLabel, 0.235f, TXF_COURIER, MSG_SIZE_SMALL, black, TXF_COURIER, "+19.62", 0.0f);
 
-	txf_render_string(.1, fVertLabel, 0.24f, 0, MSG_SIZE_SMALL, black, 0, "-19.62", 0.0f);
-    txf_render_string(.1, fVertLabel, 0.26f, 0, MSG_SIZE_SMALL, black, 0, "-13.08", 0.0f);
-    txf_render_string(.1, fVertLabel, 0.28f, 0, MSG_SIZE_SMALL, black, 0, "- 6.54", 0.0f);
-    txf_render_string(.1, fVertLabel, 0.30f, 0, MSG_SIZE_SMALL, black, 0, "  0.00", 0.0f);
-    txf_render_string(.1, fVertLabel, 0.32f, 0, MSG_SIZE_SMALL, black, 0, "+ 6.54", 0.0f);
-    txf_render_string(.1, fVertLabel, 0.34f, 0, MSG_SIZE_SMALL, black, 0, "+13.08", 0.0f);
-    txf_render_string(.1, fVertLabel, 0.36f, 0, MSG_SIZE_SMALL, black, 0, "+19.62", 0.0f);
+	txf_render_string(.1, fVertLabel, 0.24f, TXF_COURIER, MSG_SIZE_SMALL, black, TXF_COURIER, "-19.62", 0.0f);
+    txf_render_string(.1, fVertLabel, 0.26f, TXF_COURIER, MSG_SIZE_SMALL, black, TXF_COURIER, "-13.08", 0.0f);
+    txf_render_string(.1, fVertLabel, 0.28f, TXF_COURIER, MSG_SIZE_SMALL, black, TXF_COURIER, "- 6.54", 0.0f);
+    txf_render_string(.1, fVertLabel, 0.30f, TXF_COURIER, MSG_SIZE_SMALL, black, TXF_COURIER, "  0.00", 0.0f);
+    txf_render_string(.1, fVertLabel, 0.32f, TXF_COURIER, MSG_SIZE_SMALL, black, TXF_COURIER, "+ 6.54", 0.0f);
+    txf_render_string(.1, fVertLabel, 0.34f, TXF_COURIER, MSG_SIZE_SMALL, black, TXF_COURIER, "+13.08", 0.0f);
+    txf_render_string(.1, fVertLabel, 0.36f, TXF_COURIER, MSG_SIZE_SMALL, black, TXF_COURIER, "+19.62", 0.0f);
 */
 	// labels for X axis
-    txf_render_string(.1, fVertLabel, 0.084f, 0, MSG_SIZE_SMALL, black, 0, "-19.62", 0.0f);
-    txf_render_string(.1, fVertLabel, 0.105f, 0, MSG_SIZE_SMALL, black, 0, "-13.08", 0.0f);
-    txf_render_string(.1, fVertLabel, 0.13f, 0, MSG_SIZE_SMALL, black, 0, "-6.54", 0.0f);
-    txf_render_string(.1, fVertLabel, 0.157f, 0, MSG_SIZE_SMALL, black, 0, "0.00", 0.0f);
-    txf_render_string(.1, fVertLabel, 0.185f, 0, MSG_SIZE_SMALL, black, 0, "+6.54", 0.0f);
-    txf_render_string(.1, fVertLabel, 0.215f, 0, MSG_SIZE_SMALL, black, 0, "+13.08", 0.0f);
-    txf_render_string(.1, fVertLabel, 0.235f, 0, MSG_SIZE_SMALL, black, 0, "+19.62", 0.0f);
+    txf_render_string(.1, fVertLabel, 0.084f, TXF_COURIER, MSG_SIZE_SMALL, black, TXF_COURIER, "-19.62", 0.0f);
+    txf_render_string(.1, fVertLabel, 0.105f, TXF_COURIER, MSG_SIZE_SMALL, black, TXF_COURIER, "-13.08", 0.0f);
+    txf_render_string(.1, fVertLabel, 0.13f, TXF_COURIER, MSG_SIZE_SMALL, black, TXF_COURIER, "-6.54", 0.0f);
+    txf_render_string(.1, fVertLabel, 0.157f, TXF_COURIER, MSG_SIZE_SMALL, black, TXF_COURIER, "0.00", 0.0f);
+    txf_render_string(.1, fVertLabel, 0.185f, TXF_COURIER, MSG_SIZE_SMALL, black, TXF_COURIER, "+6.54", 0.0f);
+    txf_render_string(.1, fVertLabel, 0.215f, TXF_COURIER, MSG_SIZE_SMALL, black, TXF_COURIER, "+13.08", 0.0f);
+    txf_render_string(.1, fVertLabel, 0.235f, TXF_COURIER, MSG_SIZE_SMALL, black, TXF_COURIER, "+19.62", 0.0f);
 
 	// units label (meters per second per second
-    txf_render_string(.1, fVertLabel, 0.063f, 0, MSG_SIZE_SMALL, black, 0, "m/s/s", 0.0f);
+    txf_render_string(.1, fVertLabel, 0.066f, 0, MSG_SIZE_SMALL, black, 0, "m/s/s", 0.0f);
 
 	ortho_done();
 }
@@ -637,26 +637,26 @@ void draw_text_plot()
     if (!g_bFullScreen) {
  	if (g_bSnapshot)  {
 		sprintf(buf, "Press 'S' for live view"); 
-		txf_render_string(.1, 0, .4, 0, MSG_SIZE_NORMAL, yellow, 0, buf);
+		txf_render_string(.1, 0, .4, TXF_HELVETICA, MSG_SIZE_NORMAL, yellow, 0, buf);
 		sprintf(buf, "Use '<' & '>' keys to pan");
-		txf_render_string(.1, 0, .38, 0, MSG_SIZE_NORMAL, yellow, 0, buf);
+		txf_render_string(.1, 0, .38, TXF_HELVETICA, MSG_SIZE_NORMAL, yellow, 0, buf);
 	}
 	else {
 		sprintf(buf, "Press 'S' for snapshot view"); 
-		txf_render_string(.1, 0, .4, 0, MSG_SIZE_NORMAL, yellow, 0, buf);
+		txf_render_string(.1, 0, .4, TXF_HELVETICA, MSG_SIZE_NORMAL, yellow, 0, buf);
 	}
 
 	//sprintf(buf, "Press 'C' for bouncy cube"); 
 	//txf_render_string(.1, 0, .34, 0, MSG_SIZE_NORMAL, yellow, 0, buf);
        
 	sprintf(buf, "Press 'Q' for world earthquake map"); 
-	txf_render_string(.1, 0, .34, 0, MSG_SIZE_NORMAL, yellow, 0, buf);
+	txf_render_string(.1, 0, .34, TXF_HELVETICA, MSG_SIZE_NORMAL, yellow, 0, buf);
        
 	sprintf(buf, "Press 'L' to toggle 2D/3D Plot"); 
-	txf_render_string(.1, 0, .32, 0, MSG_SIZE_NORMAL, yellow, 0, buf);
+	txf_render_string(.1, 0, .32, TXF_HELVETICA, MSG_SIZE_NORMAL, yellow, 0, buf);
        
 	sprintf(buf, "Press +/- to change time window");
-	txf_render_string(.1, 0, .30, 0, MSG_SIZE_NORMAL, yellow, 0, buf);
+	txf_render_string(.1, 0, .30, TXF_HELVETICA, MSG_SIZE_NORMAL, yellow, 0, buf);
    }
 #endif
 
@@ -664,42 +664,42 @@ void draw_text_plot()
 
 	// graph labels
 	sprintf(buf, "Significance");
-	txf_render_string(.05, TEXT_PLOT_LEFT_AXES, fTop[E_DS], 0, MSG_SIZE_MEDIUM, colorsPlot[E_DS], 0, buf);
+	txf_render_string(.05, TEXT_PLOT_LEFT_AXES, fTop[E_DS], TXF_HELVETICA, MSG_SIZE_MEDIUM, colorsPlot[E_DS], 0, buf);
         if (sm) {
            sprintf(buf, " max=%5.2f", sm->fmax[E_DS]);
-           txf_render_string(.05, TEXT_PLOT_LEFT_AXES, fTop[E_DS] - 0.02, 0, MSG_SIZE_SMALL, colorsPlot[E_DS], 0, buf);
+           txf_render_string(.05, TEXT_PLOT_LEFT_AXES, fTop[E_DS] - 0.02, TXF_HELVETICA, MSG_SIZE_SMALL, colorsPlot[E_DS], 0, buf);
            sprintf(buf, " min=%5.2f", sm->fmin[E_DS]);
-           txf_render_string(.05, TEXT_PLOT_LEFT_AXES, fTop[E_DS] - 0.04, 0, MSG_SIZE_SMALL, colorsPlot[E_DS], 0, buf);
+           txf_render_string(.05, TEXT_PLOT_LEFT_AXES, fTop[E_DS] - 0.04, TXF_HELVETICA, MSG_SIZE_SMALL, colorsPlot[E_DS], 0, buf);
         }
 
 	sprintf(buf, "Z-amp");
-	txf_render_string(.05, TEXT_PLOT_LEFT_AXES, fTop[E_DZ], 0, MSG_SIZE_MEDIUM, colorsPlot[E_DZ], 0, buf);
+	txf_render_string(.05, TEXT_PLOT_LEFT_AXES, fTop[E_DZ], TXF_HELVETICA, MSG_SIZE_MEDIUM, colorsPlot[E_DZ], 0, buf);
         if (sm) {
            //sprintf(buf, " max=%5.2f", sm->fmax[E_DZ] < 0 ? 0.0 : sm->fmax[E_DZ]);
            sprintf(buf, " max=%5.2f", sm->fmax[E_DZ]);
-           txf_render_string(.05, TEXT_PLOT_LEFT_AXES, fTop[E_DZ] - 0.02, 0, MSG_SIZE_SMALL, colorsPlot[E_DZ], 0, buf);
+           txf_render_string(.05, TEXT_PLOT_LEFT_AXES, fTop[E_DZ] - 0.02, TXF_HELVETICA, MSG_SIZE_SMALL, colorsPlot[E_DZ], 0, buf);
            sprintf(buf, " min=%5.2f", sm->fmin[E_DZ]);
-           txf_render_string(.05, TEXT_PLOT_LEFT_AXES, fTop[E_DZ] - 0.04, 0, MSG_SIZE_SMALL, colorsPlot[E_DZ], 0, buf);
+           txf_render_string(.05, TEXT_PLOT_LEFT_AXES, fTop[E_DZ] - 0.04, TXF_HELVETICA, MSG_SIZE_SMALL, colorsPlot[E_DZ], 0, buf);
         }
 
 	sprintf(buf, "Y-amp");
-	txf_render_string(.05, TEXT_PLOT_LEFT_AXES, fTop[E_DY], 0, MSG_SIZE_MEDIUM, colorsPlot[E_DY], 0, buf);
+	txf_render_string(.05, TEXT_PLOT_LEFT_AXES, fTop[E_DY], TXF_HELVETICA, MSG_SIZE_MEDIUM, colorsPlot[E_DY], 0, buf);
         if (sm) {
            //sprintf(buf, " max=%5.2f", sm->fmax[E_DY] < 0 ? 0.0 : sm->fmax[E_DY]);
            sprintf(buf, " max=%5.2f", sm->fmax[E_DY]);
-           txf_render_string(.05, TEXT_PLOT_LEFT_AXES, fTop[E_DY] - 0.02, 0, MSG_SIZE_SMALL, colorsPlot[E_DY], 0, buf);
+           txf_render_string(.05, TEXT_PLOT_LEFT_AXES, fTop[E_DY] - 0.02, TXF_HELVETICA, MSG_SIZE_SMALL, colorsPlot[E_DY], 0, buf);
            sprintf(buf, " min=%5.2f", sm->fmin[E_DY]);
-           txf_render_string(.05, TEXT_PLOT_LEFT_AXES, fTop[E_DY] - 0.04, 0, MSG_SIZE_SMALL, colorsPlot[E_DY], 0, buf);
+           txf_render_string(.05, TEXT_PLOT_LEFT_AXES, fTop[E_DY] - 0.04, TXF_HELVETICA, MSG_SIZE_SMALL, colorsPlot[E_DY], 0, buf);
         }
 
 	sprintf(buf, "X-amp");
-	txf_render_string(.05, TEXT_PLOT_LEFT_AXES, fTop[E_DX], 0, MSG_SIZE_MEDIUM, colorsPlot[E_DX], 0, buf);
+	txf_render_string(.05, TEXT_PLOT_LEFT_AXES, fTop[E_DX], TXF_HELVETICA, MSG_SIZE_MEDIUM, colorsPlot[E_DX], 0, buf);
         if (sm) {
            //sprintf(buf, " max=%5.2f", sm->fmax[E_DX] < 0 ? 0.0 : sm->fmax[E_DX]);
            sprintf(buf, " max=%5.2f", sm->fmax[E_DX]);
-           txf_render_string(.05, TEXT_PLOT_LEFT_AXES, fTop[E_DX] - 0.02, 0, MSG_SIZE_SMALL, colorsPlot[E_DX], 0, buf);
+           txf_render_string(.05, TEXT_PLOT_LEFT_AXES, fTop[E_DX] - 0.02, TXF_HELVETICA, MSG_SIZE_SMALL, colorsPlot[E_DX], 0, buf);
            sprintf(buf, " min=%5.2f", sm->fmin[E_DX]);
-           txf_render_string(.05, TEXT_PLOT_LEFT_AXES, fTop[E_DX] - 0.04, 0, MSG_SIZE_SMALL, colorsPlot[E_DX], 0, buf);
+           txf_render_string(.05, TEXT_PLOT_LEFT_AXES, fTop[E_DX] - 0.04, TXF_HELVETICA, MSG_SIZE_SMALL, colorsPlot[E_DX], 0, buf);
         }
 
    if (g_eView == VIEW_PLOT_2D) {
@@ -731,11 +731,11 @@ void draw_text_plot()
 	
     for (int jj = 0; jj < 4; jj++)  {
       if (g_bSnapshot) {  //snapshot time
-     	  txf_render_string(.05, TEXT_PLOT_LEFT_AXES + 0.715f, fTop[jj] - 0.03, 0, MSG_SIZE_SMALL, white_trans, 0, strt[1]);		
-       	  txf_render_string(.05, TEXT_PLOT_LEFT_AXES + 0.070f, fTop[jj] - 0.03, 0, MSG_SIZE_SMALL, white_trans, 0, strt[0]);
+     	  txf_render_string(.05, TEXT_PLOT_LEFT_AXES + 0.715f, fTop[jj] - 0.03, TXF_HELVETICA, MSG_SIZE_SMALL, white_trans, 0, strt[1]);		
+       	  txf_render_string(.05, TEXT_PLOT_LEFT_AXES + 0.070f, fTop[jj] - 0.03, TXF_HELVETICA, MSG_SIZE_SMALL, white_trans, 0, strt[0]);
       }
 	  else { // current time
-     	  txf_render_string(.05, TEXT_PLOT_LEFT_AXES + 0.735f, fTop[jj] - 0.03, 0, MSG_SIZE_SMALL, white_trans, 0, (char*) "Now");		
+     	  txf_render_string(.05, TEXT_PLOT_LEFT_AXES + 0.735f, fTop[jj] - 0.03, TXF_HELVETICA, MSG_SIZE_SMALL, white_trans, 0, (char*) "Now");		
 		  switch(key_winsize) {
 		      case 0:
 			     sprintf(buf, "1 minute ago");
@@ -747,7 +747,7 @@ void draw_text_plot()
 			     sprintf(buf, "1 hour ago");
 			     break;
 		  }
-       	  txf_render_string(.05, TEXT_PLOT_LEFT_AXES + 0.090f, fTop[jj] - 0.03, 0, MSG_SIZE_SMALL, white_trans	, 0, buf);
+       	  txf_render_string(.05, TEXT_PLOT_LEFT_AXES + 0.090f, fTop[jj] - 0.03, TXF_HELVETICA, MSG_SIZE_SMALL, white_trans	, 0, buf);
 	  }
 	}
     ortho_done();
@@ -1272,16 +1272,16 @@ void draw_plots_3d()
     // graph labels
     char buf[8];
     sprintf(buf, "Significance");
-    txf_render_string(.05, -10.0, -32.0, 0.0, 1500, colorsPlot[E_DS], 0, buf);
+    txf_render_string(.05, -10.0, -32.0, TXF_HELVETICA, 1500, colorsPlot[E_DS], 0, buf);
 
     sprintf(buf, "Z-amp");
-    txf_render_string(.05, -10.0, -28.0, 0.0, 1500, colorsPlot[E_DZ], 0, buf);
+    txf_render_string(.05, -10.0, -28.0, TXF_HELVETICA, 1500, colorsPlot[E_DZ], 0, buf);
 
     sprintf(buf, "Y-amp");
-    txf_render_string(.05, -10.0, -24.0, 0.0, 1500, colorsPlot[E_DY], 0, buf);
+    txf_render_string(.05, -10.0, -24.0, TXF_HELVETICA, 1500, colorsPlot[E_DY], 0, buf);
 
     sprintf(buf, "X-amp");
-    txf_render_string(.05, -10.0, -21.0, 0.0, 1500, colorsPlot[E_DX], 0, buf);
+    txf_render_string(.05, -10.0, -21.0, TXF_HELVETICA, 1500, colorsPlot[E_DX], 0, buf);
     */
 }
 

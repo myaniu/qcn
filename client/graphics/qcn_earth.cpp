@@ -1040,65 +1040,65 @@ void CEarth::RenderText()
        }
 
        sprintf(buf, "Selected Earthquake # %d of %d:", psqActive->num, (int) qcn_graphics::vsq.size());
-       txf_render_string(.05, 0, .27, 0, MSG_SIZE_NORMAL, yellow, 0, buf);
+       txf_render_string(.05, 0, .27, TXF_HELVETICA, MSG_SIZE_NORMAL, yellow, 0, buf);
 
        if (vpsqc.size()>1) {
          sprintf(buf, "(%d Quakes in this Area, Click to Cycle)", (int) vpsqc.size());
-         txf_render_string(.05, 0, .255, 0, MSG_SIZE_SMALL, yellow, 0, buf);
+         txf_render_string(.05, 0, .255, TXF_HELVETICA, MSG_SIZE_SMALL, yellow, 0, buf);
        }
 
        sprintf(buf, "Magnitude: %5.1f", psqActive->magnitude);
-       txf_render_string(.05, 0, .23, 0, MSG_SIZE_NORMAL, pfcolor, 0, buf);
+       txf_render_string(.05, 0, .23, TXF_HELVETICA, MSG_SIZE_NORMAL, pfcolor, 0, buf);
 
        sprintf(buf, "Lat/Long: %8.3f, %8.3f", psqActive->latitude, psqActive->longitude);
-       txf_render_string(.05, 0, .21, 0, MSG_SIZE_NORMAL, pfcolor, 0, buf);
+       txf_render_string(.05, 0, .21, TXF_HELVETICA, MSG_SIZE_NORMAL, pfcolor, 0, buf);
 
        if (psqActive->depth_km <= 0.0)
           sprintf(buf, "Depth (km): Not Available");
        else
           sprintf(buf, "Depth (km): %6.2f", psqActive->depth_km);
-       txf_render_string(.05, 0, .19, 0, MSG_SIZE_NORMAL, pfcolor, 0, buf);
+       txf_render_string(.05, 0, .19, TXF_HELVETICA, MSG_SIZE_NORMAL, pfcolor, 0, buf);
 
        sprintf(buf, "Time (UTC): %04d/%02d/%02d %02d:%02d:%02d",
             psqActive->year, psqActive->month, psqActive->day,
               psqActive->hour, psqActive->minute, psqActive->second);
-       txf_render_string(.05, 0, .17, 0, MSG_SIZE_NORMAL, pfcolor, 0, buf);
+       txf_render_string(.05, 0, .17, TXF_HELVETICA, MSG_SIZE_NORMAL, pfcolor, 0, buf);
 
-       txf_render_string(.05, 0, .15, 0, MSG_SIZE_NORMAL, pfcolor, 0, (char*) psqActive->strDesc.c_str());
+       txf_render_string(.05, 0, .15, TXF_HELVETICA, MSG_SIZE_NORMAL, pfcolor, 0, (char*) psqActive->strDesc.c_str());
    }
 
    // draw mouse position info
    //sprintf(buf, "mouse %d,%d  %d,%d,%d", mouseX, mouseY, mousePX, mousePY, mousePZ);
    //sprintf(buf, "glptr %d %d", glptr[0], glptr[1]);
-   //txf_render_string(.05, 0, .50, 0, MSG_SIZE_NORMAL, red, 0, buf);
+   //txf_render_string(.05, 0, .50, TXF_HELVETICA, MSG_SIZE_NORMAL, red, 0, buf);
 
 #ifndef QCNLIVE
    if (!qcn_graphics::g_bFullScreen) {
      // left of window informative text
      sprintf(buf, "Press 'Q' to return to");
-     txf_render_string(.1, 0, .34, 0, MSG_SIZE_NORMAL, yellow, 0, buf);
+     txf_render_string(.1, 0, .34, TXF_HELVETICA, MSG_SIZE_NORMAL, yellow, 0, buf);
      sprintf(buf, "seismic sensor view");
-     txf_render_string(.1, 0, .32, 0, MSG_SIZE_NORMAL, yellow, 0, buf);
+     txf_render_string(.1, 0, .32, TXF_HELVETICA, MSG_SIZE_NORMAL, yellow, 0, buf);
    }
 #endif
 
    if (!qcn_graphics::g_bFullScreen) {
-     txf_render_string(.1, 0, .470, 0, MSG_SIZE_SMALL, yellow, 0, (char*) "Left Mouse & Drag to Rotate");
-     txf_render_string(.1, 0, .450, 0, MSG_SIZE_SMALL, yellow, 0, (char*) "Ctrl+Left or Rt Mouse & Drag to Zoom");
-     txf_render_string(.1, 0, .430, 0, MSG_SIZE_SMALL, yellow, 0, (char*) "Mouse on (Red) Quake to Select");
+     txf_render_string(.1, 0, .470, TXF_HELVETICA, MSG_SIZE_SMALL, yellow, 0, (char*) "Left Mouse & Drag to Rotate");
+     txf_render_string(.1, 0, .450, TXF_HELVETICA, MSG_SIZE_SMALL, yellow, 0, (char*) "Ctrl+Left or Rt Mouse & Drag to Zoom");
+     txf_render_string(.1, 0, .430, TXF_HELVETICA, MSG_SIZE_SMALL, yellow, 0, (char*) "Mouse on (Red) Quake to Select");
    }
 
 #ifndef QCNLIVE
    if (!qcn_graphics::g_bFullScreen) {
-     txf_render_string(.1, 0, .410, 0, MSG_SIZE_SMALL, yellow, 0, (char*) "Shift+Mouse for USGS Website Data");
-     txf_render_string(.1, 0, .390, 0, MSG_SIZE_SMALL, yellow, 0, (char*) "Press 'A' to toggle auto-rotation");
-     txf_render_string(.1, 0, .370, 0, MSG_SIZE_SMALL, yellow, 0, (char*) "Press 'E' to toggle earth map image");
+     txf_render_string(.1, 0, .410, TXF_HELVETICA, MSG_SIZE_SMALL, yellow, 0, (char*) "Shift+Mouse for USGS Website Data");
+     txf_render_string(.1, 0, .390, TXF_HELVETICA, MSG_SIZE_SMALL, yellow, 0, (char*) "Press 'A' to toggle auto-rotation");
+     txf_render_string(.1, 0, .370, TXF_HELVETICA, MSG_SIZE_SMALL, yellow, 0, (char*) "Press 'E' to toggle earth map image");
    }
 #endif
 
 #ifdef _DEBUG
    if (strDebug[0]!=0x00) {
-       txf_render_string(.1, 0, .7, 0, MSG_SIZE_NORMAL, red, 0, strDebug);
+       txf_render_string(.1, 0, .7, TXF_HELVETICA, MSG_SIZE_NORMAL, red, 0, strDebug);
    }
 #endif
 

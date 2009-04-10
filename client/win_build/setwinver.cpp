@@ -97,6 +97,7 @@ int deploy_qcn()
 		"init/MotionNodeAccelAPI.dll",
 		"init/qcnwin.ico",
 		"init/Helvetica.txf",
+		"init/Courier.txf",
 		"init/earthday4096.jpg",
 		"init/splash.png",
 		"init/logo.jpg",
@@ -128,6 +129,7 @@ int deploy_qcn()
 	fprintf(fBatch, "put qcn_%d.%d_%s\n", g_version_major, g_version_minor, "windows_intelx86__nci.exe");
 	fprintf(fBatch, "put graphics_app=qcn_graphics_%d.%d_%s\n", g_version_major, g_version_minor, "windows_intelx86.exe");
 	fprintf(fBatch, "put init/Helvetica.txf\n");
+	fprintf(fBatch, "put init/Courier.txf\n");
 	fprintf(fBatch, "put init/earthday4096.jpg\n");
 //	fprintf(fBatch, "put init/earthmask.rgb\n");   // mask for multitexturing - but seems to crash some people bad!
 	fprintf(fBatch, "put init/earthnight4096.jpg\n");
@@ -143,6 +145,7 @@ int deploy_qcn()
 	fprintf(fBatch, "put qcn_%d.%d_%s\n", g_version_major, g_version_minor - 1, "windows_intelx86.exe");
 	fprintf(fBatch, "put graphics_app=qcn_graphics_%d.%d_%s\n", g_version_major, g_version_minor - 1, "windows_intelx86.exe");
 	fprintf(fBatch, "put init/Helvetica.txf\n");
+	fprintf(fBatch, "put init/Courier.txf\n");
 	fprintf(fBatch, "put init/earthday4096.jpg\n");
 //	fprintf(fBatch, "put init/earthmask.rgb\n");   // mask for multitexturing - but seems to crash some people bad!
 	fprintf(fBatch, "put init/earthnight4096.jpg\n");
