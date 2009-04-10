@@ -309,9 +309,9 @@ struct FDSET_GROUP {
 #define QCN_CBYTE const unsigned char
 
 //#define MAXI 150000L   // this is 4 hours 10 minutes at dt of .1 seconds 
-//#define MAXI 360000L   // this is 2 hour at dt of .02 seconds
+#define MAXI 360000L   // this is 2 hour at dt of .02 seconds
 //#define MAXI 720000L   // this is 4 hours at dt of .02 seconds
-#define MAXI 270000L     // this is 1.5 hour at dt of .02 seconds
+//#define MAXI 270000L     // this is 1.5 hour at dt of .02 seconds
 
 #ifndef _MAX_PATH
    #define _MAX_PATH 255
