@@ -214,7 +214,7 @@
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>E30539F30F8F21C20061B2C8</string>
+						<string>E30539FC0F8F93BD0061B2C8</string>
 						<key>history</key>
 						<array>
 							<string>E32AAE9C0F8F1FD200760FA9</string>
@@ -270,8 +270,6 @@
 			<key>Layout</key>
 			<array>
 				<dict>
-					<key>BecomeActive</key>
-					<true/>
 					<key>ContentConfiguration</key>
 					<dict>
 						<key>PBXBottomSmartGroupGIDs</key>
@@ -391,6 +389,8 @@
 							<string>0pt</string>
 						</dict>
 						<dict>
+							<key>BecomeActive</key>
+							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
@@ -561,6 +561,7 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
+		<string>E35897320E912E8A005C1D94</string>
 		<string>1C78EAAD065D492600B07095</string>
 		<string>E389CC2B0F2299BE00E82798</string>
 		<string>1CD10A99069EF8BA00B06720</string>
@@ -644,7 +645,7 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>E35897320E912E8A005C1D94</string>
-				<string>E32AAE8A0F8F1E0300760FA9</string>
+				<string>E30539FD0F8F93BD0061B2C8</string>
 				<string>1CD0528F0623707200166675</string>
 				<string>XCMainBuildResultsModuleGUID</string>
 			</array>

@@ -5,14 +5,14 @@
 			sepNavWindowFrame = "{{15, 88}, {1370, 935}}";
 		};
 	};
-	E30539F30F8F21C20061B2C8 /* PBXTextBookmark */ = {
+	E30539FC0F8F93BD0061B2C8 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
 		fRef = E3C0E7760D64E9A40099B905 /* qcnwx.cpp */;
 		name = "qcnwx.cpp: 257";
 		rLen = 0;
 		rLoc = 8606;
 		rType = 0;
-		vrLen = 1693;
+		vrLen = 1742;
 		vrLoc = 7267;
 	};
 	E30AB0EA0EBB9C0600DA7E81 /* dlgsettings.cpp */ = {
@@ -72,26 +72,6 @@
 		modificationTime = 260995809.394947;
 		state = 1;
 	};
-	E32AAE940F8F1F4B00760FA9 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = E3C0E7B80D64E9BE0099B905 /* qcn_graphics.cpp */;
-		name = "qcn_graphics.cpp: 254";
-		rLen = 0;
-		rLoc = 8346;
-		rType = 0;
-		vrLen = 2520;
-		vrLoc = 7539;
-	};
-	E32AAE9B0F8F1FD200760FA9 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = E3C0E7B80D64E9BE0099B905 /* qcn_graphics.cpp */;
-		name = "qcn_graphics.cpp: 295";
-		rLen = 0;
-		rLoc = 10384;
-		rType = 0;
-		vrLen = 2530;
-		vrLoc = 8671;
-	};
 	E32AAE9C0F8F1FD200760FA9 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
 		fRef = E3C0E7760D64E9A40099B905 /* qcnwx.cpp */;
@@ -125,16 +105,6 @@
 			sepNavVisRect = "{{0, 0}, {1161, 818}}";
 			sepNavWindowFrame = "{{15, 83}, {1200, 945}}";
 		};
-	};
-	E3894BA20F8ED4D6004F402B /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = E3C0E7760D64E9A40099B905 /* qcnwx.cpp */;
-		name = "qcnwx.cpp: 257";
-		rLen = 0;
-		rLoc = 8606;
-		rType = 0;
-		vrLen = 1742;
-		vrLoc = 7267;
 	};
 	E390FCED0D65C65900479F9A /* icons.h */ = {
 		uiCtxt = {
@@ -278,11 +248,8 @@
 			PBXWorkspaceStateSaveDate = 261038521;
 		};
 		perUserProjectItems = {
-			E30539F30F8F21C20061B2C8 /* PBXTextBookmark */ = E30539F30F8F21C20061B2C8 /* PBXTextBookmark */;
-			E32AAE940F8F1F4B00760FA9 = E32AAE940F8F1F4B00760FA9 /* PBXTextBookmark */;
-			E32AAE9B0F8F1FD200760FA9 = E32AAE9B0F8F1FD200760FA9 /* PBXTextBookmark */;
-			E32AAE9C0F8F1FD200760FA9 = E32AAE9C0F8F1FD200760FA9 /* PBXTextBookmark */;
-			E3894BA20F8ED4D6004F402B = E3894BA20F8ED4D6004F402B /* PBXTextBookmark */;
+			E30539FC0F8F93BD0061B2C8 /* PBXTextBookmark */ = E30539FC0F8F93BD0061B2C8 /* PBXTextBookmark */;
+			E32AAE9C0F8F1FD200760FA9 /* PBXTextBookmark */ = E32AAE9C0F8F1FD200760FA9 /* PBXTextBookmark */;
 		};
 		sourceControlManager = E3A499E10D64E60400E51CDF /* Source Control */;
 		userBuildSettings = {
@@ -362,7 +329,7 @@
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {1174, 5838}}";
 			sepNavSelRange = "{8606, 0}";
-			sepNavVisRange = "{7267, 1693}";
+			sepNavVisRange = "{7267, 1742}";
 			sepNavVisRect = "{{0, 2496}, {1000, 343}}";
 			sepNavWindowFrame = "{{257, 133}, {1233, 783}}";
 		};
