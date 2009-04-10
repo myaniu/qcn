@@ -140,6 +140,46 @@
 		vrLen = 1742;
 		vrLoc = 7267;
 	};
+	E3894B930F8ED439004F402B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = E3C0E7B80D64E9BE0099B905 /* qcn_graphics.cpp */;
+		name = "qcn_graphics.cpp: 254";
+		rLen = 0;
+		rLoc = 8346;
+		rType = 0;
+		vrLen = 2706;
+		vrLoc = 7557;
+	};
+	E3894B940F8ED439004F402B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = E3C0E7760D64E9A40099B905 /* qcnwx.cpp */;
+		name = "qcnwx.cpp: 257";
+		rLen = 0;
+		rLoc = 8606;
+		rType = 0;
+		vrLen = 1693;
+		vrLoc = 7267;
+	};
+	E3894B9E0F8ED48D004F402B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = E3C0E7B80D64E9BE0099B905 /* qcn_graphics.cpp */;
+		name = "qcn_graphics.cpp: 254";
+		rLen = 0;
+		rLoc = 8346;
+		rType = 0;
+		vrLen = 2795;
+		vrLoc = 7557;
+	};
+	E3894B9F0F8ED48D004F402B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = E3C0E7760D64E9A40099B905 /* qcnwx.cpp */;
+		name = "qcnwx.cpp: 257";
+		rLen = 0;
+		rLoc = 8606;
+		rType = 0;
+		vrLen = 1742;
+		vrLoc = 7267;
+	};
 	E390FCED0D65C65900479F9A /* icons.h */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {1161, 51646}}";
@@ -150,9 +190,9 @@
 	};
 	E390FE410D65DE7600479F9A /* myframe.cpp */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1141, 12852}}";
+			sepNavIntBoundsRect = "{{0, 0}, {1141, 13048}}";
 			sepNavSelRange = "{7321, 0}";
-			sepNavVisRange = "{6230, 1995}";
+			sepNavVisRange = "{6306, 1981}";
 			sepNavVisRect = "{{0, 0}, {1161, 818}}";
 			sepNavWindowFrame = "{{189, 83}, {1200, 945}}";
 		};
@@ -168,7 +208,7 @@
 	};
 	E3A499DD0D64E60400E51CDF /* Project object */ = {
 		activeArchitecture = i386;
-		activeBuildConfigurationName = Debug;
+		activeBuildConfigurationName = Release;
 		activeExecutable = E3C0E7710D64E9870099B905 /* QCNLive */;
 		activeTarget = E3A499ED0D64E62A00E51CDF /* QCNLive */;
 		addToTargets = (
@@ -278,16 +318,20 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 260997280;
-			PBXWorkspaceStateSaveDate = 260997280;
+			PBXPerProjectTemplateStateSaveDate = 261018657;
+			PBXWorkspaceStateSaveDate = 261018657;
 		};
 		perUserProjectItems = {
-			E311A0BB0F8E808900E7B473 /* PBXTextBookmark */ = E311A0BB0F8E808900E7B473 /* PBXTextBookmark */;
-			E311A0BC0F8E808900E7B473 /* PBXTextBookmark */ = E311A0BC0F8E808900E7B473 /* PBXTextBookmark */;
-			E386D10D0F8E86D90016F72D /* PBXBookmark */ = E386D10D0F8E86D90016F72D /* PBXBookmark */;
-			E386D1170F8E87340016F72D /* PBXTextBookmark */ = E386D1170F8E87340016F72D /* PBXTextBookmark */;
-			E386D1180F8E87340016F72D /* PBXTextBookmark */ = E386D1180F8E87340016F72D /* PBXTextBookmark */;
-			E386D1190F8E87340016F72D /* PBXTextBookmark */ = E386D1190F8E87340016F72D /* PBXTextBookmark */;
+			E311A0BB0F8E808900E7B473 = E311A0BB0F8E808900E7B473 /* PBXTextBookmark */;
+			E311A0BC0F8E808900E7B473 = E311A0BC0F8E808900E7B473 /* PBXTextBookmark */;
+			E386D10D0F8E86D90016F72D = E386D10D0F8E86D90016F72D /* PBXBookmark */;
+			E386D1170F8E87340016F72D = E386D1170F8E87340016F72D /* PBXTextBookmark */;
+			E386D1180F8E87340016F72D = E386D1180F8E87340016F72D /* PBXTextBookmark */;
+			E386D1190F8E87340016F72D = E386D1190F8E87340016F72D /* PBXTextBookmark */;
+			E3894B930F8ED439004F402B /* PBXTextBookmark */ = E3894B930F8ED439004F402B /* PBXTextBookmark */;
+			E3894B940F8ED439004F402B /* PBXTextBookmark */ = E3894B940F8ED439004F402B /* PBXTextBookmark */;
+			E3894B9E0F8ED48D004F402B /* PBXTextBookmark */ = E3894B9E0F8ED48D004F402B /* PBXTextBookmark */;
+			E3894B9F0F8ED48D004F402B /* PBXTextBookmark */ = E3894B9F0F8ED48D004F402B /* PBXTextBookmark */;
 		};
 		sourceControlManager = E3A499E10D64E60400E51CDF /* Source Control */;
 		userBuildSettings = {
@@ -459,9 +503,9 @@
 	};
 	E3C0E7B80D64E9BE0099B905 /* qcn_graphics.cpp */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1180, 29750}}";
+			sepNavIntBoundsRect = "{{0, 0}, {1180, 29162}}";
 			sepNavSelRange = "{8346, 0}";
-			sepNavVisRange = "{7619, 2726}";
+			sepNavVisRange = "{7557, 2795}";
 			sepNavVisRect = "{{0, 14405}, {1161, 818}}";
 			sepNavWindowFrame = "{{217, 81}, {1239, 947}}";
 		};
