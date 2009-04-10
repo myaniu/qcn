@@ -18,8 +18,7 @@ using std::vector;
 GLfloat white[4] = {1., 1., 1., 1.};
 GLfloat red[4] = {1., 0., 0., 1.};
 GLfloat green[4] = {0., 1., 0., 1.};
-//GLfloat yellow[4] = {1., 1., 0., 1.};
-GLfloat yellow[4] = {1., .5, 0., 1.};
+GLfloat yellow[4] = {1., 1., 0., 1.};
 GLfloat orange[4] = {1., .5, 0., 1.};
 GLfloat blue[4] = {0., 0., 1., 1.};
 GLfloat magenta[4] = {1., 0., 1., 1.};
@@ -440,15 +439,56 @@ void draw_logo()
     }
 }
 
+void draw_text_sensor()
+{
+   char* buf = new char[128];
+   memset(buf, 0x00, 128 * sizeof(char));
+
+   //#ifdef QCNLIVE
+//   int isize = MSG_SIZE_NORMAL;
+//#else
+   int isize = MSG_SIZE_SMALL;
+//#endif
+
+    if (sm) {
+        if (!sm->bSensorFound) {
+            txf_render_string(.1, 0.003, 0.01,0, isize, red, TXF_HELVETICA, (char*) "Demo Mode - Sensor Not Found");
+        } else if (sm->lOffset >=0 && sm->lOffset < sm->iWindow ) {  // we're in our calibration window
+            sprintf(buf, "%s sensor calibration in progress (Reset %d)", sm->strSensor, sm->iNumReset);
+            txf_render_string(.1, 0.003, 0.01, 0, isize, red, TXF_HELVETICA, buf);
+        } else if (sm->strSensor[0] != 0x00) {
+            sprintf(buf, "Using %s Accelerometer (Reset %d)", sm->strSensor, sm->iNumReset);
+            txf_render_string(.1, 0.003, 0.01, 0, isize, red, TXF_HELVETICA, buf);
+        } else if (dtime()-sm->update_time > 5) {
+            txf_render_string(.1, 0.003, 0.01, 0, isize, red, TXF_HELVETICA, (char*) "QCN Not Running");
+        } else if (sm->statusBOINC.suspended) {
+            txf_render_string(.1, 0.003, 0.01, 0, isize, red, TXF_HELVETICA, (char*) "QCN Suspended");
+		}
+    } 
+
+#ifndef QCNLIVE  // QCNLIVE writes to the status bar on the window
+      // if we wrote a JPG file, display a message for a little bit (200 frame refreshes ~ 7 seconds)
+      if (++g_iJPG < 200 && g_strJPG[0] != 0x00) { // we have written a JPG file
+        sprintf(buf, "Screenshot saved to: %s", g_strJPG);
+        txf_render_string(.1, 0.003, 0.028, 0, MSG_SIZE_SMALL, orange, TXF_HELVETICA, buf);
+      }
+#endif
+
+	  delete [] buf;
+}
+
 void draw_text_user() 
 {
-   char buf[128];
+   char* buf = new char[128];
+   memset(buf, 0x00, 128 * sizeof(char));
+
    // draw text on top
    mode_unshaded();
    mode_ortho();
 
     if (!sm) {
        txf_render_string(.1, 0, 0, 0, 800, red, TXF_HELVETICA, (char*) "No shared memory, QCN not running?");
+	   delete [] buf;
        return;
     }
 
@@ -513,36 +553,10 @@ void draw_text_user()
     txf_render_string(.1, 0, 0, 0, 800, red, TXF_HELVETICA, buf);
 #endif
 
-//#ifdef QCNLIVE
-//   int isize = MSG_SIZE_NORMAL;
-//#else
-   int isize = MSG_SIZE_SMALL;
-//#endif
-
-    if (sm) {
-        if (!sm->bSensorFound) {
-            txf_render_string(.1, 0.003, 0.01,0, isize, red, TXF_HELVETICA, (char*) "Demo Mode - Sensor Not Found");
-        } else if (sm->lOffset >=0 && sm->lOffset < sm->iWindow ) {  // we're in our calibration window
-            sprintf(buf, "%s sensor calibration in progress (Reset %d)", sm->strSensor, sm->iNumReset);
-            txf_render_string(.1, 0.003, 0.01, 0, isize, red, TXF_HELVETICA, buf);
-        } else if (sm->strSensor[0] != 0x00) {
-            sprintf(buf, "Using %s Accelerometer (Reset %d)", sm->strSensor, sm->iNumReset);
-            txf_render_string(.1, 0.003, 0.01, 0, isize, red, TXF_HELVETICA, buf);
-        } else if (dtime()-sm->update_time > 5) {
-            txf_render_string(.1, 0.003, 0.01, 0, isize, red, TXF_HELVETICA, (char*) "QCN Not Running");
-        } else if (sm->statusBOINC.suspended) {
-            txf_render_string(.1, 0.003, 0.01, 0, isize, red, TXF_HELVETICA, (char*) "QCN Suspended");
-		}
-    } 
-
-//#ifndef QCNLIVE  // QCNLIVE writes to the status bar on the window
-      // if we wrote a JPG file, display a message for a little bit (200 frame refreshes ~ 7 seconds)
-      if (++g_iJPG < 200 && g_strJPG[0] != 0x00) { // we have written a JPG file
-        sprintf(buf, "Screenshot saved to: %s", g_strJPG);
-        txf_render_string(.1, 0.003, 0.03, 0, MSG_SIZE_SMALL, yellow, TXF_HELVETICA, buf);
-      }
-//#endif
+    draw_text_sensor(); // sensor specific messages
     ortho_done();
+
+	delete [] buf;
 }
 
 void draw_text_plot_qcnlive() 
@@ -569,7 +583,7 @@ void draw_text_plot_qcnlive()
 
     txf_render_string(.1, fAxisLabel, 0.60f - fYOffset, 0, MSG_SIZE_NORMAL, red, TXF_HELVETICA, "Significance", 90.0f);
     txf_render_string(.1, fAxisLabel, 0.46f - fYOffset, 0, MSG_SIZE_NORMAL, blue, TXF_HELVETICA, "Z Axis", 90.0f);
-    txf_render_string(.1, fAxisLabel, 0.30f - fYOffset, 0, MSG_SIZE_NORMAL, yellow, TXF_HELVETICA, "Y Axis", 90.0f);
+    txf_render_string(.1, fAxisLabel, 0.30f - fYOffset, 0, MSG_SIZE_NORMAL, orange, TXF_HELVETICA, "Y Axis", 90.0f);
     txf_render_string(.1, fAxisLabel, 0.14f - fYOffset, 0, MSG_SIZE_NORMAL, green, TXF_HELVETICA, "X Axis", 90.0f);
 
 	// labels for significance
@@ -598,6 +612,8 @@ void draw_text_plot_qcnlive()
 
 	// units label (meters per second per second
     txf_render_string(.1, fVertLabel, 0.066f - fYOffset, 0, MSG_SIZE_SMALL, g_b2DPlotWhite ? black : grey_trans, TXF_COURIER_BOLD, " m/s/s", 0.0f);
+
+    draw_text_sensor();
 
 	ortho_done();
 }
@@ -1039,7 +1055,7 @@ void draw_plots_2d_qcnlive()
 
 	float xmin = xax_qcnlive[0] - 0.1f;
 	float xmax = xax_qcnlive[1] + 0.1f;
-	float ymin = yax_qcnlive[E_DX] - 5.0f;
+	float ymin = yax_qcnlive[E_DX] - 7.0f;
     float ymax = yax_qcnlive[4]; // + 15.0f;
 
     for (int ee = E_DX; ee <= E_DS; ee++)  {
@@ -1101,7 +1117,7 @@ void draw_plots_2d_qcnlive()
 */
 		 
          glLineWidth(1);
- 	     glColor4fv((GLfloat*) colorsPlot[ee]);  // set the color for data
+		 glColor4fv(ee == E_DY ? orange : colorsPlot[ee]);  // set the color for data - CMC note the orange substitution for yellow on the Y
 		 glLineWidth(2.0f);
          glBegin(GL_LINE_STRIP);
 
