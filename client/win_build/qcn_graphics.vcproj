@@ -197,6 +197,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\graphics\qcn_2dplot.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\graphics\qcn_cube.cpp"
 				>
 			</File>
@@ -248,6 +252,18 @@
 			</File>
 			<File
 				RelativePath="..\main\define.h"
+				>
+			</File>
+			<File
+				RelativePath="..\graphics\qcn_2dplot.h"
+				>
+			</File>
+			<File
+				RelativePath="..\graphics\qcn_cube.h"
+				>
+			</File>
+			<File
+				RelativePath="..\graphics\qcn_earth.h"
 				>
 			</File>
 			<File

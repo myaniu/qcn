@@ -12,6 +12,7 @@
 //#include "icons.h"   // 64x64
 #include "icons32.h"   // 32x32
 #include "dlgsettings.h"
+#include "qcn_earth.h"
 
 const int ID_TOOL_ACTION_CAMERA = 999;
 const int ID_TOOLBAR = 998;

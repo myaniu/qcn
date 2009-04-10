@@ -8,6 +8,7 @@
  */
 
 #include "qcnwx.h"
+#include "qcn_earth.h"
 
 // the next line puts in the appropriate headers so I can call wxGetApp.ProcessIdle() below
 //DECLARE_APP(MyApp)
