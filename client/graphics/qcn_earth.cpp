@@ -533,10 +533,6 @@ void CEarth::DrawEarth()
         // the glClear is done in the qcn_graphics.cpp file
 	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    // set background color black
-    glColor4fv(black);
-    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-
         InitCamera();
 
         diffuse[0] = diffuse[1] = diffuse[2] = 0.8 + scaleAll;

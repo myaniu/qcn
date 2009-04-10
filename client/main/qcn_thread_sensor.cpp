@@ -34,6 +34,7 @@ bool   g_bStartDemoEvenTime = false;  // after the first demo trigger write (10 
 long   g_lDemoOffsetStart = 0L;
 long   g_lDemoOffsetEnd = 0L;
 float  g_fThreshold = 0.10f;
+float  g_fSensorDiffFactor = 1.3333f;
 
 // forward declaration for useful functions in this file
 bool getSensor(CSensor* volatile *ppsms);
@@ -408,6 +409,7 @@ extern void* QCNThreadSensor(void*)
          }
 
          // CMC -- use different threshold values based on sensor type
+		 g_fSensorDiffFactor = 1.3333f;
          switch(sm->eSensor) {
             case SENSOR_MAC_PPC_TYPE1:
             case SENSOR_MAC_PPC_TYPE2:
@@ -421,9 +423,11 @@ extern void* QCNThreadSensor(void*)
                break;
             case SENSOR_USB_JW:
                g_fThreshold = 0.025f;
+			   g_fSensorDiffFactor = 1.10f;
                break;
             case SENSOR_USB_MOTIONNODEACCEL:
                g_fThreshold = 0.01f;
+			   g_fSensorDiffFactor = 1.10f;   // note USB sensors get a small diff factor below, instead of 33% just 10%
                break;
             default:
                g_fThreshold = 0.10f;
@@ -653,7 +657,7 @@ extern void* QCNThreadSensor(void*)
 //#ifdef _DEBUG // force a trigger
 //      if (bDebugTest) {
 //#else
-      if (sm->fsig[sm->lOffset] > 1.33*sm->sgmx){                      // 33% larger than others
+      if (sm->fsig[sm->lOffset] > g_fSensorDiffFactor * sm->sgmx) {                      // 33% larger than others -- note fSensorDiffFactor - USB only 10% not 33%
 //#endif
         sm->sgmx = sm->fsig[sm->lOffset];
         sm->itl=0;

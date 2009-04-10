@@ -14,8 +14,6 @@
 using std::string;
 using std::vector;
 
-const float Y_TRIGGER_LAST[2] = { -28.0f, 33.0f };
-
 // note the colors are extern'd in define.h, so keep outside the namespace qcn_graphics
 GLfloat white[4] = {1., 1., 1., 1.};
 GLfloat red[4] = {1., 0., 0., 1.};
@@ -32,8 +30,8 @@ GLfloat black[4] = {0., 0., 0., 1.};
 GLfloat black_trans[4] = {0., 0., 0., .8};
 GLfloat trans_red[4] = {1., 0., 0., .5};
 GLfloat trans_yellow[4] = {1., 1., 0., .5};
-GLfloat grey[4] = {.5,.5,.5,.3};
-GLfloat grey_trans[4] = {.5,.5,.5,.1};
+GLfloat grey[4] = {.4,.4,.4,.3};
+GLfloat grey_trans[4] = {.6,.6,.6,.6};
 GLfloat white_trans[4] = {1., 1., 1., 0.50f};
 GLfloat light_blue[4] = {0., 0., .5f, .5f};
 
@@ -103,7 +101,9 @@ void app_graphics_init()
 static const float xax[2] = { -15.0, 44.0 };
 static const float yax[4] = { -25.0, -10.0, 8.0, 21.0 };
 static const float xax_qcnlive[3] = { -47.0, 44.0, 49.0 };
-static const float yax_qcnlive[5] = { -27.0, -12.0, 3.0, 18.0, 21.0 };
+static const float yax_qcnlive[5] = { -28.5, -13.5, 1.5, 16.5, 32.0 }; // note the last is the very top of sig, so it's 15 + .5 padding for the sig axis which is .5 above next line
+
+static const float Y_TRIGGER_LAST[2] = { -30.0, 32.0 }; // the Y of the trigger & timer tick line
 
 static GLfloat* colorsPlot[4] = { green, yellow, blue, red };
 // time of the latest trigger, so we don't have them less than a second away, note unadjusted wrt server time!
@@ -165,6 +165,17 @@ static char g_strJPG[_MAX_PATH];
 static int g_iJPG = 0;
 
 static int g_TimerTick = 5;
+
+static int g_iScaleSigOffset = 3;
+static int g_iScaleAxesOffset = 3;
+static float g_fScaleSig[4] = { 1.0f, 2.5f, 5.0f, 10.0f }; // default scale for sig is 10
+static float g_fScaleAxes[4] = { 2.0f, 4.9f, 9.8f, 19.6f };
+
+#ifdef QCNLIVE
+	static bool g_b2DPlotWhite = true;
+#else
+	static bool g_b2DPlotWhite = false;
+#endif
 
 #ifndef QCNLIVE  
 // the main entry point for BOINC standalone graphics (i.e. separate executable)
@@ -547,69 +558,46 @@ void draw_text_plot_qcnlive()
        if (lTimeLast[i] > 0) { // there's a marker to place here
 	     float fWhere = (float) (lTimeLastOffset[i]) / (float) PLOT_ARRAY_SIZE;
 		 qcn_util::dtime_to_string((const double) lTimeLast[i], 'h', strTime);
-         txf_render_string(.1, fWhere - 0.042f, 0.050f, 0, MSG_SIZE_SMALL, light_blue, TXF_HELVETICA, (char*) strTime);
+		 txf_render_string(.1, fWhere - 0.042f, 0.030f, 0, MSG_SIZE_SMALL, g_b2DPlotWhite ? light_blue : grey_trans, TXF_HELVETICA, (char*) strTime);
 	   }
 	}
 
 	// labels for each axis
-	const float fAxisLabel = 1.063f;
+	const float fAxisLabel = 1.061f;
 	const float fVertLabel = 0.988f;
+	const float fYOffset = 0.016f;
 
-    txf_render_string(.1, fAxisLabel, 0.60f, 0, MSG_SIZE_NORMAL, red, TXF_HELVETICA, "Significance", 90.0f);
-    txf_render_string(.1, fAxisLabel, 0.46f, 0, MSG_SIZE_NORMAL, blue, TXF_HELVETICA, "Z Axis", 90.0f);
-    txf_render_string(.1, fAxisLabel, 0.30f, 0, MSG_SIZE_NORMAL, yellow, TXF_HELVETICA, "Y Axis", 90.0f);
-    txf_render_string(.1, fAxisLabel, 0.14f, 0, MSG_SIZE_NORMAL, green, TXF_HELVETICA, "X Axis", 90.0f);
+    txf_render_string(.1, fAxisLabel, 0.60f - fYOffset, 0, MSG_SIZE_NORMAL, red, TXF_HELVETICA, "Significance", 90.0f);
+    txf_render_string(.1, fAxisLabel, 0.46f - fYOffset, 0, MSG_SIZE_NORMAL, blue, TXF_HELVETICA, "Z Axis", 90.0f);
+    txf_render_string(.1, fAxisLabel, 0.30f - fYOffset, 0, MSG_SIZE_NORMAL, yellow, TXF_HELVETICA, "Y Axis", 90.0f);
+    txf_render_string(.1, fAxisLabel, 0.14f - fYOffset, 0, MSG_SIZE_NORMAL, green, TXF_HELVETICA, "X Axis", 90.0f);
 
 	// labels for significance
-    txf_render_string(.1, fVertLabel, 0.578f, 0, MSG_SIZE_SMALL, black, TXF_COURIER_BOLD, " 0.00", 0.0f);
-    txf_render_string(.1, fVertLabel, 0.603f, 0, MSG_SIZE_SMALL, black, TXF_COURIER_BOLD, " 1.67", 0.0f);
-    txf_render_string(.1, fVertLabel, 0.632f, 0, MSG_SIZE_SMALL, black, TXF_COURIER_BOLD, " 3.33", 0.0f);
-    txf_render_string(.1, fVertLabel, 0.657f, 0, MSG_SIZE_SMALL, black, TXF_COURIER_BOLD, " 5.00", 0.0f);
-    txf_render_string(.1, fVertLabel, 0.686f, 0, MSG_SIZE_SMALL, black, TXF_COURIER_BOLD, " 6.67", 0.0f);
-    txf_render_string(.1, fVertLabel, 0.713f, 0, MSG_SIZE_SMALL, black, TXF_COURIER_BOLD, " 8.33", 0.0f);
-    txf_render_string(.1, fVertLabel, 0.730f, 0, MSG_SIZE_SMALL, black, TXF_COURIER_BOLD, "10.00", 0.0f);
+    txf_render_string(.1, fVertLabel, 0.578f - fYOffset, 0, MSG_SIZE_SMALL, g_b2DPlotWhite ? black : grey_trans, TXF_COURIER_BOLD, " 0.00", 0.0f);
+    txf_render_string(.1, fVertLabel, 0.604f - fYOffset, 0, MSG_SIZE_SMALL, g_b2DPlotWhite ? black : grey_trans, TXF_COURIER_BOLD, " 3.33", 0.0f);
+    txf_render_string(.1, fVertLabel, 0.632f - fYOffset, 0, MSG_SIZE_SMALL, g_b2DPlotWhite ? black : grey_trans, TXF_COURIER_BOLD, " 6.67", 0.0f);
+    txf_render_string(.1, fVertLabel, 0.659f - fYOffset, 0, MSG_SIZE_SMALL, g_b2DPlotWhite ? black : grey_trans, TXF_COURIER_BOLD, "10.00", 0.0f);
+    txf_render_string(.1, fVertLabel, 0.686f - fYOffset, 0, MSG_SIZE_SMALL, g_b2DPlotWhite ? black : grey_trans, TXF_COURIER_BOLD, "13.33", 0.0f);
+    txf_render_string(.1, fVertLabel, 0.713f - fYOffset, 0, MSG_SIZE_SMALL, g_b2DPlotWhite ? black : grey_trans, TXF_COURIER_BOLD, "16.67", 0.0f);
+    txf_render_string(.1, fVertLabel, 0.735f - fYOffset, 0, MSG_SIZE_SMALL, g_b2DPlotWhite ? black : grey_trans, TXF_COURIER_BOLD, "20.00", 0.0f);
 
 	// labels for Z axis
-    txf_render_string(.1, fVertLabel, 0.413f, 0, MSG_SIZE_SMALL, black, TXF_COURIER_BOLD, "-19.62", 0.0f);
-/*
-	txf_render_string(.1, fVertLabel, 0.38f, 0, MSG_SIZE_SMALL, black, TXF_COURIER_BOLD, "-19.62", 0.0f);
-    txf_render_string(.1, fVertLabel, 0.40f, 0, MSG_SIZE_SMALL, black, TXF_COURIER_BOLD, "-13.08", 0.0f);
-    txf_render_string(.1, fVertLabel, 0.42f, 0, MSG_SIZE_SMALL, black, TXF_COURIER_BOLD, "-6.54", 0.0f);
-    txf_render_string(.1, fVertLabel, 0.44f, 0, MSG_SIZE_SMALL, black, TXF_COURIER_BOLD, "0.00", 0.0f);
-    txf_render_string(.1, fVertLabel, 0.46f, 0, MSG_SIZE_SMALL, black, TXF_COURIER_BOLD, "+6.54", 0.0f);
-    txf_render_string(.1, fVertLabel, 0.48f, 0, MSG_SIZE_SMALL, black, TXF_COURIER_BOLD, "+13.08", 0.0f);
-    txf_render_string(.1, fVertLabel, 0.50f, 0, MSG_SIZE_SMALL, black, TXF_COURIER_BOLD, "+19.62", 0.0f);
-*/
+    txf_render_string(.1, fVertLabel, 0.413f - fYOffset, 0, MSG_SIZE_SMALL, g_b2DPlotWhite ? black : grey_trans, TXF_COURIER_BOLD, "-19.62", 0.0f);
 
 	// labels for Y axis
-    txf_render_string(.1, fVertLabel, 0.248f, 0, MSG_SIZE_SMALL, black, TXF_COURIER_BOLD, "-19.62", 0.0f);
-/*
-    txf_render_string(.1, fVertLabel, 0.105f, 0, MSG_SIZE_SMALL, black, TXF_COURIER_BOLD, "-13.08", 0.0f);
-    txf_render_string(.1, fVertLabel, 0.13f, 0, MSG_SIZE_SMALL, black, TXF_COURIER_BOLD, "-6.54", 0.0f);
-    txf_render_string(.1, fVertLabel, 0.157f, 0, MSG_SIZE_SMALL, black, TXF_COURIER_BOLD, "0.00", 0.0f);
-    txf_render_string(.1, fVertLabel, 0.185f, 0, MSG_SIZE_SMALL, black, TXF_COURIER_BOLD, "+6.54", 0.0f);
-    txf_render_string(.1, fVertLabel, 0.215f, 0, MSG_SIZE_SMALL, black, TXF_COURIER_BOLD, "+13.08", 0.0f);
-    txf_render_string(.1, fVertLabel, 0.235f, 0, MSG_SIZE_SMALL, black, TXF_COURIER_BOLD, "+19.62", 0.0f);
+    txf_render_string(.1, fVertLabel, 0.248f - fYOffset, 0, MSG_SIZE_SMALL, g_b2DPlotWhite ? black : grey_trans, TXF_COURIER_BOLD, "-19.62", 0.0f);
 
-	txf_render_string(.1, fVertLabel, 0.24f, 0, MSG_SIZE_SMALL, black, TXF_COURIER_BOLD, "-19.62", 0.0f);
-    txf_render_string(.1, fVertLabel, 0.26f, 0, MSG_SIZE_SMALL, black, TXF_COURIER_BOLD, "-13.08", 0.0f);
-    txf_render_string(.1, fVertLabel, 0.28f, 0, MSG_SIZE_SMALL, black, TXF_COURIER_BOLD, "- 6.54", 0.0f);
-    txf_render_string(.1, fVertLabel, 0.30f, 0, MSG_SIZE_SMALL, black, TXF_COURIER_BOLD, "  0.00", 0.0f);
-    txf_render_string(.1, fVertLabel, 0.32f, 0, MSG_SIZE_SMALL, black, TXF_COURIER_BOLD, "+ 6.54", 0.0f);
-    txf_render_string(.1, fVertLabel, 0.34f, 0, MSG_SIZE_SMALL, black, TXF_COURIER_BOLD, "+13.08", 0.0f);
-    txf_render_string(.1, fVertLabel, 0.36f, 0, MSG_SIZE_SMALL, black, TXF_COURIER_BOLD, "+19.62", 0.0f);
-*/
 	// labels for X axis
-    txf_render_string(.1, fVertLabel, 0.084f, 0, MSG_SIZE_SMALL, black, TXF_COURIER_BOLD, "-19.62", 0.0f);
-    txf_render_string(.1, fVertLabel, 0.105f, 0, MSG_SIZE_SMALL, black, TXF_COURIER_BOLD, "-13.08", 0.0f);
-    txf_render_string(.1, fVertLabel, 0.133f, 0, MSG_SIZE_SMALL, black, TXF_COURIER_BOLD, " -6.54", 0.0f);
-    txf_render_string(.1, fVertLabel, 0.159f, 0, MSG_SIZE_SMALL, black, TXF_COURIER_BOLD, "  0.00", 0.0f);
-    txf_render_string(.1, fVertLabel, 0.186f, 0, MSG_SIZE_SMALL, black, TXF_COURIER_BOLD, " +6.54", 0.0f);
-    txf_render_string(.1, fVertLabel, 0.215f, 0, MSG_SIZE_SMALL, black, TXF_COURIER_BOLD, "+13.08", 0.0f);
-    txf_render_string(.1, fVertLabel, 0.235f, 0, MSG_SIZE_SMALL, black, TXF_COURIER_BOLD, "+19.62", 0.0f);
+    txf_render_string(.1, fVertLabel, 0.084f - fYOffset, 0, MSG_SIZE_SMALL, g_b2DPlotWhite ? black : grey_trans, TXF_COURIER_BOLD, "-19.62", 0.0f);
+    txf_render_string(.1, fVertLabel, 0.105f - fYOffset, 0, MSG_SIZE_SMALL, g_b2DPlotWhite ? black : grey_trans, TXF_COURIER_BOLD, "-13.08", 0.0f);
+    txf_render_string(.1, fVertLabel, 0.133f - fYOffset, 0, MSG_SIZE_SMALL, g_b2DPlotWhite ? black : grey_trans, TXF_COURIER_BOLD, " -6.54", 0.0f);
+    txf_render_string(.1, fVertLabel, 0.161f - fYOffset, 0, MSG_SIZE_SMALL, g_b2DPlotWhite ? black : grey_trans, TXF_COURIER_BOLD, "  0.00", 0.0f);
+    txf_render_string(.1, fVertLabel, 0.188f - fYOffset, 0, MSG_SIZE_SMALL, g_b2DPlotWhite ? black : grey_trans, TXF_COURIER_BOLD, " +6.54", 0.0f);
+    txf_render_string(.1, fVertLabel, 0.215f - fYOffset, 0, MSG_SIZE_SMALL, g_b2DPlotWhite ? black : grey_trans, TXF_COURIER_BOLD, "+13.08", 0.0f);
+    txf_render_string(.1, fVertLabel, 0.235f - fYOffset, 0, MSG_SIZE_SMALL, g_b2DPlotWhite ? black : grey_trans, TXF_COURIER_BOLD, "+19.62", 0.0f);
 
 	// units label (meters per second per second
-    txf_render_string(.1, fVertLabel, 0.066f, 0, MSG_SIZE_SMALL, black, TXF_COURIER_BOLD, "m/s/s", 0.0f);
+    txf_render_string(.1, fVertLabel, 0.066f - fYOffset, 0, MSG_SIZE_SMALL, g_b2DPlotWhite ? black : grey_trans, TXF_COURIER_BOLD, " m/s/s", 0.0f);
 
 	ortho_done();
 }
@@ -971,7 +959,7 @@ void draw_tick_marks_qcnlive()
          //fprintf(stdout, "%d  dTriggerLastTime=%f  lTriggerLastOffset=%ld  fWhere=%f\n",
          //    i, dTriggerLastTime[i], lTriggerLastOffset[i], fWhere);
          //fflush(stdout);
-         glColor4fv((GLfloat*) light_blue);
+         glColor4fv((GLfloat*) g_b2DPlotWhite ? light_blue : grey_trans);
          glLineWidth(1);
          //glLineStipple(4, 0xAAAA);
          //glEnable(GL_LINE_STIPPLE);
@@ -1030,38 +1018,20 @@ void draw_plots_2d_qcnlive()
 
     if (!sm) return; // not much point in continuing if shmem isn't setup!
 
-#ifdef QCNLIVE
-#if 0
-#ifdef _DEBUG
-	glColor4fv(white);
-    glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-#else
-	glColor4fv(black);
-    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-#endif
-#endif
-	glColor4fv(white);
-    glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-
-#else
-    glColor4fv(black);
-    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-#endif
-
     init_camera(viewpoint_distance[g_eView], 45.0f);
     init_lights();
     scale_screen(g_width, g_height);
 
     // should just be simple draw each graph in 2D using the info in dx/dy/dz/ds?
     
-    glPushMatrix();
+  //  glPushMatrix();
     mode_unshaded();
 
 	glEnable (GL_LINE_SMOOTH);
 	glEnable (GL_BLEND);
 	glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glHint (GL_LINE_SMOOTH_HINT, GL_NICEST);
-	glLineWidth(1.5);
+	glLineWidth(2);
 
     float* fdata = NULL;
 
@@ -1070,7 +1040,7 @@ void draw_plots_2d_qcnlive()
 	float xmin = xax_qcnlive[0] - 0.1f;
 	float xmax = xax_qcnlive[1] + 0.1f;
 	float ymin = yax_qcnlive[E_DX] - 5.0f;
-    float ymax = yax_qcnlive[E_DS] + 15.0f;
+    float ymax = yax_qcnlive[4]; // + 15.0f;
 
     for (int ee = E_DX; ee <= E_DS; ee++)  {
 	
@@ -1098,7 +1068,7 @@ void draw_plots_2d_qcnlive()
 					 glLineWidth(1);
 			 }
 
-     		 glColor4fv(grey);
+			 glColor4fv(grey);
 			 glBegin(GL_LINES);
 
 			 if (ee == E_DS) {
@@ -1137,10 +1107,10 @@ void draw_plots_2d_qcnlive()
 
          for (int i=0; i<PLOT_ARRAY_SIZE; i++) {
           if (fdata[i] != 0.0f)  {
-			
+			if (ee == E_DS && fdata[i] > 20.0f) fdata[i] = 20.0f; // clip significance at 20 for display
             glVertex2f(
               xax_qcnlive[0] + (((float) i / (float) PLOT_ARRAY_SIZE) * (xax_qcnlive[1]-xax_qcnlive[0])), 
-              yax_qcnlive[ee] + ( ee == E_DS ? .5f : 7.5f) + ( fdata[i] * ( 7.5f / ( ee == E_DS ? 7.0f : 19.2f ) ))
+              yax_qcnlive[ee] + ( ee == E_DS ? .5f : 7.5f) + ( fdata[i] * ( 7.5f / ( ee == E_DS ? g_fScaleSig[g_iScaleSigOffset] : g_fScaleAxes[g_iScaleAxesOffset] ) ))
             );
 			
 		   }
@@ -1150,7 +1120,7 @@ void draw_plots_2d_qcnlive()
 		 // plot a "colored pointer" at the end for ease of seeing current value?
 		if (fdata[PLOT_ARRAY_SIZE-1] != 0.0f)  {
 			float x1 = xax_qcnlive[0] + (xax_qcnlive[1]-xax_qcnlive[0]);
-			float y1 = yax_qcnlive[ee] + ( ee == E_DS ? .5f : 7.5f) + ( fdata[PLOT_ARRAY_SIZE-1] * ( 7.5f / ( ee == E_DS ? 7.0f : 19.2f ) ));
+			float y1 = yax_qcnlive[ee] + ( ee == E_DS ? .5f : 7.5f) + ( fdata[PLOT_ARRAY_SIZE-1] * ( 7.5f / ( ee == E_DS ? g_fScaleSig[g_iScaleSigOffset] : g_fScaleAxes[g_iScaleAxesOffset] ) ));
 			const float fRadius = 1.4f;
 			float fAngle = PI/8.0f;
 
@@ -1166,29 +1136,20 @@ void draw_plots_2d_qcnlive()
 	
 	// draw boxes around the plots
 
-	 /*
-	 glBegin(GL_LINE_LOOP);	 
-	 glVertex2f(xmin, ymax);  // top line
-	 glVertex2f(xmax + 5.0f, ymax);
-	 glVertex2f(xmax + 5.0f, ymin);  
-     glVertex2f(xmin, ymin);  
-     glVertex2f(xmin,ymax);
-	 glEnd();
-	 */
-	 const float fExt = 7.0f;
+	 const float fExt = 7.05f;
 	 const float fFudge = 0.02f;
 
-	 glColor4fv((GLfloat*) black);
+	 glColor4fv((GLfloat*) g_b2DPlotWhite ? black : grey_trans);
 	 glLineWidth(2);
 
-	 glBegin(GL_LINES);	   // really top line! :-)
-     glVertex2f(xmin, ymax-fFudge); 
-     glVertex2f(xmax + fExt, ymax-fFudge);  
+	 glBegin(GL_LINES);	   // really top line!
+     glVertex2f(xmin, ymax+fFudge); 
+     glVertex2f(xmax + fExt, ymax+fFudge);  
      glEnd();
 
 	 glBegin(GL_LINES);	   // left side
-     glVertex2f(xmin+fFudge, ymin); 
-     glVertex2f(xmin+fFudge, ymax-fFudge);  
+     glVertex2f(xmin+fFudge, yax_qcnlive[E_DX]); 
+     glVertex2f(xmin+fFudge, ymax+fFudge);  
      glEnd();
 
 	 glBegin(GL_LINES);	 
@@ -1199,6 +1160,12 @@ void draw_plots_2d_qcnlive()
 	 glBegin(GL_LINES);	 
      glVertex2f(xmin, yax_qcnlive[E_DZ]);  // z
      glVertex2f(xmax + fExt, yax_qcnlive[E_DZ]);  
+     glEnd();
+
+	 // right line
+	 glBegin(GL_LINES);	 
+     glVertex2f(xmax + fExt, yax_qcnlive[E_DX]);  // z
+     glVertex2f(xmax + fExt, ymax+fFudge);  
      glEnd();
 	 		 
 	 // bottom section
@@ -1212,27 +1179,16 @@ void draw_plots_2d_qcnlive()
      glVertex2f(xmax + fExt, yax_qcnlive[E_DX]); 
      glEnd();
 
+ 	draw_tick_marks_qcnlive();
+
 	 glColor4fv((GLfloat*) grey);
 	 glRectf(xmin, yax_qcnlive[E_DX], xmax+fExt, ymin);  // bottom rectangle (timer ticks)
 
 	 //right side rectangular region
 	 glRectf(xmax, ymax, xmax+fExt, yax_qcnlive[E_DX]);
-
-	 /*
-	 // right side loop for labels etc
-	 glBegin(GL_LINE_LOOP);	 
-	 glVertex2f(xmax, ymax);
-	 glVertex2f(xmax + 5.0f, ymax);
-	 glVertex2f(xmax + 5.0f, yax_qcnlive[E_DX]);
-	 glVertex2f(xmax, yax_qcnlive[E_DX]);
-	 glEnd();
-	 */
-	 //glColor4fv(light_blue);
 		 
-    glPopMatrix();    
-	
-	draw_tick_marks_qcnlive();
-	
+//    glPopMatrix();    
+		
     glFlush();
 }
 
@@ -1242,10 +1198,6 @@ void draw_plots_3d()
     if (!sm) return; // not much point in continuing if shmem isn't setup!
 
     // use jiggle array to move around graph in x/y/z depending on values
-
-    // set background color black
-    glColor4fv(black);
-    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
     init_camera(viewpoint_distance[g_eView]);
 
@@ -1695,10 +1647,6 @@ void Init()
     awinsize[1] = (long) (600.0/fdt);   // 10 minutes = 60 seconds / dt // 30000 pts
     awinsize[2] = (long) (3600.0/fdt);  // 1 minute = 60 seconds / dt // 180000 pts
 
-    // set the background colour black
-    glColor4fv(black);
-    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-
     // enable hidden-surface-removal
     glDepthFunc(GL_LEQUAL);
     glClearDepth(1.0f);
@@ -1836,20 +1784,27 @@ void Render(int xs, int ys, double time_of_day)
            setupPlotMemory(g_bSnapshot ? g_lSnapshotPoint : (sm->lOffset-2));  // note we use the next-to-last live point as current point is being written
     }
 
-    // from here on is the plots
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    // from here on is the plots or earth or cube scene
     
     // draw logo first - it's in background
-    //
 
     switch (g_eView) {
        case VIEW_PLOT_2D:
-//    draw_logo();
+				//
+			if (g_b2DPlotWhite)  // white background for qcnlive
+				glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
+			else   // black background for screensaver
+				glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+
+	      glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		  //    draw_logo();
           draw_plots_2d_qcnlive();
           draw_triggers();
           draw_text_plot_qcnlive();
           break;
        case VIEW_PLOT_3D:
+	      glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+		  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
           draw_logo();
           draw_plots_3d();
           draw_triggers();
@@ -1859,12 +1814,16 @@ void Render(int xs, int ys, double time_of_day)
        case VIEW_EARTH_DAY:
        case VIEW_EARTH_NIGHT:
        case VIEW_EARTH_COMBINED:
+	      glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	      glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
           draw_logo();
           earth.RenderScene(g_width, g_height, viewpoint_distance[g_eView], pitch_angle[g_eView], roll_angle[g_eView]);
           earth.RenderText();
           draw_text_user();
           break;
        case VIEW_CUBE:
+	      glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	      glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
           draw_logo();
           cube.RenderScene(g_width, g_height, viewpoint_distance[g_eView], pitch_angle[g_eView], roll_angle[g_eView]);
 		  cube.RenderText();
@@ -1893,6 +1852,11 @@ void Resize(int w, int h)
 
 void MouseMove(int x, int y, int left, int middle, int right)
 {
+	// swap colors on 2d view
+	if (g_eView == VIEW_PLOT_2D && left && right) {
+		g_b2DPlotWhite = !g_b2DPlotWhite;
+	}
+
 	if (g_eView != VIEW_EARTH_DAY && g_eView != VIEW_EARTH_NIGHT && g_eView != VIEW_EARTH_COMBINED) return;
 
 	mouseSX = x;
@@ -1927,7 +1891,7 @@ void MouseButton(int x, int y, int which, int is_down)
 
 	if (sm) sm->dTimeInteractive = dtime();
 
-    mouseX = x;
+	mouseX = x;
     mouseY = y;
 
     if (earth.IsShown()) {
