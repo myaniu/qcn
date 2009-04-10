@@ -8,7 +8,7 @@ fi
 # init/earthmask.rgb  # disable for now
 ncisuffix='__nci'
 uplstring='init/Helvetica.txf \
-         init/Courier.txf \
+         init/Courier-Bold.txf \
          init/earthday4096.jpg \
          init/splash.png \
          init/earthnight4096.jpg \
@@ -62,7 +62,7 @@ else
    mv qcn_$1_$suffix qcn_$2_$suffix
    cp graphics_app=qcn_graphics_$1_$suffix graphics_app=qcn_graphics_$2_$suffix
    rm -f qcnlive-linux.zip
-   zip -r qcnlive-linux.zip qcnlive init/Helvetica.txf init/Courier.txf init/earthmask.rgb init/earthday4096.jpg \
+   zip -r qcnlive-linux.zip qcnlive init/Helvetica.txf init/Courier-Bold.txf init/earthmask.rgb init/earthday4096.jpg \
          init/$ntpdv $uplstring \
          init/libMotionNodeAccelAPI.so \
             -x@exclude.lst
@@ -78,7 +78,7 @@ echo chdir $appspathone >> qcnsftp.up
 echo put qcn_$1_$suffix$ncisuffix >> qcnsftp.up
 echo put graphics_app=qcn_graphics_$1_$suffix >> qcnsftp.up
 echo put init/Helvetica.txf >> qcnsftp.up
-echo put init/Courier.txf >> qcnsftp.up
+echo put init/Courier-Bold.txf >> qcnsftp.up
 #echo put init/earthmask.rgb >> qcnsftp.up
 echo put init/earthday4096.jpg >> qcnsftp.up
 echo put init/earthnight4096.jpg >> qcnsftp.up
@@ -95,7 +95,7 @@ echo chdir $appspathtwo >> qcnsftp.up
 echo put qcn_$2_$suffix >> qcnsftp.up
 echo put graphics_app=qcn_graphics_$2_$suffix >> qcnsftp.up
 echo put init/Helvetica.txf >> qcnsftp.up
-echo put init/Courier.txf >> qcnsftp.up
+echo put init/Courier-Bold.txf >> qcnsftp.up
 #echo put init/earthmask.rgb >> qcnsftp.up
 echo put init/earthday4096.jpg >> qcnsftp.up
 echo put init/earthnight4096.jpg >> qcnsftp.up

@@ -553,7 +553,7 @@ void draw_text_plot_qcnlive()
 
 	// labels for each axis
 	const float fAxisLabel = 1.063f;
-	const float fVertLabel = 0.992f;
+	const float fVertLabel = 0.988f;
 
     txf_render_string(.1, fAxisLabel, 0.60f, 0, MSG_SIZE_NORMAL, red, TXF_HELVETICA, "Significance", 90.0f);
     txf_render_string(.1, fAxisLabel, 0.46f, 0, MSG_SIZE_NORMAL, blue, TXF_HELVETICA, "Z Axis", 90.0f);
@@ -566,8 +566,8 @@ void draw_text_plot_qcnlive()
     txf_render_string(.1, fVertLabel, 0.632f, 0, MSG_SIZE_SMALL, black, TXF_COURIER_BOLD, " 3.33", 0.0f);
     txf_render_string(.1, fVertLabel, 0.657f, 0, MSG_SIZE_SMALL, black, TXF_COURIER_BOLD, " 5.00", 0.0f);
     txf_render_string(.1, fVertLabel, 0.686f, 0, MSG_SIZE_SMALL, black, TXF_COURIER_BOLD, " 6.67", 0.0f);
-    txf_render_string(.1, fVertLabel, 0.712f, 0, MSG_SIZE_SMALL, black, TXF_COURIER_BOLD, " 8.33", 0.0f);
-    txf_render_string(.1, fVertLabel, 0.728f, 0, MSG_SIZE_SMALL, black, TXF_COURIER_BOLD, "10.00", 0.0f);
+    txf_render_string(.1, fVertLabel, 0.713f, 0, MSG_SIZE_SMALL, black, TXF_COURIER_BOLD, " 8.33", 0.0f);
+    txf_render_string(.1, fVertLabel, 0.730f, 0, MSG_SIZE_SMALL, black, TXF_COURIER_BOLD, "10.00", 0.0f);
 
 	// labels for Z axis
     txf_render_string(.1, fVertLabel, 0.413f, 0, MSG_SIZE_SMALL, black, TXF_COURIER_BOLD, "-19.62", 0.0f);
@@ -602,9 +602,9 @@ void draw_text_plot_qcnlive()
 	// labels for X axis
     txf_render_string(.1, fVertLabel, 0.084f, 0, MSG_SIZE_SMALL, black, TXF_COURIER_BOLD, "-19.62", 0.0f);
     txf_render_string(.1, fVertLabel, 0.105f, 0, MSG_SIZE_SMALL, black, TXF_COURIER_BOLD, "-13.08", 0.0f);
-    txf_render_string(.1, fVertLabel, 0.134f, 0, MSG_SIZE_SMALL, black, TXF_COURIER_BOLD, " -6.54", 0.0f);
+    txf_render_string(.1, fVertLabel, 0.133f, 0, MSG_SIZE_SMALL, black, TXF_COURIER_BOLD, " -6.54", 0.0f);
     txf_render_string(.1, fVertLabel, 0.159f, 0, MSG_SIZE_SMALL, black, TXF_COURIER_BOLD, "  0.00", 0.0f);
-    txf_render_string(.1, fVertLabel, 0.185f, 0, MSG_SIZE_SMALL, black, TXF_COURIER_BOLD, " +6.54", 0.0f);
+    txf_render_string(.1, fVertLabel, 0.186f, 0, MSG_SIZE_SMALL, black, TXF_COURIER_BOLD, " +6.54", 0.0f);
     txf_render_string(.1, fVertLabel, 0.215f, 0, MSG_SIZE_SMALL, black, TXF_COURIER_BOLD, "+13.08", 0.0f);
     txf_render_string(.1, fVertLabel, 0.235f, 0, MSG_SIZE_SMALL, black, TXF_COURIER_BOLD, "+19.62", 0.0f);
 
