@@ -17,7 +17,6 @@
 
 using std::string;
 using std::vector;
-using namespace qcn_2dplot;
 
 // note the colors are extern'd in define.h, so keep outside the namespace qcn_graphics
 GLfloat white[4] = {1., 1., 1., 1.};
@@ -239,19 +238,6 @@ float aryg[4][PLOT_ARRAY_SIZE];   // the data points for plotting -- DS DX DY DZ
 char g_strJPG[_MAX_PATH];
 int g_iJPG = 0;
 
-int g_TimerTick = 5;
-
-int g_iScaleSigOffset = 3;
-int g_iScaleAxesOffset = 3;
-float g_fScaleSig[4] = { 1.0f, 2.5f, 5.0f, 10.0f }; // default scale for sig is 10
-float g_fScaleAxes[4] = { 2.0f, 4.9f, 9.8f, 19.6f };
-
-#ifdef QCNLIVE
-	bool g_b2DPlotWhite = true;
-#else
-	bool g_b2DPlotWhite = false;
-#endif
-
 void getProjectPrefs()
 {
     static bool bInHere = false;
@@ -292,7 +278,7 @@ int getLastTrigger(const long lTriggerCheck, const int iWinSizeArray, const int 
     //long lTimeTest = (long)(sm->t0[lTriggerCheck]);
 	if (lStartTime == 0L) {  // it's our first time in and our point is a valid start time
 	   //long lMult = (long)(sm->t0[lTriggerCheck] - sm->dTimeStart) / g_TimerTick;
-	   long lMod = (long)(sm->t0[lTriggerCheck] - sm->dTimeStart) % g_TimerTick;
+		long lMod = (long)(sm->t0[lTriggerCheck] - sm->dTimeStart) % qcn_2dplot::g_TimerTick;
 	   if (sm->t0[lTriggerCheck] >= sm->dTimeStart 
 		  && lMod == 0 ) {
 	//	  && (sm->t0[lTriggerCheck] - (float((long) sm->t0[lTriggerCheck]))) < 0.30f ) { 
@@ -313,7 +299,7 @@ int getLastTrigger(const long lTriggerCheck, const int iWinSizeArray, const int 
 	if (bProc && g_iTimeCtr < MAX_TRIGGER_LAST) {  // we hit a timer interval, so setup the array
 	   lTimeLastOffset[g_iTimeCtr] = iWinSizeArray / iRebin;
 	   g_iTimeCtr++;
-       lCheckTime += g_TimerTick;  // bump up to check next second
+	   lCheckTime += qcn_2dplot::g_TimerTick;  // bump up to check next second
 	}
   }
   
@@ -1399,6 +1385,11 @@ void Init()
     glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
     glHint(GL_POINT_SMOOTH_HINT, GL_NICEST);
 
+	glEnable (GL_LINE_SMOOTH);
+    glEnable (GL_BLEND);
+    glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glHint (GL_LINE_SMOOTH_HINT, GL_NICEST);
+
 // RIBBON GRAPH
 
     // setup ribbon graph stuff
@@ -1533,16 +1524,20 @@ void Render(int xs, int ys, double time_of_day)
     switch (g_eView) {
        case VIEW_PLOT_2D:
 				//
-			if (g_b2DPlotWhite)  // white background for qcnlive
+		   if (qcn_2dplot::g_bIsWhite)  // white background for qcnlive
 				glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
 			else   // black background for screensaver
 				glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
-	      glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+			glEnable (GL_LINE_SMOOTH);
+			glEnable (GL_BLEND);
+			glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+			glHint (GL_LINE_SMOOTH_HINT, GL_NICEST);
 		  //    draw_logo();
-          draw_plots_2d_qcnlive();
+		  qcn_2dplot::draw_plot();
           draw_triggers();
-          draw_text_plot_qcnlive();
+		  qcn_2dplot::draw_text();
           break;
        case VIEW_PLOT_3D:
 	      glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
@@ -1596,7 +1591,7 @@ void MouseMove(int x, int y, int left, int middle, int right)
 {
 	// swap colors on 2d view
 	if (g_eView == VIEW_PLOT_2D && left && right) {
-		g_b2DPlotWhite = !g_b2DPlotWhite;
+		qcn_2dplot::g_bIsWhite = !qcn_2dplot::g_bIsWhite;
 	}
 
 	if (g_eView != VIEW_EARTH_DAY && g_eView != VIEW_EARTH_NIGHT && g_eView != VIEW_EARTH_COMBINED) return;

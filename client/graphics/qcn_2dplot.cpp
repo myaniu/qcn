@@ -5,7 +5,20 @@ using namespace qcn_graphics;
 
 namespace qcn_2dplot {
 
-void draw_text_plot_qcnlive() 
+int g_TimerTick = 5; // seconds for each timer point
+
+#ifdef QCNLIVE
+	bool g_bIsWhite = true;
+#else
+	bool g_bIsWhite = false;
+#endif
+
+int g_iScaleSigOffset = 3;
+int g_iScaleAxesOffset = 3;
+float g_fScaleSig[4] = { 1.0f, 2.5f, 5.0f, 10.0f }; // default scale for sig is 10
+float g_fScaleAxes[4] = { 2.0f, 4.9f, 9.8f, 19.6f };
+
+void draw_text() 
 {
    // draw text on top
    mode_unshaded();
@@ -18,7 +31,7 @@ void draw_text_plot_qcnlive()
        if (lTimeLast[i] > 0) { // there's a marker to place here
 	     float fWhere = (float) (lTimeLastOffset[i]) / (float) PLOT_ARRAY_SIZE;
 		 qcn_util::dtime_to_string((const double) lTimeLast[i], 'h', strTime);
-		 txf_render_string(.1, fWhere - 0.042f, 0.030f, 0, MSG_SIZE_SMALL, g_b2DPlotWhite ? light_blue : grey_trans, TXF_HELVETICA, (char*) strTime);
+		 txf_render_string(.1f, fWhere - 0.042f, 0.030f, 0.0f, MSG_SIZE_SMALL, g_bIsWhite ? light_blue : grey_trans, TXF_HELVETICA, (char*) strTime);
 	   }
 	}
 
@@ -27,44 +40,44 @@ void draw_text_plot_qcnlive()
 	const float fVertLabel = 0.988f;
 	const float fYOffset = 0.016f;
 
-    txf_render_string(.1, fAxisLabel, 0.60f - fYOffset, 0, MSG_SIZE_NORMAL, red, TXF_HELVETICA, "Significance", 90.0f);
-    txf_render_string(.1, fAxisLabel, 0.46f - fYOffset, 0, MSG_SIZE_NORMAL, blue, TXF_HELVETICA, "Z Axis", 90.0f);
-    txf_render_string(.1, fAxisLabel, 0.30f - fYOffset, 0, MSG_SIZE_NORMAL, orange, TXF_HELVETICA, "Y Axis", 90.0f);
-    txf_render_string(.1, fAxisLabel, 0.14f - fYOffset, 0, MSG_SIZE_NORMAL, green, TXF_HELVETICA, "X Axis", 90.0f);
+    txf_render_string(0.1f, fAxisLabel, 0.60f - fYOffset, 0, MSG_SIZE_NORMAL, red, TXF_HELVETICA, "Significance", 90.0f);
+    txf_render_string(0.1f, fAxisLabel, 0.46f - fYOffset, 0, MSG_SIZE_NORMAL, blue, TXF_HELVETICA, "Z Axis", 90.0f);
+    txf_render_string(0.1f, fAxisLabel, 0.30f - fYOffset, 0, MSG_SIZE_NORMAL, orange, TXF_HELVETICA, "Y Axis", 90.0f);
+    txf_render_string(0.1f, fAxisLabel, 0.14f - fYOffset, 0, MSG_SIZE_NORMAL, green, TXF_HELVETICA, "X Axis", 90.0f);
 
 	// labels for significance
-    txf_render_string(.1, fVertLabel, 0.578f - fYOffset, 0, MSG_SIZE_SMALL, g_b2DPlotWhite ? black : grey_trans, TXF_COURIER_BOLD, " 0.00", 0.0f);
-    txf_render_string(.1, fVertLabel, 0.604f - fYOffset, 0, MSG_SIZE_SMALL, g_b2DPlotWhite ? black : grey_trans, TXF_COURIER_BOLD, " 3.33", 0.0f);
-    txf_render_string(.1, fVertLabel, 0.632f - fYOffset, 0, MSG_SIZE_SMALL, g_b2DPlotWhite ? black : grey_trans, TXF_COURIER_BOLD, " 6.67", 0.0f);
-    txf_render_string(.1, fVertLabel, 0.659f - fYOffset, 0, MSG_SIZE_SMALL, g_b2DPlotWhite ? black : grey_trans, TXF_COURIER_BOLD, "10.00", 0.0f);
-    txf_render_string(.1, fVertLabel, 0.686f - fYOffset, 0, MSG_SIZE_SMALL, g_b2DPlotWhite ? black : grey_trans, TXF_COURIER_BOLD, "13.33", 0.0f);
-    txf_render_string(.1, fVertLabel, 0.713f - fYOffset, 0, MSG_SIZE_SMALL, g_b2DPlotWhite ? black : grey_trans, TXF_COURIER_BOLD, "16.67", 0.0f);
-    txf_render_string(.1, fVertLabel, 0.735f - fYOffset, 0, MSG_SIZE_SMALL, g_b2DPlotWhite ? black : grey_trans, TXF_COURIER_BOLD, "20.00", 0.0f);
+    txf_render_string(0.1f, fVertLabel, 0.578f - fYOffset, 0, MSG_SIZE_SMALL, g_bIsWhite ? black : grey_trans, TXF_COURIER_BOLD, " 0.00");
+    txf_render_string(0.1f, fVertLabel, 0.604f - fYOffset, 0, MSG_SIZE_SMALL, g_bIsWhite ? black : grey_trans, TXF_COURIER_BOLD, " 3.33");
+    txf_render_string(0.1f, fVertLabel, 0.632f - fYOffset, 0, MSG_SIZE_SMALL, g_bIsWhite ? black : grey_trans, TXF_COURIER_BOLD, " 6.67");
+    txf_render_string(0.1f, fVertLabel, 0.659f - fYOffset, 0, MSG_SIZE_SMALL, g_bIsWhite ? black : grey_trans, TXF_COURIER_BOLD, "10.00");
+    txf_render_string(0.1f, fVertLabel, 0.686f - fYOffset, 0, MSG_SIZE_SMALL, g_bIsWhite ? black : grey_trans, TXF_COURIER_BOLD, "13.33");
+    txf_render_string(0.1f, fVertLabel, 0.713f - fYOffset, 0, MSG_SIZE_SMALL, g_bIsWhite ? black : grey_trans, TXF_COURIER_BOLD, "16.67");
+    txf_render_string(0.1f, fVertLabel, 0.735f - fYOffset, 0, MSG_SIZE_SMALL, g_bIsWhite ? black : grey_trans, TXF_COURIER_BOLD, "20.00");
 
 	// labels for Z axis
-    txf_render_string(.1, fVertLabel, 0.413f - fYOffset, 0, MSG_SIZE_SMALL, g_b2DPlotWhite ? black : grey_trans, TXF_COURIER_BOLD, "-19.62", 0.0f);
+    txf_render_string(0.1f, fVertLabel, 0.413f - fYOffset, 0, MSG_SIZE_SMALL, g_bIsWhite ? black : grey_trans, TXF_COURIER_BOLD, "-19.62");
 
 	// labels for Y axis
-    txf_render_string(.1, fVertLabel, 0.248f - fYOffset, 0, MSG_SIZE_SMALL, g_b2DPlotWhite ? black : grey_trans, TXF_COURIER_BOLD, "-19.62", 0.0f);
+    txf_render_string(0.1f, fVertLabel, 0.248f - fYOffset, 0, MSG_SIZE_SMALL, g_bIsWhite ? black : grey_trans, TXF_COURIER_BOLD, "-19.62");
 
 	// labels for X axis
-    txf_render_string(.1, fVertLabel, 0.084f - fYOffset, 0, MSG_SIZE_SMALL, g_b2DPlotWhite ? black : grey_trans, TXF_COURIER_BOLD, "-19.62", 0.0f);
-    txf_render_string(.1, fVertLabel, 0.105f - fYOffset, 0, MSG_SIZE_SMALL, g_b2DPlotWhite ? black : grey_trans, TXF_COURIER_BOLD, "-13.08", 0.0f);
-    txf_render_string(.1, fVertLabel, 0.133f - fYOffset, 0, MSG_SIZE_SMALL, g_b2DPlotWhite ? black : grey_trans, TXF_COURIER_BOLD, " -6.54", 0.0f);
-    txf_render_string(.1, fVertLabel, 0.161f - fYOffset, 0, MSG_SIZE_SMALL, g_b2DPlotWhite ? black : grey_trans, TXF_COURIER_BOLD, "  0.00", 0.0f);
-    txf_render_string(.1, fVertLabel, 0.188f - fYOffset, 0, MSG_SIZE_SMALL, g_b2DPlotWhite ? black : grey_trans, TXF_COURIER_BOLD, " +6.54", 0.0f);
-    txf_render_string(.1, fVertLabel, 0.215f - fYOffset, 0, MSG_SIZE_SMALL, g_b2DPlotWhite ? black : grey_trans, TXF_COURIER_BOLD, "+13.08", 0.0f);
-    txf_render_string(.1, fVertLabel, 0.235f - fYOffset, 0, MSG_SIZE_SMALL, g_b2DPlotWhite ? black : grey_trans, TXF_COURIER_BOLD, "+19.62", 0.0f);
+    txf_render_string(0.1f, fVertLabel, 0.084f - fYOffset, 0, MSG_SIZE_SMALL, g_bIsWhite ? black : grey_trans, TXF_COURIER_BOLD, "-19.62");
+    txf_render_string(0.1f, fVertLabel, 0.105f - fYOffset, 0, MSG_SIZE_SMALL, g_bIsWhite ? black : grey_trans, TXF_COURIER_BOLD, "-13.08");
+    txf_render_string(0.1f, fVertLabel, 0.133f - fYOffset, 0, MSG_SIZE_SMALL, g_bIsWhite ? black : grey_trans, TXF_COURIER_BOLD, " -6.54");
+    txf_render_string(0.1f, fVertLabel, 0.161f - fYOffset, 0, MSG_SIZE_SMALL, g_bIsWhite ? black : grey_trans, TXF_COURIER_BOLD, "  0.00");
+    txf_render_string(0.1f, fVertLabel, 0.188f - fYOffset, 0, MSG_SIZE_SMALL, g_bIsWhite ? black : grey_trans, TXF_COURIER_BOLD, " +6.54");
+    txf_render_string(0.1f, fVertLabel, 0.215f - fYOffset, 0, MSG_SIZE_SMALL, g_bIsWhite ? black : grey_trans, TXF_COURIER_BOLD, "+13.08");
+    txf_render_string(0.1f, fVertLabel, 0.235f - fYOffset, 0, MSG_SIZE_SMALL, g_bIsWhite ? black : grey_trans, TXF_COURIER_BOLD, "+19.62");
 
 	// units label (meters per second per second
-    txf_render_string(.1, fVertLabel, 0.066f - fYOffset, 0, MSG_SIZE_SMALL, g_b2DPlotWhite ? black : grey_trans, TXF_COURIER_BOLD, " m/s/s", 0.0f);
+    txf_render_string(0.1f, fVertLabel, 0.066f - fYOffset, 0, MSG_SIZE_SMALL, g_bIsWhite ? black : grey_trans, TXF_COURIER_BOLD, " m/s/s");
 
     draw_text_sensor();
 
 	ortho_done();
 }
 
-void draw_tick_marks_qcnlive()
+void draw_tick_marks()
 {  // draw vertical blue lines every 1/10/60/600 seconds depending on view size
 	  // note the labels underneath are drawn in draw_text_plot_qcnlive
 		 
@@ -82,7 +95,7 @@ void draw_tick_marks_qcnlive()
          //fprintf(stdout, "%d  dTriggerLastTime=%f  lTriggerLastOffset=%ld  fWhere=%f\n",
          //    i, dTriggerLastTime[i], lTriggerLastOffset[i], fWhere);
          //fflush(stdout);
-         glColor4fv((GLfloat*) g_b2DPlotWhite ? light_blue : grey_trans);
+         glColor4fv((GLfloat*) g_bIsWhite ? light_blue : grey_trans);
          glLineWidth(1);
          //glLineStipple(4, 0xAAAA);
          //glEnable(GL_LINE_STIPPLE);
@@ -96,7 +109,7 @@ void draw_tick_marks_qcnlive()
     glPopMatrix();
 }
 
-void draw_plots_2d_qcnlive() 
+void draw_plot() 
 {
 
 /*
@@ -229,7 +242,7 @@ void draw_plots_2d_qcnlive()
 	 const float fExt = 7.05f;
 	 const float fFudge = 0.02f;
 
-	 glColor4fv((GLfloat*) g_b2DPlotWhite ? black : grey_trans);
+	 glColor4fv((GLfloat*) g_bIsWhite ? black : grey_trans);
 	 glLineWidth(2);
 
 	 glBegin(GL_LINES);	   // really top line!
@@ -269,7 +282,7 @@ void draw_plots_2d_qcnlive()
      glVertex2f(xmax + fExt, yax_qcnlive[E_DX]); 
      glEnd();
 
- 	draw_tick_marks_qcnlive();
+ 	draw_tick_marks();
 
 	 glColor4fv((GLfloat*) grey);
 	 glRectf(xmin, yax_qcnlive[E_DX], xmax+fExt, ymin);  // bottom rectangle (timer ticks)

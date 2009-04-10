@@ -198,15 +198,6 @@ extern float aryg[4][PLOT_ARRAY_SIZE];   // the data points for plotting -- DS D
 extern char g_strJPG[_MAX_PATH];
 extern int g_iJPG;
 
-extern int g_TimerTick;
-
-extern int g_iScaleSigOffset;
-extern int g_iScaleAxesOffset;
-extern float g_fScaleSig[4]; // default scale for sig is 10
-extern float g_fScaleAxes[4];
-
-extern bool g_b2DPlotWhite;
-
 // end of namespace variable declarations
 
 // forward declarations for functions
