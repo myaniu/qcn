@@ -6,6 +6,10 @@
 #endif
 
 #include "qcn_graphics.h"
+#include "qcn_2dplot.h"
+#include "qcn_earth.h"
+#include "qcn_cube.h"
+
 #ifndef QCNLIVE
     #include "qcn_signal.h"
     CQCNShMem* volatile sm = NULL;             // the main shared memory pointer
@@ -13,6 +17,7 @@
 
 using std::string;
 using std::vector;
+using namespace qcn_2dplot;
 
 // note the colors are extern'd in define.h, so keep outside the namespace qcn_graphics
 GLfloat white[4] = {1., 1., 1., 1.};
@@ -97,85 +102,6 @@ void app_graphics_init()
 }
 //#endif
 
-static const float xax[2] = { -15.0, 44.0 };
-static const float yax[4] = { -25.0, -10.0, 8.0, 21.0 };
-static const float xax_qcnlive[3] = { -47.0, 44.0, 49.0 };
-static const float yax_qcnlive[5] = { -28.5, -13.5, 1.5, 16.5, 32.0 }; // note the last is the very top of sig, so it's 15 + .5 padding for the sig axis which is .5 above next line
-
-static const float Y_TRIGGER_LAST[2] = { -30.0, 32.0 }; // the Y of the trigger & timer tick line
-
-static GLfloat* colorsPlot[4] = { green, yellow, blue, red };
-// time of the latest trigger, so we don't have them less than a second away, note unadjusted wrt server time!
-// the "LastRebin" will be the actual displayed array offset position after the rebin
-static double dTriggerLastTime[MAX_TRIGGER_LAST];    
-static long lTriggerLastOffset[MAX_TRIGGER_LAST];
-static long lTimeLast[MAX_TRIGGER_LAST];    
-static long lTimeLastOffset[MAX_TRIGGER_LAST];
-static int g_iTimeCtr = 0;
-static int g_iZoomLevel = 0;
-
-
-static int  iFullScreenView = 0;  // user preferred view, can be set on cmd line
-
-// an array of x/y/z for screensaver moving
-//GLfloat jiggle[3] = {0., 0., 0.};
-
-static double dtw[2]; // time window
-
-// an hour seems to be the max to vis without much delay
-static long awinsize[MAX_KEY_WINSIZE+1]; 
-static int key_winsize = 0; // points to an element of the above array to get the winsize (# of dt points i.e. 100 = 10 sec 600 = minute, 36000 = hour)
-static int key_press = 0;
-static int key_press_alt = 0;
-static int key_up = 0;
-static int key_up_alt = 0;
-
-static long g_lSnapshotPoint = 0L;
-static long g_lSnapshotPointOriginal = 0L;
-static long g_lSnapshotTimeBackMinutes = 0L;  // the minutes back in time we've gone for snapshot
-static bool g_bSnapshot = false;
-static bool g_bSnapshotArrayProcessed = false;
-
-static bool mouse_down = false;
-static int mouseX, mouseY;
-static int mouseSX, mouseSY;
-
-static double pitch_angle[4] = {0.0, 0.0, 0.0, 0.0}; 
-static double roll_angle[4] = {0.0, 0.0, 0.0, 0.0}; 
-static double viewpoint_distance[4]={ 10.0, 10.0, 10.0, 10.0};
-
-static float l_fmax[4], l_fmin[4];
-
-//static float color[4] = {.7, .2, .5, 1};
-
-static TEXTURE_DESC logo;  // customized version of the boinc/api/gutil.h TEXTURE_DESC
-static RIBBON_GRAPH rgx, rgy, rgz, rgs; // override the standard boinc/api ribbon graph draw as it's making the earth red!
-
-#ifndef QCNLIVE
-static bool bFirstShown = false;             // flags that the view hasn't been shown yet
-#endif
-static bool bScaled = false;             // scaled is usually for 3D pics, but can also be done on 2D in the QCNLIVE
-static char* g_strFile = NULL;           // optional file of shared memory serialization
-static bool bResetArray = true;          // reset our plot memory array, otherwise it will just try to push a "live" point onto the array
-static float aryg[4][PLOT_ARRAY_SIZE];   // the data points for plotting -- DS DX DY DZ
-
-// current view is an enum i.e. { VIEW_PLOT_3D = 1, VIEW_PLOT_2D, VIEW_EARTH_DAY, VIEW_EARTH_NIGHT, VIEW_EARTH_COMBINED, VIEW_CUBE }; 
-static char g_strJPG[_MAX_PATH];
-static int g_iJPG = 0;
-
-static int g_TimerTick = 5;
-
-static int g_iScaleSigOffset = 3;
-static int g_iScaleAxesOffset = 3;
-static float g_fScaleSig[4] = { 1.0f, 2.5f, 5.0f, 10.0f }; // default scale for sig is 10
-static float g_fScaleAxes[4] = { 2.0f, 4.9f, 9.8f, 19.6f };
-
-#ifdef QCNLIVE
-	static bool g_b2DPlotWhite = true;
-#else
-	static bool g_b2DPlotWhite = false;
-#endif
-
 #ifndef QCNLIVE  
 // the main entry point for BOINC standalone graphics (i.e. separate executable)
 int main(int argc, char** argv) 
@@ -247,6 +173,84 @@ bool g_bFullScreen = false;         // bool to denote if we're running in fullsc
 CEarth earth;   // earth object
 CCube cube;     // cube object
 vector<SQuake> vsq; // a vector of earthquake data struct (see qcn_graphics.h)
+
+const float xax[2] = { -15.0, 44.0 };
+const float yax[4] = { -25.0, -10.0, 8.0, 21.0 };
+const float xax_qcnlive[3] = { -47.0, 44.0, 49.0 };
+const float yax_qcnlive[5] = { -28.5, -13.5, 1.5, 16.5, 32.0 }; // note the last is the very top of sig, so it's 15 + .5 padding for the sig axis which is .5 above next line
+
+const float Y_TRIGGER_LAST[2] = { -30.0, 32.0 }; // the Y of the trigger & timer tick line
+
+int  iFullScreenView = 0;  // user preferred view, can be set on cmd line
+
+GLfloat* colorsPlot[4] = { green, yellow, blue, red };
+// time of the latest trigger, so we don't have them less than a second away, note unadjusted wrt server time!
+// the "LastRebin" will be the actual displayed array offset position after the rebin
+double dTriggerLastTime[MAX_TRIGGER_LAST];    
+long lTriggerLastOffset[MAX_TRIGGER_LAST];
+long lTimeLast[MAX_TRIGGER_LAST];    
+long lTimeLastOffset[MAX_TRIGGER_LAST];
+int g_iTimeCtr = 0;
+int g_iZoomLevel = 0;
+
+// an array of x/y/z for screensaver moving
+//GLfloat jiggle[3] = {0., 0., 0.};
+
+double dtw[2]; // time window
+
+// an hour seems to be the max to vis without much delay
+long awinsize[MAX_KEY_WINSIZE+1]; 
+int key_winsize = 0; // points to an element of the above array to get the winsize (# of dt points i.e. 100 = 10 sec 600 = minute, 36000 = hour)
+int key_press = 0;
+int key_press_alt = 0;
+int key_up = 0;
+int key_up_alt = 0;
+
+long g_lSnapshotPoint = 0L;
+long g_lSnapshotPointOriginal = 0L;
+long g_lSnapshotTimeBackMinutes = 0L;  // the minutes back in time we've gone for snapshot
+bool g_bSnapshot = false;
+bool g_bSnapshotArrayProcessed = false;
+
+bool mouse_down = false;
+int mouseX, mouseY;
+int mouseSX, mouseSY;
+
+double pitch_angle[4] = {0.0, 0.0, 0.0, 0.0}; 
+double roll_angle[4] = {0.0, 0.0, 0.0, 0.0}; 
+double viewpoint_distance[4]={ 10.0, 10.0, 10.0, 10.0};
+
+float l_fmax[4], l_fmin[4];
+
+//float color[4] = {.7, .2, .5, 1};
+
+TEXTURE_DESC logo;  // customized version of the boinc/api/gutil.h TEXTURE_DESC
+RIBBON_GRAPH rgx, rgy, rgz, rgs; // override the standard boinc/api ribbon graph draw as it's making the earth red!
+
+#ifndef QCNLIVE
+bool bFirstShown = false;             // flags that the view hasn't been shown yet
+#endif
+bool bScaled = false;             // scaled is usually for 3D pics, but can also be done on 2D in the QCNLIVE
+char* g_strFile = NULL;           // optional file of shared memory serialization
+bool bResetArray = true;          // reset our plot memory array, otherwise it will just try to push a "live" point onto the array
+float aryg[4][PLOT_ARRAY_SIZE];   // the data points for plotting -- DS DX DY DZ
+
+// current view is an enum i.e. { VIEW_PLOT_3D = 1, VIEW_PLOT_2D, VIEW_EARTH_DAY, VIEW_EARTH_NIGHT, VIEW_EARTH_COMBINED, VIEW_CUBE }; 
+char g_strJPG[_MAX_PATH];
+int g_iJPG = 0;
+
+int g_TimerTick = 5;
+
+int g_iScaleSigOffset = 3;
+int g_iScaleAxesOffset = 3;
+float g_fScaleSig[4] = { 1.0f, 2.5f, 5.0f, 10.0f }; // default scale for sig is 10
+float g_fScaleAxes[4] = { 2.0f, 4.9f, 9.8f, 19.6f };
+
+#ifdef QCNLIVE
+	bool g_b2DPlotWhite = true;
+#else
+	bool g_b2DPlotWhite = false;
+#endif
 
 void getProjectPrefs()
 {
@@ -557,65 +561,6 @@ void draw_text_user()
     ortho_done();
 
 	delete [] buf;
-}
-
-void draw_text_plot_qcnlive() 
-{
-   // draw text on top
-   mode_unshaded();
-   mode_ortho();
-
-   // now draw time text at the bottom
-   char strTime[16];
-   //txf_render_string(.1, fWhere, Y_TRIGGER_LAST[0] - 3.0f, 0, 800, blue, TXF_HELVETICA, (char*) strTime);
-    for (int i = 0; i < g_iTimeCtr; i++) {
-       if (lTimeLast[i] > 0) { // there's a marker to place here
-	     float fWhere = (float) (lTimeLastOffset[i]) / (float) PLOT_ARRAY_SIZE;
-		 qcn_util::dtime_to_string((const double) lTimeLast[i], 'h', strTime);
-		 txf_render_string(.1, fWhere - 0.042f, 0.030f, 0, MSG_SIZE_SMALL, g_b2DPlotWhite ? light_blue : grey_trans, TXF_HELVETICA, (char*) strTime);
-	   }
-	}
-
-	// labels for each axis
-	const float fAxisLabel = 1.061f;
-	const float fVertLabel = 0.988f;
-	const float fYOffset = 0.016f;
-
-    txf_render_string(.1, fAxisLabel, 0.60f - fYOffset, 0, MSG_SIZE_NORMAL, red, TXF_HELVETICA, "Significance", 90.0f);
-    txf_render_string(.1, fAxisLabel, 0.46f - fYOffset, 0, MSG_SIZE_NORMAL, blue, TXF_HELVETICA, "Z Axis", 90.0f);
-    txf_render_string(.1, fAxisLabel, 0.30f - fYOffset, 0, MSG_SIZE_NORMAL, orange, TXF_HELVETICA, "Y Axis", 90.0f);
-    txf_render_string(.1, fAxisLabel, 0.14f - fYOffset, 0, MSG_SIZE_NORMAL, green, TXF_HELVETICA, "X Axis", 90.0f);
-
-	// labels for significance
-    txf_render_string(.1, fVertLabel, 0.578f - fYOffset, 0, MSG_SIZE_SMALL, g_b2DPlotWhite ? black : grey_trans, TXF_COURIER_BOLD, " 0.00", 0.0f);
-    txf_render_string(.1, fVertLabel, 0.604f - fYOffset, 0, MSG_SIZE_SMALL, g_b2DPlotWhite ? black : grey_trans, TXF_COURIER_BOLD, " 3.33", 0.0f);
-    txf_render_string(.1, fVertLabel, 0.632f - fYOffset, 0, MSG_SIZE_SMALL, g_b2DPlotWhite ? black : grey_trans, TXF_COURIER_BOLD, " 6.67", 0.0f);
-    txf_render_string(.1, fVertLabel, 0.659f - fYOffset, 0, MSG_SIZE_SMALL, g_b2DPlotWhite ? black : grey_trans, TXF_COURIER_BOLD, "10.00", 0.0f);
-    txf_render_string(.1, fVertLabel, 0.686f - fYOffset, 0, MSG_SIZE_SMALL, g_b2DPlotWhite ? black : grey_trans, TXF_COURIER_BOLD, "13.33", 0.0f);
-    txf_render_string(.1, fVertLabel, 0.713f - fYOffset, 0, MSG_SIZE_SMALL, g_b2DPlotWhite ? black : grey_trans, TXF_COURIER_BOLD, "16.67", 0.0f);
-    txf_render_string(.1, fVertLabel, 0.735f - fYOffset, 0, MSG_SIZE_SMALL, g_b2DPlotWhite ? black : grey_trans, TXF_COURIER_BOLD, "20.00", 0.0f);
-
-	// labels for Z axis
-    txf_render_string(.1, fVertLabel, 0.413f - fYOffset, 0, MSG_SIZE_SMALL, g_b2DPlotWhite ? black : grey_trans, TXF_COURIER_BOLD, "-19.62", 0.0f);
-
-	// labels for Y axis
-    txf_render_string(.1, fVertLabel, 0.248f - fYOffset, 0, MSG_SIZE_SMALL, g_b2DPlotWhite ? black : grey_trans, TXF_COURIER_BOLD, "-19.62", 0.0f);
-
-	// labels for X axis
-    txf_render_string(.1, fVertLabel, 0.084f - fYOffset, 0, MSG_SIZE_SMALL, g_b2DPlotWhite ? black : grey_trans, TXF_COURIER_BOLD, "-19.62", 0.0f);
-    txf_render_string(.1, fVertLabel, 0.105f - fYOffset, 0, MSG_SIZE_SMALL, g_b2DPlotWhite ? black : grey_trans, TXF_COURIER_BOLD, "-13.08", 0.0f);
-    txf_render_string(.1, fVertLabel, 0.133f - fYOffset, 0, MSG_SIZE_SMALL, g_b2DPlotWhite ? black : grey_trans, TXF_COURIER_BOLD, " -6.54", 0.0f);
-    txf_render_string(.1, fVertLabel, 0.161f - fYOffset, 0, MSG_SIZE_SMALL, g_b2DPlotWhite ? black : grey_trans, TXF_COURIER_BOLD, "  0.00", 0.0f);
-    txf_render_string(.1, fVertLabel, 0.188f - fYOffset, 0, MSG_SIZE_SMALL, g_b2DPlotWhite ? black : grey_trans, TXF_COURIER_BOLD, " +6.54", 0.0f);
-    txf_render_string(.1, fVertLabel, 0.215f - fYOffset, 0, MSG_SIZE_SMALL, g_b2DPlotWhite ? black : grey_trans, TXF_COURIER_BOLD, "+13.08", 0.0f);
-    txf_render_string(.1, fVertLabel, 0.235f - fYOffset, 0, MSG_SIZE_SMALL, g_b2DPlotWhite ? black : grey_trans, TXF_COURIER_BOLD, "+19.62", 0.0f);
-
-	// units label (meters per second per second
-    txf_render_string(.1, fVertLabel, 0.066f - fYOffset, 0, MSG_SIZE_SMALL, g_b2DPlotWhite ? black : grey_trans, TXF_COURIER_BOLD, " m/s/s", 0.0f);
-
-    draw_text_sensor();
-
-	ortho_done();
 }
 
 void draw_text_plot() 
@@ -957,38 +902,6 @@ bool setupPlotMemory(const long lOffset)
     return true;
 }
 
-void draw_tick_marks_qcnlive()
-{  // draw vertical blue lines every 1/10/60/600 seconds depending on view size
-	  // note the labels underneath are drawn in draw_text_plot_qcnlive
-		 
-    // show the time markers, if any
-    glPushMatrix();
-    for (int i = 0; i < g_iTimeCtr; i++) {
-       if (lTimeLast[i] > 0) { // there's a marker to place here
-	     float fWhere;
-	     if (g_eView == VIEW_PLOT_2D) {
-            fWhere = xax_qcnlive[0] + ( ((float) (lTimeLastOffset[i]) / (float) PLOT_ARRAY_SIZE) * (xax_qcnlive[1]-xax_qcnlive[0]));
-		 }
-		 else  {
-            fWhere = xax[0] + ( ((float) (lTimeLastOffset[i]) / (float) PLOT_ARRAY_SIZE) * (xax[1]-xax[0]));
-         }
-         //fprintf(stdout, "%d  dTriggerLastTime=%f  lTriggerLastOffset=%ld  fWhere=%f\n",
-         //    i, dTriggerLastTime[i], lTriggerLastOffset[i], fWhere);
-         //fflush(stdout);
-         glColor4fv((GLfloat*) g_b2DPlotWhite ? light_blue : grey_trans);
-         glLineWidth(1);
-         //glLineStipple(4, 0xAAAA);
-         //glEnable(GL_LINE_STIPPLE);
-         glBegin(GL_LINE_STRIP);
-         glVertex2f(fWhere, Y_TRIGGER_LAST[0]);
-         glVertex2f(fWhere, Y_TRIGGER_LAST[1]);
-         glEnd();
-         //glDisable(GL_LINE_STIPPLE);
-       }
-    }
-    glPopMatrix();
-}
-
 void draw_triggers()
 {
     // show the triggers, if any
@@ -1018,193 +931,6 @@ void draw_triggers()
        }
     }
     glPopMatrix();
-    glFlush();
-}
-
-
-void draw_plots_2d_qcnlive() 
-{
-
-/*
-- boxes should be even, as well as plotting since all +/- 19.6 m/s2, sig 0 - 10
-- bouncing ball at "tip" where drawn
-- S/X/Y/Z on right side with vertical axis
-- toggle background colors black/white?
-*/
-
-    if (!sm) return; // not much point in continuing if shmem isn't setup!
-
-    init_camera(viewpoint_distance[g_eView], 45.0f);
-    init_lights();
-    scale_screen(g_width, g_height);
-
-    // should just be simple draw each graph in 2D using the info in dx/dy/dz/ds?
-    
-  //  glPushMatrix();
-    mode_unshaded();
-
-	glEnable (GL_LINE_SMOOTH);
-	glEnable (GL_BLEND);
-	glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	glHint (GL_LINE_SMOOTH_HINT, GL_NICEST);
-	glLineWidth(2);
-
-    float* fdata = NULL;
-
-    // each plot section is 15 units high
-
-	float xmin = xax_qcnlive[0] - 0.1f;
-	float xmax = xax_qcnlive[1] + 0.1f;
-	float ymin = yax_qcnlive[E_DX] - 7.0f;
-    float ymax = yax_qcnlive[4]; // + 15.0f;
-
-    for (int ee = E_DX; ee <= E_DS; ee++)  {
-	
-         switch(ee) {
-            case E_DX:  fdata = (float*) aryg[E_DX]; break;
-            case E_DY:  fdata = (float*) aryg[E_DY]; break;
-            case E_DZ:  fdata = (float*) aryg[E_DZ]; break;
-            case E_DS:  fdata = (float*) aryg[E_DS]; break;
-         }
-
-         // first draw the axes
-		 // draw 2 above & 2 below and one in the middle
-		 const float yfactor = 2.50f, xfactor = 0.00f;
-		 for (int j = -2; j <= 3; j++) {
-			 if (ee == E_DS) {
-				 if (j == -2)
-					 glLineWidth(3);
-				 else
-					 glLineWidth(1);
-			 }
-			 else {
-				 if (j == 0)
-					 glLineWidth(3);
-				 else
-					 glLineWidth(1);
-			 }
-
-			 glColor4fv(grey);
-			 glBegin(GL_LINES);
-
-			 if (ee == E_DS) {
-				 glVertex2f(xax_qcnlive[0], yax_qcnlive[ee] + .5f + (yfactor * (float) (j+2)));
-				 glVertex2f(xax_qcnlive[1] + xfactor, yax_qcnlive[ee] + .5f + (yfactor * (float) (j+2)));
-			 }
-			 else { 
-				 if (j<3) { // only sig E_DS get's the j=3 line
-					 glVertex2f(xax_qcnlive[0], yax_qcnlive[ee] + 7.5f + (yfactor * (float) j));
-					 glVertex2f(xax_qcnlive[1] + xfactor, yax_qcnlive[ee] + 7.5f + (yfactor * (float) j));
-				 }
-			 }
-
-			 glEnd();
-		 }
-
-         // x/y/z data points are +/- 19.6 m/s2 -- significance is 0-? make it 0-10		 		 
-
-/*
-		 float fmaxfactor;  // scale y -axes
-		 if (fabs(l_fmax[ee]) > fabs(l_fmin[ee]))
-		      fmaxfactor = fabs(l_fmax[ee]);
-         else
-		      fmaxfactor = fabs(l_fmin[ee]);
-		 
-		 if (fmaxfactor == 0) 
-		     fmaxfactor = 1.0f;
-		 else
-		     fmaxfactor = MAX_PLOT_HEIGHT_QCNLIVE / fmaxfactor;
-*/
-		 
-         glLineWidth(1);
-		 glColor4fv(ee == E_DY ? orange : colorsPlot[ee]);  // set the color for data - CMC note the orange substitution for yellow on the Y
-		 glLineWidth(2.0f);
-         glBegin(GL_LINE_STRIP);
-
-         for (int i=0; i<PLOT_ARRAY_SIZE; i++) {
-          if (fdata[i] != 0.0f)  {
-			if (ee == E_DS && fdata[i] > 20.0f) fdata[i] = 20.0f; // clip significance at 20 for display
-            glVertex2f(
-              xax_qcnlive[0] + (((float) i / (float) PLOT_ARRAY_SIZE) * (xax_qcnlive[1]-xax_qcnlive[0])), 
-              yax_qcnlive[ee] + ( ee == E_DS ? .5f : 7.5f) + ( fdata[i] * ( 7.5f / ( ee == E_DS ? g_fScaleSig[g_iScaleSigOffset] : g_fScaleAxes[g_iScaleAxesOffset] ) ))
-            );
-			
-		   }
-         }
-         glEnd();
-
-		 // plot a "colored pointer" at the end for ease of seeing current value?
-		if (fdata[PLOT_ARRAY_SIZE-1] != 0.0f)  {
-			float x1 = xax_qcnlive[0] + (xax_qcnlive[1]-xax_qcnlive[0]);
-			float y1 = yax_qcnlive[ee] + ( ee == E_DS ? .5f : 7.5f) + ( fdata[PLOT_ARRAY_SIZE-1] * ( 7.5f / ( ee == E_DS ? g_fScaleSig[g_iScaleSigOffset] : g_fScaleAxes[g_iScaleAxesOffset] ) ));
-			const float fRadius = 1.4f;
-			float fAngle = PI/8.0f;
-
-			glBegin(GL_TRIANGLE_FAN);
-			glVertex2f(x1, y1);
-			glVertex2f(x1 + (cos(fAngle) * fRadius), y1 + (sin(fAngle) * fRadius));
-			glVertex2f(x1 + (cos(-fAngle) * fRadius), y1 + (sin(-fAngle) * fRadius));
-			glEnd();
-		} // colored pointer
-	}
-
-
-	
-	// draw boxes around the plots
-
-	 const float fExt = 7.05f;
-	 const float fFudge = 0.02f;
-
-	 glColor4fv((GLfloat*) g_b2DPlotWhite ? black : grey_trans);
-	 glLineWidth(2);
-
-	 glBegin(GL_LINES);	   // really top line!
-     glVertex2f(xmin, ymax+fFudge); 
-     glVertex2f(xmax + fExt, ymax+fFudge);  
-     glEnd();
-
-	 glBegin(GL_LINES);	   // left side
-     glVertex2f(xmin+fFudge, yax_qcnlive[E_DX]); 
-     glVertex2f(xmin+fFudge, ymax+fFudge);  
-     glEnd();
-
-	 glBegin(GL_LINES);	 
-     glVertex2f(xmin, yax_qcnlive[E_DS]);  // top line (ds)
-     glVertex2f(xmax + fExt, yax_qcnlive[E_DS]);  
-     glEnd();
-	 		 
-	 glBegin(GL_LINES);	 
-     glVertex2f(xmin, yax_qcnlive[E_DZ]);  // z
-     glVertex2f(xmax + fExt, yax_qcnlive[E_DZ]);  
-     glEnd();
-
-	 // right line
-	 glBegin(GL_LINES);	 
-     glVertex2f(xmax + fExt, yax_qcnlive[E_DX]);  // z
-     glVertex2f(xmax + fExt, ymax+fFudge);  
-     glEnd();
-	 		 
-	 // bottom section
-	 glBegin(GL_LINES);	 
-     glVertex2f(xmin, yax_qcnlive[E_DY]);  // y
-     glVertex2f(xmax + fExt, yax_qcnlive[E_DY]); 
-     glEnd();
-
-	 glBegin(GL_LINES);	 
-     glVertex2f(xmin, yax_qcnlive[E_DX]);  // x
-     glVertex2f(xmax + fExt, yax_qcnlive[E_DX]); 
-     glEnd();
-
- 	draw_tick_marks_qcnlive();
-
-	 glColor4fv((GLfloat*) grey);
-	 glRectf(xmin, yax_qcnlive[E_DX], xmax+fExt, ymin);  // bottom rectangle (timer ticks)
-
-	 //right side rectangular region
-	 glRectf(xmax, ymax, xmax+fExt, yax_qcnlive[E_DX]);
-		 
-//    glPopMatrix();    
-		
     glFlush();
 }
 

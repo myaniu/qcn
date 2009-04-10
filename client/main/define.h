@@ -397,57 +397,6 @@ enum e_drawtype { NATION = 0, PLATE, COUNTRY, COASTLINE };
 #define LIGHT_INFINITY     -1000.0f  // light source is almost at infinity
 #define ROTATION_SPEED_DEFAULT 0.5f 
 
-
-// structures
-struct Point3f {
-        float x, y, z;
-};
-
-struct Mapping2f {
-        float u, v;
-};
-
-// struct for earthquake info
-struct SQuake
-{
-   public:
-      float magnitude;
-      float latitude;
-      float longitude;
-      float depth_km;
-      int num;
-      int year;
-      int month;
-      int day;
-      int hour;
-      int minute;
-      int second;
-      string strDesc;
-      string strURL;
-      Point3f v;
-      float radius;
-      bool bActive;
-      e_quake eType;
-
-      SQuake() { memset(this, 0x00, sizeof(this)); };
-      ~SQuake() { };
-};
-
-extern GLfloat white[4];
-extern GLfloat red[4];
-extern GLfloat green[4];
-extern GLfloat yellow[4];
-extern GLfloat cyan[4];
-extern GLfloat magenta[4];
-extern GLfloat blue[4];
-extern GLfloat purple[4];
-extern GLfloat dark_blue[4];
-extern GLfloat dark_green[4];
-extern GLfloat black[4];
-extern GLfloat trans_red[4];
-extern GLfloat trans_yellow[4];
-extern GLfloat grey[4];
-
 #endif // GRAPHICS_PROGRAM
 
 #endif

@@ -28,9 +28,6 @@
 #include "qcn_shmem.h"
 #include "qcn_util.h"
 
-#include "qcn_earth.h"
-#include "qcn_cube.h"
-
 #ifdef QCNLIVE
    #include "main.h"
 #endif
@@ -39,6 +36,59 @@ using std::string;
 using std::vector;
 
 extern CQCNShMem* volatile sm;                    // the main shared memory pointer
+
+extern GLfloat white[4];
+extern GLfloat red[4];
+extern GLfloat green[4];
+extern GLfloat yellow[4];
+extern GLfloat cyan[4];
+extern GLfloat magenta[4];
+extern GLfloat blue[4];
+extern GLfloat purple[4];
+extern GLfloat dark_blue[4];
+extern GLfloat dark_green[4];
+extern GLfloat black[4];
+extern GLfloat trans_red[4];
+extern GLfloat trans_yellow[4];
+extern GLfloat grey[4];
+extern GLfloat grey_trans[4];
+extern GLfloat light_blue[4];
+extern GLfloat orange[4];
+
+// structures
+struct Point3f {
+        float x, y, z;
+};
+
+struct Mapping2f {
+        float u, v;
+};
+
+// struct for earthquake info
+struct SQuake
+{
+   public:
+      float magnitude;
+      float latitude;
+      float longitude;
+      float depth_km;
+      int num;
+      int year;
+      int month;
+      int day;
+      int hour;
+      int minute;
+      int second;
+      string strDesc;
+      string strURL;
+      Point3f v;
+      float radius;
+      bool bActive;
+      e_quake eType;
+
+      SQuake() { memset(this, 0x00, sizeof(this)); };
+      ~SQuake() { };
+};
 
 class CEarth;
 
@@ -83,6 +133,81 @@ extern e_view g_eView;  // default to 3d plots unless user prefs override below
 #endif  // _WIN32
 #endif
 
+extern const float xax[2];
+extern const float yax[4];
+extern const float xax_qcnlive[3];
+extern const float yax_qcnlive[5]; // note the last is the very top of sig, so it's 15 + .5 padding for the sig axis which is .5 above next line
+
+extern const float Y_TRIGGER_LAST[2]; // the Y of the trigger & timer tick line
+
+extern int  iFullScreenView;  // user preferred view, can be set on cmd line
+
+extern GLfloat* colorsPlot[4];
+// time of the latest trigger, so we don't have them less than a second away, note unadjusted wrt server time!
+// the "LastRebin" will be the actual displayed array offset position after the rebin
+extern double dTriggerLastTime[MAX_TRIGGER_LAST];    
+extern long lTriggerLastOffset[MAX_TRIGGER_LAST];
+extern long lTimeLast[MAX_TRIGGER_LAST];    
+extern long lTimeLastOffset[MAX_TRIGGER_LAST];
+extern int g_iTimeCtr;
+extern int g_iZoomLevel;
+
+// an array of x/y/z for screensaver moving
+//GLfloat jiggle[3] = {0., 0., 0.};
+
+extern double dtw[2]; // time window
+
+// an hour seems to be the max to vis without much delay
+extern long awinsize[MAX_KEY_WINSIZE+1]; 
+extern int key_winsize; // points to an element of the above array to get the winsize (# of dt points i.e. 100 = 10 sec 600 = minute, 36000 = hour)
+extern int key_press;
+extern int key_press_alt;
+extern int key_up;
+extern int key_up_alt;
+
+extern long g_lSnapshotPoint;
+extern long g_lSnapshotPointOriginal;
+extern long g_lSnapshotTimeBackMinutes;  // the minutes back in time we've gone for snapshot
+extern bool g_bSnapshot;
+extern bool g_bSnapshotArrayProcessed;
+
+extern bool mouse_down;
+extern int mouseX, mouseY;
+extern int mouseSX, mouseSY;
+
+extern double pitch_angle[4]; 
+extern double roll_angle[4]; 
+extern double viewpoint_distance[4];
+
+extern float l_fmax[4], l_fmin[4];
+
+//extern float color[4] = {.7, .2, .5, 1};
+
+extern TEXTURE_DESC logo;  // customized version of the boinc/api/gutil.h TEXTURE_DESC
+extern RIBBON_GRAPH rgx, rgy, rgz, rgs; // override the standard boinc/api ribbon graph draw as it's making the earth red!
+
+#ifndef QCNLIVE
+extern bool bFirstShown;             // flags that the view hasn't been shown yet
+#endif
+extern bool bScaled;             // scaled is usually for 3D pics, but can also be done on 2D in the QCNLIVE
+extern char* g_strFile;           // optional file of shared memory serialization
+extern bool bResetArray;          // reset our plot memory array, otherwise it will just try to push a "live" point onto the array
+extern float aryg[4][PLOT_ARRAY_SIZE];   // the data points for plotting -- DS DX DY DZ
+
+// current view is an enum i.e. { VIEW_PLOT_3D = 1, VIEW_PLOT_2D, VIEW_EARTH_DAY, VIEW_EARTH_NIGHT, VIEW_EARTH_COMBINED, VIEW_CUBE }; 
+extern char g_strJPG[_MAX_PATH];
+extern int g_iJPG;
+
+extern int g_TimerTick;
+
+extern int g_iScaleSigOffset;
+extern int g_iScaleAxesOffset;
+extern float g_fScaleSig[4]; // default scale for sig is 10
+extern float g_fScaleAxes[4];
+
+extern bool g_b2DPlotWhite;
+
+// end of namespace variable declarations
 
 // forward declarations for functions
 extern void getProjectPrefs();
@@ -107,9 +232,9 @@ void init_lights();
 void draw_logo();
 void draw_text_user();
 void draw_text_plot();
+void draw_text_sensor();
 bool setupPlotMemory(long llOff);
 void draw_triggers();
-void draw_plots_2d();
 void draw_plots_3d();
 void parse_quake_info(char* strQuake, int ctr, e_quake eType);
 void parse_project_prefs();

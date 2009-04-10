@@ -227,6 +227,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\graphics\qcn_2dplot.h"
+				>
+			</File>
+			<File
+				RelativePath="..\graphics\qcn_graphics.h"
+				>
+			</File>
+			<File
 				RelativePath=".\qcnlive_define.h"
 				>
 			</File>
@@ -300,6 +308,10 @@
 			</File>
 			<File
 				RelativePath="..\graphics\plate_boundary.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\graphics\qcn_2dplot.cpp"
 				>
 			</File>
 			<File
