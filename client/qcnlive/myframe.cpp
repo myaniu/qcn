@@ -214,7 +214,7 @@ void MyFrame::OnQuit(wxCommandEvent& WXUNUSED(evt))
 void MyFrame::OnAbout(wxCommandEvent& WXUNUSED(evt))
 {
 	wxAboutDialogInfo myAboutBox;
-	myAboutBox.SetIcon(wxIcon("qcnwin.ico", wxBITMAP_TYPE_ICO));
+	//myAboutBox.SetIcon(wxIcon("qcnwin.ico", wxBITMAP_TYPE_ICO));
 	myAboutBox.SetVersion(wxString(QCN_VERSION_STRING));
 	myAboutBox.SetName(wxT("QCNLive"));
 	myAboutBox.SetWebSite(wxT("http://qcn.stanford.edu"), wxT("Quake-Catcher Network Website"));

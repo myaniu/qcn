@@ -291,8 +291,8 @@ int getLastTrigger(const long lTriggerCheck, const int iWinSizeArray, const int 
 	   //long lMult = (long)(sm->t0[lTriggerCheck] - sm->dTimeStart) / g_TimerTick;
 	   long lMod = (long)(sm->t0[lTriggerCheck] - sm->dTimeStart) % g_TimerTick;
 	   if (sm->t0[lTriggerCheck] >= sm->dTimeStart 
-		  && lMod == 0 
-		  && (sm->t0[lTriggerCheck] - (float((long) sm->t0[lTriggerCheck]))) < 0.10f ) { 
+		  && lMod == 0 ) {
+	//	  && (sm->t0[lTriggerCheck] - (float((long) sm->t0[lTriggerCheck]))) < 0.30f ) { 
            // get the even increment of sm->t0 from dTimeStart
 		   //long lMult = (sm->t0[lTriggerCheck] - sm->dTimeStart) / g_TimerTick;
 		   lCheckTime = sm->t0[lTriggerCheck];
