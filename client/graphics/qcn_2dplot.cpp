@@ -13,10 +13,45 @@ int g_TimerTick = 5; // seconds for each timer point
 	bool g_bIsWhite = false;
 #endif
 
-int g_iScaleSigOffset = 3;
-int g_iScaleAxesOffset = 3;
-float g_fScaleSig[4] = { 1.0f, 2.5f, 5.0f, 10.0f }; // default scale for sig is 10
-float g_fScaleAxes[4] = { 2.0f, 4.9f, 9.8f, 19.6f };
+static const int g_iScaleSigMax = 3;
+static const int g_iScaleAxesMax = 3;
+
+static int g_iScaleSigOffset = 3;
+static int g_iScaleAxesOffset = 3;
+
+static float g_fScaleSig[4] = { 2.5f, 5.0f, 10.0f, 20.0f }; // default scale for sig is 20
+static float g_fScaleAxes[4] = { 2.0f, 4.9f, 9.8f, 19.6f };
+
+static const float fTransAlpha = 0.10f;
+static const float fAxisLabel = 1.061f;
+static const float fVertLabel = 0.988f;
+static const float fYOffset   = 0.016f;
+static const float fMSSLabel  = 0.050f; // m/s/s label
+static const float fSigOffset[7] = { .562f, .588f, .616f, .643f, .670f, .697f, .719f };
+
+static const float fAxesLabel[4] = { 0.124f, .284f, .444f, .584f };
+
+static const float fBaseScale[4] = { 0.068f, .232f, .397f, .562f };
+static const float fAxesOffset[7] = { .0f, .021f, .049f, .077f, .104f, .131f, .151f };
+
+
+void draw_text_sig_axis()
+{
+	char cbuf[10];
+	for (int i = 0; i <= 6; i++) {
+		sprintf(cbuf, "%5.1f", (float) i / 6.0f * g_fScaleSig[g_iScaleSigOffset]);
+	    txf_render_string(fTransAlpha, fVertLabel, fSigOffset[i], 0, MSG_SIZE_SMALL, g_bIsWhite ? black : grey_trans, TXF_COURIER_BOLD, cbuf);
+	}
+}
+
+void draw_text_sensor_axis(int iAxis)
+{
+	char cbuf[10];
+	for (int i = -3; i <= 3; i++) {
+		sprintf(cbuf, "%+5.1f", (float) i / 3.0f * g_fScaleAxes[g_iScaleAxesOffset]);
+	    txf_render_string(fTransAlpha, fVertLabel, fBaseScale[iAxis] + fAxesOffset[i+3], 0, MSG_SIZE_SMALL, g_bIsWhite ? black : grey_trans, TXF_COURIER_BOLD, cbuf);
+	}
+}
 
 void draw_text() 
 {
@@ -36,41 +71,26 @@ void draw_text()
 	}
 
 	// labels for each axis
-	const float fAxisLabel = 1.061f;
-	const float fVertLabel = 0.988f;
-	const float fYOffset = 0.016f;
 
-    txf_render_string(0.1f, fAxisLabel, 0.60f - fYOffset, 0, MSG_SIZE_NORMAL, red, TXF_HELVETICA, "Significance", 90.0f);
-    txf_render_string(0.1f, fAxisLabel, 0.46f - fYOffset, 0, MSG_SIZE_NORMAL, blue, TXF_HELVETICA, "Z Axis", 90.0f);
-    txf_render_string(0.1f, fAxisLabel, 0.30f - fYOffset, 0, MSG_SIZE_NORMAL, orange, TXF_HELVETICA, "Y Axis", 90.0f);
-    txf_render_string(0.1f, fAxisLabel, 0.14f - fYOffset, 0, MSG_SIZE_NORMAL, green, TXF_HELVETICA, "X Axis", 90.0f);
+	txf_render_string(fTransAlpha, fAxisLabel, fAxesLabel[E_DS], 0, MSG_SIZE_NORMAL, red, TXF_HELVETICA, "Significance", 90.0f);
+    txf_render_string(fTransAlpha, fAxisLabel, fAxesLabel[E_DZ], 0, MSG_SIZE_NORMAL, blue, TXF_HELVETICA, "Z Axis", 90.0f);
+    txf_render_string(fTransAlpha, fAxisLabel, fAxesLabel[E_DY], 0, MSG_SIZE_NORMAL, orange, TXF_HELVETICA, "Y Axis", 90.0f);
+    txf_render_string(fTransAlpha, fAxisLabel, fAxesLabel[E_DX], 0, MSG_SIZE_NORMAL, green, TXF_HELVETICA, "X Axis", 90.0f);
 
 	// labels for significance
-    txf_render_string(0.1f, fVertLabel, 0.578f - fYOffset, 0, MSG_SIZE_SMALL, g_bIsWhite ? black : grey_trans, TXF_COURIER_BOLD, " 0.00");
-    txf_render_string(0.1f, fVertLabel, 0.604f - fYOffset, 0, MSG_SIZE_SMALL, g_bIsWhite ? black : grey_trans, TXF_COURIER_BOLD, " 3.33");
-    txf_render_string(0.1f, fVertLabel, 0.632f - fYOffset, 0, MSG_SIZE_SMALL, g_bIsWhite ? black : grey_trans, TXF_COURIER_BOLD, " 6.67");
-    txf_render_string(0.1f, fVertLabel, 0.659f - fYOffset, 0, MSG_SIZE_SMALL, g_bIsWhite ? black : grey_trans, TXF_COURIER_BOLD, "10.00");
-    txf_render_string(0.1f, fVertLabel, 0.686f - fYOffset, 0, MSG_SIZE_SMALL, g_bIsWhite ? black : grey_trans, TXF_COURIER_BOLD, "13.33");
-    txf_render_string(0.1f, fVertLabel, 0.713f - fYOffset, 0, MSG_SIZE_SMALL, g_bIsWhite ? black : grey_trans, TXF_COURIER_BOLD, "16.67");
-    txf_render_string(0.1f, fVertLabel, 0.735f - fYOffset, 0, MSG_SIZE_SMALL, g_bIsWhite ? black : grey_trans, TXF_COURIER_BOLD, "20.00");
+	draw_text_sig_axis();
 
 	// labels for Z axis
-    txf_render_string(0.1f, fVertLabel, 0.413f - fYOffset, 0, MSG_SIZE_SMALL, g_bIsWhite ? black : grey_trans, TXF_COURIER_BOLD, "-19.62");
+	draw_text_sensor_axis(E_DZ);
 
 	// labels for Y axis
-    txf_render_string(0.1f, fVertLabel, 0.248f - fYOffset, 0, MSG_SIZE_SMALL, g_bIsWhite ? black : grey_trans, TXF_COURIER_BOLD, "-19.62");
+	draw_text_sensor_axis(E_DY);
 
-	// labels for X axis
-    txf_render_string(0.1f, fVertLabel, 0.084f - fYOffset, 0, MSG_SIZE_SMALL, g_bIsWhite ? black : grey_trans, TXF_COURIER_BOLD, "-19.62");
-    txf_render_string(0.1f, fVertLabel, 0.105f - fYOffset, 0, MSG_SIZE_SMALL, g_bIsWhite ? black : grey_trans, TXF_COURIER_BOLD, "-13.08");
-    txf_render_string(0.1f, fVertLabel, 0.133f - fYOffset, 0, MSG_SIZE_SMALL, g_bIsWhite ? black : grey_trans, TXF_COURIER_BOLD, " -6.54");
-    txf_render_string(0.1f, fVertLabel, 0.161f - fYOffset, 0, MSG_SIZE_SMALL, g_bIsWhite ? black : grey_trans, TXF_COURIER_BOLD, "  0.00");
-    txf_render_string(0.1f, fVertLabel, 0.188f - fYOffset, 0, MSG_SIZE_SMALL, g_bIsWhite ? black : grey_trans, TXF_COURIER_BOLD, " +6.54");
-    txf_render_string(0.1f, fVertLabel, 0.215f - fYOffset, 0, MSG_SIZE_SMALL, g_bIsWhite ? black : grey_trans, TXF_COURIER_BOLD, "+13.08");
-    txf_render_string(0.1f, fVertLabel, 0.235f - fYOffset, 0, MSG_SIZE_SMALL, g_bIsWhite ? black : grey_trans, TXF_COURIER_BOLD, "+19.62");
+	// labels for X axis  084
+	draw_text_sensor_axis(E_DX);
 
 	// units label (meters per second per second
-    txf_render_string(0.1f, fVertLabel, 0.066f - fYOffset, 0, MSG_SIZE_SMALL, g_bIsWhite ? black : grey_trans, TXF_COURIER_BOLD, " m/s/s");
+    txf_render_string(fTransAlpha, fVertLabel, fMSSLabel, 0, MSG_SIZE_SMALL, g_bIsWhite ? black : grey_trans, TXF_COURIER_BOLD, " m/s/s");
 
     draw_text_sensor();
 
