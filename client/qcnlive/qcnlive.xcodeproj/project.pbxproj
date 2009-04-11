@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		E3000F1F0D64FC9F00204B4F /* qcnmac.icns in Resources */ = {isa = PBXBuildFile; fileRef = E3000F1E0D64FC9F00204B4F /* qcnmac.icns */; };
+		E3064B960F8FE8A60028A349 /* qcn_2dplot.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3064B950F8FE8A60028A349 /* qcn_2dplot.cpp */; };
 		E30AB0EB0EBB9C0600DA7E81 /* dlgsettings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E30AB0EA0EBB9C0600DA7E81 /* dlgsettings.cpp */; };
 		E30AB1150EBB776E00DABFEF /* csensor_usb_motionnodeaccel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E30AB1140EBB776D00DABFEF /* csensor_usb_motionnodeaccel.cpp */; };
 		E30F9E9D0DEC6D4C0000FACE /* csensor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E30F9E9C0DEC6D4C0000FACE /* csensor.cpp */; };
@@ -44,6 +45,8 @@
 
 /* Begin PBXFileReference section */
 		E3000F1E0D64FC9F00204B4F /* qcnmac.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = qcnmac.icns; sourceTree = "<group>"; };
+		E3064B950F8FE8A60028A349 /* qcn_2dplot.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = qcn_2dplot.cpp; path = ../graphics/qcn_2dplot.cpp; sourceTree = SOURCE_ROOT; };
+		E3064B970F8FE8C10028A349 /* qcn_2dplot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = qcn_2dplot.h; path = ../graphics/qcn_2dplot.h; sourceTree = SOURCE_ROOT; };
 		E30AB0EA0EBB9C0600DA7E81 /* dlgsettings.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = dlgsettings.cpp; sourceTree = "<group>"; };
 		E30AB1140EBB776D00DABFEF /* csensor_usb_motionnodeaccel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = csensor_usb_motionnodeaccel.cpp; path = ../sensor/csensor_usb_motionnodeaccel.cpp; sourceTree = SOURCE_ROOT; };
 		E30AB11A0EBB9DAC00DA7E81 /* dlgsettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dlgsettings.h; sourceTree = "<group>"; };
@@ -240,6 +243,7 @@
 		E3C0E7B70D64E9BE0099B905 /* graphics */ = {
 			isa = PBXGroup;
 			children = (
+				E3064B950F8FE8A60028A349 /* qcn_2dplot.cpp */,
 				E3C0E7B80D64E9BE0099B905 /* qcn_graphics.cpp */,
 				E3C0E7B90D64E9BE0099B905 /* qcn_earth.cpp */,
 				E3C0E7BA0D64E9BE0099B905 /* qcn_cube.cpp */,
@@ -325,6 +329,7 @@
 		E3C0E7EF0D64E9E00099B905 /* graphics */ = {
 			isa = PBXGroup;
 			children = (
+				E3064B970F8FE8C10028A349 /* qcn_2dplot.h */,
 				E3C0E7F00D64E9E00099B905 /* plate_boundary.h */,
 				E3C0E7F10D64E9E00099B905 /* qcn_cube.h */,
 				E3C0E7F20D64E9E00099B905 /* qcn_earth.h */,
@@ -464,6 +469,7 @@
 				E358972D0E912E54005C1D94 /* mac_backtrace.cpp in Sources */,
 				E30AB1150EBB776E00DABFEF /* csensor_usb_motionnodeaccel.cpp in Sources */,
 				E30AB0EB0EBB9C0600DA7E81 /* dlgsettings.cpp in Sources */,
+				E3064B960F8FE8A60028A349 /* qcn_2dplot.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
