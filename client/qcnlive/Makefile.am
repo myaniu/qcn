@@ -63,6 +63,7 @@ qcnlive_SOURCES = \
            $(UTILDIR)/qcn_curl.cpp \
            $(UTILDIR)/gzstream.cpp \
       $(GRAPHICSDIR)/qcn_graphics.cpp \
+      $(GRAPHICSDIR)/qcn_2dplot.cpp \
       $(GRAPHICSDIR)/qcn_earth.cpp \
       $(GRAPHICSDIR)/qcn_cube.cpp \
       $(GRAPHICSDIR)/nation_boundary.cpp \
