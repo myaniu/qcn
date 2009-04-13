@@ -27,13 +27,20 @@ CCube::CCube()
        mouseX = mouseY = -1;
        mousePX = mousePY = mousePZ = -1;
        iKey = iKeySpecial = mouseRightButtonDown = isShiftDown = mouseLeftButtonDown = isCtrlDown = 0;
+#ifdef QCNLIVE
+       rot.x = -10, rot.y = -10;  // note rot.x is our startup angle - Jesse Lawrence Changed Val
+       rotationSpeed = 0;
+       bAutoRotate = false;  //Jesse Lawrence Changed to Non-rotating
+#else
        rot.x = 0, rot.y = 0;  // note rot.x is our startup angle
-       psqActive = NULL; 
+       rotationSpeed = ROTATION_SPEED_DEFAULT;
+       bAutoRotate = true;  
+#endif
+	   psqActive = NULL; 
        iCluster = -1;
 
        //bEarthDay = true;
        bMouseProcessed = false;
-       bAutoRotate = true;
        uiAutoQuake = 0;
        autoRotX = 0, autoRotY = 0;
        scaleAll = 1.8;
@@ -54,8 +61,6 @@ CCube::CCube()
           memset(m_face[i], 0x00, sizeof(64*64*3));
        }
        */
-
-       rotationSpeed = ROTATION_SPEED_DEFAULT;
 
        diffuse[0] = 0.8, diffuse[1] = 0.8, diffuse[2] = 0.8, diffuse[3] = 1.0;
        ambient[0] = 0.4, ambient[1] = 0.4, ambient[2] = 0.4, ambient[3] = 1.0;
@@ -137,7 +142,6 @@ void CCube::RenderText()
         txf_render_string(.1, 0, .30, 0, MSG_SIZE_NORMAL, yellow, TXF_HELVETICA, buf);
         ortho_done();
    }
-#endif
 
    // print a "legend"
    mode_unshaded();
@@ -149,6 +153,7 @@ void CCube::RenderText()
    txf_render_string(.1, 0, .19, 0, MSG_SIZE_NORMAL, cyan, TXF_HELVETICA, "Cyan is Magnitude");
    txf_render_string(.1, 0, .17, 0, MSG_SIZE_NORMAL, magenta, TXF_HELVETICA, "Magenta is Variance");
    ortho_done();
+#endif
 
    // NB: draw_text_user called automatically from qcn_graphics to show BOINC username, CPU time etc
 }
@@ -211,14 +216,15 @@ void CCube::RenderScene( GLsizei iWidth, GLsizei iHeight, GLfloat viewpoint, GLf
               fTest[E_DY] = sm->y0[i];
               fTest[E_DZ] = sm->z0[i];
               for (int j = E_DX; j <= E_DZ ; j++) {
-                  fSubsample[j] += fTest[j];
+                  fSubsample[j] += fTest[j];//Changed by Jesse Lawrence-JUST Y DIRECTION NOW.
+//                    fSubsample[j]=fTest[E_DY];
               }
 	   }
     }
 
     for (int j = E_DX; j <= E_DZ ; j++) {
         fSubsample[j] /= fCtr;
-        fTest[j] = (fSubsample[j] - fMean[j]) / fStdDev[j]; // more than +4 is huge, +2 is big, with stddev is normal, -2 smaller, -4 tiny
+        fTest[j] = (fSubsample[j] - fMean[j]); // fStdDev[E_DY]; // more than +4 is huge, +2 is big, with stddev is normal, -2 smaller, -4 tiny
 /*
         newsize[j] = 0.30f + ((10.0f*(fTest[j]/4.0f) + fMouseFactor;
         // don't do abrupt changes, so if newsize is much bigger than size just do a little change (.1)
@@ -228,10 +234,17 @@ void CCube::RenderScene( GLsizei iWidth, GLsizei iHeight, GLfloat viewpoint, GLf
         size[j] = 0.30f + fTest[j]/4.0f + fMouseFactor;
         if (size[j] > 1.3f) 
             size[j] = 1.3f;
-        else if (size[j] < .05f)
+     
+        else if (size[j] < -1.3f)
+            size[j] = -1.3f; //Jesse Lawrence Added - Maximum negative value
+     
+        else if (size[j] < .05f && size[j] > 0.f) 
             size[j] = .05f;   
 
+        else if (size[j] > -.05f && size[j] <= 0.f)
+            size[j] = -.05f;//Jesse Lawrence Added - Minimum negative value
     }
+    size[E_DY] = ( (size[E_DY]+1.3f) /6.f );//Jesse Lawrence Added - Y to non-negative number
     RenderCube(size);
 }
 
@@ -522,7 +535,19 @@ void CCube::RenderCube(const GLfloat* asize)
   glPushMatrix();   // light matrix
   OrthographicMatrix();
 
+  // get an appropriate lOffset if available - we want at least 100 points + 2 for "padding" 
+  long lOffset = 0; 
+  if (sm && sm->bSensorFound) {
+     if (sm->lOffset > MAX_PLOT_POINTS+2) { // note the two point "padding" so we are reading the latest value that isn't in use by the sensor (i.e. writing)
+        lOffset = sm->lOffset-2;
+     }
+  }
+
+#ifdef QCNLIVE
+  glTranslatef(asize[E_DX], asize[E_DZ], 0.0);//Jesse Lawrence Changed - X & Z MOTIONS (Y IS SIZE)
+#else
   glTranslatef(-.50 + dOff[0], dOff[1], dOff[2]);
+#endif
 
   for (int i = 0; i < 3; i++)  {
      if (dOff[i]>dMax[i]) { bDec[i] = true; }
@@ -540,15 +565,64 @@ void CCube::RenderCube(const GLfloat* asize)
   //glRotatef(rotqube,0.0f,1.0f,0.0f);	// Rotate The cube around the Y axis
   //glRotatef(rotqube,1.0f,1.0f,1.0f);
 
-  // get an appropriate lOffset if available - we want at least 100 points + 2 for "padding" 
-  long lOffset = 0; 
-  if (sm && sm->bSensorFound) {
-     if (sm->lOffset > MAX_PLOT_POINTS+2) { // note the two point "padding" so we are reading the latest value that isn't in use by the sensor (i.e. writing)
-        lOffset = sm->lOffset-2;
-     }
-  }
+#ifdef QCNLIVE
+  float asize_all = asize[E_DY];//Jesse Lawrence Added - Constant size for all dimensions
+  glBegin(GL_QUADS);            // Draw The Cube Using quads
+    glColor4fv(blue);          // Color Green 
+    glVertex3f( asize_all, asize_all, -asize_all);      // Top Right Of The Quad (Top)
+    glVertex3f(-asize_all, asize_all,-asize_all);      // Top Left Of The Quad (Top)
+    glVertex3f(-asize_all, asize_all, asize_all);      // Bottom Left Of The Quad (Top)
+    glVertex3f( asize_all, asize_all, asize_all);      // Bottom Right Of The Quad (Top)
+  glEnd();
+  // note the asize in DrawPlot below should be the "y-axis" for whichever face we're looking at
+//  DrawPlot(lOffset ? (const GLfloat*) &(sm->x0[lOffset]) : NULL, asize, CUBE_TOP);  // x-axis is green
 
   glBegin(GL_QUADS);            // Draw The Cube Using quads
+    glColor4fv(blue);         // Color Yellow
+    glVertex3f( asize_all,-asize_all, asize_all);      // Top Right Of The Quad (Bottom)
+    glVertex3f(-asize_all,-asize_all, asize_all);      // Top Left Of The Quad (Bottom)
+    glVertex3f(-asize_all,-asize_all,-asize_all);      // Bottom Left Of The Quad (Bottom)
+    glVertex3f( asize_all,-asize_all,-asize_all);      // Bottom Right Of The Quad (Bottom)
+  glEnd();
+//  DrawPlot(lOffset ? (const float*) &(sm->y0[lOffset]) : NULL, asize, CUBE_BOTTOM);   // y-axis is yellow
+
+  glBegin(GL_QUADS);            // Draw The Cube Using quads
+    glColor4fv(orange);           // Color Blue 
+    glVertex3f( asize_all, asize_all, asize_all);      // Top Right Of The Quad (Front)
+    glVertex3f(-asize_all, asize_all, asize_all);      // Top Left Of The Quad (Front)
+    glVertex3f(-asize_all,-asize_all, asize_all);      // Bottom Left Of The Quad (Front)
+    glVertex3f( asize_all,-asize_all, asize_all);      // Bottom Right Of The Quad (Front)
+  glEnd();
+//  DrawPlot(lOffset ? (const float*) &(sm->z0[lOffset]) : NULL, asize, CUBE_FRONT);  // z-axis is blue
+
+  glBegin(GL_QUADS);            // Draw The Cube Using quads
+    glColor4fv(green);            // Color Red
+    glVertex3f( asize_all,-asize_all,-asize_all);      // Top Right Of The Quad (Back)
+    glVertex3f(-asize_all,-asize_all,-asize_all);      // Top Left Of The Quad (Back)
+    glVertex3f(-asize_all, asize_all,-asize_all);      // Bottom Left Of The Quad (Back)
+    glVertex3f( asize_all, asize_all,-asize_all);      // Bottom Right Of The Quad (Back)
+  glEnd();
+//  DrawPlot(lOffset ? (const float*) &(sm->fsig[lOffset]) : NULL, asize, CUBE_BACK);   // fsig/significance is red
+
+  glBegin(GL_QUADS);            // Draw The Cube Using quads
+    glColor4fv(green);           // Color Cyan
+    glVertex3f(-asize_all, asize_all, asize_all);      // Top Right Of The Quad (Left)
+    glVertex3f(-asize_all, asize_all,-asize_all);      // Top Left Of The Quad (Left)
+    glVertex3f(-asize_all,-asize_all,-asize_all);      // Bottom Left Of The Quad (Left)
+    glVertex3f(-asize_all,-asize_all, asize_all);      // Bottom Right Of The Quad (Left)
+  glEnd();
+//  DrawPlot(lOffset ? (const float*) &(sm->fmag[lOffset]) : NULL, asize, CUBE_LEFT);   // magnitude
+
+  glBegin(GL_QUADS);            // Draw The Cube Using quads
+    glColor4fv(orange);        // Color Magenta
+    glVertex3f( asize_all, asize_all,-asize_all);      // Top Right Of The Quad (Right)
+    glVertex3f( asize_all, asize_all, asize_all);      // Top Left Of The Quad (Right)
+    glVertex3f( asize_all,-asize_all, asize_all);      // Bottom Left Of The Quad (Right)
+    glVertex3f( asize_all,-asize_all,-asize_all);      // Bottom Right Of The Quad (Right)
+  glEnd();
+//  DrawPlot(lOffset ? (const float*) &(sm->vari[lOffset]) : NULL, asize, CUBE_RIGHT);   // variance
+#else  // screensaver mode
+    glBegin(GL_QUADS);            // Draw The Cube Using quads
     glColor4fv(green);          // Color Green 
     glVertex3f( asize[E_DX], asize[E_DY], -asize[E_DZ]);      // Top Right Of The Quad (Top)
     glVertex3f(-asize[E_DX], asize[E_DY],-asize[E_DZ]);      // Top Left Of The Quad (Top)
@@ -602,10 +676,10 @@ void CCube::RenderCube(const GLfloat* asize)
     glVertex3f( asize[E_DX],-asize[E_DY],-asize[E_DZ]);      // Bottom Right Of The Quad (Right)
   glEnd();
   DrawPlot(lOffset ? (const float*) &(sm->vari[lOffset]) : NULL, asize, CUBE_RIGHT);   // variance
+#endif
 
   glPopMatrix();
   glPopMatrix(); // rotation matrix
 
   glFlush();
 }
-
