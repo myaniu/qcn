@@ -1,6 +1,8 @@
 ﻿qcn 
 
-invoice +50% for time @ $50/hr rate to get $75
+---------------------
+
+drop graphics ability (i.e. just show 2d?) if # of resets is high >50 or 100?
 
 --------------------
  qcnlive 
