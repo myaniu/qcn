@@ -326,9 +326,9 @@ struct FDSET_GROUP {
 #define TRICKLE_DOWN_SEND_END_TAG "</sendme>"
 
 // this is the max number of the array index awinsize used to shift the graphics window 
-#define MAX_KEY_WINSIZE 2
+#define MAX_KEY_WINSIZE 3
 // the reduction/rebin for the data array size for the graphics
-#define PLOT_ARRAY_SIZE 600
+#define PLOT_ARRAY_SIZE 500
 
 // this is used for the boinc_sleep interval for a sensor, it's basically dt/SAMPLING_FREQUENCY each sleep interval
 // which seems to yield 5-10 samples per dt

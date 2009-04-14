@@ -154,7 +154,6 @@ void draw_plot()
 	glEnable (GL_BLEND);
 	glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glHint (GL_LINE_SMOOTH_HINT, GL_NICEST);
-	glLineWidth(2);
 
     float* fdata = NULL;
 
@@ -178,6 +177,7 @@ void draw_plot()
 		 // draw 2 above & 2 below and one in the middle
 		 const float yfactor = 2.50f, xfactor = 0.00f;
 		 for (int j = -2; j <= 3; j++) {
+			 /* make lines 1 wide
 			 if (ee == E_DS) {
 				 if (j == -2)
 					 glLineWidth(3);
@@ -190,6 +190,8 @@ void draw_plot()
 				 else
 					 glLineWidth(1);
 			 }
+			 */
+			 glLineWidth(1);
 
 			 glColor4fv(grey);
 			 glBegin(GL_LINES);
@@ -205,6 +207,27 @@ void draw_plot()
 				 }
 			 }
 
+			 glEnd();
+
+
+			// need to have the "later" lines override the "earlier" lines (i.e. plot data replaces axes lines)
+			//glBlendFunc (GL_DST_ALPHA, GL_SRC_ALPHA);
+
+			glLineWidth(1);
+			 glColor4fv(ee == E_DY ? orange : colorsPlot[ee]);  // set the color for data - CMC note the orange substitution for yellow on the Y
+			 glLineWidth(2.0f);
+			 glBegin(GL_LINE_STRIP);
+
+			 for (int i=0; i<PLOT_ARRAY_SIZE; i++) {
+			  if (fdata[i] != 0.0f)  {
+				if (ee == E_DS && fdata[i] > 20.0f) fdata[i] = 20.0f; // clip significance at 20 for display
+				glVertex2f(
+				  xax_qcnlive[0] + (((float) i / (float) PLOT_ARRAY_SIZE) * (xax_qcnlive[1]-xax_qcnlive[0])), 
+				  yax_qcnlive[ee] + ( ee == E_DS ? .5f : 7.5f) + ( fdata[i] * ( 7.5f / ( ee == E_DS ? g_fScaleSig[g_iScaleSigOffset] : g_fScaleAxes[g_iScaleAxesOffset] ) ))
+				);
+				
+			   }
+			 }
 			 glEnd();
 		 }
 
@@ -223,23 +246,6 @@ void draw_plot()
 		     fmaxfactor = MAX_PLOT_HEIGHT_QCNLIVE / fmaxfactor;
 */
 		 
-         glLineWidth(1);
-		 glColor4fv(ee == E_DY ? orange : colorsPlot[ee]);  // set the color for data - CMC note the orange substitution for yellow on the Y
-		 glLineWidth(2.0f);
-         glBegin(GL_LINE_STRIP);
-
-         for (int i=0; i<PLOT_ARRAY_SIZE; i++) {
-          if (fdata[i] != 0.0f)  {
-			if (ee == E_DS && fdata[i] > 20.0f) fdata[i] = 20.0f; // clip significance at 20 for display
-            glVertex2f(
-              xax_qcnlive[0] + (((float) i / (float) PLOT_ARRAY_SIZE) * (xax_qcnlive[1]-xax_qcnlive[0])), 
-              yax_qcnlive[ee] + ( ee == E_DS ? .5f : 7.5f) + ( fdata[i] * ( 7.5f / ( ee == E_DS ? g_fScaleSig[g_iScaleSigOffset] : g_fScaleAxes[g_iScaleAxesOffset] ) ))
-            );
-			
-		   }
-         }
-         glEnd();
-
 		 // plot a "colored pointer" at the end for ease of seeing current value?
 		if (fdata[PLOT_ARRAY_SIZE-1] != 0.0f)  {
 			float x1 = xax_qcnlive[0] + (xax_qcnlive[1]-xax_qcnlive[0]);
@@ -255,8 +261,6 @@ void draw_plot()
 		} // colored pointer
 	}
 
-
-	
 	// draw boxes around the plots
 
 	 const float fExt = 7.05f;
@@ -302,7 +306,7 @@ void draw_plot()
      glVertex2f(xmax + fExt, yax_qcnlive[E_DX]); 
      glEnd();
 
- 	draw_tick_marks();
+     draw_tick_marks();
 
 	 glColor4fv((GLfloat*) grey);
 	 glRectf(xmin, yax_qcnlive[E_DX], xmax+fExt, ymin);  // bottom rectangle (timer ticks)

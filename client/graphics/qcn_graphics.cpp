@@ -199,7 +199,7 @@ double dtw[2]; // time window
 
 // an hour seems to be the max to vis without much delay
 long awinsize[MAX_KEY_WINSIZE+1]; 
-int key_winsize = 0; // points to an element of the above array to get the winsize (# of dt points i.e. 100 = 10 sec 600 = minute, 36000 = hour)
+int key_winsize = 1; // points to an element of the above array to get the winsize (# of dt points i.e. 100 = 10 sec 600 = minute, 36000 = hour)
 int key_press = 0;
 int key_press_alt = 0;
 int key_up = 0;
@@ -673,12 +673,15 @@ void draw_text_plot()
      	  txf_render_string(.05, TEXT_PLOT_LEFT_AXES + 0.735f, fTop[jj] - 0.03, 0, MSG_SIZE_SMALL, white_trans, TXF_HELVETICA, (char*) "Now");		
 		  switch(key_winsize) {
 		      case 0:
-			     sprintf(buf, "1 minute ago");
+			     sprintf(buf, "10 seconds ago");
 			     break;
 		      case 1:
-			     sprintf(buf, "10 minutes ago");
+			     sprintf(buf, "1 minute ago");
 			     break;
 		      case 2:
+			     sprintf(buf, "10 minutes ago");
+			     break;
+		      case 3:
 			     sprintf(buf, "1 hour ago");
 			     break;
 		  }
@@ -706,13 +709,16 @@ bool setupPlotMemory(const long lOffset)
     long ii, jj;
     float fAvg[4];
     switch(key_winsize) {
-      case 0: // 1 minute = 3000 pts, if PLOT_ARRAY_SIZE=600 we avg 5 points to 1
+      case 0: // 10 seconds = 500 pts, if PLOT_ARRAY_SIZE=500 we avg 1 points to 1
+         iRebin = (int) ceil(10.0 / sm->dt) / PLOT_ARRAY_SIZE;  // for dt=.02, 3000 points,  for dt=.1, 600 pts, div by 500 iRebin = 6 or 1
+         break;
+      case 1: // 1 minute = 3000 pts, if PLOT_ARRAY_SIZE=500 we avg 6 points to 1
          iRebin = (int) ceil(60.0 / sm->dt) / PLOT_ARRAY_SIZE;  // for dt=.02, 3000 points,  for dt=.1, 600 pts, div by 500 iRebin = 6 or 1
          break;
-      case 1: // 10 minutes = 30000 pts
+      case 2: // 10 minutes = 30000 pts
          iRebin = (int) ceil(600.0 / sm->dt) / PLOT_ARRAY_SIZE; // for dt=.02, 30000 points,  for dt=.1, 6000 pts, iRebin = 60 or 12
         break;
-      case 2: // 1 hour = 180000 pts 
+      case 3: // 1 hour = 180000 pts 
          iRebin = (int) ceil(3600.0 / sm->dt) / PLOT_ARRAY_SIZE; // for dt=.02, 180000 points,  for dt=.1, 36000 pts, iRebin = 360 or 72
          break;
       default:  iRebin = 10; // should never get here!
@@ -1371,9 +1377,10 @@ void Init()
     // setup the window widths depending on sm->dt
     // note sm->dt could possibly be 0, if so use the DT constant (.02)
     float fdt = (sm && sm->dt) ? sm->dt : g_DT;
-    awinsize[0] = (long) (60.0/ fdt);    // 1 minute = 60 seconds / dt // 3000 pts
-    awinsize[1] = (long) (600.0/fdt);   // 10 minutes = 60 seconds / dt // 30000 pts
-    awinsize[2] = (long) (3600.0/fdt);  // 1 minute = 60 seconds / dt // 180000 pts
+    awinsize[0] = (long) (10.0/ fdt);    // 1 minute = 60 seconds / dt // 3000 pts
+    awinsize[1] = (long) (60.0/ fdt);    // 1 minute = 60 seconds / dt // 3000 pts
+    awinsize[2] = (long) (600.0/fdt);   // 10 minutes = 60 seconds / dt // 30000 pts
+    awinsize[3] = (long) (3600.0/fdt);  // 1 minute = 60 seconds / dt // 180000 pts
 
     // enable hidden-surface-removal
     glDepthFunc(GL_LEQUAL);
