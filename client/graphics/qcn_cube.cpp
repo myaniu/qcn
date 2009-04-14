@@ -28,7 +28,7 @@ CCube::CCube()
        mousePX = mousePY = mousePZ = -1;
        iKey = iKeySpecial = mouseRightButtonDown = isShiftDown = mouseLeftButtonDown = isCtrlDown = 0;
 #ifdef QCNLIVE
-       rot.x = -10, rot.y = -10;  // note rot.x is our startup angle - Jesse Lawrence Changed Val
+       rot.x = 30, rot.y = 20;  // note rot.x is our startup angle - Jesse Lawrence Changed Val
        rotationSpeed = 0;
        bAutoRotate = false;  //Jesse Lawrence Changed to Non-rotating
 #else

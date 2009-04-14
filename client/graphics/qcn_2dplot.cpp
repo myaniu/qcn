@@ -13,22 +13,25 @@ int g_TimerTick = 5; // seconds for each timer point
 	bool g_bIsWhite = false;
 #endif
 
-static const int g_iScaleSigMax = 3;
-static const int g_iScaleAxesMax = 3;
+static const int g_iScaleSigMax  = 5;
+static const int g_iScaleAxesMax = 5;
 
-static int g_iScaleSigOffset = 0;
+static int g_iScaleSigOffset  = 0;
 static int g_iScaleAxesOffset = 0;
 
-static float g_fScaleSig[4] = { 2.5f, 5.0f, 10.0f, 20.0f }; // default scale for sig is 20
-static float g_fScaleAxes[4] = { 2.0f, 4.9f, 9.8f, 19.6f };
+static const float g_fScaleSig[6]  = { .3f, 1.0f, 2.5f, 5.0f, 10.0f, 20.0f }; // default scale for sig is 20
+static const float g_fScaleAxes[6] = { .3f, 1.0f, 2.0f, 4.9f,  9.8f, 19.6f };
 
+static bool g_bAutoCenter = true; // automatically center the plots
 static bool g_bAutoScale = true; // set to true when want each axes to scale around the last 100 data points (maybe need every second?)
+static float g_fScaleAxesCurrent[4]  = { g_fScaleAxes[0], g_fScaleAxes[0], g_fScaleAxes[0], g_fScaleAxes[0] };  // save each scale level for autoscaling, so it's not jumping all around
+static float g_fCenterAxesCurrent[4] = { 0.0f, 0.0f, 0.0f, 0.0f };  // save each scale level for autoscaling, so it's not jumping all around
 
-static const float fTransAlpha = 0.10f;
-static const float fAxisLabel = 1.061f;
-static const float fVertLabel = 0.988f;
-static const float fYOffset   = 0.016f;
-static const float fMSSLabel  = 0.050f; // m/s/s label
+static const float fTransAlpha = 0.100f;
+static const float fAxisLabel  = 1.061f;
+static const float fVertLabel  = 0.988f;
+static const float fYOffset    = 0.016f;
+static const float fMSSLabel   = 0.050f; // m/s/s label
 static const float fSigOffset[7] = { .562f, .588f, .616f, .643f, .670f, .697f, .719f };
 
 static const float fAxesLabel[4] = { 0.124f, .284f, .444f, .584f };
@@ -41,7 +44,7 @@ void draw_text_sig_axis()
 {
 	char cbuf[10];
 	for (int i = 0; i <= 6; i++) {
-		sprintf(cbuf, "%5.1f", (float) i / 6.0f * g_fScaleSig[g_iScaleSigOffset]);
+		sprintf(cbuf, "%5.2f", (float) i / 6.0f * g_fScaleSig[g_iScaleSigOffset]);
 	    txf_render_string(fTransAlpha, fVertLabel, fSigOffset[i], 0, MSG_SIZE_SMALL, g_bIsWhite ? black : grey_trans, TXF_COURIER_BOLD, cbuf);
 	}
 }
@@ -50,7 +53,7 @@ void draw_text_sensor_axis(int iAxis)
 {
 	char cbuf[10];
 	for (int i = -3; i <= 3; i++) {
-		sprintf(cbuf, "%+5.1f", (float) i / 3.0f * g_fScaleAxes[g_iScaleAxesOffset]);
+		sprintf(cbuf, "%+5.2f", (float) i / 3.0f * g_fScaleAxes[g_iScaleAxesOffset]);
 	    txf_render_string(fTransAlpha, fVertLabel, fBaseScale[iAxis] + fAxesOffset[i+3], 0, MSG_SIZE_SMALL, g_bIsWhite ? black : grey_trans, TXF_COURIER_BOLD, cbuf);
 	}
 }
@@ -222,7 +225,7 @@ void draw_plot()
 
 			 // get the scale for each axis
 			 if (g_bAutoScale) { // compute fScale Factor from last 100 pts
-			    fScaleFactor = ( ee == E_DS ? g_fScaleSig[g_iScaleSigOffset] : g_fScaleAxes[g_iScaleAxesOffset] );
+			    fScaleFactor = g_fScaleAxesCurrent[ee];
 			 }
 			 else {
 			    fScaleFactor = ( ee == E_DS ? g_fScaleSig[g_iScaleSigOffset] : g_fScaleAxes[g_iScaleAxesOffset] );
