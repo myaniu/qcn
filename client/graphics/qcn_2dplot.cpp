@@ -16,11 +16,13 @@ int g_TimerTick = 5; // seconds for each timer point
 static const int g_iScaleSigMax = 3;
 static const int g_iScaleAxesMax = 3;
 
-static int g_iScaleSigOffset = 3;
-static int g_iScaleAxesOffset = 3;
+static int g_iScaleSigOffset = 0;
+static int g_iScaleAxesOffset = 0;
 
 static float g_fScaleSig[4] = { 2.5f, 5.0f, 10.0f, 20.0f }; // default scale for sig is 20
 static float g_fScaleAxes[4] = { 2.0f, 4.9f, 9.8f, 19.6f };
+
+static bool g_bAutoScale = true; // set to true when want each axes to scale around the last 100 data points (maybe need every second?)
 
 static const float fTransAlpha = 0.10f;
 static const float fAxisLabel = 1.061f;
@@ -163,6 +165,8 @@ void draw_plot()
 	float xmax = xax_qcnlive[1] + 0.1f;
 	float ymin = yax_qcnlive[E_DX] - 7.0f;
     float ymax = yax_qcnlive[4]; // + 15.0f;
+    float x1, y1; // temp values to compare ranges for plotting
+	float fScaleFactor =1.0f; // amt to scale - either autoscale computed or using a selected fixed scale
 
     for (int ee = E_DX; ee <= E_DS; ee++)  {
 	
@@ -212,23 +216,30 @@ void draw_plot()
 
 			// need to have the "later" lines override the "earlier" lines (i.e. plot data replaces axes lines)
 			//glBlendFunc (GL_DST_ALPHA, GL_SRC_ALPHA);
-
-			glLineWidth(1);
 			 glColor4fv(ee == E_DY ? orange : colorsPlot[ee]);  // set the color for data - CMC note the orange substitution for yellow on the Y
 			 glLineWidth(2.0f);
 			 glBegin(GL_LINE_STRIP);
 
-			 for (int i=0; i<PLOT_ARRAY_SIZE; i++) {
-			  if (fdata[i] != 0.0f)  {
-				if (ee == E_DS && fdata[i] > 20.0f) fdata[i] = 20.0f; // clip significance at 20 for display
-				glVertex2f(
-				  xax_qcnlive[0] + (((float) i / (float) PLOT_ARRAY_SIZE) * (xax_qcnlive[1]-xax_qcnlive[0])), 
-				  yax_qcnlive[ee] + ( ee == E_DS ? .5f : 7.5f) + ( fdata[i] * ( 7.5f / ( ee == E_DS ? g_fScaleSig[g_iScaleSigOffset] : g_fScaleAxes[g_iScaleAxesOffset] ) ))
-				);
-				
-			   }
+			 // get the scale for each axis
+			 if (g_bAutoScale) { // compute fScale Factor from last 100 pts
+			    fScaleFactor = ( ee == E_DS ? g_fScaleSig[g_iScaleSigOffset] : g_fScaleAxes[g_iScaleAxesOffset] );
 			 }
-			 glEnd();
+			 else {
+			    fScaleFactor = ( ee == E_DS ? g_fScaleSig[g_iScaleSigOffset] : g_fScaleAxes[g_iScaleAxesOffset] );
+			 }
+
+			 for (int i=0; i<PLOT_ARRAY_SIZE; i++) {
+				 x1 = xax_qcnlive[0] + (((float) i / (float) PLOT_ARRAY_SIZE) * (xax_qcnlive[1]-xax_qcnlive[0]));
+				 y1 = yax_qcnlive[ee] + ( ee == E_DS ? .5f : 7.5f) + ( fdata[i] * 7.5f / fScaleFactor );
+  				 if (fdata[i] != 0.0f && (y1 - yax_qcnlive[ee]) <= (ee==E_DS ? 16.0f : 15.4f) && (y1 - yax_qcnlive[ee]) >= -.2f) { // don't plot out of range
+				     glVertex2f(x1, y1);
+			     }
+			     else { // close line segment
+				 	 glEnd();
+					 glBegin(GL_LINE_STRIP);  // start new line seg fromout of range data
+				 }
+			 }
+	 	     glEnd();
 		 }
 
          // x/y/z data points are +/- 19.6 m/s2 -- significance is 0-? make it 0-10		 		 
@@ -248,16 +259,18 @@ void draw_plot()
 		 
 		 // plot a "colored pointer" at the end for ease of seeing current value?
 		if (fdata[PLOT_ARRAY_SIZE-1] != 0.0f)  {
-			float x1 = xax_qcnlive[0] + (xax_qcnlive[1]-xax_qcnlive[0]);
-			float y1 = yax_qcnlive[ee] + ( ee == E_DS ? .5f : 7.5f) + ( fdata[PLOT_ARRAY_SIZE-1] * ( 7.5f / ( ee == E_DS ? g_fScaleSig[g_iScaleSigOffset] : g_fScaleAxes[g_iScaleAxesOffset] ) ));
-			const float fRadius = 1.4f;
-			float fAngle = PI/8.0f;
+			x1 = xax_qcnlive[0] + (xax_qcnlive[1]-xax_qcnlive[0]);
+			y1 = yax_qcnlive[ee] + ( ee == E_DS ? .5f : 7.5f) + ( fdata[PLOT_ARRAY_SIZE-1] * ( 7.5f / fScaleFactor ));
 
-			glBegin(GL_TRIANGLE_FAN);
-			glVertex2f(x1, y1);
-			glVertex2f(x1 + (cos(fAngle) * fRadius), y1 + (sin(fAngle) * fRadius));
-			glVertex2f(x1 + (cos(-fAngle) * fRadius), y1 + (sin(-fAngle) * fRadius));
-			glEnd();
+			if (fabs(y1 - yax_qcnlive[ee]) < (ee==E_DS ? 16.0f : 15.4f) && (y1 - yax_qcnlive[ee]) >= -.2f) { // don't plot out of range
+				const float fRadius = 1.4f;
+				float fAngle = PI/8.0f;
+				glBegin(GL_TRIANGLE_FAN);
+				glVertex2f(x1, y1);
+				glVertex2f(x1 + (cos(fAngle) * fRadius), y1 + (sin(fAngle) * fRadius));
+				glVertex2f(x1 + (cos(-fAngle) * fRadius), y1 + (sin(-fAngle) * fRadius));
+				glEnd();
+			}
 		} // colored pointer
 	}
 
