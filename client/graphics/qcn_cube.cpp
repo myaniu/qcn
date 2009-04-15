@@ -20,22 +20,37 @@ CCube::CCube()
        fMean[0] = fMean[1] = fMean[2] = fMean[3] = 0.0f;
        fM2[0] = fM2[1] = fM2[2] = fM2[3] = 0.0f;
        fDelta[0] = fDelta[1] = fDelta[2] = fDelta[3] = 0.0f;
+	   fMin[0] = fMin[1] = fMin[2] = fMin[3] = fMin[4] = 0.0f;
+	   fMax[0] = fMax[1] = fMax[2] = fMax[3] = fMax[4] = 0.0f;
        fVariance[0] = fVariance[1] = fVariance[2] = fVariance[3] = 0.0f;
        fStdDev[0] = fStdDev[1] = fStdDev[2] = fStdDev[3] = 0.0f;
+
+#ifdef QCNLIVE
+#ifdef _DEBUG
+	   bIsQCNLive = false;
+#else
+	   bIsQCNLive = true;
+#endif
+#else
+	   bIsQCNLive = false;
+#endif
 
        fMouseFactor = 0.0f;
        mouseX = mouseY = -1;
        mousePX = mousePY = mousePZ = -1;
        iKey = iKeySpecial = mouseRightButtonDown = isShiftDown = mouseLeftButtonDown = isCtrlDown = 0;
-#ifdef QCNLIVE
-       rot.x = 30, rot.y = 20;  // note rot.x is our startup angle - Jesse Lawrence Changed Val
-       rotationSpeed = 0;
-       bAutoRotate = false;  //Jesse Lawrence Changed to Non-rotating
-#else
-       rot.x = 0, rot.y = 0;  // note rot.x is our startup angle
-       rotationSpeed = ROTATION_SPEED_DEFAULT;
-       bAutoRotate = true;  
-#endif
+
+	   if (bIsQCNLive) {
+		   rot.x = 30, rot.y = 20;  // note rot.x is our startup angle - Jesse Lawrence Changed Val
+		   rotationSpeed = 0;
+		   bAutoRotate = false;  //Jesse Lawrence Changed to Non-rotating
+	   }
+	   else {
+		   rot.x = 0, rot.y = 0;  // note rot.x is our startup angle
+		   rotationSpeed = ROTATION_SPEED_DEFAULT;
+		   bAutoRotate = true;  
+	   }
+	   
 	   psqActive = NULL; 
        iCluster = -1;
 
@@ -130,7 +145,7 @@ void CCube::RenderText()
 {  // this draws the necessary text for the cube view
    // draw text on top
 
-#ifndef QCNLIVE
+ if (bIsQCNLive) {
    char buf[256];
    // left of window informative text
    if (!qcn_graphics::g_bFullScreen)  { // don't show the button press text in fullscreen/screensaver mode
@@ -153,8 +168,7 @@ void CCube::RenderText()
    txf_render_string(.1, 0, .19, 0, MSG_SIZE_NORMAL, cyan, TXF_HELVETICA, "Cyan is Magnitude");
    txf_render_string(.1, 0, .17, 0, MSG_SIZE_NORMAL, magenta, TXF_HELVETICA, "Magenta is Variance");
    ortho_done();
-#endif
-
+ }
    // NB: draw_text_user called automatically from qcn_graphics to show BOINC username, CPU time etc
 }
 
@@ -186,30 +200,16 @@ void CCube::RenderScene( GLsizei iWidth, GLsizei iHeight, GLfloat viewpoint, GLf
     long lStartOffset = sm ? (long)(cfNumSeconds/sm->dt) : 0;
     long lStartMean   = sm ? (long)(cfNumSecondsMean/sm->dt) : 0;
 
-    // compute the on-line variance by Knuth / Welford  (http://en.wikipedia.org/wiki/Algorithms_for_calculating_variance (III))
     if (sm && lMaxOffset > lStartOffset && lMaxOffset > lStartMean) { // get the max for a 3-second window
-           if (!bVar) { // compute baseline, note these values are member vars so just set once
-              iRecompute = 1;
- 	      for (long i = lMaxOffset; i >= lMaxOffset - lStartMean; i--) {
-                  fCtr++;
-                  fTest[E_DX] = sm->x0[i];
-                  fTest[E_DY] = sm->y0[i];
-                  fTest[E_DZ] = sm->z0[i];
-                  for (int j = E_DX; j <= E_DZ ; j++) {
-                     fDelta[j] = fTest[j] - fMean[j];
-                     fMean[j]  += (fDelta[j]/fCtr);
-                     fM2[j]    += (fDelta[j] * (fTest[j] - fMean[j]));
-                  }
-              }
-              for (int j = E_DX; j <= E_DZ ; j++) {
-                 fVariance[j] = fM2[j]/(fCtr == 0.0f ? 1.0f : fCtr);
-                 //fVarianceN[j] = fM2[j]/(fCtr-1);
-                 fStdDev[j] = sqrt(fVariance[j]);
-	      }
+       if (!bVar) { // compute baseline, note these values are member vars so just set once
+          iRecompute = 1;
+		  qcn_util::ComputeMeanStdDevVarianceKnuth((const float*) sm->x0, MAXI, lMaxOffset - lStartMean, lMaxOffset, &fMean[E_DX], &fStdDev[E_DX], &fVariance[E_DX], &fMin[E_DX], &fMax[E_DX]);
+		  qcn_util::ComputeMeanStdDevVarianceKnuth((const float*) sm->y0, MAXI, lMaxOffset - lStartMean, lMaxOffset, &fMean[E_DY], &fStdDev[E_DY], &fVariance[E_DY], &fMin[E_DY], &fMax[E_DY]);
+		  qcn_util::ComputeMeanStdDevVarianceKnuth((const float*) sm->z0, MAXI, lMaxOffset - lStartMean, lMaxOffset, &fMean[E_DZ], &fStdDev[E_DZ], &fVariance[E_DZ], &fMin[E_DZ], &fMax[E_DZ]);
 	   }
 
-           fCtr = 0;
-           // now sample the last second
+       fCtr = 0;
+       // now sample the last second
  	   for (long i = lMaxOffset; i >= lMaxOffset - lStartOffset; i--) {
               fCtr++;
               fTest[E_DX] = sm->x0[i];
@@ -232,8 +232,8 @@ void CCube::RenderScene( GLsizei iWidth, GLsizei iHeight, GLfloat viewpoint, GLf
         else if (newsize[j] > size[j] + .1f) size[j] += .1f;     
 */
         size[j] = 0.30f + fTest[j]/4.0f + fMouseFactor;
-        if (size[j] > 1.3f) 
-            size[j] = 1.3f;
+        if (size[j] > 2.0f) 
+            size[j] = 2.0f;
      
         else if (size[j] < -1.3f)
             size[j] = -1.3f; //Jesse Lawrence Added - Maximum negative value
@@ -543,11 +543,11 @@ void CCube::RenderCube(const GLfloat* asize)
      }
   }
 
-#ifdef QCNLIVE
+	   if (bIsQCNLive) {
   glTranslatef(asize[E_DX], asize[E_DZ], 0.0);//Jesse Lawrence Changed - X & Z MOTIONS (Y IS SIZE)
-#else
+	   } else {
   glTranslatef(-.50 + dOff[0], dOff[1], dOff[2]);
-#endif
+	   }
 
   for (int i = 0; i < 3; i++)  {
      if (dOff[i]>dMax[i]) { bDec[i] = true; }
@@ -565,7 +565,7 @@ void CCube::RenderCube(const GLfloat* asize)
   //glRotatef(rotqube,0.0f,1.0f,0.0f);	// Rotate The cube around the Y axis
   //glRotatef(rotqube,1.0f,1.0f,1.0f);
 
-#ifdef QCNLIVE
+if (bIsQCNLive) {
   float asize_all = asize[E_DY];//Jesse Lawrence Added - Constant size for all dimensions
   glBegin(GL_QUADS);            // Draw The Cube Using quads
     glColor4fv(blue);          // Color Green 
@@ -621,7 +621,7 @@ void CCube::RenderCube(const GLfloat* asize)
     glVertex3f( asize_all,-asize_all,-asize_all);      // Bottom Right Of The Quad (Right)
   glEnd();
 //  DrawPlot(lOffset ? (const float*) &(sm->vari[lOffset]) : NULL, asize, CUBE_RIGHT);   // variance
-#else  // screensaver mode
+} else {  // screensaver mode
     glBegin(GL_QUADS);            // Draw The Cube Using quads
     glColor4fv(green);          // Color Green 
     glVertex3f( asize[E_DX], asize[E_DY], -asize[E_DZ]);      // Top Right Of The Quad (Top)
@@ -676,7 +676,7 @@ void CCube::RenderCube(const GLfloat* asize)
     glVertex3f( asize[E_DX],-asize[E_DY],-asize[E_DZ]);      // Bottom Right Of The Quad (Right)
   glEnd();
   DrawPlot(lOffset ? (const float*) &(sm->vari[lOffset]) : NULL, asize, CUBE_RIGHT);   // variance
-#endif
+}
 
   glPopMatrix();
   glPopMatrix(); // rotation matrix

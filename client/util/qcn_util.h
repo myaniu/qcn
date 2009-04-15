@@ -37,6 +37,8 @@ double qcn_dday(double dNow);
 void string_tidy(char* strIn, int length);
 e_endian check_endian(void);
 float mod(float x1, float y1);
+bool ComputeMeanStdDevVarianceKnuth(const float* pfArray, const int iLen, const int iStart, const int iEnd, 
+	float* pfMean, float* pfStdDev, float* pfVariance, float* pfMin, float* pfMax);
 
 // useful functions just for the main program & qcnlive
 #ifndef QCN_USB

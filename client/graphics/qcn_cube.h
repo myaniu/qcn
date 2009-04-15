@@ -54,10 +54,12 @@ class CCube
     bool bProjection; // using 2D projection?
   
     bool bVar;
+	bool bIsQCNLive;
     float fMean[4];
     float fM2[4];
     float fDelta[4];
     float fVariance[4];
+	float fMin[4], fMax[4];
     float fStdDev[4];
 
     //GLUquadricObj* Q[6];
