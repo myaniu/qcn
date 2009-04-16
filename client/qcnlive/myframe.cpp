@@ -130,7 +130,7 @@ MyFrame::MyFrame(const wxRect& rect, MyApp* papp)
     menuFile->Append(wxID_EXIT, wxString("E&xit", wxConvUTF8), wxString("Quit QCNLive", wxConvUTF8));
 
     menuHelp = new wxMenu;
-#ifndef __WX_MAC__  // Mac's have a default about box btn
+#ifndef __WXMAC__  // Mac's have a default about box btn
     menuHelp->Append(wxID_ABOUT, wxString("&About", wxConvUTF8), wxString("About QCNLive", wxConvUTF8));
 #endif
 
@@ -179,7 +179,9 @@ void MyFrame::SetupToolbars()
 void MyFrame::OnCloseWindow(wxCloseEvent& wxc)
 {
      if (pMyApp) { // save the current window position & size, in MyApp::OnExit these get written to a prefs xml file
-        pMyApp->SetRect(GetSize(), GetPosition());
+        //pMyApp->SetRect(GetSize(), GetPosition());
+        //pMyApp->SetRect(GetRect());   // GetScreenRect()
+        pMyApp->SetRect(GetScreenRect());   // GetScreenRect()
       }
      // stop timers and get rid of OpenGL window which causes a hang on Windows
      if (glPane) {

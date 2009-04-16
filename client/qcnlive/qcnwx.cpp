@@ -104,8 +104,7 @@ bool MyApp::MainInit()
     qcn_util::ResetCounter(WHERE_MAIN_STARTUP);  // this is the one and only place ResetCounter is called outside of the sensor thread, so it's safe
     qcn_main::parseArgs(0, NULL); // parse args has to be done early in startup, right after the first ResetCounter usually
 
-    // clear memory and setup important vars below
-    get_qcnlive_prefs();
+    get_qcnlive_prefs();  // this sets the myRect among other things
 
     qcn_main::g_threadMain = new CQCNThread(QCNThreadMain);
     return qcn_main::g_threadMain ? qcn_main::g_threadMain->Start() : false;  // note returns whether main thread was created & started OK
@@ -120,10 +119,10 @@ bool MyApp::get_qcnlive_prefs()
     memset(strRead, 0x00, _MAX_PATH);
 	
     // basic defaults
-    myRect.x = 200;
-    myRect.y = 200;
-    myRect.width = 600;
-    myRect.height = 400;
+    myRect.x      =  MY_RECT_DEFAULT_POS_X;
+    myRect.y      =  MY_RECT_DEFAULT_POS_Y;
+    myRect.width  =  MY_RECT_DEFAULT_WIDTH;
+    myRect.height =  MY_RECT_DEFAULT_HEIGHT;
 
     sm->dMyLatitude = NO_LAT;
     sm->dMyLongitude = NO_LNG; 
@@ -149,16 +148,16 @@ bool MyApp::get_qcnlive_prefs()
     char strParse[16];  // make the tag from the define which don't have the <>
     sprintf(strParse, "<%s>", XML_X);
     if (!parse_int(strRead, strParse, myRect.x) || myRect.x<0)
-        myRect.x = 200;
+        myRect.x =  MY_RECT_DEFAULT_POS_X;
     sprintf(strParse, "<%s>", XML_Y);
     if (!parse_int(strRead, strParse, myRect.y) || myRect.y<0)
-        myRect.y = 200;
+        myRect.y =  MY_RECT_DEFAULT_POS_Y;
     sprintf(strParse, "<%s>", XML_WIDTH);
     if (!parse_int(strRead, strParse, myRect.width) || myRect.width<100 || myRect.width > wxsize.GetWidth())
-        myRect.width = 600;
+        myRect.width =  MY_RECT_DEFAULT_WIDTH;
     sprintf(strParse, "<%s>", XML_HEIGHT);
     if (!parse_int(strRead, strParse, myRect.height) || myRect.height<100 || myRect.height > wxsize.GetHeight())
-        myRect.height = 400;
+        myRect.height =  MY_RECT_DEFAULT_HEIGHT;
     
     // check for valid lat/lng range
     sprintf(strParse, "<%s>", XML_LATITUDE);
@@ -221,7 +220,11 @@ bool MyApp::set_qcnlive_prefs()
                     XML_X, myRect.x, XML_X,
                     XML_Y, myRect.y, XML_Y, 
                     XML_WIDTH, myRect.width, XML_WIDTH, 
+#ifdef __WXMAC__  // bizarre Mac problem -- seems to add 39 to the height from the GetRect(), probably a toolbar fudge that they don't report elsewhere?
+                    XML_HEIGHT, myRect.height - 39, XML_HEIGHT,
+#else
                     XML_HEIGHT, myRect.height, XML_HEIGHT,
+#endif
                     XML_LATITUDE, sm->dMyLatitude, XML_LATITUDE,
                     XML_LONGITUDE, sm->dMyLongitude, XML_LONGITUDE,
                     XML_STATION, sm->strMyStation, XML_STATION,
@@ -244,11 +247,12 @@ void MyApp::KillSplashScreen()
 	   m_psplash = NULL;
    }
 }
-
-void MyApp::SetRect(const wxSize& newsize, const wxPoint& newposition)
+	
+void MyApp::SetRect(const wxRect& rect)
 {
-   myRect.SetSize(newsize);
-   myRect.SetPosition(newposition);
+   myRect = rect;
+   //myRect.SetSize(newsize);
+   //myRect.SetPosition(newposition);
 }
 
 bool MyApp::OnInit()
@@ -260,6 +264,7 @@ bool MyApp::OnInit()
 	// it will get deleted in MyApp::OnExit, so we don't need the boinc call below (which I think never destroys the shared mem segment!)
     //	sm = (CQCNShMem*) boinc_graphics_make_shmem(QCNGUI_SHMEM, sizeof(CQCNShMem));
 	// init the graphics stuff, i.e. memory pointer
+    // clear memory and setup important vars below
 
     sm = new CQCNShMem();
     if (!sm) {
@@ -267,6 +272,11 @@ bool MyApp::OnInit()
         return false;
     }
 	strcpy(sm->dataBOINC.wu_name, "qcnlive");
+
+	myRect.x      = MY_RECT_DEFAULT_POS_X;
+	myRect.y      = MY_RECT_DEFAULT_POS_Y;
+	myRect.width  = MY_RECT_DEFAULT_WIDTH;
+	myRect.height = MY_RECT_DEFAULT_HEIGHT;
 
     frame = new MyFrame(myRect, this);
 	if (!frame) return false;  // big error if can't make the window frame!
@@ -318,8 +328,9 @@ bool MyApp::OnInit()
    	
 	frame->SetStatusText(wxString("Ready", wxConvUTF8));
 
-    frame->SetPosition(myRect.GetPosition());
+	// set size that was loaded into myRect earlier in the Init()
     frame->SetSize(myRect.GetSize());
+    frame->SetPosition(myRect.GetPosition());
 
 	// setup the toolbar controls for the 2D Plot, i.e. a horiz scrollbar, buttons for scaling etc
 	frame->SetupToolbars();

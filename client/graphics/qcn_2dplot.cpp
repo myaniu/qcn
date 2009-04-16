@@ -22,10 +22,10 @@ static int g_iScaleAxesOffset = 0;
 static const float g_fScaleSig[6]  = { .3f, 1.0f, 2.5f, 5.0f, 10.0f, 20.0f }; // default scale for sig is 20
 static const float g_fScaleAxes[6] = { .3f, 1.0f, 2.0f, 4.9f,  9.8f, 19.6f };
 
-static bool g_bAutoCenter = true; // automatically center the plots
+//static bool g_bAutoCenter = true; // automatically center the plots
 static bool g_bAutoScale = true; // set to true when want each axes to scale around the last 100 data points (maybe need every second?)
-static float g_fScaleAxesCurrent[4]  = { g_fScaleAxes[0], g_fScaleAxes[0], g_fScaleAxes[0], g_fScaleAxes[0] };  // save each scale level for autoscaling, so it's not jumping all around
-static float g_fCenterAxesCurrent[4] = { 0.0f, 0.0f, 0.0f, 0.0f };  // save each scale level for autoscaling, so it's not jumping all around
+static float g_fMaxAxesCurrent[4]  = { g_fScaleAxes[0], g_fScaleAxes[0], g_fScaleAxes[0], g_fScaleAxes[0] };  // save each scale level for autoscaling, so it's not jumping all around
+static float g_fMinAxesCurrent[4]  = { -g_fScaleAxes[0], -g_fScaleAxes[0], -g_fScaleAxes[0], -g_fScaleAxes[0] };  // save each scale level for autoscaling, so it's not jumping all around
 
 static const float fTransAlpha = 0.100f;
 static const float fAxisLabel  = 1.061f;
@@ -39,25 +39,15 @@ static const float fAxesLabel[4] = { 0.124f, .284f, .444f, .584f };
 static const float fBaseScale[4] = { 0.068f, .232f, .397f, .562f };
 static const float fAxesOffset[7] = { .0f, .021f, .049f, .077f, .104f, .131f, .151f };
 
-static float fMin[4], fMax[4]; // max & min for each axis visible on the plot
+static float g_fMin[4], g_fMax[4]; // max & min for each axis visible on the plot
 
-
-void draw_text_sig_axis()
-{
-	char cbuf[10];
-	for (int i = 0; i <= 6; i++) {
-		sprintf(cbuf, "%5.2f", (float) i / 6.0f * g_fScaleAxesCurrent[E_DS]);
-	    txf_render_string(fTransAlpha, fVertLabel, fSigOffset[i], 0, MSG_SIZE_SMALL, g_bIsWhite ? black : grey_trans, TXF_COURIER_BOLD, cbuf);
-	}
-}
 
 void draw_text_sensor_axis(int iAxis)
 {
 	char cbuf[10];
-	//for (int i = -3; i <= 3; i++) {
-		//sprintf(cbuf, "%+5.2f", g_fCenterAxesCurrent[iAxis] + ((float) i / 3.0f * g_fScaleAxesCurrent[iAxis]));
+	float fIncrement = (g_fMaxAxesCurrent[iAxis] - g_fMinAxesCurrent[iAxis]) / 6.0f;
 	for (int i = 0; i <= 6; i++) {
-		sprintf(cbuf, "%+5.2f", fMin[iAxis] + ((fMax[iAxis] - fMin[iAxis]) * (float) i) / 6.0f);
+		sprintf(cbuf, "%+6.3f", g_fMinAxesCurrent[iAxis] + (fIncrement * (float) i) );
 	    txf_render_string(fTransAlpha, fVertLabel, fBaseScale[iAxis] + fAxesOffset[i], 0, MSG_SIZE_SMALL, g_bIsWhite ? black : grey_trans, TXF_COURIER_BOLD, cbuf);
 	}
 }
@@ -79,16 +69,16 @@ void draw_text()
 	   }
 	}
 
-#ifdef _DEBUG
-	sprintf(strTime, "%+5.2f %+5.2f", fMin[0], fMax[0]);
+//#ifdef _DEBUG
+	sprintf(strTime, "%+5.2f %+5.2f", g_fMin[0], g_fMax[0]);
     txf_render_string(.1f, .1f, fAxesLabel[0], 0.0f, MSG_SIZE_SMALL, red, TXF_HELVETICA, (char*) strTime);
-	sprintf(strTime, "%+5.2f %+5.2f", fMin[1], fMax[1]);
+	sprintf(strTime, "%+5.2f %+5.2f", g_fMin[1], g_fMax[1]);
     txf_render_string(.1f, .1f, fAxesLabel[1], 0.0f, MSG_SIZE_SMALL, red, TXF_HELVETICA, (char*) strTime);
-	sprintf(strTime, "%+5.2f %+5.2f", fMin[2], fMax[2]);
+	sprintf(strTime, "%+5.2f %+5.2f", g_fMin[2], g_fMax[2]);
     txf_render_string(.1f, .1f, fAxesLabel[2], 0.0f, MSG_SIZE_SMALL, red, TXF_HELVETICA, (char*) strTime);
-	sprintf(strTime, "%+5.2f %+5.2f", fMin[3], fMax[3]);
+	sprintf(strTime, "%+5.2f %+5.2f", g_fMin[3], g_fMax[3]);
     txf_render_string(.1f, .1f, fAxesLabel[3], 0.0f, MSG_SIZE_SMALL, red, TXF_HELVETICA, (char*) strTime);
-#endif
+//#endif
 
 	// labels for each axis
 
@@ -98,7 +88,6 @@ void draw_text()
     txf_render_string(fTransAlpha, fAxisLabel, fAxesLabel[E_DX], 0, MSG_SIZE_NORMAL, green, TXF_HELVETICA, "X Axis", 90.0f);
 
 	// labels for significance
-	//draw_text_sig_axis();
 	draw_text_sensor_axis(E_DS);
 
 	// labels for Z axis
@@ -112,6 +101,9 @@ void draw_text()
 
 	// units label (meters per second per second
     txf_render_string(fTransAlpha, fVertLabel, fMSSLabel, 0, MSG_SIZE_SMALL, g_bIsWhite ? black : grey_trans, TXF_COURIER_BOLD, " m/s/s");
+
+    // time label
+    txf_render_string(fTransAlpha, fVertLabel/2, 0.007f, 0.0f, MSG_SIZE_SMALL, g_bIsWhite ? light_blue : grey_trans, TXF_HELVETICA, "Time (UTC)");
 
     draw_text_sensor();
 
@@ -164,14 +156,17 @@ void draw_plot()
 
     // each plot section is 15 units high
 
-	static int iFrameCounter = 0L;
+	//static int iFrameCounter = 0;
+	static float fMeanLast = 0.0f, fStdDevLast, fVarianceLast;  // preserve state of last mean etc
+	static float fMean = 0.0f, fStdDev = 0.0f, fVariance = 0.0f;
 
 	float xmin = xax_qcnlive[0] - 0.1f;
 	float xmax = xax_qcnlive[1] + 0.1f;
 	float ymin = yax_qcnlive[E_DX] - 7.0f;
     float ymax = yax_qcnlive[4]; // + 15.0f;
     float x1, y1; // temp values to compare ranges for plotting
-	float fAvg;
+	//float fAvg;
+	long lStart, lEnd;
 
     if (!sm) return; // not much point in continuing if shmem isn't setup!
 
@@ -242,33 +237,55 @@ void draw_plot()
 			 glBegin(GL_LINE_STRIP);
 
 			 // get the scale for each axis
+			 			 
 			 if (g_bAutoScale) { // compute fScale Factor from last 100 pts
-			    float fMean, fStdDev, fVariance;
-				if (qcn_util::ComputeMeanStdDevVarianceKnuth((const float*) fdata, PLOT_ARRAY_SIZE, PLOT_ARRAY_SIZE-100, PLOT_ARRAY_SIZE-1, 
-				  &fMean, &fStdDev, &fVariance, &fMin[ee], &fMax[ee])) {
-					// make the scale to fit 4 std dev above & below the mean, which is the center
-					//g_fScaleAxesCurrent[ee] = fMean + (2.0f * fStdDev);  // save each scale level for autoscaling, so it's not jumping all around
-					//g_fCenterAxesCurrent[ee] = fMean;
-					if (ee == E_DS) fMin[ee] = 0.0f;  // force min to always be 0 for significance
-				    g_fScaleAxesCurrent[ee] = fMax[ee];
-					g_fCenterAxesCurrent[ee] = (fMax[ee] + fMin[ee]) / 2.0f;
+			   //if (!(iFrameCounter % 20)) {
+			     // if not enough points just use what we can
+			     //if (sm->lOffset < PLOT_ARRAY_SIZE && sm->t0[MAXI-1] == 0.0f) {
+		    	//	lStart = PLOT_ARRAY_SIZE-11;
+				//	lEnd = PLOT_ARRAY_SIZE-1;
+				 //}
+	    		 //else  { 
+		    		lStart = PLOT_ARRAY_SIZE-101;
+					lEnd = PLOT_ARRAY_SIZE-1;
+				 //}
+				//iFrameCounter = 0;
+				if (qcn_util::ComputeMeanStdDevVarianceKnuth((const float*) fdata, PLOT_ARRAY_SIZE, lStart, lEnd, 
+				  &fMean, &fStdDev, &fVariance, &g_fMin[ee], &g_fMax[ee])) {
+				    if (fMean != 0.0f && fabs((fMean - fMeanLast)/fMean) > 0.20f) { // mean's differ so reset
+					    fMeanLast = fMean;
+						fStdDevLast = fStdDev;
+						fVarianceLast = fVariance;
+					}
+					else {
+					    fMean = fMeanLast;
+						fStdDev = fStdDevLast;
+						fVariance = fVarianceLast;
+					}
+					// make the scale to fit 2 std dev above & below the mean, which is the center
+					g_fMaxAxesCurrent[ee] = fMean + (2.0f * fStdDev);  // save each scale level for autoscaling, so it's not jumping all around
+					g_fMinAxesCurrent[ee] = fMean - (2.0f * fStdDev);
+					if (ee == E_DS) {
+					    g_fMin[ee] = 0.0f;  // force min to always be 0 for significance
+						g_fMinAxesCurrent[ee] = 0.0f;
+					}
 				}
 				else {
-					g_fScaleAxesCurrent[ee] = ( ee == E_DS ? g_fScaleSig[g_iScaleSigOffset] : g_fScaleAxes[g_iScaleAxesOffset] );
-				    g_fCenterAxesCurrent[ee] = 0.0f;
+					g_fMaxAxesCurrent[ee] = ( ee == E_DS ? g_fScaleSig[g_iScaleSigOffset] : g_fScaleAxes[g_iScaleAxesOffset] );
+					g_fMinAxesCurrent[ee] = ( ee == E_DS ? -g_fScaleSig[g_iScaleSigOffset] : -g_fScaleAxes[g_iScaleAxesOffset] );
 				}
+			  //}  // iFrameCounter
 			 }
 			 else {
-				g_fScaleAxesCurrent[ee] = ( ee == E_DS ? g_fScaleSig[g_iScaleSigOffset] : g_fScaleAxes[g_iScaleAxesOffset] );
-			    g_fCenterAxesCurrent[ee] = 0.0f;
+				g_fMaxAxesCurrent[ee] = ( ee == E_DS ? g_fScaleSig[g_iScaleSigOffset] : g_fScaleAxes[g_iScaleAxesOffset] );
+				g_fMinAxesCurrent[ee] = ( ee == E_DS ? -g_fScaleSig[g_iScaleSigOffset] : -g_fScaleAxes[g_iScaleAxesOffset] );
 			 }
 
-			 if (g_fScaleAxesCurrent[ee] == 0.0f) g_fScaleAxesCurrent[ee] = 1.0f; // avoid divide by zero
-			 fAvg = (fMax[ee] - fMin[ee]) / 2.0f;
+			 if ((g_fMaxAxesCurrent[ee] - g_fMinAxesCurrent[ee]) == 0.0f) g_fMinAxesCurrent[ee] = g_fMaxAxesCurrent[ee] - 1.0f; // avoid divide by zero
+			 //fAvg = (g_fMax[ee] - g_fMin[ee]) / 2.0f;
 			 for (int i=0; i<PLOT_ARRAY_SIZE; i++) {
 				 x1 = xax_qcnlive[0] + (((float) i / (float) PLOT_ARRAY_SIZE) * (xax_qcnlive[1]-xax_qcnlive[0]));
-				 //y1 = yax_qcnlive[ee] + ( ee == E_DS ? .5f : 7.5f) + ( (fdata[i] - g_fCenterAxesCurrent[ee] ) * 7.5f / g_fScaleAxesCurrent[ee] );
-				 y1 = yax_qcnlive[ee] + ( ee == E_DS ? .5f : 0.0f ) + ( 15.0f * ((fdata[i] - fMin[ee]) / (fMax[ee] - fMin[ee])));
+				 y1 = yax_qcnlive[ee] + (ee == E_DS ? 0.5f : 0.0f) + ( 15.0f * ( (fdata[i] - g_fMinAxesCurrent[ee]) / (g_fMaxAxesCurrent[ee] - g_fMinAxesCurrent[ee] ) )  );
 
 				 if (fdata[i] != 0.0f && (y1 - yax_qcnlive[ee]) <= (ee==E_DS ? 16.0f : 15.4f) && (y1 - yax_qcnlive[ee]) >= -.2f) { // don't plot out of range
 				     glVertex2f(x1, y1);
@@ -280,7 +297,8 @@ void draw_plot()
 			 }
 	 	     glEnd();
 		 }
-
+	     //iFrameCounter++; // bump up the frame ctr
+		 
          // x/y/z data points are +/- 19.6 m/s2 -- significance is 0-? make it 0-10		 		 
 
 /*
@@ -298,8 +316,7 @@ void draw_plot()
 		 // plot a "colored pointer" at the end for ease of seeing current value?
 		if (fdata[PLOT_ARRAY_SIZE-1] != 0.0f)  {
 			x1 = xax_qcnlive[0] + (xax_qcnlive[1]-xax_qcnlive[0]);
-			//y1 = yax_qcnlive[ee] + ( ee == E_DS ? .5f : 7.5f) + ( (fdata[PLOT_ARRAY_SIZE-1] - g_fCenterAxesCurrent[ee] ) * 7.5f / g_fScaleAxesCurrent[ee] );
-			y1 = yax_qcnlive[ee] + ( ee == E_DS ? .5f : 0.0f ) + ( 15.0f * ((fdata[PLOT_ARRAY_SIZE-1] - fMin[ee]) / (fMax[ee] - fMin[ee])));
+			y1 = yax_qcnlive[ee] + (ee == E_DS ? 0.5f : 0.0f) + ( 15.0f * ( (fdata[PLOT_ARRAY_SIZE-1] - g_fMinAxesCurrent[ee]) / (g_fMaxAxesCurrent[ee] - g_fMinAxesCurrent[ee] ) )  );
 
 			if (fabs(y1 - yax_qcnlive[ee]) < (ee==E_DS ? 16.0f : 15.4f) && (y1 - yax_qcnlive[ee]) >= -.2f) { // don't plot out of range
 				const float fRadius = 1.4f;

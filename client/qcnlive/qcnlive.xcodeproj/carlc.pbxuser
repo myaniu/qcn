@@ -7,31 +7,11 @@
 	};
 	E3064B950F8FE8A60028A349 /* qcn_2dplot.cpp */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1255, 5222}}";
-			sepNavSelRange = "{2129, 10}";
-			sepNavVisRange = "{316, 2185}";
-			sepNavWindowFrame = "{{331, 130}, {1314, 778}}";
+			sepNavIntBoundsRect = "{{0, 0}, {1124, 5474}}";
+			sepNavSelRange = "{578, 68}";
+			sepNavVisRange = "{206, 1324}";
+			sepNavWindowFrame = "{{153, 130}, {1342, 872}}";
 		};
-	};
-	E309EE3C0F95A7CF00589E63 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = E3064B950F8FE8A60028A349 /* qcn_2dplot.cpp */;
-		name = "qcn_2dplot.cpp: 58";
-		rLen = 10;
-		rLoc = 2129;
-		rType = 0;
-		vrLen = 2187;
-		vrLoc = 316;
-	};
-	E309EE3D0F95A7CF00589E63 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = E3C0E7760D64E9A40099B905 /* qcnwx.cpp */;
-		name = "qcnwx.cpp: 257";
-		rLen = 0;
-		rLoc = 8606;
-		rType = 0;
-		vrLen = 1295;
-		vrLoc = 7267;
 	};
 	E30AB0EA0EBB9C0600DA7E81 /* dlgsettings.cpp */ = {
 		uiCtxt = {
@@ -51,9 +31,9 @@
 	};
 	E30AB11A0EBB9DAC00DA7E81 /* dlgsettings.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1174, 882}}";
+			sepNavIntBoundsRect = "{{0, 0}, {1174, 924}}";
 			sepNavSelRange = "{403, 0}";
-			sepNavVisRange = "{289, 1157}";
+			sepNavVisRange = "{246, 1332}";
 			sepNavWindowFrame = "{{413, 192}, {1233, 783}}";
 		};
 	};
@@ -63,6 +43,14 @@
 			sepNavSelRange = "{561, 0}";
 			sepNavVisRange = "{0, 1012}";
 			sepNavWindowFrame = "{{15, 240}, {1233, 783}}";
+		};
+	};
+	E30AB11D0EBB9DAC00DA7E81 /* qcnlive_define.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1283, 1036}}";
+			sepNavSelRange = "{298, 0}";
+			sepNavVisRange = "{0, 2602}";
+			sepNavWindowFrame = "{{671, 336}, {1342, 692}}";
 		};
 	};
 	E30F9E9C0DEC6D4C0000FACE /* csensor.cpp */ = {
@@ -87,7 +75,23 @@
 		ignoreCount = 0;
 		lineNumber = 267;
 		location = QCNLive;
-		modificationTime = 260995809.394947;
+		modificationTime = 261600487.023769;
+		state = 1;
+	};
+	E36838C20F97AC6A008DB82B /* qcn_2dplot.cpp:26 */ = {
+		isa = PBXFileBreakpoint;
+		actions = (
+		);
+		breakpointStyle = 0;
+		continueAfterActions = 0;
+		countType = 0;
+		delayBeforeContinue = 0;
+		fileReference = E3064B950F8FE8A60028A349 /* qcn_2dplot.cpp */;
+		hitCount = 1;
+		ignoreCount = 0;
+		lineNumber = 26;
+		location = QCNLive;
+		modificationTime = 261600490.570196;
 		state = 1;
 	};
 	E371C7F60E2AB5D0009B4DAA /* csensor_mac_laptop.cpp */ = {
@@ -124,9 +128,9 @@
 	};
 	E390FE410D65DE7600479F9A /* myframe.cpp */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1141, 13034}}";
-			sepNavSelRange = "{19335, 6}";
-			sepNavVisRange = "{18425, 2041}";
+			sepNavIntBoundsRect = "{{0, 0}, {720, 13076}}";
+			sepNavSelRange = "{4383, 5}";
+			sepNavVisRange = "{4025, 604}";
 			sepNavVisRect = "{{0, 0}, {1161, 818}}";
 			sepNavWindowFrame = "{{189, 83}, {1200, 945}}";
 		};
@@ -150,6 +154,9 @@
 		);
 		breakpoints = (
 			E32A1F3F0F8536BE001C4F07 /* qcn_graphics.cpp:267 */,
+			E36838C20F97AC6A008DB82B /* qcn_2dplot.cpp:26 */,
+			E3D735A00F97B4B200741928 /* qcn_2dplot.cpp:240 */,
+			E3D735A20F97B4B600741928 /* qcn_2dplot.cpp:240 */,
 		);
 		codeSenseManager = E3A499E20D64E60400E51CDF /* Code sense */;
 		executables = (
@@ -252,14 +259,8 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 261465978;
-			PBXWorkspaceStateSaveDate = 261465978;
-		};
-		perUserProjectItems = {
-			E309EE3C0F95A7CF00589E63 /* PBXTextBookmark */ = E309EE3C0F95A7CF00589E63 /* PBXTextBookmark */;
-			E309EE3D0F95A7CF00589E63 /* PBXTextBookmark */ = E309EE3D0F95A7CF00589E63 /* PBXTextBookmark */;
-			E3B3B4560F952FD8002405A8 /* PBXTextBookmark */ = E3B3B4560F952FD8002405A8 /* PBXTextBookmark */;
-			E3B3B4570F952FD8002405A8 /* PBXTextBookmark */ = E3B3B4570F952FD8002405A8 /* PBXTextBookmark */;
+			PBXPerProjectTemplateStateSaveDate = 261598931;
+			PBXWorkspaceStateSaveDate = 261598931;
 		};
 		sourceControlManager = E3A499E10D64E60400E51CDF /* Source Control */;
 		userBuildSettings = {
@@ -282,26 +283,6 @@
 		executables = (
 			E3C0E7710D64E9870099B905 /* QCNLive */,
 		);
-	};
-	E3B3B4560F952FD8002405A8 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = E3064B950F8FE8A60028A349 /* qcn_2dplot.cpp */;
-		name = "qcn_2dplot.cpp: 56";
-		rLen = 10;
-		rLoc = 2129;
-		rType = 0;
-		vrLen = 1996;
-		vrLoc = 409;
-	};
-	E3B3B4570F952FD8002405A8 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = E3C0E7760D64E9A40099B905 /* qcnwx.cpp */;
-		name = "qcnwx.cpp: 257";
-		rLen = 0;
-		rLoc = 8606;
-		rType = 0;
-		vrLen = 1295;
-		vrLoc = 7267;
 	};
 	E3B747A80E8C6DFC00D401EB /* csensor_mac_usb_jw.h */ = {
 		uiCtxt = {
@@ -357,17 +338,17 @@
 	};
 	E3C0E7760D64E9A40099B905 /* qcnwx.cpp */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1174, 5782}}";
-			sepNavSelRange = "{8606, 0}";
-			sepNavVisRange = "{7267, 1295}";
+			sepNavIntBoundsRect = "{{0, 0}, {1174, 5978}}";
+			sepNavSelRange = "{3566, 0}";
+			sepNavVisRange = "{2509, 1332}";
 			sepNavVisRect = "{{0, 2496}, {1000, 343}}";
-			sepNavWindowFrame = "{{481, 337}, {1233, 691}}";
+			sepNavWindowFrame = "{{218, 224}, {1233, 691}}";
 		};
 	};
 	E3C0E7770D64E9A40099B905 /* qcnwx.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1141, 1372}}";
-			sepNavSelRange = "{375, 0}";
+			sepNavIntBoundsRect = "{{0, 0}, {1141, 1316}}";
+			sepNavSelRange = "{152, 6}";
 			sepNavVisRange = "{0, 1014}";
 			sepNavVisRect = "{{0, 49}, {1161, 818}}";
 			sepNavWindowFrame = "{{48, 77}, {1200, 947}}";
@@ -583,5 +564,39 @@
 			sepNavVisRect = "{{0, 0}, {1000, 343}}";
 			sepNavWindowFrame = "{{15, 75}, {1199, 948}}";
 		};
+	};
+	E3D735A00F97B4B200741928 /* qcn_2dplot.cpp:240 */ = {
+		isa = PBXFileBreakpoint;
+		actions = (
+		);
+		breakpointStyle = 0;
+		continueAfterActions = 0;
+		countType = 0;
+		delayBeforeContinue = 0;
+		fileReference = E3064B950F8FE8A60028A349 /* qcn_2dplot.cpp */;
+		functionName = "draw_plot()";
+		hitCount = 0;
+		ignoreCount = 0;
+		lineNumber = 240;
+		location = QCNLive;
+		modificationTime = 261600487.024029;
+		state = 1;
+	};
+	E3D735A20F97B4B600741928 /* qcn_2dplot.cpp:240 */ = {
+		isa = PBXFileBreakpoint;
+		actions = (
+		);
+		breakpointStyle = 0;
+		continueAfterActions = 0;
+		countType = 0;
+		delayBeforeContinue = 0;
+		fileReference = E3064B950F8FE8A60028A349 /* qcn_2dplot.cpp */;
+		functionName = "draw_plot()";
+		hitCount = 0;
+		ignoreCount = 0;
+		lineNumber = 240;
+		location = QCNLive;
+		modificationTime = 261600487.024877;
+		state = 1;
 	};
 }

@@ -64,7 +64,8 @@ class MyApp: public wxApp
     wxRect myRect;            // apps screen coordinates
 
   public:
-    void SetRect(const wxSize& newsize, const wxPoint& newposition);
+    //void SetRect(const wxSize& newsize, const wxPoint& newposition);
+    void SetRect(const wxRect& rect);
     void GetLatestQuakeList();
 
     bool get_qcnlive_prefs();
