@@ -130,9 +130,9 @@ MyFrame::MyFrame(const wxRect& rect, MyApp* papp)
     menuFile->Append(wxID_EXIT, wxString("E&xit", wxConvUTF8), wxString("Quit QCNLive", wxConvUTF8));
 
     menuHelp = new wxMenu;
-#ifndef __WXMAC__  // Mac's have a default about box btn
+//#ifndef __WXMAC__  // Mac's have a default about box btn
     menuHelp->Append(wxID_ABOUT, wxString("&About", wxConvUTF8), wxString("About QCNLive", wxConvUTF8));
-#endif
+//#endif
 
     menuView = new wxMenu;
     menuOptions = new wxMenu;
