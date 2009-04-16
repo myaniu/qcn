@@ -271,15 +271,15 @@ bool MyApp::OnInit()
         fprintf(stderr, "failed to create shared mem segment %s, exiting\n", QCNGUI_SHMEM);
         return false;
     }
-	strcpy(sm->dataBOINC.wu_name, "qcnlive");
+    strcpy(sm->dataBOINC.wu_name, "qcnlive");
 
-	myRect.x      = MY_RECT_DEFAULT_POS_X;
-	myRect.y      = MY_RECT_DEFAULT_POS_Y;
-	myRect.width  = MY_RECT_DEFAULT_WIDTH;
-	myRect.height = MY_RECT_DEFAULT_HEIGHT;
+    myRect.x      = MY_RECT_DEFAULT_POS_X;
+    myRect.y      = MY_RECT_DEFAULT_POS_Y;
+    myRect.width  = MY_RECT_DEFAULT_WIDTH;
+    myRect.height = MY_RECT_DEFAULT_HEIGHT;
 
     frame = new MyFrame(myRect, this);
-	if (!frame) return false;  // big error if can't make the window frame!
+    if (!frame) return false;  // big error if can't make the window frame!
 
 #if wxUSE_LIBJPEG
     myJPEGHandler = new wxJPEGHandler();
@@ -320,20 +320,21 @@ bool MyApp::OnInit()
     // note all the graphics init stuff is in the myGLPane constructor
 
     int aiAttrib[] = { WX_GL_RGBA, WX_GL_DOUBLEBUFFER, WX_GL_DEPTH_SIZE, 16, 0 };
+
     frame->glPane = new MyGLPane(frame, aiAttrib);
     frame->sizer = new wxBoxSizer(wxHORIZONTAL);
     frame->sizer->Add(frame->glPane, 1, wxEXPAND);
     frame->SetSizer(frame->sizer);
     frame->SetAutoLayout(true);	
    	
-	frame->SetStatusText(wxString("Ready", wxConvUTF8));
-
-	// set size that was loaded into myRect earlier in the Init()
+    // set size that was loaded into myRect earlier in the Init()
     frame->SetSize(myRect.GetSize());
     frame->SetPosition(myRect.GetPosition());
 
-	// setup the toolbar controls for the 2D Plot, i.e. a horiz scrollbar, buttons for scaling etc
-	frame->SetupToolbars();
+    frame->SetStatusText(wxString("Ready", wxConvUTF8));
+
+    // setup the toolbar controls for the 2D Plot, i.e. a horiz scrollbar, buttons for scaling etc
+    frame->SetupToolbars();
 
 	frame->Show();
 
