@@ -195,7 +195,48 @@
 	<key>Notifications</key>
 	<array/>
 	<key>OpenEditors</key>
-	<array/>
+	<array>
+		<dict>
+			<key>Content</key>
+			<dict>
+				<key>PBXProjectModuleGUID</key>
+				<string>E381142B0F97F5C70080BC1E</string>
+				<key>PBXProjectModuleLabel</key>
+				<string>icons.h</string>
+				<key>PBXSplitModuleInNavigatorKey</key>
+				<dict>
+					<key>Split0</key>
+					<dict>
+						<key>PBXProjectModuleGUID</key>
+						<string>E381142C0F97F5C70080BC1E</string>
+						<key>PBXProjectModuleLabel</key>
+						<string>icons.h</string>
+						<key>_historyCapacity</key>
+						<integer>0</integer>
+						<key>bookmark</key>
+						<string>E381142D0F97F5C70080BC1E</string>
+						<key>history</key>
+						<array>
+							<string>E381142A0F97F5AE0080BC1E</string>
+						</array>
+					</dict>
+					<key>SplitCount</key>
+					<string>1</string>
+				</dict>
+				<key>StatusBarVisibility</key>
+				<true/>
+			</dict>
+			<key>Geometry</key>
+			<dict>
+				<key>Frame</key>
+				<string>{{0, 20}, {1200, 850}}</string>
+				<key>PBXModuleWindowStatusBarHidden2</key>
+				<false/>
+				<key>RubberWindowFrame</key>
+				<string>15 132 1200 891 0 0 1680 1028 </string>
+			</dict>
+		</dict>
+	</array>
 	<key>PerspectiveWidths</key>
 	<array>
 		<integer>-1</integer>
@@ -278,8 +319,8 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>15</integer>
-									<integer>11</integer>
+									<integer>7</integer>
+									<integer>2</integer>
 									<integer>0</integer>
 								</array>
 							</array>
@@ -518,8 +559,11 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
+		<string>1C78EAAD065D492600B07095</string>
+		<string>1CD10A99069EF8BA00B06720</string>
 		<string>E35897320E912E8A005C1D94</string>
 		<string>/Users/carlc/qcn/client/qcnlive/qcnlive.xcodeproj</string>
+		<string>E381142B0F97F5C70080BC1E</string>
 	</array>
 	<key>WindowString</key>
 	<string>194 292 1391 636 0 0 1680 1028 </string>
@@ -719,13 +763,13 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>1CD10A99069EF8BA00B06720</string>
-				<string>E3D735800F97AF0700741928</string>
+				<string>E381142E0F97F5C70080BC1E</string>
 				<string>1C162984064C10D400B95A72</string>
-				<string>E3D735810F97AF0700741928</string>
-				<string>E3D735820F97AF0700741928</string>
-				<string>E3D735830F97AF0700741928</string>
-				<string>E3D735840F97AF0700741928</string>
-				<string>E3D735850F97AF0700741928</string>
+				<string>E381142F0F97F5C70080BC1E</string>
+				<string>E38114300F97F5C70080BC1E</string>
+				<string>E38114310F97F5C70080BC1E</string>
+				<string>E38114320F97F5C70080BC1E</string>
+				<string>E38114330F97F5C70080BC1E</string>
 			</array>
 			<key>ToolbarConfiguration</key>
 			<string>xcode.toolbar.config.debugV3</string>
@@ -844,8 +888,6 @@
 					<key>Dock</key>
 					<array>
 						<dict>
-							<key>BecomeActive</key>
-							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
@@ -881,7 +923,7 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>1C78EAAD065D492600B07095</string>
-				<string>E3D735860F97AF0700741928</string>
+				<string>E38114340F97F5C70080BC1E</string>
 				<string>1C78EAAC065D492600B07095</string>
 			</array>
 			<key>ToolbarConfiguration</key>

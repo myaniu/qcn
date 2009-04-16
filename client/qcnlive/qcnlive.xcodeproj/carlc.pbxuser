@@ -118,10 +118,25 @@
 			sepNavWindowFrame = "{{15, 83}, {1200, 945}}";
 		};
 	};
+	E381142A0F97F5AE0080BC1E /* PBXBookmark */ = {
+		isa = PBXBookmark;
+		fRef = E390FCED0D65C65900479F9A /* icons.h */;
+	};
+	E381142D0F97F5C70080BC1E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = E390FCED0D65C65900479F9A /* icons.h */;
+		name = "icons.h: 4291";
+		rLen = 5;
+		rLoc = 196747;
+		rType = 0;
+		vrLen = 2347;
+		vrLoc = 194876;
+	};
 	E390FCED0D65C65900479F9A /* icons.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1161, 51646}}";
-			sepNavSelRange = "{68864, 0}";
+			sepNavIntBoundsRect = "{{0, 0}, {1141, 67270}}";
+			sepNavSelRange = "{196747, 5}";
+			sepNavVisRange = "{194876, 2347}";
 			sepNavVisRect = "{{0, 3715}, {1161, 818}}";
 			sepNavWindowFrame = "{{15, 76}, {1200, 947}}";
 		};
@@ -262,6 +277,10 @@
 			PBXPerProjectTemplateStateSaveDate = 261614136;
 			PBXWorkspaceStateSaveDate = 261614136;
 		};
+		perUserProjectItems = {
+			E381142A0F97F5AE0080BC1E /* PBXBookmark */ = E381142A0F97F5AE0080BC1E /* PBXBookmark */;
+			E381142D0F97F5C70080BC1E /* PBXTextBookmark */ = E381142D0F97F5C70080BC1E /* PBXTextBookmark */;
+		};
 		sourceControlManager = E3A499E10D64E60400E51CDF /* Source Control */;
 		userBuildSettings = {
 		};
@@ -338,7 +357,7 @@
 	};
 	E3C0E7760D64E9A40099B905 /* qcnwx.cpp */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1174, 5978}}";
+			sepNavIntBoundsRect = "{{0, 0}, {1174, 6090}}";
 			sepNavSelRange = "{3566, 0}";
 			sepNavVisRange = "{2509, 1332}";
 			sepNavVisRect = "{{0, 2496}, {1000, 343}}";
