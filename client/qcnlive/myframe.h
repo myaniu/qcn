@@ -23,14 +23,13 @@ class MyFrame : public wxFrame
     void SetToggleSensor();
 	void SetupToolbars();
 
+    MyApp* pMyApp;
     MyGLPane* glPane;
     wxBoxSizer* sizer;
     wxToolBar* toolBar;
-	//wxToolBar* toolBar2DPlot;
-	//wxScrollBar* scrollBar;
+    //wxScrollBar* scrollBar;
     //wxButtonBar* toolBar;
     wxStatusBar* statusBar;
-    MyApp* pMyApp;
 
   private:
 
