@@ -336,6 +336,12 @@ bool MyApp::OnInit()
     // setup the toolbar controls for the 2D Plot, i.e. a horiz scrollbar, buttons for scaling etc
     frame->SetupToolbars();
 
+        // send a resized event
+	//qcn_graphics::Resize(frame->GetClientSize().GetWidth(), frame->GetClientSize().GetHeight());	
+	// tell the earth to regen earthquakes coords
+	//qcn_graphics::earth.RecalculateEarthquakePositions();
+    frame->Layout();
+
 	frame->Show();
 
 	// setup & start the timer for getting the next earthquake list from the qcn server
