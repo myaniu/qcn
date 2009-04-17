@@ -53,7 +53,12 @@ enum e_tool_action_sensor {
     ID_TOOL_ACTION_SENSOR_FORWARD,
     ID_TOOL_ACTION_SENSOR_ABSOLUTE,
     ID_TOOL_ACTION_SENSOR_SCALED,
-	ID_TOOL_ACTION_SENSOR_SCROLLBAR
+	ID_TOOL_ACTION_SENSOR_SCROLLBAR,
+	ID_TOOL_ACTION_SENSOR_HORIZ_ZOOM_OUT,
+	ID_TOOL_ACTION_SENSOR_HORIZ_ZOOM_IN,
+	ID_TOOL_ACTION_SENSOR_VERT_ZOOM_OUT,
+	ID_TOOL_ACTION_SENSOR_VERT_ZOOM_IN,
+	ID_TOOL_ACTION_SENSOR_VERT_ZOOM_AUTO
 };
 
 BEGIN_EVENT_TABLE(MyFrame, wxFrame)
@@ -88,6 +93,13 @@ BEGIN_EVENT_TABLE(MyFrame, wxFrame)
 	EVT_MENU(ID_TOOL_ACTION_SENSOR_ABSOLUTE, MyFrame::OnActionSensor)
 	EVT_MENU(ID_TOOL_ACTION_SENSOR_SCALED, MyFrame::OnActionSensor)
 
+	EVT_MENU(ID_TOOL_ACTION_SENSOR_SCROLLBAR, MyFrame::OnActionSensor)
+	EVT_MENU(ID_TOOL_ACTION_SENSOR_HORIZ_ZOOM_OUT, MyFrame::OnActionSensor)
+	EVT_MENU(ID_TOOL_ACTION_SENSOR_HORIZ_ZOOM_IN, MyFrame::OnActionSensor)
+	EVT_MENU(ID_TOOL_ACTION_SENSOR_VERT_ZOOM_OUT, MyFrame::OnActionSensor)
+	EVT_MENU(ID_TOOL_ACTION_SENSOR_VERT_ZOOM_IN, MyFrame::OnActionSensor)
+	EVT_MENU(ID_TOOL_ACTION_SENSOR_VERT_ZOOM_AUTO, MyFrame::OnActionSensor)
+
 /*
 	EVT_MENU(ID_TOOL_ACTION_2D_01, MyFrame::OnActionPlot)
 	EVT_MENU(ID_TOOL_ACTION_2D_10, MyFrame::OnActionPlot)
@@ -104,7 +116,7 @@ END_EVENT_TABLE()
 
 
 MyFrame::MyFrame(const wxRect& rect, MyApp* papp) 
- : wxFrame(NULL, -1,  wxT("QCNLive"), rect.GetPosition(), rect.GetSize()), pMyApp(papp), glPane(NULL), toolBar(NULL)
+ : wxFrame(NULL, -1,  wxT("QCNLive"), rect.GetPosition(), rect.GetSize()), pMyApp(papp), glPane(NULL), toolBar(NULL), scrollBar2D(NULL)
 {
 
     statusBar = CreateStatusBar();
@@ -113,7 +125,7 @@ MyFrame::MyFrame(const wxRect& rect, MyApp* papp)
 
     bEarthDay = true;
     bEarthRotate = true;
-    iSensorTimeWindow = 1;
+    iSensorTimeWindow = 60;
     iSensorAction = 0;
 	
     bRecording = false;
@@ -157,9 +169,9 @@ void MyFrame::SetupToolbars()
 
 		ToolBarView();
 		ToolBarEarth(true);
-		 
-		//scrollBar = new wxScrollBar(toolBar, ID_TOOL_ACTION_SENSOR_SCROLLBAR);
-		//scrollBar->Hide();
+		
+		scrollBar2D = new wxScrollBar(toolBar, ID_TOOL_ACTION_SENSOR_SCROLLBAR, wxDefaultPosition, wxSize(100,10), wxSB_HORIZONTAL, wxDefaultValidator, "Time Scroll");
+		if (scrollBar2D) scrollBar2D->Hide();
 	}
 
 /*
@@ -317,16 +329,16 @@ void MyFrame::OnActionSensor(wxCommandEvent& evt)
   switch(evt.GetId())
   {
      case ID_TOOL_ACTION_SENSOR_01:
-	     iSensorTimeWindow = 1;
-	     qcn_graphics::TimeWindowWidth(1); 
-		 break;
-     case ID_TOOL_ACTION_SENSOR_10:
-	     iSensorTimeWindow = 10;
-	     qcn_graphics::TimeWindowWidth(10); 
-		 break;
-     case ID_TOOL_ACTION_SENSOR_60:
 	     iSensorTimeWindow = 60;
 	     qcn_graphics::TimeWindowWidth(60); 
+		 break;
+     case ID_TOOL_ACTION_SENSOR_10:
+	     iSensorTimeWindow = 600;
+	     qcn_graphics::TimeWindowWidth(600); 
+		 break;
+     case ID_TOOL_ACTION_SENSOR_60:
+	     iSensorTimeWindow = 3600;
+	     qcn_graphics::TimeWindowWidth(3600); 
 		 break;
      case ID_TOOL_ACTION_SENSOR_BACK:
          if (! qcn_graphics::TimeWindowIsStopped()) {
@@ -573,9 +585,9 @@ void MyFrame::Toggle(const int id, const bool bOn, const bool bView)
 
 void MyFrame::SetToggleSensor()
 {
-    Toggle(ID_TOOL_ACTION_SENSOR_01, (bool)(iSensorTimeWindow == 1));
-    Toggle(ID_TOOL_ACTION_SENSOR_10, (bool)(iSensorTimeWindow == 10));
-    Toggle(ID_TOOL_ACTION_SENSOR_60, (bool)(iSensorTimeWindow == 60));
+    Toggle(ID_TOOL_ACTION_SENSOR_01, (bool)(iSensorTimeWindow == 60));
+    Toggle(ID_TOOL_ACTION_SENSOR_10, (bool)(iSensorTimeWindow == 600));
+    Toggle(ID_TOOL_ACTION_SENSOR_60, (bool)(iSensorTimeWindow == 3600));
     Toggle(ID_TOOL_ACTION_SENSOR_START, (bool)(!bRecording && iSensorAction == 0));
     Toggle(ID_TOOL_ACTION_SENSOR_STOP, (bool)(!bRecording && iSensorAction == 1));
     Toggle(ID_TOOL_ACTION_SENSOR_RECORD, (bool)(bRecording));
@@ -632,130 +644,109 @@ void MyFrame::ToolBarSensor2D()
     if (!toolBar) return; // null toolbar?
     RemoveCurrentTools();
 
-    wxString wxsShort[10], wxsLong[10];
+    wxString wxsShort[8];
 
-    wxsShort[0].assign("&1-minute Window");
-    wxsLong[0].assign("1-minute Time Window");
+    wxsShort[0].assign("Auto-Zoom Vertical Scale");
+    wxsShort[1].assign("Zoom In Vertical Scale");
+    wxsShort[2].assign("Zoom Out Vertical Scale");
+    wxsShort[3].assign("Zoom In Horizontal Scale");
+    wxsShort[4].assign("Zoom Out Horizontal Scale");
 
-    wxsShort[1].assign("1&0-minute Window");
-    wxsLong[1].assign("10-minute Time Window");
+    wxsShort[5].assign("&Absolute sensor values");
+    wxsShort[6].assign("S&caled sensor values");
 
-    wxsShort[2].assign("&60-minute Window");
-    wxsLong[2].assign("60-minute Time Window");
+    wxsShort[7].assign("&Record sensor output");
 
-    wxsShort[3].assign("&Previous Time Window");
-    wxsLong[3].assign("Previous Time Window");
-
-    wxsShort[4].assign("&Pause Sensor Display");
-    wxsLong[4].assign("Pause Sensor Display");
-
-    wxsShort[5].assign("&Current Sensor Display");
-    wxsLong[5].assign("Current Sensor Display");
-
-    wxsShort[6].assign("&Next Time Window");
-	wxsLong[6].assign("Go forwards one 'window' of time");
-
-    wxsShort[7].assign("&Absolute sensor values");
-    wxsLong[7].assign("View the absolute sensor values");
-
-    wxsShort[8].assign("S&caled sensor values");
-    wxsLong[8].assign("View the scaled sensor values");
-
-    wxsShort[9].assign("&Record sensor output");
-    wxsLong[9].assign("Starts recording the sensor output");
-
-	//if (scrollBar) delete scrollBar;
-	//wxSlider* pslider = new wxSlider(toolBar, ID_TOOL_ACTION_SENSOR_SCROLLBAR, 5, 0, 5);
-	//toolBar->AddControl(pslider);
-
-	toolBar->AddSeparator();
-
-	m_ptbBase = toolBar->AddRadioTool(ID_TOOL_ACTION_SENSOR_01, 
-	   wxsShort[0], 
-	   QCN_TOOLBAR_IMG(xpm_icon_one),
-	   wxNullBitmap,
-	   wxsShort[0], 
-	   wxsLong[0]
-	);
-    menuOptions->AppendCheckItem(ID_TOOL_ACTION_SENSOR_01, wxsShort[0], wxsLong[0]);
-
-	m_ptbBase = toolBar->AddRadioTool(ID_TOOL_ACTION_SENSOR_10, 
-	   wxsShort[1], 
-	   QCN_TOOLBAR_IMG(xpm_icon_ten),
-	   wxNullBitmap,
-	   wxsShort[1], 
-	   wxsLong[1]
-	);
-    menuOptions->AppendCheckItem(ID_TOOL_ACTION_SENSOR_10, wxsShort[1], wxsLong[1]);
-	
-	m_ptbBase = toolBar->AddRadioTool(ID_TOOL_ACTION_SENSOR_60, 
-	   wxsShort[2], 
-	   QCN_TOOLBAR_IMG(xpm_icon_sixty),
-	   wxNullBitmap,
-	   wxsShort[2], 
-	   wxsLong[2]
-	);
-    menuOptions->AppendCheckItem(ID_TOOL_ACTION_SENSOR_60, wxsShort[2], wxsLong[2]);
-	
+   // vertical zoom
 	toolBar->AddSeparator();
     menuOptions->AppendSeparator();
 
-	m_ptbBase = toolBar->AddTool(ID_TOOL_ACTION_SENSOR_BACK, 
+	m_ptbBase = toolBar->AddRadioTool(ID_TOOL_ACTION_SENSOR_VERT_ZOOM_AUTO, 
+	   wxsShort[0], 
+	   QCN_TOOLBAR_IMG(xpm_zoom_auto),
+	   wxNullBitmap,
+	   wxsShort[0], 
+	   wxsShort[0]
+	);
+    menuOptions->AppendCheckItem(ID_TOOL_ACTION_SENSOR_VERT_ZOOM_AUTO, wxsShort[0], wxsShort[0]);
+
+	m_ptbBase = toolBar->AddRadioTool(ID_TOOL_ACTION_SENSOR_VERT_ZOOM_IN, 
+	   wxsShort[1], 
+	   QCN_TOOLBAR_IMG(xpm_vert_zoom_in),
+	   wxNullBitmap,
+	   wxsShort[1], 
+	   wxsShort[1]
+	);
+    menuOptions->AppendCheckItem(ID_TOOL_ACTION_SENSOR_VERT_ZOOM_IN, wxsShort[1], wxsShort[1]);
+
+	m_ptbBase = toolBar->AddRadioTool(ID_TOOL_ACTION_SENSOR_VERT_ZOOM_OUT, 
+	   wxsShort[2], 
+	   QCN_TOOLBAR_IMG(xpm_vert_zoom_out),
+	   wxNullBitmap,
+	   wxsShort[2], 
+	   wxsShort[2]
+	);
+    menuOptions->AppendCheckItem(ID_TOOL_ACTION_SENSOR_VERT_ZOOM_OUT, wxsShort[2], wxsShort[2]);
+
+   // horizontal zoom
+	toolBar->AddSeparator();
+    menuOptions->AppendSeparator();
+
+	m_ptbBase = toolBar->AddRadioTool(ID_TOOL_ACTION_SENSOR_HORIZ_ZOOM_IN, 
 	   wxsShort[3], 
-	   QCN_TOOLBAR_IMG(xpm_icon_rw),
-	   wxNullBitmap, wxITEM_NORMAL,
-	   wxsShort[3],
-	   wxsLong[3]
+	   QCN_TOOLBAR_IMG(xpm_horiz_zoom_in),
+	   wxNullBitmap,
+	   wxsShort[3], 
+	   wxsShort[3]
 	);
-    menuOptions->Append(ID_TOOL_ACTION_SENSOR_BACK, wxsShort[3], wxsLong[3]);
+    menuOptions->AppendCheckItem(ID_TOOL_ACTION_SENSOR_HORIZ_ZOOM_IN, wxsShort[3], wxsShort[3]);
 
-	m_ptbBase = toolBar->AddRadioTool(ID_TOOL_ACTION_SENSOR_STOP, 
-       wxsShort[4],
-	   QCN_TOOLBAR_IMG(xpm_icon_stop),
-	   wxNullBitmap, wxsShort[4], wxsLong[4]
+	m_ptbBase = toolBar->AddRadioTool(ID_TOOL_ACTION_SENSOR_HORIZ_ZOOM_OUT, 
+	   wxsShort[4], 
+	   QCN_TOOLBAR_IMG(xpm_horiz_zoom_out),
+	   wxNullBitmap,
+	   wxsShort[4], 
+	   wxsShort[4]
 	);
-    menuOptions->AppendCheckItem(ID_TOOL_ACTION_SENSOR_STOP, wxsShort[4], wxsLong[4]);
+    menuOptions->AppendCheckItem(ID_TOOL_ACTION_SENSOR_HORIZ_ZOOM_OUT, wxsShort[4], wxsShort[4]);
 
-	m_ptbBase = toolBar->AddRadioTool(ID_TOOL_ACTION_SENSOR_START, 
-	   wxsShort[5], 
-	   QCN_TOOLBAR_IMG(xpm_icon_play),
-	   wxNullBitmap, wxsShort[5], wxsLong[5]
-	);
-    menuOptions->AppendCheckItem(ID_TOOL_ACTION_SENSOR_START, wxsShort[5], wxsLong[5]);
 
+	toolBar->AddSeparator();
+    menuOptions->AppendSeparator();
+
+    // scrollbar for back & forth time
+	if (scrollBar2D) {
+	   toolBar->AddControl(scrollBar2D);
+	   toolBar->AddSeparator();
+       menuOptions->AppendSeparator();
+	}
+	
+   // record, if recording, change to stop button
 	m_ptbBase = toolBar->AddRadioTool(ID_TOOL_ACTION_SENSOR_RECORD, 
-	   wxsShort[9], 
+	   wxsShort[7], 
 	   QCN_TOOLBAR_IMG(xpm_icon_record),
-	   wxNullBitmap, wxsShort[9], wxsLong[9]
+	   wxNullBitmap, wxsShort[7], wxsShort[7]
 	);
-    menuOptions->AppendCheckItem(ID_TOOL_ACTION_SENSOR_RECORD, wxsShort[9], wxsLong[9]);
-
-	m_ptbBase = toolBar->AddTool(ID_TOOL_ACTION_SENSOR_FORWARD, 
-	   wxsShort[6], 
-	   QCN_TOOLBAR_IMG(xpm_icon_ff),
-	   wxNullBitmap, wxITEM_NORMAL,
-       wxsShort[6], wxsLong[6]
-	);
-    menuOptions->Append(ID_TOOL_ACTION_SENSOR_FORWARD, wxsShort[6], wxsLong[6]);
+    menuOptions->AppendCheckItem(ID_TOOL_ACTION_SENSOR_RECORD, wxsShort[7], wxsShort[7]);
 
 	toolBar->AddSeparator();
     menuOptions->AppendSeparator();
 
 	m_ptbBase = toolBar->AddRadioTool(ID_TOOL_ACTION_SENSOR_ABSOLUTE, 
-	   wxsShort[7],
+	   wxsShort[5],
 	   QCN_TOOLBAR_IMG(xpm_icon_absolute),
 	   wxNullBitmap,
-	   wxsShort[7], wxsLong[7]
+	   wxsShort[5], wxsShort[5]
 	);
-    menuOptions->AppendCheckItem(ID_TOOL_ACTION_SENSOR_ABSOLUTE, wxsShort[7], wxsLong[7]);
+    menuOptions->AppendCheckItem(ID_TOOL_ACTION_SENSOR_ABSOLUTE, wxsShort[5], wxsShort[5]);
 
 	m_ptbBase = toolBar->AddRadioTool(ID_TOOL_ACTION_SENSOR_SCALED, 
-	   wxsShort[8],
+	   wxsShort[6],
 	   QCN_TOOLBAR_IMG(xpm_icon_scaled),
 	   wxNullBitmap,
-	   wxsShort[8], wxsLong[8]
+	   wxsShort[6], wxsShort[6]
 	);
-    menuOptions->AppendCheckItem(ID_TOOL_ACTION_SENSOR_SCALED, wxsShort[8], wxsLong[8]);
+    menuOptions->AppendCheckItem(ID_TOOL_ACTION_SENSOR_SCALED, wxsShort[6], wxsShort[6]);
 
     AddScreenshotItem();
 		

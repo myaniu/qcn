@@ -204,7 +204,7 @@ extern int g_iJPG;
 extern void getProjectPrefs();
 extern const char* ScreenshotJPG();
 extern void ResetPlotArray();
-extern const long  TimeWindowWidth(int minutes);
+extern const long  TimeWindowWidth(int seconds);
 extern const long  TimeWindowBack();
 extern const long  TimeWindowStop();
 extern const long  TimeWindowStart();

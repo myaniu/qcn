@@ -1095,17 +1095,20 @@ void parse_quake_info(char* strQuake, int ctr, e_quake eType)
    delete [] buf;
 }
 
-const long TimeWindowWidth(int minutes)
+const long TimeWindowWidth(int seconds)
 {
-    switch(minutes) {
-	   case 1:
+    switch(seconds) {
+	   case 10:
 	       key_winsize = 0;
 		   break;
-	   case 10:
+	   case 60:
 	       key_winsize = 1;
 		   break;
-	   case 60:
+	   case 600:
 	       key_winsize = 2;
+		   break;
+	   case 3600:
+	       key_winsize = 3;
 		   break;
 	}
 	bResetArray = true;
