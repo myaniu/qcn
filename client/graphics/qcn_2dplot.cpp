@@ -246,7 +246,8 @@ void draw_plot()
 				//	lEnd = PLOT_ARRAY_SIZE-1;
 				 //}
 	    		 //else  { 
-		    		lStart = PLOT_ARRAY_SIZE-101;
+		    		//lStart = PLOT_ARRAY_SIZE-101;
+		    		lStart = 0;
 					lEnd = PLOT_ARRAY_SIZE-1;
 				 //}
 				//iFrameCounter = 0;
@@ -263,8 +264,10 @@ void draw_plot()
 						fVariance = fVarianceLast;
 					}
 					// make the scale to fit 2 std dev above & below the mean, which is the center
-					g_fMaxAxesCurrent[ee] = fMean + (2.0f * fStdDev);  // save each scale level for autoscaling, so it's not jumping all around
-					g_fMinAxesCurrent[ee] = fMean - (2.0f * fStdDev);
+					//g_fMaxAxesCurrent[ee] = fMean + (2.0f * fStdDev);  // save each scale level for autoscaling, so it's not jumping all around
+					//g_fMinAxesCurrent[ee] = fMean - (2.0f * fStdDev);
+					g_fMaxAxesCurrent[ee] = g_fMax[ee];  // save each scale level for autoscaling, so it's not jumping all around
+					g_fMinAxesCurrent[ee] = g_fMin[ee];
 					if (ee == E_DS) {
 					    g_fMin[ee] = 0.0f;  // force min to always be 0 for significance
 						g_fMinAxesCurrent[ee] = 0.0f;

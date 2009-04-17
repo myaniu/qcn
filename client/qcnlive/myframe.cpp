@@ -585,14 +585,10 @@ void MyFrame::Toggle(const int id, const bool bOn, const bool bView)
 
 void MyFrame::SetToggleSensor()
 {
-    Toggle(ID_TOOL_ACTION_SENSOR_01, (bool)(iSensorTimeWindow == 60));
-    Toggle(ID_TOOL_ACTION_SENSOR_10, (bool)(iSensorTimeWindow == 600));
-    Toggle(ID_TOOL_ACTION_SENSOR_60, (bool)(iSensorTimeWindow == 3600));
-    Toggle(ID_TOOL_ACTION_SENSOR_START, (bool)(!bRecording && iSensorAction == 0));
-    Toggle(ID_TOOL_ACTION_SENSOR_STOP, (bool)(!bRecording && iSensorAction == 1));
-    Toggle(ID_TOOL_ACTION_SENSOR_RECORD, (bool)(bRecording));
 
       if (m_view == ID_TOOL_VIEW_SENSOR_2D) {
+			//Toggle(ID_TOOL_ACTION_SENSOR_STOP, (bool)(!bRecording && iSensorAction == 1));
+			Toggle(ID_TOOL_ACTION_SENSOR_RECORD, (bool)(bRecording));
           toolBar->EnableTool(ID_TOOL_ACTION_SENSOR_ABSOLUTE, true);
           menuOptions->Enable(ID_TOOL_ACTION_SENSOR_ABSOLUTE, true);
 	      if (bSensorAbsolute2D) {
@@ -611,6 +607,12 @@ void MyFrame::SetToggleSensor()
           menuOptions->Enable(ID_TOOL_ACTION_SENSOR_ABSOLUTE, false);
           Toggle(ID_TOOL_ACTION_SENSOR_ABSOLUTE, bSensorAbsolute3D);
           Toggle(ID_TOOL_ACTION_SENSOR_SCALED, !bSensorAbsolute3D);
+			Toggle(ID_TOOL_ACTION_SENSOR_01, (bool)(iSensorTimeWindow == 60));
+			Toggle(ID_TOOL_ACTION_SENSOR_10, (bool)(iSensorTimeWindow == 600));
+			Toggle(ID_TOOL_ACTION_SENSOR_60, (bool)(iSensorTimeWindow == 3600));
+			Toggle(ID_TOOL_ACTION_SENSOR_START, (bool)(!bRecording && iSensorAction == 0));
+			Toggle(ID_TOOL_ACTION_SENSOR_STOP, (bool)(!bRecording && iSensorAction == 1));
+			Toggle(ID_TOOL_ACTION_SENSOR_RECORD, (bool)(bRecording));
 	  }
 }
 
