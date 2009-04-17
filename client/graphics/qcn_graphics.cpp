@@ -199,7 +199,7 @@ double dtw[2]; // time window
 
 // an hour seems to be the max to vis without much delay
 long awinsize[MAX_KEY_WINSIZE+1]; 
-int key_winsize = 1; // points to an element of the above array to get the winsize (# of dt points i.e. 100 = 10 sec 600 = minute, 36000 = hour)
+int key_winsize = 0; // points to an element of the above array to get the winsize i.e. 0=10 sec , 1=60 sec , 2= 10 min, 3 = hour
 int key_press = 0;
 int key_press_alt = 0;
 int key_up = 0;
@@ -1137,7 +1137,7 @@ const long TimeWindowBack()
 	   else {
 	     if (g_lSnapshotTimeBackMinutes > TIME_BACK_MINUTES_MAX)  {
 	       // go to one hour previous (approximately due to timing/rounding errors that may have occurred)
-		   g_lSnapshotPoint = g_lSnapshotPointOriginal - awinsize[2]; // (3600.0f/sm->dt);  // e.g. 3600/.02 = 180000 points
+		   g_lSnapshotPoint = g_lSnapshotPointOriginal - awinsize[3]; // (3600.0f/sm->dt);  // e.g. 3600/.02 = 180000 points
 		   if (g_lSnapshotPoint < 0) g_lSnapshotPoint += MAXI;
 	       g_lSnapshotTimeBackMinutes = TIME_BACK_MINUTES_MAX;
 	     }

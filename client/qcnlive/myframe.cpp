@@ -170,7 +170,7 @@ void MyFrame::SetupToolbars()
 		ToolBarView();
 		ToolBarEarth(true);
 		
-		scrollBar2D = new wxScrollBar(toolBar, ID_TOOL_ACTION_SENSOR_SCROLLBAR, wxDefaultPosition, wxSize(100,10), wxSB_HORIZONTAL, wxDefaultValidator, "Time Scroll");
+		//scrollBar2D = new wxScrollBar(toolBar, ID_TOOL_ACTION_SENSOR_SCROLLBAR, wxDefaultPosition, wxSize(100,10), wxSB_HORIZONTAL, wxDefaultValidator, "Time Scroll");
 		if (scrollBar2D) scrollBar2D->Hide();
 	}
 

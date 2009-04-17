@@ -24,6 +24,7 @@ static const float g_fScaleAxes[6] = { .3f, 1.0f, 2.0f, 4.9f,  9.8f, 19.6f };
 
 //static bool g_bAutoCenter = true; // automatically center the plots
 static bool g_bAutoScale = true; // set to true when want each axes to scale around the last 100 data points (maybe need every second?)
+
 static float g_fMaxAxesCurrent[4]  = { g_fScaleAxes[0], g_fScaleAxes[0], g_fScaleAxes[0], g_fScaleAxes[0] };  // save each scale level for autoscaling, so it's not jumping all around
 static float g_fMinAxesCurrent[4]  = { -g_fScaleAxes[0], -g_fScaleAxes[0], -g_fScaleAxes[0], -g_fScaleAxes[0] };  // save each scale level for autoscaling, so it's not jumping all around
 
@@ -40,7 +41,6 @@ static const float fBaseScale[4] = { 0.068f, .232f, .397f, .562f };
 static const float fAxesOffset[7] = { .0f, .021f, .049f, .077f, .104f, .131f, .151f };
 
 static float g_fMin[4], g_fMax[4]; // max & min for each axis visible on the plot
-
 
 void draw_text_sensor_axis(int iAxis)
 {

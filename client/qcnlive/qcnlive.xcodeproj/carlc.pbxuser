@@ -7,10 +7,10 @@
 	};
 	E3064B950F8FE8A60028A349 /* qcn_2dplot.cpp */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1124, 5474}}";
-			sepNavSelRange = "{578, 68}";
-			sepNavVisRange = "{206, 1324}";
-			sepNavWindowFrame = "{{153, 130}, {1342, 872}}";
+			sepNavIntBoundsRect = "{{0, 0}, {1283, 5558}}";
+			sepNavSelRange = "{782, 0}";
+			sepNavVisRange = "{0, 2189}";
+			sepNavWindowFrame = "{{120, 109}, {1342, 872}}";
 		};
 	};
 	E30AB0EA0EBB9C0600DA7E81 /* dlgsettings.cpp */ = {
@@ -78,24 +78,6 @@
 		modificationTime = 261600487.023769;
 		state = 1;
 	};
-	E3642D0C0F97FE2800A9577D /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		comments = "error: 'wxsLong' was not declared in this scope";
-		fRef = E390FE410D65DE7600479F9A /* myframe.cpp */;
-		rLen = 1;
-		rLoc = 740;
-		rType = 1;
-	};
-	E3642D2C0F9801EB00A9577D /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = E390FE410D65DE7600479F9A /* myframe.cpp */;
-		name = "myframe.cpp: 173";
-		rLen = 0;
-		rLoc = 5806;
-		rType = 0;
-		vrLen = 2006;
-		vrLoc = 4987;
-	};
 	E36838C20F97AC6A008DB82B /* qcn_2dplot.cpp:26 */ = {
 		isa = PBXFileBreakpoint;
 		actions = (
@@ -147,18 +129,18 @@
 	};
 	E390FE410D65DE7600479F9A /* myframe.cpp */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1141, 12754}}";
-			sepNavSelRange = "{5806, 0}";
-			sepNavVisRange = "{4987, 2006}";
+			sepNavIntBoundsRect = "{{0, 0}, {1141, 12544}}";
+			sepNavSelRange = "{455, 0}";
+			sepNavVisRange = "{974, 2402}";
 			sepNavVisRect = "{{0, 0}, {1161, 818}}";
-			sepNavWindowFrame = "{{304, 83}, {1200, 945}}";
+			sepNavWindowFrame = "{{377, 83}, {1200, 945}}";
 		};
 	};
 	E390FE610D65DF7500479F9A /* myglpane.cpp */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {1141, 3248}}";
 			sepNavSelRange = "{1394, 0}";
-			sepNavVisRange = "{0, 1373}";
+			sepNavVisRange = "{574, 1514}";
 			sepNavVisRect = "{{0, 1305}, {1161, 818}}";
 			sepNavWindowFrame = "{{231, 83}, {1200, 945}}";
 		};
@@ -278,12 +260,12 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 261617437;
-			PBXWorkspaceStateSaveDate = 261617437;
+			PBXPerProjectTemplateStateSaveDate = 261628313;
+			PBXWorkspaceStateSaveDate = 261628313;
 		};
 		perUserProjectItems = {
-			E3642D0C0F97FE2800A9577D /* PBXTextBookmark */ = E3642D0C0F97FE2800A9577D /* PBXTextBookmark */;
-			E3642D2C0F9801EB00A9577D /* PBXTextBookmark */ = E3642D2C0F9801EB00A9577D /* PBXTextBookmark */;
+			E3D9A7A20F9825910077713E /* PBXBookmark */ = E3D9A7A20F9825910077713E /* PBXBookmark */;
+			E3D9A7A70F9826680077713E /* PBXTextBookmark */ = E3D9A7A70F9826680077713E /* PBXTextBookmark */;
 		};
 		sourceControlManager = E3A499E10D64E60400E51CDF /* Source Control */;
 		userBuildSettings = {
@@ -455,9 +437,9 @@
 	};
 	E3C0E7B80D64E9BE0099B905 /* qcn_graphics.cpp */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1180, 25032}}";
-			sepNavSelRange = "{41716, 0}";
-			sepNavVisRange = "{40659, 1409}";
+			sepNavIntBoundsRect = "{{0, 0}, {1180, 25732}}";
+			sepNavSelRange = "{5945, 0}";
+			sepNavVisRange = "{4524, 2303}";
 			sepNavVisRect = "{{0, 14405}, {1161, 818}}";
 			sepNavWindowFrame = "{{217, 81}, {1239, 947}}";
 		};
@@ -490,9 +472,9 @@
 	};
 	E3C0E7DC0D64E9E00099B905 /* define.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1141, 6426}}";
-			sepNavSelRange = "{10973, 0}";
-			sepNavVisRange = "{9981, 1872}";
+			sepNavIntBoundsRect = "{{0, 0}, {1141, 5978}}";
+			sepNavSelRange = "{10879, 0}";
+			sepNavVisRange = "{9790, 2136}";
 			sepNavVisRect = "{{0, 1500}, {1161, 818}}";
 			sepNavWindowFrame = "{{15, 76}, {1200, 947}}";
 		};
@@ -621,5 +603,19 @@
 		location = QCNLive;
 		modificationTime = 261600487.024877;
 		state = 1;
+	};
+	E3D9A7A20F9825910077713E /* PBXBookmark */ = {
+		isa = PBXBookmark;
+		fRef = E3C0E7B80D64E9BE0099B905 /* qcn_graphics.cpp */;
+	};
+	E3D9A7A70F9826680077713E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = E3C0E7B80D64E9BE0099B905 /* qcn_graphics.cpp */;
+		name = "qcn_graphics.cpp: 202";
+		rLen = 0;
+		rLoc = 5945;
+		rType = 0;
+		vrLen = 2303;
+		vrLoc = 4524;
 	};
 }
