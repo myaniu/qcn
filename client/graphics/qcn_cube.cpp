@@ -26,11 +26,11 @@ CCube::CCube()
        fStdDev[0] = fStdDev[1] = fStdDev[2] = fStdDev[3] = 0.0f;
 
 #ifdef QCNLIVE
-#ifdef _DEBUG
-	   bIsQCNLive = false;
-#else
+//#ifdef _DEBUG
+//	   bIsQCNLive = false;
+//#else
 	   bIsQCNLive = true;
-#endif
+//#endif
 #else
 	   bIsQCNLive = false;
 #endif
