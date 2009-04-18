@@ -5,12 +5,12 @@ using namespace qcn_graphics;
 
 namespace qcn_2dplot {
 
-int g_TimerTick = 5; // seconds for each timer point
+static int g_iTimerTick = 1; // seconds for each timer point
 
 #ifdef QCNLIVE
-	bool g_bIsWhite = true;
+	static bool g_bIsWhite = true;
 #else
-	bool g_bIsWhite = false;
+	static bool g_bIsWhite = false;
 #endif
 
 static const int g_iScaleSigMax  = 5;
@@ -64,21 +64,23 @@ void draw_text()
     for (int i = 0; i < g_iTimeCtr; i++) {
        if (lTimeLast[i] > 0) { // there's a marker to place here
 	     float fWhere = (float) (lTimeLastOffset[i]) / (float) PLOT_ARRAY_SIZE;
-		 qcn_util::dtime_to_string((const double) lTimeLast[i], 'h', strTime);
-		 txf_render_string(.1f, fWhere - 0.042f, 0.030f, 0.0f, MSG_SIZE_SMALL, g_bIsWhite ? light_blue : grey_trans, TXF_HELVETICA, (char*) strTime);
+		 // note the immediate if below - if timer ticks are far apart don't bother showing seconds
+		 qcn_util::dtime_to_string((const double) lTimeLast[i], (g_iTimerTick > 5 ? 'm' : 'h'), strTime);
+		 txf_render_string(.1f, fWhere - (g_iTimerTick > 5 ? 0.038f : 0.042f), 0.030f, 0.0f, 
+			 MSG_SIZE_SMALL, g_bIsWhite ? light_blue : grey_trans, TXF_HELVETICA, (char*) strTime);
 	   }
 	}
 
-//#ifdef _DEBUG
-	sprintf(strTime, "%+5.2f %+5.2f", g_fMin[0], g_fMax[0]);
+#ifdef _DEBUG
+	sprintf(strTime, "%+6.3f %+6.3f", g_fMin[0], g_fMax[0]);
     txf_render_string(.1f, .1f, fAxesLabel[0], 0.0f, MSG_SIZE_SMALL, red, TXF_HELVETICA, (char*) strTime);
-	sprintf(strTime, "%+5.2f %+5.2f", g_fMin[1], g_fMax[1]);
+	sprintf(strTime, "%+6.3f %+6.3f", g_fMin[1], g_fMax[1]);
     txf_render_string(.1f, .1f, fAxesLabel[1], 0.0f, MSG_SIZE_SMALL, red, TXF_HELVETICA, (char*) strTime);
-	sprintf(strTime, "%+5.2f %+5.2f", g_fMin[2], g_fMax[2]);
+	sprintf(strTime, "%+6.3f %+6.3f", g_fMin[2], g_fMax[2]);
     txf_render_string(.1f, .1f, fAxesLabel[2], 0.0f, MSG_SIZE_SMALL, red, TXF_HELVETICA, (char*) strTime);
-	sprintf(strTime, "%+5.2f %+5.2f", g_fMin[3], g_fMax[3]);
+	sprintf(strTime, "%+6.3f %+6.3f", g_fMin[3], g_fMax[3]);
     txf_render_string(.1f, .1f, fAxesLabel[3], 0.0f, MSG_SIZE_SMALL, red, TXF_HELVETICA, (char*) strTime);
-//#endif
+#endif
 
 	// labels for each axis
 
@@ -391,6 +393,52 @@ void draw_plot()
     glFlush();
 }
 
+int GetTimerTick()
+{
+	return g_iTimerTick;
+}
+
+void SetTimerTick(const int iTT)
+{
+	g_iTimerTick = iTT;
+}
+
+bool IsWhite()
+{
+	return g_bIsWhite;
+}
+
+void SetWhite(const bool bValue)
+{
+	g_bIsWhite = bValue;
+}
+
+void TimeZoomOut()
+{
+}
+
+void TimeZoomIn()
+{
+}
+
+void SensorDataZoomAuto()
+{
+	if (!g_bAutoScale) g_bAutoScale = true;
+}
+
+void SensorDataZoomIn()
+{
+	if (g_bAutoScale) g_bAutoScale = false;
+	if (g_iScaleSigOffset > 0) g_iScaleSigOffset--;
+	if (g_iScaleAxesOffset > 0) g_iScaleAxesOffset--;
+}
+
+void SensorDataZoomOut()
+{
+	if (g_bAutoScale) g_bAutoScale = false;
+	if (g_iScaleSigOffset < g_iScaleSigMax) g_iScaleSigOffset++;
+	if (g_iScaleAxesOffset < g_iScaleAxesMax) g_iScaleAxesOffset++;
+}
 
 }  // end namespace qcn_2dplot
 

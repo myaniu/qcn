@@ -13,6 +13,7 @@
 #include "icons32.h"   // 32x32
 #include "dlgsettings.h"
 #include "qcn_earth.h"
+#include "qcn_2dplot.h"
 
 const int ID_TOOL_ACTION_CAMERA = 999;
 const int ID_TOOLBAR = 998;
@@ -330,15 +331,15 @@ void MyFrame::OnActionSensor(wxCommandEvent& evt)
   {
      case ID_TOOL_ACTION_SENSOR_01:
 	     iSensorTimeWindow = 60;
-	     qcn_graphics::TimeWindowWidth(60); 
+	     qcn_graphics::TimeWindowWidth(iSensorTimeWindow); 
 		 break;
      case ID_TOOL_ACTION_SENSOR_10:
 	     iSensorTimeWindow = 600;
-	     qcn_graphics::TimeWindowWidth(600); 
+	     qcn_graphics::TimeWindowWidth(iSensorTimeWindow); 
 		 break;
      case ID_TOOL_ACTION_SENSOR_60:
 	     iSensorTimeWindow = 3600;
-	     qcn_graphics::TimeWindowWidth(3600); 
+	     qcn_graphics::TimeWindowWidth(iSensorTimeWindow); 
 		 break;
      case ID_TOOL_ACTION_SENSOR_BACK:
          if (! qcn_graphics::TimeWindowIsStopped()) {
@@ -389,7 +390,52 @@ void MyFrame::OnActionSensor(wxCommandEvent& evt)
 		 else
 		     bSensorAbsolute3D = false;
          break;	 
-	}
+	 case ID_TOOL_ACTION_SENSOR_HORIZ_ZOOM_OUT:
+		 switch(iSensorTimeWindow) { // values 10/60/600/3600
+			 case 10:
+		 	     iSensorTimeWindow = 60;
+				 qcn_2dplot::SetTimerTick(5);  // 5 second tick marks
+				 break;
+			 case 60:
+		 	     iSensorTimeWindow = 600;
+				 qcn_2dplot::SetTimerTick(60);  // 60 second tick marks
+				 break;
+			 case 600:
+		 	     iSensorTimeWindow = 3600;
+				 qcn_2dplot::SetTimerTick(300);  // 300 second tick marks
+				 break;
+		 }
+	     qcn_graphics::TimeWindowWidth(iSensorTimeWindow); 
+		 //qcn_2dplot::TimeZoomOut();
+		 break;
+	 case ID_TOOL_ACTION_SENSOR_HORIZ_ZOOM_IN:
+		 //qcn_2dplot::TimeZoomIn();
+		 switch(iSensorTimeWindow) { // values 10/60/600/3600
+			 case 60:
+		 	     iSensorTimeWindow = 10;
+				 qcn_2dplot::SetTimerTick(1);  // 1 second tick marks
+				 break;
+			 case 600:
+		 	     iSensorTimeWindow = 60;
+				 qcn_2dplot::SetTimerTick(5);  // 5 second tick marks
+				 break;
+			 case 3600:
+		 	     iSensorTimeWindow = 600;
+				 qcn_2dplot::SetTimerTick(60);  // 60 second tick marks
+				 break;
+		 }
+	     qcn_graphics::TimeWindowWidth(iSensorTimeWindow); 
+		 break;
+	 case ID_TOOL_ACTION_SENSOR_VERT_ZOOM_OUT:
+		 qcn_2dplot::SensorDataZoomOut();
+		 break;
+	 case ID_TOOL_ACTION_SENSOR_VERT_ZOOM_IN:
+		 qcn_2dplot::SensorDataZoomIn();
+		 break;
+	 case ID_TOOL_ACTION_SENSOR_VERT_ZOOM_AUTO:
+		 qcn_2dplot::SensorDataZoomAuto();
+		 break;
+    }
     current = evt.GetId();
     SetToggleSensor();
 }
@@ -663,54 +709,54 @@ void MyFrame::ToolBarSensor2D()
 	toolBar->AddSeparator();
     menuOptions->AppendSeparator();
 
-	m_ptbBase = toolBar->AddRadioTool(ID_TOOL_ACTION_SENSOR_VERT_ZOOM_AUTO, 
+	m_ptbBase = toolBar->AddTool(ID_TOOL_ACTION_SENSOR_VERT_ZOOM_AUTO, 
 	   wxsShort[0], 
 	   QCN_TOOLBAR_IMG(xpm_zoom_auto),
-	   wxNullBitmap,
+	   wxNullBitmap, wxITEM_NORMAL,
 	   wxsShort[0], 
 	   wxsShort[0]
 	);
-    menuOptions->AppendCheckItem(ID_TOOL_ACTION_SENSOR_VERT_ZOOM_AUTO, wxsShort[0], wxsShort[0]);
+    menuOptions->Append(ID_TOOL_ACTION_SENSOR_VERT_ZOOM_AUTO, wxsShort[0], wxsShort[0]);
 
-	m_ptbBase = toolBar->AddRadioTool(ID_TOOL_ACTION_SENSOR_VERT_ZOOM_IN, 
+	m_ptbBase = toolBar->AddTool(ID_TOOL_ACTION_SENSOR_VERT_ZOOM_IN, 
 	   wxsShort[1], 
 	   QCN_TOOLBAR_IMG(xpm_vert_zoom_in),
-	   wxNullBitmap,
+	   wxNullBitmap, wxITEM_NORMAL,
 	   wxsShort[1], 
 	   wxsShort[1]
 	);
-    menuOptions->AppendCheckItem(ID_TOOL_ACTION_SENSOR_VERT_ZOOM_IN, wxsShort[1], wxsShort[1]);
+    menuOptions->Append(ID_TOOL_ACTION_SENSOR_VERT_ZOOM_IN, wxsShort[1], wxsShort[1]);
 
-	m_ptbBase = toolBar->AddRadioTool(ID_TOOL_ACTION_SENSOR_VERT_ZOOM_OUT, 
+	m_ptbBase = toolBar->AddTool(ID_TOOL_ACTION_SENSOR_VERT_ZOOM_OUT, 
 	   wxsShort[2], 
 	   QCN_TOOLBAR_IMG(xpm_vert_zoom_out),
-	   wxNullBitmap,
+	   wxNullBitmap, wxITEM_NORMAL,
 	   wxsShort[2], 
 	   wxsShort[2]
 	);
-    menuOptions->AppendCheckItem(ID_TOOL_ACTION_SENSOR_VERT_ZOOM_OUT, wxsShort[2], wxsShort[2]);
+    menuOptions->Append(ID_TOOL_ACTION_SENSOR_VERT_ZOOM_OUT, wxsShort[2], wxsShort[2]);
 
    // horizontal zoom
 	toolBar->AddSeparator();
     menuOptions->AppendSeparator();
 
-	m_ptbBase = toolBar->AddRadioTool(ID_TOOL_ACTION_SENSOR_HORIZ_ZOOM_IN, 
+	m_ptbBase = toolBar->AddTool(ID_TOOL_ACTION_SENSOR_HORIZ_ZOOM_IN, 
 	   wxsShort[3], 
 	   QCN_TOOLBAR_IMG(xpm_horiz_zoom_in),
-	   wxNullBitmap,
+	   wxNullBitmap, wxITEM_NORMAL,
 	   wxsShort[3], 
 	   wxsShort[3]
 	);
-    menuOptions->AppendCheckItem(ID_TOOL_ACTION_SENSOR_HORIZ_ZOOM_IN, wxsShort[3], wxsShort[3]);
+    menuOptions->Append(ID_TOOL_ACTION_SENSOR_HORIZ_ZOOM_IN, wxsShort[3], wxsShort[3]);
 
-	m_ptbBase = toolBar->AddRadioTool(ID_TOOL_ACTION_SENSOR_HORIZ_ZOOM_OUT, 
+	m_ptbBase = toolBar->AddTool(ID_TOOL_ACTION_SENSOR_HORIZ_ZOOM_OUT, 
 	   wxsShort[4], 
 	   QCN_TOOLBAR_IMG(xpm_horiz_zoom_out),
-	   wxNullBitmap,
+	   wxNullBitmap, wxITEM_NORMAL,
 	   wxsShort[4], 
 	   wxsShort[4]
 	);
-    menuOptions->AppendCheckItem(ID_TOOL_ACTION_SENSOR_HORIZ_ZOOM_OUT, wxsShort[4], wxsShort[4]);
+    menuOptions->Append(ID_TOOL_ACTION_SENSOR_HORIZ_ZOOM_OUT, wxsShort[4], wxsShort[4]);
 
 
 	toolBar->AddSeparator();

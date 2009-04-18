@@ -278,10 +278,10 @@ int getLastTrigger(const long lTriggerCheck, const int iWinSizeArray, const int 
     //long lTimeTest = (long)(sm->t0[lTriggerCheck]);
 	if (lStartTime == 0L) {  // it's our first time in and our point is a valid start time
 	   //long lMult = (long)(sm->t0[lTriggerCheck] - sm->dTimeStart) / g_TimerTick;
-		long lMod = (long)(sm->t0[lTriggerCheck] - sm->dTimeStart) % qcn_2dplot::g_TimerTick;
+		long lMod = (long)(sm->t0[lTriggerCheck] - sm->dTimeStart) % qcn_2dplot::GetTimerTick();
 	   if (sm->t0[lTriggerCheck] >= sm->dTimeStart 
-		  && lMod == 0 ) {
-	//	  && (sm->t0[lTriggerCheck] - (float((long) sm->t0[lTriggerCheck]))) < 0.30f ) { 
+		  && lMod == 0 
+		  && (sm->t0[lTriggerCheck] - (float((long) sm->t0[lTriggerCheck]))) < 0.30f ) { 
            // get the even increment of sm->t0 from dTimeStart
 		   //long lMult = (sm->t0[lTriggerCheck] - sm->dTimeStart) / g_TimerTick;
 		   lCheckTime = sm->t0[lTriggerCheck];
@@ -299,7 +299,7 @@ int getLastTrigger(const long lTriggerCheck, const int iWinSizeArray, const int 
 	if (bProc && g_iTimeCtr < MAX_TRIGGER_LAST) {  // we hit a timer interval, so setup the array
 	   lTimeLastOffset[g_iTimeCtr] = iWinSizeArray / iRebin;
 	   g_iTimeCtr++;
-	   lCheckTime += qcn_2dplot::g_TimerTick;  // bump up to check next second
+	   lCheckTime += qcn_2dplot::GetTimerTick();  // bump up to check next second
 	}
   }
   
@@ -1534,7 +1534,7 @@ void Render(int xs, int ys, double time_of_day)
     switch (g_eView) {
        case VIEW_PLOT_2D:
 				//
-		   if (qcn_2dplot::g_bIsWhite)  // white background for qcnlive
+		   if (qcn_2dplot::IsWhite())  // white background for qcnlive
 				glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
 			else   // black background for screensaver
 				glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
@@ -1601,7 +1601,7 @@ void MouseMove(int x, int y, int left, int middle, int right)
 {
 	// swap colors on 2d view
 	if (g_eView == VIEW_PLOT_2D && left && right) {
-		qcn_2dplot::g_bIsWhite = !qcn_2dplot::g_bIsWhite;
+		qcn_2dplot::SetWhite(qcn_2dplot::IsWhite());
 	}
 
 	if (g_eView != VIEW_EARTH_DAY && g_eView != VIEW_EARTH_NIGHT && g_eView != VIEW_EARTH_COMBINED) return;

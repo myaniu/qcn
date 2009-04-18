@@ -108,9 +108,12 @@ void dtime_to_string(const double dtime, const char cType, char* strTime)
        sprintf(strTime, "%02d/%02d/%04d %02d:%02d:%02d",
          tmp.tm_mon+1, tmp.tm_mday, tmp.tm_year+1900,
          tmp.tm_hour, tmp.tm_min, tmp.tm_sec);  // don't need microseconds! , dtime - (double) tt);
-    else if (cType == 'h') // print out horu portion
+    else if (cType == 'h') // print out hour portion
        sprintf(strTime, "%02d:%02d:%02d",
          tmp.tm_hour, tmp.tm_min, tmp.tm_sec);  // don't need microseconds! , dtime - (double) tt);
+    else if (cType == 'm') // print out to the minute portion
+       sprintf(strTime, "%02d:%02d",
+         tmp.tm_hour, tmp.tm_min);  // don't need microseconds! , dtime - (double) tt);
 }
 
 // return time today 0:00 in seconds since 1970 as a double
