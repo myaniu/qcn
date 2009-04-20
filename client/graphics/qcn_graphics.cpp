@@ -276,11 +276,17 @@ int getLastTrigger(const long lTriggerCheck, const int iWinSizeArray, const int 
 	// use a mod of the time interval with time - sm->dTimeStart
     // first point is never a boundary, but mark second for next time
     //long lTimeTest = (long)(sm->t0[lTriggerCheck]);
-	if (fStartTime == 0.0f && sm->dTimeStart > 0.0f) {  // it's our first time in and our point is a valid start time, i.e. closest second from dStartTime
-	   //long lMult = (long)(sm->t0[lTriggerCheck] - sm->dTimeStart) / g_TimerTick;
-	   //float fMod = fmodf(sm->t0[lTriggerCheck], sm->dTimeStart);
-	   //if (fMod < 0.05f) { // close enough to start time to be a valid tick mark start point
-	   if (sm->t0[lTriggerCheck] > sm->dTimeStart && ceil(sm->t0[lTriggerCheck]) > (sm->dTimeStart + 1.0f)) { // close enough to start time to be a valid tick mark start point
+	if (fStartTime == 0.0f) {  // it's our first time in and our point is a valid start time, i.e. closest second from dStartTime
+	   long lMod = 1L;
+	   float fTest = sm->t0[lTriggerCheck] - sm->dTimeStart;
+	   if (qcn_2dplot::GetTimerTick() == 1) {  // we want the closest "even" second point
+		  if (fTest > 0.0f && (sm->t0[lTriggerCheck] - floorf(sm->t0[lTriggerCheck])) <= 0.1f ) lMod = 0L;
+	   }
+	   else {
+	      lMod = (long)(fTest) % qcn_2dplot::GetTimerTick();
+	   }
+	   if (sm->dTimeStart > 0.0f && sm->t0[lTriggerCheck] > sm->dTimeStart 
+	     && lMod == 0L) { // close enough to start time to be a valid tick mark start point
            // get the even increment of sm->t0 from dTimeStart
 		   //long lMult = (sm->t0[lTriggerCheck] - sm->dTimeStart) / g_TimerTick;
 		   fCheckTime = sm->t0[lTriggerCheck];
@@ -298,7 +304,7 @@ int getLastTrigger(const long lTriggerCheck, const int iWinSizeArray, const int 
 	if (bProc && g_iTimeCtr < MAX_TRIGGER_LAST) {  // we hit a timer interval, so setup the array
 	   lTimeLastOffset[g_iTimeCtr] = iWinSizeArray / iRebin;
 	   g_iTimeCtr++;
-	   fCheckTime += 1.0f; //(float) (qcn_2dplot::GetTimerTick());  // bump up to check next interval
+	   fCheckTime += (float) (qcn_2dplot::GetTimerTick());  // bump up to check next interval
 	}
 //  }  // always get the tick marks, maybe put 'em on 3d plot someday?
   
@@ -709,16 +715,16 @@ bool setupPlotMemory(const long lOffset)
     float fAvg[4];
     switch(key_winsize) {
       case 0: // 10 seconds = 500 pts, if PLOT_ARRAY_SIZE=500 we avg 1 points to 1
-         iRebin = (int) ceil(10.0 / sm->dt) / PLOT_ARRAY_SIZE;  // for dt=.02, 3000 points,  for dt=.1, 600 pts, div by 500 iRebin = 6 or 1
+         iRebin = (int) ceilf(10.0 / sm->dt) / PLOT_ARRAY_SIZE;  // for dt=.02, 3000 points,  for dt=.1, 600 pts, div by 500 iRebin = 6 or 1
          break;
       case 1: // 1 minute = 3000 pts, if PLOT_ARRAY_SIZE=500 we avg 6 points to 1
-         iRebin = (int) ceil(60.0 / sm->dt) / PLOT_ARRAY_SIZE;  // for dt=.02, 3000 points,  for dt=.1, 600 pts, div by 500 iRebin = 6 or 1
+         iRebin = (int) ceilf(60.0 / sm->dt) / PLOT_ARRAY_SIZE;  // for dt=.02, 3000 points,  for dt=.1, 600 pts, div by 500 iRebin = 6 or 1
          break;
       case 2: // 10 minutes = 30000 pts
-         iRebin = (int) ceil(600.0 / sm->dt) / PLOT_ARRAY_SIZE; // for dt=.02, 30000 points,  for dt=.1, 6000 pts, iRebin = 60 or 12
+         iRebin = (int) ceilf(600.0 / sm->dt) / PLOT_ARRAY_SIZE; // for dt=.02, 30000 points,  for dt=.1, 6000 pts, iRebin = 60 or 12
         break;
       case 3: // 1 hour = 180000 pts 
-         iRebin = (int) ceil(3600.0 / sm->dt) / PLOT_ARRAY_SIZE; // for dt=.02, 180000 points,  for dt=.1, 36000 pts, iRebin = 360 or 72
+         iRebin = (int) ceilf(3600.0 / sm->dt) / PLOT_ARRAY_SIZE; // for dt=.02, 180000 points,  for dt=.1, 36000 pts, iRebin = 360 or 72
          break;
       default:  iRebin = 10; // should never get here!
     }
