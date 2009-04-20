@@ -7,9 +7,9 @@
 	};
 	E3064B950F8FE8A60028A349 /* qcn_2dplot.cpp */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1283, 5824}}";
-			sepNavSelRange = "{6059, 0}";
-			sepNavVisRange = "{4226, 1881}";
+			sepNavIntBoundsRect = "{{0, 0}, {1124, 5782}}";
+			sepNavSelRange = "{6085, 0}";
+			sepNavVisRange = "{4825, 1044}";
 			sepNavWindowFrame = "{{126, 137}, {1342, 872}}";
 		};
 	};
@@ -35,7 +35,7 @@
 		fRef = E3C0E7B80D64E9BE0099B905 /* qcn_graphics.cpp */;
 		name = "qcn_graphics.cpp: 301";
 		rLen = 0;
-		rLoc = 10648;
+		rLoc = 10833;
 		rType = 0;
 		vrLen = 2858;
 		vrLoc = 8121;
@@ -360,6 +360,11 @@
 			E3DF42A00F9D262000179DE1 /* PBXBookmark */ = E3DF42A00F9D262000179DE1 /* PBXBookmark */;
 			E3DF42A40F9D263C00179DE1 /* PBXTextBookmark */ = E3DF42A40F9D263C00179DE1 /* PBXTextBookmark */;
 			E3DF42A60F9D267200179DE1 /* PBXTextBookmark */ = E3DF42A60F9D267200179DE1 /* PBXTextBookmark */;
+			E3DF42A90F9D283800179DE1 /* PBXTextBookmark */ = E3DF42A90F9D283800179DE1 /* PBXTextBookmark */;
+			E3DF42AC0F9D299F00179DE1 /* PBXTextBookmark */ = E3DF42AC0F9D299F00179DE1 /* PBXTextBookmark */;
+			E3DF42AD0F9D2A1600179DE1 /* PBXTextBookmark */ = E3DF42AD0F9D2A1600179DE1 /* PBXTextBookmark */;
+			E3DF42AF0F9D2A3F00179DE1 /* PBXTextBookmark */ = E3DF42AF0F9D2A3F00179DE1 /* PBXTextBookmark */;
+			E3DF42B10F9D2A5500179DE1 /* PBXTextBookmark */ = E3DF42B10F9D2A5500179DE1 /* PBXTextBookmark */;
 		};
 		sourceControlManager = E3A499E10D64E60400E51CDF /* Source Control */;
 		userBuildSettings = {
@@ -532,9 +537,9 @@
 	};
 	E3C0E7B80D64E9BE0099B905 /* qcn_graphics.cpp */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1180, 25158}}";
-			sepNavSelRange = "{9496, 0}";
-			sepNavVisRange = "{8156, 2372}";
+			sepNavIntBoundsRect = "{{0, 0}, {1180, 24542}}";
+			sepNavSelRange = "{9856, 0}";
+			sepNavVisRange = "{8815, 2153}";
 			sepNavVisRect = "{{0, 14405}, {1161, 818}}";
 			sepNavWindowFrame = "{{179, 79}, {1239, 947}}";
 		};
@@ -728,7 +733,7 @@
 		fRef = E3C0E7B80D64E9BE0099B905 /* qcn_graphics.cpp */;
 		name = "qcn_graphics.cpp: 286";
 		rLen = 0;
-		rLoc = 9820;
+		rLoc = 10005;
 		rType = 0;
 		vrLen = 2778;
 		vrLoc = 7804;
@@ -790,7 +795,7 @@
 		fRef = E3C0E7B80D64E9BE0099B905 /* qcn_graphics.cpp */;
 		name = "qcn_graphics.cpp: 299";
 		rLen = 0;
-		rLoc = 10264;
+		rLoc = 10449;
 		rType = 0;
 		vrLen = 2251;
 		vrLoc = 4021;
@@ -867,8 +872,8 @@
 		isa = PBXTextBookmark;
 		fRef = E3C0E7B80D64E9BE0099B905 /* qcn_graphics.cpp */;
 		name = "qcn_graphics.cpp: 280";
-		rLen = 10;
-		rLoc = 9277;
+		rLen = 0;
+		rLoc = 9224;
 		rType = 0;
 		vrLen = 2602;
 		vrLoc = 7797;
@@ -898,7 +903,7 @@
 		fRef = E3C0E7B80D64E9BE0099B905 /* qcn_graphics.cpp */;
 		name = "qcn_graphics.cpp: 282";
 		rLen = 0;
-		rLoc = 9398;
+		rLoc = 9324;
 		rType = 0;
 		vrLen = 2658;
 		vrLoc = 7797;
@@ -928,7 +933,7 @@
 		fRef = E3C0E7B80D64E9BE0099B905 /* qcn_graphics.cpp */;
 		name = "qcn_graphics.cpp: 282";
 		rLen = 0;
-		rLoc = 9363;
+		rLoc = 9289;
 		rType = 0;
 		vrLen = 2663;
 		vrLoc = 7797;
@@ -958,7 +963,7 @@
 		fRef = E3C0E7B80D64E9BE0099B905 /* qcn_graphics.cpp */;
 		name = "qcn_graphics.cpp: 284";
 		rLen = 0;
-		rLoc = 9509;
+		rLoc = 9533;
 		rType = 0;
 		vrLen = 2672;
 		vrLoc = 7797;
@@ -988,7 +993,7 @@
 		fRef = E3C0E7B80D64E9BE0099B905 /* qcn_graphics.cpp */;
 		name = "qcn_graphics.cpp: 290";
 		rLen = 0;
-		rLoc = 9696;
+		rLoc = 9881;
 		rType = 0;
 		vrLen = 2680;
 		vrLoc = 7797;
@@ -1110,7 +1115,7 @@
 		fRef = E3C0E7B80D64E9BE0099B905 /* qcn_graphics.cpp */;
 		name = "qcn_graphics.cpp: 312";
 		rLen = 0;
-		rLoc = 10477;
+		rLoc = 10662;
 		rType = 0;
 		vrLen = 2351;
 		vrLoc = 9012;
@@ -1120,9 +1125,57 @@
 		fRef = E3C0E7B80D64E9BE0099B905 /* qcn_graphics.cpp */;
 		name = "qcn_graphics.cpp: 284";
 		rLen = 0;
-		rLoc = 9496;
+		rLoc = 9424;
 		rType = 0;
 		vrLen = 2372;
 		vrLoc = 8156;
+	};
+	E3DF42A90F9D283800179DE1 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = E3C0E7B80D64E9BE0099B905 /* qcn_graphics.cpp */;
+		name = "qcn_graphics.cpp: 284";
+		rLen = 0;
+		rLoc = 9424;
+		rType = 0;
+		vrLen = 2372;
+		vrLoc = 8156;
+	};
+	E3DF42AC0F9D299F00179DE1 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = E3C0E7B80D64E9BE0099B905 /* qcn_graphics.cpp */;
+		name = "qcn_graphics.cpp: 293";
+		rLen = 0;
+		rLoc = 9876;
+		rType = 0;
+		vrLen = 2469;
+		vrLoc = 8156;
+	};
+	E3DF42AD0F9D2A1600179DE1 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = E3C0E7B80D64E9BE0099B905 /* qcn_graphics.cpp */;
+		name = "qcn_graphics.cpp: 292";
+		rLen = 0;
+		rLoc = 9713;
+		rType = 0;
+		vrLen = 2473;
+		vrLoc = 8156;
+	};
+	E3DF42AF0F9D2A3F00179DE1 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		comments = "error: a function-definition is not allowed here before '{' token";
+		fRef = E3C0E7B80D64E9BE0099B905 /* qcn_graphics.cpp */;
+		rLen = 1;
+		rLoc = 324;
+		rType = 1;
+	};
+	E3DF42B10F9D2A5500179DE1 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = E3C0E7B80D64E9BE0099B905 /* qcn_graphics.cpp */;
+		name = "qcn_graphics.cpp: 295";
+		rLen = 0;
+		rLoc = 9856;
+		rType = 0;
+		vrLen = 2153;
+		vrLoc = 8815;
 	};
 }

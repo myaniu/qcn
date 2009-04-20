@@ -214,10 +214,10 @@
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>E3DF42A60F9D267200179DE1</string>
+						<string>E3DF42B10F9D2A5500179DE1</string>
 						<key>history</key>
 						<array>
-							<string>E3DF42A00F9D262000179DE1</string>
+							<string>E3DF42AF0F9D2A3F00179DE1</string>
 						</array>
 					</dict>
 					<key>SplitCount</key>
@@ -563,8 +563,8 @@
 	<array>
 		<string>1C78EAAD065D492600B07095</string>
 		<string>1CD10A99069EF8BA00B06720</string>
-		<string>E35897320E912E8A005C1D94</string>
 		<string>/Users/carlc/qcn/client/qcnlive/qcnlive.xcodeproj</string>
+		<string>E35897320E912E8A005C1D94</string>
 		<string>E3DF42A20F9D263C00179DE1</string>
 	</array>
 	<key>WindowString</key>
@@ -589,7 +589,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>1CD0528F0623707200166675</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>qcn_2dplot.cpp</string>
+								<string>qcn_graphics.cpp</string>
 								<key>StatusBarVisibility</key>
 								<true/>
 							</dict>
