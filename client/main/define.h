@@ -274,6 +274,7 @@ struct FDSET_GROUP {
 //#define MAX_TIME_ARRAY    10 
 
 #define MAX_TRIGGER_LAST  100
+#define MAX_TICK_MARK      12
 
 // CMC -- or perhaps trickle down to a slots qcn-quake.xml file?
 //#define XML_QUAKE_FILE  "qcn-quake.xml"

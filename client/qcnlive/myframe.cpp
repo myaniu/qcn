@@ -126,7 +126,7 @@ MyFrame::MyFrame(const wxRect& rect, MyApp* papp)
 
     bEarthDay = true;
     bEarthRotate = true;
-    iSensorTimeWindow = 60;
+    iSensorTimeWindow = 10;  // default to a 10 second window (fast)
     iSensorAction = 0;
 	
     bRecording = false;
