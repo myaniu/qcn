@@ -62,10 +62,10 @@ void draw_text()
    char strTime[16];
    //txf_render_string(.1, fWhere, Y_TRIGGER_LAST[0] - 3.0f, 0, 800, blue, TXF_HELVETICA, (char*) strTime);
     for (int i = 0; i < g_iTimeCtr; i++) {
-       if (fTimeLast[i] > 0.0f) { // there's a marker to place here
+       if (lTimeLast[i] > 0.0f) { // there's a marker to place here
 	     float fWhere = (float) (lTimeLastOffset[i]) / (float) PLOT_ARRAY_SIZE;
 		 // note the immediate if below - if timer ticks are far apart don't bother showing seconds
-		 qcn_util::dtime_to_string(fTimeLast[i], (g_iTimerTick > 5 ? 'm' : 'h'), strTime);
+		 qcn_util::dtime_to_string(lTimeLast[i], (g_iTimerTick > 5 ? 'm' : 'h'), strTime);
 		 txf_render_string(.1f, fWhere - (g_iTimerTick > 5 ? 0.038f : 0.042f), 0.030f, 0.0f, 
 			 MSG_SIZE_SMALL, g_bIsWhite ? light_blue : grey_trans, TXF_HELVETICA, (char*) strTime);
 	   }
@@ -118,7 +118,7 @@ void draw_tick_marks()
     // show the time markers, if any
     glPushMatrix();
     for (int i = 0; i < g_iTimeCtr; i++) {
-       if (fTimeLast[i] > 0.0f) { // there's a marker to place here
+       if (lTimeLast[i] > 0.0f) { // there's a marker to place here
 	     float fWhere;
 	     if (g_eView == VIEW_PLOT_2D) {
             fWhere = xax_qcnlive[0] + ( ((float) (lTimeLastOffset[i]) / (float) PLOT_ARRAY_SIZE) * (xax_qcnlive[1]-xax_qcnlive[0]));
@@ -138,6 +138,7 @@ void draw_tick_marks()
          glVertex2f(fWhere, Y_TRIGGER_LAST[1]);
          glEnd();
          //glDisable(GL_LINE_STIPPLE);
+	   }
     }
     glPopMatrix();
 }

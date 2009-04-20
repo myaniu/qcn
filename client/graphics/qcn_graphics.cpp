@@ -273,7 +273,7 @@ int getLastTrigger(const long lTriggerCheck, const int iWinSizeArray, const int 
      dTriggerLastTime[i] = sm->dTriggerLastTime[i];
   }
 
-  if (g_eView == VIEW_PLOT_2D) { // only need the timing markers on 2d view
+//  if (g_eView == VIEW_PLOT_2D) { // only need the timing markers on 2d view
 	// use a mod of the time interval with time - sm->dTimeStart
     // first point is never a boundary, but mark second for next time
     //long lTimeTest = (long)(sm->t0[lTriggerCheck]);
@@ -281,7 +281,7 @@ int getLastTrigger(const long lTriggerCheck, const int iWinSizeArray, const int 
 	   //long lMult = (long)(sm->t0[lTriggerCheck] - sm->dTimeStart) / g_TimerTick;
 	   long lMod = 1L;
 	   if (qcn_2dplot::GetTimerTick() == 1) { // just get the nearest "even" second point
-	       if ( (sm->t0[lTriggerCheck] - (float) ((long) sm->t0[lTriggerCheck])) <= 0.05f) lMod = 0L;
+	       if ( (sm->t0[lTriggerCheck] - (float) ((long) sm->t0[lTriggerCheck])) <= 0.1f) lMod = 0L;
 	   }
 	   else {
 		   lMod = ( (long)(sm->t0[lTriggerCheck] - sm->dTimeStart) ) % qcn_2dplot::GetTimerTick();
@@ -309,7 +309,7 @@ int getLastTrigger(const long lTriggerCheck, const int iWinSizeArray, const int 
 	   g_iTimeCtr++;
 	   lCheckTime += qcn_2dplot::GetTimerTick();  // bump up to check next second
 	}
-  }
+//  }
   
   return iRet;
 
