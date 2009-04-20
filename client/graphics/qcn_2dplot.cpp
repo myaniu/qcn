@@ -300,8 +300,11 @@ void draw_plot()
 					g_fMinAxesCurrent[ee] = ( ee == E_DS ? 0.0f : -g_fScaleAxes[g_iScaleAxesOffset] );
 			 }
 
-			 if ((g_fMaxAxesCurrent[ee] - g_fMinAxesCurrent[ee]) == 0.0f) g_fMinAxesCurrent[ee] = g_fMaxAxesCurrent[ee] - 1.0f; // avoid divide by zero
-			 //fAvg = (g_fMax[ee] - g_fMin[ee]) / 2.0f;
+			 if ((g_fMaxAxesCurrent[ee] - g_fMinAxesCurrent[ee]) == 0.0f) {
+                             g_fMaxAxesCurrent[ee] = 1.0f;
+                             g_fMinAxesCurrent[ee] = 0.0f;  // avoid divide by zero
+			 }
+                         //fAvg = (g_fMax[ee] - g_fMin[ee]) / 2.0f;
 			 for (int i=0; i<PLOT_ARRAY_SIZE; i++) {
 				 x1 = xax_qcnlive[0] + (((float) i / (float) PLOT_ARRAY_SIZE) * (xax_qcnlive[1]-xax_qcnlive[0]));
 				 y1 = yax_qcnlive[ee] + (ee == E_DS ? 0.5f : 0.0f) + ( 15.0f * ( (fdata[i] - g_fMinAxesCurrent[ee]) / (g_fMaxAxesCurrent[ee] - g_fMinAxesCurrent[ee] ) )  );
