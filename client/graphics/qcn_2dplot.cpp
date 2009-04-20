@@ -115,8 +115,6 @@ void draw_text()
 void draw_tick_marks()
 {  // draw vertical blue lines every 1/10/60/600 seconds depending on view size
 	  // note the labels underneath are drawn in draw_text_plot_qcnlive
-fprintf(stdout, "\n\nDraw Tick Marks\n");
-		 
     // show the time markers, if any
     glPushMatrix();
     for (int i = 0; i < g_iTimeCtr; i++) {
@@ -140,9 +138,6 @@ fprintf(stdout, "\n\nDraw Tick Marks\n");
          glVertex2f(fWhere, Y_TRIGGER_LAST[1]);
          glEnd();
          //glDisable(GL_LINE_STIPPLE);
-		 
-fprintf(stdout, "  %d  --  %ld\n", i, lTimeLastOffset[i]);
-       }
     }
     glPopMatrix();
 }

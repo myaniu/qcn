@@ -1,3 +1,4 @@
+
 // CMC -- OpenGL Graphics for QCN project
 // (c) 2007 Stanford University
 
@@ -187,8 +188,8 @@ GLfloat* colorsPlot[4] = { green, yellow, blue, red };
 // the "LastRebin" will be the actual displayed array offset position after the rebin
 double dTriggerLastTime[MAX_TRIGGER_LAST];    
 long lTriggerLastOffset[MAX_TRIGGER_LAST];
-float fTimeLast[MAX_TRIGGER_LAST];    
-long lTimeLastOffset[MAX_TRIGGER_LAST];
+long lTimeLast[MAX_TICK_MARK];    
+long lTimeLastOffset[MAX_TICK_MARK];
 int g_iTimeCtr = 0;
 int g_iZoomLevel = 0;
 
@@ -253,13 +254,13 @@ void getProjectPrefs()
 
 int getLastTrigger(const long lTriggerCheck, const int iWinSizeArray, const int iRebin, const bool bFirst)  // we may need to see if this trigger lies within a "rebin" range for aryg
 {  // this sets up the vertical views, i.e. trigger & time marker
-  static float fStartTime = 0.0f;
-  static float fCheckTime = 0.0f;
+  static long lStartTime = 0L;
+  static long lCheckTime = 0L;
   int iRet = 0;
   int i;
   bool bProc = false;
 
-  if (bFirst) fStartTime = 0.0f;
+  if (bFirst) lStartTime = 0L;
 
   for (i = 0; i < MAX_TRIGGER_LAST; i++)  {
      // check if this offset matches a trigger and is within a rounding error for the time
@@ -272,41 +273,43 @@ int getLastTrigger(const long lTriggerCheck, const int iWinSizeArray, const int 
      dTriggerLastTime[i] = sm->dTriggerLastTime[i];
   }
 
-//  if (g_eView == VIEW_PLOT_2D) { // only need the timing markers on 2d view
+  if (g_eView == VIEW_PLOT_2D) { // only need the timing markers on 2d view
 	// use a mod of the time interval with time - sm->dTimeStart
     // first point is never a boundary, but mark second for next time
     //long lTimeTest = (long)(sm->t0[lTriggerCheck]);
-	if (fStartTime == 0.0f) {  // it's our first time in and our point is a valid start time, i.e. closest second from dStartTime
+	if (lStartTime == 0L) {  // it's our first time in and our point is a valid start time
+	   //long lMult = (long)(sm->t0[lTriggerCheck] - sm->dTimeStart) / g_TimerTick;
 	   long lMod = 1L;
-	   float fTest = sm->t0[lTriggerCheck] - sm->dTimeStart;
-	   if (qcn_2dplot::GetTimerTick() == 1) {  // we want the closest "even" second point
-		  if (fTest > 0.0f && (sm->t0[lTriggerCheck] - floorf(sm->t0[lTriggerCheck])) <= 0.1f ) lMod = 0L;
+	   if (qcn_2dplot::GetTimerTick() == 1) { // just get the nearest "even" second point
+	       if ( (sm->t0[lTriggerCheck] - (float) ((long) sm->t0[lTriggerCheck])) <= 0.05f) lMod = 0L;
 	   }
 	   else {
-	      lMod = (long)(fTest) % qcn_2dplot::GetTimerTick();
+		   lMod = ( (long)(sm->t0[lTriggerCheck] - sm->dTimeStart) ) % qcn_2dplot::GetTimerTick();
 	   }
-	   if (sm->dTimeStart > 0.0f && sm->t0[lTriggerCheck] > sm->dTimeStart 
-	     && lMod == 0L) { // close enough to start time to be a valid tick mark start point
+	   if (sm->t0[lTriggerCheck] >= sm->dTimeStart 
+		  && lMod == 0 )
+		{
+		  //&& (sm->t0[lTriggerCheck] - (float((long) sm->t0[lTriggerCheck]))) < 0.30f ) { 
            // get the even increment of sm->t0 from dTimeStart
 		   //long lMult = (sm->t0[lTriggerCheck] - sm->dTimeStart) / g_TimerTick;
-		   fCheckTime = sm->t0[lTriggerCheck];
-	       fTimeLast[g_iTimeCtr] = fCheckTime;
-		   fStartTime = fCheckTime;
+		   lCheckTime = sm->t0[lTriggerCheck];
+	       lTimeLast[g_iTimeCtr] = lCheckTime;
+		   lStartTime = lCheckTime;
 		   bProc = true;
 	   }
 	}
 	else {
-	   if (sm->t0[lTriggerCheck] > fCheckTime && g_iTimeCtr < MAX_TRIGGER_LAST) {
-	       fTimeLast[g_iTimeCtr] = fCheckTime;
+	   if (sm->t0[lTriggerCheck] > lCheckTime && g_iTimeCtr < MAX_TRIGGER_LAST) {
+	       lTimeLast[g_iTimeCtr] = lCheckTime;
 		   bProc = true;
 	   }
 	}
-	if (bProc && g_iTimeCtr < MAX_TRIGGER_LAST) {  // we hit a timer interval, so setup the array
+	if (bProc && g_iTimeCtr < MAX_TICK_MARK) {  // we hit a timer interval, so setup the array
 	   lTimeLastOffset[g_iTimeCtr] = iWinSizeArray / iRebin;
 	   g_iTimeCtr++;
-	   fCheckTime += (float) (qcn_2dplot::GetTimerTick());  // bump up to check next interval
+	   lCheckTime += qcn_2dplot::GetTimerTick();  // bump up to check next second
 	}
-//  }  // always get the tick marks, maybe put 'em on 3d plot someday?
+  }
   
   return iRet;
 
@@ -715,16 +718,16 @@ bool setupPlotMemory(const long lOffset)
     float fAvg[4];
     switch(key_winsize) {
       case 0: // 10 seconds = 500 pts, if PLOT_ARRAY_SIZE=500 we avg 1 points to 1
-         iRebin = (int) ceilf(10.0 / sm->dt) / PLOT_ARRAY_SIZE;  // for dt=.02, 3000 points,  for dt=.1, 600 pts, div by 500 iRebin = 6 or 1
+         iRebin = (int) ceil(10.0 / sm->dt) / PLOT_ARRAY_SIZE;  // for dt=.02, 3000 points,  for dt=.1, 600 pts, div by 500 iRebin = 6 or 1
          break;
       case 1: // 1 minute = 3000 pts, if PLOT_ARRAY_SIZE=500 we avg 6 points to 1
-         iRebin = (int) ceilf(60.0 / sm->dt) / PLOT_ARRAY_SIZE;  // for dt=.02, 3000 points,  for dt=.1, 600 pts, div by 500 iRebin = 6 or 1
+         iRebin = (int) ceil(60.0 / sm->dt) / PLOT_ARRAY_SIZE;  // for dt=.02, 3000 points,  for dt=.1, 600 pts, div by 500 iRebin = 6 or 1
          break;
       case 2: // 10 minutes = 30000 pts
-         iRebin = (int) ceilf(600.0 / sm->dt) / PLOT_ARRAY_SIZE; // for dt=.02, 30000 points,  for dt=.1, 6000 pts, iRebin = 60 or 12
+         iRebin = (int) ceil(600.0 / sm->dt) / PLOT_ARRAY_SIZE; // for dt=.02, 30000 points,  for dt=.1, 6000 pts, iRebin = 60 or 12
         break;
       case 3: // 1 hour = 180000 pts 
-         iRebin = (int) ceilf(3600.0 / sm->dt) / PLOT_ARRAY_SIZE; // for dt=.02, 180000 points,  for dt=.1, 36000 pts, iRebin = 360 or 72
+         iRebin = (int) ceil(3600.0 / sm->dt) / PLOT_ARRAY_SIZE; // for dt=.02, 180000 points,  for dt=.1, 36000 pts, iRebin = 360 or 72
          break;
       default:  iRebin = 10; // should never get here!
     }
@@ -782,7 +785,7 @@ bool setupPlotMemory(const long lOffset)
     // reset our trigger list & timer values
     memset(dTriggerLastTime, 0x00, sizeof(double) * MAX_TRIGGER_LAST);
     memset(lTriggerLastOffset, 0x00, sizeof(long) * MAX_TRIGGER_LAST);
-    memset(fTimeLast, 0x00, sizeof(float) * MAX_TRIGGER_LAST);
+    memset(lTimeLast, 0x00, sizeof(long) * MAX_TRIGGER_LAST);
     memset(lTimeLastOffset, 0x00, sizeof(long) * MAX_TRIGGER_LAST);
     g_iTimeCtr = 0;
 	
