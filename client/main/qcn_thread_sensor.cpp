@@ -248,7 +248,7 @@ bool getInitialMean(CSensor* psms)
         sm->fmag[0] = sqrt(QCN_SQR(sm->x0[0])+QCN_SQR(sm->y0[0])+QCN_SQR(sm->z0[0]));
         sm->vari[0] = sm->f1;
         sm->fsig[0] = 0.0f;
-		sm->dTimeStart = ceil(sm->t0[0]);
+        if (sm->dTimeStart < 1.0f) sm->dTimeStart = ceil(sm->t0[0]);
 #ifdef _DEBUG
        DebugTime(2);
 #endif
@@ -391,7 +391,6 @@ extern void* QCNThreadSensor(void*)
 
          sm->resetMinMax();
          sm->resetSampleClock();
-         //sm->dTimeStart = sm->t0active;
          try { // sensor mean throws an exception if we're shutting down
             if (!qcn_main::g_psms || ! qcn_main::g_psms->mean_xyz()) {
                fprintf(stderr, "Error 0 in sensor thread mean_xyz()\n");

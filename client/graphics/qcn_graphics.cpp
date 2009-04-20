@@ -187,7 +187,7 @@ GLfloat* colorsPlot[4] = { green, yellow, blue, red };
 // the "LastRebin" will be the actual displayed array offset position after the rebin
 double dTriggerLastTime[MAX_TRIGGER_LAST];    
 long lTriggerLastOffset[MAX_TRIGGER_LAST];
-long lTimeLast[MAX_TRIGGER_LAST];    
+float fTimeLast[MAX_TRIGGER_LAST];    
 long lTimeLastOffset[MAX_TRIGGER_LAST];
 int g_iTimeCtr = 0;
 int g_iZoomLevel = 0;
@@ -253,13 +253,13 @@ void getProjectPrefs()
 
 int getLastTrigger(const long lTriggerCheck, const int iWinSizeArray, const int iRebin, const bool bFirst)  // we may need to see if this trigger lies within a "rebin" range for aryg
 {  // this sets up the vertical views, i.e. trigger & time marker
-  static long lStartTime = 0L;
-  static long lCheckTime = 0L;
+  static float fStartTime = 0.0f;
+  static float fCheckTime = 0.0f;
   int iRet = 0;
   int i;
   bool bProc = false;
 
-  if (bFirst) lStartTime = 0L;
+  if (bFirst) fStartTime = 0.0f;
 
   for (i = 0; i < MAX_TRIGGER_LAST; i++)  {
      // check if this offset matches a trigger and is within a rounding error for the time
@@ -272,36 +272,35 @@ int getLastTrigger(const long lTriggerCheck, const int iWinSizeArray, const int 
      dTriggerLastTime[i] = sm->dTriggerLastTime[i];
   }
 
-  if (g_eView == VIEW_PLOT_2D) { // only need the timing markers on 2d view
+//  if (g_eView == VIEW_PLOT_2D) { // only need the timing markers on 2d view
 	// use a mod of the time interval with time - sm->dTimeStart
     // first point is never a boundary, but mark second for next time
     //long lTimeTest = (long)(sm->t0[lTriggerCheck]);
-	if (lStartTime == 0L) {  // it's our first time in and our point is a valid start time
+	if (fStartTime == 0.0f && sm->dTimeStart > 0.0f) {  // it's our first time in and our point is a valid start time, i.e. closest second from dStartTime
 	   //long lMult = (long)(sm->t0[lTriggerCheck] - sm->dTimeStart) / g_TimerTick;
-		long lMod = (long)(sm->t0[lTriggerCheck] - sm->dTimeStart) % qcn_2dplot::GetTimerTick();
-	   if (sm->t0[lTriggerCheck] >= sm->dTimeStart 
-		  && lMod == 0 
-		  && (sm->t0[lTriggerCheck] - (float((long) sm->t0[lTriggerCheck]))) < 0.30f ) { 
+	   //float fMod = fmodf(sm->t0[lTriggerCheck], sm->dTimeStart);
+	   //if (fMod < 0.05f) { // close enough to start time to be a valid tick mark start point
+	   if (sm->t0[lTriggerCheck] > sm->dTimeStart && ceil(sm->t0[lTriggerCheck]) > (sm->dTimeStart + 1.0f)) { // close enough to start time to be a valid tick mark start point
            // get the even increment of sm->t0 from dTimeStart
 		   //long lMult = (sm->t0[lTriggerCheck] - sm->dTimeStart) / g_TimerTick;
-		   lCheckTime = sm->t0[lTriggerCheck];
-	       lTimeLast[g_iTimeCtr] = lCheckTime;
-		   lStartTime = lCheckTime;
+		   fCheckTime = sm->t0[lTriggerCheck];
+	       fTimeLast[g_iTimeCtr] = fCheckTime;
+		   fStartTime = fCheckTime;
 		   bProc = true;
 	   }
 	}
 	else {
-	   if (sm->t0[lTriggerCheck] > lCheckTime && g_iTimeCtr < MAX_TRIGGER_LAST) {
-	       lTimeLast[g_iTimeCtr] = lCheckTime;
+	   if (sm->t0[lTriggerCheck] > fCheckTime && g_iTimeCtr < MAX_TRIGGER_LAST) {
+	       fTimeLast[g_iTimeCtr] = fCheckTime;
 		   bProc = true;
 	   }
 	}
 	if (bProc && g_iTimeCtr < MAX_TRIGGER_LAST) {  // we hit a timer interval, so setup the array
 	   lTimeLastOffset[g_iTimeCtr] = iWinSizeArray / iRebin;
 	   g_iTimeCtr++;
-	   lCheckTime += qcn_2dplot::GetTimerTick();  // bump up to check next second
+	   fCheckTime += 1.0f; //(float) (qcn_2dplot::GetTimerTick());  // bump up to check next interval
 	}
-  }
+//  }  // always get the tick marks, maybe put 'em on 3d plot someday?
   
   return iRet;
 
@@ -777,7 +776,7 @@ bool setupPlotMemory(const long lOffset)
     // reset our trigger list & timer values
     memset(dTriggerLastTime, 0x00, sizeof(double) * MAX_TRIGGER_LAST);
     memset(lTriggerLastOffset, 0x00, sizeof(long) * MAX_TRIGGER_LAST);
-    memset(lTimeLast, 0x00, sizeof(long) * MAX_TRIGGER_LAST);
+    memset(fTimeLast, 0x00, sizeof(float) * MAX_TRIGGER_LAST);
     memset(lTimeLastOffset, 0x00, sizeof(long) * MAX_TRIGGER_LAST);
     g_iTimeCtr = 0;
 	

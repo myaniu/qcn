@@ -147,7 +147,7 @@ extern GLfloat* colorsPlot[4];
 // the "LastRebin" will be the actual displayed array offset position after the rebin
 extern double dTriggerLastTime[MAX_TRIGGER_LAST];    
 extern long lTriggerLastOffset[MAX_TRIGGER_LAST];
-extern long lTimeLast[MAX_TRIGGER_LAST];    
+extern float fTimeLast[MAX_TRIGGER_LAST];    
 extern long lTimeLastOffset[MAX_TRIGGER_LAST];
 extern int g_iTimeCtr;
 extern int g_iZoomLevel;

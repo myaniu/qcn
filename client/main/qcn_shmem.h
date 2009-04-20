@@ -61,6 +61,7 @@ class CQCNShMem : public CSerialize
     APP_INIT_DATA dataBOINC;
 	char strProjectPreferences[SIZEOF_PROJECT_PREFERENCES];
 
+        double dTimeStart;  // the start time to the nearest second, used for graphics timer tick marks primarily
     // end of "persistent" values
 
     // the following section of data is more dynamic and can be safely cleared
@@ -116,7 +117,6 @@ class CQCNShMem : public CSerialize
 
     double t0active; // for use by the sensor polling, this value is the real system time (unadjusted from server time)
     double t0check;  // used to see what the timing error is from constant polling of sensor, it's start time + # of dt's/lOffsets
-	double dTimeStart;  // the start time to the nearest second, used for graphics timer tick marks primarily
 
     long lOffset; // current position/index into the arrays
 

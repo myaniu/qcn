@@ -7,11 +7,72 @@
 	};
 	E3064B950F8FE8A60028A349 /* qcn_2dplot.cpp */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1283, 5558}}";
-			sepNavSelRange = "{782, 0}";
-			sepNavVisRange = "{0, 2189}";
-			sepNavWindowFrame = "{{120, 109}, {1342, 872}}";
+			sepNavIntBoundsRect = "{{0, 0}, {1283, 6244}}";
+			sepNavSelRange = "{5019, 0}";
+			sepNavVisRange = "{4285, 1832}";
+			sepNavWindowFrame = "{{126, 137}, {1342, 872}}";
 		};
+	};
+	E306E4050F9D058900FCAE60 /* PBXBookmark */ = {
+		isa = PBXBookmark;
+		fRef = E390FE410D65DE7600479F9A /* myframe.cpp */;
+	};
+	E306E4090F9D07B700FCAE60 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = E3064B950F8FE8A60028A349 /* qcn_2dplot.cpp */;
+		name = "qcn_2dplot.cpp: 396";
+		rLen = 10;
+		rLoc = 14479;
+		rType = 0;
+		vrLen = 1161;
+		vrLoc = 13497;
+	};
+	E306E4120F9D091200FCAE60 /* qcn_2dplot.cpp:438 */ = {
+		isa = PBXFileBreakpoint;
+		actions = (
+		);
+		breakpointStyle = 0;
+		continueAfterActions = 0;
+		countType = 0;
+		delayBeforeContinue = 0;
+		fileReference = E3064B950F8FE8A60028A349 /* qcn_2dplot.cpp */;
+		functionName = "SensorDataZoomOut()";
+		hitCount = 0;
+		ignoreCount = 0;
+		lineNumber = 438;
+		location = QCNLive;
+		modificationTime = 261949849.85366;
+		state = 1;
+	};
+	E306E4770F9D18DB00FCAE60 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = E3C0E7B80D64E9BE0099B905 /* qcn_graphics.cpp */;
+		name = "qcn_graphics.cpp: 301";
+		rLen = 0;
+		rLoc = 10343;
+		rType = 0;
+		vrLen = 2858;
+		vrLoc = 8121;
+	};
+	E306E4780F9D18DB00FCAE60 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = E3064B950F8FE8A60028A349 /* qcn_2dplot.cpp */;
+		name = "qcn_2dplot.cpp: 118";
+		rLen = 0;
+		rLoc = 5019;
+		rType = 0;
+		vrLen = 1832;
+		vrLoc = 4285;
+	};
+	E306E4790F9D18DB00FCAE60 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = E390FE410D65DE7600479F9A /* myframe.cpp */;
+		name = "myframe.cpp: 720";
+		rLen = 0;
+		rLoc = 23248;
+		rType = 0;
+		vrLen = 1612;
+		vrLoc = 0;
 	};
 	E30AB0EA0EBB9C0600DA7E81 /* dlgsettings.cpp */ = {
 		uiCtxt = {
@@ -75,7 +136,7 @@
 		ignoreCount = 0;
 		lineNumber = 267;
 		location = QCNLive;
-		modificationTime = 261600487.023769;
+		modificationTime = 261949849.85329;
 		state = 1;
 	};
 	E36838C20F97AC6A008DB82B /* qcn_2dplot.cpp:26 */ = {
@@ -91,7 +152,7 @@
 		ignoreCount = 0;
 		lineNumber = 26;
 		location = QCNLive;
-		modificationTime = 261600490.570196;
+		modificationTime = 261949853.404026;
 		state = 1;
 	};
 	E371C7F60E2AB5D0009B4DAA /* csensor_mac_laptop.cpp */ = {
@@ -129,9 +190,9 @@
 	};
 	E390FE410D65DE7600479F9A /* myframe.cpp */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1141, 12544}}";
-			sepNavSelRange = "{455, 0}";
-			sepNavVisRange = "{974, 2402}";
+			sepNavIntBoundsRect = "{{0, 0}, {1141, 13748}}";
+			sepNavSelRange = "{23248, 0}";
+			sepNavVisRange = "{0, 1612}";
 			sepNavVisRect = "{{0, 0}, {1161, 818}}";
 			sepNavWindowFrame = "{{377, 83}, {1200, 945}}";
 		};
@@ -158,6 +219,7 @@
 			E36838C20F97AC6A008DB82B /* qcn_2dplot.cpp:26 */,
 			E3D735A00F97B4B200741928 /* qcn_2dplot.cpp:240 */,
 			E3D735A20F97B4B600741928 /* qcn_2dplot.cpp:240 */,
+			E306E4120F9D091200FCAE60 /* qcn_2dplot.cpp:438 */,
 		);
 		codeSenseManager = E3A499E20D64E60400E51CDF /* Code sense */;
 		executables = (
@@ -260,11 +322,15 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 261628313;
-			PBXWorkspaceStateSaveDate = 261628313;
+			PBXPerProjectTemplateStateSaveDate = 261947325;
+			PBXWorkspaceStateSaveDate = 261947325;
 		};
 		perUserProjectItems = {
-			E3D9A7A20F9825910077713E /* PBXBookmark */ = E3D9A7A20F9825910077713E /* PBXBookmark */;
+			E306E4050F9D058900FCAE60 /* PBXBookmark */ = E306E4050F9D058900FCAE60 /* PBXBookmark */;
+			E306E4090F9D07B700FCAE60 /* PBXTextBookmark */ = E306E4090F9D07B700FCAE60 /* PBXTextBookmark */;
+			E306E4770F9D18DB00FCAE60 /* PBXTextBookmark */ = E306E4770F9D18DB00FCAE60 /* PBXTextBookmark */;
+			E306E4780F9D18DB00FCAE60 /* PBXTextBookmark */ = E306E4780F9D18DB00FCAE60 /* PBXTextBookmark */;
+			E306E4790F9D18DB00FCAE60 /* PBXTextBookmark */ = E306E4790F9D18DB00FCAE60 /* PBXTextBookmark */;
 			E3D9A7A70F9826680077713E /* PBXTextBookmark */ = E3D9A7A70F9826680077713E /* PBXTextBookmark */;
 		};
 		sourceControlManager = E3A499E10D64E60400E51CDF /* Source Control */;
@@ -437,11 +503,11 @@
 	};
 	E3C0E7B80D64E9BE0099B905 /* qcn_graphics.cpp */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1180, 25732}}";
-			sepNavSelRange = "{5945, 0}";
-			sepNavVisRange = "{4524, 2303}";
+			sepNavIntBoundsRect = "{{0, 0}, {1180, 24108}}";
+			sepNavSelRange = "{10343, 0}";
+			sepNavVisRange = "{8121, 2858}";
 			sepNavVisRect = "{{0, 14405}, {1161, 818}}";
-			sepNavWindowFrame = "{{217, 81}, {1239, 947}}";
+			sepNavWindowFrame = "{{141, 81}, {1239, 947}}";
 		};
 	};
 	E3C0E7B90D64E9BE0099B905 /* qcn_earth.cpp */ = {
@@ -539,8 +605,8 @@
 	E3C0E7F30D64E9E00099B905 /* qcn_graphics.h */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {1141, 3304}}";
-			sepNavSelRange = "{6320, 0}";
-			sepNavVisRange = "{4973, 2214}";
+			sepNavSelRange = "{4054, 0}";
+			sepNavVisRange = "{2915, 2122}";
 			sepNavVisRect = "{{0, 302}, {1161, 818}}";
 			sepNavWindowFrame = "{{174, 71}, {1200, 947}}";
 		};
@@ -584,7 +650,7 @@
 		ignoreCount = 0;
 		lineNumber = 240;
 		location = QCNLive;
-		modificationTime = 261600487.024029;
+		modificationTime = 261949849.853509;
 		state = 1;
 	};
 	E3D735A20F97B4B600741928 /* qcn_2dplot.cpp:240 */ = {
@@ -601,19 +667,15 @@
 		ignoreCount = 0;
 		lineNumber = 240;
 		location = QCNLive;
-		modificationTime = 261600487.024877;
+		modificationTime = 261949849.853585;
 		state = 1;
-	};
-	E3D9A7A20F9825910077713E /* PBXBookmark */ = {
-		isa = PBXBookmark;
-		fRef = E3C0E7B80D64E9BE0099B905 /* qcn_graphics.cpp */;
 	};
 	E3D9A7A70F9826680077713E /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
 		fRef = E3C0E7B80D64E9BE0099B905 /* qcn_graphics.cpp */;
 		name = "qcn_graphics.cpp: 202";
 		rLen = 0;
-		rLoc = 5945;
+		rLoc = 5946;
 		rType = 0;
 		vrLen = 2303;
 		vrLoc = 4524;

@@ -653,9 +653,9 @@ void MyFrame::SetToggleSensor()
           menuOptions->Enable(ID_TOOL_ACTION_SENSOR_ABSOLUTE, false);
           Toggle(ID_TOOL_ACTION_SENSOR_ABSOLUTE, bSensorAbsolute3D);
           Toggle(ID_TOOL_ACTION_SENSOR_SCALED, !bSensorAbsolute3D);
-			Toggle(ID_TOOL_ACTION_SENSOR_01, (bool)(iSensorTimeWindow == 60));
-			Toggle(ID_TOOL_ACTION_SENSOR_10, (bool)(iSensorTimeWindow == 600));
-			Toggle(ID_TOOL_ACTION_SENSOR_60, (bool)(iSensorTimeWindow == 3600));
+			//Toggle(ID_TOOL_ACTION_SENSOR_01, (bool)(iSensorTimeWindow == 60));
+			//Toggle(ID_TOOL_ACTION_SENSOR_10, (bool)(iSensorTimeWindow == 600));
+			//Toggle(ID_TOOL_ACTION_SENSOR_60, (bool)(iSensorTimeWindow == 3600));
 			Toggle(ID_TOOL_ACTION_SENSOR_START, (bool)(!bRecording && iSensorAction == 0));
 			Toggle(ID_TOOL_ACTION_SENSOR_STOP, (bool)(!bRecording && iSensorAction == 1));
 			Toggle(ID_TOOL_ACTION_SENSOR_RECORD, (bool)(bRecording));
@@ -706,8 +706,8 @@ void MyFrame::ToolBarSensor2D()
     wxsShort[7].assign("&Record sensor output");
 
    // vertical zoom
-	toolBar->AddSeparator();
-    menuOptions->AppendSeparator();
+	//toolBar->AddSeparator();
+    //menuOptions->AppendSeparator();
 
 	m_ptbBase = toolBar->AddTool(ID_TOOL_ACTION_SENSOR_VERT_ZOOM_AUTO, 
 	   wxsShort[0], 
@@ -819,11 +819,14 @@ void MyFrame::ToolBarSensor3D()
     wxsShort[2].assign("&60-minute Window");
     wxsLong[2].assign("60-minute Time Window");
 
-    wxsShort[3].assign("&Previous Time Window");
-    wxsLong[3].assign("Previous Time Window");
+//    wxsShort[3].assign("&Previous Time Window");
+//    wxsLong[3].assign("Previous Time Window");
 
-    wxsShort[4].assign("&Pause Sensor Display");
-    wxsLong[4].assign("Pause Sensor Display");
+//    wxsShort[4].assign("&Pause Sensor Display");
+//    wxsLong[4].assign("Pause Sensor Display");
+
+    wxsShort[3].assign("Zoom In Horizontal Scale");
+    wxsShort[4].assign("Zoom Out Horizontal Scale");
 
     wxsShort[5].assign("&Current Sensor Display");
     wxsLong[5].assign("Current Sensor Display");
@@ -840,8 +843,9 @@ void MyFrame::ToolBarSensor3D()
     wxsShort[9].assign("&Record sensor output");
     wxsLong[9].assign("Starts recording the sensor output");
 
-	toolBar->AddSeparator();
+	//toolBar->AddSeparator();
 
+/*
 	m_ptbBase = toolBar->AddRadioTool(ID_TOOL_ACTION_SENSOR_01, 
 	   wxsShort[0], 
 	   QCN_TOOLBAR_IMG(xpm_icon_one),
@@ -868,6 +872,25 @@ void MyFrame::ToolBarSensor3D()
 	   wxsLong[2]
 	);
     menuOptions->AppendCheckItem(ID_TOOL_ACTION_SENSOR_60, wxsShort[2], wxsLong[2]);
+*/
+	m_ptbBase = toolBar->AddTool(ID_TOOL_ACTION_SENSOR_HORIZ_ZOOM_IN, 
+	   wxsShort[3], 
+	   QCN_TOOLBAR_IMG(xpm_horiz_zoom_in),
+	   wxNullBitmap, wxITEM_NORMAL,
+	   wxsShort[3], 
+	   wxsShort[3]
+	);
+    menuOptions->Append(ID_TOOL_ACTION_SENSOR_HORIZ_ZOOM_IN, wxsShort[3], wxsShort[3]);
+
+	m_ptbBase = toolBar->AddTool(ID_TOOL_ACTION_SENSOR_HORIZ_ZOOM_OUT, 
+	   wxsShort[4], 
+	   QCN_TOOLBAR_IMG(xpm_horiz_zoom_out),
+	   wxNullBitmap, wxITEM_NORMAL,
+	   wxsShort[4], 
+	   wxsShort[4]
+	);
+    menuOptions->Append(ID_TOOL_ACTION_SENSOR_HORIZ_ZOOM_OUT, wxsShort[4], wxsShort[4]);
+
 	
 	toolBar->AddSeparator();
     menuOptions->AppendSeparator();

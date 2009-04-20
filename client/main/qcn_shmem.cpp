@@ -105,6 +105,8 @@ void CQCNShMem::clear(bool bAll)
     pshmem->iMyElevationFloor = iMyElevationFloor; 
     strcpy(pshmem->strMyStation, strMyStation);
 
+    pshmem->dTimeStart = dTimeStart; // keep the original start time for tick mark display
+
     pshmem->clock_time  = clock_time;
 	pshmem->cpu_time    = cpu_time;
 	pshmem->update_time = update_time;
