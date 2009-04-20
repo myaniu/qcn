@@ -21,6 +21,7 @@ class MyFrame : public wxFrame
     void AddScreenshotItem();
     void SetToggleEarth();
     void SetToggleSensor();
+	void SensorNavButtons();
 	void SetupToolbars();
 
     MyApp* pMyApp;
