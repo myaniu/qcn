@@ -784,7 +784,7 @@ GLuint CreateRGBAlpha(const char* strFileName)
 // given an array of floats,
 // compute the on-line variance by Knuth / Welford  (http://en.wikipedia.org/wiki/Algorithms_for_calculating_variance (III))
 bool ComputeMeanStdDevVarianceKnuth(const float* pfArray, const int iLen, const int iStart, const int iEnd, 
-	float* pfMean, float* pfStdDev, float* pfVariance, float* pfMin, float* pfMax)
+	float* pfMean, float* pfStdDev, float* pfVariance, float* pfMin, float* pfMax, bool bIgnoreZero, bool bMinMaxOnly)
 {
 	*pfVariance = 0.0f;
 	*pfMean = 0.0f;
@@ -795,17 +795,22 @@ bool ComputeMeanStdDevVarianceKnuth(const float* pfArray, const int iLen, const 
 	if (iStart < 0 || iEnd > (iLen-1)) return false;
     float fM2 = 0.0f, fDelta = 0.0f, fMean = 0.0f, fCtr = 0.0f, fTest = 0.0f;
 	for (int i = iStart; i <= iEnd; i++) {
-		fCtr++;
-		fTest = pfArray[i];
-		fDelta = fTest - fMean;
-		fMean += (fDelta / fCtr);
-		fM2 += (fDelta * (fTest - fMean));
+		if (bIgnoreZero && pfArray[i] == 0.0f) continue;  // we're ignoring the zero
+		if (!bMinMaxOnly) {
+			fCtr++;
+			fTest = pfArray[i];
+			fDelta = fTest - fMean;
+			fMean += (fDelta / fCtr);
+			fM2 += (fDelta * (fTest - fMean));
+		}
 		if (fTest > *pfMax) *pfMax = fTest;
 		if (fTest < *pfMin) *pfMin = fTest;
 	}
-	*pfMean = fMean;
-    *pfVariance = fM2 / (fCtr < 1.0f ? 1.0f : fCtr);
-	*pfStdDev = sqrt(*pfVariance);
+	if (!bMinMaxOnly)  {
+		*pfMean = fMean;
+		*pfVariance = fM2 / (fCtr < 1.0f ? 1.0f : fCtr);
+		*pfStdDev = sqrt(*pfVariance);
+	}
 	return true;
 }
 

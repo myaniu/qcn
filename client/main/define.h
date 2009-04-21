@@ -91,6 +91,10 @@ typedef vector<string> ZipFileList;
 #define  GLUT_ENTERED                       0x0001
 #endif
 
+// NULL values for SAC files
+#define SAC_NULL_FLOAT  -12345.0f
+#define SAC_NULL_LONG   -12345L
+
 // JoyWarrior identification string, number of buttons, and number of axes
 #define IDSTR_JW "Code Mercenaries JoyWarrior24 Force 8"
 #define NUM_BUTTON_JW  8

@@ -179,7 +179,7 @@ extern double pitch_angle[4];
 extern double roll_angle[4]; 
 extern double viewpoint_distance[4];
 
-extern float l_fmax[4], l_fmin[4];
+extern float g_fmax[4], g_fmin[4];
 
 //extern float color[4] = {.7, .2, .5, 1};
 

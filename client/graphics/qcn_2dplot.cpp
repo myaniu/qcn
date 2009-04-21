@@ -40,8 +40,6 @@ static const float fAxesLabel[4] = { 0.124f, .284f, .444f, .584f };
 static const float fBaseScale[4] = { 0.068f, .232f, .397f, .562f };
 static const float fAxesOffset[7] = { .0f, .021f, .049f, .077f, .104f, .131f, .151f };
 
-static float g_fMin[4], g_fMax[4]; // max & min for each axis visible on the plot
-
 void draw_text_sensor_axis(int iAxis)
 {
 	char cbuf[10];
@@ -269,8 +267,9 @@ void draw_plot()
 					lEnd = PLOT_ARRAY_SIZE-1;
 				 //}
 				//iFrameCounter = 0;
+					/* obsolete - g_fmin & fmax calculated in qcn_graphics namespace
 				if (qcn_util::ComputeMeanStdDevVarianceKnuth((const float*) fdata, PLOT_ARRAY_SIZE, lStart, lEnd, 
-				  &fMean, &fStdDev, &fVariance, &g_fMin[ee], &g_fMax[ee])) {
+				  &fMean, &fStdDev, &fVariance, &g_fMin[ee], &g_fMax[ee], true, true)) {
 				    if (fMean != 0.0f && fabs((fMean - fMeanLast)/fMean) > 0.20f) { // mean's differ so reset
 					    fMeanLast = fMean;
 						fStdDevLast = fStdDev;
@@ -290,11 +289,17 @@ void draw_plot()
 					    g_fMin[ee] = 0.0f;  // force min to always be 0 for significance
 						g_fMinAxesCurrent[ee] = 0.0f;
 					}
-				}
+				  */
+					g_fMaxAxesCurrent[ee] = qcn_graphics::g_fmax[ee] == SAC_NULL_FLOAT ? 1.0f : qcn_graphics::g_fmax[ee];  // save each scale level for autoscaling, so it's not jumping all around
+					g_fMinAxesCurrent[ee] = qcn_graphics::g_fmin[ee] == SAC_NULL_FLOAT ? 0.0f : qcn_graphics::g_fmin[ee]; 
+					if (ee == E_DS) {
+						g_fMinAxesCurrent[ee] = 0.0f;
+					}
+				/*}
 				else {
 					g_fMaxAxesCurrent[ee] = ( ee == E_DS ? g_fScaleSig[g_iScaleSigOffset] : g_fScaleAxes[g_iScaleAxesOffset] );
 					g_fMinAxesCurrent[ee] = ( ee == E_DS ? 0.0f : -g_fScaleAxes[g_iScaleAxesOffset] );
-				}
+				}*/
 			  //}  // iFrameCounter
 			 }
 			 else {

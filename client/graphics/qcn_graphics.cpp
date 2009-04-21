@@ -220,8 +220,6 @@ double pitch_angle[4] = {0.0, 0.0, 0.0, 0.0};
 double roll_angle[4] = {0.0, 0.0, 0.0, 0.0}; 
 double viewpoint_distance[4]={ 10.0, 10.0, 10.0, 10.0};
 
-float l_fmax[4], l_fmin[4];
-
 //float color[4] = {.7, .2, .5, 1};
 
 TEXTURE_DESC logo;  // customized version of the boinc/api/gutil.h TEXTURE_DESC
@@ -238,6 +236,8 @@ float aryg[4][PLOT_ARRAY_SIZE];   // the data points for plotting -- DS DX DY DZ
 // current view is an enum i.e. { VIEW_PLOT_3D = 1, VIEW_PLOT_2D, VIEW_EARTH_DAY, VIEW_EARTH_NIGHT, VIEW_EARTH_COMBINED, VIEW_CUBE }; 
 char g_strJPG[_MAX_PATH];
 int g_iJPG = 0;
+
+float g_fmax[4], g_fmin[4];
 
 void getProjectPrefs()
 {
@@ -720,8 +720,9 @@ bool setupPlotMemory(const long lOffset)
 	bInHere = true;
 
     int iRebin;
-    long ii, jj;
-    float fAvg[4];
+    long ii, jj, kk;
+    //float fAvg[4], fAvgCtr[4];
+    float fLocalMax[4];
     switch(key_winsize) {
       case 0: // 10 seconds = 500 pts, if PLOT_ARRAY_SIZE=500 we avg 1 points to 1
          iRebin = (int) ceil(10.0 / sm->dt) / PLOT_ARRAY_SIZE;  // for dt=.02, 3000 points,  for dt=.1, 600 pts, div by 500 iRebin = 6 or 1
@@ -750,6 +751,7 @@ bool setupPlotMemory(const long lOffset)
     // return if lOffset isn't evenly divisible by iRebin, i.e. we haven't gone to a new point
     // CMC - we're getting sampling problems if the frame-rate of the rendering is too low,
 	// we're not getting on the proper boundary of the rebin, so if not snapshot then override
+	// bump up if just starting to get rid of the first few calibration elements in the array
 	long lDrawableOffset = (lOffset / iRebin) * iRebin; // this is the "ideal" offset, i.e. the closet point in the rebin to what we want to view at the end
 	
 	// of course it's possible our lOffset in question matches this, if so we're OK below
@@ -821,7 +823,7 @@ bool setupPlotMemory(const long lOffset)
     }
     else { // we are wrapping around the array, lOff <= 0
       long lStart = MAXI + lOff + 1;   // start here, wrap around to 1+(awinsize-lStart) (skip 0 as that's baseline?)
-      if (lStart >= MAXI || lStart == 0) lStart = 1;
+      if (lStart >= MAXI || lStart < 1) lStart = 1;
       dtw[0] = sm->t0[lStart];  // this will be the timestamp for the beginning of the window, i.e. "awinsize[key_winsize] ticks ago"
 
       // Note that if the array (MAXI) is close to an hour, there's problems with overlapping points
@@ -843,59 +845,66 @@ bool setupPlotMemory(const long lOffset)
         }
         else {
           // now we can scale each axis according to fmin = 0 and fmax = 1
-          af[E_DX][ii] = sm->x0[lStart] - sm->xa[lStart];  
-		  af[E_DY][ii] = sm->y0[lStart] - sm->ya[lStart];   
-          af[E_DZ][ii] = sm->z0[lStart] - sm->za[lStart];   
+			af[E_DX][ii] = (sm->xa[lStart] != SAC_NULL_FLOAT) ? sm->x0[lStart] - sm->xa[lStart] : SAC_NULL_FLOAT;  
+			af[E_DY][ii] = (sm->ya[lStart] != SAC_NULL_FLOAT) ? sm->y0[lStart] - sm->ya[lStart] : SAC_NULL_FLOAT;  
+			af[E_DZ][ii] = (sm->za[lStart] != SAC_NULL_FLOAT) ? sm->z0[lStart] - sm->za[lStart] : SAC_NULL_FLOAT;  
         }
         af[E_DS][ii] = sm->fsig[lStart];
 
-        if (++lStart >= MAXI || lStart == 0) lStart = 1;
+        if (++lStart >= MAXI || lStart < 1) lStart = 1;  // check for wrapping
       }
     }
 
 	// note: setup a max min range per axis per rebin -- this doesn't really correspond to absolute max/min sm->fmax/fmin values, but for display purposes
-	l_fmax[E_DX] = l_fmax[E_DY] = l_fmax[E_DZ] = l_fmax[E_DS] = -10000;
-	l_fmin[E_DX] = l_fmin[E_DY] = l_fmin[E_DZ] = l_fmin[E_DS] = 10000;
+	g_fmax[E_DX] = g_fmax[E_DY] = g_fmax[E_DZ] = g_fmax[E_DS] = SAC_NULL_FLOAT;
+	g_fmin[E_DX] = g_fmin[E_DY] = g_fmin[E_DZ] = g_fmin[E_DS] = -1.0f * SAC_NULL_FLOAT;
 
     // now try a simple averaging rebinning to get the array down to manageable size (1000 pts)
-    for (ii = 0; ii < awinsize[key_winsize]/iRebin; ii++) {
-      fAvg[E_DX] = fAvg[E_DY] = fAvg[E_DZ] = fAvg[E_DS]  = 0.0f;
-	  if (iRebin == 1) {
-			fAvg[E_DX] = af[E_DX][ii];
-			fAvg[E_DY] = af[E_DY][ii];
-			fAvg[E_DZ] = af[E_DZ][ii];
-			fAvg[E_DS] = af[E_DS][ii];
-	  }
-	  else {
-		  for (jj = 0; jj < iRebin; jj++) {
-			fAvg[E_DX] += af[E_DX][(ii*iRebin)+jj];
-			fAvg[E_DY] += af[E_DY][(ii*iRebin)+jj];
-			fAvg[E_DZ] += af[E_DZ][(ii*iRebin)+jj];
-			fAvg[E_DS] += af[E_DS][(ii*iRebin)+jj];
+	// maybe get the max each rebin interval?
+	for (kk = E_DX; kk <= E_DS; kk++) {
+		for (ii = 0; ii < awinsize[key_winsize]/iRebin; ii++) {
+			//fAvgCtr[kk]  = 0.0f;
+			//fAvg[kk]     = 0.0f;
+			fLocalMax[kk]     = SAC_NULL_FLOAT;
+		  if (iRebin == 1) {
+			  if (af[kk][ii] != SAC_NULL_FLOAT && af[kk][ii] > fLocalMax[kk]) {
+				//fAvg[kk] = af[kk][ii];
+				//fAvgCtr[kk]++;
+			    fLocalMax[kk] = af[kk][ii];
+			  }
 		  }
-	  }
-/*
-        fAvg[E_DX] += (af[E_DX][(ii*iRebin)+jj] * 
-          (g_eView == VIEW_PLOT_2D && !bScaled && key_winsize > 0 ? (af[E_DX][(ii*iRebin)+jj] > 0.0f ? 5.0f : 1.0f) : 1.0f)); 
-        fAvg[E_DY] += (af[E_DY][(ii*iRebin)+jj] * 
-          (g_eView == VIEW_PLOT_2D && !bScaled && key_winsize > 0 ? (af[E_DY][(ii*iRebin)+jj] > 0.0f ? 5.0f : 1.0f) : 1.0f)); 
-        fAvg[E_DZ] += (af[E_DZ][(ii*iRebin)+jj] * 
-          (g_eView == VIEW_PLOT_2D && !bScaled && key_winsize > 0 ? (af[E_DZ][(ii*iRebin)+jj] > 0.0f ? 5.0f : 1.0f) : 1.0f)); 
-        fAvg[E_DS] += (af[E_DS][(ii*iRebin)+jj] * 
-          (g_eView == VIEW_PLOT_2D && !bScaled && key_winsize > 0 ? (af[E_DS][(ii*iRebin)+jj] > 0.0f ? 5.0f : 1.0f) : 1.0f)); 
-*/
-      aryg[E_DX][ii] = fAvg[E_DX] / (float) iRebin;
-      aryg[E_DY][ii] = fAvg[E_DY] / (float) iRebin;
-      aryg[E_DZ][ii] = fAvg[E_DZ] / (float) iRebin;
-      aryg[E_DS][ii] = fAvg[E_DS] / (float) iRebin;
-	  
-	  // note: setup a max min range per axis per rebin -- this doesn't really correspond to absolute max/min sm->fmax/fmin values, but for display purposes
-      for (int qq = 0; qq < 4; qq++)  {
-        if (aryg[qq][ii] < l_fmin[qq]) l_fmin[qq] = aryg[qq][ii];
-        else if (aryg[qq][ii] > l_fmax[qq]) l_fmax[qq] = aryg[qq][ii];
-	  }
+		  else {
+			  for (jj = 0; jj < iRebin; jj++) {
+				  if (af[kk][(ii*iRebin)+jj] != SAC_NULL_FLOAT && af[kk][(ii*iRebin)+jj] > fLocalMax[kk]) {
+					//fAvg[kk] += af[kk][(ii*iRebin)+jj];
+					//fAvgCtr[kk]++;
+				    fLocalMax[kk] = af[kk][(ii*iRebin)+jj];
+				  }
+			  } // for jj
+		  }
+		  /*
+		  if (fAvgCtr[kk] > 0.0f) {
+			  aryg[kk][ii] = fAvg[kk] / fAvgCtr[kk];
+		  }
+		  else {
+			  aryg[kk][ii] = 0.0f;
+		  }
+		  */
+		  if (fLocalMax[kk] == SAC_NULL_FLOAT)
+			  aryg[kk][ii] = 0.0f;
+		  else
+			  aryg[kk][ii] = fLocalMax[kk];
 
-    }
+			// note: setup a max min range per axis per rebin -- this doesn't really correspond to absolute max/min sm->fmax/fmin values, but for display purposes
+			if (aryg[kk][ii] != SAC_NULL_FLOAT && aryg[kk][ii] != 0.0f) {
+				if (aryg[kk][ii] < g_fmin[kk]) g_fmin[kk] = aryg[kk][ii];
+				else if (aryg[kk][ii] > g_fmax[kk]) g_fmax[kk] = aryg[kk][ii];
+			}
+
+		} // for ii
+
+	} // for kk
+	  
 
     if (af[E_DX]) delete [] af[E_DX];
     if (af[E_DY]) delete [] af[E_DY];

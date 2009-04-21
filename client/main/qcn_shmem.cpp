@@ -76,6 +76,11 @@ void CQCNShMem::clear(bool bAll)
     if (bAll) { // clear it all, no need to save, this would be the first thing called, basically constructor
         memset(this, 0x00, sizeof(CQCNShMem));
 
+		// set data points to the sac null value
+		for (int i = 0; i < MAXI; i++) {
+			x0[i] = y0[i] = z0[i] = fsig[i] = xa[i] = ya[i] = za[i] = SAC_NULL_FLOAT;
+		}
+
         // start with some values that really shouldn't be 0 ever
 		iTriggerLastElement = -1;
         dt = g_DT;

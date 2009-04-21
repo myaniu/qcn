@@ -131,8 +131,8 @@ void set_sac_null(struct sac_header* psacdata)
 { // sac data is apparently stored as big-endian so we have to flip it around if little-endian machine
 
    // 14 x 5 floats, 8 x 5 long, 8 x 3 str[8] = 70 * 4 + 40 * 4 + 24 * 8 = 280 + 160 + 192  = 632 bytes  (SAC_NUMHEADBYTES = 632)
-   const float fTemp = -12345.0f;
-   const long lTemp = -12345L;
+   const float fTemp = SAC_NULL_FLOAT;
+   const long lTemp  = SAC_NULL_LONG;
 
     memset(psacdata, 0x00, sizeof(struct sac_header));
 
@@ -374,7 +374,7 @@ extern int sacio
 
     strcpy(sacdata.s[ess_kcmpnm], "LHS");  // component name (axis)
 
-    fTemp = -12345.0f;   // cmpinc, which should be 0 for z, 90 for x & y, and -12345.0f for sig.
+    fTemp = SAC_NULL_FLOAT;   // cmpinc, which should be 0 for z, 90 for x & y, and -12345.0f for sig.
     float_swap((QCN_CBYTE*) &fTemp, sacdata.f[esf_cmpinc]);
 
     fTemp = smin;
