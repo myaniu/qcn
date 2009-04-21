@@ -71,6 +71,7 @@ void draw_text()
 	   }
 	}
 
+	/*
 #ifdef _DEBUG
 	sprintf(strTime, "%+6.3f %+6.3f", g_fMin[0], g_fMax[0]);
     txf_render_string(.1f, .1f, fAxesLabel[0], 0.0f, MSG_SIZE_SMALL, red, TXF_HELVETICA, (char*) strTime);
@@ -81,6 +82,7 @@ void draw_text()
 	sprintf(strTime, "%+6.3f %+6.3f", g_fMin[3], g_fMax[3]);
     txf_render_string(.1f, .1f, fAxesLabel[3], 0.0f, MSG_SIZE_SMALL, red, TXF_HELVETICA, (char*) strTime);
 #endif
+	*/
 
 	// labels for each axis
 

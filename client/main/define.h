@@ -273,7 +273,7 @@ struct FDSET_GROUP {
 // number of elements in the shared mem time offset arrays
 //#define MAX_TIME_ARRAY    10 
 
-#define MAX_TRIGGER_LAST  100
+#define MAX_TRIGGER_LAST  1000
 #define MAX_TICK_MARK      12
 
 // CMC -- or perhaps trickle down to a slots qcn-quake.xml file?

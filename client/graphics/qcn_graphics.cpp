@@ -262,7 +262,7 @@ int getLastTrigger(const long lTriggerCheck, const int iWinSizeArray, const int 
 
   if (bFirst) lStartTime = 0L;
 
-  for (i = 0; i < MAX_TRIGGER_LAST; i++)  {
+  for (i = 0; i < sm->iTriggerLastElement; i++)  {
      // check if this offset matches a trigger and is within a rounding error for the time
      if (sm->lTriggerLastOffset[i] == lTriggerCheck && fabs(sm->dTriggerLastTime[i] - sm->t0[lTriggerCheck])<.05f) break;
   }
@@ -305,7 +305,7 @@ int getLastTrigger(const long lTriggerCheck, const int iWinSizeArray, const int 
 	   }
 	}
 	else {
-	   if (sm->t0[lTriggerCheck] > lCheckTime && g_iTimeCtr < MAX_TRIGGER_LAST) {
+	   if (sm->t0[lTriggerCheck] > lCheckTime && g_iTimeCtr < MAX_TICK_MARK) {
 	       lTimeLast[g_iTimeCtr] = lCheckTime;
 		   bProc = true;
 	   }
@@ -791,8 +791,8 @@ bool setupPlotMemory(const long lOffset)
     // reset our trigger list & timer values
     memset(dTriggerLastTime, 0x00, sizeof(double) * MAX_TRIGGER_LAST);
     memset(lTriggerLastOffset, 0x00, sizeof(long) * MAX_TRIGGER_LAST);
-    memset(lTimeLast, 0x00, sizeof(long) * MAX_TRIGGER_LAST);
-    memset(lTimeLastOffset, 0x00, sizeof(long) * MAX_TRIGGER_LAST);
+    memset(lTimeLast, 0x00, sizeof(long) * MAX_TICK_MARK);
+    memset(lTimeLastOffset, 0x00, sizeof(long) * MAX_TICK_MARK);
     g_iTimeCtr = 0;
 	
     if (lOff > 0)  {  // all points exist in our window, so we can just go into lOffset - winsize and copy/scale from there
@@ -912,7 +912,7 @@ void draw_triggers()
 {
     // show the triggers, if any
     glPushMatrix();
-    for (int i = 0; i < MAX_TRIGGER_LAST; i++) {
+    for (int i = 0; i < sm->iTriggerLastElement; i++) {
        if (dTriggerLastTime[i] > 0.0f) { // there's a trigger here
 	     float fWhere;
 	     if (g_eView == VIEW_PLOT_2D) {

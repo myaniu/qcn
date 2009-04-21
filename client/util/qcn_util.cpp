@@ -357,12 +357,14 @@ void setLastTrigger(const double dTime, const long lTime)
           sm->lTriggerLastOffset[iOpen] = sm->lTriggerLastOffset[iOpen+1];
           sm->dTriggerLastTime[iOpen]   = sm->dTriggerLastTime[iOpen+1];
         }
-        sm->lTriggerLastOffset[MAX_TRIGGER_LAST-1] = lTime;
-        sm->dTriggerLastTime[MAX_TRIGGER_LAST-1]   = dTime;
+		sm->iTriggerLastElement = MAX_TRIGGER_LAST - 1;
+        sm->lTriggerLastOffset[sm->iTriggerLastElement] = lTime;
+        sm->dTriggerLastTime[sm->iTriggerLastElement]   = dTime;
     }
     else { // we have an open slot at iOpen
         sm->lTriggerLastOffset[iOpen] = lTime;
         sm->dTriggerLastTime[iOpen]   = dTime;
+		sm->iTriggerLastElement = iOpen;
     }
 }
 
