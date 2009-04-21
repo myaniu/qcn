@@ -1,12 +1,12 @@
 <gui_urls>
    <gui_url>
        <name>QCN Home Page</name>
-       <description>The home page for the Quake Catcher network</description>
+       <description>The home page for the Quake-Catcher network</description>
        <url>http://qcn.stanford.edu</url>
    </gui_url>
    <gui_url>
        <name>Your QCN Account</name>
-       <description>Your account data for the QCN Alpha Test</description>
+       <description>Your account data for the Quake-Catcher Network</description>
        <url>http://qcn.stanford.edu/qcnalpha/home.php</url>
    </gui_url>
    <gui_url>

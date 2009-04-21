@@ -5,7 +5,7 @@
       /var/www/boinc/qcnalpha/upload
     </upload_dir>
     <long_name>
-      QCN Alpha Test
+      Quake-Catcher Network
     </long_name>
     <cgi_url>http://qcn.stanford.edu/qcnalpha_cgi/</cgi_url>
     <msg_to_host/>

@@ -1,5 +1,9 @@
 <?php
 $project_news = array(
+   array("April 21, 2009",
+"A few QCN participants caught the recent M5.1 quake in Hawaii.  Also as of today I am removing the 'alpha test' status of the Quake-Catcher Network, although the URL will remain the same so you do not have to reconnect/reattach.  The credit stats should now be tracked by <A HREF=\"http://boincstats.com\">boincstats.com</A><BR>",
+ "Hawaii Quake Detected; QCN Is Now 'Non-Alpha'"
+  ),
    array("March 30, 2009",
 "<A HREF=\"http://earthquake.usgs.gov/eqcenter/recenteqsww/Quakes/nc40234037.php\">At least four QCN participant's machines detected today's San Jose earthquke.</A>
   Also for the first time the external USB JoyWarrior sensor was used to detect a quake (it's previously just been Mac laptops).  So keep running QCN and thanks for participating!<BR>" ,
