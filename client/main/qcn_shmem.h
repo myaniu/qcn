@@ -84,7 +84,7 @@ class CQCNShMem : public CSerialize
     // keep an array of the last 10 triggers, separate from the vector as this list will not get deleted (so can show in graphics etc)
     double dTriggerLastTime[MAX_TRIGGER_LAST];    // time of the latest trigger, so we don't have them less than a second away, note unadjusted wrt server time!
     long lTriggerLastOffset[MAX_TRIGGER_LAST];  // the last offset (i.e. lOffset) time of the latest trigger
-	int iTriggerLastElement;
+	//int iTriggerLastElement;
 
     char strSensor[_MAX_PATH];
     char strMemFile[_MAX_PATH];  // a serialize file that can be read in

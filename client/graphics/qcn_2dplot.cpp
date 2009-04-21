@@ -43,6 +43,7 @@ static const float fAxesOffset[7] = { .0f, .021f, .049f, .077f, .104f, .131f, .1
 void draw_text_sensor_axis(int iAxis)
 {
 	char cbuf[10];
+	if (g_fMaxAxesCurrent[iAxis] == SAC_NULL_FLOAT || g_fMinAxesCurrent[iAxis] == -1.0f * SAC_NULL_FLOAT) return;
 	float fIncrement = (g_fMaxAxesCurrent[iAxis] - g_fMinAxesCurrent[iAxis]) / 6.0f;
 	for (int i = 0; i <= 6; i++) {
 		sprintf(cbuf, "%+6.3f", g_fMinAxesCurrent[iAxis] + (fIncrement * (float) i) );

@@ -82,7 +82,7 @@ void CQCNShMem::clear(bool bAll)
 		}
 
         // start with some values that really shouldn't be 0 ever
-		iTriggerLastElement = -1;
+		//iTriggerLastElement = -1;
         dt = g_DT;
         iWindow = (int) (g_cfTimeWindow / g_DT);  // number of points in time window
         return;

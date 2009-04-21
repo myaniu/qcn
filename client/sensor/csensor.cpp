@@ -171,7 +171,8 @@ inline bool CSensor::mean_xyz()
    pt2 = (double*) &(sm->t0[sm->lOffset]);
 #endif
 
-   *px2 = *py2 = *pz2 = *pt2 = 0.0f;  // zero sample averages
+   *px2 = *py2 = *pz2 = 0.0f;  // zero sample averages
+   *pt2 = 0.0f;
  
    if (m_bSingleSampleDT) // just one sample, i.e. the hardware does the sampling a la the JoyWarrior USB sensor
       sm->lSampleSize = 1; 
@@ -223,9 +224,9 @@ static FILE* fileDebug = NULL;
    lLastSample = sm->lSampleSize;
 
    // store values i.e. divide by sample size
-   *px2 /= (double) sm->lSampleSize; 
-   *py2 /= (double) sm->lSampleSize; 
-   *pz2 /= (double) sm->lSampleSize; 
+   *px2 /= (float) sm->lSampleSize; 
+   *py2 /= (float) sm->lSampleSize; 
+   *pz2 /= (float) sm->lSampleSize; 
    *pt2 = sm->t0active; // save the time into the array, this is the real clock time
 
    // if active time is falling behind the checked (wall clock) time -- set equal, may have gone to sleep & woken up etc
@@ -234,7 +235,7 @@ static FILE* fileDebug = NULL;
    sm->ullSampleTotal += sm->lSampleSize;
    sm->ullSampleCount++;
 
-   sm->fRealDT += fabs(sm->t0active - sm->t0check);
+   sm->fRealDT += (float) fabs(sm->t0active - sm->t0check);
 
    sm->bWriting = false;
    //sm->writepos = 10;

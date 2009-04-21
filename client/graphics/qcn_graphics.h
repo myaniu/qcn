@@ -167,7 +167,7 @@ extern int key_up_alt;
 
 extern long g_lSnapshotPoint;
 extern long g_lSnapshotPointOriginal;
-extern long g_lSnapshotTimeBackMinutes;  // the minutes back in time we've gone for snapshot
+extern long g_lSnapshotTimeBackSeconds;  // the secnds back in time we've gone for snapshot
 extern bool g_bSnapshot;
 extern bool g_bSnapshotArrayProcessed;
 

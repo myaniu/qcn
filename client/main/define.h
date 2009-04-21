@@ -277,7 +277,7 @@ struct FDSET_GROUP {
 // number of elements in the shared mem time offset arrays
 //#define MAX_TIME_ARRAY    10 
 
-#define MAX_TRIGGER_LAST  1000
+#define MAX_TRIGGER_LAST  100
 #define MAX_TICK_MARK      12
 
 // CMC -- or perhaps trickle down to a slots qcn-quake.xml file?
@@ -305,7 +305,7 @@ struct FDSET_GROUP {
 // check for clock time offset every 15 minutes
 #define TIME_CHECK      10000L
 #define MAX_NUM_RESET    1000L     // maximum number of reset errors per workunit
-#define TIME_BACK_MINUTES_MAX 60L  // max number of minutes to go back from the GUI
+#define TIME_BACK_SECONDS_MAX 7200L  // max number of minutes to go back from the GUI
 
 #define SAC_NUMHEADBYTES 632L  // floats and longs are 440 rest are characters 
 #define SAC_VERSION 6L

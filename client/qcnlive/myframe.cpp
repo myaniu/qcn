@@ -656,10 +656,10 @@ void MyFrame::SetToggleSensor()
 			//Toggle(ID_TOOL_ACTION_SENSOR_01, (bool)(iSensorTimeWindow == 60));
 			//Toggle(ID_TOOL_ACTION_SENSOR_10, (bool)(iSensorTimeWindow == 600));
 			//Toggle(ID_TOOL_ACTION_SENSOR_60, (bool)(iSensorTimeWindow == 3600));
+	  }
 			Toggle(ID_TOOL_ACTION_SENSOR_START, (bool)(!bRecording && iSensorAction == 0));
 			Toggle(ID_TOOL_ACTION_SENSOR_STOP, (bool)(!bRecording && iSensorAction == 1));
 			Toggle(ID_TOOL_ACTION_SENSOR_RECORD, (bool)(bRecording));
-	  }
 }
 
 void MyFrame::SetToggleEarth()

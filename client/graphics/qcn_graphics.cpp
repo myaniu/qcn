@@ -132,6 +132,7 @@ namespace qcn_graphics {
 
 bool g_bThreadGraphics = false;
 bool g_bInitGraphics   = false;
+bool g_bViewHasStart   = false;
 
 int g_width, g_height;      // window dimensions
 
@@ -208,7 +209,7 @@ int key_up_alt = 0;
 
 long g_lSnapshotPoint = 0L;
 long g_lSnapshotPointOriginal = 0L;
-long g_lSnapshotTimeBackMinutes = 0L;  // the minutes back in time we've gone for snapshot
+long g_lSnapshotTimeBackSeconds = 0L;  // the minutes back in time we've gone for snapshot
 bool g_bSnapshot = false;
 bool g_bSnapshotArrayProcessed = false;
 
@@ -262,7 +263,7 @@ int getLastTrigger(const long lTriggerCheck, const int iWinSizeArray, const int 
 
   if (bFirst) lStartTime = 0L;
 
-  for (i = 0; i < sm->iTriggerLastElement; i++)  {
+  for (i = 0; i < MAX_TRIGGER_LAST; i++)  {
      // check if this offset matches a trigger and is within a rounding error for the time
      if (sm->lTriggerLastOffset[i] == lTriggerCheck && fabs(sm->dTriggerLastTime[i] - sm->t0[lTriggerCheck])<.05f) break;
   }
@@ -798,6 +799,7 @@ bool setupPlotMemory(const long lOffset)
     g_iTimeCtr = 0;
 	
     if (lOff > 0)  {  // all points exist in our window, so we can just go into lOffset - winsize and copy/scale from there
+	  g_bViewHasStart = false;  // the current view does not have the start point, can rewind
       dtw[0] = sm->t0[lOff];  // this will be the timestamp for the beginning of the window, i.e. "awinsize[key_winsize] ticks ago"
 
       for (ii = 0; ii < awinsize[key_winsize]; ii++) { 
@@ -822,6 +824,7 @@ bool setupPlotMemory(const long lOffset)
       }
     }
     else { // we are wrapping around the array, lOff <= 0
+	  g_bViewHasStart = true;  // the current view has the start point - don't allow rewind
       long lStart = MAXI + lOff + 1;   // start here, wrap around to 1+(awinsize-lStart) (skip 0 as that's baseline?)
       if (lStart >= MAXI || lStart < 1) lStart = 1;
       dtw[0] = sm->t0[lStart];  // this will be the timestamp for the beginning of the window, i.e. "awinsize[key_winsize] ticks ago"
@@ -921,7 +924,7 @@ void draw_triggers()
 {
     // show the triggers, if any
     glPushMatrix();
-    for (int i = 0; i < sm->iTriggerLastElement; i++) {
+    for (int i = 0; i < MAX_TRIGGER_LAST; i++) {
        if (dTriggerLastTime[i] > 0.0f) { // there's a trigger here
 	     float fWhere;
 	     if (g_eView == VIEW_PLOT_2D) {
@@ -1141,28 +1144,30 @@ const long TimeWindowWidth(int seconds)
 
 const long TimeWindowBack()
 {
-	if (g_lSnapshotTimeBackMinutes == TIME_BACK_MINUTES_MAX) return TIME_BACK_MINUTES_MAX; // we've already gone back an hour, don't go back any more as the array may be wrapping!
+	if (g_bViewHasStart || g_lSnapshotTimeBackSeconds == TIME_BACK_SECONDS_MAX) return TIME_BACK_SECONDS_MAX; // we've already gone back an hour, don't go back any more as the array may be wrapping!
 
     if (!g_bSnapshot) TimeWindowStop();
 	if (g_bSnapshot) {
 
        switch(key_winsize) {
           case 0:
-		     g_lSnapshotTimeBackMinutes += 1; break;
+		     g_lSnapshotTimeBackSeconds += 10; break;
           case 1:
-		     g_lSnapshotTimeBackMinutes += 10; break;
+		     g_lSnapshotTimeBackSeconds += 60; break;
           case 2:
-		     g_lSnapshotTimeBackMinutes += 60; break;
+		     g_lSnapshotTimeBackSeconds += 600; break;
+          case 3:
+		     g_lSnapshotTimeBackSeconds += 3600; break;
 	   }
-	   if (key_winsize == 2) { // if on hour view only ever just show the past hour
-	       g_lSnapshotPoint = g_lSnapshotPointOriginal;
+	   if (key_winsize == 3) { // if on hour view only ever just show the first hour
+	       g_lSnapshotPoint = 1;
 	   }
 	   else {
-	     if (g_lSnapshotTimeBackMinutes > TIME_BACK_MINUTES_MAX)  {
+	     if (g_lSnapshotTimeBackSeconds > TIME_BACK_SECONDS_MAX)  {
 	       // go to one hour previous (approximately due to timing/rounding errors that may have occurred)
 		   g_lSnapshotPoint = g_lSnapshotPointOriginal - awinsize[3]; // (3600.0f/sm->dt);  // e.g. 3600/.02 = 180000 points
 		   if (g_lSnapshotPoint < 0) g_lSnapshotPoint += MAXI;
-	       g_lSnapshotTimeBackMinutes = TIME_BACK_MINUTES_MAX;
+	       g_lSnapshotTimeBackSeconds = TIME_BACK_SECONDS_MAX;
 	     }
 	     else { // less than an hour, just go back normally;
 		   g_lSnapshotPoint -= awinsize[key_winsize];
@@ -1181,18 +1186,20 @@ const long TimeWindowForward()
 	if (g_bSnapshot) {  // note we can't go further forward than our sm->lOffset!
        switch(key_winsize) {
           case 0:
-		     g_lSnapshotTimeBackMinutes -= 1; break;
+		     g_lSnapshotTimeBackSeconds -= 10; break;
           case 1:
-		     g_lSnapshotTimeBackMinutes -= 10; break;
+		     g_lSnapshotTimeBackSeconds -= 60; break;
           case 2:
-		     g_lSnapshotTimeBackMinutes -= 60; break;
+		     g_lSnapshotTimeBackSeconds -= 600; break;
+          case 3:
+		     g_lSnapshotTimeBackSeconds -= 3600; break;
 	   }
 	   
        g_lSnapshotPoint += awinsize[key_winsize];
        if (sm && g_lSnapshotPoint > sm->lOffset) {
 	      g_lSnapshotPoint = sm->lOffset-2;  // at the end!
 		  g_lSnapshotPointOriginal = g_lSnapshotPoint;
-		  g_lSnapshotTimeBackMinutes = 0L;
+		  g_lSnapshotTimeBackSeconds = 0L;
 	   }
        bResetArray = true;
        g_bSnapshotArrayProcessed = false;
@@ -1204,7 +1211,7 @@ const long TimeWindowStop()
 {
      g_bSnapshot = true;
 	 if (sm && g_bSnapshot) {
-	     g_lSnapshotTimeBackMinutes = 0L;
+	     g_lSnapshotTimeBackSeconds = 0L;
          g_lSnapshotPoint = sm->lOffset-2;  // -2 gives us some clearance we're not reading from end of array which sensor is writing
          g_lSnapshotPointOriginal = g_lSnapshotPoint; // save the original point so we can see back into the array
          if (earth.IsShown()) {
