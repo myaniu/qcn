@@ -140,10 +140,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="wsock32.lib hid.lib setupapi.lib winmm.lib glu32.lib opengl32.lib comctl32.lib boinc_api.lib boinc_lib.lib boinc_zip.lib curllib.lib jpeglib.lib zlib.lib wxbase28.lib wxmsw28_core.lib wxmsw28_gl.lib wxpng.lib wxmsw28_adv.lib MotionNodeAccelAPI.lib rpcrt4.lib"
+				AdditionalDependencies="wsock32.lib hid.lib setupapi.lib winmm.lib glu32.lib opengl32.lib comctl32.lib boinc_api.lib boinc_lib.lib boinc_zip.lib curllib.lib jpeglib.lib zlib.lib wxbase28.lib wxmsw28_core.lib wxmsw28_gl.lib wxpng.lib wxmsw28_adv.lib MotionNodeAccelAPI.lib"
 				OutputFile="..\bin\$(ProjectName).exe"
 				Version=""
-				LinkIncremental="1"
+				LinkIncremental="2"
 				AdditionalLibraryDirectories="../win_build;../../curl/lib/Release;\wxWidgets\lib\vc_lib;../sensor/motionnodeaccel"
 				DelayLoadDLLs="MotionNodeAccelAPI.dll"
 				SubSystem="2"
