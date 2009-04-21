@@ -121,7 +121,7 @@ int deploy_qcn()
 
 	fprintf(fBatch, "cd /var/www/boinc/qcnalpha/download\n");
 	fprintf(fBatch, "put qcnlive-win.zip\n");
-	fprintf(fBatch, "cd /var/www/boinc/qcnalpha/apps/qcnalpha\n");
+	fprintf(fBatch, "cd /var/www/boinc/qcnalpha/apps/qcnsensor\n");
 
 	//NCI
 	fprintf(fBatch, "mkdir qcn_%d.%d_%s\n", g_version_major, g_version_minor, "windows_intelx86__nci.exe");
