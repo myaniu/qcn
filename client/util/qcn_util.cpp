@@ -332,10 +332,13 @@ void ResetCounter(const e_where eWhere, const int iNumResetInitial)
 
 void getLastTrigger(double& dTime, long& lTime)
 {
+	/*
     int iOpen;
     for (iOpen = MAX_TRIGGER_LAST-1; iOpen >=0; iOpen--)  {
         if (sm->lTriggerLastOffset[iOpen] != 0L) break; // this is a valid one
     }
+	*/
+	int iOpen = sm->iTriggerLastElement;
     if (iOpen == -1)  { // couldn't find, ergo no trigger
        dTime = 0.0f;
        lTime = 0L;

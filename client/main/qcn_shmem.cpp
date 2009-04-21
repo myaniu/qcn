@@ -77,6 +77,7 @@ void CQCNShMem::clear(bool bAll)
         memset(this, 0x00, sizeof(CQCNShMem));
 
         // start with some values that really shouldn't be 0 ever
+		iTriggerLastElement = -1;
         dt = g_DT;
         iWindow = (int) (g_cfTimeWindow / g_DT);  // number of points in time window
         return;
