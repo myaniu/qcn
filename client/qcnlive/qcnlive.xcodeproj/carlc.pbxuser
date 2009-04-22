@@ -125,6 +125,16 @@
 		modificationTime = 261949853.404026;
 		state = 1;
 	};
+	E36D78DF0F9FAC1300FF0C2C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = E3C0E7B80D64E9BE0099B905 /* qcn_graphics.cpp */;
+		name = "qcn_graphics.cpp: 797";
+		rLen = 0;
+		rLoc = 29421;
+		rType = 0;
+		vrLen = 2695;
+		vrLoc = 28476;
+	};
 	E371C7F60E2AB5D0009B4DAA /* csensor_mac_laptop.cpp */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {1196, 4060}}";
@@ -293,12 +303,13 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 262107244;
-			PBXWorkspaceStateSaveDate = 262107244;
+			PBXPerProjectTemplateStateSaveDate = 262122514;
+			PBXWorkspaceStateSaveDate = 262122514;
 		};
 		perUserProjectItems = {
-			E31CB7160F9F70780014BB6C /* PBXBookmark */ = E31CB7160F9F70780014BB6C /* PBXBookmark */;
-			E31CB71B0F9FAB9D0014BB6C /* PBXTextBookmark */ = E31CB71B0F9FAB9D0014BB6C /* PBXTextBookmark */;
+			E31CB7160F9F70780014BB6C = E31CB7160F9F70780014BB6C /* PBXBookmark */;
+			E31CB71B0F9FAB9D0014BB6C = E31CB71B0F9FAB9D0014BB6C /* PBXTextBookmark */;
+			E36D78DF0F9FAC1300FF0C2C /* PBXTextBookmark */ = E36D78DF0F9FAC1300FF0C2C /* PBXTextBookmark */;
 		};
 		sourceControlManager = E3A499E10D64E60400E51CDF /* Source Control */;
 		userBuildSettings = {
@@ -471,9 +482,9 @@
 	};
 	E3C0E7B80D64E9BE0099B905 /* qcn_graphics.cpp */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1180, 24038}}";
+			sepNavIntBoundsRect = "{{0, 0}, {1180, 24360}}";
 			sepNavSelRange = "{29421, 0}";
-			sepNavVisRange = "{28476, 2829}";
+			sepNavVisRange = "{28476, 2695}";
 			sepNavVisRect = "{{0, 14405}, {1161, 818}}";
 			sepNavWindowFrame = "{{179, 81}, {1239, 947}}";
 		};

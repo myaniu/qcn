@@ -214,10 +214,10 @@
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>E31CB71B0F9FAB9D0014BB6C</string>
+						<string>E36D78DF0F9FAC1300FF0C2C</string>
 						<key>history</key>
 						<array>
-							<string>E31CB7160F9F70780014BB6C</string>
+							<string>E31CB71B0F9FAB9D0014BB6C</string>
 						</array>
 					</dict>
 					<key>SplitCount</key>
@@ -428,9 +428,9 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>E31CB7130F9F70730014BB6C</string>
+				<string>E36D78DD0F9FAC1300FF0C2C</string>
 				<string>1CE0B1FE06471DED0097A5F4</string>
-				<string>E31CB7140F9F70730014BB6C</string>
+				<string>E36D78DE0F9FAC1300FF0C2C</string>
 				<string>1CE0B20306471E060097A5F4</string>
 				<string>1CE0B20506471E060097A5F4</string>
 			</array>
@@ -562,9 +562,6 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>1C78EAAD065D492600B07095</string>
-		<string>1CD10A99069EF8BA00B06720</string>
-		<string>E35897320E912E8A005C1D94</string>
 		<string>/Users/carlc/qcn/client/qcnlive/qcnlive.xcodeproj</string>
 		<string>E31CB7180F9FAAC80014BB6C</string>
 	</array>
