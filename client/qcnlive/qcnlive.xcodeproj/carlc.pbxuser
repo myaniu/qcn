@@ -78,6 +78,20 @@
 			sepNavWindowFrame = "{{352, 76}, {1199, 948}}";
 		};
 	};
+	E31CB7160F9F70780014BB6C /* PBXBookmark */ = {
+		isa = PBXBookmark;
+		fRef = E3C0E7B80D64E9BE0099B905 /* qcn_graphics.cpp */;
+	};
+	E31CB71B0F9FAB9D0014BB6C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = E3C0E7B80D64E9BE0099B905 /* qcn_graphics.cpp */;
+		name = "qcn_graphics.cpp: 797";
+		rLen = 0;
+		rLoc = 29421;
+		rType = 0;
+		vrLen = 2829;
+		vrLoc = 28476;
+	};
 	E32A1F3F0F8536BE001C4F07 /* qcn_graphics.cpp:267 */ = {
 		isa = PBXFileBreakpoint;
 		actions = (
@@ -279,8 +293,12 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 261958993;
-			PBXWorkspaceStateSaveDate = 261958993;
+			PBXPerProjectTemplateStateSaveDate = 262107244;
+			PBXWorkspaceStateSaveDate = 262107244;
+		};
+		perUserProjectItems = {
+			E31CB7160F9F70780014BB6C /* PBXBookmark */ = E31CB7160F9F70780014BB6C /* PBXBookmark */;
+			E31CB71B0F9FAB9D0014BB6C /* PBXTextBookmark */ = E31CB71B0F9FAB9D0014BB6C /* PBXTextBookmark */;
 		};
 		sourceControlManager = E3A499E10D64E60400E51CDF /* Source Control */;
 		userBuildSettings = {
@@ -453,9 +471,9 @@
 	};
 	E3C0E7B80D64E9BE0099B905 /* qcn_graphics.cpp */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1180, 24318}}";
-			sepNavSelRange = "{41115, 11}";
-			sepNavVisRange = "{40156, 1255}";
+			sepNavIntBoundsRect = "{{0, 0}, {1180, 24038}}";
+			sepNavSelRange = "{29421, 0}";
+			sepNavVisRange = "{28476, 2829}";
 			sepNavVisRect = "{{0, 14405}, {1161, 818}}";
 			sepNavWindowFrame = "{{179, 81}, {1239, 947}}";
 		};

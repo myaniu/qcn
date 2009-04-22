@@ -799,7 +799,8 @@ bool setupPlotMemory(const long lOffset)
     g_iTimeCtr = 0;
 	
     if (lOff > 0)  {  // all points exist in our window, so we can just go into lOffset - winsize and copy/scale from there
-	  g_bViewHasStart = false;  // the current view does not have the start point, can rewind
+	  g_bViewHasStart = (bool) (sm->x0[lOff] == SAC_NULL_FLOAT);  // the current view does not have the start point, can rewind		
+
       dtw[0] = sm->t0[lOff];  // this will be the timestamp for the beginning of the window, i.e. "awinsize[key_winsize] ticks ago"
 
       for (ii = 0; ii < awinsize[key_winsize]; ii++) { 
@@ -827,6 +828,7 @@ bool setupPlotMemory(const long lOffset)
 	  g_bViewHasStart = true;  // the current view has the start point - don't allow rewind
       long lStart = MAXI + lOff + 1;   // start here, wrap around to 1+(awinsize-lStart) (skip 0 as that's baseline?)
       if (lStart >= MAXI || lStart < 1) lStart = 1;
+	  g_bViewHasStart = (bool) (sm->x0[lStart] == SAC_NULL_FLOAT);  // the current view does not have the start point, can rewind		
       dtw[0] = sm->t0[lStart];  // this will be the timestamp for the beginning of the window, i.e. "awinsize[key_winsize] ticks ago"
 
       // Note that if the array (MAXI) is close to an hour, there's problems with overlapping points
