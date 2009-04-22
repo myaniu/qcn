@@ -1,5 +1,9 @@
 <?php
 $project_news = array(
+   array("April 22, 2009",
+"To work better with the new versions just release (4.76), QCN is going to require a BOINC upgrade to at least version 6.2.  <A HREF=\"http://boinc.berkeley.edu/download.php\">Download the latest version here.</A>  We recommend BOINC version 6.6 or higher, as available on the download link, to ensure that your QCN software and sensor will work at a higher priority level, and cut down on the 'resets' especially when running other BOINC projects alongside QCN.<BR>",
+ "Minimum BOINC Version 6.2 for QCN (6.6+ preferred)"
+  ),
    array("April 21, 2009",
 "A few QCN participants caught the recent M5.1 quake in Hawaii.  Also as of today I am removing the 'alpha test' status of the Quake-Catcher Network, although the URL will remain the same so you do not have to reconnect/reattach.  The credit stats should now be tracked by <A HREF=\"http://boincstats.com\">boincstats.com</A><BR>",
  "Hawaii Quake Detected; QCN Is Now 'Non-Alpha'"
