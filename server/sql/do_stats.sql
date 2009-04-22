@@ -57,19 +57,19 @@ BEGIN
           qcn_stats r WHERE r.userid=u.id),0),
              expavg_credit=IFNULL((SELECT SUM(weight*total_credit) FROM 
                qcn_stats rs WHERE rs.userid=u.id),0),
-             expavg_time=(SELECT AVG(rrs.expavg_time) FROM qcn_stats rrs WHERE rrs.userid=u.id);
+             expavg_time=(SELECT IFNULL(AVG(rrs.expavg_time),0) FROM qcn_stats rrs WHERE rrs.userid=u.id);
 
     UPDATE host u SET total_credit=IFNULL((select sum(total_credit) from 
           qcn_stats r WHERE r.hostid=u.id),0),
              expavg_credit=IFNULL((SELECT SUM(weight*total_credit) FROM 
                qcn_stats rs WHERE rs.hostid=u.id),0),
-             expavg_time=(SELECT AVG(rrs.expavg_time) FROM qcn_stats rrs WHERE rrs.hostid=u.id);
+             expavg_time=(SELECT IFNULL(AVG(rrs.expavg_time),0) FROM qcn_stats rrs WHERE rrs.hostid=u.id);
 
     UPDATE team u SET total_credit=IFNULL((select sum(total_credit) from 
           qcn_stats r WHERE r.teamid=u.id),0),
              expavg_credit=IFNULL((SELECT SUM(weight*total_credit) FROM 
                qcn_stats rs WHERE rs.teamid=u.id),0),
-             expavg_time=(SELECT AVG(rrs.expavg_time) FROM qcn_stats rrs WHERE rrs.teamid=u.id);
+             expavg_time=(SELECT IFNULL(AVG(rrs.expavg_time),0) FROM qcn_stats rrs WHERE rrs.teamid=u.id);
 
     COMMIT;
 END
