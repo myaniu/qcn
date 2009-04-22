@@ -1,0 +1,48 @@
+<file_info>
+    <name>qcnicon.png</name>
+    <url>http://qcn.stanford.edu/qcnalpha/download/qcnicon.png</url>
+    <md5_cksum>cd528754e855ade47e243380f839054c</md5_cksum>
+</file_info>
+<file_info>
+    <name>qcn0.png</name>
+    <url>http://qcn.stanford.edu/qcnalpha/download/qcn0.png</url>
+    <md5_cksum>610d73e13f48e306895fd68b43fa3446</md5_cksum>
+</file_info>
+<file_info>
+    <name>qcn1.png</name>
+    <url>http://qcn.stanford.edu/qcnalpha/download/qcn1.png</url>
+    <md5_cksum>e0215cb0956264accbc9f74f709d3007</md5_cksum>
+</file_info>
+<file_info>
+    <name>qcn2.png</name>
+    <url>http://qcn.stanford.edu/qcnalpha/download/qcn2.png</url>
+    <md5_cksum>aec29cd9d71857ae22a618465e511873</md5_cksum>
+</file_info>
+<file_info>
+    <name>qcn3.png</name>
+    <url>http://qcn.stanford.edu/qcnalpha/download/qcn3.png</url>
+    <md5_cksum>65794eb5b808c67b29ade793d1ca7a19</md5_cksum>
+</file_info>
+<project_files>
+    <file_ref>
+      <file_name>qcnicon.png</file_name>
+      <open_name>stat_icon</open_name>
+    </file_ref>
+    <file_ref>
+      <file_name>qcn0.png</file_name>
+      <open_name>slideshow_qcnsensor_00</open_name>
+    </file_ref>
+    <file_ref>
+      <file_name>qcn1.png</file_name>
+      <open_name>slideshow_qcnsensor_01</open_name>
+    </file_ref>
+    <file_ref>
+      <file_name>qcn2.png</file_name>
+      <open_name>slideshow_qcnsensor_02</open_name>
+    </file_ref>
+    <file_ref>
+      <file_name>qcn3.png</file_name>
+      <open_name>slideshow_qcnsensor_03</open_name>
+    </file_ref>
+</project_files> 
+

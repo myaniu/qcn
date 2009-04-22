@@ -1,3 +1,4 @@
+pscp carlgt1@qcn-web:/var/www/boinc/qcnalpha/project_files.xml ../config/
 pscp carlgt1@qcn-web:/var/www/boinc/qcnalpha/gui_urls.xml ../config/
 pscp carlgt1@qcn-web:/var/www/boinc/qcnalpha/config.xml ../config/
 pscp carlgt1@qcn-web:/var/www/boinc/qcnalpha/bin/generate_maptrig.sh ../config/
