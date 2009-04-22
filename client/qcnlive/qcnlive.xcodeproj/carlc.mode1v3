@@ -195,48 +195,7 @@
 	<key>Notifications</key>
 	<array/>
 	<key>OpenEditors</key>
-	<array>
-		<dict>
-			<key>Content</key>
-			<dict>
-				<key>PBXProjectModuleGUID</key>
-				<string>E31CB7180F9FAAC80014BB6C</string>
-				<key>PBXProjectModuleLabel</key>
-				<string>qcn_graphics.cpp</string>
-				<key>PBXSplitModuleInNavigatorKey</key>
-				<dict>
-					<key>Split0</key>
-					<dict>
-						<key>PBXProjectModuleGUID</key>
-						<string>E31CB7190F9FAAC80014BB6C</string>
-						<key>PBXProjectModuleLabel</key>
-						<string>qcn_graphics.cpp</string>
-						<key>_historyCapacity</key>
-						<integer>0</integer>
-						<key>bookmark</key>
-						<string>E36D78DF0F9FAC1300FF0C2C</string>
-						<key>history</key>
-						<array>
-							<string>E31CB71B0F9FAB9D0014BB6C</string>
-						</array>
-					</dict>
-					<key>SplitCount</key>
-					<string>1</string>
-				</dict>
-				<key>StatusBarVisibility</key>
-				<true/>
-			</dict>
-			<key>Geometry</key>
-			<dict>
-				<key>Frame</key>
-				<string>{{0, 20}, {1239, 850}}</string>
-				<key>PBXModuleWindowStatusBarHidden2</key>
-				<false/>
-				<key>RubberWindowFrame</key>
-				<string>179 137 1239 891 0 0 1680 1028 </string>
-			</dict>
-		</dict>
-	</array>
+	<array/>
 	<key>PerspectiveWidths</key>
 	<array>
 		<integer>-1</integer>
@@ -308,11 +267,6 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateExpansionKey</key>
 							<array>
 								<string>E3A499DB0D64E60400E51CDF</string>
-								<string>E3C0E7D90D64E9D30099B905</string>
-								<string>E3C0E7D80D64E9C50099B905</string>
-								<string>E3C0E79B0D64E9BE0099B905</string>
-								<string>E3C0E7B70D64E9BE0099B905</string>
-								<string>E3C0E7AE0D64E9BE0099B905</string>
 								<string>1C37FBAC04509CD000000102</string>
 								<string>1C37FAAC04509CD000000102</string>
 								<string>1C37FABC05509CD000000102</string>
@@ -320,10 +274,6 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>19</integer>
-									<integer>17</integer>
-									<integer>16</integer>
-									<integer>11</integer>
 									<integer>0</integer>
 								</array>
 							</array>
@@ -562,8 +512,10 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
+		<string>1C78EAAD065D492600B07095</string>
+		<string>1CD10A99069EF8BA00B06720</string>
+		<string>E35897320E912E8A005C1D94</string>
 		<string>/Users/carlc/qcn/client/qcnlive/qcnlive.xcodeproj</string>
-		<string>E31CB7180F9FAAC80014BB6C</string>
 	</array>
 	<key>WindowString</key>
 	<string>22 370 1391 636 0 0 1680 1028 </string>
@@ -643,7 +595,7 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>E35897320E912E8A005C1D94</string>
-				<string>E31CB7150F9F70730014BB6C</string>
+				<string>E36D78E30F9FB2A600FF0C2C</string>
 				<string>1CD0528F0623707200166675</string>
 				<string>XCMainBuildResultsModuleGUID</string>
 			</array>
@@ -763,13 +715,13 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>1CD10A99069EF8BA00B06720</string>
-				<string>E31CB71C0F9FAB9D0014BB6C</string>
+				<string>E36D78E40F9FB2A600FF0C2C</string>
 				<string>1C162984064C10D400B95A72</string>
-				<string>E31CB71D0F9FAB9D0014BB6C</string>
-				<string>E31CB71E0F9FAB9D0014BB6C</string>
-				<string>E31CB71F0F9FAB9D0014BB6C</string>
-				<string>E31CB7200F9FAB9D0014BB6C</string>
-				<string>E31CB7210F9FAB9D0014BB6C</string>
+				<string>E36D78E50F9FB2A600FF0C2C</string>
+				<string>E36D78E60F9FB2A600FF0C2C</string>
+				<string>E36D78E70F9FB2A600FF0C2C</string>
+				<string>E36D78E80F9FB2A600FF0C2C</string>
+				<string>E36D78E90F9FB2A600FF0C2C</string>
 			</array>
 			<key>ToolbarConfiguration</key>
 			<string>xcode.toolbar.config.debugV3</string>
@@ -923,7 +875,7 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>1C78EAAD065D492600B07095</string>
-				<string>E31CB7220F9FAB9D0014BB6C</string>
+				<string>E36D78EA0F9FB2A600FF0C2C</string>
 				<string>1C78EAAC065D492600B07095</string>
 			</array>
 			<key>ToolbarConfiguration</key>
