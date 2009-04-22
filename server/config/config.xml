@@ -42,7 +42,7 @@
       http://qcn.stanford.edu/qcnalpha_cgi/file_upload_handler
     </upload_url>
     <db_passwd>
-      1QCNQuake
+      password
     </db_passwd>
     <db_host>
       db-private
