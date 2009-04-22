@@ -28,6 +28,9 @@
     <db_name>
       qcnalpha
     </db_name>
+    <min_core_client_version_announced> 602 </min_core_client_version_announced>
+    <min_core_client_upgrade_deadline> 1241650148 </min_core_client_upgrade_deadline>
+    <min_core_client_version> 602 </min_core_client_version>
     <shmem_key>
       0x11119030
     </shmem_key>
