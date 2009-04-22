@@ -27,14 +27,16 @@ BEGIN
     INSERT INTO qcn_recalcresult
       (SELECT resultid,
        exp(-(abs(unix_timestamp()-time_received))*0.69314718/604800.0) weight,
-         (50.0*IF(runtime_clock>100000,100000,runtime_clock))/86400.0 total_credit
+         (50.0*IF(runtime_clock>100000.0,100000.0,runtime_clock))/86400.0 total_credit,
+           time_received
          FROM qcn_finalstats);
 
     /* note the left join below to ignore triggers for resultid's that we received a final stats trickle for above */
     INSERT INTO qcn_recalcresult
       (SELECT r.id resultid,                              
        exp(-(abs(unix_timestamp()-max(t.time_received))*0.69314718/604800.0)) weight,
-         (50.0*IF(MAX(t.runtime_clock)>100000,100000.0,MAX(t.runtime_clock)))/86400.0 total_credit
+         (50.0*IF(MAX(t.runtime_clock)>100000.0,100000.0,MAX(t.runtime_clock)))/86400.0 total_credit,
+           max(t.time_received)
          FROM result r
            LEFT JOIN qcn_finalstats f ON r.id=f.resultid 
            JOIN qcn_trigger t ON r.name=t.result_name
@@ -43,7 +45,7 @@ BEGIN
 
     TRUNCATE TABLE qcn_stats;
     INSERT INTO qcn_stats 
-       SELECT r.userid,r.hostid,u.teamid,r.id,c.total_credit,c.weight
+       SELECT r.userid,r.hostid,u.teamid,r.id,c.total_credit,c.weight,c.time_received
         FROM result r, user u, 
          qcn_recalcresult c 
        WHERE r.id=c.resultid AND r.userid=u.id;
@@ -55,19 +57,19 @@ BEGIN
           qcn_stats r WHERE r.userid=u.id),0),
              expavg_credit=IFNULL((SELECT SUM(weight*total_credit) FROM 
                qcn_stats rs WHERE rs.userid=u.id),0),
-             expavg_time=unix_timestamp();
+             expavg_time=(SELECT AVG(rrs.expavg_time) FROM qcn_stats rrs WHERE rrs.userid=u.id);
 
     UPDATE host u SET total_credit=IFNULL((select sum(total_credit) from 
           qcn_stats r WHERE r.hostid=u.id),0),
              expavg_credit=IFNULL((SELECT SUM(weight*total_credit) FROM 
                qcn_stats rs WHERE rs.hostid=u.id),0),
-             expavg_time=unix_timestamp();
+             expavg_time=(SELECT AVG(rrs.expavg_time) FROM qcn_stats rrs WHERE rrs.hostid=u.id);
 
     UPDATE team u SET total_credit=IFNULL((select sum(total_credit) from 
           qcn_stats r WHERE r.teamid=u.id),0),
              expavg_credit=IFNULL((SELECT SUM(weight*total_credit) FROM 
                qcn_stats rs WHERE rs.teamid=u.id),0),
-             expavg_time=unix_timestamp();
+             expavg_time=(SELECT AVG(rrs.expavg_time) FROM qcn_stats rrs WHERE rrs.teamid=u.id);
 
     COMMIT;
 END

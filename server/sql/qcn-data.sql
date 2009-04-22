@@ -96,12 +96,12 @@ create index qcn_trigger_file on qcn_trigger (file);
 create index qcn_trigger_result_name on qcn_trigger (result_name,id,ping);
 
 /* temp tables for stats */
-CREATE TABLE qcn_recalcresult (resultid int(11) NOT NULL PRIMARY KEY, weight double, total_credit double);
+CREATE TABLE qcn_recalcresult (resultid int(11) NOT NULL PRIMARY KEY, weight double, total_credit double, time_received double);
 ALTER TABLE qcn_recalcresult ADD INDEX recalc_result (resultid);
 
 CREATE TABLE qcn_stats
          (userid integer, hostid integer, teamid integer,
-             resultid integer, total_credit double, weight double);
+             resultid integer, total_credit double, weight double, expavg_time double);
 
 ALTER TABLE qcn_stats ADD INDEX qcn_stats_userid (userid);
 ALTER TABLE qcn_stats ADD INDEX qcn_stats_hostid (hostid);
