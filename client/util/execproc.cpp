@@ -270,10 +270,12 @@ bool execute_program(const char* strExec, const char* strArgs, const char* strDi
    sprintf(strARG, "%s %s", sstrCmd.c_str(), strArgs);
    argc = parse_command_line(strARG, argv);
 
+/*
     fprintf(stdout, "\n\nfull cmd-line:\n%s\n  ptr strARG %x  argv %x\n\n", strARG, &strARG, argv);
 for (int i = 0 ; i < argc ; i++) {
     if (argv[i]) fprintf(stdout, "    argv[%d] = %s\t%x\n", i, argv[i], &argv[i]);
  }
+*/
 
 #endif
 
