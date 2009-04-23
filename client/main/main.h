@@ -38,6 +38,7 @@
   #include <cstdlib>
   #include <csignal>
   #include <unistd.h>
+  #include <sys/wait.h>
 #endif
 
 // setup the shared memory segment (a class that resides in shared mem) for the QCN (& graphics) app

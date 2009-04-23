@@ -343,7 +343,7 @@ for (int i = 0 ; i < argc ; i++) {
    try {
       // try passing the entire cmd line as strExec arg
       if( (fPipe = my_popen(sstrCmd.c_str(), "r", &pid, argv )) == NULL )  {
-	     waitpid(pid, &iPIDStatus, WNOHANG);
+         waitpid(pid, &iPIDStatus, WNOHANG); // zombie prevention
          return false;
       }
 
@@ -373,13 +373,13 @@ for (int i = 0 ; i < argc ; i++) {
            }
       }
 
-      waitpid(pid, &iPIDStatus, WNOHANG); // zombie prevention
-
       // close pipe
       iRetVal = fclose(fPipe);
 
+      waitpid(pid, &iPIDStatus, WNOHANG); // zombie prevention
   }
   catch(...) {
+    waitpid(pid, &iPIDStatus, WNOHANG); // zombie prevention
     iRetVal = -999;
   }
   delete [] strBuf;
