@@ -209,7 +209,6 @@ static FILE* my_popen
 
 #endif
 
-//bool execute_program(const char* strExec, const char** strArgV, const int iArgC, const char* strDir, 
 bool execute_program(const char* strExec, const char* strArgs, const char* strDir, 
     char* strReply, int iLenReply, 
     bool bNice, bool bQuote, 
@@ -244,8 +243,9 @@ bool execute_program(const char* strExec, const char* strArgs, const char* strDi
    if (*g_piStop) return false;
 
    // make a copy of our args since parse_command_line modified the string
-   char strARG[_MAX_PATH];
-   char* argv[100];
+   char*  strARG = new char[2 * _MAX_PATH];
+   char** argv = new char*[100];
+   memset(strARG, 0x00, 2 * _MAX_PATH * sizeof(char));
    memset(argv, 0x00, 100 * sizeof(char*));
    int argc = 0;
 
@@ -262,21 +262,19 @@ bool execute_program(const char* strExec, const char* strArgs, const char* strDi
       sstrCmd += '\"';  // surround windows command with quotes for the full path
 
 #ifdef _WIN32  // just concat args to the strCmd
-   memset(strARG, 0x00, _MAX_PATH);
-   strlcpy(strARG, strArgs, _MAX_PATH); // that should be plenty
+   strlcpy(strARG, strArgs, 2 * _MAX_PATH); // that should be plenty
    sstrCmd += " ";
    sstrCmd += strARG;
 #else
    // we need to parse the args into an "argv" style string array!
-   memset(strARG, 0x00, _MAX_PATH);
    sprintf(strARG, "%s %s", sstrCmd.c_str(), strArgs);
    argc = parse_command_line(strARG, argv);
-/*
-    fprintf(stdout, "\n\n%s\n", strARG);
+
+    fprintf(stdout, "\n\nfull cmd-line:\n%s\n  ptr strARG %x  argv %x\n\n", strARG, &strARG, argv);
 for (int i = 0 ; i < argc ; i++) {
-    if (argv[i]) fprintf(stdout, "    argv[%d] = %s\n", i, argv[i]);
+    if (argv[i]) fprintf(stdout, "    argv[%d] = %s\t%x\n", i, argv[i], &argv[i]);
  }
-*/
+
 #endif
 
 #ifdef _WIN32
@@ -292,12 +290,16 @@ for (int i = 0 ; i < argc ; i++) {
    if ( ! CreatePipe(&g_hChildStd_OUT_Rd, &g_hChildStd_OUT_Wr, &saAttr, 0) ) {
        fprintf(stderr, "execproc: Error in creating pipe 1 for Windows proc execution\n");
        CleanupHandles();
+       if (strARG) delete [] strARG;
+       if (argv) delete [] argv;
        return false;
    }
 
    // check if we got a stop request
    if (*g_piStop) {
       CleanupHandles();
+       if (strARG) delete [] strARG;
+       if (argv) delete [] argv;
       return false;
    }
 
@@ -305,12 +307,16 @@ for (int i = 0 ; i < argc ; i++) {
    if ( ! SetHandleInformation(g_hChildStd_OUT_Rd, HANDLE_FLAG_INHERIT, 0) )  {
        fprintf(stderr, "execproc: Error in SetHandleInformation\n");
        CleanupHandles();
+       if (strARG) delete [] strARG;
+       if (argv) delete [] argv;
        return false;
    }
 
    // check if we got a stop request
    if (*g_piStop) {
       CleanupHandles();
+       if (strARG) delete [] strARG;
+       if (argv) delete [] argv;
       return false;
    }
 
@@ -325,10 +331,14 @@ for (int i = 0 ; i < argc ; i++) {
           fprintf(stderr, "execproc: Could not create child process\n");
        }
        CleanupHandles();
+       if (strARG) delete [] strARG;
+       if (argv) delete [] argv;
        return false;
     }
 
     bool bRet = ReadFromPipe(strReply, iLenReply);
+       if (strARG) delete [] strARG;
+       if (argv) delete [] argv;
     CleanupHandles();
     return bRet;
 
@@ -382,7 +392,10 @@ for (int i = 0 ; i < argc ; i++) {
     waitpid(pid, &iPIDStatus, WNOHANG); // zombie prevention
     iRetVal = -999;
   }
-  delete [] strBuf;
+
+  if (strBuf) delete [] strBuf;
+  if (strARG) delete [] strARG;
+  if (argv) delete [] argv;
 
   if (iRetVal) {
       fprintf(stderr, "Failed to execute %s with error # %d\n", sstrCmd.c_str(), iRetVal);
