@@ -39,6 +39,21 @@ GLfloat grey_trans[4] = {.6,.6,.6,.6};
 GLfloat white_trans[4] = {1., 1., 1., 0.50f};
 GLfloat light_blue[4] = {0., 0., .5f, .5f};
 
+// an hour seems to be the max to vis without much delay
+static long awinsize[MAX_KEY_WINSIZE+1]; 
+static int key_winsize = 0; // points to an element of the above array to get the winsize i.e. 0=10 sec , 1=60 sec , 2= 10 min, 3 = hour
+static int key_press = 0;
+static int key_press_alt = 0;
+static int key_up = 0;
+static int key_up_alt = 0;
+static int g_iTimeWindowWidth = 10;  // default to a 10 second window (fast)
+
+static long g_lSnapshotPoint = 0L;
+static long g_lSnapshotPointOriginal = 0L;
+static long g_lSnapshotTimeBackSeconds = 0L;  // the minutes back in time we've gone for snapshot
+static bool g_bSnapshot = false;
+static bool g_bSnapshotArrayProcessed = false;
+
 #ifndef QCNLIVE
 
 void qcn_graphics_exit()
@@ -198,20 +213,6 @@ int g_iZoomLevel = 0;
 //GLfloat jiggle[3] = {0., 0., 0.};
 
 double dtw[2]; // time window
-
-// an hour seems to be the max to vis without much delay
-long awinsize[MAX_KEY_WINSIZE+1]; 
-int key_winsize = 0; // points to an element of the above array to get the winsize i.e. 0=10 sec , 1=60 sec , 2= 10 min, 3 = hour
-int key_press = 0;
-int key_press_alt = 0;
-int key_up = 0;
-int key_up_alt = 0;
-
-long g_lSnapshotPoint = 0L;
-long g_lSnapshotPointOriginal = 0L;
-long g_lSnapshotTimeBackSeconds = 0L;  // the minutes back in time we've gone for snapshot
-bool g_bSnapshot = false;
-bool g_bSnapshotArrayProcessed = false;
 
 bool mouse_down = false;
 int mouseX, mouseY;
@@ -1123,25 +1124,56 @@ void parse_quake_info(char* strQuake, int ctr, e_quake eType)
    delete [] buf;
 }
 
-const long TimeWindowWidth(int seconds)
+
+const int GetTimeWindowWidth()
 {
-    switch(seconds) {
-	   case 10:
-	       key_winsize = 0;
-		   break;
-	   case 60:
-	       key_winsize = 1;
-		   break;
-	   case 600:
-	       key_winsize = 2;
-		   break;
-	   case 3600:
-	       key_winsize = 3;
-		   break;
+	return g_iTimeWindowWidth;
+}
+
+const int SetTimeWindowWidth(bool bUp)
+{
+	if (bUp) { // increase window width
+		switch(g_iTimeWindowWidth) {
+		   case 10:
+			   g_iTimeWindowWidth = 60;
+			   key_winsize = 1;
+			   qcn_2dplot::SetTimerTick(5);  // 1 second tick marks
+			   break;
+		   case 60:
+			   g_iTimeWindowWidth = 600;
+			   key_winsize = 2;
+			   qcn_2dplot::SetTimerTick(60);  // 60 second tick marks
+			   break;
+		   case 600:
+			   g_iTimeWindowWidth = 3600;
+			   key_winsize = 3;
+			   qcn_2dplot::SetTimerTick(300);  // 5 minute tick marks
+			   break;
+		}
 	}
+	else { // decrease window width if possible
+		switch(g_iTimeWindowWidth) {
+		   case 60:
+			   g_iTimeWindowWidth = 10;
+			   key_winsize = 0;
+	  		   qcn_2dplot::SetTimerTick(1);  // 5 second tick marks
+			   break;
+		   case 600:
+			   g_iTimeWindowWidth = 60;
+			   key_winsize = 1;
+			   qcn_2dplot::SetTimerTick(5);  // 60 second tick marks
+			   break;
+		   case 3600:
+			   g_iTimeWindowWidth = 600;
+			   key_winsize = 2;
+			   qcn_2dplot::SetTimerTick(60);  // 5 minute tick marks
+			   break;
+		}
+	}
+
 	bResetArray = true;
 	g_bSnapshotArrayProcessed = false;
-	return key_winsize;
+	return g_iTimeWindowWidth;
 }
 
 const long TimeWindowBack()
@@ -1777,21 +1809,13 @@ void KeyDown(int k1, int k2)
 				case 189: // minus on Windows, or at least on the Lenovo Thinkpad keyboard!
 #endif
 				case 45: // minus -- decrease the winsize 
-                        if (key_winsize > 0) { // not already at the minimum 
-                                key_winsize--;
-                g_bSnapshotArrayProcessed = false;
-                                bResetArray = true;
-                        }
+					qcn_graphics::SetTimeWindowWidth(false);
                         break;
 #ifdef _WIN32
 				case 187: // plus on Windows, or at least on the Lenovo Thinkpad keyboard!
 #endif
                 case 61: // plus 
-                        if (key_winsize < MAX_KEY_WINSIZE) { // not already at the maximum
-                                key_winsize++;
-                                g_bSnapshotArrayProcessed = false;
-                                bResetArray = true;
-                        }
+					qcn_graphics::SetTimeWindowWidth(true);
                         break;
    }
 }

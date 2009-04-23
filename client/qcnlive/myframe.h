@@ -46,7 +46,6 @@ class MyFrame : public wxFrame
 
     bool bEarthDay;
     bool bEarthRotate;
-    long iSensorTimeWindow;
     long iSensorAction;
         bool bSensorAbsolute2D;
         bool bSensorAbsolute3D;

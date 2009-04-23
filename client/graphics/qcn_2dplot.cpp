@@ -106,17 +106,17 @@ void draw_text()
     txf_render_string(fTransAlpha, fVertLabel, fMSSLabel, 0, MSG_SIZE_SMALL, g_bIsWhite ? black : grey_trans, TXF_COURIER_BOLD, " m/s/s");
 
     // time label
-	switch(qcn_graphics::key_winsize) {
-	case 0:
+	switch(qcn_graphics::GetTimeWindowWidth()) {
+	case 10:
         txf_render_string(fTransAlpha, fVertLabel/2, 0.005f, 0.0f, MSG_SIZE_SMALL, g_bIsWhite ? light_blue : grey_trans, TXF_HELVETICA, "Time (UTC) - 10 Second Window");
 		break;
-	case 1:
+	case 60:
         txf_render_string(fTransAlpha, fVertLabel/2, 0.005f, 0.0f, MSG_SIZE_SMALL, g_bIsWhite ? light_blue : grey_trans, TXF_HELVETICA, "Time (UTC) - 1 Minute Window");
 		break;
-	case 2:
+	case 600:
         txf_render_string(fTransAlpha, fVertLabel/2, 0.005f, 0.0f, MSG_SIZE_SMALL, g_bIsWhite ? light_blue : grey_trans, TXF_HELVETICA, "Time (UTC) - 10 Minute Window");
 		break;
-	case 3:
+	case 3600:
         txf_render_string(fTransAlpha, fVertLabel/2, 0.005f, 0.0f, MSG_SIZE_SMALL, g_bIsWhite ? light_blue : grey_trans, TXF_HELVETICA, "Time (UTC) - 1 Hour Window");
 		break;
 	default:

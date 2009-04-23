@@ -157,20 +157,6 @@ extern int g_iZoomLevel;
 
 extern double dtw[2]; // time window
 
-// an hour seems to be the max to vis without much delay
-extern long awinsize[MAX_KEY_WINSIZE+1]; 
-extern int key_winsize; // points to an element of the above array to get the winsize (# of dt points i.e. 100 = 10 sec 600 = minute, 36000 = hour)
-extern int key_press;
-extern int key_press_alt;
-extern int key_up;
-extern int key_up_alt;
-
-extern long g_lSnapshotPoint;
-extern long g_lSnapshotPointOriginal;
-extern long g_lSnapshotTimeBackSeconds;  // the secnds back in time we've gone for snapshot
-extern bool g_bSnapshot;
-extern bool g_bSnapshotArrayProcessed;
-
 extern bool mouse_down;
 extern int mouseX, mouseY;
 extern int mouseSX, mouseSY;
@@ -204,7 +190,8 @@ extern int g_iJPG;
 extern void getProjectPrefs();
 extern const char* ScreenshotJPG();
 extern void ResetPlotArray();
-extern const long  TimeWindowWidth(int seconds);
+extern const int   GetTimeWindowWidth();
+extern const int   SetTimeWindowWidth(bool bUp = true);
 extern const long  TimeWindowBack();
 extern const long  TimeWindowStop();
 extern const long  TimeWindowStart();

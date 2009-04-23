@@ -126,7 +126,6 @@ MyFrame::MyFrame(const wxRect& rect, MyApp* papp)
 
     bEarthDay = true;
     bEarthRotate = true;
-    iSensorTimeWindow = 10;  // default to a 10 second window (fast)
     iSensorAction = 0;
 	
     bRecording = false;
@@ -329,18 +328,6 @@ void MyFrame::OnActionSensor(wxCommandEvent& evt)
   static int current = evt.GetId();
   switch(evt.GetId())
   {
-     case ID_TOOL_ACTION_SENSOR_01:
-	     iSensorTimeWindow = 60;
-	     qcn_graphics::TimeWindowWidth(iSensorTimeWindow); 
-		 break;
-     case ID_TOOL_ACTION_SENSOR_10:
-	     iSensorTimeWindow = 600;
-	     qcn_graphics::TimeWindowWidth(iSensorTimeWindow); 
-		 break;
-     case ID_TOOL_ACTION_SENSOR_60:
-	     iSensorTimeWindow = 3600;
-	     qcn_graphics::TimeWindowWidth(iSensorTimeWindow); 
-		 break;
      case ID_TOOL_ACTION_SENSOR_BACK:
          if (! qcn_graphics::TimeWindowIsStopped()) {
 		    iSensorAction = 1;
@@ -391,40 +378,10 @@ void MyFrame::OnActionSensor(wxCommandEvent& evt)
 		     bSensorAbsolute3D = false;
          break;	 
 	 case ID_TOOL_ACTION_SENSOR_HORIZ_ZOOM_OUT:
-		 switch(iSensorTimeWindow) { // values 10/60/600/3600
-			 case 10:
-		 	     iSensorTimeWindow = 60;
-				 qcn_2dplot::SetTimerTick(5);  // 5 second tick marks
-				 break;
-			 case 60:
-		 	     iSensorTimeWindow = 600;
-				 qcn_2dplot::SetTimerTick(60);  // 60 second tick marks
-				 break;
-			 case 600:
-		 	     iSensorTimeWindow = 3600;
-				 qcn_2dplot::SetTimerTick(300);  // 300 second tick marks
-				 break;
-		 }
-	     qcn_graphics::TimeWindowWidth(iSensorTimeWindow); 
-		 //qcn_2dplot::TimeZoomOut();
+		 qcn_graphics::SetTimeWindowWidth(true);
 		 break;
 	 case ID_TOOL_ACTION_SENSOR_HORIZ_ZOOM_IN:
-		 //qcn_2dplot::TimeZoomIn();
-		 switch(iSensorTimeWindow) { // values 10/60/600/3600
-			 case 60:
-		 	     iSensorTimeWindow = 10;
-				 qcn_2dplot::SetTimerTick(1);  // 1 second tick marks
-				 break;
-			 case 600:
-		 	     iSensorTimeWindow = 60;
-				 qcn_2dplot::SetTimerTick(5);  // 5 second tick marks
-				 break;
-			 case 3600:
-		 	     iSensorTimeWindow = 600;
-				 qcn_2dplot::SetTimerTick(60);  // 60 second tick marks
-				 break;
-		 }
-	     qcn_graphics::TimeWindowWidth(iSensorTimeWindow); 
+		 qcn_graphics::SetTimeWindowWidth(false);
 		 break;
 	 case ID_TOOL_ACTION_SENSOR_VERT_ZOOM_OUT:
 		 qcn_2dplot::SensorDataZoomOut();
