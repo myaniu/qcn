@@ -136,7 +136,7 @@ bool ReadFromPipe(char* chBuf, int BUFSIZE)
    return (bool) !*g_piStop;
 }
 
-#else // the my_open() function for Mac & Linux -- allows for killing the proc & timeout
+#else // the my_popen() function for Mac & Linux -- allows for killing the proc & timeout
 
 // need something with more control than popen() so can quit early etc
 // found on the Internet and modded by CMC
@@ -178,10 +178,10 @@ static FILE* my_popen
       fflush(stderr);
       close(1);
       if (dup(p[1]) < 0)
-        perror("dup of write side of pipe failed");
+		  fprintf(stderr, "my_pfopen: dup of write side of pipe failed\n");
       close(2);
       if (dup(p[1]) < 0)
-        perror("dup of write side of pipe failed");
+        fprintf(stderr, "my_pfopen: dup of read side of pipe failed\n");
     }  
     else { 
       close(0);
@@ -336,13 +336,14 @@ for (int i = 0 ; i < argc ; i++) {
    // begin of the execproc for Mac & Linux
    pid_t pid = 0;
    FILE* fPipe;
-   int iRetVal = 0, iNumRead = 0, iNumTotal = 0;
+   int iRetVal = 0, iNumRead = 0, iNumTotal = 0, iPIDStatus = 0;
    const int ciBufLen = 256;
    char* strBuf = new char[ciBufLen];
 
    try {
       // try passing the entire cmd line as strExec arg
       if( (fPipe = my_popen(sstrCmd.c_str(), "r", &pid, argv )) == NULL )  {
+	     waitpid(pid, &iPIDStatus, WNOHANG);
          return false;
       }
 
@@ -372,6 +373,8 @@ for (int i = 0 ; i < argc ; i++) {
            }
       }
 
+      waitpid(pid, &iPIDStatus, WNOHANG); // zombie prevention
+
       // close pipe
       iRetVal = fclose(fPipe);
 
@@ -382,8 +385,8 @@ for (int i = 0 ; i < argc ; i++) {
   delete [] strBuf;
 
   if (iRetVal) {
-      fprintf(stdout, "Failed to execute %s with error # %d\n", sstrCmd.c_str(), iRetVal);
-      fflush(stdout);
+      fprintf(stderr, "Failed to execute %s with error # %d\n", sstrCmd.c_str(), iRetVal);
+      fflush(stderr);
   }
 
   return (bool) (iRetVal == 0);
