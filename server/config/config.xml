@@ -42,6 +42,7 @@
       http://qcn.stanford.edu/sensor_cgi/file_upload_handler
     </upload_url>
     <db_passwd>
+      pwd
     </db_passwd>
     <db_host>
       db-private
