@@ -70,9 +70,9 @@ fi
 appspathone=qcn_$1_$suffix$ncisuffix
 appspathtwo=qcn_$2_$suffix
 rm -f qcnsftp.up
-echo chdir /var/www/boinc/qcnalpha/download >> qcnsftp.up
+echo chdir /var/www/boinc/sensor/download >> qcnsftp.up
 echo put \*.zip >> qcnsftp.up
-echo chdir /var/www/boinc/qcnalpha/apps/qcnsensor >> qcnsftp.up
+echo chdir /var/www/boinc/sensor/apps/qcnsensor >> qcnsftp.up
 echo -mkdir $appspathone >> qcnsftp.up
 echo chdir $appspathone >> qcnsftp.up
 echo put qcn_$1_$suffix$ncisuffix >> qcnsftp.up

@@ -6,9 +6,9 @@ drop graphics ability (i.e. just show 2d?) if # of resets is high >50 or 100?
 
 --------------------
  qcnlive 
- -- make abs/rel scale one button that alternates?
- -- record  button blink, and make one button alternate with stop btn
+ -- start up 2d in scaled (not absolute button) - +/- 1g for zoom etc
  -- magnifying glass for zoom vert & horizontal 
+ -- record  button blink, and make one button alternate with stop btn
  -- autoscale btn (mag glass with AUTO)
  -- default view is autoscale on qcnlive & boinc
  -- big scrollbar on top toolbar for nav back & forth
