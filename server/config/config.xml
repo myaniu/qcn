@@ -2,12 +2,12 @@
 <boinc>
   <config>
     <upload_dir>
-      /var/www/boinc/qcnalpha/upload
+      /var/www/boinc/sensor/upload
     </upload_dir>
     <long_name>
       Quake-Catcher Network
     </long_name>
-    <cgi_url>http://qcn.stanford.edu/qcnalpha_cgi/</cgi_url>
+    <cgi_url>http://qcn.stanford.edu/sensor_cgi/</cgi_url>
     <msg_to_host/>
     <sched_debug_level>
       5
@@ -17,13 +17,13 @@
     <uldl_dir_fanout>
       1024
     </uldl_dir_fanout>
-    <download_url>http://qcn.stanford.edu/qcnalpha/download</download_url>
+    <download_url>http://qcn.stanford.edu/sensor/download</download_url>
     <db_user>qcn</db_user>
-    <log_dir>/var/www/boinc/qcnalpha/log_qcn-web</log_dir>
-    <app_dir>/var/www/boinc/qcnalpha/apps</app_dir>
-    <download_dir>/var/www/boinc/qcnalpha/download</download_dir>
+    <log_dir>/var/www/boinc/sensor/log_qcn-web</log_dir>
+    <app_dir>/var/www/boinc/sensor/apps</app_dir>
+    <download_dir>/var/www/boinc/sensor/download</download_dir>
     <fuh_debug_level>0</fuh_debug_level>
-    <master_url>http://qcn.stanford.edu/qcnalpha/</master_url>
+    <master_url>http://qcn.stanford.edu/sensor/</master_url>
     <host>qcn-web</host>
     <db_name>
       qcnalpha
@@ -36,10 +36,10 @@
     </shmem_key>
     <show_results>1</show_results>
     <key_dir>
-      /var/www/boinc/qcnalpha/keys/
+      /var/www/boinc/sensor/keys/
     </key_dir>
     <upload_url>
-      http://qcn.stanford.edu/qcnalpha_cgi/file_upload_handler
+      http://qcn.stanford.edu/sensor_cgi/file_upload_handler
     </upload_url>
     <db_passwd>
       1QCNQuake

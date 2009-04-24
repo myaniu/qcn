@@ -1,7 +1,7 @@
 <?php
 $project_news = array(
    array("April 24, 2009",
-"Two Quake-Catcher Network participants felt and recorded yesterday's magnitude 4.0 earthquake in Yorba Linda, California (southern Cal, SW of Los Angeles).  <A HREF=\"http://qcn.stanford.edu/qcnalpha/forum_thread.php?id=231\">You can view some of the data at this link.</A>  They are only about 4 km / 2.4 miles from the epicenter, so it was a good test of QCN and the JoyWarrior USB sensors!  Happily everyone is OK with just a few plates shaken up etc.<BR>",
+"Two Quake-Catcher Network participants felt and recorded yesterday's magnitude 4.0 earthquake in Yorba Linda, California (southern Cal, southeast of Los Angeles).  <A HREF=\"http://qcn.stanford.edu/qcnalpha/forum_thread.php?id=231\">You can view some of the data at this link.</A>  They are only about 4 km / 2.4 miles from the epicenter, so it was a good test of QCN and the JoyWarrior USB sensors!  Happily everyone is OK with just a few plates shaken up etc.<BR>",
  "QCN Participants Detect M4.0 earthquake in Yorba Linda, California"
   ),
    array("April 22, 2009",
