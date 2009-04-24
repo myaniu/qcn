@@ -4,5 +4,5 @@ cd /var/www
 /bin/nice -n19 /usr/bin/zip -qr /tmp/qcn-web-backup.zip boinc/ drupal/ qcn/
 # note for the following line need to have .ssh id between root & carlgt1 setup
 # also make sure that '.ssh/known_hosts' is setup to receive connections
-/bin/nice -n19 /usr/bin/scp /tmp/qcn-web-backup.zip carlgt1@qcn-upl:
+/bin/nice -n19 /usr/bin/scp /tmp/qcn-web-backup.zip carlgt1@upl-private:
 /bin/rm -f /tmp/qcn-web-backup.zip
