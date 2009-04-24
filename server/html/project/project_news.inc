@@ -1,7 +1,11 @@
 <?php
 $project_news = array(
+   array("April 24, 2009",
+"Two Quake-Catcher Network participants felt and recorded yesterday's magnitude 4.0 earthquake in Yorba Linda, California (southern Cal, SW of Los Angeles).  <A HREF=\"http://qcn.stanford.edu/qcnalpha/forum_thread.php?id=231\">You can view some of the data at this link.</A>  They are only about 4 km / 2.4 miles from the epicenter, so it was a good test of QCN and the JoyWarrior USB sensors!  Happily everyone is OK with just a few plates shaken up etc.<BR>",
+ "QCN Participants Detect M4.0 earthquake in Yorba Linda, California"
+  ),
    array("April 22, 2009",
-"To work better with the new versions just release (4.76), QCN is going to require a BOINC upgrade to at least version 6.2.  <A HREF=\"http://boinc.berkeley.edu/download.php\">Download the latest version here.</A>  We recommend BOINC version 6.6 or higher, as available on the download link, to ensure that your QCN software and sensor will work at a higher priority level, and cut down on the 'resets' especially when running other BOINC projects alongside QCN.<BR>",
+"QCN is going to require a BOINC client upgrade (within the next two weeks) to at least version 6.2.  This will enable QCN to run more reliably tanks to new BOINC features such as higher-priority CPU scheduling for low-CPU tasks such as QCN.  <A HREF=\"http://boinc.berkeley.edu/download.php\">Download the latest version here.</A>  We recommend BOINC version 6.6 or higher, as available on the download link, to ensure that your QCN software and sensor will work at a higher priority level, and cut down on the 'resets' especially when running other BOINC projects alongside QCN.<BR>",
  "Minimum BOINC Version 6.2 for QCN (6.6+ preferred)"
   ),
    array("April 21, 2009",
