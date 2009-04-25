@@ -7,6 +7,7 @@ drop graphics ability (i.e. just show 2d?) if # of resets is high >50 or 100?
 --------------------
  qcnlive 
  -- start up 2d in scaled (not absolute button) - +/- 1g for zoom etc
+ -- max/min missing values (i.e. gaps in plot -- plot max/min scale points?)
  -- magnifying glass for zoom vert & horizontal 
  -- record  button blink, and make one button alternate with stop btn
  -- autoscale btn (mag glass with AUTO)
