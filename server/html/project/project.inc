@@ -6,7 +6,7 @@ require_once("../inc/util.inc");
 
 $master_url = parse_config(get_config(), "<master_url>");
 define("PROJECT", "Quake-Catcher Network");
-define("URL_BASE", $master_url);
+define("URL_BASE", "http://qcn.stanford.edu/sensor");
 define("IMAGE_PATH", "../user_profile/images/");
 define("IMAGE_URL", "user_profile/images/");
 define("PROFILE_PATH", "../user_profile/");
