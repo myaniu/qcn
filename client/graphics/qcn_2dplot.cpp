@@ -174,16 +174,16 @@ void draw_plot()
     // each plot section is 15 units high
 
 	//static int iFrameCounter = 0;
-	static float fMeanLast = 0.0f, fStdDevLast, fVarianceLast;  // preserve state of last mean etc
-	static float fMean = 0.0f, fStdDev = 0.0f, fVariance = 0.0f;
+	//static float fMeanLast = 0.0f, fStdDevLast, fVarianceLast;  // preserve state of last mean etc
+	//static float fMean = 0.0f, fStdDev = 0.0f, fVariance = 0.0f;
 
-	float xmin = xax_qcnlive[0] - 0.1f;
-	float xmax = xax_qcnlive[1] + 0.1f;
-	float ymin = yax_qcnlive[E_DX] - 7.0f;
+    float xmin = xax_qcnlive[0] - 0.1f;
+    float xmax = xax_qcnlive[1] + 0.1f;
+    float ymin = yax_qcnlive[E_DX] - 7.0f;
     float ymax = yax_qcnlive[4]; // + 15.0f;
     float x1, y1; // temp values to compare ranges for plotting
 	//float fAvg;
-	long lStart, lEnd;
+    long lStart, lEnd;
 
     if (!sm) return; // not much point in continuing if shmem isn't setup!
 
@@ -265,7 +265,7 @@ void draw_plot()
 	    		 //else  { 
 		    		//lStart = PLOT_ARRAY_SIZE-101;
 		    		lStart = 0;
-					lEnd = PLOT_ARRAY_SIZE-1;
+	                        lEnd = PLOT_ARRAY_SIZE-1;
 				 //}
 				//iFrameCounter = 0;
 					/* obsolete - g_fmin & fmax calculated in qcn_graphics namespace
@@ -315,15 +315,25 @@ void draw_plot()
                          //fAvg = (g_fMax[ee] - g_fMin[ee]) / 2.0f;
 			 for (int i=0; i<PLOT_ARRAY_SIZE; i++) {
 				 x1 = xax_qcnlive[0] + (((float) i / (float) PLOT_ARRAY_SIZE) * (xax_qcnlive[1]-xax_qcnlive[0]));
-				 y1 = yax_qcnlive[ee] + (ee == E_DS ? 0.5f : 0.0f) + ( 15.0f * ( (fdata[i] - g_fMinAxesCurrent[ee]) / (g_fMaxAxesCurrent[ee] - g_fMinAxesCurrent[ee] ) )  );
+				 y1 = yax_qcnlive[ee] + (ee == E_DS ? 0.5f : 0.0f) 
+                                     + ( 15.0f * ( (fdata[i] - g_fMinAxesCurrent[ee])  
+                                                        / (g_fMaxAxesCurrent[ee] - g_fMinAxesCurrent[ee] ) )  );
 
-				 if (fdata[i] != 0.0f && (y1 - yax_qcnlive[ee]) <= (ee==E_DS ? 16.0f : 15.4f) && (y1 - yax_qcnlive[ee]) >= -.2f) { // don't plot out of range
-				     glVertex2f(x1, y1);
-			     }
-			     else { // close line segment
+				 //if (fdata[i] != 0.0f) { // suppress 0 values, check for 
+                                   if ( (y1 - yax_qcnlive[ee]) > (ee==E_DS ? 15.5f : 15.0f) ) { // max range
+                                        y1 = yax_qcnlive[ee] + (ee==E_DS ? 15.5f : 15.0f);
+                                   }
+                                   else if ( (y1 - yax_qcnlive[ee]) < 0.0f ) { // min range
+                                        y1 = yax_qcnlive[ee];
+                                   }
+
+				   glVertex2f(x1, y1);
+                                 //}
+			     //}
+			     //else { // close line segment
 				 	 glEnd();
 					 glBegin(GL_LINE_STRIP);  // start new line seg fromout of range data
-				 }
+		             //}
 			 }
 	 	     glEnd();
 		 }

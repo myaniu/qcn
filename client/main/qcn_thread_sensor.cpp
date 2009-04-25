@@ -261,7 +261,6 @@ bool getBaseline(CSensor* psms)
 
 // Measure baseline x, y, & z acceleration values for a 1 minute window
        sm->resetSampleClock();
-       sm->resetMinMax();
        for (int i = 1; i < sm->iWindow + 1; i++) {             //  CREATE BASELINE AVERAGES
 // 3)
 #ifdef _DEBUG
@@ -279,9 +278,9 @@ bool getBaseline(CSensor* psms)
           sm->fmag[i] = sqrt(QCN_SQR(sm->x0[i]-sm->xa[i-1])+QCN_SQR(sm->y0[i]-sm->ya[i-1])+QCN_SQR(sm->z0[i]-sm->za[i-1]));
 
           // test max/min
-          sm->testMinMax(sm->x0[i], E_DX);
-          sm->testMinMax(sm->y0[i], E_DY);
-          sm->testMinMax(sm->z0[i], E_DZ);
+          //sm->testMinMax(sm->x0[i], E_DX);
+          //sm->testMinMax(sm->y0[i], E_DY);
+          //sm->testMinMax(sm->z0[i], E_DZ);
        }
 
 #ifdef _DEBUG
@@ -389,7 +388,6 @@ extern void* QCNThreadSensor(void*)
          sm->amag[0] = 0.;                                  /*  INITIAL ZERO AVERAGE            */
          sm->vari[0] = 0.;                                  /*  STANDARD DEVIATION              */
 
-         sm->resetMinMax();
          sm->resetSampleClock();
          try { // sensor mean throws an exception if we're shutting down
             if (!qcn_main::g_psms || ! qcn_main::g_psms->mean_xyz()) {
@@ -647,10 +645,10 @@ extern void* QCNThreadSensor(void*)
       }
 
       // test max/min
-      sm->testMinMax(sm->x0[sm->lOffset], E_DX);
-      sm->testMinMax(sm->y0[sm->lOffset], E_DY);
-      sm->testMinMax(sm->z0[sm->lOffset], E_DZ);
-      sm->testMinMax(sm->fsig[sm->lOffset], E_DS);
+      //sm->testMinMax(sm->x0[sm->lOffset], E_DX);
+      //sm->testMinMax(sm->y0[sm->lOffset], E_DY);
+      //sm->testMinMax(sm->z0[sm->lOffset], E_DZ);
+      //sm->testMinMax(sm->fsig[sm->lOffset], E_DS);
 
 // Determine if significance filter is large enough to warrant a trigger
 //#ifdef _DEBUG // force a trigger

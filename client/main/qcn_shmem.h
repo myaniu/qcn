@@ -23,8 +23,8 @@ class CQCNShMem : public CSerialize
     void resetSampleClock();   // sets t0check & t0actual to proper values before start calling sensor mean_xyz function
 
     void clear(bool bAll = false);
-    void resetMinMax();
-    void testMinMax(const float fVal, const e_maxmin eType);
+    //void resetMinMax();
+    //void testMinMax(const float fVal, const e_maxmin eType);
     const double TimeError();
     float averageSamples();
     float averageDT();
@@ -111,8 +111,8 @@ class CQCNShMem : public CSerialize
     float  za[MAXI];             /*  AVERAGE VALUES OF x,y, &z*/
 
     // uses e_maxtype i.e. DX, DY, DZ, DS
-    float fmin[4];
-    float fmax[4];
+    //float fmin[4];
+    //float fmax[4];
 
     double t0[MAXI]; // keep track of each time?
 

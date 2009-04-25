@@ -68,6 +68,7 @@ void CQCNShMem::resetSampleClock()
 {
     t0active = dtime(); // use the function in boinc/lib
     t0check = t0active + dt;
+    //sm->resetMinMax();
 }
 
 void CQCNShMem::clear(bool bAll)
@@ -136,11 +137,12 @@ void CQCNShMem::clear(bool bAll)
 
 	// this "atomic" copy back should be safe
     memcpy(this, pshmem, sizeof(CQCNShMem));
-    resetMinMax();
+    //resetMinMax();
     delete pshmem;
     bTriggerLock = false;
 }
 
+/*
 void CQCNShMem::resetMinMax()
 {
     //fmin[E_DX] = fmin[E_DY] = fmin[E_DZ] = fmin[E_DS] = std::numeric_limits<float>::max();
@@ -155,6 +157,7 @@ void CQCNShMem::testMinMax(const float fVal, const e_maxmin eType)
    if (fVal < fmin[eType]) fmin[eType] = fVal;
    else if (fVal > fmax[eType]) fmax[eType] = fVal;
 }
+*/
 
 const double CQCNShMem::TimeError()
 {

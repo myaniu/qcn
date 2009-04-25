@@ -617,39 +617,38 @@ void draw_text_plot()
 	sprintf(buf, "Significance");
 	txf_render_string(.05, TEXT_PLOT_LEFT_AXES, fTop[E_DS], 0, MSG_SIZE_MEDIUM, colorsPlot[E_DS], TXF_HELVETICA, buf);
         if (sm) {
-           sprintf(buf, " max=%5.2f", sm->fmax[E_DS]);
+           sprintf(buf, " max=%5.2f", g_fmax[E_DS]);
            txf_render_string(.05, TEXT_PLOT_LEFT_AXES, fTop[E_DS] - 0.02, 0, MSG_SIZE_SMALL, colorsPlot[E_DS], TXF_HELVETICA, buf);
-           sprintf(buf, " min=%5.2f", sm->fmin[E_DS]);
+           sprintf(buf, " min=%5.2f", g_fmin[E_DS]);
            txf_render_string(.05, TEXT_PLOT_LEFT_AXES, fTop[E_DS] - 0.04, 0, MSG_SIZE_SMALL, colorsPlot[E_DS], TXF_HELVETICA, buf);
         }
 
 	sprintf(buf, "Z-amp");
 	txf_render_string(.05, TEXT_PLOT_LEFT_AXES, fTop[E_DZ], 0, MSG_SIZE_MEDIUM, colorsPlot[E_DZ], TXF_HELVETICA, buf);
         if (sm) {
-           //sprintf(buf, " max=%5.2f", sm->fmax[E_DZ] < 0 ? 0.0 : sm->fmax[E_DZ]);
-           sprintf(buf, " max=%5.2f", sm->fmax[E_DZ]);
+           //sprintf(buf, " max=%5.2f", g_fmax[E_DZ] < 0 ? 0.0 : g_fmax[E_DZ]);
+           sprintf(buf, " max=%5.2f", g_fmax[E_DZ]);
            txf_render_string(.05, TEXT_PLOT_LEFT_AXES, fTop[E_DZ] - 0.02, 0, MSG_SIZE_SMALL, colorsPlot[E_DZ], TXF_HELVETICA, buf);
-           sprintf(buf, " min=%5.2f", sm->fmin[E_DZ]);
+           sprintf(buf, " min=%5.2f", g_fmin[E_DZ]);
            txf_render_string(.05, TEXT_PLOT_LEFT_AXES, fTop[E_DZ] - 0.04, 0, MSG_SIZE_SMALL, colorsPlot[E_DZ], TXF_HELVETICA, buf);
         }
 
 	sprintf(buf, "Y-amp");
 	txf_render_string(.05, TEXT_PLOT_LEFT_AXES, fTop[E_DY], 0, MSG_SIZE_MEDIUM, colorsPlot[E_DY], TXF_HELVETICA, buf);
         if (sm) {
-           //sprintf(buf, " max=%5.2f", sm->fmax[E_DY] < 0 ? 0.0 : sm->fmax[E_DY]);
-           sprintf(buf, " max=%5.2f", sm->fmax[E_DY]);
+           //sprintf(buf, " max=%5.2f", g_fmax[E_DY] < 0 ? 0.0 : g_fmax[E_DY]);
+           sprintf(buf, " max=%5.2f", g_fmax[E_DY]);
            txf_render_string(.05, TEXT_PLOT_LEFT_AXES, fTop[E_DY] - 0.02, 0, MSG_SIZE_SMALL, colorsPlot[E_DY], TXF_HELVETICA, buf);
-           sprintf(buf, " min=%5.2f", sm->fmin[E_DY]);
+           sprintf(buf, " min=%5.2f", g_fmin[E_DY]);
            txf_render_string(.05, TEXT_PLOT_LEFT_AXES, fTop[E_DY] - 0.04, 0, MSG_SIZE_SMALL, colorsPlot[E_DY], TXF_HELVETICA, buf);
         }
-
 	sprintf(buf, "X-amp");
 	txf_render_string(.05, TEXT_PLOT_LEFT_AXES, fTop[E_DX], 0, MSG_SIZE_MEDIUM, colorsPlot[E_DX], TXF_HELVETICA, buf);
         if (sm) {
-           //sprintf(buf, " max=%5.2f", sm->fmax[E_DX] < 0 ? 0.0 : sm->fmax[E_DX]);
-           sprintf(buf, " max=%5.2f", sm->fmax[E_DX]);
+           //sprintf(buf, " max=%5.2f", g_fmax[E_DX] < 0 ? 0.0 : g_fmax[E_DX]);
+           sprintf(buf, " max=%5.2f", g_fmax[E_DX]);
            txf_render_string(.05, TEXT_PLOT_LEFT_AXES, fTop[E_DX] - 0.02, 0, MSG_SIZE_SMALL, colorsPlot[E_DX], TXF_HELVETICA, buf);
-           sprintf(buf, " min=%5.2f", sm->fmin[E_DX]);
+           sprintf(buf, " min=%5.2f", g_fmin[E_DX]);
            txf_render_string(.05, TEXT_PLOT_LEFT_AXES, fTop[E_DX] - 0.04, 0, MSG_SIZE_SMALL, colorsPlot[E_DX], TXF_HELVETICA, buf);
         }
 
@@ -861,7 +860,7 @@ bool setupPlotMemory(const long lOffset)
       }
     }
 
-	// note: setup a max min range per axis per rebin -- this doesn't really correspond to absolute max/min sm->fmax/fmin values, but for display purposes
+	// note: setup a max min range per axis per rebin -- this doesn't really correspond to absolute max/min g_fmax/fmin values, but for display purposes
 	g_fmax[E_DX] = g_fmax[E_DY] = g_fmax[E_DZ] = g_fmax[E_DS] = SAC_NULL_FLOAT;
 	g_fmin[E_DX] = g_fmin[E_DY] = g_fmin[E_DZ] = g_fmin[E_DS] = -1.0f * SAC_NULL_FLOAT;
 
@@ -901,7 +900,7 @@ bool setupPlotMemory(const long lOffset)
 		  else
 			  aryg[kk][ii] = fLocalMax[kk];
 
-			// note: setup a max min range per axis per rebin -- this doesn't really correspond to absolute max/min sm->fmax/fmin values, but for display purposes
+			// note: setup a max min range per axis per rebin -- this doesn't really correspond to absolute max/min g_fmax/fmin values, but for display purposes
 			if (aryg[kk][ii] != SAC_NULL_FLOAT && aryg[kk][ii] != 0.0f) {
 				if (aryg[kk][ii] < g_fmin[kk]) g_fmin[kk] = aryg[kk][ii];
 				else if (aryg[kk][ii] > g_fmax[kk]) g_fmax[kk] = aryg[kk][ii];
