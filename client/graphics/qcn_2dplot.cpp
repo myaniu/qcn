@@ -159,6 +159,26 @@ void draw_tick_marks()
     glPopMatrix();
 }
 
+bool CalcYPlot(const float fVal, const int ee, float&  myY)
+{
+    myY = yax_qcnlive[ee] + (ee == E_DS ? 0.5f : 0.0f) 
+               + ( 15.0f * ( (fVal - g_fMinAxesCurrent[ee])  
+                                   / (g_fMaxAxesCurrent[ee] - g_fMinAxesCurrent[ee] ) )  );
+
+    //if (fdata[i] != 0.0f) { // suppress 0 values and check data ranges fit
+    if ( fVal == SAC_NULL_FLOAT ) { // invalid, suppress
+       myY = SAC_NULL_FLOAT;
+       return false;
+    }
+    else if ( fVal > g_fMaxAxesCurrent[ee] ) { // max limit
+       myY = yax_qcnlive[ee] + (ee==E_DS ? 15.5f : 15.0f);
+    }
+    else if ( fVal < g_fMinAxesCurrent[ee] ) { // min limit
+       myY = yax_qcnlive[ee];
+    }
+    return true;
+}
+
 void draw_plot() 
 {
 
@@ -181,6 +201,8 @@ void draw_plot()
     float xmax = xax_qcnlive[1] + 0.1f;
     float ymin = yax_qcnlive[E_DX] - 7.0f;
     float ymax = yax_qcnlive[4]; // + 15.0f;
+    float yPen[4] = { SAC_NULL_FLOAT, SAC_NULL_FLOAT, SAC_NULL_FLOAT, SAC_NULL_FLOAT }; // save "pen" position i.e. last point on plot
+
     float x1, y1; // temp values to compare ranges for plotting
 	//float fAvg;
     long lStart, lEnd;
@@ -276,25 +298,11 @@ void draw_plot()
                          //fAvg = (g_fMax[ee] - g_fMin[ee]) / 2.0f;
 			 for (int i=0; i<PLOT_ARRAY_SIZE; i++) {
 				 x1 = xax_qcnlive[0] + (((float) i / (float) PLOT_ARRAY_SIZE) * (xax_qcnlive[1]-xax_qcnlive[0]));
-				 y1 = yax_qcnlive[ee] + (ee == E_DS ? 0.5f : 0.0f) 
-                                     + ( 15.0f * ( (fdata[i] - g_fMinAxesCurrent[ee])  
-                                                        / (g_fMaxAxesCurrent[ee] - g_fMinAxesCurrent[ee] ) )  );
-
-				 //if (fdata[i] != 0.0f) { // suppress 0 values and check data ranges fit
-                                   if ( fdata[i] == SAC_NULL_FLOAT ) { // invalid, suppress
-                                   }
-                                   else if ( fdata[i] > g_fMaxAxesCurrent[ee] ) { // max limit
-                                        y1 = yax_qcnlive[ee] + (ee==E_DS ? 15.5f : 15.0f);
-				        glVertex2f(x1, y1);
-                                   }
-                                   else if ( fdata[i] < g_fMinAxesCurrent[ee] ) { // min limit
-                                        y1 = yax_qcnlive[ee];
-				        glVertex2f(x1, y1);
-                                   }
-                                   else { // OK, show vertex
-				        glVertex2f(x1, y1);
-                                   }
+                                 if (CalcYPlot(fdata[i], ee, y1)) { // this gets complicated so call a function that I can reuse for drawing the "pen" below
+				        glVertex2f(x1, y1); // if this returns true then we have a valid point to draw
+                                 }
 			 }
+                         yPen[ee] = y1; // this y1 will be the final plot position i.e. PLOT_ARRAY_SIZE-1 to be used below to draw the pen
 	 	     glEnd();
 		 }
 	     //iFrameCounter++; // bump up the frame ctr
@@ -313,20 +321,16 @@ void draw_plot()
 		 else
 		     fmaxfactor = MAX_PLOT_HEIGHT_QCNLIVE / fmaxfactor;
 */
+			const float fRadius = 1.4f;
+		        const float fAngle = PI/8.0f;
 		 // plot a "colored pointer" at the end for ease of seeing current value?
-		if (fdata[PLOT_ARRAY_SIZE-1] != 0.0f)  {
+		if (yPen[ee] != SAC_NULL_FLOAT) {
 			x1 = xax_qcnlive[0] + (xax_qcnlive[1]-xax_qcnlive[0]);
-			y1 = yax_qcnlive[ee] + (ee == E_DS ? 0.5f : 0.0f) + ( 15.0f * ( (fdata[PLOT_ARRAY_SIZE-1] - g_fMinAxesCurrent[ee]) / (g_fMaxAxesCurrent[ee] - g_fMinAxesCurrent[ee] ) )  );
-
-			if (fabs(y1 - yax_qcnlive[ee]) < (ee==E_DS ? 16.0f : 15.4f) && (y1 - yax_qcnlive[ee]) >= -.2f) { // don't plot out of range
-				const float fRadius = 1.4f;
-				float fAngle = PI/8.0f;
-				glBegin(GL_TRIANGLE_FAN);
-				glVertex2f(x1, y1);
-				glVertex2f(x1 + (cos(fAngle) * fRadius), y1 + (sin(fAngle) * fRadius));
-				glVertex2f(x1 + (cos(-fAngle) * fRadius), y1 + (sin(-fAngle) * fRadius));
-				glEnd();
-			}
+		        glBegin(GL_TRIANGLE_FAN);
+	                   glVertex2f(x1, yPen[ee]);
+			   glVertex2f(x1 + (cos(fAngle) * fRadius), yPen[ee] + (sin(fAngle) * fRadius));
+			   glVertex2f(x1 + (cos(-fAngle) * fRadius), yPen[ee] + (sin(-fAngle) * fRadius));
+		         glEnd();
 		} // colored pointer
 	}
 
