@@ -616,39 +616,37 @@ void draw_text_plot()
 	// graph labels
 	sprintf(buf, "Significance");
 	txf_render_string(.05, TEXT_PLOT_LEFT_AXES, fTop[E_DS], 0, MSG_SIZE_MEDIUM, colorsPlot[E_DS], TXF_HELVETICA, buf);
-        if (sm) {
-           sprintf(buf, " max=%5.2f", g_fmax[E_DS]);
+        if (sm && g_fmax[E_DS] != SAC_NULL_FLOAT && g_fmin[E_DS] != SAC_NULL_FLOAT) {
+           sprintf(buf, " max=%+6.3f", g_fmax[E_DS]);
            txf_render_string(.05, TEXT_PLOT_LEFT_AXES, fTop[E_DS] - 0.02, 0, MSG_SIZE_SMALL, colorsPlot[E_DS], TXF_HELVETICA, buf);
-           sprintf(buf, " min=%5.2f", g_fmin[E_DS]);
+           sprintf(buf, " min=%+6.3f", g_fmin[E_DS]);
            txf_render_string(.05, TEXT_PLOT_LEFT_AXES, fTop[E_DS] - 0.04, 0, MSG_SIZE_SMALL, colorsPlot[E_DS], TXF_HELVETICA, buf);
         }
 
 	sprintf(buf, "Z-amp");
 	txf_render_string(.05, TEXT_PLOT_LEFT_AXES, fTop[E_DZ], 0, MSG_SIZE_MEDIUM, colorsPlot[E_DZ], TXF_HELVETICA, buf);
-        if (sm) {
-           //sprintf(buf, " max=%5.2f", g_fmax[E_DZ] < 0 ? 0.0 : g_fmax[E_DZ]);
-           sprintf(buf, " max=%5.2f", g_fmax[E_DZ]);
+        if (sm && g_fmax[E_DZ] != SAC_NULL_FLOAT && g_fmin[E_DZ] != SAC_NULL_FLOAT) {
+           sprintf(buf, " max=%+6.3f", g_fmax[E_DZ]);
            txf_render_string(.05, TEXT_PLOT_LEFT_AXES, fTop[E_DZ] - 0.02, 0, MSG_SIZE_SMALL, colorsPlot[E_DZ], TXF_HELVETICA, buf);
-           sprintf(buf, " min=%5.2f", g_fmin[E_DZ]);
+           sprintf(buf, " min=%+6.3f", g_fmin[E_DZ]);
            txf_render_string(.05, TEXT_PLOT_LEFT_AXES, fTop[E_DZ] - 0.04, 0, MSG_SIZE_SMALL, colorsPlot[E_DZ], TXF_HELVETICA, buf);
         }
 
 	sprintf(buf, "Y-amp");
 	txf_render_string(.05, TEXT_PLOT_LEFT_AXES, fTop[E_DY], 0, MSG_SIZE_MEDIUM, colorsPlot[E_DY], TXF_HELVETICA, buf);
-        if (sm) {
-           //sprintf(buf, " max=%5.2f", g_fmax[E_DY] < 0 ? 0.0 : g_fmax[E_DY]);
-           sprintf(buf, " max=%5.2f", g_fmax[E_DY]);
+        if (sm && g_fmax[E_DY] != SAC_NULL_FLOAT && g_fmin[E_DY] != SAC_NULL_FLOAT) {
+           sprintf(buf, " max=%+6.3f", g_fmax[E_DY]);
            txf_render_string(.05, TEXT_PLOT_LEFT_AXES, fTop[E_DY] - 0.02, 0, MSG_SIZE_SMALL, colorsPlot[E_DY], TXF_HELVETICA, buf);
-           sprintf(buf, " min=%5.2f", g_fmin[E_DY]);
+           sprintf(buf, " min=%+6.3f", g_fmin[E_DY]);
            txf_render_string(.05, TEXT_PLOT_LEFT_AXES, fTop[E_DY] - 0.04, 0, MSG_SIZE_SMALL, colorsPlot[E_DY], TXF_HELVETICA, buf);
         }
+
 	sprintf(buf, "X-amp");
 	txf_render_string(.05, TEXT_PLOT_LEFT_AXES, fTop[E_DX], 0, MSG_SIZE_MEDIUM, colorsPlot[E_DX], TXF_HELVETICA, buf);
-        if (sm) {
-           //sprintf(buf, " max=%5.2f", g_fmax[E_DX] < 0 ? 0.0 : g_fmax[E_DX]);
-           sprintf(buf, " max=%5.2f", g_fmax[E_DX]);
+        if (sm && g_fmax[E_DX] != SAC_NULL_FLOAT && g_fmin[E_DX] != SAC_NULL_FLOAT) {
+           sprintf(buf, " max=%+6.3f", g_fmax[E_DX]);
            txf_render_string(.05, TEXT_PLOT_LEFT_AXES, fTop[E_DX] - 0.02, 0, MSG_SIZE_SMALL, colorsPlot[E_DX], TXF_HELVETICA, buf);
-           sprintf(buf, " min=%5.2f", g_fmin[E_DX]);
+           sprintf(buf, " min=%+6.3f", g_fmin[E_DX]);
            txf_render_string(.05, TEXT_PLOT_LEFT_AXES, fTop[E_DX] - 0.04, 0, MSG_SIZE_SMALL, colorsPlot[E_DX], TXF_HELVETICA, buf);
         }
 
@@ -788,7 +786,7 @@ bool setupPlotMemory(const long lOffset)
 
     for (ii = 0; ii < 4; ii++) {
       memset(af[ii], 0x00, sizeof(float) * awinsize[key_winsize]);
-      memset((void*) aryg[ii], 0x00, sizeof(float) * PLOT_ARRAY_SIZE);
+      memset((void*) aryg[ii], SAC_NULL_FLOAT, sizeof(float) * PLOT_ARRAY_SIZE);
     }
 
     // reset our trigger list & timer values
@@ -895,13 +893,16 @@ bool setupPlotMemory(const long lOffset)
 			  aryg[kk][ii] = 0.0f;
 		  }
 		  */
-		  if (fLocalMax[kk] == SAC_NULL_FLOAT)
-			  aryg[kk][ii] = 0.0f;
-		  else
-			  aryg[kk][ii] = fLocalMax[kk];
+		  aryg[kk][ii] = fLocalMax[kk];
+		  if (fLocalMax[kk] == SAC_NULL_FLOAT) {
+                       fLocalMax[kk] = 0.0f; // force to 0 if no max found, this will prevent drawing crazy autoscale ranges etc
+                       if (g_eView == VIEW_PLOT_3D) { // if null on the 3d, force to 0, since we just pass the aryg array in and it will try to draw SAC_NULL (-12345)
+		          aryg[kk][ii] = 0.0f;
+                       }
+                  }
 
 			// note: setup a max min range per axis per rebin -- this doesn't really correspond to absolute max/min g_fmax/fmin values, but for display purposes
-			if (aryg[kk][ii] != SAC_NULL_FLOAT && aryg[kk][ii] != 0.0f) {
+			if (aryg[kk][ii] != SAC_NULL_FLOAT ) {
 				if (aryg[kk][ii] < g_fmin[kk]) g_fmin[kk] = aryg[kk][ii];
 				else if (aryg[kk][ii] > g_fmax[kk]) g_fmax[kk] = aryg[kk][ii];
 			}
@@ -1667,9 +1668,9 @@ void MouseMove(int x, int y, int left, int middle, int right)
 		qcn_2dplot::SetWhite(qcn_2dplot::IsWhite());
 	}
 
-	if (g_eView != VIEW_EARTH_DAY && g_eView != VIEW_EARTH_NIGHT && g_eView != VIEW_EARTH_COMBINED) return;
+	//if (g_eView != VIEW_EARTH_DAY && g_eView != VIEW_EARTH_NIGHT && g_eView != VIEW_EARTH_COMBINED) return;
 
-	mouseSX = x;
+    mouseSX = x;
     mouseSY = y;
 
     if (earth.IsShown()) {
@@ -1678,7 +1679,7 @@ void MouseMove(int x, int y, int left, int middle, int right)
     //else if (g_eView==VIEW_CUBE) {
     //  cube.MouseMotion(mouseSX, mouseSY, left, middle, right);
     //}
-    else {
+    else if (g_eView != VIEW_PLOT_2D) { // just rotate stuff on 3d plots
       if (left) {
           pitch_angle[g_eView] += (mouseSY-mouseY)*.1;
           roll_angle[g_eView] += (mouseSX-mouseX)*.1;
@@ -1697,9 +1698,10 @@ void MouseMove(int x, int y, int left, int middle, int right)
 
 void MouseButton(int x, int y, int which, int is_down)
 {
-	if (g_eView != VIEW_EARTH_DAY && g_eView != VIEW_EARTH_NIGHT && g_eView != VIEW_EARTH_COMBINED) return;
+	//if (g_eView != VIEW_EARTH_DAY && g_eView != VIEW_EARTH_NIGHT && g_eView != VIEW_EARTH_COMBINED) return;
+	if (g_eView == VIEW_PLOT_2D) return;
 
-	if (sm) sm->dTimeInteractive = dtime();
+	//if (sm) sm->dTimeInteractive = dtime();
 
 	mouseX = x;
     mouseY = y;
@@ -1707,16 +1709,16 @@ void MouseButton(int x, int y, int which, int is_down)
     if (earth.IsShown()) {
       earth.MouseButton(mouseX, mouseY, which, is_down);
     }
-    else if (g_eView==VIEW_CUBE) {
-      cube.MouseButton(mouseX, mouseY, which, is_down);
-    }
-    else {
+    //else if (g_eView==VIEW_CUBE) {
+    //  cube.MouseButton(mouseX, mouseY, which, is_down);
+    //}
+    //else {
         mouse_down = is_down ? true : false;
         /*if (mouse_down) {  // save coords when mouse down
           mouseX = x;
           mouseY = y;
         }*/
-    }
+    //}
 }
 
 void KeyDown(int k1, int k2)
@@ -1725,7 +1727,7 @@ void KeyDown(int k1, int k2)
    key_press = k1;
    key_press_alt = k2;
 
-   if (sm) sm->dTimeInteractive = dtime();
+   //if (sm) sm->dTimeInteractive = dtime();
    if (key_press == 27) { // immediate quit on escape key
       qcn_graphics::Cleanup();
       _exit(0);

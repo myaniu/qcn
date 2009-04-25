@@ -100,10 +100,13 @@ void MyGLPane::OnMouseDown(wxMouseEvent& evt)
 		break;
    }
    m_mouseDown[evt.GetButton()-1] = true;  // the wxwidgets getbutton is one off from our left/mid/right array
-   qcn_graphics::MouseButton(evt.GetPosition().x, evt.GetPosition().y, which, 1);
+
+   //qcn_graphics::MouseButton(evt.GetPosition().x, evt.GetPosition().y, which, 1);
    // ignore double clicks?
-   
-   m_pframe->EarthRotate(false);
+  
+   if (qcn_graphics::g_eView == VIEW_EARTH_DAY || qcn_graphics::g_eView == VIEW_EARTH_NIGHT) { 
+      m_pframe->EarthRotate(false);
+   }
 
    qcn_graphics::MouseButton(evt.GetPosition().x, evt.GetPosition().y, which, 1);
 

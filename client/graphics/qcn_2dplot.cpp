@@ -256,52 +256,13 @@ void draw_plot()
 			 // get the scale for each axis
 			 			 
 			 if (g_bAutoScale) { // compute fScale Factor from last 100 pts
-			   //if (!(iFrameCounter % 20)) {
-			     // if not enough points just use what we can
-			     //if (sm->lOffset < PLOT_ARRAY_SIZE && sm->t0[MAXI-1] == 0.0f) {
-		    	//	lStart = PLOT_ARRAY_SIZE-11;
-				//	lEnd = PLOT_ARRAY_SIZE-1;
-				 //}
-	    		 //else  { 
-		    		//lStart = PLOT_ARRAY_SIZE-101;
 		    		lStart = 0;
 	                        lEnd = PLOT_ARRAY_SIZE-1;
-				 //}
-				//iFrameCounter = 0;
-					/* obsolete - g_fmin & fmax calculated in qcn_graphics namespace
-				if (qcn_util::ComputeMeanStdDevVarianceKnuth((const float*) fdata, PLOT_ARRAY_SIZE, lStart, lEnd, 
-				  &fMean, &fStdDev, &fVariance, &g_fMin[ee], &g_fMax[ee], true, true)) {
-				    if (fMean != 0.0f && fabs((fMean - fMeanLast)/fMean) > 0.20f) { // mean's differ so reset
-					    fMeanLast = fMean;
-						fStdDevLast = fStdDev;
-						fVarianceLast = fVariance;
-					}
-					else {
-					    fMean = fMeanLast;
-						fStdDev = fStdDevLast;
-						fVariance = fVarianceLast;
-					}
-					// make the scale to fit 2 std dev above & below the mean, which is the center
-					//g_fMaxAxesCurrent[ee] = fMean + (2.0f * fStdDev);  // save each scale level for autoscaling, so it's not jumping all around
-					//g_fMinAxesCurrent[ee] = fMean - (2.0f * fStdDev);
-					g_fMaxAxesCurrent[ee] = g_fMax[ee];  // save each scale level for autoscaling, so it's not jumping all around
-					g_fMinAxesCurrent[ee] = g_fMin[ee];
-					if (ee == E_DS) {
-					    g_fMin[ee] = 0.0f;  // force min to always be 0 for significance
-						g_fMinAxesCurrent[ee] = 0.0f;
-					}
-				  */
-					g_fMaxAxesCurrent[ee] = qcn_graphics::g_fmax[ee] == SAC_NULL_FLOAT ? 1.0f : qcn_graphics::g_fmax[ee];  // save each scale level for autoscaling, so it's not jumping all around
-					g_fMinAxesCurrent[ee] = qcn_graphics::g_fmin[ee] == SAC_NULL_FLOAT ? 0.0f : qcn_graphics::g_fmin[ee]; 
-					if (ee == E_DS) {
-						g_fMinAxesCurrent[ee] = 0.0f;
-					}
-				/*}
-				else {
-					g_fMaxAxesCurrent[ee] = ( ee == E_DS ? g_fScaleSig[g_iScaleSigOffset] : g_fScaleAxes[g_iScaleAxesOffset] );
-					g_fMinAxesCurrent[ee] = ( ee == E_DS ? 0.0f : -g_fScaleAxes[g_iScaleAxesOffset] );
-				}*/
-			  //}  // iFrameCounter
+			g_fMaxAxesCurrent[ee] = qcn_graphics::g_fmax[ee] == SAC_NULL_FLOAT ? 1.0f : qcn_graphics::g_fmax[ee];  // save each scale level for autoscaling, so it's not jumping all around
+		 	g_fMinAxesCurrent[ee] = qcn_graphics::g_fmin[ee] == SAC_NULL_FLOAT ? 0.0f : qcn_graphics::g_fmin[ee]; 
+		    	if (ee == E_DS) {
+			    g_fMinAxesCurrent[ee] = 0.0f;
+			  }
 			 }
 			 else {
 					g_fMaxAxesCurrent[ee] = ( ee == E_DS ? g_fScaleSig[g_iScaleSigOffset] : g_fScaleAxes[g_iScaleAxesOffset] );
@@ -319,21 +280,20 @@ void draw_plot()
                                      + ( 15.0f * ( (fdata[i] - g_fMinAxesCurrent[ee])  
                                                         / (g_fMaxAxesCurrent[ee] - g_fMinAxesCurrent[ee] ) )  );
 
-				 //if (fdata[i] != 0.0f) { // suppress 0 values, check for 
-                                   if ( (y1 - yax_qcnlive[ee]) > (ee==E_DS ? 15.5f : 15.0f) ) { // max range
+				 //if (fdata[i] != 0.0f) { // suppress 0 values and check data ranges fit
+                                   if ( fdata[i] == SAC_NULL_FLOAT ) { // invalid, suppress
+                                   }
+                                   else if ( fdata[i] > g_fMaxAxesCurrent[ee] ) { // max limit
                                         y1 = yax_qcnlive[ee] + (ee==E_DS ? 15.5f : 15.0f);
+				        glVertex2f(x1, y1);
                                    }
-                                   else if ( (y1 - yax_qcnlive[ee]) < 0.0f ) { // min range
+                                   else if ( fdata[i] < g_fMinAxesCurrent[ee] ) { // min limit
                                         y1 = yax_qcnlive[ee];
+				        glVertex2f(x1, y1);
                                    }
-
-				   glVertex2f(x1, y1);
-                                 //}
-			     //}
-			     //else { // close line segment
-				 	 glEnd();
-					 glBegin(GL_LINE_STRIP);  // start new line seg fromout of range data
-		             //}
+                                   else { // OK, show vertex
+				        glVertex2f(x1, y1);
+                                   }
 			 }
 	 	     glEnd();
 		 }

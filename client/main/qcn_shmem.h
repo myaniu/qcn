@@ -127,7 +127,7 @@ class CQCNShMem : public CSerialize
     unsigned long long ullSampleTotal;
     float fRealDT;
 
-    double dTimeInteractive; // time that interactive use started, should bypass triggers if this is recent
+    //double dTimeInteractive; // time that interactive use started, should bypass triggers if this is recent
 };
 
 #endif

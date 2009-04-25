@@ -145,7 +145,7 @@ void CCube::RenderText()
 {  // this draws the necessary text for the cube view
    // draw text on top
 
- if (bIsQCNLive) {
+ if (! bIsQCNLive) {
    char buf[256];
    // left of window informative text
    if (!qcn_graphics::g_bFullScreen)  { // don't show the button press text in fullscreen/screensaver mode
