@@ -132,7 +132,7 @@ MyFrame::MyFrame(const wxRect& rect, MyApp* papp)
     wxsRecordingFilename.clear();
     bRecordingSAC = true;
 
-    bSensorAbsolute2D = true;
+    bSensorAbsolute2D = false;
     bSensorAbsolute3D = false;
 
     // Make a menubar

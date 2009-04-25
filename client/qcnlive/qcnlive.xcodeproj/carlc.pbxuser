@@ -7,9 +7,9 @@
 	};
 	E3064B950F8FE8A60028A349 /* qcn_2dplot.cpp */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1283, 6398}}";
+			sepNavIntBoundsRect = "{{0, 0}, {1283, 6076}}";
 			sepNavSelRange = "{4686, 0}";
-			sepNavVisRange = "{3690, 2316}";
+			sepNavVisRange = "{0, 2238}";
 			sepNavWindowFrame = "{{126, 137}, {1342, 872}}";
 		};
 	};
@@ -27,8 +27,8 @@
 		ignoreCount = 0;
 		lineNumber = 457;
 		location = QCNLive;
-		modificationTime = 261949849.85366;
-		state = 1;
+		modificationTime = 262376260.722313;
+		state = 0;
 	};
 	E30AB0EA0EBB9C0600DA7E81 /* dlgsettings.cpp */ = {
 		uiCtxt = {
@@ -92,8 +92,36 @@
 		ignoreCount = 0;
 		lineNumber = 267;
 		location = QCNLive;
-		modificationTime = 261949849.85329;
-		state = 1;
+		modificationTime = 262376260.659362;
+		state = 0;
+	};
+	E3301E3D0FA38A3F00A6346A /* PBXBookmark */ = {
+		isa = PBXBookmark;
+		fRef = E390FE610D65DF7500479F9A /* myglpane.cpp */;
+	};
+	E3301E3E0FA38A4100A6346A /* PBXBookmark */ = {
+		isa = PBXBookmark;
+		fRef = E390FE410D65DE7600479F9A /* myframe.cpp */;
+	};
+	E3301E5E0FA38B7300A6346A /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = E390FE410D65DE7600479F9A /* myframe.cpp */;
+		name = "myframe.cpp: 370";
+		rLen = 17;
+		rLoc = 12118;
+		rType = 0;
+		vrLen = 1660;
+		vrLoc = 11248;
+	};
+	E3301E5F0FA38B7300A6346A /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = E390FE610D65DF7500479F9A /* myglpane.cpp */;
+		name = "myglpane.cpp: 60";
+		rLen = 0;
+		rLoc = 1394;
+		rType = 0;
+		vrLen = 1516;
+		vrLoc = 572;
 	};
 	E36838C20F97AC6A008DB82B /* qcn_2dplot.cpp:26 */ = {
 		isa = PBXFileBreakpoint;
@@ -104,12 +132,12 @@
 		countType = 0;
 		delayBeforeContinue = 0;
 		fileReference = E3064B950F8FE8A60028A349 /* qcn_2dplot.cpp */;
-		hitCount = 1;
+		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 26;
 		location = QCNLive;
-		modificationTime = 261949853.404026;
-		state = 1;
+		modificationTime = 262376260.663297;
+		state = 0;
 	};
 	E371C7F60E2AB5D0009B4DAA /* csensor_mac_laptop.cpp */ = {
 		uiCtxt = {
@@ -146,9 +174,9 @@
 	};
 	E390FE410D65DE7600479F9A /* myframe.cpp */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1141, 13524}}";
-			sepNavSelRange = "{22462, 0}";
-			sepNavVisRange = "{21555, 1757}";
+			sepNavIntBoundsRect = "{{0, 0}, {1141, 13188}}";
+			sepNavSelRange = "{12118, 17}";
+			sepNavVisRange = "{11248, 1660}";
 			sepNavVisRect = "{{0, 0}, {1161, 818}}";
 			sepNavWindowFrame = "{{377, 83}, {1200, 945}}";
 		};
@@ -157,7 +185,7 @@
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {1141, 3248}}";
 			sepNavSelRange = "{1394, 0}";
-			sepNavVisRange = "{574, 1514}";
+			sepNavVisRange = "{572, 1516}";
 			sepNavVisRect = "{{0, 1305}, {1161, 818}}";
 			sepNavWindowFrame = "{{231, 83}, {1200, 945}}";
 		};
@@ -279,8 +307,14 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 262122514;
-			PBXWorkspaceStateSaveDate = 262122514;
+			PBXPerProjectTemplateStateSaveDate = 262375930;
+			PBXWorkspaceStateSaveDate = 262375930;
+		};
+		perUserProjectItems = {
+			E3301E3D0FA38A3F00A6346A /* PBXBookmark */ = E3301E3D0FA38A3F00A6346A /* PBXBookmark */;
+			E3301E3E0FA38A4100A6346A /* PBXBookmark */ = E3301E3E0FA38A4100A6346A /* PBXBookmark */;
+			E3301E5E0FA38B7300A6346A /* PBXTextBookmark */ = E3301E5E0FA38B7300A6346A /* PBXTextBookmark */;
+			E3301E5F0FA38B7300A6346A /* PBXTextBookmark */ = E3301E5F0FA38B7300A6346A /* PBXTextBookmark */;
 		};
 		sourceControlManager = E3A499E10D64E60400E51CDF /* Source Control */;
 		userBuildSettings = {
@@ -608,8 +642,8 @@
 		ignoreCount = 0;
 		lineNumber = 259;
 		location = QCNLive;
-		modificationTime = 261949849.853509;
-		state = 1;
+		modificationTime = 262376260.68434;
+		state = 0;
 	};
 	E3D735A20F97B4B600741928 /* qcn_2dplot.cpp:259 */ = {
 		isa = PBXFileBreakpoint;
@@ -625,8 +659,8 @@
 		ignoreCount = 0;
 		lineNumber = 259;
 		location = QCNLive;
-		modificationTime = 261949849.853585;
-		state = 1;
+		modificationTime = 262376260.689316;
+		state = 0;
 	};
 	E3D886CA0F9D1A1F00F0089A /* qcn_graphics.cpp:279 */ = {
 		isa = PBXFileBreakpoint;
@@ -641,7 +675,8 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 279;
-		modificationTime = 261954079.60124;
-		state = 1;
+		location = QCNLive;
+		modificationTime = 262376260.726264;
+		state = 0;
 	};
 }
