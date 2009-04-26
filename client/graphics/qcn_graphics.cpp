@@ -762,12 +762,14 @@ bool setupPlotMemory(const long lOffset)
 	    return false; // if offset mod iRebin isn't 0, we return (unless we're in a snapshot view of course!)
     }
 
-    // for hour, just use current pt - hour 
     long lOff = lDrawableOffset - awinsize[key_winsize];
+/*
+    // for hour, just use current pt - hour 
     if (key_winsize == 3) {  // for hour view, don't bother going back
        lOff = sm->lOffset - awinsize[key_winsize] - 1;
        lDrawableOffset = lOff;
     }
+*/
 
     // if we made it here then we are either doing a bResetArray, or at a new offset/rebin point
     // set our lastdrawn to this point
@@ -1196,8 +1198,8 @@ const long TimeWindowBack()
 		     g_lSnapshotTimeBackSeconds += 60; break;
           case 2:
 		     g_lSnapshotTimeBackSeconds += 600; break;
-          case 3:
-		     g_lSnapshotTimeBackSeconds += 3600; break;
+//          case 3:
+//		     g_lSnapshotTimeBackSeconds += 3600; break;
 	   }
 	   if (key_winsize == 3) { // if on hour view only ever just show the first hour
 	       g_lSnapshotPoint = 1;
@@ -1231,8 +1233,8 @@ const long TimeWindowForward()
 		     g_lSnapshotTimeBackSeconds -= 60; break;
           case 2:
 		     g_lSnapshotTimeBackSeconds -= 600; break;
-          case 3:
-		     g_lSnapshotTimeBackSeconds -= 3600; break;
+//          case 3:
+//		     g_lSnapshotTimeBackSeconds -= 3600; break;
 	   }
 	   
        g_lSnapshotPoint += awinsize[key_winsize];
