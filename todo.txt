@@ -3,8 +3,9 @@
 ---------------------
 
  qcnlive 
-
- -- screensaver -- rotate views of 2D 1g and 2D auto-scale
+ - hour view is screwy, just show most recent hour?  
+ - maybe change array to be 1.5 hrs again, not 2?
+ - screensaver -- rotate views of 2D 1g and 2D auto-scale
  - wxwidget scrollbar & controls for IRIS/SeisMac-style QCNLive 2D view
 
 --------------------
