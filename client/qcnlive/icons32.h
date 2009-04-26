@@ -3370,7 +3370,7 @@ static char *xpm_icon_usgs[] = {
 
 
 /* XPM */
-static char * xpm_zoom_auto32[] = {
+static char * xpm_zoom_auto[] = {
 "32 32 316 2",
 "  	c None",
 ". 	c #FFFFFF",
@@ -3722,7 +3722,7 @@ static char * xpm_zoom_auto32[] = {
 "                                                                "};
 
 /* XPM */
-static char * xpm_vert_zoom_in32[] = {
+static char * xpm_vert_zoom_in[] = {
 "32 32 294 2",
 "  	c None",
 ". 	c #FFFFFF",
@@ -4053,7 +4053,7 @@ static char * xpm_vert_zoom_in32[] = {
 
 
 /* XPM */
-static char * xpm_vert_zoom_out32[] = {
+static char * xpm_vert_zoom_out[] = {
 "32 32 295 2",
 "  	c None",
 ". 	c #FFFFFF",
@@ -4385,7 +4385,7 @@ static char * xpm_vert_zoom_out32[] = {
 
 
 /* XPM */
-static char * xpm_horiz_zoom_in32[] = {
+static char * xpm_horiz_zoom_in[] = {
 "32 32 295 2",
 "  	c None",
 ". 	c #FFFFFF",
@@ -4717,7 +4717,7 @@ static char * xpm_horiz_zoom_in32[] = {
 
 
 /* XPM */
-static char * xpm_horiz_zoom_out32[] = {
+static char * xpm_horiz_zoom_out[] = {
 "32 32 294 2",
 "  	c None",
 ". 	c #FFFFFF",
