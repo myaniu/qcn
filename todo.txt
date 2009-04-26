@@ -185,10 +185,6 @@ switch to toggle back and forth between xyz and sac output.
 
 ------------------------
 
-move qcnalpha to just qcn i.e. alpha test is over
-
-------------------------
-
 qcn building studies
 
 make a "qcn/bldg" site for a qcn app that continuously records & uploads
