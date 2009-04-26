@@ -2,28 +2,10 @@
 
 ---------------------
 
-drop graphics ability (i.e. just show 2d?) if # of resets is high >50 or 100?
-
---------------------
  qcnlive 
- -- start up 2d in scaled (not absolute button) - +/- 1g for zoom etc
- -- max/min missing values (i.e. gaps in plot -- plot max/min scale points?)
- -- magnifying glass for zoom vert & horizontal 
- -- record  button blink, and make one button alternate with stop btn
- -- autoscale btn (mag glass with AUTO)
- -- default view is autoscale on qcnlive & boinc
- -- big scrollbar on top toolbar for nav back & forth
-    -- scroll back it stays in that area but can scroll to "new" end
- -- default to 1000x700 --- check qcnlive not saving
- -- alpha blending of the axes -- make sure the axes don't show when the data is right on the line
+
  -- screensaver -- rotate views of 2D 1g and 2D auto-scale
-
-- save-screen position of qcnlive not working for everyone
-
-:- wxwidget scrollbar & controls for IRIS/SeisMac-style QCNLive 2D view
-
-- QCNLive 2D - maybe try grey background - main thing is printing so it's not all black ink in the background etc, and colors show up OK, i.e. may have to "intercept" the jpeg call to force a white background etc
-
+ - wxwidget scrollbar & controls for IRIS/SeisMac-style QCNLive 2D view
 
 --------------------
 
@@ -38,70 +20,7 @@ hour. If so, it will window and upload the appropriate data to the server
 
 --------------------
 
-I was looking into a "mobile" qcn setup.  the tough bit is the Internet service (if we use a phone); and the cheap netbook ($239) doesn't have 802.11n.  the solar power looks feasible, although there's a neat netbook solar-powered case for $499.
-
-another possibility other than cell-phone is some sort of "long distance wifi" such as we were talking about: 
-http://www.wi-fiplanet.com/columns/article.php/2191841
-
-so with $150 for the accel & the tmobile Internet doing it for under $500 is a bit of a stretch:
-
-USB accelerometer nano-g
-$150?
-
-Acer Aspire One netbook
-802.11b/g, 3-cell lithium battery, Intel Atom N270 Proc 1.6GHz,1GB RAM, 8GB SS drive, 3 USB 2.0 ports, Win XP Home
-2.2 lbs, 6.7" deep, max 12W TDP -> 2.5W CPU, 6W chipset, 3.3W controller
-battery up to 3 hrs, up to 7 hours for the 6-cell battery (higher cost), 12v
-$239.99 from Best Buy Outlet
-
-USB "cell-phone Internet"
-http://finance.yahoo.com/news/TMobile-gets-into-the-game-of-apf-14735768.html
-T-Mobile 1-yr contract $100 for USB dongle, $60/mth for 5GB traffic
-$100 initially
-
-Solar Power Laptop Bag
-http://www.legitreviews.com/news/5448/
-$499
-
-12W/12V Solar panel
-http://www.earthtechproducts.com/p2007.html
-$170
-
-Wagan Tech Solar Epower 12W
-http://www.batteryjunction.com/wagan-2448.html
-$138
-
---------------------
-
 priorities -- trigger levels, qcnlive 2-d graphics, sac2jpeg/server-side & edit sac data
-
----------------------------
-
-* trigger levels
-
-I’ve been wondering about this as well.  Right now I think we have a single threshold for all the sensors, which is tuned for the Macs (0.1m/s/s – which is 2.5 times the resolution of the sensor).  We are definitely going to have to adjust the threashold according to the sensor type.  I was thinking that we could have two changes to the threshold:
-
-Use a different starting thresholds for each sensor.  My proposed values are:
-
-MN = 0.01
-JW = 0.025
-Apple = 0.1
-Thinkpad = 0.2
-
---------------------
-
-seismacing
-
-- boxes should be even, as well as plotting since all +/- 19.6 m/s2, sig 0 - 10
-- bouncing ball at "tip" where drawn
-- vertical blue lines every second with time label drawn underneath
-- horizontal grey line every vertical tick mark
-- light pink center axes
-- S/X/Y/Z on right side with vertical axis
-
---------------------
-
-qcnlive save view/open problem -- on Jesse's Mac it doesn't save or open in the proper place
 
 ---------------------------
 
