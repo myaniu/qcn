@@ -762,11 +762,17 @@ bool setupPlotMemory(const long lOffset)
 	    return false; // if offset mod iRebin isn't 0, we return (unless we're in a snapshot view of course!)
     }
 
-    // if we made it here then we are either doing a bResetArray, or at a new offset/rebin point
-	// set our lastdrawn to this point
-	lLastDrawnOffset = lDrawableOffset;
-  
+    // for hour, just use current pt - hour 
     long lOff = lDrawableOffset - awinsize[key_winsize];
+    if (key_winsize == 3) {  // for hour view, don't bother going back
+       lOff = sm->lOffset - awinsize[key_winsize] - 1;
+       lDrawableOffset = lOff;
+    }
+
+    // if we made it here then we are either doing a bResetArray, or at a new offset/rebin point
+    // set our lastdrawn to this point
+    lLastDrawnOffset = lDrawableOffset;
+ 
     // set timestamps for window to be displayed in the draw_text
     dtw[1] = sm->t0[lOffset];   // timestamp for end of the window (which is the current point)
     earth.SetTime(dtw[1]);
