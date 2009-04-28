@@ -56,7 +56,7 @@ $bUseSensor = $_GET["cbUseSensor"];
 $bUseTime  = $_GET["cbUseTime"];
 
 $quake_mag_min = $_GET["quake_mag_min"];
-if (!$quake_mag_min) $quake_mag_min = "4.0";  // set minimum quake mag cutoff
+if (!$quake_mag_min) $quake_mag_min = "3.0";  // set minimum quake mag cutoff
 
 $type_sensor = $_GET["type_sensor"];
 $dateStart = $_GET["date_start"];
@@ -88,7 +88,7 @@ $timeHourEnd   = $_GET["time_hour_end"];
 $timeMinuteEnd = $_GET["time_minute_end"];
 
 $sortOrder = $_GET["rb_sort"];
-if (!$sortOrder) $sortOrder = "maga";  // triger time desc is default sort order
+if (!$sortOrder) $sortOrder = "ttd";  // triger time desc is default sort order
 
 if ($nresults) {
     $entries_to_show = $nresults;
