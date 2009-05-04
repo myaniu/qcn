@@ -1,6 +1,6 @@
 <?php
-include ("/var/www/qcn/jpgraph-2.3.4/jpgraph.php");
-include ("/var/www/qcn/jpgraph-2.3.4/jpgraph_line.php");
+include ("/var/www/qcn/jpgraph-2.3.4/src/jpgraph.php");
+include ("/var/www/qcn/jpgraph-2.3.4/src/jpgraph_line.php");
 
 $filename = "/var/www/boinc/sensor/html/user/img/weekly.png";
 
@@ -19,8 +19,6 @@ $p1->mark->SetFillColor("red");
 $p1->mark->SetWidth(4);
 $graph->Add($p1);
 
-//$graph->Stroke();
-
-$graph->$img->Stream($filename);
+$graph->Stroke($filename);
 
 ?>
