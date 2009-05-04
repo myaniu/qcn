@@ -3,56 +3,113 @@
 <?php
 include ("/var/www/qcn/jpgraph-2.3.4/src/jpgraph.php");
 include ("/var/www/qcn/jpgraph-2.3.4/src/jpgraph_line.php");
+include ("/var/www/qcn/jpgraph-2.3.4/src/jpgraph_bar.php");
 
 require_once("/var/www/boinc/sensor/html/inc/db.inc");
 require_once("/var/www/boinc/sensor/html/inc/util.inc");
 
 db_init();
 
-$query = "select yearweek(from_unixtime(time_received)) yw, count(distinct hostid) ctr
+$query_weekly = "select yearweek(from_unixtime(time_received)) yw, count(distinct hostid) ctr
 from qcn_trigger
 where yearweek(from_unixtime(time_received))
   between 
       yearweek(date(date_sub(date(date_sub(now(), interval 180 day)), 
-        interval dayofweek(date(date_sub(now(), interval 180 day))) day) )  )
+        interval dayofweek(date(date_sub(now(), interval 180 day)))-1 day) )  )
     and 
       yearweek(date(date_sub(now(), interval dayofweek(now()) day)))
 group by yearweek(from_unixtime(time_received)) 
 order by yearweek(from_unixtime(time_received))";
 
+$query_daily = "select date(from_unixtime(time_received)) yw, count(distinct hostid) ctr
+from qcn_trigger
+where date(from_unixtime(time_received))
+  between 
+      date(date_sub(date(date_sub(now(), interval 180 day)), 
+        interval dayofweek(date(date_sub(now(), interval 180 day)))-1 day) ) 
+    and 
+      date(date_sub(now(), interval dayofweek(now()) day))
+group by date(from_unixtime(time_received)) 
+order by date(from_unixtime(time_received))";
+
 $filename = "/var/www/boinc/sensor/html/user/img/weekly.png";
 
 $datax = array();
 $datay = array();
+$dataz = array();
+
 $ictr = 0;
 
-$result = mysql_query($query);
+$result = mysql_query($query_daily);
 if (!$result) exit(1);
 
 while ($res = mysql_fetch_array($result)) {
-   $datax[$ictr] = substr($res[0],-2,2) . "-" . substr($res[0],2,2);
-   $datay[$ictr] = $res[1];
+   $dataz[$ictr] = $res[1];
+   //$datax[$ictr] = substr($res[0],-2,2) . "-" . substr($res[0],2,2);
+   $datax[$ictr] = substr($res[0],-5); // substr($res[0],-2,2) . "-" . substr($res[0],2,2);
    $ictr++;
 }
+
+//print_r($dataz);
+
+mysql_free_result($result);
+
+$result = mysql_query($query_weekly);
+if (!$result) exit(1);
+
+$total = $ictr;
+$ictr = 0;
+while ($ictr < $total && $res = mysql_fetch_array($result)) {
+   for ($j = 0; $j < 7; $j++) {
+     $datay[$ictr] = $res[1];
+     $ictr++;
+   }
+}
+
+//print_r($datay);
 
 mysql_free_result($result);
 
 $graph = new Graph(800, 600);
-$graph->img->SetMargin(40,40,80,80);
+$graph->img->SetMargin(70,70,80,80);
 $graph->SetScale("textlin");
 $graph->SetShadow();
-$graph->title->Set("Number of Triggering Machines by Week of the Year");
+$graph->title->Set("Number of Reporting Machines Over the Past 6 Months");
 $graph->title->SetFont(FF_FONT1,FS_BOLD);
+
+$graph->yaxis->SetTitleMargin(40);
+$graph->yaxis->SetTitleSide(SIDE_LEFT);
+$graph->yaxis->SetTitle("# of Unique Machines");
+
+$graph->xaxis->SetTitleMargin(40);
+$graph->xaxis->SetTitleSide(SIDE_BOTTOM);
+$graph->xaxis->SetTitle("Month-Day");
 
 $graph->xaxis->SetTickLabels($datax);
 $graph->xaxis->SetLabelAngle(90);
+$graph->xaxis->SetTextLabelInterval(7);
 
-$p1 = new LinePlot($datay);
-$p1->SetFillColor("blue");
-$p1->mark->SetType(MARK_FILLEDCIRCLE);
-$p1->mark->SetFillColor("gray");
-$p1->mark->SetWidth(4);
-$graph->Add($p1);
+$lp1 = new LinePlot($datay);
+$lp1->SetFillColor("blue");
+$lp1->SetLegend("By Week");
+
+$lp2 = new LinePlot($dataz);
+$lp2->SetFillColor("red");
+$lp2->SetLegend("By Day");
+
+/*
+$lp1->mark->SetType(MARK_FILLEDCIRCLE);
+$lp1->mark->SetFillColor("gray");
+$lp1->mark->SetWidth(4);
+
+$lp2->mark->SetType(MARK_FILLEDCIRCLE);
+$lp2->mark->SetFillColor("white");
+$lp2->mark->SetWidth(4);
+*/
+
+$graph->Add($lp1);
+$graph->Add($lp2);
+$graph->legend->SetAbsPos(20,20,'right','top');
 
 $graph->Stroke($filename);
 
