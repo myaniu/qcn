@@ -1,3 +1,5 @@
+#!/usr/bin/env php
+
 <?php
 include ("/var/www/qcn/jpgraph-2.3.4/src/jpgraph.php");
 include ("/var/www/qcn/jpgraph-2.3.4/src/jpgraph_line.php");
@@ -46,9 +48,9 @@ $graph->xaxis->SetTickLabels($datax);
 $graph->xaxis->SetLabelAngle(90);
 
 $p1 = new LinePlot($datay);
-$p1->SetFillColor("orange");
+$p1->SetFillColor("blue");
 $p1->mark->SetType(MARK_FILLEDCIRCLE);
-$p1->mark->SetFillColor("red");
+$p1->mark->SetFillColor("gray");
 $p1->mark->SetWidth(4);
 $graph->Add($p1);
 
