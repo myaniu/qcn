@@ -42,6 +42,7 @@
       http://qcn.stanford.edu/sensor_cgi/file_upload_handler
     </upload_url>
     <db_passwd>
+      pwd
     </db_passwd>
     <db_host>
       db-private
@@ -72,6 +73,17 @@
       </cmd>
       <period>
         24 hours
+      </period>
+    </task>
+    <task>
+      <output>
+        weekly-host.out
+      </output>
+      <cmd>
+        run_in_ops weekly-host.php
+      </cmd>
+      <period>
+        3 days
       </period>
     </task>
     <task>

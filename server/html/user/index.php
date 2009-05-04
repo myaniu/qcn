@@ -177,6 +177,12 @@ echo "
 ";
 */
 
+echo "<tr><td>
+    <p>
+    <img src=\"img/weekly.png\" alt=\"Weekly QCN Participant Machines\">
+    </p>
+    </td></tr>";
+
 echo "</table>\n";
 
 include 'schedulers.txt';
