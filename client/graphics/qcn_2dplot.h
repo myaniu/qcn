@@ -16,6 +16,7 @@ namespace qcn_2dplot {
 	extern void draw_text();
 	extern void draw_tick_marks();
 	extern void draw_plot() ;
+	extern void draw_scrollbar();
 }  // end namespace
 
 #endif // _QCN_2DPLOT_H_

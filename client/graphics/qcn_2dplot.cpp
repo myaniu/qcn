@@ -28,17 +28,18 @@ static bool g_bAutoScale = true; // set to true when want each axes to scale aro
 static float g_fMaxAxesCurrent[4]  = { g_fScaleAxes[0], g_fScaleAxes[0], g_fScaleAxes[0], g_fScaleAxes[0] };  // save each scale level for autoscaling, so it's not jumping all around
 static float g_fMinAxesCurrent[4]  = { -g_fScaleAxes[0], -g_fScaleAxes[0], -g_fScaleAxes[0], -g_fScaleAxes[0] };  // save each scale level for autoscaling, so it's not jumping all around
 
-static const float fTransAlpha = 0.100f;
-static const float fAxisLabel  = 1.061f;
-static const float fVertLabel  = 0.988f;
-static const float fYOffset    = 0.016f;
-static const float fMSSLabel   = 0.050f; // m/s/s label
-static const float fSigOffset[7] = { .562f, .588f, .616f, .643f, .670f, .697f, .719f };
+static const float cfTransAlpha = 0.100f;
+static const float cfAxisLabel  = 1.061f;
+static const float cfVertLabel  = 0.988f;
+static const float cfYOffset    = 0.016f;
+static const float cfMSSLabel   = 0.050f; // m/s/s label
+static const float cfSigOffset[7] = { .562f, .588f, .616f, .643f, .670f, .697f, .719f };
 
-static const float fAxesLabel[4] = { 0.124f, .284f, .444f, .584f };
+static const float cfAxesLabel[4] = { 0.124f, .284f, .444f, .584f };
 
-static const float fBaseScale[4] = { 0.068f, .232f, .397f, .562f };
-static const float fAxesOffset[7] = { .0f, .021f, .049f, .077f, .104f, .131f, .151f };
+static const float cfBaseScale[4] = { 0.068f, .232f, .397f, .562f };
+static const float cfAxesOffset[7] = { .0f, .021f, .049f, .077f, .104f, .131f, .151f };
+static const float cfLabelTime[2] = { cfVertLabel/2.0f - 0.1f, 0.00f};
 
 void draw_text_sensor_axis(int iAxis)
 {
@@ -47,7 +48,7 @@ void draw_text_sensor_axis(int iAxis)
 	float fIncrement = (g_fMaxAxesCurrent[iAxis] - g_fMinAxesCurrent[iAxis]) / 6.0f;
 	for (int i = 0; i <= 6; i++) {
 		sprintf(cbuf, "%+6.3f", g_fMinAxesCurrent[iAxis] + (fIncrement * (float) i) );
-	    txf_render_string(fTransAlpha, fVertLabel, fBaseScale[iAxis] + fAxesOffset[i], 0, MSG_SIZE_SMALL, g_bIsWhite ? black : grey_trans, TXF_COURIER_BOLD, cbuf);
+	    txf_render_string(cfTransAlpha, cfVertLabel, cfBaseScale[iAxis] + cfAxesOffset[i], 0, MSG_SIZE_SMALL, g_bIsWhite ? black : grey_trans, TXF_COURIER_BOLD, cbuf);
 	}
 }
 
@@ -73,22 +74,22 @@ void draw_text()
 	/*
 #ifdef _DEBUG
 	sprintf(strTime, "%+6.3f %+6.3f", g_fMin[0], g_fMax[0]);
-    txf_render_string(.1f, .1f, fAxesLabel[0], 0.0f, MSG_SIZE_SMALL, red, TXF_HELVETICA, (char*) strTime);
+    txf_render_string(.1f, .1f, cfAxesLabel[0], 0.0f, MSG_SIZE_SMALL, red, TXF_HELVETICA, (char*) strTime);
 	sprintf(strTime, "%+6.3f %+6.3f", g_fMin[1], g_fMax[1]);
-    txf_render_string(.1f, .1f, fAxesLabel[1], 0.0f, MSG_SIZE_SMALL, red, TXF_HELVETICA, (char*) strTime);
+    txf_render_string(.1f, .1f, cfAxesLabel[1], 0.0f, MSG_SIZE_SMALL, red, TXF_HELVETICA, (char*) strTime);
 	sprintf(strTime, "%+6.3f %+6.3f", g_fMin[2], g_fMax[2]);
-    txf_render_string(.1f, .1f, fAxesLabel[2], 0.0f, MSG_SIZE_SMALL, red, TXF_HELVETICA, (char*) strTime);
+    txf_render_string(.1f, .1f, cfAxesLabel[2], 0.0f, MSG_SIZE_SMALL, red, TXF_HELVETICA, (char*) strTime);
 	sprintf(strTime, "%+6.3f %+6.3f", g_fMin[3], g_fMax[3]);
-    txf_render_string(.1f, .1f, fAxesLabel[3], 0.0f, MSG_SIZE_SMALL, red, TXF_HELVETICA, (char*) strTime);
+    txf_render_string(.1f, .1f, cfAxesLabel[3], 0.0f, MSG_SIZE_SMALL, red, TXF_HELVETICA, (char*) strTime);
 #endif
 	*/
 
 	// labels for each axis
 
-	txf_render_string(fTransAlpha, fAxisLabel, fAxesLabel[E_DS], 0, MSG_SIZE_NORMAL, red, TXF_HELVETICA, "Significance", 90.0f);
-    txf_render_string(fTransAlpha, fAxisLabel, fAxesLabel[E_DZ], 0, MSG_SIZE_NORMAL, blue, TXF_HELVETICA, "Z Axis", 90.0f);
-    txf_render_string(fTransAlpha, fAxisLabel, fAxesLabel[E_DY], 0, MSG_SIZE_NORMAL, orange, TXF_HELVETICA, "Y Axis", 90.0f);
-    txf_render_string(fTransAlpha, fAxisLabel, fAxesLabel[E_DX], 0, MSG_SIZE_NORMAL, green, TXF_HELVETICA, "X Axis", 90.0f);
+	txf_render_string(cfTransAlpha, cfAxisLabel, cfAxesLabel[E_DS], 0, MSG_SIZE_NORMAL, red, TXF_HELVETICA, "Significance", 90.0f);
+    txf_render_string(cfTransAlpha, cfAxisLabel, cfAxesLabel[E_DZ], 0, MSG_SIZE_NORMAL, blue, TXF_HELVETICA, "Z Axis", 90.0f);
+    txf_render_string(cfTransAlpha, cfAxisLabel, cfAxesLabel[E_DY], 0, MSG_SIZE_NORMAL, orange, TXF_HELVETICA, "Y Axis", 90.0f);
+    txf_render_string(cfTransAlpha, cfAxisLabel, cfAxesLabel[E_DX], 0, MSG_SIZE_NORMAL, green, TXF_HELVETICA, "X Axis", 90.0f);
 
 	// labels for significance
 	draw_text_sensor_axis(E_DS);
@@ -103,24 +104,25 @@ void draw_text()
 	draw_text_sensor_axis(E_DX);
 
 	// units label (meters per second per second
-    txf_render_string(fTransAlpha, fVertLabel, fMSSLabel, 0, MSG_SIZE_SMALL, g_bIsWhite ? black : grey_trans, TXF_COURIER_BOLD, " m/s/s");
+    txf_render_string(cfTransAlpha, cfVertLabel, cfMSSLabel, 0, MSG_SIZE_SMALL, g_bIsWhite ? black : grey_trans, TXF_COURIER_BOLD, " m/s/s");
 
     // time label
+
 	switch(qcn_graphics::GetTimeWindowWidth()) {
 	case 10:
-        txf_render_string(fTransAlpha, fVertLabel/2, 0.005f, 0.0f, MSG_SIZE_SMALL, g_bIsWhite ? light_blue : grey_trans, TXF_HELVETICA, "Time (UTC) - 10 Second Window");
+        txf_render_string(cfTransAlpha, cfLabelTime[0], cfLabelTime[1], 0.0f, MSG_SIZE_SMALL, g_bIsWhite ? light_blue : grey_trans, TXF_HELVETICA, "Time (UTC) - 10 Second Window");
 		break;
 	case 60:
-        txf_render_string(fTransAlpha, fVertLabel/2, 0.005f, 0.0f, MSG_SIZE_SMALL, g_bIsWhite ? light_blue : grey_trans, TXF_HELVETICA, "Time (UTC) - 1 Minute Window");
+        txf_render_string(cfTransAlpha, cfLabelTime[0], cfLabelTime[1], 0.0f, MSG_SIZE_SMALL, g_bIsWhite ? light_blue : grey_trans, TXF_HELVETICA, "Time (UTC) - 1 Minute Window");
 		break;
 	case 600:
-        txf_render_string(fTransAlpha, fVertLabel/2, 0.005f, 0.0f, MSG_SIZE_SMALL, g_bIsWhite ? light_blue : grey_trans, TXF_HELVETICA, "Time (UTC) - 10 Minute Window");
+        txf_render_string(cfTransAlpha, cfLabelTime[0], cfLabelTime[1], 0.0f, MSG_SIZE_SMALL, g_bIsWhite ? light_blue : grey_trans, TXF_HELVETICA, "Time (UTC) - 10 Minute Window");
 		break;
 	case 3600:
-        txf_render_string(fTransAlpha, fVertLabel/2, 0.005f, 0.0f, MSG_SIZE_SMALL, g_bIsWhite ? light_blue : grey_trans, TXF_HELVETICA, "Time (UTC) - 1 Hour Window");
+        txf_render_string(cfTransAlpha, cfLabelTime[0], cfLabelTime[1], 0.0f, MSG_SIZE_SMALL, g_bIsWhite ? light_blue : grey_trans, TXF_HELVETICA, "Time (UTC) - 1 Hour Window");
 		break;
 	default:
-        txf_render_string(fTransAlpha, fVertLabel/2, 0.005f, 0.0f, MSG_SIZE_SMALL, g_bIsWhite ? light_blue : grey_trans, TXF_HELVETICA, "Time (UTC)");
+        txf_render_string(cfTransAlpha, cfLabelTime[0], cfLabelTime[1], 0.0f, MSG_SIZE_SMALL, g_bIsWhite ? light_blue : grey_trans, TXF_HELVETICA, "Time (UTC)");
 	}
 
     draw_text_sensor();
@@ -177,6 +179,21 @@ bool CalcYPlot(const float fVal, const int ee, float&  myY)
        myY = yax_qcnlive[ee];
     }
     return true;
+}
+
+void draw_scrollbar()
+{ // CMC HERE
+   mode_unshaded();
+   mode_ortho();
+
+   glColor4fv(white);
+     glLineWidth(15);
+			 glBegin(GL_LINES);
+				 glVertex2f(.7, cfLabelTime[1] + .05);
+				 glVertex2f(1.0, cfLabelTime[1] + .05);
+			 glEnd();
+
+   ortho_done();
 }
 
 void draw_plot() 
@@ -271,7 +288,7 @@ void draw_plot()
 
 			// need to have the "later" lines override the "earlier" lines (i.e. plot data replaces axes lines)
 			//glBlendFunc (GL_DST_ALPHA, GL_SRC_ALPHA);
-			 glColor4fv(ee == E_DY ? orange : colorsPlot[ee]);  // set the color for data - CMC note the orange substitution for yellow on the Y
+			 glColor4fv(ee == E_DY ? orange : colorsPlot[ee]);  // set the color for data - note the orange substitution for yellow on the Y
 			 glLineWidth(2.0f);
 			 glBegin(GL_LINE_STRIP);
 
