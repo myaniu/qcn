@@ -193,6 +193,27 @@ void draw_scrollbar()
 				 glVertex2f(1.0, cfLabelTime[1] + .05);
 			 glEnd();
 
+/* // gradient
+
+glMatrixMode(GL_PROJECTION);
+glLoadIdentity();
+
+glMatrixMode(GL_MODELVIEW);
+glLoadIdentity();
+
+glBegin(GL_QUADS);
+//red color
+glColor3f(1.0,0.0,0.0);
+glVertex2f(-1.0, 1.0);
+glVertex2f(-1.0,-1.0);
+//blue color
+glColor3f(0.0,0.0,1.0);
+glVertex2f(1.0,-1.0);
+glVertex2f(1.0, 1.0);
+glEnd();
+
+*/
+
    ortho_done();
 }
 
