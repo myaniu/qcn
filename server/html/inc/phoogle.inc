@@ -333,8 +333,7 @@ function drawPlateBoundary() { // CMC - draws the plate boundaries in purple on 
 		if ($this->showControl){
           if ($this->controlType == 'small'){echo "map.addControl(new GSmallMapControl());\n";}
           if ($this->controlType == 'large'){echo "map.addControl(new GLargeMapControl3D());\n";}
-          echo "map.addControl(new GScaleControl());\n";}
-		
+          echo "map.addControl(new GScaleControl());\n";
 			}
 		if ($this->showType){
 		echo "map.addControl(new GMapTypeControl());\n";
