@@ -247,6 +247,9 @@ echo "
    {
       if (!GBrowserIsCompatible()) return;
       map  = new GMap2(getElement(\"map\"));
+      map.addControl(new GLargeMapControl3D);
+      map.addControl(new GScaleControl);
+      map.addControl(new GMapTypeControl);
       geocoder = new GClientGeocoder();
       for (i = 0 ; i < 5 ; i++) {
         lastOverlay[i] = null;
@@ -262,11 +265,6 @@ echo "
 
    for ($i = 0 ; $i < 5 ; $i++)
      echo "   micon[" . $i . "].image = \"" . constant("MAP_ICON_" . $i) . "\";\n";
-
-   echo "
-      map.addControl(new GSmallMapControl());
-      map.addControl(new GMapTypeControl());
-   ";
 
    for ($i = 4 ; $i >= 0 ; $i--) {
      echo "

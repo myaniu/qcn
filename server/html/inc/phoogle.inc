@@ -77,7 +77,7 @@ class PhoogleMap{
 * display's either the large or the small controls on the map, small by default
 */
 
-    var $controlType = 'small';
+    var $controlType = 'large';
     
 /**
 * zoomLevel
@@ -301,7 +301,6 @@ function drawPlateBoundary() { // CMC - draws the plate boundaries in purple on 
                       ";
             }
 
-
       		if (empty($this->centerMap)){
                    echo "map.setCenter(
                        new GLatLng(" . $this->validPoints[0]['lat'] 
@@ -333,12 +332,14 @@ function drawPlateBoundary() { // CMC - draws the plate boundaries in purple on 
 
 		if ($this->showControl){
           if ($this->controlType == 'small'){echo "map.addControl(new GSmallMapControl());\n";}
-          if ($this->controlType == 'large'){echo "map.addControl(new GLargeMapControl());\n";}
+          if ($this->controlType == 'large'){echo "map.addControl(new GLargeMapControl3D());\n";}
+          echo "map.addControl(new GScaleControl());\n";}
 		
 			}
 		if ($this->showType){
 		echo "map.addControl(new GMapTypeControl());\n";
 		}
+
 	
     $numPoints = count($this->validPoints);
     for ($g = 0; $g<$numPoints; $g++){

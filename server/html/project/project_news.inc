@@ -1,7 +1,11 @@
 <?php
 $project_news = array(
+   array("May 5, 2009",
+"A Quake-Catcher Network participant <A HREF=\"img/qcngermanym45.png\">detected a magnitude 4.5 earthquake in SW Germany</A>, near the borders of France and Switzerland using his JoyWarrior USB sensor and QCN/BOINC.  This is a fairly rare event to capture on QCN and we thank him and others running QCN!  The participant's computer was only 10km from the epicentre.<BR>",
+ "QCN Participant Detects <A HREF=\"http://earthquake.usgs.gov/eqcenter/recenteqsww/Quakes/us2009ggaf.php\">M4.5 earthquake in Southwest Germany</A>"
+  ),
    array("April 24, 2009",
-"Two Quake-Catcher Network participants felt and recorded yesterday's magnitude 4.0 earthquake in Yorba Linda, California (southern Cal, southeast of Los Angeles).  <A HREF=\"http://qcn.stanford.edu/qcnalpha/forum_thread.php?id=231\">You can view some of the data at this link.</A>  They are only about 4 km / 2.4 miles from the epicenter, so it was a good test of QCN and the JoyWarrior USB sensors!  Happily everyone is OK with just a few plates shaken up etc.<BR>",
+"Two Quake-Catcher Network participants felt and recorded yesterday's magnitude 4.0 earthquake in Yorba Linda, California (southern Cal, southeast of Los Angeles).  <A HREF=\"http://qcn.stanford.edu/sensor/forum_thread.php?id=231\">You can view some of the data at this link.</A>  They are only about 4 km / 2.4 miles from the epicenter, so it was a good test of QCN and the JoyWarrior USB sensors!  Happily everyone is OK with just a few plates shaken up etc.<BR>",
  "QCN Participants Detect M4.0 earthquake in Yorba Linda, California"
   ),
    array("April 22, 2009",
@@ -41,7 +45,7 @@ the network larger, better, and faster! Thanks for your support!<BR>",
  "New Version 4.00, With BOINC Credits and Graphics Upgrades"
     ),
    array("October 24, 2008",
-"We now have maps to show the recent triggers recorded by participants of the Quake Catcher Network - <A HREF=http://qcn.stanford.edu/qcnalpha/maptrigtime.php>click here to see the triggers recorded for the past day, week, or month</A> - then click again on a region to see further details on Google Maps!<BR>",
+"We now have maps to show the recent triggers recorded by participants of the Quake Catcher Network - <A HREF=http://qcn.stanford.edu/sensor/maptrigtime.php>click here to see the triggers recorded for the past day, week, or month</A> - then click again on a region to see further details on Google Maps!<BR>",
  "Trigger Maps for QCN Participants!"
     ),
    array("October 21, 2008",
@@ -53,7 +57,7 @@ the network larger, better, and faster! Thanks for your support!<BR>",
  "New Versions (3.70) for Mac, Windows, and Linux; MotionNode Accel USB support for Windows"
     ),
    array("October 4, 2008",
-"There are new versions (3.47) for Intel & PowerPC Mac OS X and Windows that should fix some problems with stability and graphics.  Also, support for the JoyWarrior 24F8 sensor is in place as well.  If you are running BOINC on a Mac, you will need to download a small driver program and install it so that the QCN software running under BOINC can read the JoyWarrior sensor (this is not needed for 'built-in' laptop accelerometers).  <A HREF=http://qcn.stanford.edu/qcnalpha/download/qcnusb-intel.zip>The Intel Mac driver is here</A>  and <A HREF=http://qcn.stanford.edu/qcnalpha/download/qcnusb-ppc.zip>the PowerPC Mac driver is here </A>.  The Intel Mac driver is a hopefully 'easy to follow' installation program; unfortunately the PowerPC Mac driver is a simple shell script you will need to unzip and run in a 'Terminal' window.  JoyWarrior 24F8 support on Windows is also in place, and should not require a separate driver program (at the current time!).  As usual, please report problems/questions in the <A HREF=http://qcn.stanford.edu/qcnalpha/forum_index.php>Message Boards</A>.<BR>",
+"There are new versions (3.47) for Intel & PowerPC Mac OS X and Windows that should fix some problems with stability and graphics.  Also, support for the JoyWarrior 24F8 sensor is in place as well.  If you are running BOINC on a Mac, you will need to download a small driver program and install it so that the QCN software running under BOINC can read the JoyWarrior sensor (this is not needed for 'built-in' laptop accelerometers).  <A HREF=http://qcn.stanford.edu/sensor/download/qcnusb-intel.zip>The Intel Mac driver is here</A>  and <A HREF=http://qcn.stanford.edu/sensor/download/qcnusb-ppc.zip>the PowerPC Mac driver is here </A>.  The Intel Mac driver is a hopefully 'easy to follow' installation program; unfortunately the PowerPC Mac driver is a simple shell script you will need to unzip and run in a 'Terminal' window.  JoyWarrior 24F8 support on Windows is also in place, and should not require a separate driver program (at the current time!).  As usual, please report problems/questions in the <A HREF=http://qcn.stanford.edu/sensor/forum_index.php>Message Boards</A>.<BR>",
  "New Versions (3.47) for Mac and Windows, JoyWarrior 24F8 support"
     ),
    array("September 25, 2008",
@@ -62,7 +66,7 @@ the network larger, better, and faster! Thanks for your support!<BR>",
     ),
    array("August 9, 2008",
 "Please note if your BOINC running QCN seems to hang or crash.  There is a bug in BOINC for long account files > 64KB -- basically if the historical 
-earthquake list gets too large then BOINC will not start and may seem to hang.  Unfortunately the only solution is to quit BOINC, and remove this file 'account_qcn.stanford.edu_qcnalpha.xml' which is located (on Macs) at /Library/Application Support/BOINC Data (or Windows check c:\program files\BOINC).  You should then be able to start BOINC and you will have to reattach/relogin to the QCN project.  Sorry for the inconvenience!<BR>",
+earthquake list gets too large then BOINC will not start and may seem to hang.  Unfortunately the only solution is to quit BOINC, and remove this file 'account_qcn.stanford.edu_sensor.xml' which is located (on Macs) at /Library/Application Support/BOINC Data (or Windows check c:\program files\BOINC).  You should then be able to start BOINC and you will have to reattach/relogin to the QCN project.  Sorry for the inconvenience!<BR>",
  "Note (and fix) for BOINC Crashes"
     ),
     array("July 29, 2008",
