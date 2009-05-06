@@ -23,7 +23,7 @@
     <app_dir>/var/www/boinc/sensor/apps</app_dir>
     <download_dir>/var/www/boinc/sensor/download</download_dir>
     <fuh_debug_level>0</fuh_debug_level>
-    <master_url>http://qcn.stanford.edu/sensor</master_url>
+    <master_url>http://qcn.stanford.edu/sensor/</master_url>
     <host>qcn-web</host>
     <db_name>
       qcnalpha

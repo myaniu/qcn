@@ -15,6 +15,9 @@ require_once("../project/project_news.inc");
 function show_nav() {
     $config = get_config();
     $master_url = parse_config($config, "<master_url>");
+    if (substr($master_url, -1, 1) == "/") {
+       $master_url = substr($master_url, 0, strlen($master_url)-1);
+    }
     echo "<div id=\"mainnav\">
         <h2>About ".PROJECT."</h2>
         The Quake Catcher Network (QCN) is a research project that uses Internet-connected
