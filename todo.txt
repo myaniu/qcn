@@ -28,6 +28,24 @@ if number of resets > 20 drop graphics to 2-D only as it may be a graphics probl
 
 ---------------------------
 
+I think we really need to institute uploading after the fact (even without a
+trigger).  I think we're missing a lot of data.  Until we actually see the
+data that was missed, we won't really know why it was missed.  I think this
+should be high priority.  Is the technical difficulty with uploading after
+the fact (without a trigger) that the client doesn't know where the client
+is, so the client doesn't know if it should associate data?  Does this mean
+that we have to tag sensors to upload from the server side? I thought that
+the list of earthquakes was downloaded to the client every few minutes
+anyways.  If the client knew its own location (even if rough), it could
+check the proximity (right?).  The client could issue a trigger if it was
+running at the time.  The significance would be below 3, and the delay would
+be large, but that is fine.  It would be great to have the sensor lat & lon
+in the sac file anyways.  The easiest conceptual model seems to be to have
+the server generate a series of location files, and the client downloads
+whichever location file is associated with the client number/work-unit.
+
+-----------------------
+
 linux ntpdate zombie procs --- look into cleaning up if ntpdate fails
 
 --------------------
