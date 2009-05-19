@@ -58,7 +58,7 @@
 		E358972C0E912E54005C1D94 /* mac_backtrace.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mac_backtrace.cpp; path = ../../boinc/lib/mac/mac_backtrace.cpp; sourceTree = SOURCE_ROOT; };
 		E371C7F60E2AB5D0009B4DAA /* csensor_mac_laptop.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = csensor_mac_laptop.cpp; path = ../sensor/csensor_mac_laptop.cpp; sourceTree = SOURCE_ROOT; };
 		E371C7F70E2AB5D0009B4DAA /* csensor_mac_usb_jw.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = csensor_mac_usb_jw.cpp; path = ../sensor/csensor_mac_usb_jw.cpp; sourceTree = SOURCE_ROOT; };
-		E378CDB40D64E96C008A3885 /* qcn-Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; path = "qcn-Info.plist"; sourceTree = "<group>"; };
+		E378CDB40D64E96C008A3885 /* qcn-Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.xml; path = "qcn-Info.plist"; sourceTree = "<group>"; };
 		E390FCED0D65C65900479F9A /* icons.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = icons.h; sourceTree = "<group>"; };
 		E390FE410D65DE7600479F9A /* myframe.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = myframe.cpp; sourceTree = "<group>"; };
 		E390FE610D65DF7500479F9A /* myglpane.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = myglpane.cpp; sourceTree = "<group>"; };

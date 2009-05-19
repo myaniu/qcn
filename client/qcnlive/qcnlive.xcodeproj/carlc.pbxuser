@@ -7,9 +7,9 @@
 	};
 	E3064B950F8FE8A60028A349 /* qcn_2dplot.cpp */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1283, 6076}}";
+			sepNavIntBoundsRect = "{{0, 0}, {1128, 6286}}";
 			sepNavSelRange = "{4686, 0}";
-			sepNavVisRange = "{0, 2238}";
+			sepNavVisRange = "{1630, 687}";
 			sepNavWindowFrame = "{{126, 137}, {1342, 872}}";
 		};
 	};
@@ -27,7 +27,7 @@
 		ignoreCount = 0;
 		lineNumber = 457;
 		location = QCNLive;
-		modificationTime = 262376260.722313;
+		modificationTime = 264468576.920773;
 		state = 0;
 	};
 	E30AB0EA0EBB9C0600DA7E81 /* dlgsettings.cpp */ = {
@@ -40,9 +40,9 @@
 	};
 	E30AB1140EBB776D00DABFEF /* csensor_usb_motionnodeaccel.cpp */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1174, 2996}}";
+			sepNavIntBoundsRect = "{{0, 0}, {999, 2968}}";
 			sepNavSelRange = "{2010, 0}";
-			sepNavVisRange = "{1334, 1224}";
+			sepNavVisRange = "{1906, 278}";
 			sepNavWindowFrame = "{{15, 240}, {1233, 783}}";
 		};
 	};
@@ -92,36 +92,8 @@
 		ignoreCount = 0;
 		lineNumber = 267;
 		location = QCNLive;
-		modificationTime = 262376260.659362;
+		modificationTime = 264468576.729867;
 		state = 0;
-	};
-	E3301E3D0FA38A3F00A6346A /* PBXBookmark */ = {
-		isa = PBXBookmark;
-		fRef = E390FE610D65DF7500479F9A /* myglpane.cpp */;
-	};
-	E3301E3E0FA38A4100A6346A /* PBXBookmark */ = {
-		isa = PBXBookmark;
-		fRef = E390FE410D65DE7600479F9A /* myframe.cpp */;
-	};
-	E3301E5E0FA38B7300A6346A /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = E390FE410D65DE7600479F9A /* myframe.cpp */;
-		name = "myframe.cpp: 370";
-		rLen = 17;
-		rLoc = 12118;
-		rType = 0;
-		vrLen = 1660;
-		vrLoc = 11248;
-	};
-	E3301E5F0FA38B7300A6346A /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = E390FE610D65DF7500479F9A /* myglpane.cpp */;
-		name = "myglpane.cpp: 60";
-		rLen = 0;
-		rLoc = 1394;
-		rType = 0;
-		vrLen = 1516;
-		vrLoc = 572;
 	};
 	E36838C20F97AC6A008DB82B /* qcn_2dplot.cpp:26 */ = {
 		isa = PBXFileBreakpoint;
@@ -136,7 +108,7 @@
 		ignoreCount = 0;
 		lineNumber = 26;
 		location = QCNLive;
-		modificationTime = 262376260.663297;
+		modificationTime = 264468576.788182;
 		state = 0;
 	};
 	E371C7F60E2AB5D0009B4DAA /* csensor_mac_laptop.cpp */ = {
@@ -174,7 +146,7 @@
 	};
 	E390FE410D65DE7600479F9A /* myframe.cpp */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1141, 13188}}";
+			sepNavIntBoundsRect = "{{0, 0}, {1141, 13538}}";
 			sepNavSelRange = "{12118, 17}";
 			sepNavVisRange = "{11248, 1660}";
 			sepNavVisRect = "{{0, 0}, {1161, 818}}";
@@ -183,15 +155,14 @@
 	};
 	E390FE610D65DF7500479F9A /* myglpane.cpp */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1141, 3248}}";
+			sepNavIntBoundsRect = "{{0, 0}, {1141, 3304}}";
 			sepNavSelRange = "{1394, 0}";
-			sepNavVisRange = "{572, 1516}";
+			sepNavVisRange = "{572, 1515}";
 			sepNavVisRect = "{{0, 1305}, {1161, 818}}";
 			sepNavWindowFrame = "{{231, 83}, {1200, 945}}";
 		};
 	};
 	E3A499DD0D64E60400E51CDF /* Project object */ = {
-		activeArchitecture = i386;
 		activeBuildConfigurationName = Release;
 		activeExecutable = E3C0E7710D64E9870099B905 /* QCNLive */;
 		activeTarget = E3A499ED0D64E62A00E51CDF /* QCNLive */;
@@ -307,14 +278,8 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 262375930;
-			PBXWorkspaceStateSaveDate = 262375930;
-		};
-		perUserProjectItems = {
-			E3301E3D0FA38A3F00A6346A /* PBXBookmark */ = E3301E3D0FA38A3F00A6346A /* PBXBookmark */;
-			E3301E3E0FA38A4100A6346A /* PBXBookmark */ = E3301E3E0FA38A4100A6346A /* PBXBookmark */;
-			E3301E5E0FA38B7300A6346A /* PBXTextBookmark */ = E3301E5E0FA38B7300A6346A /* PBXTextBookmark */;
-			E3301E5F0FA38B7300A6346A /* PBXTextBookmark */ = E3301E5F0FA38B7300A6346A /* PBXTextBookmark */;
+			PBXPerProjectTemplateStateSaveDate = 264467770;
+			PBXWorkspaceStateSaveDate = 264467770;
 		};
 		sourceControlManager = E3A499E10D64E60400E51CDF /* Source Control */;
 		userBuildSettings = {
@@ -621,9 +586,9 @@
 	};
 	E3D49FE90D6F74C70088DE83 /* qcn_curl.cpp */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {980, 658}}";
+			sepNavIntBoundsRect = "{{0, 0}, {999, 686}}";
 			sepNavSelRange = "{737, 70}";
-			sepNavVisRange = "{0, 963}";
+			sepNavVisRange = "{475, 453}";
 			sepNavVisRect = "{{0, 0}, {1000, 343}}";
 			sepNavWindowFrame = "{{15, 75}, {1199, 948}}";
 		};
@@ -642,7 +607,7 @@
 		ignoreCount = 0;
 		lineNumber = 259;
 		location = QCNLive;
-		modificationTime = 262376260.68434;
+		modificationTime = 264468576.81996;
 		state = 0;
 	};
 	E3D735A20F97B4B600741928 /* qcn_2dplot.cpp:259 */ = {
@@ -659,7 +624,7 @@
 		ignoreCount = 0;
 		lineNumber = 259;
 		location = QCNLive;
-		modificationTime = 262376260.689316;
+		modificationTime = 264468576.902555;
 		state = 0;
 	};
 	E3D886CA0F9D1A1F00F0089A /* qcn_graphics.cpp:279 */ = {
@@ -676,7 +641,7 @@
 		ignoreCount = 0;
 		lineNumber = 279;
 		location = QCNLive;
-		modificationTime = 262376260.726264;
+		modificationTime = 264468576.957235;
 		state = 0;
 	};
 }
