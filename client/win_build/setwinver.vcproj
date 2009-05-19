@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8.00"
+	Version="9.00"
 	Name="setwinver"
 	ProjectGUID="{D26E8731-741C-45C5-B7E8-D1724CC3B1E1}"
 	RootNamespace="setwinver"
+	TargetFrameworkVersion="131072"
 	>
 	<Platforms>
 		<Platform
@@ -60,6 +61,8 @@
 				GenerateDebugInformation="true"
 				AssemblyDebug="0"
 				SubSystem="1"
+				RandomizedBaseAddress="1"
+				DataExecutionPrevention="0"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -78,9 +81,6 @@
 			/>
 			<Tool
 				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCWebDeploymentTool"
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
@@ -130,6 +130,8 @@
 				OutputFile="../bin/$(ProjectName).exe"
 				GenerateDebugInformation="false"
 				SubSystem="1"
+				RandomizedBaseAddress="1"
+				DataExecutionPrevention="0"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -148,9 +150,6 @@
 			/>
 			<Tool
 				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCWebDeploymentTool"
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"

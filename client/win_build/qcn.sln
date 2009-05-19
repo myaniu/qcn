@@ -1,5 +1,5 @@
-Microsoft Visual Studio Solution File, Format Version 9.00
-# Visual Studio 2005
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "qcn_client", "qcn_client.vcproj", "{89F1CB05-73F7-4FDB-A99A-BF54A9BC6F26}"
 	ProjectSection(ProjectDependencies) = postProject
 		{6B2BC6FF-48AA-4209-8AF9-ABC7A151D3C2} = {6B2BC6FF-48AA-4209-8AF9-ABC7A151D3C2}

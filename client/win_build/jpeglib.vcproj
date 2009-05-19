@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8.00"
+	Version="9.00"
 	Name="jpeglib"
 	ProjectGUID="{7B784DA7-237D-4FF0-88C4-A25DDB38E003}"
 	RootNamespace="jpeglib"
+	TargetFrameworkVersion="131072"
 	>
 	<Platforms>
 		<Platform
