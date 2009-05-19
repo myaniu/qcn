@@ -19,15 +19,9 @@ public:
   void OnCreation();
   void OnClose();
 
-protected:
-  
-  bool OnButtonClick(const nuiEvent& rEvent);
   
 private:
   
-  bool LoadCSS(const nglPath& rPath);
-  
-  nuiLabel* mMyLabel;
   nuiEventSink<MainWindow> mEventSink;
 };
 

@@ -8,8 +8,9 @@
 #include "nui.h"
 #include "MainWindow.h"
 #include "Application.h"
-#include "nuiCSS.h"
 #include "nuiVBox.h"
+#include "nuiCoverFlow.h"
+#include "nuiAttributeAnimation.h"
 
 
 /*
@@ -23,7 +24,47 @@ MainWindow::MainWindow(const nglContextInfo& rContextInfo, const nglWindowInfo& 
   SetDebugMode(true);
 #endif
   
-  LoadCSS(_T("rsrc:/css/main.css"));
+  EnableAutoRotation(false);
+#ifdef _UIKIT_
+  SetRotation(270);
+#endif
+  
+  nuiCoverFlow* pFlow = new nuiCoverFlow();
+  AddChild(pFlow);
+  nglPath p(_T("rsrc:/decorations"));
+  std::list<nglPath> children;
+  p.GetChildren(&children);
+  for (std::list<nglPath>::const_iterator it = children.begin(); children.end() != it; ++it)
+  {
+    nuiTexture* pTexture = nuiTexture::GetTexture(*it);
+    if (pTexture)
+      pFlow->AddImage(pTexture);
+  }
+  pFlow->SelectImageNow(4);
+
+  { // Bounce
+    nuiAttributeAnimation* pAnim = new nuiAttributeAnimation();
+    pAnim->SetTargetObject(pFlow);
+    pAnim->SetTargetAttribute(_T("SelectionYOffset"));
+    pAnim->SetStartValue(0);
+    pAnim->SetEndValue(0.2);
+    pAnim->SetDuration(.5);
+    pAnim->SetEasing(&nuiEasingSquareRev);
+    pFlow->AddAnimation(_T("Bounce"), pAnim);
+    pAnim->Play(-1, eAnimLoopPingPong);
+  }
+
+  { // Appear
+    nuiAttributeAnimation* pAnim = new nuiAttributeAnimation();
+    pAnim->SetTargetObject(pFlow);
+    pAnim->SetTargetAttribute(_T("SideDepth"));
+    pAnim->SetStartValue(5);
+    pAnim->SetEndValue(.7);
+    pAnim->SetDuration(1.5);
+    pAnim->SetEasing(&nuiEasingCubicRev);
+    pFlow->AddAnimation(_T("Appear"), pAnim);
+    pAnim->Play();
+  }
 }
 
 MainWindow::~MainWindow()
@@ -33,84 +74,16 @@ MainWindow::~MainWindow()
 void MainWindow::OnCreation()
 {
   // a vertical box for page layout
-  nuiVBox* pLayoutBox = new nuiVBox(0);
-  pLayoutBox->SetExpand(nuiExpandShrinkAndGrow);
-  AddChild(pLayoutBox);
-  
-  // image in the first box's cell
-  nuiImage* pImg = new nuiImage();
-  pImg->SetObjectName(_T("MyImage"));
-  pImg->SetPosition(nuiCenter);
-  pLayoutBox->AddCell(pImg);
-  pLayoutBox->SetCellExpand(pLayoutBox->GetNbCells()-1, nuiExpandShrinkAndGrow);
-  
-  // button in the second cell : we use the default decoration for this button, but you could use the css to assign your own decoration
-  nuiButton* pButton = new nuiButton();
-  pButton->SetPosition(nuiCenter);
-  pLayoutBox->AddCell(pButton);
-  pLayoutBox->SetCellExpand(pLayoutBox->GetNbCells()-1, nuiExpandShrinkAndGrow);
-  
-  // click event on button
-  mEventSink.Connect(pButton->Activated, &MainWindow::OnButtonClick);
-  
-  // label with border in the button (put the label string in the button's constructor if you don't need borders)
-  nuiLabel* pButtonLabel = new nuiLabel(_T("click!"));
-  pButtonLabel->SetPosition(nuiCenter);
-  pButtonLabel->SetBorder(8,8);
-  pButton->AddChild(pButtonLabel);
-
-  // label with decoration in the third cell
-  mMyLabel = new nuiLabel(_T("my label"));
-  mMyLabel->SetObjectName(_T("MyLabel"));
-  mMyLabel->SetPosition(nuiCenter);
-  pLayoutBox->AddCell(mMyLabel);
-  pLayoutBox->SetCellExpand(pLayoutBox->GetNbCells()-1, nuiExpandShrinkAndGrow);
 }
 
-
-
-bool MainWindow::OnButtonClick(const nuiEvent& rEvent)
-{
-  nglString message;
-  double currentTime = nglTime();
-  message.Format(_T("click time: %.2f"), currentTime);
-  mMyLabel->SetText(message);
-  
-  return true; // means the event is caught and not broadcasted
-}
 
 
 void MainWindow::OnClose()
 {
   if (GetNGLWindow()->IsInModalState())
-    return;
-  
+    return;  
   
   App->Quit();
 }
 
 
-bool MainWindow::LoadCSS(const nglPath& rPath)
-{
-  nglIStream* pF = rPath.OpenRead();
-  if (!pF)
-  {
-    NGL_OUT(_T("Unable to open CSS source file '%ls'\n"), rPath.GetChars());
-    return false;
-  }
-  
-  nuiCSS* pCSS = new nuiCSS();
-  bool res = pCSS->Load(*pF, rPath);
-  delete pF;
-  
-  if (res)
-  {
-    nuiMainWindow::SetCSS(pCSS);
-    return true;
-  }
-  
-  NGL_OUT(_T("%ls\n"), pCSS->GetErrorString().GetChars());
-  
-  delete pCSS;
-  return false;
-}
