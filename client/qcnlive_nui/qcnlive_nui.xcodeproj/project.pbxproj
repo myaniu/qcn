@@ -579,16 +579,16 @@
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = s;
 				HEADER_SEARCH_PATHS = (
+					/usr/local/include,
 					../../boinc/api,
 					../../boinc/zip,
 					../../boinc/lib,
-					../../../nui3/include,
 					../../,
 					../main,
 					../graphics,
 					../util,
-					/usr/local/include,
 					../sensor,
+					../../../nui3/include,
 				);
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
@@ -614,11 +614,14 @@
 				OTHER_LDFLAGS = (
 					"-bind_at_load",
 					"-lboinc",
-					"-lboinc_graphics2",
-					"-lboinc_api",
-					"-lm",
-					"-lcurl",
 					"-lboinc_zip",
+					"-lboinc_graphics2",
+					"-lm",
+					"-lboinc_api",
+					"-lcurl",
+					"-lz",
+					"-ljpeg",
+					"-lpng",
 				);
 				PREBINDING = YES;
 				PRODUCT_NAME = QCNLive;
@@ -647,16 +650,16 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = "";
 				HEADER_SEARCH_PATHS = (
+					/usr/local/include,
 					../../boinc/api,
 					../../boinc/zip,
 					../../boinc/lib,
-					../../../nui3/include,
 					../../,
 					../main,
 					../graphics,
 					../util,
-					/usr/local/include,
 					../sensor,
+					../../../nui3/include,
 				);
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
@@ -682,12 +685,16 @@
 					"-D_DEBUG",
 				);
 				OTHER_LDFLAGS = (
+					"-bind_at_load",
 					"-lboinc",
 					"-lboinc_zip",
 					"-lboinc_graphics2",
 					"-lm",
 					"-lboinc_api",
 					"-lcurl",
+					"-lz",
+					"-ljpeg",
+					"-lpng",
 				);
 				PREBINDING = YES;
 				PRODUCT_NAME = QCNLiveD;
