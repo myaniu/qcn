@@ -419,12 +419,12 @@ extern void* QCNThreadSensor(void*)
                g_fThreshold = 0.20f;
                break;
             case SENSOR_USB_JW:
-               g_fThreshold = 0.025f;
-			   g_fSensorDiffFactor = 1.10f;
+               g_fThreshold = 0.01f; // .025f;
+	       g_fSensorDiffFactor = 1.10f;   // note USB sensors get a small diff factor below, instead of 33% just 10%
                break;
             case SENSOR_USB_MOTIONNODEACCEL:
-               g_fThreshold = 0.01f;
-			   g_fSensorDiffFactor = 1.10f;   // note USB sensors get a small diff factor below, instead of 33% just 10%
+               g_fThreshold = 0.005f;
+	       g_fSensorDiffFactor = 1.10f;   // note USB sensors get a small diff factor below, instead of 33% just 10%
                break;
             default:
                g_fThreshold = 0.10f;
