@@ -27,7 +27,7 @@
 		ignoreCount = 0;
 		lineNumber = 457;
 		location = QCNLive;
-		modificationTime = 264468576.920773;
+		modificationTime = 264527005.168094;
 		state = 0;
 	};
 	E30AB0EA0EBB9C0600DA7E81 /* dlgsettings.cpp */ = {
@@ -92,7 +92,7 @@
 		ignoreCount = 0;
 		lineNumber = 267;
 		location = QCNLive;
-		modificationTime = 264468576.729867;
+		modificationTime = 264527005.0158;
 		state = 0;
 	};
 	E36838C20F97AC6A008DB82B /* qcn_2dplot.cpp:26 */ = {
@@ -108,7 +108,7 @@
 		ignoreCount = 0;
 		lineNumber = 26;
 		location = QCNLive;
-		modificationTime = 264468576.788182;
+		modificationTime = 264527005.03575;
 		state = 0;
 	};
 	E371C7F60E2AB5D0009B4DAA /* csensor_mac_laptop.cpp */ = {
@@ -163,7 +163,7 @@
 		};
 	};
 	E3A499DD0D64E60400E51CDF /* Project object */ = {
-		activeBuildConfigurationName = Release;
+		activeBuildConfigurationName = Debug;
 		activeExecutable = E3C0E7710D64E9870099B905 /* QCNLive */;
 		activeTarget = E3A499ED0D64E62A00E51CDF /* QCNLive */;
 		addToTargets = (
@@ -278,8 +278,8 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 264467770;
-			PBXWorkspaceStateSaveDate = 264467770;
+			PBXPerProjectTemplateStateSaveDate = 264526946;
+			PBXWorkspaceStateSaveDate = 264526946;
 		};
 		sourceControlManager = E3A499E10D64E60400E51CDF /* Source Control */;
 		userBuildSettings = {
@@ -607,7 +607,7 @@
 		ignoreCount = 0;
 		lineNumber = 259;
 		location = QCNLive;
-		modificationTime = 264468576.81996;
+		modificationTime = 264527005.093963;
 		state = 0;
 	};
 	E3D735A20F97B4B600741928 /* qcn_2dplot.cpp:259 */ = {
@@ -624,7 +624,7 @@
 		ignoreCount = 0;
 		lineNumber = 259;
 		location = QCNLive;
-		modificationTime = 264468576.902555;
+		modificationTime = 264527005.111526;
 		state = 0;
 	};
 	E3D886CA0F9D1A1F00F0089A /* qcn_graphics.cpp:279 */ = {
@@ -641,7 +641,7 @@
 		ignoreCount = 0;
 		lineNumber = 279;
 		location = QCNLive;
-		modificationTime = 264468576.957235;
+		modificationTime = 264527005.205394;
 		state = 0;
 	};
 }

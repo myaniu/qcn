@@ -18,7 +18,6 @@
 		E378CDB50D64E96C008A3885 /* qcn-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E378CDB40D64E96C008A3885 /* qcn-Info.plist */; };
 		E390FE420D65DE7600479F9A /* myframe.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E390FE410D65DE7600479F9A /* myframe.cpp */; };
 		E390FE620D65DF7500479F9A /* myglpane.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E390FE610D65DF7500479F9A /* myglpane.cpp */; };
-		E3B747B10E8C6E9800D401EB /* qcn_shmem_usb.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3B747B00E8C6E9800D401EB /* qcn_shmem_usb.cpp */; };
 		E3C0E7780D64E9A40099B905 /* qcnwx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C0E7760D64E9A40099B905 /* qcnwx.cpp */; };
 		E3C0E7C10D64E9BE0099B905 /* sac.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C0E7A40D64E9BE0099B905 /* sac.cpp */; };
 		E3C0E7C20D64E9BE0099B905 /* gzstream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C0E7A50D64E9BE0099B905 /* gzstream.cpp */; };
@@ -65,7 +64,6 @@
 		E3B747A60E8C6DFC00D401EB /* csensor_mac_laptop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = csensor_mac_laptop.h; path = ../sensor/csensor_mac_laptop.h; sourceTree = SOURCE_ROOT; };
 		E3B747A80E8C6DFC00D401EB /* csensor_mac_usb_jw.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = csensor_mac_usb_jw.h; path = ../sensor/csensor_mac_usb_jw.h; sourceTree = SOURCE_ROOT; };
 		E3B747AD0E8C6E3800D401EB /* qcn_shmem_usb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = qcn_shmem_usb.h; path = ../qcnusb/qcn_shmem_usb.h; sourceTree = SOURCE_ROOT; };
-		E3B747B00E8C6E9800D401EB /* qcn_shmem_usb.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = qcn_shmem_usb.cpp; path = ../qcnusb/qcn_shmem_usb.cpp; sourceTree = SOURCE_ROOT; };
 		E3C0E7700D64E9870099B905 /* QCNLive.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QCNLive.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E3C0E7760D64E9A40099B905 /* qcnwx.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = qcnwx.cpp; sourceTree = "<group>"; };
 		E3C0E7770D64E9A40099B905 /* qcnwx.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = qcnwx.h; sourceTree = "<group>"; };
@@ -147,14 +145,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		E3B747AE0E8C6E5000D401EB /* qcnusb */ = {
-			isa = PBXGroup;
-			children = (
-				E3B747B00E8C6E9800D401EB /* qcn_shmem_usb.cpp */,
-			);
-			name = qcnusb;
-			sourceTree = "<group>";
-		};
 		E3B747AF0E8C6E5D00D401EB /* qcnusb */ = {
 			isa = PBXGroup;
 			children = (
@@ -169,7 +159,6 @@
 				E3C0E7B70D64E9BE0099B905 /* graphics */,
 				E3C0E7AE0D64E9BE0099B905 /* main */,
 				E3C0E7A30D64E9BE0099B905 /* util */,
-				E3B747AE0E8C6E5000D401EB /* qcnusb */,
 				E3C0E79C0D64E9BE0099B905 /* .. */,
 			);
 			name = ..;
@@ -465,7 +454,6 @@
 				E30F9E9D0DEC6D4C0000FACE /* csensor.cpp in Sources */,
 				E371C7F80E2AB5D0009B4DAA /* csensor_mac_laptop.cpp in Sources */,
 				E371C7F90E2AB5D0009B4DAA /* csensor_mac_usb_jw.cpp in Sources */,
-				E3B747B10E8C6E9800D401EB /* qcn_shmem_usb.cpp in Sources */,
 				E358972D0E912E54005C1D94 /* mac_backtrace.cpp in Sources */,
 				E30AB1150EBB776E00DABFEF /* csensor_usb_motionnodeaccel.cpp in Sources */,
 				E30AB0EB0EBB9C0600DA7E81 /* dlgsettings.cpp in Sources */,
@@ -597,6 +585,7 @@
 		E3A499F30D64E62A00E51CDF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(NATIVE_ARCH)";
 				CONFIGURATION_BUILD_DIR = build/Debug;
 				COPY_PHASE_STRIP = NO;
 				GCC_DEBUGGING_SYMBOLS = full;
@@ -690,6 +679,7 @@
 		E3A499F40D64E62A00E51CDF /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(NATIVE_ARCH)";
 				CONFIGURATION_BUILD_DIR = "build/$(CONFIGURATION)";
 				COPY_PHASE_STRIP = YES;
 				GCC_DYNAMIC_NO_PIC = NO;
