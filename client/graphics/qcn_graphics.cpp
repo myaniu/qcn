@@ -1620,7 +1620,7 @@ void Render(int xs, int ys, double time_of_day)
 		  qcn_2dplot::draw_plot();
                   draw_triggers();
 		  qcn_2dplot::draw_text();
-                  qcn_2dplot::draw_scrollbar();
+                  // qcn_2dplot::draw_scrollbar();
           break;
        case VIEW_PLOT_3D:
 	      glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
