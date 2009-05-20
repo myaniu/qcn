@@ -120,7 +120,7 @@
 
 /* Begin PBXFileReference section */
 		61A9DFBF0B833E9600BC506C /* QCNLive.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QCNLive.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		61A9DFC90B833EF200BC506C /* qcnlive_nuiD.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = qcnlive_nuiD.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		61A9DFC90B833EF200BC506C /* QCNLiveD.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QCNLiveD.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		61A9DFD20B833F1500BC506C /* AGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AGL.framework; path = /System/Library/Frameworks/AGL.framework; sourceTree = "<absolute>"; };
 		61A9DFD30B833F1500BC506C /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = /System/Library/Frameworks/CoreFoundation.framework; sourceTree = "<absolute>"; };
 		61A9DFD40B833F1500BC506C /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = /System/Library/Frameworks/CoreServices.framework; sourceTree = "<absolute>"; };
@@ -247,7 +247,7 @@
 			isa = PBXGroup;
 			children = (
 				61A9DFBF0B833E9600BC506C /* QCNLive.app */,
-				61A9DFC90B833EF200BC506C /* qcnlive_nuiD.app */,
+				61A9DFC90B833EF200BC506C /* QCNLiveD.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -378,7 +378,7 @@
 			);
 			name = QCNLiveD;
 			productName = Tempd;
-			productReference = 61A9DFC90B833EF200BC506C /* qcnlive_nuiD.app */;
+			productReference = 61A9DFC90B833EF200BC506C /* QCNLiveD.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -697,7 +697,7 @@
 					"-lcurl",
 				);
 				PREBINDING = YES;
-				PRODUCT_NAME = qcnlive_nuiD;
+				PRODUCT_NAME = QCNLiveD;
 				SDKROOT = macosx10.4;
 				WARNING_CFLAGS = (
 					"-Wmost",
