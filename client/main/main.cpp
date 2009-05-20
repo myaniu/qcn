@@ -17,9 +17,15 @@
 // the main entry point for the BOINC app (not the wxWidgets QCNLIVE)
 // for Windows non-wxWidgets builds (i.e. a "normal" BOINC Windows system build)
 // we want a WinMain proc which is the Windows entry point to main()
-#ifndef QCNLIVE
 // note the only thing global (outside of a namespace) is our sm shared mem class
-  CQCNShMem* volatile sm = NULL;
+
+#if defined(QCNLIVE) && defined(LIBNUI)
+CQCNShMem* volatile sm = NULL;
+#endif
+
+#ifndef QCNLIVE
+
+CQCNShMem* volatile sm = NULL;
 
 /*
   // CMC used to send uploads from this (main) thread, but seems OK to leave in the sensor thread since it's at the end of a monitoring session

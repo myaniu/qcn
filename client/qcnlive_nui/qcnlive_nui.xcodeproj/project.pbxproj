@@ -76,6 +76,8 @@
 		E31C5F9F0FC3780000C9DEF9 /* csensor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E31C5F940FC3780000C9DEF9 /* csensor.cpp */; };
 		E31C5FA00FC3780000C9DEF9 /* csensor_mac_usb_jw.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E31C5F970FC3780000C9DEF9 /* csensor_mac_usb_jw.cpp */; };
 		E31C5FA10FC3780000C9DEF9 /* csensor_mac_laptop.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E31C5F980FC3780000C9DEF9 /* csensor_mac_laptop.cpp */; };
+		E3B478000FC45E4F00298EDD /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3B477FF0FC45E4F00298EDD /* IOKit.framework */; };
+		E3B478010FC45E4F00298EDD /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3B477FF0FC45E4F00298EDD /* IOKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -166,6 +168,7 @@
 		E31C5F970FC3780000C9DEF9 /* csensor_mac_usb_jw.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = csensor_mac_usb_jw.cpp; path = ../sensor/csensor_mac_usb_jw.cpp; sourceTree = SOURCE_ROOT; };
 		E31C5F980FC3780000C9DEF9 /* csensor_mac_laptop.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = csensor_mac_laptop.cpp; path = ../sensor/csensor_mac_laptop.cpp; sourceTree = SOURCE_ROOT; };
 		E31C5F990FC3780000C9DEF9 /* csensor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = csensor.h; path = ../sensor/csensor.h; sourceTree = SOURCE_ROOT; };
+		E3B477FF0FC45E4F00298EDD /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = /System/Library/Frameworks/IOKit.framework; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -179,6 +182,7 @@
 				61A9DFDA0B833F1500BC506C /* Carbon.framework in Frameworks */,
 				61A9DFDB0B833F1500BC506C /* OpenGL.framework in Frameworks */,
 				BCBCB15F0DFD45BD002E8BC3 /* libnui3.a in Frameworks */,
+				E3B478000FC45E4F00298EDD /* IOKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -192,6 +196,7 @@
 				61A9DFDF0B833F1500BC506C /* Carbon.framework in Frameworks */,
 				61A9DFE00B833F1500BC506C /* OpenGL.framework in Frameworks */,
 				BCBCB1600DFD45C1002E8BC3 /* libnui3D.a in Frameworks */,
+				E3B478010FC45E4F00298EDD /* IOKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -221,6 +226,7 @@
 				61A9DFD30B833F1500BC506C /* CoreFoundation.framework */,
 				61A9DFD40B833F1500BC506C /* CoreServices.framework */,
 				61A9DFD50B833F1500BC506C /* Carbon.framework */,
+				E3B477FF0FC45E4F00298EDD /* IOKit.framework */,
 				61A9DFD60B833F1500BC506C /* OpenGL.framework */,
 			);
 			name = dependencies;
@@ -569,7 +575,7 @@
 				COPY_PHASE_STRIP = YES;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = s;
 				HEADER_SEARCH_PATHS = (
@@ -604,17 +610,10 @@
 					"-D_ZLIB",
 					"-D_FILE_OFFSET_BITS=64",
 					"-D_LARGE_FILES",
+					"-DLIBNUI",
 				);
 				OTHER_LDFLAGS = (
 					"-bind_at_load",
-					"-lboinc_graphics2",
-					"-lboinc_zip",
-					"-liconv",
-					"-lcurl",
-					"-ljpeg",
-					"-lpng",
-					"-lm",
-					"-lldap",
 					"-lz",
 					"-lboinc",
 					"-lboinc_graphics2",
@@ -642,6 +641,7 @@
 		61A9DFCD0B833EF300BC506C /* Default */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(NATIVE_ARCH)";
 				COPY_PHASE_STRIP = NO;
 				GCC_DEBUGGING_SYMBOLS = full;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -649,12 +649,56 @@
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PREPROCESSOR_DEFINITIONS = _DEBUG;
+				GCC_PREPROCESSOR_DEFINITIONS = "";
+				HEADER_SEARCH_PATHS = (
+					../../boinc/api,
+					../../boinc/zip,
+					../../boinc/lib,
+					../../../nui3/include,
+					../../,
+					../main,
+					../graphics,
+					../util,
+					/usr/local/include,
+					../sensor,
+				);
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
-				OTHER_LDFLAGS = "-lz";
+				LIBRARY_SEARCH_PATHS = (
+					../../boinc/lib,
+					../../boinc/api,
+					../../boinc/zip,
+					/usr/local/lib,
+				);
+				OTHER_CFLAGS = (
+					"-Wall",
+					"-W",
+					"-D_USE_NTPDATE_EXEC_",
+					"-DQCNLIVE",
+					"-DHAVE_CONFIG_H",
+					"-DGRAPHICS_PROGRAM",
+					"-D_THREAD_SAFE",
+					"-DAPP_GRAPHICS",
+					"-D_ZLIB",
+					"-D_FILE_OFFSET_BITS=64",
+					"-D_LARGE_FILES",
+					"-DLIBNUI",
+					"-D_DEBUG",
+				);
+				OTHER_LDFLAGS = (
+					"-lboinc",
+					"-lboinc_zip",
+					"-lboinc_graphics2",
+					"-lz",
+					"-lm",
+					"-lboinc_api",
+					"-lpng",
+					"-ljpeg",
+					"-lcurl",
+				);
 				PREBINDING = YES;
 				PRODUCT_NAME = qcnlive_nuiD;
+				SDKROOT = macosx10.4;
 				WARNING_CFLAGS = (
 					"-Wmost",
 					"-Wno-four-char-constants",
