@@ -1,4 +1,4 @@
-#include "main.h"
+#include "main.hf
 #include "qcn_util.h"
 #include "qcn_thread.h"
 #include "qcn_thread_sensor.h"
@@ -406,7 +406,7 @@ extern void* QCNThreadSensor(void*)
          }
 
          // CMC -- use different threshold values based on sensor type
-		 g_fSensorDiffFactor = 1.3333f;
+         g_fSensorDiffFactor = 1.3333f;
          switch(sm->eSensor) {
             case SENSOR_MAC_PPC_TYPE1:
             case SENSOR_MAC_PPC_TYPE2:
@@ -640,7 +640,7 @@ extern void* QCNThreadSensor(void*)
                              sqrt(sm->vari[sm->lOffset-1] + 1.0e-3f);
 // .001 to prevent divide-by-zero but so we capture any fmag & vari
          }
-         sm->fsig[sm->lOffset]=sm->fsig[sm->lOffset]/ (qcn_main::g_fPerturb[PERTURB_SHORT_TERM_AVG_MAG] + 1.0f);
+         sm->fsig[sm->lOffset]=sm->fsig[sm->lOffset] / (qcn_main::g_fPerturb[PERTURB_SHORT_TERM_AVG_MAG] + 1.0f);
 // Normalize average magnitude over window
       }
 
