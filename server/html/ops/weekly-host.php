@@ -1,5 +1,4 @@
-#!/usr/bin/env php
-
+#!/usr/local/bin/php
 <?php
 include ("/var/www/qcn/jpgraph-2.3.4/src/jpgraph.php");
 include ("/var/www/qcn/jpgraph-2.3.4/src/jpgraph_line.php");
