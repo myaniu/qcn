@@ -1,4 +1,4 @@
-#include "main.hf
+#include "main.h"
 #include "qcn_util.h"
 #include "qcn_thread.h"
 #include "qcn_thread_sensor.h"
