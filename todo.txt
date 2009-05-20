@@ -9,6 +9,18 @@
 
 --------------------
 
+The magnitude (|x|+|y|+|z|) must be greater than 3X the standard deviation of the three.
+
+The minimum threshold should be at least 1X to 3X the minimum sensitivity (Mac 0.04 m/s^2, JW=0.04m/s^2, and MN=0.01m/s^2).  2X the min sensitivity is: Mac=0.08m/s^2,JW=0.08m/s^2, and mn=0.02m/s).  So the JW is currently only set to 0.5X the sensitivity, and the MN is set at 1X the sensitivity.  We lowered the JW down to 0.025 to see how it would do.  It looks like it works as long as the thing is bolted down.  The reason it seems to work is the 3 axes, but if we lower that number, it will likely lead to many more false positives.  That is fine with the MN and JW, because they don’t give that many.  With the Mac we were getting them all the time.
+
+I think the waterlevel can be dropped as well. We were dividing by the standard deviation + a small value (0.001) just in case the standard deviation approached zero it wouldn’t make the significance blow up.  We could try lowering the waterlevel for JW & MN (0.0001?).
+
+I think we need to spend some time on the triggering algorithms.  There are several things to look at:
+Triggering on just Z for the P-wave, and just the horizontals for the S waves.  We want to do this anyways because we want to distinguish between P & S if we can.  I was thinking we could do weightings actually (1.0z+.25y+.25x)/1.5 for the P and(.25z+.75y+.75x)/1.75 for S.  This may be unnecessarily complex, but I think it will stabilize things a bit.
+making a several second time gap between the current magnitude and the previous magnitudes with which to compare.  The issue is that we want the current magnitude to be larger than any previous magnitude in the noise time window (that was the 10% v. 33% larger issue).  Unfortunately with 50Hz sampling, if the magnitude doesn’t jump between samples, it means that the magnitude will gradually increase, and will not be 10% larger than the last magnitude measured (last sample).  So a time gap between the current signal and prior noise for that evaluation (even if 1 second) would greatly improve the triggering sensitivity. If this doesn’t make sense, call me.
+
+--------------------
+
 dump out memory if we think a computer "survived" a quake - i.e. on the "ping trickle"
 check a list of computers that were on during a known quake event, and dump the memory
 out and schedule an upload

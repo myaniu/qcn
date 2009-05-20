@@ -26,9 +26,9 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 457;
-		location = QCNLive;
-		modificationTime = 264527005.168094;
-		state = 0;
+		location = QCNLiveD;
+		modificationTime = 264530009.570908;
+		state = 1;
 	};
 	E30AB0EA0EBB9C0600DA7E81 /* dlgsettings.cpp */ = {
 		uiCtxt = {
@@ -91,9 +91,9 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 267;
-		location = QCNLive;
-		modificationTime = 264527005.0158;
-		state = 0;
+		location = QCNLiveD;
+		modificationTime = 264530009.570918;
+		state = 1;
 	};
 	E36838C20F97AC6A008DB82B /* qcn_2dplot.cpp:26 */ = {
 		isa = PBXFileBreakpoint;
@@ -104,12 +104,12 @@
 		countType = 0;
 		delayBeforeContinue = 0;
 		fileReference = E3064B950F8FE8A60028A349 /* qcn_2dplot.cpp */;
-		hitCount = 0;
+		hitCount = 1;
 		ignoreCount = 0;
 		lineNumber = 26;
-		location = QCNLive;
-		modificationTime = 264527005.03575;
-		state = 0;
+		location = QCNLiveD;
+		modificationTime = 264530009.570956;
+		state = 1;
 	};
 	E371C7F60E2AB5D0009B4DAA /* csensor_mac_laptop.cpp */ = {
 		uiCtxt = {
@@ -278,8 +278,12 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 264527370;
-			PBXWorkspaceStateSaveDate = 264527370;
+			PBXPerProjectTemplateStateSaveDate = 264529769;
+			PBXWorkspaceStateSaveDate = 264529769;
+		};
+		perUserProjectItems = {
+			E3E6D42D0FC4676C0081074D /* PBXBookmark */ = E3E6D42D0FC4676C0081074D /* PBXBookmark */;
+			E3E6D4420FC4686D0081074D /* PBXTextBookmark */ = E3E6D4420FC4686D0081074D /* PBXTextBookmark */;
 		};
 		sourceControlManager = E3A499E10D64E60400E51CDF /* Source Control */;
 		userBuildSettings = {
@@ -357,9 +361,9 @@
 	};
 	E3C0E7760D64E9A40099B905 /* qcnwx.cpp */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1174, 6090}}";
-			sepNavSelRange = "{3566, 0}";
-			sepNavVisRange = "{2509, 1332}";
+			sepNavIntBoundsRect = "{{0, 0}, {1174, 6076}}";
+			sepNavSelRange = "{450, 31}";
+			sepNavVisRange = "{0, 1176}";
 			sepNavVisRect = "{{0, 2496}, {1000, 343}}";
 			sepNavWindowFrame = "{{218, 224}, {1233, 691}}";
 		};
@@ -606,9 +610,9 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 259;
-		location = QCNLive;
-		modificationTime = 264527005.093963;
-		state = 0;
+		location = QCNLiveD;
+		modificationTime = 264530009.570933;
+		state = 1;
 	};
 	E3D735A20F97B4B600741928 /* qcn_2dplot.cpp:259 */ = {
 		isa = PBXFileBreakpoint;
@@ -623,9 +627,9 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 259;
-		location = QCNLive;
-		modificationTime = 264527005.111526;
-		state = 0;
+		location = QCNLiveD;
+		modificationTime = 264530009.570975;
+		state = 1;
 	};
 	E3D886CA0F9D1A1F00F0089A /* qcn_graphics.cpp:279 */ = {
 		isa = PBXFileBreakpoint;
@@ -640,8 +644,22 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 279;
-		location = QCNLive;
-		modificationTime = 264527005.205394;
-		state = 0;
+		location = QCNLiveD;
+		modificationTime = 264530009.570888;
+		state = 1;
+	};
+	E3E6D42D0FC4676C0081074D /* PBXBookmark */ = {
+		isa = PBXBookmark;
+		fRef = E3C0E7760D64E9A40099B905 /* qcnwx.cpp */;
+	};
+	E3E6D4420FC4686D0081074D /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = E3C0E7760D64E9A40099B905 /* qcnwx.cpp */;
+		name = "qcnwx.cpp: 18";
+		rLen = 31;
+		rLoc = 450;
+		rType = 0;
+		vrLen = 1176;
+		vrLoc = 0;
 	};
 }

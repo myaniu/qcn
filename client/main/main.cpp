@@ -19,10 +19,6 @@
 // we want a WinMain proc which is the Windows entry point to main()
 // note the only thing global (outside of a namespace) is our sm shared mem class
 
-#if defined(QCNLIVE) && defined(LIBNUI)
-CQCNShMem* volatile sm = NULL;
-#endif
-
 #ifndef QCNLIVE
 
 CQCNShMem* volatile sm = NULL;

@@ -195,7 +195,48 @@
 	<key>Notifications</key>
 	<array/>
 	<key>OpenEditors</key>
-	<array/>
+	<array>
+		<dict>
+			<key>Content</key>
+			<dict>
+				<key>PBXProjectModuleGUID</key>
+				<string>E3E6D4400FC4686D0081074D</string>
+				<key>PBXProjectModuleLabel</key>
+				<string>qcnwx.cpp</string>
+				<key>PBXSplitModuleInNavigatorKey</key>
+				<dict>
+					<key>Split0</key>
+					<dict>
+						<key>PBXProjectModuleGUID</key>
+						<string>E3E6D4410FC4686D0081074D</string>
+						<key>PBXProjectModuleLabel</key>
+						<string>qcnwx.cpp</string>
+						<key>_historyCapacity</key>
+						<integer>0</integer>
+						<key>bookmark</key>
+						<string>E3E6D4420FC4686D0081074D</string>
+						<key>history</key>
+						<array>
+							<string>E3E6D42D0FC4676C0081074D</string>
+						</array>
+					</dict>
+					<key>SplitCount</key>
+					<string>1</string>
+				</dict>
+				<key>StatusBarVisibility</key>
+				<true/>
+			</dict>
+			<key>Geometry</key>
+			<dict>
+				<key>Frame</key>
+				<string>{{0, 20}, {1233, 594}}</string>
+				<key>PBXModuleWindowStatusBarHidden2</key>
+				<false/>
+				<key>RubberWindowFrame</key>
+				<string>218 280 1233 635 0 0 1680 1028 </string>
+			</dict>
+		</dict>
+	</array>
 	<key>PerspectiveWidths</key>
 	<array>
 		<integer>-1</integer>
@@ -277,8 +318,9 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>16</integer>
-									<integer>15</integer>
+									<integer>7</integer>
+									<integer>3</integer>
+									<integer>0</integer>
 								</array>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateVisibleRectKey</key>
@@ -382,9 +424,9 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>E3B477F10FC45E2100298EDD</string>
+				<string>E3E6D43E0FC4686D0081074D</string>
 				<string>1CE0B1FE06471DED0097A5F4</string>
-				<string>E3B477F20FC45E2100298EDD</string>
+				<string>E3E6D43F0FC4686D0081074D</string>
 				<string>1CE0B20306471E060097A5F4</string>
 				<string>1CE0B20506471E060097A5F4</string>
 			</array>
@@ -517,6 +559,7 @@
 	<key>WindowOrderList</key>
 	<array>
 		<string>/Users/carlc/qcn/client/qcnlive/qcnlive.xcodeproj</string>
+		<string>E3E6D4400FC4686D0081074D</string>
 	</array>
 	<key>WindowString</key>
 	<string>200 206 1391 636 0 0 1680 1028 </string>

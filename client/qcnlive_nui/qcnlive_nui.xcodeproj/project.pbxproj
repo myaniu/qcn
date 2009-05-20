@@ -212,7 +212,7 @@
 				E31C5F000FC3750D00C9DEF9 /* qcn_graphics */,
 				BC6A09CA0EF9300600881ACF /* css */,
 				BC6A09A20EF92B4B00881ACF /* resources */,
-				61A9DE4A0B833CD000BC506C /* sources */,
+				61A9DE4A0B833CD000BC506C /* nui_main */,
 				61A9DE490B833CB000BC506C /* dependencies */,
 				61A9DFB50B833DE500BC506C /* Products */,
 			);
@@ -232,7 +232,7 @@
 			name = dependencies;
 			sourceTree = "<group>";
 		};
-		61A9DE4A0B833CD000BC506C /* sources */ = {
+		61A9DE4A0B833CD000BC506C /* nui_main */ = {
 			isa = PBXGroup;
 			children = (
 				61A9DFEF0B83433800BC506C /* Application.cpp */,
@@ -240,7 +240,7 @@
 				61A9DFF10B83433800BC506C /* MainWindow.cpp */,
 				61A9DFF20B83433800BC506C /* MainWindow.h */,
 			);
-			name = sources;
+			name = nui_main;
 			sourceTree = "<group>";
 		};
 		61A9DFB50B833DE500BC506C /* Products */ = {
@@ -596,7 +596,6 @@
 					../../boinc/lib,
 					../../boinc/api,
 					../../boinc/zip,
-					/usr/local/lib,
 				);
 				OTHER_CFLAGS = (
 					"-Wall",
@@ -614,13 +613,10 @@
 				);
 				OTHER_LDFLAGS = (
 					"-bind_at_load",
-					"-lz",
 					"-lboinc",
 					"-lboinc_graphics2",
 					"-lboinc_api",
 					"-lm",
-					"-lpng",
-					"-ljpeg",
 					"-lcurl",
 					"-lboinc_zip",
 				);
@@ -689,11 +685,8 @@
 					"-lboinc",
 					"-lboinc_zip",
 					"-lboinc_graphics2",
-					"-lz",
 					"-lm",
 					"-lboinc_api",
-					"-lpng",
-					"-ljpeg",
 					"-lcurl",
 				);
 				PREBINDING = YES;

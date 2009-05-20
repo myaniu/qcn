@@ -12,6 +12,10 @@
 #include "nuiCoverFlow.h"
 #include "nuiAttributeAnimation.h"
 
+#include "main.h"
+
+CQCNShMem* volatile sm = NULL;
+
 
 /*
  * MainWindow
@@ -28,7 +32,16 @@ MainWindow::MainWindow(const nglContextInfo& rContextInfo, const nglWindowInfo& 
 #ifdef _UIKIT_
   SetRotation(270);
 #endif
-  
+
+	
+	sm = new CQCNShMem();
+	if (sm) {
+		//fprintf(stderr, "failed to create shared mem segment %s, exiting\n", QCNGUI_SHMEM);
+		//return false;
+		strcpy(sm->dataBOINC.wu_name, "qcnlive");
+	}
+	
+	
   nuiCoverFlow* pFlow = new nuiCoverFlow();
   AddChild(pFlow);
   nglPath p(_T("rsrc:/decorations"));
@@ -83,6 +96,8 @@ void MainWindow::OnClose()
   if (GetNGLWindow()->IsInModalState())
     return;  
   
+	if (sm) delete sm;
+	
   App->Quit();
 }
 
