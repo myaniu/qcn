@@ -400,7 +400,7 @@ int qcn_main(int argc, char **argv)
         else  {
           if (sm->statusBOINC.suspended) {
              // check current local suspend flag
-#ifdef _DEBUG
+#ifndef _DEBUG
              if (!g_bSuspended) { // mark that we're suspended if not already set
                 fprintf(stderr, "Suspend request from BOINC!\n");
                 g_bSuspended = true;
@@ -411,7 +411,7 @@ int qcn_main(int argc, char **argv)
 #endif
           }
           else { // not suspended, check if we think we're suspended!
-#ifdef _DEBUG
+#ifndef _DEBUG
              if (g_bSuspended) { // mark that we're resuming
                 fprintf(stderr, "Resume request from BOINC!\n");
                 g_bSuspended = false;
@@ -436,7 +436,7 @@ int qcn_main(int argc, char **argv)
                      goto done; 
                    }
                 }
-#ifdef _DEBUG
+#ifndef _DEBUG
              }
 #endif
           }
