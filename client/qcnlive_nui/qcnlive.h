@@ -1,5 +1,5 @@
 /*
- *  qcnwx.h
+ *  qcnlive.h
  *  qcnwx
  *
  *  Created by Carl Christensen on 2/9/08.
@@ -10,6 +10,7 @@
 #ifndef _QCNLIVE_H_
 #define _QCNLIVE_H_
 
+/*
 // For compilers that support precompilation, includes "wx.h".
 #include <wx/wxprec.h>
 
@@ -30,6 +31,7 @@
 #include <wx/frame.h>
 #include <wx/dialog.h>
 #include <wx/valtext.h>
+*/
 
 #ifndef _WIN32
 #include <unistd.h>

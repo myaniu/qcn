@@ -1,6 +1,6 @@
 /* qcnwx -- main QCN GUI (using wxWidgets cross-platform windowing toolkit) */
 
-#include "qcnwx.h"
+#include "qcnlive.h"
 #include "qcn_graphics.h"
 #include "qcn_curl.h"
 
@@ -16,6 +16,7 @@
 
 // the next two will be used in the main thread, but declare here (outside the thread)
 CQCNShMem* volatile sm = NULL;
+
 
 void MyAppTimer::Notify() 
 { // get the earthquake list every hour
