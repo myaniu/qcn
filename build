@@ -15,10 +15,10 @@ cd boinc
 make distclean
 ./_autosetup
 if ( test "`uname -s`" = "Darwin" ) then
-  ./configure --with-apple-opengl-framework --disable-client --disable-server
+  ./configure --disable-client --disable-server --disable-manager --with-apple-opengl-framework
 else
  #  echo "don't forget the Linux vpn: sudo vpnclient connect stanford"
-  ./configure --disable-fcgi --disable-manager --disable-client --disable-server
+  ./configure --disable-client --disable-server --disable-manager --disable-fcgi
 fi
 make clean && make
 cd ../
