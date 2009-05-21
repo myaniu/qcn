@@ -63,9 +63,19 @@ function qcn_generate_world_map(&$data, $timeint)
                from_unixtime(min(time_trigger)), ' UTC', '<BR>Latest: ', 
                from_unixtime(max(time_trigger)), ' UTC') descript
              from qcn_trigger t, qcn_sensor s
-                where t.type_sensor = s.id 
+                where t.type_sensor = s.id and t.hostid not in (select hostid from qcn_showhostlocation)
                  and time_trigger>unix_timestamp()-" . $trigtime . "
-                   group by lat,lng,s.is_usb";
+                   group by lat,lng,s.is_usb
+         UNION
+      select latitude lat, longitude lng, s.is_usb, count(*) ctr, from_unixtime(max(time_trigger)) timetrig, 
+          0 is_quake, concat('Total (#', t.hostid, ' Location): ', count(*), '<BR>Earliest: ', 
+               from_unixtime(min(time_trigger)), ' UTC', '<BR>Latest: ', 
+               from_unixtime(max(time_trigger)), ' UTC') descript
+             from qcn_trigger t, qcn_sensor s
+                where t.type_sensor = s.id and t.hostid in (select hostid from qcn_showhostlocation)
+                 and time_trigger>unix_timestamp()-" . $trigtime . "
+                   group by lat,lng,s.is_usb
+       ";
     $result = mysql_query($strSQL);
     //mt_srand();  // seed the Mersenne random number generator
     if ($result) {

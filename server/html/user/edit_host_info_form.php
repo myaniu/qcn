@@ -16,6 +16,7 @@ $db = BoincDb::get();
 
 //verify this logged in user owns this host!
 $hostid = $_GET['hostid'];
+$bMapExact = 0;
 
 if ($hostid) {
    $host = BoincHost::lookup_id($hostid);
@@ -40,6 +41,14 @@ if (!$hostid || $host->userid != $user->id)
    page_tail();
    exit();
 }
+
+// get host qcn_showhostlocation info
+$result = $db->do_query("select count(hostid) from qcn_showhostlocation where hostid=" . $db->base_escape_string($hostid));
+  if ($result && mysql_num_rows($result)>0) {  // we found some records
+     if ($row=mysql_fetch_array($result)) {
+       $bMapExact = $row[0];
+     }
+  }
 
 // get array of geoipaddrid,ipaddr,location,latitude,longitude
 $hll = project_specific_host_latlng_prefs($host->id);
@@ -249,6 +258,12 @@ for ($i=0; $i<5; $i++)
 
 }
 
+echo "<tr><td colspan=2><BR><input type=\"checkbox\" id=\"cbmapexact\" name=\"cbmapexact\" ";
+if ($bMapExact) {
+  echo "checked";
+}
+echo ">(Optional)  Show This Computer's Exact Location on Public QCN Maps and Listings <P></td></tr>";
+
 row2("", "<input type=submit value='Update info'>");
 
    //print prior geoip lookups
@@ -262,6 +277,7 @@ row2("", "<input type=submit value='Update info'>");
    } 
 
 end_table();
+echo "   <input type=\"hidden\" name=\"txthidMAPEXACT\" id=\"txthidMAPEXACT\" value=\"" . $bMapExact . "\">\n";
 echo "   <input type=\"hidden\" name=\"txthidHOST\" id=\"txthidHOST\" value=\"" . $host->id . "\">\n";
 echo "   <input type=\"hidden\" name=\"txthidIP\" id=\"txthidIP\" value=\"" . $_SERVER['REMOTE_ADDR'] . "\">\n";
 echo "</form>\n";

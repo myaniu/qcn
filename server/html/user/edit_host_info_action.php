@@ -127,11 +127,35 @@ for ($i = 0; $i < 5; $i++) {
   }
 }
 
+// check the host map location info
+
+$iMapCount = $_POST["txthidMAPEXACT"];
+$bMapExact = $_POST["cbmapexact"];
+$txtMsg = "";
+
+// just update on a change i.e. went from 0 to 1 or 1 to 0
+if ( ($bMapExact && !$iMapCount) ) { // adding an ID
+   $retval = $db->do_query("insert into qcn_showhostlocation (hostid) values (" . $db->base_escape_string($hostid) . ")");
+}
+else if (!$bMapExact && $iMapCount)  { // removing an ID
+   $retval = $db->do_query("delete from qcn_showhostlocation where hostid=" . $db->base_escape_string($hostid));
+}
+
+if ($bMapExact) {
+   $txtMsg = "Your machine will be exactly shown on QCN participant maps and lists";
+}
+else {
+   $txtMsg = "Your machine will <b>not</b> be exactly shown on QCN participant maps and lists, but will be shown to the nearest .01 latitude/longitude for privacy";
+}
+
   // if made it here then we're fine
   page_head($errheader);
   echo "<BR>Your host machine location records for host id# $host->id / machine name <b>$host->domain_name</b> have been successfully updated!<BR>";
   echo "<BR>Thank you for helping us locate triggers from your machine.  Rest assured that all information will only be used for locating possible seismic events.";
   echo "<BR>IP addresses saved are only the first 3 bytes (i.e. the 153.2.3 part of 153.2.3.231)";
+  if ($txtMsg) {
+      echo "<BR><BR>" . $txtMsg . "<BR>";
+  }
   page_tail();
 
 ?>
