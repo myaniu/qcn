@@ -49,7 +49,7 @@ echo "<tr><td>Latest Triggers Recorded in the Past $interval - Generated on " . 
 echo "
     <tr><p><td><A HREF=maptrig.php?timeint=$timeint>Click here or on a region of the map for an interactive Google map</A></td></tr>
     <tr><p><td>Legend: Blue triangle = QCN participant trigger, Red circle = Earthquake of minimum magnitude " . $minmag . "</td></tr>
-    <tr><p><td><i>Note: locations changed at the kilometer level to protect privacy</i></td</tr>
+    <tr><p><td><i>Note: locations changed at the kilometer level to protect privacy, unless participant authorized exact location be used</i></td</tr>
     ";
 
 echo "

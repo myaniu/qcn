@@ -17,11 +17,18 @@ $timeint = $_GET["timeint"];  // H / D / M / W - blank or H is 4-hourly, D = day
 $hostid = get_int("hostid", true);  // note the (int) so it's a safe sql statement i.e. no sql injection string
 if ($hostid>0) {
   db_init();
-  $sqlhost = "select round(latitude,2) lat, round(longitude,2) lng from qcn_trigger where hostid=$hostid order by time_trigger desc limit 1";
+  $sqlhost = "select latitude, longitude, round(latitude,2) lat, round(longitude,2) lng, ifnull(q.hostid, 0) from qcn_trigger t left outer join qcn_showhostlocation q ON t.hostid=q.hostid 
+  where t.hostid=$hostid order by time_trigger desc limit 1";
   $result = mysql_query($sqlhost);
   if ($result && ($res = mysql_fetch_array($result))) {
+      if ($res[4]) {
       $cx = $res[0];
       $cy = $res[1];
+      }
+      else { // round
+      $cx = $res[2];
+      $cy = $res[3];
+      }
       mysql_free_result($result); 
   }  
   else { // no host info, set zoom level to default
@@ -67,7 +74,7 @@ page_head(tra($title), null, $title, "", true, null, true);
 
 echo "<h3>" . $title . "</h3>";
 echo "<h5>" . $legend . "</h5>";
-echo "<h7>Note: locations changed at the kilometer-level to protect privacy</h7><BR>";
+echo "<h7>Note: locations changed at the kilometer-level to protect privacy, unless participant authorized exact location be used</h7><BR>";
 echo "<I>click and drag to move map; on empty region - left dbl-click to zoom in, right dbl-click to zoom out</I><BR>";
 
 $pm = new PhoogleMap();
