@@ -500,9 +500,8 @@
 				INFOPLIST_FILE = "qcn-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = (
-					../../boinc/lib,
-					../../boinc/api,
-					../../boinc/zip,
+					../../boinc/zip/build/Release,
+					../../boinc/mac_build/build/Deployment,
 					/usr/local/lib,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
@@ -613,9 +612,8 @@
 				INFOPLIST_FILE = "qcn-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = (
-					../../boinc/lib,
-					../../boinc/api,
-					../../boinc/zip,
+					../../boinc/zip/build/Release,
+					../../boinc/mac_build/build/Deployment,
 					/usr/local/lib,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
@@ -705,9 +703,8 @@
 				INFOPLIST_FILE = "qcn-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = (
-					../../boinc/lib,
-					../../boinc/api,
-					../../boinc/zip,
+					../../boinc/zip/build/Release,
+					../../boinc/mac_build/build/Deployment,
 					/usr/local/lib,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.4;

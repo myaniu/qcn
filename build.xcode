@@ -12,15 +12,21 @@ else
    svn update boinc
 fi
 cd boinc
-make distclean
-./_autosetup
 if ( test "`uname -s`" = "Darwin" ) then
-  ./configure --with-apple-opengl-framework --disable-client --disable-server
+   cd zip
+   unzip -o ../../new_boinc_zip.zip
+   xcodebuild -project boinc_zip.xcodeproj -target boinc_zip -configuration Release clean build
+   cd ../mac_build
+   xcodebuild -project boinc.xcodeproj -target api_libboinc -configuration Deployment clean build
+   xcodebuild -project boinc.xcodeproj -target gfx2libboinc -configuration Deployment clean build
+   xcodebuild -project boinc.xcodeproj -target libboinc -configuration Deployment clean build
+   cd ../
 else
  #  echo "don't forget the Linux vpn: sudo vpnclient connect stanford"
+  ./_autosetup
   ./configure --disable-fcgi --disable-manager --disable-client --disable-server
+   make clean && make
 fi
-make clean && make
 cd ../
 # don't need to build ntp often, just when making the executables to distribute
 #tar xzf ntp-4.2.4p5.tar.gz
@@ -38,5 +44,14 @@ else
 fi
 make clean
 make
+#if ( test "`uname -s`" = "Darwin" ) then
+#cd client/qcnlive
+#if ( test "`uname -p`" = "i386" ) then
+#xcodebuild -project qcnlive.xcodeproj -configuration 'Release' clean build
+#else
+#xcodebuild -project qcnlive.xcodeproj -configuration 'Release PowerPC' clean build
+#fi
+#fi
+#cd ../../
 cd client/bin
 ./deploy $1 $2

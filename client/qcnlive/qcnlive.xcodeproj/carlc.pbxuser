@@ -40,9 +40,9 @@
 	};
 	E30AB1140EBB776D00DABFEF /* csensor_usb_motionnodeaccel.cpp */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {999, 2968}}";
-			sepNavSelRange = "{2010, 0}";
-			sepNavVisRange = "{1906, 278}";
+			sepNavIntBoundsRect = "{{0, 0}, {980, 3024}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 831}";
 			sepNavWindowFrame = "{{15, 240}, {1233, 783}}";
 		};
 	};
@@ -135,6 +135,24 @@
 			sepNavWindowFrame = "{{15, 83}, {1200, 945}}";
 		};
 	};
+	E38F17CD0FC60483000A58F1 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		comments = "Compiling /Users/carlc/qcn/client/qcnlive/../sensor/csensor_usb_motionnodeaccel.cpp";
+		fRef = E30AB1140EBB776D00DABFEF /* csensor_usb_motionnodeaccel.cpp */;
+		rLen = 0;
+		rLoc = 0;
+		rType = 1;
+	};
+	E38F17D40FC604CD000A58F1 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = E30AB1140EBB776D00DABFEF /* csensor_usb_motionnodeaccel.cpp */;
+		name = "csensor_usb_motionnodeaccel.cpp: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 0;
+		vrLoc = 0;
+	};
 	E390FCED0D65C65900479F9A /* icons.h */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {1141, 71274}}";
@@ -163,7 +181,7 @@
 		};
 	};
 	E3A499DD0D64E60400E51CDF /* Project object */ = {
-		activeBuildConfigurationName = Debug;
+		activeBuildConfigurationName = Release;
 		activeExecutable = E3C0E7710D64E9870099B905 /* QCNLive */;
 		activeTarget = E3A499ED0D64E62A00E51CDF /* QCNLive */;
 		addToTargets = (
@@ -278,12 +296,12 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 264529769;
-			PBXWorkspaceStateSaveDate = 264529769;
+			PBXPerProjectTemplateStateSaveDate = 264635459;
+			PBXWorkspaceStateSaveDate = 264635459;
 		};
 		perUserProjectItems = {
-			E3E6D42D0FC4676C0081074D /* PBXBookmark */ = E3E6D42D0FC4676C0081074D /* PBXBookmark */;
-			E3E6D4420FC4686D0081074D /* PBXTextBookmark */ = E3E6D4420FC4686D0081074D /* PBXTextBookmark */;
+			E38F17CD0FC60483000A58F1 /* PBXTextBookmark */ = E38F17CD0FC60483000A58F1 /* PBXTextBookmark */;
+			E38F17D40FC604CD000A58F1 /* PBXTextBookmark */ = E38F17D40FC604CD000A58F1 /* PBXTextBookmark */;
 		};
 		sourceControlManager = E3A499E10D64E60400E51CDF /* Source Control */;
 		userBuildSettings = {
@@ -361,7 +379,7 @@
 	};
 	E3C0E7760D64E9A40099B905 /* qcnwx.cpp */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1174, 6076}}";
+			sepNavIntBoundsRect = "{{0, 0}, {1174, 6104}}";
 			sepNavSelRange = "{450, 31}";
 			sepNavVisRange = "{0, 1176}";
 			sepNavVisRect = "{{0, 2496}, {1000, 343}}";
@@ -647,19 +665,5 @@
 		location = QCNLiveD;
 		modificationTime = 264530009.570888;
 		state = 1;
-	};
-	E3E6D42D0FC4676C0081074D /* PBXBookmark */ = {
-		isa = PBXBookmark;
-		fRef = E3C0E7760D64E9A40099B905 /* qcnwx.cpp */;
-	};
-	E3E6D4420FC4686D0081074D /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = E3C0E7760D64E9A40099B905 /* qcnwx.cpp */;
-		name = "qcnwx.cpp: 18";
-		rLen = 31;
-		rLoc = 450;
-		rType = 0;
-		vrLen = 1176;
-		vrLoc = 0;
 	};
 }
