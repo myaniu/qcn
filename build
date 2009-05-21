@@ -13,7 +13,9 @@ else
 fi
 cd boinc
 if ( test "`uname -s`" = "Darwin" ) then
-   cd mac_build
+   cd zip
+   xcodebuild -project boinc_zip.xcodeproj -target boinc_zip -configuration Release clean build
+   cd ../mac_build
    xcodebuild -project boinc.xcodeproj -target api_libboinc -configuration Deployment clean build
    xcodebuild -project boinc.xcodeproj -target gfx2libboinc -configuration Deployment clean build
    xcodebuild -project boinc.xcodeproj -target libboinc -configuration Deployment clean build
