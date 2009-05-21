@@ -493,7 +493,7 @@ dnl ----------------------------------------------------------------------------
 
 dnl Heres another way to set up host-specific stuff
 AM_CONDITIONAL(IS_I386, [test "`uname -p`" = i386])
-AM_CONDITIONAL(OS_DARWIN, [echo $host_os | grep '^darwin' > /dev/null])
+AM_CONDITIONAL(OS_DARWIN, [test "`uname -s`" = Darwin])
 AM_CONDITIONAL(OS_LINUX, [test "`uname -s`" = Linux])
 if echo $host_os | grep '^darwin' >/dev/null ; then
   if test `uname -r | sed 's/\.//g'` -lt 800 ; then
