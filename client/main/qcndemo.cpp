@@ -83,11 +83,11 @@ int main(int argc, char** argv)
 #ifdef __APPLE_CC__
     if (g_endian == ENDIAN_BIG) { // powerpc
         ge_os = OS_MAC_PPC;
-        sprintf(strSuffix, "_%s_powerpc-apple-darwin9.6.0", QCN_VERSION_STRING);
+        sprintf(strSuffix, "_%s_powerpc-apple-darwin9.7.0", QCN_VERSION_STRING);
     }
     else {
         ge_os = OS_MAC_INTEL;
-        sprintf(strSuffix, "_%s_i686-apple-darwin9.6.0", QCN_VERSION_STRING);
+        sprintf(strSuffix, "_%s_i686-apple-darwin9.7.0", QCN_VERSION_STRING);
     }    
 #else
 #ifdef _WIN32
