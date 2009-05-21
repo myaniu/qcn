@@ -571,7 +571,7 @@
 		61A9DFC30B833E9600BC506C /* Default */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				ARCHS = "$(NATIVE_ARCH)";
 				COPY_PHASE_STRIP = YES;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
@@ -593,9 +593,8 @@
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = (
-					../../boinc/lib,
-					../../boinc/api,
-					../../boinc/zip,
+					../../boinc/mac_build/build/Deployment,
+					../../boinc/zip/build/Release,
 				);
 				OTHER_CFLAGS = (
 					"-Wall",
@@ -640,7 +639,10 @@
 		61A9DFCD0B833EF300BC506C /* Default */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				ARCHS = (
+					i386,
+					ppc,
+				);
 				COPY_PHASE_STRIP = NO;
 				GCC_DEBUGGING_SYMBOLS = full;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -664,10 +666,9 @@
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = (
-					../../boinc/lib,
-					../../boinc/api,
-					../../boinc/zip,
 					/usr/local/lib,
+					../../boinc/zip/build/Release,
+					../../boinc/mac_build/build/Deployment,
 				);
 				OTHER_CFLAGS = (
 					"-Wall",
@@ -699,6 +700,8 @@
 				PREBINDING = YES;
 				PRODUCT_NAME = QCNLiveD;
 				SDKROOT = macosx10.4;
+				"SDKROOT[arch=ppc]" = "$(DEVELOPER_SDK_DIR)/MacOSX10.3.9.sdk";
+				"SDKROOT[arch=x86_64]" = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
 				WARNING_CFLAGS = (
 					"-Wmost",
 					"-Wno-four-char-constants",
