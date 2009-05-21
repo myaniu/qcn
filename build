@@ -16,7 +16,7 @@ if ( test "`uname -s`" = "Darwin" ) then
    cd mac_build
    xcodebuild -project boinc.xcodeproj -target api_libboinc -configuration Deployment clean build
    xcodebuild -project boinc.xcodeproj -target gfx2libboinc -configuration Deployment clean build
-   xcodebuild -project boinc.xcodeproj -target api_libboinc -configuration Deployment clean build
+   xcodebuild -project boinc.xcodeproj -target libboinc -configuration Deployment clean build
    cd ../
 else
  #  echo "don't forget the Linux vpn: sudo vpnclient connect stanford"
