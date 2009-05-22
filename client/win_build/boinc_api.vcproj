@@ -106,7 +106,7 @@
 				PreprocessorDefinitions="_WIN32;XMD_H;WIN32;NDEBUG;_LIB;_CRT_SECURE_NO_DEPRECATE;_USE_32BIT_TIME_T"
 				RuntimeLibrary="2"
 				WarningLevel="3"
-				Detect64BitPortabilityProblems="true"
+				Detect64BitPortabilityProblems="false"
 				ForcedIncludeFiles=""
 			/>
 			<Tool
