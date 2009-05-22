@@ -95,6 +95,7 @@
 			IntermediateDirectory="$(ConfigurationName)Demo"
 			ConfigurationType="1"
 			CharacterSet="0"
+			ManagedExtensions="0"
 			WholeProgramOptimization="1"
 			>
 			<Tool

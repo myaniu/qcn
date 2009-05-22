@@ -89,6 +89,7 @@
 			IntermediateDirectory="$(ConfigurationName)JPEG"
 			ConfigurationType="4"
 			CharacterSet="0"
+			ManagedExtensions="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
