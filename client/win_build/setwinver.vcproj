@@ -40,7 +40,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../../;../../boinc/lib"
+				AdditionalIncludeDirectories="../../;../../../boinc/lib"
 				PreprocessorDefinitions="_WIN32;_DEBUG"
 				RuntimeLibrary="3"
 				DebugInformationFormat="4"
@@ -112,7 +112,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="1"
-				AdditionalIncludeDirectories="../../;../../boinc/lib"
+				AdditionalIncludeDirectories="../../;../../../boinc/lib"
 				PreprocessorDefinitions="_WIN32;NDEBUG"
 				RuntimeLibrary="2"
 				DebugInformationFormat="0"

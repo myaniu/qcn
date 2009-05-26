@@ -40,7 +40,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../../boinc;../../boinc/lib;../../boinc/api;&quot;../../jpeg-6b&quot;;../../freeglut/include/GL"
+				AdditionalIncludeDirectories="../../../boinc;../../../boinc/lib;../../../boinc/api;&quot;../../jpeg-6b&quot;;../../freeglut/include/GL"
 				PreprocessorDefinitions="XMD_H;WIN32;_WIN32;_DEBUG;_LIB;_CRT_SECURE_NO_DEPRECATE;_USE_32BIT_TIME_T"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -103,7 +103,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="../../boinc;../../boinc/lib;../../boinc/api;&quot;../../jpeg-6b&quot;;../../freeglut/include/GL"
+				AdditionalIncludeDirectories="../../../boinc;../../../boinc/lib;../../../boinc/api;&quot;../../jpeg-6b&quot;;../../freeglut/include/GL"
 				PreprocessorDefinitions="_WIN32;XMD_H;WIN32;NDEBUG;_LIB;_CRT_SECURE_NO_DEPRECATE;_USE_32BIT_TIME_T"
 				RuntimeLibrary="2"
 				WarningLevel="3"
@@ -149,7 +149,7 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath="..\..\boinc\api\bmplib.cpp"
+				RelativePath="..\..\..\boinc\api\bmplib.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -171,7 +171,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\boinc\api\boinc_api.cpp"
+				RelativePath="..\..\..\boinc\api\boinc_api.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -193,7 +193,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\boinc\api\graphics2.cpp"
+				RelativePath="..\..\..\boinc\api\graphics2.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -215,7 +215,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\boinc\api\graphics2_util.cpp"
+				RelativePath="..\..\..\boinc\api\graphics2_util.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -237,7 +237,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\boinc\api\graphics2_win.cpp"
+				RelativePath="..\..\..\boinc\api\graphics2_win.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -259,7 +259,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\boinc\api\gutil.cpp"
+				RelativePath="..\..\..\boinc\api\gutil.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -281,33 +281,11 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\boinc\api\reduce_lib.cpp"
+				RelativePath="..\..\..\boinc\api\reduce_lib.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\boinc\api\texfont.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\$(InputName)1.obj"
-						XMLDocumentationFileName="$(IntDir)\$(InputName)1.xdc"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\$(InputName)1.obj"
-						XMLDocumentationFileName="$(IntDir)\$(InputName)1.xdc"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\..\boinc\api\texture.cpp"
+				RelativePath="..\..\..\boinc\api\texfont.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -329,7 +307,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\boinc\api\tgalib.cpp"
+				RelativePath="..\..\..\boinc\api\texture.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -351,7 +329,29 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\boinc\api\txf_util.cpp"
+				RelativePath="..\..\..\boinc\api\tgalib.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)\$(InputName)1.obj"
+						XMLDocumentationFileName="$(IntDir)\$(InputName)1.xdc"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)\$(InputName)1.obj"
+						XMLDocumentationFileName="$(IntDir)\$(InputName)1.xdc"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\..\boinc\api\txf_util.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -379,43 +379,43 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath="..\..\boinc\api\boinc_api.h"
+				RelativePath="..\..\..\boinc\api\boinc_api.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\boinc\api\boinc_gl.h"
+				RelativePath="..\..\..\boinc\api\boinc_gl.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\boinc\api\graphics2.h"
+				RelativePath="..\..\..\boinc\api\graphics2.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\boinc\api\graphics_api.h"
+				RelativePath="..\..\..\boinc\api\graphics_api.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\boinc\api\graphics_data.h"
+				RelativePath="..\..\..\boinc\api\graphics_data.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\boinc\api\graphics_impl.h"
+				RelativePath="..\..\..\boinc\api\graphics_impl.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\boinc\api\gutil.h"
+				RelativePath="..\..\..\boinc\api\gutil.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\boinc\api\texfont.h"
+				RelativePath="..\..\..\boinc\api\texfont.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\boinc\api\texture.h"
+				RelativePath="..\..\..\boinc\api\texture.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\boinc\api\tgalib.h"
+				RelativePath="..\..\..\boinc\api\tgalib.h"
 				>
 			</File>
 		</Filter>

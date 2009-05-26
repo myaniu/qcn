@@ -54,7 +54,7 @@
 		E30AB11D0EBB9DAC00DA7E81 /* qcnlive_define.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = qcnlive_define.h; sourceTree = "<group>"; };
 		E30F9E9C0DEC6D4C0000FACE /* csensor.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = csensor.cpp; path = ../sensor/csensor.cpp; sourceTree = SOURCE_ROOT; };
 		E30F9E9E0DEC6D5F0000FACE /* csensor.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = csensor.h; path = ../sensor/csensor.h; sourceTree = SOURCE_ROOT; };
-		E358972C0E912E54005C1D94 /* mac_backtrace.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mac_backtrace.cpp; path = ../../boinc/lib/mac/mac_backtrace.cpp; sourceTree = SOURCE_ROOT; };
+		E358972C0E912E54005C1D94 /* mac_backtrace.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mac_backtrace.cpp; path = ../../../boinc/lib/mac/mac_backtrace.cpp; sourceTree = SOURCE_ROOT; };
 		E371C7F60E2AB5D0009B4DAA /* csensor_mac_laptop.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = csensor_mac_laptop.cpp; path = ../sensor/csensor_mac_laptop.cpp; sourceTree = SOURCE_ROOT; };
 		E371C7F70E2AB5D0009B4DAA /* csensor_mac_usb_jw.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = csensor_mac_usb_jw.cpp; path = ../sensor/csensor_mac_usb_jw.cpp; sourceTree = SOURCE_ROOT; };
 		E378CDB40D64E96C008A3885 /* qcn-Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.xml; path = "qcn-Info.plist"; sourceTree = "<group>"; };
@@ -106,10 +106,10 @@
 		E3C0E7F10D64E9E00099B905 /* qcn_cube.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = qcn_cube.h; path = ../graphics/qcn_cube.h; sourceTree = SOURCE_ROOT; };
 		E3C0E7F20D64E9E00099B905 /* qcn_earth.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = qcn_earth.h; path = ../graphics/qcn_earth.h; sourceTree = SOURCE_ROOT; };
 		E3C0E7F30D64E9E00099B905 /* qcn_graphics.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = qcn_graphics.h; path = ../graphics/qcn_graphics.h; sourceTree = SOURCE_ROOT; };
-		E3C0E7F70D64E9E00099B905 /* boinc_zip.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = boinc_zip.h; path = ../../boinc/zip/boinc_zip.h; sourceTree = SOURCE_ROOT; };
-		E3C0E7F90D64E9E00099B905 /* boinc_api.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = boinc_api.h; path = ../../boinc/api/boinc_api.h; sourceTree = SOURCE_ROOT; };
-		E3C0E7FB0D64E9E00099B905 /* filesys.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = filesys.h; path = ../../boinc/lib/filesys.h; sourceTree = SOURCE_ROOT; };
-		E3C0E7FC0D64E9E00099B905 /* parse.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = parse.h; path = ../../boinc/lib/parse.h; sourceTree = SOURCE_ROOT; };
+		E3C0E7F70D64E9E00099B905 /* boinc_zip.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = boinc_zip.h; path = ../../../boinc/zip/boinc_zip.h; sourceTree = SOURCE_ROOT; };
+		E3C0E7F90D64E9E00099B905 /* boinc_api.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = boinc_api.h; path = ../../../boinc/api/boinc_api.h; sourceTree = SOURCE_ROOT; };
+		E3C0E7FB0D64E9E00099B905 /* filesys.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = filesys.h; path = ../../../boinc/lib/filesys.h; sourceTree = SOURCE_ROOT; };
+		E3C0E7FC0D64E9E00099B905 /* parse.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = parse.h; path = ../../../boinc/lib/parse.h; sourceTree = SOURCE_ROOT; };
 		E3C0E7FD0D64E9E00099B905 /* config.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = config.h; path = ../../config.h; sourceTree = SOURCE_ROOT; };
 		E3C0E7FE0D64E9E00099B905 /* version.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = version.h; path = ../../version.h; sourceTree = SOURCE_ROOT; };
 		E3D49FE80D6F74B70088DE83 /* qcn_curl.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = qcn_curl.h; path = ../util/qcn_curl.h; sourceTree = SOURCE_ROOT; };
@@ -486,10 +486,10 @@
 				HEADER_SEARCH_PATHS = (
 					"/usr/local/include/wx-2.8",
 					"/usr/local/lib/wx/include/mac-ansi-release-static-2.8",
-					../../boinc/lib,
+					../../../boinc/lib,
 					../../,
-					../../boinc/api,
-					../../boinc_zip,
+					../../../boinc/api,
+					../../../boinc_zip,
 					../main,
 					../sensor,
 					../util,
@@ -500,8 +500,8 @@
 				INFOPLIST_FILE = "qcn-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = (
-					../../boinc/zip/build/Release,
-					../../boinc/mac_build/build/Deployment,
+					../../../boinc/zip/build/Release,
+					../../../boinc/mac_build/build/Deployment,
 					/usr/local/lib,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
@@ -598,10 +598,10 @@
 				HEADER_SEARCH_PATHS = (
 					"/usr/local/include/wx-2.8",
 					"/usr/local/lib/wx/include/mac-ansi-release-static-2.8",
-					../../boinc/lib,
+					../../../boinc/lib,
 					../../,
-					../../boinc/api,
-					../../boinc_zip,
+					../../../boinc/api,
+					../../../boinc_zip,
 					../main,
 					../sensor,
 					../util,
@@ -612,8 +612,8 @@
 				INFOPLIST_FILE = "qcn-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = (
-					../../boinc/zip/build/Release,
-					../../boinc/mac_build/build/Deployment,
+					../../../boinc/zip/build/Release,
+					../../../boinc/mac_build/build/Deployment,
 					/usr/local/lib,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
@@ -689,10 +689,10 @@
 				HEADER_SEARCH_PATHS = (
 					"/usr/local/include/wx-2.8",
 					"/usr/local/lib/wx/include/mac-ansi-release-static-2.8",
-					../../boinc/lib,
+					../../../boinc/lib,
 					../../,
-					../../boinc/api,
-					../../boinc_zip,
+					../../../boinc/api,
+					../../../boinc_zip,
 					../main,
 					../sensor,
 					../util,
@@ -703,8 +703,8 @@
 				INFOPLIST_FILE = "qcn-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = (
-					../../boinc/zip/build/Release,
-					../../boinc/mac_build/build/Deployment,
+					../../../boinc/zip/build/Release,
+					../../../boinc/mac_build/build/Deployment,
 					/usr/local/lib,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.4;

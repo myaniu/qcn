@@ -40,7 +40,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../../boinc;../../boinc/lib"
+				AdditionalIncludeDirectories="../../../boinc;../../../boinc/lib"
 				PreprocessorDefinitions="WIN32;_WIN32;_DEBUG;_LIB;_CRT_SECURE_NO_DEPRECATE;_USE_32BIT_TIME_T"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -103,7 +103,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="../../boinc;../../boinc/lib;../../boinc/api;../../jpeglib;../../glut"
+				AdditionalIncludeDirectories="../../../boinc;../../../boinc/lib;../../../boinc/api;../../jpeglib;../../glut"
 				PreprocessorDefinitions="XMD_H;_WIN32;WIN32;NDEBUG;_LIB;_CRT_SECURE_NO_DEPRECATE;_USE_32BIT_TIME_T"
 				RuntimeLibrary="2"
 				ForcedIncludeFiles="boinc_win.h"
@@ -147,7 +147,7 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath="..\..\boinc\lib\app_ipc.cpp"
+				RelativePath="..\..\..\boinc\lib\app_ipc.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -169,7 +169,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\boinc\lib\base64.cpp"
+				RelativePath="..\..\..\boinc\lib\base64.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -191,7 +191,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\boinc\lib\diagnostics.cpp"
+				RelativePath="..\..\..\boinc\lib\diagnostics.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -213,7 +213,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\boinc\lib\diagnostics_win.cpp"
+				RelativePath="..\..\..\boinc\lib\diagnostics_win.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -235,7 +235,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\boinc\lib\filesys.cpp"
+				RelativePath="..\..\..\boinc\lib\filesys.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -257,7 +257,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\boinc\lib\hostinfo.cpp"
+				RelativePath="..\..\..\boinc\lib\hostinfo.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -279,7 +279,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\boinc\lib\md5.c"
+				RelativePath="..\..\..\boinc\lib\md5.c"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -291,7 +291,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\boinc\lib\md5_file.cpp"
+				RelativePath="..\..\..\boinc\lib\md5_file.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -313,7 +313,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\boinc\lib\mem_usage.cpp"
+				RelativePath="..\..\..\boinc\lib\mem_usage.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -335,7 +335,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\boinc\lib\mfile.cpp"
+				RelativePath="..\..\..\boinc\lib\mfile.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -357,7 +357,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\boinc\lib\miofile.cpp"
+				RelativePath="..\..\..\boinc\lib\miofile.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -379,7 +379,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\boinc\lib\network.cpp"
+				RelativePath="..\..\..\boinc\lib\network.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -401,7 +401,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\boinc\lib\parse.cpp"
+				RelativePath="..\..\..\boinc\lib\parse.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -423,7 +423,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\boinc\lib\prefs.cpp"
+				RelativePath="..\..\..\boinc\lib\prefs.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -445,33 +445,11 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\boinc\lib\proc_control.cpp"
+				RelativePath="..\..\..\boinc\lib\proc_control.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\boinc\lib\proxy_info.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\$(InputName)1.obj"
-						XMLDocumentationFileName="$(IntDir)\$(InputName)1.xdc"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\$(InputName)1.obj"
-						XMLDocumentationFileName="$(IntDir)\$(InputName)1.xdc"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\..\boinc\lib\shmem.cpp"
+				RelativePath="..\..\..\boinc\lib\proxy_info.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -493,7 +471,29 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\boinc\lib\stackwalker_win.cpp"
+				RelativePath="..\..\..\boinc\lib\shmem.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)\$(InputName)1.obj"
+						XMLDocumentationFileName="$(IntDir)\$(InputName)1.xdc"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)\$(InputName)1.obj"
+						XMLDocumentationFileName="$(IntDir)\$(InputName)1.xdc"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\..\boinc\lib\stackwalker_win.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -505,7 +505,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\boinc\lib\str_util.cpp"
+				RelativePath="..\..\..\boinc\lib\str_util.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -527,7 +527,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\boinc\lib\util.cpp"
+				RelativePath="..\..\..\boinc\lib\util.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -549,7 +549,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\boinc\lib\win_util.cpp"
+				RelativePath="..\..\..\boinc\lib\win_util.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -577,115 +577,115 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath="..\..\boinc\lib\app_ipc.h"
+				RelativePath="..\..\..\boinc\lib\app_ipc.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\boinc\lib\base64.h"
+				RelativePath="..\..\..\boinc\lib\base64.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\boinc\lib\boinc_win.h"
+				RelativePath="..\..\..\boinc\lib\boinc_win.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\boinc\lib\cert_sig.h"
+				RelativePath="..\..\..\boinc\lib\cert_sig.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\boinc\lib\coproc.h"
+				RelativePath="..\..\..\boinc\lib\coproc.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\boinc\lib\crypt.h"
+				RelativePath="..\..\..\boinc\lib\crypt.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\boinc\lib\diagnostics.h"
+				RelativePath="..\..\..\boinc\lib\diagnostics.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\boinc\lib\diagnostics_win.h"
+				RelativePath="..\..\..\boinc\lib\diagnostics_win.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\boinc\lib\error_numbers.h"
+				RelativePath="..\..\..\boinc\lib\error_numbers.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\boinc\lib\filesys.h"
+				RelativePath="..\..\..\boinc\lib\filesys.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\boinc\lib\hostinfo.h"
+				RelativePath="..\..\..\boinc\lib\hostinfo.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\boinc\lib\md5.h"
+				RelativePath="..\..\..\boinc\lib\md5.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\boinc\lib\md5_file.h"
+				RelativePath="..\..\..\boinc\lib\md5_file.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\boinc\lib\mem_usage.h"
+				RelativePath="..\..\..\boinc\lib\mem_usage.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\boinc\lib\mfile.h"
+				RelativePath="..\..\..\boinc\lib\mfile.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\boinc\lib\miofile.h"
+				RelativePath="..\..\..\boinc\lib\miofile.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\boinc\lib\network.h"
+				RelativePath="..\..\..\boinc\lib\network.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\boinc\lib\parse.h"
+				RelativePath="..\..\..\boinc\lib\parse.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\boinc\lib\prefs.h"
+				RelativePath="..\..\..\boinc\lib\prefs.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\boinc\lib\proc_control.h"
+				RelativePath="..\..\..\boinc\lib\proc_control.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\boinc\lib\proxy_info.h"
+				RelativePath="..\..\..\boinc\lib\proxy_info.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\boinc\lib\shmem.h"
+				RelativePath="..\..\..\boinc\lib\shmem.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\boinc\lib\stackwalker_imports.h"
+				RelativePath="..\..\..\boinc\lib\stackwalker_imports.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\boinc\lib\stackwalker_win.h"
+				RelativePath="..\..\..\boinc\lib\stackwalker_win.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\boinc\lib\std_fixes.h"
+				RelativePath="..\..\..\boinc\lib\std_fixes.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\boinc\lib\str_util.h"
+				RelativePath="..\..\..\boinc\lib\str_util.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\boinc\lib\util.h"
+				RelativePath="..\..\..\boinc\lib\util.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\boinc\lib\win_util.h"
+				RelativePath="..\..\..\boinc\lib\win_util.h"
 				>
 			</File>
 		</Filter>

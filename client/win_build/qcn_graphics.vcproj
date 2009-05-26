@@ -41,7 +41,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				WholeProgramOptimization="false"
-				AdditionalIncludeDirectories="../../zlib;../../;../main;../sensor;../util;../../boinc/lib;../../boinc/api;&quot;../../jpeg-6b&quot;;../../freeglut/include;../../boinc/zip"
+				AdditionalIncludeDirectories="../../zlib;../../;../main;../sensor;../util;../../../boinc/lib;../../../boinc/api;&quot;../../jpeg-6b&quot;;../../freeglut/include;../../../boinc/zip"
 				PreprocessorDefinitions="QCNGRAPHICS;_WIN32;WIN32;_DEBUG;_ZLIB;_CRT_SECURE_NO_DEPRECATE;GRAPHICS_PROGRAM"
 				ExceptionHandling="1"
 				BasicRuntimeChecks="3"
@@ -126,7 +126,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="../../zlib;../../;../main;../sensor;../util;../../boinc/lib;../../boinc/api;&quot;../../jpeg-6b&quot;;../../freeglut/include;../../boinc/zip"
+				AdditionalIncludeDirectories="../../zlib;../../;../main;../sensor;../util;../../../boinc/lib;../../../boinc/api;&quot;../../jpeg-6b&quot;;../../freeglut/include;../../../boinc/zip"
 				PreprocessorDefinitions="QCNGRAPHICS;_WIN32;NDEBUG;_ZLIB;_CRT_SECURE_NO_DEPRECATE;GRAPHICS_PROGRAM"
 				RuntimeLibrary="2"
 			/>

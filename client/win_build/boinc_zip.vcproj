@@ -43,13 +43,13 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../../boinc/lib,../../boinc/zip"
+				AdditionalIncludeDirectories="../../../boinc/lib,../../../boinc/zip"
 				PreprocessorDefinitions="WIN32;DLL;_DEBUG;_LIB;_CRT_SECURE_NO_DEPRECATE;_USE_32BIT_TIME_T;_WIN32"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				PrecompiledHeaderFile=""
 				AssemblerListingLocation="Debug/"
-				ObjectFile="../../boinc/zip"
+				ObjectFile="../../../boinc/zip"
 				ProgramDataBaseFileName="Debug/"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
@@ -118,7 +118,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="../../boinc/lib,../../boinc/zip"
+				AdditionalIncludeDirectories="../../../boinc/lib,../../../boinc/zip"
 				PreprocessorDefinitions="_WIN32;WIN32;API;NDEBUG;_LIB;DLL;_CRT_SECURE_NO_DEPRECATE;_USE_32BIT_TIME_T"
 				StringPooling="true"
 				RuntimeLibrary="2"
@@ -172,7 +172,7 @@
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat;f90;for;f;fpp"
 			>
 			<File
-				RelativePath="..\..\boinc\zip\boinc_zip.cpp"
+				RelativePath="..\..\..\boinc\zip\boinc_zip.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -195,7 +195,7 @@
 			Filter="*.c"
 			>
 			<File
-				RelativePath="..\..\boinc\zip\unzip\api.c"
+				RelativePath="..\..\..\boinc\zip\unzip\api.c"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -208,7 +208,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\boinc\zip\unzip\apihelp.c"
+				RelativePath="..\..\..\boinc\zip\unzip\apihelp.c"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -221,7 +221,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\boinc\zip\unzip\envargs.c"
+				RelativePath="..\..\..\boinc\zip\unzip\envargs.c"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -234,7 +234,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\boinc\zip\unzip\explode.c"
+				RelativePath="..\..\..\boinc\zip\unzip\explode.c"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -247,7 +247,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\boinc\zip\unzip\extract.c"
+				RelativePath="..\..\..\boinc\zip\unzip\extract.c"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -260,7 +260,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\boinc\zip\unzip\fileio.c"
+				RelativePath="..\..\..\boinc\zip\unzip\fileio.c"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -273,7 +273,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\boinc\zip\unzip\globals.c"
+				RelativePath="..\..\..\boinc\zip\unzip\globals.c"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -286,7 +286,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\boinc\zip\unzip\inflate.c"
+				RelativePath="..\..\..\boinc\zip\unzip\inflate.c"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -299,7 +299,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\boinc\zip\unzip\list.c"
+				RelativePath="..\..\..\boinc\zip\unzip\list.c"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -312,7 +312,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\boinc\zip\unzip\match.c"
+				RelativePath="..\..\..\boinc\zip\unzip\match.c"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -325,7 +325,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\boinc\zip\unzip\win32\nt.c"
+				RelativePath="..\..\..\boinc\zip\unzip\win32\nt.c"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -338,7 +338,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\boinc\zip\unzip\process.c"
+				RelativePath="..\..\..\boinc\zip\unzip\process.c"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -351,7 +351,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\boinc\zip\unzip\ttyio.c"
+				RelativePath="..\..\..\boinc\zip\unzip\ttyio.c"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -364,7 +364,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\boinc\zip\unzip\unreduce.c"
+				RelativePath="..\..\..\boinc\zip\unzip\unreduce.c"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -377,7 +377,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\boinc\zip\unzip\unshrink.c"
+				RelativePath="..\..\..\boinc\zip\unzip\unshrink.c"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -390,7 +390,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\boinc\zip\unzip\unzip.c"
+				RelativePath="..\..\..\boinc\zip\unzip\unzip.c"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -403,7 +403,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\boinc\zip\unzip\win32\win32.c"
+				RelativePath="..\..\..\boinc\zip\unzip\win32\win32.c"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -416,7 +416,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\boinc\zip\unzip\zipinfo.c"
+				RelativePath="..\..\..\boinc\zip\unzip\zipinfo.c"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -434,7 +434,7 @@
 			Filter="*.c"
 			>
 			<File
-				RelativePath="..\..\boinc\zip\zip\deflate.c"
+				RelativePath="..\..\..\boinc\zip\zip\deflate.c"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -447,7 +447,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\boinc\zip\zip\win32\nt.c"
+				RelativePath="..\..\..\boinc\zip\zip\win32\nt.c"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -469,7 +469,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\boinc\zip\zip\trees.c"
+				RelativePath="..\..\..\boinc\zip\zip\trees.c"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -482,7 +482,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\boinc\zip\zip\util.c"
+				RelativePath="..\..\..\boinc\zip\zip\util.c"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -495,7 +495,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\boinc\zip\zip\win32\win32zip.c"
+				RelativePath="..\..\..\boinc\zip\zip\win32\win32zip.c"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -508,7 +508,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\boinc\zip\zip\z_crc32.c"
+				RelativePath="..\..\..\boinc\zip\zip\z_crc32.c"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -521,7 +521,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\boinc\zip\zip\z_crctab.c"
+				RelativePath="..\..\..\boinc\zip\zip\z_crctab.c"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -534,7 +534,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\boinc\zip\zip\z_crypt.c"
+				RelativePath="..\..\..\boinc\zip\zip\z_crypt.c"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -547,7 +547,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\boinc\zip\zip\z_fileio.c"
+				RelativePath="..\..\..\boinc\zip\zip\z_fileio.c"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -560,7 +560,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\boinc\zip\zip\z_globals.c"
+				RelativePath="..\..\..\boinc\zip\zip\z_globals.c"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -573,7 +573,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\boinc\zip\zip\z_ttyio.c"
+				RelativePath="..\..\..\boinc\zip\zip\z_ttyio.c"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -586,7 +586,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\boinc\zip\zip\win32\z_win32.c"
+				RelativePath="..\..\..\boinc\zip\zip\win32\z_win32.c"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -599,7 +599,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\boinc\zip\zip\zip.c"
+				RelativePath="..\..\..\boinc\zip\zip\zip.c"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -612,7 +612,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\boinc\zip\zip\zipfile.c"
+				RelativePath="..\..\..\boinc\zip\zip\zipfile.c"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -625,7 +625,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\boinc\zip\zip\zipup.c"
+				RelativePath="..\..\..\boinc\zip\zip\zipup.c"
 				>
 			</File>
 		</Filter>
