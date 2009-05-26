@@ -1,3 +1,4 @@
+cd ..
 rm -rf boinc
 svn co http://boinc.berkeley.edu/svn/trunk/boinc
 #svn co http://boinc.berkeley.edu/svn/trunk/boinc_samples
