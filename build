@@ -4,6 +4,7 @@ if ( test "$1" = "" || test "$2" = "") then
    echo 'NCI should usually be one higher than regular version number'
    exit 1
 fi
+cd ..
 if (test $3) then
    rm -rf boinc
    ./getboinc
@@ -21,7 +22,7 @@ else
   ./configure --disable-client --disable-server --disable-manager --disable-fcgi
 fi
 make clean && make
-cd ../
+cd ../qcn
 # don't need to build ntp often, just when making the executables to distribute
 #tar xzf ntp-4.2.4p5.tar.gz
 #cd ntp-4.2.4p5
