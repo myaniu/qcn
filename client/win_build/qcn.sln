@@ -58,8 +58,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "setwinver", "setwinver.vcpr
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "qcnlive", "..\qcnlive\qcnwx.vcproj", "{3AD6C612-0036-4300-A532-8A76D1528876}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "qcnlive_nui", "..\qcnlive_nui\qcnlive_nui.2008.vcproj", "{D87858E8-0145-4B03-889A-3186371799DC}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -208,18 +206,6 @@ Global
 		{3AD6C612-0036-4300-A532-8A76D1528876}.Release|Win32.ActiveCfg = Release|Win32
 		{3AD6C612-0036-4300-A532-8A76D1528876}.Release|Win32.Build.0 = Release|Win32
 		{3AD6C612-0036-4300-A532-8A76D1528876}.Release|x64.ActiveCfg = Release|Win32
-		{D87858E8-0145-4B03-889A-3186371799DC}.Debug|Win32.ActiveCfg = Debug|Win32
-		{D87858E8-0145-4B03-889A-3186371799DC}.Debug|Win32.Build.0 = Debug|Win32
-		{D87858E8-0145-4B03-889A-3186371799DC}.Debug|x64.ActiveCfg = Debug|Win32
-		{D87858E8-0145-4B03-889A-3186371799DC}.LIB Debug|Win32.ActiveCfg = Debug|Win32
-		{D87858E8-0145-4B03-889A-3186371799DC}.LIB Debug|Win32.Build.0 = Debug|Win32
-		{D87858E8-0145-4B03-889A-3186371799DC}.LIB Debug|x64.ActiveCfg = Debug|Win32
-		{D87858E8-0145-4B03-889A-3186371799DC}.LIB Release|Win32.ActiveCfg = Release|Win32
-		{D87858E8-0145-4B03-889A-3186371799DC}.LIB Release|Win32.Build.0 = Release|Win32
-		{D87858E8-0145-4B03-889A-3186371799DC}.LIB Release|x64.ActiveCfg = Release|Win32
-		{D87858E8-0145-4B03-889A-3186371799DC}.Release|Win32.ActiveCfg = Release|Win32
-		{D87858E8-0145-4B03-889A-3186371799DC}.Release|Win32.Build.0 = Release|Win32
-		{D87858E8-0145-4B03-889A-3186371799DC}.Release|x64.ActiveCfg = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
