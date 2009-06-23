@@ -1,9 +1,9 @@
 BASEDIR = $(top_builddir)
 
 #if ($(IS_I386)
-#   BOINC_DIR = $(BASEDIR)/boinc/mac_build/build/`uname -p`_Deployment
+#   BOINC_DIR = $(BASEDIR)/../boinc/mac_build/build/`uname -p`_Deployment
 #else
-#   BOINC_DIR = $(BASEDIR)/boinc/mac_build/build/`uname -p`_Deployment
+#   BOINC_DIR = $(BASEDIR)/../boinc/mac_build/build/`uname -p`_Deployment
 #endif
 
 BOINC_BASEDIR = $(top_builddir)/../boinc

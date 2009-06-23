@@ -6,7 +6,7 @@ AUTOMAKE_OPTIONS = foreign
 ## make sure rebuilding uses the right aclocal-switches
 ACLOCAL_AMFLAGS = -I m4
 
-API_SUBDIRS = boinc/api boinc/lib boinc/zip
+API_SUBDIRS = ../boinc/api ../boinc/lib ../boinc/zip
 
 #if ENABLE_SERVER
 #   SERVER_SUBDIRS = db test py sched apps tools
