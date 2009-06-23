@@ -10,6 +10,9 @@
 
 #include "main.h"
 #include "csensor_mac_usb_generic.h"
+#ifndef _WIN32
+#include <fcntl.h>
+#endif
 
 CSensorMacUSBGeneric::CSensorMacUSBGeneric()
   : CSensor()

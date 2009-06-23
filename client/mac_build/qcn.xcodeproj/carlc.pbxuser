@@ -14,11 +14,95 @@
 			sepNavVisRange = "{0, 1192}";
 		};
 	};
+	E3583B230FF1901B00057DD2 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = E3D35C100FF1799600E64121 /* csensor_mac_usb_generic.cpp */;
+		name = "csensor_mac_usb_generic.cpp: 236";
+		rLen = 95;
+		rLoc = 8475;
+		rType = 0;
+		vrLen = 1548;
+		vrLoc = 7821;
+	};
+	E3583B250FF1901B00057DD2 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = E3D35C100FF1799600E64121 /* csensor_mac_usb_generic.cpp */;
+		name = "csensor_mac_usb_generic.cpp: 236";
+		rLen = 95;
+		rLoc = 8475;
+		rType = 0;
+		vrLen = 1548;
+		vrLoc = 7821;
+	};
+	E3583B3E0FF1917800057DD2 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		comments = "error: 'IOConnectCallStructMethod' was not declared in this scope";
+		fRef = E371C7F60E2AB5D0009B4DAA /* csensor_mac_laptop.cpp */;
+		rLen = 1;
+		rLoc = 128;
+		rType = 1;
+	};
+	E3583B420FF191D600057DD2 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		comments = "error: 'IOConnectMethodStructureIStructureO' was not declared in this scope";
+		fRef = E371C7F60E2AB5D0009B4DAA /* csensor_mac_laptop.cpp */;
+		rLen = 0;
+		rLoc = 221;
+		rType = 1;
+	};
+	E3583B450FF1921800057DD2 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = E3B747A60E8C6DFC00D401EB /* csensor_mac_laptop.h */;
+		name = "csensor_mac_laptop.h: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 751;
+		vrLoc = 0;
+	};
+	E3583B460FF1921800057DD2 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = E3B747A60E8C6DFC00D401EB /* csensor_mac_laptop.h */;
+		name = "csensor_mac_laptop.h: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 751;
+		vrLoc = 0;
+	};
+	E3583B4B0FF1921800057DD2 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = E371C7F60E2AB5D0009B4DAA /* csensor_mac_laptop.cpp */;
+		name = "csensor_mac_laptop.cpp: 129";
+		rLen = 36;
+		rLoc = 3879;
+		rType = 0;
+		vrLen = 1460;
+		vrLoc = 3293;
+	};
+	E3583B4C0FF1921800057DD2 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = E371C7F60E2AB5D0009B4DAA /* csensor_mac_laptop.cpp */;
+		name = "csensor_mac_laptop.cpp: 122";
+		rLen = 7;
+		rLoc = 3626;
+		rType = 0;
+		vrLen = 1768;
+		vrLoc = 2803;
+	};
+	E371C7F60E2AB5D0009B4DAA /* csensor_mac_laptop.cpp */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1252, 4760}}";
+			sepNavSelRange = "{9041, 26}";
+			sepNavVisRange = "{7963, 1501}";
+			sepNavWindowFrame = "{{226, 114}, {1164, 834}}";
+		};
+	};
 	E371C7F70E2AB5D0009B4DAA /* csensor_mac_usb_jw.cpp */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {923, 12404}}";
-			sepNavSelRange = "{7524, 88}";
-			sepNavVisRange = "{7192, 634}";
+			sepNavIntBoundsRect = "{{0, 0}, {1105, 13144}}";
+			sepNavSelRange = "{7524, 90}";
+			sepNavVisRange = "{6519, 1850}";
 			sepNavWindowFrame = "{{84, 126}, {1164, 834}}";
 		};
 	};
@@ -28,7 +112,8 @@
 		};
 	};
 	E3A499DD0D64E60400E51CDF /* Project object */ = {
-		activeBuildConfigurationName = Release;
+		activeArchitecturePreference = i386;
+		activeBuildConfigurationName = Debug;
 		activeExecutable = E3D35BB40FF1731200E64121 /* qcn */;
 		activeTarget = E3A499ED0D64E62A00E51CDF /* qcn */;
 		addToTargets = (
@@ -84,17 +169,23 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 267481874;
-			PBXWorkspaceStateSaveDate = 267481874;
+			PBXPerProjectTemplateStateSaveDate = 267488371;
+			PBXWorkspaceStateSaveDate = 267488371;
 		};
 		perUserProjectItems = {
+			E3583B230FF1901B00057DD2 /* PBXTextBookmark */ = E3583B230FF1901B00057DD2 /* PBXTextBookmark */;
+			E3583B250FF1901B00057DD2 /* PBXTextBookmark */ = E3583B250FF1901B00057DD2 /* PBXTextBookmark */;
+			E3583B3E0FF1917800057DD2 /* PBXTextBookmark */ = E3583B3E0FF1917800057DD2 /* PBXTextBookmark */;
+			E3583B420FF191D600057DD2 /* PBXTextBookmark */ = E3583B420FF191D600057DD2 /* PBXTextBookmark */;
+			E3583B450FF1921800057DD2 /* PBXTextBookmark */ = E3583B450FF1921800057DD2 /* PBXTextBookmark */;
+			E3583B460FF1921800057DD2 /* PBXTextBookmark */ = E3583B460FF1921800057DD2 /* PBXTextBookmark */;
+			E3583B4B0FF1921800057DD2 /* PBXTextBookmark */ = E3583B4B0FF1921800057DD2 /* PBXTextBookmark */;
+			E3583B4C0FF1921800057DD2 /* PBXTextBookmark */ = E3583B4C0FF1921800057DD2 /* PBXTextBookmark */;
 			E3D35C000FF1784900E64121 /* PBXTextBookmark */ = E3D35C000FF1784900E64121 /* PBXTextBookmark */;
 			E3D35C010FF1784900E64121 /* PBXTextBookmark */ = E3D35C010FF1784900E64121 /* PBXTextBookmark */;
 			E3D35C020FF1784900E64121 /* PBXTextBookmark */ = E3D35C020FF1784900E64121 /* PBXTextBookmark */;
 			E3D35C030FF1784900E64121 /* PBXTextBookmark */ = E3D35C030FF1784900E64121 /* PBXTextBookmark */;
 			E3D35C040FF1784900E64121 /* PBXTextBookmark */ = E3D35C040FF1784900E64121 /* PBXTextBookmark */;
-			E3D35C050FF1784900E64121 /* PBXTextBookmark */ = E3D35C050FF1784900E64121 /* PBXTextBookmark */;
-			E3D35C060FF1784900E64121 /* PBXTextBookmark */ = E3D35C060FF1784900E64121 /* PBXTextBookmark */;
 			E3D35C070FF1784900E64121 /* PBXTextBookmark */ = E3D35C070FF1784900E64121 /* PBXTextBookmark */;
 			E3D35C080FF1784900E64121 /* PBXTextBookmark */ = E3D35C080FF1784900E64121 /* PBXTextBookmark */;
 			E3D35C090FF1784900E64121 /* PBXTextBookmark */ = E3D35C090FF1784900E64121 /* PBXTextBookmark */;
@@ -103,16 +194,10 @@
 			E3D35C2D0FF17AE900E64121 /* PBXTextBookmark */ = E3D35C2D0FF17AE900E64121 /* PBXTextBookmark */;
 			E3D35C2E0FF17AE900E64121 /* PBXTextBookmark */ = E3D35C2E0FF17AE900E64121 /* PBXTextBookmark */;
 			E3D35C300FF17AE900E64121 /* PBXTextBookmark */ = E3D35C300FF17AE900E64121 /* PBXTextBookmark */;
-			E3D35C310FF17AE900E64121 /* PBXTextBookmark */ = E3D35C310FF17AE900E64121 /* PBXTextBookmark */;
 			E3D35C320FF17AE900E64121 /* PBXTextBookmark */ = E3D35C320FF17AE900E64121 /* PBXTextBookmark */;
-			E3D35C330FF17AE900E64121 /* PBXTextBookmark */ = E3D35C330FF17AE900E64121 /* PBXTextBookmark */;
 			E3D35C340FF17AE900E64121 /* PBXTextBookmark */ = E3D35C340FF17AE900E64121 /* PBXTextBookmark */;
-			E3D35C610FF17C6B00E64121 /* PBXTextBookmark */ = E3D35C610FF17C6B00E64121 /* PBXTextBookmark */;
 			E3D35C620FF17C7100E64121 /* PBXTextBookmark */ = E3D35C620FF17C7100E64121 /* PBXTextBookmark */;
-			E3D35C630FF17C7100E64121 /* PBXTextBookmark */ = E3D35C630FF17C7100E64121 /* PBXTextBookmark */;
 			E3D35C640FF17C7100E64121 /* PBXTextBookmark */ = E3D35C640FF17C7100E64121 /* PBXTextBookmark */;
-			E3D35C690FF17C9100E64121 /* PBXTextBookmark */ = E3D35C690FF17C9100E64121 /* PBXTextBookmark */;
-			E3D35C6A0FF17C9100E64121 /* PBXTextBookmark */ = E3D35C6A0FF17C9100E64121 /* PBXTextBookmark */;
 		};
 		sourceControlManager = E3D35BB80FF1732300E64121 /* Source Control */;
 		userBuildSettings = {
@@ -123,6 +208,14 @@
 		executables = (
 			E3D35BB40FF1731200E64121 /* qcn */,
 		);
+	};
+	E3B747A60E8C6DFC00D401EB /* csensor_mac_laptop.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {861, 994}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 751}";
+			sepNavWindowFrame = "{{38, 168}, {1164, 834}}";
+		};
 	};
 	E3C0E7A40D64E9BE0099B905 /* sac.cpp */ = {
 		uiCtxt = {
@@ -273,26 +366,6 @@
 		vrLen = 1626;
 		vrLoc = 0;
 	};
-	E3D35C050FF1784900E64121 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = E30AB1140EBB776D00DABFEF /* csensor_usb_motionnodeaccel.cpp */;
-		name = "csensor_usb_motionnodeaccel.cpp: 1";
-		rLen = 0;
-		rLoc = 0;
-		rType = 0;
-		vrLen = 1192;
-		vrLoc = 0;
-	};
-	E3D35C060FF1784900E64121 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = E3C0E7A40D64E9BE0099B905 /* sac.cpp */;
-		name = "sac.cpp: 1";
-		rLen = 0;
-		rLoc = 0;
-		rType = 0;
-		vrLen = 1626;
-		vrLoc = 0;
-	};
 	E3D35C070FF1784900E64121 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
 		fRef = E3C0E7AD0D64E9BE0099B905 /* qcn_util.cpp */;
@@ -325,9 +398,9 @@
 	};
 	E3D35C100FF1799600E64121 /* csensor_mac_usb_generic.cpp */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {918, 4520}}";
-			sepNavSelRange = "{8434, 95}";
-			sepNavVisRange = "{7785, 1307}";
+			sepNavIntBoundsRect = "{{0, 0}, {918, 4550}}";
+			sepNavSelRange = "{8475, 95}";
+			sepNavVisRange = "{7821, 1548}";
 			sepNavWindowFrame = "{{61, 147}, {1164, 834}}";
 		};
 	};
@@ -388,16 +461,6 @@
 		vrLen = 1587;
 		vrLoc = 4111;
 	};
-	E3D35C310FF17AE900E64121 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = E3C0E7A40D64E9BE0099B905 /* sac.cpp */;
-		name = "sac.cpp: 36";
-		rLen = 2;
-		rLoc = 1375;
-		rType = 0;
-		vrLen = 1561;
-		vrLoc = 0;
-	};
 	E3D35C320FF17AE900E64121 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
 		fRef = E3D35C100FF1799600E64121 /* csensor_mac_usb_generic.cpp */;
@@ -406,16 +469,6 @@
 		rLoc = 0;
 		rType = 0;
 		vrLen = 1112;
-		vrLoc = 0;
-	};
-	E3D35C330FF17AE900E64121 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = E30AB1140EBB776D00DABFEF /* csensor_usb_motionnodeaccel.cpp */;
-		name = "csensor_usb_motionnodeaccel.cpp: 1";
-		rLen = 0;
-		rLoc = 0;
-		rType = 0;
-		vrLen = 1192;
 		vrLoc = 0;
 	};
 	E3D35C340FF17AE900E64121 /* PBXTextBookmark */ = {
@@ -428,14 +481,6 @@
 		vrLen = 1303;
 		vrLoc = 0;
 	};
-	E3D35C610FF17C6B00E64121 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		comments = "error: 'open' was not declared in this scope";
-		fRef = E3D35C100FF1799600E64121 /* csensor_mac_usb_generic.cpp */;
-		rLen = 1;
-		rLoc = 232;
-		rType = 1;
-	};
 	E3D35C620FF17C7100E64121 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
 		fRef = E3D35C190FF17AB200E64121 /* qcn_shmem_usb.cpp */;
@@ -446,14 +491,6 @@
 		vrLen = 574;
 		vrLoc = 0;
 	};
-	E3D35C630FF17C7100E64121 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		comments = "error: 'O_RDONLY' was not declared in this scope";
-		fRef = E3D35C100FF1799600E64121 /* csensor_mac_usb_generic.cpp */;
-		rLen = 1;
-		rLoc = 232;
-		rType = 1;
-	};
 	E3D35C640FF17C7100E64121 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
 		fRef = E3D35C190FF17AB200E64121 /* qcn_shmem_usb.cpp */;
@@ -463,25 +500,5 @@
 		rType = 0;
 		vrLen = 574;
 		vrLoc = 0;
-	};
-	E3D35C690FF17C9100E64121 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = E3D35C100FF1799600E64121 /* csensor_mac_usb_generic.cpp */;
-		name = "csensor_mac_usb_generic.cpp: 233";
-		rLen = 95;
-		rLoc = 8434;
-		rType = 0;
-		vrLen = 1433;
-		vrLoc = 7785;
-	};
-	E3D35C6A0FF17C9100E64121 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = E3D35C100FF1799600E64121 /* csensor_mac_usb_generic.cpp */;
-		name = "csensor_mac_usb_generic.cpp: 233";
-		rLen = 95;
-		rLoc = 8434;
-		rType = 0;
-		vrLen = 1975;
-		vrLoc = 7374;
 	};
 }

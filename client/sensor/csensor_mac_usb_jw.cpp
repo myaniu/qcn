@@ -197,7 +197,7 @@ IOReturn CSensorMacUSBJW::ReadByteFromAddress (IOHIDDeviceInterface122** hidInte
 	ioReturnValue = (*hidInterface)->open(hidInterface, kIOHIDOptionsTypeNone);
         if (ioReturnValue != kIOReturnSuccess) {
                fprintf(stderr, "ReadByteFromAddress: couldn't open interface 0x%x - err 0x%x\n",
-                            (unsigned int) hidInterface, (unsigned int) ioReturnValue);
+                            (unsigned long) hidInterface, (unsigned long) ioReturnValue);
 		return ioReturnValue;
 	}
 	
@@ -310,7 +310,7 @@ bool CSensorMacUSBJW::ReadData(IOHIDDeviceInterface122** hidInterface, const UIn
    IOReturn ioReturnValue = ReadByteFromAddress(hidInterface, addr, cTemp);
    if (ioReturnValue != kIOReturnSuccess) {
        fprintf(stderr, "CSensorMacUSBJW::ReadData():: couldn't open interface 0x%x - ioRetVal=0x%x  (sys=0x%x subsys=0x%x code=0x%x) - proc %s\n", 
-         (unsigned int) hidInterface, (unsigned int) ioReturnValue, 
+         (unsigned long) hidInterface, (unsigned long) ioReturnValue, 
          err_get_system(ioReturnValue), err_get_sub(ioReturnValue), err_get_code(ioReturnValue),
          strCallProc ? strCallProc : "Unknown Proc");
        if (ioReturnValue == kIOReturnNotPrivileged) {
@@ -332,7 +332,7 @@ bool CSensorMacUSBJW::WriteData(IOHIDDeviceInterface122** hidInterface, const UI
 
     if (ioReturnValue != kIOReturnSuccess) {
 		fprintf(stderr, "CSensorMacUSBJW::WriteData():: couldn't open interface 0x%x - err 0x%x %s\n", 
-                    (unsigned int) hidInterface, (unsigned int) ioReturnValue, strCallProc ? strCallProc : "Unknown Proc");
+                    (unsigned long) hidInterface, (unsigned long) ioReturnValue, strCallProc ? strCallProc : "Unknown Proc");
                 (*hidInterface)->close(hidInterface);
 		return false;
     }
@@ -446,7 +446,7 @@ bool CSensorMacUSBJW::openDevHandle()
     if (result != kIOReturnSuccess) {
        m_bDevHandleOpen = false;
        fprintf(stderr, "CSensorMacUSBJW::openDevHandle: couldn't open interface 0x%x - err 0x%x\n",
-         (unsigned int) m_USBDevHandle[0], (unsigned int) result);
+         (unsigned long) m_USBDevHandle[0], (unsigned long) result);
        return false;
     }
     m_bDevHandleOpen = true; // open was successful, set to true
@@ -461,7 +461,7 @@ bool CSensorMacUSBJW::closeDevHandle()
     IOReturn result = (*m_USBDevHandle[0])->close(m_USBDevHandle[0]);
     if (result != kIOReturnSuccess) {
        fprintf(stderr, "CSensorMacUSBJW::closeDevHandle: couldn't close interface 0x%x - err 0x%x\n",
-         (unsigned int) m_USBDevHandle[0], (unsigned int) result);
+         (unsigned long) m_USBDevHandle[0], (unsigned long) result);
        return false;
     }
     return true;

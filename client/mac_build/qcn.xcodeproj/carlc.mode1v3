@@ -202,24 +202,24 @@
 			<key>Content</key>
 			<dict>
 				<key>PBXProjectModuleGUID</key>
-				<string>E3D35C660FF17C7100E64121</string>
+				<string>E3583B480FF1921800057DD2</string>
 				<key>PBXProjectModuleLabel</key>
-				<string>csensor_mac_usb_generic.cpp</string>
+				<string>csensor_mac_laptop.cpp</string>
 				<key>PBXSplitModuleInNavigatorKey</key>
 				<dict>
 					<key>Split0</key>
 					<dict>
 						<key>PBXProjectModuleGUID</key>
-						<string>E3D35C670FF17C7100E64121</string>
+						<string>E3583B490FF1921800057DD2</string>
 						<key>PBXProjectModuleLabel</key>
-						<string>csensor_mac_usb_generic.cpp</string>
+						<string>csensor_mac_laptop.cpp</string>
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>E3D35C6A0FF17C9100E64121</string>
+						<string>E3583B4C0FF1921800057DD2</string>
 						<key>history</key>
 						<array>
-							<string>E3D35C610FF17C6B00E64121</string>
+							<string>E3583B420FF191D600057DD2</string>
 						</array>
 					</dict>
 					<key>SplitCount</key>
@@ -235,7 +235,7 @@
 				<key>PBXModuleWindowStatusBarHidden2</key>
 				<false/>
 				<key>RubberWindowFrame</key>
-				<string>61 203 1164 778 0 0 1680 1028 </string>
+				<string>226 170 1164 778 0 0 1680 1028 </string>
 			</dict>
 		</dict>
 	</array>
@@ -311,6 +311,7 @@
 							<array>
 								<string>E3A499DB0D64E60400E51CDF</string>
 								<string>1C37FBAC04509CD000000102</string>
+								<string>E3583AF70FF18CEA00057DD2</string>
 								<string>1C37FABC05509CD000000102</string>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
@@ -356,7 +357,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>1CE0B20306471E060097A5F4</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>csensor_mac_usb_generic.cpp</string>
+								<string>csensor_mac_laptop.cpp</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -364,11 +365,11 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>1CE0B20406471E060097A5F4</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>csensor_mac_usb_generic.cpp</string>
+										<string>csensor_mac_laptop.cpp</string>
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>E3D35C690FF17C9100E64121</string>
+										<string>E3583B4B0FF1921800057DD2</string>
 										<key>history</key>
 										<array>
 											<string>E3D35C000FF1784900E64121</string>
@@ -379,23 +380,23 @@
 											<string>E3D35C2D0FF17AE900E64121</string>
 											<string>E3D35C2E0FF17AE900E64121</string>
 											<string>E3D35C620FF17C7100E64121</string>
-											<string>E3D35C630FF17C7100E64121</string>
+											<string>E3583B230FF1901B00057DD2</string>
+											<string>E3583B450FF1921800057DD2</string>
+											<string>E3583B3E0FF1917800057DD2</string>
 										</array>
 										<key>prevStack</key>
 										<array>
 											<string>E3D35C030FF1784900E64121</string>
 											<string>E3D35C040FF1784900E64121</string>
-											<string>E3D35C050FF1784900E64121</string>
-											<string>E3D35C060FF1784900E64121</string>
 											<string>E3D35C070FF1784900E64121</string>
 											<string>E3D35C080FF1784900E64121</string>
 											<string>E3D35C090FF1784900E64121</string>
 											<string>E3D35C300FF17AE900E64121</string>
-											<string>E3D35C310FF17AE900E64121</string>
 											<string>E3D35C320FF17AE900E64121</string>
-											<string>E3D35C330FF17AE900E64121</string>
 											<string>E3D35C340FF17AE900E64121</string>
 											<string>E3D35C640FF17C7100E64121</string>
+											<string>E3583B250FF1901B00057DD2</string>
+											<string>E3583B460FF1921800057DD2</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -453,9 +454,9 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>E3D35BBD0FF173EE00E64121</string>
+				<string>E3583AF90FF18CEA00057DD2</string>
 				<string>1CE0B1FE06471DED0097A5F4</string>
-				<string>E3D35BBE0FF173EE00E64121</string>
+				<string>E3583AFA0FF18CEA00057DD2</string>
 				<string>1CE0B20306471E060097A5F4</string>
 				<string>1CE0B20506471E060097A5F4</string>
 			</array>
@@ -591,8 +592,8 @@
 	<array>
 		<string>E3D35C240FF17ACF00E64121</string>
 		<string>/Users/carlc/projects/qcn/client/mac_build/qcn.xcodeproj</string>
+		<string>E3583B480FF1921800057DD2</string>
 		<string>E3D35BF80FF1781000E64121</string>
-		<string>E3D35C660FF17C7100E64121</string>
 	</array>
 	<key>WindowString</key>
 	<string>192 207 1278 821 0 0 1680 1028 </string>
@@ -616,21 +617,21 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>1CD0528F0623707200166675</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>csensor_mac_usb_generic.cpp</string>
+								<string>csensor_mac_laptop.cpp</string>
 								<key>StatusBarVisibility</key>
 								<true/>
 							</dict>
 							<key>GeometryConfiguration</key>
 							<dict>
 								<key>Frame</key>
-								<string>{{0, 0}, {984, 271}}</string>
+								<string>{{0, 0}, {1313, 478}}</string>
 								<key>RubberWindowFrame</key>
-								<string>554 395 984 553 0 0 1680 1028 </string>
+								<string>180 250 1313 760 0 0 1680 1028 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
 							<key>Proportion</key>
-							<string>271pt</string>
+							<string>478pt</string>
 						</dict>
 						<dict>
 							<key>BecomeActive</key>
@@ -649,9 +650,9 @@
 							<key>GeometryConfiguration</key>
 							<dict>
 								<key>Frame</key>
-								<string>{{0, 276}, {984, 236}}</string>
+								<string>{{0, 483}, {1313, 236}}</string>
 								<key>RubberWindowFrame</key>
-								<string>554 395 984 553 0 0 1680 1028 </string>
+								<string>180 250 1313 760 0 0 1680 1028 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXBuildResultsModule</string>
@@ -660,7 +661,7 @@
 						</dict>
 					</array>
 					<key>Proportion</key>
-					<string>512pt</string>
+					<string>719pt</string>
 				</dict>
 			</array>
 			<key>Name</key>
@@ -674,14 +675,14 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>E3D35BF80FF1781000E64121</string>
-				<string>E3D35BF90FF1781000E64121</string>
+				<string>E3583AFB0FF18CEA00057DD2</string>
 				<string>1CD0528F0623707200166675</string>
 				<string>XCMainBuildResultsModuleGUID</string>
 			</array>
 			<key>ToolbarConfiguration</key>
 			<string>xcode.toolbar.config.buildV3</string>
 			<key>WindowString</key>
-			<string>554 395 984 553 0 0 1680 1028 </string>
+			<string>180 250 1313 760 0 0 1680 1028 </string>
 			<key>WindowToolGUID</key>
 			<string>E3D35BF80FF1781000E64121</string>
 			<key>WindowToolIsVisible</key>
@@ -1321,7 +1322,7 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>E3D35C240FF17ACF00E64121</string>
-				<string>E3D35C250FF17ACF00E64121</string>
+				<string>E3583B380FF1910E00057DD2</string>
 				<string>E3D35C230FF17ACF00E64121</string>
 			</array>
 			<key>WindowContentMinSize</key>

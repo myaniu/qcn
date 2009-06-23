@@ -10,6 +10,8 @@
 
 #include "main.h"
 #include "csensor_mac_laptop.h"
+#include <AvailabilityMacros.h>
+#include <IOKit/IOKitLib.h>
 
 CSensorMacLaptop::CSensorMacLaptop()
   : CSensor()
@@ -75,8 +77,14 @@ void CSensorMacLaptop::init_intel(const int iType)
       setType(SENSOR_NOTFOUND);
       setSensorStr("SMCMotionSensor");
 
-      IOItemCount structureInputSize;          /* DATA STRUCTURE SIZE      */
-      IOByteCount structureOutputSize;
+	
+#if MAC_OS_X_VERSION_10_5
+	size_t structureInputSize;          /* DATA STRUCTURE SIZE      */
+	size_t structureOutputSize;
+#else
+	IOItemCount structureInputSize;          /* DATA STRUCTURE SIZE      */
+	IOByteCount structureOutputSize;
+#endif
 
       struct stDataMacIntel inputStructure;         /*  DATA STRUCTURE           */
       struct stDataMacIntel outputStructure;
@@ -110,15 +118,26 @@ void CSensorMacLaptop::init_intel(const int iType)
       memset(&inputStructure, m_iStruct, sizeof(inputStructure));
       memset(&outputStructure,      0x00, sizeof(outputStructure));
 
-      result = IOConnectMethodStructureIStructureO(
-               dataPort,
-               m_iKernel,			           /* index to kernel ,5,21,24*/
-               structureInputSize,
-               &structureOutputSize,
-               &inputStructure,
-               &outputStructure
-      );                                           /* get original position   */
+#ifdef __LP64__ // MAC_OS_X_VERSION_10_5
+// 'kern_return_t IOConnectCallStructMethod(mach_port_t, uint32_t, const void*, size_t, void*, size_t*)'
 
+    result = IOConnectCallStructMethod(dataPort, 
+									   m_iKernel,
+								    &inputStructure, 
+									   structureInputSize,
+								   &outputStructure, 
+									   &structureOutputSize );
+#else
+	result = IOConnectMethodStructureIStructureO(
+												 dataPort,
+												 m_iKernel,			           /* index to kernel ,5,21,24*/
+												 structureInputSize,
+												 &structureOutputSize,
+												&inputStructure,
+												 &outputStructure
+												 );                                           /* get original position   */
+#endif
+	
       if (result != KERN_SUCCESS) {                /* NO MASS POSITION SO RETURN*/
            setPort(-1);
            printf("no coords returned, error!\n");
@@ -200,15 +219,26 @@ void CSensorMacLaptop::init_ppc(const int iType)
       memset(&inputStructure,m_iStruct, sizeof(inputStructure));
       memset(&outputStructure,      0, sizeof(outputStructure));
 
-      result = IOConnectMethodStructureIStructureO(
-               dataPort,
-               m_iKernel,			           /* index to kernel ,5,21,24*/
-               structureInputSize,
-               &structureOutputSize,
-               &inputStructure,
-               &outputStructure
-      );                                           /* get original position   */
-      if (result != KERN_SUCCESS) {                /* NO MASS POSITION SO RETURN*/
+#ifdef __LP64__ // MAC_OS_X_VERSION_10_5
+	// 'kern_return_t IOConnectCallStructMethod(mach_port_t, uint32_t, const void*, size_t, void*, size_t*)'
+	
+    result = IOConnectCallStructMethod(dataPort, 
+									   m_iKernel,
+									   &inputStructure, 
+									   structureInputSize,
+									   &outputStructure, 
+									   &structureOutputSize );
+#else
+	result = IOConnectMethodStructureIStructureO(
+												 dataPort,
+												 m_iKernel,			           /* index to kernel ,5,21,24*/
+												 structureInputSize,
+												 &structureOutputSize,
+												 &inputStructure,
+												 &outputStructure
+												 );                                           /* get original position   */
+#endif
+	if (result != KERN_SUCCESS) {                /* NO MASS POSITION SO RETURN*/
            fprintf(stdout, "no coords\n");
            return;
       };  
@@ -230,15 +260,26 @@ inline bool CSensorMacLaptop::read_xyz(float& x1, float& y1, float& z1)
          memset(&inputStructureIntel,  0x00, sizeof(inputStructureIntel));  // this was set to 0x01 originally, why?
          memset(&outputStructureIntel, 0x00, sizeof(outputStructureIntel));
 
-         result = IOConnectMethodStructureIStructureO(
-               getPort(),
-               m_iKernel,		           /* index to kernel ,5,21,24*/
-               structureInputSize,
-               &structureOutputSize,
-               &inputStructureIntel,
-               &outputStructureIntel
-         );                                           /* get original position   */
-         x1 = outputStructureIntel.x;                     /* SIDE-TO-SIDE POSITION         */
+#ifdef __LP64__ // MAC_OS_X_VERSION_10_5
+		  // 'kern_return_t IOConnectCallStructMethod(mach_port_t, uint32_t, const void*, size_t, void*, size_t*)'
+		  
+		  result = IOConnectCallStructMethod(dataPort, 
+											 m_iKernel,
+											 &inputStructure, 
+											 structureInputSize,
+											 &outputStructure, 
+											 &structureOutputSize );
+#else
+		  result = IOConnectMethodStructureIStructureO(
+													   dataPort,
+													   m_iKernel,			           /* index to kernel ,5,21,24*/
+													   structureInputSize,
+													   &structureOutputSize,
+													   &inputStructure,
+													   &outputStructure
+													   );                                           /* get original position   */
+#endif
+		  x1 = outputStructureIntel.x;                     /* SIDE-TO-SIDE POSITION         */
          y1 = outputStructureIntel.y;                     /* FRONT-TO-BACK POSITION        */
          z1 = outputStructureIntel.z;                     /* VERTICAL POSITION  */
       }
@@ -250,15 +291,26 @@ inline bool CSensorMacLaptop::read_xyz(float& x1, float& y1, float& z1)
          memset(&inputStructurePPC,  0x00, sizeof(inputStructurePPC));
          memset(&outputStructurePPC, 0x00, sizeof(outputStructurePPC));
 
-         result = IOConnectMethodStructureIStructureO(
-               getPort(),
-               m_iKernel,		           /* index to kernel ,5,21,24*/
-               structureInputSize,
-               &structureOutputSize,
-               &inputStructurePPC,
-               &outputStructurePPC
-         );                                           /* get original position   */
-         x1 = outputStructurePPC.x;                     /* SIDE-TO-SIDE POSITION         */
+#ifdef __LP64__ // MAC_OS_X_VERSION_10_5
+		  // 'kern_return_t IOConnectCallStructMethod(mach_port_t, uint32_t, const void*, size_t, void*, size_t*)'
+		  
+		  result = IOConnectCallStructMethod(dataPort, 
+											 m_iKernel,
+											 &inputStructure, 
+											 structureInputSize,
+											 &outputStructure, 
+											 &structureOutputSize );
+#else
+		  result = IOConnectMethodStructureIStructureO(
+													   dataPort,
+													   m_iKernel,			           /* index to kernel ,5,21,24*/
+													   structureInputSize,
+													   &structureOutputSize,
+													   &inputStructure,
+													   &outputStructure
+													   );                                           /* get original position   */
+#endif
+		  x1 = outputStructurePPC.x;                     /* SIDE-TO-SIDE POSITION         */
          y1 = outputStructurePPC.y;                     /* FRONT-TO-BACK POSITION        */
          z1 = outputStructurePPC.z;                     /* VERTICAL POSITION  */
       } 

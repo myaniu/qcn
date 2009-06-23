@@ -50,6 +50,7 @@
 		E30AB1140EBB776D00DABFEF /* csensor_usb_motionnodeaccel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = csensor_usb_motionnodeaccel.cpp; path = ../sensor/csensor_usb_motionnodeaccel.cpp; sourceTree = SOURCE_ROOT; };
 		E30F9E9C0DEC6D4C0000FACE /* csensor.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = csensor.cpp; path = ../sensor/csensor.cpp; sourceTree = SOURCE_ROOT; };
 		E30F9E9E0DEC6D5F0000FACE /* csensor.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = csensor.h; path = ../sensor/csensor.h; sourceTree = SOURCE_ROOT; };
+		E3583B200FF18FF500057DD2 /* csensor_mac_usb_generic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = csensor_mac_usb_generic.h; path = ../sensor/csensor_mac_usb_generic.h; sourceTree = SOURCE_ROOT; };
 		E371C7F60E2AB5D0009B4DAA /* csensor_mac_laptop.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = csensor_mac_laptop.cpp; path = ../sensor/csensor_mac_laptop.cpp; sourceTree = SOURCE_ROOT; };
 		E371C7F70E2AB5D0009B4DAA /* csensor_mac_usb_jw.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = csensor_mac_usb_jw.cpp; path = ../sensor/csensor_mac_usb_jw.cpp; sourceTree = SOURCE_ROOT; };
 		E378CDB40D64E96C008A3885 /* qcn-Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.xml; path = "qcn-Info.plist"; sourceTree = "<group>"; };
@@ -142,6 +143,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E3583B1F0FF18FDC00057DD2 /* sensor */ = {
+			isa = PBXGroup;
+			children = (
+				E3583B200FF18FF500057DD2 /* csensor_mac_usb_generic.h */,
+				E3B747A60E8C6DFC00D401EB /* csensor_mac_laptop.h */,
+				E3B747A80E8C6DFC00D401EB /* csensor_mac_usb_jw.h */,
+				E30F9E9E0DEC6D5F0000FACE /* csensor.h */,
+			);
+			name = sensor;
+			sourceTree = "<group>";
+		};
 		E3A499DB0D64E60400E51CDF = {
 			isa = PBXGroup;
 			children = (
@@ -250,6 +262,7 @@
 		E3C0E7DA0D64E9E00099B905 /* .. */ = {
 			isa = PBXGroup;
 			children = (
+				E3583B1F0FF18FDC00057DD2 /* sensor */,
 				E3C0E7F40D64E9E00099B905 /* .. */,
 				E3C0E7EF0D64E9E00099B905 /* graphics */,
 				E3C0E7DB0D64E9E00099B905 /* main */,
@@ -262,9 +275,6 @@
 		E3C0E7DB0D64E9E00099B905 /* main */ = {
 			isa = PBXGroup;
 			children = (
-				E3B747A60E8C6DFC00D401EB /* csensor_mac_laptop.h */,
-				E3B747A80E8C6DFC00D401EB /* csensor_mac_usb_jw.h */,
-				E30F9E9E0DEC6D5F0000FACE /* csensor.h */,
 				E3C0E7DC0D64E9E00099B905 /* define.h */,
 				E3C0E7DD0D64E9E00099B905 /* cserialize.h */,
 				E3C0E7DE0D64E9E00099B905 /* main.h */,
@@ -501,8 +511,12 @@
 		E3A499F30D64E62A00E51CDF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(NATIVE_ARCH)";
-				CONFIGURATION_BUILD_DIR = build/Debug;
+				ARCHS = (
+					i386,
+					ppc,
+					x86_64,
+				);
+				CONFIGURATION_BUILD_DIR = ../bin/;
 				COPY_PHASE_STRIP = NO;
 				GCC_DEBUGGING_SYMBOLS = full;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -536,7 +550,7 @@
 					"\"$(SRCROOT)/../../../boinc/mac_build/build/Deployment\"",
 					"\"$(SRCROOT)/../../../boinc/zip/build/Release\"",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				MACOSX_DEPLOYMENT_TARGET = 10.3;
 				OBJROOT = build;
 				OTHER_CFLAGS = (
 					"-Wall",
@@ -574,6 +588,8 @@
 				PREBINDING = NO;
 				PRODUCT_NAME = qcn;
 				SDKROOT = macosx10.4;
+				"SDKROOT[arch=ppc]" = macosx10.3.9;
+				"SDKROOT[arch=x86_64]" = macosx10.5;
 				SYMROOT = ../bin/;
 				WRAPPER_EXTENSION = app;
 				ZERO_LINK = NO;
@@ -584,8 +600,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ADDITIONAL_SDKS = "";
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CONFIGURATION_BUILD_DIR = "build/$(CONFIGURATION)";
+				ARCHS = (
+					i386,
+					ppc,
+					x86_64,
+				);
+				CONFIGURATION_BUILD_DIR = ../bin/;
 				COPY_PHASE_STRIP = YES;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
@@ -617,7 +637,7 @@
 					"\"$(SRCROOT)/../../../boinc/mac_build/build/Deployment\"",
 					"\"$(SRCROOT)/../../../boinc/zip/build/Release\"",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				MACOSX_DEPLOYMENT_TARGET = 10.3;
 				OBJROOT = build;
 				OTHER_CFLAGS = (
 					"-Wall",
@@ -656,7 +676,7 @@
 				PRODUCT_NAME = qcn;
 				SDKROOT = macosx10.4;
 				"SDKROOT[arch=ppc]" = macosx10.3.9;
-				"SDKROOT[arch=x86_64]" = macosx10.4;
+				"SDKROOT[arch=x86_64]" = macosx10.5;
 				SYMROOT = ../bin/;
 				WRAPPER_EXTENSION = app;
 				ZERO_LINK = NO;
