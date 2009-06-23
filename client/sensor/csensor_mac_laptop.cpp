@@ -78,7 +78,7 @@ void CSensorMacLaptop::init_intel(const int iType)
       setSensorStr("SMCMotionSensor");
 
 	
-#if MAC_OS_X_VERSION_10_5
+#ifdef __LP64__ // MAC_OS_X_VERSION_10_5
 	size_t structureInputSize;          /* DATA STRUCTURE SIZE      */
 	size_t structureOutputSize;
 #else
@@ -183,9 +183,14 @@ void CSensorMacLaptop::init_ppc(const int iType)
 	  setSensorStr();
       }
 
-      IOItemCount structureInputSize;          /*  */
-      IOByteCount structureOutputSize;
-
+#ifdef __LP64__ // MAC_OS_X_VERSION_10_5
+	size_t structureInputSize;          /* DATA STRUCTURE SIZE      */
+	size_t structureOutputSize;
+#else
+	IOItemCount structureInputSize;          /* DATA STRUCTURE SIZE      */
+	IOByteCount structureOutputSize;
+#endif
+	
       struct stDataMacPPC inputStructure;              /*  */
       struct stDataMacPPC outputStructure;
 
@@ -249,9 +254,14 @@ void CSensorMacLaptop::init_ppc(const int iType)
 inline bool CSensorMacLaptop::read_xyz(float& x1, float& y1, float& z1)
 {
       kern_return_t result;                    /* time variables            */
-      IOItemCount structureInputSize;          /*  */
-      IOByteCount structureOutputSize;
-
+#ifdef __LP64__ // MAC_OS_X_VERSION_10_5
+	size_t structureInputSize;          /* DATA STRUCTURE SIZE      */
+	size_t structureOutputSize;
+#else
+	IOItemCount structureInputSize;          /* DATA STRUCTURE SIZE      */
+	IOByteCount structureOutputSize;
+#endif
+	
       if (getTypeEnum() == SENSOR_MAC_INTEL)  {
          struct stDataMacIntel inputStructureIntel;              /*  */
          struct stDataMacIntel outputStructureIntel;
@@ -263,23 +273,23 @@ inline bool CSensorMacLaptop::read_xyz(float& x1, float& y1, float& z1)
 #ifdef __LP64__ // MAC_OS_X_VERSION_10_5
 		  // 'kern_return_t IOConnectCallStructMethod(mach_port_t, uint32_t, const void*, size_t, void*, size_t*)'
 		  
-		  result = IOConnectCallStructMethod(dataPort, 
+		  result = IOConnectCallStructMethod(getPort(), 
 											 m_iKernel,
-											 &inputStructure, 
+											 &inputStructureIntel, 
 											 structureInputSize,
-											 &outputStructure, 
+											 &outputStructureIntel, 
 											 &structureOutputSize );
 #else
 		  result = IOConnectMethodStructureIStructureO(
-													   dataPort,
+													   getPort(),
 													   m_iKernel,			           /* index to kernel ,5,21,24*/
 													   structureInputSize,
 													   &structureOutputSize,
-													   &inputStructure,
-													   &outputStructure
+													   &inputStructureIntel,
+													   &outputStructureIntel
 													   );                                           /* get original position   */
 #endif
-		  x1 = outputStructureIntel.x;                     /* SIDE-TO-SIDE POSITION         */
+		 x1 = outputStructureIntel.x;                     /* SIDE-TO-SIDE POSITION         */
          y1 = outputStructureIntel.y;                     /* FRONT-TO-BACK POSITION        */
          z1 = outputStructureIntel.z;                     /* VERTICAL POSITION  */
       }
@@ -294,20 +304,20 @@ inline bool CSensorMacLaptop::read_xyz(float& x1, float& y1, float& z1)
 #ifdef __LP64__ // MAC_OS_X_VERSION_10_5
 		  // 'kern_return_t IOConnectCallStructMethod(mach_port_t, uint32_t, const void*, size_t, void*, size_t*)'
 		  
-		  result = IOConnectCallStructMethod(dataPort, 
+		  result = IOConnectCallStructMethod(getPort(), 
 											 m_iKernel,
-											 &inputStructure, 
+											 &inputStructurePPC, 
 											 structureInputSize,
-											 &outputStructure, 
+											 &outputStructurePPC, 
 											 &structureOutputSize );
 #else
 		  result = IOConnectMethodStructureIStructureO(
-													   dataPort,
+													   getPort(),
 													   m_iKernel,			           /* index to kernel ,5,21,24*/
 													   structureInputSize,
 													   &structureOutputSize,
-													   &inputStructure,
-													   &outputStructure
+													   &inputStructurePPC,
+													   &outputStructurePPC
 													   );                                           /* get original position   */
 #endif
 		  x1 = outputStructurePPC.x;                     /* SIDE-TO-SIDE POSITION         */

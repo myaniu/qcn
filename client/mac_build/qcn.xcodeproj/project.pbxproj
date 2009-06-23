@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E3C9663F0FF19BE300F20324 /* csensor_usb_motionnodeaccel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E30AB1140EBB776D00DABFEF /* csensor_usb_motionnodeaccel.cpp */; };
+		E3C966680FF19F2C00F20324 /* qcn_util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C0E7AD0D64E9BE0099B905 /* qcn_util.cpp */; };
+		E3C9666B0FF19F3E00F20324 /* qcn_shmem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C0E7AF0D64E9BE0099B905 /* qcn_shmem.cpp */; };
+		E3C9666E0FF19F5400F20324 /* cserialize.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C0E7B40D64E9BE0099B905 /* cserialize.cpp */; };
+		E3C966710FF19F6700F20324 /* gzstream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C0E7A50D64E9BE0099B905 /* gzstream.cpp */; };
+		E3C966740FF19F8400F20324 /* qcn_gzip.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C0E7A60D64E9BE0099B905 /* qcn_gzip.cpp */; };
 		E3D35BD20FF1773A00E64121 /* libjpeg-universal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E3D35BD00FF1773A00E64121 /* libjpeg-universal.a */; };
 		E3D35BD60FF1775500E64121 /* libboinc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E3D35BD30FF1775500E64121 /* libboinc.a */; };
 		E3D35BD70FF1775500E64121 /* libboinc_api.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E3D35BD40FF1775500E64121 /* libboinc_api.a */; };
@@ -15,7 +21,6 @@
 		E3D35BDB0FF1775600E64121 /* libboinc_graphics2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E3D35BD50FF1775500E64121 /* libboinc_graphics2.a */; };
 		E3D35BDD0FF1776C00E64121 /* libboinc_zip.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E3D35BDC0FF1776C00E64121 /* libboinc_zip.a */; };
 		E3D35BDE0FF1776C00E64121 /* libboinc_zip.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E3D35BDC0FF1776C00E64121 /* libboinc_zip.a */; };
-		E3D35BDF0FF177A100E64121 /* csensor_usb_motionnodeaccel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E30AB1140EBB776D00DABFEF /* csensor_usb_motionnodeaccel.cpp */; };
 		E3D35BE00FF177A100E64121 /* csensor_mac_laptop.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E371C7F60E2AB5D0009B4DAA /* csensor_mac_laptop.cpp */; };
 		E3D35BE10FF177A100E64121 /* csensor_mac_usb_jw.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E371C7F70E2AB5D0009B4DAA /* csensor_mac_usb_jw.cpp */; };
 		E3D35BE20FF177A100E64121 /* csensor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E30F9E9C0DEC6D4C0000FACE /* csensor.cpp */; };
@@ -402,7 +407,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E3D35BCB0FF175D600E64121 /* Build configuration list for PBXNativeTarget "qcn_graphics" */;
 			buildPhases = (
-				E3D35BC20FF175D500E64121 /* Resources */,
 				E3D35BC30FF175D500E64121 /* Sources */,
 				E3D35BC40FF175D500E64121 /* Frameworks */,
 			);
@@ -434,21 +438,12 @@
 		};
 /* End PBXProject section */
 
-/* Begin PBXResourcesBuildPhase section */
-		E3D35BC20FF175D500E64121 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXResourcesBuildPhase section */
-
 /* Begin PBXSourcesBuildPhase section */
 		E3A499EB0D64E62A00E51CDF /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E3C9663F0FF19BE300F20324 /* csensor_usb_motionnodeaccel.cpp in Sources */,
 				E3D35C1A0FF17AB200E64121 /* qcn_shmem_usb.cpp in Sources */,
 				E3D35C140FF179E900E64121 /* qcn_signal.cpp in Sources */,
 				E3D35C110FF1799600E64121 /* csensor_mac_usb_generic.cpp in Sources */,
@@ -460,7 +455,6 @@
 				E3D35BED0FF177BD00E64121 /* trickleup.cpp in Sources */,
 				E3D35BEE0FF177BD00E64121 /* trickledown.cpp in Sources */,
 				E3D35BEF0FF177BD00E64121 /* execproc.cpp in Sources */,
-				E3D35BDF0FF177A100E64121 /* csensor_usb_motionnodeaccel.cpp in Sources */,
 				E3D35BE00FF177A100E64121 /* csensor_mac_laptop.cpp in Sources */,
 				E3D35BE10FF177A100E64121 /* csensor_mac_usb_jw.cpp in Sources */,
 				E3D35BE20FF177A100E64121 /* csensor.cpp in Sources */,
@@ -476,6 +470,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E3C966740FF19F8400F20324 /* qcn_gzip.cpp in Sources */,
+				E3C966710FF19F6700F20324 /* gzstream.cpp in Sources */,
+				E3C9666E0FF19F5400F20324 /* cserialize.cpp in Sources */,
+				E3C9666B0FF19F3E00F20324 /* qcn_shmem.cpp in Sources */,
+				E3C966680FF19F2C00F20324 /* qcn_util.cpp in Sources */,
 				E3D35BF00FF177FD00E64121 /* qcn_2dplot.cpp in Sources */,
 				E3D35BF10FF177FD00E64121 /* qcn_graphics.cpp in Sources */,
 				E3D35BF20FF177FD00E64121 /* qcn_earth.cpp in Sources */,
@@ -522,7 +521,7 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_MODEL_TUNING = G5;
+				GCC_MODEL_TUNING = G4;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
@@ -550,7 +549,9 @@
 					"\"$(SRCROOT)/../../../boinc/mac_build/build/Deployment\"",
 					"\"$(SRCROOT)/../../../boinc/zip/build/Release\"",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.3;
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				"MACOSX_DEPLOYMENT_TARGET[arch=ppc]" = 10.3;
+				"MACOSX_DEPLOYMENT_TARGET[arch=x86_64]" = 10.5;
 				OBJROOT = build;
 				OTHER_CFLAGS = (
 					"-Wall",
@@ -559,6 +560,8 @@
 					"-DHAVE_CONFIG_H",
 					"-D_THREAD_SAFE",
 					"-I../qcnusb",
+					"-DQCN",
+					"-D_ZLIB",
 					"-D_DEBUG",
 				);
 				OTHER_LDFLAGS = (
@@ -592,7 +595,6 @@
 				"SDKROOT[arch=x86_64]" = macosx10.5;
 				SYMROOT = ../bin/;
 				WRAPPER_EXTENSION = app;
-				ZERO_LINK = NO;
 			};
 			name = Debug;
 		};
@@ -610,7 +612,7 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				GCC_MODEL_TUNING = G5;
+				GCC_MODEL_TUNING = G4;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
 				HEADER_SEARCH_PATHS = (
@@ -637,7 +639,9 @@
 					"\"$(SRCROOT)/../../../boinc/mac_build/build/Deployment\"",
 					"\"$(SRCROOT)/../../../boinc/zip/build/Release\"",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.3;
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				"MACOSX_DEPLOYMENT_TARGET[arch=ppc]" = 10.3;
+				"MACOSX_DEPLOYMENT_TARGET[arch=x86_64]" = 10.5;
 				OBJROOT = build;
 				OTHER_CFLAGS = (
 					"-Wall",
@@ -646,6 +650,8 @@
 					"-DHAVE_CONFIG_H",
 					"-D_THREAD_SAFE",
 					"-I../qcnusb",
+					"-DQCN",
+					"-D_ZLIB",
 					"-DNDEBUG",
 				);
 				OTHER_LDFLAGS = (
@@ -679,7 +685,6 @@
 				"SDKROOT[arch=x86_64]" = macosx10.5;
 				SYMROOT = ../bin/;
 				WRAPPER_EXTENSION = app;
-				ZERO_LINK = NO;
 			};
 			name = Release;
 		};
@@ -697,7 +702,6 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/UIKit.framework/Headers/UIKit.h";
 				INFOPLIST_FILE = "qcn_graphics-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = (
@@ -706,15 +710,35 @@
 					"\"$(SRCROOT)/../../../boinc/mac_build/build/Deployment\"",
 					"\"$(SRCROOT)/../../../boinc/zip/build/Release\"",
 				);
+				"MACOSX_DEPLOYMENT_TARGET[arch=ppc]" = 10.3;
+				"MACOSX_DEPLOYMENT_TARGET[arch=x86_64]" = 10.5;
+				OTHER_CFLAGS = (
+					"-Wall",
+					"-DQCN",
+					"-D_THREAD_SAFE",
+					"-D_ZLIB",
+					"-DQCNGRAPHICS",
+					"-DGRAPHICS_PROGRAM",
+					"-I../../../boinc/api",
+					"-I../../../boinc/lib",
+					"-I../../jpeg-6b",
+					"-I../util",
+					"-I../sensor",
+					"-D_DEBUG",
+				);
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
 					"-framework",
-					UIKit,
+					OpenGL,
+					"-framework",
+					GLUT,
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = qcn_graphics;
 				SDKROOT = macosx10.4;
+				"SDKROOT[arch=ppc]" = macosx10.3.9;
+				"SDKROOT[arch=x86_64]" = macosx10.5;
 			};
 			name = Debug;
 		};
@@ -732,7 +756,6 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/UIKit.framework/Headers/UIKit.h";
 				INFOPLIST_FILE = "qcn_graphics-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = (
@@ -741,15 +764,35 @@
 					"\"$(SRCROOT)/../../../boinc/mac_build/build/Deployment\"",
 					"\"$(SRCROOT)/../../../boinc/zip/build/Release\"",
 				);
+				"MACOSX_DEPLOYMENT_TARGET[arch=ppc]" = 10.3;
+				"MACOSX_DEPLOYMENT_TARGET[arch=x86_64]" = 10.5;
+				OTHER_CFLAGS = (
+					"-Wall",
+					"-DQCN",
+					"-D_THREAD_SAFE",
+					"-D_ZLIB",
+					"-DQCNGRAPHICS",
+					"-DGRAPHICS_PROGRAM",
+					"-I../../../boinc/api",
+					"-I../../../boinc/lib",
+					"-I../../jpeg-6b",
+					"-I../util",
+					"-I../sensor",
+					"-DNDEBUG",
+				);
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
 					"-framework",
-					UIKit,
+					OpenGL,
+					"-framework",
+					GLUT,
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = qcn_graphics;
 				SDKROOT = macosx10.4;
+				"SDKROOT[arch=ppc]" = macosx10.3.9;
+				"SDKROOT[arch=x86_64]" = macosx10.5;
 				ZERO_LINK = NO;
 			};
 			name = Release;

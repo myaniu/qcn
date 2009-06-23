@@ -2,6 +2,9 @@
 cd jpeg-6b
 chmod uog+rx build.mac
 ./build.mac
+cd ../zlib
+chmod uog+rx build.mac
+./build.mac
 cd ../../boinc/mac_build
 xcodebuild -project boinc.xcodeproj -configuration Deployment -target libboinc clean build
 xcodebuild USER_HEADER_SEARCH_PATHS='../lib ../../qcn/jpeg-6b' -project boinc.xcodeproj -configuration Deployment -target api_libboinc clean build
