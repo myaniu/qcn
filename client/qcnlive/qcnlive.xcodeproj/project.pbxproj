@@ -410,7 +410,7 @@
 /* Begin PBXProject section */
 		E3A499DD0D64E60400E51CDF /* Project object */ = {
 			isa = PBXProject;
-			buildConfigurationList = E3A499DE0D64E60400E51CDF /* Build configuration list for PBXProject "qcn" */;
+			buildConfigurationList = E3A499DE0D64E60400E51CDF /* Build configuration list for PBXProject "qcnlive" */;
 			compatibilityVersion = "Xcode 3.0";
 			hasScannedForEncodings = 0;
 			mainGroup = E3A499DB0D64E60400E51CDF;
@@ -737,7 +737,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		E3A499DE0D64E60400E51CDF /* Build configuration list for PBXProject "qcn" */ = {
+		E3A499DE0D64E60400E51CDF /* Build configuration list for PBXProject "qcnlive" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E3A499DF0D64E60400E51CDF /* Debug */,

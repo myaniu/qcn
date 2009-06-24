@@ -29,6 +29,7 @@
 */
 
 #include "qcnusb.h"
+#include <fcntl.h>
 
 // note this is a different shared memory segment, it's a chopped down version that will just report the latest x/y/z readings etc
 CQCNUSBState*  volatile smState = NULL;

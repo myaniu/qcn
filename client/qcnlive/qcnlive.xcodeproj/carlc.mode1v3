@@ -197,48 +197,7 @@
 	<key>Notifications</key>
 	<array/>
 	<key>OpenEditors</key>
-	<array>
-		<dict>
-			<key>Content</key>
-			<dict>
-				<key>PBXProjectModuleGUID</key>
-				<string>E3D35C660FF17C7100E64121</string>
-				<key>PBXProjectModuleLabel</key>
-				<string>csensor_mac_usb_generic.cpp</string>
-				<key>PBXSplitModuleInNavigatorKey</key>
-				<dict>
-					<key>Split0</key>
-					<dict>
-						<key>PBXProjectModuleGUID</key>
-						<string>E3D35C670FF17C7100E64121</string>
-						<key>PBXProjectModuleLabel</key>
-						<string>csensor_mac_usb_generic.cpp</string>
-						<key>_historyCapacity</key>
-						<integer>0</integer>
-						<key>bookmark</key>
-						<string>E3D35C6A0FF17C9100E64121</string>
-						<key>history</key>
-						<array>
-							<string>E3D35C610FF17C6B00E64121</string>
-						</array>
-					</dict>
-					<key>SplitCount</key>
-					<string>1</string>
-				</dict>
-				<key>StatusBarVisibility</key>
-				<true/>
-			</dict>
-			<key>Geometry</key>
-			<dict>
-				<key>Frame</key>
-				<string>{{0, 20}, {1164, 737}}</string>
-				<key>PBXModuleWindowStatusBarHidden2</key>
-				<false/>
-				<key>RubberWindowFrame</key>
-				<string>61 203 1164 778 0 0 1680 1028 </string>
-			</dict>
-		</dict>
-	</array>
+	<array/>
 	<key>PerspectiveWidths</key>
 	<array>
 		<integer>-1</integer>
@@ -340,7 +299,7 @@
 							<real>334</real>
 						</array>
 						<key>RubberWindowFrame</key>
-						<string>192 207 1278 821 0 0 1680 1028 </string>
+						<string>803 184 1278 821 0 0 1680 1028 </string>
 					</dict>
 					<key>Module</key>
 					<string>PBXSmartGroupTreeModule</string>
@@ -368,7 +327,7 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>E3D35C690FF17C9100E64121</string>
+										<string>E388F92D0FF1BEBB00D948DE</string>
 										<key>history</key>
 										<array>
 											<string>E3D35C000FF1784900E64121</string>
@@ -379,21 +338,17 @@
 											<string>E3D35C2D0FF17AE900E64121</string>
 											<string>E3D35C2E0FF17AE900E64121</string>
 											<string>E3D35C620FF17C7100E64121</string>
-											<string>E3D35C630FF17C7100E64121</string>
+											<string>E388F91A0FF1BE9A00D948DE</string>
 										</array>
 										<key>prevStack</key>
 										<array>
 											<string>E3D35C030FF1784900E64121</string>
 											<string>E3D35C040FF1784900E64121</string>
-											<string>E3D35C050FF1784900E64121</string>
-											<string>E3D35C060FF1784900E64121</string>
 											<string>E3D35C070FF1784900E64121</string>
 											<string>E3D35C080FF1784900E64121</string>
 											<string>E3D35C090FF1784900E64121</string>
 											<string>E3D35C300FF17AE900E64121</string>
-											<string>E3D35C310FF17AE900E64121</string>
 											<string>E3D35C320FF17AE900E64121</string>
-											<string>E3D35C330FF17AE900E64121</string>
 											<string>E3D35C340FF17AE900E64121</string>
 											<string>E3D35C640FF17C7100E64121</string>
 										</array>
@@ -409,7 +364,7 @@
 								<key>Frame</key>
 								<string>{{0, 0}, {922, 602}}</string>
 								<key>RubberWindowFrame</key>
-								<string>192 207 1278 821 0 0 1680 1028 </string>
+								<string>803 184 1278 821 0 0 1680 1028 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
@@ -429,7 +384,7 @@
 								<key>Frame</key>
 								<string>{{0, 607}, {922, 173}}</string>
 								<key>RubberWindowFrame</key>
-								<string>192 207 1278 821 0 0 1680 1028 </string>
+								<string>803 184 1278 821 0 0 1680 1028 </string>
 							</dict>
 							<key>Module</key>
 							<string>XCDetailModule</string>
@@ -453,9 +408,9 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>E3D35BBD0FF173EE00E64121</string>
+				<string>E388F92E0FF1BEBB00D948DE</string>
 				<string>1CE0B1FE06471DED0097A5F4</string>
-				<string>E3D35BBE0FF173EE00E64121</string>
+				<string>E388F92F0FF1BEBB00D948DE</string>
 				<string>1CE0B20306471E060097A5F4</string>
 				<string>1CE0B20506471E060097A5F4</string>
 			</array>
@@ -589,13 +544,10 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>E3D35C240FF17ACF00E64121</string>
-		<string>/Users/carlc/projects/qcn/client/mac_build/qcn.xcodeproj</string>
-		<string>E3D35BF80FF1781000E64121</string>
-		<string>E3D35C660FF17C7100E64121</string>
+		<string>/Users/carlc/projects/qcn/client/qcnlive/qcnlive.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
-	<string>192 207 1278 821 0 0 1680 1028 </string>
+	<string>803 184 1278 821 0 0 1680 1028 </string>
 	<key>WindowToolsV3</key>
 	<array>
 		<dict>
