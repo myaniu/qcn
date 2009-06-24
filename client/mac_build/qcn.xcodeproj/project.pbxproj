@@ -11,14 +11,14 @@
 		E33EF7C10FF1DF7400CD5708 /* libjpeg-universal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E33EF7BE0FF1DF7400CD5708 /* libjpeg-universal.a */; };
 		E33EF7C20FF1DF7400CD5708 /* libz-universal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E33EF7BF0FF1DF7400CD5708 /* libz-universal.a */; };
 		E33EF7C30FF1DF7400CD5708 /* libboinc_zip.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E33EF7BD0FF1DF7400CD5708 /* libboinc_zip.a */; };
-		E33EF7C40FF1DF7500CD5708 /* libjpeg-universal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E33EF7BE0FF1DF7400CD5708 /* libjpeg-universal.a */; };
-		E33EF7C50FF1DF7500CD5708 /* libz-universal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E33EF7BF0FF1DF7400CD5708 /* libz-universal.a */; };
 		E33EF7C60FF1DF7500CD5708 /* libboinc_zip.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E33EF7BD0FF1DF7400CD5708 /* libboinc_zip.a */; };
 		E33EF7C70FF1DF7500CD5708 /* libjpeg-universal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E33EF7BE0FF1DF7400CD5708 /* libjpeg-universal.a */; };
 		E33EF7C80FF1DF7500CD5708 /* libz-universal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E33EF7BF0FF1DF7400CD5708 /* libz-universal.a */; };
 		E33EF7C90FF1DF7500CD5708 /* libboinc_zip.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E33EF7BD0FF1DF7400CD5708 /* libboinc_zip.a */; };
 		E33EF7CA0FF1DF7500CD5708 /* libjpeg-universal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E33EF7BE0FF1DF7400CD5708 /* libjpeg-universal.a */; };
 		E33EF7CB0FF1DF7500CD5708 /* libz-universal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E33EF7BF0FF1DF7400CD5708 /* libz-universal.a */; };
+		E34E9CA00FF2BDCE004998DB /* graphics2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C967180FF1A1DD00F20324 /* graphics2.cpp */; };
+		E34E9CA40FF2BE29004998DB /* texture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C967270FF1A1DD00F20324 /* texture.cpp */; };
 		E388F83D0FF1B85E00D948DE /* graphics2_util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C9671B0FF1A1DD00F20324 /* graphics2_util.cpp */; };
 		E388F84E0FF1B9A900D948DE /* graphics2_util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C9671B0FF1A1DD00F20324 /* graphics2_util.cpp */; };
 		E388F8500FF1B9A900D948DE /* qcn_shmem_usb.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3D35C190FF17AB200E64121 /* qcn_shmem_usb.cpp */; };
@@ -61,7 +61,6 @@
 		E3C967460FF1A1DD00F20324 /* gutil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C967230FF1A1DD00F20324 /* gutil.cpp */; };
 		E3C967470FF1A1DD00F20324 /* gutil_text.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C967240FF1A1DD00F20324 /* gutil_text.cpp */; };
 		E3C967480FF1A1DD00F20324 /* texfont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C967250FF1A1DD00F20324 /* texfont.cpp */; };
-		E3C967490FF1A1DD00F20324 /* texture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C967270FF1A1DD00F20324 /* texture.cpp */; };
 		E3C9674B0FF1A1DD00F20324 /* txf_util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C9672A0FF1A1DD00F20324 /* txf_util.cpp */; };
 		E3C967540FF1A22200F20324 /* parse.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C9674C0FF1A22200F20324 /* parse.cpp */; };
 		E3C967550FF1A22200F20324 /* shmem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C9674D0FF1A22200F20324 /* shmem.cpp */; };
@@ -349,8 +348,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				E33EF7C30FF1DF7400CD5708 /* libboinc_zip.a in Frameworks */,
-				E33EF7C40FF1DF7500CD5708 /* libjpeg-universal.a in Frameworks */,
-				E33EF7C50FF1DF7500CD5708 /* libz-universal.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -857,6 +854,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E34E9CA40FF2BE29004998DB /* texture.cpp in Sources */,
+				E3CD09D30FF2AD370043EE7E /* qcnwx.cpp in Sources */,
+				E3CD099C0FF2ACE20043EE7E /* graphics2_util.cpp in Sources */,
+				E34E9CA00FF2BDCE004998DB /* graphics2.cpp in Sources */,
 				E3CD09D40FF2AD550043EE7E /* qcn_2dplot.cpp in Sources */,
 				E3CD09D50FF2AD550043EE7E /* qcn_graphics.cpp in Sources */,
 				E3CD09D60FF2AD550043EE7E /* qcn_earth.cpp in Sources */,
@@ -864,7 +865,6 @@
 				E3CD09D80FF2AD550043EE7E /* nation_boundary.cpp in Sources */,
 				E3CD09D90FF2AD550043EE7E /* coastline.cpp in Sources */,
 				E3CD09DA0FF2AD550043EE7E /* plate_boundary.cpp in Sources */,
-				E3CD099C0FF2ACE20043EE7E /* graphics2_util.cpp in Sources */,
 				E3CD099D0FF2ACE20043EE7E /* csensor_usb_motionnodeaccel.cpp in Sources */,
 				E3CD099E0FF2ACE20043EE7E /* qcn_shmem_usb.cpp in Sources */,
 				E3CD099F0FF2ACE20043EE7E /* qcn_signal.cpp in Sources */,
@@ -908,7 +908,6 @@
 				E3CD09D00FF2AD370043EE7E /* dlgsettings.cpp in Sources */,
 				E3CD09D10FF2AD370043EE7E /* myframe.cpp in Sources */,
 				E3CD09D20FF2AD370043EE7E /* myglpane.cpp in Sources */,
-				E3CD09D30FF2AD370043EE7E /* qcnwx.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -990,7 +989,6 @@
 				E3C967580FF1A22200F20324 /* parse.cpp in Sources */,
 				E3C967780FF1A40200F20324 /* mac_backtrace.cpp in Sources */,
 				E3C967480FF1A1DD00F20324 /* texfont.cpp in Sources */,
-				E3C967490FF1A1DD00F20324 /* texture.cpp in Sources */,
 				E3C966740FF19F8400F20324 /* qcn_gzip.cpp in Sources */,
 				E3C966710FF19F6700F20324 /* gzstream.cpp in Sources */,
 				E3C9666E0FF19F5400F20324 /* cserialize.cpp in Sources */,
@@ -1154,11 +1152,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = (
-					i386,
-					ppc,
-					x86_64,
-				);
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
@@ -1172,8 +1166,6 @@
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
 				);
-				"MACOSX_DEPLOYMENT_TARGET[arch=ppc]" = 10.3;
-				"MACOSX_DEPLOYMENT_TARGET[arch=x86_64]" = 10.5;
 				OTHER_CFLAGS = (
 					"-Wall",
 					"-D_USE_NTPDATE_EXEC_",
@@ -1186,12 +1178,20 @@
 					"-I../util",
 					"-I../sensor",
 					"-I../../../boinc/lib/mac",
-					"-I/usr/local/include/wx-2.8",
 					"-DHAVE_SYS_RESOURCE_H",
 					"-D_DEBUG",
+					"-I/usr/local/lib/wx/include/mac-ansi-release-static-2.8",
+					"-I/usr/local/include/wx-2.8",
+					"-D_FILE_OFFSET_BITS=64",
+					"-D_LARGE_FILES",
+					"-D__WXMAC__",
 				);
 				OTHER_LDFLAGS = (
 					"-L/usr/local/lib",
+					"-arch",
+					ppc,
+					"-arch",
+					i386,
 					"-framework",
 					IOKit,
 					"-framework",
@@ -1207,15 +1207,20 @@
 					"-framework",
 					AGL,
 					"/usr/local/lib/libwx_mac-2.8.a",
+					"-framework",
+					WebKit,
+					"-lwxexpat-2.8",
 					"-lwxtiff-2.8",
+					"-lwxjpeg-2.8",
+					"-lwxpng-2.8",
+					"-lwx_mac_gl-2.8",
+					"-lwx_mac-2.8",
 					"-lpthread",
 					"-liconv",
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = qcnlive;
 				SDKROOT = macosx10.4;
-				"SDKROOT[arch=ppc]" = macosx10.3.9;
-				"SDKROOT[arch=x86_64]" = macosx10.5;
 			};
 			name = Debug;
 		};
@@ -1223,11 +1228,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = (
-					i386,
-					ppc,
-					x86_64,
-				);
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
@@ -1241,8 +1242,6 @@
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
 				);
-				"MACOSX_DEPLOYMENT_TARGET[arch=ppc]" = 10.3;
-				"MACOSX_DEPLOYMENT_TARGET[arch=x86_64]" = 10.5;
 				OTHER_CFLAGS = (
 					"-Wall",
 					"-D_USE_NTPDATE_EXEC_",
@@ -1255,12 +1254,20 @@
 					"-I../util",
 					"-I../sensor",
 					"-I../../../boinc/lib/mac",
-					"-I/usr/local/include/wx-2.8",
 					"-DHAVE_SYS_RESOURCE_H",
 					"-DNDEBUG",
+					"-I/usr/local/lib/wx/include/mac-ansi-release-static-2.8",
+					"-I/usr/local/include/wx-2.8",
+					"-D_FILE_OFFSET_BITS=64",
+					"-D_LARGE_FILES",
+					"-D__WXMAC__",
 				);
 				OTHER_LDFLAGS = (
 					"-L/usr/local/lib",
+					"-arch",
+					ppc,
+					"-arch",
+					i386,
 					"-framework",
 					IOKit,
 					"-framework",
@@ -1276,15 +1283,20 @@
 					"-framework",
 					AGL,
 					"/usr/local/lib/libwx_mac-2.8.a",
+					"-framework",
+					WebKit,
+					"-lwxexpat-2.8",
 					"-lwxtiff-2.8",
+					"-lwxjpeg-2.8",
+					"-lwxpng-2.8",
+					"-lwx_mac_gl-2.8",
+					"-lwx_mac-2.8",
 					"-lpthread",
 					"-liconv",
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = qcnlive;
 				SDKROOT = macosx10.4;
-				"SDKROOT[arch=ppc]" = macosx10.3.9;
-				"SDKROOT[arch=x86_64]" = macosx10.5;
 				ZERO_LINK = NO;
 			};
 			name = Release;

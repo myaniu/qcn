@@ -269,17 +269,29 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateExpansionKey</key>
 							<array>
 								<string>E3A499DB0D64E60400E51CDF</string>
+								<string>E3C0E7D80D64E9C50099B905</string>
+								<string>E3C0E79B0D64E9BE0099B905</string>
+								<string>E3CD09C50FF2AD000043EE7E</string>
+								<string>E3C967100FF1A18C00F20324</string>
+								<string>E3C967110FF1A19400F20324</string>
+								<string>E3C967130FF1A19D00F20324</string>
 								<string>1C37FBAC04509CD000000102</string>
+								<string>E34E9CA80FF2BE4A004998DB</string>
+								<string>E34E9CA90FF2BE4A004998DB</string>
+								<string>E34E9CAA0FF2BE4A004998DB</string>
+								<string>E34E9CC70FF2C0A7004998DB</string>
 								<string>1C37FABC05509CD000000102</string>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>0</integer>
+									<integer>66</integer>
+									<integer>63</integer>
+									<integer>57</integer>
 								</array>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateVisibleRectKey</key>
-							<string>{{0, 0}, {334, 762}}</string>
+							<string>{{0, 513}, {334, 762}}</string>
 						</dict>
 						<key>PBXTopSmartGroupGIDs</key>
 						<array/>
@@ -314,7 +326,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>1CE0B20306471E060097A5F4</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>platform.h</string>
+								<string>filesys.cpp</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -322,11 +334,11 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>1CE0B20406471E060097A5F4</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>platform.h</string>
+										<string>filesys.cpp</string>
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>E3CD0A360FF2B2280043EE7E</string>
+										<string>E34E9CC80FF2C0A7004998DB</string>
 										<key>history</key>
 										<array>
 											<string>E3583B450FF1921800057DD2</string>
@@ -334,7 +346,6 @@
 											<string>E3C966780FF19F9F00F20324</string>
 											<string>E3C966790FF19F9F00F20324</string>
 											<string>E3C967960FF1A51F00F20324</string>
-											<string>E3C967970FF1A51F00F20324</string>
 											<string>E3C967990FF1A51F00F20324</string>
 											<string>E3C9679A0FF1A51F00F20324</string>
 											<string>E3C9679D0FF1A51F00F20324</string>
@@ -350,8 +361,6 @@
 											<string>E388F7FC0FF1B63D00D948DE</string>
 											<string>E388F7FD0FF1B63D00D948DE</string>
 											<string>E388F7FE0FF1B63D00D948DE</string>
-											<string>E388F8430FF1B8DD00D948DE</string>
-											<string>E388F8B60FF1BD4800D948DE</string>
 											<string>E388F8BB0FF1BD4800D948DE</string>
 											<string>E388F8BE0FF1BD4800D948DE</string>
 											<string>E388F8F60FF1BDBA00D948DE</string>
@@ -361,12 +370,17 @@
 											<string>E33EF7E60FF1E13500CD5708</string>
 											<string>E33EF7E70FF1E13500CD5708</string>
 											<string>E33EF7E80FF1E13500CD5708</string>
-											<string>E3CD09E10FF2AD580043EE7E</string>
-											<string>E3CD09E20FF2AD580043EE7E</string>
 											<string>E3CD09E30FF2AD580043EE7E</string>
 											<string>E3CD09F50FF2AEB40043EE7E</string>
 											<string>E3CD0A1A0FF2B19B0043EE7E</string>
-											<string>E3CD0A170FF2B1980043EE7E</string>
+											<string>E34E9C940FF2BC97004998DB</string>
+											<string>E34E9CAC0FF2BE4A004998DB</string>
+											<string>E34E9CAD0FF2BE4A004998DB</string>
+											<string>E34E9CAF0FF2BE4A004998DB</string>
+											<string>E34E9CB00FF2BE4A004998DB</string>
+											<string>E34E9CC00FF2BE98004998DB</string>
+											<string>E34E9CC10FF2BE98004998DB</string>
+											<string>E34E9CC20FF2BE98004998DB</string>
 										</array>
 										<key>prevStack</key>
 										<array>
@@ -405,10 +419,17 @@
 											<string>E33EF7EB0FF1E13500CD5708</string>
 											<string>E33EF7EF0FF1E13500CD5708</string>
 											<string>E3CD09E40FF2AD580043EE7E</string>
-											<string>E3CD09E50FF2AD580043EE7E</string>
 											<string>E3CD09E60FF2AD580043EE7E</string>
-											<string>E3CD09F70FF2AEB40043EE7E</string>
 											<string>E3CD0A1B0FF2B19B0043EE7E</string>
+											<string>E34E9C960FF2BC97004998DB</string>
+											<string>E34E9CB20FF2BE4A004998DB</string>
+											<string>E34E9CB30FF2BE4A004998DB</string>
+											<string>E34E9CB40FF2BE4A004998DB</string>
+											<string>E34E9CB50FF2BE4A004998DB</string>
+											<string>E34E9CB60FF2BE4A004998DB</string>
+											<string>E34E9CB70FF2BE4A004998DB</string>
+											<string>E34E9CC30FF2BE98004998DB</string>
+											<string>E34E9CC40FF2BE98004998DB</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -466,9 +487,9 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>E3CD098A0FF2AC9F0043EE7E</string>
+				<string>E34E9C980FF2BC97004998DB</string>
 				<string>1CE0B1FE06471DED0097A5F4</string>
-				<string>E3CD098B0FF2AC9F0043EE7E</string>
+				<string>E34E9C990FF2BC97004998DB</string>
 				<string>1CE0B20306471E060097A5F4</string>
 				<string>1CE0B20506471E060097A5F4</string>
 			</array>
@@ -602,9 +623,8 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>E3D35BF80FF1781000E64121</string>
-		<string>1CD10A99069EF8BA00B06720</string>
 		<string>/Users/carlc/projects/qcn/client/mac_build/qcn.xcodeproj</string>
+		<string>E3D35BF80FF1781000E64121</string>
 	</array>
 	<key>WindowString</key>
 	<string>106 194 1278 821 0 0 1680 1028 </string>
@@ -623,14 +643,12 @@
 					<key>Dock</key>
 					<array>
 						<dict>
-							<key>BecomeActive</key>
-							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
 								<string>1CD0528F0623707200166675</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>platform.h</string>
+								<string>filesys.cpp</string>
 								<key>StatusBarVisibility</key>
 								<true/>
 							</dict>
@@ -647,6 +665,8 @@
 							<string>478pt</string>
 						</dict>
 						<dict>
+							<key>BecomeActive</key>
+							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
@@ -686,7 +706,7 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>E3D35BF80FF1781000E64121</string>
-				<string>E3CD09EE0FF2AE1F0043EE7E</string>
+				<string>E34E9C9A0FF2BC97004998DB</string>
 				<string>1CD0528F0623707200166675</string>
 				<string>XCMainBuildResultsModuleGUID</string>
 			</array>
@@ -697,7 +717,7 @@
 			<key>WindowToolGUID</key>
 			<string>E3D35BF80FF1781000E64121</string>
 			<key>WindowToolIsVisible</key>
-			<false/>
+			<true/>
 		</dict>
 		<dict>
 			<key>FirstTimeWindowDisplayed</key>
