@@ -12,7 +12,7 @@
 
 
 /* Define to the type pointed to by the 5th parameter of getsockopt */
-#define BOINC_SOCKLEN_T int
+#define BOINC_SOCKLEN_T socklen_t
 
 /* Define to 1 if CYGWIN should use the WIN32 GUI */
 /* #undef CYGWIN_USE_WIN32 */
@@ -30,7 +30,7 @@
 #define HAVE_ALLOCA_H 1
 
 /* Use the Apple OpenGL framework. */
-#define HAVE_APPLE_OPENGL_FRAMEWORK 1
+/* #undef HAVE_APPLE_OPENGL_FRAMEWORK */
 
 /* Define to 1 if you have the <arpa/inet.h> header file. */
 #define HAVE_ARPA_INET_H 1
@@ -67,7 +67,7 @@
 /* #undef HAVE_GLAUX_H */
 
 /* Define to 1 if you have the <GLUT/glut.h> header file. */
-#define HAVE_GLUT_GLUT_H 1
+/* #undef HAVE_GLUT_GLUT_H */
 
 /* Define to 1 if you have the <glut.h> header file. */
 /* #undef HAVE_GLUT_H */
@@ -157,10 +157,10 @@
 /* #undef HAVE_OPENGL_GLUT_H */
 
 /* Define to 1 if you have the <OpenGL/glu.h> header file. */
-#define HAVE_OPENGL_GLU_H 1
+/* #undef HAVE_OPENGL_GLU_H */
 
 /* Define to 1 if you have the <OpenGL/gl.h> header file. */
-#define HAVE_OPENGL_GL_H 1
+/* #undef HAVE_OPENGL_GL_H */
 
 /* Define to 1 if you have the <procfs.h> header file. */
 /* #undef HAVE_PROCFS_H */
@@ -190,7 +190,7 @@
 #define HAVE_SOCKLEN_T 1
 
 /* Define to 1 if you have the `stat64' function. */
-/* #undef HAVE_STAT64 */
+#define HAVE_STAT64 1
 
 /* Define to 1 if you have the <stdint.h> header file. */
 #define HAVE_STDINT_H 1
@@ -273,7 +273,7 @@
 /* #undef HAVE_SYS_STATFS_H */
 
 /* Define to 1 if you have the <sys/statvfs.h> header file. */
-//#define HAVE_SYS_STATVFS_H 0
+#define HAVE_SYS_STATVFS_H 1
 
 /* Define to 1 if you have the <sys/stat.h> header file. */
 #define HAVE_SYS_STAT_H 1
@@ -364,13 +364,13 @@
 #define PACKAGE_NAME "QCN"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "QCN 4.84"
+#define PACKAGE_STRING "QCN 4.86"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "qcn"
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "4.84"
+#define PACKAGE_VERSION "4.86"
 
 /* Define to the necessary symbol if this constant uses a non-standard name on
    your system. */
@@ -395,13 +395,13 @@
 /* #undef UTMP_LOCATION */
 
 /* Version number of package */
-#define VERSION "4.84"
+#define VERSION "4.86"
 
 /* Define to prevent redefinition of INT32 in jconfig.h */
 /* #undef XMD_H */
 
 /* Define to 1 if the X Window System is missing or not being used. */
-#define X_DISPLAY_MISSING 1
+/* #undef X_DISPLAY_MISSING */
 
 /* Number of bits in a file offset, on hosts where this is settable. */
 /* #undef _FILE_OFFSET_BITS */

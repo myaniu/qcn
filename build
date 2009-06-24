@@ -4,38 +4,28 @@ if ( test "$1" = "" || test "$2" = "") then
    echo 'NCI should usually be one higher than regular version number'
    exit 1
 fi
+./set-version $1
 cd ..
 if (test $3) then
    rm -rf boinc
-   ./getboinc
+   ./qcn/getboinc
 else
    # at least update boinc cvs?
    svn update boinc
 fi
+if ( test "`uname -s`" = "Darwin" ) then
+cd qcn
+chmod uog+rx build.mac
+./build.mac
+else
 cd boinc
 make distclean
 ./_autosetup
-if ( test "`uname -s`" = "Darwin" ) then
-  ./configure --disable-client --disable-server --disable-manager --with-apple-opengl-framework
-else
- #  echo "don't forget the Linux vpn: sudo vpnclient connect stanford"
-  ./configure --disable-client --disable-server --disable-manager --disable-fcgi
-fi
+./configure --disable-client --disable-server --disable-manager --disable-fcgi
 make clean && make
 cd ../qcn
-# don't need to build ntp often, just when making the executables to distribute
-#tar xzf ntp-4.2.4p5.tar.gz
-#cd ntp-4.2.4p5
-#./configure --disable-shared --without-crypto
-#make clean && make
-#cd ../
-./set-version $1
 make distclean
 ./_autosetup
-if ( test "`uname -s`" = "Darwin" ) then
-./configure --with-apple-opengl-framework --enable-client-release --disable-server
-./build.mac
-else
 ./configure --enable-client-release --disable-server
 make clean
 make

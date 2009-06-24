@@ -275,7 +275,6 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>7</integer>
 									<integer>0</integer>
 								</array>
 							</array>
@@ -315,7 +314,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>1CE0B20306471E060097A5F4</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>MotionNodeAccelAPI.h</string>
+								<string>platform.h</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -323,15 +322,14 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>1CE0B20406471E060097A5F4</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>MotionNodeAccelAPI.h</string>
+										<string>platform.h</string>
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>E33EF7F10FF1E13500CD5708</string>
+										<string>E3CD0A360FF2B2280043EE7E</string>
 										<key>history</key>
 										<array>
 											<string>E3583B450FF1921800057DD2</string>
-											<string>E3C966560FF19E4C00F20324</string>
 											<string>E3C966770FF19F9F00F20324</string>
 											<string>E3C966780FF19F9F00F20324</string>
 											<string>E3C966790FF19F9F00F20324</string>
@@ -356,7 +354,6 @@
 											<string>E388F8B60FF1BD4800D948DE</string>
 											<string>E388F8BB0FF1BD4800D948DE</string>
 											<string>E388F8BE0FF1BD4800D948DE</string>
-											<string>E388F8C30FF1BD4800D948DE</string>
 											<string>E388F8F60FF1BDBA00D948DE</string>
 											<string>E388F9200FF1BE9C00D948DE</string>
 											<string>E388F9210FF1BE9C00D948DE</string>
@@ -364,7 +361,12 @@
 											<string>E33EF7E60FF1E13500CD5708</string>
 											<string>E33EF7E70FF1E13500CD5708</string>
 											<string>E33EF7E80FF1E13500CD5708</string>
-											<string>E33EF7E90FF1E13500CD5708</string>
+											<string>E3CD09E10FF2AD580043EE7E</string>
+											<string>E3CD09E20FF2AD580043EE7E</string>
+											<string>E3CD09E30FF2AD580043EE7E</string>
+											<string>E3CD09F50FF2AEB40043EE7E</string>
+											<string>E3CD0A1A0FF2B19B0043EE7E</string>
+											<string>E3CD0A170FF2B1980043EE7E</string>
 										</array>
 										<key>prevStack</key>
 										<array>
@@ -400,12 +402,13 @@
 											<string>E388F88C0FF1BBC100D948DE</string>
 											<string>E388F8E30FF1BD4800D948DE</string>
 											<string>E33EF7DC0FF1E0BA00CD5708</string>
-											<string>E33EF7DD0FF1E0BA00CD5708</string>
 											<string>E33EF7EB0FF1E13500CD5708</string>
-											<string>E33EF7EC0FF1E13500CD5708</string>
-											<string>E33EF7ED0FF1E13500CD5708</string>
-											<string>E33EF7EE0FF1E13500CD5708</string>
 											<string>E33EF7EF0FF1E13500CD5708</string>
+											<string>E3CD09E40FF2AD580043EE7E</string>
+											<string>E3CD09E50FF2AD580043EE7E</string>
+											<string>E3CD09E60FF2AD580043EE7E</string>
+											<string>E3CD09F70FF2AEB40043EE7E</string>
+											<string>E3CD0A1B0FF2B19B0043EE7E</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -463,9 +466,9 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>E33EF7D30FF1DFFD00CD5708</string>
+				<string>E3CD098A0FF2AC9F0043EE7E</string>
 				<string>1CE0B1FE06471DED0097A5F4</string>
-				<string>E33EF7D40FF1DFFD00CD5708</string>
+				<string>E3CD098B0FF2AC9F0043EE7E</string>
 				<string>1CE0B20306471E060097A5F4</string>
 				<string>1CE0B20506471E060097A5F4</string>
 			</array>
@@ -600,6 +603,7 @@
 	<key>WindowOrderList</key>
 	<array>
 		<string>E3D35BF80FF1781000E64121</string>
+		<string>1CD10A99069EF8BA00B06720</string>
 		<string>/Users/carlc/projects/qcn/client/mac_build/qcn.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
@@ -619,12 +623,14 @@
 					<key>Dock</key>
 					<array>
 						<dict>
+							<key>BecomeActive</key>
+							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
 								<string>1CD0528F0623707200166675</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>MotionNodeAccelAPI.h</string>
+								<string>platform.h</string>
 								<key>StatusBarVisibility</key>
 								<true/>
 							</dict>
@@ -641,8 +647,6 @@
 							<string>478pt</string>
 						</dict>
 						<dict>
-							<key>BecomeActive</key>
-							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
@@ -682,7 +686,7 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>E3D35BF80FF1781000E64121</string>
-				<string>E33EF7D00FF1DFD400CD5708</string>
+				<string>E3CD09EE0FF2AE1F0043EE7E</string>
 				<string>1CD0528F0623707200166675</string>
 				<string>XCMainBuildResultsModuleGUID</string>
 			</array>
@@ -724,8 +728,8 @@
 										<string>yes</string>
 										<key>sizes</key>
 										<array>
-											<string>{{0, 0}, {316, 194}}</string>
-											<string>{{316, 0}, {378, 194}}</string>
+											<string>{{0, 0}, {316, 198}}</string>
+											<string>{{316, 0}, {378, 198}}</string>
 										</array>
 									</dict>
 									<key>VerticalSplitView</key>
@@ -740,8 +744,8 @@
 										<string>yes</string>
 										<key>sizes</key>
 										<array>
-											<string>{{0, 0}, {694, 194}}</string>
-											<string>{{0, 194}, {694, 187}}</string>
+											<string>{{0, 0}, {694, 198}}</string>
+											<string>{{0, 198}, {694, 183}}</string>
 										</array>
 									</dict>
 								</dict>
@@ -774,7 +778,7 @@
 										<real>148</real>
 									</array>
 									<key>Frame</key>
-									<string>{{316, 0}, {378, 194}}</string>
+									<string>{{316, 0}, {378, 198}}</string>
 									<key>RubberWindowFrame</key>
 									<string>247 503 694 422 0 0 1680 1028 </string>
 								</dict>
@@ -802,13 +806,13 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>1CD10A99069EF8BA00B06720</string>
-				<string>E388F7D70FF1B4C500D948DE</string>
+				<string>E3CD098C0FF2AC9F0043EE7E</string>
 				<string>1C162984064C10D400B95A72</string>
-				<string>E388F7D80FF1B4C500D948DE</string>
-				<string>E388F7D90FF1B4C500D948DE</string>
-				<string>E388F7DA0FF1B4C500D948DE</string>
-				<string>E388F7DB0FF1B4C500D948DE</string>
-				<string>E388F7DC0FF1B4C500D948DE</string>
+				<string>E3CD098D0FF2AC9F0043EE7E</string>
+				<string>E3CD098E0FF2AC9F0043EE7E</string>
+				<string>E3CD098F0FF2AC9F0043EE7E</string>
+				<string>E3CD09900FF2AC9F0043EE7E</string>
+				<string>E3CD09910FF2AC9F0043EE7E</string>
 			</array>
 			<key>ToolbarConfiguration</key>
 			<string>xcode.toolbar.config.debugV3</string>
