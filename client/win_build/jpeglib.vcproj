@@ -68,7 +68,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="jpeglibd.lib"
+				OutputFile="jpeglib32d.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -129,7 +129,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="jpeglib.lib"
+				OutputFile="jpeglib32.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -195,7 +195,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="jpeglibd.lib"
+				OutputFile="jpeglib64d.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -257,7 +257,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="jpeglib.lib"
+				OutputFile="jpeglib64.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -1141,24 +1141,6 @@
 					<Tool
 						Name="VCCLCompilerTool"
 						CompileAs="1"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\..\jpeg-6b\jmemdosa.asm"
-				>
-				<FileConfiguration
-					Name="Debug|x64"
-					>
-					<Tool
-						Name="MASM"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|x64"
-					>
-					<Tool
-						Name="MASM"
 					/>
 				</FileConfiguration>
 			</File>

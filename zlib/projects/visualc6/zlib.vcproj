@@ -757,7 +757,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="../../../client/win_build/zlibd.lib"
+				OutputFile="../../../client/win_build/zlib32d.lib"
 				SuppressStartupBanner="true"
 			/>
 			<Tool
@@ -806,7 +806,7 @@
 				Optimization="0"
 				PreprocessorDefinitions="WIN64;_DEBUG"
 				BasicRuntimeChecks="3"
-				RuntimeLibrary="1"
+				RuntimeLibrary="3"
 				PrecompiledHeaderFile=".\Win32_LIB_Debug/zlib.pch"
 				AssemblerListingLocation=".\Win32_LIB_Debug/"
 				ObjectFile=".\Win32_LIB_Debug/"
@@ -828,7 +828,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="Win32_LIB_Debug\zlibd.lib"
+				OutputFile="../../../client/win_build/zlib64d.lib"
 				SuppressStartupBanner="true"
 			/>
 			<Tool
@@ -1049,7 +1049,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="../../../client/win_build/zlib.lib"
+				OutputFile="../../../client/win_build/zlib32.lib"
 				SuppressStartupBanner="true"
 			/>
 			<Tool
@@ -1099,7 +1099,7 @@
 				InlineFunctionExpansion="1"
 				PreprocessorDefinitions="WIN32;NDEBUG"
 				StringPooling="true"
-				RuntimeLibrary="0"
+				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
 				PrecompiledHeaderFile=".\Win32_LIB_Release/zlib.pch"
 				AssemblerListingLocation=".\Win32_LIB_Release/"
@@ -1121,7 +1121,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile=".\Win32_LIB_Release\zlib.lib"
+				OutputFile="../../../client/win_build/zlib64.lib"
 				SuppressStartupBanner="true"
 			/>
 			<Tool

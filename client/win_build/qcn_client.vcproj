@@ -63,7 +63,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="hid.lib setupapi.lib winmm.lib boinc_zipd.lib boinc_apid.lib zlibd.lib boinc_libd.lib MotionNodeAccelAPI.lib"
+				AdditionalDependencies="hid.lib setupapi.lib winmm.lib boinc_zipd.lib boinc_apid.lib zlib32d.lib boinc_libd.lib MotionNodeAccelAPI.lib"
 				OutputFile="../test/projects/qcn.edu_qcn/qcnd.exe"
 				Version=""
 				LinkIncremental="2"
@@ -149,7 +149,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="hid.lib setupapi.lib winmm.lib boinc_lib.lib boinc_api.lib boinc_zip.lib MotionNodeAccelAPI.lib"
+				AdditionalDependencies="hid.lib setupapi.lib winmm.lib boinc_lib.lib boinc_api.lib boinc_zip.lib MotionNodeAccelAPI.lib zlib32.lib"
 				OutputFile="../bin/qcn.exe"
 				Version=""
 				LinkIncremental="1"
@@ -234,7 +234,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="hid.lib setupapi.lib winmm.lib boinc_zipd.lib boinc_apid.lib zlibd.lib boinc_libd.lib MotionNodeAccelAPI.lib"
+				AdditionalDependencies="hid.lib setupapi.lib winmm.lib boinc_zipd.lib boinc_apid.lib zlib64d.lib boinc_libd.lib MotionNodeAccelAPI.lib"
 				OutputFile="../test/projects/qcn.edu_qcn/qcnd.exe"
 				Version=""
 				LinkIncremental="2"
@@ -321,7 +321,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="hid.lib setupapi.lib winmm.lib boinc_lib.lib boinc_api.lib boinc_zip.lib MotionNodeAccelAPI.lib"
+				AdditionalDependencies="hid.lib setupapi.lib winmm.lib boinc_lib.lib boinc_api.lib boinc_zip.lib MotionNodeAccelAPI.lib zlib64.lib"
 				OutputFile="../bin/qcn.exe"
 				Version=""
 				LinkIncremental="1"
