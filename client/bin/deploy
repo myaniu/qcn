@@ -18,10 +18,11 @@ if ( test "`uname -s`" = "Darwin" ) then
   # Apple Mac -- universal!
   suffixp='powerpc-apple-darwin'
   suffixi='i686-apple-darwin'
-  ntpdv=$ntpversion*apple-darwin
+  ntpdvi=$ntpversion$suffixi
+  ntpdvp=$ntpversion$suffixp
   rm -f qcnlive-mac.zip
   zip -r qcnlive-mac.zip QCNLive.app \
-     init/$ntpdv $uplstring \
+     init/$ntpversion*apple* $uplstring \
      init/libMotionNodeAccelAPI.dylib \
        -x@exclude.lst
   cp qcnusb.app/Contents/MacOS/qcnusb ../qcnusb/install
@@ -56,7 +57,7 @@ echo put init/Courier-Bold.txf >> qcnsftp.up
 #echo put init/earthmask.rgb >> qcnsftp.up
 echo put init/earthday4096.jpg >> qcnsftp.up
 echo put init/earthnight4096.jpg >> qcnsftp.up
-echo put init/$ntpdv >> qcnsftp.up
+echo put init/$ntpdvi >> qcnsftp.up
 echo put init/logo.jpg >> qcnsftp.up
 if ( test "`uname -s`" = "Darwin" ) then
    echo put init/libMotionNodeAccelAPI.dylib >> qcnsftp.up
@@ -73,7 +74,7 @@ echo put init/Courier-Bold.txf >> qcnsftp.up
 #echo put init/earthmask.rgb >> qcnsftp.up
 echo put init/earthday4096.jpg >> qcnsftp.up
 echo put init/earthnight4096.jpg >> qcnsftp.up
-echo put init/$ntpdv >> qcnsftp.up
+echo put init/$ntpdvi >> qcnsftp.up
 echo put init/logo.jpg >> qcnsftp.up
 if ( test "`uname -s`" = "Darwin" ) then
    echo put init/libMotionNodeAccelAPI.dylib >> qcnsftp.up
@@ -93,7 +94,7 @@ echo put init/Courier-Bold.txf >> qcnsftp.up
 #echo put init/earthmask.rgb >> qcnsftp.up
 echo put init/earthday4096.jpg >> qcnsftp.up
 echo put init/earthnight4096.jpg >> qcnsftp.up
-echo put init/$ntpdv >> qcnsftp.up
+echo put init/$ntpdvp >> qcnsftp.up
 echo put init/logo.jpg >> qcnsftp.up
 if ( test "`uname -s`" = "Darwin" ) then
    echo put init/libMotionNodeAccelAPI.dylib >> qcnsftp.up
@@ -110,7 +111,7 @@ echo put init/Courier-Bold.txf >> qcnsftp.up
 #echo put init/earthmask.rgb >> qcnsftp.up
 echo put init/earthday4096.jpg >> qcnsftp.up
 echo put init/earthnight4096.jpg >> qcnsftp.up
-echo put init/$ntpdv >> qcnsftp.up
+echo put init/$ntpdvp >> qcnsftp.up
 echo put init/logo.jpg >> qcnsftp.up
 if ( test "`uname -s`" = "Darwin" ) then
    echo put init/libMotionNodeAccelAPI.dylib >> qcnsftp.up
