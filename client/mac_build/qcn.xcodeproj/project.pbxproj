@@ -1341,7 +1341,7 @@
 					ppc,
 					x86_64,
 				);
-				CONFIGURATION_BUILD_DIR = ../bin/;
+				CONFIGURATION_BUILD_DIR = ../bin;
 				COPY_PHASE_STRIP = NO;
 				GCC_DEBUGGING_SYMBOLS = full;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -1361,7 +1361,7 @@
 					../../../boinc/lib,
 					../../../boinc/lib/mac,
 					../../../boinc/api,
-					../../../boinc_zip,
+					../../../boinc/zip,
 				);
 				INFOPLIST_FILE = "qcn-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
@@ -1373,7 +1373,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				"MACOSX_DEPLOYMENT_TARGET[arch=ppc]" = 10.3;
 				"MACOSX_DEPLOYMENT_TARGET[arch=x86_64]" = 10.5;
-				OBJROOT = build;
+				OBJROOT = ../bin;
 				OTHER_CFLAGS = (
 					"-Wall",
 					"-W",
@@ -1400,7 +1400,7 @@
 				SDKROOT = macosx10.4;
 				"SDKROOT[arch=ppc]" = macosx10.3.9;
 				"SDKROOT[arch=x86_64]" = macosx10.5;
-				SYMROOT = ../bin/;
+				SYMROOT = ../bin;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1414,7 +1414,7 @@
 					ppc,
 					x86_64,
 				);
-				CONFIGURATION_BUILD_DIR = ../bin/;
+				CONFIGURATION_BUILD_DIR = ../bin;
 				COPY_PHASE_STRIP = YES;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
@@ -1432,7 +1432,7 @@
 					../../../boinc/lib,
 					../../../boinc/lib/mac,
 					../../../boinc/api,
-					../../../boinc_zip,
+					../../../boinc/zip,
 				);
 				INFOPLIST_FILE = "qcn-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
@@ -1444,7 +1444,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				"MACOSX_DEPLOYMENT_TARGET[arch=ppc]" = 10.3;
 				"MACOSX_DEPLOYMENT_TARGET[arch=x86_64]" = 10.5;
-				OBJROOT = build;
+				OBJROOT = ../bin;
 				OTHER_CFLAGS = (
 					"-Wall",
 					"-W",
@@ -1471,7 +1471,7 @@
 				SDKROOT = macosx10.4;
 				"SDKROOT[arch=ppc]" = macosx10.3.9;
 				"SDKROOT[arch=x86_64]" = macosx10.5;
-				SYMROOT = ../bin/;
+				SYMROOT = ../bin;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

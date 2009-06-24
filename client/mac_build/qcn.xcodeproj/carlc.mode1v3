@@ -270,14 +270,12 @@
 							<array>
 								<string>E3A499DB0D64E60400E51CDF</string>
 								<string>1C37FBAC04509CD000000102</string>
-								<string>E300B1A90FF2CF1B00E54D79</string>
-								<string>E300B1AA0FF2CF1B00E54D79</string>
 								<string>1C37FABC05509CD000000102</string>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>15</integer>
+									<integer>12</integer>
 									<integer>11</integer>
 								</array>
 							</array>
@@ -317,7 +315,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>1CE0B20306471E060097A5F4</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>config.h</string>
+								<string>gutil.cpp</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -325,11 +323,11 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>1CE0B20406471E060097A5F4</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>config.h</string>
+										<string>gutil.cpp</string>
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>E300B1CA0FF2D27C00E54D79</string>
+										<string>E300B1EB0FF2D43B00E54D79</string>
 										<key>history</key>
 										<array>
 											<string>E3583B450FF1921800057DD2</string>
@@ -354,7 +352,6 @@
 											<string>E388F8BB0FF1BD4800D948DE</string>
 											<string>E388F8BE0FF1BD4800D948DE</string>
 											<string>E388F8F60FF1BDBA00D948DE</string>
-											<string>E388F9200FF1BE9C00D948DE</string>
 											<string>E388F9210FF1BE9C00D948DE</string>
 											<string>E33EF7DA0FF1E0BA00CD5708</string>
 											<string>E33EF7E60FF1E13500CD5708</string>
@@ -372,10 +369,11 @@
 											<string>E34E9CCF0FF2C141004998DB</string>
 											<string>E34E9CDF0FF2C246004998DB</string>
 											<string>E34E9CEF0FF2C553004998DB</string>
-											<string>E34E9CF00FF2C553004998DB</string>
 											<string>E34E9D4A0FF2CE48004998DB</string>
 											<string>E300B1BC0FF2D14D00E54D79</string>
-											<string>E300B1BA0FF2CFF800E54D79</string>
+											<string>E300B1D20FF2D30300E54D79</string>
+											<string>E300B1DD0FF2D38200E54D79</string>
+											<string>E300B1DB0FF2D37800E54D79</string>
 										</array>
 										<key>prevStack</key>
 										<array>
@@ -422,6 +420,8 @@
 											<string>E34E9CF20FF2C553004998DB</string>
 											<string>E34E9D4C0FF2CE48004998DB</string>
 											<string>E300B1BD0FF2D14D00E54D79</string>
+											<string>E300B1D30FF2D30300E54D79</string>
+											<string>E300B1DE0FF2D38200E54D79</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -642,7 +642,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>1CD0528F0623707200166675</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>config.h</string>
+								<string>hostinfo.cpp</string>
 								<key>StatusBarVisibility</key>
 								<true/>
 							</dict>
