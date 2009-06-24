@@ -64,7 +64,7 @@
 				Name="VCLinkerTool"
 				LinkLibraryDependencies="false"
 				UseUnicodeResponseFiles="false"
-				AdditionalDependencies="wsock32.lib hid.lib setupapi.lib winmm.lib opengl32.lib glu32.lib comctl32.lib boinc_apid.lib boinc_libd.lib boinc_zipd.lib curllib.lib jpeglibd.lib zlibd.lib wxbase28d.lib wxmsw28d_core.lib wxmsw28d_gl.lib wxpngd.lib wxmsw28d_adv.lib MotionNodeAccelAPI.lib rpcrt4.lib"
+				AdditionalDependencies="wsock32.lib hid.lib setupapi.lib winmm.lib opengl32.lib glu32.lib comctl32.lib boinc_apid.lib boinc_libd.lib boinc_zipd.lib curllib.lib jpeglibd.lib zlib32d.lib wxbase28d.lib wxmsw28d_core.lib wxmsw28d_gl.lib wxpngd.lib wxmsw28d_adv.lib MotionNodeAccelAPI.lib rpcrt4.lib"
 				OutputFile="..\bin\$(ProjectName)d.exe"
 				Version=""
 				LinkIncremental="2"
