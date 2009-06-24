@@ -1179,6 +1179,7 @@
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
 				HEADER_SEARCH_PATHS = (
 					../../,
+					"../../jpeg-6b",
 					../../../boinc/api,
 					../../../boinc/lib,
 					../util,
@@ -1225,7 +1226,6 @@
 					WebKit,
 					"-lwxexpat-2.8",
 					"-lwxtiff-2.8",
-					"-lwxjpeg-2.8",
 					"-lwxpng-2.8",
 					"-lwx_mac_gl-2.8",
 					"-lwx_mac-2.8",
@@ -1253,6 +1253,7 @@
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
 				HEADER_SEARCH_PATHS = (
 					../../,
+					"../../jpeg-6b",
 					../../../boinc/api,
 					../../../boinc/lib,
 					../util,
@@ -1299,7 +1300,6 @@
 					WebKit,
 					"-lwxexpat-2.8",
 					"-lwxtiff-2.8",
-					"-lwxjpeg-2.8",
 					"-lwxpng-2.8",
 					"-lwx_mac_gl-2.8",
 					"-lwx_mac-2.8",
