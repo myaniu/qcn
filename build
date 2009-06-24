@@ -34,10 +34,11 @@ make distclean
 ./_autosetup
 if ( test "`uname -s`" = "Darwin" ) then
 ./configure --with-apple-opengl-framework --enable-client-release --disable-server
+./build.mac
 else
 ./configure --enable-client-release --disable-server
-fi
 make clean
 make
+fi
 cd client/bin
 ./deploy $1 $2
