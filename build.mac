@@ -19,4 +19,4 @@ cd ../../qcn/client/mac_build
 xcodebuild -project qcn.xcodeproj -configuration Release -target qcn clean build
 xcodebuild -project qcn.xcodeproj -configuration Release -target qcn_graphics clean build
 xcodebuild -project qcn.xcodeproj -configuration Release -target qcnusb clean build
-xcodebuild -project qcn.xcodeproj -configuration Release -target qcnlive clean build
+xcodebuild -project qcn.xcodeproj -configuration Release -target QCNLive clean build
