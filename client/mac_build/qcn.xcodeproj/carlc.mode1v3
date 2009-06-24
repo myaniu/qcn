@@ -270,13 +270,14 @@
 							<array>
 								<string>E3A499DB0D64E60400E51CDF</string>
 								<string>1C37FBAC04509CD000000102</string>
-								<string>E3222D760FF2E3BA00B25EB2</string>
-								<string>E3222D7A0FF2E3DB00B25EB2</string>
+								<string>E38484CA0FF2E53500A5CFEF</string>
+								<string>E38484D30FF2E5C000A5CFEF</string>
 								<string>1C37FABC05509CD000000102</string>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
+									<integer>11</integer>
 									<integer>0</integer>
 								</array>
 							</array>
@@ -328,7 +329,7 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>E3222D7B0FF2E3DB00B25EB2</string>
+										<string>E38484D80FF2E5D900A5CFEF</string>
 										<key>history</key>
 										<array>
 											<string>E3583B450FF1921800057DD2</string>
@@ -374,7 +375,7 @@
 											<string>E300B1D20FF2D30300E54D79</string>
 											<string>E300B1DD0FF2D38200E54D79</string>
 											<string>E300B1FE0FF2D5AB00E54D79</string>
-											<string>E300B2070FF2D60D00E54D79</string>
+											<string>E3222D7B0FF2E3DB00B25EB2</string>
 										</array>
 										<key>prevStack</key>
 										<array>
@@ -479,9 +480,9 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>E3222D7C0FF2E3DB00B25EB2</string>
+				<string>E38484D50FF2E5C000A5CFEF</string>
 				<string>1CE0B1FE06471DED0097A5F4</string>
-				<string>E3222D7D0FF2E3DB00B25EB2</string>
+				<string>E38484D60FF2E5C000A5CFEF</string>
 				<string>1CE0B20306471E060097A5F4</string>
 				<string>1CE0B20506471E060097A5F4</string>
 			</array>
@@ -615,6 +616,8 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
+		<string>E38484D70FF2E5C000A5CFEF</string>
+		<string>E3D35BF80FF1781000E64121</string>
 		<string>/Users/carlc/projects/qcn/client/mac_build/qcn.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
@@ -639,7 +642,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>1CD0528F0623707200166675</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>MotionNodeAccelAPI.h</string>
+								<string></string>
 								<key>StatusBarVisibility</key>
 								<true/>
 							</dict>
@@ -697,7 +700,7 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>E3D35BF80FF1781000E64121</string>
-				<string>E300B1AE0FF2CF1B00E54D79</string>
+				<string>E38484D00FF2E5B400A5CFEF</string>
 				<string>1CD0528F0623707200166675</string>
 				<string>XCMainBuildResultsModuleGUID</string>
 			</array>
