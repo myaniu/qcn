@@ -15,29 +15,28 @@ uplstring='init/Helvetica.txf \
          init/logo.jpg'
 ntpversion='ntpdate_4.2.4p5_'
 if ( test "`uname -s`" = "Darwin" ) then
-   # Apple Mac -- universal!
-      suffixp='powerpc-apple-darwin'
-      suffixi='i386-apple-darwin'
-      ntpdv=$ntpversion$suffix
-      rm -f qcnlive-mac.zip
-      zip -r qcnlive-mac.zip QCNLive.app \
-         init/$ntpdv $uplstring \
-         init/libMotionNodeAccelAPI.dylib \
-            -x@exclude.lst
-      cp qcnusb.app/Contents/MacOS/qcnusb ../qcnusb/install
-      cd ../qcnusb/install
-      /Developer/usr/bin/packagemaker --doc installer.pmdoc --out ../../bin/qcnusb-mac.mpkg
-      cd ../../bin/
-      zip -r qcnusb-mac.zip qcnusb-mac.mpkg -x@exclude.lst
-   cp qcn.app/Contents/MacOS/qcn qcn_$2_$suffix
-   lipo -extract i386 qcn.app/Contents/MacOS/qcn -output qcn_$1_$suffixi$ncisuffix
-   lipo -extract i386 qcn.app/Contents/MacOS/qcn -output qcn_$2_$suffixi
-   lipo -extract ppc qcn.app/Contents/MacOS/qcn -output qcn_$1_$suffixp$ncisuffix
-   lipo -extract ppc qcn.app/Contents/MacOS/qcn -output qcn_$2_$suffixp
-   lipo -extract i386 qcn.app/Contents/MacOS/qcn -output graphics_app=qcn_graphics_$1_$suffixi
-   lipo -extract i386 qcn.app/Contents/MacOS/qcn -output graphics_app=qcn_graphics_$2_$suffixi
-   lipo -extract ppc qcn.app/Contents/MacOS/qcn -output graphics_app=qcn_graphics_$1_$suffixp
-   lipo -extract ppc qcn.app/Contents/MacOS/qcn -output graphics_app=qcn_graphics_$2_$suffixp
+  # Apple Mac -- universal!
+  suffixp='powerpc-apple-darwin'
+  suffixi='i386-apple-darwin'
+  ntpdv=$ntpversion*apple-darwin
+  rm -f qcnlive-mac.zip
+  zip -r qcnlive-mac.zip QCNLive.app \
+     init/$ntpdv $uplstring \
+     init/libMotionNodeAccelAPI.dylib \
+       -x@exclude.lst
+  cp qcnusb.app/Contents/MacOS/qcnusb ../qcnusb/install
+  cd ../qcnusb/install
+  /Developer/usr/bin/packagemaker --doc installer.pmdoc --out ../../bin/qcnusb-mac.mpkg
+  cd ../../bin/
+  zip -r qcnusb-mac.zip qcnusb-mac.mpkg -x@exclude.lst
+  lipo -extract i386 qcn.app/Contents/MacOS/qcn -output qcn_$1_$suffixi$ncisuffix
+  lipo -extract i386 qcn.app/Contents/MacOS/qcn -output qcn_$2_$suffixi
+  lipo -extract ppc qcn.app/Contents/MacOS/qcn -output qcn_$1_$suffixp$ncisuffix
+  lipo -extract ppc qcn.app/Contents/MacOS/qcn -output qcn_$2_$suffixp
+  lipo -extract i386 qcn.app/Contents/MacOS/qcn -output graphics_app=qcn_graphics_$1_$suffixi
+  lipo -extract i386 qcn.app/Contents/MacOS/qcn -output graphics_app=qcn_graphics_$2_$suffixi
+  lipo -extract ppc qcn.app/Contents/MacOS/qcn -output graphics_app=qcn_graphics_$1_$suffixp
+  lipo -extract ppc qcn.app/Contents/MacOS/qcn -output graphics_app=qcn_graphics_$2_$suffixp
 
 appspathone=qcn_$1_$suffixi$ncisuffix
 appspathtwo=qcn_$2_$suffixi
