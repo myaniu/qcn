@@ -5,6 +5,9 @@ chmod uog+rx build.mac
 cd ../zlib
 chmod uog+rx build.mac
 ./build.mac
+cd ../curl
+chmod uog+rx build.mac
+./build.mac
 cd ../../boinc/mac_build
 #NB - not using boinc libs, just use files directly
 #xcodebuild -project boinc.xcodeproj -configuration Deployment -target libboinc clean build

@@ -271,27 +271,27 @@
 								<string>E3A499DB0D64E60400E51CDF</string>
 								<string>E3C0E7D80D64E9C50099B905</string>
 								<string>E3C0E79B0D64E9BE0099B905</string>
-								<string>E3CD09C50FF2AD000043EE7E</string>
 								<string>E3C967100FF1A18C00F20324</string>
 								<string>E3C967110FF1A19400F20324</string>
 								<string>E3C967130FF1A19D00F20324</string>
 								<string>1C37FBAC04509CD000000102</string>
-								<string>E34E9CA80FF2BE4A004998DB</string>
 								<string>E34E9CA90FF2BE4A004998DB</string>
 								<string>E34E9CAA0FF2BE4A004998DB</string>
+								<string>E34E9CAB0FF2BE4A004998DB</string>
 								<string>E34E9CC70FF2C0A7004998DB</string>
 								<string>1C37FABC05509CD000000102</string>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>66</integer>
-									<integer>63</integer>
-									<integer>57</integer>
+									<integer>42</integer>
+									<integer>6</integer>
+									<integer>5</integer>
+									<integer>0</integer>
 								</array>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateVisibleRectKey</key>
-							<string>{{0, 513}, {334, 762}}</string>
+							<string>{{0, 283}, {334, 762}}</string>
 						</dict>
 						<key>PBXTopSmartGroupGIDs</key>
 						<array/>
@@ -326,7 +326,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>1CE0B20306471E060097A5F4</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>filesys.cpp</string>
+								<string>qcn_curl.cpp</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -334,11 +334,11 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>1CE0B20406471E060097A5F4</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>filesys.cpp</string>
+										<string>qcn_curl.cpp</string>
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>E34E9CC80FF2C0A7004998DB</string>
+										<string>E34E9CE20FF2C246004998DB</string>
 										<key>history</key>
 										<array>
 											<string>E3583B450FF1921800057DD2</string>
@@ -356,7 +356,6 @@
 											<string>E3C968090FF1A7A800F20324</string>
 											<string>E3C968230FF1A81C00F20324</string>
 											<string>E3C968240FF1A81C00F20324</string>
-											<string>E388F7FA0FF1B63D00D948DE</string>
 											<string>E388F7FB0FF1B63D00D948DE</string>
 											<string>E388F7FC0FF1B63D00D948DE</string>
 											<string>E388F7FD0FF1B63D00D948DE</string>
@@ -378,9 +377,11 @@
 											<string>E34E9CAD0FF2BE4A004998DB</string>
 											<string>E34E9CAF0FF2BE4A004998DB</string>
 											<string>E34E9CB00FF2BE4A004998DB</string>
-											<string>E34E9CC00FF2BE98004998DB</string>
 											<string>E34E9CC10FF2BE98004998DB</string>
-											<string>E34E9CC20FF2BE98004998DB</string>
+											<string>E34E9CCF0FF2C141004998DB</string>
+											<string>E34E9CD50FF2C15E004998DB</string>
+											<string>E34E9CDF0FF2C246004998DB</string>
+											<string>E34E9CE00FF2C246004998DB</string>
 										</array>
 										<key>prevStack</key>
 										<array>
@@ -430,6 +431,9 @@
 											<string>E34E9CB70FF2BE4A004998DB</string>
 											<string>E34E9CC30FF2BE98004998DB</string>
 											<string>E34E9CC40FF2BE98004998DB</string>
+											<string>E34E9CD00FF2C141004998DB</string>
+											<string>E34E9CD60FF2C15E004998DB</string>
+											<string>E34E9CE10FF2C246004998DB</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -623,8 +627,8 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>/Users/carlc/projects/qcn/client/mac_build/qcn.xcodeproj</string>
 		<string>E3D35BF80FF1781000E64121</string>
+		<string>/Users/carlc/projects/qcn/client/mac_build/qcn.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
 	<string>106 194 1278 821 0 0 1680 1028 </string>
@@ -717,7 +721,7 @@
 			<key>WindowToolGUID</key>
 			<string>E3D35BF80FF1781000E64121</string>
 			<key>WindowToolIsVisible</key>
-			<true/>
+			<false/>
 		</dict>
 		<dict>
 			<key>FirstTimeWindowDisplayed</key>
