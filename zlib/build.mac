@@ -44,4 +44,5 @@ make clean
 make
 mv libz.a lib/libz_x86_64.a
 lipo -arch ppc lib/libz_ppc.a -arch i386 lib/libz_i386.a -arch x86_64 lib/libz_x86_64.a -create -output libz-universal.a
+mv libz-universal.a ../client/mac_build/
 rm -rf lib ; make clean

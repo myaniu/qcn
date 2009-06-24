@@ -45,4 +45,5 @@ make
 mv .libs/libjpeg.a lib/libjpeg_x86_64.a
 lipo -arch ppc lib/libjpeg_ppc.a -arch i386 lib/libjpeg_i386.a -arch x86_64 lib/libjpeg_x86_64.a -create -output libjpeg-universal.a
 #lipo -arch ppc lib/libjpeg_ppc.a -arch i386 lib/libjpeg_i386.a -create -output libjpeg-universal.a
+mv libjpeg-universal.a ../client/mac_build/
 rm -rf lib ; make clean
