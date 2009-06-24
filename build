@@ -1,7 +1,7 @@
 #!/bin/sh
 if ( test "$1" = "" || test "$2" = "") then
    echo Usage:  ./build VERSION_NUMBER_NCI VERSION_NUMBER_REGULAR
-   echo 'NCI should usually be one higher than regular version number'
+   echo 'NCI should usually be .01 higher than regular version number'
    exit 1
 fi
 ./set-version $1
