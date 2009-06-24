@@ -10,7 +10,6 @@
 		E33EF7C00FF1DF7400CD5708 /* libboinc_zip.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E33EF7BD0FF1DF7400CD5708 /* libboinc_zip.a */; };
 		E33EF7C10FF1DF7400CD5708 /* libjpeg-universal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E33EF7BE0FF1DF7400CD5708 /* libjpeg-universal.a */; };
 		E33EF7C20FF1DF7400CD5708 /* libz-universal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E33EF7BF0FF1DF7400CD5708 /* libz-universal.a */; };
-		E33EF7C30FF1DF7400CD5708 /* libboinc_zip.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E33EF7BD0FF1DF7400CD5708 /* libboinc_zip.a */; };
 		E33EF7C60FF1DF7500CD5708 /* libboinc_zip.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E33EF7BD0FF1DF7400CD5708 /* libboinc_zip.a */; };
 		E33EF7C70FF1DF7500CD5708 /* libjpeg-universal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E33EF7BE0FF1DF7400CD5708 /* libjpeg-universal.a */; };
 		E33EF7C80FF1DF7500CD5708 /* libz-universal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E33EF7BF0FF1DF7400CD5708 /* libz-universal.a */; };
@@ -20,12 +19,13 @@
 		E34E9CA00FF2BDCE004998DB /* graphics2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C967180FF1A1DD00F20324 /* graphics2.cpp */; };
 		E34E9CA40FF2BE29004998DB /* texture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C967270FF1A1DD00F20324 /* texture.cpp */; };
 		E34E9CD20FF2C14D004998DB /* texture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C967270FF1A1DD00F20324 /* texture.cpp */; };
-		E34E9CDB0FF2C210004998DB /* libz-universal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E33EF7BF0FF1DF7400CD5708 /* libz-universal.a */; };
 		E34E9CDE0FF2C236004998DB /* qcn_curl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3D49FE90D6F74C70088DE83 /* qcn_curl.cpp */; };
 		E34E9CE30FF2C25A004998DB /* gutil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C967230FF1A1DD00F20324 /* gutil.cpp */; };
 		E34E9CE40FF2C25A004998DB /* texfont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C967250FF1A1DD00F20324 /* texfont.cpp */; };
 		E34E9CE70FF2C27B004998DB /* txf_util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C9672A0FF1A1DD00F20324 /* txf_util.cpp */; };
-		E34E9CEC0FF2C528004998DB /* libcurl-universal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E34E9CEB0FF2C528004998DB /* libcurl-universal.a */; };
+		E34E9D3B0FF2CC72004998DB /* libboinc_zip_32universal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E34E9D380FF2CC72004998DB /* libboinc_zip_32universal.a */; };
+		E34E9D3C0FF2CC72004998DB /* libcurl_32universal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E34E9D390FF2CC72004998DB /* libcurl_32universal.a */; };
+		E34E9D3D0FF2CC72004998DB /* libz_32universal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E34E9D3A0FF2CC72004998DB /* libz_32universal.a */; };
 		E388F83D0FF1B85E00D948DE /* graphics2_util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C9671B0FF1A1DD00F20324 /* graphics2_util.cpp */; };
 		E388F84E0FF1B9A900D948DE /* graphics2_util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C9671B0FF1A1DD00F20324 /* graphics2_util.cpp */; };
 		E388F8500FF1B9A900D948DE /* qcn_shmem_usb.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3D35C190FF17AB200E64121 /* qcn_shmem_usb.cpp */; };
@@ -214,6 +214,9 @@
 		E33EF7BE0FF1DF7400CD5708 /* libjpeg-universal.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libjpeg-universal.a"; sourceTree = "<group>"; };
 		E33EF7BF0FF1DF7400CD5708 /* libz-universal.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libz-universal.a"; sourceTree = "<group>"; };
 		E34E9CEB0FF2C528004998DB /* libcurl-universal.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libcurl-universal.a"; sourceTree = "<group>"; };
+		E34E9D380FF2CC72004998DB /* libboinc_zip_32universal.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libboinc_zip_32universal.a; sourceTree = "<group>"; };
+		E34E9D390FF2CC72004998DB /* libcurl_32universal.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libcurl_32universal.a; sourceTree = "<group>"; };
+		E34E9D3A0FF2CC72004998DB /* libz_32universal.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libz_32universal.a; sourceTree = "<group>"; };
 		E3583B200FF18FF500057DD2 /* csensor_mac_usb_generic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = csensor_mac_usb_generic.h; path = ../sensor/csensor_mac_usb_generic.h; sourceTree = SOURCE_ROOT; };
 		E371C7F60E2AB5D0009B4DAA /* csensor_mac_laptop.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = csensor_mac_laptop.cpp; path = ../sensor/csensor_mac_laptop.cpp; sourceTree = SOURCE_ROOT; };
 		E371C7F70E2AB5D0009B4DAA /* csensor_mac_usb_jw.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = csensor_mac_usb_jw.cpp; path = ../sensor/csensor_mac_usb_jw.cpp; sourceTree = SOURCE_ROOT; };
@@ -355,9 +358,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E34E9CDB0FF2C210004998DB /* libz-universal.a in Frameworks */,
-				E33EF7C30FF1DF7400CD5708 /* libboinc_zip.a in Frameworks */,
-				E34E9CEC0FF2C528004998DB /* libcurl-universal.a in Frameworks */,
+				E34E9D3B0FF2CC72004998DB /* libboinc_zip_32universal.a in Frameworks */,
+				E34E9D3C0FF2CC72004998DB /* libcurl_32universal.a in Frameworks */,
+				E34E9D3D0FF2CC72004998DB /* libz_32universal.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -398,6 +401,9 @@
 		E3A499DB0D64E60400E51CDF = {
 			isa = PBXGroup;
 			children = (
+				E34E9D380FF2CC72004998DB /* libboinc_zip_32universal.a */,
+				E34E9D390FF2CC72004998DB /* libcurl_32universal.a */,
+				E34E9D3A0FF2CC72004998DB /* libz_32universal.a */,
 				E34E9CEB0FF2C528004998DB /* libcurl-universal.a */,
 				E33EF7BD0FF1DF7400CD5708 /* libboinc_zip.a */,
 				E33EF7BE0FF1DF7400CD5708 /* libjpeg-universal.a */,
@@ -1076,7 +1082,6 @@
 					"-D_DEBUG",
 				);
 				OTHER_LDFLAGS = (
-					"-lstdc++",
 					"-framework",
 					Foundation,
 					"-framework",
@@ -1144,7 +1149,6 @@
 					"-DNDEBUG",
 				);
 				OTHER_LDFLAGS = (
-					"-lstdc++",
 					"-framework",
 					Foundation,
 					"-framework",
@@ -1169,6 +1173,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
@@ -1182,6 +1187,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
 				);
+				LINK_WITH_STANDARD_LIBRARIES = YES;
 				OTHER_CFLAGS = (
 					"-Wall",
 					"-D_USE_NTPDATE_EXEC_",
@@ -1195,7 +1201,6 @@
 					"-I../sensor",
 					"-I../../../boinc/lib/mac",
 					"-DHAVE_SYS_RESOURCE_H",
-					"-D_DEBUG",
 					"-I/usr/local/lib/wx/include/mac-ansi-release-static-2.8",
 					"-I/usr/local/include/wx-2.8",
 					"-D_FILE_OFFSET_BITS=64",
@@ -1203,11 +1208,6 @@
 					"-D__WXMAC__",
 				);
 				OTHER_LDFLAGS = (
-					"-L/usr/local/lib",
-					"-arch",
-					ppc,
-					"-arch",
-					i386,
 					"-framework",
 					IOKit,
 					"-framework",
@@ -1222,7 +1222,6 @@
 					OpenGL,
 					"-framework",
 					AGL,
-					"/usr/local/lib/libwx_mac-2.8.a",
 					"-framework",
 					WebKit,
 					"-lwxexpat-2.8",
@@ -1237,6 +1236,7 @@
 				PREBINDING = NO;
 				PRODUCT_NAME = qcnlive;
 				SDKROOT = macosx10.4;
+				SYMROOT = ../bin;
 			};
 			name = Debug;
 		};
@@ -1279,11 +1279,6 @@
 					"-D__WXMAC__",
 				);
 				OTHER_LDFLAGS = (
-					"-L/usr/local/lib",
-					"-arch",
-					ppc,
-					"-arch",
-					i386,
 					"-framework",
 					IOKit,
 					"-framework",
@@ -1298,7 +1293,6 @@
 					OpenGL,
 					"-framework",
 					AGL,
-					"/usr/local/lib/libwx_mac-2.8.a",
 					"-framework",
 					WebKit,
 					"-lwxexpat-2.8",
@@ -1390,7 +1384,6 @@
 				);
 				OTHER_LDFLAGS = (
 					"-L./",
-					"-lstdc++",
 					"-framework",
 					Foundation,
 					"-framework",
@@ -1463,7 +1456,6 @@
 				);
 				OTHER_LDFLAGS = (
 					"-L./",
-					"-lstdc++",
 					"-framework",
 					Foundation,
 					"-framework",
@@ -1533,7 +1525,6 @@
 				);
 				OTHER_LDFLAGS = (
 					"-L./",
-					"-lstdc++",
 					"-framework",
 					Foundation,
 					"-framework",
@@ -1604,7 +1595,6 @@
 				);
 				OTHER_LDFLAGS = (
 					"-L./",
-					"-lstdc++",
 					"-framework",
 					Foundation,
 					"-framework",

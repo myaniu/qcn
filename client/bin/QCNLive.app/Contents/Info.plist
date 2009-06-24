@@ -5,20 +5,18 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
 	<key>CFBundleExecutable</key>
-	<string>QCNLive</string>
-	<key>CFBundleIconFile</key>
-	<string>qcnmac.icns</string>
+	<string>qcnlive</string>
 	<key>CFBundleIdentifier</key>
 	<string>edu.stanford.qcn.qcnlive</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>qcnlive</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleSignature</key>
-	<string>CMC1</string>
+	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>3.15</string>
-	<key>NSPrincipalClass</key>
-	<string>CarbonApp</string>
+	<string>1.0</string>
 </dict>
 </plist>
