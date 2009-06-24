@@ -7,9 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		E388F8230FF1B74B00D948DE /* libboinc_zip.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E388F8190FF1B6F200D948DE /* libboinc_zip.a */; };
-		E388F8320FF1B7E300D948DE /* libz-universal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E388F8310FF1B7E300D948DE /* libz-universal.a */; };
-		E388F8330FF1B7E300D948DE /* libz-universal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E388F8310FF1B7E300D948DE /* libz-universal.a */; };
+		E33EF7C00FF1DF7400CD5708 /* libboinc_zip.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E33EF7BD0FF1DF7400CD5708 /* libboinc_zip.a */; };
+		E33EF7C10FF1DF7400CD5708 /* libjpeg-universal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E33EF7BE0FF1DF7400CD5708 /* libjpeg-universal.a */; };
+		E33EF7C20FF1DF7400CD5708 /* libz-universal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E33EF7BF0FF1DF7400CD5708 /* libz-universal.a */; };
+		E33EF7C30FF1DF7400CD5708 /* libboinc_zip.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E33EF7BD0FF1DF7400CD5708 /* libboinc_zip.a */; };
+		E33EF7C40FF1DF7500CD5708 /* libjpeg-universal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E33EF7BE0FF1DF7400CD5708 /* libjpeg-universal.a */; };
+		E33EF7C50FF1DF7500CD5708 /* libz-universal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E33EF7BF0FF1DF7400CD5708 /* libz-universal.a */; };
+		E33EF7C60FF1DF7500CD5708 /* libboinc_zip.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E33EF7BD0FF1DF7400CD5708 /* libboinc_zip.a */; };
+		E33EF7C70FF1DF7500CD5708 /* libjpeg-universal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E33EF7BE0FF1DF7400CD5708 /* libjpeg-universal.a */; };
+		E33EF7C80FF1DF7500CD5708 /* libz-universal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E33EF7BF0FF1DF7400CD5708 /* libz-universal.a */; };
+		E33EF7C90FF1DF7500CD5708 /* libboinc_zip.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E33EF7BD0FF1DF7400CD5708 /* libboinc_zip.a */; };
+		E33EF7CA0FF1DF7500CD5708 /* libjpeg-universal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E33EF7BE0FF1DF7400CD5708 /* libjpeg-universal.a */; };
+		E33EF7CB0FF1DF7500CD5708 /* libz-universal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E33EF7BF0FF1DF7400CD5708 /* libz-universal.a */; };
 		E388F83D0FF1B85E00D948DE /* graphics2_util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C9671B0FF1A1DD00F20324 /* graphics2_util.cpp */; };
 		E388F84E0FF1B9A900D948DE /* graphics2_util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C9671B0FF1A1DD00F20324 /* graphics2_util.cpp */; };
 		E388F8500FF1B9A900D948DE /* qcn_shmem_usb.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3D35C190FF17AB200E64121 /* qcn_shmem_usb.cpp */; };
@@ -41,7 +50,6 @@
 		E388F8760FF1B9A900D948DE /* QTaskMemory.c in Sources */ = {isa = PBXBuildFile; fileRef = E3C968140FF1A80100F20324 /* QTaskMemory.c */; };
 		E388F8780FF1B9CD00D948DE /* qcnusb.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E388F8770FF1B9CD00D948DE /* qcnusb.cpp */; };
 		E388F8F20FF1BD8500D948DE /* shmem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C9674D0FF1A22200F20324 /* shmem.cpp */; };
-		E388F8FD0FF1BE3500D948DE /* libz-universal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E388F8310FF1B7E300D948DE /* libz-universal.a */; };
 		E3C9663F0FF19BE300F20324 /* csensor_usb_motionnodeaccel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E30AB1140EBB776D00DABFEF /* csensor_usb_motionnodeaccel.cpp */; };
 		E3C966680FF19F2C00F20324 /* qcn_util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C0E7AD0D64E9BE0099B905 /* qcn_util.cpp */; };
 		E3C9666B0FF19F3E00F20324 /* qcn_shmem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C0E7AF0D64E9BE0099B905 /* qcn_shmem.cpp */; };
@@ -98,7 +106,6 @@
 		E3C9681F0FF1A80100F20324 /* QSymbols.c in Sources */ = {isa = PBXBuildFile; fileRef = E3C968130FF1A80100F20324 /* QSymbols.c */; };
 		E3C968200FF1A80100F20324 /* QTaskMemory.c in Sources */ = {isa = PBXBuildFile; fileRef = E3C968140FF1A80100F20324 /* QTaskMemory.c */; };
 		E3C968440FF1ABCA00F20324 /* qcn_signal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3D35C130FF179E900E64121 /* qcn_signal.cpp */; };
-		E3D35BD20FF1773A00E64121 /* libjpeg-universal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E3D35BD00FF1773A00E64121 /* libjpeg-universal.a */; };
 		E3D35BE00FF177A100E64121 /* csensor_mac_laptop.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E371C7F60E2AB5D0009B4DAA /* csensor_mac_laptop.cpp */; };
 		E3D35BE10FF177A100E64121 /* csensor_mac_usb_jw.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E371C7F70E2AB5D0009B4DAA /* csensor_mac_usb_jw.cpp */; };
 		E3D35BE20FF177A100E64121 /* csensor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E30F9E9C0DEC6D4C0000FACE /* csensor.cpp */; };
@@ -127,16 +134,6 @@
 		E3D35C1A0FF17AB200E64121 /* qcn_shmem_usb.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3D35C190FF17AB200E64121 /* qcn_shmem_usb.cpp */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		E388F8180FF1B6F200D948DE /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = E388F8110FF1B6F100D948DE /* boinc_zip.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = D2AAC046055464E500DB518D /* libboinc_zip.a */;
-			remoteInfo = boinc_zip;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXCopyFilesBuildPhase section */
 		E388F8480FF1B8DD00D948DE /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -155,16 +152,17 @@
 		E30AB1140EBB776D00DABFEF /* csensor_usb_motionnodeaccel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = csensor_usb_motionnodeaccel.cpp; path = ../sensor/csensor_usb_motionnodeaccel.cpp; sourceTree = SOURCE_ROOT; };
 		E30F9E9C0DEC6D4C0000FACE /* csensor.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = csensor.cpp; path = ../sensor/csensor.cpp; sourceTree = SOURCE_ROOT; };
 		E30F9E9E0DEC6D5F0000FACE /* csensor.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = csensor.h; path = ../sensor/csensor.h; sourceTree = SOURCE_ROOT; };
+		E33EF7BD0FF1DF7400CD5708 /* libboinc_zip.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libboinc_zip.a; sourceTree = "<group>"; };
+		E33EF7BE0FF1DF7400CD5708 /* libjpeg-universal.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libjpeg-universal.a"; sourceTree = "<group>"; };
+		E33EF7BF0FF1DF7400CD5708 /* libz-universal.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libz-universal.a"; sourceTree = "<group>"; };
 		E3583B200FF18FF500057DD2 /* csensor_mac_usb_generic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = csensor_mac_usb_generic.h; path = ../sensor/csensor_mac_usb_generic.h; sourceTree = SOURCE_ROOT; };
 		E371C7F60E2AB5D0009B4DAA /* csensor_mac_laptop.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = csensor_mac_laptop.cpp; path = ../sensor/csensor_mac_laptop.cpp; sourceTree = SOURCE_ROOT; };
 		E371C7F70E2AB5D0009B4DAA /* csensor_mac_usb_jw.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = csensor_mac_usb_jw.cpp; path = ../sensor/csensor_mac_usb_jw.cpp; sourceTree = SOURCE_ROOT; };
 		E378CDB40D64E96C008A3885 /* qcn-Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.xml; path = "qcn-Info.plist"; sourceTree = "<group>"; };
 		E388F7C70FF1B3E500D948DE /* qcnusb.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = qcnusb.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E388F7C90FF1B3E500D948DE /* qcnusb-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "qcnusb-Info.plist"; sourceTree = "<group>"; };
-		E388F8110FF1B6F100D948DE /* boinc_zip.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = boinc_zip.xcodeproj; path = ../../../boinc/zip/boinc_zip.xcodeproj; sourceTree = SOURCE_ROOT; };
-		E388F8310FF1B7E300D948DE /* libz-universal.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libz-universal.a"; path = "../../zlib/libz-universal.a"; sourceTree = SOURCE_ROOT; };
 		E388F8770FF1B9CD00D948DE /* qcnusb.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = qcnusb.cpp; path = ../qcnusb/qcnusb.cpp; sourceTree = SOURCE_ROOT; };
-		E388F90F0FF1BE6000D948DE /* qcnlive.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = qcnlive.app; path = build/Release/qcnlive.app; sourceTree = "<group>"; };
+		E388F90F0FF1BE6000D948DE /* qcnlive.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = qcnlive.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E388F9110FF1BE6000D948DE /* qcnlive-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "qcnlive-Info.plist"; sourceTree = "<group>"; };
 		E3B747A60E8C6DFC00D401EB /* csensor_mac_laptop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = csensor_mac_laptop.h; path = ../sensor/csensor_mac_laptop.h; sourceTree = SOURCE_ROOT; };
 		E3B747A80E8C6DFC00D401EB /* csensor_mac_usb_jw.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = csensor_mac_usb_jw.h; path = ../sensor/csensor_mac_usb_jw.h; sourceTree = SOURCE_ROOT; };
@@ -266,7 +264,6 @@
 		E3C968140FF1A80100F20324 /* QTaskMemory.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = QTaskMemory.c; path = ../../../boinc/lib/mac/QTaskMemory.c; sourceTree = SOURCE_ROOT; };
 		E3D35BC60FF175D500E64121 /* qcn_graphics.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = qcn_graphics.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E3D35BC80FF175D500E64121 /* qcn_graphics-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "qcn_graphics-Info.plist"; sourceTree = "<group>"; };
-		E3D35BD00FF1773A00E64121 /* libjpeg-universal.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libjpeg-universal.a"; path = "../../jpeg-6b/libjpeg-universal.a"; sourceTree = SOURCE_ROOT; };
 		E3D35C100FF1799600E64121 /* csensor_mac_usb_generic.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = csensor_mac_usb_generic.cpp; path = ../sensor/csensor_mac_usb_generic.cpp; sourceTree = SOURCE_ROOT; };
 		E3D35C130FF179E900E64121 /* qcn_signal.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = qcn_signal.cpp; path = ../util/qcn_signal.cpp; sourceTree = SOURCE_ROOT; };
 		E3D35C190FF17AB200E64121 /* qcn_shmem_usb.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = qcn_shmem_usb.cpp; path = ../qcnusb/qcn_shmem_usb.cpp; sourceTree = SOURCE_ROOT; };
@@ -279,7 +276,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E388F8FD0FF1BE3500D948DE /* libz-universal.a in Frameworks */,
+				E33EF7C00FF1DF7400CD5708 /* libboinc_zip.a in Frameworks */,
+				E33EF7C10FF1DF7400CD5708 /* libjpeg-universal.a in Frameworks */,
+				E33EF7C20FF1DF7400CD5708 /* libz-universal.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -287,6 +286,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E33EF7C30FF1DF7400CD5708 /* libboinc_zip.a in Frameworks */,
+				E33EF7C40FF1DF7500CD5708 /* libjpeg-universal.a in Frameworks */,
+				E33EF7C50FF1DF7500CD5708 /* libz-universal.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -294,8 +296,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E388F8230FF1B74B00D948DE /* libboinc_zip.a in Frameworks */,
-				E388F8320FF1B7E300D948DE /* libz-universal.a in Frameworks */,
+				E33EF7C90FF1DF7500CD5708 /* libboinc_zip.a in Frameworks */,
+				E33EF7CA0FF1DF7500CD5708 /* libjpeg-universal.a in Frameworks */,
+				E33EF7CB0FF1DF7500CD5708 /* libz-universal.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -303,8 +306,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E3D35BD20FF1773A00E64121 /* libjpeg-universal.a in Frameworks */,
-				E388F8330FF1B7E300D948DE /* libz-universal.a in Frameworks */,
+				E33EF7C60FF1DF7500CD5708 /* libboinc_zip.a in Frameworks */,
+				E33EF7C70FF1DF7500CD5708 /* libjpeg-universal.a in Frameworks */,
+				E33EF7C80FF1DF7500CD5708 /* libz-universal.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -322,20 +326,12 @@
 			name = sensor;
 			sourceTree = "<group>";
 		};
-		E388F8120FF1B6F100D948DE /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				E388F8190FF1B6F200D948DE /* libboinc_zip.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		E3A499DB0D64E60400E51CDF = {
 			isa = PBXGroup;
 			children = (
-				E388F8310FF1B7E300D948DE /* libz-universal.a */,
-				E388F8110FF1B6F100D948DE /* boinc_zip.xcodeproj */,
-				E3D35BD00FF1773A00E64121 /* libjpeg-universal.a */,
+				E33EF7BD0FF1DF7400CD5708 /* libboinc_zip.a */,
+				E33EF7BE0FF1DF7400CD5708 /* libjpeg-universal.a */,
+				E33EF7BF0FF1DF7400CD5708 /* libz-universal.a */,
 				E3C0E7D90D64E9D30099B905 /* Headers */,
 				E3C0E7D80D64E9C50099B905 /* Sources */,
 				E3A499EF0D64E62A00E51CDF /* Products */,
@@ -719,12 +715,6 @@
 			mainGroup = E3A499DB0D64E60400E51CDF;
 			productRefGroup = E3A499EF0D64E62A00E51CDF /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = E388F8120FF1B6F100D948DE /* Products */;
-					ProjectRef = E388F8110FF1B6F100D948DE /* boinc_zip.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				E3A499ED0D64E62A00E51CDF /* qcn */,
@@ -734,16 +724,6 @@
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		E388F8190FF1B6F200D948DE /* libboinc_zip.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libboinc_zip.a;
-			remoteRef = E388F8180FF1B6F200D948DE /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		E388F90B0FF1BE6000D948DE /* Resources */ = {
@@ -903,8 +883,13 @@
 		E388F7CA0FF1B3E500D948DE /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ADDITIONAL_SDKS = "i386 ppc x86_64";
+				ADDITIONAL_SDKS = "";
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = (
+					i386,
+					ppc,
+					x86_64,
+				);
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -930,6 +915,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../../zlib\"",
+					"\"$(SRCROOT)\"",
 				);
 				"MACOSX_DEPLOYMENT_TARGET[arch=ppc]" = 10.3;
 				"MACOSX_DEPLOYMENT_TARGET[arch=x86_64]" = 10.5;
@@ -944,7 +930,6 @@
 					"-D_DEBUG",
 				);
 				OTHER_LDFLAGS = (
-					"-L../../../boinc/zip/build/Deployment",
 					"-lstdc++",
 					"-framework",
 					Foundation,
@@ -998,6 +983,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../../zlib\"",
+					"\"$(SRCROOT)\"",
 				);
 				"MACOSX_DEPLOYMENT_TARGET[arch=ppc]" = 10.3;
 				"MACOSX_DEPLOYMENT_TARGET[arch=x86_64]" = 10.5;
@@ -1012,7 +998,6 @@
 					"-DNDEBUG",
 				);
 				OTHER_LDFLAGS = (
-					"-L../../../boinc/zip/build/Deployment",
 					"-lstdc++",
 					"-framework",
 					Foundation,
@@ -1046,6 +1031,10 @@
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
 				INFOPLIST_FILE = "qcnlive-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
 				OTHER_LDFLAGS = (
 					"-framework",
 					Carbon,
@@ -1067,6 +1056,10 @@
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
 				INFOPLIST_FILE = "qcnlive-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
 				OTHER_LDFLAGS = (
 					"-framework",
 					Carbon,
@@ -1131,6 +1124,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../../zlib\"",
+					"\"$(SRCROOT)\"",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				"MACOSX_DEPLOYMENT_TARGET[arch=ppc]" = 10.3;
@@ -1148,7 +1142,7 @@
 					"-D_DEBUG",
 				);
 				OTHER_LDFLAGS = (
-					"-L../../../boinc/zip/build/Deployment",
+					"-L./",
 					"-lstdc++",
 					"-framework",
 					Foundation,
@@ -1203,6 +1197,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../../zlib\"",
+					"\"$(SRCROOT)\"",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				"MACOSX_DEPLOYMENT_TARGET[arch=ppc]" = 10.3;
@@ -1220,7 +1215,7 @@
 					"-DNDEBUG",
 				);
 				OTHER_LDFLAGS = (
-					"-L../../../boinc/zip/build/Deployment",
+					"-L./",
 					"-lstdc++",
 					"-framework",
 					Foundation,
@@ -1270,13 +1265,7 @@
 				);
 				INFOPLIST_FILE = "qcn_graphics-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/../../jpeg-6b\"",
-					"\"$(SRCROOT)/../../../boinc/mac_build/build/Deployment\"",
-					"\"$(SRCROOT)/../../../boinc/zip/build/Release\"",
-					"\"$(SRCROOT)/../../zlib\"",
-				);
+				LIBRARY_SEARCH_PATHS = "";
 				"MACOSX_DEPLOYMENT_TARGET[arch=ppc]" = 10.3;
 				"MACOSX_DEPLOYMENT_TARGET[arch=x86_64]" = 10.5;
 				OTHER_CFLAGS = (
@@ -1296,6 +1285,7 @@
 					"-D_DEBUG",
 				);
 				OTHER_LDFLAGS = (
+					"-L./",
 					"-lstdc++",
 					"-framework",
 					Foundation,
@@ -1346,13 +1336,7 @@
 				);
 				INFOPLIST_FILE = "qcn_graphics-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/../../jpeg-6b\"",
-					"\"$(SRCROOT)/../../../boinc/mac_build/build/Deployment\"",
-					"\"$(SRCROOT)/../../../boinc/zip/build/Release\"",
-					"\"$(SRCROOT)/../../zlib\"",
-				);
+				LIBRARY_SEARCH_PATHS = "";
 				"MACOSX_DEPLOYMENT_TARGET[arch=ppc]" = 10.3;
 				"MACOSX_DEPLOYMENT_TARGET[arch=x86_64]" = 10.5;
 				OTHER_CFLAGS = (
@@ -1372,6 +1356,7 @@
 					"-DNDEBUG",
 				);
 				OTHER_LDFLAGS = (
+					"-L./",
 					"-lstdc++",
 					"-framework",
 					Foundation,

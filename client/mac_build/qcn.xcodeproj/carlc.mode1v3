@@ -270,18 +270,13 @@
 							<array>
 								<string>E3A499DB0D64E60400E51CDF</string>
 								<string>1C37FBAC04509CD000000102</string>
-								<string>E388F91D0FF1BE9C00D948DE</string>
-								<string>E388F91E0FF1BE9C00D948DE</string>
-								<string>E388F91F0FF1BE9C00D948DE</string>
-								<string>E388F9300FF1BEBC00D948DE</string>
 								<string>1C37FABC05509CD000000102</string>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>18</integer>
-									<integer>17</integer>
-									<integer>10</integer>
+									<integer>7</integer>
+									<integer>0</integer>
 								</array>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateVisibleRectKey</key>
@@ -320,7 +315,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>1CE0B20306471E060097A5F4</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>qcnusb-Info.plist</string>
+								<string>MotionNodeAccelAPI.h</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -328,11 +323,11 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>1CE0B20406471E060097A5F4</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>qcnusb-Info.plist</string>
+										<string>MotionNodeAccelAPI.h</string>
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>E388F9320FF1BED200D948DE</string>
+										<string>E33EF7F10FF1E13500CD5708</string>
 										<key>history</key>
 										<array>
 											<string>E3583B450FF1921800057DD2</string>
@@ -347,7 +342,6 @@
 											<string>E3C9679D0FF1A51F00F20324</string>
 											<string>E3C9679E0FF1A51F00F20324</string>
 											<string>E3C967A00FF1A51F00F20324</string>
-											<string>E3C967CE0FF1A61000F20324</string>
 											<string>E3C967E70FF1A70E00F20324</string>
 											<string>E3C968080FF1A7A800F20324</string>
 											<string>E3C968090FF1A7A800F20324</string>
@@ -366,7 +360,11 @@
 											<string>E388F8F60FF1BDBA00D948DE</string>
 											<string>E388F9200FF1BE9C00D948DE</string>
 											<string>E388F9210FF1BE9C00D948DE</string>
-											<string>E388F9220FF1BE9C00D948DE</string>
+											<string>E33EF7DA0FF1E0BA00CD5708</string>
+											<string>E33EF7E60FF1E13500CD5708</string>
+											<string>E33EF7E70FF1E13500CD5708</string>
+											<string>E33EF7E80FF1E13500CD5708</string>
+											<string>E33EF7E90FF1E13500CD5708</string>
 										</array>
 										<key>prevStack</key>
 										<array>
@@ -398,33 +396,16 @@
 											<string>E3C968270FF1A81C00F20324</string>
 											<string>E3C968280FF1A81C00F20324</string>
 											<string>E3C968290FF1A81C00F20324</string>
-											<string>E388F8010FF1B63D00D948DE</string>
 											<string>E388F8020FF1B63D00D948DE</string>
-											<string>E388F8030FF1B63D00D948DE</string>
-											<string>E388F8040FF1B63D00D948DE</string>
-											<string>E388F8050FF1B63D00D948DE</string>
-											<string>E388F8060FF1B63D00D948DE</string>
-											<string>E388F8460FF1B8DD00D948DE</string>
 											<string>E388F88C0FF1BBC100D948DE</string>
-											<string>E388F8970FF1BC4E00D948DE</string>
-											<string>E388F89A0FF1BC4E00D948DE</string>
-											<string>E388F8CA0FF1BD4800D948DE</string>
-											<string>E388F8CD0FF1BD4800D948DE</string>
-											<string>E388F8D20FF1BD4800D948DE</string>
-											<string>E388F8D40FF1BD4800D948DE</string>
-											<string>E388F8D50FF1BD4800D948DE</string>
-											<string>E388F8D60FF1BD4800D948DE</string>
-											<string>E388F8DF0FF1BD4800D948DE</string>
-											<string>E388F8E00FF1BD4800D948DE</string>
-											<string>E388F8E10FF1BD4800D948DE</string>
-											<string>E388F8E20FF1BD4800D948DE</string>
 											<string>E388F8E30FF1BD4800D948DE</string>
-											<string>E388F8E40FF1BD4800D948DE</string>
-											<string>E388F8E70FF1BD4800D948DE</string>
-											<string>E388F8EC0FF1BD4800D948DE</string>
-											<string>E388F8F70FF1BDBA00D948DE</string>
-											<string>E388F9230FF1BE9C00D948DE</string>
-											<string>E388F9240FF1BE9C00D948DE</string>
+											<string>E33EF7DC0FF1E0BA00CD5708</string>
+											<string>E33EF7DD0FF1E0BA00CD5708</string>
+											<string>E33EF7EB0FF1E13500CD5708</string>
+											<string>E33EF7EC0FF1E13500CD5708</string>
+											<string>E33EF7ED0FF1E13500CD5708</string>
+											<string>E33EF7EE0FF1E13500CD5708</string>
+											<string>E33EF7EF0FF1E13500CD5708</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -482,9 +463,9 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>E388F8080FF1B63D00D948DE</string>
+				<string>E33EF7D30FF1DFFD00CD5708</string>
 				<string>1CE0B1FE06471DED0097A5F4</string>
-				<string>E388F8090FF1B63D00D948DE</string>
+				<string>E33EF7D40FF1DFFD00CD5708</string>
 				<string>1CE0B20306471E060097A5F4</string>
 				<string>1CE0B20506471E060097A5F4</string>
 			</array>
@@ -618,9 +599,7 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>E3D35C240FF17ACF00E64121</string>
 		<string>E3D35BF80FF1781000E64121</string>
-		<string>1CD10A99069EF8BA00B06720</string>
 		<string>/Users/carlc/projects/qcn/client/mac_build/qcn.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
@@ -645,7 +624,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>1CD0528F0623707200166675</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>boinc_api.cpp</string>
+								<string>MotionNodeAccelAPI.h</string>
 								<key>StatusBarVisibility</key>
 								<true/>
 							</dict>
@@ -703,7 +682,7 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>E3D35BF80FF1781000E64121</string>
-				<string>E388F7D60FF1B4C500D948DE</string>
+				<string>E33EF7D00FF1DFD400CD5708</string>
 				<string>1CD0528F0623707200166675</string>
 				<string>XCMainBuildResultsModuleGUID</string>
 			</array>
