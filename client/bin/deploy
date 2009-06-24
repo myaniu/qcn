@@ -15,44 +15,115 @@ uplstring='init/Helvetica.txf \
          init/logo.jpg'
 ntpversion='ntpdate_4.2.4p5_'
 if ( test "`uname -s`" = "Darwin" ) then
-   # Apple Mac
-   if ( test "`uname -p`" = "i386" ) then
-      # Intel Mac -- name the BOINC name is i686 not i386!
-      suffix='i686-apple-darwin'
+   # Apple Mac -- universal!
+      suffixp='powerpc-apple-darwin'
+      suffixi='i386-apple-darwin'
       ntpdv=$ntpversion$suffix
-      rm -f qcnlive-mac-intel.zip
-      zip -r qcnlive-mac-intel.zip QCNLive.app \
+      rm -f qcnlive-mac.zip
+      zip -r qcnlive-mac.zip QCNLive.app \
          init/$ntpdv $uplstring \
          init/libMotionNodeAccelAPI.dylib \
             -x@exclude.lst
-      rm -rf qcnusb-intel*
+      cp qcnusb.app/Contents/MacOS/qcnusb ../qcnusb/install
       cd ../qcnusb/install
-      /Developer/usr/bin/packagemaker --doc installer.pmdoc --out ../../bin/qcnusb-intel.mpkg
+      /Developer/usr/bin/packagemaker --doc installer.pmdoc --out ../../bin/qcnusb-mac.mpkg
       cd ../../bin/
-      zip -r qcnusb-intel.zip qcnusb-intel.mpkg -x@exclude.lst
-   else
-      # PowerPC Mac
-      suffix='powerpc-apple-darwin'
-      ntpdv=$ntpversion$suffix
-      rm -f qcnlive-mac-ppc.zip
-      zip -r qcnlive-mac-ppc.zip QCNLive.app \
-        init/$ntpdv $uplstring \
-        init/libMotionNodeAccelAPI.dylib \
-            -x@exclude.lst
-      rm -rf qcnusb-ppc*
-      cd ../qcnusb/install
-      # /Developer/Tools/packagemaker --doc installer.pmdoc --out ../../bin/qcnusb-ppc.mpkg
-      # cd ../../bin/
-      # zip -r qcnusb-ppc.zip qcnusb-ppc.mpkg -x@exclude.lst
-      rm -f qcnusb-ppc.zip
-      zip qcnusb-ppc.zip install_ppc README.ppc.txt pre-install.sh post-install.sh qcnusb edu.stanford.qcn.qcnusb.plist
-      mv qcnusb-ppc.zip ../../bin/
-      cd ../../bin/
-   fi
-   cp qcn_$1_$suffix`uname -r` qcn_$2_$suffix
-   mv qcn_$1_$suffix`uname -r` qcn_$1_$suffix$ncisuffix
-   cp graphics_app=qcn_graphics_$1_$suffix`uname -r` graphics_app=qcn_graphics_$2_$suffix
-   mv graphics_app=qcn_graphics_$1_$suffix`uname -r` graphics_app=qcn_graphics_$1_$suffix
+      zip -r qcnusb-mac.zip qcnusb-mac.mpkg -x@exclude.lst
+   cp qcn.app/Contents/MacOS/qcn qcn_$2_$suffix
+   lipo -extract i386 qcn.app/Contents/MacOS/qcn -output qcn_$1_$suffixi$ncisuffix
+   lipo -extract i386 qcn.app/Contents/MacOS/qcn -output qcn_$2_$suffixi
+   lipo -extract ppc qcn.app/Contents/MacOS/qcn -output qcn_$1_$suffixp$ncisuffix
+   lipo -extract ppc qcn.app/Contents/MacOS/qcn -output qcn_$2_$suffixp
+   lipo -extract i386 qcn.app/Contents/MacOS/qcn -output graphics_app=qcn_graphics_$1_$suffixi
+   lipo -extract i386 qcn.app/Contents/MacOS/qcn -output graphics_app=qcn_graphics_$2_$suffixi
+   lipo -extract ppc qcn.app/Contents/MacOS/qcn -output graphics_app=qcn_graphics_$1_$suffixp
+   lipo -extract ppc qcn.app/Contents/MacOS/qcn -output graphics_app=qcn_graphics_$2_$suffixp
+
+appspathone=qcn_$1_$suffixi$ncisuffix
+appspathtwo=qcn_$2_$suffixi
+appspaththree=qcn_$1_$suffixp$ncisuffix
+appspathfour=qcn_$2_$suffixp
+
+rm -f qcnsftp.up
+echo chdir /var/www/boinc/sensor/download >> qcnsftp.up
+echo put \*.zip >> qcnsftp.up
+echo chdir /var/www/boinc/sensor/apps/qcnsensor >> qcnsftp.up
+echo -mkdir $appspathone >> qcnsftp.up
+echo chdir $appspathone >> qcnsftp.up
+echo put qcn_$1_$suffixi$ncisuffix >> qcnsftp.up
+echo put graphics_app=qcn_graphics_$1_$suffixi >> qcnsftp.up
+echo put init/Helvetica.txf >> qcnsftp.up
+echo put init/Courier-Bold.txf >> qcnsftp.up
+#echo put init/earthmask.rgb >> qcnsftp.up
+echo put init/earthday4096.jpg >> qcnsftp.up
+echo put init/earthnight4096.jpg >> qcnsftp.up
+echo put init/$ntpdv >> qcnsftp.up
+echo put init/logo.jpg >> qcnsftp.up
+if ( test "`uname -s`" = "Darwin" ) then
+   echo put init/libMotionNodeAccelAPI.dylib >> qcnsftp.up
+else
+   echo put init/libMotionNodeAccelAPI.so >> qcnsftp.up
+fi
+echo chdir ../ >> qcnsftp.up
+echo -mkdir $appspathtwo >> qcnsftp.up
+echo chdir $appspathtwo >> qcnsftp.up
+echo put qcn_$2_$suffixi >> qcnsftp.up
+echo put graphics_app=qcn_graphics_$2_$suffixi >> qcnsftp.up
+echo put init/Helvetica.txf >> qcnsftp.up
+echo put init/Courier-Bold.txf >> qcnsftp.up
+#echo put init/earthmask.rgb >> qcnsftp.up
+echo put init/earthday4096.jpg >> qcnsftp.up
+echo put init/earthnight4096.jpg >> qcnsftp.up
+echo put init/$ntpdv >> qcnsftp.up
+echo put init/logo.jpg >> qcnsftp.up
+if ( test "`uname -s`" = "Darwin" ) then
+   echo put init/libMotionNodeAccelAPI.dylib >> qcnsftp.up
+else
+   echo put init/libMotionNodeAccelAPI.so >> qcnsftp.up
+fi
+
+echo chdir /var/www/boinc/sensor/download >> qcnsftp.up
+echo put \*.zip >> qcnsftp.up
+echo chdir /var/www/boinc/sensor/apps/qcnsensor >> qcnsftp.up
+echo -mkdir $appspaththree >> qcnsftp.up
+echo chdir $appspaththree >> qcnsftp.up
+echo put qcn_$1_$suffixp$ncisuffix >> qcnsftp.up
+echo put graphics_app=qcn_graphics_$1_$suffixp >> qcnsftp.up
+echo put init/Helvetica.txf >> qcnsftp.up
+echo put init/Courier-Bold.txf >> qcnsftp.up
+#echo put init/earthmask.rgb >> qcnsftp.up
+echo put init/earthday4096.jpg >> qcnsftp.up
+echo put init/earthnight4096.jpg >> qcnsftp.up
+echo put init/$ntpdv >> qcnsftp.up
+echo put init/logo.jpg >> qcnsftp.up
+if ( test "`uname -s`" = "Darwin" ) then
+   echo put init/libMotionNodeAccelAPI.dylib >> qcnsftp.up
+else
+   echo put init/libMotionNodeAccelAPI.so >> qcnsftp.up
+fi
+echo chdir ../ >> qcnsftp.up
+echo -mkdir $appspathfour >> qcnsftp.up
+echo chdir $appspathfour >> qcnsftp.up
+echo put qcn_$2_$suffixp >> qcnsftp.up
+echo put graphics_app=qcn_graphics_$2_$suffixp >> qcnsftp.up
+echo put init/Helvetica.txf >> qcnsftp.up
+echo put init/Courier-Bold.txf >> qcnsftp.up
+#echo put init/earthmask.rgb >> qcnsftp.up
+echo put init/earthday4096.jpg >> qcnsftp.up
+echo put init/earthnight4096.jpg >> qcnsftp.up
+echo put init/$ntpdv >> qcnsftp.up
+echo put init/logo.jpg >> qcnsftp.up
+if ( test "`uname -s`" = "Darwin" ) then
+   echo put init/libMotionNodeAccelAPI.dylib >> qcnsftp.up
+else
+   echo put init/libMotionNodeAccelAPI.so >> qcnsftp.up
+fi
+
+
+echo exit >> qcnsftp.up
+sftp -b qcnsftp.up carlgt1@qcn-web
+
+
 else
    # Linux -- uname -p below returns 'unknown'!
    # suffix=`uname -p`-pc-linux-gnu
@@ -66,7 +137,6 @@ else
          init/$ntpdv $uplstring \
          init/libMotionNodeAccelAPI.so \
             -x@exclude.lst
-fi
 appspathone=qcn_$1_$suffix$ncisuffix
 appspathtwo=qcn_$2_$suffix
 rm -f qcnsftp.up
@@ -108,3 +178,4 @@ else
 fi
 echo exit >> qcnsftp.up
 sftp -b qcnsftp.up carlgt1@qcn-web 
+fi
