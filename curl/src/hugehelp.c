@@ -2,7 +2,7 @@
 #ifndef HAVE_LIBZ
 /*
  * NEVER EVER edit this manually, fix the mkhelp.pl script instead!
- * Generation time: Wed Jun 24 16:24:56 2009
+ * Generation time: Wed Jun 24 18:10:42 2009
  */
 #include "setup.h"
 #ifdef USE_MANUAL
@@ -3345,7 +3345,7 @@ void hugehelp(void)
 #else
 /*
  * NEVER EVER edit this manually, fix the mkhelp.pl script instead!
- * Generation time: Wed Jun 24 16:24:56 2009
+ * Generation time: Wed Jun 24 18:10:42 2009
  */
 #include "setup.h"
 #ifdef USE_MANUAL
