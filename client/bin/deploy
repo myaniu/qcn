@@ -17,7 +17,7 @@ ntpversion='ntpdate_4.2.4p5_'
 if ( test "`uname -s`" = "Darwin" ) then
   # Apple Mac -- universal!
   suffixp='powerpc-apple-darwin'
-  suffixi='i386-apple-darwin'
+  suffixi='i686-apple-darwin'
   ntpdv=$ntpversion*apple-darwin
   rm -f qcnlive-mac.zip
   zip -r qcnlive-mac.zip QCNLive.app \
