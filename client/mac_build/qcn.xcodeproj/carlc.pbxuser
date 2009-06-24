@@ -50,45 +50,7 @@
 		vrLen = 991;
 		vrLoc = 9752;
 	};
-	E300B1DE0FF2D38200E54D79 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = E3C9674D0FF1A22200F20324 /* shmem.cpp */;
-		name = "shmem.cpp: 350";
-		rLen = 35;
-		rLoc = 10351;
-		rType = 0;
-		vrLen = 991;
-		vrLoc = 9752;
-	};
-	E300B1F20FF2D51600E54D79 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = E3C967230FF1A1DD00F20324 /* gutil.cpp */;
-		name = "gutil.cpp: 62";
-		rLen = 21;
-		rLoc = 1546;
-		rType = 0;
-		vrLen = 724;
-		vrLoc = 1141;
-	};
-	E300B1FA0FF2D55C00E54D79 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		comments = "error: jpeglib.h: No such file or directory";
-		fRef = E3C967230FF1A1DD00F20324 /* gutil.cpp */;
-		rLen = 1;
-		rLoc = 61;
-		rType = 1;
-	};
 	E300B1FE0FF2D5AB00E54D79 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = E33EF7F20FF1E13500CD5708 /* MotionNodeAccelAPI.h */;
-		name = "MotionNodeAccelAPI.h: 95";
-		rLen = 46;
-		rLoc = 2680;
-		rType = 0;
-		vrLen = 959;
-		vrLoc = 2133;
-	};
-	E300B1FF0FF2D5AB00E54D79 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
 		fRef = E33EF7F20FF1E13500CD5708 /* MotionNodeAccelAPI.h */;
 		name = "MotionNodeAccelAPI.h: 95";
@@ -136,6 +98,16 @@
 			sepNavVisRange = "{0, 2076}";
 			sepNavWindowFrame = "{{15, 189}, {1164, 834}}";
 		};
+	};
+	E3222D7B0FF2E3DB00B25EB2 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = E3C967230FF1A1DD00F20324 /* gutil.cpp */;
+		name = "gutil.cpp: 62";
+		rLen = 21;
+		rLoc = 1546;
+		rType = 0;
+		vrLen = 724;
+		vrLoc = 1141;
 	};
 	E33EF7DA0FF1E0BA00CD5708 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
@@ -221,11 +193,6 @@
 		name = MotionNodeAccelAPI.h;
 		path = /Users/carlc/projects/qcn/client/mac_build/../sensor/motionnodeaccel/MotionNodeAccelAPI.h;
 		sourceTree = "<absolute>";
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1252, 4900}}";
-			sepNavSelRange = "{2680, 46}";
-			sepNavVisRange = "{2259, 765}";
-		};
 	};
 	E34E9C940FF2BC97004998DB /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
@@ -688,8 +655,8 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 267570916;
-			PBXWorkspaceStateSaveDate = 267570916;
+			PBXPerProjectTemplateStateSaveDate = 267576250;
+			PBXWorkspaceStateSaveDate = 267576250;
 		};
 		perUserProjectItems = {
 			E300B1BC0FF2D14D00E54D79 /* PBXTextBookmark */ = E300B1BC0FF2D14D00E54D79 /* PBXTextBookmark */;
@@ -697,12 +664,9 @@
 			E300B1D20FF2D30300E54D79 /* PBXTextBookmark */ = E300B1D20FF2D30300E54D79 /* PBXTextBookmark */;
 			E300B1D30FF2D30300E54D79 /* PBXTextBookmark */ = E300B1D30FF2D30300E54D79 /* PBXTextBookmark */;
 			E300B1DD0FF2D38200E54D79 /* PBXTextBookmark */ = E300B1DD0FF2D38200E54D79 /* PBXTextBookmark */;
-			E300B1DE0FF2D38200E54D79 /* PBXTextBookmark */ = E300B1DE0FF2D38200E54D79 /* PBXTextBookmark */;
-			E300B1F20FF2D51600E54D79 /* PBXTextBookmark */ = E300B1F20FF2D51600E54D79 /* PBXTextBookmark */;
-			E300B1FA0FF2D55C00E54D79 /* PBXTextBookmark */ = E300B1FA0FF2D55C00E54D79 /* PBXTextBookmark */;
 			E300B1FE0FF2D5AB00E54D79 /* PBXTextBookmark */ = E300B1FE0FF2D5AB00E54D79 /* PBXTextBookmark */;
-			E300B1FF0FF2D5AB00E54D79 /* PBXTextBookmark */ = E300B1FF0FF2D5AB00E54D79 /* PBXTextBookmark */;
 			E300B2070FF2D60D00E54D79 /* PBXTextBookmark */ = E300B2070FF2D60D00E54D79 /* PBXTextBookmark */;
+			E3222D7B0FF2E3DB00B25EB2 /* PBXTextBookmark */ = E3222D7B0FF2E3DB00B25EB2 /* PBXTextBookmark */;
 			E33EF7DA0FF1E0BA00CD5708 /* PBXTextBookmark */ = E33EF7DA0FF1E0BA00CD5708 /* PBXTextBookmark */;
 			E33EF7DC0FF1E0BA00CD5708 /* PlistBookmark */ = E33EF7DC0FF1E0BA00CD5708 /* PlistBookmark */;
 			E33EF7E60FF1E13500CD5708 /* PlistBookmark */ = E33EF7E60FF1E13500CD5708 /* PlistBookmark */;
@@ -1020,7 +984,7 @@
 	};
 	E3C967230FF1A1DD00F20324 /* gutil.cpp */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {861, 13090}}";
+			sepNavIntBoundsRect = "{{0, 0}, {861, 13062}}";
 			sepNavSelRange = "{1546, 21}";
 			sepNavVisRange = "{1141, 724}";
 			sepNavWindowFrame = "{{15, 189}, {1164, 834}}";
