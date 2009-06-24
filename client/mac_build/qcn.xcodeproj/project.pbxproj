@@ -13,12 +13,76 @@
 		E3C9666E0FF19F5400F20324 /* cserialize.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C0E7B40D64E9BE0099B905 /* cserialize.cpp */; };
 		E3C966710FF19F6700F20324 /* gzstream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C0E7A50D64E9BE0099B905 /* gzstream.cpp */; };
 		E3C966740FF19F8400F20324 /* qcn_gzip.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C0E7A60D64E9BE0099B905 /* qcn_gzip.cpp */; };
+		E3C966860FF1A08700F20324 /* libz-universal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E3C966850FF1A08700F20324 /* libz-universal.a */; };
+		E3C966870FF1A08700F20324 /* libz-universal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E3C966850FF1A08700F20324 /* libz-universal.a */; };
+		E3C9672C0FF1A1DD00F20324 /* bmplib.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C967140FF1A1DD00F20324 /* bmplib.cpp */; };
+		E3C9672D0FF1A1DD00F20324 /* boinc_api.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C967150FF1A1DD00F20324 /* boinc_api.cpp */; };
+		E3C9672E0FF1A1DD00F20324 /* graphics2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C967180FF1A1DD00F20324 /* graphics2.cpp */; };
+		E3C9672F0FF1A1DD00F20324 /* graphics2_unix.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C9671A0FF1A1DD00F20324 /* graphics2_unix.cpp */; };
+		E3C967300FF1A1DD00F20324 /* graphics2_util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C9671B0FF1A1DD00F20324 /* graphics2_util.cpp */; };
+		E3C967310FF1A1DD00F20324 /* graphics_api.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C9671C0FF1A1DD00F20324 /* graphics_api.cpp */; };
+		E3C967320FF1A1DD00F20324 /* graphics_data.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C9671E0FF1A1DD00F20324 /* graphics_data.cpp */; };
+		E3C967330FF1A1DD00F20324 /* graphics_impl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C9671F0FF1A1DD00F20324 /* graphics_impl.cpp */; };
+		E3C967340FF1A1DD00F20324 /* graphics_impl_lib.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C967210FF1A1DD00F20324 /* graphics_impl_lib.cpp */; };
+		E3C967350FF1A1DD00F20324 /* graphics_lib.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C967220FF1A1DD00F20324 /* graphics_lib.cpp */; };
+		E3C967360FF1A1DD00F20324 /* gutil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C967230FF1A1DD00F20324 /* gutil.cpp */; };
+		E3C967370FF1A1DD00F20324 /* gutil_text.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C967240FF1A1DD00F20324 /* gutil_text.cpp */; };
+		E3C967380FF1A1DD00F20324 /* texfont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C967250FF1A1DD00F20324 /* texfont.cpp */; };
+		E3C967390FF1A1DD00F20324 /* texture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C967270FF1A1DD00F20324 /* texture.cpp */; };
+		E3C9673A0FF1A1DD00F20324 /* tgalib.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C967290FF1A1DD00F20324 /* tgalib.cpp */; };
+		E3C9673B0FF1A1DD00F20324 /* txf_util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C9672A0FF1A1DD00F20324 /* txf_util.cpp */; };
+		E3C9673D0FF1A1DD00F20324 /* boinc_api.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C967150FF1A1DD00F20324 /* boinc_api.cpp */; };
+		E3C967460FF1A1DD00F20324 /* gutil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C967230FF1A1DD00F20324 /* gutil.cpp */; };
+		E3C967470FF1A1DD00F20324 /* gutil_text.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C967240FF1A1DD00F20324 /* gutil_text.cpp */; };
+		E3C967480FF1A1DD00F20324 /* texfont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C967250FF1A1DD00F20324 /* texfont.cpp */; };
+		E3C967490FF1A1DD00F20324 /* texture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C967270FF1A1DD00F20324 /* texture.cpp */; };
+		E3C9674B0FF1A1DD00F20324 /* txf_util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C9672A0FF1A1DD00F20324 /* txf_util.cpp */; };
+		E3C967540FF1A22200F20324 /* parse.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C9674C0FF1A22200F20324 /* parse.cpp */; };
+		E3C967550FF1A22200F20324 /* shmem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C9674D0FF1A22200F20324 /* shmem.cpp */; };
+		E3C967560FF1A22200F20324 /* str_util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C967500FF1A22200F20324 /* str_util.cpp */; };
+		E3C967570FF1A22200F20324 /* util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C967520FF1A22200F20324 /* util.cpp */; };
+		E3C967580FF1A22200F20324 /* parse.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C9674C0FF1A22200F20324 /* parse.cpp */; };
+		E3C967590FF1A22200F20324 /* shmem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C9674D0FF1A22200F20324 /* shmem.cpp */; };
+		E3C9675A0FF1A22200F20324 /* str_util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C967500FF1A22200F20324 /* str_util.cpp */; };
+		E3C9675B0FF1A22200F20324 /* util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C967520FF1A22200F20324 /* util.cpp */; };
+		E3C967770FF1A40200F20324 /* mac_backtrace.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C967760FF1A40200F20324 /* mac_backtrace.cpp */; };
+		E3C967780FF1A40200F20324 /* mac_backtrace.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C967760FF1A40200F20324 /* mac_backtrace.cpp */; };
+		E3C967840FF1A4C600F20324 /* diagnostics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C967800FF1A4C600F20324 /* diagnostics.cpp */; };
+		E3C967850FF1A4C600F20324 /* filesys.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C967810FF1A4C600F20324 /* filesys.cpp */; };
+		E3C967860FF1A4C600F20324 /* mfile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C967820FF1A4C600F20324 /* mfile.cpp */; };
+		E3C967870FF1A4C600F20324 /* miofile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C967830FF1A4C600F20324 /* miofile.cpp */; };
+		E3C967880FF1A4C600F20324 /* diagnostics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C967800FF1A4C600F20324 /* diagnostics.cpp */; };
+		E3C967890FF1A4C600F20324 /* filesys.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C967810FF1A4C600F20324 /* filesys.cpp */; };
+		E3C9678A0FF1A4C600F20324 /* mfile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C967820FF1A4C600F20324 /* mfile.cpp */; };
+		E3C9678B0FF1A4C600F20324 /* miofile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C967830FF1A4C600F20324 /* miofile.cpp */; };
+		E3C9678E0FF1A4F900F20324 /* graphics2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C967180FF1A1DD00F20324 /* graphics2.cpp */; };
+		E3C967900FF1A4F900F20324 /* graphics2_util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C9671B0FF1A1DD00F20324 /* graphics2_util.cpp */; };
+		E3C967BA0FF1A54900F20324 /* app_ipc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C967B90FF1A54900F20324 /* app_ipc.cpp */; };
+		E3C967BB0FF1A54900F20324 /* app_ipc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C967B90FF1A54900F20324 /* app_ipc.cpp */; };
+		E3C967C00FF1A5B300F20324 /* macglutfix.m in Sources */ = {isa = PBXBuildFile; fileRef = E3C967BE0FF1A5B300F20324 /* macglutfix.m */; };
+		E3C967C10FF1A5B300F20324 /* x_opengl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C967BF0FF1A5B300F20324 /* x_opengl.cpp */; };
+		E3C967C20FF1A5B300F20324 /* macglutfix.m in Sources */ = {isa = PBXBuildFile; fileRef = E3C967BE0FF1A5B300F20324 /* macglutfix.m */; };
+		E3C967CA0FF1A5FD00F20324 /* graphics2_unix.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C9671A0FF1A1DD00F20324 /* graphics2_unix.cpp */; };
+		E3C967ED0FF1A73B00F20324 /* hostinfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C967EC0FF1A73B00F20324 /* hostinfo.cpp */; };
+		E3C967EE0FF1A73B00F20324 /* hostinfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C967EC0FF1A73B00F20324 /* hostinfo.cpp */; };
+		E3C967FA0FF1A76900F20324 /* proxy_info.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C967F90FF1A76900F20324 /* proxy_info.cpp */; };
+		E3C967FB0FF1A76900F20324 /* proxy_info.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C967F90FF1A76900F20324 /* proxy_info.cpp */; };
+		E3C968050FF1A79900F20324 /* prefs.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C968040FF1A79900F20324 /* prefs.cpp */; };
+		E3C968060FF1A79900F20324 /* prefs.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C968040FF1A79900F20324 /* prefs.cpp */; };
+		E3C968150FF1A80100F20324 /* QBacktrace.c in Sources */ = {isa = PBXBuildFile; fileRef = E3C9680F0FF1A80100F20324 /* QBacktrace.c */; };
+		E3C968160FF1A80100F20324 /* QCrashReport.c in Sources */ = {isa = PBXBuildFile; fileRef = E3C968100FF1A80100F20324 /* QCrashReport.c */; };
+		E3C968170FF1A80100F20324 /* QMachOImage.c in Sources */ = {isa = PBXBuildFile; fileRef = E3C968110FF1A80100F20324 /* QMachOImage.c */; };
+		E3C968180FF1A80100F20324 /* QMachOImageList.c in Sources */ = {isa = PBXBuildFile; fileRef = E3C968120FF1A80100F20324 /* QMachOImageList.c */; };
+		E3C968190FF1A80100F20324 /* QSymbols.c in Sources */ = {isa = PBXBuildFile; fileRef = E3C968130FF1A80100F20324 /* QSymbols.c */; };
+		E3C9681A0FF1A80100F20324 /* QTaskMemory.c in Sources */ = {isa = PBXBuildFile; fileRef = E3C968140FF1A80100F20324 /* QTaskMemory.c */; };
+		E3C9681B0FF1A80100F20324 /* QBacktrace.c in Sources */ = {isa = PBXBuildFile; fileRef = E3C9680F0FF1A80100F20324 /* QBacktrace.c */; };
+		E3C9681C0FF1A80100F20324 /* QCrashReport.c in Sources */ = {isa = PBXBuildFile; fileRef = E3C968100FF1A80100F20324 /* QCrashReport.c */; };
+		E3C9681D0FF1A80100F20324 /* QMachOImage.c in Sources */ = {isa = PBXBuildFile; fileRef = E3C968110FF1A80100F20324 /* QMachOImage.c */; };
+		E3C9681E0FF1A80100F20324 /* QMachOImageList.c in Sources */ = {isa = PBXBuildFile; fileRef = E3C968120FF1A80100F20324 /* QMachOImageList.c */; };
+		E3C9681F0FF1A80100F20324 /* QSymbols.c in Sources */ = {isa = PBXBuildFile; fileRef = E3C968130FF1A80100F20324 /* QSymbols.c */; };
+		E3C968200FF1A80100F20324 /* QTaskMemory.c in Sources */ = {isa = PBXBuildFile; fileRef = E3C968140FF1A80100F20324 /* QTaskMemory.c */; };
+		E3C968440FF1ABCA00F20324 /* qcn_signal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3D35C130FF179E900E64121 /* qcn_signal.cpp */; };
 		E3D35BD20FF1773A00E64121 /* libjpeg-universal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E3D35BD00FF1773A00E64121 /* libjpeg-universal.a */; };
-		E3D35BD60FF1775500E64121 /* libboinc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E3D35BD30FF1775500E64121 /* libboinc.a */; };
-		E3D35BD70FF1775500E64121 /* libboinc_api.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E3D35BD40FF1775500E64121 /* libboinc_api.a */; };
-		E3D35BD90FF1775500E64121 /* libboinc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E3D35BD30FF1775500E64121 /* libboinc.a */; };
-		E3D35BDA0FF1775500E64121 /* libboinc_api.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E3D35BD40FF1775500E64121 /* libboinc_api.a */; };
-		E3D35BDB0FF1775600E64121 /* libboinc_graphics2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E3D35BD50FF1775500E64121 /* libboinc_graphics2.a */; };
 		E3D35BDD0FF1776C00E64121 /* libboinc_zip.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E3D35BDC0FF1776C00E64121 /* libboinc_zip.a */; };
 		E3D35BDE0FF1776C00E64121 /* libboinc_zip.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E3D35BDC0FF1776C00E64121 /* libboinc_zip.a */; };
 		E3D35BE00FF177A100E64121 /* csensor_mac_laptop.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E371C7F60E2AB5D0009B4DAA /* csensor_mac_laptop.cpp */; };
@@ -108,12 +172,59 @@
 		E3C0E7FC0D64E9E00099B905 /* parse.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = parse.h; path = ../../../boinc/lib/parse.h; sourceTree = SOURCE_ROOT; };
 		E3C0E7FD0D64E9E00099B905 /* config.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = config.h; path = ../../config.h; sourceTree = SOURCE_ROOT; };
 		E3C0E7FE0D64E9E00099B905 /* version.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = version.h; path = ../../version.h; sourceTree = SOURCE_ROOT; };
+		E3C966850FF1A08700F20324 /* libz-universal.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libz-universal.a"; path = "../../zlib/libz-universal.a"; sourceTree = SOURCE_ROOT; };
+		E3C967140FF1A1DD00F20324 /* bmplib.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = bmplib.cpp; path = ../../../boinc/api/bmplib.cpp; sourceTree = SOURCE_ROOT; };
+		E3C967150FF1A1DD00F20324 /* boinc_api.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = boinc_api.cpp; path = ../../../boinc/api/boinc_api.cpp; sourceTree = SOURCE_ROOT; };
+		E3C967160FF1A1DD00F20324 /* boinc_gl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = boinc_gl.h; path = ../../../boinc/api/boinc_gl.h; sourceTree = SOURCE_ROOT; };
+		E3C967170FF1A1DD00F20324 /* boinc_glut.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = boinc_glut.h; path = ../../../boinc/api/boinc_glut.h; sourceTree = SOURCE_ROOT; };
+		E3C967180FF1A1DD00F20324 /* graphics2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = graphics2.cpp; path = ../../../boinc/api/graphics2.cpp; sourceTree = SOURCE_ROOT; };
+		E3C967190FF1A1DD00F20324 /* graphics2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = graphics2.h; path = ../../../boinc/api/graphics2.h; sourceTree = SOURCE_ROOT; };
+		E3C9671A0FF1A1DD00F20324 /* graphics2_unix.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = graphics2_unix.cpp; path = ../../../boinc/api/graphics2_unix.cpp; sourceTree = SOURCE_ROOT; };
+		E3C9671B0FF1A1DD00F20324 /* graphics2_util.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = graphics2_util.cpp; path = ../../../boinc/api/graphics2_util.cpp; sourceTree = SOURCE_ROOT; };
+		E3C9671C0FF1A1DD00F20324 /* graphics_api.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = graphics_api.cpp; path = ../../../boinc/api/graphics_api.cpp; sourceTree = SOURCE_ROOT; };
+		E3C9671D0FF1A1DD00F20324 /* graphics_api.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = graphics_api.h; path = ../../../boinc/api/graphics_api.h; sourceTree = SOURCE_ROOT; };
+		E3C9671E0FF1A1DD00F20324 /* graphics_data.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = graphics_data.cpp; path = ../../../boinc/api/graphics_data.cpp; sourceTree = SOURCE_ROOT; };
+		E3C9671F0FF1A1DD00F20324 /* graphics_impl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = graphics_impl.cpp; path = ../../../boinc/api/graphics_impl.cpp; sourceTree = SOURCE_ROOT; };
+		E3C967200FF1A1DD00F20324 /* graphics_impl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = graphics_impl.h; path = ../../../boinc/api/graphics_impl.h; sourceTree = SOURCE_ROOT; };
+		E3C967210FF1A1DD00F20324 /* graphics_impl_lib.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = graphics_impl_lib.cpp; path = ../../../boinc/api/graphics_impl_lib.cpp; sourceTree = SOURCE_ROOT; };
+		E3C967220FF1A1DD00F20324 /* graphics_lib.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = graphics_lib.cpp; path = ../../../boinc/api/graphics_lib.cpp; sourceTree = SOURCE_ROOT; };
+		E3C967230FF1A1DD00F20324 /* gutil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = gutil.cpp; path = ../../../boinc/api/gutil.cpp; sourceTree = SOURCE_ROOT; };
+		E3C967240FF1A1DD00F20324 /* gutil_text.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = gutil_text.cpp; path = ../../../boinc/api/gutil_text.cpp; sourceTree = SOURCE_ROOT; };
+		E3C967250FF1A1DD00F20324 /* texfont.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = texfont.cpp; path = ../../../boinc/api/texfont.cpp; sourceTree = SOURCE_ROOT; };
+		E3C967260FF1A1DD00F20324 /* texfont.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = texfont.h; path = ../../../boinc/api/texfont.h; sourceTree = SOURCE_ROOT; };
+		E3C967270FF1A1DD00F20324 /* texture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = texture.cpp; path = ../../../boinc/api/texture.cpp; sourceTree = SOURCE_ROOT; };
+		E3C967280FF1A1DD00F20324 /* texture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = texture.h; path = ../../../boinc/api/texture.h; sourceTree = SOURCE_ROOT; };
+		E3C967290FF1A1DD00F20324 /* tgalib.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = tgalib.cpp; path = ../../../boinc/api/tgalib.cpp; sourceTree = SOURCE_ROOT; };
+		E3C9672A0FF1A1DD00F20324 /* txf_util.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = txf_util.cpp; path = ../../../boinc/api/txf_util.cpp; sourceTree = SOURCE_ROOT; };
+		E3C9672B0FF1A1DD00F20324 /* txf_util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = txf_util.h; path = ../../../boinc/api/txf_util.h; sourceTree = SOURCE_ROOT; };
+		E3C9674C0FF1A22200F20324 /* parse.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = parse.cpp; path = ../../../boinc/lib/parse.cpp; sourceTree = SOURCE_ROOT; };
+		E3C9674D0FF1A22200F20324 /* shmem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = shmem.cpp; path = ../../../boinc/lib/shmem.cpp; sourceTree = SOURCE_ROOT; };
+		E3C9674E0FF1A22200F20324 /* shmem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = shmem.h; path = ../../../boinc/lib/shmem.h; sourceTree = SOURCE_ROOT; };
+		E3C9674F0FF1A22200F20324 /* str_replace.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = str_replace.h; path = ../../../boinc/lib/str_replace.h; sourceTree = SOURCE_ROOT; };
+		E3C967500FF1A22200F20324 /* str_util.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = str_util.cpp; path = ../../../boinc/lib/str_util.cpp; sourceTree = SOURCE_ROOT; };
+		E3C967510FF1A22200F20324 /* str_util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = str_util.h; path = ../../../boinc/lib/str_util.h; sourceTree = SOURCE_ROOT; };
+		E3C967520FF1A22200F20324 /* util.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = util.cpp; path = ../../../boinc/lib/util.cpp; sourceTree = SOURCE_ROOT; };
+		E3C967530FF1A22200F20324 /* util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = util.h; path = ../../../boinc/lib/util.h; sourceTree = SOURCE_ROOT; };
+		E3C967760FF1A40200F20324 /* mac_backtrace.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mac_backtrace.cpp; path = ../../../boinc/lib/mac/mac_backtrace.cpp; sourceTree = SOURCE_ROOT; };
+		E3C967800FF1A4C600F20324 /* diagnostics.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = diagnostics.cpp; path = ../../../boinc/lib/diagnostics.cpp; sourceTree = SOURCE_ROOT; };
+		E3C967810FF1A4C600F20324 /* filesys.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = filesys.cpp; path = ../../../boinc/lib/filesys.cpp; sourceTree = SOURCE_ROOT; };
+		E3C967820FF1A4C600F20324 /* mfile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mfile.cpp; path = ../../../boinc/lib/mfile.cpp; sourceTree = SOURCE_ROOT; };
+		E3C967830FF1A4C600F20324 /* miofile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = miofile.cpp; path = ../../../boinc/lib/miofile.cpp; sourceTree = SOURCE_ROOT; };
+		E3C967B90FF1A54900F20324 /* app_ipc.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = app_ipc.cpp; path = ../../../boinc/lib/app_ipc.cpp; sourceTree = SOURCE_ROOT; };
+		E3C967BE0FF1A5B300F20324 /* macglutfix.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = macglutfix.m; path = ../../../boinc/api/macglutfix.m; sourceTree = SOURCE_ROOT; };
+		E3C967BF0FF1A5B300F20324 /* x_opengl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = x_opengl.cpp; path = ../../../boinc/api/x_opengl.cpp; sourceTree = SOURCE_ROOT; };
+		E3C967EC0FF1A73B00F20324 /* hostinfo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = hostinfo.cpp; path = ../../../boinc/lib/hostinfo.cpp; sourceTree = SOURCE_ROOT; };
+		E3C967F90FF1A76900F20324 /* proxy_info.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = proxy_info.cpp; path = ../../../boinc/lib/proxy_info.cpp; sourceTree = SOURCE_ROOT; };
+		E3C968040FF1A79900F20324 /* prefs.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = prefs.cpp; path = ../../../boinc/lib/prefs.cpp; sourceTree = SOURCE_ROOT; };
+		E3C9680F0FF1A80100F20324 /* QBacktrace.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = QBacktrace.c; path = ../../../boinc/lib/mac/QBacktrace.c; sourceTree = SOURCE_ROOT; };
+		E3C968100FF1A80100F20324 /* QCrashReport.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = QCrashReport.c; path = ../../../boinc/lib/mac/QCrashReport.c; sourceTree = SOURCE_ROOT; };
+		E3C968110FF1A80100F20324 /* QMachOImage.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = QMachOImage.c; path = ../../../boinc/lib/mac/QMachOImage.c; sourceTree = SOURCE_ROOT; };
+		E3C968120FF1A80100F20324 /* QMachOImageList.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = QMachOImageList.c; path = ../../../boinc/lib/mac/QMachOImageList.c; sourceTree = SOURCE_ROOT; };
+		E3C968130FF1A80100F20324 /* QSymbols.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = QSymbols.c; path = ../../../boinc/lib/mac/QSymbols.c; sourceTree = SOURCE_ROOT; };
+		E3C968140FF1A80100F20324 /* QTaskMemory.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = QTaskMemory.c; path = ../../../boinc/lib/mac/QTaskMemory.c; sourceTree = SOURCE_ROOT; };
 		E3D35BC60FF175D500E64121 /* qcn_graphics.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = qcn_graphics.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E3D35BC80FF175D500E64121 /* qcn_graphics-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "qcn_graphics-Info.plist"; sourceTree = "<group>"; };
 		E3D35BD00FF1773A00E64121 /* libjpeg-universal.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libjpeg-universal.a"; path = "../../jpeg-6b/libjpeg-universal.a"; sourceTree = SOURCE_ROOT; };
-		E3D35BD30FF1775500E64121 /* libboinc.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboinc.a; path = ../../../boinc/mac_build/build/Deployment/libboinc.a; sourceTree = SOURCE_ROOT; };
-		E3D35BD40FF1775500E64121 /* libboinc_api.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboinc_api.a; path = ../../../boinc/mac_build/build/Deployment/libboinc_api.a; sourceTree = SOURCE_ROOT; };
-		E3D35BD50FF1775500E64121 /* libboinc_graphics2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboinc_graphics2.a; path = ../../../boinc/mac_build/build/Deployment/libboinc_graphics2.a; sourceTree = SOURCE_ROOT; };
 		E3D35BDC0FF1776C00E64121 /* libboinc_zip.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboinc_zip.a; path = ../../../boinc/zip/build/Release/libboinc_zip.a; sourceTree = SOURCE_ROOT; };
 		E3D35C100FF1799600E64121 /* csensor_mac_usb_generic.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = csensor_mac_usb_generic.cpp; path = ../sensor/csensor_mac_usb_generic.cpp; sourceTree = SOURCE_ROOT; };
 		E3D35C130FF179E900E64121 /* qcn_signal.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = qcn_signal.cpp; path = ../util/qcn_signal.cpp; sourceTree = SOURCE_ROOT; };
@@ -127,9 +238,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E3D35BD60FF1775500E64121 /* libboinc.a in Frameworks */,
-				E3D35BD70FF1775500E64121 /* libboinc_api.a in Frameworks */,
 				E3D35BDD0FF1776C00E64121 /* libboinc_zip.a in Frameworks */,
+				E3C966860FF1A08700F20324 /* libz-universal.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -138,10 +248,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				E3D35BD20FF1773A00E64121 /* libjpeg-universal.a in Frameworks */,
-				E3D35BD90FF1775500E64121 /* libboinc.a in Frameworks */,
-				E3D35BDA0FF1775500E64121 /* libboinc_api.a in Frameworks */,
-				E3D35BDB0FF1775600E64121 /* libboinc_graphics2.a in Frameworks */,
 				E3D35BDE0FF1776C00E64121 /* libboinc_zip.a in Frameworks */,
+				E3C966870FF1A08700F20324 /* libz-universal.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -162,10 +270,8 @@
 		E3A499DB0D64E60400E51CDF = {
 			isa = PBXGroup;
 			children = (
+				E3C966850FF1A08700F20324 /* libz-universal.a */,
 				E3D35BDC0FF1776C00E64121 /* libboinc_zip.a */,
-				E3D35BD30FF1775500E64121 /* libboinc.a */,
-				E3D35BD40FF1775500E64121 /* libboinc_api.a */,
-				E3D35BD50FF1775500E64121 /* libboinc_graphics2.a */,
 				E3D35BD00FF1773A00E64121 /* libjpeg-universal.a */,
 				E3C0E7D90D64E9D30099B905 /* Headers */,
 				E3C0E7D80D64E9C50099B905 /* Sources */,
@@ -194,6 +300,7 @@
 		E3C0E79B0D64E9BE0099B905 /* .. */ = {
 			isa = PBXGroup;
 			children = (
+				E3C967100FF1A18C00F20324 /* .. */,
 				E3D35C180FF17A9D00E64121 /* qcnusb */,
 				E3D35C120FF179B200E64121 /* sensor */,
 				E3C0E7B70D64E9BE0099B905 /* graphics */,
@@ -364,6 +471,86 @@
 			name = lib;
 			sourceTree = "<group>";
 		};
+		E3C967100FF1A18C00F20324 /* .. */ = {
+			isa = PBXGroup;
+			children = (
+				E3C967110FF1A19400F20324 /* boinc */,
+			);
+			name = ..;
+			sourceTree = "<group>";
+		};
+		E3C967110FF1A19400F20324 /* boinc */ = {
+			isa = PBXGroup;
+			children = (
+				E3C967130FF1A19D00F20324 /* api */,
+				E3C967120FF1A19900F20324 /* lib */,
+			);
+			name = boinc;
+			sourceTree = "<group>";
+		};
+		E3C967120FF1A19900F20324 /* lib */ = {
+			isa = PBXGroup;
+			children = (
+				E3C9680F0FF1A80100F20324 /* QBacktrace.c */,
+				E3C968100FF1A80100F20324 /* QCrashReport.c */,
+				E3C968110FF1A80100F20324 /* QMachOImage.c */,
+				E3C968120FF1A80100F20324 /* QMachOImageList.c */,
+				E3C968130FF1A80100F20324 /* QSymbols.c */,
+				E3C968140FF1A80100F20324 /* QTaskMemory.c */,
+				E3C968040FF1A79900F20324 /* prefs.cpp */,
+				E3C967F90FF1A76900F20324 /* proxy_info.cpp */,
+				E3C967EC0FF1A73B00F20324 /* hostinfo.cpp */,
+				E3C967B90FF1A54900F20324 /* app_ipc.cpp */,
+				E3C967800FF1A4C600F20324 /* diagnostics.cpp */,
+				E3C967810FF1A4C600F20324 /* filesys.cpp */,
+				E3C967820FF1A4C600F20324 /* mfile.cpp */,
+				E3C967830FF1A4C600F20324 /* miofile.cpp */,
+				E3C967760FF1A40200F20324 /* mac_backtrace.cpp */,
+				E3C9674C0FF1A22200F20324 /* parse.cpp */,
+				E3C9674D0FF1A22200F20324 /* shmem.cpp */,
+				E3C9674E0FF1A22200F20324 /* shmem.h */,
+				E3C9674F0FF1A22200F20324 /* str_replace.h */,
+				E3C967500FF1A22200F20324 /* str_util.cpp */,
+				E3C967510FF1A22200F20324 /* str_util.h */,
+				E3C967520FF1A22200F20324 /* util.cpp */,
+				E3C967530FF1A22200F20324 /* util.h */,
+			);
+			name = lib;
+			sourceTree = "<group>";
+		};
+		E3C967130FF1A19D00F20324 /* api */ = {
+			isa = PBXGroup;
+			children = (
+				E3C967BE0FF1A5B300F20324 /* macglutfix.m */,
+				E3C967BF0FF1A5B300F20324 /* x_opengl.cpp */,
+				E3C967140FF1A1DD00F20324 /* bmplib.cpp */,
+				E3C967150FF1A1DD00F20324 /* boinc_api.cpp */,
+				E3C967160FF1A1DD00F20324 /* boinc_gl.h */,
+				E3C967170FF1A1DD00F20324 /* boinc_glut.h */,
+				E3C967180FF1A1DD00F20324 /* graphics2.cpp */,
+				E3C967190FF1A1DD00F20324 /* graphics2.h */,
+				E3C9671A0FF1A1DD00F20324 /* graphics2_unix.cpp */,
+				E3C9671B0FF1A1DD00F20324 /* graphics2_util.cpp */,
+				E3C9671C0FF1A1DD00F20324 /* graphics_api.cpp */,
+				E3C9671D0FF1A1DD00F20324 /* graphics_api.h */,
+				E3C9671E0FF1A1DD00F20324 /* graphics_data.cpp */,
+				E3C9671F0FF1A1DD00F20324 /* graphics_impl.cpp */,
+				E3C967200FF1A1DD00F20324 /* graphics_impl.h */,
+				E3C967210FF1A1DD00F20324 /* graphics_impl_lib.cpp */,
+				E3C967220FF1A1DD00F20324 /* graphics_lib.cpp */,
+				E3C967230FF1A1DD00F20324 /* gutil.cpp */,
+				E3C967240FF1A1DD00F20324 /* gutil_text.cpp */,
+				E3C967250FF1A1DD00F20324 /* texfont.cpp */,
+				E3C967260FF1A1DD00F20324 /* texfont.h */,
+				E3C967270FF1A1DD00F20324 /* texture.cpp */,
+				E3C967280FF1A1DD00F20324 /* texture.h */,
+				E3C967290FF1A1DD00F20324 /* tgalib.cpp */,
+				E3C9672A0FF1A1DD00F20324 /* txf_util.cpp */,
+				E3C9672B0FF1A1DD00F20324 /* txf_util.h */,
+			);
+			name = api;
+			sourceTree = "<group>";
+		};
 		E3D35C120FF179B200E64121 /* sensor */ = {
 			isa = PBXGroup;
 			children = (
@@ -463,6 +650,43 @@
 				E3D35BE50FF177A100E64121 /* qcn_thread_time.cpp in Sources */,
 				E3D35BE60FF177A100E64121 /* main.cpp in Sources */,
 				E3D35BE70FF177A100E64121 /* cserialize.cpp in Sources */,
+				E3C9672C0FF1A1DD00F20324 /* bmplib.cpp in Sources */,
+				E3C9672D0FF1A1DD00F20324 /* boinc_api.cpp in Sources */,
+				E3C9672E0FF1A1DD00F20324 /* graphics2.cpp in Sources */,
+				E3C9672F0FF1A1DD00F20324 /* graphics2_unix.cpp in Sources */,
+				E3C967300FF1A1DD00F20324 /* graphics2_util.cpp in Sources */,
+				E3C967310FF1A1DD00F20324 /* graphics_api.cpp in Sources */,
+				E3C967320FF1A1DD00F20324 /* graphics_data.cpp in Sources */,
+				E3C967330FF1A1DD00F20324 /* graphics_impl.cpp in Sources */,
+				E3C967340FF1A1DD00F20324 /* graphics_impl_lib.cpp in Sources */,
+				E3C967350FF1A1DD00F20324 /* graphics_lib.cpp in Sources */,
+				E3C967360FF1A1DD00F20324 /* gutil.cpp in Sources */,
+				E3C967370FF1A1DD00F20324 /* gutil_text.cpp in Sources */,
+				E3C967380FF1A1DD00F20324 /* texfont.cpp in Sources */,
+				E3C967390FF1A1DD00F20324 /* texture.cpp in Sources */,
+				E3C9673A0FF1A1DD00F20324 /* tgalib.cpp in Sources */,
+				E3C9673B0FF1A1DD00F20324 /* txf_util.cpp in Sources */,
+				E3C967540FF1A22200F20324 /* parse.cpp in Sources */,
+				E3C967550FF1A22200F20324 /* shmem.cpp in Sources */,
+				E3C967560FF1A22200F20324 /* str_util.cpp in Sources */,
+				E3C967570FF1A22200F20324 /* util.cpp in Sources */,
+				E3C967770FF1A40200F20324 /* mac_backtrace.cpp in Sources */,
+				E3C967840FF1A4C600F20324 /* diagnostics.cpp in Sources */,
+				E3C967850FF1A4C600F20324 /* filesys.cpp in Sources */,
+				E3C967860FF1A4C600F20324 /* mfile.cpp in Sources */,
+				E3C967870FF1A4C600F20324 /* miofile.cpp in Sources */,
+				E3C967BA0FF1A54900F20324 /* app_ipc.cpp in Sources */,
+				E3C967C00FF1A5B300F20324 /* macglutfix.m in Sources */,
+				E3C967C10FF1A5B300F20324 /* x_opengl.cpp in Sources */,
+				E3C967ED0FF1A73B00F20324 /* hostinfo.cpp in Sources */,
+				E3C967FA0FF1A76900F20324 /* proxy_info.cpp in Sources */,
+				E3C968050FF1A79900F20324 /* prefs.cpp in Sources */,
+				E3C968150FF1A80100F20324 /* QBacktrace.c in Sources */,
+				E3C968160FF1A80100F20324 /* QCrashReport.c in Sources */,
+				E3C968170FF1A80100F20324 /* QMachOImage.c in Sources */,
+				E3C968180FF1A80100F20324 /* QMachOImageList.c in Sources */,
+				E3C968190FF1A80100F20324 /* QSymbols.c in Sources */,
+				E3C9681A0FF1A80100F20324 /* QTaskMemory.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -470,6 +694,33 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E3C968440FF1ABCA00F20324 /* qcn_signal.cpp in Sources */,
+				E3C9681B0FF1A80100F20324 /* QBacktrace.c in Sources */,
+				E3C9681C0FF1A80100F20324 /* QCrashReport.c in Sources */,
+				E3C9681D0FF1A80100F20324 /* QMachOImage.c in Sources */,
+				E3C9681E0FF1A80100F20324 /* QMachOImageList.c in Sources */,
+				E3C9681F0FF1A80100F20324 /* QSymbols.c in Sources */,
+				E3C968200FF1A80100F20324 /* QTaskMemory.c in Sources */,
+				E3C968060FF1A79900F20324 /* prefs.cpp in Sources */,
+				E3C967FB0FF1A76900F20324 /* proxy_info.cpp in Sources */,
+				E3C967EE0FF1A73B00F20324 /* hostinfo.cpp in Sources */,
+				E3C967CA0FF1A5FD00F20324 /* graphics2_unix.cpp in Sources */,
+				E3C967C20FF1A5B300F20324 /* macglutfix.m in Sources */,
+				E3C967BB0FF1A54900F20324 /* app_ipc.cpp in Sources */,
+				E3C9678E0FF1A4F900F20324 /* graphics2.cpp in Sources */,
+				E3C967900FF1A4F900F20324 /* graphics2_util.cpp in Sources */,
+				E3C967880FF1A4C600F20324 /* diagnostics.cpp in Sources */,
+				E3C967890FF1A4C600F20324 /* filesys.cpp in Sources */,
+				E3C9678A0FF1A4C600F20324 /* mfile.cpp in Sources */,
+				E3C9678B0FF1A4C600F20324 /* miofile.cpp in Sources */,
+				E3C9673D0FF1A1DD00F20324 /* boinc_api.cpp in Sources */,
+				E3C9675B0FF1A22200F20324 /* util.cpp in Sources */,
+				E3C9675A0FF1A22200F20324 /* str_util.cpp in Sources */,
+				E3C967590FF1A22200F20324 /* shmem.cpp in Sources */,
+				E3C967580FF1A22200F20324 /* parse.cpp in Sources */,
+				E3C967780FF1A40200F20324 /* mac_backtrace.cpp in Sources */,
+				E3C967480FF1A1DD00F20324 /* texfont.cpp in Sources */,
+				E3C967490FF1A1DD00F20324 /* texture.cpp in Sources */,
 				E3C966740FF19F8400F20324 /* qcn_gzip.cpp in Sources */,
 				E3C966710FF19F6700F20324 /* gzstream.cpp in Sources */,
 				E3C9666E0FF19F5400F20324 /* cserialize.cpp in Sources */,
@@ -482,6 +733,9 @@
 				E3D35BF40FF177FD00E64121 /* nation_boundary.cpp in Sources */,
 				E3D35BF50FF177FD00E64121 /* coastline.cpp in Sources */,
 				E3D35BF60FF177FD00E64121 /* plate_boundary.cpp in Sources */,
+				E3C967460FF1A1DD00F20324 /* gutil.cpp in Sources */,
+				E3C967470FF1A1DD00F20324 /* gutil_text.cpp in Sources */,
+				E3C9674B0FF1A1DD00F20324 /* txf_util.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -548,6 +802,7 @@
 					"\"$(SRCROOT)/../../jpeg-6b\"",
 					"\"$(SRCROOT)/../../../boinc/mac_build/build/Deployment\"",
 					"\"$(SRCROOT)/../../../boinc/zip/build/Release\"",
+					"\"$(SRCROOT)/../../zlib\"",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				"MACOSX_DEPLOYMENT_TARGET[arch=ppc]" = 10.3;
@@ -638,6 +893,7 @@
 					"\"$(SRCROOT)/../../jpeg-6b\"",
 					"\"$(SRCROOT)/../../../boinc/mac_build/build/Deployment\"",
 					"\"$(SRCROOT)/../../../boinc/zip/build/Release\"",
+					"\"$(SRCROOT)/../../zlib\"",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				"MACOSX_DEPLOYMENT_TARGET[arch=ppc]" = 10.3;
@@ -698,6 +954,7 @@
 					x86_64,
 				);
 				CODE_SIGN_IDENTITY = "Don't Code Sign";
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -709,6 +966,7 @@
 					"\"$(SRCROOT)/../../jpeg-6b\"",
 					"\"$(SRCROOT)/../../../boinc/mac_build/build/Deployment\"",
 					"\"$(SRCROOT)/../../../boinc/zip/build/Release\"",
+					"\"$(SRCROOT)/../../zlib\"",
 				);
 				"MACOSX_DEPLOYMENT_TARGET[arch=ppc]" = 10.3;
 				"MACOSX_DEPLOYMENT_TARGET[arch=x86_64]" = 10.5;
@@ -724,21 +982,29 @@
 					"-I../../jpeg-6b",
 					"-I../util",
 					"-I../sensor",
+					"-I../../../boinc/lib/mac",
+					"-DHAVE_SYS_RESOURCE_H",
 					"-D_DEBUG",
 				);
 				OTHER_LDFLAGS = (
+					"-lstdc++",
 					"-framework",
 					Foundation,
 					"-framework",
 					OpenGL,
 					"-framework",
 					GLUT,
+					"-framework",
+					Carbon,
+					"-framework",
+					Cocoa,
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = qcn_graphics;
 				SDKROOT = macosx10.4;
 				"SDKROOT[arch=ppc]" = macosx10.3.9;
 				"SDKROOT[arch=x86_64]" = macosx10.5;
+				SYMROOT = ../bin;
 			};
 			name = Debug;
 		};
@@ -752,6 +1018,7 @@
 					x86_64,
 				);
 				CODE_SIGN_IDENTITY = "Don't Code Sign";
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)";
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
@@ -763,6 +1030,7 @@
 					"\"$(SRCROOT)/../../jpeg-6b\"",
 					"\"$(SRCROOT)/../../../boinc/mac_build/build/Deployment\"",
 					"\"$(SRCROOT)/../../../boinc/zip/build/Release\"",
+					"\"$(SRCROOT)/../../zlib\"",
 				);
 				"MACOSX_DEPLOYMENT_TARGET[arch=ppc]" = 10.3;
 				"MACOSX_DEPLOYMENT_TARGET[arch=x86_64]" = 10.5;
@@ -778,21 +1046,29 @@
 					"-I../../jpeg-6b",
 					"-I../util",
 					"-I../sensor",
+					"-I../../../boinc/lib/mac",
+					"-DHAVE_SYS_RESOURCE_H",
 					"-DNDEBUG",
 				);
 				OTHER_LDFLAGS = (
+					"-lstdc++",
 					"-framework",
 					Foundation,
 					"-framework",
 					OpenGL,
 					"-framework",
 					GLUT,
+					"-framework",
+					Carbon,
+					"-framework",
+					Cocoa,
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = qcn_graphics;
 				SDKROOT = macosx10.4;
 				"SDKROOT[arch=ppc]" = macosx10.3.9;
 				"SDKROOT[arch=x86_64]" = macosx10.5;
+				SYMROOT = ../bin;
 				ZERO_LINK = NO;
 			};
 			name = Release;

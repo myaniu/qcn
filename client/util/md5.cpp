@@ -47,7 +47,6 @@ documentation and/or software.
 
 
 extern "C" FILE* boinc_fopen(const char* path, const char* mode);
-//#include "filesys.h"  // boinc
 
 namespace md5 {
 
