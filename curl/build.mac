@@ -1,8 +1,6 @@
 #notes - upgrade libtool, autoconf, automake, and ln /usr/bin to /usr/bin/include refs as needed
 # also need to ln -s /usr/local/bin/libtoolize /usr/bin/glibtoolize
 #!/bin/bash
-rm -rf lib
-mkdir lib
 chmod uog+rx configure
 export LIBTOOLIZE=/usr/local/bin/libtoolize
 
@@ -45,4 +43,4 @@ make
 mv lib/.libs/libcurl.a lib/libcurl_x86_64.a
 lipo -arch ppc lib/libcurl_ppc.a -arch i386 lib/libcurl_i386.a -arch x86_64 lib/libcurl_x86_64.a -create -output libcurl-universal.a
 mv libcurl-universal.a ../client/mac_build/
-rm -rf lib ; make clean
+make clean
