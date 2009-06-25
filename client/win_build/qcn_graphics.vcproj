@@ -307,7 +307,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="opengl32.lib glu32.lib jpeglib64.lib boinc_lib.lib boinc_api.lib zlib64.lib boinc_zip.lib"
+				AdditionalDependencies="opengl32.lib glu32.lib jpeglib64.lib boinc_lib64.lib boinc_api64.lib zlib64.lib boinc_zip64.lib"
 				OutputFile="../bin/graphics_app=qcn_graphics.exe"
 				Version=""
 				LinkIncremental="1"

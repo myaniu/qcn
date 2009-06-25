@@ -285,7 +285,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="zlib64.lib boinc_lib.lib boinc_zip.lib"
+				AdditionalDependencies="zlib64.lib boinc_lib64.lib boinc_zip64.lib"
 				ShowProgress="2"
 				OutputFile="../test/qcndemo.exe"
 				Version=""
