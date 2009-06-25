@@ -298,7 +298,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="../../zlib;../../curl/include;../../;../main;../util;../sensor;../graphics;../../../boinc/lib;../../../boinc/zip;&quot;..\..\jpeg-6b&quot;;\wxWidgets\lib\vc_lib\msw;\wxWidgets\include;../../../boinc/api"
-				PreprocessorDefinitions="_WIN64;_USE_NTPDATE_EXEC_;QCNLIVE;GRAPHICS_PROGRAM;FREEGLUT_STATIC;CURL_STATICLIB;_ZLIB;_CRT_SECURE_NO_DEPRECATE;APP_GRAPHICS;WIN32;_WIN32;NDEBUG;__WXMSW__"
+				PreprocessorDefinitions="_WIN64;_WIN32;_USE_NTPDATE_EXEC_;QCNLIVE;GRAPHICS_PROGRAM;FREEGLUT_STATIC;CURL_STATICLIB;_ZLIB;_CRT_SECURE_NO_DEPRECATE;APP_GRAPHICS;WIN32;_WIN32;NDEBUG;__WXMSW__"
 				RuntimeLibrary="2"
 			/>
 			<Tool
@@ -316,7 +316,7 @@
 				OutputFile="..\bin\$(ProjectName).exe"
 				Version=""
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="../win_build;../../curl/lib/Release;\wxWidgets\lib\vc_lib;../sensor/motionnodeaccel"
+				AdditionalLibraryDirectories="../win_build;../../curl/lib/Release;\wxWidgets\lib\vc_lib64;../sensor/motionnodeaccel"
 				DelayLoadDLLs="MotionNodeAccelAPI.dll"
 				SubSystem="2"
 				HeapReserveSize="67108864"

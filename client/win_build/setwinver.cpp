@@ -98,7 +98,7 @@ const char cstrQCNLive[] = {"qcnlive-win.zip"};
 
 		// "init/earthmask.rgb",   // multitexturing mask -- seems to crash for some people though
 	sprintf_s(strCmd, 1024, "%s %s "
-		"%s %s %s %s %s %s %s %s %s%s%s %s", ZIPCMD, cstrQCNLive,
+		"%s %s %s %s %s %s %s %s %s%s%c%s%s %s", ZIPCMD, cstrQCNLive,
 		"qcnlive.exe",
 		"init/MotionNodeAccelAPI.dll",
 		"init/qcnwin.ico",
@@ -107,7 +107,7 @@ const char cstrQCNLive[] = {"qcnlive-win.zip"};
 		"init/earthday4096.jpg",
 		"init/splash.png",
 		"init/logo.jpg",
-		"init/ntpdate_4.2.4p7_", BOINC_WIN_SUFFIX, ".exe",
+		"init/", NTPDATE_EXEC_VERSION, '_', BOINC_WIN_SUFFIX, ".exe",
 		"init/earthnight4096.jpg"
 	);
 	fprintf(stdout, "Executing %s\n", strCmd);
@@ -140,7 +140,7 @@ const char cstrQCNLive[] = {"qcnlive-win.zip"};
 //	fprintf(fBatch, "put init/earthmask.rgb\n");   // mask for multitexturing - but seems to crash some people bad!
 	fprintf(fBatch, "put init/earthnight4096.jpg\n");
 	fprintf(fBatch, "put init/logo.jpg\n");
-	fprintf(fBatch, "put init/ntpdate_4.2.4p5_%s.exe\n", BOINC_WIN_SUFFIX);
+	fprintf(fBatch, "put init/%s_%s.exe\n", NTPDATE_EXEC_VERSION, BOINC_WIN_SUFFIX);
     fprintf(fBatch, "put init/MotionNodeAccelAPI.dll\n");
 
     fprintf(fBatch, "cd ../\n");
@@ -156,7 +156,7 @@ const char cstrQCNLive[] = {"qcnlive-win.zip"};
 //	fprintf(fBatch, "put init/earthmask.rgb\n");   // mask for multitexturing - but seems to crash some people bad!
 	fprintf(fBatch, "put init/earthnight4096.jpg\n");
 	fprintf(fBatch, "put init/logo.jpg\n");
-	fprintf(fBatch, "put init/ntpdate_4.2.4p7_%s.exe\n", BOINC_WIN_SUFFIX);
+	fprintf(fBatch, "put init/%s_%s.exe\n", NTPDATE_EXEC_VERSION, BOINC_WIN_SUFFIX);
     fprintf(fBatch, "put init/MotionNodeAccelAPI.dll\n");
 
 	fprintf(fBatch, "exit\n");
