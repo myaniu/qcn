@@ -6,6 +6,7 @@
 #include "config.h.win"
 #include "version.h"  // get the version info (QCN_VERSION_STRING)
 #include "filesys.h"
+#include "define.h"
 
 #ifndef _DEBUG
 //#include "boinc_zip.h"
@@ -84,15 +85,20 @@ int deploy_qcn()
 
 	// can't use boinc_zip because it won't do the init subdir for qcnlive!
 	// so have the zip & unzip execs in c:\\windows32
+#ifdef _WIN64
+const char cstrQCNLive[] = {"qcnlive-win64.zip"};
+#else
+const char cstrQCNLive[] = {"qcnlive-win.zip"};
+#endif
 
-    boinc_delete_file("qcnlive-win.zip");
+    boinc_delete_file(cstrQCNLive);
 
 	strCmd = new char[1024];
 	memset(strCmd, 0x00, 1024);
 
 		// "init/earthmask.rgb",   // multitexturing mask -- seems to crash for some people though
-	sprintf_s(strCmd, 1024, "%s qcnlive-win.zip "
-		"%s %s %s %s %s %s %s %s%s%s %s", ZIPCMD,
+	sprintf_s(strCmd, 1024, "%s %s "
+		"%s %s %s %s %s %s %s %s %s%s%s %s", ZIPCMD, cstrQCNLive,
 		"qcnlive.exe",
 		"init/MotionNodeAccelAPI.dll",
 		"init/qcnwin.ico",
@@ -110,7 +116,7 @@ int deploy_qcn()
 	delete [] strCmd;
 	if (iRetVal) return iRetVal;
 
-    fprintf(stdout, "Created qcnlive-win.zip archive\n");
+    fprintf(stdout, "Created %s archive\n", cstrQCNLive);
 
 	FILE* fBatch;
 	boinc_delete_file(SFTPBATCH);
@@ -120,7 +126,7 @@ int deploy_qcn()
 	}
 
 	fprintf(fBatch, "cd /var/www/boinc/sensor/download\n");
-	fprintf(fBatch, "put qcnlive-win.zip\n");
+	fprintf(fBatch, "put %s\n", cstrQCNLive);
 	fprintf(fBatch, "cd /var/www/boinc/sensor/apps/qcnsensor\n");
 
 	//NCI

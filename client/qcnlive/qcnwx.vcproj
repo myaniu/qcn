@@ -233,7 +233,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="wsock32.lib hid.lib setupapi.lib winmm.lib glu32.lib opengl32.lib comctl32.lib boinc_api.lib boinc_lib.lib boinc_zip.lib curllib.lib jpeglib.lib zlib.lib wxbase28.lib wxmsw28_core.lib wxmsw28_gl.lib wxpng.lib wxmsw28_adv.lib MotionNodeAccelAPI.lib"
+				AdditionalDependencies="wsock32.lib hid.lib setupapi.lib winmm.lib glu32.lib opengl32.lib comctl32.lib boinc_api.lib boinc_lib.lib boinc_zip.lib curllib.lib jpeglib32.lib zlib32.lib wxbase28.lib wxmsw28_core.lib wxmsw28_gl.lib wxpng.lib wxmsw28_adv.lib MotionNodeAccelAPI.lib"
 				OutputFile="..\bin\$(ProjectName).exe"
 				Version=""
 				LinkIncremental="2"
@@ -312,7 +312,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="wsock32.lib hid.lib setupapi.lib winmm.lib glu32.lib opengl32.lib comctl32.lib boinc_api.lib boinc_lib.lib boinc_zip.lib curllib.lib jpeglib.lib zlib.lib wxbase28.lib wxmsw28_core.lib wxmsw28_gl.lib wxpng.lib wxmsw28_adv.lib MotionNodeAccelAPI.lib"
+				AdditionalDependencies="wsock32.lib hid.lib setupapi.lib winmm.lib glu32.lib opengl32.lib comctl32.lib boinc_api.lib boinc_lib.lib boinc_zip.lib curllib.lib jpeglib64.lib zlib64.lib wxbase28.lib wxmsw28_core.lib wxmsw28_gl.lib wxpng.lib wxmsw28_adv.lib MotionNodeAccelAPI.lib"
 				OutputFile="..\bin\$(ProjectName).exe"
 				Version=""
 				LinkIncremental="2"

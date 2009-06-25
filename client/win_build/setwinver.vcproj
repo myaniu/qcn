@@ -43,7 +43,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../../;../../../boinc/lib"
+				AdditionalIncludeDirectories="../../;../../../boinc/lib;../main"
 				PreprocessorDefinitions="_WIN32;_DEBUG"
 				RuntimeLibrary="3"
 				DebugInformationFormat="4"
@@ -116,7 +116,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../../;../../../boinc/lib"
+				AdditionalIncludeDirectories="../../;../../../boinc/lib;../main"
 				PreprocessorDefinitions="_WIN64;_WIN32;_DEBUG"
 				RuntimeLibrary="3"
 				DebugInformationFormat="3"
@@ -189,7 +189,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="1"
-				AdditionalIncludeDirectories="../../;../../../boinc/lib"
+				AdditionalIncludeDirectories="../../;../../../boinc/lib;../main"
 				PreprocessorDefinitions="_WIN32;NDEBUG"
 				RuntimeLibrary="2"
 				DebugInformationFormat="0"
@@ -260,7 +260,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="1"
-				AdditionalIncludeDirectories="../../;../../../boinc/lib"
+				AdditionalIncludeDirectories="../../;../../../boinc/lib;../main"
 				PreprocessorDefinitions="_WIN64;_WIN32;NDEBUG"
 				RuntimeLibrary="2"
 				DebugInformationFormat="0"
@@ -325,6 +325,10 @@
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
+			<File
+				RelativePath="..\main\define.h"
+				>
+			</File>
 			<File
 				RelativePath="..\..\version.h"
 				>
