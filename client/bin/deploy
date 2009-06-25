@@ -13,6 +13,7 @@ uplstring='init/Helvetica.txf \
          init/splash.png \
          init/earthnight4096.jpg \
          init/logo.jpg'
+ ntpversion='ntpdate_4.2.4p7_'
  ntpdv='ntpdate_4.2.4p7_universal-apple-darwin'
 if ( test "`uname -s`" = "Darwin" ) then
   # Apple Mac -- universal!
