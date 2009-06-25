@@ -13,6 +13,7 @@ uplstring='init/Helvetica.txf \
          init/splash.png \
          init/earthnight4096.jpg \
          init/logo.jpg'
+# ntpversion='ntpdate_4.2.4p7_'
 ntpversion='ntpdate_4.2.4p5_'
 if ( test "`uname -s`" = "Darwin" ) then
   # Apple Mac -- universal!
@@ -38,12 +39,12 @@ if ( test "`uname -s`" = "Darwin" ) then
   lipo -extract ppc qcn.app/Contents/MacOS/qcn -output qcn_$2_$suffixp
   lipo -extract x86_64 qcn.app/Contents/MacOS/qcn -output qcn_$1_$suffixs$ncisuffix
   lipo -extract x86_64 qcn.app/Contents/MacOS/qcn -output qcn_$2_$suffixs
-  lipo -extract i386 qcn_graphics.app/Contents/MacOS/qcn -output graphics_app=qcn_graphics_$1_$suffixi
-  lipo -extract i386 qcn_graphics.app/Contents/MacOS/qcn -output graphics_app=qcn_graphics_$2_$suffixi
-  lipo -extract ppc qcn_graphics.app/Contents/MacOS/qcn -output graphics_app=qcn_graphics_$1_$suffixp
-  lipo -extract ppc qcn_graphics.app/Contents/MacOS/qcn -output graphics_app=qcn_graphics_$2_$suffixp
-  lipo -extract x86_64 qcn_graphics.app/Contents/MacOS/qcn -output graphics_app=qcn_graphics_$1_$suffixs
-  lipo -extract x86_64 qcn_graphics.app/Contents/MacOS/qcn -output graphics_app=qcn_graphics_$2_$suffixs
+  lipo -extract i386 qcn_graphics.app/Contents/MacOS/qcn_graphics -output graphics_app=qcn_graphics_$1_$suffixi
+  lipo -extract i386 qcn_graphics.app/Contents/MacOS/qcn_graphics -output graphics_app=qcn_graphics_$2_$suffixi
+  lipo -extract ppc qcn_graphics.app/Contents/MacOS/qcn_graphics -output graphics_app=qcn_graphics_$1_$suffixp
+  lipo -extract ppc qcn_graphics.app/Contents/MacOS/qcn_graphics -output graphics_app=qcn_graphics_$2_$suffixp
+  lipo -extract x86_64 qcn_graphics.app/Contents/MacOS/qcn_graphics -output graphics_app=qcn_graphics_$1_$suffixs
+  lipo -extract x86_64 qcn_graphics.app/Contents/MacOS/qcn_graphics -output graphics_app=qcn_graphics_$2_$suffixs
 
 appspathone=qcn_$1_$suffixi$ncisuffix
 appspathtwo=qcn_$2_$suffixi

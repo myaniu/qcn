@@ -252,6 +252,7 @@ struct FDSET_GROUP {
 // ntpdate stuff for sync'ing a BOINC/QCN participant with the qcn-upl time server
 // ntpdate exec can be obtained by boinc_resolve_filename, set ntpdate=ntpdate_4.2.4_i686-apple-darwin in boinc/apps/qcnalpha/*
 #define NTPDATE_EXEC "ntpdate"
+//#define NTPDATE_EXEC_VERSION "ntpdate_4.2.4p7"
 #define NTPDATE_EXEC_VERSION "ntpdate_4.2.4p5"
 
 // the args used for ntpdate call for 8 samples, a timeout of 20 seconds, an unprivileged port, no adjtime, and no system update of the clock
