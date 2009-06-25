@@ -89,6 +89,8 @@ extern CQCNShMem* volatile sm;
 extern char **environ;   
 #endif
 
+extern size_t strlcat(char *dst, const char *src, size_t size);
+
 struct STriggerInfo
 { // info needed to describe a trigger
   public:
