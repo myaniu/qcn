@@ -231,8 +231,6 @@
 			<key>Layout</key>
 			<array>
 				<dict>
-					<key>BecomeActive</key>
-					<true/>
 					<key>ContentConfiguration</key>
 					<dict>
 						<key>PBXBottomSmartGroupGIDs</key>
@@ -270,14 +268,12 @@
 							<array>
 								<string>E3A499DB0D64E60400E51CDF</string>
 								<string>1C37FBAC04509CD000000102</string>
-								<string>E38484CA0FF2E53500A5CFEF</string>
-								<string>E38484D30FF2E5C000A5CFEF</string>
 								<string>1C37FABC05509CD000000102</string>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>11</integer>
+									<integer>9</integer>
 									<integer>0</integer>
 								</array>
 							</array>
@@ -317,7 +313,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>1CE0B20306471E060097A5F4</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>gutil.cpp</string>
+								<string>qcn_graphics-Info.plist</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -325,11 +321,11 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>1CE0B20406471E060097A5F4</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>gutil.cpp</string>
+										<string>qcn_graphics-Info.plist</string>
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>E38484D80FF2E5D900A5CFEF</string>
+										<string>E34F6E6A0FF3C5FF002A2C4D</string>
 										<key>history</key>
 										<array>
 											<string>E3583B450FF1921800057DD2</string>
@@ -356,9 +352,6 @@
 											<string>E388F8F60FF1BDBA00D948DE</string>
 											<string>E388F9210FF1BE9C00D948DE</string>
 											<string>E33EF7DA0FF1E0BA00CD5708</string>
-											<string>E33EF7E60FF1E13500CD5708</string>
-											<string>E33EF7E70FF1E13500CD5708</string>
-											<string>E33EF7E80FF1E13500CD5708</string>
 											<string>E3CD09E30FF2AD580043EE7E</string>
 											<string>E3CD09F50FF2AEB40043EE7E</string>
 											<string>E3CD0A1A0FF2B19B0043EE7E</string>
@@ -375,7 +368,10 @@
 											<string>E300B1D20FF2D30300E54D79</string>
 											<string>E300B1DD0FF2D38200E54D79</string>
 											<string>E300B1FE0FF2D5AB00E54D79</string>
-											<string>E3222D7B0FF2E3DB00B25EB2</string>
+											<string>E34F6E5A0FF3C5FF002A2C4D</string>
+											<string>E34F6E5B0FF3C5FF002A2C4D</string>
+											<string>E34F6E5C0FF3C5FF002A2C4D</string>
+											<string>E34F6E5D0FF3C5FF002A2C4D</string>
 										</array>
 										<key>prevStack</key>
 										<array>
@@ -410,8 +406,6 @@
 											<string>E388F8020FF1B63D00D948DE</string>
 											<string>E388F88C0FF1BBC100D948DE</string>
 											<string>E388F8E30FF1BD4800D948DE</string>
-											<string>E33EF7DC0FF1E0BA00CD5708</string>
-											<string>E33EF7EB0FF1E13500CD5708</string>
 											<string>E33EF7EF0FF1E13500CD5708</string>
 											<string>E3CD09E40FF2AD580043EE7E</string>
 											<string>E3CD09E60FF2AD580043EE7E</string>
@@ -423,6 +417,18 @@
 											<string>E34E9D4C0FF2CE48004998DB</string>
 											<string>E300B1BD0FF2D14D00E54D79</string>
 											<string>E300B1D30FF2D30300E54D79</string>
+											<string>E34F6E5E0FF3C5FF002A2C4D</string>
+											<string>E34F6E5F0FF3C5FF002A2C4D</string>
+											<string>E34F6E600FF3C5FF002A2C4D</string>
+											<string>E34F6E610FF3C5FF002A2C4D</string>
+											<string>E34F6E620FF3C5FF002A2C4D</string>
+											<string>E34F6E630FF3C5FF002A2C4D</string>
+											<string>E34F6E640FF3C5FF002A2C4D</string>
+											<string>E34F6E650FF3C5FF002A2C4D</string>
+											<string>E34F6E660FF3C5FF002A2C4D</string>
+											<string>E34F6E670FF3C5FF002A2C4D</string>
+											<string>E34F6E680FF3C5FF002A2C4D</string>
+											<string>E34F6E690FF3C5FF002A2C4D</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -480,9 +486,9 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>E38484D50FF2E5C000A5CFEF</string>
+				<string>E34F6E6B0FF3C5FF002A2C4D</string>
 				<string>1CE0B1FE06471DED0097A5F4</string>
-				<string>E38484D60FF2E5C000A5CFEF</string>
+				<string>E34F6E6C0FF3C5FF002A2C4D</string>
 				<string>1CE0B20306471E060097A5F4</string>
 				<string>1CE0B20506471E060097A5F4</string>
 			</array>
@@ -616,8 +622,6 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>E38484D70FF2E5C000A5CFEF</string>
-		<string>E3D35BF80FF1781000E64121</string>
 		<string>/Users/carlc/projects/qcn/client/mac_build/qcn.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
