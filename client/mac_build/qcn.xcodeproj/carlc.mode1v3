@@ -231,6 +231,8 @@
 			<key>Layout</key>
 			<array>
 				<dict>
+					<key>BecomeActive</key>
+					<true/>
 					<key>ContentConfiguration</key>
 					<dict>
 						<key>PBXBottomSmartGroupGIDs</key>
@@ -273,8 +275,8 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>9</integer>
-									<integer>0</integer>
+									<integer>13</integer>
+									<integer>12</integer>
 								</array>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateVisibleRectKey</key>
@@ -325,7 +327,7 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>E34F6E6A0FF3C5FF002A2C4D</string>
+										<string>E34F6E700FF3C615002A2C4D</string>
 										<key>history</key>
 										<array>
 											<string>E3583B450FF1921800057DD2</string>
@@ -622,6 +624,7 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
+		<string>E3D35BF80FF1781000E64121</string>
 		<string>/Users/carlc/projects/qcn/client/mac_build/qcn.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
@@ -663,8 +666,6 @@
 							<string>478pt</string>
 						</dict>
 						<dict>
-							<key>BecomeActive</key>
-							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
@@ -704,7 +705,7 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>E3D35BF80FF1781000E64121</string>
-				<string>E38484D00FF2E5B400A5CFEF</string>
+				<string>E34F6E710FF3C615002A2C4D</string>
 				<string>1CD0528F0623707200166675</string>
 				<string>XCMainBuildResultsModuleGUID</string>
 			</array>
