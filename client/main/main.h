@@ -90,6 +90,7 @@ extern char **environ;
 #endif
 
 extern size_t strlcat(char *dst, const char *src, size_t size);
+extern size_t strlcpy(char*, const char*, size_t);
 
 struct STriggerInfo
 { // info needed to describe a trigger
