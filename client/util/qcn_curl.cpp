@@ -1,5 +1,8 @@
 #include "qcn_curl.h"
 
+extern size_t strlcat(char *dst, const char *src, size_t size);
+extern size_t strlcpy(char*, const char*, size_t);
+
 namespace qcn_curl {
 
 // we need a few globals such as curl write functions and our big global shared mem struct sm
