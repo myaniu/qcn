@@ -1,21 +1,25 @@
 #!/bin/bash
-cd jpeg-6b
-chmod uog+rx build.mac
-./build.mac
-cd ../zlib
-chmod uog+rx build.mac
-./build.mac
-cd ../curl
-chmod uog+rx build.mac
-./build.mac
-cd ../../boinc/mac_build
+#cd ntp-4.2.4p7
+#chmod uog+rx build.mac
+#./build.mac
+#cd ../jpeg-6b
+#chmod uog+rx build.mac
+#./build.mac
+#cd ../zlib
+#chmod uog+rx build.mac
+#./build.mac
+#cd ../curl
+#chmod uog+rx build.mac
+#./build.mac
+#cd ../../boinc/mac_build
 #NB - not using boinc libs, just use files directly
 #xcodebuild -project boinc.xcodeproj -configuration Deployment -target libboinc clean build
 #xcodebuild USER_HEADER_SEARCH_PATHS='../lib ../../qcn/jpeg-6b' -project boinc.xcodeproj -configuration Deployment -target api_libboinc clean build
 #xcodebuild USER_HEADER_SEARCH_PATHS='../lib ../../qcn/jpeg-6b' -project boinc.xcodeproj -configuration Deployment -target gfx2libboinc clean build
-cd ../zip
-xcodebuild -project boinc_zip.xcodeproj -configuration Deployment -target boinc_zip clean build
-cd ../../qcn/client/mac_build
+#cd ../zip
+#xcodebuild -project boinc_zip.xcodeproj -configuration Deployment -target boinc_zip clean build
+#cd ../../qcn/client/mac_build
+cd client/mac_build
 xcodebuild -project qcn.xcodeproj -configuration Release -target qcn clean build
 xcodebuild -project qcn.xcodeproj -configuration Release -target qcn_graphics clean build
 xcodebuild -project qcn.xcodeproj -configuration Release -target qcnusb clean build

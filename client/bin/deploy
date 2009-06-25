@@ -13,19 +13,15 @@ uplstring='init/Helvetica.txf \
          init/splash.png \
          init/earthnight4096.jpg \
          init/logo.jpg'
-# ntpversion='ntpdate_4.2.4p7_'
-ntpversion='ntpdate_4.2.4p5_'
+ ntpdv='ntpdate_4.2.4p7_universal-apple-darwin'
 if ( test "`uname -s`" = "Darwin" ) then
   # Apple Mac -- universal!
   suffixp='powerpc-apple-darwin'
   suffixi='i686-apple-darwin'
   suffixs='x86_64-apple-darwin'
-  ntpdvi=$ntpversion$suffixi
-  ntpdvp=$ntpversion$suffixp
-  ntpdvs=$ntpversion$suffixs
   rm -f qcnlive-mac.zip
   zip -r qcnlive-mac.zip QCNLive.app \
-     init/$ntpversion*apple* $uplstring \
+     init/$ntpdv $uplstring \
      init/libMotionNodeAccelAPI.dylib \
        -x@exclude.lst
   cp qcnusb.app/Contents/MacOS/qcnusb ../qcnusb/install
@@ -66,7 +62,7 @@ echo put init/Courier-Bold.txf >> qcnsftp.up
 #echo put init/earthmask.rgb >> qcnsftp.up
 echo put init/earthday4096.jpg >> qcnsftp.up
 echo put init/earthnight4096.jpg >> qcnsftp.up
-echo put init/$ntpdvi >> qcnsftp.up
+echo put init/$ntpdv >> qcnsftp.up
 echo put init/logo.jpg >> qcnsftp.up
 if ( test "`uname -s`" = "Darwin" ) then
    echo put init/libMotionNodeAccelAPI.dylib >> qcnsftp.up
@@ -83,7 +79,7 @@ echo put init/Courier-Bold.txf >> qcnsftp.up
 #echo put init/earthmask.rgb >> qcnsftp.up
 echo put init/earthday4096.jpg >> qcnsftp.up
 echo put init/earthnight4096.jpg >> qcnsftp.up
-echo put init/$ntpdvi >> qcnsftp.up
+echo put init/$ntpdv >> qcnsftp.up
 echo put init/logo.jpg >> qcnsftp.up
 if ( test "`uname -s`" = "Darwin" ) then
    echo put init/libMotionNodeAccelAPI.dylib >> qcnsftp.up
@@ -103,7 +99,7 @@ echo put init/Courier-Bold.txf >> qcnsftp.up
 #echo put init/earthmask.rgb >> qcnsftp.up
 echo put init/earthday4096.jpg >> qcnsftp.up
 echo put init/earthnight4096.jpg >> qcnsftp.up
-echo put init/$ntpdvp >> qcnsftp.up
+echo put init/$ntpdv >> qcnsftp.up
 echo put init/logo.jpg >> qcnsftp.up
 if ( test "`uname -s`" = "Darwin" ) then
    echo put init/libMotionNodeAccelAPI.dylib >> qcnsftp.up
@@ -120,7 +116,7 @@ echo put init/Courier-Bold.txf >> qcnsftp.up
 #echo put init/earthmask.rgb >> qcnsftp.up
 echo put init/earthday4096.jpg >> qcnsftp.up
 echo put init/earthnight4096.jpg >> qcnsftp.up
-echo put init/$ntpdvp >> qcnsftp.up
+echo put init/$ntpdv >> qcnsftp.up
 echo put init/logo.jpg >> qcnsftp.up
 if ( test "`uname -s`" = "Darwin" ) then
    echo put init/libMotionNodeAccelAPI.dylib >> qcnsftp.up
@@ -140,7 +136,7 @@ echo put init/Courier-Bold.txf >> qcnsftp.up
 #echo put init/earthmask.rgb >> qcnsftp.up
 echo put init/earthday4096.jpg >> qcnsftp.up
 echo put init/earthnight4096.jpg >> qcnsftp.up
-echo put init/$ntpdvs >> qcnsftp.up
+echo put init/$ntpdv >> qcnsftp.up
 echo put init/logo.jpg >> qcnsftp.up
 if ( test "`uname -s`" = "Darwin" ) then
    echo put init/libMotionNodeAccelAPI.dylib >> qcnsftp.up
@@ -157,7 +153,7 @@ echo put init/Courier-Bold.txf >> qcnsftp.up
 #echo put init/earthmask.rgb >> qcnsftp.up
 echo put init/earthday4096.jpg >> qcnsftp.up
 echo put init/earthnight4096.jpg >> qcnsftp.up
-echo put init/$ntpdvs >> qcnsftp.up
+echo put init/$ntpdv >> qcnsftp.up
 echo put init/logo.jpg >> qcnsftp.up
 if ( test "`uname -s`" = "Darwin" ) then
    echo put init/libMotionNodeAccelAPI.dylib >> qcnsftp.up
