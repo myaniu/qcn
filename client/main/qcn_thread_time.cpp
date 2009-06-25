@@ -62,8 +62,8 @@ void* QCNThreadTime(void*)
 #else
                  "",
 #endif
-                 NTPDATE_EXEC_VERSION, 
-                 (qcn_main::g_endian == ENDIAN_LITTLE ? "i686" : "powerpc")
+                 NTPDATE_EXEC_VERSION, "universal" 
+               //  (qcn_main::g_endian == ENDIAN_LITTLE ? "i686" : "powerpc")
          );
       #else // Linux
          sprintf(strExec, "%s%s_i686-pc-linux-gnu", 
