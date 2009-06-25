@@ -7,6 +7,8 @@
 #include "qcn_util.h"
 #include "util.h" // boinc, for dtime()
 
+extern size_t strlcpy(char*, const char*, size_t);
+
 CQCNShMem::CQCNShMem()
 {
     clear(true);

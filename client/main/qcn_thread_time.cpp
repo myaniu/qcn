@@ -37,6 +37,8 @@ void* QCNThreadTime(void*)
     fprintf(stdout, "Server time synchronization started at   %f\n", dTimeStart);
     fflush(stdout);
 
+    double dTimeNow = 0.0;
+
     // CMC changed so we don't need the external executable anymore...
 #ifdef _USE_NTPDATE_EXEC_
 
@@ -90,7 +92,7 @@ void* QCNThreadTime(void*)
 #endif
 		strReply, iLenReply);
 
-    double dTimeNow = dtime();  // CMC note -- the exit of the process above should be the point to get the time?  any delay in the above proc?
+    dTimeNow = dtime();  // CMC note -- the exit of the process above should be the point to get the time?  any delay in the above proc?
     // perhaps it's fine as we just need a local reference time, the offset in the reply is the exact time difference around this time
     sm->setTriggerLock();
     if (bRet) {  // this sets the sm->dtimeSync etc
