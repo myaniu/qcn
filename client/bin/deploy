@@ -70,7 +70,8 @@ if ( test "`uname -s`" = "Darwin" ) then
 else
    echo put init/libMotionNodeAccelAPI.so >> qcnsftp.up
 fi
-echo chdir ../ >> qcnsftp.up
+
+echo chdir /var/www/boinc/sensor/apps/qcnsensor >> qcnsftp.up
 echo -mkdir $appspathtwo >> qcnsftp.up
 echo chdir $appspathtwo >> qcnsftp.up
 echo put qcn_$2_$suffixi >> qcnsftp.up
@@ -88,8 +89,6 @@ else
    echo put init/libMotionNodeAccelAPI.so >> qcnsftp.up
 fi
 
-echo chdir /var/www/boinc/sensor/download >> qcnsftp.up
-echo put \*.zip >> qcnsftp.up
 echo chdir /var/www/boinc/sensor/apps/qcnsensor >> qcnsftp.up
 echo -mkdir $appspaththree >> qcnsftp.up
 echo chdir $appspaththree >> qcnsftp.up
@@ -107,7 +106,7 @@ if ( test "`uname -s`" = "Darwin" ) then
 else
    echo put init/libMotionNodeAccelAPI.so >> qcnsftp.up
 fi
-echo chdir ../ >> qcnsftp.up
+echo chdir /var/www/boinc/sensor/apps/qcnsensor >> qcnsftp.up
 echo -mkdir $appspathfour >> qcnsftp.up
 echo chdir $appspathfour >> qcnsftp.up
 echo put qcn_$2_$suffixp >> qcnsftp.up
@@ -125,8 +124,6 @@ else
    echo put init/libMotionNodeAccelAPI.so >> qcnsftp.up
 fi
 
-echo chdir /var/www/boinc/sensor/download >> qcnsftp.up
-echo put \*.zip >> qcnsftp.up
 echo chdir /var/www/boinc/sensor/apps/qcnsensor >> qcnsftp.up
 echo -mkdir $appspathfive >> qcnsftp.up
 echo chdir $appspathfive >> qcnsftp.up
@@ -144,7 +141,8 @@ if ( test "`uname -s`" = "Darwin" ) then
 else
    echo put init/libMotionNodeAccelAPI.so >> qcnsftp.up
 fi
-echo chdir ../ >> qcnsftp.up
+
+echo chdir /var/www/boinc/sensor/apps/qcnsensor >> qcnsftp.up
 echo -mkdir $appspathsix >> qcnsftp.up
 echo chdir $appspathsix >> qcnsftp.up
 echo put qcn_$2_$suffixs >> qcnsftp.up
