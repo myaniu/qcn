@@ -290,39 +290,6 @@
 		rLen = 0;
 		rLoc = 2147483647;
 	};
-	E34F6E5D0FF3C5FF002A2C4D /* PlistBookmark */ = {
-		isa = PlistBookmark;
-		fRef = E3D35BC80FF175D500E64121 /* qcn_graphics-Info.plist */;
-		fallbackIsa = PBXBookmark;
-		isK = 0;
-		kPath = (
-			CFBundleExecutable,
-		);
-		name = "/Users/carlc/projects/qcn/client/mac_build/qcn_graphics-Info.plist";
-		rLen = 0;
-		rLoc = 2147483647;
-	};
-	E34F6E5E0FF3C5FF002A2C4D /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = E3C967230FF1A1DD00F20324 /* gutil.cpp */;
-		name = "gutil.cpp: 62";
-		rLen = 21;
-		rLoc = 1546;
-		rType = 0;
-		vrLen = 724;
-		vrLoc = 1141;
-	};
-	E34F6E5F0FF3C5FF002A2C4D /* PlistBookmark */ = {
-		isa = PlistBookmark;
-		fRef = E3D35BC80FF175D500E64121 /* qcn_graphics-Info.plist */;
-		fallbackIsa = PBXBookmark;
-		isK = 0;
-		kPath = (
-		);
-		name = "/Users/carlc/projects/qcn/client/mac_build/qcn_graphics-Info.plist";
-		rLen = 0;
-		rLoc = 2147483647;
-	};
 	E34F6E600FF3C5FF002A2C4D /* PlistBookmark */ = {
 		isa = PlistBookmark;
 		fRef = E388F7C90FF1B3E500D948DE /* qcnusb-Info.plist */;
@@ -336,98 +303,6 @@
 		rLoc = 2147483647;
 	};
 	E34F6E610FF3C5FF002A2C4D /* PlistBookmark */ = {
-		isa = PlistBookmark;
-		fRef = E388F9110FF1BE6000D948DE /* qcnlive-Info.plist */;
-		fallbackIsa = PBXBookmark;
-		isK = 0;
-		kPath = (
-		);
-		name = "/Users/carlc/projects/qcn/client/mac_build/qcnlive-Info.plist";
-		rLen = 0;
-		rLoc = 2147483647;
-	};
-	E34F6E620FF3C5FF002A2C4D /* PlistBookmark */ = {
-		isa = PlistBookmark;
-		fRef = E3D35BC80FF175D500E64121 /* qcn_graphics-Info.plist */;
-		fallbackIsa = PBXBookmark;
-		isK = 0;
-		kPath = (
-		);
-		name = "/Users/carlc/projects/qcn/client/mac_build/qcn_graphics-Info.plist";
-		rLen = 0;
-		rLoc = 2147483647;
-	};
-	E34F6E630FF3C5FF002A2C4D /* PlistBookmark */ = {
-		isa = PlistBookmark;
-		fRef = E388F9110FF1BE6000D948DE /* qcnlive-Info.plist */;
-		fallbackIsa = PBXBookmark;
-		isK = 0;
-		kPath = (
-		);
-		name = "/Users/carlc/projects/qcn/client/mac_build/qcnlive-Info.plist";
-		rLen = 0;
-		rLoc = 2147483647;
-	};
-	E34F6E640FF3C5FF002A2C4D /* PlistBookmark */ = {
-		isa = PlistBookmark;
-		fRef = E388F7C90FF1B3E500D948DE /* qcnusb-Info.plist */;
-		fallbackIsa = PBXBookmark;
-		isK = 0;
-		kPath = (
-			CFBundleIconFile,
-		);
-		name = "/Users/carlc/projects/qcn/client/mac_build/qcnusb-Info.plist";
-		rLen = 0;
-		rLoc = 2147483647;
-	};
-	E34F6E650FF3C5FF002A2C4D /* PlistBookmark */ = {
-		isa = PlistBookmark;
-		fRef = E3D35BC80FF175D500E64121 /* qcn_graphics-Info.plist */;
-		fallbackIsa = PBXBookmark;
-		isK = 0;
-		kPath = (
-		);
-		name = "/Users/carlc/projects/qcn/client/mac_build/qcn_graphics-Info.plist";
-		rLen = 0;
-		rLoc = 2147483647;
-	};
-	E34F6E660FF3C5FF002A2C4D /* PlistBookmark */ = {
-		isa = PlistBookmark;
-		fRef = E388F7C90FF1B3E500D948DE /* qcnusb-Info.plist */;
-		fallbackIsa = PBXBookmark;
-		isK = 0;
-		kPath = (
-			CFBundleIconFile,
-		);
-		name = "/Users/carlc/projects/qcn/client/mac_build/qcnusb-Info.plist";
-		rLen = 0;
-		rLoc = 2147483647;
-	};
-	E34F6E670FF3C5FF002A2C4D /* PlistBookmark */ = {
-		isa = PlistBookmark;
-		fRef = E3D35BC80FF175D500E64121 /* qcn_graphics-Info.plist */;
-		fallbackIsa = PBXBookmark;
-		isK = 0;
-		kPath = (
-			CFBundleExecutable,
-		);
-		name = "/Users/carlc/projects/qcn/client/mac_build/qcn_graphics-Info.plist";
-		rLen = 0;
-		rLoc = 2147483647;
-	};
-	E34F6E680FF3C5FF002A2C4D /* PlistBookmark */ = {
-		isa = PlistBookmark;
-		fRef = E388F7C90FF1B3E500D948DE /* qcnusb-Info.plist */;
-		fallbackIsa = PBXBookmark;
-		isK = 0;
-		kPath = (
-			CFBundleExecutable,
-		);
-		name = "/Users/carlc/projects/qcn/client/mac_build/qcnusb-Info.plist";
-		rLen = 0;
-		rLoc = 2147483647;
-	};
-	E34F6E690FF3C5FF002A2C4D /* PlistBookmark */ = {
 		isa = PlistBookmark;
 		fRef = E388F9110FF1BE6000D948DE /* qcnlive-Info.plist */;
 		fallbackIsa = PBXBookmark;
@@ -469,6 +344,18 @@
 		rType = 0;
 		vrLen = 751;
 		vrLoc = 0;
+	};
+	E35B6AAE0FF3C653007FCAF1 /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = E3D35BC80FF175D500E64121 /* qcn_graphics-Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+			CFBundleExecutable,
+		);
+		name = "/Users/carlc/projects/qcn/client/mac_build/qcn_graphics-Info.plist";
+		rLen = 0;
+		rLoc = 2147483647;
 	};
 	E371C7F60E2AB5D0009B4DAA /* csensor_mac_laptop.cpp */ = {
 		uiCtxt = {
@@ -676,8 +563,8 @@
 	E3A499DD0D64E60400E51CDF /* Project object */ = {
 		activeArchitecturePreference = ppc;
 		activeBuildConfigurationName = Release;
-		activeExecutable = E388F9100FF1BE6000D948DE /* QCNLive */;
-		activeTarget = E388F90E0FF1BE6000D948DE /* QCNLive */;
+		activeExecutable = E3D35BB40FF1731200E64121 /* qcn */;
+		activeTarget = E3A499ED0D64E62A00E51CDF /* qcn */;
 		addToTargets = (
 			E388F90E0FF1BE6000D948DE /* QCNLive */,
 		);
@@ -771,8 +658,8 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 267634007;
-			PBXWorkspaceStateSaveDate = 267634007;
+			PBXPerProjectTemplateStateSaveDate = 267634220;
+			PBXWorkspaceStateSaveDate = 267634220;
 		};
 		perUserProjectItems = {
 			E300B1BC0FF2D14D00E54D79 /* PBXTextBookmark */ = E300B1BC0FF2D14D00E54D79 /* PBXTextBookmark */;
@@ -800,22 +687,12 @@
 			E34F6E5A0FF3C5FF002A2C4D /* PBXTextBookmark */ = E34F6E5A0FF3C5FF002A2C4D /* PBXTextBookmark */;
 			E34F6E5B0FF3C5FF002A2C4D /* PlistBookmark */ = E34F6E5B0FF3C5FF002A2C4D /* PlistBookmark */;
 			E34F6E5C0FF3C5FF002A2C4D /* PlistBookmark */ = E34F6E5C0FF3C5FF002A2C4D /* PlistBookmark */;
-			E34F6E5D0FF3C5FF002A2C4D /* PlistBookmark */ = E34F6E5D0FF3C5FF002A2C4D /* PlistBookmark */;
-			E34F6E5E0FF3C5FF002A2C4D /* PBXTextBookmark */ = E34F6E5E0FF3C5FF002A2C4D /* PBXTextBookmark */;
-			E34F6E5F0FF3C5FF002A2C4D /* PlistBookmark */ = E34F6E5F0FF3C5FF002A2C4D /* PlistBookmark */;
 			E34F6E600FF3C5FF002A2C4D /* PlistBookmark */ = E34F6E600FF3C5FF002A2C4D /* PlistBookmark */;
 			E34F6E610FF3C5FF002A2C4D /* PlistBookmark */ = E34F6E610FF3C5FF002A2C4D /* PlistBookmark */;
-			E34F6E620FF3C5FF002A2C4D /* PlistBookmark */ = E34F6E620FF3C5FF002A2C4D /* PlistBookmark */;
-			E34F6E630FF3C5FF002A2C4D /* PlistBookmark */ = E34F6E630FF3C5FF002A2C4D /* PlistBookmark */;
-			E34F6E640FF3C5FF002A2C4D /* PlistBookmark */ = E34F6E640FF3C5FF002A2C4D /* PlistBookmark */;
-			E34F6E650FF3C5FF002A2C4D /* PlistBookmark */ = E34F6E650FF3C5FF002A2C4D /* PlistBookmark */;
-			E34F6E660FF3C5FF002A2C4D /* PlistBookmark */ = E34F6E660FF3C5FF002A2C4D /* PlistBookmark */;
-			E34F6E670FF3C5FF002A2C4D /* PlistBookmark */ = E34F6E670FF3C5FF002A2C4D /* PlistBookmark */;
-			E34F6E680FF3C5FF002A2C4D /* PlistBookmark */ = E34F6E680FF3C5FF002A2C4D /* PlistBookmark */;
-			E34F6E690FF3C5FF002A2C4D /* PlistBookmark */ = E34F6E690FF3C5FF002A2C4D /* PlistBookmark */;
 			E34F6E700FF3C615002A2C4D /* PlistBookmark */ = E34F6E700FF3C615002A2C4D /* PlistBookmark */;
 			E3583B450FF1921800057DD2 /* PBXTextBookmark */ = E3583B450FF1921800057DD2 /* PBXTextBookmark */;
 			E3583B460FF1921800057DD2 /* PBXTextBookmark */ = E3583B460FF1921800057DD2 /* PBXTextBookmark */;
+			E35B6AAE0FF3C653007FCAF1 /* PlistBookmark */ = E35B6AAE0FF3C653007FCAF1 /* PlistBookmark */;
 			E388F7FB0FF1B63D00D948DE /* PBXTextBookmark */ = E388F7FB0FF1B63D00D948DE /* PBXTextBookmark */;
 			E388F7FC0FF1B63D00D948DE /* PBXTextBookmark */ = E388F7FC0FF1B63D00D948DE /* PBXTextBookmark */;
 			E388F7FD0FF1B63D00D948DE /* PBXTextBookmark */ = E388F7FD0FF1B63D00D948DE /* PBXTextBookmark */;
