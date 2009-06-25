@@ -95,7 +95,7 @@ int main(int argc, char** argv)
 #ifdef _DEBUG
         sprintf(strSuffix, "d.exe");
 #else
-        sprintf(strSuffix, "_%s_windows_intelx86.exe", QCN_VERSION_STRING);
+        sprintf(strSuffix, "_%s_%s.exe", QCN_VERSION_STRING, BOINC_WIN_SUFFIX);
 #endif
 #else // Linux
         ge_os = OS_LINUX;

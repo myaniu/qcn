@@ -158,7 +158,7 @@ typedef int socklen_t;
 #define USE_MM_TIMER
 
 /* Enable OpenSSL */
-#define OPENSSL 1
+//#define OPENSSL 1
 
 /*
  * Keywords and functions that Microsoft maps

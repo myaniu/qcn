@@ -54,9 +54,9 @@ void* QCNThreadTime(void*)
 
 //#ifdef QCNLIVE
    #ifdef _WIN32
-      sprintf(strExec, "%s_%s", NTPDATE_EXEC_VERSION, "windows_intelx86.exe");
+      sprintf(strExec, "%s_%s.exe", NTPDATE_EXEC_VERSION, BOINC_WIN_SUFFIX);
    #else // note here you need the ./ since it's not a full path, we're already in the working directory
-      #ifdef __APPLE_CC__  // apple, now check endian-ness
+      #ifdef __APPLE_CC__  // apple, now check endian-ness  -- CMC nope, now using universal binary
          sprintf(strExec, "%s%s_%s-apple-darwin", 
 // if using the GUI (qcnwx) need to prepend ./ as we are already in the working directory
 #ifdef QCNLIVE

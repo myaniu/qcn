@@ -254,6 +254,14 @@ struct FDSET_GROUP {
 #define NTPDATE_EXEC "ntpdate"
 #define NTPDATE_EXEC_VERSION "ntpdate_4.2.4p7"
 
+#ifdef _WIN32
+#ifdef _WIN64
+#define BOINC_WIN_SUFFIX "windows_x86_64"
+#else
+#define BOINC_WIN_SUFFIX "windows_intelx86"
+#endif
+#endif
+
 // the args used for ntpdate call for 8 samples, a timeout of 20 seconds, an unprivileged port, no adjtime, and no system update of the clock
 #ifdef _USE_NTPDATE_EXEC_
   #define NTPDATE_ARGS "-p 8 -t 20 -u -b -q qcn-upl.stanford.edu"

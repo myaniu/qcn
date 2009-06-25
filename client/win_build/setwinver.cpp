@@ -42,11 +42,11 @@ int main(int argc, char** argv)
 	char strIn[_MAX_PATH], strOut[2][_MAX_PATH];
 	sprintf_s(strIn, _MAX_PATH, "%s\\%s.exe", argv[2], argv[1]);
         if (strstr(argv[1], "qcn_graphics")) {
-	   sprintf_s(strOut[0], _MAX_PATH, "%s\\%s_%d.%d_windows_intelx86.exe", argv[3], argv[1], g_version_major, g_version_minor); 
-	   sprintf_s(strOut[1], _MAX_PATH, "%s\\%s_%d.%d_windows_intelx86.exe", argv[3], argv[1], g_version_major, g_version_minor - 1); 
+	   sprintf_s(strOut[0], _MAX_PATH, "%s\\%s_%d.%d_%s.exe", argv[3], argv[1], g_version_major, g_version_minor, BOINC_WIN_SUFFIX); 
+	   sprintf_s(strOut[1], _MAX_PATH, "%s\\%s_%d.%d_%s.exe", argv[3], argv[1], g_version_major, g_version_minor - 1, BOINC_WIN_SUFFIX); 
 	} else {
-	   sprintf_s(strOut[0], _MAX_PATH, "%s\\%s_%d.%d_windows_intelx86__nci.exe", argv[3], argv[1], g_version_major, g_version_minor); 
-	   sprintf_s(strOut[1], _MAX_PATH, "%s\\%s_%d.%d_windows_intelx86.exe", argv[3], argv[1], g_version_major, g_version_minor - 1); 
+	   sprintf_s(strOut[0], _MAX_PATH, "%s\\%s_%d.%d_%s__nci.exe", argv[3], argv[1], g_version_major, g_version_minor, BOINC_WIN_SUFFIX); 
+	   sprintf_s(strOut[1], _MAX_PATH, "%s\\%s_%d.%d_%s.exe", argv[3], argv[1], g_version_major, g_version_minor - 1, BOINC_WIN_SUFFIX); 
         }
 
 	if (!boinc_file_exists(strIn)) {
@@ -92,7 +92,7 @@ int deploy_qcn()
 
 		// "init/earthmask.rgb",   // multitexturing mask -- seems to crash for some people though
 	sprintf_s(strCmd, 1024, "%s qcnlive-win.zip "
-		"%s %s %s %s %s %s %s %s %s", ZIPCMD,
+		"%s %s %s %s %s %s %s %s%s%s %s", ZIPCMD,
 		"qcnlive.exe",
 		"init/MotionNodeAccelAPI.dll",
 		"init/qcnwin.ico",
@@ -101,7 +101,7 @@ int deploy_qcn()
 		"init/earthday4096.jpg",
 		"init/splash.png",
 		"init/logo.jpg",
-		"init/ntpdate_4.2.4p5_windows_intelx86.exe",
+		"init/ntpdate_4.2.4p7_", BOINC_WIN_SUFFIX, ".exe",
 		"init/earthnight4096.jpg"
 	);
 	fprintf(stdout, "Executing %s\n", strCmd);
@@ -124,33 +124,33 @@ int deploy_qcn()
 	fprintf(fBatch, "cd /var/www/boinc/sensor/apps/qcnsensor\n");
 
 	//NCI
-	fprintf(fBatch, "mkdir qcn_%d.%d_%s\n", g_version_major, g_version_minor, "windows_intelx86__nci.exe");
-	fprintf(fBatch, "cd qcn_%d.%d_%s\n", g_version_major, g_version_minor, "windows_intelx86__nci.exe");
-	fprintf(fBatch, "put qcn_%d.%d_%s\n", g_version_major, g_version_minor, "windows_intelx86__nci.exe");
-	fprintf(fBatch, "put graphics_app=qcn_graphics_%d.%d_%s\n", g_version_major, g_version_minor, "windows_intelx86.exe");
+	fprintf(fBatch, "mkdir qcn_%d.%d_%s__nci.exe\n", g_version_major, g_version_minor, BOINC_WIN_SUFFIX);
+	fprintf(fBatch, "cd qcn_%d.%d_%s__nci.exe\n", g_version_major, g_version_minor, BOINC_WIN_SUFFIX);
+	fprintf(fBatch, "put qcn_%d.%d_%s__nci.exe\n", g_version_major, g_version_minor, BOINC_WIN_SUFFIX);
+	fprintf(fBatch, "put graphics_app=qcn_graphics_%d.%d_%s.exe\n", g_version_major, g_version_minor, BOINC_WIN_SUFFIX);
 	fprintf(fBatch, "put init/Helvetica.txf\n");
 	fprintf(fBatch, "put init/Courier-Bold.txf\n");
 	fprintf(fBatch, "put init/earthday4096.jpg\n");
 //	fprintf(fBatch, "put init/earthmask.rgb\n");   // mask for multitexturing - but seems to crash some people bad!
 	fprintf(fBatch, "put init/earthnight4096.jpg\n");
 	fprintf(fBatch, "put init/logo.jpg\n");
-	fprintf(fBatch, "put init/ntpdate_4.2.4p5_windows_intelx86.exe\n");
+	fprintf(fBatch, "put init/ntpdate_4.2.4p5_%s.exe\n", BOINC_WIN_SUFFIX);
     fprintf(fBatch, "put init/MotionNodeAccelAPI.dll\n");
 
     fprintf(fBatch, "cd ../\n");
 
 	//old style BOINC
-	fprintf(fBatch, "mkdir qcn_%d.%d_%s\n", g_version_major, g_version_minor - 1, "windows_intelx86.exe");
-	fprintf(fBatch, "cd qcn_%d.%d_%s\n", g_version_major, g_version_minor - 1, "windows_intelx86.exe");
-	fprintf(fBatch, "put qcn_%d.%d_%s\n", g_version_major, g_version_minor - 1, "windows_intelx86.exe");
-	fprintf(fBatch, "put graphics_app=qcn_graphics_%d.%d_%s\n", g_version_major, g_version_minor - 1, "windows_intelx86.exe");
+	fprintf(fBatch, "mkdir qcn_%d.%d_%s.exe\n", g_version_major, g_version_minor - 1, BOINC_WIN_SUFFIX);
+	fprintf(fBatch, "cd qcn_%d.%d_%s.exe\n", g_version_major, g_version_minor - 1, BOINC_WIN_SUFFIX);
+	fprintf(fBatch, "put qcn_%d.%d_%s.exe\n", g_version_major, g_version_minor - 1, BOINC_WIN_SUFFIX);
+	fprintf(fBatch, "put graphics_app=qcn_graphics_%d.%d_%s.exe\n", g_version_major, g_version_minor - 1, BOINC_WIN_SUFFIX);
 	fprintf(fBatch, "put init/Helvetica.txf\n");
 	fprintf(fBatch, "put init/Courier-Bold.txf\n");
 	fprintf(fBatch, "put init/earthday4096.jpg\n");
 //	fprintf(fBatch, "put init/earthmask.rgb\n");   // mask for multitexturing - but seems to crash some people bad!
 	fprintf(fBatch, "put init/earthnight4096.jpg\n");
 	fprintf(fBatch, "put init/logo.jpg\n");
-	fprintf(fBatch, "put init/ntpdate_4.2.4p5_windows_intelx86.exe\n");
+	fprintf(fBatch, "put init/ntpdate_4.2.4p7_%s.exe\n", BOINC_WIN_SUFFIX);
     fprintf(fBatch, "put init/MotionNodeAccelAPI.dll\n");
 
 	fprintf(fBatch, "exit\n");
