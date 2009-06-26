@@ -7,7 +7,7 @@
 #define QCN_MAJOR_VERSION 5
 
 /* Minor part of QCN version number */
-#define QCN_MINOR_VERSION 02
+#define QCN_MINOR_VERSION 2
 
 /* Release part of QCN version number */
 #define QCN_RELEASE 
