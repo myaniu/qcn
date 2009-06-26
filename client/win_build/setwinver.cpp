@@ -43,11 +43,11 @@ int main(int argc, char** argv)
 	char strIn[_MAX_PATH], strOut[2][_MAX_PATH];
 	sprintf_s(strIn, _MAX_PATH, "%s\\%s.exe", argv[2], argv[1]);
         if (strstr(argv[1], "qcn_graphics")) {
-	   sprintf_s(strOut[0], _MAX_PATH, "%s\\%s_%d.%d_%s.exe", argv[3], argv[1], g_version_major, g_version_minor, BOINC_WIN_SUFFIX); 
-	   sprintf_s(strOut[1], _MAX_PATH, "%s\\%s_%d.%d_%s.exe", argv[3], argv[1], g_version_major, g_version_minor - 1, BOINC_WIN_SUFFIX); 
+	   sprintf_s(strOut[0], _MAX_PATH, "%s\\%s_%d.%02d_%s.exe", argv[3], argv[1], g_version_major, g_version_minor, BOINC_WIN_SUFFIX); 
+	   sprintf_s(strOut[1], _MAX_PATH, "%s\\%s_%d.%02d_%s.exe", argv[3], argv[1], g_version_major, g_version_minor - 1, BOINC_WIN_SUFFIX); 
 	} else {
-	   sprintf_s(strOut[0], _MAX_PATH, "%s\\%s_%d.%d_%s__nci.exe", argv[3], argv[1], g_version_major, g_version_minor, BOINC_WIN_SUFFIX); 
-	   sprintf_s(strOut[1], _MAX_PATH, "%s\\%s_%d.%d_%s.exe", argv[3], argv[1], g_version_major, g_version_minor - 1, BOINC_WIN_SUFFIX); 
+	   sprintf_s(strOut[0], _MAX_PATH, "%s\\%s_%d.%02d_%s__nci.exe", argv[3], argv[1], g_version_major, g_version_minor, BOINC_WIN_SUFFIX); 
+	   sprintf_s(strOut[1], _MAX_PATH, "%s\\%s_%d.%02d_%s.exe", argv[3], argv[1], g_version_major, g_version_minor - 1, BOINC_WIN_SUFFIX); 
         }
 
 	if (!boinc_file_exists(strIn)) {
@@ -130,10 +130,10 @@ const char cstrQCNLive[] = {"qcnlive-win.zip"};
 	fprintf(fBatch, "cd /var/www/boinc/sensor/apps/qcnsensor\n");
 
 	//NCI
-	fprintf(fBatch, "mkdir qcn_%d.%d_%s__nci.exe\n", g_version_major, g_version_minor, BOINC_WIN_SUFFIX);
-	fprintf(fBatch, "cd qcn_%d.%d_%s__nci.exe\n", g_version_major, g_version_minor, BOINC_WIN_SUFFIX);
-	fprintf(fBatch, "put qcn_%d.%d_%s__nci.exe\n", g_version_major, g_version_minor, BOINC_WIN_SUFFIX);
-	fprintf(fBatch, "put graphics_app=qcn_graphics_%d.%d_%s.exe\n", g_version_major, g_version_minor, BOINC_WIN_SUFFIX);
+	fprintf(fBatch, "mkdir qcn_%d.%02d_%s__nci.exe\n", g_version_major, g_version_minor, BOINC_WIN_SUFFIX);
+	fprintf(fBatch, "cd qcn_%d.%02d_%s__nci.exe\n", g_version_major, g_version_minor, BOINC_WIN_SUFFIX);
+	fprintf(fBatch, "put qcn_%d.%02d_%s__nci.exe\n", g_version_major, g_version_minor, BOINC_WIN_SUFFIX);
+	fprintf(fBatch, "put graphics_app=qcn_graphics_%d.%02d_%s.exe\n", g_version_major, g_version_minor, BOINC_WIN_SUFFIX);
 	fprintf(fBatch, "put init/Helvetica.txf\n");
 	fprintf(fBatch, "put init/Courier-Bold.txf\n");
 	fprintf(fBatch, "put init/earthday4096.jpg\n");
@@ -146,10 +146,10 @@ const char cstrQCNLive[] = {"qcnlive-win.zip"};
     fprintf(fBatch, "cd ../\n");
 
 	//old style BOINC
-	fprintf(fBatch, "mkdir qcn_%d.%d_%s.exe\n", g_version_major, g_version_minor - 1, BOINC_WIN_SUFFIX);
-	fprintf(fBatch, "cd qcn_%d.%d_%s.exe\n", g_version_major, g_version_minor - 1, BOINC_WIN_SUFFIX);
-	fprintf(fBatch, "put qcn_%d.%d_%s.exe\n", g_version_major, g_version_minor - 1, BOINC_WIN_SUFFIX);
-	fprintf(fBatch, "put graphics_app=qcn_graphics_%d.%d_%s.exe\n", g_version_major, g_version_minor - 1, BOINC_WIN_SUFFIX);
+	fprintf(fBatch, "mkdir qcn_%d.%02d_%s.exe\n", g_version_major, g_version_minor - 1, BOINC_WIN_SUFFIX);
+	fprintf(fBatch, "cd qcn_%d.%02d_%s.exe\n", g_version_major, g_version_minor - 1, BOINC_WIN_SUFFIX);
+	fprintf(fBatch, "put qcn_%d.%02d_%s.exe\n", g_version_major, g_version_minor - 1, BOINC_WIN_SUFFIX);
+	fprintf(fBatch, "put graphics_app=qcn_graphics_%d.%02d_%s.exe\n", g_version_major, g_version_minor - 1, BOINC_WIN_SUFFIX);
 	fprintf(fBatch, "put init/Helvetica.txf\n");
 	fprintf(fBatch, "put init/Courier-Bold.txf\n");
 	fprintf(fBatch, "put init/earthday4096.jpg\n");
