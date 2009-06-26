@@ -307,6 +307,73 @@ static ni_namelist *getnetinfoservers P((void));
  * timer expiries.
  */
 #ifndef NO_MAIN_ALLOWED
+
+  #ifdef _WIN32   // transfer WinMain call in Windows to our regular main()
+
+#define NOT_IN_TOKEN                0
+#define IN_SINGLE_QUOTED_TOKEN      1
+#define IN_DOUBLE_QUOTED_TOKEN      2
+#define IN_UNQUOTED_TOKEN           3
+
+int parse_command_line(char* p, char** argv) {
+    int state = NOT_IN_TOKEN;
+    int argc=0;
+
+    while (*p) {
+        switch(state) {
+        case NOT_IN_TOKEN:
+            if (isspace(*p)) {
+            } else if (*p == '\'') {
+                p++;
+                argv[argc++] = p;
+                state = IN_SINGLE_QUOTED_TOKEN;
+                break;
+            } else if (*p == '\"') {
+                p++;
+                argv[argc++] = p;
+                state = IN_DOUBLE_QUOTED_TOKEN;
+                break;
+            } else {
+                argv[argc++] = p;
+                state = IN_UNQUOTED_TOKEN;
+            }
+            break;
+        case IN_SINGLE_QUOTED_TOKEN:
+            if (*p == '\'') {
+                *p = 0;
+                state = NOT_IN_TOKEN;
+            }
+            break;
+        case IN_DOUBLE_QUOTED_TOKEN:
+            if (*p == '\"') {
+                *p = 0;
+                state = NOT_IN_TOKEN;
+            }
+            break;
+        case IN_UNQUOTED_TOKEN:
+            if (isspace(*p)) {
+                *p = 0;
+                state = NOT_IN_TOKEN;
+            }
+            break;
+        }
+        p++;
+    }
+    argv[argc] = 0;
+    return argc;
+}
+
+   int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR Args, int WinMode) {
+      LPSTR command_line;
+      char* argv[100];
+      int argc;
+
+      command_line = GetCommandLine();
+      argc = parse_command_line( command_line, argv );
+      return ntpdatemain (argc, argv);
+  }
+  #endif  // _WIN32
+
 int
 main(
 	int argc,
