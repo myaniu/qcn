@@ -56,12 +56,17 @@ appspathfour=qcn$cont_$2_$suffixp
 appspathfive=qcn$cont_$1_$suffixs$ncisuffix
 appspathsix=qcn$cont_$2_$suffixs
 
+pathpre='/var/www/boinc/sensor/apps/qcnsensor'
+if ( test "$cont" = '' ) then
+  pathpre='/var/www/boinc/continual/apps/qcncontinual'
+fi
+
 rm -f qcnsftp.up
 if ( test "$cont" = '' ) then
   echo chdir /var/www/boinc/sensor/download >> qcnsftp.up
   echo put \*.zip >> qcnsftp.up
 fi
-echo chdir /var/www/boinc/sensor/apps/qcnsensor >> qcnsftp.up
+echo chdir $pathpre >> qcnsftp.up
 echo -mkdir $appspathone >> qcnsftp.up
 echo chdir $appspathone >> qcnsftp.up
 echo put qcn$cont_$1_$suffixi$ncisuffix >> qcnsftp.up
@@ -79,7 +84,7 @@ else
    echo put init/libMotionNodeAccelAPI.so >> qcnsftp.up
 fi
 
-echo chdir /var/www/boinc/sensor/apps/qcnsensor >> qcnsftp.up
+echo chdir $pathpre >> qcnsftp.up
 echo -mkdir $appspathtwo >> qcnsftp.up
 echo chdir $appspathtwo >> qcnsftp.up
 echo put qcn$cont_$2_$suffixi >> qcnsftp.up
@@ -97,7 +102,7 @@ else
    echo put init/libMotionNodeAccelAPI.so >> qcnsftp.up
 fi
 
-echo chdir /var/www/boinc/sensor/apps/qcnsensor >> qcnsftp.up
+echo chdir $pathpre >> qcnsftp.up
 echo -mkdir $appspaththree >> qcnsftp.up
 echo chdir $appspaththree >> qcnsftp.up
 echo put qcn$cont_$1_$suffixp$ncisuffix >> qcnsftp.up
@@ -114,7 +119,8 @@ if ( test "`uname -s`" = "Darwin" ) then
 else
    echo put init/libMotionNodeAccelAPI.so >> qcnsftp.up
 fi
-echo chdir /var/www/boinc/sensor/apps/qcnsensor >> qcnsftp.up
+
+echo chdir $pathpre >> qcnsftp.up
 echo -mkdir $appspathfour >> qcnsftp.up
 echo chdir $appspathfour >> qcnsftp.up
 echo put qcn$cont_$2_$suffixp >> qcnsftp.up
@@ -132,7 +138,7 @@ else
    echo put init/libMotionNodeAccelAPI.so >> qcnsftp.up
 fi
 
-echo chdir /var/www/boinc/sensor/apps/qcnsensor >> qcnsftp.up
+echo chdir $pathpre >> qcnsftp.up
 echo -mkdir $appspathfive >> qcnsftp.up
 echo chdir $appspathfive >> qcnsftp.up
 echo put qcn$cont_$1_$suffixs$ncisuffix >> qcnsftp.up
@@ -150,7 +156,7 @@ else
    echo put init/libMotionNodeAccelAPI.so >> qcnsftp.up
 fi
 
-echo chdir /var/www/boinc/sensor/apps/qcnsensor >> qcnsftp.up
+echo chdir $pathpre >> qcnsftp.up
 echo -mkdir $appspathsix >> qcnsftp.up
 echo chdir $appspathsix >> qcnsftp.up
 echo put qcn$cont_$2_$suffixs >> qcnsftp.up
