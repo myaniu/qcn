@@ -133,7 +133,7 @@ struct USER {
     double expavg_time;             // when the above was computed
     char global_prefs[BLOB_SIZE];
         // global preferences, within <global_preferences> tag
-    char project_prefs[APP_VERSION_XML_BLOB_SIZE];   // CMC here
+    char project_prefs[APP_VERSION_XML_BLOB_SIZE];  // CMC here
         // project preferences; format:
         // <project_preferences>
         //    <resource_share>X</resource_share>
@@ -304,6 +304,7 @@ struct HOST {
     // the following not stored in DB
     //
     double claimed_credit_per_cpu_sec;
+    char p_features[256];
 
     int parse(FILE*);
     int parse_time_stats(FILE*);
@@ -469,6 +470,8 @@ struct RESULT {
     int received_time;              // when result was received from host
     char name[256];
     double cpu_time;                // CPU time used to complete result
+        // NOTE: with the current scheduler and client,
+        // this is elapsed time, not the CPU time
     char xml_doc_in[BLOB_SIZE];     // descriptions of output files
     char xml_doc_out[BLOB_SIZE];    // MD5s of output files
     char stderr_out[BLOB_SIZE];     // stderr output, if any
@@ -581,6 +584,29 @@ struct DB_CREDIT_MULTIPLIER : public DB_BASE, public CREDIT_MULTIPLIER {
     void db_print(char *);
     void db_parse(MYSQL_ROW &row);
     void get_nearest(int appid, int time);
+};
+
+struct STATE_COUNTS {
+    int appid; 
+    int last_update_time;   
+    int result_server_state_2;       
+    int result_server_state_4;       
+    int result_file_delete_state_1;  
+    int result_file_delete_state_2;  
+    int result_server_state_5_and_file_delete_state_0;   
+    int workunit_need_validate_1;    
+    int workunit_assimilate_state_1; 
+    int workunit_file_delete_state_1; 
+    int workunit_file_delete_state_2;
+
+    void clear();
+};
+
+struct DB_STATE_COUNTS : public DB_BASE, public STATE_COUNTS {
+    DB_STATE_COUNTS(DB_CONN* p=0);
+    int get_id();
+    void db_print(char *);
+    void db_parse(MYSQL_ROW &row);
 };
 
 struct VALIDATOR_ITEM {
