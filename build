@@ -1,7 +1,7 @@
 #!/bin/sh
 if ( test "$1" = "" || test "$2" = "") then
-   echo Usage:  ./build VERSION_NUMBER_NCI VERSION_NUMBER_REGULAR
-   echo 'NCI should usually be .01 higher than regular version number'
+   echo Usage:  ./build VERSION_NUMBER_NCI VERSION_NUMBER_REGULAR [all|continual]
+   echo NCI should usually be .01 higher than regular version number
    exit 1
 fi
 ./set-version $1
@@ -20,7 +20,7 @@ make distclean
 ./_autosetup
 ./configure --disable-client --disable-server --disable-manager --disable-fcgi
 cp config.h.mac config.h
-./build.mac
+./build.mac $3 $4
 else
 cd boinc
 make distclean
@@ -35,4 +35,4 @@ make clean
 make
 fi
 cd client/bin
-./deploy $1 $2
+./deploy $1 $2 $3 $4

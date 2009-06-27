@@ -1,8 +1,12 @@
 #!/bin/bash
-if ( test "$1" = "" || test "$2" = "") then
-   echo Usage:  ./deploy VERSION_NUMBER_NCI VERSION_NUMBER_REGULAR
-   echo 'NCI should usually be one higher than regular version number'
+if (test "$1" = "" || test "$2" = "") then
+   echo Usage:  ./deploy VERSION_NUMBER_NCI VERSION_NUMBER_REGULAR [all|continual]
+   echo NCI should usually be .01 higher than regular version number
    exit 1
+fi
+cont=
+if (test "$3" = "continual" || test "$4" = "continual") then
+  cont='continual'
 fi
 
 # init/earthmask.rgb  # disable for now
@@ -20,22 +24,24 @@ if ( test "`uname -s`" = "Darwin" ) then
   suffixp='powerpc-apple-darwin'
   suffixi='i686-apple-darwin'
   suffixs='x86_64-apple-darwin'
-  rm -f qcnlive-mac.zip
-  zip -r qcnlive-mac.zip QCNLive.app \
-     init/$ntpdv $uplstring \
-     init/libMotionNodeAccelAPI.dylib \
-       -x@exclude.lst
-  cp qcnusb.app/Contents/MacOS/qcnusb ../qcnusb/install
-  cd ../qcnusb/install
-  /Developer/usr/bin/packagemaker --doc installer.pmdoc --out ../../bin/qcnusb-mac.mpkg
-  cd ../../bin/
-  zip -r qcnusb-mac.zip qcnusb-mac.mpkg -x@exclude.lst
-  lipo -extract i386 qcn.app/Contents/MacOS/qcn -output qcn_$1_$suffixi$ncisuffix
-  lipo -extract i386 qcn.app/Contents/MacOS/qcn -output qcn_$2_$suffixi
-  lipo -extract ppc qcn.app/Contents/MacOS/qcn -output qcn_$1_$suffixp$ncisuffix
-  lipo -extract ppc qcn.app/Contents/MacOS/qcn -output qcn_$2_$suffixp
-  lipo -extract x86_64 qcn.app/Contents/MacOS/qcn -output qcn_$1_$suffixs$ncisuffix
-  lipo -extract x86_64 qcn.app/Contents/MacOS/qcn -output qcn_$2_$suffixs
+  if ( test "$cont" = '' ) then
+    rm -f qcnlive-mac.zip
+    zip -r qcnlive-mac.zip QCNLive.app \
+       init/$ntpdv $uplstring \
+       init/libMotionNodeAccelAPI.dylib \
+         -x@exclude.lst
+    cp qcnusb.app/Contents/MacOS/qcnusb ../qcnusb/install
+    cd ../qcnusb/install
+    /Developer/usr/bin/packagemaker --doc installer.pmdoc --out ../../bin/qcnusb-mac.mpkg
+    cd ../../bin/
+    zip -r qcnusb-mac.zip qcnusb-mac.mpkg -x@exclude.lst
+  fi
+  lipo -extract i386 qcn.app/Contents/MacOS/qcn -output qcn$cont_$1_$suffixi$ncisuffix
+  lipo -extract i386 qcn.app/Contents/MacOS/qcn -output qcn$cont_$2_$suffixi
+  lipo -extract ppc qcn.app/Contents/MacOS/qcn -output qcn$cont_$1_$suffixp$ncisuffix
+  lipo -extract ppc qcn.app/Contents/MacOS/qcn -output qcn$cont_$2_$suffixp
+  lipo -extract x86_64 qcn.app/Contents/MacOS/qcn -output qcn$cont_$1_$suffixs$ncisuffix
+  lipo -extract x86_64 qcn.app/Contents/MacOS/qcn -output qcn$cont_$2_$suffixs
   lipo -extract i386 qcn_graphics.app/Contents/MacOS/qcn_graphics -output graphics_app=qcn_graphics_$1_$suffixi
   lipo -extract i386 qcn_graphics.app/Contents/MacOS/qcn_graphics -output graphics_app=qcn_graphics_$2_$suffixi
   lipo -extract ppc qcn_graphics.app/Contents/MacOS/qcn_graphics -output graphics_app=qcn_graphics_$1_$suffixp
@@ -43,20 +49,22 @@ if ( test "`uname -s`" = "Darwin" ) then
   lipo -extract x86_64 qcn_graphics.app/Contents/MacOS/qcn_graphics -output graphics_app=qcn_graphics_$1_$suffixs
   lipo -extract x86_64 qcn_graphics.app/Contents/MacOS/qcn_graphics -output graphics_app=qcn_graphics_$2_$suffixs
 
-appspathone=qcn_$1_$suffixi$ncisuffix
-appspathtwo=qcn_$2_$suffixi
-appspaththree=qcn_$1_$suffixp$ncisuffix
-appspathfour=qcn_$2_$suffixp
-appspathfive=qcn_$1_$suffixs$ncisuffix
-appspathsix=qcn_$2_$suffixs
+appspathone=qcn$cont_$1_$suffixi$ncisuffix
+appspathtwo=qcn$cont_$2_$suffixi
+appspaththree=qcn$cont_$1_$suffixp$ncisuffix
+appspathfour=qcn$cont_$2_$suffixp
+appspathfive=qcn$cont_$1_$suffixs$ncisuffix
+appspathsix=qcn$cont_$2_$suffixs
 
 rm -f qcnsftp.up
-echo chdir /var/www/boinc/sensor/download >> qcnsftp.up
-echo put \*.zip >> qcnsftp.up
+if ( test "$cont" = '' ) then
+  echo chdir /var/www/boinc/sensor/download >> qcnsftp.up
+  echo put \*.zip >> qcnsftp.up
+fi
 echo chdir /var/www/boinc/sensor/apps/qcnsensor >> qcnsftp.up
 echo -mkdir $appspathone >> qcnsftp.up
 echo chdir $appspathone >> qcnsftp.up
-echo put qcn_$1_$suffixi$ncisuffix >> qcnsftp.up
+echo put qcn$cont_$1_$suffixi$ncisuffix >> qcnsftp.up
 echo put graphics_app=qcn_graphics_$1_$suffixi >> qcnsftp.up
 echo put init/Helvetica.txf >> qcnsftp.up
 echo put init/Courier-Bold.txf >> qcnsftp.up
@@ -74,7 +82,7 @@ fi
 echo chdir /var/www/boinc/sensor/apps/qcnsensor >> qcnsftp.up
 echo -mkdir $appspathtwo >> qcnsftp.up
 echo chdir $appspathtwo >> qcnsftp.up
-echo put qcn_$2_$suffixi >> qcnsftp.up
+echo put qcn$cont_$2_$suffixi >> qcnsftp.up
 echo put graphics_app=qcn_graphics_$2_$suffixi >> qcnsftp.up
 echo put init/Helvetica.txf >> qcnsftp.up
 echo put init/Courier-Bold.txf >> qcnsftp.up
@@ -92,7 +100,7 @@ fi
 echo chdir /var/www/boinc/sensor/apps/qcnsensor >> qcnsftp.up
 echo -mkdir $appspaththree >> qcnsftp.up
 echo chdir $appspaththree >> qcnsftp.up
-echo put qcn_$1_$suffixp$ncisuffix >> qcnsftp.up
+echo put qcn$cont_$1_$suffixp$ncisuffix >> qcnsftp.up
 echo put graphics_app=qcn_graphics_$1_$suffixp >> qcnsftp.up
 echo put init/Helvetica.txf >> qcnsftp.up
 echo put init/Courier-Bold.txf >> qcnsftp.up
@@ -109,7 +117,7 @@ fi
 echo chdir /var/www/boinc/sensor/apps/qcnsensor >> qcnsftp.up
 echo -mkdir $appspathfour >> qcnsftp.up
 echo chdir $appspathfour >> qcnsftp.up
-echo put qcn_$2_$suffixp >> qcnsftp.up
+echo put qcn$cont_$2_$suffixp >> qcnsftp.up
 echo put graphics_app=qcn_graphics_$2_$suffixp >> qcnsftp.up
 echo put init/Helvetica.txf >> qcnsftp.up
 echo put init/Courier-Bold.txf >> qcnsftp.up
@@ -127,7 +135,7 @@ fi
 echo chdir /var/www/boinc/sensor/apps/qcnsensor >> qcnsftp.up
 echo -mkdir $appspathfive >> qcnsftp.up
 echo chdir $appspathfive >> qcnsftp.up
-echo put qcn_$1_$suffixs$ncisuffix >> qcnsftp.up
+echo put qcn$cont_$1_$suffixs$ncisuffix >> qcnsftp.up
 echo put graphics_app=qcn_graphics_$1_$suffixs >> qcnsftp.up
 echo put init/Helvetica.txf >> qcnsftp.up
 echo put init/Courier-Bold.txf >> qcnsftp.up
@@ -145,7 +153,7 @@ fi
 echo chdir /var/www/boinc/sensor/apps/qcnsensor >> qcnsftp.up
 echo -mkdir $appspathsix >> qcnsftp.up
 echo chdir $appspathsix >> qcnsftp.up
-echo put qcn_$2_$suffixs >> qcnsftp.up
+echo put qcn$cont_$2_$suffixs >> qcnsftp.up
 echo put graphics_app=qcn_graphics_$2_$suffixs >> qcnsftp.up
 echo put init/Helvetica.txf >> qcnsftp.up
 echo put init/Courier-Bold.txf >> qcnsftp.up
