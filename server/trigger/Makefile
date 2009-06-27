@@ -1,7 +1,7 @@
 #CFLAGS = -DQCN_SERVER -O0 -g -Wall
 CFLAGS = -DQCN_SERVER -O2 -Wall
 CC = g++
-BOINCDIR = ../../boinc
+BOINCDIR = ../../../boinc
 MYSQLDIR = /usr/local/mysql
 SSLDIR = /usr/local/ssl
 
