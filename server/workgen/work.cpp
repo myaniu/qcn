@@ -93,7 +93,11 @@ int main(int argc, char** argv) {
 
 
     // read the template
+#ifdef QCN_CONTINUAL
+    read_file_malloc("templates/qcn_input_continual.xml", wu_template);
+#else
     read_file_malloc("templates/qcn_input.xml", wu_template);
+#endif
 
     float fShortTermAvg = 3.0f;
     char **inFileUse = NULL;
