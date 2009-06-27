@@ -1611,6 +1611,587 @@
 			};
 			name = Release;
 		};
+		E3F84E280FF6D3DD00DC5D63 /* ReleaseContinual */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+			};
+			name = ReleaseContinual;
+		};
+		E3F84E290FF6D3DD00DC5D63 /* ReleaseContinual */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ADDITIONAL_SDKS = "";
+				ARCHS = (
+					i386,
+					ppc,
+					x86_64,
+				);
+				CONFIGURATION_BUILD_DIR = ../bin;
+				COPY_PHASE_STRIP = YES;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_MODEL_TUNING = G4;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "";
+				HEADER_SEARCH_PATHS = (
+					../../,
+					../main,
+					../sensor,
+					../util,
+					../graphics,
+					../qcnusb,
+					../../../boinc/lib,
+					../../../boinc/lib/mac,
+					../../../boinc/api,
+					../../../boinc/zip,
+				);
+				INFOPLIST_FILE = "qcn-Info.plist";
+				INSTALL_PATH = "$(HOME)/Applications";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../zlib\"",
+					"\"$(SRCROOT)\"",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				"MACOSX_DEPLOYMENT_TARGET[arch=ppc]" = 10.3;
+				"MACOSX_DEPLOYMENT_TARGET[arch=x86_64]" = 10.5;
+				OBJROOT = ../bin;
+				OTHER_CFLAGS = (
+					"-Wall",
+					"-W",
+					"-DQCN_CONTINUAL",
+					"-D_USE_NTPDATE_EXEC_",
+					"-DHAVE_CONFIG_H",
+					"-D_THREAD_SAFE",
+					"-DQCN",
+					"-D_ZLIB",
+					"-DNDEBUG",
+				);
+				OTHER_LDFLAGS = (
+					"-L./",
+					"-framework",
+					Foundation,
+					"-framework",
+					IOKit,
+					"-framework",
+					Carbon,
+					"-framework",
+					Cocoa,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = qcn;
+				SDKROOT = macosx10.4;
+				"SDKROOT[arch=ppc]" = macosx10.3.9;
+				"SDKROOT[arch=x86_64]" = macosx10.5;
+				SYMROOT = ../bin;
+				WRAPPER_EXTENSION = app;
+			};
+			name = ReleaseContinual;
+		};
+		E3F84E2A0FF6D3DD00DC5D63 /* ReleaseContinual */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = (
+					i386,
+					ppc,
+					x86_64,
+				);
+				CODE_SIGN_IDENTITY = "Don't Code Sign";
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				HEADER_SEARCH_PATHS = (
+					../../,
+					../main,
+					../sensor,
+					../util,
+					../graphics,
+					../qcnusb,
+					"../../jpeg-6b",
+					../../../boinc/lib,
+					../../../boinc/lib/mac,
+					../../../boinc/api,
+					../../../boinc_zip,
+				);
+				INFOPLIST_FILE = "qcn_graphics-Info.plist";
+				INSTALL_PATH = "$(HOME)/Applications";
+				LIBRARY_SEARCH_PATHS = "";
+				"MACOSX_DEPLOYMENT_TARGET[arch=ppc]" = 10.3;
+				"MACOSX_DEPLOYMENT_TARGET[arch=x86_64]" = 10.5;
+				OTHER_CFLAGS = (
+					"-Wall",
+					"-DQCN",
+					"-D_THREAD_SAFE",
+					"-D_ZLIB",
+					"-DQCNGRAPHICS",
+					"-DGRAPHICS_PROGRAM",
+					"-DHAVE_SYS_RESOURCE_H",
+					"-DNDEBUG",
+				);
+				OTHER_LDFLAGS = (
+					"-L./",
+					"-framework",
+					Foundation,
+					"-framework",
+					OpenGL,
+					"-framework",
+					GLUT,
+					"-framework",
+					Carbon,
+					"-framework",
+					Cocoa,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = qcn_graphics;
+				SDKROOT = macosx10.4;
+				"SDKROOT[arch=ppc]" = macosx10.3.9;
+				"SDKROOT[arch=x86_64]" = macosx10.5;
+				SYMROOT = ../bin;
+				ZERO_LINK = NO;
+			};
+			name = ReleaseContinual;
+		};
+		E3F84E2B0FF6D3DD00DC5D63 /* ReleaseContinual */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ADDITIONAL_SDKS = "";
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = (
+					i386,
+					ppc,
+					x86_64,
+				);
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
+				HEADER_SEARCH_PATHS = (
+					../../,
+					../main,
+					../sensor,
+					../util,
+					../graphics,
+					../qcnusb,
+					../../../boinc/lib,
+					../../../boinc/lib/mac,
+					../../../boinc/api,
+					../../../boinc_zip,
+				);
+				INFOPLIST_FILE = "qcnusb-Info.plist";
+				INSTALL_PATH = "$(HOME)/Applications";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../zlib\"",
+					"\"$(SRCROOT)\"",
+				);
+				"MACOSX_DEPLOYMENT_TARGET[arch=ppc]" = 10.3;
+				"MACOSX_DEPLOYMENT_TARGET[arch=x86_64]" = 10.5;
+				OTHER_CFLAGS = (
+					"-Wall",
+					"-W",
+					"-D_USE_NTPDATE_EXEC_",
+					"-DHAVE_CONFIG_H",
+					"-D_THREAD_SAFE",
+					"-DQCN_USB",
+					"-D_ZLIB",
+					"-DNDEBUG",
+				);
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					IOKit,
+					"-framework",
+					Carbon,
+					"-framework",
+					Cocoa,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = qcnusb;
+				SDKROOT = macosx10.4;
+				"SDKROOT[arch=ppc]" = macosx10.3.9;
+				"SDKROOT[arch=x86_64]" = macosx10.5;
+				SYMROOT = ../bin;
+				ZERO_LINK = NO;
+			};
+			name = ReleaseContinual;
+		};
+		E3F84E2C0FF6D3DD00DC5D63 /* ReleaseContinual */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
+				HEADER_SEARCH_PATHS = (
+					../../,
+					"../../jpeg-6b",
+					../../../boinc/api,
+					../../../boinc/lib,
+					../util,
+					../sensor,
+					../../../boinc/lib/mac,
+					"/usr/local/lib/wx/include/mac-ansi-release-static-2.8",
+					"/usr/local/include/wx-2.8",
+				);
+				INFOPLIST_FILE = "qcnlive-Info.plist";
+				INSTALL_PATH = "$(HOME)/Applications";
+				LIBRARY_SEARCH_PATHS = (
+					"/usr/local/include/wx-2.8",
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
+				OTHER_CFLAGS = (
+					"-Wall",
+					"-D_USE_NTPDATE_EXEC_",
+					"-DQCNLIVE",
+					"-DGRAPHICS_PROGRAM",
+					"-DAPP_GRAPHICS",
+					"-DHAVE_SYS_RESOURCE_H",
+					"-DNDEBUG",
+					"-D_FILE_OFFSET_BITS=64",
+					"-D_LARGE_FILES",
+					"-D__WXMAC__",
+				);
+				OTHER_LDFLAGS = (
+					"-framework",
+					IOKit,
+					"-framework",
+					Carbon,
+					"-framework",
+					Cocoa,
+					"-framework",
+					System,
+					"-framework",
+					QuickTime,
+					"-framework",
+					OpenGL,
+					"-framework",
+					AGL,
+					"-framework",
+					WebKit,
+					"-lwxexpat-2.8",
+					"-lwxtiff-2.8",
+					"-lwxpng-2.8",
+					"-lwx_mac_gl-2.8",
+					"-lwx_mac-2.8",
+					"-lpthread",
+					"-liconv",
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = QCNLive;
+				SDKROOT = macosx10.4;
+				SYMROOT = ../bin;
+				ZERO_LINK = NO;
+			};
+			name = ReleaseContinual;
+		};
+		E3F84E2D0FF6D3E500DC5D63 /* DebugContinual */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_OPTIMIZATION_LEVEL = 0;
+				STRIP_INSTALLED_PRODUCT = NO;
+				STRIP_STYLE = "non-global";
+			};
+			name = DebugContinual;
+		};
+		E3F84E2E0FF6D3E500DC5D63 /* DebugContinual */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					i386,
+					ppc,
+					x86_64,
+				);
+				CONFIGURATION_BUILD_DIR = ../bin;
+				COPY_PHASE_STRIP = NO;
+				GCC_DEBUGGING_SYMBOLS = full;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_MODEL_TUNING = G4;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "";
+				HEADER_SEARCH_PATHS = (
+					../../,
+					../main,
+					../sensor,
+					../util,
+					../graphics,
+					../qcnusb,
+					../../../boinc/lib,
+					../../../boinc/lib/mac,
+					../../../boinc/api,
+					../../../boinc/zip,
+				);
+				INFOPLIST_FILE = "qcn-Info.plist";
+				INSTALL_PATH = "$(HOME)/Applications";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../zlib\"",
+					"\"$(SRCROOT)\"",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				"MACOSX_DEPLOYMENT_TARGET[arch=ppc]" = 10.3;
+				"MACOSX_DEPLOYMENT_TARGET[arch=x86_64]" = 10.5;
+				OBJROOT = ../bin;
+				OTHER_CFLAGS = (
+					"-Wall",
+					"-W",
+					"-DQCN_CONTINUAL",
+					"-D_USE_NTPDATE_EXEC_",
+					"-DHAVE_CONFIG_H",
+					"-D_THREAD_SAFE",
+					"-DQCN",
+					"-D_ZLIB",
+					"-D_DEBUG",
+				);
+				OTHER_LDFLAGS = (
+					"-L./",
+					"-framework",
+					Foundation,
+					"-framework",
+					IOKit,
+					"-framework",
+					Carbon,
+					"-framework",
+					Cocoa,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = qcn;
+				SDKROOT = macosx10.4;
+				"SDKROOT[arch=ppc]" = macosx10.3.9;
+				"SDKROOT[arch=x86_64]" = macosx10.5;
+				SYMROOT = ../bin;
+				WRAPPER_EXTENSION = app;
+			};
+			name = DebugContinual;
+		};
+		E3F84E2F0FF6D3E500DC5D63 /* DebugContinual */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = (
+					i386,
+					ppc,
+					x86_64,
+				);
+				CODE_SIGN_IDENTITY = "Don't Code Sign";
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)";
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				HEADER_SEARCH_PATHS = (
+					../../,
+					../main,
+					../sensor,
+					../util,
+					../graphics,
+					../qcnusb,
+					"../../jpeg-6b",
+					../../../boinc/lib,
+					../../../boinc/lib/mac,
+					../../../boinc/api,
+					../../../boinc_zip,
+				);
+				INFOPLIST_FILE = "qcn_graphics-Info.plist";
+				INSTALL_PATH = "$(HOME)/Applications";
+				LIBRARY_SEARCH_PATHS = "";
+				"MACOSX_DEPLOYMENT_TARGET[arch=ppc]" = 10.3;
+				"MACOSX_DEPLOYMENT_TARGET[arch=x86_64]" = 10.5;
+				OTHER_CFLAGS = (
+					"-Wall",
+					"-DQCN",
+					"-D_THREAD_SAFE",
+					"-D_ZLIB",
+					"-DQCNGRAPHICS",
+					"-DGRAPHICS_PROGRAM",
+					"-DHAVE_SYS_RESOURCE_H",
+					"-D_DEBUG",
+				);
+				OTHER_LDFLAGS = (
+					"-L./",
+					"-framework",
+					Foundation,
+					"-framework",
+					OpenGL,
+					"-framework",
+					GLUT,
+					"-framework",
+					Carbon,
+					"-framework",
+					Cocoa,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = qcn_graphics;
+				SDKROOT = macosx10.4;
+				"SDKROOT[arch=ppc]" = macosx10.3.9;
+				"SDKROOT[arch=x86_64]" = macosx10.5;
+				SYMROOT = ../bin;
+			};
+			name = DebugContinual;
+		};
+		E3F84E300FF6D3E500DC5D63 /* DebugContinual */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ADDITIONAL_SDKS = "";
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = (
+					i386,
+					ppc,
+					x86_64,
+				);
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)";
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
+				HEADER_SEARCH_PATHS = (
+					../../,
+					../main,
+					../sensor,
+					../util,
+					../graphics,
+					../qcnusb,
+					../../../boinc/lib,
+					../../../boinc/lib/mac,
+					../../../boinc/api,
+					../../../boinc_zip,
+				);
+				INFOPLIST_FILE = "qcnusb-Info.plist";
+				INSTALL_PATH = "$(HOME)/Applications";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../zlib\"",
+					"\"$(SRCROOT)\"",
+				);
+				"MACOSX_DEPLOYMENT_TARGET[arch=ppc]" = 10.3;
+				"MACOSX_DEPLOYMENT_TARGET[arch=x86_64]" = 10.5;
+				OTHER_CFLAGS = (
+					"-Wall",
+					"-W",
+					"-D_USE_NTPDATE_EXEC_",
+					"-DHAVE_CONFIG_H",
+					"-D_THREAD_SAFE",
+					"-DQCN_USB",
+					"-D_ZLIB",
+					"-D_DEBUG",
+				);
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					IOKit,
+					"-framework",
+					Carbon,
+					"-framework",
+					Cocoa,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = qcnusb;
+				SDKROOT = macosx10.4;
+				"SDKROOT[arch=ppc]" = macosx10.3.9;
+				"SDKROOT[arch=x86_64]" = macosx10.5;
+				SYMROOT = ../bin;
+			};
+			name = DebugContinual;
+		};
+		E3F84E310FF6D3E500DC5D63 /* DebugContinual */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/";
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
+				HEADER_SEARCH_PATHS = (
+					../../,
+					"../../jpeg-6b",
+					../../../boinc/api,
+					../../../boinc/lib,
+					../util,
+					../sensor,
+					../../../boinc/lib/mac,
+					"/usr/local/lib/wx/include/mac-ansi-release-static-2.8",
+					"/usr/local/include/wx-2.8",
+				);
+				INFOPLIST_FILE = "qcnlive-Info.plist";
+				INSTALL_PATH = "$(HOME)/Applications";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
+				LINK_WITH_STANDARD_LIBRARIES = YES;
+				OTHER_CFLAGS = (
+					"-Wall",
+					"-D_USE_NTPDATE_EXEC_",
+					"-DQCNLIVE",
+					"-DGRAPHICS_PROGRAM",
+					"-DAPP_GRAPHICS",
+					"-DHAVE_SYS_RESOURCE_H",
+					"-D_FILE_OFFSET_BITS=64",
+					"-D_LARGE_FILES",
+					"-D__WXMAC__",
+					"-D_DEBUG",
+				);
+				OTHER_LDFLAGS = (
+					"-framework",
+					IOKit,
+					"-framework",
+					Carbon,
+					"-framework",
+					Cocoa,
+					"-framework",
+					System,
+					"-framework",
+					QuickTime,
+					"-framework",
+					OpenGL,
+					"-framework",
+					AGL,
+					"-framework",
+					WebKit,
+					"-lwxexpat-2.8",
+					"-lwxtiff-2.8",
+					"-lwxpng-2.8",
+					"-lwx_mac_gl-2.8",
+					"-lwx_mac-2.8",
+					"-lpthread",
+					"-liconv",
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = QCNLive;
+				SDKROOT = macosx10.4;
+				SYMROOT = ../bin;
+			};
+			name = DebugContinual;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1618,7 +2199,9 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E388F7CA0FF1B3E500D948DE /* Debug */,
+				E3F84E300FF6D3E500DC5D63 /* DebugContinual */,
 				E388F7CB0FF1B3E500D948DE /* Release */,
+				E3F84E2B0FF6D3DD00DC5D63 /* ReleaseContinual */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -1627,7 +2210,9 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E388F9120FF1BE6100D948DE /* Debug */,
+				E3F84E310FF6D3E500DC5D63 /* DebugContinual */,
 				E388F9130FF1BE6100D948DE /* Release */,
+				E3F84E2C0FF6D3DD00DC5D63 /* ReleaseContinual */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -1636,7 +2221,9 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E3A499DF0D64E60400E51CDF /* Debug */,
+				E3F84E2D0FF6D3E500DC5D63 /* DebugContinual */,
 				E3A499E00D64E60400E51CDF /* Release */,
+				E3F84E280FF6D3DD00DC5D63 /* ReleaseContinual */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -1645,7 +2232,9 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E3A499F30D64E62A00E51CDF /* Debug */,
+				E3F84E2E0FF6D3E500DC5D63 /* DebugContinual */,
 				E3A499F40D64E62A00E51CDF /* Release */,
+				E3F84E290FF6D3DD00DC5D63 /* ReleaseContinual */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -1654,7 +2243,9 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E3D35BC90FF175D500E64121 /* Debug */,
+				E3F84E2F0FF6D3E500DC5D63 /* DebugContinual */,
 				E3D35BCA0FF175D500E64121 /* Release */,
+				E3F84E2A0FF6D3DD00DC5D63 /* ReleaseContinual */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
