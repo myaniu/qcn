@@ -339,7 +339,7 @@
 			<Tool
 				Name="VCPostBuildEventTool"
 				Description="setwinver"
-				CommandLine="..\bin\setwinver.exe graphics_app=qcn_graphics ..\bin ..\bin"
+				CommandLine="..\bin\setwinver64.exe graphics_app=qcn_graphics ..\bin ..\bin"
 			/>
 		</Configuration>
 	</Configurations>

@@ -347,7 +347,7 @@
 			<Tool
 				Name="VCPostBuildEventTool"
 				Description="deploy to QCN webserver"
-				CommandLine="..\bin\setwinver.exe deploy"
+				CommandLine="..\bin\setwinver64.exe deploy"
 			/>
 		</Configuration>
 	</Configurations>

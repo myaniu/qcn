@@ -236,8 +236,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release|x64"
-			OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)SWV"
+			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)SWV"
 			ConfigurationType="1"
 			CharacterSet="0"
 			>

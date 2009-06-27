@@ -358,7 +358,7 @@
 			<Tool
 				Name="VCPostBuildEventTool"
 				Description="setwinver"
-				CommandLine="..\bin\setwinver.exe qcn ..\bin ..\bin"
+				CommandLine="..\bin\setwinver64.exe qcn ..\bin ..\bin"
 			/>
 		</Configuration>
 	</Configurations>
