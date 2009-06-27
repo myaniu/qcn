@@ -6,7 +6,7 @@ if ( test "$1" = "" || test "$2" = "") then
 fi
 ./set-version $1
 cd ..
-if (test $3) then
+if (test "$3" = "all" || test "$4" = "all") then
    rm -rf boinc
    ./qcn/getboinc
 else
