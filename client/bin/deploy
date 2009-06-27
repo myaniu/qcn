@@ -24,7 +24,7 @@ if ( test "`uname -s`" = "Darwin" ) then
   suffixp='powerpc-apple-darwin'
   suffixi='i686-apple-darwin'
   suffixs='x86_64-apple-darwin'
-  if ( test "$cont" = '' ) then
+  if ( test "$cont" = "" ) then
     rm -f qcnlive-mac.zip
     zip -r qcnlive-mac.zip QCNLive.app \
        init/$ntpdv $uplstring \
@@ -57,19 +57,19 @@ appspathfive="qcn$cont"_$1_$suffixs$ncisuffix
 appspathsix="qcn$cont"_$2_$suffixs
 
 pathpre='/var/www/boinc/sensor/apps/qcnsensor'
-if ( test "$cont" = '' ) then
+if ( test "$cont" = "continual" ) then
   pathpre='/var/www/boinc/continual/apps/qcncontinual'
 fi
 
 rm -f qcnsftp.up
-if ( test "$cont" = '' ) then
+if ( test "$cont" = "" ) then
   echo chdir /var/www/boinc/sensor/download >> qcnsftp.up
   echo put \*.zip >> qcnsftp.up
 fi
 echo chdir $pathpre >> qcnsftp.up
 echo -mkdir $appspathone >> qcnsftp.up
 echo chdir $appspathone >> qcnsftp.up
-echo put qcn$cont_$1_$suffixi$ncisuffix >> qcnsftp.up
+echo put "qcn$cont"_$1_$suffixi$ncisuffix >> qcnsftp.up
 echo put graphics_app=qcn_graphics_$1_$suffixi >> qcnsftp.up
 echo put init/Helvetica.txf >> qcnsftp.up
 echo put init/Courier-Bold.txf >> qcnsftp.up
@@ -87,7 +87,7 @@ fi
 echo chdir $pathpre >> qcnsftp.up
 echo -mkdir $appspathtwo >> qcnsftp.up
 echo chdir $appspathtwo >> qcnsftp.up
-echo put qcn$cont_$2_$suffixi >> qcnsftp.up
+echo put "qcn$cont"_$2_$suffixi >> qcnsftp.up
 echo put graphics_app=qcn_graphics_$2_$suffixi >> qcnsftp.up
 echo put init/Helvetica.txf >> qcnsftp.up
 echo put init/Courier-Bold.txf >> qcnsftp.up
@@ -105,7 +105,7 @@ fi
 echo chdir $pathpre >> qcnsftp.up
 echo -mkdir $appspaththree >> qcnsftp.up
 echo chdir $appspaththree >> qcnsftp.up
-echo put qcn$cont_$1_$suffixp$ncisuffix >> qcnsftp.up
+echo put "qcn$cont"_$1_$suffixp$ncisuffix >> qcnsftp.up
 echo put graphics_app=qcn_graphics_$1_$suffixp >> qcnsftp.up
 echo put init/Helvetica.txf >> qcnsftp.up
 echo put init/Courier-Bold.txf >> qcnsftp.up
@@ -123,7 +123,7 @@ fi
 echo chdir $pathpre >> qcnsftp.up
 echo -mkdir $appspathfour >> qcnsftp.up
 echo chdir $appspathfour >> qcnsftp.up
-echo put qcn$cont_$2_$suffixp >> qcnsftp.up
+echo put "qcn$cont"_$2_$suffixp >> qcnsftp.up
 echo put graphics_app=qcn_graphics_$2_$suffixp >> qcnsftp.up
 echo put init/Helvetica.txf >> qcnsftp.up
 echo put init/Courier-Bold.txf >> qcnsftp.up
@@ -141,7 +141,7 @@ fi
 echo chdir $pathpre >> qcnsftp.up
 echo -mkdir $appspathfive >> qcnsftp.up
 echo chdir $appspathfive >> qcnsftp.up
-echo put qcn$cont_$1_$suffixs$ncisuffix >> qcnsftp.up
+echo put "qcn$cont"_$1_$suffixs$ncisuffix >> qcnsftp.up
 echo put graphics_app=qcn_graphics_$1_$suffixs >> qcnsftp.up
 echo put init/Helvetica.txf >> qcnsftp.up
 echo put init/Courier-Bold.txf >> qcnsftp.up
@@ -159,7 +159,7 @@ fi
 echo chdir $pathpre >> qcnsftp.up
 echo -mkdir $appspathsix >> qcnsftp.up
 echo chdir $appspathsix >> qcnsftp.up
-echo put qcn$cont_$2_$suffixs >> qcnsftp.up
+echo put "qcn$cont"_$2_$suffixs >> qcnsftp.up
 echo put graphics_app=qcn_graphics_$2_$suffixs >> qcnsftp.up
 echo put init/Helvetica.txf >> qcnsftp.up
 echo put init/Courier-Bold.txf >> qcnsftp.up
