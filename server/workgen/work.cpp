@@ -10,8 +10,8 @@
 int main(int argc, char** argv) {
     DB_APP app;
     DB_WORKUNIT wu;
-    char strWU[32];
-    char strApp[16];
+    char strWU[64];
+    char strApp[64];
     long int lNumWU;
     char* wu_template = NULL;
     //char* infiles[3] = {"qcn_t1", "qcn_t2", "qcn_t3"};
@@ -120,7 +120,7 @@ int main(int argc, char** argv) {
             break;
        }
 
-#ifdef _QCN_CONTINUAL
+#ifdef QCN_CONTINUAL
        sprintf(wu.name, "continual_sc%03d_sta%03d_%06ld", (int)(fSigCutoff * 100.0f), (int)(fShortTermAvg * 100.0f), i);
 #else
        sprintf(wu.name, "%s_sc%03d_sta%03d_%06ld", strWU, (int)(fSigCutoff * 100.0f), (int)(fShortTermAvg * 100.0f), i);
@@ -140,7 +140,7 @@ int main(int argc, char** argv) {
        create_work(
           wu,
           wu_template,
-#ifdef _QCN_CONTINUAL
+#ifdef QCN_CONTINUAL
           "templates/qcn_output_continual.xml",
           "templates/qcn_output_continual.xml",
 #else
