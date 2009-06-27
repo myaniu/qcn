@@ -136,8 +136,13 @@ int main(int argc, char** argv) {
        create_work(
           wu,
           wu_template,
+#ifdef _QCN_CONTINUAL
+          "templates/qcn_output_continual.xml",
+          "templates/qcn_output_continual.xml",
+#else
           "templates/qcn_output.xml",
           "templates/qcn_output.xml",
+#endif
           (const char**) inFileUse,
           1,
           config,

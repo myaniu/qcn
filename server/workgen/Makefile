@@ -1,9 +1,10 @@
-CFLAGS = -DQCN_SERVER -O3 -Wall
+CFLAGS = -DQCN_CONTINUAL -DQCN_SERVER -O3 -Wall
 CC = g++
-BOINCDIR = ../../boinc
+BOINCDIR = ../../../boinc
 MYSQLDIR = /usr/local/mysql
 SSLDIR = /usr/local/ssl
-QCNDIR = /var/www/boinc/qcnalpha
+QCNDIR = /var/www/boinc/sensor
+QCNDIR = /var/www/boinc/continual
 
 # CMC note - ssl lib used seems to be in /usr/kerberos/lib64, not the one in /usr/local/ssl !
 LIBS = -L$(BOINCDIR)/lib -lboinc \
