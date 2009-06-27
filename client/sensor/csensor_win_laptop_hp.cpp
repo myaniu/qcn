@@ -1,3 +1,4 @@
+#if 0
 /*
  *  csensor_win_laptop_hp.cpp
  *  qcn
@@ -11742,3 +11743,6 @@ SERVICE_ERROR_CRITICAL = 0x00000003
 
 */
 
+
+
+#endif // disabled
