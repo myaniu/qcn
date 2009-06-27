@@ -1,10 +1,10 @@
 #!/bin/bash
 if (test "$1" = "" || test "$2" = "") then
-   echo "Usage:  ./deploy VERSION_NUMBER_NCI VERSION_NUMBER_REGULAR [all|continual]"
+   echo "Usage:  ./deploy VERSION_NUMBER_NCI VERSION_NUMBER_REGULAR [continual]"
    echo "NCI should usually be .01 higher than regular version number"
    exit 1
 fi
-cont=
+cont=''
 if (test "$3" = "continual" || test "$4" = "continual") then
   cont='continual'
 fi
@@ -36,12 +36,12 @@ if ( test "`uname -s`" = "Darwin" ) then
     cd ../../bin/
     zip -r qcnusb-mac.zip qcnusb-mac.mpkg -x@exclude.lst
   fi
-  lipo -extract i386 qcn.app/Contents/MacOS/qcn -output qcn$cont_$1_$suffixi$ncisuffix
-  lipo -extract i386 qcn.app/Contents/MacOS/qcn -output qcn$cont_$2_$suffixi
-  lipo -extract ppc qcn.app/Contents/MacOS/qcn -output qcn$cont_$1_$suffixp$ncisuffix
-  lipo -extract ppc qcn.app/Contents/MacOS/qcn -output qcn$cont_$2_$suffixp
-  lipo -extract x86_64 qcn.app/Contents/MacOS/qcn -output qcn$cont_$1_$suffixs$ncisuffix
-  lipo -extract x86_64 qcn.app/Contents/MacOS/qcn -output qcn$cont_$2_$suffixs
+  lipo -extract i386 qcn.app/Contents/MacOS/qcn -output "qcn$cont"_$1_$suffixi$ncisuffix
+  lipo -extract i386 qcn.app/Contents/MacOS/qcn -output "qcn$cont"_$2_$suffixi
+  lipo -extract ppc qcn.app/Contents/MacOS/qcn -output "qcn$cont"_$1_$suffixp$ncisuffix
+  lipo -extract ppc qcn.app/Contents/MacOS/qcn -output "qcn$cont"_$2_$suffixp
+  lipo -extract x86_64 qcn.app/Contents/MacOS/qcn -output "qcn$cont"_$1_$suffixs$ncisuffix
+  lipo -extract x86_64 qcn.app/Contents/MacOS/qcn -output "qcn$cont"_$2_$suffixs
   lipo -extract i386 qcn_graphics.app/Contents/MacOS/qcn_graphics -output graphics_app=qcn_graphics_$1_$suffixi
   lipo -extract i386 qcn_graphics.app/Contents/MacOS/qcn_graphics -output graphics_app=qcn_graphics_$2_$suffixi
   lipo -extract ppc qcn_graphics.app/Contents/MacOS/qcn_graphics -output graphics_app=qcn_graphics_$1_$suffixp
@@ -49,12 +49,12 @@ if ( test "`uname -s`" = "Darwin" ) then
   lipo -extract x86_64 qcn_graphics.app/Contents/MacOS/qcn_graphics -output graphics_app=qcn_graphics_$1_$suffixs
   lipo -extract x86_64 qcn_graphics.app/Contents/MacOS/qcn_graphics -output graphics_app=qcn_graphics_$2_$suffixs
 
-appspathone=qcn$cont_$1_$suffixi$ncisuffix
-appspathtwo=qcn$cont_$2_$suffixi
-appspaththree=qcn$cont_$1_$suffixp$ncisuffix
-appspathfour=qcn$cont_$2_$suffixp
-appspathfive=qcn$cont_$1_$suffixs$ncisuffix
-appspathsix=qcn$cont_$2_$suffixs
+appspathone="qcn$cont"_$1_$suffixi$ncisuffix
+appspathtwo="qcn$cont"_$2_$suffixi
+appspaththree="qcn$cont"_$1_$suffixp$ncisuffix
+appspathfour="qcn$cont"_$2_$suffixp
+appspathfive="qcn$cont"_$1_$suffixs$ncisuffix
+appspathsix="qcn$cont"_$2_$suffixs
 
 pathpre='/var/www/boinc/sensor/apps/qcnsensor'
 if ( test "$cont" = '' ) then
