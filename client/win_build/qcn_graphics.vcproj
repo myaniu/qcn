@@ -267,8 +267,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release|x64"
-			OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)$(PlatformName)\G$(ConfigurationName)"
+			IntermediateDirectory="$(PlatformName)\G$(ConfigurationName)"
 			ConfigurationType="1"
 			CharacterSet="0"
 			ManagedExtensions="0"
@@ -293,7 +293,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="../../zlib;../../;../main;../sensor;../util;../../../boinc/lib;../../../boinc/api;&quot;../../jpeg-6b&quot;;../../freeglut/include;../../../boinc/zip"
-				PreprocessorDefinitions="_WIN64;QCNGRAPHICS;_WIN32;NDEBUG;_ZLIB;_CRT_SECURE_NO_DEPRECATE;GRAPHICS_PROGRAM"
+				PreprocessorDefinitions="_WIN64;GRAPHICS_PROGRAM;QCNGRAPHICS;_WIN32;NDEBUG;_ZLIB;_CRT_SECURE_NO_DEPRECATE"
 				RuntimeLibrary="0"
 			/>
 			<Tool

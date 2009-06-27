@@ -1,3 +1,4 @@
+#ifndef _WIN64   // 64-bit Win not supported
 /*
  *  csensor_usb_motionnodeaccel.cpp
  *  qcn
@@ -204,3 +205,4 @@ inline bool CSensorUSBMotionNodeAccel::read_xyz(float& x1, float& y1, float& z1)
     return bRet;
 }
 
+#endif // _WIN64

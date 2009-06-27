@@ -1,5 +1,5 @@
-#ifndef _UTIL_H_
-#define _UTIL_H_
+#ifndef _QCN_UTIL_H_
+#define _QCN_UTIL_H_
 /*
  *  main.h -- main header file for the Quake Catcher Network
  *  qcn
@@ -100,4 +100,4 @@ void sendIntermediateUpload(std::string strLogicalName, std::string strFullPath)
 #endif
 }
 
-#endif //_UTIL_H_
+#endif //_QCN_UTIL_H_

@@ -244,8 +244,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release|x64"
-			OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)DEMO"
+			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)DEMO"
 			ConfigurationType="1"
 			CharacterSet="0"
 			ManagedExtensions="0"

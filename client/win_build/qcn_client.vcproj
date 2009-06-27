@@ -321,7 +321,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="hid.lib setupapi.lib winmm.lib boinc_lib64.lib boinc_api64.lib boinc_zip64.lib MotionNodeAccelAPI.lib zlib64.lib"
+				AdditionalDependencies="hid64.lib setupapi.lib winmm.lib boinc_lib64.lib boinc_api64.lib boinc_zip64.lib MotionNodeAccelAPI.lib zlib64.lib"
 				OutputFile="../bin/qcn.exe"
 				Version=""
 				LinkIncremental="1"

@@ -273,8 +273,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release|x64"
-			OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)L"
+			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)L"
 			ConfigurationType="1"
 			CharacterSet="0"
 			ManagedExtensions="0"
@@ -312,7 +312,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="wsock32.lib hid.lib setupapi.lib winmm.lib glu32.lib opengl32.lib comctl32.lib boinc_api64.lib boinc_lib64.lib boinc_zip64.lib curllib64.lib jpeglib64.lib zlib64.lib wxbase28.lib wxmsw28_core.lib wxmsw28_gl.lib wxpng.lib wxmsw28_adv.lib MotionNodeAccelAPI.lib"
+				AdditionalDependencies="wsock32.lib hid64.lib setupapi.lib winmm.lib glu32.lib opengl32.lib comctl32.lib boinc_api64.lib boinc_lib64.lib boinc_zip64.lib curllib64.lib jpeglib64.lib zlib64.lib wxbase28.lib wxmsw28_core.lib wxmsw28_gl.lib wxpng.lib wxmsw28_adv.lib MotionNodeAccelAPI.lib"
 				OutputFile="..\bin\$(ProjectName).exe"
 				Version=""
 				LinkIncremental="2"

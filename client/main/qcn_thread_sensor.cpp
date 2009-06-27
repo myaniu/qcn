@@ -142,15 +142,24 @@ bool getSensor(CSensor* volatile *ppsms)
 		   case 0:
 			   *ppsms = (CSensor*) new CSensorWinUSBJW();
 			   break;
+#ifdef _WIN64
+		   // no motionnode support for win64
+		   case 1:
+			   *ppsms = (CSensor*) new CSensorWinThinkpad();
+			   break;
+#else
 		   case 1:
 			   *ppsms = (CSensor*) new CSensorUSBMotionNodeAccel();
 			   break;
 		   case 2:
 			   *ppsms = (CSensor*) new CSensorWinThinkpad();
 			   break;
+#endif
+#if 0
 		   case 3:
 			   *ppsms = (CSensor*) new CSensorWinHP();
 			   break;
+#endif // no luck with the HP
        }
 #else // Linux
    const int iMaxSensor = 2;
