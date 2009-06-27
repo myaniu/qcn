@@ -22,6 +22,7 @@ URL_DOWNLOAD_BASE = "http://qcn-upl.stanford.edu/trigger/"
 # CMC note -- make sure these paths exist, or they will be created!
 UPLOAD_WEB_DIR = "/var/www/trigger/"
 UPLOAD_USB_WEB_DIR = "/var/www/trigger/usb/"
+UPLOAD_CONTINUAL_WEB_DIR = "/var/www/trigger/continual/"
 UPLOAD_BOINC_DIR = "/var/www/boinc/qcnalpha/upload/"
 UPLOAD_BACKUP_DIR = "/home/boinc/upload_backup/"
 UNZIP_CMD = "/usr/bin/unzip -o -d " + UPLOAD_WEB_DIR + " " 
@@ -73,6 +74,11 @@ def processSingleZipFile(dbconn, myzipfile):
         if name.endswith("_usb.zip"):
             # this is an upload from a usb test zip file
             outfile = open(os.path.join(UPLOAD_USB_WEB_DIR, name), 'wb')
+            outfile.write(myzip.read(name))
+            outfile.close()
+        elif name.startsswith("continual_"):
+            # this is an upload from a usb test zip file
+            outfile = open(os.path.join(UPLOAD_CONTINUAL_WEB_DIR, name), 'wb')
             outfile.write(myzip.read(name))
             outfile.close()
         else: 
@@ -195,6 +201,10 @@ def checkPaths():
    
    if not os.access(UPLOAD_USB_WEB_DIR, os.F_OK | os.W_OK):
       print UPLOAD_USB_WEB_DIR + " directory for UPLOAD_USB_WEB_DIR does not exist or not writable!"
+      return 1
+   
+   if not os.access(UPLOAD_CONTINUAL_WEB_DIR, os.F_OK | os.W_OK):
+      print UPLOAD_CONTINUAL_WEB_DIR + " directory for UPLOAD_CONTINUAL_WEB_DIR does not exist or not writable!"
       return 1
    
    if not os.access(UPLOAD_BOINC_DIR, os.F_OK | os.W_OK):
