@@ -120,7 +120,11 @@ int main(int argc, char** argv) {
             break;
        }
 
+#ifdef _QCN_CONTINUAL
+       sprintf(wu.name, "continual_sc%03d_sta%03d_%06ld", (int)(fSigCutoff * 100.0f), (int)(fShortTermAvg * 100.0f), i);
+#else
        sprintf(wu.name, "%s_sc%03d_sta%03d_%06ld", strWU, (int)(fSigCutoff * 100.0f), (int)(fShortTermAvg * 100.0f), i);
+#endif
        wu.appid = app.id;
        wu.min_quorum = 1;
        wu.target_nresults = 1;
