@@ -61,7 +61,7 @@
 #include "time_stats_log.h"
 
 // CMC -- need to include our trigger file from the qcn svn tree
-#include "../../../qcn/server/trigger/qcn_trigger.h"
+#include "../../qcn/server/trigger/qcn_trigger.h"
 // CMC end section
 
 
