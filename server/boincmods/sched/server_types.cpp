@@ -562,6 +562,11 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq, bool bTrigger) {
     unsigned int i;
     char buf[BLOB_SIZE];
 
+    // CMC begin forward var declarations
+         char* strTemp  = NULL;
+         char* strQuake = NULL; // CMC note - read_file_malloc allocates this, make sure to free it! new char[APP_VERSION_XML_BLOB_SIZE];
+    // CMC end var decl
+
     // Note: at one point we had
     // "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>\n"
     // after the Content-type (to make it legit XML),
@@ -707,8 +712,8 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq, bool bTrigger) {
          // CMC here -- send latest quake list
        // CMC note -- we bypass this if a trigger trickle
        if (!bTrigger) { // don't send the big quake list on a trigger trickle
-         char* strTemp  = new char[APP_VERSION_XML_BLOB_SIZE];
-         char* strQuake = NULL; // CMC note - read_file_malloc allocates this, make sure to free it! new char[APP_VERSION_XML_BLOB_SIZE];
+         strTemp  = new char[APP_VERSION_XML_BLOB_SIZE];
+         strQuake = NULL; // CMC note - read_file_malloc allocates this, make sure to free it! new char[APP_VERSION_XML_BLOB_SIZE];
          memset(strTemp,  0x00, sizeof(char) * APP_VERSION_XML_BLOB_SIZE);
          //memset(strQuake, 0x00, sizeof(char) * APP_VERSION_XML_BLOB_SIZE);
          if (boinc_file_exists("../qcn-quake.xml"))
