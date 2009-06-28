@@ -120,8 +120,8 @@ int handle_qcn_trigger(const DB_MSG_FROM_HOST* pmfh, bool bPing)
      // parse out all the data into the qtrig object;
      qtrig.hostid = pmfh->hostid; // don't parse hostid, it's in the msg_from_host struct!
      parse_str(pmfh->xml, "<result_name>", qtrig.result_name, sizeof(qtrig.result_name));
-     parse_str(pmfh->xml, "<vr>", qtrig.sw_version);
-     parse_str(pmfh->xml, "<os>", qtrig.os_type);
+     parse_str(pmfh->xml, "<vr>", qtrig.sw_version, sizeof(qtrig.sw_version));
+     parse_str(pmfh->xml, "<os>", qtrig.os_type, sizeof(qtrig.os_type));
      parse_int(pmfh->xml, "<sms>", qtrig.type_sensor);
      parse_int(pmfh->xml, "<reset>", qtrig.numreset);
      parse_double(pmfh->xml, "<dt>", qtrig.dt);
