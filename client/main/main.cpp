@@ -120,6 +120,7 @@ namespace qcn_main  {
 
   vector<struct STriggerInfo> g_vectTrigger;  // a list for all the trigger info, use bTriggerLock to control access for writing
 
+void checkContinualUpload(bool bForce = false);
 
 // function to send the final trigger as the workunit is done either normal or via a crash or abort
 void sendFinalTrickle()
@@ -366,7 +367,12 @@ int qcn_main(int argc, char **argv)
     fflush(stderr);
  
     // OK, if not in demo mode, now get rid of old trigger files i.e. more than two weeks old
-    if (!g_bDemo) qcn_util::removeOldTriggers((const char*) g_strPathTrigger);
+    if (g_bContinual)  { // get rid of files older than 2 hours
+      qcn_util::removeOldTriggers((const char*) g_strPathTrigger, 7200.0f);
+    }
+    else {
+      if (!g_bDemo) qcn_util::removeOldTriggers((const char*) g_strPathTrigger);  // default is get rid of files older than two weeks
+    }
 
     // create time & sensor thread objects
     //sm->bFlagUpload = false;
@@ -522,6 +528,9 @@ int qcn_main(int argc, char **argv)
 //#ifndef QCNLIVE
 //             checkForUpload();
 //#endif
+             if (g_bContinual) {  // this is a good spot to check for file uploads
+                 checkContinualUpload();
+             }
 
              // this is also a good spot to check for massive numbers of resets (time adjustments) for this workunit
              if (sm->iNumReset > MAX_NUM_RESET) { // this computer sucks, trickle up and exit workunit
@@ -612,6 +621,9 @@ done:
     // see if we have an intermediate upload
 //    checkForUpload();
     if (g_bFinished)  { // not a requested exit, we must be done this workunit
+      if (g_bContinual) {  // this is a good spot to check for file uploads
+        checkContinualUpload(true);
+      }
       sendFinalTrickle();
       boinc_fraction_done(1.00);
       update_sharedmem();  // final call
@@ -626,6 +638,37 @@ done:
 	
     if (g_threadMain) g_threadMain->SetRunning(false);  // self-referential pointer to flag the thread is running 
     return g_iQCNReturn;
+}
+
+void checkContinualUpload(bool bForce)
+{// CMC here -- check for more than 5 files in g_strPathTrigger and if so upload then delete them
+
+        // now make sure the zip file is stored in sm->strPathTrigger + ti->strFile
+        string strZip((const char*) qcn_main::g_strPathTrigger);  // note it DOES NOT HAVE appropriate \ or / at the end
+        strZip += qcn_util::cPathSeparator();
+        strZip += (const char*) sti.strFile;
+
+        // OK, so zip sti.strFile
+        boinc_begin_critical_section();
+        boinc_zip(ZIP_IT, strResolve, strZip);
+        sm->iNumUpload = iSlot;  // set the num upload which was successfully incremented & processed above
+        boinc_delete_file(strZip.c_str());  // don't need the original zip, since it's in the strResolve zip name
+        //strcpy(sm->strUploadLogical, strLogical);
+        //strcpy(sm->strUploadResolve, strResolve);
+        boinc_end_critical_section();
+
+        // moved from main, this shouldn't bother the sensor thread
+        //if (sm 
+        //   && strlen(sm->strUploadResolve)>1 
+        //   && strlen(sm->strUploadLogical)>1 
+        //   && boinc_file_exists(sm->strUploadResolve)) { // send this file, whether it was just made or made previously
+        if (boinc_file_exists(strResolve)) { // send this file, whether it was just made or made previously
+             // note boinc_upload_file (intermediate uploads) requires the logical boinc filename ("soft link")!
+             qcn_util::sendIntermediateUpload(strLogical, strResolve);  // the logical name gets resolved by boinc_upload_file into full path zip file 
+             //qcn_util::sendIntermediateUpload(sm->strUploadLogical, sm->strUploadResolve);  // the logical name gets resolved by boinc_upload_file into full path zip file 
+             //memset(sm->strUploadResolve, 0x00, sizeof(char) * _MAX_PATH);
+             //memset(sm->strUploadLogical, 0x00, sizeof(char) * _MAX_PATH_LOGICAL);
+        }
 }
 
 bool CheckTriggerFile(struct STriggerInfo* ti, bool bForce)

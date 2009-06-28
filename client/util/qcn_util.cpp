@@ -405,7 +405,7 @@ void sendIntermediateUpload(std::string strLogicalName, std::string strFullPath)
 }
 
 // get rid of trigger files over two weeks old
-void removeOldTriggers(const char* strPathTrigger)
+void removeOldTriggers(const char* strPathTrigger, const double cdFileDelete)
 {
     // get a list of all files in strPathTrigger
     long lTimeDelete, lTimeTest;
@@ -414,7 +414,7 @@ void removeOldTriggers(const char* strPathTrigger)
 
     dTimeCurrent = dtime();
     //getTimeOffset((const double*) sm->dTimeServerTime, (const double*) sm->dTimeServerOffset, dTimeCurrent, dTimeOffset, dTimeOffsetTime);
-    lTimeDelete = (long) (dTimeCurrent - TIME_FILE_DELETE + qcn_main::g_dTimeOffset); // delete files with a timestamp older than two weeks
+    lTimeDelete = (long) (dTimeCurrent - cdFileDelete + qcn_main::g_dTimeOffset); // delete files with a timestamp older than two weeks
 
     ZipFileList zfl;
 

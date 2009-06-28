@@ -301,7 +301,7 @@ struct FDSET_GROUP {
 #define DIR_TRIGGER       "triggers"
 
 // delete files over a month old
-#define TIME_FILE_DELETE  2592000L
+#define TIME_FILE_DELETE  2592000.0f
 #define MAIN_LOOP_SLEEP_MICROSECONDS 200000L
 #define MAIN_LOOP_SLEEP_SECONDS 0.2f
 
