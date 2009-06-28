@@ -754,7 +754,7 @@ bool CheckTriggerTrickle(struct STriggerInfo* ti)
            "<%s>%.2f</%s>\n"
            "<%s>%.2f</%s>\n",
        QCN_VERSION_STRING,
-	   qcn_util::os_type_str(),
+       qcn_util::os_type_str(),
        sm->eSensor,
        dTriggerTime,
        sm->fsig[ti->lOffsetEnd],
