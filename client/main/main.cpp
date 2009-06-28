@@ -543,6 +543,7 @@ int qcn_main(int argc, char **argv)
                 memset(strTrigger, 0x00, sizeof(char) * 512);
                 sprintf(strTrigger, 
                     "<vr>%s</vr>\n"
+                    "<os>%s</os>\n"
                     "<sms>%d</sms>\n"
                     "<reset>%d</reset>\n"
                     "<dt>%f</dt>\n"
@@ -552,6 +553,7 @@ int qcn_main(int argc, char **argv)
                     "<%s>%.2f</%s>\n"
                     "<%s>%.2f</%s>\n",
                     QCN_VERSION_STRING,
+                    qcn_util::os_type_str(),
                     sm->eSensor,
                     sm->iNumReset,
                     sm->dt,
