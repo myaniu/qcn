@@ -136,7 +136,7 @@ EXTRA_DIST = \
 
 # CMC note we have added the qcn_trigger file below
 cgi_sources = \
-    ../../server/trigger/qcn_trigger.cpp \
+    ../../qcn/server/trigger/qcn_trigger.cpp \
     edf_sim.cpp \
     handle_request.cpp \
     hr.cpp \
