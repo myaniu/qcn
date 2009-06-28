@@ -114,6 +114,7 @@ int handle_qcn_trigger(const DB_MSG_FROM_HOST* pmfh, bool bPing)
      DB_QCN_HOST_IPADDR qhip;
      DB_QCN_GEO_IPADDR  qgip;
      DB_QCN_TRIGGER     qtrig;
+     
      char strIP[32]; // temp holder for IP address
      int iRetVal = 0;
 
