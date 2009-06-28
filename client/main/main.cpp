@@ -666,7 +666,7 @@ void checkContinualUpload(bool bForce)
         }
  
         // just get all the files in the trigger dir 
-        boinc_filelist(strZip, ".zip", &zfl);
+        boinc_filelist(strPath, ".zip", &zfl);
         if (zfl.size() < 5 && !bForce) {
            // not enough files to bother with uploading
            return;
