@@ -30,8 +30,8 @@ void wsac0(
    const char* fname, 
    const float* xarray, 
    const float* yarray, 
-   long& nerr, 
-   const long& npts,
+   int32_t& nerr, 
+   const int32_t& npts,
    const struct sac_header* psacdata
 )
 { 
@@ -78,18 +78,18 @@ void wsac0(
 #if !defined(linux) && !defined(BSD4d2) && !defined(__APPLE__)
 extern char * sys_errlist[];
 char *strerror(n)
-   int n;
+   int32_t n;
 {
    return sys_errlist[n];
 }
 #endif
 */
 
-void long_swap(QCN_CBYTE* cbuf, long& lVal)
+void long_swap(QCN_CBYTE* cbuf, int32_t& lVal)
 {
         union {
             QCN_BYTE cval[4];
-            long lval;
+            int32_t lval;
         } l_union;
         if (qcn_main::g_endian == ENDIAN_BIG) {
           l_union.cval[0] = cbuf[0];
@@ -132,7 +132,7 @@ void set_sac_null(struct sac_header* psacdata)
 
    // 14 x 5 floats, 8 x 5 long, 8 x 3 str[8] = 70 * 4 + 40 * 4 + 24 * 8 = 280 + 160 + 192  = 632 bytes  (SAC_NUMHEADBYTES = 632)
    const float fTemp = SAC_NULL_FLOAT;
-   const long lTemp  = SAC_NULL_LONG;
+   const int32_t lTemp  = SAC_NULL_LONG;
 
     memset(psacdata, 0x00, sizeof(struct sac_header));
 
@@ -153,8 +153,8 @@ void set_sac_null(struct sac_header* psacdata)
 
 extern int sacio
 (
-  const int n1, 
-  const int n2, 
+  const int32_t n1, 
+  const int32_t n2, 
   struct STriggerInfo* ti,
   const char* strSensorType 
 )
@@ -164,14 +164,14 @@ extern int sacio
     // CMC note:  important -- all SAC float & long values are byte-swapped (i.e. big endian) for storage!
 
     struct sac_header sacdata;
-    long npts, nerr, i, j, lOff;
+    int32_t npts, nerr, i, j, lOff;
 
     char fname[_MAX_PATH];
-    int ifname;
+    int32_t ifname;
     float   *x, *y, *z, *s, *t;
     //double  dTimeOffset = 0.0f, dTimeOffsetTime = 0.0f, dTimeZero = 0.0f;
     double  dTimeZero = 0.0f;
-    long lTemp;
+    int32_t lTemp;
     float fTimeTrigger = 0.0f, fTemp = 0.0f, 
          xmin = 10000.0, xmax = -10000.0, 
          ymin = 10000.0, ymax = -10000.0, 
@@ -327,8 +327,8 @@ extern int sacio
     struct timeval tv;
     time_t ttime = (time_t) dTimeZero;
     struct tm* ptm = gmtime(&ttime);
-    tv.tv_sec =  (long) dTimeZero;
-    tv.tv_usec = (long) ((dTimeZero - (double) tv.tv_sec) * 1.0e6f);
+    tv.tv_sec =  (int32_t) dTimeZero;
+    tv.tv_usec = (int32_t) ((dTimeZero - (double) tv.tv_sec) * 1.0e6f);
 
     lTemp = 1900L + ptm->tm_year; // note need to add 1900 to tm_year in tm struct
     long_swap((QCN_CBYTE*) &lTemp, sacdata.l[esl_nzyear]);  // year of reference time (should this be the time at 0 point?)
@@ -356,7 +356,7 @@ extern int sacio
     sprintf(sacdata.s[ess_kdatrd], "%02d%02d%02d", ptm->tm_year-100, ptm->tm_mon+1, ptm->tm_mday);
  
     // now print filenames which is workunit name, time, & number of trigger, then send to wsac0
-    ifname = (int) strlen((const char*) ti->strFile) - 4; // this is where the zip will be
+    ifname = (int32_t) strlen((const char*) ti->strFile) - 4; // this is where the zip will be
     memset(fname, 0x00, _MAX_PATH);
     sprintf(fname, "%s%c", (const char*) qcn_main::g_strPathTrigger, qcn_util::cPathSeparator());
     strncat(fname, (const char*) ti->strFile, ifname);
@@ -365,7 +365,7 @@ extern int sacio
 //fprintf(stdout, "DEBUG: strFile = [%s]\n", ti->strFile);
 //fprintf(stdout, "DEBUG: fnamebf = [%s]\n", fname);
 
-    ifname = (int) strlen(fname) - 5;
+    ifname = (int32_t) strlen(fname) - 5;
 
     // Significance section (fsig)
     fname[ifname] = 'S';

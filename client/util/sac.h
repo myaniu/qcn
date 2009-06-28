@@ -11,28 +11,28 @@ void wsac0(
    const char* fname,
    const float* xarray,
    const float* yarray,
-   long& nerr,
-   const long& npts,
+   int32_t& nerr,
+   const int32_t& npts,
    const struct sac_header* psacdata
 );
 
 extern int sacio
 (
-  const int n1, 
-  const int n2, 
+  const int32_t n1, 
+  const int32_t n2, 
   struct STriggerInfo* ti,
   const char* strSensorType
 );
 
 // sac constants we're using, ref http://terra.rice.edu/comp.res/apps/S/sac/docs/FileFormatPt2.html
-const long ITIME = 1L;
-const long IDISP = 6L;
-const long IB = 9L;
+const int32_t ITIME = 1L;
+const int32_t IDISP = 6L;
+const int32_t IB = 9L;
 
 // 70 * 4  +  40 * 4 = 440 + 24 * 8 = 632 bytes
 struct sac_header {                    
   float f[70];
-  long l[40];
+  int32_t l[40];
   char s[24][8];
 };
 
