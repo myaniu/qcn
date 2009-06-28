@@ -670,7 +670,7 @@ void checkContinualUpload(bool bForce)
         sprintf(strPattern, "%s|.zip", (const char*) sm->dataBOINC.wu_name);
         // just get all the files in the trigger dir 
         boinc_filelist(strPath, strPattern, &zfl);
-        if (zfl.size() < 5 && !bForce) {
+        if (zfl.size() == 0 || (zfl.size() < 5 && !bForce)) {
            // not enough files to bother with uploading
            return;
         }
