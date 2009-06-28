@@ -14,8 +14,8 @@ else
    svn update boinc
 fi
 if ( test "`uname -s`" = "Darwin" ) then
-cp config.h.mac config.h
 cd qcn
+cp config.h.mac config.h
 chmod uog+rx build.mac
 make distclean
 ./_autosetup
