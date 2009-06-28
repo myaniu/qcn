@@ -402,6 +402,7 @@ void sendIntermediateUpload(std::string strLogicalName, std::string strFullPath)
          int retval = boinc_upload_file(strLogicalName);
          fprintf(stdout, "Uploading file %s (logical name %s), retval=%d\n", strFullPath.c_str(), strLogicalName.c_str(), retval);
       }
+      qcn_util::set_qcn_counter(); // this will "flush" the iNumUpload for later use, should have been set before calling sendIntermediateUpload!
 }
 
 // get rid of trigger files over two weeks old
