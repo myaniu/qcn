@@ -120,9 +120,9 @@ int handle_qcn_trigger(const DB_MSG_FROM_HOST* pmfh, bool bPing)
 
      // parse out all the data into the qtrig object;
      qtrig.hostid = pmfh->hostid; // don't parse hostid, it's in the msg_from_host struct!
-     parse_str(pmfh->xml, "<result_name>", qtrig.result_name, sizeof(qtrig.result_name));
-     parse_str(pmfh->xml, "<vr>", qtrig.sw_version, sizeof(qtrig.sw_version));
-     parse_str(pmfh->xml, "<os>", qtrig.os_type, sizeof(qtrig.os_type));
+     if (!parse_str(pmfh->xml, "<result_name>", qtrig.result_name, sizeof(qtrig.result_name))) memset(qtrig.result_name, 0x00, sizeof(qtrig.result_name));
+     if (!parse_str(pmfh->xml, "<vr>", qtrig.sw_version, sizeof(qtrig.sw_version))) memset(qtrig.sw_version, 0x00, sizeof(qtrig.sw_version));
+     if (!parse_str(pmfh->xml, "<os>", qtrig.os_type, sizeof(qtrig.os_type))) memset(qtrig.os_type, 0x00, sizeof(qtrig.os_type));
      parse_int(pmfh->xml, "<sms>", qtrig.type_sensor);
      parse_int(pmfh->xml, "<reset>", qtrig.numreset);
      parse_double(pmfh->xml, "<dt>", qtrig.dt);
@@ -130,7 +130,7 @@ int handle_qcn_trigger(const DB_MSG_FROM_HOST* pmfh, bool bPing)
      parse_double(pmfh->xml, "<toff>", qtrig.sync_offset);
      parse_double(pmfh->xml, "<wct>", qtrig.runtime_clock);
      parse_double(pmfh->xml, "<cpt>", qtrig.runtime_cpu);
-     parse_str(pmfh->xml, "<extip>", strIP, 32);
+     if (!parse_str(pmfh->xml, "<extip>", strIP, 32)) memset(strIP, 0x00, sizeof(char) * 32);
      parse_double(pmfh->xml, "<ctime>", qtrig.time_trigger);
 
      qtrig.time_received = dtime();  // mark current server time as time_received, this gets overridden by database unix_timestamp() in qcn_trigger.h db_print
@@ -145,7 +145,7 @@ int handle_qcn_trigger(const DB_MSG_FROM_HOST* pmfh, bool bPing)
      else {
        parse_double(pmfh->xml, "<fsig>", qtrig.significance);
        parse_double(pmfh->xml, "<fmag>", qtrig.magnitude);
-       parse_str(pmfh->xml, "<file>", qtrig.file, sizeof(qtrig.file));
+       if (!parse_str(pmfh->xml, "<file>", qtrig.file, sizeof(qtrig.file))) memset(qtrig.file, 0x00, sizeof(qtrig.file));
        qtrig.ping = 0;
      }
 
