@@ -297,8 +297,13 @@ struct FDSET_GROUP {
 #define XML_RESET_COUNT   "rstcnt"
 #define XML_CLOCK_TIME    "wct"
 #define XML_CPU_TIME      "cpt"
-#define MAX_UPLOAD        20
 #define DIR_TRIGGER       "triggers"
+
+#ifdef QCN_CONTINUAL
+  #define MAX_UPLOAD        50
+#else
+  #define MAX_UPLOAD        20
+#endif
 
 // delete files over a month old
 #define TIME_FILE_DELETE  2592000.0f
