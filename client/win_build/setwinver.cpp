@@ -77,7 +77,7 @@ int deploy_qcn()
 	// send exe's to QCN server, just do system to putty etc
     // first create a file of commands similar to qcn/client/bin/deploy
     int iRetVal = 0;
-	FILE* fBatch;
+	FILE* fBatch = NULL;
 	char *strCmd = new char[_MAX_PATH];
 	memset(strCmd, 0x00, _MAX_PATH);
 	_getcwd(strCmd, _MAX_PATH);
@@ -98,6 +98,13 @@ const char cstrQCNLive[] = {"qcnlive-win.zip"};
 #endif
 
     boinc_delete_file(cstrQCNLive);
+
+	// create the batch file
+	boinc_delete_file(SFTPBATCH);
+	if (fopen_s(&fBatch, SFTPBATCH, "w") || !fBatch) {
+	    fprintf(stdout, "Could not create sftp batch file!\n");
+		return 1; // error!
+	}
 
 	strCmd = new char[1024];
 	memset(strCmd, 0x00, 1024);
@@ -127,12 +134,6 @@ const char cstrQCNLive[] = {"qcnlive-win.zip"};
 	if (iRetVal) return iRetVal;
 
     fprintf(stdout, "Created %s archive\n", cstrQCNLive);
-
-	boinc_delete_file(SFTPBATCH);
-	if (fopen_s(&fBatch, SFTPBATCH, "w") || !fBatch) {
-	    fprintf(stdout, "Could not create sftp batch file!\n");
-		return 1; // error!
-	}
 
 	fprintf(fBatch, "cd /var/www/boinc/sensor/download\n");
 	fprintf(fBatch, "put %s\n", cstrQCNLive);
