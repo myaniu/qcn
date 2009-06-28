@@ -653,7 +653,8 @@ void checkContinualUpload(bool bForce)
         int iSlot = (int) sm->iNumUpload;
         ZipFileList zfl;
         long lCurTime = QCN_ROUND(dtime() + qcn_main::g_dTimeOffset);
-        char strResolve[_MAX_PATH], strLogical[_MAX_PATH_LOGICAL];
+        char strPattern[_MAX_PATH], strResolve[_MAX_PATH], strLogical[_MAX_PATH_LOGICAL];
+        memset(strPattern, 0x00, _MAX_PATH);
         memset(strResolve, 0x00, _MAX_PATH);
         memset(strLogical, 0x00, _MAX_PATH_LOGICAL);
         string strPath((const char*) qcn_main::g_strPathTrigger);  // note it DOES NOT HAVE appropriate \ or / at the end
@@ -664,9 +665,11 @@ void checkContinualUpload(bool bForce)
           fprintf(stderr, "%ld - No zip slots left (%d) for upload file!\n", lCurTime, iSlot);
           return;
         }
- 
+
+        // the pattern to upload is this workunit name & .zip  (in case there are old files leftover from other workunits etc)
+        sprintf(strPattern, "%s|.zip", (const char*) sm->dataBOINC.wu_name);
         // just get all the files in the trigger dir 
-        boinc_filelist(strPath, ".zip", &zfl);
+        boinc_filelist(strPath, strPattern, &zfl);
         if (zfl.size() < 5 && !bForce) {
            // not enough files to bother with uploading
            return;
