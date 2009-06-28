@@ -76,7 +76,8 @@ int deploy_qcn()
 {   
 	// send exe's to QCN server, just do system to putty etc
     // first create a file of commands similar to qcn/client/bin/deploy
-
+    int iRetVal = 0;
+	FILE* fBatch;
 	char *strCmd = new char[_MAX_PATH];
 	memset(strCmd, 0x00, _MAX_PATH);
 	_getcwd(strCmd, _MAX_PATH);
@@ -121,13 +122,12 @@ const char cstrQCNLive[] = {"qcnlive-win.zip"};
 	);
 	fprintf(stdout, "Executing %s\n", strCmd);
 
-	int iRetVal = system(strCmd);
+	iRetVal = system(strCmd);
 	delete [] strCmd;
 	if (iRetVal) return iRetVal;
 
     fprintf(stdout, "Created %s archive\n", cstrQCNLive);
 
-	FILE* fBatch;
 	boinc_delete_file(SFTPBATCH);
 	if (fopen_s(&fBatch, SFTPBATCH, "w") || !fBatch) {
 	    fprintf(stdout, "Could not create sftp batch file!\n");
