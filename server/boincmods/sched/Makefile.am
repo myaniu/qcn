@@ -1,9 +1,9 @@
 ## -*- mode: makefile; tab-width: 4 -*-
-## $Id: Makefile.am 16921 2009-01-15 20:23:20Z davea $
+## $Id: Makefile.am 18389 2009-06-12 03:06:01Z davea $
 
 include $(top_srcdir)/Makefile.incl
 
-AM_CPPFLAGS += $(MYSQL_CFLAGS) $(PTHREAD_CFLAGS) 
+AM_CPPFLAGS += $(MYSQL_CFLAGS) $(PTHREAD_CFLAGS)
 # CMC need libcurl for GeoIP lookup etc
 AM_LDFLAGS += -static -lcurl
 
@@ -24,7 +24,7 @@ libsched_la_SOURCES = $(libsched_sources)
 libsched_la_CFLAGS = $(AM_CPPFLAGS)
 libsched_la_CXXFLAGS = $(AM_CPPFLAGS)
 libsched_la_LDFLAGS= -L$(libdir) -rpath $(libdir) -version-number $(LIBBOINC_VERSION)
-libsched_la_LIBADD=
+libsched_la_LIBADD= $(SSL_LIBS)
 
 ## install only headers that are meant for exporting the API !!
 if INSTALL_HEADERS
@@ -49,22 +49,33 @@ libsched_fcgi_la_LIBADD=
 endif
 # end of "if ENABLE_FCGI"
 
+# Some OSs may not prefix libraries with lib. 
+# For example OS2
+if OS_OS2
+LIBSCHED_STATIC=sched.${LIBEXT}
+LIBSCHED_FCGI_STATIC=sched_fcgi.${LIBEXT}
+else
+LIBSCHED_STATIC=libsched.${LIBEXT}
+LIBSCHED_FCGI_STATIC=libsched_fcgi.${LIBEXT}
+endif
+
+
 if BUILD_STATIC_LIBS
-all_local = libsched.a
+all_local = $(LIBSCHED_STATIC)
 if ENABLE_FCGI
-all_local += libsched_fcgi.a
+all_local += $(LIBSCHED_FCGI_STATIC)
 endif
 endif
 
 all-local: $(all_local)
 
-libsched.a: libsched.la
-	rm -f libsched.a
-	ln .libs/libsched.a
+$(LIBSCHED_STATIC): libsched.la
+	rm -f $(LIBSCHED_STATIC)
+	$(LN) .libs/$(LIBSCHED_STATIC)
 
-libsched_fcgi.a: libsched_fcgi.la
-	rm -f libsched_fcgi.a
-	ln .libs/libsched_fcgi.a
+$(LIBSCHED_FCGI_STATIC): libsched_fcgi.la
+	rm -f $(LIBSCHED_FCGI_STATIC)
+	$(LN) .libs/$(LIBSCHED_FCGI_STATIC)
 
 
 endif
@@ -72,45 +83,55 @@ endif
 
 if ENABLE_SERVER
 
-noinst_PROGRAMS = \
-    census \
-    cgi \
-    db_dump \
-    db_purge \
+cgidir = $(libexecdir)/cgi-bin
+scheddir = $(libexecdir)/sched
+
+bin_PROGRAMS = \
     delete_file \
-    feeder \
-    file_deleter \
-    file_upload_handler \
     get_file \
     make_work \
-    message_handler \
-    pymw_assimilator \
     request_file_list \
+    sched_driver \
+    send_file \
+    show_shmem \
+    wu_check
+
+sched_PROGRAMS = \
+    census \
+    db_dump \
+    db_purge \
+    feeder \
+    file_deleter \
+    message_handler \
     sample_assimilator \
     sample_dummy_assimilator \
     sample_bitwise_validator \
     sample_trivial_validator \
     sample_work_generator \
     single_job_assimilator \
-    sched_driver \
-    send_file \
-    show_shmem \
     transitioner \
     trickle_handler \
-    update_stats \
-    wu_check
+    update_stats
+
+cgi_PROGRAMS= \
+    cgi \
+    file_upload_handler
 
 # scripts that 'make install' should put in bindir
 bin_SCRIPTS = start stop status
 
-EXTRA_DIST = \
+noinst_HEADERS = \
     assimilate_handler.h \
     handle_request.h \
     main.h \
     sched_locality.h \
+    sched_score.h \
     sched_send.h \
     sched_shmem.h \
-    server_types.h \
+    sched_version.h \
+    server_types.h
+
+EXTRA_DIST = \
     start
 
 # CMC note we have added the qcn_trigger file below
@@ -128,8 +149,10 @@ cgi_sources = \
     sched_locality.cpp \
     sched_result.cpp \
     sched_plan.cpp \
+    sched_score.cpp \
     sched_send.cpp \
     sched_timezone.cpp \
+    sched_version.cpp \
     server_types.cpp \
     time_stats_log.cpp
 
@@ -169,9 +192,6 @@ sample_dummy_assimilator_LDADD = $(SERVERLIBS)
 
 sample_assimilator_SOURCES = assimilator.cpp sample_assimilator.cpp validate_util.cpp validate_util.h
 sample_assimilator_LDADD = $(SERVERLIBS)
-
-pymw_assimilator_SOURCES = assimilator.cpp pymw_assimilator.cpp validate_util.cpp validate_util.h 
-pymw_assimilator_LDADD = $(SERVERLIBS)
 
 single_job_assimilator_SOURCES = assimilator.cpp single_job_assimilator.cpp validate_util.cpp validate_util.h
 single_job_assimilator_LDADD = $(SERVERLIBS)
@@ -220,8 +240,8 @@ sched_driver_LDADD = $(SERVERLIBS)
 
 if ENABLE_FCGI
 
-noinst_PROGRAMS += fcgi \
-                   fcgi_file_upload_handler
+cgi_PROGRAMS += fcgi \
+                fcgi_file_upload_handler
 
 fcgi_SOURCES = $(cgi_sources)
 fcgi_CPPFLAGS = -D_USING_FCGI_ $(AM_CPPFLAGS)
