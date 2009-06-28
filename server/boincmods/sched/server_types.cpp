@@ -16,11 +16,11 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "config.h"
+#include <cstdlib>
 #include <cassert>
 #include <vector>
 #include <string>
 #include <cstring>
-using namespace std;
 
 #include "parse.h"
 #include "error_numbers.h"
@@ -31,6 +31,7 @@ using namespace std;
 #include "sched_msgs.h"
 #include "time_stats_log.h"
 #include "server_types.h"
+
 // CMC here
 #include "filesys.h"
 
@@ -59,10 +60,23 @@ void remove_quotes(char* p) {
 int CLIENT_APP_VERSION::parse(FILE* f) {
     char buf[256];
 
+    memset(this, 0, sizeof(CLIENT_APP_VERSION));
     while (fgets(buf, sizeof(buf), f)) {
         if (match_tag(buf, "</app_version>")) return 0;
         if (parse_str(buf, "<app_name>", app_name, 256)) continue;
+        if (parse_str(buf, "<platform>", platform, 256)) continue;
+        if (parse_str(buf, "<plan_class>", plan_class, 256)) continue;
         if (parse_int(buf, "<version_num>", version_num)) continue;
+        if (parse_double(buf, "<flops>", host_usage.flops)) continue;
+        if (match_tag(buf, "<coproc>")) {
+            COPROC coproc;
+            MIOFILE mf;
+            mf.init_file(f);
+            int retval = coproc.parse(mf);
+            if (!retval && !strcmp(coproc.type, "CUDA")) {
+                host_usage.ncudas = coproc.count;
+            }
+        }
     }
     return ERR_XML_PARSE;
 }
@@ -84,13 +98,18 @@ int FILE_INFO::parse(FILE* f) {
 int OTHER_RESULT::parse(FILE* f) {
     char buf[256];
 
-    name = "";
+    strcpy(name, "");
+    have_plan_class = false;
     while (fgets(buf, sizeof(buf), f)) {
         if (match_tag(buf, "</other_result>")) {
             if (name=="") return ERR_XML_PARSE;
             return 0;
         }
-        if (parse_str(buf, "<name>", name)) continue;
+        if (parse_str(buf, "<name>", name, sizeof(name))) continue;
+        if (parse_str(buf, "<plan_class>", plan_class, sizeof(plan_class))) {
+            have_plan_class = true;
+            continue;
+        }
     }
     return ERR_XML_PARSE;
 }
@@ -121,7 +140,7 @@ int CLIENT_PLATFORM::parse(FILE* fin) {
 }
 
 
-void WORK_REQ::insert_no_work_message(USER_MESSAGE& um) {
+void WORK_REQ::insert_no_work_message(const USER_MESSAGE& um) {
     for (unsigned int i=0; i<no_work_messages.size(); i++) {
         if (!strcmp(um.message.c_str(), no_work_messages.at(i).message.c_str())){
             return;
@@ -158,7 +177,7 @@ const char* SCHEDULER_REQUEST::parse(FILE* fin) {
     resource_share_fraction = 1.0;
     rrs_fraction = 1.0;
     prrs_fraction = 1.0;
-    estimated_delay = 0;
+    cpu_estimated_delay = 0;
     strcpy(global_prefs_xml, "");
     strcpy(working_global_prefs_xml, "");
     strcpy(code_sign_key, "");
@@ -226,7 +245,7 @@ const char* SCHEDULER_REQUEST::parse(FILE* fin) {
         if (parse_double(buf, "<resource_share_fraction>", resource_share_fraction)) continue;
         if (parse_double(buf, "<rrs_fraction>", rrs_fraction)) continue;
         if (parse_double(buf, "<prrs_fraction>", prrs_fraction)) continue;
-        if (parse_double(buf, "<estimated_delay>", estimated_delay)) continue;
+        if (parse_double(buf, "<estimated_delay>", cpu_estimated_delay)) continue;
         if (parse_double(buf, "<duration_correction_factor>", host.duration_correction_factor)) continue;
         if (match_tag(buf, "<global_preferences>")) {
             strcpy(global_prefs_xml, "<global_preferences>\n");
@@ -413,7 +432,7 @@ int SCHEDULER_REQUEST::write(FILE* fout) {
         resource_share_fraction,
         rrs_fraction,
         prrs_fraction,
-        estimated_delay,
+        cpu_estimated_delay,
         code_sign_key,
         anonymous_platform?"true":"false"
     );
@@ -537,6 +556,7 @@ SCHEDULER_REPLY::~SCHEDULER_REPLY() {
 // quakes and other big messages (i.e. project prefs) for a trigger trickle to
 // expedite the trigger process
 int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq, bool bTrigger) {
+//int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq) {
     unsigned int i;
     char buf[BLOB_SIZE];
 
@@ -567,24 +587,23 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq, bool bTrigger) {
     // If this is less than one second bigger, bump up by one sec.
     //
  // CMC block to bypass on triggers
-   if (!bTrigger) {
+  if (!bTrigger) {
     if (request_delay || config.min_sendwork_interval) {
-//    if (request_delay || config.min_sendwork_interval) {
         double min_delay_needed = 1.01*config.min_sendwork_interval;
         if (min_delay_needed < config.min_sendwork_interval+1) {
             min_delay_needed = config.min_sendwork_interval+1;
         }
         if (request_delay<min_delay_needed) {
-            request_delay=min_delay_needed; 
+            request_delay = min_delay_needed;
         }
         fprintf(fout, "<request_delay>%f</request_delay>\n", request_delay);
     }
   }
   // CMC end block to bypass on triggers
- 
+
     log_messages.printf(MSG_NORMAL,
-        "Sending reply to [HOST#%d]: %d results, delay req %f\n",
-        host.id, wreq.nresults, request_delay
+        "Sending reply to [HOST#%d]: %d results, delay req %.2f\n",
+        host.id, wreq.njobs_sent, request_delay
     );
 
     if (sreq.core_client_version <= 419) {
@@ -602,8 +621,8 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq, bool bTrigger) {
             // replace them with spaces.
             //
             while (1) {
-                string::size_type pos = msg.find("\n", 0);
-                if (pos == string::npos) break;
+                std::string::size_type pos = msg.find("\n", 0);
+                if (pos == std::string::npos) break;
                 msg.replace(pos, 1, " ");
             }
             fprintf(fout,
@@ -679,6 +698,8 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq, bool bTrigger) {
 
         // always send project prefs
         //
+        //fputs(user.project_prefs, fout);
+        //fputs("\n", fout);
 //        fputs(user.project_prefs, fout);
 //        fputs("\n", fout);
          // CMC here -- send latest quake list
@@ -890,7 +911,7 @@ void SCHEDULER_REPLY::insert_result(RESULT& result) {
     results.push_back(result);
 }
 
-void SCHEDULER_REPLY::insert_message(USER_MESSAGE& um) {
+void SCHEDULER_REPLY::insert_message(const USER_MESSAGE& um) {
     messages.push_back(um);
 }
 
@@ -941,15 +962,13 @@ int APP_VERSION::write(FILE* fout) {
             bavp->host_usage.cmdline
         );
     }
-    for (i=0; i<bavp->host_usage.coprocs.coprocs.size(); i++) {
-        COPROC* cp = bavp->host_usage.coprocs.coprocs[i];
+    if (bavp->host_usage.ncudas) {
         fprintf(fout,
             "    <coproc>\n"
-            "        <type>%s</type>\n"
+            "        <type>CUDA</type>\n"
             "        <count>%d</count>\n"
             "    </coproc>\n",
-            cp->type,
-            cp->count
+            bavp->host_usage.ncudas
         );
     }
     fputs("</app_version>\n", fout);
@@ -969,7 +988,7 @@ int RESULT::write_to_client(FILE* fout) {
     fputs(buf, fout);
 
     APP_VERSION* avp = bavp->avp;
-    if (avp == (APP_VERSION*)1) avp = NULL;
+    CLIENT_APP_VERSION* cavp = bavp->cavp;
     if (avp) {
         PLATFORM* pp = ssp->lookup_platform_id(avp->platformid);
         fprintf(fout,
@@ -978,22 +997,44 @@ int RESULT::write_to_client(FILE* fout) {
             "    <plan_class>%s</plan_class>\n",
             pp->name, avp->version_num, avp->plan_class
         );
+    } else if (cavp) {
+        fprintf(fout,
+            "    <platform>%s</platform>\n"
+            "    <version_num>%d</version_num>\n"
+            "    <plan_class>%s</plan_class>\n",
+            cavp->platform, cavp->version_num, cavp->plan_class
+        );
     }
+
     fputs("</result>\n", fout);
     return 0;
 }
 
 int RESULT::parse_from_client(FILE* fin) {
     char buf[256];
+    double final_cpu_time = 0, final_elapsed_time = 0;
 
     // should be non-zero if exit_status is not found
     exit_status = ERR_NO_EXIT_STATUS;
     memset(this, 0, sizeof(RESULT));
     while (fgets(buf, sizeof(buf), fin)) {
-        if (match_tag(buf, "</result>")) return 0;
+        if (match_tag(buf, "</result>")) {
+            // newer clients (>6.6.15) report final elapsed time;
+            // use it if possible
+            //
+            // actually, let's hold off on this
+
+            //if (final_elapsed_time) {
+            //    cpu_time = final_elapsed_time;
+            //} else {
+                cpu_time = final_cpu_time;
+            //}
+            return 0;
+        }
         if (parse_str(buf, "<name>", name, sizeof(name))) continue;
         if (parse_int(buf, "<state>", client_state)) continue;
-        if (parse_double(buf, "<final_cpu_time>", cpu_time)) continue;
+        if (parse_double(buf, "<final_cpu_time>", final_cpu_time)) continue;
+        if (parse_double(buf, "<final_elapsed_time>", final_elapsed_time)) continue;
         if (parse_int(buf, "<exit_status>", exit_status)) continue;
         if (parse_int(buf, "<app_version_num>", app_version_num)) continue;
         if (parse_double(buf, "<fpops_per_cpu_sec>", fpops_per_cpu_sec)) continue;
@@ -1061,6 +1102,7 @@ int HOST::parse(FILE* fin) {
         if (parse_double(buf, "<d_free>", d_free)) continue;
         if (parse_double(buf, "<n_bwup>", n_bwup)) continue;
         if (parse_double(buf, "<n_bwdown>", n_bwdown)) continue;
+        if (parse_str(buf, "<p_features>", p_features, sizeof(p_features))) continue;
 
         // parse deprecated fields to avoid error messages
         //
@@ -1071,7 +1113,6 @@ int HOST::parse(FILE* fin) {
 
         // fields reported by 5.5+ clients, not currently used
         //
-        if (match_tag(buf, "<p_features>")) continue;
         if (match_tag(buf, "<p_capabilities>")) continue;
         if (match_tag(buf, "<accelerators>")) continue;
 
@@ -1182,7 +1223,7 @@ void GLOBAL_PREFS::defaults() {
 
 void GUI_URLS::init() {
     text = 0;
-    read_file_malloc("../gui_urls.xml", text);
+    read_file_malloc(config.project_path("gui_urls.xml"), text);
 }
 
 void GUI_URLS::get_gui_urls(USER& user, HOST& host, TEAM& team, char* buf) {
@@ -1217,7 +1258,7 @@ void GUI_URLS::get_gui_urls(USER& user, HOST& host, TEAM& team, char* buf) {
 
 void PROJECT_FILES::init() {
     text = 0;
-    read_file_malloc("../project_files.xml", text);
+    read_file_malloc(config.project_path("project_files.xml"), text);
 }
 
-const char *BOINC_RCSID_ea659117b3 = "$Id: server_types.cpp 16890 2009-01-12 23:05:49Z boincadm $";
+const char *BOINC_RCSID_ea659117b3 = "$Id: server_types.cpp 18255 2009-06-01 22:15:14Z davea $";

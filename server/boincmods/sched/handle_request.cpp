@@ -30,7 +30,6 @@
 #include <cstring>
 #include <ctime>
 #include <cmath>
-using namespace std;
 
 #include <unistd.h>
 #include <sys/wait.h>
@@ -44,6 +43,7 @@ using namespace std;
 #include "error_numbers.h"
 #include "parse.h"
 #include "str_util.h"
+#include "str_replace.h"
 #include "util.h"
 #include "filesys.h"
 
@@ -57,17 +57,25 @@ using namespace std;
 #include "sched_config.h"
 #include "sched_locality.h"
 #include "sched_result.h"
+#include "sched_plan.h"
 #include "time_stats_log.h"
 
 // CMC -- need to include our trigger file from the qcn svn tree
-#include "../../server/trigger/qcn_trigger.h"
+#include "../../../qcn/server/trigger/qcn_trigger.h"
 // CMC end section
+
 
 // find the user's most recently-created host with given various characteristics
 //
 static bool find_host_by_other(DB_USER& user, HOST req_host, DB_HOST& host) {
     char buf[2048];
     char dn[512], ip[512], os[512], pm[512];
+
+#ifdef EINSTEIN_AT_HOME
+    // This is to prevent GRID hosts that manipulate their hostids from flooding E@H's DB with slow queries
+    if ((user.id == 282952) || (user.id == 243543))
+      return false;
+#endif
 
     // Only check if the fields are populated
     if (strlen(req_host.domain_name) && strlen(req_host.last_ip_addr) && strlen(req_host.os_name) && strlen(req_host.p_model)) {
@@ -81,7 +89,8 @@ static bool find_host_by_other(DB_USER& user, HOST req_host, DB_HOST& host) {
         escape_string(pm, 512);
 
         sprintf(buf,
-            "where userid=%d and id>%d and domain_name='%s' and last_ip_addr = '%s' and os_name = '%s' and p_model = '%s' and m_nbytes = %lf order by id desc", user.id, req_host.id, dn, ip, os, pm, req_host.m_nbytes
+            "where userid=%d and id>%d and domain_name='%s' and last_ip_addr = '%s' and os_name = '%s' and p_model = '%s'"
+               " and m_nbytes = %lf order by id desc", user.id, req_host.id, dn, ip, os, pm, req_host.m_nbytes
         );
         if (!host.enumerate(buf)) {
             host.end_enumerate();
@@ -98,8 +107,7 @@ static void get_weak_auth(USER& user, char* buf) {
 }
 
 static void send_error_message(const char* msg, int delay) {
-    USER_MESSAGE um(msg, "low");
-    g_reply->insert_message(um);
+    g_reply->insert_message(USER_MESSAGE(msg, "low"));
     g_reply->set_delay(delay);
     g_reply->nucleus_only = true;
 }
@@ -249,8 +257,9 @@ int authenticate_user() {
             }
         }
         if (retval) {
-            USER_MESSAGE um("Can't find host record", "low");
-            g_reply->insert_message(um);
+            g_reply->insert_message(
+                USER_MESSAGE("Can't find host record", "low")
+            );
             log_messages.printf(MSG_NORMAL,
                 "[HOST#%d?] can't find host\n",
                 g_request->hostid
@@ -291,11 +300,12 @@ int authenticate_user() {
                 sprintf(buf, "where authenticator='%s'", user.authenticator);
                 retval = user.lookup(buf);
                 if (retval) {
-                    USER_MESSAGE um("Invalid or missing account key.  "
-                        "Detach and reattach to this project to fix this.",
-                        "high"
+                    g_reply->insert_message(
+                        USER_MESSAGE("Invalid or missing account key.  "
+                            "Detach and reattach to this project to fix this.",
+                            "high"
+                        )
                     );
-                    g_reply->insert_message(um);
                     g_reply->set_delay(DELAY_MISSING_KEY);
                     g_reply->nucleus_only = true;
                     log_messages.printf(MSG_CRITICAL,
@@ -359,12 +369,13 @@ lookup_user_and_make_new_host:
             retval = user.lookup(buf);
         }
         if (retval) {
-            USER_MESSAGE um(
-                "Invalid or missing account key.  "
-                "Detach and reattach to this project to fix this.",
-                "low"
+            g_reply->insert_message(
+                USER_MESSAGE(
+                    "Invalid or missing account key.  "
+                    "Detach and reattach to this project to fix this.",
+                    "low"
+                )
             );
-            g_reply->insert_message(um);
             g_reply->set_delay(DELAY_MISSING_KEY);
             log_messages.printf(MSG_CRITICAL,
                 "[HOST#<none>] Bad authenticator '%s': %d\n",
@@ -431,8 +442,9 @@ make_new_host:
         host.fix_nans();
         retval = host.insert();
         if (retval) {
-            USER_MESSAGE um("Couldn't create host record in database", "low");
-            g_reply->insert_message(um);
+            g_reply->insert_message(
+                USER_MESSAGE("Couldn't create host record in database", "low")
+            );
             boinc_db.print_error("host.insert()");
             log_messages.printf(MSG_CRITICAL, "host.insert() failed\n");
             return retval;
@@ -505,7 +517,7 @@ static void modify_credit_rating(HOST& host) {
         // Calculate the difference between claimed credit and the hosts
         // historical granted credit history
         percent_difference=host.claimed_credit_per_cpu_sec-host.credit_per_cpu_sec;
-        percent_difference=abs(percent_difference/host.credit_per_cpu_sec);
+        percent_difference = fabs(percent_difference/host.credit_per_cpu_sec);
 
         // A study on World Community Grid determined that 50% of hosts
         // claimed within 10% of their historical credit per cpu sec.  
@@ -682,6 +694,16 @@ static int update_host_record(HOST& initial_host, HOST& xhost, USER& user) {
     return 0;
 }
 
+inline const char* reason_str(int n) {
+    switch (n) {
+    case ABORT_REASON_NOT_FOUND: return "result not in request";
+    case ABORT_REASON_WU_CANCELLED: return "WU cancelled";
+    case ABORT_REASON_ASSIMILATED: return "WU assimilated";
+    case ABORT_REASON_TIMED_OUT: return "result timed out";
+    }
+    return "Unknown";
+}
+
 // Figure out which of the results the host currently has
 // should be aborted outright, or aborted if not started yet
 //
@@ -715,7 +737,7 @@ int send_result_abort() {
     while (!(retval = result.enumerate(g_reply->host.id, result_names.c_str()))) {
         for (i=0; i<g_request->other_results.size(); i++) {
             OTHER_RESULT& orp = g_request->other_results[i];
-            if (!strcmp(orp.name.c_str(), result.result_name)) {
+            if (!strcmp(orp.name, result.result_name)) {
                 if (result.error_mask&WU_ERROR_CANCELLED ) {
                     // if the WU has been canceled, abort the result
                     //
@@ -759,19 +781,18 @@ int send_result_abort() {
         if (orp.abort) {
             g_reply->result_aborts.push_back(orp.name);
             log_messages.printf(MSG_NORMAL,
-                "[HOST#%d]: Send result_abort for result %s; reason %d\n",
-                g_reply->host.id, orp.name.c_str(), orp.reason
+                "[HOST#%d]: Send result_abort for result %s; reason: %s\n",
+                g_reply->host.id, orp.name, reason_str(orp.reason)
             ); 
             // send user message 
             char buf[256];
-            sprintf(buf, "Result %s is no longer usable", orp.name.c_str());
-            USER_MESSAGE um(buf, "high");
-            g_reply->insert_message(um);
+            sprintf(buf, "Result %s is no longer usable", orp.name);
+            g_reply->insert_message(USER_MESSAGE(buf, "high"));
         } else if (orp.abort_if_not_started) {
             g_reply->result_abort_if_not_starteds.push_back(orp.name);
             log_messages.printf(MSG_NORMAL,
                 "[HOST#%d]: Send result_abort_if_unstarted for result %s; reason %d\n",
-                g_reply->host.id, orp.name.c_str(), orp.reason
+                g_reply->host.id, orp.name, orp.reason
             ); 
         }
     }
@@ -913,26 +934,28 @@ bool send_code_sign_key(char* code_sign_key) {
                 sprintf(path, "%s/old_key_%d", config.key_dir, i);
                 retval = read_file_malloc(path, oldkey);
                 if (retval) {
-                    USER_MESSAGE um(
-                       "You may have an outdated code verification key.  "
-                       "This may prevent you from accepting new executables.  "
-                       "If the problem persists, detach/attach the project. ",
-                       "high"
+                    g_reply->insert_message(
+                        USER_MESSAGE(
+                           "You may have an outdated code verification key.  "
+                           "This may prevent you from accepting new executables.  "
+                           "If the problem persists, detach/attach the project. ",
+                           "high"
+                        )
                     );
-                    g_reply->insert_message(um);
                     return false;
                 }
                 if (!strcmp(oldkey, g_request->code_sign_key)) {
                     sprintf(path, "%s/signature_%d", config.key_dir, i);
                     retval = read_file_malloc(path, signature);
                     if (retval) {
-                        USER_MESSAGE um(
-                           "You may have an outdated code verification key.  "
-                           "This may prevent you from accepting new executables.  "
-                           "If the problem persists, detach/attach the project. ",
-                           "high"
+                        g_reply->insert_message(
+                            USER_MESSAGE(
+                               "You may have an outdated code verification key.  "
+                               "This may prevent you from accepting new executables.  "
+                               "If the problem persists, detach/attach the project. ",
+                               "high"
+                            )
                         );
-                        g_reply->insert_message(um);
                     } else {
                         safe_strcpy(g_reply->code_sign_key, code_sign_key);
                         safe_strcpy(g_reply->code_sign_key_signature, signature);
@@ -983,11 +1006,9 @@ void warn_user_if_core_client_upgrade_scheduled() {
             // bump to high.
             //
             if (days<3) {
-                USER_MESSAGE um(msg, "high");
-                g_reply->insert_message(um);
+                g_reply->insert_message(USER_MESSAGE(msg, "high"));
             } else {
-                USER_MESSAGE um(msg, "low");
-                g_reply->insert_message(um);
+                g_reply->insert_message(USER_MESSAGE(msg, "low"));
             }
             log_messages.printf(MSG_DEBUG,
                 "Sending warning: upgrade client %d.%d.%d within %d days %d hours\n",
@@ -1018,8 +1039,7 @@ bool unacceptable_os() {
             sprintf(buf, "This project doesn't support OS type %s %s",
                 g_request->host.os_name, g_request->host.os_version
             );
-            USER_MESSAGE um(buf, "low");
-            g_reply->insert_message(um);
+            g_reply->insert_message(USER_MESSAGE(buf, "low"));
             g_reply->set_delay(DELAY_UNACCEPTABLE_OS);
             return true;
         }
@@ -1044,8 +1064,7 @@ bool unacceptable_cpu() {
             sprintf(buf, "This project doesn't support CPU type %s %s",
                 g_request->host.p_vendor, g_request->host.p_model
             );
-            USER_MESSAGE um(buf, "low");
-            g_reply->insert_message(um);
+            g_reply->insert_message(USER_MESSAGE(buf, "low"));
             g_reply->set_delay(DELAY_UNACCEPTABLE_OS);
             return true;
         }
@@ -1075,8 +1094,7 @@ bool wrong_core_client_version() {
         }
     }
     if (wrong_version) {
-        USER_MESSAGE um(msg, "low");
-        g_reply->insert_message(um);
+        g_reply->insert_message(USER_MESSAGE(msg, "low"));
         g_reply->set_delay(DELAY_BAD_CLIENT_VERSION);
         return true;
     }
@@ -1106,7 +1124,6 @@ void handle_msgs_from_host() {
             "got msg from host; variety %s \n",
             mfh.variety
         );
-
    // CMC -- handle triggers via handle_qcn_trigger
         retval = 0;
         if (!strcmp(mfh.variety, "trigger")) { // it's a trigger
@@ -1122,7 +1139,6 @@ void handle_msgs_from_host() {
         }
 //        retval = mfh.insert();
 // CMC - end block for mfh insert
-
         if (retval) {
             log_messages.printf(MSG_CRITICAL,
                 "[HOST#%d] message insert failed: %d\n",
@@ -1174,14 +1190,18 @@ bool bad_install_type() {
                 log_messages.printf(MSG_NORMAL,
                     "Vista secure install - not sending work\n"
                 );
-                USER_MESSAGE um(
-                    "Unable to send work to Vista with BOINC installed in protected mode", "high"
+                g_reply->insert_message(
+                    USER_MESSAGE(
+                        "Unable to send work to Vista with BOINC installed in protected mode",
+                        "high"
+                    )
                 );
-                g_reply->insert_message(um);
-                USER_MESSAGE um2(
-                    "Please reinstall BOINC and uncheck 'Protected application execution'", "high"
+                g_reply->insert_message(
+                    USER_MESSAGE(
+                        "Please reinstall BOINC and uncheck 'Protected application execution'",
+                        "high"
+                    )
                 );
-                g_reply->insert_message(um2);
             }
         }
     }
@@ -1236,7 +1256,8 @@ void process_request(
 
 // CMC here - add !bTrigger to next line
     if (!bTrigger && requesting_work()) {
-        if (config.locality_scheduling || config.enable_assignment) {
+    //if (requesting_work()) {
+        if (config.locality_scheduling || config.locality_scheduler_fraction || config.enable_assignment) {
             have_no_work = false;
         } else {
             lock_sema();
@@ -1254,15 +1275,14 @@ void process_request(
     // and client is requesting work, return without accessing DB
     //
 // CMC here - add !bTrigger to next line
-    if (!bTrigger && 
+    if (!bTrigger &&
         config.nowork_skip
         && requesting_work()
         && have_no_work
         && (g_request->results.size() == 0)
         && (g_request->hostid != 0)
     ) {
-        USER_MESSAGE um("No work available", "low");
-        g_reply->insert_message(um);
+        g_reply->insert_message(USER_MESSAGE("No work available", "low"));
         g_reply->set_delay(DELAY_NO_WORK_SKIP);
         if (!config.msg_to_host) {
             log_messages.printf(MSG_NORMAL, "No work - skipping DB access\n");
@@ -1365,8 +1385,7 @@ void process_request(
     }
     if (g_request->platforms.list.size() == 0) {
         sprintf(buf, "platform '%s' not found", g_request->platform.name);
-        USER_MESSAGE um(buf, "low");
-        g_reply->insert_message(um);
+        g_reply->insert_message(USER_MESSAGE(buf, "low"));
         log_messages.printf(MSG_CRITICAL,
             "[HOST#%d] platform '%s' not found\n",
             g_reply->host.id, g_request->platform.name
@@ -1388,8 +1407,19 @@ void process_request(
     if (bad_install_type()) {
         ok_to_send_work = false;
     }
+    send_work_setup();
 
-    g_reply->wreq.nresults_on_host = g_request->other_results.size();
+    g_wreq->njobs_on_host = g_request->other_results.size();
+    for (i=0; i<g_request->other_results.size(); i++) {
+        OTHER_RESULT& r = g_request->other_results[i];
+        if (r.have_plan_class) {
+            if (app_plan_uses_gpu(r.plan_class)) {
+                g_wreq->njobs_on_host_gpu++;
+            } else {
+                g_wreq->njobs_on_host_cpu++;
+            }
+        }
+    }
     if (g_request->have_other_results_list) {
         if (config.resend_lost_results && ok_to_send_work) {
             if (resend_lost_work()) {
@@ -1423,8 +1453,7 @@ void process_request(
                     sprintf(buf,
                         "Not sending work - last request too recent: %d sec", (int)diff
                     );
-                    USER_MESSAGE um(buf, "low");
-                    g_reply->insert_message(um);
+                    g_reply->insert_message(USER_MESSAGE(buf, "low"));
 
                     // the 1.01 is in case client's clock
                     // is slightly faster than ours
@@ -1437,11 +1466,12 @@ void process_request(
             }
         }
         if (g_wreq->no_jobs_available) {
-            USER_MESSAGE um(
-                "(Project has no jobs available)",
-                "high"
+            g_reply->insert_message(
+                USER_MESSAGE(
+                    "(Project has no jobs available)",
+                    "high"
+                )
             );
-            g_reply->insert_message(um);
         }
     }
 
@@ -1481,7 +1511,8 @@ static void log_user_messages() {
     for (unsigned int i=0; i<g_reply->messages.size(); i++) {
         USER_MESSAGE um = g_reply->messages[i];
         log_messages.printf(MSG_DEBUG,
-            "[HOST#%d] MSG(%4s) %s \n", g_reply->host.id, um.priority.c_str(), um.message.c_str()
+            "[HOST#%d] MSG(%4s) %s\n",
+            g_reply->host.id, um.priority.c_str(), um.message.c_str()
         );
     }
 }
@@ -1526,18 +1557,16 @@ void handle_request(FILE* fin, FILE* fout, char* code_sign_key) {
          // set a bool bTrigger which we can bypass big scheduler requests (e.g. work request & quake download)
          bTrigger = (bool) (iTrigger > 0 && iTrigger == iCount); // note all trickles must be triggers, and must have 1 trickle at least!
 
+         process_request(code_sign_key, bTrigger);
          // CMC end section
-          process_request(code_sign_key, bTrigger);
-//        process_request(code_sign_key);
 //  CMC end block handle_request/process_request
     } else {
         sprintf(buf, "Error in request message: %s", p);
         log_incomplete_request();
-        USER_MESSAGE um(buf, "low");
-        sreply.insert_message(um);
+        sreply.insert_message(USER_MESSAGE(buf, "low"));
     }
 
-    if (config.locality_scheduling && !sreply.nucleus_only) {
+    if ((config.locality_scheduling || config.locality_scheduler_fraction) && !sreply.nucleus_only) {
         send_file_deletes();
     }
 
@@ -1549,12 +1578,13 @@ void handle_request(FILE* fin, FILE* fout, char* code_sign_key) {
      sreply.write(fout, sreq, bTrigger);
      //sreply.write(fout, sreq);
 
-    log_messages.printf(MSG_NORMAL, "Scheduler ran %f seconds\n", dtime()-start_time);
-
+    log_messages.printf(MSG_NORMAL,
+        "Scheduler ran %.3f seconds\n", dtime()-start_time
+    );
 
     if (strlen(config.sched_lockfile_dir)) {
         unlock_sched();
     }
 }
 
-const char *BOINC_RCSID_2ac231f9de = "$Id: handle_request.cpp 16904 2009-01-13 23:06:02Z korpela $";
+const char *BOINC_RCSID_2ac231f9de = "$Id: handle_request.cpp 18437 2009-06-16 20:54:44Z davea $";

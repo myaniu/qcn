@@ -61,42 +61,28 @@ struct USER_MESSAGE {
 };
 
 struct HOST_USAGE {
-    COPROCS coprocs;
+    int ncudas;
     double avg_ncpus;
     double max_ncpus;
     double flops;
     char cmdline[256];
 
-
     HOST_USAGE() {
-        coprocs.coprocs.clear();
+        ncudas = 0;
         avg_ncpus = 1;
         max_ncpus = 1;
         flops = 0;
         strcpy(cmdline, "");
     }
     void sequential_app(double x) {
-        coprocs.coprocs.clear();
+        ncudas = 0;
         avg_ncpus = 1;
         max_ncpus = 1;
         flops = x;
         if (flops <= 0) flops = 1e9;
         strcpy(cmdline, "");
     }
-    double cuda_instances() {
-        COPROC* cp = coprocs.lookup("CUDA");
-        if (cp) return cp->count;
-        return 0;
-    }
     ~HOST_USAGE(){}
-};
-
-// keep track of the best app_version for each app for this host
-//
-struct BEST_APP_VERSION {
-    int appid;
-    APP_VERSION* avp;       // NULL if none exists
-    HOST_USAGE host_usage;
 };
 
 // summary of a client's request for work, and our response to it
@@ -114,6 +100,7 @@ struct WORK_REQ {
 
     // user preferences
     bool no_gpus;
+    bool no_cpu;
 	bool allow_non_preferred_apps;
 	bool allow_beta_work;
 	std::vector<APP_INFO> preferred_apps;
@@ -124,6 +111,8 @@ struct WORK_REQ {
 
     bool trust;
         // whether to send unreplicated jobs
+    int effective_ncpus;
+    int effective_ngpus;
 
     // 6.7+ clients send separate requests for different resource types:
     //
@@ -137,6 +126,14 @@ struct WORK_REQ {
     inline bool need_cuda() {
         return (cuda_req_secs>0) || (cuda_req_instances>0);
     }
+    inline void clear_cpu_req() {
+        cpu_req_secs = 0;
+        cpu_req_instances = 0;
+    }
+    inline void clear_gpu_req() {
+        cuda_req_secs = 0;
+        cuda_req_instances = 0;
+    }
 
     // older clients send send a single number, the requested duration of jobs
     //
@@ -147,7 +144,10 @@ struct WORK_REQ {
     bool rsc_spec_request;
 
     double disk_available;
-    int nresults;
+    double ram, usable_ram;
+    double running_frac;
+    double dcf;
+    int njobs_sent;
 
     // The following keep track of the "easiest" job that was rejected
     // by EDF simulation.
@@ -181,28 +181,42 @@ struct WORK_REQ {
     std::vector<USER_MESSAGE> no_work_messages;
     std::vector<BEST_APP_VERSION*> best_app_versions;
 
+    // various reasons for not sending jobs (used to explain why)
+    //
     bool no_allowed_apps_available;
     bool excessive_work_buf;
     bool hr_reject_temp;
     bool hr_reject_perm;
     bool outdated_client;
-    bool gpu_too_slow;
     bool no_gpus_prefs;
+    bool no_cpu_prefs;
     bool daily_result_quota_exceeded;
-    int total_max_results_day;
-        // host.max_results_day * (NCPUS + NCUDA*cuda_multiplier)
-    bool cache_size_exceeded;
+    bool max_jobs_on_host_exceeded;
+    bool max_jobs_on_host_cpu_exceeded;
+    bool max_jobs_on_host_gpu_exceeded;
     bool no_jobs_available;     // project has no work right now
-    int nresults_on_host;
-        // How many results from this project are in progress on the host.
+
+    int max_jobs_per_day;
+        // host.max_results_day * (NCPUS + NCUDA*cuda_multiplier)
+    int max_jobs_per_rpc;
+    int njobs_on_host;
+        // How many jobs from this project are in progress on the host.
         // Initially this is the number of "other_results"
         // reported in the request message.
         // If the resend_lost_results option is used,
         // it's set to the number of outstanding results taken from the DB
         // (those that were lost are resent).
         // As new results are sent, it's incremented.
+    int njobs_on_host_cpu;
+        // same, but just CPU jobs.
+    int njobs_on_host_gpu;
+        // same, but just GPU jobs.
+    int max_jobs_on_host;
+    int max_jobs_on_host_cpu;
+    int max_jobs_on_host_gpu;
     void update_for_result(double seconds_filled);
-    void insert_no_work_message(USER_MESSAGE&);
+    void insert_no_work_message(const USER_MESSAGE&);
+    void get_job_limits();
 };
 
 // a description of a sticky file on host.
@@ -223,9 +237,33 @@ struct MSG_FROM_HOST_DESC {
 //
 struct CLIENT_APP_VERSION {
     char app_name[256];
+    char platform[256];
     int version_num;
+    char plan_class[256];
+    HOST_USAGE host_usage;
 
     int parse(FILE*);
+};
+
+// keep track of the best app_version for each app for this host
+//
+struct BEST_APP_VERSION {
+    int appid;
+
+    bool present;
+
+    // populated if anonymous platform:
+    CLIENT_APP_VERSION* cavp;
+
+    // populated otherwise:
+    APP_VERSION* avp;
+    HOST_USAGE host_usage;
+
+    BEST_APP_VERSION() {
+        present = false;
+        cavp = NULL;
+        avp = NULL;
+    }
 };
 
 // subset of global prefs used by scheduler
@@ -262,7 +300,9 @@ struct PROJECT_FILES {
 // or aborted if not started
 //
 struct OTHER_RESULT {
-    std::string name;
+    char name[256];
+    char plan_class[64];
+    bool have_plan_class;
     bool abort;
     bool abort_if_not_started;
     int reason;     // see codes below
@@ -306,9 +346,9 @@ struct SCHEDULER_REQUEST {
         // ... of runnable resource share
     double prrs_fraction;
         // ... of potentially runnable resource share
-    double estimated_delay;
-        // how many wall-clock seconds will elapse before
-        // host will begin any new work for this project
+    double cpu_estimated_delay;
+        // currently queued jobs saturate the CPU for this long;
+        // used for crude deadline check
     double duration_correction_factor;
     char global_prefs_xml[BLOB_SIZE];
     char working_global_prefs_xml[BLOB_SIZE];
@@ -345,7 +385,6 @@ struct SCHEDULER_REQUEST {
     SCHEDULER_REQUEST();
     ~SCHEDULER_REQUEST();
     const char* parse(FILE*);
-    bool has_version(APP& app);
     int write(FILE*); // write request info to file: not complete
 };
 
@@ -398,7 +437,7 @@ struct SCHEDULER_REPLY {
     void insert_app_version_unique(APP_VERSION&);
     void insert_workunit_unique(WORKUNIT&);
     void insert_result(RESULT&);
-    void insert_message(USER_MESSAGE&);
+    void insert_message(const USER_MESSAGE&);
     void set_delay(double);
 };
 
