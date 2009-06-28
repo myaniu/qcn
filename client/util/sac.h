@@ -3,6 +3,18 @@
 
 #ifndef QCN_MAC_USB
 
+#ifndef int32_t
+#ifdef _WIN32
+#ifdef _WIN64
+typedef int int32_t;
+#else
+typedef long int32_t;
+#endif
+#else
+typedef int int32_t;
+#endif
+#endif
+
 struct STriggerInfo;
 
 namespace sacio {
