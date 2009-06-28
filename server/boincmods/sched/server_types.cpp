@@ -34,6 +34,8 @@
 
 // CMC here
 #include "filesys.h"
+#include "str_replace.h"
+// CMC end
 
 #ifdef _USING_FCGI_
 #include "boinc_fcgi.h"
