@@ -19,10 +19,12 @@
 </result>
 */
 
+#define MAX_UPLOAD_FILES 50
+
 int main(int argc, char** argv)
 {
    FILE* fOut = fopen("templates/qcn_output_continual.xml", "w");
-   for (int i = 1; i <= 150; i++) {
+   for (int i = 1; i <= MAX_UPLOAD_FILES; i++) {
        fprintf(fOut, "<file_info>\n"
             "   <name><OUTFILE_%d/>.zip</name>\n"
             "   <generated_locally/>\n"
@@ -32,7 +34,7 @@ int main(int argc, char** argv)
         );
    }
    fprintf(fOut, "<result>\n");
-   for (int i = 1; i <= 150; i++) {
+   for (int i = 1; i <= MAX_UPLOAD_FILES; i++) {
        fprintf(fOut, "  <file_ref>\n"
                      "     <file_name><OUTFILE_%d/>.zip</file_name>\n"
                      "     <open_name>qcnout%d.zip</open_name>\n"
