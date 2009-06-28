@@ -35,6 +35,32 @@ char cPathSeparator()
 #endif
 }
 
+// returns OS name & type, i.e. W64 = Windows 64-bit etc
+const char* os_type_str()
+{
+#ifdef _WIN32
+  #ifdef _WIN64
+  	return "W64";
+  #else
+  	return "W32";
+  #endif
+#else
+  #ifdef __APPLE_CC__
+    #if defined(__LP64__) || defined(_LP64)
+    	return "M64";
+    #else
+    	return "M32";
+    #endif
+  #else // linux
+    #if defined(__LP64__) || defined(_LP64)
+	  return "L64";
+    #else
+	  return "L32";
+    #endif
+  #endif
+#endif
+}
+
 void FormatElapsedTime(const double& dTime, char* strFormat, int iLen)
 {
     char *strTemp = new char[_MAX_PATH];

@@ -197,7 +197,48 @@
 	<key>Notifications</key>
 	<array/>
 	<key>OpenEditors</key>
-	<array/>
+	<array>
+		<dict>
+			<key>Content</key>
+			<dict>
+				<key>PBXProjectModuleGUID</key>
+				<string>E318645D0FF7077B00A4C02C</string>
+				<key>PBXProjectModuleLabel</key>
+				<string>main.cpp</string>
+				<key>PBXSplitModuleInNavigatorKey</key>
+				<dict>
+					<key>Split0</key>
+					<dict>
+						<key>PBXProjectModuleGUID</key>
+						<string>E318645E0FF7077B00A4C02C</string>
+						<key>PBXProjectModuleLabel</key>
+						<string>main.cpp</string>
+						<key>_historyCapacity</key>
+						<integer>0</integer>
+						<key>bookmark</key>
+						<string>E31864630FF7077B00A4C02C</string>
+						<key>history</key>
+						<array>
+							<string>E318645F0FF7077B00A4C02C</string>
+						</array>
+					</dict>
+					<key>SplitCount</key>
+					<string>1</string>
+				</dict>
+				<key>StatusBarVisibility</key>
+				<true/>
+			</dict>
+			<key>Geometry</key>
+			<dict>
+				<key>Frame</key>
+				<string>{{0, 20}, {1164, 737}}</string>
+				<key>PBXModuleWindowStatusBarHidden2</key>
+				<false/>
+				<key>RubberWindowFrame</key>
+				<string>194 247 1164 778 0 0 1680 1028 </string>
+			</dict>
+		</dict>
+	</array>
 	<key>PerspectiveWidths</key>
 	<array>
 		<integer>-1</integer>
@@ -231,8 +272,6 @@
 			<key>Layout</key>
 			<array>
 				<dict>
-					<key>BecomeActive</key>
-					<true/>
 					<key>ContentConfiguration</key>
 					<dict>
 						<key>PBXBottomSmartGroupGIDs</key>
@@ -270,11 +309,15 @@
 							<array>
 								<string>E3A499DB0D64E60400E51CDF</string>
 								<string>1C37FBAC04509CD000000102</string>
+								<string>E31864560FF7077B00A4C02C</string>
+								<string>E31864570FF7077B00A4C02C</string>
 								<string>1C37FABC05509CD000000102</string>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
+									<integer>31</integer>
+									<integer>14</integer>
 									<integer>13</integer>
 									<integer>12</integer>
 								</array>
@@ -310,12 +353,14 @@
 					<key>Dock</key>
 					<array>
 						<dict>
+							<key>BecomeActive</key>
+							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
 								<string>1CE0B20306471E060097A5F4</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>qcn_curl.cpp</string>
+								<string>dlfcn.h</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -323,11 +368,11 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>1CE0B20406471E060097A5F4</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>qcn_curl.cpp</string>
+										<string>dlfcn.h</string>
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>E3F84E3F0FF6D46A00DC5D63</string>
+										<string>E31864610FF7077B00A4C02C</string>
 										<key>history</key>
 										<array>
 											<string>E3583B450FF1921800057DD2</string>
@@ -382,7 +427,8 @@
 											<string>E3898BCD0FF6D2DB00CB9496</string>
 											<string>E3898BCE0FF6D2DB00CB9496</string>
 											<string>E3898BCF0FF6D2DB00CB9496</string>
-											<string>E3898BEA0FF6D38D00CB9496</string>
+											<string>E31864580FF7077B00A4C02C</string>
+											<string>E31864590FF7077B00A4C02C</string>
 										</array>
 										<key>prevStack</key>
 										<array>
@@ -439,6 +485,7 @@
 											<string>E3898BDA0FF6D2DB00CB9496</string>
 											<string>E3898BDB0FF6D2DB00CB9496</string>
 											<string>E3898BDF0FF6D2DB00CB9496</string>
+											<string>E318645B0FF7077B00A4C02C</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -496,9 +543,9 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>E3F84E360FF6D44500DC5D63</string>
+				<string>E31864390FF6F67E00A4C02C</string>
 				<string>1CE0B1FE06471DED0097A5F4</string>
-				<string>E3F84E370FF6D44500DC5D63</string>
+				<string>E318643A0FF6F67E00A4C02C</string>
 				<string>1CE0B20306471E060097A5F4</string>
 				<string>1CE0B20506471E060097A5F4</string>
 			</array>
@@ -633,7 +680,7 @@
 	<key>WindowOrderList</key>
 	<array>
 		<string>E3D35BF80FF1781000E64121</string>
-		<string>1CD10A99069EF8BA00B06720</string>
+		<string>E318645D0FF7077B00A4C02C</string>
 		<string>/Users/carlc/projects/qcn/client/mac_build/qcn.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
@@ -658,7 +705,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>1CD0528F0623707200166675</string>
 								<key>PBXProjectModuleLabel</key>
-								<string></string>
+								<string>MotionNodeAccelAPI.h</string>
 								<key>StatusBarVisibility</key>
 								<true/>
 							</dict>
@@ -675,6 +722,8 @@
 							<string>478pt</string>
 						</dict>
 						<dict>
+							<key>BecomeActive</key>
+							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
@@ -714,7 +763,7 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>E3D35BF80FF1781000E64121</string>
-				<string>E3F84E380FF6D44500DC5D63</string>
+				<string>E318644F0FF7028200A4C02C</string>
 				<string>1CD0528F0623707200166675</string>
 				<string>XCMainBuildResultsModuleGUID</string>
 			</array>

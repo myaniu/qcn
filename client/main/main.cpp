@@ -99,6 +99,13 @@ namespace qcn_main  {
 
   bool g_bReadOnly = false;
 
+	// simple flag to denote continual app
+#ifdef QCN_CONTINUAL
+  const bool g_bContinual = true;
+#else
+  const bool g_bContinual = false;
+#endif
+	
   bool g_bDemo = false;
   int  g_iContinuousCounter = 0; // counts how many times this run has been through
 
@@ -528,8 +535,8 @@ int qcn_main(int argc, char **argv)
              // unnecessary for demo mode -- but should we wget or curl the latest quake list, perhaps just in the ./runme script?
              //if (!g_iStop && !(++iQuakeList % QUAKELIST_CHECK))  {
 
-             // this skips the very first time in i.e. when we're just starting up
-             if (!g_iStop && g_bFirstPing) {
+             // this skips the very first time in i.e. when we're just starting up, also bypasses for the continual reporting app
+             if (!g_iStop && g_bFirstPing && !g_bContinual) {
                 char *strTrigger = new char[512];
                 double dTrigTimeOffset = g_dTimeSync>0.0f ? g_dTimeOffset : 0.0f;
                 boinc_begin_critical_section();
@@ -671,18 +678,22 @@ bool CheckTriggerFile(struct STriggerInfo* ti, bool bForce)
     // exit if we are in a trigger but not past our n2 write time -- note the wrapping at the end of the array though!
     // if not wrapping (n2orig = 0) and n2 is greater than our lOffset/lSM then we have not exceeded the write point
     // if wrapping (n2orig > 0) and current point is greater than our trigger offset, OR current point less than our n2, we have not exceeded the write point
-    if (!ti->bDemo && !bForce && ( (!n2orig && lSM < n2) || (n2orig && (lSM > ti->lOffsetEnd || lSM < n2)))  ) {
+    if (!g_bContinual && !ti->bDemo && !bForce && ( (!n2orig && lSM < n2) || (n2orig && (lSM > ti->lOffsetEnd || lSM < n2)))  ) {
          return false; 
     }
 
     // we reach here if past our window for this file
     // check if trigger was made in interactive mode, if so bypass file creation
     // but always allow demo-mode triggers to get written (i.e. 10-minute dumps)
-    if (!ti->bInteractive || ti->bDemo) {
+    if (g_bContinual || !ti->bInteractive || ti->bDemo) {
        char strTypeSensor[8];
        memset(strTypeSensor, 0x00, sizeof(char) * 8);
        if (g_psms) strncpy(strTypeSensor, g_psms->getTypeStrShort(), 7);
        sacio::sacio(n1, n2, ti, strTypeSensor); // note filename already set in ti.strFile
+		
+		if (g_bContinual) { 
+			// CMC HERE:  zip & queue an intermediate upload for ti.strFile then delete the file
+		}
     }
 
     // don't forget to reset level if it's > TRIGGER_ALL
@@ -728,6 +739,7 @@ bool CheckTriggerTrickle(struct STriggerInfo* ti)
 
     sprintf(strTrigger,
            "<vr>%s</vr>\n"
+			"<os>%s</os>\n"
            "<sms>%d</sms>\n"
            "<ctime>%f</ctime>\n"
            "<fsig>%f</fsig>\n"
@@ -740,6 +752,7 @@ bool CheckTriggerTrickle(struct STriggerInfo* ti)
            "<%s>%.2f</%s>\n"
            "<%s>%.2f</%s>\n",
        QCN_VERSION_STRING,
+	   qcn_util::os_type_str(),
        sm->eSensor,
        dTriggerTime,
        sm->fsig[ti->lOffsetEnd],

@@ -72,7 +72,8 @@ void checkDemoTrigger(bool bForce)
        //qcn_util::getTimeOffset((const double*) sm->dTimeServerTime, (const double*) sm->dTimeServerOffset, (const double) sm->t0active, dTimeOffset, dTimeOffsetTime);
        if (bForce || ((sm->t0active + qcn_main::g_dTimeOffset) >= g_dStartDemoTime))  { // OK, this time matches what we wanted, so do a trigger now!
           g_lDemoOffsetEnd = sm->lOffset; 
-          doTrigger(false, g_lDemoOffsetStart, g_lDemoOffsetEnd);  // note we're passing in the offset which is just before the next 10 minute period
+		  // send a trigger -- if continual mode it will be true, so processed as a normal trigger (i.e. send a trickle at this time)
+		  doTrigger(qcn_main::g_bContinual, g_lDemoOffsetStart, g_lDemoOffsetEnd);  // note we're passing in the offset which is just before the next 10 minute period
           g_lDemoOffsetStart = sm->lOffset; // set next start point
           g_dStartDemoTime = getNextDemoTimeInterval();  // set next time break point
        }
@@ -669,19 +670,22 @@ extern void* QCNThreadSensor(void*)
         sm->itl=0;
 
         // CMC note: the threshold values are from above after sensor detection, the peturb values for sig cutoff are from the workunit generation
-        if ( (sm->fsig[sm->lOffset] > qcn_main::g_fPerturb[PERTURB_SIG_CUTOFF]) && (sm->fmag[sm->lOffset] > g_fThreshold) ) {  // was 0.125,  >2 sigma (90% Conf)
-          // lock & update now if this trigger is >.5 second from the last
-          double dTime; 
-          long lTime;
-          qcn_util::getLastTrigger(dTime, lTime);
-          if (dTime + 0.50f <= sm->t0[sm->lOffset]) { // if in here, the last trigger was more than a second ago
-            doTrigger(); // last trigger time will get set in the proc
-          }
-        }
+		  // also note the first clause prevents continual qcn app from doing a trigger, they are like demo mode with sac output every 10 minutes
+		  if (!qcn_main::g_bContinual 
+			  && (sm->fsig[sm->lOffset] > qcn_main::g_fPerturb[PERTURB_SIG_CUTOFF])
+			  && (sm->fmag[sm->lOffset] > g_fThreshold) ) {  // was 0.125,  >2 sigma (90% Conf)
+				  // lock & update now if this trigger is >.5 second from the last
+				  double dTime; 
+				  long lTime;
+				  qcn_util::getLastTrigger(dTime, lTime);
+				  if (dTime + 0.50f <= sm->t0[sm->lOffset]) { // if in here, the last trigger was more than a second ago
+					  doTrigger(); // last trigger time will get set in the proc
+				  }
+           }
       }
-
-// Find the largest significance in the time window
-      if (sm->itl > sm->iWindow) {
+		
+    // Find the largest significance in the time window
+	if (sm->itl > sm->iWindow) {
         sm->sgmx = 0.;
         for (int j=sm->lOffset-(sm->iWindow+1); j<sm->lOffset; j++) {
           if (sm->fsig[j] > sm->sgmx) {          //  MAXIMUM SIGNIFICANCE
@@ -695,7 +699,7 @@ extern void* QCNThreadSensor(void*)
 
       // if we've hit a boundary for Demo SAC output (currently 10 minutes) force a "trigger" (writes 0-10 minutes of data)
       // put the demo start time on an even time boundary i.e. every 10 minutes from midnight
-      if (qcn_main::g_bDemo) { // have to check versus ntpd server time
+		if (qcn_main::g_bDemo || qcn_main::g_bContinual) { // have to check versus ntpd server time
            if (g_dStartDemoTime == 0.0f && sm->lOffset > (300.0 / sm->dt)) {
              // five minutes has gone by from start of calibration, long enough for ntpd lookup to have finished with one retry if first failed
              g_dStartDemoTime = getNextDemoTimeInterval();
@@ -737,28 +741,28 @@ void doTrigger(bool bReal, long lOffsetStart, long lOffsetEnd)
             // dTimeInteractive is set in the graphics thread/program when a button is clicked or key is pressed
             // if this interaction time + a decay offset (usually 60 seconds) is exceeded by the trigger time, it's a valid trigger
 
-            if (bReal) {
+		   if (bReal && !qcn_main::g_bContinual) {
               ti.lOffsetStart = sm->lOffset - (long)(60.0f / sm->dt);  // for a real trigger we just need the end point as we go back a minute, and forward a minute or two
               ti.lOffsetEnd   = sm->lOffset;  // for a real trigger we just need the end point as we go back a minute, and forward a minute or two
             }
             else {
-              ti.lOffsetStart = lOffsetStart; // if not bReal i.e. we're in demo mode we must be passing in an offset
-              ti.lOffsetEnd   = lOffsetEnd; // if not bReal i.e. we're in demo mode we must be passing in an offset
+              ti.lOffsetStart = lOffsetStart; // if not bReal or g_bContinual i.e. we're in demo or continual mode we must be passing in an offset
+              ti.lOffsetEnd   = lOffsetEnd; 
             }
             dTimeTrigger = sm->t0[ti.lOffsetEnd]; // "local" trigger time
 
             // CMC bInteractive can bypass writing trigger files & trickles; but turn off for now
             ti.bInteractive = false;
-	    //ti.bInteractive = (bool) ( sm->t0[ti.lOffsetEnd] < sm->dTimeInteractive + DECAY_INTERACTIVE_SECONDS);  
-            ti.bDemo = !bReal; // flag if trickle is in demo mode or not so bypasses the trigger trickle (but writes output SAC file)
+	        //ti.bInteractive = (bool) ( sm->t0[ti.lOffsetEnd] < sm->dTimeInteractive + DECAY_INTERACTIVE_SECONDS);  
+		    ti.bDemo = !bReal; // flag if trickle is in demo mode or not so bypasses the trigger trickle (but writes output SAC file)
 
-            sm->setTriggerLock();  // we can be confident we have locked the trigger bool when this returns
-            if (bReal) qcn_util::setLastTrigger(dTimeTrigger, ti.lOffsetEnd); // add to our lasttrigger array (for graphics display) if a real trigger
+		    sm->setTriggerLock();  // we can be confident we have locked the trigger bool when this returns
+	        if (bReal && !qcn_main::g_bContinual) qcn_util::setLastTrigger(dTimeTrigger, ti.lOffsetEnd); // add to our lasttrigger array (for graphics display) if a real trigger
             //if (!ti.bInteractive || ti.bDemo) { // only do filename stuff & inc counter if demo mode or non-interactive trigger
                //qcn_util::getTimeOffset((const double*) sm->dTimeServerTime, (const double*) sm->dTimeServerOffset, (const double) dTimeTrigger, dTimeOffset, dTimeOffsetTime);
                qcn_util::set_trigger_file((char*) ti.strFile,
 				   (const char*) sm->dataBOINC.wu_name,
-                  bReal ? ++sm->iNumTrigger : sm->iNumTrigger,
+					 bReal ? ++sm->iNumTrigger : sm->iNumTrigger,
                   QCN_ROUND(dTimeTrigger + qcn_main::g_dTimeOffset),
                   bReal
                );
@@ -768,7 +772,7 @@ void doTrigger(bool bReal, long lOffsetStart, long lOffsetEnd)
             //}
            
             ti.iWUEvent = sm->iNumTrigger;
-            ti.iLevel = bReal ? TRIGGER_IMMEDIATE : TRIGGER_DEMO; // start off with level 1, i.e. an immediate trigger output
+            ti.iLevel = (bReal && !qcn_main::g_bContinual) ? TRIGGER_IMMEDIATE : TRIGGER_DEMO; // start off with level 1, i.e. an immediate trigger output
 
             // add this to our vector in sm
             ti.bSent = false;
