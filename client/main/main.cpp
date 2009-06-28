@@ -8,6 +8,7 @@
  */
 
 #include "main.h"
+#include "boinc_zip.h"
 
 // don't use customized boinc_options if qcnlive, the gui will control the thread quit etc
 #ifndef QCNLIVE
@@ -642,7 +643,7 @@ done:
 
 void checkContinualUpload(bool bForce)
 {// CMC here -- check for more than 5 files in g_strPathTrigger and if so upload then delete them
-
+/*
         // now make sure the zip file is stored in sm->strPathTrigger + ti->strFile
         string strZip((const char*) qcn_main::g_strPathTrigger);  // note it DOES NOT HAVE appropriate \ or / at the end
         strZip += qcn_util::cPathSeparator();
@@ -669,6 +670,7 @@ void checkContinualUpload(bool bForce)
              //memset(sm->strUploadResolve, 0x00, sizeof(char) * _MAX_PATH);
              //memset(sm->strUploadLogical, 0x00, sizeof(char) * _MAX_PATH_LOGICAL);
         }
+*/
 }
 
 bool CheckTriggerFile(struct STriggerInfo* ti, bool bForce)
