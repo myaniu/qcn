@@ -36,7 +36,7 @@
     </shmem_key>
     <show_results>1</show_results>
     <key_dir>
-      /var/www/boinc/sensor/keys/
+      /var/www/boinc/keys/
     </key_dir>
     <upload_url>
       http://qcn.stanford.edu/sensor_cgi/file_upload_handler

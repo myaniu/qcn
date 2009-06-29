@@ -389,7 +389,7 @@ function show_trigger($hostid, $heading, $private=true)
    // CMC note - DBNAME gets replaced by appropriate database name in the db->do_query()
    $sql = "select t.id,result_name,time_trigger,time_received,"
        . "time_sync,sync_offset,significance, magnitude, " . $sqllatlng 
-       . "dt, numreset, s.description, sw_version,runtime_cpu,runtime_clock,ping "
+       . "dt, numreset, s.description, sw_version,os_type,runtime_cpu,runtime_clock,ping "
        . "from DBNAME.qcn_trigger t, DBNAME.qcn_sensor s where t.type_sensor=s.id and hostid=$hostid order by time_trigger desc limit 50";
    $result=$db->do_query($sql);
    echo "<H2>$heading</H2>\n";
@@ -410,13 +410,14 @@ function show_trigger($hostid, $heading, $private=true)
              <th>Num Reset</th>
              <th>Sensor Type</th>
              <th>Version</th>
+             <th>OS</th>
              <th>WU CPU Time</th>
              <th>WU Run Time</th>
          </tr>";
 
    if ($result && mysql_num_rows($result)>0) {  // we found some records
       while($row=mysql_fetch_array($result)) {
-         if ($row[16]) { // it's a ping record
+         if ($row[17]) { // it's a ping record
            echo "\n<tr bgcolor=\"#AAAAFF\">";
          } 
          else {
@@ -438,6 +439,7 @@ function show_trigger($hostid, $heading, $private=true)
                    <td>$row[13]</td>
                    <td>$row[14]</td>
                    <td>$row[15]</td>
+                   <td>$row[16]</td>
               </tr>";
       }
    }

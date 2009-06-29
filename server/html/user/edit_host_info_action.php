@@ -1,7 +1,7 @@
 <?php
 
 // the below function is quite similar to the validate_form from edit_host_info_form.php, but conforms to PHP rather than javascript
-function validate_form_line($testlat, $testlng, $testip, &$errmsg)
+function validate_form_line($testlat, $testlng, $testip, $testlevel, &$errmsg)
 { // check ip addresses, lat & lng
      for ($i = 0; $i < 5; $i++) {
        if ($testlat < -90 || $testlat > 90) {
@@ -16,6 +16,11 @@ function validate_form_line($testlat, $testlng, $testip, &$errmsg)
            $errmsg = "Latitude/Longitude pair is invalid, i.e. one is blank";
            return false;
        }
+       if ($testlevel < 0 || $testlevel > $_POST["txthidLEVEL"]) {
+           $errmsg = "Incorrect level type chosen";
+           return false;
+       }
+
        // now test IP address of form A.B.C.D or A.B.C (we just want A.B.C)
        if ($testip) {
          $iparr = explode(".", $testip);
@@ -84,7 +89,7 @@ if (!$hostid || $host->userid != $user->id)
 for ($i = 0; $i < 5; $i++)
 {
    $errmsg = "";
-   if (!validate_form_line($_POST["lat" . $i], $_POST["lng" . $i], $_POST["ipa" . $i], $errmsg)) {
+   if (!validate_form_line($_POST["lat" . $i], $_POST["lng" . $i], $_POST["ipa" . $i], $_POST["lvlt" . $i], $errmsg)) {
       qcn_host_edit_error_page("Invalid Data Entry", $errmsg);
    }
 }
@@ -113,10 +118,13 @@ for ($i = 0; $i < 5; $i++) {
   if ($_POST["lat" . $i] || $_POST["ipa" . $i]) {
     $loc = $db->base_escape_string($_POST["lnm" . $i]);
 
-    $sql = "(hostid, ipaddr, location, latitude, longitude) "
+    $sql = "(hostid, ipaddr, location, latitude, longitude, levelvalue, levelid) "
        . " values (" . $host->id . ",'" . $db->base_escape_string($ipaddr) . "','" . $loc . "',"
        . $db->base_escape_string($_POST["lat" . $i]) . ", "
-       . $db->base_escape_string($_POST["lng" . $i]) . ")";
+       . $db->base_escape_string($_POST["lng" . $i]) . ", "
+       . $db->base_escape_string($_POST["lvlv" . $i]) . ", "
+       . $db->base_escape_string($_POST["lvlt" . $i]) 
+       . ")";
 
     //echo $sql;
     $retval = $db->insert("qcn_host_ipaddr", $sql);

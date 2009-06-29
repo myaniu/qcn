@@ -42,6 +42,20 @@ if (!$hostid || $host->userid != $user->id)
    exit();
 }
 
+// first off get the sensor types
+$sqlsensor = "select id,description from qcn_level order by id";
+$result = mysql_query($sqlsensor);
+$i = 0;
+$arrLevel = array();
+if ($result) {
+    while ($res = mysql_fetch_array($result)) {
+       $arrLevel[$i] = $res;
+       $i++;
+    }
+    mysql_free_result($result);
+}
+$clvlmax = sizeof($arrLevel) - 1;
+
 // get host qcn_showhostlocation info
 $result = $db->do_query("select count(hostid) from qcn_showhostlocation where hostid=" . $db->base_escape_string($hostid));
   if ($result && mysql_num_rows($result)>0) {  // we found some records
@@ -118,6 +132,8 @@ if (!$hll || !$buserset)
    $hll[$hllsize][2] = "geoip";
    $hll[$hllsize][3] = $startlat;
    $hll[$hllsize][4] = $startlng;
+   $hll[$hllsize][5] = "";
+   $hll[$hllsize][6] = 0;
    $hllsize++; // increment size of hll
    $bnewuser = true;
 }
@@ -183,7 +199,7 @@ echo "
 
 echo "<form method=post action=edit_host_info_action.php onsubmit=\"return validate_form(this)\">";
 
-$COLSPAN = "colspan=8";
+$COLSPAN = "colspan=9";
 
 start_table();
 echo "<tr><td $COLSPAN>Enter Up To Five Locations for Your Computer ID # <B>" . $host->id . "</B> Named:  <b>" . $host->domain_name . "</b><BR>\n";
@@ -197,6 +213,7 @@ echo "<tr><td $COLSPAN></td></tr>\n";
 echo "<tr><td $COLSPAN>Use the following box to lookup an address (i.e. 360 Panama Mall, Stanford, CA)</td></tr>\n";
 echo "<tr><td $COLSPAN width=\"50\"><input type=\"text\" name=\"addrlookup\" id=\"addrlookup\" size=50 value=\"\"> <input type=\"button\" name=\"btnaddress\" id=\"btnaddress\" onclick=\"clickedAddressLookup(addrlookup.value)\" value=\"Lookup Address\" size=20></td></tr>\n";
 echo "<tr><td $COLSPAN>Try to be as accurate as possible with your location using the Google Map provided.  It will help us pinpoint events!<BR>\n";
+echo "<tr><td $COLSPAN>You can also optionally enter a height/floor level.  This can be useful for building studies.  You can select your preferred level entry (i.e. floor number or height in feet or meters above ground level or sea level.<BR>\n";
 echo "<BR>Select a different marker for each separate location you want to add - when you are done click the 'Update Info' button.<BR>";
 echo "<BR>Tip: You can add a single entry (without an IP address) to always use a particular location for your machine (e.g. in case you always/only run QCN at home for example).<BR>\n";
 echo "</td></tr>\n";
@@ -205,7 +222,7 @@ if ($bnewuser) {
   echo "\n<tr><td $COLSPAN><font color=red>Note that the first row is set based on a guess based on your current IP address, this is not saved until you confirm by pressing the 'Update Info' button</font></td</tr>\n";
 }
  
-echo "\n<tr><th width=\"5\">Select</th><th>Location Name (optional)</th><th>Latitude</th><th>Longitude</th><th>Net (IP) Addr</th><th>Set Net  Addr</th><th>Clear Net Addr</th></tr>\n";
+echo "\n<tr><th width=\"5\">Select</th><th>Location Name (optional)</th><th>Latitude</th><th>Longitude</th><th>Level (Height)</th><th>Level Type</th><th>Net (IP) Addr</th><th>Set Net  Addr</th><th>Clear Net Addr</th></tr>\n";
 
 for ($i=0; $i<5; $i++)
 {
@@ -226,6 +243,20 @@ for ($i=0; $i<5; $i++)
             </td>
             <td width=\"20\"><input type=\"text\" name=\"lng" . $i . "\" id=\"lng" . $i . "\" size=15 value=\"" . $hll[$i][4] . "\">
             </td>
+            <td width=\"20\"><input type=\"text\" name=\"lvlv" . $i . "\" id=\"lvlv" . $i . "\" size=15 value=\"" . $hll[$i][5] . "\">
+            </td>";
+
+       echo "
+            <td width=\"20\"><select name=\"lvlt" . $i . "\" id=\"lvlt" . $i . "\" >";
+
+         for ($jj = 0; $jj <= $clvlmax; $jj++)  {
+            echo "<option value=" . $arrLevel[$jj][0];
+            if ($hll[$i][6] == $arrLevel[$jj][0]) echo " selected";
+            echo ">" . $arrLevel[$jj][1] . "\n";
+          }
+
+          echo "</select>
+            </td>
             <td width=\"20\"><input type=\"text\" name=\"ipa" . $i . "\" id=\"ipa" . $i . "\" size=15 value=\"" . $hll[$i][1] . "\">
             </td>
           ";
@@ -237,6 +268,19 @@ for ($i=0; $i<5; $i++)
             </td>
             <td width=\"20\"><input type=\"text\" name=\"lng" . $i . "\" id=\"lng" . $i . "\" size=15 value=\"\">
             </td>
+            <td width=\"20\"><input type=\"text\" name=\"lvlv" . $i . "\" id=\"lvlv" . $i . "\" size=15 value=\"\">
+            </td>";
+
+       echo "
+            <td width=\"20\"><select name=\"lvlt" . $i . "\" id=\"lvlt" . $i . "\" >";
+
+         for ($jj = 0; $jj <= $clvlmax; $jj++)  {
+            echo "<option value=" . $arrLevel[$jj][0];
+            //if ($hll[$i][5] == $arrLevel[$jj][0]) echo " selected";
+            echo ">" . $arrLevel[$jj][1] . "\n";
+          }
+
+          echo "</select></td>
             <td width=\"20\"><input type=\"text\" name=\"ipa" . $i . "\" id=\"ipa" . $i . "\" size=15 value=\"\">
             </td>
           ";
@@ -280,6 +324,7 @@ end_table();
 echo "   <input type=\"hidden\" name=\"txthidMAPEXACT\" id=\"txthidMAPEXACT\" value=\"" . $bMapExact . "\">\n";
 echo "   <input type=\"hidden\" name=\"txthidHOST\" id=\"txthidHOST\" value=\"" . $host->id . "\">\n";
 echo "   <input type=\"hidden\" name=\"txthidIP\" id=\"txthidIP\" value=\"" . $_SERVER['REMOTE_ADDR'] . "\">\n";
+echo "   <input type=\"hidden\" name=\"txthidLEVEL\" id=\"txthidLEVEL\" value=\"" . $clvlmax . "\">\n";
 echo "</form>\n";
 
 //include "./temp_bot.php";
