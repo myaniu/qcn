@@ -203,19 +203,22 @@ $COLSPAN = "colspan=9";
 
 start_table();
 echo "<tr><td $COLSPAN>Enter Up To Five Locations for Your Computer ID # <B>" . $host->id . "</B> Named:  <b>" . $host->domain_name . "</b><BR>\n";
-echo "<BR>You can also (optionally) enter an IP (network) address to associate with/map to this location, and help us sync up your triggers with the lat/long.
-  This allows us to make more accurate calculations with the seismic trigger data received.<BR>\n";
-echo "<BR><i>We only store the first 3 bytes of your IP address, and never store any address information.  All information is used solely to track seismic events for your area and will not be sold or shared with any other party.  ";
-echo "If you don't add any information, we will use an IP/Lat/Lng lookup as a default; this will be shown at the bottom of this page as triggers occur.</i>\n";
 echo "</td></tr>\n";
 echo "<tr><td $COLSPAN><div id=\"map\" style=\"width: 640px; height: 480px\"></div></td></tr>\n";
 echo "<tr><td $COLSPAN></td></tr>\n";
 echo "<tr><td $COLSPAN>Use the following box to lookup an address (i.e. 360 Panama Mall, Stanford, CA)</td></tr>\n";
 echo "<tr><td $COLSPAN width=\"50\"><input type=\"text\" name=\"addrlookup\" id=\"addrlookup\" size=50 value=\"\"> <input type=\"button\" name=\"btnaddress\" id=\"btnaddress\" onclick=\"clickedAddressLookup(addrlookup.value)\" value=\"Lookup Address\" size=20></td></tr>\n";
 echo "<tr><td $COLSPAN>Try to be as accurate as possible with your location using the Google Map provided.  It will help us pinpoint events!<BR>\n";
-echo "<tr><td $COLSPAN>You can also optionally enter a height/floor level.  This can be useful for building studies.  You can select your preferred level entry (i.e. floor number or height in feet or meters above ground level or sea level.<BR>\n";
-echo "<BR>Select a different marker for each separate location you want to add - when you are done click the 'Update Info' button.<BR>";
+echo "Use a different colored marker (selected below) to search and add a new potential location for this computer.<BR><BR>";
+echo "You can also (optionally) enter an IP (network) address to associate with/map to this location, and help us sync up your triggers with the lat/long.
+  This allows us to make more accurate calculations with the seismic trigger data received.<BR>";
+echo "<BR><i>We only store the first 3 bytes of your IP address, and never store any address information.  All information is used solely to track seismic events for your area and will not be sold or shared with any other party.  ";
+echo "If you don't add any information, we will use an IP/Lat/Lng lookup as a default; this will be shown at the bottom of this page as triggers occur.</i>\n";
 echo "<BR>Tip: You can add a single entry (without an IP address) to always use a particular location for your machine (e.g. in case you always/only run QCN at home for example).<BR>\n";
+echo "<BR>If you add multiple locations, they should each have an IP address to associate, or if one is left blank, QCN will always use that location (so you could set one location blank when you move, and QCN will use that instead of relying on IP address matching.<BR>";
+echo "You can also optionally enter a height/floor level.  This can be useful for building studies.  You can select your preferred level entry (i.e. floor number or height in feet or meters above ground level or sea level.  \n";
+  echo "As an example if your computer/sensor is in your basement you may want to enter -1 and then select the Floor so we know that your units are in floors.  If you know it is 65.5 feet above ground level, put in 65.5 and select Feet.<BR>\n";
+echo "<BR>Select a different marker for each separate location you want to add - when you are done click the 'Update Info' button.<BR>";
 echo "</td></tr>\n";
  
 if ($bnewuser) {

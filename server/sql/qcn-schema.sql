@@ -18,8 +18,8 @@ insert into qcn_sensor values (8, 1, 'MotionNode Accel USB');
 
 create table qcn_level (id smallint not null primary key, description varchar(64));
 insert into qcn_level values (0, 'N/A');
-insert into qcn_level values (1, 'Floor (+/- above/below surface');
-insert into qcn_level values (2, 'Meters (above/below surface');
+insert into qcn_level values (1, 'Floor (+/- above/below surface)');
+insert into qcn_level values (2, 'Meters (above/below surface)');
 insert into qcn_level values (3, 'Feet (above/below surface)');
 insert into qcn_level values (4, 'Elevation - meters above sea level');
 

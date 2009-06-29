@@ -55,7 +55,8 @@ function validate_form_line($testlat, $testlng, $testip, $testlevel, &$errmsg)
 function qcn_host_edit_error_page($errheader, $errtext)
 {
    page_head($errheader);
-   echo "<BR>" . $errtext . "<BR>";
+   echo "<BR>" . $errtext . "<BR><BR>";
+   echo "<FORM><INPUT TYPE=\"button\" VALUE=\"Back\" onClick=\"history.go(-1);return true;\"> </FORM>";
    page_tail();
    exit();
 }
@@ -90,7 +91,7 @@ for ($i = 0; $i < 5; $i++)
 {
    $errmsg = "";
    if (!validate_form_line($_POST["lat" . $i], $_POST["lng" . $i], $_POST["ipa" . $i], $_POST["lvlt" . $i], $errmsg)) {
-      qcn_host_edit_error_page("Invalid Data Entry", $errmsg);
+      qcn_host_edit_error_page("Invalid Data Entry", $errmsg . "<BR><BR>Use the 'Back' button below or in your browser to check your settings/choices and try again.");
    }
 }
 
@@ -100,7 +101,7 @@ for ($i = 0; $i < 5; $i++)
 $db = BoincDb::get();
 $retval = $db->delete_aux("qcn_host_ipaddr", "hostid=" . $db->base_escape_string($host->id) . " AND geoipaddrid=0");
 if (!$retval) { // error, just return
-   qcn_host_edit_error_page("Database Error", "Error in deleting your old IP/Lat/Lng Records, Try Again Later!");
+   qcn_host_edit_error_page("Database Error", "Error in deleting your old IP/Lat/Lng Records!<BR><BR>Use the 'Back' button below or in your browser to check your settings/choices and try again.<BR>");
 }
 
 // now insert each new line
@@ -134,7 +135,7 @@ for ($i = 0; $i < 5; $i++) {
 
     if (!$retval) { // error, just return
       //echo "<BR><BR>" . $sql . "<BR><BR>";
-      qcn_host_edit_error_page("Database Error", "Error in inserting your new IP/Lat/Lng Records, Try Again Later!");
+      qcn_host_edit_error_page("Database Error", "Error in inserting your new IP/Lat/Lng Records!<BR><BR>Use the 'Back' button below or in your browser to check your settings/choices and try again.<BR><BR>Note: if you get a 'Duplicate Entry' error - you most likely have entered locations<BR>with the IP addresses left blank (only one blank allowed) or with the same <BR>IP addresses (remember it's just the first 3 bytes/parts of the IP address - <BR>so 121.2.3.4 and 121.2.3.5 count as the same IP address for QCN).");
     }
   }
 }
