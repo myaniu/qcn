@@ -76,7 +76,7 @@ def processSingleZipFile(dbconn, myzipfile):
             outfile = open(os.path.join(UPLOAD_USB_WEB_DIR, name), 'wb')
             outfile.write(myzip.read(name))
             outfile.close()
-        elif name.startsswith("continual_"):
+        elif name.startswith("continual_"):
             # this is an upload from a usb test zip file
             outfile = open(os.path.join(UPLOAD_CONTINUAL_WEB_DIR, name), 'wb')
             outfile.write(myzip.read(name))
