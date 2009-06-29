@@ -10,7 +10,7 @@
     <cgi_url>http://qcn.stanford.edu/sensor_cgi/</cgi_url>
     <msg_to_host/>
     <sched_debug_level>
-      5
+      0
     </sched_debug_level>
     <debug_send/>
     <debug_version_select/>
@@ -42,7 +42,6 @@
       http://qcn.stanford.edu/sensor_cgi/file_upload_handler
     </upload_url>
     <db_passwd>
-      pwd
     </db_passwd>
     <db_host>
       db-private
