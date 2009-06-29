@@ -3,6 +3,7 @@ drop table if exists qcn_trigger;
 drop table if exists qcn_geo_ipaddr;
 drop table if exists usgs_quake;
 drop table if exists qcn_sensor;
+drop table if exists qcn_level;
 
 create table qcn_sensor (id smallint not null primary key, is_usb boolean not null default 0, description varchar(64));
 insert into qcn_sensor values (0, 0, 'Not Found');
