@@ -130,7 +130,7 @@ for ($i = 0; $i < 5; $i++) {
     $retval = $db->insert("qcn_host_ipaddr", $sql);
 
     if (!$retval) { // error, just return
-      echo "<BR><BR>" . $sql . "<BR><BR>";
+      //echo "<BR><BR>" . $sql . "<BR><BR>";
       qcn_host_edit_error_page("Database Error", "Error in inserting your new IP/Lat/Lng Records, Try Again Later!");
     }
   }
