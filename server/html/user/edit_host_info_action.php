@@ -121,15 +121,16 @@ for ($i = 0; $i < 5; $i++) {
     $sql = "(hostid, ipaddr, location, latitude, longitude, levelvalue, levelid) "
        . " values (" . $host->id . ",'" . $db->base_escape_string($ipaddr) . "','" . $loc . "',"
        . $db->base_escape_string($_POST["lat" . $i]) . ", "
-       . $db->base_escape_string($_POST["lng" . $i]) . ", "
-       . $db->base_escape_string($_POST["lvlv" . $i]) . ", "
-       . $db->base_escape_string($_POST["lvlt" . $i]) 
+       . $db->base_escape_string($_POST["lng" . $i]) . ", '"
+       . $db->base_escape_string($_POST["lvlv" . $i]) . "', '"
+       . $db->base_escape_string($_POST["lvlt" . $i])  . "'"
        . ")";
 
     //echo $sql;
     $retval = $db->insert("qcn_host_ipaddr", $sql);
 
     if (!$retval) { // error, just return
+      echo "<BR><BR>" . $sql . "<BR><BR>";
       qcn_host_edit_error_page("Database Error", "Error in inserting your new IP/Lat/Lng Records, Try Again Later!");
     }
   }
