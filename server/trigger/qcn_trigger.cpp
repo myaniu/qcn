@@ -69,7 +69,8 @@
  magnitude      double       YES        NULL            
  latitude       double       YES        NULL            
  longitude      double       YES        NULL            
- depth_km       double       YES        NULL            
+ levelvalue     float        YES        NULL            
+ levelid        smallint     YES        NULL            
  file           varchar(64)  YES        NULL            
  dt             float        YES        NULL            
  numreset       int(6)       YES        NULL            
@@ -166,7 +167,7 @@ int handle_qcn_trigger(const DB_MSG_FROM_HOST* pmfh, bool bPing)
      strcpy(qtrig.file_url,"");
      qtrig.depth_km = 0;
 
-     // so it's really latitude, longitude and ipaddr left to add to qcn_trigger object & database table
+     // so it's really latitude, longitude, levelvalue, levelid and ipaddr left to add to qcn_trigger object & database table
 
      // let's get the proper ipaddr form
      // don't forget we only "count" the first three bytes of an IP address, so process strIP for qtrig.ipaddr...
@@ -199,7 +200,7 @@ int handle_qcn_trigger(const DB_MSG_FROM_HOST* pmfh, bool bPing)
      strcpy(qgip.ipaddr, qtrig.ipaddr);
 
      log_messages.printf(
-           SCHED_MSG_LOG::MSG_NORMAL,
+           SCHED_MSG_LOG::MSG_DEBUG,
            "[QCN] [HOST#%d] [RESULTNAME=%s] [TIME=%lf] Processing QCN %s trickle message from IP %s\n",
            qtrig.hostid, qtrig.result_name, qtrig.time_received, bPing ? "ping" : "trigger", qtrig.ipaddr
      );
@@ -243,7 +244,7 @@ int handle_qcn_trigger(const DB_MSG_FROM_HOST* pmfh, bool bPing)
                  iRetVal = qtrig.insert();  // note if the insert fails, return code will be set and returned below
                  if (!iRetVal) { // trigger got in OK
                     log_messages.printf(
-                          SCHED_MSG_LOG::MSG_NORMAL,
+                          SCHED_MSG_LOG::MSG_DEBUG,
                           "[QCN] [HOST#%d] [RESULTNAME=%s] [TIME=%lf] [1] Trigger inserted after qcn_host_ipaddr lookup of blank IP, mag=%lf at (%lf, %lf)!\n",
                           qtrig.hostid, qtrig.result_name, qtrig.time_received, qtrig.magnitude, qtrig.latitude, qtrig.longitude
                     );
@@ -263,10 +264,12 @@ int handle_qcn_trigger(const DB_MSG_FROM_HOST* pmfh, bool bPing)
            // copy over the lat/lng for this record into qtrig
            qtrig.latitude  = qhip.latitude;
            qtrig.longitude = qhip.longitude;
+           qtrig.levelvalue = qhip.levelvalue;
+           qtrig.levelid = qhip.levelid;
            iRetVal = qtrig.insert();  // note if the insert fails, return code will be set and returned below, for update later
            if (!iRetVal) { // trigger got in OK
                 log_messages.printf(
-                  SCHED_MSG_LOG::MSG_NORMAL,
+                  SCHED_MSG_LOG::MSG_DEBUG,
                   "[QCN] [HOST#%d] [RESULTNAME=%s] [TIME=%lf] [1] Trigger inserted after qcn_host_ipaddr lookup of IP %s, mag=%lf at (%lf, %lf) - sync offset %f at %f!\n",
                   qtrig.hostid, qtrig.result_name, qtrig.time_received, qtrig.ipaddr, qtrig.magnitude, qtrig.latitude, qtrig.longitude, qtrig.sync_offset, qtrig.time_sync
                 );
@@ -372,6 +375,10 @@ int lookupGeoIPWebService(
                                     qhip.longitude   = qgip.longitude;
                                     qtrig.latitude   = qgip.latitude;
                                     qtrig.longitude  = qgip.longitude;
+                                    qhip.levelvalue = 0;
+                                    qhip.levelid    = 0;
+                                    qtrig.levelvalue = 0;
+                                    qtrig.levelid    = 0;
                                     iReturn = qhip.insert();
                                     if (!iReturn) { // success, insert trigger, if fails retcode sent below
                                         iReturn = qtrig.insert();
@@ -384,7 +391,7 @@ int lookupGeoIPWebService(
                                         }
                                         else {
                                             log_messages.printf(
-                                              SCHED_MSG_LOG::MSG_NORMAL,
+                                              SCHED_MSG_LOG::MSG_DEBUG,
                                               "[QCN] [HOST#%d] [RESULTNAME=%s] [TIME=%lf] [2] Maxmind/GeoIP web lookup -- trigger %s insert success\n",
                                               qtrig.hostid, qtrig.result_name, qtrig.time_received, qtrig.ipaddr
                                             );
@@ -431,12 +438,16 @@ int lookupGeoIPWebService(
                        qhip.longitude   = qgip.longitude;
                        qtrig.latitude   = qgip.latitude;
                        qtrig.longitude  = qgip.longitude;
+                       qhip.levelvalue = 0;
+                       qhip.levelid    = 0;
+                       qtrig.levelvalue = 0;
+                       qtrig.levelid    = 0;
 
                        iReturn = qhip.insert();  // note if the insert fails, return code will be set and returned below
                        if (!iReturn) iReturn = qtrig.insert();  // note if the insert fails, return code will be set and returned below
                        if (!iReturn) { // trigger got in OK
                            log_messages.printf(
-                             SCHED_MSG_LOG::MSG_NORMAL,
+                             SCHED_MSG_LOG::MSG_DEBUG,
                              "[QCN] [HOST#%d] [RESULTNAME=%s] [TIME=%lf] [3] Trigger inserted after qcn_geo_ipaddr lookup; mag=%lf at (%lf, %lf) - sync offset %f at %f!\n",
                              qtrig.hostid, qtrig.result_name, qtrig.time_received, qtrig.magnitude, qtrig.latitude, qtrig.longitude, qtrig.sync_offset, qtrig.time_sync
                            );

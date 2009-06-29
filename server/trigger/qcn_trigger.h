@@ -70,6 +70,8 @@ struct QCN_HOST_IPADDR
     char location[32];
     double latitude;
     double longitude;
+    float levelvalue;
+    int levelid;
     int geoipaddrid;
 };
 
@@ -99,7 +101,8 @@ struct QCN_TRIGGER
     double magnitude;
     double latitude;
     double longitude;
-    double depth_km;
+    float  levelvalue;
+    int levelid
     char file[64];
     double dt;
     int numreset;
@@ -132,8 +135,10 @@ public:
         "location='%s',"
         "latitude=%f,"
         "longitude=%f,"
+        "levelvalue=%f,"
+        "levelid=%d,"
         "geoipaddrid=%d",
-        hostid, ipaddr, location, latitude, longitude, geoipaddrid
+        hostid, ipaddr, location, latitude, longitude, levelvalue, levelid, geoipaddrid
       );
     }
 
@@ -147,6 +152,8 @@ public:
       strcpy2(location, r[i++]);
       latitude = safe_atof(r[i++]);
       longitude = safe_atof(r[i++]);
+      levelvalue = safe_atof(r[i++]);
+      levelid = safe_atoi(r[i++]);
       geoipaddrid = safe_atoi(r[i++]);
     }
 };
@@ -220,7 +227,8 @@ public:
         "magnitude=%f,"
         "latitude=%f,"
         "longitude=%f,"
-        "depth_km=%f,"
+        "levelvalue=%f,"
+        "levelid=%d,"
         "file='%s',"
         "dt=%f,"
         "numreset=%d,"
@@ -234,7 +242,7 @@ public:
         "runtime_cpu=%f,"
         "ping=%d",
         hostid, ipaddr, result_name, time_trigger, time_sync, sync_offset,
-        significance, magnitude, latitude, longitude, depth_km, file, dt, numreset, type_sensor, sw_version, os_type,
+        significance, magnitude, latitude, longitude, levelvalue, levelid, file, dt, numreset, type_sensor, sw_version, os_type,
         usgs_quakeid, received_file, file_url, runtime_clock, runtime_cpu, ping
       );
     }
@@ -255,7 +263,8 @@ public:
       magnitude = safe_atof(r[i++]);
       latitude = safe_atof(r[i++]);
       longitude = safe_atof(r[i++]);
-      depth_km = safe_atof(r[i++]);
+      levelvalue = safe_atof(r[i++]);
+      levelid = safe_atoi(r[i++]);
       strcpy2(file, r[i++]);
       dt = safe_atof(r[i++]);
       numreset = safe_atoi(r[i++]);
