@@ -23,7 +23,7 @@ URL_DOWNLOAD_BASE = "http://qcn-upl.stanford.edu/trigger/"
 UPLOAD_WEB_DIR = "/var/www/trigger/"
 UPLOAD_USB_WEB_DIR = "/var/www/trigger/usb/"
 UPLOAD_CONTINUAL_WEB_DIR = "/var/www/trigger/continual/"
-UPLOAD_BOINC_DIR = "/var/www/boinc/qcnalpha/upload/"
+UPLOAD_BOINC_DIR = "/var/www/boinc/qcn/upload/"
 UPLOAD_BACKUP_DIR = "/home/boinc/upload_backup/"
 UNZIP_CMD = "/usr/bin/unzip -o -d " + UPLOAD_WEB_DIR + " " 
 
