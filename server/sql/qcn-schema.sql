@@ -22,6 +22,7 @@ insert into qcn_level values (1, 'Floor (+/- above/below surface)');
 insert into qcn_level values (2, 'Meters (above/below surface)');
 insert into qcn_level values (3, 'Feet (above/below surface)');
 insert into qcn_level values (4, 'Elevation - meters above sea level');
+insert into qcn_level values (5, 'Elevation - feet above sea level');
 
 create table qcn_host_ipaddr
 (
