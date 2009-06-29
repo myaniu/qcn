@@ -117,14 +117,17 @@ for ($i = 0; $i < 5; $i++) {
 
   if ($_POST["lat" . $i] || $_POST["ipa" . $i]) {
     $loc = $db->base_escape_string($_POST["lnm" . $i]);
-
+    $lvlv = $db->base_escape_string($_POST["lvlv" . $i]);
+    $lvlt = $db->base_escape_string($_POST["lvlt" . $i]);
+    if ($lvlv == "" || $lvlt == "" || $lvlt == 0) {
+       $lvlv = "NULL";
+       $lvlt = "NULL";
+    }
     $sql = "(hostid, ipaddr, location, latitude, longitude, levelvalue, levelid) "
        . " values (" . $host->id . ",'" . $db->base_escape_string($ipaddr) . "','" . $loc . "',"
        . $db->base_escape_string($_POST["lat" . $i]) . ", "
-       . $db->base_escape_string($_POST["lng" . $i]) . ", '"
-       . $db->base_escape_string($_POST["lvlv" . $i]) . "', '"
-       . $db->base_escape_string($_POST["lvlt" . $i])  . "'"
-       . ")";
+       . $db->base_escape_string($_POST["lng" . $i]) . ", "
+       . $lvlv . ", " . $lvlt . ")";
 
     //echo $sql;
     $retval = $db->insert("qcn_host_ipaddr", $sql);
