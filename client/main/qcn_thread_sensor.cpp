@@ -67,13 +67,13 @@ void checkDemoTrigger(bool bForce)
 {
     // check with adjusted server time if we went past a 10-minute even boundary
     // here's the annoying bit, we have to keep checking the server adjusted time and then break out to do a trigger, then bump up to next boundary
-    if (g_dStartDemoTime > 0.0f) { // we have a valid start time
+    if (bForce || g_dStartDemoTime > 0.0f) { // we have a valid start time
        //double dTimeOffset, dTimeOffsetTime;      
        //qcn_util::getTimeOffset((const double*) sm->dTimeServerTime, (const double*) sm->dTimeServerOffset, (const double) sm->t0active, dTimeOffset, dTimeOffsetTime);
        if (bForce || ((sm->t0active + qcn_main::g_dTimeOffset) >= g_dStartDemoTime))  { // OK, this time matches what we wanted, so do a trigger now!
           g_lDemoOffsetEnd = sm->lOffset; 
-		  // send a trigger -- if continual mode it will be true, so processed as a normal trigger (i.e. send a trickle at this time)
-		  doTrigger(qcn_main::g_bContinual, g_lDemoOffsetStart, g_lDemoOffsetEnd);  // note we're passing in the offset which is just before the next 10 minute period
+	  // send a trigger -- if continual mode it will be true, so processed as a normal trigger (i.e. send a trickle at this time)
+          doTrigger(qcn_main::g_bContinual, g_lDemoOffsetStart, g_lDemoOffsetEnd);  // note we're passing in the offset which is just before the next 10 minute period
           g_lDemoOffsetStart = sm->lOffset; // set next start point
           g_dStartDemoTime = getNextDemoTimeInterval();  // set next time break point
        }
@@ -699,7 +699,7 @@ extern void* QCNThreadSensor(void*)
 
       // if we've hit a boundary for Demo SAC output (currently 10 minutes) force a "trigger" (writes 0-10 minutes of data)
       // put the demo start time on an even time boundary i.e. every 10 minutes from midnight
-		if (qcn_main::g_bDemo || qcn_main::g_bContinual) { // have to check versus ntpd server time
+      if (qcn_main::g_bDemo || qcn_main::g_bContinual) { // have to check versus ntpd server time
            if (g_dStartDemoTime == 0.0f && sm->lOffset > (300.0 / sm->dt)) {
              // five minutes has gone by from start of calibration, long enough for ntpd lookup to have finished with one retry if first failed
              g_dStartDemoTime = getNextDemoTimeInterval();
@@ -707,7 +707,7 @@ extern void* QCNThreadSensor(void*)
            // check with adjusted server time if we went past a 10-minute even boundary
            // here's the annoying bit, we have to keep checking the server adjusted time and then break out to do a trigger, then bump up to next boundary
            checkDemoTrigger();  // put all the triggering stuff for demo mode in this function as we may want to call it on a timing reset too
-        }
+      }
 
 #ifdef _DEBUG
       DebugTime(4);
@@ -715,6 +715,9 @@ extern void* QCNThreadSensor(void*)
     }  // outermost while loop
 
 done: // ending, perhaps from a g_iStop request in the wxWidgets myApp::OnExit()
+    if (qcn_main::g_iQCNReturn == ERR_NONE && qcn_main::g_bContinual) { // we're at the end of the workunit, so force a demo trigger for final upload
+       checkDemoTrigger(true);  // put all the triggering stuff for demo mode in this function as we may want to call it on a timing reset too
+    }
     if (qcn_main::g_psms) {
          qcn_main::g_psms->closePort();  // close the port, it will be reopened above
          delete qcn_main::g_psms;
