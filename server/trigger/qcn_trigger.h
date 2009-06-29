@@ -102,7 +102,7 @@ struct QCN_TRIGGER
     double latitude;
     double longitude;
     float  levelvalue;
-    int levelid
+    int levelid;
     char file[64];
     double dt;
     int numreset;

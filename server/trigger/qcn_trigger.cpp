@@ -155,17 +155,18 @@ int handle_qcn_trigger(const DB_MSG_FROM_HOST* pmfh, bool bPing)
        // so at this point, for qtrig we lack:
        latitude       double       YES        NULL            
        longitude      double       YES        NULL            
-       depth_km       double       YES        NULL            
+       levelvalue     float        YES        NULL            
+       levelid        smallint     YES        NULL            
        ipaddr         varchar(32)
        received_file & file_url & usgs_quakeid should be null
      */
 
      // eventid & usgsid will be used later, in case we want to tie in some usgs or other event id to this trigger
-     // also depth_km would be added later
      qtrig.usgs_quakeid   = 0;
      qtrig.received_file = 0;
      strcpy(qtrig.file_url,"");
-     qtrig.depth_km = 0;
+     qtrig.levelvalue = 0;
+     qtrig.levelid    = 0;
 
      // so it's really latitude, longitude, levelvalue, levelid and ipaddr left to add to qcn_trigger object & database table
 
