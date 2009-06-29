@@ -128,17 +128,28 @@ public:
     int get_id() {return id;}
 
     void db_print(char* buf)
-    {
+    { 
+      char strLevelValue[32], strLevelID[16];
+      if (levelid==0) {
+        strcpy(strLevelValue, "NULL");
+        strcpy(strLevelID, "NULL");
+      }
+      else {
+        sprintf(strLevelValue, "%f", levelvalue);
+        sprintf(strLevelID, "%d", levelid);
+      }
       sprintf(buf,
         "hostid=%d,"
         "ipaddr='%s',"
         "location='%s',"
         "latitude=%f,"
         "longitude=%f,"
-        "levelvalue=%f,"
-        "levelid=%d,"
+        "levelvalue=%s,"
+        "levelid=%s,"
         "geoipaddrid=%d",
-        hostid, ipaddr, location, latitude, longitude, levelvalue, levelid, geoipaddrid
+        hostid, ipaddr, location, latitude, longitude, 
+          strLevelValue, strLevelID,
+        geoipaddrid
       );
     }
 
@@ -215,6 +226,15 @@ public:
 
     void db_print(char* buf)
     {
+      char strLevelValue[32], strLevelID[16];
+      if (levelid==0) {
+        strcpy(strLevelValue, "NULL");
+        strcpy(strLevelID, "NULL");
+      }
+      else {
+        sprintf(strLevelValue, "%f", levelvalue);
+        sprintf(strLevelID, "%d", levelid);
+      }
       sprintf(buf,
         "hostid=%d,"
         "ipaddr='%s',"
@@ -227,8 +247,8 @@ public:
         "magnitude=%f,"
         "latitude=%f,"
         "longitude=%f,"
-        "levelvalue=%f,"
-        "levelid=%d,"
+        "levelvalue=%s,"
+        "levelid=%s,"
         "file='%s',"
         "dt=%f,"
         "numreset=%d,"
@@ -242,7 +262,7 @@ public:
         "runtime_cpu=%f,"
         "ping=%d",
         hostid, ipaddr, result_name, time_trigger, time_sync, sync_offset,
-        significance, magnitude, latitude, longitude, levelvalue, levelid, file, dt, numreset, type_sensor, sw_version, os_type,
+        significance, magnitude, latitude, longitude, strLevelValue, strLevelID, file, dt, numreset, type_sensor, sw_version, os_type,
         usgs_quakeid, received_file, file_url, runtime_clock, runtime_cpu, ping
       );
     }
