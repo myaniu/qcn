@@ -10,7 +10,7 @@
     <cgi_url>http://qcn.stanford.edu/sensor_cgi/</cgi_url>
     <msg_to_host/>
     <sched_debug_level>
-      0
+      1
     </sched_debug_level>
     <debug_send/>
     <debug_version_select/>
