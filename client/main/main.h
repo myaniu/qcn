@@ -128,7 +128,7 @@ extern int qcn_main(int argc, char **argv);
 */
 void signal_handler(int iSignal);
 extern void parseArgs(int argc, char*argv[]); // startup arguments such as --demo and --dump are found here
-extern void doMainQuit(const bool& bFinish = false, const int& errcode = 0);
+extern void doMainQuit(const bool& bFinish = false, const e_retcode& errcode = ERR_NONE);
 
 #ifndef QCN_USB
 bool CheckTriggers(bool bForce);

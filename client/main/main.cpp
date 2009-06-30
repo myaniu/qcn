@@ -149,13 +149,19 @@ void sendFinalTrickle()
 }
 
 // simple function to set stop state & wait for threads to quit
-void doMainQuit(const bool& bFinish, const int& errcode)
+void doMainQuit(const bool& bFinish, const e_retcode& errcode)
 {
   static bool bDone = false;
-  if (bDone) return; // already did this
+  if (bDone) return; // already did this, so if we are in here, then atexit() is invoked, it won't go through a second time
   bDone = true;
   g_bFinished = bFinish;
-  g_iQCNReturn = (errcode == ERR_TIMEOUT ? ERR_NONE : errcode);  // note a timeout error is "normal" exit
+  if (errcode == ERR_TIMEOUT) {
+     sm->eStatus = ERR_FINISHED; // flag normal finish for the sensor thread
+  }
+  else {
+     sm->eStatus = errcode;
+  }
+  g_iQCNReturn = (int)(errcode == ERR_TIMEOUT ? ERR_NONE : errcode);  // note a timeout error is "normal" exit
   g_iStop = TRUE; // try and sleep a little to give the threads a chance to stop, a second should suffice
   if (g_threadSensor) g_threadSensor->Stop();
   if (g_threadTime) g_threadTime->Stop();
@@ -195,19 +201,7 @@ void signal_handler(int iSignal)
    g_iStop = TRUE; // flag that we're stopping everything
    fprintf(stderr, "Signal %d received, exiting...\n", iSignal);
    if (!boinc_is_standalone()) sendFinalTrickle(); // try to send final trigger, or is this dangerous in a signal handler?
-   doMainQuit(); // close up threads
-/*
-#ifdef SIGTERM
-   if (iSignal == SIGTERM)  {
-      doMainQuit();
-   }
-#endif
-#ifdef SIGINT
-   if (iSignal == SIGINT) {
-      doMainQuit();
-   }
-#endif
-*/
+   doMainQuit(true, ERR_SIGNAL); // close up threads
    if (g_psms) {
       // send a message to the sensor thread to shutdown
       fprintf(stderr, "Closing accelerometer port due to signal...\n");

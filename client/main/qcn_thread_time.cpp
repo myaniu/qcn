@@ -117,7 +117,7 @@ void* QCNThreadTime(void*)
        fflush(stderr);
        qcn_main::g_dTimeSyncRetry = dTimeNow + 180.0f;  // set next sync try in 3 minutes if still running!
        qcn_main::g_dTimeSync = 0.0f;
-       qcn_main::g_dTimeOffset = 0.0f;
+       //qcn_main::g_dTimeOffset = 0.0f; // don't reset the offset time, carry through
     } 
     sm->releaseTriggerLock();
 
@@ -158,10 +158,10 @@ void* QCNThreadTime(void*)
     else { // at the very least we know to set btimeOffset to false
        // hmm, should we reset if failed, but we have a good time 10 minutes ago?
        qcn_main::g_dTimeSync = 0.0f;
-       qcn_main::g_dTimeOffset = 0.0f;
+       //qcn_main::g_dTimeOffset = 0.0f;  // don't reset last offset time, carry through
        qcn_main::g_dTimeSyncRetry = dtime() + 180.0f;  // next sync try in 3 minutes 
-       fprintf(stderr, "Server time synchronization failed - elapsed time = %f - retry at %.2f\n", 
-           dtime() - dTimeNow, qcn_main::g_dTimeSyncRetry);
+       fprintf(stderr, "Server time synchronization failed - elapsed time = %f - using previous offset of %f - retry at %.2f\n", 
+           dtime() - dTimeNow, qcn_main::g_dTimeOffset, qcn_main::g_dTimeSyncRetry);
        fflush(stderr);
     }
     sm->releaseTriggerLock();
