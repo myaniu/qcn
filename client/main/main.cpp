@@ -155,13 +155,13 @@ void doMainQuit(const bool& bFinish, const e_retcode& errcode)
   if (bDone) return; // already did this, so if we are in here, then atexit() is invoked, it won't go through a second time
   bDone = true;
   g_bFinished = bFinish;
-  if (errcode == ERR_TIMEOUT) {
+  if (errcode == ERR_FINISHED) {
      sm->eStatus = ERR_FINISHED; // flag normal finish for the sensor thread
   }
   else {
      sm->eStatus = errcode;
   }
-  g_iQCNReturn = (int)(errcode == ERR_TIMEOUT ? ERR_NONE : errcode);  // note a timeout error is "normal" exit
+  g_iQCNReturn = (int)(errcode == ERR_FINISHED ? ERR_NONE : errcode);  // note a timeout error is "normal" exit
   g_iStop = TRUE; // try and sleep a little to give the threads a chance to stop, a second should suffice
   if (g_threadSensor) g_threadSensor->Stop();
   if (g_threadTime) g_threadTime->Stop();
@@ -442,7 +442,7 @@ int qcn_main(int argc, char **argv)
                 }
                 else {
                    if (sm->statusBOINC.abort_request) { // quit fatally
-                     sm->eStatus = ERR_ABORT; // set abort flag for the hell of it
+                     sm->eStatus = ERR_ABORT; // set abort flag so it can be properly handled below
                      fprintf(stderr, "Abort request from BOINC!\n");
                      doMainQuit(true, ERR_ABORT);
                      goto done; 
@@ -591,8 +591,9 @@ int qcn_main(int argc, char **argv)
         if (!g_bDemo && !g_bReadOnly 
           && (sm->clock_time >= WORKUNIT_COMPLETION_TIME_ELAPSED || sm->eStatus == ERR_ABORT)) {
             // seems to be a race condition upon a quit, so just exit
-            //CheckTriggers(true); // check triggers and force to write if necessary
-            doMainQuit(true, sm->eStatus == ERR_ABORT ? ERR_ABORT : ERR_TIMEOUT); // do the little timer loop
+            if (sm->eStatus != ERR_ABORT) sm->eStatus = ERR_FINISHED;  // if not an abort, set the timeout
+            doMainQuit(true, sm->eStatus); // do the little timer loop
+            if (g_bContinual) CheckTriggers(true);  // do one last trigger if needed
             goto done;
         }
         else { // update fraction done 
@@ -621,7 +622,7 @@ done:
 //    checkForUpload();
     if (g_bFinished)  { // not a requested exit, we must be done this workunit
 #ifdef QCN_CONTINUAL  // this is a good spot to check for file uploads
-      checkContinualUpload(true);
+      checkContinualUpload(true);  // note that the doMainQuit would have stopped the sensor thread and marked the final trigger which we'll now process
 #endif
       sendFinalTrickle();
       boinc_fraction_done(1.00);
@@ -631,7 +632,7 @@ done:
       fprintf(stderr, "End of workunit\n");
       fflush(stderr);
       if (g_threadMain) g_threadMain->SetRunning(false);  // self-referential pointer to flag the thread is running 
-      boinc_finish(g_iQCNReturn); // this never returns, note ERR_TIMEOUT is 0 (normal end is a timeout)
+      boinc_finish(g_iQCNReturn); // this never returns, note ERR_FINISHED sets this to 0 (normal end is a workunit timeout of 1 day)
     }
 #endif
 	
@@ -866,7 +867,8 @@ bool CheckTriggers(bool bForce)
 		   for (unsigned int i = 0; i < g_vectTrigger.size(); i++) {
 		     STriggerInfo& ti = g_vectTrigger.at(i);
              if (ti.lOffsetEnd) { // there's a non-zero lOffset, so better check for trickle or file I/O
-                if (!bForce) CheckTriggerTrickle(&ti); // note too late for a trigger if bForce is on, but maybe not for file I/O below
+                //if (!bForce) CheckTriggerTrickle(&ti); // note too late for a trigger if bForce is on, but maybe not for file I/O below
+				CheckTriggerTrickle(&ti); // maybe not too late for a trigger if bForce is on
                 if (CheckTriggerFile(&ti, bForce)) {  // check that it's time for trigger file I/O after this trickledd
                     // erase this one if returns true, i.e. we're done all I/O
 					ti.bRemove = true;
