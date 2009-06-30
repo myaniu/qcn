@@ -30,6 +30,7 @@ define("MIN_MAGNITUDE_D", "3.0");
 define("MIN_MAGNITUDE_W", "3.5");
 define("MIN_MAGNITUDE_M", "4.0");
 define("MIN_MAGNITUDE_H", "3.0");
+define("MAX_NUM_TRIGGER", "100");
 
 // CMC have default global preferences
 define("GLOBAL_PREFS_DEFAULT", "<global_preferences>\n"
@@ -391,10 +392,10 @@ function show_trigger($hostid, $heading, $private=true)
    $sql = "select t.id,file,time_trigger,time_received,"
        . "time_sync,sync_offset,significance, magnitude, " . $sqllatlng 
        . "dt, numreset, s.description, sw_version,os_type,runtime_cpu,runtime_clock,ping,levelvalue,levelid,received_file,file_url,result_name "
-       . "from DBNAME.qcn_trigger t, DBNAME.qcn_sensor s where t.type_sensor=s.id and hostid=$hostid order by time_trigger desc limit 50";
+       . "from DBNAME.qcn_trigger t, DBNAME.qcn_sensor s where t.type_sensor=s.id and hostid=$hostid order by time_trigger desc limit " . MAX_NUM_TRIGGER;
    $result=$db->do_query($sql);
    echo "<H2>$heading</H2>\n";
-   echo "<H3>Last 50 Triggers for this Computer</H3>\n";
+   echo "<H3>Last " . MAX_NUM_TRIGGER . " Triggers for this Computer</H3>\n";
    echo "<H5>(NB: <font color=$colorPing>grey text</font> is a 'ping' trigger to see who is running QCN)</H5>\n";
    start_table();
    echo "<tr><th>Trigger ID</th>
