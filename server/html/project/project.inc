@@ -421,7 +421,7 @@ function show_trigger($hostid, $heading, $private=true)
       $i = 0;
       while($row=mysql_fetch_array($result)) {
          if ($i++ % 2) {
-             $bgcolor = "\"#F1F1F1\"";
+             $bgcolor = "\"#F4F4F4\"";
          }
          else {
              $bgcolor = "\"#FFFFFF\"";
@@ -431,7 +431,6 @@ function show_trigger($hostid, $heading, $private=true)
            $strFontEnd = "</font>";
          } 
          else {
-           //$fontcolor = "\"#000000\"";
            $strTableFont = "";
            $strFontEnd   = "";
          }
