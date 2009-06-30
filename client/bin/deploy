@@ -9,6 +9,22 @@ if (test "$3" = "continual" || test "$4" = "continual") then
   cont='continual'
 fi
 
+print_common_files ()
+{
+echo put init/Helvetica.txf >> qcnsftp.up
+echo put init/Courier-Bold.txf >> qcnsftp.up
+echo put init/earthday4096.jpg >> qcnsftp.up
+echo put init/earthnight4096.jpg >> qcnsftp.up
+echo put init/$1 >> qcnsftp.up
+echo put init/logo.jpg >> qcnsftp.up
+if ( test "`uname -s`" = "Darwin" ) then
+   echo put init/libMotionNodeAccelAPI.dylib >> qcnsftp.up
+else
+   echo put init/libMotionNodeAccelAPI.so >> qcnsftp.up
+fi
+}
+
+
 # init/earthmask.rgb  # disable for now
 ncisuffix='__nci'
 uplstring='init/Helvetica.txf \
@@ -71,108 +87,42 @@ echo -mkdir $appspathone >> qcnsftp.up
 echo chdir $appspathone >> qcnsftp.up
 echo put "qcn$cont"_$1_$suffixi$ncisuffix >> qcnsftp.up
 echo put graphics_app=qcn_graphics_$1_$suffixi >> qcnsftp.up
-echo put init/Helvetica.txf >> qcnsftp.up
-echo put init/Courier-Bold.txf >> qcnsftp.up
-#echo put init/earthmask.rgb >> qcnsftp.up
-echo put init/earthday4096.jpg >> qcnsftp.up
-echo put init/earthnight4096.jpg >> qcnsftp.up
-echo put init/$ntpdv >> qcnsftp.up
-echo put init/logo.jpg >> qcnsftp.up
-if ( test "`uname -s`" = "Darwin" ) then
-   echo put init/libMotionNodeAccelAPI.dylib >> qcnsftp.up
-else
-   echo put init/libMotionNodeAccelAPI.so >> qcnsftp.up
-fi
+print_common_files $ntpdv
 
 echo chdir $pathpre >> qcnsftp.up
 echo -mkdir $appspathtwo >> qcnsftp.up
 echo chdir $appspathtwo >> qcnsftp.up
 echo put "qcn$cont"_$2_$suffixi >> qcnsftp.up
 echo put graphics_app=qcn_graphics_$2_$suffixi >> qcnsftp.up
-echo put init/Helvetica.txf >> qcnsftp.up
-echo put init/Courier-Bold.txf >> qcnsftp.up
-#echo put init/earthmask.rgb >> qcnsftp.up
-echo put init/earthday4096.jpg >> qcnsftp.up
-echo put init/earthnight4096.jpg >> qcnsftp.up
-echo put init/$ntpdv >> qcnsftp.up
-echo put init/logo.jpg >> qcnsftp.up
-if ( test "`uname -s`" = "Darwin" ) then
-   echo put init/libMotionNodeAccelAPI.dylib >> qcnsftp.up
-else
-   echo put init/libMotionNodeAccelAPI.so >> qcnsftp.up
-fi
+print_common_files $ntpdv
 
 echo chdir $pathpre >> qcnsftp.up
 echo -mkdir $appspaththree >> qcnsftp.up
 echo chdir $appspaththree >> qcnsftp.up
 echo put "qcn$cont"_$1_$suffixp$ncisuffix >> qcnsftp.up
 echo put graphics_app=qcn_graphics_$1_$suffixp >> qcnsftp.up
-echo put init/Helvetica.txf >> qcnsftp.up
-echo put init/Courier-Bold.txf >> qcnsftp.up
-#echo put init/earthmask.rgb >> qcnsftp.up
-echo put init/earthday4096.jpg >> qcnsftp.up
-echo put init/earthnight4096.jpg >> qcnsftp.up
-echo put init/$ntpdv >> qcnsftp.up
-echo put init/logo.jpg >> qcnsftp.up
-if ( test "`uname -s`" = "Darwin" ) then
-   echo put init/libMotionNodeAccelAPI.dylib >> qcnsftp.up
-else
-   echo put init/libMotionNodeAccelAPI.so >> qcnsftp.up
-fi
+print_common_files $ntpdv
 
 echo chdir $pathpre >> qcnsftp.up
 echo -mkdir $appspathfour >> qcnsftp.up
 echo chdir $appspathfour >> qcnsftp.up
 echo put "qcn$cont"_$2_$suffixp >> qcnsftp.up
 echo put graphics_app=qcn_graphics_$2_$suffixp >> qcnsftp.up
-echo put init/Helvetica.txf >> qcnsftp.up
-echo put init/Courier-Bold.txf >> qcnsftp.up
-#echo put init/earthmask.rgb >> qcnsftp.up
-echo put init/earthday4096.jpg >> qcnsftp.up
-echo put init/earthnight4096.jpg >> qcnsftp.up
-echo put init/$ntpdv >> qcnsftp.up
-echo put init/logo.jpg >> qcnsftp.up
-if ( test "`uname -s`" = "Darwin" ) then
-   echo put init/libMotionNodeAccelAPI.dylib >> qcnsftp.up
-else
-   echo put init/libMotionNodeAccelAPI.so >> qcnsftp.up
-fi
+print_common_files $ntpdv
 
 echo chdir $pathpre >> qcnsftp.up
 echo -mkdir $appspathfive >> qcnsftp.up
 echo chdir $appspathfive >> qcnsftp.up
 echo put "qcn$cont"_$1_$suffixs$ncisuffix >> qcnsftp.up
 echo put graphics_app=qcn_graphics_$1_$suffixs >> qcnsftp.up
-echo put init/Helvetica.txf >> qcnsftp.up
-echo put init/Courier-Bold.txf >> qcnsftp.up
-#echo put init/earthmask.rgb >> qcnsftp.up
-echo put init/earthday4096.jpg >> qcnsftp.up
-echo put init/earthnight4096.jpg >> qcnsftp.up
-echo put init/$ntpdv >> qcnsftp.up
-echo put init/logo.jpg >> qcnsftp.up
-if ( test "`uname -s`" = "Darwin" ) then
-   echo put init/libMotionNodeAccelAPI.dylib >> qcnsftp.up
-else
-   echo put init/libMotionNodeAccelAPI.so >> qcnsftp.up
-fi
+print_common_files $ntpdv
 
 echo chdir $pathpre >> qcnsftp.up
 echo -mkdir $appspathsix >> qcnsftp.up
 echo chdir $appspathsix >> qcnsftp.up
 echo put "qcn$cont"_$2_$suffixs >> qcnsftp.up
 echo put graphics_app=qcn_graphics_$2_$suffixs >> qcnsftp.up
-echo put init/Helvetica.txf >> qcnsftp.up
-echo put init/Courier-Bold.txf >> qcnsftp.up
-#echo put init/earthmask.rgb >> qcnsftp.up
-echo put init/earthday4096.jpg >> qcnsftp.up
-echo put init/earthnight4096.jpg >> qcnsftp.up
-echo put init/$ntpdv >> qcnsftp.up
-echo put init/logo.jpg >> qcnsftp.up
-if ( test "`uname -s`" = "Darwin" ) then
-   echo put init/libMotionNodeAccelAPI.dylib >> qcnsftp.up
-else
-   echo put init/libMotionNodeAccelAPI.so >> qcnsftp.up
-fi
+print_common_files $ntpdv
 
 echo exit >> qcnsftp.up
 sftp -b qcnsftp.up carlgt1@qcn-web
@@ -201,35 +151,14 @@ echo -mkdir $appspathone >> qcnsftp.up
 echo chdir $appspathone >> qcnsftp.up
 echo put qcn_$1_$suffix$ncisuffix >> qcnsftp.up
 echo put graphics_app=qcn_graphics_$1_$suffix >> qcnsftp.up
-echo put init/Helvetica.txf >> qcnsftp.up
-echo put init/Courier-Bold.txf >> qcnsftp.up
-#echo put init/earthmask.rgb >> qcnsftp.up
-echo put init/earthday4096.jpg >> qcnsftp.up
-echo put init/earthnight4096.jpg >> qcnsftp.up
-echo put init/$ntpdv >> qcnsftp.up
-echo put init/logo.jpg >> qcnsftp.up
-if ( test "`uname -s`" = "Darwin" ) then
-   echo put init/libMotionNodeAccelAPI.dylib >> qcnsftp.up
-else
-   echo put init/libMotionNodeAccelAPI.so >> qcnsftp.up
-fi
+print_common_files $ntpdv
+
 echo chdir ../ >> qcnsftp.up
 echo -mkdir $appspathtwo >> qcnsftp.up
 echo chdir $appspathtwo >> qcnsftp.up
 echo put qcn_$2_$suffix >> qcnsftp.up
 echo put graphics_app=qcn_graphics_$2_$suffix >> qcnsftp.up
-echo put init/Helvetica.txf >> qcnsftp.up
-echo put init/Courier-Bold.txf >> qcnsftp.up
-#echo put init/earthmask.rgb >> qcnsftp.up
-echo put init/earthday4096.jpg >> qcnsftp.up
-echo put init/earthnight4096.jpg >> qcnsftp.up
-echo put init/$ntpdv >> qcnsftp.up
-echo put init/logo.jpg >> qcnsftp.up
-if ( test "`uname -s`" = "Darwin" ) then
-   echo put init/libMotionNodeAccelAPI.dylib >> qcnsftp.up
-else
-   echo put init/libMotionNodeAccelAPI.so >> qcnsftp.up
-fi
+print_common_files $ntpdv
 echo exit >> qcnsftp.up
 sftp -b qcnsftp.up carlgt1@qcn-web 
 fi
