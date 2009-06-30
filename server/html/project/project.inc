@@ -377,6 +377,7 @@ function show_trigger($hostid, $heading, $private=true)
    if ($hostid<1) return;
    // make a table of triggers for this host
    $tr = null;
+   $colorPing = "\"#00CC00\"";
    $db = BoincDb::get();
    // if $private just show lat/lng rounded to .01 so we're not showing exact addresses of participants!
    if ($private) {
@@ -389,18 +390,17 @@ function show_trigger($hostid, $heading, $private=true)
    // CMC note - DBNAME gets replaced by appropriate database name in the db->do_query()
    $sql = "select t.id,file,time_trigger,time_received,"
        . "time_sync,sync_offset,significance, magnitude, " . $sqllatlng 
-       . "dt, numreset, s.description, sw_version,os_type,runtime_cpu,runtime_clock,ping,levelvalue,levelid,received_file,file_url "
+       . "dt, numreset, s.description, sw_version,os_type,runtime_cpu,runtime_clock,ping,levelvalue,levelid,received_file,file_url,result_name "
        . "from DBNAME.qcn_trigger t, DBNAME.qcn_sensor s where t.type_sensor=s.id and hostid=$hostid order by time_trigger desc limit 50";
    $result=$db->do_query($sql);
    echo "<H2>$heading</H2>\n";
    echo "<H3>Last 50 Triggers for this Computer</H3>\n";
-   echo "<H5>(NB: a blue row is a 'ping' trigger to see who is running QCN)</H5>\n";
+   echo "<H5>(NB: a <font color=$colorPing>green row</font> is a 'ping' trigger to see who is running QCN)</H5>\n";
    start_table();
    echo "<tr><th>Trigger ID</th>
-             <th>File Name</th>
-             <th>Trigger Time</th>
-             <th>Received Time</th>
-             <th>Sync Time</th>
+             <th>Trigger Time (UTC)</th>
+             <th>Received Time (UTC)</th>
+             <th>Sync Time (UTC)</th>
              <th>Sync Offset</th>
              <th>Significance</th>
              <th>Magnitude</th>
@@ -414,17 +414,30 @@ function show_trigger($hostid, $heading, $private=true)
              <th>OS</th>
              <th>WU CPU Time</th>
              <th>WU Run Time</th>
+             <th>File Name</th>
          </tr>";
 
    if ($result && mysql_num_rows($result)>0) {  // we found some records
+      $i = 0;
       while($row=mysql_fetch_array($result)) {
+         if ($i++ % 2) {
+             $bgcolor = "\"#F1F1F1\"";
+         }
+         else {
+             $bgcolor = "\"#FFFFFF\"";
+         }
          if ($row[17]) { // it's a ping record
-           echo "\n<tr bgcolor=\"#AAAAFF\">";
+           $strTableFont = "<font color=$colorPing>";
+           $strFontEnd = "</font>";
          } 
          else {
-           echo "\n<tr>";
+           //$fontcolor = "\"#000000\"";
+           $strTableFont = "";
+           $strFontEnd   = "";
          }
+
          $elev = $row[18]; // level/elevation data
+
 /*
 mysql> select * from qcn_level;
 +----+------------------------------------+
@@ -447,33 +460,38 @@ mysql> select * from qcn_level;
             case 5:  $elev.="f(sl)"; break;
          }
 
-         if ($row[20] == 100) { // received_file: show file download link
-            $filename = "<A HREF=\"$row[21]\">$row[1]</A>";
-         }
+         if ($row[17]) { // it's a ping record
+            $filename = " ping trigger - no file for result " . $row[22];
+         } 
          else {
-            $filename = $row[1];
+           if ($row[20] == 100) { // received_file: show file download link
+              $filename = "<A HREF=\"$row[21]\">$row[1]</A>";
+           }
+           else {
+              $filename = $row[1];
+           }
          }
 
-         echo "    
-                   <td>$row[0]</td>
-                   <td>$filename</td>
-                   <td>" . time_str($row[2]) . "</td>
-                   <td>" . time_str($row[3]) . "</td>
-                   <td>" . time_str($row[4]) . "</td>
-                   <td>" . round($row[5],6) . "</td>
-                   <td>" . round($row[6],6) . "</td>
-                   <td>" . round($row[7],6) . "</td>
-                   <td>" . round($row[8],6) . "</td>
-                   <td>" . round($row[9],6) . "</td>
-                   <td>" . $elev . "</td>
-                   <td>" . ($row[10] ? $row[10] : 0) . "</td>
-                   <td>$row[11]</td>
-                   <td>$row[12]</td>
-                   <td>$row[13]</td>
-                   <td>$row[14]</td>
-                   <td>$row[15]</td>
-                   <td>$row[16]</td>
-              </tr>";
+         echo "    <tr bgcolor=$bgcolor>
+                   <td>$strTableFont$row[0]$strFontEnd</td>
+                   <td>$strTableFont" . time_str($row[2]) . "$strFontEnd</td>
+                   <td>$strTableFont" . time_str($row[3]) . "$strFontEnd</td>
+                   <td>$strTableFont". time_str($row[4]) . "$strFontEnd</td>
+                   <td>$strTableFont" . round($row[5],3) . "$strFontEnd</td>
+                   <td>$strTableFont". round($row[6],3) . "$strFontEnd</td>
+                   <td>$strTableFont". round($row[7],3) . "$strFontEnd</td>
+                   <td>$strTableFont". round($row[8],3) . "$strFontEnd</td>
+                   <td>$strTableFont". round($row[9],3) . "$strFontEnd</td>
+                   <td>$strTableFont". $elev . "$strFontEnd</td>
+                   <td>$strTableFont" . ($row[10] ? $row[10] : 0) . "$strFontEnd</td>
+                   <td>$strTableFont$row[11]$strFontEnd</td>
+                   <td>$strTableFont$row[12]$strFontEnd</td>
+                   <td>$strTableFont$row[13]$strFontEnd</td>
+                   <td>$strTableFont$row[14]$strFontEnd</td>
+                   <td>$strTableFont$row[15]$strFontEnd</td>
+                   <td>$strTableFont$row[16]$strFontEnd</td>
+                   <td>$strTableFont$filename$strFontEnd</td>
+              </font></tr>";
       }
    }
 
