@@ -42,6 +42,7 @@
       http://qcn.stanford.edu/sensor_cgi/file_upload_handler
     </upload_url>
     <db_passwd>
+      
     </db_passwd>
     <db_host>
       db-private
@@ -59,7 +60,7 @@
       1
     </ignore_delay_bound>
     <max_wus_to_send>
-      1 
+      2 
     </max_wus_to_send>
   </config>
   <tasks>

@@ -81,6 +81,14 @@ def processSingleZipFile(dbconn, myzipfile):
             outfile = open(os.path.join(UPLOAD_CONTINUAL_WEB_DIR, name), 'wb')
             outfile.write(myzip.read(name))
             outfile.close()
+
+            # now update the qcn_trigger table!
+            strSQL = "UPDATE continual.qcn_trigger SET received_file=100, " +\
+                          "file_url='" + URL_DOWNLOAD_BASE + "continual/" + name + "' " +\
+                          "WHERE file='" + name + "'"
+            #print strSQL
+            myCursor.execute(strSQL)
+            dbconn.commit()
         else: 
             # this is a regular trigger
             outfile = open(os.path.join(UPLOAD_WEB_DIR, name), 'wb')
@@ -88,7 +96,7 @@ def processSingleZipFile(dbconn, myzipfile):
             outfile.close()
 
             # now update the qcn_trigger table!
-            myCursor.execute("UPDATE qcn_trigger SET received_file=100, " +\
+            myCursor.execute("UPDATE qcnalpha.qcn_trigger SET received_file=100, " +\
                           "file_url='" + URL_DOWNLOAD_BASE + name + "' " +\
                           "WHERE file='" + name + "'")
             dbconn.commit()

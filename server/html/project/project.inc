@@ -387,9 +387,9 @@ function show_trigger($hostid, $heading, $private=true)
    }
 
    // CMC note - DBNAME gets replaced by appropriate database name in the db->do_query()
-   $sql = "select t.id,result_name,time_trigger,time_received,"
+   $sql = "select t.id,file,time_trigger,time_received,"
        . "time_sync,sync_offset,significance, magnitude, " . $sqllatlng 
-       . "dt, numreset, s.description, sw_version,os_type,runtime_cpu,runtime_clock,ping "
+       . "dt, numreset, s.description, sw_version,os_type,runtime_cpu,runtime_clock,ping,levelvalue,levelid,received_file,file_url "
        . "from DBNAME.qcn_trigger t, DBNAME.qcn_sensor s where t.type_sensor=s.id and hostid=$hostid order by time_trigger desc limit 50";
    $result=$db->do_query($sql);
    echo "<H2>$heading</H2>\n";
@@ -397,7 +397,7 @@ function show_trigger($hostid, $heading, $private=true)
    echo "<H5>(NB: a blue row is a 'ping' trigger to see who is running QCN)</H5>\n";
    start_table();
    echo "<tr><th>Trigger ID</th>
-             <th>Result Name</th>
+             <th>File Name</th>
              <th>Trigger Time</th>
              <th>Received Time</th>
              <th>Sync Time</th>
@@ -406,6 +406,7 @@ function show_trigger($hostid, $heading, $private=true)
              <th>Magnitude</th>
              <th>Latitude</th>
              <th>Longitude</th>
+             <th>Elevation</th>
              <th>Delta T</th>
              <th>Num Reset</th>
              <th>Sensor Type</th>
@@ -423,8 +424,39 @@ function show_trigger($hostid, $heading, $private=true)
          else {
            echo "\n<tr>";
          }
-         echo "    <td>$row[0]</td>
-                   <td>$row[1]</td>
+         $elev = $row[18]; // level/elevation data
+/*
+mysql> select * from qcn_level;
++----+------------------------------------+
+| id | description                        |
++----+------------------------------------+
+|  0 | N/A                                | 
+|  1 | Floor (+/- above/below surface)    | 
+|  2 | Meters (above/below surface)       | 
+|  3 | Feet (above/below surface)         | 
+|  4 | Elevation - meters above sea level | 
+|  5 | Elevation - feet above sea level   | 
++----+------------------------------------+
+*/
+         switch($row[19]) { // level id
+            case 0:  $elev=""; break;
+            case 1:  $elev.="Fl"; break;
+            case 2:  $elev.="m"; break;
+            case 3:  $elev.="f"; break;
+            case 4:  $elev.="m(sl)"; break;
+            case 5:  $elev.="f(sl)"; break;
+         }
+
+         if ($row[20] == 100) { // received_file: show file download link
+            $filename = "<A HREF=\"$row[21]\">$row[1]</A>";
+         }
+         else {
+            $filename = $row[1];
+         }
+
+         echo "    
+                   <td>$row[0]</td>
+                   <td>$filename</td>
                    <td>" . time_str($row[2]) . "</td>
                    <td>" . time_str($row[3]) . "</td>
                    <td>" . time_str($row[4]) . "</td>
@@ -433,6 +465,7 @@ function show_trigger($hostid, $heading, $private=true)
                    <td>" . round($row[7],6) . "</td>
                    <td>" . round($row[8],6) . "</td>
                    <td>" . round($row[9],6) . "</td>
+                   <td>" . $elev . "</td>
                    <td>" . ($row[10] ? $row[10] : 0) . "</td>
                    <td>$row[11]</td>
                    <td>$row[12]</td>
