@@ -14,6 +14,7 @@ scp carlgt1@qcn-web:/var/www/boinc/qcnalpha/html/inc/host.inc inc/
 scp carlgt1@qcn-web:/var/www/boinc/qcnalpha/html/inc/phoogle.inc inc/
 scp carlgt1@qcn-web:/var/www/boinc/qcnalpha/html/inc/prefs.inc inc/
 scp carlgt1@qcn-web:/var/www/boinc/qcnalpha/html/inc/user.inc inc/
+scp carlgt1@qcn-web:/var/www/boinc/qcnalpha/html/inc/util.inc inc/
 scp carlgt1@qcn-web:/var/www/boinc/qcnalpha/html/project/cache_parameters.inc project/
 scp carlgt1@qcn-web:/var/www/boinc/qcnalpha/html/project/project.inc project/
 scp carlgt1@qcn-web:/var/www/boinc/qcnalpha/html/project/project_news.inc project/
