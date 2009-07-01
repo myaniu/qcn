@@ -149,12 +149,12 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="hid.lib setupapi.lib winmm.lib boinc_zipd.lib boinc_apid.lib zlib64d.lib boinc_libd.lib MotionNodeAccelAPI.lib"
+				AdditionalDependencies="hid.lib setupapi.lib winmm.lib boinc_zipd.lib boinc_apid.lib zlib64d.lib boinc_libd.lib"
 				OutputFile="../test/projects/qcn.edu_qcn/qcnd.exe"
 				Version=""
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="../sensor/motionnodeaccel/"
-				DelayLoadDLLs="MotionNodeAccelAPI.dll"
+				AdditionalLibraryDirectories=""
+				DelayLoadDLLs=""
 				GenerateDebugInformation="true"
 				SubSystem="1"
 				HeapReserveSize="0"
@@ -321,12 +321,12 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="hid64.lib setupapi.lib winmm.lib boinc_lib64.lib boinc_api64.lib boinc_zip64.lib MotionNodeAccelAPI.lib zlib64.lib"
+				AdditionalDependencies="hid64.lib setupapi.lib winmm.lib boinc_lib64.lib boinc_api64.lib boinc_zip64.lib zlib64.lib"
 				OutputFile="../bin/qcn.exe"
 				Version=""
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="../sensor/motionnodeaccel"
-				DelayLoadDLLs="MotionNodeAccelAPI.dll"
+				AdditionalLibraryDirectories=""
+				DelayLoadDLLs=""
 				SubSystem="2"
 				HeapReserveSize="0"
 				HeapCommitSize="0"
@@ -493,12 +493,12 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="hid64.lib setupapi.lib winmm.lib boinc_lib64.lib boinc_api64.lib boinc_zip64.lib MotionNodeAccelAPI.lib zlib64.lib"
+				AdditionalDependencies="hid64.lib setupapi.lib winmm.lib boinc_lib64.lib boinc_api64.lib boinc_zip64.lib zlib64.lib"
 				OutputFile="../bin/qcn.exe"
 				Version=""
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="../sensor/motionnodeaccel"
-				DelayLoadDLLs="MotionNodeAccelAPI.dll"
+				AdditionalLibraryDirectories=""
+				DelayLoadDLLs=""
 				SubSystem="2"
 				HeapReserveSize="0"
 				HeapCommitSize="0"

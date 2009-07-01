@@ -117,7 +117,9 @@ const char cstrQCNLive[] = {"qcnlive-win.zip"};
 	sprintf_s(strCmd, 1024, "%s %s "
 		"%s %s %s %s %s %s %s %s %s%s%c%s%s %s", ZIPCMD, cstrQCNLive,
 		"qcnlive.exe",
+#ifndef _WIN64
 		"init/MotionNodeAccelAPI.dll",
+#endif
 		"init/qcnwin.ico",
 		"init/Helvetica.txf",
 		"init/Courier-Bold.txf",
@@ -158,8 +160,9 @@ const char cstrQCNLive[] = {"qcnlive-win.zip"};
 	fprintf(fBatch, "put init/earthnight4096.jpg\n");
 	fprintf(fBatch, "put init/logo.jpg\n");
 	fprintf(fBatch, "put init/%s_%s.exe\n", NTPDATE_EXEC_VERSION, BOINC_WIN_SUFFIX);
-    fprintf(fBatch, "put init/MotionNodeAccelAPI.dll\n");
-
+#ifndef _WIN64
+	fprintf(fBatch, "put init/MotionNodeAccelAPI.dll\n");
+#endif
     fprintf(fBatch, "cd ../\n");
 
 	//old style BOINC
@@ -180,8 +183,9 @@ const char cstrQCNLive[] = {"qcnlive-win.zip"};
 	fprintf(fBatch, "put init/earthnight4096.jpg\n");
 	fprintf(fBatch, "put init/logo.jpg\n");
 	fprintf(fBatch, "put init/%s_%s.exe\n", NTPDATE_EXEC_VERSION, BOINC_WIN_SUFFIX);
-    fprintf(fBatch, "put init/MotionNodeAccelAPI.dll\n");
-
+#ifndef _WIN64
+	fprintf(fBatch, "put init/MotionNodeAccelAPI.dll\n");
+#endif
 	fprintf(fBatch, "exit\n");
 	fclose(fBatch);
 
