@@ -1,4 +1,17 @@
 /*
+    this sends a 'killer trickle' for a single host/result
+*/
+insert into qcnalpha.msg_to_host
+(create_time,hostid,variety,handled,xml)
+select unix_timestamp(), hostid, 'abort', 0,
+concat('<trickle_down>\n<result_name>',
+  name,
+   '</result_name>\n<abort></abort>\n</trickle_down>\n')
+  from result where name='continual_sc300_sta300_000047_0'
+;
+
+
+/*
     this sends a 'killer trickle' for hosts which have triggered in the past week
 */
 insert into qcnalpha.msg_to_host
