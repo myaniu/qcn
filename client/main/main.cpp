@@ -154,25 +154,13 @@ void doMainQuit(const bool& bFinish, const e_retcode& errcode)
   static bool bDone = false;
   if (bDone) return; // already did this, so if we are in here, then atexit() is invoked, it won't go through a second time
   bDone = true;
+  sm->eStatus = errcode;
+  g_iStop = TRUE; // global flag to stop
   g_bFinished = bFinish;
-  if (errcode == ERR_FINISHED) {
-     sm->eStatus = ERR_FINISHED; // flag normal finish for the sensor thread
-  }
-  else {
-     sm->eStatus = errcode;
-  }
-  g_iQCNReturn = (int)(errcode == ERR_FINISHED ? ERR_NONE : errcode);  // note a timeout error is "normal" exit
-  g_iStop = TRUE; // try and sleep a little to give the threads a chance to stop, a second should suffice
-  if (g_threadSensor) g_threadSensor->Stop();
+  g_iQCNReturn = (int)(errcode == ERR_FINISHED ? ERR_NONE : errcode);  // note a timeout (ERR_FINISHED) error is "normal" exit
   if (g_threadTime) g_threadTime->Stop();
+  if (g_threadSensor) g_threadSensor->Stop();
   int iStopCtr = 0;
-  qcn_util::set_qcn_counter(); // write our settings to disk
-
-  // free project prefs
-   if (sm->dataBOINC.project_preferences) {
-	   free(sm->dataBOINC.project_preferences);
-	   sm->dataBOINC.project_preferences = NULL;
-	}
 
   //fprintf(stdout, "Quitting QCN...\n");
   while (g_threadSensor && g_threadTime
@@ -188,6 +176,12 @@ void doMainQuit(const bool& bFinish, const e_retcode& errcode)
         delete g_threadSensor;
         g_threadSensor = NULL;
   }
+   qcn_util::set_qcn_counter(); // write our settings to disk
+   // free project prefs
+   if (sm->dataBOINC.project_preferences) {
+	   free(sm->dataBOINC.project_preferences);
+	   sm->dataBOINC.project_preferences = NULL;
+   }
   fprintf(stderr, "qcn_main: waited %f seconds for sensor and time threads to end\n", iStopCtr == 0 ? 0.0 : .001f * (float) --iStopCtr);
 }
 
@@ -591,9 +585,12 @@ int qcn_main(int argc, char **argv)
         if (!g_bDemo && !g_bReadOnly 
           && (sm->clock_time >= WORKUNIT_COMPLETION_TIME_ELAPSED || sm->eStatus == ERR_ABORT)) {
             // seems to be a race condition upon a quit, so just exit
-            if (sm->eStatus != ERR_ABORT) sm->eStatus = ERR_FINISHED;  // if not an abort, set the timeout
-            doMainQuit(true, sm->eStatus); // do the little timer loop
-            if (g_bContinual) CheckTriggers(true);  // do one last trigger if needed
+            doMainQuit(true, (sm->eStatus == ERR_ABORT ? ERR_ABORT: ERR_FINISHED)); // do the little timer loop
+            if (g_bContinual)  {
+                 usleep(1e6); // wait a second for thread cleanup?
+                 fprintf(stderr, "Main thread - force final trigger check - trigcnt=%d\n", g_vectTrigger.size());
+                 CheckTriggers(true);  // do one last trigger if needed
+            }
             goto done;
         }
         else { // update fraction done 

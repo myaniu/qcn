@@ -24,8 +24,10 @@
     #include "csensor_linux_usb_jw.h"
   #endif // Win or Linux
 #endif // Apple
-// all platforms get MotionNodeAccel USB support!
+// all platforms except win64 get MotionNodeAccel USB support!
+#if !defined(_WIN64) && !defined(__LP64__) && !defined(_LP64)
 #include "csensor_usb_motionnodeaccel.h"
+#endif
 
 // some globals, mainly if bDemo is true so we can have continual trigger output
 bool   g_bSensorTrickle = false;  // set to true if no sensor found, so we can trickle out this info (disabled now)
@@ -102,7 +104,11 @@ bool getSensor(CSensor* volatile *ppsms)
 
 // for Macs the sensor can either be a CSensorMacLaptop or CSensorMacUSBJW or CSensorUSBMotionNodeAccel
 #ifdef __APPLE_CC__
-   const int iMaxSensor = 3;
+#if defined(__LP64__) || defined(_LP64) // no motion node for 64-bit
+   const int iMaxSensor = 2;  // JW or Mac laptop
+#else
+   const int iMaxSensor = 3;  // JW, MN, or laptop
+#endif
    
    // note we try to detect the USB sensors first (if any), then try the laptop
    for (int i = 0; i < iMaxSensor; i++)  { 
@@ -126,16 +132,26 @@ bool getSensor(CSensor* volatile *ppsms)
 #endif
 #endif		
                          break;
+#if defined(__LP64__) || defined(_LP64) // no motion node for 64-bit
+		   case 1:  // note it tries to get an external sensor first before using the internal sensor, is this good logic?
+			 *ppsms = (CSensor*) new CSensorMacLaptop();
+			 break;
+#else
 		   case 1:  // note it tries to get an external sensor first before using the internal sensor, is this good logic?
 			 *ppsms = (CSensor*) new CSensorUSBMotionNodeAccel();
 			 break;
 		   case 2:  // note it tries to get an external sensor first before using the internal sensor, is this good logic?
 			 *ppsms = (CSensor*) new CSensorMacLaptop();
 			 break;
+#endif
        }
 #else
 #ifdef _WIN32
-   const int iMaxSensor = 4;
+#ifdef _WIN64   // just thinkpad & jw
+   const int iMaxSensor = 2;
+#else  // thinkpad, jw, mn
+   const int iMaxSensor = 3;
+#endif
    // for Windows the sensor can either be a CSensorThinkpad or CSensorWinUSBJW
    // note we try to detect the USB sensors first (if any), then try the laptop
    for (int i = 0; i < iMaxSensor; i++)  {
@@ -163,7 +179,11 @@ bool getSensor(CSensor* volatile *ppsms)
 #endif // no luck with the HP
        }
 #else // Linux
+#if defined(__LP64__) || defined(_LP64) // no motion node for 64-bit
+   const int iMaxSensor = 1;
+#else
    const int iMaxSensor = 2;
+#endif
    // for Windows the sensor can either be a CSensorThinkpad or CSensorWinUSBJW
    // note we try to detect the USB sensors first (if any), then try the laptop
    for (int i = 0; i < iMaxSensor; i++)  {
@@ -171,9 +191,11 @@ bool getSensor(CSensor* volatile *ppsms)
 		   case 0:
 			   *ppsms = (CSensor*) new CSensorLinuxUSBJW();
 			   break;
+#if !defined(__LP64__) && !defined(_LP64) // no motion node for 64-bit
 		   case 1:
 			   *ppsms = (CSensor*) new CSensorUSBMotionNodeAccel();
 			   break;
+#endif
        }
 #endif // _WIN32 or Linux
 #endif // APPLE
@@ -719,6 +741,7 @@ done: // ending, perhaps from a g_iStop request in the wxWidgets myApp::OnExit()
     // if in continual mode and workunit finished normally, may want to send last bit of data?
     if (qcn_main::g_bContinual && sm->eStatus == ERR_FINISHED) {
      // && (g_dStartDemoTime - (sm->t0active + qcn_main::g_dTimeOffset)) > (DEMO_TRIGGER_TIME_SECONDS - 60)) { 
+         fprintf(stderr, "Sensor thread - eEnding workunit - force one last continual trigger file\n");
          checkDemoTrigger(true); 
     }
     if (qcn_main::g_psms) {
@@ -747,7 +770,7 @@ void doTrigger(bool bReal, long lOffsetStart, long lOffsetEnd)
             // dTimeInteractive is set in the graphics thread/program when a button is clicked or key is pressed
             // if this interaction time + a decay offset (usually 60 seconds) is exceeded by the trigger time, it's a valid trigger
 
-		   if (bReal && !qcn_main::g_bContinual) {
+            if (bReal && !qcn_main::g_bContinual) {
               ti.lOffsetStart = sm->lOffset - (long)(60.0f / sm->dt);  // for a real trigger we just need the end point as we go back a minute, and forward a minute or two
               ti.lOffsetEnd   = sm->lOffset;  // for a real trigger we just need the end point as we go back a minute, and forward a minute or two
             }
