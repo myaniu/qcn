@@ -114,10 +114,14 @@ const char cstrQCNLive[] = {"qcnlive-win.zip"};
 #else  
        // make qcnlive if not the continual app....
 		// "init/earthmask.rgb",   // multitexturing mask -- seems to crash for some people though
+#ifdef _WIN64
+	sprintf_s(strCmd, 1024, "%s %s "
+		"%s %s %s %s %s %s %s %s%s%c%s%s %s", ZIPCMD, cstrQCNLive,
+		"qcnlive.exe",
+#else
 	sprintf_s(strCmd, 1024, "%s %s "
 		"%s %s %s %s %s %s %s %s %s%s%c%s%s %s", ZIPCMD, cstrQCNLive,
 		"qcnlive.exe",
-#ifndef _WIN64
 		"init/MotionNodeAccelAPI.dll",
 #endif
 		"init/qcnwin.ico",
