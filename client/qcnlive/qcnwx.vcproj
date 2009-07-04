@@ -43,7 +43,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../../zlib;../../curl/include;../../;../main;../util;../sensor;../graphics;../../../boinc/lib;../../../boinc/zip;&quot;..\..\jpeg-6b&quot;;\wxWidgets\lib\vc_lib\mswd;\wxWidgets\include;../../../boinc/api"
+				AdditionalIncludeDirectories="../../zlib;../../curl/include;../../;../main;../util;../sensor;../graphics;../../../boinc/lib;../../../boinc/zip;&quot;..\..\jpeg-6b&quot;;\wxWidgets\lib\vc_lib\mswd;\wxWidgets\include;../../../boinc/api;c:\wxWidgets\lib\vc_lib\mswd;c:\wxWidgets\include"
 				PreprocessorDefinitions="_USE_NTPDATE_EXEC_;QCNLIVE;GRAPHICS_PROGRAM;FREEGLUT_STATIC;CURL_STATICLIB;_ZLIB;_CRT_SECURE_NO_DEPRECATE;APP_GRAPHICS;WIN32;_WIN32;_DEBUG;__WXMSW__;__WXDEBUG__"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
@@ -68,7 +68,7 @@
 				OutputFile="..\bin\$(ProjectName)d.exe"
 				Version=""
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="../win_build;../../curl/lib/Debug;\wxWidgets\lib\vc_lib;../sensor/motionnodeaccel"
+				AdditionalLibraryDirectories="../win_build;../../curl/lib/Debug;\wxWidgets\lib\vc_lib;../sensor/motionnodeaccel;c:\wxWidgets\lib\vc_lib"
 				IgnoreDefaultLibraryNames=""
 				DelayLoadDLLs="MotionNodeAccelAPI.dll"
 				GenerateDebugInformation="true"
@@ -131,7 +131,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../../zlib;../../curl/include;../../;../main;../util;../sensor;../graphics;../../../boinc/lib;../../../boinc/zip;&quot;..\..\jpeg-6b&quot;;\wxWidgets\lib\vc_lib\mswd;\wxWidgets\include;../../../boinc/api"
+				AdditionalIncludeDirectories="../../zlib;../../curl/include;../../;../main;../util;../sensor;../graphics;../../../boinc/lib;../../../boinc/zip;&quot;..\..\jpeg-6b&quot;;\wxWidgets\lib\vc_lib\mswd;\wxWidgets\include;../../../boinc/api;c:\wxWidgets\lib\vc_lib\mswd;c:\wxWidgets\include"
 				PreprocessorDefinitions="_WIN64;_USE_NTPDATE_EXEC_;QCNLIVE;GRAPHICS_PROGRAM;FREEGLUT_STATIC;CURL_STATICLIB;_ZLIB;_CRT_SECURE_NO_DEPRECATE;APP_GRAPHICS;WIN32;_WIN32;_DEBUG;__WXMSW__;__WXDEBUG__"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
@@ -152,11 +152,11 @@
 				Name="VCLinkerTool"
 				LinkLibraryDependencies="false"
 				UseUnicodeResponseFiles="false"
-				AdditionalDependencies="wsock32.lib hid.lib setupapi.lib winmm.lib opengl32.lib glu32.lib comctl32.lib boinc_apid.lib boinc_libd.lib boinc_zipd.lib curllib.lib jpeglibd.lib zlibd.lib wxbase28d.lib wxmsw28d_core.lib wxmsw28d_gl.lib wxpngd.lib wxmsw28d_adv.lib rpcrt4.lib"
+				AdditionalDependencies="wsock32.lib hid.lib setupapi.lib winmm.lib opengl32.lib glu32.lib comctl32.lib boinc_apid64.lib boinc_libd64.lib boinc_zipd64.lib curllib64.lib jpeglibd64.lib zlibd64.lib wxbase28d.lib wxmsw28d_core.lib wxmsw28d_gl.lib wxpngd.lib wxmsw28d_adv.lib rpcrt4.lib"
 				OutputFile="..\bin\$(ProjectName)d.exe"
 				Version=""
-				LinkIncremental="2"
-				AdditionalLibraryDirectories="../win_build;../../curl/lib/Debug;\wxWidgets\lib\vc_lib;../sensor/motionnodeaccel"
+				LinkIncremental="1"
+				AdditionalLibraryDirectories="../win_build;../../curl/lib/Debug;\wxWidgets\lib\vc_lib;../sensor/motionnodeaccel;c:\wxWidgets\lib\vc_lib64"
 				IgnoreDefaultLibraryNames=""
 				DelayLoadDLLs=""
 				GenerateDebugInformation="true"
@@ -218,7 +218,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="../../zlib;../../curl/include;../../;../main;../util;../sensor;../graphics;../../../boinc/lib;../../../boinc/zip;&quot;..\..\jpeg-6b&quot;;\wxWidgets\lib\vc_lib\msw;\wxWidgets\include;../../../boinc/api"
+				AdditionalIncludeDirectories="../../zlib;../../curl/include;../../;../main;../util;../sensor;../graphics;../../../boinc/lib;../../../boinc/zip;&quot;..\..\jpeg-6b&quot;;\wxWidgets\lib\vc_lib\msw;\wxWidgets\include;../../../boinc/api;c:\wxWidgets\lib\vc_lib\msw;c:\wxWidgets\include"
 				PreprocessorDefinitions="_USE_NTPDATE_EXEC_;QCNLIVE;GRAPHICS_PROGRAM;FREEGLUT_STATIC;CURL_STATICLIB;_ZLIB;_CRT_SECURE_NO_DEPRECATE;APP_GRAPHICS;WIN32;_WIN32;NDEBUG;__WXMSW__"
 				RuntimeLibrary="0"
 			/>
@@ -236,8 +236,8 @@
 				AdditionalDependencies="wsock32.lib hid.lib setupapi.lib winmm.lib glu32.lib opengl32.lib comctl32.lib boinc_api.lib boinc_lib.lib boinc_zip.lib curllib.lib jpeglib32.lib zlib32.lib wxbase28.lib wxmsw28_core.lib wxmsw28_gl.lib wxpng.lib wxmsw28_adv.lib MotionNodeAccelAPI.lib"
 				OutputFile="..\bin\$(ProjectName).exe"
 				Version=""
-				LinkIncremental="2"
-				AdditionalLibraryDirectories="../win_build;../../curl/lib/Release;\wxWidgets\lib\vc_lib;../sensor/motionnodeaccel"
+				LinkIncremental="1"
+				AdditionalLibraryDirectories="../win_build;../../curl/lib/Release;\wxWidgets\lib\vc_lib;../sensor/motionnodeaccel;c:\wxWidgets\lib\vc_lib"
 				DelayLoadDLLs="MotionNodeAccelAPI.dll"
 				SubSystem="2"
 				HeapReserveSize="67108864"
@@ -297,7 +297,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="../../zlib;../../curl/include;../../;../main;../util;../sensor;../graphics;../../../boinc/lib;../../../boinc/zip;&quot;..\..\jpeg-6b&quot;;\wxWidgets\lib\vc_lib\msw;\wxWidgets\include;../../../boinc/api"
+				AdditionalIncludeDirectories="../../zlib;../../curl/include;../../;../main;../util;../sensor;../graphics;../../../boinc/lib;../../../boinc/zip;&quot;..\..\jpeg-6b&quot;;\wxWidgets\lib\vc_lib\msw;\wxWidgets\include;../../../boinc/api;c:\wxWidgets\lib\vc_lib\msw;c:\wxWidgets\include"
 				PreprocessorDefinitions="_WIN64;_WIN32;_USE_NTPDATE_EXEC_;QCNLIVE;GRAPHICS_PROGRAM;FREEGLUT_STATIC;CURL_STATICLIB;_ZLIB;_CRT_SECURE_NO_DEPRECATE;APP_GRAPHICS;WIN32;_WIN32;NDEBUG;__WXMSW__"
 				RuntimeLibrary="0"
 			/>
@@ -315,8 +315,8 @@
 				AdditionalDependencies="wsock32.lib hid64.lib setupapi.lib winmm.lib glu32.lib opengl32.lib comctl32.lib boinc_api64.lib boinc_lib64.lib boinc_zip64.lib curllib64.lib jpeglib64.lib zlib64.lib wxbase28.lib wxmsw28_core.lib wxmsw28_gl.lib wxpng.lib wxmsw28_adv.lib"
 				OutputFile="..\bin\$(ProjectName).exe"
 				Version=""
-				LinkIncremental="2"
-				AdditionalLibraryDirectories="../win_build;../../curl/lib/x64/Release;\wxWidgets\lib\vc_lib64"
+				LinkIncremental="1"
+				AdditionalLibraryDirectories="../win_build;../../curl/lib/x64/Release;\wxWidgets\lib\vc_lib64;c:\wxWidgets\lib\vc_lib64"
 				DelayLoadDLLs=""
 				SubSystem="2"
 				HeapReserveSize="67108864"

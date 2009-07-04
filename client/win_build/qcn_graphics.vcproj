@@ -150,7 +150,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="jpeglibd.lib boinc_libd.lib boinc_apid.lib zlibd.lib boinc_zipd.lib opengl32.lib glu32.lib"
+				AdditionalDependencies="jpeglibd64.lib boinc_libd64.lib boinc_apid64.lib zlibd64.lib boinc_zipd64.lib opengl32.lib glu32.lib"
 				OutputFile="../test/projects/qcn.edu_qcn/qcn_graphicsd.exe"
 				Version=""
 				LinkIncremental="2"

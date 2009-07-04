@@ -132,7 +132,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="boinc_libd.lib"
+				AdditionalDependencies="boinc_libd64.lib"
 				OutputFile="../bin/$(ProjectName)d.exe"
 				IgnoreDefaultLibraryNames=""
 				GenerateDebugInformation="true"

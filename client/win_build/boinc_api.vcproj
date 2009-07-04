@@ -127,7 +127,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="boinc_apid.lib"
+				OutputFile="boinc_apid64.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"

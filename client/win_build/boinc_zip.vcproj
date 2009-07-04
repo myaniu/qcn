@@ -146,7 +146,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="boinc_zipd.lib"
+				OutputFile="boinc_zipd64.lib"
 				SuppressStartupBanner="true"
 			/>
 			<Tool

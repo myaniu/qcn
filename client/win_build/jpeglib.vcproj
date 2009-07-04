@@ -68,7 +68,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="jpeglib32d.lib"
+				OutputFile="jpeglibd.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -134,7 +134,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="jpeglib64d.lib"
+				OutputFile="jpeglibd64.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"

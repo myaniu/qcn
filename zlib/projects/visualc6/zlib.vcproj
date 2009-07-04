@@ -828,7 +828,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="../../../client/win_build/zlib64d.lib"
+				OutputFile="../../../client/win_build/zlibd64.lib"
 				SuppressStartupBanner="true"
 			/>
 			<Tool
