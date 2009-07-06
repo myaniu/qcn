@@ -207,6 +207,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		4337F497100183CA00E75E05 /* QCNLive-iphone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = "QCNLive-iphone.app"; path = "build/Debug-iphoneos/QCNLive-iphone.app"; sourceTree = "<group>"; };
+		4337F499100183CA00E75E05 /* QCNLive-iphone-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "QCNLive-iphone-Info.plist"; sourceTree = "<group>"; };
 		E3064B950F8FE8A60028A349 /* qcn_2dplot.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = qcn_2dplot.cpp; path = ../graphics/qcn_2dplot.cpp; sourceTree = SOURCE_ROOT; };
 		E3064B970F8FE8C10028A349 /* qcn_2dplot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = qcn_2dplot.h; path = ../graphics/qcn_2dplot.h; sourceTree = SOURCE_ROOT; };
 		E30AB1140EBB776D00DABFEF /* csensor_usb_motionnodeaccel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = csensor_usb_motionnodeaccel.cpp; path = ../sensor/csensor_usb_motionnodeaccel.cpp; sourceTree = SOURCE_ROOT; };
@@ -344,6 +346,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		4337F495100183CA00E75E05 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		E388F7C50FF1B3E500D948DE /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -413,6 +422,7 @@
 				E3D35BC80FF175D500E64121 /* qcn_graphics-Info.plist */,
 				E388F7C90FF1B3E500D948DE /* qcnusb-Info.plist */,
 				E388F9110FF1BE6000D948DE /* qcnlive-Info.plist */,
+				4337F499100183CA00E75E05 /* QCNLive-iphone-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -423,6 +433,7 @@
 				E3D35BC60FF175D500E64121 /* qcn_graphics.app */,
 				E388F7C70FF1B3E500D948DE /* qcnusb.app */,
 				E388F90F0FF1BE6000D948DE /* QCNLive.app */,
+				4337F497100183CA00E75E05 /* QCNLive-iphone.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -731,6 +742,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		4337F496100183CA00E75E05 /* QCNLive-iphone */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4337F49E100183CB00E75E05 /* Build configuration list for PBXNativeTarget "QCNLive-iphone" */;
+			buildPhases = (
+				4337F493100183CA00E75E05 /* Resources */,
+				4337F494100183CA00E75E05 /* Sources */,
+				4337F495100183CA00E75E05 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "QCNLive-iphone";
+			productName = "QCNLive-iphone";
+			productReference = 4337F497100183CA00E75E05 /* QCNLive-iphone.app */;
+			productType = "com.apple.product-type.application";
+		};
 		E388F7C60FF1B3E500D948DE /* qcnusb */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = E388F7CC0FF1B3E600D948DE /* Build configuration list for PBXNativeTarget "qcnusb" */;
@@ -814,11 +842,19 @@
 				E3D35BC50FF175D500E64121 /* qcn_graphics */,
 				E388F7C60FF1B3E500D948DE /* qcnusb */,
 				E388F90E0FF1BE6000D948DE /* QCNLive */,
+				4337F496100183CA00E75E05 /* QCNLive-iphone */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		4337F493100183CA00E75E05 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		E388F90B0FF1BE6000D948DE /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -830,6 +866,13 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		4337F494100183CA00E75E05 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		E388F7C40FF1B3E500D948DE /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1032,6 +1075,97 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
+		4337F49A100183CA00E75E05 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/UIKit.framework/Headers/UIKit.h";
+				INFOPLIST_FILE = "QCNLive-iphone-Info.plist";
+				INSTALL_PATH = "$(HOME)/Applications";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					UIKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = "QCNLive-iphone";
+				SDKROOT = iphoneos2.2.1;
+			};
+			name = Debug;
+		};
+		4337F49B100183CA00E75E05 /* DebugContinual */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/UIKit.framework/Headers/UIKit.h";
+				INFOPLIST_FILE = "QCNLive-iphone-Info.plist";
+				INSTALL_PATH = "$(HOME)/Applications";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					UIKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = "QCNLive-iphone";
+				SDKROOT = iphoneos2.2.1;
+			};
+			name = DebugContinual;
+		};
+		4337F49C100183CA00E75E05 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/UIKit.framework/Headers/UIKit.h";
+				INFOPLIST_FILE = "QCNLive-iphone-Info.plist";
+				INSTALL_PATH = "$(HOME)/Applications";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					UIKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = "QCNLive-iphone";
+				SDKROOT = iphoneos2.2.1;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+		4337F49D100183CA00E75E05 /* ReleaseContinual */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/UIKit.framework/Headers/UIKit.h";
+				INFOPLIST_FILE = "QCNLive-iphone-Info.plist";
+				INSTALL_PATH = "$(HOME)/Applications";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					UIKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = "QCNLive-iphone";
+				SDKROOT = iphoneos2.2.1;
+			};
+			name = ReleaseContinual;
+		};
 		E388F7CA0FF1B3E500D948DE /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -2195,6 +2329,17 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		4337F49E100183CB00E75E05 /* Build configuration list for PBXNativeTarget "QCNLive-iphone" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4337F49A100183CA00E75E05 /* Debug */,
+				4337F49B100183CA00E75E05 /* DebugContinual */,
+				4337F49C100183CA00E75E05 /* Release */,
+				4337F49D100183CA00E75E05 /* ReleaseContinual */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		E388F7CC0FF1B3E600D948DE /* Build configuration list for PBXNativeTarget "qcnusb" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
