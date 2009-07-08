@@ -27,7 +27,7 @@
    <gui_url>
        <name>Trigger Map</name>
        <description>View QCN triggers on an interactive map</description>
-       <url>http://qcn.stanford.edu/sensor/maptrig.php?hostid=<hostid/>&zoom=16&timeint=D</url>
+       <url>http://qcn.stanford.edu/sensor/maptrig.php?hostid=<hostid/>&amp;zoom=16&amp;timeint=D</url>
    </gui_url>
 </gui_urls>
 
