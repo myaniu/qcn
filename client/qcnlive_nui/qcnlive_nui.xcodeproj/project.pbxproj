@@ -653,9 +653,10 @@
 				GCC_PREPROCESSOR_DEFINITIONS = "";
 				HEADER_SEARCH_PATHS = (
 					/usr/local/include,
-					../../boinc/api,
-					../../boinc/zip,
-					../../boinc/lib,
+					../../../boinc/api,
+					../../../boinc/zip,
+					"../../jpeg-6b",
+					../../../boinc/lib,
 					../../,
 					../main,
 					../graphics,
@@ -667,8 +668,8 @@
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = (
 					/usr/local/lib,
-					../../boinc/zip/build/Release,
-					../../boinc/mac_build/build/Deployment,
+					../../../boinc/zip/build/Release,
+					../../../boinc/mac_build/build/Deployment,
 				);
 				OTHER_CFLAGS = (
 					"-Wall",
