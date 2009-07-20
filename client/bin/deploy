@@ -48,7 +48,7 @@ if ( test "`uname -s`" = "Darwin" ) then
          -x@exclude.lst
     cp qcnusb.app/Contents/MacOS/qcnusb ../qcnusb/install
     cd ../qcnusb/install
-    /Developer/usr/bin/packagemaker --doc installer.pmdoc --out ../../bin/qcnusb-mac.mpkg
+    /Developer/usr/bin/packagemaker --doc qcnusb.pmdoc --out ../../bin/qcnusb-mac.mpkg
     cd ../../bin/
     zip -r qcnusb-mac.zip qcnusb-mac.mpkg -x@exclude.lst
   fi
