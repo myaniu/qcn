@@ -1,9 +1,0 @@
-#!/bin/bash
-sudo ./pre-install.sh
-if [ ! -d /Library/QCN ]; then
-    sudo mkdir /Library/QCN/
-fi
-sudo cp qcnusb /Library/QCN/
-sudo chown root:wheel /Library/QCN/qcnusb
-sudo cp edu.stanford.qcn.qcnusb.plist /Library/LaunchDaemons
-sudo ./post-install.sh
