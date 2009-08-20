@@ -4,7 +4,7 @@ require_once("../inc/util_ops.inc");
 require_once("../inc/db.inc");
 
 $query_base = "select 
-t.id as triggerid, t.hostid, t.ipaddr, t.result_name, t.time_trigger as trigger_time, 
+t.id as triggerid, t.hostid, h.domain_name, t.ipaddr, t.result_name, t.time_trigger as trigger_time, 
 (t.time_received-t.time_trigger) as delay_time, t.time_sync as trigger_sync,
 t.sync_offset, t.significance, t.magnitude as trigger_mag, 
 t.latitude as trigger_lat, t.longitude as trigger_lon, t.levelvalue, t.levelid, l.description as leveldesc, 
@@ -13,6 +13,7 @@ t.numreset, s.description as sensor_description, t.sw_version, t.usgs_quakeid, t
 t.received_file, t.file_url
 FROM
   continual.qcn_trigger t
+   LEFT JOIN continual.host h ON t.hostid = h.id 
    LEFT JOIN continual.qcn_sensor s ON t.type_sensor = s.id 
    LEFT OUTER JOIN continual.qcn_level l ON t.levelid = l.id 
 ";
@@ -53,6 +54,7 @@ $bUseFile  = $_GET["cbUseFile"];
 $bUseLat   = $_GET["cbUseLat"];
 $bUseSensor = $_GET["cbUseSensor"];
 $bUseTime  = $_GET["cbUseTime"];
+$bUseHost = $_GET["cbUseHost"];
 
 $quake_mag_min = $_GET["quake_mag_min"];
 if (!$quake_mag_min) $quake_mag_min = "3.0";  // set minimum quake mag cutoff
@@ -60,6 +62,9 @@ if (!$quake_mag_min) $quake_mag_min = "3.0";  // set minimum quake mag cutoff
 $type_sensor = $_GET["type_sensor"];
 $dateStart = $_GET["date_start"];
 $dateEnd   = $_GET["date_end"];
+
+$strHostID = $_GET["HostID"];
+$strHostName = $_GET["HostName"];
 
 $strLonMin = $_GET["LonMin"];
 $strLonMax = $_GET["LonMax"];
@@ -120,7 +125,7 @@ echo "<html><head>
 
 
 // if no constraints then at least use time within past day
-if (!$bUseFile && !$bUseLat && !$bUseTime && !$bUseSensor) {
+if ((!$bUseHost || !$strHostID || !$strHostName) && !$bUseFile && !$bUseLat && !$bUseTime && !$bUseSensor) {
    $bUseTime= 1;
    $tsNow = time();
    // date_start=2009-08-20
@@ -138,6 +143,11 @@ echo "
 <HR>
 Constraints:<br><br>
   <input type=\"checkbox\" id=\"cbUseFile\" name=\"cbUseFile\" value=\"1\" " . ($bUseFile ? "checked" : "") . "> Only Show If Files Received
+<BR>
+<BR>
+  <input type=\"checkbox\" id=\"cbUseHost\" name=\"cbUseHost\" value=\"1\" " . ($bUseHost? "checked" : "") . "> Show Specific Host (enter host ID # or host name)<BR>
+    Host ID: <input id=\"HostID\" name=\"HostID\" value=\"$strHostID\">
+    <BR>Host Name: <input id=\"HostName\" name=\"HostName\" value=\"$strHostName\">
 <BR><BR>
   <input type=\"checkbox\" id=\"cbUseLat\" name=\"cbUseLat\" value=\"1\" " . ($bUseLat ? "checked" : "") . "> Use Lat/Lon Constraint (+/- 90 Lat, +/- 180 Lon)
 <BR>
@@ -304,6 +314,15 @@ if ($bUseQuake) {
    $whereString .= " AND t.usgs_quakeid>0 AND q.magnitude >= " . $quake_mag_min;
 }
 */
+
+if ($bUseHost) {
+  if ($strHostID) {
+     $whereString .= " AND t.hostid = " . $strHostID;
+  }
+  else if ($strHostName) {
+     $whereString .= " AND h.domain_name = '" . $strHostName . "'";
+  }
+}
 
 if ($bUseLat) {
    $whereString .= " AND t.latitude BETWEEN $strLatMin AND $strLatMax AND t.longitude BETWEEN $strLonMin AND $strLonMax ";
@@ -552,7 +571,7 @@ function qcn_trigger_detail($res)
         <td><input type=\"checkbox\" name=\"cb_reqfile[]\" id=\"cb_reqfile[]\" value=\"$res->triggerid\"" . 
            ($res->received_file == 100 ? " " : " disabled ") . "></td>
         <td>$res->triggerid</td>
-        <td><a href=\"db_action.php?table=host&id=$res->hostid\">" . host_name_by_id($res->hostid) . "</a></td>
+        <td><a href=\"show_host_detail.php?hostid=$res->hostid\">" . host_name_by_id($res->hostid) . "</a></td>
         <td>$res->ipaddr</td>
         <td>$res->result_name</td>
         <td>" . time_str($res->trigger_time) . "</td>
