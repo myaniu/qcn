@@ -1,7 +1,7 @@
 <?php
 
 require_once("../inc/util_ops.inc");
-require_once("../inc/db_ops.inc");
+require_once("../inc/db.inc");
 
 $query_base = "select 
 t.id as triggerid, t.hostid, t.ipaddr, t.result_name, t.time_trigger as trigger_time, 
@@ -13,12 +13,22 @@ t.numreset, s.description as sensor_description, t.sw_version, t.usgs_quakeid, t
 t.received_file, t.file_url
 FROM
   continual.qcn_trigger t
-   LEFT JOIN qcn_sensor s ON t.type_sensor = s.id 
-   LEFT OUTER JOIN qcn_level l ON t.levelid = l.id 
+   LEFT JOIN continual.qcn_sensor s ON t.type_sensor = s.id 
+   LEFT OUTER JOIN continual.qcn_level l ON t.levelid = l.id 
 ";
 
+db_init();
+
+$user = get_logged_in_user(true);
+
+/* sample query string (html query string)
+
+http://qcn.stanford.edu/sensor_ops/trig.php?quake_mag_min=3.0&LatMin=&LatMax=&LonMin=&LonMax=&type_sensor=0&cbUseTime=1&date_start=2009-08-20&time_hour_start=0&time_minute_start=0&date_end=2009-08-21&time_hour_end=0&time_minute_end=0&rb_sort=ttd
+
+*/
+
 // first off get the sensor types
-$sqlsensor = "select id,description from qcn_sensor order by id";
+$sqlsensor = "SELECT id,description FROM continual.qcn_sensor order by id";
 $result = mysql_query($sqlsensor);
 $i = 0;
 $arrSensor = array();
@@ -34,11 +44,12 @@ $detail = null;
 $show_aggregate = false;
 
 $q = new SqlQueryString();
-$nresults = $_GET["nresults"];
+$numresults = $_GET["numresults"];
+if (!$numresults) $numresults = 1000;
 $last_pos = $_GET["last_pos"];
 
+//$bUseQuake = $_GET["cbUseQuake"];
 $bUseFile  = $_GET["cbUseFile"];
-$bUseQuake = $_GET["cbUseQuake"];
 $bUseLat   = $_GET["cbUseLat"];
 $bUseSensor = $_GET["cbUseSensor"];
 $bUseTime  = $_GET["cbUseTime"];
@@ -76,12 +87,12 @@ $timeHourEnd   = $_GET["time_hour_end"];
 $timeMinuteEnd = $_GET["time_minute_end"];
 
 $sortOrder = $_GET["rb_sort"];
-if (!$sortOrder) $sortOrder = "ttd";  // triger time desc is default sort order
+if (!$sortOrder) $sortOrder = "ttd";  // trigger time desc is default sort order
 
-if ($nresults) {
-    $entries_to_show = $nresults;
+if ($numresults) {
+    $entries_to_show = $numresults;
 } else {
-    $entries_to_show = 100;
+    $entries_to_show = 1000;
 }
 $page_entries_to_show = $entries_to_show;
 
@@ -91,7 +102,7 @@ if ($last_pos) {
     $start_at = 0;
 }
 
-//admin_page_head("QCN Trigger Listing");
+//page_head("Trigger Listing");
 echo "<html><head>
 <script type=\"text/javascript\" src=\"calendarDateInput.js\">
 
@@ -102,15 +113,19 @@ echo "<html><head>
 ***********************************************/
 
 </script>
-  <title>QCN Trigger Listing</title>
+  <title>Trigger Listing</title>
 </head><body " . BODY_COLOR . ">\n";
  echo "<h5>";
-  echo TABLE . "<tr " . TITLE_COLOR . "><td>" . TITLE_FONT . "<font size=\"6\"><b><a href=\"trig.php\">".PROJECT.":</a>  QCN Trigger Listing </b></font></td></tr></table>\n";
+  echo TABLE . "<tr " . TITLE_COLOR . "><td>" . TITLE_FONT . "<font size=\"6\"><b><a href=\"dl.php\">".PROJECT.":</a>  Trigger Listing </b></font></td></tr></table>\n";
 
 
 // if no constraints then at least use time within past day
-if (!$bUseFile && !$bUseQuake && !$bUseLat && !$bUseTime && !$bUseSensor) {
+if (!$bUseFile && !$bUseLat && !$bUseTime && !$bUseSensor) {
    $bUseTime= 1;
+   $tsNow = time();
+   // date_start=2009-08-20
+   $dateStart = date("Y-m-d", $tsNow);
+   $dateEnd = date("Y-m-d", $tsNow + (3600*24));
    $whereString .= " AND t.time_trigger BETWEEN "
       . "unix_timestamp('" . $dateStart . " 00:00:00')" 
       . " AND unix_timestamp('" . $dateEnd . " 00:00:00')";
@@ -118,17 +133,11 @@ if (!$bUseFile && !$bUseQuake && !$bUseLat && !$bUseTime && !$bUseSensor) {
 
 $sortString = "t.time_trigger DESC";
 
-}
-
 echo "
-<form name='formSelect' method=\"get\" action=trig.php >
+<form name='formSelect' method=\"get\" action=dl.php >
 <HR>
 Constraints:<br><br>
   <input type=\"checkbox\" id=\"cbUseFile\" name=\"cbUseFile\" value=\"1\" " . ($bUseFile ? "checked" : "") . "> Only Show If Files Received
-<BR><BR>
-  <input type=\"checkbox\" id=\"cbUseQuake\" name=\"cbUseQuake\" value=\"1\" " . ($bUseQuake ? "checked" : "") . "> Show Matching USGS Quakes 
-  &nbsp&nbsp
-  Minimum Magnitude: <input id=\"quake_mag_min\" name=\"quake_mag_min\" value=\"$quake_mag_min\">
 <BR><BR>
   <input type=\"checkbox\" id=\"cbUseLat\" name=\"cbUseLat\" value=\"1\" " . ($bUseLat ? "checked" : "") . "> Use Lat/Lon Constraint (+/- 90 Lat, +/- 180 Lon)
 <BR>
@@ -154,7 +163,8 @@ echo "<H5>";
 
 echo "</select>
   <BR><BR>
-  <input type=\"checkbox\" id=\"cbUseTime\" name=\"cbUseTime\" value=\"1\" " . ($bUseTime ? "checked" : "") . "> Use Time Constraint
+  <input type=\"checkbox\" id=\"cbUseTime\" name=\"cbUseTime\" value=\"1\" " . ($bUseTime ? "checked" : "") 
+     . "> Use Time Constraint
 <BR>
 ";
 
@@ -182,7 +192,7 @@ echo "</select>
 :
 <select name=\"time_minute_start\" id=\"time_minute_start\">";
 
-for ($i = 0; $i < 60; $i++) {
+for ($i = 0; $i < 60; $i+=10) {
    echo "<option value=$i ";
    if ($i == $timeMinuteStart) echo "selected";
    echo ">" . sprintf("%02d", $i);
@@ -216,7 +226,7 @@ echo "</select>
 <select name=\"time_minute_end\" id=\"time_minute_end\">
 ";
 
-for ($i = 0; $i < 60; $i++) {
+for ($i = 0; $i < 60; $i+=10) {
    echo "<option value=$i ";
    if ($i == $timeMinuteEnd) echo "selected";
    echo ">" . sprintf("%02d", $i);
@@ -274,6 +284,9 @@ echo "<select name=\"rb_sort\" id=\"rb_sort\">
 
    echo "</select>";
 
+echo "<BR><BR>
+  Max Triggers Per Page:  <input id=\"numresults\" name=\"numresults\" value=\"$numresults\">
+<BR>";
 
 // end the form
 echo "<BR><BR>
@@ -286,9 +299,11 @@ if ($bUseFile) {
    $whereString .= " AND t.received_file = 100 ";
 }
 
+/*
 if ($bUseQuake) {
    $whereString .= " AND t.usgs_quakeid>0 AND q.magnitude >= " . $quake_mag_min;
 }
+*/
 
 if ($bUseLat) {
    $whereString .= " AND t.latitude BETWEEN $strLatMin AND $strLatMax AND t.longitude BETWEEN $strLonMin AND $strLonMax ";
@@ -300,7 +315,7 @@ if ($bUseSensor) {
 
 if ($bUseTime) {
    $whereString .= " AND t.time_trigger BETWEEN unix_timestamp('" . $dateStart . " " . sprintf("%02d", $timeHourStart) . ":" . sprintf("%02d", $timeMinuteStart) . ":00') " 
-        . " AND unix_timestamp('" . $dateEnd . " " . sprintf("%02d", $timeHourEnd) . ":" . sprintf("%02d", $timeMinuteEnd) . ":00') ";
+        . " AND unix_timestamp('" . $dateEnd . " " . sprintf("%02d", $timeHourEnd) . ":" . sprintf("%02d", $timeMinuteEnd+1) . ":00') ";
 }
 
 $sortString = "t.time_trigger DESC";
@@ -393,6 +408,15 @@ function SetAllCheckBoxes(FormName, FieldName, CheckValue)
 <HR>
 ";
 
+/*
+echo "<BR><BR>
+$bUseTime<BR>
+$timeHourStart<BR>
+$timeMinuteStart<BR>
+$timeHourEnd<BR>
+$timeMinuteEnd<BR>
+<BR><BR>";
+*/
  
 $start_1_offset = $start_at + 1;
 echo "
@@ -400,14 +424,13 @@ echo "
     Displaying $start_1_offset to $last.<p>
 ";
 
-$url = $q->get_url("trig.php");
+$url = $q->get_url("dl.php");
 if ($detail) {
     $url .= "&detail=$detail";
 }
 
-$queryString = "&nresults=$page_entries_to_show"
+$queryString = "&numresults=$page_entries_to_show"
        . "&cbUseFile=$bUseFile"
-       . "&cbUseQuake=$bUseQuake"
        . "&cbUseLat=$bUseLat"
        . "&cbUseTime=$bUseTime"
        . "&cbUseSensor=$bUseSensor"
@@ -438,7 +461,7 @@ if ($start_at || $last < $count) {
         ";
     }
     echo "</td><td width=100>";
-    if ($last < $count) {
+    if ($last < $count) { 
         echo "
             <a href=\"$url&last_pos=$last" . $queryString . "\">Next $page_entries_to_show</a><br>
         ";
@@ -450,7 +473,7 @@ echo "<p>\n";
 
 $result = mysql_query($main_query);
 if ($result) {
-    echo "<form name=\"formDetail\" method=\"get\" action=trigreq.php >";
+    echo "<form name=\"formDetail\" method=\"post\" action=dlreq.php >";
     start_table();
     qcn_trigger_header();
     while ($res = mysql_fetch_object($result)) {
@@ -463,7 +486,7 @@ if ($result) {
 }
 
 echo "
-  <input type=\"submit\" value=\"Submit Trigger File Requests\" />
+  <input type=\"submit\" value=\"Submit Download Requests\" />
   <input type=\"button\" value=\"Check All\" onclick=\"SetAllCheckBoxes('formDetail', 'cb_reqfile[]', true);\" >
   <input type=\"button\" value=\"Uncheck All\" onclick=\"SetAllCheckBoxes('formDetail', 'cb_reqfile[]', false);\" >
   </form>";
@@ -475,7 +498,7 @@ if ($start_at || $last < $count) {
         $prev_pos = $start_at - $page_entries_to_show;
         if ($prev_pos < 0) {
             $prev_pos = 0;
-        }
+        }  
         echo "
             <a href=\"$url&last_pos=$prev_pos" . $queryString . "\">Previous $page_entries_to_show</a><br>
         ";
@@ -489,7 +512,7 @@ if ($start_at || $last < $count) {
     echo "</td></tr></table>";
 }
 
-admin_page_tail();
+page_tail();
 
 
 function qcn_trigger_header() {
@@ -508,20 +531,14 @@ function qcn_trigger_header() {
         <th>Significance</th>
         <th>Latitude</th>
         <th>Longitude</th>
+        <th>Elev</th>
+        <th>Elev Units</th>
         <th>NumReset</th>
         <th>DT</th>
         <th>Sensor</th>
         <th>Version</th>
-        <th>Time File Req</th>
         <th>Received File</th>
         <th>File Download</th>
-        <th>USGS ID</th>
-        <th>Quake Magnitude</th>
-        <th>Quake Time (UTC)</th>
-        <th>Quake Latitude</th>
-        <th>Quake Longitude</th>
-        <th>Quake Description</th>
-        <th>USGS GUID</th>
         </tr>
     ";
 }
@@ -533,8 +550,7 @@ function qcn_trigger_detail($res)
     echo "
         <tr>
         <td><input type=\"checkbox\" name=\"cb_reqfile[]\" id=\"cb_reqfile[]\" value=\"$res->triggerid\"" . 
-       ($res->received_file == 100 || $res->trigger_timereq>0 ? " disabled " : " " ) . 
-       "></td>
+           ($res->received_file == 100 ? " " : " disabled ") . "></td>
         <td>$res->triggerid</td>
         <td><a href=\"db_action.php?table=host&id=$res->hostid\">" . host_name_by_id($res->hostid) . "</a></td>
         <td>$res->ipaddr</td>
@@ -547,13 +563,14 @@ function qcn_trigger_detail($res)
         <td>$res->significance</td>
         <td>" . round($res->trigger_lat,4) . "</td>
         <td>" . round($res->trigger_lon,4) . "</td>
+        <td>" . round($res->levelvalue,4) . "</td>
+        <td>" . $res->leveldesc . "</td>
         <td>" . ($res->numreset ? $res->numreset : 0) . "</td>
         <td>$res->delta_t</td>
         <td>$sensor_type</td>
         <td>$res->sw_version</td>";
         
         echo "
-        <td>" . time_str($res->trigger_timereq) . "</td>
         <td>" . ($res->received_file == 100 ? " Yes " : " No " ) . "</td>";
 
         if ($res->file_url) {
@@ -562,7 +579,7 @@ function qcn_trigger_detail($res)
         else {
           echo "<td>N/A</td>";
         }
-
+/*
         if ($res->usgs_quakeid) {
            echo "<td><a href=\"db_action.php?table=usgs_quake&id=$res->usgs_quakeid\">$res->usgs_quakeid</a></td>";
            echo "<td>$res->quake_magnitude</td>";
@@ -581,7 +598,7 @@ function qcn_trigger_detail($res)
            echo "<td>&nbsp</td>";
            echo "<td>&nbsp</td>";
         }
-
+*/
     echo "</tr>
     ";
 }
