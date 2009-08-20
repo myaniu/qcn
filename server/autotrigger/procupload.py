@@ -34,7 +34,7 @@ UNZIP_CMD = "/usr/bin/unzip -o -d " + UPLOAD_WEB_DIR + " "
 
 DBNAME = "qcnalpha"
 DBHOST = "db-private"
-DBUSER = "root"
+DBUSER = "qcn"
 DBPASSWD = ""
 
    
