@@ -45,3 +45,4 @@ pscp carlgt1@qcn-web:/var/www/boinc/qcnalpha/html/ops/trigreq.php ops/
 pscp carlgt1@qcn-web:/var/www/boinc/qcnalpha/html/ops/dbinfo.php ops/
 pscp carlgt1@qcn-web:/var/www/boinc/qcnalpha/html/ops/generate_maptrig.php ops/
 pscp carlgt1@qcn-web:/var/www/boinc/qcnalpha/html/ops/weekly-host.php ops/
+pscp carlgt1@qcn-web:/var/www/boinc/continual/html/user/dl.php ../continual/html/user/
