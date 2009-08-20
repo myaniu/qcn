@@ -31,7 +31,8 @@ finish_time int(11),
 size int(11),
 priority int(6),
 url varchar(256),
-local_path varchar(256)
+local_path varchar(256),
+list_triggerid mediumblob
 );
 alter table job add index job_userid (userid);
 alter table job add index job_create_time (create_time);
