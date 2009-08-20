@@ -3,31 +3,19 @@
 require_once("../inc/util_ops.inc");
 require_once("../inc/db_ops.inc");
 
-$query = "select q.id as quakeid, q.time_utc as quake_time, q.magnitude as quake_magnitude, 
-q.depth_km as quake_depth, q.latitude as quake_lat,
-q.longitude as quake_lon, q.description, q.url, q.guid,
+$query_base = "select 
 t.id as triggerid, t.hostid, t.ipaddr, t.result_name, t.time_trigger as trigger_time, 
 (t.time_received-t.time_trigger) as delay_time, t.time_sync as trigger_sync,
 t.sync_offset, t.significance, t.magnitude as trigger_mag, 
-t.latitude as trigger_lat, t.longitude as trigger_lon, t.file as trigger_file, t.dt as delta_t,
+t.latitude as trigger_lat, t.longitude as trigger_lon, t.levelvalue, t.levelid, l.description as leveldesc, 
+t.file as trigger_file, t.dt as delta_t,
 t.numreset, s.description as sensor_description, t.sw_version, t.usgs_quakeid, t.time_filereq as trigger_timereq, 
 t.received_file, t.file_url
 FROM
-  qcn_trigger t LEFT OUTER JOIN usgs_quake q ON t.usgs_quakeid = q.id
+  continual.qcn_trigger t
    LEFT JOIN qcn_sensor s ON t.type_sensor = s.id 
+   LEFT OUTER JOIN qcn_level l ON t.levelid = l.id 
 ";
-
-/*
-$query = "select t.id as triggerid, t.hostid, t.ipaddr, t.result_name, t.time_trigger as trigger_time, 
-(t.time_received-t.time_trigger) as delay_time, t.time_sync as trigger_sync,
-t.sync_offset, t.significance, t.magnitude as trigger_mag, 
-t.latitude as trigger_lat, t.longitude as trigger_lon, t.file as trigger_file, t.dt as delta_t,
-t.numreset, t.type_sensor, t.sw_version, t.usgs_quakeid, t.time_filereq as trigger_timereq, 
-t.received_file, t.file_url
-from qcn_trigger t ";
-*/
-
-db_init();
 
 // first off get the sensor types
 $sqlsensor = "select id,description from qcn_sensor order by id";
@@ -120,8 +108,17 @@ echo "<html><head>
   echo TABLE . "<tr " . TITLE_COLOR . "><td>" . TITLE_FONT . "<font size=\"6\"><b><a href=\"trig.php\">".PROJECT.":</a>  QCN Trigger Listing </b></font></td></tr></table>\n";
 
 
-// if no constraints then at least use quakes as otherwise we'll have too many i.e. a million triggers
-if (!$bUseFile && !$bUseQuake && !$bUseLat && !$bUseTime && !$bUseSensor) $bUseQuake = 1;
+// if no constraints then at least use time within past day
+if (!$bUseFile && !$bUseQuake && !$bUseLat && !$bUseTime && !$bUseSensor) {
+   $bUseTime= 1;
+   $whereString .= " AND t.time_trigger BETWEEN "
+      . "unix_timestamp('" . $dateStart . " 00:00:00')" 
+      . " AND unix_timestamp('" . $dateEnd . " 00:00:00')";
+}
+
+$sortString = "t.time_trigger DESC";
+
+}
 
 echo "
 <form name='formSelect' method=\"get\" action=trig.php >
@@ -302,7 +299,7 @@ if ($bUseSensor) {
 }
 
 if ($bUseTime) {
-   $whereString .= " AND t.time_received BETWEEN unix_timestamp('" . $dateStart . " " . sprintf("%02d", $timeHourStart) . ":" . sprintf("%02d", $timeMinuteStart) . ":00') " 
+   $whereString .= " AND t.time_trigger BETWEEN unix_timestamp('" . $dateStart . " " . sprintf("%02d", $timeHourStart) . ":" . sprintf("%02d", $timeMinuteStart) . ":00') " 
         . " AND unix_timestamp('" . $dateEnd . " " . sprintf("%02d", $timeHourEnd) . ":" . sprintf("%02d", $timeMinuteEnd) . ":00') ";
 }
 
@@ -342,7 +339,7 @@ switch($sortOrder)
       break;
 }
 
-$query .= " WHERE " . $whereString . " ORDER BY " . $sortString;
+$query = $query_base . " WHERE " . $whereString . " ORDER BY " . $sortString;
 
 //print "<BR><BR>$query<BR><BR>";
 
