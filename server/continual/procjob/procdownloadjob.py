@@ -8,7 +8,7 @@
 # upload server to the database server
 
 # CMC note -- need to install 3rd party MySQLdb libraries for python
-import tempfile, smtplib, traceback, sys, os, tempfile, string, MySQLdb, shutil, zipfile
+import math, tempfile, smtplib, traceback, sys, os, tempfile, string, MySQLdb, shutil, zipfile
 from datetime import datetime
 from zipfile import ZIP_STORED
 from time import strptime, mktime
@@ -79,6 +79,7 @@ def procDownloadRequest(dbconn, outfilename, url, jobid, userid, trigidlist):
    myzipout.close() 
    numbyte = os.path.getsize(zipoutpath)
    shutil.rmtree(tmpdir)    # remove temp directory
+   myCursor.close();
    return numbyte
 
  except zipfile.error:
@@ -87,6 +88,7 @@ def procDownloadRequest(dbconn, outfilename, url, jobid, userid, trigidlist):
    #dbconn.rollback()
    traceback.print_exc()
    shutil.rmtree(tmpdir)    # remove temp directory
+   myCursor.close();
    if (myzipout != None):
       myzipout.close() 
       os.remove(zipoutpath)
@@ -96,19 +98,21 @@ def procDownloadRequest(dbconn, outfilename, url, jobid, userid, trigidlist):
    #dbconn.rollback()
    traceback.print_exc()
    shutil.rmtree(tmpdir)    # remove temp directory
+   myCursor.close();
    if (myzipout != None):
       myzipout.close() 
       os.remove(zipoutpath)
    return 0
  
 
-def sendEmail(Username, ToEmailAddr, DLURL):
-  return
+def sendEmail(Username, ToEmailAddr, DLURL, NumMB):
   # sends email that job is done
   FromEmailAddr = "noreply@qcn.stanford.edu"
   server=smtplib.SMTP(SMTP_HOST)
   msg = "Hello " + Username + ":\n\n" + "Your requested files are available for download " +\
-    "over the next 24 hours from the following URL:\n\n" + DLURL + "\n\nNote that this email is automated - please do not reply!"
+    "over the next 24 hours from the following URL:\n\n" + DLURL +\
+    "\n\nThe file size to download is approximately " + str(NumMB) + " megabytes." +\
+    "\n\nNote that this email is automated - please do not reply!"
   subj = "QCN Continual Download Archive Completed"
 
   MessageText = """\
@@ -122,31 +126,44 @@ Subject: %s
   server.sendmail(FromEmailAddr, ToEmailAddr, MessageText)
   server.quit()
 
+def updateRequest(dbconn, jobid, numbyte, outfilename, url):
+   myCursor = dbconn.cursor()
+   query = "UPDATE continual_download.job SET finish_time=unix_timestamp(), " +\
+                "url='" + url + "', local_path='" + outfilename + "', size=" + str(numbyte) +\
+                " WHERE id=" + str(jobid)
+   #print query
+   myCursor.execute(query)
+   dbconn.commit();
+   myCursor.close();
+
 
 def processContinualJobs(dbconn):
    # read the continual_download.job table for unfinished jobs, then process the upload files into a single bundle
    myCursor = dbconn.cursor()
    query = "SELECT j.id, j.userid, u.name, u.email_addr, j.create_time, j.list_triggerid " +\
       "FROM continual_download.job j, continual.user u " +\
-      "WHERE j.userid=u.id AND finish_time IS NULL AND userid=15"  
+      "WHERE j.userid=u.id AND finish_time IS NULL"
 
    myCursor.execute(query)
 
    # get the resultset as a tuple
    result = myCursor.fetchall()
+   totalmb = 0
 
    # iterate through resultset
    for rec in result:
-      numbyte = 0
       outfilename = "u" + str(rec[1]) + "_j" + str(rec[0]) + ".zip"
       url = URL_DOWNLOAD_BASE + outfilename
       print rec[0] , "  ", rec[1], "  ", rec[2], "  ", rec[3]
-      if (procDownloadRequest(dbconn, outfilename, url, rec[0], rec[1], rec[5]) > 0):
-         sendEmail(rec[2], rec[3], url)
-         updateRequest(rec[0])
+      numbyte = procDownloadRequest(dbconn, outfilename, url, rec[0], rec[1], rec[5])
+      if (numbyte > 0):
+         nummb = math.floor(numbyte/(1024*1024))
+         totalmb += nummb
+         sendEmail(rec[2], rec[3], url, nummb)
+         updateRequest(dbconn, rec[0], numbyte, outfilename, url)
 
    myCursor.close();
-
+   return math.ceil(totalmb)
 
 # makes sure that the necessary paths are in place as defined above
 def checkPaths():
@@ -172,7 +189,9 @@ def main():
                            passwd = DBPASSWD,
                            db = DBNAME)
 
-      processContinualJobs(dbconn)
+      totalmb = processContinualJobs(dbconn)
+
+      print str(totalmb) + " MB of zip files processed"
 
       dbconn.close()
 
