@@ -8,8 +8,9 @@
 # upload server to the database server
 
 # CMC note -- need to install 3rd party MySQLdb libraries for python
-import smtplib, traceback, sys, os, tempfile, string, MySQLdb, shutil, zipfile
+import tempfile, smtplib, traceback, sys, os, tempfile, string, MySQLdb, shutil, zipfile
 from datetime import datetime
+from zipfile import ZIP_STORED
 from time import strptime, mktime
 
 # trigger file download URL base
@@ -31,7 +32,78 @@ DBUSER = "qcn"
 DBPASSWD = ""
 SMTP_HOST = "smtp.stanford.edu"
 
+def procDownloadRequest(dbconn, outfilename, url, jobid, userid, trigidlist):
+ tmpdir = tempfile.mkdtemp()
+ myCursor = dbconn.cursor()
+ query = "SELECT id,hostid,latitude,longitude,levelvalue,levelid,file " +\
+              "FROM continual.qcn_trigger " +\
+              "WHERE received_file=100 AND id IN " + trigidlist
+ myCursor.execute(query)
+
+ zipoutpath = os.path.join(DOWNLOAD_CONTINUAL_WEB_DIR, outfilename)
+ zipinpath = ""
+
+ # get the resultset as a tuple
+ result = myCursor.fetchall()
+ numbyte = 0
+ myzipout = None
+ errlevel = 0
+
+ try:
+ 
+   # open a zip output file - allow zip64 compression for large (>2GB) files
+   errlevel = 1
+   #print zipoutpath, "  ", 'w', "  ", str(ZIP_STORED), "  ", str(True)
+   myzipout = zipfile.ZipFile(zipoutpath, "w", ZIP_STORED, True)
+
+   # iterate through resultset
+   for rec in result:
+      errlevel = 2
+      #print "    ", rec[0] , "  ", rec[1], "  ", rec[2], "  ", rec[3], "  ", rec[4], "  ", rec[5], "  ", rec[6]
+
+      zipinpath = os.path.join(UPLOAD_CONTINUAL_WEB_DIR, rec[6])
+      myzipin = zipfile.ZipFile(zipinpath, "r")
+      # test for valid zip file
+      if myzipin.testzip() == None:
+         errlevel = 3
+         # valid zip file so add to myzipout, first close
+         zipinlist = myzipin.namelist()
+         myzipin.extractall(tmpdir)
+         myzipin.close()
+         for zipinname in zipinlist:
+            errlevel = 4
+            zipinpath = os.path.join(tmpdir, zipinname)
+            myzipout.write(zipinpath)
+            os.remove(zipinpath)
+
+   myzipout.close() 
+   numbyte = os.path.getsize(zipoutpath)
+   shutil.rmtree(tmpdir)    # remove temp directory
+   return numbyte
+
+ except zipfile.error:
+   print "Error " + str(errlevel) + " in " + zipoutpath + " or " + zipinpath +\
+        " is an invalid zip file (tmpdir=" + tmpdir + ")"
+   #dbconn.rollback()
+   traceback.print_exc()
+   shutil.rmtree(tmpdir)    # remove temp directory
+   if (myzipout != None):
+      myzipout.close() 
+      os.remove(zipoutpath)
+   return 0
+ except:
+   print "Error " + str(errlevel) + " in " + zipoutpath + " or " + zipinpath + " (tmpdir=" + tmpdir + ")"
+   #dbconn.rollback()
+   traceback.print_exc()
+   shutil.rmtree(tmpdir)    # remove temp directory
+   if (myzipout != None):
+      myzipout.close() 
+      os.remove(zipoutpath)
+   return 0
+ 
+
 def sendEmail(Username, ToEmailAddr, DLURL):
+  return
   # sends email that job is done
   FromEmailAddr = "noreply@qcn.stanford.edu"
   server=smtplib.SMTP(SMTP_HOST)
@@ -51,76 +123,12 @@ Subject: %s
   server.quit()
 
 
-def processSingleZipFile(dbconn, myzipfile):
-   # process a single zip file, i.e. test, unzip into myTempDir, list all the filenames,
-   # test the zips within the zip file perhaps?, and of course update the qcn_trigger
-   # table that we have received this zipfile
-   fullzippath = os.path.join(UPLOAD_BOINC_DIR, myzipfile)
-
-   try:  # catch zipfile exceptions if any
-      myCursor = dbconn.cursor()
-      
-      myzip = zipfile.ZipFile(fullzippath, "r")
-      # test for valid zip file
-      if myzip.testzip() != None:
-         # move out invalid zip file by raising the zipfile.error exception (caught below)
-         raise zipfile.error
-
-      # get the files within the zip
-      infiles = myzip.namelist()
-         
-      for name in infiles:
-        if name.endswith("_usb.zip"):
-            # this is an upload from a usb test zip file
-            outfile = open(os.path.join(UPLOAD_USB_WEB_DIR, name), 'wb')
-            outfile.write(myzip.read(name))
-            outfile.close()
-        elif name.startswith("continual_"):
-            # this is an upload from a usb test zip file
-            outfile = open(os.path.join(UPLOAD_CONTINUAL_WEB_DIR, name), 'wb')
-            outfile.write(myzip.read(name))
-            outfile.close()
-
-            # now update the qcn_trigger table!
-            strSQL = "UPDATE continual.qcn_trigger SET received_file=100, " +\
-                          "file_url='" + URL_DOWNLOAD_BASE + "continual/" + name + "' " +\
-                          "WHERE file='" + name + "'"
-            #print strSQL
-            myCursor.execute(strSQL)
-            dbconn.commit()
-        else: 
-            # this is a regular trigger
-            outfile = open(os.path.join(UPLOAD_WEB_DIR, name), 'wb')
-            outfile.write(myzip.read(name))
-            outfile.close()
-
-            # now update the qcn_trigger table!
-            myCursor.execute("UPDATE qcnalpha.qcn_trigger SET received_file=100, " +\
-                          "file_url='" + URL_DOWNLOAD_BASE + name + "' " +\
-                          "WHERE file='" + name + "'")
-            dbconn.commit()
-
-      myzip.close()
-      shutil.move(fullzippath, UPLOAD_BACKUP_DIR)
-      print "Successfully processed " + fullzippath
-      
-   except zipfile.error:
-      print fullzippath + " is an invalid zip file"
-      # move out invalid zip file
-      shutil.move(fullzippath, UPLOAD_BACKUP_DIR)
-      dbconn.rollback()
-      traceback.print_exc()
-   except:
-      print "Error 2 in " + fullzippath
-      dbconn.rollback()
-      traceback.print_exc()
-   
 def processContinualJobs(dbconn):
    # read the continual_download.job table for unfinished jobs, then process the upload files into a single bundle
    myCursor = dbconn.cursor()
    query = "SELECT j.id, j.userid, u.name, u.email_addr, j.create_time, j.list_triggerid " +\
       "FROM continual_download.job j, continual.user u " +\
-      "WHERE j.userid=u.id AND finish_time IS NULL"  
+      "WHERE j.userid=u.id AND finish_time IS NULL AND userid=15"  
 
    myCursor.execute(query)
 
@@ -129,9 +137,13 @@ def processContinualJobs(dbconn):
 
    # iterate through resultset
    for rec in result:
+      numbyte = 0
       outfilename = "u" + str(rec[1]) + "_j" + str(rec[0]) + ".zip"
-      print rec[0] , "-->", rec[1], "  ", rec[2], "  ", rec[3]
-      sendEmail(rec[2], rec[3], URL_DOWNLOAD_BASE + outfilename)
+      url = URL_DOWNLOAD_BASE + outfilename
+      print rec[0] , "  ", rec[1], "  ", rec[2], "  ", rec[3]
+      if (procDownloadRequest(dbconn, outfilename, url, rec[0], rec[1], rec[5]) > 0):
+         sendEmail(rec[2], rec[3], url)
+         updateRequest(rec[0])
 
    myCursor.close();
 
