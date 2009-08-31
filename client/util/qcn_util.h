@@ -33,6 +33,11 @@ namespace qcn_util
 void FormatElapsedTime(const double& dTime, char* strFormat, int iLen);
 char cPathSeparator(); // returns path sep, i.e. for strPathTrigger
 const char* os_type_str(); // returns small string of OS type i.e. M64 = 64-bit Mac
+// round number n to d decimal points 
+inline double fround(double n, unsigned d)
+{
+  return floor(n * pow(10., d) + .5) / pow(10., d);
+}
 void dtime_to_string(const double dtime, const char cType, char* strTime);
 double qcn_dday(double dNow);
 void string_tidy(char* strIn, int length);

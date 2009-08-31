@@ -924,6 +924,7 @@ bool setupPlotMemory(const long lOffset)
 
 		} // for ii
 		if (fAvgCtr > 0.0f) g_fAvg[kk] /= fAvgCtr; // take the average for number of valid points
+		g_fAvg[kk] = qcn_util::fround(g_fAvg[kk],1);  // round to 1 dec point so we're centered somewhere sensible, i.e. 0 rather than - .002 etc
 
 	} // for kk
 	  
