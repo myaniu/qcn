@@ -19,7 +19,7 @@ static const int g_iScaleAxesMax = 5;
 static int g_iScaleSigOffset  = 0;
 static int g_iScaleAxesOffset = 0;
 
-static const float g_fScaleSig[6]  = { .3f, 1.0f, 2.5f, 5.0f, 10.0f, 20.0f }; // default scale for sig is 20
+static const float g_fScaleSig[6]  = { .6f, 1.5f, 3.0f, 5.0f, 10.0f, 20.0f }; // default scale for sig is 20
 static const float g_fScaleAxes[6] = { .3f, 1.0f, 2.0f, 4.9f,  9.8f, 19.6f };
 
 //static bool g_bAutoCenter = true; // automatically center the plots
@@ -27,7 +27,7 @@ static bool g_bAutoScale = true; // set to true when want each axes to scale aro
 
 static float g_fMaxAxesCurrent[4]  = { g_fScaleAxes[0], g_fScaleAxes[0], g_fScaleAxes[0], g_fScaleAxes[0] };  // save each scale level for autoscaling, so it's not jumping all around
 static float g_fMinAxesCurrent[4]  = { -g_fScaleAxes[0], -g_fScaleAxes[0], -g_fScaleAxes[0], -g_fScaleAxes[0] };  // save each scale level for autoscaling, so it's not jumping all around
-
+	
 static const float cfTransAlpha = 0.100f;
 static const float cfAxisLabel  = 1.061f;
 static const float cfVertLabel  = 0.988f;
@@ -47,7 +47,7 @@ void draw_text_sensor_axis(int iAxis)
 	if (g_fMaxAxesCurrent[iAxis] == SAC_NULL_FLOAT || g_fMinAxesCurrent[iAxis] == -1.0f * SAC_NULL_FLOAT) return;
 	float fIncrement = (g_fMaxAxesCurrent[iAxis] - g_fMinAxesCurrent[iAxis]) / 6.0f;
 	for (int i = 0; i <= 6; i++) {
-		sprintf(cbuf, "%+6.3f", g_fMinAxesCurrent[iAxis] + (fIncrement * (float) i) );
+		sprintf(cbuf, "%+6.3f", g_fMinAxesCurrent[iAxis] + g_fAvg[iAxis] + (fIncrement * (float) i) );
 	    txf_render_string(cfTransAlpha, cfVertLabel, cfBaseScale[iAxis] + cfAxesOffset[i], 0, MSG_SIZE_SMALL, g_bIsWhite ? black : grey_trans, TXF_COURIER_BOLD, cbuf);
 	}
 }
@@ -164,7 +164,7 @@ void draw_tick_marks()
 bool CalcYPlot(const float fVal, const int ee, float&  myY)
 {
     myY = yax_qcnlive[ee] + (ee == E_DS ? 0.5f : 0.0f) 
-               + ( 15.0f * ( (fVal - g_fMinAxesCurrent[ee])  
+	     + ( 15.0f * ( (fVal - (g_fMinAxesCurrent[ee] + (ee == E_DS ? 0.0f : g_fAvg[ee])))
                                    / (g_fMaxAxesCurrent[ee] - g_fMinAxesCurrent[ee] ) )  );
 
     //if (fdata[i] != 0.0f) { // suppress 0 values and check data ranges fit
@@ -325,8 +325,8 @@ void draw_plot()
 			  }
 			 }
 			 else {
-					g_fMaxAxesCurrent[ee] = ( ee == E_DS ? g_fScaleSig[g_iScaleSigOffset] : g_fScaleAxes[g_iScaleAxesOffset] );
-					g_fMinAxesCurrent[ee] = ( ee == E_DS ? 0.0f : -g_fScaleAxes[g_iScaleAxesOffset] );
+					g_fMaxAxesCurrent[ee] = ( ee == E_DS ? g_fScaleSig[g_iScaleSigOffset] : g_fScaleAxes[g_iScaleAxesOffset] + g_fAvg[ee]);
+					g_fMinAxesCurrent[ee] = ( ee == E_DS ? 0.0f : -g_fScaleAxes[g_iScaleAxesOffset] + g_fAvg[ee]);
 			 }
 
 			 if ((g_fMaxAxesCurrent[ee] - g_fMinAxesCurrent[ee]) == 0.0f) {

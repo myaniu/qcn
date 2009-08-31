@@ -234,6 +234,7 @@ bool bScaled = false;             // scaled is usually for 3D pics, but can also
 char* g_strFile = NULL;           // optional file of shared memory serialization
 bool bResetArray = true;          // reset our plot memory array, otherwise it will just try to push a "live" point onto the array
 float aryg[4][PLOT_ARRAY_SIZE];   // the data points for plotting -- DS DX DY DZ
+float g_fAvg[4];  // keep an average of values to use for the middle of the scale
 
 // current view is an enum i.e. { VIEW_PLOT_3D = 1, VIEW_PLOT_2D, VIEW_EARTH_DAY, VIEW_EARTH_NIGHT, VIEW_EARTH_COMBINED, VIEW_CUBE }; 
 char g_strJPG[_MAX_PATH];
@@ -793,6 +794,7 @@ bool setupPlotMemory(const long lOffset)
     }
 
     for (ii = 0; ii < 4; ii++) {
+	  g_fAvg[ii] = 0.0f;
       memset(af[ii], 0x00, sizeof(float) * awinsize[key_winsize]);
       memset((void*) aryg[ii], SAC_NULL_FLOAT, sizeof(float) * PLOT_ARRAY_SIZE);
     }
@@ -872,7 +874,10 @@ bool setupPlotMemory(const long lOffset)
 
     // now try a simple averaging rebinning to get the array down to manageable size (1000 pts)
 	// maybe get the max each rebin interval?
+	float fAvgCtr = 0.0f;
 	for (kk = E_DX; kk <= E_DS; kk++) {
+		g_fAvg[kk] = 0.0f;
+		fAvgCtr = 0.0f;
 		for (ii = 0; ii < awinsize[key_winsize]/iRebin; ii++) {
 			//fAvgCtr[kk]  = 0.0f;
 			//fAvg[kk]     = 0.0f;
@@ -913,9 +918,12 @@ bool setupPlotMemory(const long lOffset)
 			if (aryg[kk][ii] != SAC_NULL_FLOAT ) {
 				if (aryg[kk][ii] < g_fmin[kk]) g_fmin[kk] = aryg[kk][ii];
 				else if (aryg[kk][ii] > g_fmax[kk]) g_fmax[kk] = aryg[kk][ii];
+				g_fAvg[kk] += aryg[kk][ii];
+				fAvgCtr += 1.0f;
 			}
 
 		} // for ii
+		if (fAvgCtr > 0.0f) g_fAvg[kk] /= fAvgCtr; // take the average for number of valid points
 
 	} // for kk
 	  

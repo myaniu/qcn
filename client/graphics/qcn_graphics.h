@@ -178,7 +178,8 @@ extern bool bScaled;             // scaled is usually for 3D pics, but can also 
 extern char* g_strFile;           // optional file of shared memory serialization
 extern bool bResetArray;          // reset our plot memory array, otherwise it will just try to push a "live" point onto the array
 extern float aryg[4][PLOT_ARRAY_SIZE];   // the data points for plotting -- DS DX DY DZ
-
+extern float g_fAvg[4];   // running avg for plot scale
+	
 // current view is an enum i.e. { VIEW_PLOT_3D = 1, VIEW_PLOT_2D, VIEW_EARTH_DAY, VIEW_EARTH_NIGHT, VIEW_EARTH_COMBINED, VIEW_CUBE }; 
 extern char g_strJPG[_MAX_PATH];
 extern int g_iJPG;
