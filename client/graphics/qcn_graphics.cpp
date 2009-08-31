@@ -908,11 +908,11 @@ bool setupPlotMemory(const long lOffset)
 		  */
 		  aryg[kk][ii] = fLocalMax[kk];
 		  if (fLocalMax[kk] == SAC_NULL_FLOAT) {
-                       fLocalMax[kk] = 0.0f; // force to 0 if no max found, this will prevent drawing crazy autoscale ranges etc
-                       if (g_eView == VIEW_PLOT_3D) { // if null on the 3d, force to 0, since we just pass the aryg array in and it will try to draw SAC_NULL (-12345)
+			 fLocalMax[kk] = 0.0f; // force to 0 if no max found, this will prevent drawing crazy autoscale ranges etc
+			if (g_eView == VIEW_PLOT_3D) { // if null on the 3d, force to 0, since we just pass the aryg array in and it will try to draw SAC_NULL (-12345)
 		          aryg[kk][ii] = 0.0f;
-                       }
-                  }
+			}
+		  }
 
 			// note: setup a max min range per axis per rebin -- this doesn't really correspond to absolute max/min g_fmax/fmin values, but for display purposes
 			if (aryg[kk][ii] != SAC_NULL_FLOAT ) {
