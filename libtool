@@ -1,7 +1,7 @@
 #! /bin/sh
 
 # libtoolT - Provide generalized library-building support services.
-# Generated automatically by  (GNU qcn 5.20)
+# Generated automatically by  (GNU qcn 5.22)
 # NOTE: Changes made to this file will be lost: look at ltmain.sh.
 #
 # Copyright (C) 1996, 1997, 1998, 1999, 2000, 2001
@@ -44,7 +44,7 @@ available_tags=" CXX F77"
 
 # ### BEGIN LIBTOOL CONFIG
 
-# Libtool was configured on host cmc-macbook.local:
+# Libtool was configured on host atmosx3.atm.ox.ac.uk:
 
 # Shell to use when invoking shell scripts.
 SHELL="/bin/sh"
@@ -6765,7 +6765,7 @@ build_old_libs=`case $build_libtool_libs in yes) $echo no;; *) $echo yes;; esac`
 # End:
 # ### BEGIN LIBTOOL TAG CONFIG: CXX
 
-# Libtool was configured on host cmc-macbook.local:
+# Libtool was configured on host atmosx3.atm.ox.ac.uk:
 
 # Shell to use when invoking shell scripts.
 SHELL="/bin/sh"
@@ -7061,7 +7061,7 @@ include_expsyms=""
 
 # ### BEGIN LIBTOOL TAG CONFIG: F77
 
-# Libtool was configured on host cmc-macbook.local:
+# Libtool was configured on host atmosx3.atm.ox.ac.uk:
 
 # Shell to use when invoking shell scripts.
 SHELL="/bin/sh"
@@ -7096,10 +7096,10 @@ AR_FLAGS="cru"
 LTCC="gcc"
 
 # A language-specific compiler.
-CC="g77"
+CC="ifort"
 
 # Is the compiler the GNU C compiler?
-with_gcc=yes
+with_gcc=
 
 # An ERE matcher.
 EGREP="/usr/bin/grep -E"
@@ -7330,7 +7330,7 @@ variables_saved_for_relink="PATH DYLD_LIBRARY_PATH  GCC_EXEC_PREFIX COMPILER_PAT
 link_all_deplibs=yes
 
 # Compile-time system search path for libraries
-sys_lib_search_path_spec=" /usr/local/lib/gcc/i686-apple-darwin8.8.1/3.4.0/ /usr/lib/gcc/i686-apple-darwin8.8.1/3.4.0/ /usr/local/lib/gcc/i686-apple-darwin8.8.1/3.4.0/../../../../i686-apple-darwin8.8.1/lib/i686-apple-darwin8.8.1/3.4.0/ /usr/local/lib/gcc/i686-apple-darwin8.8.1/3.4.0/../../../../i686-apple-darwin8.8.1/lib/ /usr/local/lib/gcc/i686-apple-darwin8.8.1/3.4.0/../../../i686-apple-darwin8.8.1/3.4.0/ /usr/local/lib/gcc/i686-apple-darwin8.8.1/3.4.0/../../../ /lib/i686-apple-darwin8.8.1/3.4.0/ /lib/ /usr/lib/i686-apple-darwin8.8.1/3.4.0/ /usr/lib/  /lib /usr/lib /usr/local/lib"
+sys_lib_search_path_spec=""
 
 # Run-time system search path for libraries
 sys_lib_dlsearch_path_spec="/usr/local/lib /lib /usr/lib"
