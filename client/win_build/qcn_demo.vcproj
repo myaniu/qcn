@@ -48,6 +48,7 @@
 				RuntimeLibrary="1"
 				WarningLevel="3"
 				DebugInformationFormat="4"
+				ForcedIncludeFiles="windows.h"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -123,6 +124,7 @@
 				RuntimeLibrary="1"
 				WarningLevel="3"
 				DebugInformationFormat="3"
+				ForcedIncludeFiles="windows.h"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -198,6 +200,7 @@
 				AdditionalIncludeDirectories="../../zlib;../../;../main;../sensor;../util;../../../boinc/lib;../../../boinc/api;../../../boinc/zip"
 				PreprocessorDefinitions="QCNDEMO;_WIN32;NDEBUG;_WIN32;_ZLIB;_CRT_SECURE_NO_DEPRECATE"
 				RuntimeLibrary="0"
+				ForcedIncludeFiles="windows.h"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -273,6 +276,7 @@
 				AdditionalIncludeDirectories="../../zlib;../../;../main;../sensor;../util;../../../boinc/lib;../../../boinc/api;../../../boinc/zip"
 				PreprocessorDefinitions="_WIN64;QCNDEMO;_WIN32;NDEBUG;_WIN32;_ZLIB;_CRT_SECURE_NO_DEPRECATE"
 				RuntimeLibrary="0"
+				ForcedIncludeFiles="windows.h"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"

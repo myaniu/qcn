@@ -52,6 +52,7 @@
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="false"
 				DebugInformationFormat="4"
+				ForcedIncludeFiles="windows.h"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -138,6 +139,7 @@
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="false"
 				DebugInformationFormat="3"
+				ForcedIncludeFiles="windows.h"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -219,6 +221,7 @@
 				AdditionalIncludeDirectories="../../zlib;../../;../main;../sensor;../util;../../../boinc/lib;../../../boinc/api;&quot;../../jpeg-6b&quot;;../../freeglut/include;../../../boinc/zip"
 				PreprocessorDefinitions="QCNGRAPHICS;_WIN32;NDEBUG;_ZLIB;_CRT_SECURE_NO_DEPRECATE;GRAPHICS_PROGRAM"
 				RuntimeLibrary="0"
+				ForcedIncludeFiles="windows.h"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -295,6 +298,7 @@
 				AdditionalIncludeDirectories="../../zlib;../../;../main;../sensor;../util;../../../boinc/lib;../../../boinc/api;&quot;../../jpeg-6b&quot;;../../freeglut/include;../../../boinc/zip"
 				PreprocessorDefinitions="_WIN64;GRAPHICS_PROGRAM;QCNGRAPHICS;_WIN32;NDEBUG;_ZLIB;_CRT_SECURE_NO_DEPRECATE"
 				RuntimeLibrary="0"
+				ForcedIncludeFiles="windows.h"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"

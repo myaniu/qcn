@@ -51,6 +51,7 @@
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="false"
 				DebugInformationFormat="4"
+				ForcedIncludeFiles="windows.h"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -137,6 +138,7 @@
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="false"
 				DebugInformationFormat="3"
+				ForcedIncludeFiles="windows.h"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -222,6 +224,7 @@
 				AdditionalIncludeDirectories="../../;../main;../sensor;../util;../../../boinc/lib;../../zlib;../../../boinc/api;../../../boinc/zip"
 				PreprocessorDefinitions="_USE_NTPDATE_EXEC_;_WIN32;NDEBUG;_WIN32;_CRT_SECURE_NO_DEPRECATE;_ZLIB;APP_GRAPHICS"
 				RuntimeLibrary="0"
+				ForcedIncludeFiles="windows.h"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -308,6 +311,7 @@
 				AdditionalIncludeDirectories="../../;../main;../sensor;../util;../../../boinc/lib;../../zlib;../../../boinc/api;../../../boinc/zip"
 				PreprocessorDefinitions="_WIN64;_USE_NTPDATE_EXEC_;_WIN32;NDEBUG;_WIN32;_CRT_SECURE_NO_DEPRECATE;_ZLIB;APP_GRAPHICS"
 				RuntimeLibrary="0"
+				ForcedIncludeFiles="windows.h"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -394,6 +398,7 @@
 				AdditionalIncludeDirectories="../../;../main;../sensor;../util;../../../boinc/lib;../../zlib;../../../boinc/api;../../../boinc/zip"
 				PreprocessorDefinitions="QCN_CONTINUAL;_USE_NTPDATE_EXEC_;_WIN32;NDEBUG;_WIN32;_CRT_SECURE_NO_DEPRECATE;_ZLIB;APP_GRAPHICS"
 				RuntimeLibrary="0"
+				ForcedIncludeFiles="windows.h"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -480,6 +485,7 @@
 				AdditionalIncludeDirectories="../../;../main;../sensor;../util;../../../boinc/lib;../../zlib;../../../boinc/api;../../../boinc/zip"
 				PreprocessorDefinitions="QCN_CONTINUAL;_WIN64;_USE_NTPDATE_EXEC_;_WIN32;NDEBUG;_WIN32;_CRT_SECURE_NO_DEPRECATE;_ZLIB;APP_GRAPHICS"
 				RuntimeLibrary="0"
+				ForcedIncludeFiles="windows.h"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"

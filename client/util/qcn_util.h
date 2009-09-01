@@ -35,7 +35,7 @@ void FormatElapsedTime(const double& dTime, char* strFormat, int iLen);
 char cPathSeparator(); // returns path sep, i.e. for strPathTrigger
 const char* os_type_str(); // returns small string of OS type i.e. M64 = 64-bit Mac
 // round number n to d decimal points 
-inline double fround(double n, unsigned d)
+inline double fround(double n, int d)
 {
   return floor(n * pow(10., d) + .5) / pow(10., d);
 }

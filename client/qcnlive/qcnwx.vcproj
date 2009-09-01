@@ -50,6 +50,7 @@
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="true"
 				DebugInformationFormat="4"
+				ForcedIncludeFiles="windows.h"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -138,6 +139,7 @@
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="true"
 				DebugInformationFormat="3"
+				ForcedIncludeFiles="windows.h"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -221,6 +223,7 @@
 				AdditionalIncludeDirectories="../../zlib;../../curl/include;../../;../main;../util;../sensor;../graphics;../../../boinc/lib;../../../boinc/zip;&quot;..\..\jpeg-6b&quot;;\wxWidgets\lib\vc_lib\msw;\wxWidgets\include;../../../boinc/api;c:\wxWidgets\lib\vc_lib\msw;c:\wxWidgets\include"
 				PreprocessorDefinitions="_USE_NTPDATE_EXEC_;QCNLIVE;GRAPHICS_PROGRAM;FREEGLUT_STATIC;CURL_STATICLIB;_ZLIB;_CRT_SECURE_NO_DEPRECATE;APP_GRAPHICS;WIN32;_WIN32;NDEBUG;__WXMSW__"
 				RuntimeLibrary="0"
+				ForcedIncludeFiles="windows.h"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -300,6 +303,7 @@
 				AdditionalIncludeDirectories="../../zlib;../../curl/include;../../;../main;../util;../sensor;../graphics;../../../boinc/lib;../../../boinc/zip;&quot;..\..\jpeg-6b&quot;;\wxWidgets\lib\vc_lib\msw;\wxWidgets\include;../../../boinc/api;c:\wxWidgets\lib\vc_lib\msw;c:\wxWidgets\include"
 				PreprocessorDefinitions="_WIN64;_WIN32;_USE_NTPDATE_EXEC_;QCNLIVE;GRAPHICS_PROGRAM;FREEGLUT_STATIC;CURL_STATICLIB;_ZLIB;_CRT_SECURE_NO_DEPRECATE;APP_GRAPHICS;WIN32;_WIN32;NDEBUG;__WXMSW__"
 				RuntimeLibrary="0"
+				ForcedIncludeFiles="windows.h"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -378,6 +382,7 @@
 				AdditionalIncludeDirectories="../../zlib;../../curl/include;../../;../main;../util;../sensor;../graphics;../../../boinc/lib;../../../boinc/zip;&quot;..\..\jpeg-6b&quot;;\wxWidgets\lib\vc_lib\msw;\wxWidgets\include;../../../boinc/api"
 				PreprocessorDefinitions="_USE_NTPDATE_EXEC_;QCNLIVE;GRAPHICS_PROGRAM;FREEGLUT_STATIC;CURL_STATICLIB;_ZLIB;_CRT_SECURE_NO_DEPRECATE;APP_GRAPHICS;WIN32;_WIN32;NDEBUG;__WXMSW__"
 				RuntimeLibrary="0"
+				ForcedIncludeFiles="windows.h"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -457,6 +462,7 @@
 				AdditionalIncludeDirectories="../../zlib;../../curl/include;../../;../main;../util;../sensor;../graphics;../../../boinc/lib;../../../boinc/zip;&quot;..\..\jpeg-6b&quot;;\wxWidgets\lib\vc_lib\msw;\wxWidgets\include;../../../boinc/api"
 				PreprocessorDefinitions="_WIN64;_WIN32;_USE_NTPDATE_EXEC_;QCNLIVE;GRAPHICS_PROGRAM;FREEGLUT_STATIC;CURL_STATICLIB;_ZLIB;_CRT_SECURE_NO_DEPRECATE;APP_GRAPHICS;WIN32;_WIN32;NDEBUG;__WXMSW__"
 				RuntimeLibrary="0"
+				ForcedIncludeFiles="windows.h"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
