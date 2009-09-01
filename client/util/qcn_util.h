@@ -12,6 +12,7 @@
 #ifndef _WIN32
 #include <sys/time.h>
 #endif
+#include <math.h>
 
 #include "define.h"
 
