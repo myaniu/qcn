@@ -127,9 +127,11 @@ void draw_text()
 
     draw_text_sensor();
 
+/*
 	char bufout[64];
 	sprintf(bufout, "%.2f  %.2f  %.2f  %.2f", g_fAvg[0], g_fAvg[1], g_fAvg[2], g_fAvg[3]);
 	txf_render_string(cfTransAlpha, 0.04f, 0.1f, 0.0f, MSG_SIZE_SMALL, light_blue, TXF_HELVETICA, bufout);
+*/
 
 	ortho_done();
 }
