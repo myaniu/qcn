@@ -19,8 +19,8 @@ static const int g_iScaleAxesMax = 5;
 static int g_iScaleSigOffset  = 0;
 static int g_iScaleAxesOffset = 0;
 
-static const float g_fScaleSig[6]  = { .6f, 1.5f, 3.0f, 5.0f, 10.0f, 20.0f }; // default scale for sig is 20
-static const float g_fScaleAxes[6] = { .3f, 1.0f, 2.0f, 4.9f,  9.8f, 19.6f };
+static const float g_fScaleSig[6]  = { 3.0f, 6.0f, 9.0f, 12.0f, 18.0f, 24.0f }; // default scale for sig is 20
+static const float g_fScaleAxes[6] = { .12f, .36f, 1.8f, 3.0f,  9.8f, 19.6f };
 
 //static bool g_bAutoCenter = true; // automatically center the plots
 static bool g_bAutoScale = true; // set to true when want each axes to scale around the last 100 data points (maybe need every second?)
@@ -47,7 +47,7 @@ void draw_text_sensor_axis(int iAxis)
 	if (g_fMaxAxesCurrent[iAxis] == SAC_NULL_FLOAT || g_fMinAxesCurrent[iAxis] == -1.0f * SAC_NULL_FLOAT) return;
 	float fIncrement = (g_fMaxAxesCurrent[iAxis] - g_fMinAxesCurrent[iAxis]) / 6.0f;
 	for (int i = 0; i <= 6; i++) {
-		sprintf(cbuf, "%+6.3f", g_fMinAxesCurrent[iAxis] + g_fAvg[iAxis] + (fIncrement * (float) i) );
+		sprintf(cbuf, "%+4.2f", g_fMinAxesCurrent[iAxis] + (fIncrement * (float) i) );
 	    txf_render_string(cfTransAlpha, cfVertLabel, cfBaseScale[iAxis] + cfAxesOffset[i], 0, MSG_SIZE_SMALL, g_bIsWhite ? black : grey_trans, TXF_COURIER_BOLD, cbuf);
 	}
 }
@@ -126,11 +126,11 @@ void draw_text()
 	}
 
     draw_text_sensor();
-/*
+
 	char bufout[64];
 	sprintf(bufout, "%.2f  %.2f  %.2f  %.2f", g_fAvg[0], g_fAvg[1], g_fAvg[2], g_fAvg[3]);
 	txf_render_string(cfTransAlpha, 0.04f, 0.1f, 0.0f, MSG_SIZE_SMALL, light_blue, TXF_HELVETICA, bufout);
-*/
+
 	ortho_done();
 }
 
@@ -165,10 +165,10 @@ void draw_tick_marks()
     glPopMatrix();
 }
 
-bool CalcYPlot(const float fVal, const int ee, float&  myY)
+bool CalcYPlot(const float& fVal, const float& fAvg, const int& ee, float&  myY)
 {
     myY = yax_qcnlive[ee] + (ee == E_DS ? 0.5f : 0.0f) 
-	     + ( 15.0f * ( (fVal - (g_fMinAxesCurrent[ee] + (ee == E_DS ? 0.0f : g_fAvg[ee])))
+	     + ( 15.0f * ( (fVal - g_fMinAxesCurrent[ee])
                                    / (g_fMaxAxesCurrent[ee] - g_fMinAxesCurrent[ee] ) )  );
 
     //if (fdata[i] != 0.0f) { // suppress 0 values and check data ranges fit
@@ -246,7 +246,6 @@ void draw_plot()
     float yPen[4] = { SAC_NULL_FLOAT, SAC_NULL_FLOAT, SAC_NULL_FLOAT, SAC_NULL_FLOAT }; // save "pen" position i.e. last point on plot
 
     float x1, y1; // temp values to compare ranges for plotting
-	//float fAvg;
     long lStart, lEnd;
 
     if (!sm) return; // not much point in continuing if shmem isn't setup!
@@ -265,7 +264,6 @@ void draw_plot()
 	glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glHint (GL_LINE_SMOOTH_HINT, GL_NICEST);
 
-	if (g_bAutoScale) memset(g_fAvg, 0x00, sizeof(float) * 4);  //zap out favg, not used on autoscale
     for (int ee = E_DX; ee <= E_DS; ee++)  {
 	
          switch(ee) {
@@ -323,22 +321,13 @@ void draw_plot()
 			 if (g_bAutoScale) { // compute fScale Factor from last 100 pts
 				lStart = 0;
 				lEnd = PLOT_ARRAY_SIZE-1;
-				//float fAvg[2];
-				//fAvg[0] = (qcn_graphics::g_fmax[ee] - qcn_graphics::g_fmin[ee]) / 2.0f;
-				//fAvg[1] = qcn_util::fround(fAvg[0], 1);
 				if (ee == E_DS) {
-					g_fMaxAxesCurrent[ee] = qcn_graphics::g_fmax[ee] == SAC_NULL_FLOAT ? 1.0f : qcn_graphics::g_fmax[ee];  // save each scale level for autoscaling, so it's not jumping all around
+					g_fMaxAxesCurrent[ee] = (qcn_graphics::g_fmax[ee] == SAC_NULL_FLOAT ? 1.0f : qcn_graphics::g_fmax[ee]);  // save each scale level for autoscaling, so it's not jumping all around
 					g_fMinAxesCurrent[ee] = 0.0f;
 				}
 				else {
-					g_fMaxAxesCurrent[ee] = qcn_graphics::g_fmax[ee] == SAC_NULL_FLOAT ? 1.0f : qcn_graphics::g_fmax[ee];  // save each scale level for autoscaling, so it's not jumping all around
-					g_fMinAxesCurrent[ee] = qcn_graphics::g_fmin[ee] == -1.0f * SAC_NULL_FLOAT ? 0.0f : qcn_graphics::g_fmin[ee];  // save each scale level for autoscaling, so it's not jumping all around
-					/*if (qcn_graphics::g_fmax[ee] != SAC_NULL_FLOAT) {
-						g_fMaxAxesCurrent[ee] = qcn_graphics::g_fmax[ee] - fAvg[0] + fAvg[1];
-					}
-					if (qcn_graphics::g_fmin[ee] != SAC_NULL_FLOAT) {
-						g_fMinAxesCurrent[ee] = qcn_graphics::g_fmin[ee] + fAvg[0] - fAvg[1];
-					}*/
+					g_fMaxAxesCurrent[ee] = (qcn_graphics::g_fmax[ee] == SAC_NULL_FLOAT ? 1.0f : qcn_graphics::g_fmax[ee]);  // save each scale level for autoscaling, so it's not jumping all around
+					g_fMinAxesCurrent[ee] = (qcn_graphics::g_fmin[ee] == -1.0f * SAC_NULL_FLOAT ? 0.0f : qcn_graphics::g_fmin[ee]);  // save each scale level for autoscaling, so it's not jumping all around
 				}
 			 }
 			 else {
@@ -347,45 +336,32 @@ void draw_plot()
 			 }
 
 			 if ((g_fMaxAxesCurrent[ee] - g_fMinAxesCurrent[ee]) == 0.0f) {
-                             g_fMaxAxesCurrent[ee] = 1.0f;
-                             g_fMinAxesCurrent[ee] = 0.0f;  // avoid divide by zero
+				g_fMaxAxesCurrent[ee] = 1.0f;
+			    g_fMinAxesCurrent[ee] = 0.0f;  // avoid divide by zero
 			 }
-                         //fAvg = (g_fMax[ee] - g_fMin[ee]) / 2.0f;
 			 for (int i=0; i<PLOT_ARRAY_SIZE; i++) {
 				 x1 = xax_qcnlive[0] + (((float) i / (float) PLOT_ARRAY_SIZE) * (xax_qcnlive[1]-xax_qcnlive[0]));
-				if (CalcYPlot(fdata[i], ee, y1)) { // this gets complicated so call a function that I can reuse for drawing the "pen" below
+				 if (CalcYPlot(fdata[i], (g_bAutoScale ? 0.0f : g_fAvg[ee]), ee, y1)) { // this gets complicated so call a function that I can reuse for drawing the "pen" below
 					glVertex2f(x1, y1); // if this returns true then we have a valid point to draw
 				}
 			 }
-                         yPen[ee] = y1; // this y1 will be the final plot position i.e. PLOT_ARRAY_SIZE-1 to be used below to draw the pen
+			 yPen[ee] = y1; // this y1 will be the final plot position i.e. PLOT_ARRAY_SIZE-1 to be used below to draw the pen
 	 	     glEnd();
 		 }
 	     //iFrameCounter++; // bump up the frame ctr
 				 
          // x/y/z data points are +/- 19.6 m/s2 -- significance is 0-? make it 0-10		 		 
 
-/*
-		 float fmaxfactor;  // scale y -axes
-		 if (fabs(l_fmax[ee]) > fabs(l_fmin[ee]))
-		      fmaxfactor = fabs(l_fmax[ee]);
-         else
-		      fmaxfactor = fabs(l_fmin[ee]);
-		 
-		 if (fmaxfactor == 0) 
-		     fmaxfactor = 1.0f;
-		 else
-		     fmaxfactor = MAX_PLOT_HEIGHT_QCNLIVE / fmaxfactor;
-*/
-			const float fRadius = 1.4f;
-		        const float fAngle = PI/8.0f;
-		 // plot a "colored pointer" at the end for ease of seeing current value?
+		const float fRadius = 1.4f;
+		const float fAngle = PI/8.0f;
+		// plot a "colored pointer" at the end for ease of seeing current value?
 		if (yPen[ee] != SAC_NULL_FLOAT) {
 			x1 = xax_qcnlive[0] + (xax_qcnlive[1]-xax_qcnlive[0]);
-		        glBegin(GL_TRIANGLE_FAN);
-	                   glVertex2f(x1, yPen[ee]);
+			glBegin(GL_TRIANGLE_FAN);
+			   glVertex2f(x1, yPen[ee]);
 			   glVertex2f(x1 + (cos(fAngle) * fRadius), yPen[ee] + (sin(fAngle) * fRadius));
 			   glVertex2f(x1 + (cos(-fAngle) * fRadius), yPen[ee] + (sin(-fAngle) * fRadius));
-		         glEnd();
+			glEnd();
 		} // colored pointer
 	}
 
