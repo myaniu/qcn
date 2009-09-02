@@ -6,6 +6,7 @@
 require_once('../inc/forum.inc');
 require_once('../inc/pm.inc');
 require_once('../inc/time.inc');
+require_once('../inc/utils.inc');
 
 
 $user = get_logged_in_user(false);
@@ -50,9 +51,7 @@ function show_forum_summary($forum) {
     </tr>";
 }
 
-include "./temp_top.php";
-//page_head(tra("%1 Message boards", PROJECT));
-
+page_head(tra("Message boards"));
 show_forum_header($user);
 
 echo "<p>
@@ -159,8 +158,8 @@ if ($user) {
     }
 }
 
-include "./temp_bot.php";
 //page_tail();
+page_bot();
 flush();
 BoincForumLogging::cleanup();
 

@@ -19,13 +19,14 @@
 require_once("../inc/db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/countries.inc");
+require_once("../inc/utils.inc");
 
 db_init();
 $user = get_logged_in_user();
 
-include "./temp_top.php";
 
 //page_head("Edit account information");
+page_top();
 
 echo "<form method=post action=edit_user_info_action.php>";
 start_table();
@@ -48,7 +49,6 @@ row2("", "<input type=submit value='Update info'>");
 end_table();
 echo "</form>\n";
 
-include "./temp_bot.php";
 //page_tail();
-
+page_bot();
 ?>

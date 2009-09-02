@@ -21,6 +21,8 @@
 require_once("../inc/boinc_db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/result.inc");
+require_once("../inc/utils.inc");
+
 
 $config = get_config();
 if (!parse_bool($config, "show_results")) {
@@ -46,8 +48,8 @@ if ($hostid) {
     $type = "user";
     $clause = "userid=$userid";
 }
-include "./temp_top.php";
 //page_head("Tasks for $type");
+page_top();
 result_table_start(true, false, true);
 //$query = "$clause order by id desc limit $offset,".($results_per_page+1);
 $query = "$clause ORDER BY sent_time DESC LIMIT $offset,".($results_per_page+1);
@@ -68,6 +70,6 @@ echo show_result_navigation(
     $clause, $number_of_results, $offset, $results_per_page
 );
 
-include "./temp_bot.php";
-page_tail();
+//page_tail();
+page_bot();
 ?>
