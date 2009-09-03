@@ -33,6 +33,7 @@ pscp carlgt1@qcn-web:/var/www/boinc/qcnalpha/html/user/qcn.css user/
 pscp carlgt1@qcn-web:/var/www/boinc/qcnalpha/html/user/show_host_detail.php user/
 pscp carlgt1@qcn-web:/var/www/boinc/qcnalpha/html/user/server_status.php user/
 pscp carlgt1@qcn-web:/var/www/boinc/qcnalpha/html/user/trigger.php user/
+pscp carlgt1@qcn-web:/var/www/boinc/qcnalpha/html/user/show_user.php user/
 pscp carlgt1@qcn-web:/var/www/boinc/qcnalpha/html/ops/calendarDateInput.js ops/
 pscp carlgt1@qcn-web:/var/www/boinc/qcnalpha/html/ops/calendar.jpg ops/
 pscp carlgt1@qcn-web:/var/www/boinc/qcnalpha/html/ops/db_form.php ops/
