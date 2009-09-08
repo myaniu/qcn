@@ -36,6 +36,7 @@ using std::vector;
 
 extern CQCNShMem* volatile sm;                    // the main shared memory pointer
 
+extern float fDiff2D;
 extern GLfloat white[4];
 extern GLfloat red[4];
 extern GLfloat green[4];

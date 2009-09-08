@@ -19,6 +19,8 @@
 using std::string;
 using std::vector;
 
+float fDiff2D = 0.0f; // mouse drag difference
+
 // note the colors are extern'd in define.h, so keep outside the namespace qcn_graphics
 GLfloat white[4] = {1., 1., 1., 1.};
 GLfloat red[4] = {1., 0., 0., 1.};
@@ -1198,8 +1200,12 @@ const long TimeWindowBack()
 	if (g_bViewHasStart || g_lSnapshotTimeBackSeconds == TIME_BACK_SECONDS_MAX) return TIME_BACK_SECONDS_MAX; // we've already gone back an hour, don't go back any more as the array may be wrapping!
 
     if (!g_bSnapshot) TimeWindowStop();
-	if (g_bSnapshot) {
-
+	if (g_eView == VIEW_PLOT_2D && fDiff2D > 0.0f) {
+		// if positive it's going right (back in time), negative it's going left (forward in time), scale 1 low, 10+ high
+		g_lSnapshotTimeBackSeconds += fDiff2D;   // note iInterval will be positive as mouse is going back in time (right)
+		g_lSnapshotPoint -= fDiff2D;
+	}
+    else {
        switch(key_winsize) {
           case 0:
 		     g_lSnapshotTimeBackSeconds += 10; break;
@@ -1210,43 +1216,47 @@ const long TimeWindowBack()
 //          case 3:
 //		     g_lSnapshotTimeBackSeconds += 3600; break;
 	   }
-	   if (key_winsize == 3) { // if on hour view only ever just show the first hour
+		g_lSnapshotPoint -= awinsize[key_winsize];
+	}
+	if (g_lSnapshotPoint < 0) g_lSnapshotPoint += MAXI;
+    if (key_winsize == 3) { // if on hour view only ever just show the first hour
 	       g_lSnapshotPoint = 1;
-	   }
-	   else {
+	}
+	else {
 	     if (g_lSnapshotTimeBackSeconds > TIME_BACK_SECONDS_MAX)  {
 	       // go to one hour previous (approximately due to timing/rounding errors that may have occurred)
 		   g_lSnapshotPoint = g_lSnapshotPointOriginal - awinsize[3]; // (3600.0f/sm->dt);  // e.g. 3600/.02 = 180000 points
 		   if (g_lSnapshotPoint < 0) g_lSnapshotPoint += MAXI;
 	       g_lSnapshotTimeBackSeconds = TIME_BACK_SECONDS_MAX;
 	     }
-	     else { // less than an hour, just go back normally;
-		   g_lSnapshotPoint -= awinsize[key_winsize];
-		   if (g_lSnapshotPoint < 0) g_lSnapshotPoint += MAXI;
-	     }
-       }
-       bResetArray = true;
-       g_bSnapshotArrayProcessed = false;
-    }
+	}
+	bResetArray = true;
+	g_bSnapshotArrayProcessed = false;
 	return g_lSnapshotPoint;
 }
 
 const long TimeWindowForward()
 {
-    if (!g_bSnapshot) TimeWindowStop();
+    if (!g_bSnapshot) TimeWindowStop();  // stop the live data stream and set bSnapshot to true
 	if (g_bSnapshot) {  // note we can't go further forward than our sm->lOffset!
-       switch(key_winsize) {
-          case 0:
-		     g_lSnapshotTimeBackSeconds -= 10; break;
-          case 1:
-		     g_lSnapshotTimeBackSeconds -= 60; break;
-          case 2:
-		     g_lSnapshotTimeBackSeconds -= 600; break;
-//          case 3:
-//		     g_lSnapshotTimeBackSeconds -= 3600; break;
-	   }
+		if (g_eView == VIEW_PLOT_2D && fDiff2D < 0.0f) {
+			g_lSnapshotTimeBackSeconds += fDiff2D;   // note iInterval will be negative as mouse is going forward (left)
+			g_lSnapshotPoint -= fDiff2D;
+		}
+		else {
+			switch(key_winsize) {
+				case 0:
+					g_lSnapshotTimeBackSeconds -= 10; break;
+				case 1:
+					g_lSnapshotTimeBackSeconds -= 60; break;
+				case 2:
+					g_lSnapshotTimeBackSeconds -= 600; break;
+					//          case 3:
+					//		     g_lSnapshotTimeBackSeconds -= 3600; break;
+			}
+			g_lSnapshotPoint += awinsize[key_winsize];
+		}
 	   
-       g_lSnapshotPoint += awinsize[key_winsize];
        if (sm && g_lSnapshotPoint > sm->lOffset) {
 	      g_lSnapshotPoint = sm->lOffset-2;  // at the end!
 		  g_lSnapshotPointOriginal = g_lSnapshotPoint;
@@ -1279,6 +1289,8 @@ const long TimeWindowStart()
 {
      g_bSnapshot = false;
      g_bSnapshotArrayProcessed = false;
+     g_lSnapshotTimeBackSeconds = 0;
+	 g_lSnapshotPoint = 0;
      bResetArray = true;
 	 return 0L;
 }
@@ -1690,14 +1702,27 @@ void MouseMove(int x, int y, int left, int middle, int right)
 
     mouseSX = x;
     mouseSY = y;
+	fDiff2D = 0.0f; // initialize
 
     if (earth.IsShown()) {
       earth.MouseMotion(mouseSX, mouseSY, left, middle, right);
     }
+    else if (g_eView==VIEW_PLOT_2D) {
+		if (left || right) {
+			fDiff2D = mouseSX-mouseX;  // if positive it's going right (back in time), negative it's going left (forward in time), scale 1 low, 10+ high
+			mouseX = mouseSX;
+			mouseY = mouseSY;
+			if (fDiff2D < 0.0f) TimeWindowForward();
+			else TimeWindowBack();
+		}
+		else {
+			mouse_down = false;
+		}
+    }
     //else if (g_eView==VIEW_CUBE) {
     //  cube.MouseMotion(mouseSX, mouseSY, left, middle, right);
     //}
-    else if (g_eView != VIEW_PLOT_2D) { // just rotate stuff on 3d plots
+    else if (g_eView == VIEW_PLOT_3D) { // just rotate stuff on 3d plots
       if (left) {
           pitch_angle[g_eView] += (mouseSY-mouseY)*.1;
           roll_angle[g_eView] += (mouseSX-mouseX)*.1;
@@ -1717,7 +1742,7 @@ void MouseMove(int x, int y, int left, int middle, int right)
 void MouseButton(int x, int y, int which, int is_down)
 {
 	//if (g_eView != VIEW_EARTH_DAY && g_eView != VIEW_EARTH_NIGHT && g_eView != VIEW_EARTH_COMBINED) return;
-	if (g_eView == VIEW_PLOT_2D) return;
+	//if (g_eView == VIEW_PLOT_2D) return;
 
 	//if (sm) sm->dTimeInteractive = dtime();
 

@@ -4,7 +4,7 @@
 using namespace qcn_graphics;
 
 namespace qcn_2dplot {
-
+	
 static int g_iTimerTick = 1; // seconds for each timer point
 
 #ifdef QCNLIVE
@@ -127,6 +127,12 @@ void draw_text()
 
     draw_text_sensor();
 
+	/*
+	char strdiff[32];
+	sprintf(strdiff, "%f", fDiff2D);
+	txf_render_string(cfTransAlpha, .2, .2, 0.0f, MSG_SIZE_SMALL, g_bIsWhite ? light_blue : grey_trans, TXF_HELVETICA, strdiff);
+	*/
+
 /*
 	char bufout[64];
 	sprintf(bufout, "%.2f  %.2f  %.2f  %.2f", g_fAvg[0], g_fAvg[1], g_fAvg[2], g_fAvg[3]);
@@ -225,14 +231,6 @@ glEnd();
 
 void draw_plot() 
 {
-
-/*
-- boxes should be even, as well as plotting since all +/- 19.6 m/s2, sig 0 - 10
-- bouncing ball at "tip" where drawn
-- S/X/Y/Z on right side with vertical axis
-- toggle background colors black/white?
-*/
-
     float* fdata = NULL;
 
     // each plot section is 15 units high
