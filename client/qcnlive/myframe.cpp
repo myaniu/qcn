@@ -627,6 +627,12 @@ void MyFrame::SetToggleEarth()
       Toggle(ID_TOOL_ACTION_EARTH_ROTATE_ON, bEarthRotate);
 }
 
+void MyFrame::ToggleStartStop(bool bStart, bool bStop)
+{
+	Toggle(ID_TOOL_ACTION_SENSOR_START, bStart);
+	Toggle(ID_TOOL_ACTION_SENSOR_STOP, bStop);
+}
+
 void MyFrame::SensorNavButtons()
 {
     wxString wxsShort[7], wxsLong[7];

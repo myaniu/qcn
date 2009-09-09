@@ -108,6 +108,13 @@ void MyGLPane::OnMouseDown(wxMouseEvent& evt)
       m_pframe->EarthRotate(false);
    }
 
+	SetCursor(wxCursor(wxCURSOR_HAND));
+	
+	if (qcn_graphics::g_eView == VIEW_PLOT_2D) {
+		// if we're in 2d view, we're stopping the live stream, so uncheck the play button & check the stop button
+		m_pframe->ToggleStartStop(false, true);
+	}
+
    qcn_graphics::MouseButton(evt.GetPosition().x, evt.GetPosition().y, which, 1);
 
 /* // show earthquake text on status bar?
@@ -144,6 +151,7 @@ void MyGLPane::OnMouseRelease(wxMouseEvent& evt)
    }
    m_mouseDown[evt.GetButton()-1] = false;  // the wxwidgets getbutton is one off from our left/mid/right array
    qcn_graphics::MouseButton(evt.GetPosition().x, evt.GetPosition().y, which, 0);
+   SetCursor(wxNullCursor);
 }
 
 /*
