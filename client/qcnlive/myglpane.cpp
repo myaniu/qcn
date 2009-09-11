@@ -36,6 +36,7 @@ EVT_PAINT(MyGLPane::render)
 EVT_MOTION(MyGLPane::OnMouseMove)
 EVT_LEFT_DOWN(MyGLPane::OnMouseDown)
 EVT_LEFT_UP(MyGLPane::OnMouseRelease)
+EVT_LEFT_DCLICK(MyGLPane::OnMouseDoubleClick)
 EVT_RIGHT_DOWN(MyGLPane::OnMouseDown)
 EVT_RIGHT_UP(MyGLPane::OnMouseRelease)
 EVT_ERASE_BACKGROUND(MyGLPane::OnEraseBackground)
@@ -85,6 +86,33 @@ void MyGLPane::OnMouseMove(wxMouseEvent& evt)
    qcn_graphics::MouseMove(evt.GetPosition().x, evt.GetPosition().y, evt.m_leftDown ? 1 : 0, evt.m_middleDown ? 1 : 0, evt.m_rightDown ? 1 : 0);
 }
 
+void MyGLPane::OnMouseDoubleClick(wxMouseEvent& evt) 
+{
+	int which = -1;
+	
+	//qcn_graphics::MouseButton(evt.GetPosition().x, evt.GetPosition().y, which, 1);
+	// ignore double clicks?
+	
+	switch(qcn_graphics::g_eView) {
+		case VIEW_EARTH_DAY:
+		case VIEW_EARTH_NIGHT:
+			m_pframe->EarthRotate(true);
+			break;
+		case VIEW_PLOT_2D:
+			m_pframe->ToggleStartStop(true);
+			break;
+		case VIEW_PLOT_3D:
+		case VIEW_EARTH_COMBINED:
+		case VIEW_CUBE:
+			break;
+	}
+
+	// force to start
+	qcn_graphics::MouseButton(evt.GetPosition().x, evt.GetPosition().y, which, 1);
+
+	SetCursor(wxCursor(wxNullCursor));
+}
+	
 void MyGLPane::OnMouseDown(wxMouseEvent& evt) 
 {
    int which = -1;
@@ -101,19 +129,21 @@ void MyGLPane::OnMouseDown(wxMouseEvent& evt)
    }
    m_mouseDown[evt.GetButton()-1] = true;  // the wxwidgets getbutton is one off from our left/mid/right array
 
-   //qcn_graphics::MouseButton(evt.GetPosition().x, evt.GetPosition().y, which, 1);
-   // ignore double clicks?
-  
-   if (qcn_graphics::g_eView == VIEW_EARTH_DAY || qcn_graphics::g_eView == VIEW_EARTH_NIGHT) { 
-      m_pframe->EarthRotate(false);
-   }
-
-	SetCursor(wxCursor(wxCURSOR_HAND));
-	
-	if (qcn_graphics::g_eView == VIEW_PLOT_2D) {
-		// if we're in 2d view, we're stopping the live stream, so uncheck the play button & check the stop button
-		m_pframe->ToggleStartStop(false, true);
+	switch(qcn_graphics::g_eView) {
+		case VIEW_EARTH_DAY:
+		case VIEW_EARTH_NIGHT:
+			m_pframe->EarthRotate(false);
+			break;
+		case VIEW_PLOT_2D:
+			m_pframe->ToggleStartStop(false);
+			break;
+		case VIEW_PLOT_3D:
+		case VIEW_EARTH_COMBINED:
+		case VIEW_CUBE:		
+			break;
 	}
+	
+	SetCursor(wxCursor(wxCURSOR_HAND));	
 
    qcn_graphics::MouseButton(evt.GetPosition().x, evt.GetPosition().y, which, 1);
 

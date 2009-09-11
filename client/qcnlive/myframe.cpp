@@ -627,10 +627,17 @@ void MyFrame::SetToggleEarth()
       Toggle(ID_TOOL_ACTION_EARTH_ROTATE_ON, bEarthRotate);
 }
 
-void MyFrame::ToggleStartStop(bool bStart, bool bStop)
+void MyFrame::ToggleStartStop(bool bStart)
 {
 	Toggle(ID_TOOL_ACTION_SENSOR_START, bStart);
-	Toggle(ID_TOOL_ACTION_SENSOR_STOP, bStop);
+	Toggle(ID_TOOL_ACTION_SENSOR_STOP, !bStart);
+	if (bStart && qcn_graphics::TimeWindowIsStopped()) {
+		qcn_graphics::TimeWindowStart();
+	}
+	else if (!bStart && !qcn_graphics::TimeWindowIsStopped()) {
+		qcn_graphics::TimeWindowStop();
+	}
+	bRecording = false;
 }
 
 void MyFrame::SensorNavButtons()

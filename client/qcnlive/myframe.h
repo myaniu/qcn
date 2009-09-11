@@ -23,7 +23,7 @@ class MyFrame : public wxFrame
     void SetToggleSensor();
 	void SensorNavButtons();
 	void SetupToolbars();
-	void ToggleStartStop(bool bStart, bool bStop);
+	void ToggleStartStop(bool bStart);
 
     MyApp* pMyApp;
     MyGLPane* glPane;

@@ -26,6 +26,7 @@ public:
         void resized(wxSizeEvent& evt);
 
         void OnMouseMove(wxMouseEvent& evt);
+		void OnMouseDoubleClick(wxMouseEvent& evt);
         void OnMouseDown(wxMouseEvent& evt);
         void OnMouseRelease(wxMouseEvent& evt);
         void OnEraseBackground(wxEraseEvent& evt);
