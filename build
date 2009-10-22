@@ -5,12 +5,11 @@ if ( test "$1" = "" || test "$2" = "") then
    exit 1
 fi
 ./set-version $1
-cd ..
 if (test "$3" = "all" || test "$4" = "all") then
-   rm -rf boinc
-   ./qcn/getboinc
+   ./getboinc
 else
    # at least update boinc cvs?
+   cd ..
    svn update boinc
 fi
 if ( test "`uname -s`" = "Darwin" ) then
