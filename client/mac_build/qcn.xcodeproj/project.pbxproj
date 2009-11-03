@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		E300B1A30FF2CF0E00E54D79 /* libcurl-universal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E34E9CEB0FF2C528004998DB /* libcurl-universal.a */; };
+		43AC1A0810A0C85600F84A0D /* libcurl-universal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 43AC1A0710A0C85600F84A0D /* libcurl-universal.a */; };
 		E300B1A40FF2CF0E00E54D79 /* libboinc_zip.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E33EF7BD0FF1DF7400CD5708 /* libboinc_zip.a */; };
 		E300B1A50FF2CF0E00E54D79 /* libjpeg-universal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E33EF7BE0FF1DF7400CD5708 /* libjpeg-universal.a */; };
 		E300B1A60FF2CF0E00E54D79 /* libz-universal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E33EF7BF0FF1DF7400CD5708 /* libz-universal.a */; };
@@ -209,6 +209,7 @@
 /* Begin PBXFileReference section */
 		4337F497100183CA00E75E05 /* QCNLive-iphone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "QCNLive-iphone.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4337F499100183CA00E75E05 /* QCNLive-iphone-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "QCNLive-iphone-Info.plist"; sourceTree = "<group>"; };
+		43AC1A0710A0C85600F84A0D /* libcurl-universal.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libcurl-universal.a"; sourceTree = "<group>"; };
 		E3064B950F8FE8A60028A349 /* qcn_2dplot.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = qcn_2dplot.cpp; path = ../graphics/qcn_2dplot.cpp; sourceTree = SOURCE_ROOT; };
 		E3064B970F8FE8C10028A349 /* qcn_2dplot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = qcn_2dplot.h; path = ../graphics/qcn_2dplot.h; sourceTree = SOURCE_ROOT; };
 		E30AB1140EBB776D00DABFEF /* csensor_usb_motionnodeaccel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = csensor_usb_motionnodeaccel.cpp; path = ../sensor/csensor_usb_motionnodeaccel.cpp; sourceTree = SOURCE_ROOT; };
@@ -218,7 +219,6 @@
 		E33EF7BD0FF1DF7400CD5708 /* libboinc_zip.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libboinc_zip.a; sourceTree = "<group>"; };
 		E33EF7BE0FF1DF7400CD5708 /* libjpeg-universal.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libjpeg-universal.a"; sourceTree = "<group>"; };
 		E33EF7BF0FF1DF7400CD5708 /* libz-universal.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libz-universal.a"; sourceTree = "<group>"; };
-		E34E9CEB0FF2C528004998DB /* libcurl-universal.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libcurl-universal.a"; sourceTree = "<group>"; };
 		E3583B200FF18FF500057DD2 /* csensor_mac_usb_generic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = csensor_mac_usb_generic.h; path = ../sensor/csensor_mac_usb_generic.h; sourceTree = SOURCE_ROOT; };
 		E371C7F60E2AB5D0009B4DAA /* csensor_mac_laptop.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = csensor_mac_laptop.cpp; path = ../sensor/csensor_mac_laptop.cpp; sourceTree = SOURCE_ROOT; };
 		E371C7F70E2AB5D0009B4DAA /* csensor_mac_usb_jw.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = csensor_mac_usb_jw.cpp; path = ../sensor/csensor_mac_usb_jw.cpp; sourceTree = SOURCE_ROOT; };
@@ -367,10 +367,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E300B1A30FF2CF0E00E54D79 /* libcurl-universal.a in Frameworks */,
 				E300B1A40FF2CF0E00E54D79 /* libboinc_zip.a in Frameworks */,
 				E300B1A50FF2CF0E00E54D79 /* libjpeg-universal.a in Frameworks */,
 				E300B1A60FF2CF0E00E54D79 /* libz-universal.a in Frameworks */,
+				43AC1A0810A0C85600F84A0D /* libcurl-universal.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -412,8 +412,8 @@
 			isa = PBXGroup;
 			children = (
 				E3222D780FF2E3D500B25EB2 /* qcnmac.icns */,
-				E34E9CEB0FF2C528004998DB /* libcurl-universal.a */,
 				E33EF7BD0FF1DF7400CD5708 /* libboinc_zip.a */,
+				43AC1A0710A0C85600F84A0D /* libcurl-universal.a */,
 				E33EF7BE0FF1DF7400CD5708 /* libjpeg-universal.a */,
 				E33EF7BF0FF1DF7400CD5708 /* libz-universal.a */,
 				E3C0E7D90D64E9D30099B905 /* Headers */,
