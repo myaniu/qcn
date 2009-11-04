@@ -1,0 +1,38 @@
+1) Extract the appropriate files in to a folder you know the location.
+ 
+2) When you plug in the sensor, Windows will indicate ‘new device found’, the driver wizard window will come up.  Select ‘install from specific location’ being the folder where you extracted the files to.  Follow the on screen instructions for the remainder of The driver installation.  When it is done, a message will pop-up in the lower right of the screen indicating: ‘your hardware is now ready to use’.
+ 
+I will make some screen captures and an explicit set of instructions.
+ 
+ 
+If you want to confirm the connection, use HyperTerminal.
+ 
+1) Bring up HyperTerminal in:  Start>All Programs>Accessories>Communication>HyperTerminal
+ 
+2) Close (cancel) ‘Connection Description’ dialog box
+ 
+3) Click ‘File>Properties’ opening the ‘New Connection Properties’ dialog box.  
+ 
+4) Select the appropriate com port by clicking on the ‘Connect Using’ pull down menu.  The com port on our computer was COM14, it may vary.
+ 
+5) After selecting the com port, click the ‘Configure’ button.  A ‘COMx’ dialog box will open. Set the following:  Bit per Second: 115,200, Data Bits: 8, Parity: None, Stop bits: 1, Flow control: None  -- Then click ‘Apply’ then ‘ok’ then .  The COMx dialog box should close.
+ 
+6) Click ‘ok’ on the ‘New Connection Properties’ dialog box to close it as well.
+ 
+7) Save the settings by using: File>Save as.  Type in a name for the connection.
+ 
+8) Save and close the file window. 
+ 
+9) To connect, click the ’connect’ icon in the upper left of the HyperTerminal window.   (Third icon from the left, looks like a phone with the receiver down)
+ 
+To develop, the standard MSDN COM (serial) libraries will work to make the connection. 
+ 
+I hope this helps. 
+ 
+Let me know jf you have any questions.
+ 
+Regards,
+ 
+Oren
+
+
