@@ -2,6 +2,7 @@
 #define _DLG_SETTINGS_H_
 
 #include "qcnwx.h"
+#include "csensor.h"
 
 enum eSettingsCtrlID {
      ID_TEXTCTRLLATITUDE = 1001,
@@ -30,6 +31,8 @@ class CDialogSettings  : public wxDialog
     wxTextCtrl* m_textctrlElevationMeter; 
     wxTextCtrl* m_textctrlElevationFloor; 
 	
+	CSensor* m_psms;  // just a dummy sensor obj to get string names
+	
 	wxComboBox* m_comboSensor;
 
     class wxTextValidatorLatLng : public wxTextValidator
@@ -50,7 +53,7 @@ class CDialogSettings  : public wxDialog
 public:
     CDialogSettings();
     CDialogSettings(wxWindow* parent, wxWindowID id);
-    //~CDialogSettings();
+    ~CDialogSettings();
 
     void InitPointers();
     bool Create(wxWindow* parent, wxWindowID id);

@@ -214,8 +214,16 @@ void MyFrame::OnFileSettings(wxCommandEvent& WXUNUSED(evt))
 	       //statusBar->SetStatusText(wxString("Saving your settings and updating earthquake list", wxConvUTF8));
 	       pcds->SaveValues();  // save to the global variables
 	       // call our save function to write values to disk
-	      pMyApp->set_qcnlive_prefs(); 
-	    }
+		   pMyApp->set_qcnlive_prefs(); // saved in KillMainThread 
+		   // probably have to kill & restart the main thread too?
+			/*
+			if (pMyApp) {
+		       pMyApp->KillMainThread(); // qcn_main::g_iStop = TRUE; // try and sleep a little to give the threads a chance to stop, a second should suffice
+			    //pMyApp->StartMainThread();
+				pMyApp->MainInit();
+			}
+			 */
+		}
 	    pcds->Destroy();
 	    delete pcds;
 	 }

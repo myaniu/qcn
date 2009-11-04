@@ -75,6 +75,8 @@ class MyApp: public wxApp
     bool CreateBOINCInitFile();
     bool MainInit();
     void KillSplashScreen(); 
+	bool KillMainThread();
+	bool StartMainThread();
 	
     wxSplashScreen* m_psplash;  // the apps splash screen
 };

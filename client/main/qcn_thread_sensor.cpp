@@ -102,7 +102,8 @@ bool getSensor(CSensor* volatile *ppsms)
         *ppsms = NULL;
    }
 
-// see if they want to just use a preferred usb sensor i.e. set in sm->iMySensor
+// see if they want to just use a preferred usb sensor i.e. set in sm->iMySensor - only applies to qcnlive
+#ifdef QCNLIVE
 	if (sm->iMySensor >= MIN_SENSOR_USB && sm->iMySensor <= MAX_SENSOR_USB ) {
 		switch(sm->iMySensor) {
 			case SENSOR_USB_JW:
@@ -125,6 +126,7 @@ bool getSensor(CSensor* volatile *ppsms)
 		}
 	}
 	else { // regular i.e. non-preferred sensor detection
+#endif // qcnlive preferred sensor
 		// for Macs the sensor can either be a CSensorMacLaptop or CSensorMacUSBJW or CSensorUSBMotionNodeAccel
 		#ifdef __APPLE_CC__
 		#if defined(__LP64__) || defined(_LP64) // no motion node for 64-bit
@@ -235,7 +237,9 @@ bool getSensor(CSensor* volatile *ppsms)
 				   *ppsms = NULL;
 			   }
 		   }  // end for loop for trying different sensors
-   } // end if/else for usb sensor forced selection/detection
+#ifdef QCNLIVE 
+	} // end if/else for usb sensor forced selection/detection
+#endif // qcnlive preferred sensor
    return (bool)(*ppsms != NULL); // note *ppsms is NULL if no sensor was found, so this can be checked in the calling routine
 }
 

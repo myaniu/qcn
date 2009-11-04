@@ -106,8 +106,7 @@ bool MyApp::MainInit()
 
     get_qcnlive_prefs();  // this sets the myRect among other things
 
-    qcn_main::g_threadMain = new CQCNThread(QCNThreadMain);
-    return qcn_main::g_threadMain ? qcn_main::g_threadMain->Start() : false;  // note returns whether main thread was created & started OK
+    return StartMainThread();  
 }
 
 bool MyApp::get_qcnlive_prefs()
@@ -382,26 +381,48 @@ int MyApp::OnExit()
 	   delete m_psplash;
            m_psplash = NULL;
 	}
+	
+	if (myapptimer) {
+		myapptimer->Stop();
+		delete myapptimer;
+		myapptimer = NULL;
+	}
+	
+    KillMainThread();
+	
+	if (sm) { // try to remove the global shared mem?  that would be nice...
+	   fprintf(stdout, "Freeing shared memory segment\n");
+	   delete sm;
+	   sm = NULL; // paranoid!  but who knows maybe the last microsecond the graphics will try to access sm...
+	}
+	
+	fflush(stdout);
 
+    return 0;
+}
+
+bool MyApp::StartMainThread()
+{
+	qcn_main::g_threadMain = new CQCNThread(QCNThreadMain);
+	if (qcn_main::g_threadMain) qcn_main::g_threadMain->Start();  // note returns whether main thread was created & started OK
+	return (bool) (qcn_main::g_threadMain != NULL);
+}
+
+bool MyApp::KillMainThread()
+{
 	// CMC -- QCN cleanup stuff, especially the main threads, was bombing out in the wxApp::OnExit
 	//   which seems to somehow clobber sm or do cleanup that screws up QCN stuff somehow?
-        qcn_main::doMainQuit(); // qcn_main::g_iStop = TRUE; // try and sleep a little to give the threads a chance to stop, a second should suffice
+	qcn_main::doMainQuit(); // qcn_main::g_iStop = TRUE; // try and sleep a little to give the threads a chance to stop, a second should suffice
 	set_qcnlive_prefs();  // save graphics prefs
-
-        if (myapptimer) {
-           myapptimer->Stop();
-	   delete myapptimer;
-	   myapptimer = NULL;
-        }
-
+	
 	//if (myJPEGHandler) delete myJPEGHandler;
 	//if (myPNGHandler) delete myPNGHandler;
-		// free proj prefs just to be safe, destructor for APP_INIT_DATA should do it
+	// free proj prefs just to be safe, destructor for APP_INIT_DATA should do it
 	if (sm->dataBOINC.project_preferences) {
-	   free(sm->dataBOINC.project_preferences);
-	   sm->dataBOINC.project_preferences = NULL;
+		free(sm->dataBOINC.project_preferences);
+		sm->dataBOINC.project_preferences = NULL;
 	}
-
+	
 	int iCtr = 0;
 	if (qcn_main::g_threadMain && qcn_main::g_threadMain->IsRunning())  { // the main thread is running, so kill it
 		fprintf(stdout, "qcnwx: stopping main monitoring thread\n");
@@ -414,22 +435,11 @@ int MyApp::OnExit()
 	else {
 		fprintf(stdout, "qcnwx: main thread stopped\n");
 	}
-
+	
 	if (qcn_main::g_threadMain) { // free main thread resources
-                qcn_main::g_threadMain->Stop();
+		qcn_main::g_threadMain->Stop();
 		delete qcn_main::g_threadMain;
 		qcn_main::g_threadMain = NULL;
 	}
-
-	if (sm) { // try to remove the global shared mem?  that would be nice...
-	   fprintf(stdout, "Freeing shared memory segment\n");
-	   delete sm;
-	   sm = NULL; // paranoid!  but who knows maybe the last microsecond the graphics will try to access sm...
-	}
-	
-	fflush(stdout);
-
-    return 0;
+	return true;
 }
-
-

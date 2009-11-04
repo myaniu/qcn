@@ -112,6 +112,7 @@ void CQCNShMem::clear(bool bAll)
     pshmem->dMyLongitude = dMyLongitude; 
     pshmem->dMyElevationMeter = dMyElevationMeter; 
     pshmem->iMyElevationFloor = iMyElevationFloor; 
+    pshmem->iMySensor = iMySensor; 
     strcpy(pshmem->strMyStation, strMyStation);
 
     pshmem->dTimeStart = dTimeStart; // keep the original start time for tick mark display

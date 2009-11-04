@@ -1,4 +1,14 @@
 #include "dlgsettings.h"
+#ifdef _WIN32
+#include "csensor_win_usb_jw.h"
+#else
+#ifdef __APPLE_CC__
+#include "csensor_mac_usb_jw.h"
+#else
+#include "csensor_linux_usb_jw.h"
+#endif
+#endif
+
 
 IMPLEMENT_DYNAMIC_CLASS(CDialogSettings, wxDialog)
 
@@ -51,9 +61,14 @@ CDialogSettings::CDialogSettings()
     InitPointers();
 }
 
-/*
+
 CDialogSettings::~CDialogSettings()
 {
+    if (m_psms) {
+		delete m_psms;  
+	    m_psms = NULL;
+	}
+/*
     if (m_textctrlLatitude) delete m_textctrlLatitude;
     if (m_textctrlLongitude) delete m_textctrlLongitude;
 	if (m_textctrlStation) delete m_textctrlStation;
@@ -77,8 +92,8 @@ CDialogSettings::~CDialogSettings()
 	if (itemStaticText8) delete itemStaticText8;
 	if (itemButton11) delete itemButton11;
 	if (itemButton12) delete itemButton12;
+ */
 }
-*/
 
 CDialogSettings::CDialogSettings(wxWindow* parent, wxWindowID id)
 {
@@ -117,6 +132,17 @@ void CDialogSettings::InitPointers()
 	itemButton11 = NULL;
 	itemButton12 = NULL;
     */
+
+	m_psms = NULL;
+#ifdef _WIN32
+	m_psms = new CSensorWinUSBJW;
+#else
+#ifdef __APPLE_CC__
+	m_psms = new CSensorMacUSBJW;
+#else
+	m_psms = new CSensorLinuxUSBJW;
+#endif
+#endif
 }
 
 void CDialogSettings::SaveValues()
@@ -139,7 +165,7 @@ void CDialogSettings::SaveValues()
 	sm->iMySensor = -1;
 	wxString strCombo = m_comboSensor->GetValue();
 	for (int i = MIN_SENSOR_USB; i <= MAX_SENSOR_USB; i++)   {// usb sensors are between the values MIN & MAX_SENSOR_USB given in define.h
-		if (!strCombo.Cmp(qcn_main::g_psms->getTypeStr(i))) {
+		if (!strCombo.Cmp(m_psms->getTypeStr(i))) {
 			sm->iMySensor = i;
 			break;
 		}
@@ -268,8 +294,8 @@ void CDialogSettings::CreateControls()
 	// create an array of strings of the USB sensor choices
 	wxArrayString astrUSB;
 	astrUSB.Add(_("No Preference"));
-	for (int i = MIN_SENSOR_USB; i <= MAX_SENSOR_USB; i++)   // usb sensors are between the values MIN & MAX_SENSOR_USB given in define.h
-		astrUSB.Add(qcn_main::g_psms->getTypeStr(i));
+	for (int i = MIN_SENSOR_USB; m_psms && i <= MAX_SENSOR_USB; i++)   // usb sensors are between the values MIN & MAX_SENSOR_USB given in define.h
+		astrUSB.Add(m_psms->getTypeStr(i));
 
 	//bool Create(wxWindow* parent, wxWindowID id, const wxString& value, const wxPoint& pos, const wxSize& size, const wxArrayString& choices, long style = 0, const wxValidator& validator = wxDefaultValidator, const wxString& name = "comboBox")
     m_comboSensor->Create(this, ID_COMBOSENSOR, m_strSensor, wxDefaultPosition, wxSize(200, -1), astrUSB, wxCB_READONLY, wxDefaultValidator, _("strCombo"));
@@ -277,7 +303,7 @@ void CDialogSettings::CreateControls()
 	if (sm->iMySensor < 0 || sm->iMySensor > MAX_SENSOR_USB || sm->iMySensor < MIN_SENSOR_USB)  
 		m_comboSensor->SetValue(_("No Preference"));
 	else
-		m_comboSensor->SetValue(qcn_main::g_psms->getTypeStr(sm->iMySensor));
+		if (m_psms) m_comboSensor->SetValue(m_psms->getTypeStr(sm->iMySensor));
 			
     itemFlexGridSizer5->Add(m_comboSensor, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);	
 
