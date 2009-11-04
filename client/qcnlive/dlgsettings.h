@@ -8,7 +8,8 @@ enum eSettingsCtrlID {
      ID_TEXTCTRLLONGITUDE,
      ID_TEXTCTRLSTATION,
      ID_TEXTCTRLELEVATIONMETER,
-     ID_TEXTCTRLELEVATIONFLOOR
+     ID_TEXTCTRLELEVATIONFLOOR,
+	 ID_COMBOSENSOR
 };
 
 class CDialogSettings  : public wxDialog
@@ -21,12 +22,15 @@ class CDialogSettings  : public wxDialog
     wxString m_strStation;
     wxString m_strElevationMeter;
     wxString m_strElevationFloor;
+    wxString m_strSensor;
 
     wxTextCtrl* m_textctrlLatitude; 
     wxTextCtrl* m_textctrlLongitude; 
     wxTextCtrl* m_textctrlStation; 
     wxTextCtrl* m_textctrlElevationMeter; 
     wxTextCtrl* m_textctrlElevationFloor; 
+	
+	wxComboBox* m_comboSensor;
 
     class wxTextValidatorLatLng : public wxTextValidator
     {

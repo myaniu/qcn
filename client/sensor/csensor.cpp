@@ -78,9 +78,10 @@ const e_sensor CSensor::getTypeEnum()
    return m_iType;
 }
 
-const char* CSensor::getTypeStr()
+const char* CSensor::getTypeStr(int iType)
 {
-   switch (m_iType) {
+   if (iType == -1) iType = m_iType;  // default is to use the type for the given CSensor
+   switch (iType) {
      case SENSOR_MAC_PPC_TYPE1:
         return "PPC Mac Laptop Type 1";
         break;
@@ -105,11 +106,14 @@ const char* CSensor::getTypeStr()
      case SENSOR_USB_MOTIONNODEACCEL:
         return "MotionNode Accel USB";
         break;
-     default:
+	 case SENSOR_USB_ONAVI_1:
+		return "O-Navi 1 USB";
+		break;
+	default:
         return "Not Found";
    }
 }
-
+	
 const char* CSensor::getTypeStrShort()
 {
    switch (m_iType) {
@@ -131,7 +135,10 @@ const char* CSensor::getTypeStrShort()
      case SENSOR_USB_MOTIONNODEACCEL:
         return "MN";
         break;
-     default:
+	 case SENSOR_USB_ONAVI_1:
+		   return "O1";
+		   break;
+	 default:
         return "";
    }
 }

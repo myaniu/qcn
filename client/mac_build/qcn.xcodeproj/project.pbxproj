@@ -209,6 +209,12 @@
 /* Begin PBXFileReference section */
 		4337F497100183CA00E75E05 /* QCNLive-iphone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "QCNLive-iphone.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4337F499100183CA00E75E05 /* QCNLive-iphone-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "QCNLive-iphone-Info.plist"; sourceTree = "<group>"; };
+		4394A75D10A20763006FF691 /* dlgsettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dlgsettings.h; sourceTree = "<group>"; };
+		4394A7B610A20763006FF691 /* icons.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = icons.h; sourceTree = "<group>"; };
+		4394A7B710A20763006FF691 /* icons32.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = icons32.h; sourceTree = "<group>"; };
+		4394A7B910A20763006FF691 /* myframe.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = myframe.h; sourceTree = "<group>"; };
+		4394A7BB10A20763006FF691 /* myglpane.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = myglpane.h; sourceTree = "<group>"; };
+		4394A7C110A20763006FF691 /* qcnwx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = qcnwx.h; sourceTree = "<group>"; };
 		43AC1A0710A0C85600F84A0D /* libcurl-universal.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libcurl-universal.a"; sourceTree = "<group>"; };
 		E3064B950F8FE8A60028A349 /* qcn_2dplot.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = qcn_2dplot.cpp; path = ../graphics/qcn_2dplot.cpp; sourceTree = SOURCE_ROOT; };
 		E3064B970F8FE8C10028A349 /* qcn_2dplot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = qcn_2dplot.h; path = ../graphics/qcn_2dplot.h; sourceTree = SOURCE_ROOT; };
@@ -327,15 +333,9 @@
 		E3C968130FF1A80100F20324 /* QSymbols.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = QSymbols.c; path = ../../../boinc/lib/mac/QSymbols.c; sourceTree = SOURCE_ROOT; };
 		E3C968140FF1A80100F20324 /* QTaskMemory.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = QTaskMemory.c; path = ../../../boinc/lib/mac/QTaskMemory.c; sourceTree = SOURCE_ROOT; };
 		E3CD09C60FF2AD370043EE7E /* dlgsettings.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = dlgsettings.cpp; path = ../qcnlive/dlgsettings.cpp; sourceTree = SOURCE_ROOT; };
-		E3CD09C70FF2AD370043EE7E /* dlgsettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = dlgsettings.h; path = ../qcnlive/dlgsettings.h; sourceTree = SOURCE_ROOT; };
-		E3CD09C80FF2AD370043EE7E /* icons.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = icons.h; path = ../qcnlive/icons.h; sourceTree = SOURCE_ROOT; };
 		E3CD09C90FF2AD370043EE7E /* myframe.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = myframe.cpp; path = ../qcnlive/myframe.cpp; sourceTree = SOURCE_ROOT; };
-		E3CD09CA0FF2AD370043EE7E /* myframe.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = myframe.h; path = ../qcnlive/myframe.h; sourceTree = SOURCE_ROOT; };
 		E3CD09CB0FF2AD370043EE7E /* myglpane.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = myglpane.cpp; path = ../qcnlive/myglpane.cpp; sourceTree = SOURCE_ROOT; };
-		E3CD09CC0FF2AD370043EE7E /* myglpane.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = myglpane.h; path = ../qcnlive/myglpane.h; sourceTree = SOURCE_ROOT; };
 		E3CD09CD0FF2AD370043EE7E /* qcnwx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = qcnwx.cpp; path = ../qcnlive/qcnwx.cpp; sourceTree = SOURCE_ROOT; };
-		E3CD09CE0FF2AD370043EE7E /* qcnwx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = qcnwx.h; path = ../qcnlive/qcnwx.h; sourceTree = SOURCE_ROOT; };
-		E3CD09CF0FF2AD370043EE7E /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = ../qcnlive/resource.h; sourceTree = SOURCE_ROOT; };
 		E3D35BC60FF175D500E64121 /* qcn_graphics.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = qcn_graphics.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E3D35BC80FF175D500E64121 /* qcn_graphics-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "qcn_graphics-Info.plist"; sourceTree = "<group>"; };
 		E3D35C100FF1799600E64121 /* csensor_mac_usb_generic.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = csensor_mac_usb_generic.cpp; path = ../sensor/csensor_mac_usb_generic.cpp; sourceTree = SOURCE_ROOT; };
@@ -397,6 +397,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4394A75810A20763006FF691 /* qcnlive */ = {
+			isa = PBXGroup;
+			children = (
+				4394A75D10A20763006FF691 /* dlgsettings.h */,
+				4394A7B610A20763006FF691 /* icons.h */,
+				4394A7B710A20763006FF691 /* icons32.h */,
+				4394A7B910A20763006FF691 /* myframe.h */,
+				4394A7BB10A20763006FF691 /* myglpane.h */,
+				4394A7C110A20763006FF691 /* qcnwx.h */,
+			);
+			name = qcnlive;
+			path = ../qcnlive;
+			sourceTree = SOURCE_ROOT;
+		};
 		E3583B1F0FF18FDC00057DD2 /* sensor */ = {
 			isa = PBXGroup;
 			children = (
@@ -524,6 +538,7 @@
 		E3C0E7DA0D64E9E00099B905 /* .. */ = {
 			isa = PBXGroup;
 			children = (
+				4394A75810A20763006FF691 /* qcnlive */,
 				E3583B1F0FF18FDC00057DD2 /* sensor */,
 				E3C0E7F40D64E9E00099B905 /* .. */,
 				E3C0E7EF0D64E9E00099B905 /* graphics */,
@@ -705,15 +720,9 @@
 			isa = PBXGroup;
 			children = (
 				E3CD09C60FF2AD370043EE7E /* dlgsettings.cpp */,
-				E3CD09C70FF2AD370043EE7E /* dlgsettings.h */,
-				E3CD09C80FF2AD370043EE7E /* icons.h */,
 				E3CD09C90FF2AD370043EE7E /* myframe.cpp */,
-				E3CD09CA0FF2AD370043EE7E /* myframe.h */,
 				E3CD09CB0FF2AD370043EE7E /* myglpane.cpp */,
-				E3CD09CC0FF2AD370043EE7E /* myglpane.h */,
 				E3CD09CD0FF2AD370043EE7E /* qcnwx.cpp */,
-				E3CD09CE0FF2AD370043EE7E /* qcnwx.h */,
-				E3CD09CF0FF2AD370043EE7E /* resource.h */,
 			);
 			name = qcnlive;
 			sourceTree = "<group>";

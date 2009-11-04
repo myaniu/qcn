@@ -50,6 +50,7 @@ class CQCNShMem : public CSerialize
     double dMyLongitude;    // 'station' lng
     double dMyElevationMeter;   // 'station' elevation in meters
     int    iMyElevationFloor;   // 'station' floor (-1=basement, 0=ground floor, 1=first floor, etc)
+	int iMySensor;   // user pref for preferred sensor
     char strMyStation[SIZEOF_STATION_STRING]; // 'station' name
 
 	double clock_time;

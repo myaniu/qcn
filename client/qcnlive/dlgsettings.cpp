@@ -94,6 +94,8 @@ void CDialogSettings::InitPointers()
     m_textctrlStation = NULL; 
     m_textctrlElevationMeter = NULL; 
     m_textctrlElevationFloor = NULL; 
+	
+	m_comboSensor = NULL;
 
     m_strLatitude.clear();
     m_strLongitude.clear();
@@ -132,7 +134,16 @@ void CDialogSettings::SaveValues()
 
     sm->dMyElevationMeter = atof(m_strElevationMeter.c_str());
     sm->iMyElevationFloor = atoi(m_strElevationFloor.c_str());
-
+	
+	// for the sensor combo, save the value of the combo -1 + SENSOR_USB_
+	sm->iMySensor = -1;
+	wxString strCombo = m_comboSensor->GetValue();
+	for (int i = MIN_SENSOR_USB; i <= MAX_SENSOR_USB; i++)   {// usb sensors are between the values MIN & MAX_SENSOR_USB given in define.h
+		if (!strCombo.Cmp(qcn_main::g_psms->getTypeStr(i))) {
+			sm->iMySensor = i;
+			break;
+		}
+	}
 }
 
 bool CDialogSettings::Create(wxWindow* parent, wxWindowID id)
@@ -178,6 +189,8 @@ void CDialogSettings::CreateControls()
 	wxStaticText* itemStaticText8;
 	wxStaticText* itemStaticText9;
 	wxStaticText* itemStaticText10;
+	wxStaticText* itemStaticText11;
+	//wxStaticText* itemStaticText12;
 	wxBoxSizer* itemBoxSizer10;
 	wxButton* itemButton11;
 	wxButton* itemButton12;
@@ -202,7 +215,7 @@ void CDialogSettings::CreateControls()
     m_textctrlLatitude = new wxTextCtrl;
     m_textctrlLatitude->Create( this, ID_TEXTCTRLLATITUDE, m_strLatitude, wxDefaultPosition, wxSize(100, -1),
          0, wxTextValidatorLatLng(&m_strLatitude, ID_TEXTCTRLLATITUDE)); 
-    itemFlexGridSizer5->Add(m_textctrlLatitude, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    itemFlexGridSizer5->Add(m_textctrlLatitude, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     // control 2 - Longitude
     itemStaticText7 = new wxStaticText;
@@ -212,7 +225,7 @@ void CDialogSettings::CreateControls()
     m_textctrlLongitude = new wxTextCtrl;
     m_textctrlLongitude->Create( this, ID_TEXTCTRLLONGITUDE, m_strLongitude, wxDefaultPosition, wxSize(100, -1),
          0, wxTextValidatorLatLng(&m_strLongitude, ID_TEXTCTRLLONGITUDE)); 
-    itemFlexGridSizer5->Add(m_textctrlLongitude, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    itemFlexGridSizer5->Add(m_textctrlLongitude, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     // control 3 - Station Name
     itemStaticText8 = new wxStaticText;
@@ -222,7 +235,7 @@ void CDialogSettings::CreateControls()
     m_textctrlStation = new wxTextCtrl;
     m_textctrlStation->Create( this, ID_TEXTCTRLSTATION, m_strStation, wxDefaultPosition, wxSize(100, -1),
          0, wxTextValidator(wxFILTER_ALPHANUMERIC, &m_strStation)); 
-    itemFlexGridSizer5->Add(m_textctrlStation, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    itemFlexGridSizer5->Add(m_textctrlStation, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     // control 4 - Elevation (meters)
     itemStaticText9 = new wxStaticText;
@@ -232,7 +245,7 @@ void CDialogSettings::CreateControls()
     m_textctrlElevationMeter = new wxTextCtrl;
     m_textctrlElevationMeter->Create( this, ID_TEXTCTRLELEVATIONMETER, m_strElevationMeter, wxDefaultPosition, wxSize(100, -1),
          0, wxTextValidatorLatLng(&m_strElevationMeter, ID_TEXTCTRLELEVATIONMETER));
-    itemFlexGridSizer5->Add(m_textctrlElevationMeter, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    itemFlexGridSizer5->Add(m_textctrlElevationMeter, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
 
     // control 5 - Elevation (floor #)
@@ -243,8 +256,30 @@ void CDialogSettings::CreateControls()
     m_textctrlElevationFloor = new wxTextCtrl;
     m_textctrlElevationFloor->Create( this, ID_TEXTCTRLELEVATIONFLOOR, m_strElevationFloor, wxDefaultPosition, wxSize(100, -1),
          0, wxTextValidatorLatLng(&m_strElevationFloor, ID_TEXTCTRLELEVATIONFLOOR));
-    itemFlexGridSizer5->Add(m_textctrlElevationFloor, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    itemFlexGridSizer5->Add(m_textctrlElevationFloor, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
+	// control 6 - combo box to force sensor selection (i.e. for demos/displays)
+    itemStaticText11 = new wxStaticText;
+    itemStaticText11->Create( this, wxID_STATIC, _("Force USB Sensor:"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemFlexGridSizer5->Add(itemStaticText11, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+	
+	m_comboSensor = new wxComboBox;
+
+	// create an array of strings of the USB sensor choices
+	wxArrayString astrUSB;
+	astrUSB.Add(_("No Preference"));
+	for (int i = MIN_SENSOR_USB; i <= MAX_SENSOR_USB; i++)   // usb sensors are between the values MIN & MAX_SENSOR_USB given in define.h
+		astrUSB.Add(qcn_main::g_psms->getTypeStr(i));
+
+	//bool Create(wxWindow* parent, wxWindowID id, const wxString& value, const wxPoint& pos, const wxSize& size, const wxArrayString& choices, long style = 0, const wxValidator& validator = wxDefaultValidator, const wxString& name = "comboBox")
+    m_comboSensor->Create(this, ID_COMBOSENSOR, m_strSensor, wxDefaultPosition, wxSize(200, -1), astrUSB, wxCB_READONLY, wxDefaultValidator, _("strCombo"));
+	// set default setting if any
+	if (sm->iMySensor < 0 || sm->iMySensor > MAX_SENSOR_USB || sm->iMySensor < MIN_SENSOR_USB)  
+		m_comboSensor->SetValue(_("No Preference"));
+	else
+		m_comboSensor->SetValue(qcn_main::g_psms->getTypeStr(sm->iMySensor));
+			
+    itemFlexGridSizer5->Add(m_comboSensor, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);	
 
     // OK & Cancel Buttons
     itemBoxSizer10 = new wxBoxSizer(wxVERTICAL);

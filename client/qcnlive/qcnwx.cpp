@@ -130,6 +130,7 @@ bool MyApp::get_qcnlive_prefs()
 
     sm->dMyElevationMeter = 0.0f; 
     sm->iMyElevationFloor = 0; 
+	sm->iMySensor = -1;
 
     if (!boinc_file_exists(QCNGUI_XML_PREFS_FILE)) return false; // don't bother if doesn't exist!
 
@@ -158,7 +159,12 @@ bool MyApp::get_qcnlive_prefs()
     sprintf(strParse, "<%s>", XML_HEIGHT);
     if (!parse_int(strRead, strParse, myRect.height) || myRect.height<100 || myRect.height > wxsize.GetHeight())
         myRect.height =  MY_RECT_DEFAULT_HEIGHT;
-    
+
+    // get preferred sensor if any
+    sprintf(strParse, "<%s>", XML_SENSOR);
+    if (!parse_int(strRead, strParse, sm->iMySensor) || sm->iMySensor <= 0)
+        sm->iMySensor = -1;
+	
     // check for valid lat/lng range
     sprintf(strParse, "<%s>", XML_LATITUDE);
     if (parse_double(strRead, strParse, (double&) sm->dMyLatitude)) {
@@ -205,7 +211,7 @@ bool MyApp::set_qcnlive_prefs()
        fprintf(stdout, "Error opening file %s\n", QCNGUI_XML_PREFS_FILE);
        return false;
     }
-
+	
     // just save a string of pseudo-XML	
     fprintf(fp, "<%s>%d</%s>\n"
                 "<%s>%d</%s>\n"
@@ -216,6 +222,7 @@ bool MyApp::set_qcnlive_prefs()
                 "<%s>%s</%s>\n"
                 "<%s>%f</%s>\n"
                 "<%s>%d</%s>\n"
+   			    "<%s>%d</%s>\n"
                         ,
                     XML_X, myRect.x, XML_X,
                     XML_Y, myRect.y, XML_Y, 
@@ -229,7 +236,8 @@ bool MyApp::set_qcnlive_prefs()
                     XML_LONGITUDE, sm->dMyLongitude, XML_LONGITUDE,
                     XML_STATION, sm->strMyStation, XML_STATION,
                     XML_ELEVATION, sm->dMyElevationMeter, XML_ELEVATION,
-                    XML_FLOOR, sm->iMyElevationFloor, XML_FLOOR
+                    XML_FLOOR, sm->iMyElevationFloor, XML_FLOOR,
+					XML_SENSOR, sm->iMySensor, XML_SENSOR
     );
 
     fclose(fp);

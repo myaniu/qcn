@@ -187,16 +187,22 @@ enum e_quake   { QUAKE_CURRENT, QUAKE_WORLD85, QUAKE_DEADLIEST };
 
 // enumerate the various sensor types, we can trickle this int back for easier comparisons
 // don't forget to update in the csensor-* class as well as the client/util/sac.cpp so sensor type gets written to disk
-enum e_sensor  { SENSOR_NOTFOUND = 0,
-                 SENSOR_MAC_PPC_TYPE1, 
-                 SENSOR_MAC_PPC_TYPE2, 
-                 SENSOR_MAC_PPC_TYPE3, 
-                 SENSOR_MAC_INTEL, 
-                 SENSOR_WIN_THINKPAD,
-		 SENSOR_WIN_HP,
-		 SENSOR_USB_JW,
-                 SENSOR_USB_MOTIONNODEACCEL
+enum e_sensor  { SENSOR_NOTFOUND = 0,  // 0
+                 SENSOR_MAC_PPC_TYPE1, // 1
+                 SENSOR_MAC_PPC_TYPE2, // 2
+                 SENSOR_MAC_PPC_TYPE3, // 3
+                 SENSOR_MAC_INTEL,     // 4
+                 SENSOR_WIN_THINKPAD,  // 5
+		         SENSOR_WIN_HP,        // 6
+		         SENSOR_USB_JW = 100,        // 100
+                 SENSOR_USB_MOTIONNODEACCEL,   // 101
+	             SENSOR_USB_ONAVI_1     // 102
                };
+
+// set to the min allowable value of a usb sensor enum as above
+#define MIN_SENSOR_USB 100
+// set to the max allowable value of a usb sensor enum as above
+#define MAX_SENSOR_USB 102
  
 // USB id's
 #define USB_MOUSEWARRIOR 0x1114
@@ -300,6 +306,7 @@ struct FDSET_GROUP {
 #define XML_RESET_COUNT   "rstcnt"
 #define XML_CLOCK_TIME    "wct"
 #define XML_CPU_TIME      "cpt"
+#define XML_SENSOR        "sms"
 #define DIR_TRIGGER       "triggers"
 
 #ifdef QCN_CONTINUAL
