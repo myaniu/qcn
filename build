@@ -11,28 +11,28 @@ else
    # at least update boinc cvs?
    cd ..
    svn update boinc
+   cd qcn
 fi
 if ( test "`uname -s`" = "Darwin" ) then
-cd qcn
-cp config.h.mac config.h
-chmod uog+rx build.mac
-make distclean
-./_autosetup
-./configure --disable-client --disable-server --disable-manager --disable-fcgi
-cp config.h.mac config.h
-./build.mac $3 $4
+  cp config.h.mac config.h
+  chmod uog+rx build.mac
+  make distclean
+  ./_autosetup
+  ./configure --disable-client --disable-server --disable-manager --disable-fcgi
+  cp config.h.mac config.h
+  ./build.mac $3 $4
 else
-cd boinc
-make distclean
-./_autosetup
-./configure --disable-client --disable-server --disable-manager --disable-fcgi
-make clean && make
-cd ../qcn
-make distclean
-./_autosetup
-./configure --enable-client-release --disable-server
-make clean
-make
+  cd ../boinc
+  make distclean
+  ./_autosetup
+  ./configure --disable-client --disable-server --disable-manager --disable-fcgi
+  make clean && make
+  cd ../qcn
+  make distclean
+  ./_autosetup
+  ./configure --enable-client-release --disable-server
+  make clean
+  make
 fi
 cd client/bin
 ./deploy $1 $2 $3 $4
