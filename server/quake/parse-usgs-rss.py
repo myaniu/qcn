@@ -39,7 +39,8 @@ from xml.dom import minidom, Node
 from datetime import datetime
 from time import strptime, mktime
 
-URL_USGS = "http://earthquake.usgs.gov/eqcenter/catalogs/eqs7day-M2.5.xml"
+#URL_USGS = "http://earthquake.usgs.gov/eqcenter/catalogs/eqs7day-M2.5.xml"
+URL_USGS = "http://earthquake.usgs.gov/earthquakes/catalogs/7day-M2.5.xml"
 
 #FILE_USGS = "c:\qcn\server\quake\usgs-quake.xml"
 #FILE_QCN  = "c:\qcn\server\quake\qcn-quake.xml"
