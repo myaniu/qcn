@@ -958,6 +958,10 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\..\..\boinc\lib\url.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\..\boinc\lib\util.cpp"
 				>
 				<FileConfiguration
