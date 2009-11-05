@@ -39,7 +39,7 @@ from xml.dom import minidom, Node
 from datetime import datetime
 from time import strptime, mktime
 
-URL_USGS =  "http://earthquake.usgs.gov/earthquakes/catalogs/eqs7day-M2.5.xml
+URL_USGS =  "http://earthquake.usgs.gov/earthquakes/catalogs/eqs7day-M2.5.xml"
 URL_USGS_Z = "http://earthquake.usgs.gov/earthquakes/catalogs/merged_catalog.xml.gz"
 URL_USGS_CSV = "http://earthquake.usgs.gov/earthquakes/catalogs/eqs7day-M1.txt"
 
