@@ -41,6 +41,8 @@ from time import strptime, mktime
 
 #URL_USGS = "http://earthquake.usgs.gov/eqcenter/catalogs/eqs7day-M2.5.xml"
 URL_USGS = "http://earthquake.usgs.gov/earthquakes/catalogs/7day-M2.5.xml"
+URL_USGS_Z = "http://earthquake.usgs.gov/earthquakes/catalogs/merged_catalog.xml.gz"
+URL_USGS_CSV = "http://earthquake.usgs.gov/earthquakes/catalogs/eqs7day-M1.txt"
 
 #FILE_USGS = "c:\qcn\server\quake\usgs-quake.xml"
 #FILE_QCN  = "c:\qcn\server\quake\qcn-quake.xml"
@@ -48,9 +50,11 @@ URL_USGS = "http://earthquake.usgs.gov/earthquakes/catalogs/7day-M2.5.xml"
 #FILE_QCN_WORLD85  = "c:\qcn\server\quake\qcn-quake-world85.xml"
 
 FILE_USGS = "/var/www/boinc/qcnalpha/usgs-quake.xml"
+FILE_USGS_CSV = "/var/www/boinc/qcnalpha/usgs-quake.csv"
 FILE_QCN  = "/var/www/boinc/qcnalpha/qcn-quake.xml"
 FILE_QCN_TEMP  = "/var/www/boinc/qcnalpha/qcn-quake.tmp"
 FILE_QCN_WORLD85  = "/var/www/boinc/qcnalpha/qcn-quake-world85.xml"
+FILE_QCN_WORLD85_CSV  = "/var/www/boinc/qcnalpha/qcn-quake-world85.csv"
 
 DBNAME = "qcnalpha"
 DBHOST = "db-private"
@@ -278,15 +282,16 @@ def run(inFileName):                                            # [5]
    copyfile(FILE_QCN_TEMP, FILE_QCN) 
    
 # todo: get some exit codes/ check for valid file etc
-def getXMLFile(cd):
+#def getXMLFile(cd):
+def getCSVFile(cd):
     c  = pycurl.Curl()
-    c.setopt(c.URL, URL_USGS)
+    c.setopt(c.URL, URL_USGS_CSV)
     c.setopt(c.WRITEFUNCTION, cd.curl_callback)
     c.perform()
     c.close()
 #   now we can write out the contents to the file quake.xml
 #    print cd.xmldata
-    FILEUSGS = open(FILE_USGS,"w")
+    FILEUSGS = open(FILE_USGS_CSV,"w")
     FILEUSGS.writelines(cd.xmldata)
     FILEUSGS.close()
 
