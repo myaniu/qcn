@@ -39,8 +39,7 @@ from xml.dom import minidom, Node
 from datetime import datetime
 from time import strptime, mktime
 
-#URL_USGS = "http://earthquake.usgs.gov/eqcenter/catalogs/eqs7day-M2.5.xml"
-URL_USGS = "http://earthquake.usgs.gov/earthquakes/catalogs/7day-M2.5.xml"
+URL_USGS =  "http://earthquake.usgs.gov/earthquakes/catalogs/eqs7day-M2.5.xml
 URL_USGS_Z = "http://earthquake.usgs.gov/earthquakes/catalogs/merged_catalog.xml.gz"
 URL_USGS_CSV = "http://earthquake.usgs.gov/earthquakes/catalogs/eqs7day-M1.txt"
 
@@ -282,16 +281,16 @@ def run(inFileName):                                            # [5]
    copyfile(FILE_QCN_TEMP, FILE_QCN) 
    
 # todo: get some exit codes/ check for valid file etc
-#def getXMLFile(cd):
-def getCSVFile(cd):
+def getXMLFile(cd):
+#def getCSVFile(cd):
     c  = pycurl.Curl()
-    c.setopt(c.URL, URL_USGS_CSV)
+    c.setopt(c.URL, URL_USGS)
     c.setopt(c.WRITEFUNCTION, cd.curl_callback)
     c.perform()
     c.close()
 #   now we can write out the contents to the file quake.xml
 #    print cd.xmldata
-    FILEUSGS = open(FILE_USGS_CSV,"w")
+    FILEUSGS = open(FILE_USGS,"w")
     FILEUSGS.writelines(cd.xmldata)
     FILEUSGS.close()
 
