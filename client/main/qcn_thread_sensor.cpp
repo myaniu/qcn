@@ -95,6 +95,7 @@ double getNextDemoTimeInterval()
 
 void psmsForceSensor(CSensor* volatile *ppsms)
 {
+#ifdef QCNLIVE  // just to be safe, this only applies to qcnlive
 	 // see if they want to just use a preferred usb sensor i.e. set in sm->iMySensor - only applies to qcnlive
 	 if (sm->iMySensor >= MIN_SENSOR_USB && sm->iMySensor <= MAX_SENSOR_USB ) {
 		 switch(sm->iMySensor) {
@@ -117,6 +118,7 @@ void psmsForceSensor(CSensor* volatile *ppsms)
 					break;
 		 }
 	 }
+#endif
 }
 
 // first off let's setup the sensor class detection code
