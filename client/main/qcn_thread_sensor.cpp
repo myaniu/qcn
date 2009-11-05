@@ -93,153 +93,179 @@ double getNextDemoTimeInterval()
    return ((long)(DEMO_TRIGGER_TIME_SECONDS) * (1 + ((long)((sm->t0active + qcn_main::g_dTimeOffset) - dDay)/((long)(DEMO_TRIGGER_TIME_SECONDS))))) + dDay;
 }
 
+void psmsForceSensor(CSensor* volatile *ppsms)
+{
+	 // see if they want to just use a preferred usb sensor i.e. set in sm->iMySensor - only applies to qcnlive
+	 if (sm->iMySensor >= MIN_SENSOR_USB && sm->iMySensor <= MAX_SENSOR_USB ) {
+		 switch(sm->iMySensor) {
+				case SENSOR_USB_JW:
+	#ifdef _WIN32
+					*ppsms = (CSensor*) new CSensorWinUSBJW();
+	#else
+	#ifdef __APPLE_CC__
+					*ppsms = (CSensor*) new CSensorMacUSBJW();
+	 #else // Linux
+					*ppsms = (CSensor*) new CSensorLinuxUSBJW();
+	 #endif
+	 #endif
+					break;
+				case SENSOR_USB_MOTIONNODEACCEL:
+					*ppsms = (CSensor*) new CSensorUSBMotionNodeAccel();
+					break;
+				case SENSOR_USB_ONAVI_1:
+					//*ppsms = (CSensor*) new CSensorUSBONavi1();
+					break;
+		 }
+	 }
+}
+
 // first off let's setup the sensor class detection code
 bool getSensor(CSensor* volatile *ppsms)
 { 
+	static bool bHere = false;   // prevent multiple attempts to detect sensor	
+	bool bForceSensor = false;
+	
+	if (bHere || qcn_main::g_iStop || !sm || qcn_main::g_threadSensor->IsSuspended()) return false;  // handle quit request
+	bHere = true;
+
    // go through and try the CSensor subclasses and try and detect a sensor
    if (*ppsms) { // previous sensor not deleted
         delete *ppsms;
         *ppsms = NULL;
    }
 
-// see if they want to just use a preferred usb sensor i.e. set in sm->iMySensor - only applies to qcnlive
-#ifdef QCNLIVE
-	if (sm->iMySensor >= MIN_SENSOR_USB && sm->iMySensor <= MAX_SENSOR_USB ) {
-		switch(sm->iMySensor) {
-			case SENSOR_USB_JW:
-#ifdef _WIN32
-				*ppsms = (CSensor*) new CSensorWinUSBJW();
-#else
-#ifdef __APPLE_CC__
-				*ppsms = (CSensor*) new CSensorMacUSBJW();
-#else // Linux
-				*ppsms = (CSensor*) new CSensorLinuxUSBJW();
+#ifdef QCNLIVE  // forcesensor can only be true if we're running qcnlive and they have selected an iMySensor in the USB range
+	bForceSensor = (sm->iMySensor >= MIN_SENSOR_USB && sm->iMySensor <= MAX_SENSOR_USB );
 #endif
-#endif
-				break;
-			case SENSOR_USB_MOTIONNODEACCEL:
-				*ppsms = (CSensor*) new CSensorUSBMotionNodeAccel();
-				break;
-			case SENSOR_USB_ONAVI_1:
-				//*ppsms = (CSensor*) new CSensorUSBONavi1();
-				break;
-		}
-	}
-	else { // regular i.e. non-preferred sensor detection
-#endif // qcnlive preferred sensor
-		// for Macs the sensor can either be a CSensorMacLaptop or CSensorMacUSBJW or CSensorUSBMotionNodeAccel
-		#ifdef __APPLE_CC__
-		#if defined(__LP64__) || defined(_LP64) // no motion node for 64-bit
-		   const int iMaxSensor = 2;  // JW or Mac laptop
-		#else
-		   const int iMaxSensor = 3;  // JW, MN, or laptop
-		#endif
-		   
-		   // note we try to detect the USB sensors first (if any), then try the laptop
-		   for (int i = 0; i < iMaxSensor; i++)  { 
-			   if (qcn_main::g_iStop || !sm || qcn_main::g_threadSensor->IsSuspended()) return false;  // handle quit request
-			   switch(i) {
-				   case 0:   // try the USB driver first
-		//#define GENERIC
-		#ifdef GENERIC
-								 if (boinc_is_standalone()) 
-								*ppsms = (CSensor*) new CSensorMacUSBGeneric();
-		#ifndef QCNLIVE
-							 else
-								*ppsms = (CSensor*) new CSensorMacUSBJW();
-		#endif
-		#else
-								 if (boinc_is_standalone()) 
-								*ppsms = (CSensor*) new CSensorMacUSBJW();
-		#ifndef QCNLIVE
-							 else
-								*ppsms = (CSensor*) new CSensorMacUSBGeneric();
-		#endif
-		#endif		
-								 break;
-		#if defined(__LP64__) || defined(_LP64) // no motion node for 64-bit
-				   case 1:  // note it tries to get an external sensor first before using the internal sensor, is this good logic?
-					 *ppsms = (CSensor*) new CSensorMacLaptop();
-					 break;
-		#else
-				   case 1:  // note it tries to get an external sensor first before using the internal sensor, is this good logic?
-					 *ppsms = (CSensor*) new CSensorUSBMotionNodeAccel();
-					 break;
-				   case 2:  // note it tries to get an external sensor first before using the internal sensor, is this good logic?
-					 *ppsms = (CSensor*) new CSensorMacLaptop();
-					 break;
-		#endif
-			   }
-		#else
-		#ifdef _WIN32
-		#ifdef _WIN64   // just thinkpad & jw
-		   const int iMaxSensor = 2;
-		#else  // thinkpad, jw, mn
-		   const int iMaxSensor = 3;
-		#endif
-		   // for Windows the sensor can either be a CSensorThinkpad or CSensorWinUSBJW
-		   // note we try to detect the USB sensors first (if any), then try the laptop
-		   for (int i = 0; i < iMaxSensor; i++)  {
-			   switch(i) {
-				   case 0:
-					   *ppsms = (CSensor*) new CSensorWinUSBJW();
-					   break;
-		#ifdef _WIN64
-				   // no motionnode support for win64
-				   case 1:
-					   *ppsms = (CSensor*) new CSensorWinThinkpad();
-					   break;
-		#else
-				   case 1:
-					   *ppsms = (CSensor*) new CSensorUSBMotionNodeAccel();
-					   break;
-				   case 2:
-					   *ppsms = (CSensor*) new CSensorWinThinkpad();
-					   break;
-		#endif
-		#if 0
-				   case 3:
-					   *ppsms = (CSensor*) new CSensorWinHP();
-					   break;
-		#endif // no luck with the HP
-			   }
-		#else // Linux
-		#if defined(__LP64__) || defined(_LP64) // no motion node for 64-bit
-		   const int iMaxSensor = 1;
-		#else
-		   const int iMaxSensor = 2;
-		#endif
-		   // for Windows the sensor can either be a CSensorThinkpad or CSensorWinUSBJW
-		   // note we try to detect the USB sensors first (if any), then try the laptop
-		   for (int i = 0; i < iMaxSensor; i++)  {
-			   switch(i) {
-				   case 0:
+			
+	// for Macs the sensor can either be a CSensorMacLaptop or CSensorMacUSBJW or CSensorUSBMotionNodeAccel
+	#ifdef __APPLE_CC__
+	#if defined(__LP64__) || defined(_LP64) // no motion node for 64-bit
+	   const int iMaxSensor = 2;  // JW or Mac laptop
+	#else
+	   const int iMaxSensor = 3;  // JW, MN, or laptop
+	#endif
+	   
+	   // note we try to detect the USB sensors first (if any), then try the laptop
+	for (int i = 0; i < (bForceSensor ? 1 : iMaxSensor); i++)  { 
+		   if (qcn_main::g_iStop || !sm || qcn_main::g_threadSensor->IsSuspended()) return false;  // handle quit request
+		   switch(i) {
+			   case 0:   // try the USB driver first
+				   if (bForceSensor) {
+					   psmsForceSensor(ppsms);
+				   }
+				   else {
+	//#define GENERIC
+	#ifdef GENERIC
+						if (boinc_is_standalone()) 
+							*ppsms = (CSensor*) new CSensorMacUSBGeneric();
+	#ifndef QCNLIVE
+						 else
+							*ppsms = (CSensor*) new CSensorMacUSBJW();
+	#endif
+	#else
+							 if (boinc_is_standalone()) 
+							*ppsms = (CSensor*) new CSensorMacUSBJW();
+	#ifndef QCNLIVE
+						 else
+							*ppsms = (CSensor*) new CSensorMacUSBGeneric();
+	#endif
+	#endif		
+				   }
+							 break;
+	#if defined(__LP64__) || defined(_LP64) // no motion node for 64-bit
+			   case 1:  // note it tries to get an external sensor first before using the internal sensor, is this good logic?
+				 *ppsms = (CSensor*) new CSensorMacLaptop();
+				 break;
+	#else
+			   case 1:  // note it tries to get an external sensor first before using the internal sensor, is this good logic?
+				 *ppsms = (CSensor*) new CSensorUSBMotionNodeAccel();
+				 break;
+			   case 2:  // note it tries to get an external sensor first before using the internal sensor, is this good logic?
+				 *ppsms = (CSensor*) new CSensorMacLaptop();
+				 break;
+	#endif
+		   }
+	#else
+	#ifdef _WIN32
+	#ifdef _WIN64   // just thinkpad & jw
+	   const int iMaxSensor = 2;
+	#else  // thinkpad, jw, mn
+	   const int iMaxSensor = 3;
+	#endif
+	   // for Windows the sensor can either be a CSensorThinkpad or CSensorWinUSBJW
+	   // note we try to detect the USB sensors first (if any), then try the laptop
+		for (int i = 0; i < (bForceSensor ? 1 : iMaxSensor); i++)  {
+		   switch(i) {
+			   case 0:
+				   if (bForceSensor) {
+					   psmsForceSensor(ppsms);
+				   }
+				   else {
+				       *ppsms = (CSensor*) new CSensorWinUSBJW();
+				   }
+				   break;
+	#ifdef _WIN64
+			   // no motionnode support for win64
+			   case 1:
+				   *ppsms = (CSensor*) new CSensorWinThinkpad();
+				   break;
+	#else
+			   case 1:
+				   *ppsms = (CSensor*) new CSensorUSBMotionNodeAccel();
+				   break;
+			   case 2:
+				   *ppsms = (CSensor*) new CSensorWinThinkpad();
+				   break;
+	#endif
+	#if 0
+			   case 3:
+				   *ppsms = (CSensor*) new CSensorWinHP();
+				   break;
+	#endif // no luck with the HP
+		   }
+	#else // Linux
+	#if defined(__LP64__) || defined(_LP64) // no motion node for 64-bit
+	   const int iMaxSensor = 1;
+	#else
+	   const int iMaxSensor = 2;
+	#endif
+	   // for Windows the sensor can either be a CSensorThinkpad or CSensorWinUSBJW
+	   // note we try to detect the USB sensors first (if any), then try the laptop
+		 for (int i = 0; i < (bForceSensor ? 1 : iMaxSensor); i++)  {
+		   switch(i) {
+			   case 0:
+				   if (bForceSensor) {
+					   psmsForceSensor(ppsms);
+				   }
+				   else {
 					   *ppsms = (CSensor*) new CSensorLinuxUSBJW();
-					   break;
-		#if !defined(__LP64__) && !defined(_LP64) // no motion node for 64-bit
-				   case 1:
-					   *ppsms = (CSensor*) new CSensorUSBMotionNodeAccel();
-					   break;
-		#endif
-			   }
-		#endif // _WIN32 or Linux
-		#endif // APPLE
+				   }
+				   break;
+	#if !defined(__LP64__) && !defined(_LP64) // no motion node for 64-bit
+			   case 1:
+				   *ppsms = (CSensor*) new CSensorUSBMotionNodeAccel();
+				   break;
+	#endif
+		   }
+	#endif // _WIN32 or Linux
+	#endif // APPLE
 
-			   if (qcn_main::g_iStop || !sm || qcn_main::g_threadSensor->IsSuspended()) return false;  // handle quit request
+		   // now try out sensor if one is setup in ppsms
+		   if (qcn_main::g_iStop || !sm || qcn_main::g_threadSensor->IsSuspended()) return false;  // handle quit request
 
-			   if (*ppsms && (*ppsms)->detect()) {
-				   sm->eSensor = (*ppsms)->getTypeEnum();
-				   strcpy((char*) sm->strSensor, (*ppsms)->getTypeStr());
-				   break; // get out of for loop and return since we found an accelerometer
-			   }
-			   else { // if here we need to delete the pointer to try again in the loop (or just cleanup in general if nothing found)
-				   if (*ppsms) delete *ppsms;  // delete this object, not found
-				   *ppsms = NULL;
-			   }
-		   }  // end for loop for trying different sensors
-#ifdef QCNLIVE 
-	} // end if/else for usb sensor forced selection/detection
-#endif // qcnlive preferred sensor
+		   if (*ppsms && (*ppsms)->detect()) {
+			   sm->eSensor = (*ppsms)->getTypeEnum();
+			   strcpy((char*) sm->strSensor, (*ppsms)->getTypeStr());
+			   break; // get out of for loop and return since we found an accelerometer
+		   }
+		   else { // if here we need to delete the pointer to try again in the loop (or just cleanup in general if nothing found)
+			   if (*ppsms) delete *ppsms;  // delete this object, not found
+			   *ppsms = NULL;
+		   }
+		   
+	   }  // end for loop for trying different sensors
+	bHere = false;
    return (bool)(*ppsms != NULL); // note *ppsms is NULL if no sensor was found, so this can be checked in the calling routine
 }
 

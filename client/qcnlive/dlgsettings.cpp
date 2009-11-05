@@ -286,8 +286,8 @@ void CDialogSettings::CreateControls()
 
 	// control 6 - combo box to force sensor selection (i.e. for demos/displays)
     itemStaticText11 = new wxStaticText;
-    itemStaticText11->Create( this, wxID_STATIC, _("Force USB Sensor:"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemFlexGridSizer5->Add(itemStaticText11, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    itemStaticText11->Create( this, wxID_STATIC, _("Force A Specific USB Sensor To Be Used:"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemFlexGridSizer5->Add(itemStaticText11, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 	
 	m_comboSensor = new wxComboBox;
 

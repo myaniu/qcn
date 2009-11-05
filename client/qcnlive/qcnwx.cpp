@@ -417,11 +417,6 @@ bool MyApp::KillMainThread()
 	
 	//if (myJPEGHandler) delete myJPEGHandler;
 	//if (myPNGHandler) delete myPNGHandler;
-	// free proj prefs just to be safe, destructor for APP_INIT_DATA should do it
-	if (sm->dataBOINC.project_preferences) {
-		free(sm->dataBOINC.project_preferences);
-		sm->dataBOINC.project_preferences = NULL;
-	}
 	
 	int iCtr = 0;
 	if (qcn_main::g_threadMain && qcn_main::g_threadMain->IsRunning())  { // the main thread is running, so kill it

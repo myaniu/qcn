@@ -209,6 +209,7 @@ void MyFrame::OnFileSettings(wxCommandEvent& WXUNUSED(evt))
 {
      CDialogSettings* pcds = new CDialogSettings(this, wxID_FILE_SETTINGS);
 	 if (pcds) {
+		 int myOldSensor = sm->iMySensor;
 	    if (pcds->ShowModal() == wxID_OK)  {
 	       // accept values
 	       //statusBar->SetStatusText(wxString("Saving your settings and updating earthquake list", wxConvUTF8));
@@ -216,13 +217,13 @@ void MyFrame::OnFileSettings(wxCommandEvent& WXUNUSED(evt))
 	       // call our save function to write values to disk
 		   pMyApp->set_qcnlive_prefs(); // saved in KillMainThread 
 		   // probably have to kill & restart the main thread too?
-			/*
-			if (pMyApp) {
-		       pMyApp->KillMainThread(); // qcn_main::g_iStop = TRUE; // try and sleep a little to give the threads a chance to stop, a second should suffice
-			    //pMyApp->StartMainThread();
-				pMyApp->MainInit();
+			if (pMyApp && myOldSensor != sm->iMySensor) {  // we changed sensors, have to restart main thread?
+				// put up a message box to quit and restart
+				if (::wxMessageBox(_("You have changed your preferred sensor.\n\nPlease restart to use your new preferred USB sensor choice.\n\nClick 'OK' to quit now.\nClick 'Cancel' to continue this session of QCNLive."), 
+							   _("Restart Required"), 
+							 wxOK | wxCANCEL | wxICON_EXCLAMATION, this) == wxOK)
+					Close();
 			}
-			 */
 		}
 	    pcds->Destroy();
 	    delete pcds;
