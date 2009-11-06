@@ -1350,7 +1350,6 @@ static char *xpm_icon_nospin[] = {
 "IXIXIXIXIXIXIXIXIXIXIXIXIXIXIXIXIXIXIXIXIXIXIXIXIXIXIXIXIXIXIXIX"
 };
 
-/* XPM 
 static char *xpm_icon_pause[] = {
 "32 32 39 1",
 "  c black",
@@ -1425,7 +1424,6 @@ static char *xpm_icon_pause[] = {
 "aa5aaaaaaaaaaaaaaaaaaaaaaaaaa5aa",
 "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
 };
-*/
 
 static char *xpm_icon_play[] = {
 /* columns rows colors chars-per-pixel */

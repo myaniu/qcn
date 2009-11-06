@@ -70,13 +70,15 @@ void initDemoCounters(bool bReset)
 void checkRecordState()
 {
 	static int iTest = 0;
-	if (++iTest % 10) return; // just goes in every .2 second, good enough for recording
+	if (++iTest % 20) return; // just goes in every .2 second, good enough for recording
 	iTest = 0;
 	
 	// if we've hit a boundary for Demo SAC output (currently 10 minutes) force a "trigger" (writes 0-10 minutes of data)
 	if (!g_bRecordState && sm->bRecording) { 
 		// quick check to see if they hit recording button and we don't know it
 		g_bRecordState = true;
+		g_dStartDemoTime = (sm->t0active + qcn_main::g_dTimeOffset);
+		g_lDemoOffsetStart = sm->lOffset;
 	}
 	
 	// put the demo start time on an even time boundary i.e. every 10 minutes from midnight
@@ -104,7 +106,7 @@ void checkDemoTrigger(bool bForce)
 	else if (bForce && !g_bRecordState && !sm->bRecording) {  // no need to force it, we're not recording anymore
 		bForce = false;
 	}
-    if (bForce || g_dStartDemoTime > 0.0f) { // we have a valid start time
+    if (bForce || (!g_bRecordState && g_dStartDemoTime > 0.0f)) { // we have a valid start time and aren't recording
        //double dTimeOffset, dTimeOffsetTime;      
        //qcn_util::getTimeOffset((const double*) sm->dTimeServerTime, (const double*) sm->dTimeServerOffset, (const double) sm->t0active, dTimeOffset, dTimeOffsetTime);
 		// this will do every 10 minute interval until quit (bdemo or continual) or hit stop recording button
