@@ -50,7 +50,8 @@ enum e_tool_action_sensor {
     ID_TOOL_ACTION_SENSOR_BACK,
     ID_TOOL_ACTION_SENSOR_PAUSE,
     ID_TOOL_ACTION_SENSOR_RESUME,
-    ID_TOOL_ACTION_SENSOR_RECORD,
+    ID_TOOL_ACTION_SENSOR_RECORD_START,
+    ID_TOOL_ACTION_SENSOR_RECORD_STOP,
     ID_TOOL_ACTION_SENSOR_FORWARD,
     ID_TOOL_ACTION_SENSOR_ABSOLUTE,
     ID_TOOL_ACTION_SENSOR_SCALED,
@@ -89,7 +90,8 @@ BEGIN_EVENT_TABLE(MyFrame, wxFrame)
 	EVT_MENU(ID_TOOL_ACTION_SENSOR_BACK, MyFrame::OnActionSensor)
 	EVT_MENU(ID_TOOL_ACTION_SENSOR_PAUSE, MyFrame::OnActionSensor)
 	EVT_MENU(ID_TOOL_ACTION_SENSOR_RESUME, MyFrame::OnActionSensor)
-	EVT_MENU(ID_TOOL_ACTION_SENSOR_RECORD, MyFrame::OnActionSensor)
+	EVT_MENU(ID_TOOL_ACTION_SENSOR_RECORD_START, MyFrame::OnActionSensor)
+	EVT_MENU(ID_TOOL_ACTION_SENSOR_RECORD_STOP, MyFrame::OnActionSensor)
 	EVT_MENU(ID_TOOL_ACTION_SENSOR_FORWARD, MyFrame::OnActionSensor)
 	EVT_MENU(ID_TOOL_ACTION_SENSOR_ABSOLUTE, MyFrame::OnActionSensor)
 	EVT_MENU(ID_TOOL_ACTION_SENSOR_SCALED, MyFrame::OnActionSensor)
@@ -352,7 +354,7 @@ void MyFrame::OnActionSensor(wxCommandEvent& evt)
 	        qcn_graphics::TimeWindowStart();
 		 }
 		 break;
-     case ID_TOOL_ACTION_SENSOR_RECORD:
+     case ID_TOOL_ACTION_SENSOR_RECORD_START:
          if (qcn_graphics::TimeWindowIsStopped()) {
             iSensorAction = 0;
 	        qcn_graphics::TimeWindowStart();
@@ -369,6 +371,23 @@ void MyFrame::OnActionSensor(wxCommandEvent& evt)
 			 sm->bRecording = !sm->bRecording;
 		  }
 	 break;
+	  case ID_TOOL_ACTION_SENSOR_RECORD_STOP:
+		  if (qcn_graphics::TimeWindowIsStopped()) {
+			  iSensorAction = 0;
+			  qcn_graphics::TimeWindowStart();
+		  }
+		  if (sm->bSensorFound) {
+			  if (sm->bRecording) { // we're turning off recording
+				  SetStatusText(wxString("Recording stopped", wxConvUTF8));
+			  }
+			  else { // we're starting recording
+				  SetStatusText(wxString("Recording...", wxConvUTF8));
+			  }
+			  
+			  // flip the state
+			  sm->bRecording = !sm->bRecording;
+		  }
+		  break;
 		  
      case ID_TOOL_ACTION_SENSOR_FORWARD:
          if (! qcn_graphics::TimeWindowIsStopped()) {
@@ -602,7 +621,10 @@ void MyFrame::SetToggleSensor()
 {
 
       if (m_view == ID_TOOL_VIEW_SENSOR_2D) {
-		  Toggle(ID_TOOL_ACTION_SENSOR_RECORD, (bool)(sm->bRecording));
+          toolBar->EnableTool(ID_TOOL_ACTION_SENSOR_RECORD_START, !sm->bRecording);
+          toolBar->EnableTool(ID_TOOL_ACTION_SENSOR_RECORD_STOP, sm->bRecording);
+		  //Toggle(ID_TOOL_ACTION_SENSOR_RECORD_START, sm->bRecording);
+		  //Toggle(ID_TOOL_ACTION_SENSOR_RECORD_STOP, !sm->bRecording);
 
           toolBar->EnableTool(ID_TOOL_ACTION_SENSOR_ABSOLUTE, true);
           menuOptions->Enable(ID_TOOL_ACTION_SENSOR_ABSOLUTE, true);
@@ -653,7 +675,7 @@ void MyFrame::ToggleStartStop(bool bStart)
 
 void MyFrame::SensorNavButtons()
 {
-    wxString wxsShort[7], wxsLong[7];
+    wxString wxsShort[8], wxsLong[8];
 	
     wxsShort[0].assign("Zoom In Time Scale");
     wxsLong[0].assign("Zoom In Time Scale");
@@ -670,11 +692,14 @@ void MyFrame::SensorNavButtons()
     wxsShort[4].assign("Start Display");
     wxsLong[4].assign("Start Sensor Display");
 
-    wxsShort[5].assign("Set Recording State");
-    wxsLong[5].assign("Set Recording State On or Off");
+    wxsShort[5].assign("Start Recording");
+    wxsLong[5].assign("Start Recording Sensor Time Series");
 
     wxsShort[6].assign("Move Forward");
     wxsLong[6].assign("Move Forward In Time");
+
+    wxsShort[7].assign("Stop Recording");
+    wxsLong[7].assign("Stop Recording Sensor Time Series");
 
 	m_ptbBase = toolBar->AddTool(ID_TOOL_ACTION_SENSOR_HORIZ_ZOOM_IN, 
 	   wxsShort[0], 
@@ -720,13 +745,20 @@ void MyFrame::SensorNavButtons()
 	);
     menuOptions->AppendCheckItem(ID_TOOL_ACTION_SENSOR_RESUME, wxsShort[4], wxsLong[4]);
 
-	m_ptbBase = toolBar->AddRadioTool(ID_TOOL_ACTION_SENSOR_RECORD, 
+	m_ptbBase = toolBar->AddRadioTool(ID_TOOL_ACTION_SENSOR_RECORD_START, 
 	   wxsShort[5], 
 	   QCN_TOOLBAR_IMG(xpm_icon_record),
 	   wxNullBitmap, wxsShort[5], wxsLong[5]
 	);
-    menuOptions->AppendCheckItem(ID_TOOL_ACTION_SENSOR_RECORD, wxsShort[5], wxsLong[5]);
+    menuOptions->AppendCheckItem(ID_TOOL_ACTION_SENSOR_RECORD_START, wxsShort[5], wxsLong[5]);
 
+	m_ptbBase = toolBar->AddRadioTool(ID_TOOL_ACTION_SENSOR_RECORD_STOP, 
+									  wxsShort[7], 
+									  QCN_TOOLBAR_IMG(xpm_icon_stop),
+									  wxNullBitmap, wxsShort[7], wxsLong[7]
+									  );
+    menuOptions->AppendCheckItem(ID_TOOL_ACTION_SENSOR_RECORD_STOP, wxsShort[7], wxsLong[7]);
+	
 	m_ptbBase = toolBar->AddTool(ID_TOOL_ACTION_SENSOR_FORWARD, 
 	   wxsShort[6], 
 	   QCN_TOOLBAR_IMG(xpm_icon_ff),
@@ -771,7 +803,7 @@ void MyFrame::ToolBarSensor2D()
     wxsShort[6].assign("S&caled sensor values");
 
     wxsShort[7].assign("&Record sensor output");
-
+	
    // vertical zoom
 	//toolBar->AddSeparator();
     //menuOptions->AppendSeparator();
