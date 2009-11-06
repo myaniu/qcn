@@ -78,6 +78,7 @@ class CQCNShMem : public CSerialize
     bool bWriting;
     bool bSensorFound;
     bool bTriggerLock;
+	bool bRecording;
 
     e_sensor eSensor;     // an enum of the sensor type
     e_retcode eStatus;    // basically to store ERR_ABORT so we can quit this workunit
@@ -89,6 +90,7 @@ class CQCNShMem : public CSerialize
 
     char strSensor[_MAX_PATH];
     char strMemFile[_MAX_PATH];  // a serialize file that can be read in
+	char strDisplay[_MAX_PATH];
 
     // this is the dynamic data area
  

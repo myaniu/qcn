@@ -128,10 +128,6 @@ MyFrame::MyFrame(const wxRect& rect, MyApp* papp)
     bEarthRotate = true;
     iSensorAction = 0;
 	
-    bRecording = false;
-    wxsRecordingFilename.clear();
-    bRecordingSAC = true;
-
     bSensorAbsolute2D = false;
     bSensorAbsolute3D = false;
 
@@ -343,35 +339,42 @@ void MyFrame::OnActionSensor(wxCommandEvent& evt)
 	        qcn_graphics::TimeWindowStop(); 
 		 }
 		 qcn_graphics::TimeWindowBack(); 
-            bRecording = false;
 		 break;
      case ID_TOOL_ACTION_SENSOR_STOP:
          if (! qcn_graphics::TimeWindowIsStopped()) {
 		    iSensorAction = 1;
 	        qcn_graphics::TimeWindowStop(); 
 		 }
-            bRecording = false;
 		 break;
      case ID_TOOL_ACTION_SENSOR_START:
          if (qcn_graphics::TimeWindowIsStopped()) {
             iSensorAction = 0;
 	        qcn_graphics::TimeWindowStart();
 		 }
-            bRecording = false;
 		 break;
      case ID_TOOL_ACTION_SENSOR_RECORD:
          if (qcn_graphics::TimeWindowIsStopped()) {
             iSensorAction = 0;
-	    qcn_graphics::TimeWindowStart();
-	 }
-         bRecording = true;
+	        qcn_graphics::TimeWindowStart();
+		 }
+		  if (sm->bSensorFound) {
+			  if (sm->bRecording) { // we're turning off recording
+				  SetStatusText(wxString("Recording stopped", wxConvUTF8));
+			  }
+			  else { // we're starting recording
+				  SetStatusText(wxString("Recording...", wxConvUTF8));
+			  }
+			
+			 // flip the state
+			 sm->bRecording = !sm->bRecording;
+		  }
 	 break;
+		  
      case ID_TOOL_ACTION_SENSOR_FORWARD:
          if (! qcn_graphics::TimeWindowIsStopped()) {
 		    iSensorAction = 1;
 	        qcn_graphics::TimeWindowStop(); 
 		 }
-            bRecording = false;
 		 qcn_graphics::TimeWindowForward(); 
 		 break;
      case ID_TOOL_ACTION_SENSOR_ABSOLUTE:
@@ -599,8 +602,7 @@ void MyFrame::SetToggleSensor()
 {
 
       if (m_view == ID_TOOL_VIEW_SENSOR_2D) {
-			//Toggle(ID_TOOL_ACTION_SENSOR_STOP, (bool)(!bRecording && iSensorAction == 1));
-			Toggle(ID_TOOL_ACTION_SENSOR_RECORD, (bool)(bRecording));
+		  Toggle(ID_TOOL_ACTION_SENSOR_RECORD, (bool)(sm->bRecording));
           toolBar->EnableTool(ID_TOOL_ACTION_SENSOR_ABSOLUTE, true);
           menuOptions->Enable(ID_TOOL_ACTION_SENSOR_ABSOLUTE, true);
 	      if (bSensorAbsolute2D) {
@@ -623,9 +625,9 @@ void MyFrame::SetToggleSensor()
 			//Toggle(ID_TOOL_ACTION_SENSOR_10, (bool)(iSensorTimeWindow == 600));
 			//Toggle(ID_TOOL_ACTION_SENSOR_60, (bool)(iSensorTimeWindow == 3600));
 	  }
-			Toggle(ID_TOOL_ACTION_SENSOR_START, (bool)(!bRecording && iSensorAction == 0));
-			Toggle(ID_TOOL_ACTION_SENSOR_STOP, (bool)(!bRecording && iSensorAction == 1));
-			Toggle(ID_TOOL_ACTION_SENSOR_RECORD, (bool)(bRecording));
+			Toggle(ID_TOOL_ACTION_SENSOR_START, (bool)(sm->bRecording && iSensorAction == 0));
+			Toggle(ID_TOOL_ACTION_SENSOR_STOP, (bool)(sm->bRecording && iSensorAction == 1));
+			Toggle(ID_TOOL_ACTION_SENSOR_RECORD, (bool)(sm->bRecording));
 }
 
 void MyFrame::SetToggleEarth()
@@ -646,7 +648,6 @@ void MyFrame::ToggleStartStop(bool bStart)
 	else if (!bStart && !qcn_graphics::TimeWindowIsStopped()) {
 		qcn_graphics::TimeWindowStop();
 	}
-	bRecording = false;
 }
 
 void MyFrame::SensorNavButtons()
@@ -668,8 +669,8 @@ void MyFrame::SensorNavButtons()
     wxsShort[4].assign("Start Display");
     wxsLong[4].assign("Start Sensor Display");
 
-    wxsShort[5].assign("Start Recording");
-    wxsLong[5].assign("Start Recording");
+    wxsShort[5].assign("Set Recording State");
+    wxsLong[5].assign("Set Recording State On or Off");
 
     wxsShort[6].assign("Move Forward");
     wxsLong[6].assign("Move Forward In Time");
@@ -874,7 +875,7 @@ void MyFrame::ToolBarSensor3D()
     wxsLong[8].assign("View the scaled sensor values");
 
     wxsShort[9].assign("&Record sensor output");
-    wxsLong[9].assign("Starts recording the sensor output");
+    wxsLong[9].assign("Set recording state of the sensor output");
 
 	//toolBar->AddSeparator();
 

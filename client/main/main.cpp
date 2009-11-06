@@ -106,8 +106,15 @@ namespace qcn_main  {
 #else
   const bool g_bContinual = false;
 #endif
-	
+
   bool g_bDemo = false;
+	
+#if QCNLIVE
+	const bool g_bQCNLive = true;
+#else
+	const bool g_bQCNLive = false;
+#endif
+	
   int  g_iContinuousCounter = 0; // counts how many times this run has been through
 
   char g_strPathTrigger[_MAX_PATH];  // this is the path to trigger, doesn't change after startup
@@ -325,7 +332,7 @@ int qcn_main(int argc, char **argv)
     }
 
     // now get the input file (if we're not in demo mode, i.e. running "live" under BOINC)
-    if (!g_bDemo)  {
+    if (!g_bDemo && !g_bQCNLive)  {
       char strData[_MAX_PATH], strResolve[_MAX_PATH];
       memset(strResolve, 0x00, _MAX_PATH);
       memset(strData, 0x00, _MAX_PATH);
@@ -362,7 +369,7 @@ int qcn_main(int argc, char **argv)
       qcn_util::removeOldTriggers((const char*) g_strPathTrigger, 7200.0f);
     }
     else {
-      if (!g_bDemo) qcn_util::removeOldTriggers((const char*) g_strPathTrigger);  // default is get rid of files older than two weeks
+		if (!g_bDemo && !g_bQCNLive) qcn_util::removeOldTriggers((const char*) g_strPathTrigger);  // default is get rid of files older than two weeks
     }
 
     // create time & sensor thread objects
@@ -504,7 +511,7 @@ int qcn_main(int argc, char **argv)
         // check boinc checkpoint time, this is fast so we can call every .2 seconds
         if (boinc_time_to_checkpoint()) boinc_checkpoint_completed();
 
-        if (!g_iStop && !g_bDemo && !g_bReadOnly)  { // only active BOINC workunits need to do the following (i.e. not demo/readonly)
+        if (!g_iStop && !g_bDemo && !g_bQCNLive && !g_bReadOnly)  { // only active BOINC workunits need to do the following (i.e. not demo/readonly)
 
           // Trickle Down & Ping Trickle Check -- i.e. for file requests or to abort workunit
           // check every half-hour
@@ -582,13 +589,13 @@ int qcn_main(int argc, char **argv)
         }
 
         // if done 1 wall-clock day, or we got an abort request (i.e. trickle-down msgs), then quit workunit
-        if (!g_bDemo && !g_bReadOnly 
+        if (!g_bDemo && !g_bQCNLive && !g_bReadOnly 
           && (sm->clock_time >= WORKUNIT_COMPLETION_TIME_ELAPSED || sm->eStatus == ERR_ABORT)) {
             // seems to be a race condition upon a quit, so just exit
             doMainQuit(true, (sm->eStatus == ERR_ABORT ? ERR_ABORT: ERR_FINISHED)); // do the little timer loop
             if (g_bContinual)  {
                  usleep(1e6); // wait a second for thread cleanup?
-                 fprintf(stderr, "Main thread - force final trigger check - trigcnt=%d\n", g_vectTrigger.size());
+                 fprintf(stderr, "Main thread - force final trigger check - trigcnt=%d\n", (int) g_vectTrigger.size());
                  CheckTriggers(true);  // do one last trigger if needed
             }
             goto done;

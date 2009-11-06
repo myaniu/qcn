@@ -31,6 +31,7 @@
 
 // some globals, mainly if bDemo is true so we can have continual trigger output
 bool   g_bSensorTrickle = false;  // set to true if no sensor found, so we can trickle out this info (disabled now)
+bool   g_bRecordState = false;    // internal sensor thread flag that we are recording
 double g_dStartDemoTime = 0.0f;
 bool   g_bStartDemoEvenTime = false;  // after the first demo trigger write (10 minutes), set it to be an even 10 minute interval start time
 long   g_lDemoOffsetStart = 0L;
@@ -55,13 +56,36 @@ void uploadSACMem(const long lCurTime, const char* strTypeSensor);
 void initDemoCounters(bool bReset)
 {
    // first, if in demo mode and init'ing from a timing error reset, write out what we can
-   if (bReset && (qcn_main::g_bDemo || qcn_main::g_bContinual)) {
+	if (bReset && (qcn_main::g_bDemo || qcn_main::g_bContinual || g_bRecordState)) {
         checkDemoTrigger(true);
    }
+   g_bRecordState = false;   // force recording off on a reset
+   sm->bRecording = false;
    g_dStartDemoTime = 0.0f;
    g_bStartDemoEvenTime = false;  // after the first demo trigger write (10 minutes), set it to be an even 10 minute interval start time
    g_lDemoOffsetStart = 0L;
    g_lDemoOffsetEnd = 0L;
+}
+
+void checkRecordState()
+{
+	// if we've hit a boundary for Demo SAC output (currently 10 minutes) force a "trigger" (writes 0-10 minutes of data)
+	if (!g_bRecordState && sm->bRecording) { 
+		// quick check to see if they hit recording button and we don't know it
+		g_bRecordState = true;
+	}
+	
+	// put the demo start time on an even time boundary i.e. every 10 minutes from midnight
+	if (qcn_main::g_bDemo || qcn_main::g_bContinual || g_bRecordState) { // have to check versus ntpd server time
+		if (g_dStartDemoTime == 0.0f && (qcn_main::g_dTimeSync > 0.0f || sm->lOffset > (300.0 / sm->dt))) {
+			// wait until we get a good offset
+			// five minutes has gone by from start of calibration, long enough for ntpd lookup to have finished with one retry if first failed
+			g_dStartDemoTime = getNextDemoTimeInterval();
+		}
+		// check with adjusted server time if we went past a 10-minute even boundary
+		// here's the annoying bit, we have to keep checking the server adjusted time and then break out to do a trigger, then bump up to next boundary
+		checkDemoTrigger();  // put all the triggering stuff for demo mode in this function as we may want to call it on a timing reset too
+	}
 }
 
 
@@ -69,6 +93,12 @@ void checkDemoTrigger(bool bForce)
 {
     // check with adjusted server time if we went past a 10-minute even boundary
     // here's the annoying bit, we have to keep checking the server adjusted time and then break out to do a trigger, then bump up to next boundary
+	if (!bForce && g_bRecordState && !sm->bRecording) {  // recording turned off in shared memory but not our local global flag -- means they clicked stopped recording button
+		bForce = true;
+	}
+	else if (bForce && !g_bRecordState && !sm->bRecording) {  // no need to force it, we're not recording anymore
+		bForce = false;
+	}
     if (bForce || g_dStartDemoTime > 0.0f) { // we have a valid start time
        //double dTimeOffset, dTimeOffsetTime;      
        //qcn_util::getTimeOffset((const double*) sm->dTimeServerTime, (const double*) sm->dTimeServerOffset, (const double) sm->t0active, dTimeOffset, dTimeOffsetTime);
@@ -80,6 +110,12 @@ void checkDemoTrigger(bool bForce)
           g_dStartDemoTime = getNextDemoTimeInterval();  // set next time break point
        }
     }
+	if (g_bRecordState && !sm->bRecording) {  // recording turned off in shared memory but not qcn_main -- means they clicked stopped recording button
+		g_bRecordState = false;
+		g_lDemoOffsetStart = 0L;
+		g_lDemoOffsetEnd = 0L;
+		g_dStartDemoTime = 0.0f;
+	}
 }
 
 double getNextDemoTimeInterval()
@@ -326,6 +362,7 @@ bool getInitialMean(CSensor* psms)
            sm->xa[0] += (sm->x0[0] / 10.0f);
            sm->ya[0] += (sm->y0[0] / 10.0f);
            sm->za[0] += (sm->z0[0] / 10.0f);
+			checkRecordState();
         }
         sm->sgmx = 0.0f;
         sm->xa[0]  = sm->x0[0];
@@ -364,7 +401,9 @@ bool getBaseline(CSensor* psms)
           sm->za[i]  = ((i) * sm->za[i-1] + sm->z0[i])/(i+1);         //  AVERAGE Z
           sm->fmag[i] = sqrt(QCN_SQR(sm->x0[i]-sm->xa[i-1])+QCN_SQR(sm->y0[i]-sm->ya[i-1])+QCN_SQR(sm->z0[i]-sm->za[i-1]));
 
-          // test max/min
+		   checkRecordState();
+
+		   // test max/min
           //sm->testMinMax(sm->x0[i], E_DX);
           //sm->testMinMax(sm->y0[i], E_DY);
           //sm->testMinMax(sm->z0[i], E_DZ);
@@ -643,7 +682,7 @@ extern void* QCNThreadSensor(void*)
  
  // CMC - randomly upload whole array for USB sensors on a random basis
 #if defined(RANDOM_USB_UPLOAD) && !defined(QCNLIVE) && !defined(QCN_USB)
-         if (!qcn_main::g_bDemo && 
+		  if (!qcn_main::g_bDemo && !qcn_main::g_bQCNLive && 
            (esType == SENSOR_USB_JW || esType == SENSOR_USB_MOTIONNODEACCEL)) { 
             // they're using a JW -- do a random test to see if we want to upload this array
             long lCurTime = QCN_ROUND(dtime() + qcn_main::g_dTimeOffset);
@@ -773,19 +812,9 @@ extern void* QCNThreadSensor(void*)
         //fprintf(stdout, "Largest sig at lOffset=%ld iWindow=%d PT:%ld SGMX=%f \n", sm->lOffset, sm->iWindow, sm->itl, sm->sgmx);
         //fflush(stdout);
       }
+		
+		checkRecordState();
 
-      // if we've hit a boundary for Demo SAC output (currently 10 minutes) force a "trigger" (writes 0-10 minutes of data)
-      // put the demo start time on an even time boundary i.e. every 10 minutes from midnight
-      if (qcn_main::g_bDemo || qcn_main::g_bContinual) { // have to check versus ntpd server time
-           if (g_dStartDemoTime == 0.0f && (qcn_main::g_dTimeSync > 0.0f || sm->lOffset > (300.0 / sm->dt))) {
-             // wait until we get a good offset
-             // five minutes has gone by from start of calibration, long enough for ntpd lookup to have finished with one retry if first failed
-             g_dStartDemoTime = getNextDemoTimeInterval();
-           }
-           // check with adjusted server time if we went past a 10-minute even boundary
-           // here's the annoying bit, we have to keep checking the server adjusted time and then break out to do a trigger, then bump up to next boundary
-           checkDemoTrigger();  // put all the triggering stuff for demo mode in this function as we may want to call it on a timing reset too
-      }
 
 #ifdef _DEBUG
       DebugTime(4);

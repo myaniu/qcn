@@ -25,6 +25,10 @@ void MyGLTimer::Notify()
 	if (m_pGLPane && m_pGLPane->IsShown()) {
 		m_pGLPane->Refresh(false);  // paint the window if visible!
     }
+	if (sm && sm->strDisplay[0]) { // little trick to display a status message to the GUI from elsewhere in the qcn system i.e. after writing a sac file
+		m_pGLPane->m_pframe->SetStatusText(sm->strDisplay);
+		memset(sm->strDisplay, 0x00, sizeof(char) * 256);
+	}
 }
 
 

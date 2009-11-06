@@ -41,10 +41,6 @@ class MyFrame : public wxFrame
         wxMenu *menuHelp;
         wxMenuBar* menuBar;
  
-    bool bRecording;
-    wxString wxsRecordingFilename;
-    bool bRecordingSAC;
-
     bool bEarthDay;
     bool bEarthRotate;
     long iSensorAction;

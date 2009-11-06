@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		43AC1A0810A0C85600F84A0D /* libcurl-universal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 43AC1A0710A0C85600F84A0D /* libcurl-universal.a */; };
+		43E17E8A10A47F2600EFA3A7 /* url.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43E17E8910A47F2600EFA3A7 /* url.cpp */; };
+		43E17E8B10A47F2600EFA3A7 /* url.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43E17E8910A47F2600EFA3A7 /* url.cpp */; };
+		43E17E8C10A47F2600EFA3A7 /* url.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43E17E8910A47F2600EFA3A7 /* url.cpp */; };
+		43E17E8D10A47F2600EFA3A7 /* url.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43E17E8910A47F2600EFA3A7 /* url.cpp */; };
 		E300B1A40FF2CF0E00E54D79 /* libboinc_zip.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E33EF7BD0FF1DF7400CD5708 /* libboinc_zip.a */; };
 		E300B1A50FF2CF0E00E54D79 /* libjpeg-universal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E33EF7BE0FF1DF7400CD5708 /* libjpeg-universal.a */; };
 		E300B1A60FF2CF0E00E54D79 /* libz-universal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E33EF7BF0FF1DF7400CD5708 /* libz-universal.a */; };
@@ -216,6 +220,7 @@
 		4394A7BB10A20763006FF691 /* myglpane.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = myglpane.h; sourceTree = "<group>"; };
 		4394A7C110A20763006FF691 /* qcnwx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = qcnwx.h; sourceTree = "<group>"; };
 		43AC1A0710A0C85600F84A0D /* libcurl-universal.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libcurl-universal.a"; sourceTree = "<group>"; };
+		43E17E8910A47F2600EFA3A7 /* url.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = url.cpp; path = ../../../boinc/lib/url.cpp; sourceTree = SOURCE_ROOT; };
 		E3064B950F8FE8A60028A349 /* qcn_2dplot.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = qcn_2dplot.cpp; path = ../graphics/qcn_2dplot.cpp; sourceTree = SOURCE_ROOT; };
 		E3064B970F8FE8C10028A349 /* qcn_2dplot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = qcn_2dplot.h; path = ../graphics/qcn_2dplot.h; sourceTree = SOURCE_ROOT; };
 		E30AB1140EBB776D00DABFEF /* csensor_usb_motionnodeaccel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = csensor_usb_motionnodeaccel.cpp; path = ../sensor/csensor_usb_motionnodeaccel.cpp; sourceTree = SOURCE_ROOT; };
@@ -656,6 +661,7 @@
 		E3C967120FF1A19900F20324 /* lib */ = {
 			isa = PBXGroup;
 			children = (
+				43E17E8910A47F2600EFA3A7 /* url.cpp */,
 				E3C9680F0FF1A80100F20324 /* QBacktrace.c */,
 				E3C968100FF1A80100F20324 /* QCrashReport.c */,
 				E3C968110FF1A80100F20324 /* QMachOImage.c */,
@@ -916,6 +922,7 @@
 				E388F8740FF1B9A900D948DE /* QMachOImageList.c in Sources */,
 				E388F8750FF1B9A900D948DE /* QSymbols.c in Sources */,
 				E388F8760FF1B9A900D948DE /* QTaskMemory.c in Sources */,
+				43E17E8B10A47F2600EFA3A7 /* url.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -981,6 +988,7 @@
 				E3CD09C20FF2ACE20043EE7E /* QMachOImageList.c in Sources */,
 				E3CD09C30FF2ACE20043EE7E /* QSymbols.c in Sources */,
 				E3CD09C40FF2ACE20043EE7E /* QTaskMemory.c in Sources */,
+				43E17E8A10A47F2600EFA3A7 /* url.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1029,6 +1037,7 @@
 				E3C968180FF1A80100F20324 /* QMachOImageList.c in Sources */,
 				E3C968190FF1A80100F20324 /* QSymbols.c in Sources */,
 				E3C9681A0FF1A80100F20324 /* QTaskMemory.c in Sources */,
+				43E17E8D10A47F2600EFA3A7 /* url.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1078,6 +1087,7 @@
 				E3C967480FF1A1DD00F20324 /* texfont.cpp in Sources */,
 				E3C967470FF1A1DD00F20324 /* gutil_text.cpp in Sources */,
 				E3C9674B0FF1A1DD00F20324 /* txf_util.cpp in Sources */,
+				43E17E8C10A47F2600EFA3A7 /* url.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

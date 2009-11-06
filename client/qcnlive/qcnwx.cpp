@@ -10,8 +10,13 @@
   void* QCNThreadMain(void*)
 #endif
 { 
-    qcn_main::qcn_main(0, NULL);
-    return 0;
+    return 
+#ifdef _WIN32
+	(DWORD)
+#else 
+	(void*)
+#endif 
+	     qcn_main::qcn_main(0, NULL);
 }
 
 // the next two will be used in the main thread, but declare here (outside the thread)
@@ -100,7 +105,7 @@ bool MyApp::MainInit()
     // CMC - start init QCN/BOINC stuff -- this gets the latest quake data and creates a boinc-style init_data.xml file
 	CreateBOINCInitFile();
 
-    qcn_main::g_bDemo = true;
+    qcn_main::g_bDemo = false;
     qcn_util::ResetCounter(WHERE_MAIN_STARTUP);  // this is the one and only place ResetCounter is called outside of the sensor thread, so it's safe
     qcn_main::parseArgs(0, NULL); // parse args has to be done early in startup, right after the first ResetCounter usually
 

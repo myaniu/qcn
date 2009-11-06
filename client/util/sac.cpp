@@ -452,9 +452,10 @@ extern int sacio
 
     wsac0(fname, t, z, nerr, npts, &sacdata);
 
+	string strZip((const char*) qcn_main::g_strPathTrigger);  // note it DOES NOT HAVE appropriate \ or / at the end
+
     if (zfl.size()>0) {
        // now make sure the zip file is stored in sm->strPathTrigger + ti->strFile
-       string strZip((const char*) qcn_main::g_strPathTrigger);  // note it DOES NOT HAVE appropriate \ or / at the end
        strZip += qcn_util::cPathSeparator();
        strZip += (const char*) ti->strFile;
        boinc_delete_file(strZip.c_str());  // we may be overwriting, delete first
@@ -501,6 +502,14 @@ extern int sacio
     delete [] s;
     delete [] t;
 
+#ifdef QCNLIVE
+	char* strTmp = new char[512];
+	memset(strTmp, 0x00, sizeof(char) * 512);
+	sprintf(strTmp, "Recorded file written to %s", strZip.c_str());
+	strncpy(sm->strDisplay, strTmp, _MAX_PATH);
+	delete [] strTmp;
+#endif
+	
     boinc_end_critical_section();
     return 0;
 }
