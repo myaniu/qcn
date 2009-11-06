@@ -48,8 +48,8 @@ enum e_tool_action_sensor {
     ID_TOOL_ACTION_SENSOR_10,
     ID_TOOL_ACTION_SENSOR_60,
     ID_TOOL_ACTION_SENSOR_BACK,
-    ID_TOOL_ACTION_SENSOR_STOP,
-    ID_TOOL_ACTION_SENSOR_START,
+    ID_TOOL_ACTION_SENSOR_PAUSE,
+    ID_TOOL_ACTION_SENSOR_RESUME,
     ID_TOOL_ACTION_SENSOR_RECORD,
     ID_TOOL_ACTION_SENSOR_FORWARD,
     ID_TOOL_ACTION_SENSOR_ABSOLUTE,
@@ -87,8 +87,8 @@ BEGIN_EVENT_TABLE(MyFrame, wxFrame)
 	EVT_MENU(ID_TOOL_ACTION_SENSOR_10, MyFrame::OnActionSensor)
 	EVT_MENU(ID_TOOL_ACTION_SENSOR_60, MyFrame::OnActionSensor)
 	EVT_MENU(ID_TOOL_ACTION_SENSOR_BACK, MyFrame::OnActionSensor)
-	EVT_MENU(ID_TOOL_ACTION_SENSOR_STOP, MyFrame::OnActionSensor)
-	EVT_MENU(ID_TOOL_ACTION_SENSOR_START, MyFrame::OnActionSensor)
+	EVT_MENU(ID_TOOL_ACTION_SENSOR_PAUSE, MyFrame::OnActionSensor)
+	EVT_MENU(ID_TOOL_ACTION_SENSOR_RESUME, MyFrame::OnActionSensor)
 	EVT_MENU(ID_TOOL_ACTION_SENSOR_RECORD, MyFrame::OnActionSensor)
 	EVT_MENU(ID_TOOL_ACTION_SENSOR_FORWARD, MyFrame::OnActionSensor)
 	EVT_MENU(ID_TOOL_ACTION_SENSOR_ABSOLUTE, MyFrame::OnActionSensor)
@@ -340,13 +340,13 @@ void MyFrame::OnActionSensor(wxCommandEvent& evt)
 		 }
 		 qcn_graphics::TimeWindowBack(); 
 		 break;
-     case ID_TOOL_ACTION_SENSOR_STOP:
+     case ID_TOOL_ACTION_SENSOR_PAUSE:
          if (! qcn_graphics::TimeWindowIsStopped()) {
 		    iSensorAction = 1;
 	        qcn_graphics::TimeWindowStop(); 
 		 }
 		 break;
-     case ID_TOOL_ACTION_SENSOR_START:
+     case ID_TOOL_ACTION_SENSOR_RESUME:
          if (qcn_graphics::TimeWindowIsStopped()) {
             iSensorAction = 0;
 	        qcn_graphics::TimeWindowStart();
@@ -603,6 +603,7 @@ void MyFrame::SetToggleSensor()
 
       if (m_view == ID_TOOL_VIEW_SENSOR_2D) {
 		  Toggle(ID_TOOL_ACTION_SENSOR_RECORD, (bool)(sm->bRecording));
+
           toolBar->EnableTool(ID_TOOL_ACTION_SENSOR_ABSOLUTE, true);
           menuOptions->Enable(ID_TOOL_ACTION_SENSOR_ABSOLUTE, true);
 	      if (bSensorAbsolute2D) {
@@ -613,6 +614,9 @@ void MyFrame::SetToggleSensor()
 		  }		  
          Toggle(ID_TOOL_ACTION_SENSOR_ABSOLUTE, bSensorAbsolute2D);
          Toggle(ID_TOOL_ACTION_SENSOR_SCALED, !bSensorAbsolute2D);
+
+		 Toggle(ID_TOOL_ACTION_SENSOR_RESUME, (bool)(sm->bRecording && iSensorAction == 0));
+		 Toggle(ID_TOOL_ACTION_SENSOR_PAUSE, (bool)(sm->bRecording && iSensorAction == 1));
 	  }
 	  else if (m_view == ID_TOOL_VIEW_SENSOR_3D) { // force to be scaled
 	      bSensorAbsolute3D = false;
@@ -625,9 +629,6 @@ void MyFrame::SetToggleSensor()
 			//Toggle(ID_TOOL_ACTION_SENSOR_10, (bool)(iSensorTimeWindow == 600));
 			//Toggle(ID_TOOL_ACTION_SENSOR_60, (bool)(iSensorTimeWindow == 3600));
 	  }
-			Toggle(ID_TOOL_ACTION_SENSOR_START, (bool)(sm->bRecording && iSensorAction == 0));
-			Toggle(ID_TOOL_ACTION_SENSOR_STOP, (bool)(sm->bRecording && iSensorAction == 1));
-			Toggle(ID_TOOL_ACTION_SENSOR_RECORD, (bool)(sm->bRecording));
 }
 
 void MyFrame::SetToggleEarth()
@@ -640,8 +641,8 @@ void MyFrame::SetToggleEarth()
 
 void MyFrame::ToggleStartStop(bool bStart)
 {
-	Toggle(ID_TOOL_ACTION_SENSOR_START, bStart);
-	Toggle(ID_TOOL_ACTION_SENSOR_STOP, !bStart);
+	Toggle(ID_TOOL_ACTION_SENSOR_RESUME, bStart);
+	Toggle(ID_TOOL_ACTION_SENSOR_PAUSE, !bStart);
 	if (bStart && qcn_graphics::TimeWindowIsStopped()) {
 		qcn_graphics::TimeWindowStart();
 	}
@@ -705,19 +706,19 @@ void MyFrame::SensorNavButtons()
 	);
     menuOptions->Append(ID_TOOL_ACTION_SENSOR_BACK, wxsShort[2], wxsLong[2]);
 
-	m_ptbBase = toolBar->AddRadioTool(ID_TOOL_ACTION_SENSOR_STOP, 
+	m_ptbBase = toolBar->AddRadioTool(ID_TOOL_ACTION_SENSOR_PAUSE, 
        wxsShort[3],
-	   QCN_TOOLBAR_IMG(xpm_icon_stop),
+	   QCN_TOOLBAR_IMG(xpm_icon_pause),
 	   wxNullBitmap, wxsShort[3], wxsLong[3]
 	);
-    menuOptions->AppendCheckItem(ID_TOOL_ACTION_SENSOR_STOP, wxsShort[3], wxsLong[3]);
+    menuOptions->AppendCheckItem(ID_TOOL_ACTION_SENSOR_PAUSE, wxsShort[3], wxsLong[3]);
 
-	m_ptbBase = toolBar->AddRadioTool(ID_TOOL_ACTION_SENSOR_START, 
+	m_ptbBase = toolBar->AddRadioTool(ID_TOOL_ACTION_SENSOR_RESUME, 
 	   wxsShort[4], 
 	   QCN_TOOLBAR_IMG(xpm_icon_play),
 	   wxNullBitmap, wxsShort[4], wxsLong[4]
 	);
-    menuOptions->AppendCheckItem(ID_TOOL_ACTION_SENSOR_START, wxsShort[4], wxsLong[4]);
+    menuOptions->AppendCheckItem(ID_TOOL_ACTION_SENSOR_RESUME, wxsShort[4], wxsLong[4]);
 
 	m_ptbBase = toolBar->AddRadioTool(ID_TOOL_ACTION_SENSOR_RECORD, 
 	   wxsShort[5], 
