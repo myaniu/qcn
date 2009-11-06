@@ -505,7 +505,7 @@ extern int sacio
 #ifdef QCNLIVE
 	char* strTmp = new char[512];
 	memset(strTmp, 0x00, sizeof(char) * 512);
-	sprintf(strTmp, "Recorded file written to %s", strZip.c_str());
+	sprintf(strTmp, "%s file written to %s",  ( ti->bDemo ? "Recorded" : "Trigger"), strZip.c_str());
 	strncpy(sm->strDisplay, strTmp, _MAX_PATH);
 	delete [] strTmp;
 #endif

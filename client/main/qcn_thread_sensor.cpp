@@ -69,6 +69,10 @@ void initDemoCounters(bool bReset)
 
 void checkRecordState()
 {
+	static int iTest = 0;
+	if (++iTest % 10) return; // just goes in every .2 second, good enough for recording
+	iTest = 0;
+	
 	// if we've hit a boundary for Demo SAC output (currently 10 minutes) force a "trigger" (writes 0-10 minutes of data)
 	if (!g_bRecordState && sm->bRecording) { 
 		// quick check to see if they hit recording button and we don't know it
@@ -76,7 +80,7 @@ void checkRecordState()
 	}
 	
 	// put the demo start time on an even time boundary i.e. every 10 minutes from midnight
-	if (qcn_main::g_bDemo || qcn_main::g_bContinual || g_bRecordState) { // have to check versus ntpd server time
+	if (g_bRecordState || qcn_main::g_bDemo || qcn_main::g_bContinual) { // have to check versus ntpd server time
 		if (g_dStartDemoTime == 0.0f && (qcn_main::g_dTimeSync > 0.0f || sm->lOffset > (300.0 / sm->dt))) {
 			// wait until we get a good offset
 			// five minutes has gone by from start of calibration, long enough for ntpd lookup to have finished with one retry if first failed
@@ -93,7 +97,8 @@ void checkDemoTrigger(bool bForce)
 {
     // check with adjusted server time if we went past a 10-minute even boundary
     // here's the annoying bit, we have to keep checking the server adjusted time and then break out to do a trigger, then bump up to next boundary
-	if (!bForce && g_bRecordState && !sm->bRecording) {  // recording turned off in shared memory but not our local global flag -- means they clicked stopped recording button
+	if (!bForce && g_bRecordState && !sm->bRecording) {  
+		// recording turned off in shared memory but not our local global flag -- means they clicked stopped recording button
 		bForce = true;
 	}
 	else if (bForce && !g_bRecordState && !sm->bRecording) {  // no need to force it, we're not recording anymore
@@ -102,6 +107,7 @@ void checkDemoTrigger(bool bForce)
     if (bForce || g_dStartDemoTime > 0.0f) { // we have a valid start time
        //double dTimeOffset, dTimeOffsetTime;      
        //qcn_util::getTimeOffset((const double*) sm->dTimeServerTime, (const double*) sm->dTimeServerOffset, (const double) sm->t0active, dTimeOffset, dTimeOffsetTime);
+		// this will do every 10 minute interval until quit (bdemo or continual) or hit stop recording button
        if (bForce || ((sm->t0active + qcn_main::g_dTimeOffset) >= g_dStartDemoTime))  { // OK, this time matches what we wanted, so do a trigger now!
           g_lDemoOffsetEnd = sm->lOffset; 
 	  // send a trigger -- if continual mode it will be true, so processed as a normal trigger (i.e. send a trickle at this time)
@@ -823,7 +829,7 @@ extern void* QCNThreadSensor(void*)
 
 done: // ending, perhaps from a g_iStop request in the wxWidgets myApp::OnExit()
     // if in continual mode and workunit finished normally, may want to send last bit of data?
-    if (qcn_main::g_bContinual && sm->eStatus == ERR_FINISHED) {
+    if (g_bRecordState || (qcn_main::g_bContinual && sm->eStatus == ERR_FINISHED)) {
      // && (g_dStartDemoTime - (sm->t0active + qcn_main::g_dTimeOffset)) > (DEMO_TRIGGER_TIME_SECONDS - 60)) { 
          fprintf(stderr, "Sensor thread - eEnding workunit - force one last continual trigger file\n");
          checkDemoTrigger(true); 
