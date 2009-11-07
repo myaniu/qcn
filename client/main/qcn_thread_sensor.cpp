@@ -77,7 +77,6 @@ void checkRecordState()
 	if (!g_bRecordState && sm->bRecording) { 
 		// quick check to see if they hit recording button and we don't know it
 		g_bRecordState = true;
-		g_dStartDemoTime = (sm->t0active + qcn_main::g_dTimeOffset);
 		g_lDemoOffsetStart = sm->lOffset;
 	}
 	
@@ -90,7 +89,7 @@ void checkRecordState()
 		}
 		// check with adjusted server time if we went past a 10-minute even boundary
 		// here's the annoying bit, we have to keep checking the server adjusted time and then break out to do a trigger, then bump up to next boundary
-		checkDemoTrigger();  // put all the triggering stuff for demo mode in this function as we may want to call it on a timing reset too
+		checkDemoTrigger(g_bRecordState && !sm->bRecording);  // put all the triggering stuff for demo mode in this function as we may want to call it on a timing reset too
 	}
 }
 
@@ -106,17 +105,15 @@ void checkDemoTrigger(bool bForce)
 	else if (bForce && !g_bRecordState && !sm->bRecording) {  // no need to force it, we're not recording anymore
 		bForce = false;
 	}
-    if (bForce || (!g_bRecordState && g_dStartDemoTime > 0.0f)) { // we have a valid start time and aren't recording
+    if (bForce || (sm->bRecording && g_dStartDemoTime > 0.0f && ((sm->t0active + qcn_main::g_dTimeOffset) >= g_dStartDemoTime) ) ) { // we have a valid start time and aren't recording
        //double dTimeOffset, dTimeOffsetTime;      
        //qcn_util::getTimeOffset((const double*) sm->dTimeServerTime, (const double*) sm->dTimeServerOffset, (const double) sm->t0active, dTimeOffset, dTimeOffsetTime);
 		// this will do every 10 minute interval until quit (bdemo or continual) or hit stop recording button
-       if (bForce || ((sm->t0active + qcn_main::g_dTimeOffset) >= g_dStartDemoTime))  { // OK, this time matches what we wanted, so do a trigger now!
           g_lDemoOffsetEnd = sm->lOffset; 
 	  // send a trigger -- if continual mode it will be true, so processed as a normal trigger (i.e. send a trickle at this time)
           doTrigger(qcn_main::g_bContinual, g_lDemoOffsetStart, g_lDemoOffsetEnd);  // note we're passing in the offset which is just before the next 10 minute period
           g_lDemoOffsetStart = sm->lOffset; // set next start point
           g_dStartDemoTime = getNextDemoTimeInterval();  // set next time break point
-       }
     }
 	if (g_bRecordState && !sm->bRecording) {  // recording turned off in shared memory but not qcn_main -- means they clicked stopped recording button
 		g_bRecordState = false;
