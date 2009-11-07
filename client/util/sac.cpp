@@ -87,10 +87,11 @@ char *strerror(n)
 
 void long_swap(QCN_CBYTE* cbuf, int32_t& lVal)
 {
-        union {
-            QCN_BYTE cval[4];
-            int32_t lval;
-        } l_union;
+	union {
+		QCN_BYTE cval[4];
+		int32_t lval;
+	} l_union;
+	if (sm->bMyOutputSAC) {
         if (qcn_main::g_endian == ENDIAN_BIG) {
           l_union.cval[0] = cbuf[0];
           l_union.cval[1] = cbuf[1];
@@ -103,15 +104,23 @@ void long_swap(QCN_CBYTE* cbuf, int32_t& lVal)
           l_union.cval[2] = cbuf[1];
           l_union.cval[3] = cbuf[0];
         }
-        lVal = l_union.lval;
+	}
+	else {
+		l_union.cval[0] = cbuf[0];
+		l_union.cval[1] = cbuf[1];
+		l_union.cval[2] = cbuf[2];
+		l_union.cval[3] = cbuf[3];
+	}
+	lVal = l_union.lval;
 }
 
 void float_swap(QCN_CBYTE* cbuf, float& fVal)
 {
-        union {
-           QCN_BYTE cval[4];
-           float fval;
-        } f_union;
+	union {
+		QCN_BYTE cval[4];
+		float fval;
+	} f_union;
+	if (sm->bMyOutputSAC) {
         if (qcn_main::g_endian == ENDIAN_BIG) {
           f_union.cval[0] = cbuf[0];
           f_union.cval[1] = cbuf[1];
@@ -124,7 +133,14 @@ void float_swap(QCN_CBYTE* cbuf, float& fVal)
           f_union.cval[2] = cbuf[1];
           f_union.cval[3] = cbuf[0];
         }
-        fVal = f_union.fval;
+	}
+	else {
+		f_union.cval[0] = cbuf[0];
+		f_union.cval[1] = cbuf[1];
+		f_union.cval[2] = cbuf[2];
+		f_union.cval[3] = cbuf[3];
+	}
+	fVal = f_union.fval;
 }
 
 void set_sac_null(struct sac_header* psacdata)
@@ -144,7 +160,7 @@ void set_sac_null(struct sac_header* psacdata)
       long_swap((QCN_CBYTE*) &lTemp, psacdata->l[i]);
    }
 }
-
+	
 // example usage:
 //     sacio(n1, n2, sm); // OUTPUT SAC FILE OF TRIG DAT
 
@@ -159,6 +175,7 @@ extern int sacio
   const char* strSensorType 
 )
 {
+	
     boinc_begin_critical_section();
 
     // CMC note:  important -- all SAC float & long values are byte-swapped (i.e. big endian) for storage!
@@ -287,7 +304,6 @@ extern int sacio
     float_swap((QCN_CBYTE*) &fTemp, sacdata.f[esf_stel]);  // this is the delta in evenly spaced file -- we try for .02 but not guaranteed based on accelerometer grade
     fTemp = (float) sm->iMyElevationFloor;
     float_swap((QCN_CBYTE*) &fTemp, sacdata.f[esf_stdp]);  // this is the delta in evenly spaced file -- we try for .02 but not guaranteed based on accelerometer grade
-
 #endif
 
     // event origin time -- trigger time I guess?  in seconds relative to ref time; was set in the above loop and clock adjusted
@@ -349,6 +365,7 @@ extern int sacio
     long_swap((QCN_CBYTE*) &lTemp, sacdata.l[esl_nzmsec]); // header start millisecond
 
     ZipFileList zfl;
+	string strZip((const char*) qcn_main::g_strPathTrigger);  // note it DOES NOT HAVE appropriate \ or / at the end
     double dTimeNow;
     dTimeNow = dtime();
     ttime = (time_t) dTimeNow;
@@ -360,141 +377,147 @@ extern int sacio
     memset(fname, 0x00, _MAX_PATH);
     sprintf(fname, "%s%c", (const char*) qcn_main::g_strPathTrigger, qcn_util::cPathSeparator());
     strncat(fname, (const char*) ti->strFile, ifname);
-    strlcat(fname, ".?.sac", _MAX_PATH);
+	
+	if (sm->bMyOutputSAC) { // SAC output
+			strlcat(fname, ".?.sac", _MAX_PATH);
 
-//fprintf(stdout, "DEBUG: strFile = [%s]\n", ti->strFile);
-//fprintf(stdout, "DEBUG: fnamebf = [%s]\n", fname);
+		//fprintf(stdout, "DEBUG: strFile = [%s]\n", ti->strFile);
+		//fprintf(stdout, "DEBUG: fnamebf = [%s]\n", fname);
 
-    ifname = (int32_t) strlen(fname) - 5;
+			ifname = (int32_t) strlen(fname) - 5;
 
-    // Significance section (fsig)
-    fname[ifname] = 'S';
-    fTemp = s[0];
-    float_swap((QCN_CBYTE*) &fTemp, sacdata.f[esf_b]);  // beginning value of independent variable
+			// Significance section (fsig)
+			fname[ifname] = 'S';
+			fTemp = s[0];
+			float_swap((QCN_CBYTE*) &fTemp, sacdata.f[esf_b]);  // beginning value of independent variable
 
-    strcpy(sacdata.s[ess_kcmpnm], "LHS");  // component name (axis)
+			strcpy(sacdata.s[ess_kcmpnm], "LHS");  // component name (axis)
 
-    fTemp = SAC_NULL_FLOAT;   // cmpinc, which should be 0 for z, 90 for x & y, and -12345.0f for sig.
-    float_swap((QCN_CBYTE*) &fTemp, sacdata.f[esf_cmpinc]);
+			fTemp = SAC_NULL_FLOAT;   // cmpinc, which should be 0 for z, 90 for x & y, and -12345.0f for sig.
+			float_swap((QCN_CBYTE*) &fTemp, sacdata.f[esf_cmpinc]);
 
-    fTemp = smin;
-    float_swap((QCN_CBYTE*) &fTemp, sacdata.f[esf_depmin]);  // min value of independent variable
+			fTemp = smin;
+			float_swap((QCN_CBYTE*) &fTemp, sacdata.f[esf_depmin]);  // min value of independent variable
 
-    fTemp = smax;
-    float_swap((QCN_CBYTE*) &fTemp, sacdata.f[esf_depmax]);  // max value of independent variable
+			fTemp = smax;
+			float_swap((QCN_CBYTE*) &fTemp, sacdata.f[esf_depmax]);  // max value of independent variable
 
-    fTemp = s[npts-1];
-    float_swap((QCN_CBYTE*) &fTemp, sacdata.f[esf_e]);  // ending value of independent variable
-    zfl.push_back(fname);
-    wsac0(fname, t, s, nerr, npts, &sacdata);
- 
-    // X section
-    fname[ifname] = 'X';
-    fTemp = x[0];
-    float_swap((QCN_CBYTE*) &fTemp, sacdata.f[esf_b]);  // beginning value of independent variable
+			fTemp = s[npts-1];
+			float_swap((QCN_CBYTE*) &fTemp, sacdata.f[esf_e]);  // ending value of independent variable
+			zfl.push_back(fname);
+			wsac0(fname, t, s, nerr, npts, &sacdata);
+		 
+			// X section
+			fname[ifname] = 'X';
+			fTemp = x[0];
+			float_swap((QCN_CBYTE*) &fTemp, sacdata.f[esf_b]);  // beginning value of independent variable
 
-    strcpy(sacdata.s[ess_kcmpnm], "LHX");  // component name (axis)
+			strcpy(sacdata.s[ess_kcmpnm], "LHX");  // component name (axis)
 
-    fTemp = 90.0f;   // cmpinc, which should be 0 for z, 90 for x & y, and -12345.0f for sig.
-    float_swap((QCN_CBYTE*) &fTemp, sacdata.f[esf_cmpinc]);
+			fTemp = 90.0f;   // cmpinc, which should be 0 for z, 90 for x & y, and -12345.0f for sig.
+			float_swap((QCN_CBYTE*) &fTemp, sacdata.f[esf_cmpinc]);
 
-    fTemp = xmin;
-    float_swap((QCN_CBYTE*) &fTemp, sacdata.f[esf_depmin]);  // min value of independent variable
+			fTemp = xmin;
+			float_swap((QCN_CBYTE*) &fTemp, sacdata.f[esf_depmin]);  // min value of independent variable
 
-    fTemp = xmax;
-    float_swap((QCN_CBYTE*) &fTemp, sacdata.f[esf_depmax]);  // max value of independent variable
+			fTemp = xmax;
+			float_swap((QCN_CBYTE*) &fTemp, sacdata.f[esf_depmax]);  // max value of independent variable
 
-    fTemp = x[npts-1];
-    float_swap((QCN_CBYTE*) &fTemp, sacdata.f[esf_e]);  // ending value of independent variable
-    zfl.push_back(fname);
-    wsac0(fname, t, x, nerr, npts, &sacdata);
+			fTemp = x[npts-1];
+			float_swap((QCN_CBYTE*) &fTemp, sacdata.f[esf_e]);  // ending value of independent variable
+			zfl.push_back(fname);
+			wsac0(fname, t, x, nerr, npts, &sacdata);
 
-    // Y section
-    fname[ifname] = 'Y';
-    fTemp = y[0];
-    float_swap((QCN_CBYTE*) &fTemp, sacdata.f[esf_b]);  // beginning value of independent variable
+			// Y section
+			fname[ifname] = 'Y';
+			fTemp = y[0];
+			float_swap((QCN_CBYTE*) &fTemp, sacdata.f[esf_b]);  // beginning value of independent variable
 
-    strcpy(sacdata.s[ess_kcmpnm], "LHY");  // component name (axis)
+			strcpy(sacdata.s[ess_kcmpnm], "LHY");  // component name (axis)
 
-    fTemp = 90.0f;   // cmpinc, which should be 0 for z, 90 for x & y, and -12345.0f for sig.
-    float_swap((QCN_CBYTE*) &fTemp, sacdata.f[esf_cmpinc]);
+			fTemp = 90.0f;   // cmpinc, which should be 0 for z, 90 for x & y, and -12345.0f for sig.
+			float_swap((QCN_CBYTE*) &fTemp, sacdata.f[esf_cmpinc]);
 
-    fTemp = ymin;
-    float_swap((QCN_CBYTE*) &fTemp, sacdata.f[esf_depmin]);  // min value of independent variable
+			fTemp = ymin;
+			float_swap((QCN_CBYTE*) &fTemp, sacdata.f[esf_depmin]);  // min value of independent variable
 
-    fTemp = ymax;
-    float_swap((QCN_CBYTE*) &fTemp, sacdata.f[esf_depmax]);  // max value of independent variable
- 
-    fTemp = y[npts-1];
-    float_swap((QCN_CBYTE*) &fTemp, sacdata.f[esf_e]);  // ending value of independent variable
-    zfl.push_back(fname);
-    wsac0(fname, t, y, nerr, npts, &sacdata);
+			fTemp = ymax;
+			float_swap((QCN_CBYTE*) &fTemp, sacdata.f[esf_depmax]);  // max value of independent variable
+		 
+			fTemp = y[npts-1];
+			float_swap((QCN_CBYTE*) &fTemp, sacdata.f[esf_e]);  // ending value of independent variable
+			zfl.push_back(fname);
+			wsac0(fname, t, y, nerr, npts, &sacdata);
 
-    // Z section
-    fname[ifname] = 'Z';
-    fTemp = z[0];
-    float_swap((QCN_CBYTE*) &fTemp, sacdata.f[esf_b]);  // beginning value of independent variable
+			// Z section
+			fname[ifname] = 'Z';
+			fTemp = z[0];
+			float_swap((QCN_CBYTE*) &fTemp, sacdata.f[esf_b]);  // beginning value of independent variable
 
-    strcpy(sacdata.s[ess_kcmpnm], "LHZ");  // component name (axis)
+			strcpy(sacdata.s[ess_kcmpnm], "LHZ");  // component name (axis)
 
-    fTemp = 0.0f;   // cmpinc, which should be 0 for z, 90 for x & y, and -12345.0f for sig.
-    float_swap((QCN_CBYTE*) &fTemp, sacdata.f[esf_cmpinc]);
+			fTemp = 0.0f;   // cmpinc, which should be 0 for z, 90 for x & y, and -12345.0f for sig.
+			float_swap((QCN_CBYTE*) &fTemp, sacdata.f[esf_cmpinc]);
 
-    fTemp = zmin;
-    float_swap((QCN_CBYTE*) &fTemp, sacdata.f[esf_depmin]);  // min value of independent variable
+			fTemp = zmin;
+			float_swap((QCN_CBYTE*) &fTemp, sacdata.f[esf_depmin]);  // min value of independent variable
 
-    fTemp = zmax;
-    float_swap((QCN_CBYTE*) &fTemp, sacdata.f[esf_depmax]);  // max value of independent variable
+			fTemp = zmax;
+			float_swap((QCN_CBYTE*) &fTemp, sacdata.f[esf_depmax]);  // max value of independent variable
 
-    fTemp = z[npts-1];
-    float_swap((QCN_CBYTE*) &fTemp, sacdata.f[esf_e]);  // ending value of independent variable
-    zfl.push_back(fname);
+			fTemp = z[npts-1];
+			float_swap((QCN_CBYTE*) &fTemp, sacdata.f[esf_e]);  // ending value of independent variable
+			zfl.push_back(fname);
 
-    wsac0(fname, t, z, nerr, npts, &sacdata);
+			wsac0(fname, t, z, nerr, npts, &sacdata);
 
-	string strZip((const char*) qcn_main::g_strPathTrigger);  // note it DOES NOT HAVE appropriate \ or / at the end
+			if (zfl.size()>0) {
+			   // now make sure the zip file is stored in sm->strPathTrigger + ti->strFile
+			   strZip += qcn_util::cPathSeparator();
+			   strZip += (const char*) ti->strFile;
+			   boinc_delete_file(strZip.c_str());  // we may be overwriting, delete first
 
-    if (zfl.size()>0) {
-       // now make sure the zip file is stored in sm->strPathTrigger + ti->strFile
-       strZip += qcn_util::cPathSeparator();
-       strZip += (const char*) ti->strFile;
-       boinc_delete_file(strZip.c_str());  // we may be overwriting, delete first
+		#ifdef ZIPARCHIVE
+			   CZipArchive ziparch;
+			   bool bRetVal = false;
+			   try {
 
-#ifdef ZIPARCHIVE
-       CZipArchive ziparch;
-       bool bRetVal = false;
-       try {
+				 bRetVal = ziparch.Open(strZip.c_str(), CZipArchive::zipCreate);
+				 if (!bRetVal) {
+					fprintf(stdout, "Could not create zip archive %s!\n", strZip.c_str());
+				 }
+				 for (unsigned int i = 0; bRetVal && i < zfl.size(); i++) {
+					 bRetVal = ziparch.AddNewFile(zfl[i].c_str(), -1, false);
+				 }
+				 ziparch.Close(CZipArchive::afWriteDir);
+			   }
+			   catch(...)
+			   { // throws exception on close error, but will write anyway
+				  bRetVal = false;
+			   }
+			   if (!bRetVal) {
+				 fprintf(stdout, "sac.cpp: CZip file error %d\n", 1);
+				 fflush(stdout);
+			   }
+		#else  // traditional boinc_zip...
+			   int iRetVal = boinc_zip(ZIP_IT, strZip, &zfl);
+			   if (iRetVal) {
+				 fprintf(stdout, "sac.cpp: Zip file error # %d\n", iRetVal);
+				 fflush(stdout);
+			   }
+		#endif
+			}
 
-         bRetVal = ziparch.Open(strZip.c_str(), CZipArchive::zipCreate);
-         if (!bRetVal) {
-            fprintf(stdout, "Could not create zip archive %s!\n", strZip.c_str());
-         }
-         for (unsigned int i = 0; bRetVal && i < zfl.size(); i++) {
-             bRetVal = ziparch.AddNewFile(zfl[i].c_str(), -1, false);
-         }
-         ziparch.Close(CZipArchive::afWriteDir);
-       }
-       catch(...)
-       { // throws exception on close error, but will write anyway
-          bRetVal = false;
-       }
-       if (!bRetVal) {
-         fprintf(stdout, "sac.cpp: CZip file error %d\n", 1);
-         fflush(stdout);
-       }
-#else  // traditional boinc_zip...
-       int iRetVal = boinc_zip(ZIP_IT, strZip, &zfl);
-       if (iRetVal) {
-         fprintf(stdout, "sac.cpp: Zip file error # %d\n", iRetVal);
-         fflush(stdout);
-       }
-#endif
-    }
-
-    // now delete the original files
-    for (int ii = 0; ii < (int) zfl.size(); ii++)  {
-        boinc_delete_file(zfl[ii].c_str());
-    }
+			// now delete the original files
+			for (int ii = 0; ii < (int) zfl.size(); ii++)  {
+				boinc_delete_file(zfl[ii].c_str());
+			}
+	}
+	else { // CSV output
+		strlcat(fname, ".csv", _MAX_PATH);
+		nerr = 0;
+		wcsv0(fname, t, x, y, z, nerr, npts, &sacdata, dTimeZero);	
+    }  // sac vs csv i/o
 
     delete [] x;
     delete [] y;
@@ -502,10 +525,10 @@ extern int sacio
     delete [] s;
     delete [] t;
 
-#ifdef QCNLIVE
+#ifdef QCNLIVE  // write a message to be picked up on the display
 	char* strTmp = new char[512];
 	memset(strTmp, 0x00, sizeof(char) * 512);
-	sprintf(strTmp, "%s file written to %s",  (ti->bDemo ? "Recorded" : "Trigger"), strZip.c_str());
+	sprintf(strTmp, "%s file written to %s",  (ti->bDemo ? "Recorded" : "Trigger"), (sm->bMyOutputSAC ? strZip.c_str() : fname));
 	strncpy(sm->strDisplay, strTmp, _MAX_PATH);
 	delete [] strTmp;
 #endif
@@ -514,4 +537,97 @@ extern int sacio
     return 0;
 }
 
+/* format of the csv file:
+ 
+ Station Name: SNAME
+ Longitude: -117.12321
+ Latitude: 34.92834
+ Elevation: 239
+ Floor: 0
+ File Start Time: 11/07/2008 12:34:20
+ File End Time: 11/07/2008 12:35:40
+ Time, x, y, z
+ 0.000, -1.293, 2.393, -0.123
+ 0.020, -12.129, 129.010, 19.010
+ 0.040, -8.010, 1.001, -0.999
+
+ wcsv0(fname, t, x, y, z, nerr, npts, &sacdata);	
+
+ */
+	
+// a csv version of the sac output
+void wcsv0(
+			   const char* fname, 
+		       const float* t,
+			   const float* x, 
+			   const float* y, 
+      		   const float* z, 
+			   int32_t& nerr, 
+			   const int32_t& npts,
+			   const struct sac_header* psacdata,
+		       const double& dTimeZero
+)
+{
+	FILE* fCSV;
+	nerr = 0;
+	fCSV = boinc_fopen(fname, "wt");
+	if (!fCSV) {
+		nerr = -1;
+		return;
+	}
+
+    // use dTimeZero for the reference time
+    struct timeval tv;
+    time_t ttime = (time_t) dTimeZero;
+    struct tm* ptm = gmtime(&ttime);
+    tv.tv_sec =  (int32_t) ttime;
+    tv.tv_usec = (int32_t) ((dTimeZero - (double) tv.tv_sec) * 1.0e6f);
+	int iYear[2], iMonth[2], iDay[2], iHour[2], iMin[2], iSec[2];
+	iYear[0] = 1900+ptm->tm_year;
+	iMonth[0] = ptm->tm_mon+1;
+	iDay[0] = ptm->tm_mday;
+	iHour[0] = ptm->tm_hour;
+	iMin[0] = ptm->tm_min;
+	iSec[0] = ptm->tm_sec;
+	
+    struct timeval tve;
+	double dTimeEnd = dTimeZero + t[npts-1];
+	time_t ttimee = (time_t) dTimeEnd;
+    ptm = gmtime(&ttimee);
+    tve.tv_sec =  (int32_t) ttimee;
+    tve.tv_usec = (int32_t) ((dTimeEnd - (double) tve.tv_sec) * 1.0e6f);
+	iYear[1] = 1900+ptm->tm_year;
+	iMonth[1] = ptm->tm_mon+1;
+	iDay[1] = ptm->tm_mday;
+	iHour[1] = ptm->tm_hour;
+	iMin[1] = ptm->tm_min;
+	iSec[1] = ptm->tm_sec;
+		
+	fprintf(fCSV, "Station Name,  %s\n"
+				  "Latitude,      %f\n"
+				  "Longitude,     %f\n"
+			      "Elevation (m), %f\n"
+				  "Floor,         %d\n"
+				  "Sensor,        %s\n"
+			      "Start Time,    %02d-%02d-%4d,  %02d:%02d:%02d.%03ld   ,  %f\n"
+				  "End Time  ,    %02d-%02d-%4d,  %02d:%02d:%02d.%03ld   ,  %f\n"
+			      "Time, x, y, z\n"
+			,
+			      sm->strMyStation,
+				  sm->dMyLatitude,
+			      sm->dMyLongitude,
+			      sm->dMyElevationMeter,
+				  sm->iMyElevationFloor,
+				  psacdata->s[ess_kinst],
+			      iMonth[0], iDay[0], iYear[0], iHour[0], iMin[0], iSec[0], tv.tv_usec/1000L,  dTimeZero,
+			      iMonth[1], iDay[1], iYear[1], iHour[1], iMin[1], iSec[1], tve.tv_usec/1000L, dTimeEnd
+			);			
+			
+	for (int i = 0; i < npts; i++) {
+		fprintf(fCSV, "%f,%f,%f,%f\n", t[i], x[i], y[i], z[i]);
+	}
+	fclose(fCSV);
+}
+
+	
 }  // namespace sacio

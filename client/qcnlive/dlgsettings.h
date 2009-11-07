@@ -10,7 +10,9 @@ enum eSettingsCtrlID {
      ID_TEXTCTRLSTATION,
      ID_TEXTCTRLELEVATIONMETER,
      ID_TEXTCTRLELEVATIONFLOOR,
-	 ID_COMBOSENSOR
+	 ID_COMBOSENSOR,
+	 ID_RADIOCSV,
+	 ID_RADIOSAC
 };
 
 class CDialogSettings  : public wxDialog
@@ -34,6 +36,9 @@ class CDialogSettings  : public wxDialog
 	CSensor* m_psms;  // just a dummy sensor obj to get string names
 	
 	wxComboBox* m_comboSensor;
+	
+	wxRadioButton* m_radioSAC;
+	wxRadioButton* m_radioCSV;
 
     class wxTextValidatorLatLng : public wxTextValidator
     {

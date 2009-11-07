@@ -88,6 +88,9 @@ void CQCNShMem::clear(bool bAll)
 		//iTriggerLastElement = -1;
         dt = g_DT;
         iWindow = (int) (g_cfTimeWindow / g_DT);  // number of points in time window
+#ifndef QCNLIVE
+		bMyOutputSAC = true;   // default to sac output for non qcnlive  (qcnlive uses the user prefs settings, defaults to non-sac i.e. csv/text output)
+#endif
         return;
     }
 
@@ -108,11 +111,15 @@ void CQCNShMem::clear(bool bAll)
     pshmem->iNumTrigger = iNumTrigger;        // the total number of triggers for this workunit
     pshmem->iNumUpload  = iNumUpload;         // the total number of uploads for this workunit
     pshmem->iNumReset   = iNumReset;          // the number of timing resets this session has had (diags which can be trickled up)
+
+	// qcnlive user pref vars
     pshmem->dMyLatitude = dMyLatitude; 
     pshmem->dMyLongitude = dMyLongitude; 
     pshmem->dMyElevationMeter = dMyElevationMeter; 
     pshmem->iMyElevationFloor = iMyElevationFloor; 
     pshmem->iMySensor = iMySensor; 
+	pshmem->bMyContinual = bMyContinual;
+	pshmem->bMyOutputSAC = bMyOutputSAC;
     strcpy(pshmem->strMyStation, strMyStation);
 
     pshmem->dTimeStart = dTimeStart; // keep the original start time for tick mark display

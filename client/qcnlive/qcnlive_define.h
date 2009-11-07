@@ -20,6 +20,8 @@
 #define XML_STATION    "stn"
 #define XML_ELEVATION  "elm"
 #define XML_FLOOR      "elf"
+#define XML_CONTINUAL  "cnt"
+#define XML_SACFORMAT  "sac"
 
 // URL for the earthquake xml listing
 #define QCNGUI_URL_QUAKE "http://qcn.stanford.edu/qcnalpha/download/qcn-quake.xml"

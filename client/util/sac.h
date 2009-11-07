@@ -28,6 +28,20 @@ void wsac0(
    const struct sac_header* psacdata
 );
 
+// a csv/text/Excel-compatible version of the sacio sac output file recording
+void wcsv0(
+	const char* fname, 
+	const float* t,
+	const float* x, 
+	const float* y, 
+	const float* z, 
+	int32_t& nerr, 
+	const int32_t& npts,
+	const struct sac_header* psacdata,
+	const double& dTimeZero
+);
+		
+	
 // this actually does double-duty as SAC or CSV (text/Excel-compatible) output, based on the sm->bMyOutputSAC boolean
 extern int sacio
 (

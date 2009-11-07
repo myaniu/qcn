@@ -46,12 +46,15 @@ class CQCNShMem : public CSerialize
     int iNumTrigger;        // the total number of triggers for this workunit
     int iNumUpload;         // the total number of uploads for this workunit
     int iNumReset;          // the number of timing resets this session has had (diags which can be trickled up)
+	
+	// the "My" variables are for qcnlive user pref settings
     double dMyLatitude;     // 'station' lat -- from here down gets written to SAC files in QCNLive
     double dMyLongitude;    // 'station' lng
     double dMyElevationMeter;   // 'station' elevation in meters
     int    iMyElevationFloor;   // 'station' floor (-1=basement, 0=ground floor, 1=first floor, etc)
 	int iMySensor;   // user pref for preferred sensor
 	bool bMyOutputSAC; // if true, output in SAC format, if false, CSV
+	bool bMyContinual;   // write qcmlive output continually
     char strMyStation[SIZEOF_STATION_STRING]; // 'station' name
 
 	double clock_time;

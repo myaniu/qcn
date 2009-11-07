@@ -170,6 +170,10 @@ void CDialogSettings::SaveValues()
 			break;
 		}
 	}
+
+	if (m_radioCSV->GetValue()) sm->bMyOutputSAC = false;
+	else if (m_radioSAC->GetValue()) sm->bMyOutputSAC = true;
+	
 }
 
 bool CDialogSettings::Create(wxWindow* parent, wxWindowID id)
@@ -284,7 +288,19 @@ void CDialogSettings::CreateControls()
          0, wxTextValidatorLatLng(&m_strElevationFloor, ID_TEXTCTRLELEVATIONFLOOR));
     itemFlexGridSizer5->Add(m_textctrlElevationFloor, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-	// control 6 - combo box to force sensor selection (i.e. for demos/displays)
+	// control 6 & 7 -- radio buttons to pick CSV/text or SAC output
+	m_radioCSV = new wxRadioButton;
+	m_radioSAC = new wxRadioButton;
+	m_radioCSV->Create(this, ID_RADIOCSV, _("Record CSV Text Files"), wxDefaultPosition, wxDefaultSize, wxRB_GROUP);
+	m_radioSAC->Create(this, ID_RADIOSAC, _("Record SAC Files"), wxDefaultPosition, wxDefaultSize);
+    itemFlexGridSizer5->Add(m_radioCSV, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    itemFlexGridSizer5->Add(m_radioSAC, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);	
+	
+	m_radioCSV->SetValue(!sm->bMyOutputSAC);
+	m_radioSAC->SetValue(sm->bMyOutputSAC);
+	
+	
+	// control 8 - combo box to force sensor selection (i.e. for demos/displays)
     itemStaticText11 = new wxStaticText;
     itemStaticText11->Create( this, wxID_STATIC, _("Force A Specific USB Sensor To Be Used:"), wxDefaultPosition, wxDefaultSize, 0 );
     itemFlexGridSizer5->Add(itemStaticText11, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);

@@ -135,6 +135,8 @@ bool MyApp::get_qcnlive_prefs()
     sm->dMyElevationMeter = 0.0f; 
     sm->iMyElevationFloor = 0; 
 	sm->iMySensor = -1;
+	sm->bMyContinual = false;  // default to no continual recording (i.e. user has to start/stop recording via the button)
+	sm->bMyOutputSAC = false;  // default to csv text output i.e. not sac
 
     if (!boinc_file_exists(QCNGUI_XML_PREFS_FILE)) return false; // don't bother if doesn't exist!
 
@@ -204,6 +206,18 @@ bool MyApp::get_qcnlive_prefs()
     sprintf(strParse, "<%s>", XML_FLOOR);
     parse_int(strRead, strParse, (int&) sm->iMyElevationFloor);
 
+    // continual
+	int iTmp = 0;
+    sprintf(strParse, "<%s>", XML_CONTINUAL);
+    parse_int(strRead, strParse, iTmp);
+	sm->bMyContinual = (bool)(iTmp > 0);
+		
+    // sac format
+	iTmp = 0;
+    sprintf(strParse, "<%s>", XML_SACFORMAT);
+    parse_int(strRead, strParse, iTmp);
+	sm->bMyOutputSAC = (bool)(iTmp > 0);
+
     return true;
 }
 
@@ -227,6 +241,8 @@ bool MyApp::set_qcnlive_prefs()
                 "<%s>%f</%s>\n"
                 "<%s>%d</%s>\n"
    			    "<%s>%d</%s>\n"
+				"<%s>%d</%s>\n"
+				"<%s>%d</%s>\n"
                         ,
                     XML_X, myRect.x, XML_X,
                     XML_Y, myRect.y, XML_Y, 
@@ -241,7 +257,9 @@ bool MyApp::set_qcnlive_prefs()
                     XML_STATION, sm->strMyStation, XML_STATION,
                     XML_ELEVATION, sm->dMyElevationMeter, XML_ELEVATION,
                     XML_FLOOR, sm->iMyElevationFloor, XML_FLOOR,
-					XML_SENSOR, sm->iMySensor, XML_SENSOR
+					XML_SENSOR, sm->iMySensor, XML_SENSOR,
+					XML_CONTINUAL, (sm->bMyContinual ? 1 : 0), XML_CONTINUAL,
+					XML_SACFORMAT, (sm->bMyOutputSAC ? 1 : 0), XML_SACFORMAT
     );
 
     fclose(fp);
