@@ -28,6 +28,7 @@ void wsac0(
    const struct sac_header* psacdata
 );
 
+// this actually does double-duty as SAC or CSV (text/Excel-compatible) output, based on the sm->bMyOutputSAC boolean
 extern int sacio
 (
   const int32_t n1, 
