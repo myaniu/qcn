@@ -71,5 +71,5 @@ echo show_result_navigation(
 );
 
 //page_tail();
-page_bot();
+page_end();
 ?>

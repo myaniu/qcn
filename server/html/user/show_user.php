@@ -99,7 +99,7 @@ if ($format=="xml")  {
     end_table();
     echo "</td></tr></table>";
 //   page_tail();
-    page_bot();
+    page_end();
 }
 
 ?>

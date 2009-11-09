@@ -159,7 +159,7 @@ if ($user) {
 }
 
 //page_tail();
-page_bot();
+page_end();
 flush();
 BoincForumLogging::cleanup();
 

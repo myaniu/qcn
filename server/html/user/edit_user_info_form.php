@@ -50,5 +50,5 @@ end_table();
 echo "</form>\n";
 
 //page_tail();
-page_bot();
+page_end();
 ?>
