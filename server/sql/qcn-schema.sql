@@ -89,7 +89,7 @@ levelid smallint,
 file varchar(64),
 dt float,
 numreset int(6),
-type_sensor int(2),
+type_sensor int(3),
 sw_version varchar(8),
 os_type varchar(8),
 usgs_quakeid int(11),
@@ -108,6 +108,7 @@ create index qcn_trigger_hostid_filereq on qcn_trigger(hostid,time_filereq,recei
 create index qcn_trigger_quakeid on qcn_trigger (usgs_quakeid);
 create index qcn_trigger_file on qcn_trigger (file);
 create index qcn_trigger_result_name on qcn_trigger (result_name,id,ping);
+create index qcn_trigger_type_sensor on qcn_trigger (type_sensor);
 
 /* temp tables for stats */
 CREATE TABLE qcn_recalcresult (resultid int(11) NOT NULL PRIMARY KEY, weight double, total_credit double, time_received double);
