@@ -134,6 +134,16 @@ int handle_qcn_trigger(const DB_MSG_FROM_HOST* pmfh, bool bPing)
      if (!parse_str(pmfh->xml, "<extip>", strIP, 32)) memset(strIP, 0x00, sizeof(char) * 32);
      parse_double(pmfh->xml, "<ctime>", qtrig.time_trigger);
 
+// CMC hack - change JW 7 to 100, MN 8 to 101
+     switch(qtrig.type_sensor) {
+        case 7:
+           qtrig.type_sensor = 100;
+           break;
+        case 8:
+           qtrig.type_sensor = 101;
+           break;
+      }
+
      qtrig.time_received = dtime();  // mark current server time as time_received, this gets overridden by database unix_timestamp() in qcn_trigger.h db_print
 
      if (bPing) {
