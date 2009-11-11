@@ -69,6 +69,10 @@ guid varchar(256)
 );
 
 create unique index usgs_quake_guid on usgs_quake (guid);
+alter table usgs_quake add index usgs_quake_magnitude (magnitude);
+alter table usgs_quake add index usgs_time_utc (time_utc);
+alter table usgs_quake add index usgs_latitude (latitude);
+alter table usgs_quake add index usgs_longitude (longitude);
 
 create table qcn_trigger
 (
