@@ -109,6 +109,7 @@ create index qcn_trigger_quakeid on qcn_trigger (usgs_quakeid);
 create index qcn_trigger_file on qcn_trigger (file);
 create index qcn_trigger_result_name on qcn_trigger (result_name,id,ping);
 create index qcn_trigger_type_sensor on qcn_trigger (type_sensor);
+alter table qcn_trigger add index qcn_trigger_usgs_quakeid (usgs_quakeid);
 
 /* temp tables for stats */
 CREATE TABLE qcn_recalcresult (resultid int(11) NOT NULL PRIMARY KEY, weight double, total_credit double, time_received double);
