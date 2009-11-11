@@ -13,4 +13,52 @@ The sampling rate is set to 200Hz, and the analog low-pass filters are set to 50
  
 We are going to make a new version of the module, with 25Hz LP analog filters and dual sensitivity 2g / 6g shortly.  Same drivers, same interface.  I’ll get you one as soon as I we get feedback on this and make a set of those.
 
+---------------
+
+
+USB UART
+
+Exar XR21V1414
+
+http://www.exar.com/Common/Content/ProductDetails.aspx?ID=9550
+
+4-Ch Full-Speed USB UART
+Features
+
+USB 2.0 Compliant Interface
+Supports 12 Mbps USB full-speed data rate
+Supports USB suspend, resume and remote wakeup operations
+Enhanced UART Features
+Data rates up to 12 Mbps
+Fractional Baud Rate Generator
+128 byte TX FIFO
+384 byte RX FIFO
+7, 8 or 9 data bits, 1 or 2 stop bits
+Automatic Hardware (RTS/CTS or DTR/DSR)Flow Control
+Automatic Software (Xon/Xoff) Flow Control
+Multidrop mode w/ Auto Half-Duplex Transceiver Control
+Multidrop mode w/ Auto TX Enable
+Half-Duplex mode
+Selectable GPIO or Modem I/O
+Internal 48 MHz clock
+Single 2.97-3.63V power supply
+5V tolerant inputs 
+Virtual COM Port drivers
+Windows 2000, XP and Vista
+Windows CE 4.2, 5.0, 6.0
+Linux
+Mac
+Applications
+
+Portable Appliances
+External Converters (Dongles)
+Battery-Operated Devices
+Cellular Data Devices
+Factory Automation and Process Controls
+Industrial Applications
+Description
+
+The XR21V1414 is an enhanced 4-channel Universal Asynchronous Receiver and Transmitter (UART) with a USB interface. The USB interface is fully compliant to Full Speed USB 2.0 specification that supports 12 Mbps USB data transfer rate. The USB interface also supports USB suspend, resume and remote wakeup operations.
+
+The XR21V1414 operates from an internal 48MHz clock therefore no external crystal/oscillator is required like previous generation UARTs. With the fractional baud rate generator, any baud rate can accurate
 
