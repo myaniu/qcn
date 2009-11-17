@@ -15,6 +15,7 @@
 #else
   #ifdef _WIN32
     #include "csensor_win_usb_jw.h"
+    #include "csensor_win_usb_onavi01.h"
     #include "csensor_win_laptop_thinkpad.h"
     #include "csensor_win_laptop_hp.h"
     #ifndef QCNLIVE
@@ -231,10 +232,10 @@ bool getSensor(CSensor* volatile *ppsms)
 		   }
 	#else
 	#ifdef _WIN32
-	#ifdef _WIN64   // just thinkpad & jw
-	   const int iMaxSensor = 2;
-	#else  // thinkpad, jw, mn
+	#ifdef _WIN64   // just thinkpad & jw & onavi
 	   const int iMaxSensor = 3;
+	#else  // thinkpad, jw, mn, onavi
+	   const int iMaxSensor = 4;
 	#endif
 	   // for Windows the sensor can either be a CSensorThinkpad or CSensorWinUSBJW
 	   // note we try to detect the USB sensors first (if any), then try the laptop
@@ -251,13 +252,20 @@ bool getSensor(CSensor* volatile *ppsms)
 	#ifdef _WIN64
 			   // no motionnode support for win64
 			   case 1:
+				   *ppsms = (CSensor*) new CSensorWinUSBONavi01();
+				   break;
+			   case 2:
 				   *ppsms = (CSensor*) new CSensorWinThinkpad();
 				   break;
-	#else
+			   // no motionnode support for win64
+#else
 			   case 1:
 				   *ppsms = (CSensor*) new CSensorUSBMotionNodeAccel();
 				   break;
 			   case 2:
+				   *ppsms = (CSensor*) new CSensorWinUSBONavi01();
+				   break;
+			   case 3:
 				   *ppsms = (CSensor*) new CSensorWinThinkpad();
 				   break;
 	#endif

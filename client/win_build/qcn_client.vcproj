@@ -105,6 +105,178 @@
 			/>
 		</Configuration>
 		<Configuration
+			Name="Release|Win32"
+			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
+			IntermediateDirectory="$(ConfigurationName)Client"
+			ConfigurationType="1"
+			CharacterSet="0"
+			ManagedExtensions="0"
+			WholeProgramOptimization="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+				CommandLine=""
+				ExcludedFromBuild="false"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+				Description=""
+				CommandLine=""
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				AdditionalIncludeDirectories="../../;../main;../sensor;../util;../../../boinc/lib;../../zlib;../../../boinc/api;../../../boinc/zip"
+				PreprocessorDefinitions="_USE_NTPDATE_EXEC_;_WIN32;NDEBUG;_WIN32;_CRT_SECURE_NO_DEPRECATE;_ZLIB;APP_GRAPHICS"
+				RuntimeLibrary="0"
+				ForcedIncludeFiles="windows.h"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+				CommandLine=""
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalDependencies="hid.lib setupapi.lib winmm.lib boinc_lib.lib boinc_api.lib boinc_zip.lib MotionNodeAccelAPI.lib zlib32.lib"
+				OutputFile="../bin/qcn.exe"
+				Version=""
+				LinkIncremental="1"
+				AdditionalLibraryDirectories="../sensor/motionnodeaccel"
+				DelayLoadDLLs="MotionNodeAccelAPI.dll"
+				SubSystem="2"
+				HeapReserveSize="0"
+				HeapCommitSize="0"
+				StackReserveSize="33554432"
+				StackCommitSize="33554432"
+				RandomizedBaseAddress="1"
+				DataExecutionPrevention="0"
+				SupportUnloadOfDelayLoadedDLL="true"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+				Description="setwinver"
+				CommandLine="..\bin\setwinver.exe qcn ..\bin ..\bin"
+			/>
+		</Configuration>
+		<Configuration
+			Name="ReleaseContinual|Win32"
+			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
+			IntermediateDirectory="$(ConfigurationName)"
+			ConfigurationType="1"
+			CharacterSet="0"
+			ManagedExtensions="0"
+			WholeProgramOptimization="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+				CommandLine=""
+				ExcludedFromBuild="false"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+				Description=""
+				CommandLine=""
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				AdditionalIncludeDirectories="../../;../main;../sensor;../util;../../../boinc/lib;../../zlib;../../../boinc/api;../../../boinc/zip"
+				PreprocessorDefinitions="QCN_CONTINUAL;_USE_NTPDATE_EXEC_;_WIN32;NDEBUG;_WIN32;_CRT_SECURE_NO_DEPRECATE;_ZLIB;APP_GRAPHICS"
+				RuntimeLibrary="0"
+				ForcedIncludeFiles="windows.h"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+				CommandLine=""
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalDependencies="hid.lib setupapi.lib winmm.lib boinc_lib.lib boinc_api.lib boinc_zip.lib MotionNodeAccelAPI.lib zlib32.lib"
+				OutputFile="../bin/qcn.exe"
+				Version=""
+				LinkIncremental="1"
+				AdditionalLibraryDirectories="../sensor/motionnodeaccel"
+				DelayLoadDLLs="MotionNodeAccelAPI.dll"
+				SubSystem="2"
+				HeapReserveSize="0"
+				HeapCommitSize="0"
+				StackReserveSize="33554432"
+				StackCommitSize="33554432"
+				RandomizedBaseAddress="1"
+				DataExecutionPrevention="0"
+				SupportUnloadOfDelayLoadedDLL="true"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+				Description="setwinver"
+				CommandLine="..\bin\setwinver.exe qcn ..\bin ..\bin"
+			/>
+		</Configuration>
+		<Configuration
 			Name="Debug|x64"
 			OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
 			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
@@ -189,92 +361,6 @@
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine=""
-			/>
-		</Configuration>
-		<Configuration
-			Name="Release|Win32"
-			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)Client"
-			ConfigurationType="1"
-			CharacterSet="0"
-			ManagedExtensions="0"
-			WholeProgramOptimization="1"
-			>
-			<Tool
-				Name="VCPreBuildEventTool"
-				CommandLine=""
-				ExcludedFromBuild="false"
-			/>
-			<Tool
-				Name="VCCustomBuildTool"
-				Description=""
-				CommandLine=""
-			/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"
-			/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
-			<Tool
-				Name="VCMIDLTool"
-			/>
-			<Tool
-				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="../../;../main;../sensor;../util;../../../boinc/lib;../../zlib;../../../boinc/api;../../../boinc/zip"
-				PreprocessorDefinitions="_USE_NTPDATE_EXEC_;_WIN32;NDEBUG;_WIN32;_CRT_SECURE_NO_DEPRECATE;_ZLIB;APP_GRAPHICS"
-				RuntimeLibrary="0"
-				ForcedIncludeFiles="windows.h"
-			/>
-			<Tool
-				Name="VCManagedResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCPreLinkEventTool"
-				CommandLine=""
-			/>
-			<Tool
-				Name="VCLinkerTool"
-				AdditionalDependencies="hid.lib setupapi.lib winmm.lib boinc_lib.lib boinc_api.lib boinc_zip.lib MotionNodeAccelAPI.lib zlib32.lib"
-				OutputFile="../bin/qcn.exe"
-				Version=""
-				LinkIncremental="1"
-				AdditionalLibraryDirectories="../sensor/motionnodeaccel"
-				DelayLoadDLLs="MotionNodeAccelAPI.dll"
-				SubSystem="2"
-				HeapReserveSize="0"
-				HeapCommitSize="0"
-				StackReserveSize="33554432"
-				StackCommitSize="33554432"
-				RandomizedBaseAddress="1"
-				DataExecutionPrevention="0"
-				SupportUnloadOfDelayLoadedDLL="true"
-			/>
-			<Tool
-				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCManifestTool"
-			/>
-			<Tool
-				Name="VCXDCMakeTool"
-			/>
-			<Tool
-				Name="VCBscMakeTool"
-			/>
-			<Tool
-				Name="VCFxCopTool"
-			/>
-			<Tool
-				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCPostBuildEventTool"
-				Description="setwinver"
-				CommandLine="..\bin\setwinver.exe qcn ..\bin ..\bin"
 			/>
 		</Configuration>
 		<Configuration
@@ -363,92 +449,6 @@
 				Name="VCPostBuildEventTool"
 				Description="setwinver"
 				CommandLine="..\bin\setwinver64.exe qcn ..\bin ..\bin"
-			/>
-		</Configuration>
-		<Configuration
-			Name="ReleaseContinual|Win32"
-			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
-			ConfigurationType="1"
-			CharacterSet="0"
-			ManagedExtensions="0"
-			WholeProgramOptimization="1"
-			>
-			<Tool
-				Name="VCPreBuildEventTool"
-				CommandLine=""
-				ExcludedFromBuild="false"
-			/>
-			<Tool
-				Name="VCCustomBuildTool"
-				Description=""
-				CommandLine=""
-			/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"
-			/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
-			<Tool
-				Name="VCMIDLTool"
-			/>
-			<Tool
-				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="../../;../main;../sensor;../util;../../../boinc/lib;../../zlib;../../../boinc/api;../../../boinc/zip"
-				PreprocessorDefinitions="QCN_CONTINUAL;_USE_NTPDATE_EXEC_;_WIN32;NDEBUG;_WIN32;_CRT_SECURE_NO_DEPRECATE;_ZLIB;APP_GRAPHICS"
-				RuntimeLibrary="0"
-				ForcedIncludeFiles="windows.h"
-			/>
-			<Tool
-				Name="VCManagedResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCPreLinkEventTool"
-				CommandLine=""
-			/>
-			<Tool
-				Name="VCLinkerTool"
-				AdditionalDependencies="hid.lib setupapi.lib winmm.lib boinc_lib.lib boinc_api.lib boinc_zip.lib MotionNodeAccelAPI.lib zlib32.lib"
-				OutputFile="../bin/qcn.exe"
-				Version=""
-				LinkIncremental="1"
-				AdditionalLibraryDirectories="../sensor/motionnodeaccel"
-				DelayLoadDLLs="MotionNodeAccelAPI.dll"
-				SubSystem="2"
-				HeapReserveSize="0"
-				HeapCommitSize="0"
-				StackReserveSize="33554432"
-				StackCommitSize="33554432"
-				RandomizedBaseAddress="1"
-				DataExecutionPrevention="0"
-				SupportUnloadOfDelayLoadedDLL="true"
-			/>
-			<Tool
-				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCManifestTool"
-			/>
-			<Tool
-				Name="VCXDCMakeTool"
-			/>
-			<Tool
-				Name="VCBscMakeTool"
-			/>
-			<Tool
-				Name="VCFxCopTool"
-			/>
-			<Tool
-				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCPostBuildEventTool"
-				Description="setwinver"
-				CommandLine="..\bin\setwinver.exe qcn ..\bin ..\bin"
 			/>
 		</Configuration>
 		<Configuration
@@ -564,6 +564,10 @@
 			</File>
 			<File
 				RelativePath="..\sensor\csensor_win_usb_jw.h"
+				>
+			</File>
+			<File
+				RelativePath="..\sensor\csensor_win_usb_onavi01.h"
 				>
 			</File>
 			<File
@@ -715,6 +719,10 @@
 				</File>
 				<File
 					RelativePath="..\sensor\csensor_win_usb_jw.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\sensor\csensor_win_usb_onavi01.cpp"
 					>
 				</File>
 			</Filter>

@@ -107,6 +107,164 @@
 			/>
 		</Configuration>
 		<Configuration
+			Name="Release|Win32"
+			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
+			IntermediateDirectory="$(ConfigurationName)qcnwx"
+			ConfigurationType="1"
+			CharacterSet="0"
+			ManagedExtensions="0"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				AdditionalIncludeDirectories="../../zlib;../../curl/include;../../;../main;../util;../sensor;../graphics;../../../boinc/lib;../../../boinc/zip;&quot;..\..\jpeg-6b&quot;;\wxWidgets\lib\vc_lib\msw;\wxWidgets\include;../../../boinc/api;c:\wxWidgets\lib\vc_lib\msw;c:\wxWidgets\include"
+				PreprocessorDefinitions="_USE_NTPDATE_EXEC_;QCNLIVE;GRAPHICS_PROGRAM;FREEGLUT_STATIC;CURL_STATICLIB;_ZLIB;_CRT_SECURE_NO_DEPRECATE;APP_GRAPHICS;WIN32;_WIN32;NDEBUG;__WXMSW__"
+				RuntimeLibrary="0"
+				ForcedIncludeFiles="windows.h"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalDependencies="wsock32.lib hid.lib setupapi.lib winmm.lib glu32.lib opengl32.lib comctl32.lib boinc_api.lib boinc_lib.lib boinc_zip.lib curllib.lib jpeglib32.lib zlib32.lib wxbase28.lib wxmsw28_core.lib wxmsw28_gl.lib wxpng.lib wxmsw28_adv.lib MotionNodeAccelAPI.lib"
+				OutputFile="..\bin\$(ProjectName).exe"
+				Version=""
+				LinkIncremental="1"
+				AdditionalLibraryDirectories="../win_build;../../curl/lib/Release;\wxWidgets\lib\vc_lib;../sensor/motionnodeaccel;c:\wxWidgets\lib\vc_lib"
+				DelayLoadDLLs="MotionNodeAccelAPI.dll"
+				SubSystem="2"
+				HeapReserveSize="67108864"
+				StackReserveSize="67108864"
+				RandomizedBaseAddress="1"
+				DataExecutionPrevention="0"
+				SupportUnloadOfDelayLoadedDLL="true"
+				TargetMachine="1"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+				Description="deploy to QCN webserver"
+				CommandLine="..\bin\setwinver.exe deploy"
+			/>
+		</Configuration>
+		<Configuration
+			Name="ReleaseContinual|Win32"
+			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
+			IntermediateDirectory="$(ConfigurationName)"
+			ConfigurationType="1"
+			CharacterSet="0"
+			ManagedExtensions="0"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				AdditionalIncludeDirectories="../../zlib;../../curl/include;../../;../main;../util;../sensor;../graphics;../../../boinc/lib;../../../boinc/zip;&quot;..\..\jpeg-6b&quot;;\wxWidgets\lib\vc_lib\msw;\wxWidgets\include;../../../boinc/api"
+				PreprocessorDefinitions="_USE_NTPDATE_EXEC_;QCNLIVE;GRAPHICS_PROGRAM;FREEGLUT_STATIC;CURL_STATICLIB;_ZLIB;_CRT_SECURE_NO_DEPRECATE;APP_GRAPHICS;WIN32;_WIN32;NDEBUG;__WXMSW__"
+				RuntimeLibrary="0"
+				ForcedIncludeFiles="windows.h"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalDependencies="wsock32.lib hid.lib setupapi.lib winmm.lib glu32.lib opengl32.lib comctl32.lib boinc_api.lib boinc_lib.lib boinc_zip.lib curllib.lib jpeglib32.lib zlib32.lib wxbase28.lib wxmsw28_core.lib wxmsw28_gl.lib wxpng.lib wxmsw28_adv.lib MotionNodeAccelAPI.lib"
+				OutputFile="..\bin\$(ProjectName).exe"
+				Version=""
+				LinkIncremental="2"
+				AdditionalLibraryDirectories="../win_build;../../curl/lib/Release;\wxWidgets\lib\vc_lib;../sensor/motionnodeaccel"
+				DelayLoadDLLs="MotionNodeAccelAPI.dll"
+				SubSystem="2"
+				HeapReserveSize="67108864"
+				StackReserveSize="67108864"
+				RandomizedBaseAddress="1"
+				DataExecutionPrevention="0"
+				SupportUnloadOfDelayLoadedDLL="true"
+				TargetMachine="1"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+				Description="deploy to QCN webserver"
+				CommandLine="..\bin\setwinver.exe deploy"
+			/>
+		</Configuration>
+		<Configuration
 			Name="Debug|x64"
 			OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
 			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
@@ -196,85 +354,6 @@
 			/>
 		</Configuration>
 		<Configuration
-			Name="Release|Win32"
-			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)qcnwx"
-			ConfigurationType="1"
-			CharacterSet="0"
-			ManagedExtensions="0"
-			>
-			<Tool
-				Name="VCPreBuildEventTool"
-			/>
-			<Tool
-				Name="VCCustomBuildTool"
-			/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"
-			/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
-			<Tool
-				Name="VCMIDLTool"
-			/>
-			<Tool
-				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="../../zlib;../../curl/include;../../;../main;../util;../sensor;../graphics;../../../boinc/lib;../../../boinc/zip;&quot;..\..\jpeg-6b&quot;;\wxWidgets\lib\vc_lib\msw;\wxWidgets\include;../../../boinc/api;c:\wxWidgets\lib\vc_lib\msw;c:\wxWidgets\include"
-				PreprocessorDefinitions="_USE_NTPDATE_EXEC_;QCNLIVE;GRAPHICS_PROGRAM;FREEGLUT_STATIC;CURL_STATICLIB;_ZLIB;_CRT_SECURE_NO_DEPRECATE;APP_GRAPHICS;WIN32;_WIN32;NDEBUG;__WXMSW__"
-				RuntimeLibrary="0"
-				ForcedIncludeFiles="windows.h"
-			/>
-			<Tool
-				Name="VCManagedResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCPreLinkEventTool"
-			/>
-			<Tool
-				Name="VCLinkerTool"
-				AdditionalDependencies="wsock32.lib hid.lib setupapi.lib winmm.lib glu32.lib opengl32.lib comctl32.lib boinc_api.lib boinc_lib.lib boinc_zip.lib curllib.lib jpeglib32.lib zlib32.lib wxbase28.lib wxmsw28_core.lib wxmsw28_gl.lib wxpng.lib wxmsw28_adv.lib MotionNodeAccelAPI.lib"
-				OutputFile="..\bin\$(ProjectName).exe"
-				Version=""
-				LinkIncremental="1"
-				AdditionalLibraryDirectories="../win_build;../../curl/lib/Release;\wxWidgets\lib\vc_lib;../sensor/motionnodeaccel;c:\wxWidgets\lib\vc_lib"
-				DelayLoadDLLs="MotionNodeAccelAPI.dll"
-				SubSystem="2"
-				HeapReserveSize="67108864"
-				StackReserveSize="67108864"
-				RandomizedBaseAddress="1"
-				DataExecutionPrevention="0"
-				SupportUnloadOfDelayLoadedDLL="true"
-				TargetMachine="1"
-			/>
-			<Tool
-				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCManifestTool"
-			/>
-			<Tool
-				Name="VCXDCMakeTool"
-			/>
-			<Tool
-				Name="VCBscMakeTool"
-			/>
-			<Tool
-				Name="VCFxCopTool"
-			/>
-			<Tool
-				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCPostBuildEventTool"
-				Description="deploy to QCN webserver"
-				CommandLine="..\bin\setwinver.exe deploy"
-			/>
-		</Configuration>
-		<Configuration
 			Name="Release|x64"
 			OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)L"
 			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)L"
@@ -352,85 +431,6 @@
 				Name="VCPostBuildEventTool"
 				Description="deploy to QCN webserver"
 				CommandLine="..\bin\setwinver64.exe deploy"
-			/>
-		</Configuration>
-		<Configuration
-			Name="ReleaseContinual|Win32"
-			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
-			ConfigurationType="1"
-			CharacterSet="0"
-			ManagedExtensions="0"
-			>
-			<Tool
-				Name="VCPreBuildEventTool"
-			/>
-			<Tool
-				Name="VCCustomBuildTool"
-			/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"
-			/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
-			<Tool
-				Name="VCMIDLTool"
-			/>
-			<Tool
-				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="../../zlib;../../curl/include;../../;../main;../util;../sensor;../graphics;../../../boinc/lib;../../../boinc/zip;&quot;..\..\jpeg-6b&quot;;\wxWidgets\lib\vc_lib\msw;\wxWidgets\include;../../../boinc/api"
-				PreprocessorDefinitions="_USE_NTPDATE_EXEC_;QCNLIVE;GRAPHICS_PROGRAM;FREEGLUT_STATIC;CURL_STATICLIB;_ZLIB;_CRT_SECURE_NO_DEPRECATE;APP_GRAPHICS;WIN32;_WIN32;NDEBUG;__WXMSW__"
-				RuntimeLibrary="0"
-				ForcedIncludeFiles="windows.h"
-			/>
-			<Tool
-				Name="VCManagedResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCPreLinkEventTool"
-			/>
-			<Tool
-				Name="VCLinkerTool"
-				AdditionalDependencies="wsock32.lib hid.lib setupapi.lib winmm.lib glu32.lib opengl32.lib comctl32.lib boinc_api.lib boinc_lib.lib boinc_zip.lib curllib.lib jpeglib32.lib zlib32.lib wxbase28.lib wxmsw28_core.lib wxmsw28_gl.lib wxpng.lib wxmsw28_adv.lib MotionNodeAccelAPI.lib"
-				OutputFile="..\bin\$(ProjectName).exe"
-				Version=""
-				LinkIncremental="2"
-				AdditionalLibraryDirectories="../win_build;../../curl/lib/Release;\wxWidgets\lib\vc_lib;../sensor/motionnodeaccel"
-				DelayLoadDLLs="MotionNodeAccelAPI.dll"
-				SubSystem="2"
-				HeapReserveSize="67108864"
-				StackReserveSize="67108864"
-				RandomizedBaseAddress="1"
-				DataExecutionPrevention="0"
-				SupportUnloadOfDelayLoadedDLL="true"
-				TargetMachine="1"
-			/>
-			<Tool
-				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCManifestTool"
-			/>
-			<Tool
-				Name="VCXDCMakeTool"
-			/>
-			<Tool
-				Name="VCBscMakeTool"
-			/>
-			<Tool
-				Name="VCFxCopTool"
-			/>
-			<Tool
-				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCPostBuildEventTool"
-				Description="deploy to QCN webserver"
-				CommandLine="..\bin\setwinver.exe deploy"
 			/>
 		</Configuration>
 		<Configuration
@@ -755,6 +755,10 @@
 					RelativePath="..\sensor\csensor_win_usb_motionnodeaccel.h"
 					>
 				</File>
+				<File
+					RelativePath="..\sensor\csensor_win_usb_onavi01.h"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="Source Files"
@@ -777,6 +781,10 @@
 				</File>
 				<File
 					RelativePath="..\sensor\csensor_win_usb_jw.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\sensor\csensor_win_usb_onavi01.cpp"
 					>
 				</File>
 			</Filter>
