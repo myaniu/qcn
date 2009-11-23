@@ -24,33 +24,6 @@ extern "C" {
 #include "hidpi.h"
 }
 
-// this is the Windows implementation of the sensor - IBM/Lenovo Thinkpad, HP, USB Stick
-class CSensorWinUSBONavi01  : public CSensor
-{
-   private:
-	  // usb stick stuff
-	  HIDP_CAPS	 m_USBCapabilities;
-	  HANDLE     m_USBHandle;
-	  HANDLE	 m_USBDevHandle[2];
-
-      // two usb-specific methods, one for init, one for reading data
-      void GetCapabilities(HANDLE handle);
-      // codemercs.com JoyWarrior 24F8  http://codemercs.com/JW24F8_E.html
-      unsigned char ReadData(HANDLE handle, unsigned char addr);
-      bool WriteData(HANDLE handle, unsigned char cmd, unsigned char addr, unsigned char data);
-      int SetupJoystick();
-      void SetQCNState(); // persistently set accelerometer to 50Hz and +/- 2g
-
-      virtual bool read_xyz(float& x1, float& y1, float& z1);  
-
-   public:
-      CSensorWinUSBONavi01();
-      virtual ~CSensorWinUSBONavi01();
-
-     virtual void closePort(); // closes the port if open
-     virtual bool detect();   // this detects & initializes a sensor on a Mac G4/PPC or Intel laptop, sets m_iType to 0 if not found
-};
-
 
 // Struct used when enumerating the available serial ports
 // Holds information about an individual serial port.
@@ -63,10 +36,38 @@ struct SSerInfo {
 	std::string strPortDesc;         // friendly name without the COMx
 };
 
+// this is the Windows implementation of the sensor - IBM/Lenovo Thinkpad, HP, USB Stick
+class CSensorWinUSBONavi01  : public CSensor
+{
+   private:
+	  // usb stick stuff
+	  HIDP_CAPS	 m_USBCapabilities;
+	  HANDLE     m_USBHandle;
+	  HANDLE	 m_USBDevHandle[2];
+	  SSerInfo   m_si;
+
+      // two usb-specific methods, one for init, one for reading data
+      void GetCapabilities(HANDLE handle);
+      // codemercs.com JoyWarrior 24F8  http://codemercs.com/JW24F8_E.html
+      unsigned char ReadData(HANDLE handle, unsigned char addr);
+      bool WriteData(HANDLE handle, unsigned char cmd, unsigned char addr, unsigned char data);
+      int SetupJoystick();
+      void SetQCNState(); // persistently set accelerometer to 50Hz and +/- 2g
+
+      virtual bool read_xyz(float& x1, float& y1, float& z1);  
+
 // Routine for enumerating the available serial ports. Throws a CString on
 // failure, describing the error that occurred. If bIgnoreBusyPorts is TRUE,
 // ports that can't be opened for read/write access are not included.
-void EnumSerialPorts(std::vector<SSerInfo> &asi, bool bIgnoreBusyPorts=true);
+	  bool SearchONaviSerialPort(SSerInfo& si, const bool bIgnoreBusyPorts=true);
+
+   public:
+      CSensorWinUSBONavi01();
+      virtual ~CSensorWinUSBONavi01();
+
+     virtual void closePort(); // closes the port if open
+     virtual bool detect();   // this detects & initializes a sensor on a Mac G4/PPC or Intel laptop, sets m_iType to 0 if not found
+};
 
 #endif
 

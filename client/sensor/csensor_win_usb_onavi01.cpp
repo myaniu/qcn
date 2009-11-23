@@ -22,8 +22,13 @@
 #ifndef GUID_CLASS_COMPORT
 DEFINE_GUID(GUID_CLASS_COMPORT, 0x86e0d1e0L, 0x8089, 0x11d0, 0x9c, 0xe4, \
 			0x08, 0x00, 0x3e, 0x30, 0x1f, 0x73);
-//HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Control\Class\{4D36E978-E325-11CE-BFC1-08002BE10318}
 #endif
+
+//{4D36E978-E325-11CE-BFC1-08 00 2B E1 03 18}
+DEFINE_GUID(GUID_CLASS_ONAVI_1, 0x4d36e978L, 0xE325, 0x11CE, 0xbf, 0xc1, \
+			0x08, 0x00, 0x2b, 0xe1, 0x03, 0x18);
+
+#define STR_ONAVI_1 "XR21V1410"
 
 //---------------------------------------------------------------
 // Helpers for enumerating the available serial ports.
@@ -31,16 +36,17 @@ DEFINE_GUID(GUID_CLASS_COMPORT, 0x86e0d1e0L, 0x8089, 0x11d0, 0x9c, 0xe4, \
 // the error that occurred.
 
 void EnumPortsWdm(std::vector<SSerInfo> &asi);
-void EnumPortsWNt4(std::vector<SSerInfo> &asi);
-void EnumPortsW9x(std::vector<SSerInfo> &asi);
-void SearchPnpKeyW9x(HKEY hkPnp, bool bUsbDevice,
-					 std::vector<SSerInfo> &asi);
+//void EnumPortsWNt4(std::vector<SSerInfo> &asi);
+//void EnumPortsW9x(std::vector<SSerInfo> &asi);
+//void SearchPnpKeyW9x(HKEY hkPnp, bool bUsbDevice,
+//					 std::vector<SSerInfo> &asi);
 
 
 
 CSensorWinUSBONavi01::CSensorWinUSBONavi01()
   : CSensor(), m_USBHandle(NULL)
 { 
+   memset(&m_si, 0x00, sizeof(SSerInfo));
    m_USBDevHandle[0] = NULL;
    m_USBDevHandle[1] = NULL;
 }
@@ -52,193 +58,11 @@ CSensorWinUSBONavi01::~CSensorWinUSBONavi01()
 
 void CSensorWinUSBONavi01::closePort()
 {
-  for (int i = 0; i < 2; i++) {
-     if (m_USBDevHandle[i]) {
-       try {
-          // don't think we need the next line, just close & Release
-      WriteData(m_USBDevHandle[i], 0x02, 0x00, 0x00);  // Free JW
-	  ::CancelIo(m_USBDevHandle[i]);
-	  ::CloseHandle(m_USBDevHandle[i]);
-	  m_USBDevHandle[i] = NULL;
-          // mac version:
-          //WriteData(m_USBDevHandle[i], 0x02, 0x00, 0x00, "closePort()::Free JW");
-          //(*m_USBDevHandle[i])->close(m_USBDevHandle[i]);
-          //(*m_USBDevHandle[i])->Release(m_USBDevHandle[i]);
-          //m_USBDevHandle[i] = NULL;
-        }
-        catch(...) {
-            fprintf(stderr, "Could not close JoyWarrior USB port %d...\n", i);
-        }
-     }
-  }
-
-  if (m_USBHandle) {
-		::CloseHandle(m_USBHandle);
-		m_USBHandle = NULL;
-  }
-
-  if (getPort() > -1) {
-    setPort();
-    fprintf(stdout, "Port closed!\n");
-    fflush(stdout);
-  }
 }
 
 bool CSensorWinUSBONavi01::detect()
 {
-	vector<SSerInfo> vssi;
-	EnumSerialPorts(vssi);
-return false;
-
-/*
-    // tries to detect & initialize the USB JW Sensor
-	setType();
-    e_sensor esTmp = SENSOR_NOTFOUND; 
-	int iPort = -1;  
-	if (m_USBHandle) {
-		::CloseHandle(m_USBHandle);
-		m_USBHandle = NULL;
-	}
-
-   // enumerate usb ports looking for the joywarrior or mousewarrior device
-   // taken from the codemercs CNeigungswinkelDlg class
-
-	HIDD_ATTRIBUTES	Attributes;
-	SP_DEVICE_INTERFACE_DATA devInfoData;
-	PSP_DEVICE_INTERFACE_DETAIL_DATA detailData;
-	HDEVINFO hDevInfo;
-
-	bool bStart = false;
-	int	MemberIndex = 0;
-	int	DeviceIndex = 0;
-	LONG DevInfo;
-	ULONG Length = 0;
-	ULONG Required;
-	GUID HidGuid;
-
-    ZeroMemory(&devInfoData, sizeof(devInfoData));
-    devInfoData.cbSize = sizeof(devInfoData);
-
-	HidD_GetHidGuid(&HidGuid);	
-
-	hDevInfo = SetupDiGetClassDevsW(&HidGuid, NULL, NULL, DIGCF_DEVICEINTERFACE | DIGCF_PRESENT);
-
-	do
-	{
-		DevInfo = SetupDiEnumDeviceInterfaces (hDevInfo, NULL, &HidGuid, MemberIndex, &devInfoData);
-
-		if (DevInfo != 0)
-		{
-			SetupDiGetDeviceInterfaceDetailW(hDevInfo, &devInfoData, NULL, 0, &Length, NULL);
-
-			detailData = (PSP_DEVICE_INTERFACE_DETAIL_DATA) malloc(Length);
-			detailData->cbSize = sizeof(SP_DEVICE_INTERFACE_DETAIL_DATA);
-
-			//SetupDiGetDeviceInterfaceDetailW(hDevInfo, &devInfoData, detailData, Length, &Required, NULL);
-			SetupDiGetDeviceInterfaceDetail(hDevInfo, &devInfoData, detailData, Length, &Required, NULL);
-
-			m_USBHandle = ::CreateFile (detailData->DevicePath, 0, FILE_SHARE_READ|FILE_SHARE_WRITE, (LPSECURITY_ATTRIBUTES)NULL, OPEN_EXISTING, 0, NULL);
-
-			Attributes.Size = sizeof(Attributes);
-
-			HidD_GetAttributes(m_USBHandle, &Attributes);
-
-			if (m_USBHandle && Attributes.VendorID == USB_VENDOR) 
-			{
-				if((Attributes.ProductID == USB_JOYWARRIOR) || (Attributes.ProductID == USB_MOUSEWARRIOR))
-				{
-					//if(Attributes.ProductID == USB_JOYWARRIOR) GetDlgItem(IDC_STATIC_DEVICE)->SetWindowTextW(_T("JoyWarrior"));
-					//if(Attributes.ProductID == USB_MOUSEWARRIOR) GetDlgItem(IDC_STATIC_DEVICE)->SetWindowTextW(_T("MouseWarrior"));
-
-					GetCapabilities(m_USBHandle);
-
-					//m_USBDevHandle[DeviceIndex] = CreateFileW(detailData->DevicePath, 
-					m_USBDevHandle[DeviceIndex] = CreateFile(detailData->DevicePath, 
-														GENERIC_WRITE | GENERIC_READ, 
-														FILE_SHARE_READ|FILE_SHARE_WRITE, 
-														(LPSECURITY_ATTRIBUTES)NULL, 
-														OPEN_EXISTING, 
-														0, 
-														NULL);
-
-					DeviceIndex++;
-					//GetDlgItem(IDC_STATIC_SERIAL)->SetWindowTextW(GetSerialNumber(m_USBDevHandle[1]));
-					bStart = true;
-				}
-				else
-					NULL;
-			}
-			else {
-				if (m_USBHandle) {
-					::CloseHandle(m_USBHandle);
-					m_USBHandle = NULL;
-				}
-			}
-
-			free(detailData);
-		}
-
-		MemberIndex++;
-
-	} while (DevInfo != NULL);
-
-	SetupDiDestroyDeviceInfoList(hDevInfo);
-
-	if (bStart && SetupJoystick() >= 0) {
-		esTmp = SENSOR_USB_JW;
-		iPort = getPort();
-        // no single sample, JW actually needs to sample within the 50hz,
-        // since we're reading from joystick port, not the downsampling "chip"
-		//setSingleSampleDT(true);  // note the usb sensor just requires 1 sample per dt, hardware does the rest
-		fprintf(stdout, "USB sensor detected on Windows joystick port %d\n"
-			"Set to 50Hz internal bandwidth, +/- 2g acceleration.\n", getPort());
-
-        SetQCNState();
-	}
-
-    closePort();  // close the HID USB stuff and just use joystick calls from here on out
-
-	// NB: closePort resets the type & port, so have to set again 
-    setType(esTmp);
-	setPort(iPort);
-
-	return (bool)(getTypeEnum() == SENSOR_USB_JW);
-*/
-}
-
-// USB stick accelerometer specific stuff (codemercs.com JoyWarrior 24F8)
-// http://codemercs.com/JW24F8_E.html
-
-void CSensorWinUSBONavi01::GetCapabilities(HANDLE handle)
-{
-	PHIDP_PREPARSED_DATA PreparsedData;
-	::HidD_GetPreparsedData(handle, &PreparsedData);
-	::HidP_GetCaps(PreparsedData, &m_USBCapabilities);
-	::HidD_FreePreparsedData(PreparsedData);
-}
-
-int CSensorWinUSBONavi01::SetupJoystick()
-{
-	const int cnumJoy = ::joyGetNumDevs();
-	LPJOYCAPS pjc = new JOYCAPS;
-	const int isizeJC = sizeof(JOYCAPS);
-	int i;
-	setPort();
-	// enumerate joysticks and find a match for the JoyWarrior
-	for (i = JOYSTICKID1; i < JOYSTICKID1 + cnumJoy; i++)  {
-		memset(pjc, 0x00, isizeJC);
-		if (::joyGetDevCaps(i, pjc, isizeJC) == JOYERR_NOERROR) {
-			// see if it matches up to the Product & Vendor ID for codemercs.com JoyWarrior
-			if (pjc->wMid == USB_VENDOR && pjc->wPid == USB_JOYWARRIOR) {
-				// this is the joystick
-				setPort(i);
-				break;
-			}
-		}
-	}
-	delete pjc;
-	if (i == cnumJoy) setPort();  // error, didn't break
-	return getPort();
+	return SearchONaviSerialPort(m_si);
 }
 
 inline bool CSensorWinUSBONavi01::read_xyz(float& x1, float& y1, float& z1)
@@ -274,164 +98,6 @@ inline bool CSensorWinUSBONavi01::read_xyz(float& x1, float& y1, float& z1)
 	return true;
 }
 
-/*
-unsigned char CSensorWinUSBONavi01::ReadData(HANDLE handle, unsigned char cmd, unsigned char addr)
-{
-	unsigned char			WriteBuffer[10];
-	unsigned char			ReadBuffer[10];
-	unsigned char			newAddr;
-	long			BytesWritten = 0;
-	long			NumberOfBytesRead = 0;
-	bool			Result;
-
-	newAddr = 0x80 | addr;
-	memset(&WriteBuffer, 0, m_USBCapabilities.OutputReportByteLength+1);
-
-	WriteBuffer[0] = 0x00;
-	WriteBuffer[1] = cmd;
-	WriteBuffer[2] = newAddr;
-
-	Result = WriteFile(handle, &WriteBuffer, m_USBCapabilities.OutputReportByteLength, (LPDWORD) &BytesWritten, NULL);
-
-	if(Result != NULL)
-	{
-		memset(&ReadBuffer, 0, m_USBCapabilities.InputReportByteLength+1);
-		ReadBuffer[0] = 0x00;
-	
-		ReadFile(handle, &ReadBuffer, m_USBCapabilities.InputReportByteLength, (LPDWORD) &NumberOfBytesRead, NULL);
-		return ReadBuffer[3];
-	}
-	else
-		return 0;
-}
-
-float CSensorWinUSBONavi01::ReadedData(unsigned char addr_LSB, unsigned char addr_MSB, char axe)
-{
-	unsigned char MSB, LSB;
-
-	// use the 0 interface for better speed
-	//LSB = ReadData(m_USBDevHandle[1], 0x82, addr_LSB);
-	//MSB = ReadData(m_USBDevHandle[1], 0x82, addr_MSB);
-
-	LSB = ReadData(m_USBDevHandle[0], 0x82, addr_LSB);
-	MSB = ReadData(m_USBDevHandle[0], 0x82, addr_MSB);
-
-	return (float) CalcMsbLsb(LSB, MSB);
-}
-*/
-
-// USB read function
-unsigned char CSensorWinUSBONavi01::ReadData(HANDLE handle, unsigned char addr)
-{
-	unsigned char			WriteBuffer[10];
-	unsigned char			ReadBuffer[10];
-	unsigned char			newAddr;
-	long			BytesWritten = 0;
-	long			NumberOfBytesRead = 0;
-	int			Result;
-
-	HidD_FlushQueue(handle);
-	newAddr = 0x80 | addr;
-
-	memset(&WriteBuffer, 0, m_USBCapabilities.OutputReportByteLength+1);
-
-	/*Enable command-mode from Jw*/
-	WriteBuffer[0] = 0x00; //ReportID
-	WriteBuffer[1] = 0x82; //CMD-Mode
-	WriteBuffer[2] = newAddr; //CMD + Addr
-
-	Result = WriteFile(handle, &WriteBuffer, m_USBCapabilities.OutputReportByteLength, (LPDWORD) &BytesWritten, NULL);
-
-	if(Result != NULL)
-	{
-		memset(&ReadBuffer, 0, m_USBCapabilities.InputReportByteLength+1);
-		ReadBuffer[0] = 0x00;
-	
-		ReadFile(handle, &ReadBuffer, m_USBCapabilities.InputReportByteLength, (LPDWORD) &NumberOfBytesRead, NULL);
-		return ReadBuffer[3];
-	}
-	else
-		return 0;
-}
-
-
-// USB write function
-bool CSensorWinUSBONavi01::WriteData(HANDLE handle, unsigned char cmd, unsigned char addr, unsigned char data)
-{
-	unsigned char			WriteBuffer[10];
-	unsigned char			ReadBuffer[10];
-	int			Result;
-	long			BytesWritten = 0;
-	long			NumberOfBytesRead = 0;
-
-	memset(&WriteBuffer, 0, m_USBCapabilities.OutputReportByteLength+1);
-
-	WriteBuffer[0] = 0x00;
-	WriteBuffer[1] = cmd;
-	WriteBuffer[2] = addr;
-	WriteBuffer[3] = data;
-
-	Result = WriteFile(handle, &WriteBuffer, m_USBCapabilities.OutputReportByteLength, (LPDWORD) &BytesWritten, NULL);
-
-	if(Result != NULL)
-	{
-		return true;
-		memset(&ReadBuffer, 0, m_USBCapabilities.InputReportByteLength+1);
-		ReadBuffer[0] = 0x00;
-	
-		ReadFile(handle, &ReadBuffer, m_USBCapabilities.InputReportByteLength, (LPDWORD) &NumberOfBytesRead, NULL);
-	}
-	else
-		return false;
-}
-
-void CSensorWinUSBONavi01::SetQCNState()
-{ // puts the Joystick Warrior USB sensor into the proper state for QCN (50Hz, +/- 2g)
-  // and also writes these settings to EEPROM (so each device needs to just get set once hopefully)
-
-   unsigned char mReg14 = ReadData(m_USBDevHandle[1], 0x14);  // get current settings of device
-   // if not set already, set it to +/-2g accel (0x00) and 50Hz internal bandwidth 0x01
-   // NB: 0x08 & 0x10 means accel is set to 4 or 8g, if not bit-and with 0x01 bandwidth is other than 50Hz
-   if ((mReg14 & 0x08) || (mReg14 & 0x10) || ((mReg14 & 0x01) != 0x01)) {
-        mReg14 = 0x01 | (ReadData(m_USBDevHandle[1], 0x14) & 0xE0);
-
-        // write settings to register
-        WriteData(m_USBDevHandle[1], 0x82, 0x14, mReg14);
-
-        // write settings to EEPROM for persistent state
-        WriteData(m_USBDevHandle[1], 0x82, 0x0A, 0x10);  // start EEPROM write
-        boinc_sleep(.050f);
-        WriteData(m_USBDevHandle[1], 0x82, 0x34, mReg14);
-        boinc_sleep(.050f);
-        WriteData(m_USBDevHandle[1], 0x82, 0x0A, 0x02);  // end EEPROM write
-        boinc_sleep(.100f);
-   }
-}
-
-/*
-// Calculate a 10 bit value with MSB and LSB
-short CSensorWinUSBONavi01::CalcMsbLsb(unsigned char lsb, unsigned char msb)
-{
-	short erg;
-	short LSB, MSB, EXEC;
-
-	EXEC = (msb & 0x80) << 8;
-	EXEC = EXEC & 0x8000;
-
-	// Calculate negative value
-	if(EXEC & 0x8000)
-		EXEC = EXEC | 0x7C00;
-
-	MSB = msb << 2;
-	MSB = MSB & 0x03FC;
-	LSB = (lsb & 0xC0) >> 6;
-	LSB = LSB & 0x0003;
-
-	erg = MSB | LSB | EXEC;
-
-	return erg;
-}
-*/
 
 //---------------------------------------------------------------
 // Routine for enumerating the available serial ports.
@@ -439,15 +105,16 @@ short CSensorWinUSBONavi01::CalcMsbLsb(unsigned char lsb, unsigned char msb)
 // occurred. If bIgnoreBusyPorts is true, ports that can't
 // be opened for read/write access are not included.
 
-void EnumSerialPorts(std::vector<SSerInfo> &asi, bool bIgnoreBusyPorts)
+bool CSensorWinUSBONavi01::SearchONaviSerialPort(SSerInfo& si, const bool bIgnoreBusyPorts)
 {
-	// Clear the output array
-	asi.clear();
+	memset(&si, 0x00, sizeof(SSerInfo)); 
+	vector<SSerInfo> asi;
 
 	// Use different techniques to enumerate the available serial
 	// ports, depending on the OS we're using
 	OSVERSIONINFO vi;
 	vi.dwOSVersionInfoSize = sizeof(vi);
+	/*
 	if (!::GetVersionEx(&vi)) {
 		std::string str = "Could not get OS version." ;
 		throw str;
@@ -460,10 +127,18 @@ void EnumSerialPorts(std::vector<SSerInfo> &asi, bool bIgnoreBusyPorts)
 			EnumPortsW9x(asi);
 	}
 	else {
+		*/
 		// Win2k and later support a standard API for
 		// enumerating hardware devices.
+	try {
 		EnumPortsWdm(asi);
 	}
+	catch(std::string strCatchErr) {
+		fprintf(stderr, "ONavi Err: %s\n", strCatchErr.c_str());
+		return false;
+	}
+
+	//}
 
 	std::vector<SSerInfo>::iterator iSI;   // iterator for a SSerInfo vector
 	for (iSI=asi.begin(); iSI != asi.end(); iSI++)
@@ -505,7 +180,15 @@ void EnumSerialPorts(std::vector<SSerInfo> &asi, bool bIgnoreBusyPorts)
 				(iSI->strPortDesc.length()-1))
 				iSI->strPortDesc = iSI->strPortDesc.substr(0,startdex);
 		}
-	}
+		if (iSI->strFriendlyName.find(STR_ONAVI_1) == 0) {
+			si = *iSI;
+			setType(SENSOR_USB_ONAVI_1);
+			setPort(1);
+			return true;
+		}
+
+	} // for loop
+	return false;
 }
 
 // Helpers for EnumSerialPorts
@@ -515,7 +198,7 @@ void EnumPortsWdm(std::vector<SSerInfo> &asi)
 	std::string strErr;
 	// Create a device information set that will be the container for 
 	// the device interfaces.
-	GUID *guidDev = (GUID*) &GUID_CLASS_COMPORT;
+	GUID *guidDev = (GUID*) &GUID_CLASS_ONAVI_1; //&GUID_CLASS_COMPORT;
 
 	HDEVINFO hDevInfo = INVALID_HANDLE_VALUE;
 	SP_DEVICE_INTERFACE_DETAIL_DATA *pDetData = NULL;
@@ -524,7 +207,7 @@ void EnumPortsWdm(std::vector<SSerInfo> &asi)
 		hDevInfo = SetupDiGetClassDevs( guidDev,
 			NULL,
 			NULL,
-			DIGCF_DEVICEINTERFACE); // | DIGCF_PRESENT);
+			DIGCF_DEVICEINTERFACE | DIGCF_PRESENT);
 			
 		if(hDevInfo == INVALID_HANDLE_VALUE) 
 		{
@@ -612,6 +295,7 @@ void EnumPortsWdm(std::vector<SSerInfo> &asi)
 		throw strErr;
 }
 
+/*
 void EnumPortsWNt4(std::vector<SSerInfo> &asi)
 {
 	// NT4's driver model is totally different, and not that
@@ -771,4 +455,6 @@ void SearchPnpKeyW9x(HKEY hkPnp, bool bUsbDevice,
 		throw strError;
 	}
 }
+
+*/
 
