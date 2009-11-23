@@ -85,6 +85,10 @@ void CSensorWinUSBONavi01::closePort()
 
 bool CSensorWinUSBONavi01::detect()
 {
+	vector<SSerInfo> vssi;
+	EnumSerialPorts(vssi);
+
+/*
     // tries to detect & initialize the USB JW Sensor
 	setType();
     e_sensor esTmp = SENSOR_NOTFOUND; 
@@ -197,6 +201,9 @@ bool CSensorWinUSBONavi01::detect()
 	setPort(iPort);
 
 	return (bool)(getTypeEnum() == SENSOR_USB_JW);
+*/
+
+return false;
 }
 
 // USB stick accelerometer specific stuff (codemercs.com JoyWarrior 24F8)
