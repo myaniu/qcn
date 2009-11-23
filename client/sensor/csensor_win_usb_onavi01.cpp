@@ -22,6 +22,7 @@
 #ifndef GUID_CLASS_COMPORT
 DEFINE_GUID(GUID_CLASS_COMPORT, 0x86e0d1e0L, 0x8089, 0x11d0, 0x9c, 0xe4, \
 			0x08, 0x00, 0x3e, 0x30, 0x1f, 0x73);
+//HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Control\Class\{4D36E978-E325-11CE-BFC1-08002BE10318}
 #endif
 
 //---------------------------------------------------------------
@@ -87,6 +88,7 @@ bool CSensorWinUSBONavi01::detect()
 {
 	vector<SSerInfo> vssi;
 	EnumSerialPorts(vssi);
+return false;
 
 /*
     // tries to detect & initialize the USB JW Sensor
@@ -202,8 +204,6 @@ bool CSensorWinUSBONavi01::detect()
 
 	return (bool)(getTypeEnum() == SENSOR_USB_JW);
 */
-
-return false;
 }
 
 // USB stick accelerometer specific stuff (codemercs.com JoyWarrior 24F8)
@@ -436,7 +436,7 @@ short CSensorWinUSBONavi01::CalcMsbLsb(unsigned char lsb, unsigned char msb)
 //---------------------------------------------------------------
 // Routine for enumerating the available serial ports.
 // Throws a std::string on failure, describing the error that
-// occurred. If bIgnoreBusyPorts is TRUE, ports that can't
+// occurred. If bIgnoreBusyPorts is true, ports that can't
 // be opened for read/write access are not included.
 
 void EnumSerialPorts(std::vector<SSerInfo> &asi, bool bIgnoreBusyPorts)
@@ -466,21 +466,21 @@ void EnumSerialPorts(std::vector<SSerInfo> &asi, bool bIgnoreBusyPorts)
 	}
 
 	std::vector<SSerInfo>::iterator iSI;   // iterator for a SSerInfo vector
-	for (iSI=asi.begin(); iSI != asi.end(); ++iSI)
+	for (iSI=asi.begin(); iSI != asi.end(); iSI++)
 	{
 		if (bIgnoreBusyPorts) {
 			// Only display ports that can be opened for read/write
 			HANDLE hCom = ::CreateFile((LPCSTR) iSI->strDevPath.c_str(),
-				GENERIC_READ | GENERIC_WRITE,
+				GENERIC_READ, // | GENERIC_WRITE,
 				0,    /* comm devices must be opened w/exclusive-access */
 				NULL, /* no security attrs */
 				OPEN_EXISTING, /* comm devices must use OPEN_EXISTING */
 				0,    /* not overlapped I/O */
-				NULL  /* hTemplate must be NULL for comm devices */
-				);
+				NULL  /* hTemplate must be NULL for comm devices */				);
 			if (hCom == INVALID_HANDLE_VALUE) {
 				// It can't be opened; remove it.
 				asi.erase(iSI);
+				break;
 			}
 			else {
 				// It can be opened! Close it and add it to the list
@@ -524,9 +524,8 @@ void EnumPortsWdm(std::vector<SSerInfo> &asi)
 		hDevInfo = SetupDiGetClassDevs( guidDev,
 			NULL,
 			NULL,
-			DIGCF_PRESENT | DIGCF_DEVICEINTERFACE
-			);
-
+			DIGCF_DEVICEINTERFACE); // | DIGCF_PRESENT);
+			
 		if(hDevInfo == INVALID_HANDLE_VALUE) 
 		{
 			strErr = "SetupDiGetClassDevs failed. (err=%lx)";
@@ -534,7 +533,7 @@ void EnumPortsWdm(std::vector<SSerInfo> &asi)
 		}
 
 		// Enumerate the serial ports
-		bool bOk = TRUE;
+		bool bOk = true;
 		SP_DEVICE_INTERFACE_DATA ifcData;
 		DWORD dwDetDataSize = sizeof(SP_DEVICE_INTERFACE_DETAIL_DATA) + 256;
 		pDetData = (SP_DEVICE_INTERFACE_DETAIL_DATA*) new char[dwDetDataSize];
@@ -561,7 +560,7 @@ void EnumPortsWdm(std::vector<SSerInfo> &asi)
 					bSuccess = bSuccess && SetupDiGetDeviceRegistryProperty(
 						hDevInfo, &devdata, SPDRP_DEVICEDESC, NULL,
 						(PBYTE)desc, sizeof(desc), NULL);
-					bool bUsbDevice = FALSE;
+					bool bUsbDevice = false;
 					TCHAR locinfo[256];
 					if (SetupDiGetDeviceRegistryProperty(
 						hDevInfo, &devdata, SPDRP_LOCATION_INFORMATION, NULL,
@@ -747,11 +746,11 @@ void SearchPnpKeyW9x(HKEY hkPnp, bool bUsbDevice,
 				si.bUsbDevice = bUsbDevice;
 
 				// Overwrite duplicates.
-				bool bDup = FALSE;
+				bool bDup = false;
 				for (int ii=0; ii<asi.size() && !bDup; ii++)
 				{
 					if (asi[ii].strPortName == strPortName) {
-						bDup = TRUE;
+						bDup = true;
 						asi[ii] = si;
 					}
 				}
