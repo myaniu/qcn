@@ -44,11 +44,9 @@ void EnumPortsWdm(std::vector<SSerInfo> &asi);
 
 
 CSensorWinUSBONavi01::CSensorWinUSBONavi01()
-  : CSensor(), m_USBHandle(NULL)
+  : CSensor(), m_hcom(INVALID_HANDLE_VALUE)
 { 
    memset(&m_si, 0x00, sizeof(SSerInfo));
-   m_USBDevHandle[0] = NULL;
-   m_USBDevHandle[1] = NULL;
 }
 
 CSensorWinUSBONavi01::~CSensorWinUSBONavi01()
@@ -58,44 +56,52 @@ CSensorWinUSBONavi01::~CSensorWinUSBONavi01()
 
 void CSensorWinUSBONavi01::closePort()
 {
+    memset(&m_si, 0x00, sizeof(SSerInfo));
+	setPort();
+	setType();
+	if (m_hcom != INVALID_HANDLE_VALUE) { // handle exists
+		::CloseHandle(m_hcom);
+	}
 }
 
 bool CSensorWinUSBONavi01::detect()
 {
-	return SearchONaviSerialPort(m_si);
+	bool bRet = false;
+	if (SearchONaviSerialPort(m_si)) {
+		// open & validate the virtual com port persistent
+			m_hcom = ::CreateFile((LPCSTR) m_si.strDevPath.c_str(),
+				GENERIC_READ, // | GENERIC_WRITE,
+				0,    /* comm devices must be opened w/exclusive-access */
+				NULL, /* no security attrs */
+				OPEN_EXISTING, /* comm devices must use OPEN_EXISTING */
+				NULL,    /* not overlapped I/O */
+				NULL  /* hTemplate must be NULL for comm devices */				);
+			if (m_hcom == INVALID_HANDLE_VALUE) {
+				closePort();
+			}
+			else {
+				setType(SENSOR_USB_ONAVI_1);
+				setPort(1);
+				bRet = true;
+			}
+	}
+	return bRet;
 }
 
 inline bool CSensorWinUSBONavi01::read_xyz(float& x1, float& y1, float& z1)
 {
-	// joystick fn usage
-	if (getPort() < 0) return false;
-	static JOYINFOEX jix;
-	static int iSize = sizeof(JOYINFOEX);
+	// first check for valid port
+	if (getPort() < 0 || m_hcom == INVALID_HANDLE_VALUE) return false;
 
-	memset(&jix, 0x00, iSize);
-	jix.dwSize = iSize;
-	//jix.dwFlags = JOY_RETURNALL; // JOY_RETURNRAWDATA; // JOY_RETURNALL; // JOY_CAL_READ5; //JOY_RETURNRAWDATA | JOY_RETURNALL; // JOY_RETURNX | JOY_RETURNY | JOY_RETURNZ;
-    jix.dwFlags = JOY_CAL_READ5; // read 5 axes calibration info
-	MMRESULT mres = ::joyGetPosEx(getPort(), &jix);
-        // note x/y/z values should be +/-2g where g = 9.78 (see define.h:: EARTH_G)
-	if (mres == JOYERR_NOERROR) { // successfully read the joystick, -2g = 0, 0g = 32767, 2g = 65535
-		x1 = (((float) jix.dwXpos - 32767.0f) / 16383.0f) * EARTH_G;
-		y1 = (((float) jix.dwYpos - 32767.0f) / 16383.0f) * EARTH_G;
-		z1 = (((float) jix.dwZpos - 32767.0f) / 16383.0f) * EARTH_G;
-	}
-	else {
-		x1 = 0.0f;
-		y1 = 0.0f;
-		z1 = 0.0f;
-	}
+	bool bRet = false;
+	DWORD dwRead = 0L;
 
-	/*  // read device 1 which is too slow
-	x = ReadedData(0x02, 0x03, 'x');
-	y = ReadedData(0x04, 0x05, 'y');
-	z = ReadedData(0x06, 0x07, 'z');
-    */
+	QCN_BYTE bytesIn[16];
+	memset(bytesIn, 0x00, 16);
 
-	return true;
+	bRet = (bool) ::ReadFile(m_hcom, bytesIn, 16, &dwRead, NULL);
+
+	return bRet;
 }
 
 
@@ -107,6 +113,7 @@ inline bool CSensorWinUSBONavi01::read_xyz(float& x1, float& y1, float& z1)
 
 bool CSensorWinUSBONavi01::SearchONaviSerialPort(SSerInfo& si, const bool bIgnoreBusyPorts)
 {
+	bool bRet = false;
 	memset(&si, 0x00, sizeof(SSerInfo)); 
 	vector<SSerInfo> asi;
 
@@ -154,7 +161,7 @@ bool CSensorWinUSBONavi01::SearchONaviSerialPort(SSerInfo& si, const bool bIgnor
 				NULL  /* hTemplate must be NULL for comm devices */				);
 			if (hCom == INVALID_HANDLE_VALUE) {
 				// It can't be opened; remove it.
-				asi.erase(iSI);
+				//asi.erase(iSI); // no need to erase
 				break;
 			}
 			else {
@@ -182,13 +189,11 @@ bool CSensorWinUSBONavi01::SearchONaviSerialPort(SSerInfo& si, const bool bIgnor
 		}
 		if (iSI->strFriendlyName.find(STR_ONAVI_1) == 0) {
 			si = *iSI;
-			setType(SENSOR_USB_ONAVI_1);
-			setPort(1);
-			return true;
+			bRet = true;
 		}
 
 	} // for loop
-	return false;
+	return bRet;
 }
 
 // Helpers for EnumSerialPorts

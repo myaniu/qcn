@@ -41,19 +41,11 @@ class CSensorWinUSBONavi01  : public CSensor
 {
    private:
 	  // usb stick stuff
-	  HIDP_CAPS	 m_USBCapabilities;
-	  HANDLE     m_USBHandle;
-	  HANDLE	 m_USBDevHandle[2];
+	  HANDLE	 m_hcom;
 	  SSerInfo   m_si;
 
       // two usb-specific methods, one for init, one for reading data
       void GetCapabilities(HANDLE handle);
-      // codemercs.com JoyWarrior 24F8  http://codemercs.com/JW24F8_E.html
-      unsigned char ReadData(HANDLE handle, unsigned char addr);
-      bool WriteData(HANDLE handle, unsigned char cmd, unsigned char addr, unsigned char data);
-      int SetupJoystick();
-      void SetQCNState(); // persistently set accelerometer to 50Hz and +/- 2g
-
       virtual bool read_xyz(float& x1, float& y1, float& z1);  
 
 // Routine for enumerating the available serial ports. Throws a CString on
