@@ -12,6 +12,7 @@
     #include "csensor_mac_usb_generic.h"
   #endif 
   #include "csensor_mac_usb_jw.h"
+  #include "csensor_mac_usb_onavi01.h"
 #else
   #ifdef _WIN32
     #include "csensor_win_usb_jw.h"
@@ -155,9 +156,15 @@ void psmsForceSensor(CSensor* volatile *ppsms)
 				case SENSOR_USB_MOTIONNODEACCEL:
 					*ppsms = (CSensor*) new CSensorUSBMotionNodeAccel();
 					break;
-				case SENSOR_USB_ONAVI_1:
-					//*ppsms = (CSensor*) new CSensorUSBONavi1();
-					break;
+			 case SENSOR_USB_ONAVI_1:
+#ifdef _WIN32
+				 *ppsms = (CSensor*) new CSensorWinUSBONavi01();
+#else
+#ifdef __APPLE_CC__
+				 *ppsms = (CSensor*) new CSensorMacUSBONavi01();
+#endif
+#endif
+				 break;
 		 }
 	 }
 #endif
@@ -185,9 +192,9 @@ bool getSensor(CSensor* volatile *ppsms)
 	// for Macs the sensor can either be a CSensorMacLaptop or CSensorMacUSBJW or CSensorUSBMotionNodeAccel
 	#ifdef __APPLE_CC__
 	#if defined(__LP64__) || defined(_LP64) // no motion node for 64-bit
-	   const int iMaxSensor = 2;  // JW or Mac laptop
+	   const int iMaxSensor = 3;  // JW, ONavi, or Mac laptop
 	#else
-	   const int iMaxSensor = 3;  // JW, MN, or laptop
+	   const int iMaxSensor = 4;  // JW, ONavi, MN, or laptop
 	#endif
 	   
 	   // note we try to detect the USB sensors first (if any), then try the laptop
@@ -217,15 +224,19 @@ bool getSensor(CSensor* volatile *ppsms)
 	#endif		
 				   }
 							 break;
-	#if defined(__LP64__) || defined(_LP64) // no motion node for 64-bit
-			   case 1:  // note it tries to get an external sensor first before using the internal sensor, is this good logic?
+			   case 1:  // try for ONavi
+				   *ppsms = (CSensor*) new CSensorMacUSBONavi01();
+				   break;
+
+#if defined(__LP64__) || defined(_LP64) // no motion node for 64-bit
+			   case 2:  // note it tries to get an external sensor first before using the internal sensor, is this good logic?
 				 *ppsms = (CSensor*) new CSensorMacLaptop();
 				 break;
 	#else
-			   case 1:  // note it tries to get an external sensor first before using the internal sensor, is this good logic?
+			   case 2:  // note it tries to get an external sensor first before using the internal sensor, is this good logic?
 				 *ppsms = (CSensor*) new CSensorUSBMotionNodeAccel();
 				 break;
-			   case 2:  // note it tries to get an external sensor first before using the internal sensor, is this good logic?
+			   case 3:  // note it tries to get an external sensor first before using the internal sensor, is this good logic?
 				 *ppsms = (CSensor*) new CSensorMacLaptop();
 				 break;
 	#endif

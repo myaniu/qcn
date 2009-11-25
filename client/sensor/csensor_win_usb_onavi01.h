@@ -19,7 +19,7 @@ using namespace std;
 
 
 // this is the Mac tty device for the ONavi-1 Mac kernel extension driver
-#define STR_ONAVI_1 "XR21V1410"
+#define STR_USB_ONAVI01 "XR21V1410"
 #define FLOAT_ONAVI_FACTOR  7.629394531250e-05f
 
 // Struct used when enumerating the available serial ports

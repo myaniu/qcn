@@ -10,9 +10,10 @@
 
 #include "main.h"
 #include "csensor_mac_usb_onavi01.h"
- 
+#include <termios.h>
+
 CSensorMacUSBONavi01::CSensorMacUSBONavi01()
-  : CSensor()
+  : CSensor(), m_fd(-1)
 { 
 }
 
@@ -23,23 +24,55 @@ CSensorMacUSBONavi01::~CSensorMacUSBONavi01()
 
 void CSensorMacUSBONavi01::closePort()
 {
+	if (m_fd > -1) {
+	  close(m_fd);
+    }
+    m_fd = -1;
 	setPort();
 	setType();
 }
 
 bool CSensorMacUSBONavi01::detect()
 {
-/*
-					dcb.BaudRate = CBR_115200;
-					dcb.ByteSize = 8;
-					dcb.Parity = NOPARITY;
-					dcb.StopBits = ONESTOPBIT;
-					dcb.fBinary = TRUE;
-					dcb.fOutxCtsFlow = FALSE;
-					dcb.fOutxDsrFlow = FALSE;
-					dcb.fDtrControl = DTR_CONTROL_DISABLE;
-*/					
-	return bRet;
+	// first see if the port actually exists (the device is a "file" at /dev/tty.xrusbmodem, given in STR_USB_ONAVI01
+	if (!boinc_file_exists(STR_USB_ONAVI01)) return false;
+	
+	m_fd = open(STR_USB_ONAVI01, O_RDONLY);  // O_NONBLOCK optional param
+	if (m_fd == -1) return false;  //failure
+
+	// if here we opened the port, now set comm params
+	struct termios tty;
+	if (tcgetattr(m_fd, &tty) == -1) {
+		closePort();
+		return false;
+	}
+
+	// set terminal speed 115.2K
+	if (cfsetspeed(&tty, B115200) == -1) {
+		closePort();
+		return false;
+	}
+	
+	// flow contol
+	tty.c_cflag = CS8 | CREAD;
+
+	if (tcsetattr(m_fd, TCSADRAIN, &tty) == -1) {
+		closePort();
+		return false;
+	}
+	
+	// exists, so setPort & Type
+	setType(SENSOR_USB_ONAVI_1);
+	setPort(1);
+	setSingleSampleDT(true);
+	
+	float x1, y1, z1;
+	if (! read_xyz(x1,y1,z1) ) { // read a value
+		closePort();
+		return false;
+	}
+	
+	return true;
 }
 
 inline bool CSensorMacUSBONavi01::read_xyz(float& x1, float& y1, float& z1)
@@ -66,31 +99,56 @@ Where: x is the data value 0 - 65536 (x0000 to xFFFF).
 Values >32768 are positive g and <32768 are negative g. The sampling rate is set to 200Hz, and the analog low-pass filters are set to 50Hz.  The data is oversampled 2X over Nyquist. We are going to make a new version of the module, with 25Hz LP analog filters and dual sensitivity 2g / 6g shortly.  Same drivers, same interface.  I ll get you one as soon as I we get feedback on this and make a set of those.
 
 	*/
+	
+	//static float x0, y0, z0;
 
 	// first check for valid port
 	if (getPort() < 0) return false;
 
-	bool bRet = false;
+	bool bRet = true;
+	
+	const int ciLen = 24;  // use a 24 byte buffer
+	short int lOffset[2] = { 0, 0 };
+	QCN_BYTE bytesIn[ciLen], cs;
+	int x = 0, y = 0, z = 0;
+	int iCS = 0;
+	int iRead = 0;
 
-//	bRet = (bool) ::ReadFile(m_hcom, bytesIn, 32, &dwRead, NULL);
-
-	if (bRet) {
-		for (int i = 31; i > 0; i--) { // look for hash-mark i.e. ## boundaries (two sets of ##)
+	/*
+	QCN_BYTE cc[2048];
+	memset(cc, 0x00, 2048);
+	iRead = read(m_fd, cc, 2048);
+	FILE* fcc = fopen("/tmp/cc.txt", "w");
+	if (fcc) {
+		fprintf(fcc, "\n%s\n", cc);
+		fclose(fcc);
+	}
+	*/
+	
+//	if (lseek(m_fd, -ciLen, SEEK_END) == -1) {
+//		return true;  // go to end of stream (32 bytes from end), if fail return
+//	}
+	memset(bytesIn, 0x00, ciLen);
+	if ((iRead = read(m_fd, bytesIn, ciLen)) > 8) {
+		for (int i = ciLen-1; i >= 0; i--) { // look for hash-mark i.e. ## boundaries (two sets of ##)
 			if (bytesIn[i] == 0x23 && bytesIn[i-1] == 0x23) { // found a hash-mark set
-				if (!lOffset[1]) lOffset[1] = i-1;
+				if (!lOffset[1]) {
+					lOffset[1] = i;
+					i-=8;
+				}
 				else {
-					lOffset[0] = i; // must be the start
+					lOffset[0] = i+1; // must be the start
 					break;  // found both hash marks - can leave loop
 				}
 			}
  		}
 		if (lOffset[0] && lOffset[1] && lOffset[1] == (lOffset[0] + 8)) { 
-                   // we found both, the bytes in between are what we want (really bytes after lOffset[0]
-			x = (bytesIn[lOffset[0]+1] * 255) + bytesIn[lOffset[0]+2];
-			y = (bytesIn[lOffset[0]+3] * 255) + bytesIn[lOffset[0]+4];
-			z = (bytesIn[lOffset[0]+5] * 255) + bytesIn[lOffset[0]+6];
-			cs   = bytesIn[lOffset[0]+7];
-			for (int i = 1; i <= 6; i++) iCS += bytesIn[lOffset[0] + i];
+			// we found both, the bytes in between are what we want (really bytes after lOffset[0]
+			x = (bytesIn[lOffset[0]] * 255) + bytesIn[lOffset[0]+1];
+			y = (bytesIn[lOffset[0]+2] * 255) + bytesIn[lOffset[0]+3];
+			z = (bytesIn[lOffset[0]+4] * 255) + bytesIn[lOffset[0]+5];
+			cs   = bytesIn[lOffset[0]+6];
+			for (int i = 0; i <= 5; i++) iCS += bytesIn[lOffset[0] + i];
 
 			// convert to g decimal value
 			// g  = x - 32768 * (5 / 65536) 
@@ -99,9 +157,14 @@ Values >32768 are positive g and <32768 are negative g. The sampling rate is set
 			x1 = ((float) x - 32768.0f) * FLOAT_ONAVI_FACTOR;
 			y1 = ((float) y - 32768.0f) * FLOAT_ONAVI_FACTOR;
 			z1 = ((float) z - 32768.0f) * FLOAT_ONAVI_FACTOR;
+			
+			//x0 = x1; y0 = y1; z0 = z1;  // preserve values
+
+			bRet = true;
 		}
 		else {
-			bRet = false;
+			//x1 = x0; y1 = y0; z1 = z0;  // use last good values
+			bRet = true;  // could be just empty, return
 		}
 	}
 

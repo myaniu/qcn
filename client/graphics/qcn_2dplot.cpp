@@ -47,7 +47,7 @@ void draw_text_sensor_axis(int iAxis)
 	if (g_fMaxAxesCurrent[iAxis] == SAC_NULL_FLOAT || g_fMinAxesCurrent[iAxis] == -1.0f * SAC_NULL_FLOAT) return;
 	float fIncrement = (g_fMaxAxesCurrent[iAxis] - g_fMinAxesCurrent[iAxis]) / 6.0f;
 	for (int i = 0; i <= 6; i++) {
-		sprintf(cbuf, "%+4.2f", g_fMinAxesCurrent[iAxis] + (fIncrement * (float) i) );
+		sprintf(cbuf, "%+5.3f", g_fMinAxesCurrent[iAxis] + (fIncrement * (float) i) );
 	    txf_render_string(cfTransAlpha, cfVertLabel, cfBaseScale[iAxis] + cfAxesOffset[i], 0, MSG_SIZE_SMALL, g_bIsWhite ? black : grey_trans, TXF_COURIER_BOLD, cbuf);
 	}
 }
