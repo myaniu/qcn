@@ -181,21 +181,19 @@ inline bool CSensor::mean_xyz()
    *px2 = *py2 = *pz2 = 0.0f;  // zero sample averages
    *pt2 = 0.0f;
  
-   if (m_bSingleSampleDT) // just one sample, i.e. the hardware does the sampling a la the JoyWarrior USB sensor
-      sm->lSampleSize = 1; 
-   else   // init sample size to 0, it will get incremented in the loop below
-      sm->lSampleSize = 0L; 
+   sm->lSampleSize = 0L; 
 		 
    // this will get executed at least once, then the time is checked to see if we have enough time left for more samples
    do {
-       if (sm->lSampleSize < SAMPLE_SIZE) {  // note we only get a sample if sample size < 10
+       if ( (!m_bSingleSampleDT && sm->lSampleSize < SAMPLE_SIZE)
+		  || (m_bSingleSampleDT && sm->lSampleSize == 0) )  { // only go in if less than our sample # and we're not a single-sample sensor, or a single-sample sensor & haven't been in yet
            x1 = y1 = z1 = 0.0f; 
-    	   result = read_xyz(x1, y1, z1);   // note that x/y/z should be scaled to +/- 2g, return values as +/- 2.0f*EARTH_G (in define.h: 9.78033 m/s^2)
-           if (!result) return false;
+    	   // note that x/y/z should be scaled to +/- 2g, return values as +/- 2.0f*EARTH_G (in define.h: 9.78033 m/s^2)
+           if (!read_xyz(x1, y1, z1)) return false;
 	       *px2 += x1; 
            *py2 += y1; 
            *pz2 += z1; 
-       	   if (!m_bSingleSampleDT) sm->lSampleSize++; // only increment if not a single sample sensor
+       	   sm->lSampleSize++; // only increment if not a single sample sensor
         }  // done sample size stuff
 
        // dt is in seconds, want to slice it into 10 (SAMPLING_FREQUENCY), put into microseconds, so multiply by 100000
@@ -231,10 +229,12 @@ static FILE* fileDebug = NULL;
    lLastSample = sm->lSampleSize;
 
    // store values i.e. divide by sample size
-   *px2 /= (float) sm->lSampleSize; 
-   *py2 /= (float) sm->lSampleSize; 
-   *pz2 /= (float) sm->lSampleSize; 
-   *pt2 = sm->t0active; // save the time into the array, this is the real clock time
+   if (sm->lSampleSize > 1) {  // only divide to get the mean if greater than 1 sample taken
+		*px2 /= (float) sm->lSampleSize; 
+		*py2 /= (float) sm->lSampleSize; 
+		*pz2 /= (float) sm->lSampleSize; 
+		*pt2 = sm->t0active; // save the time into the array, this is the real clock time
+	}
 
    // if active time is falling behind the checked (wall clock) time -- set equal, may have gone to sleep & woken up etc
    sm->t0check += sm->dt;   // t0check is the "ideal" time i.e. start time + the dt interval

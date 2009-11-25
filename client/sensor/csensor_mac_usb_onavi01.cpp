@@ -67,14 +67,12 @@ bool CSensorMacUSBONavi01::detect()
 	setType(SENSOR_USB_ONAVI_1);
 	setPort(1);
 	
-	/*
 	 setSingleSampleDT(true);
 	float x1, y1, z1;
 	if (! read_xyz(x1,y1,z1) ) { // read a value
 		closePort();
 		return false;
 	}
-	 */
 	
 	return true;
 }
@@ -117,6 +115,7 @@ Values >32768 are positive g and <32768 are negative g. The sampling rate is set
 	int x = 0, y = 0, z = 0;
 	int iCS = 0;
 	int iRead = 0;
+	x1 = y1 = z1 = 0.0f;
 
 	/*
 	QCN_BYTE cc[2048];
@@ -158,9 +157,9 @@ Values >32768 are positive g and <32768 are negative g. The sampling rate is set
 			// g  = x - 32768 * (5 / 65536) 
 			// Where: x is the data value 0 - 65536 (x0000 to xFFFF). 
 
-			x1 = ((float) x - 32768.0f) * FLOAT_ONAVI_FACTOR;
-			y1 = ((float) y - 32768.0f) * FLOAT_ONAVI_FACTOR;
-			z1 = ((float) z - 32768.0f) * FLOAT_ONAVI_FACTOR;
+			x1 = ((float) x - 32768.0f) * FLOAT_ONAVI_FACTOR * EARTH_G;
+			y1 = ((float) y - 32768.0f) * FLOAT_ONAVI_FACTOR * EARTH_G;
+			z1 = ((float) z - 32768.0f) * FLOAT_ONAVI_FACTOR * EARTH_G;
 			
 			//x0 = x1; y0 = y1; z0 = z1;  // preserve values
 
