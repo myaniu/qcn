@@ -6,7 +6,7 @@
  *  qcn
  *
  *  Created by Carl Christensen on 10/10/2009.
- *  Copyright 2007 Stanford University
+ *  Copyright 2009 Stanford University
  *
  * This file contains the declarations for the CSensor-derived class for Windows USB JoyWarrior accelerometer
  */
@@ -17,13 +17,10 @@
 #include "main.h"
 using namespace std;
 
-// usb stick includes (JoyWarrior codemercs) -- all must be extern "C"
-extern "C" { 
-#include "hidsdi.h" 
-#include "setupapi.h"
-#include "hidpi.h"
-}
 
+// this is the Mac tty device for the ONavi-1 Mac kernel extension driver
+#define STR_ONAVI_1 "XR21V1410"
+#define FLOAT_ONAVI_FACTOR  7.629394531250e-05f
 
 // Struct used when enumerating the available serial ports
 // Holds information about an individual serial port.

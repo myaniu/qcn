@@ -17,6 +17,11 @@
 #include "main.h"
 using namespace std;
 
+
+// this is the Mac tty device for the ONavi-1 Mac kernel extension driver
+#define STR_ONAVI_1 "/dev/tty.xrusbmodem641"
+#define FLOAT_ONAVI_FACTOR  7.629394531250e-05f
+
 // this is the Windows implementation of the sensor - IBM/Lenovo Thinkpad, HP, USB Stick
 class CSensorMacUSBONavi01  : public CSensor
 {
