@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		439FF8AD10BD8C6100DEFD8E /* csensor_mac_usb_onavi01.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 439FF8AC10BD8C6100DEFD8E /* csensor_mac_usb_onavi01.cpp */; };
+		439FF8AE10BD8C6100DEFD8E /* csensor_mac_usb_onavi01.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 439FF8AC10BD8C6100DEFD8E /* csensor_mac_usb_onavi01.cpp */; };
 		43AC1A0810A0C85600F84A0D /* libcurl-universal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 43AC1A0710A0C85600F84A0D /* libcurl-universal.a */; };
 		43E17E8A10A47F2600EFA3A7 /* url.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43E17E8910A47F2600EFA3A7 /* url.cpp */; };
 		43E17E8B10A47F2600EFA3A7 /* url.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43E17E8910A47F2600EFA3A7 /* url.cpp */; };
@@ -219,6 +221,8 @@
 		4394A7B910A20763006FF691 /* myframe.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = myframe.h; sourceTree = "<group>"; };
 		4394A7BB10A20763006FF691 /* myglpane.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = myglpane.h; sourceTree = "<group>"; };
 		4394A7C110A20763006FF691 /* qcnwx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = qcnwx.h; sourceTree = "<group>"; };
+		439FF8AC10BD8C6100DEFD8E /* csensor_mac_usb_onavi01.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = csensor_mac_usb_onavi01.cpp; path = ../sensor/csensor_mac_usb_onavi01.cpp; sourceTree = SOURCE_ROOT; };
+		439FF8AF10BD8C7A00DEFD8E /* csensor_mac_usb_onavi01.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = csensor_mac_usb_onavi01.h; path = ../sensor/csensor_mac_usb_onavi01.h; sourceTree = SOURCE_ROOT; };
 		43AC1A0710A0C85600F84A0D /* libcurl-universal.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libcurl-universal.a"; sourceTree = "<group>"; };
 		43E17E8910A47F2600EFA3A7 /* url.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = url.cpp; path = ../../../boinc/lib/url.cpp; sourceTree = SOURCE_ROOT; };
 		E3064B950F8FE8A60028A349 /* qcn_2dplot.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = qcn_2dplot.cpp; path = ../graphics/qcn_2dplot.cpp; sourceTree = SOURCE_ROOT; };
@@ -419,6 +423,7 @@
 		E3583B1F0FF18FDC00057DD2 /* sensor */ = {
 			isa = PBXGroup;
 			children = (
+				439FF8AF10BD8C7A00DEFD8E /* csensor_mac_usb_onavi01.h */,
 				E3583B200FF18FF500057DD2 /* csensor_mac_usb_generic.h */,
 				E3B747A60E8C6DFC00D401EB /* csensor_mac_laptop.h */,
 				E3B747A80E8C6DFC00D401EB /* csensor_mac_usb_jw.h */,
@@ -736,6 +741,7 @@
 		E3D35C120FF179B200E64121 /* sensor */ = {
 			isa = PBXGroup;
 			children = (
+				439FF8AC10BD8C6100DEFD8E /* csensor_mac_usb_onavi01.cpp */,
 				E3D35C100FF1799600E64121 /* csensor_mac_usb_generic.cpp */,
 				E30AB1140EBB776D00DABFEF /* csensor_usb_motionnodeaccel.cpp */,
 				E371C7F60E2AB5D0009B4DAA /* csensor_mac_laptop.cpp */,
@@ -989,6 +995,7 @@
 				E3CD09C30FF2ACE20043EE7E /* QSymbols.c in Sources */,
 				E3CD09C40FF2ACE20043EE7E /* QTaskMemory.c in Sources */,
 				43E17E8A10A47F2600EFA3A7 /* url.cpp in Sources */,
+				439FF8AD10BD8C6100DEFD8E /* csensor_mac_usb_onavi01.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1038,6 +1045,7 @@
 				E3C968190FF1A80100F20324 /* QSymbols.c in Sources */,
 				E3C9681A0FF1A80100F20324 /* QTaskMemory.c in Sources */,
 				43E17E8D10A47F2600EFA3A7 /* url.cpp in Sources */,
+				439FF8AE10BD8C6100DEFD8E /* csensor_mac_usb_onavi01.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
