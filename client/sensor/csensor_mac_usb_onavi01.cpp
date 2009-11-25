@@ -37,7 +37,7 @@ bool CSensorMacUSBONavi01::detect()
 	// first see if the port actually exists (the device is a "file" at /dev/tty.xrusbmodem, given in STR_USB_ONAVI01
 	if (!boinc_file_exists(STR_USB_ONAVI01)) return false;
 	
-	m_fd = open(STR_USB_ONAVI01, O_RDONLY);  // O_NONBLOCK optional param
+	m_fd = open(STR_USB_ONAVI01, O_RDONLY | O_NOCTTY | O_NONBLOCK); 
 	if (m_fd == -1) return false;  //failure
 
 	// if here we opened the port, now set comm params
@@ -47,6 +47,8 @@ bool CSensorMacUSBONavi01::detect()
 		return false;
 	}
 
+	cfmakeraw(&tty);  // get raw tty settings
+	
 	// set terminal speed 115.2K
 	if (cfsetspeed(&tty, B115200) == -1) {
 		closePort();
@@ -54,7 +56,7 @@ bool CSensorMacUSBONavi01::detect()
 	}
 	
 	// flow contol
-	tty.c_cflag = CS8 | CREAD;
+	tty.c_cflag |= (CS8 | CREAD);
 
 	if (tcsetattr(m_fd, TCSADRAIN, &tty) == -1) {
 		closePort();
@@ -64,13 +66,15 @@ bool CSensorMacUSBONavi01::detect()
 	// exists, so setPort & Type
 	setType(SENSOR_USB_ONAVI_1);
 	setPort(1);
-	setSingleSampleDT(true);
 	
+	/*
+	 setSingleSampleDT(true);
 	float x1, y1, z1;
 	if (! read_xyz(x1,y1,z1) ) { // read a value
 		closePort();
 		return false;
 	}
+	 */
 	
 	return true;
 }
@@ -125,9 +129,9 @@ Values >32768 are positive g and <32768 are negative g. The sampling rate is set
 	}
 	*/
 	
-//	if (lseek(m_fd, -ciLen, SEEK_END) == -1) {
-//		return true;  // go to end of stream (32 bytes from end), if fail return
-//	}
+	if (lseek(m_fd, -ciLen, SEEK_END) == -1) {
+		return true;  // go to end of stream (32 bytes from end), if fail return
+	}
 	memset(bytesIn, 0x00, ciLen);
 	if ((iRead = read(m_fd, bytesIn, ciLen)) > 8) {
 		for (int i = ciLen-1; i >= 0; i--) { // look for hash-mark i.e. ## boundaries (two sets of ##)
@@ -166,6 +170,9 @@ Values >32768 are positive g and <32768 are negative g. The sampling rate is set
 			//x1 = x0; y1 = y0; z1 = z0;  // use last good values
 			bRet = true;  // could be just empty, return
 		}
+	}
+	else {
+		bRet = true;
 	}
 
 	return bRet;
