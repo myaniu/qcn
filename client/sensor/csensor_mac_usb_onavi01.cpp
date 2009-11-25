@@ -67,13 +67,13 @@ bool CSensorMacUSBONavi01::detect()
 	setType(SENSOR_USB_ONAVI_1);
 	setPort(1);
 	
-	 setSingleSampleDT(true);
+	setSingleSampleDT(true);
+	/*
 	float x1, y1, z1;
 	if (! read_xyz(x1,y1,z1) ) { // read a value
 		closePort();
 		return false;
-	}
-	
+	}*/
 	return true;
 }
 
@@ -102,7 +102,7 @@ Values >32768 are positive g and <32768 are negative g. The sampling rate is set
 
 	*/
 	
-	//static float x0, y0, z0;
+	static float x0 = 0.0f, y0 = 0.0f, z0 = 0.0f;
 
 	// first check for valid port
 	if (getPort() < 0) return false;
@@ -128,9 +128,12 @@ Values >32768 are positive g and <32768 are negative g. The sampling rate is set
 	}
 	*/
 	
-	if (lseek(m_fd, -ciLen, SEEK_END) == -1) {
-		return true;  // go to end of stream (32 bytes from end), if fail return
+   if (lseek(m_fd, -ciLen, SEEK_END) == -1) {
+  	    x1 = x0; y1 = y0; z1 = z0;  // use last good values
+		return false;  // go to end of stream (32 bytes from end), if fail return
 	}
+	
+	
 	memset(bytesIn, 0x00, ciLen);
 	if ((iRead = read(m_fd, bytesIn, ciLen)) > 8) {
 		for (int i = ciLen-1; i >= 0; i--) { // look for hash-mark i.e. ## boundaries (two sets of ##)
@@ -161,17 +164,17 @@ Values >32768 are positive g and <32768 are negative g. The sampling rate is set
 			y1 = ((float) y - 32768.0f) * FLOAT_ONAVI_FACTOR * EARTH_G;
 			z1 = ((float) z - 32768.0f) * FLOAT_ONAVI_FACTOR * EARTH_G;
 			
-			//x0 = x1; y0 = y1; z0 = z1;  // preserve values
+			x0 = x1; y0 = y1; z0 = z1;  // preserve values
 
 			bRet = true;
 		}
 		else {
-			//x1 = x0; y1 = y0; z1 = z0;  // use last good values
-			bRet = true;  // could be just empty, return
+			x1 = x0; y1 = y0; z1 = z0;  // use last good values
+			bRet = false;  // could be just empty, return
 		}
 	}
 	else {
-		bRet = true;
+		bRet = false;
 	}
 
 	return bRet;

@@ -186,14 +186,15 @@ inline bool CSensor::mean_xyz()
    // this will get executed at least once, then the time is checked to see if we have enough time left for more samples
    do {
        if ( (!m_bSingleSampleDT && sm->lSampleSize < SAMPLE_SIZE)
-		  || (m_bSingleSampleDT && sm->lSampleSize == 0) )  { // only go in if less than our sample # and we're not a single-sample sensor, or a single-sample sensor & haven't been in yet
+		 || (m_bSingleSampleDT && sm->lSampleSize == 0) )  { // only go in if less than our sample # and we're not a single-sample sensor, or a single-sample sensor & haven't been in yet
            x1 = y1 = z1 = 0.0f; 
     	   // note that x/y/z should be scaled to +/- 2g, return values as +/- 2.0f*EARTH_G (in define.h: 9.78033 m/s^2)
-           if (!read_xyz(x1, y1, z1)) return false;
-	       *px2 += x1; 
-           *py2 += y1; 
-           *pz2 += z1; 
-       	   sm->lSampleSize++; // only increment if not a single sample sensor
+           if (read_xyz(x1, y1, z1)) {  // not a fatal error if fails, just don't count this point
+			   *px2 += x1; 
+			   *py2 += y1; 
+			   *pz2 += z1; 
+			   sm->lSampleSize++; // only increment if not a single sample sensor
+		   }
         }  // done sample size stuff
 
        // dt is in seconds, want to slice it into 10 (SAMPLING_FREQUENCY), put into microseconds, so multiply by 100000
@@ -233,8 +234,8 @@ static FILE* fileDebug = NULL;
 		*px2 /= (float) sm->lSampleSize; 
 		*py2 /= (float) sm->lSampleSize; 
 		*pz2 /= (float) sm->lSampleSize; 
-		*pt2 = sm->t0active; // save the time into the array, this is the real clock time
 	}
+	*pt2 = sm->t0active; // save the time into the array, this is the real clock time
 
    // if active time is falling behind the checked (wall clock) time -- set equal, may have gone to sleep & woken up etc
    sm->t0check += sm->dt;   // t0check is the "ideal" time i.e. start time + the dt interval
