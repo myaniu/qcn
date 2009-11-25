@@ -1,8 +1,8 @@
 Mac install 
 
-back up your Mac, then go to drivers subdir and run ./mac-install.sh
+1) back up your Mac, then go to drivers subdir and run ./install-mac.sh
 
-to test, in Mac Terminal:
+2) to test, in Mac Terminal:
 
 screen /dev/tty.xrusbmodem641 115200
 
