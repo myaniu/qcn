@@ -1,3 +1,16 @@
+Mac install 
+
+back up your Mac, then go to drivers subdir and run ./mac-install.sh
+
+to test, in Mac Terminal:
+
+screen /dev/tty.xrusbmodem641 115200
+
+to quit the above terminal session type control-A then control-\
+
+----------------------
+
+
 We tried to keep the data as simple as possible. The data looks like:
  
 ##xxyyzzs
