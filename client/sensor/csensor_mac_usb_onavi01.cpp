@@ -42,7 +42,7 @@ bool CSensorMacUSBONavi01::detect()
 
 	// if here we opened the port, now set comm params
 	struct termios tty;
-	if (tcgetattr(m_fd, &tty) == -1) {
+	if (tcgetattr(m_fd, &tty) == -1) {  // get current terminal state
 		closePort();
 		return false;
 	}
@@ -58,7 +58,7 @@ bool CSensorMacUSBONavi01::detect()
 	// flow contol
 	tty.c_cflag |= (CS8 | CREAD);
 
-	if (tcsetattr(m_fd, TCSADRAIN, &tty) == -1) {
+	if (tcsetattr(m_fd, TCSAFLUSH, &tty) == -1 || tcflush(m_fd, TCIOFLUSH) ) {
 		closePort();
 		return false;
 	}
@@ -68,6 +68,7 @@ bool CSensorMacUSBONavi01::detect()
 	setPort(1);
 	
 	setSingleSampleDT(true);
+
 	/*
 	float x1, y1, z1;
 	if (! read_xyz(x1,y1,z1) ) { // read a value
@@ -128,11 +129,12 @@ Values >32768 are positive g and <32768 are negative g. The sampling rate is set
 	}
 	*/
 	
+/*
    if (lseek(m_fd, -ciLen, SEEK_END) == -1) {
   	    x1 = x0; y1 = y0; z1 = z0;  // use last good values
 		return false;  // go to end of stream (32 bytes from end), if fail return
 	}
-	
+*/	
 	
 	memset(bytesIn, 0x00, ciLen);
 	if ((iRead = read(m_fd, bytesIn, ciLen)) > 8) {
@@ -177,6 +179,7 @@ Values >32768 are positive g and <32768 are negative g. The sampling rate is set
 		bRet = false;
 	}
 
+	tcflush(m_fd, TCIOFLUSH);
 	return bRet;
 }
 
