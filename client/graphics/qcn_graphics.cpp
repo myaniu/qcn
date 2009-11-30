@@ -151,6 +151,9 @@ bool g_bThreadGraphics = false;
 bool g_bInitGraphics   = false;
 bool g_bViewHasStart   = false;
 
+double g_alpha = 0.0f;
+FADER g_fader(5,5,5,2);
+		
 int g_width, g_height;      // window dimensions
 
 void Cleanup()
@@ -427,7 +430,7 @@ void init_lights()
 
 void draw_logo() 
 {
-    if (logo.id) {
+    if (logo.id && g_alpha>.10f) {
         mode_unshaded();
         mode_ortho();
 
@@ -442,7 +445,7 @@ void draw_logo()
         else {
 */
           float size[3] = {.21, .21, 0};
-          logo.draw(pos, size, ALIGN_CENTER, ALIGN_CENTER);
+          logo.draw(pos, size, ALIGN_CENTER, ALIGN_CENTER, g_alpha);
 //      }
         ortho_done();
     }
@@ -450,6 +453,7 @@ void draw_logo()
 
 void draw_text_sensor()
 {
+	if (g_alpha <= .10f) return;
    char* buf = new char[128];
    memset(buf, 0x00, 128 * sizeof(char));
 
@@ -461,17 +465,17 @@ void draw_text_sensor()
 
     if (sm) {
         if (!sm->bSensorFound) {
-            txf_render_string(.1, 0.003, 0.01,0, isize, red, TXF_HELVETICA, (char*) "Demo Mode - Sensor Not Found");
+            txf_render_string(g_alpha, 0.003, 0.01,0, isize, red, TXF_HELVETICA, (char*) "Demo Mode - Sensor Not Found");
         } else if (sm->lOffset >=0 && sm->lOffset < sm->iWindow ) {  // we're in our calibration window
             sprintf(buf, "%s sensor calibration in progress (Reset %d)", sm->strSensor, sm->iNumReset);
-            txf_render_string(.1, 0.003, 0.01, 0, isize, red, TXF_HELVETICA, buf);
+            txf_render_string(g_alpha, 0.003, 0.01, 0, isize, red, TXF_HELVETICA, buf);
         } else if (sm->strSensor[0] != 0x00) {
             sprintf(buf, "Using %s Accelerometer (Reset %d)", sm->strSensor, sm->iNumReset);
-            txf_render_string(.1, 0.003, 0.01, 0, isize, red, TXF_HELVETICA, buf);
+            txf_render_string(g_alpha, 0.003, 0.01, 0, isize, red, TXF_HELVETICA, buf);
         } else if (dtime()-sm->update_time > 5) {
-            txf_render_string(.1, 0.003, 0.01, 0, isize, red, TXF_HELVETICA, (char*) "QCN Not Running");
+            txf_render_string(g_alpha, 0.003, 0.01, 0, isize, red, TXF_HELVETICA, (char*) "QCN Not Running");
         } else if (sm->statusBOINC.suspended) {
-            txf_render_string(.1, 0.003, 0.01, 0, isize, red, TXF_HELVETICA, (char*) "QCN Suspended");
+            txf_render_string(g_alpha, 0.003, 0.01, 0, isize, red, TXF_HELVETICA, (char*) "QCN Suspended");
 		}
     } 
 
@@ -479,7 +483,7 @@ void draw_text_sensor()
       // if we wrote a JPG file, display a message for a little bit (200 frame refreshes ~ 7 seconds)
       if (++g_iJPG < 200 && g_strJPG[0] != 0x00) { // we have written a JPG file
         sprintf(buf, "Screenshot saved to: %s", g_strJPG);
-        txf_render_string(.1, 0.003, 0.028, 0, MSG_SIZE_SMALL, orange, TXF_HELVETICA, buf);
+        txf_render_string(g_alpha, 0.003, 0.028, 0, MSG_SIZE_SMALL, orange, TXF_HELVETICA, buf);
       }
 #endif
 
@@ -488,6 +492,7 @@ void draw_text_sensor()
 
 void draw_text_user() 
 {
+	if (g_alpha <= .10f) return;
    char* buf = new char[128];
    memset(buf, 0x00, 128 * sizeof(char));
 
@@ -496,7 +501,7 @@ void draw_text_user()
    mode_ortho();
 
     if (!sm) {
-       txf_render_string(.1, 0, 0, 0, 800, red, TXF_HELVETICA, (char*) "No shared memory, QCN not running?");
+       txf_render_string(g_alpha, 0, 0, 0, 800, red, TXF_HELVETICA, (char*) "No shared memory, QCN not running?");
 	   delete [] buf;
        return;
     }
@@ -510,56 +515,56 @@ void draw_text_user()
 #ifdef QCNLIVE
    if (strlen((const char*) sm->strMyStation)>0) {
       sprintf(buf, "Station: %s", (const char*) sm->strMyStation);
-      txf_render_string(.1, 0, .12, 0, MSG_SIZE_BIG, green, TXF_HELVETICA, buf);
+      txf_render_string(g_alpha, 0, .12, 0, MSG_SIZE_BIG, green, TXF_HELVETICA, buf);
    }
 
    if (sm && earth.IsShown() && sm->dMyLatitude != NO_LAT && sm->dMyLongitude != NO_LNG
 	    && sm->dMyLatitude != 0.0f && sm->dMyLongitude != 0.0f) {
        sprintf(buf, "Location: %.4f, %.4f", sm->dMyLatitude, sm->dMyLongitude);
-       txf_render_string(.1, 0, .09, 0, MSG_SIZE_BIG, green, TXF_HELVETICA, buf);
+       txf_render_string(g_alpha, 0, .09, 0, MSG_SIZE_BIG, green, TXF_HELVETICA, buf);
    }
 
    if (sm) {
       char strTime[32];
       qcn_util::FormatElapsedTime((const double&) sm->clock_time, strTime, 32);
       sprintf(buf, "Run Time: %s", strTime);
-      txf_render_string(.1, 0, 0.06, 0, MSG_SIZE_NORMAL, white, TXF_HELVETICA, buf);
+      txf_render_string(g_alpha, 0, 0.06, 0, MSG_SIZE_NORMAL, white, TXF_HELVETICA, buf);
 
       qcn_util::FormatElapsedTime((const double&) sm->cpu_time, strTime, 32);
       sprintf(buf, "CPU Time: %s", strTime);
-      txf_render_string(.1, 0, 0.04, 0, MSG_SIZE_NORMAL, white, TXF_HELVETICA, buf);
+      txf_render_string(g_alpha, 0, 0.04, 0, MSG_SIZE_NORMAL, white, TXF_HELVETICA, buf);
     }
 #else
     if (sm) {
-		txf_render_string(.1, 0, .125, 0, MSG_SIZE_NORMAL, white, TXF_HELVETICA, (char*) sm->dataBOINC.user_name);
-      //txf_render_string(.1, 0, 0.10, 0, MSG_SIZE_NORMAL, white, TXF_HELVETICA, (char*) sm->dataBOINC.team_name);
+		txf_render_string(g_alpha, 0, .125, 0, MSG_SIZE_NORMAL, white, TXF_HELVETICA, (char*) sm->dataBOINC.user_name);
+      //txf_render_string(g_alpha, 0, 0.10, 0, MSG_SIZE_NORMAL, white, TXF_HELVETICA, (char*) sm->dataBOINC.team_name);
 
       sprintf(buf, "WU #: %s", sm->dataBOINC.wu_name);
-      txf_render_string(.1, 0, 0.105, 0, MSG_SIZE_NORMAL, white, 0, buf);
+      txf_render_string(g_alpha, 0, 0.105, 0, MSG_SIZE_NORMAL, white, 0, buf);
 
       char strTime[32];
       qcn_util::FormatElapsedTime((const double&) sm->clock_time, strTime, 32);
       sprintf(buf, "Run Time: %s", strTime);
-      txf_render_string(.1, 0, 0.085, 0, MSG_SIZE_NORMAL, white, TXF_HELVETICA, buf);
+      txf_render_string(g_alpha, 0, 0.085, 0, MSG_SIZE_NORMAL, white, TXF_HELVETICA, buf);
 
       qcn_util::FormatElapsedTime((const double&) sm->cpu_time, strTime, 32);
       sprintf(buf, "CPU Time: %s", strTime);
-      txf_render_string(.1, 0, 0.065, 0, MSG_SIZE_NORMAL, white, TXF_HELVETICA, buf);
+      txf_render_string(g_alpha, 0, 0.065, 0, MSG_SIZE_NORMAL, white, TXF_HELVETICA, buf);
 
       sprintf(buf, "%.2f Percent Complete", 100.0f * sm->fraction_done);
-      txf_render_string(.1, 0, 0.045, 0, MSG_SIZE_NORMAL, white, TXF_HELVETICA, buf);
+      txf_render_string(g_alpha, 0, 0.045, 0, MSG_SIZE_NORMAL, white, TXF_HELVETICA, buf);
 
       if (sm && earth.IsShown() && sm->dMyLatitude != NO_LAT && sm->dMyLongitude != NO_LNG
   	    && sm->dMyLatitude != 0.0f && sm->dMyLongitude != 0.0f) {
          sprintf(buf, "Home Map Location: %.3f, %.3f", sm->dMyLatitude, sm->dMyLongitude);
-         txf_render_string(.1, 0, .025, 0, MSG_SIZE_NORMAL, green, TXF_HELVETICA, buf);
+         txf_render_string(g_alpha, 0, .025, 0, MSG_SIZE_NORMAL, green, TXF_HELVETICA, buf);
       }
     }
 #endif
 
 #ifdef KEYVIEW
     sprintf(buf, "keys:  dn=%d  dnalt=%d  up=%d upalt=%d", key_press, key_press_alt, key_up, key_up_alt);
-    txf_render_string(.1, 0, 0, 0, 800, red, TXF_HELVETICA, buf);
+    txf_render_string(g_alpha, 0, 0, 0, 800, red, TXF_HELVETICA, buf);
 #endif
 
     draw_text_sensor(); // sensor specific messages
@@ -591,26 +596,26 @@ void draw_text_plot()
     if (!g_bFullScreen) {
  	if (g_bSnapshot)  {
 		sprintf(buf, "Press 'S' for live view"); 
-		txf_render_string(.1, 0, .4, 0, MSG_SIZE_NORMAL, yellow, TXF_HELVETICA, buf);
+		txf_render_string(g_alpha, 0, .4, 0, MSG_SIZE_NORMAL, yellow, TXF_HELVETICA, buf);
 		sprintf(buf, "Use '<' & '>' keys to pan");
-		txf_render_string(.1, 0, .38, 0, MSG_SIZE_NORMAL, yellow, TXF_HELVETICA, buf);
+		txf_render_string(g_alpha, 0, .38, 0, MSG_SIZE_NORMAL, yellow, TXF_HELVETICA, buf);
 	}
 	else {
 		sprintf(buf, "Press 'S' for snapshot view"); 
-		txf_render_string(.1, 0, .4, 0, MSG_SIZE_NORMAL, yellow, TXF_HELVETICA, buf);
+		txf_render_string(g_alpha, 0, .4, 0, MSG_SIZE_NORMAL, yellow, TXF_HELVETICA, buf);
 	}
 
 	//sprintf(buf, "Press 'C' for bouncy cube"); 
 	//txf_render_string(.1, 0, .34, 0, MSG_SIZE_NORMAL, yellow, TXF_HELVETICA, buf);
        
 	sprintf(buf, "Press 'Q' for world earthquake map"); 
-	txf_render_string(.1, 0, .34, 0, MSG_SIZE_NORMAL, yellow, TXF_HELVETICA, buf);
+	txf_render_string(g_alpha, 0, .34, 0, MSG_SIZE_NORMAL, yellow, TXF_HELVETICA, buf);
        
 	sprintf(buf, "Press 'L' to toggle 2D/3D Plot"); 
-	txf_render_string(.1, 0, .32, 0, MSG_SIZE_NORMAL, yellow, TXF_HELVETICA, buf);
+	txf_render_string(g_alpha, 0, .32, 0, MSG_SIZE_NORMAL, yellow, TXF_HELVETICA, buf);
        
 	sprintf(buf, "Press +/- to change time window");
-	txf_render_string(.1, 0, .30, 0, MSG_SIZE_NORMAL, yellow, TXF_HELVETICA, buf);
+	txf_render_string(g_alpha, 0, .30, 0, MSG_SIZE_NORMAL, yellow, TXF_HELVETICA, buf);
    }
 #endif
 
@@ -1546,6 +1551,7 @@ void Init()
 
 void Render(int xs, int ys, double time_of_day)
 {
+	
     // Put this in the main loop to allow retries if the 
     // worker application has not yet created shared memory
     //
@@ -1555,6 +1561,10 @@ void Render(int xs, int ys, double time_of_day)
 
     if (bInHere) return; // currently rendering
     bInHere = true;
+	
+	if (time_of_day < 1.0f && sm && sm->update_time > 1.0f) time_of_day = sm->update_time;  // default to update time from main loop if no valid time passed in
+
+	g_fader.value(time_of_day, g_alpha);  // set alpha value for text
 
     if (!sm) { // try to get shared mem every few seconds, i.e. 100 frames
        if (!(++iCounter % 100)) {

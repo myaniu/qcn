@@ -104,7 +104,46 @@ extern void boinc_app_key_release(int k1, int k2);
 extern void app_graphics_reread_prefs();
 //#endif
 
+// fader trick from Dave A.
+struct FADER {
+    double grow, on, fade, off;
+    double start, total;
+    FADER(double g, double n, double f, double o) {
+        grow = g;
+        on = n;
+        fade = f;
+        off = o;
+        start = 0;
+        total = grow + on + fade + off;
+    }
+    bool value(const double& t, double& v) {
+        if (!start) {
+            start = t;
+            v = 0;
+            return false;
+        }
+        double dt = t - start;
+        if (dt > total) {
+            start = t;
+            v = 0;
+            return true;
+        }
+        if (dt < grow) {
+            v = dt/grow;
+        } else if (dt < grow+on) {
+            v = 1;
+        } else if (dt < grow + on + fade) {
+            double x = dt-(grow+on);
+            v = 1-(x/fade);
+        } else {
+            v = 0;
+        }
+        return false;
+    }
+};
+
 namespace qcn_graphics {
+
 
 extern void Cleanup();
 
@@ -115,6 +154,9 @@ extern void MouseMove(int x, int y, int left, int middle, int right);
 extern void MouseButton(int x, int y, int which, int is_down);
 extern void KeyDown(int k1, int k2);
 extern void KeyUp(int k1, int k2);
+
+extern double g_alpha;
+extern FADER g_fader;
 
 extern vector<SQuake> vsq; // a vector of earthquake data struct
 extern bool g_bFullScreen;

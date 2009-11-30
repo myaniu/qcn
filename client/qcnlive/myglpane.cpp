@@ -255,6 +255,7 @@ void MyGLPane::render( wxPaintEvent& evt )
         m_pframe->pMyApp->KillSplashScreen();
     }
 
+	//void Render(int xs, int ys, double time_of_day)
     qcn_graphics::Render(0,0,0);
     SwapBuffers();
 }
