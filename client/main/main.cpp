@@ -227,6 +227,7 @@ void update_sharedmem()
 {
     static double dLastTime = 0.0f;
     g_dTimeCurrent = dtime();
+	sm->current_time = g_dTimeCurrent;
     if (g_iStop || !sm) return;
     boinc_get_status(&sm->statusBOINC);
 

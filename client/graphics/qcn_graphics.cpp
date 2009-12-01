@@ -1,4 +1,3 @@
-
 // CMC -- OpenGL Graphics for QCN project
 // (c) 2007 Stanford University
 
@@ -71,6 +70,7 @@ FADER::FADER(double g, double n, double f, double o, double ma) {
 }
 
 bool FADER::value(const double& t, double& v, bool bReset) {
+	if (t < 1.) return false;
 	if (bReset) {
 		start = t;
 		v = maxalpha;
@@ -1613,7 +1613,7 @@ void Render(int xs, int ys, double time_of_day)
     if (bInHere) return; // currently rendering
     bInHere = true;
 	
-	if (time_of_day < 1.0f && sm && sm->update_time > 1.0f) time_of_day = sm->update_time;  // default to update time from main loop if no valid time passed in
+	if (time_of_day < 1.0f && sm && sm->current_time > 1.0f) time_of_day = sm->current_time;  // default to update time from main loop if no valid time passed in
 
 	g_faderLogo.value(time_of_day, g_alphaLogo);  // set alpha value for text
 	g_alphaText = g_alphaLogo;

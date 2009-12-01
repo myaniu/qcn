@@ -61,6 +61,7 @@ class CQCNShMem : public CSerialize
 	double cpu_time;
 	double update_time;
 	double fraction_done;
+	double current_time;
 
 	BOINC_STATUS statusBOINC;
     APP_INIT_DATA dataBOINC;
