@@ -293,6 +293,7 @@ void MyFrame::OnActionView(wxCommandEvent& evt)
 		 bChanged = true;
 		 break;
 	}
+	qcn_graphics::FaderOn();
     if (bChanged) {
       Toggle(m_view, true, true);
     }

@@ -22,7 +22,9 @@
 #include "boinc_api.h"
 #include "graphics2.h"
 
-#include "txf_util.h"
+// CMC use the texfont directly, txf_util.h has weird alpha blending
+#include "texfont.h"
+//#include "txf_util.h"
 
 #include "qcn_shmem.h"
 #include "qcn_util.h"
@@ -92,6 +94,22 @@ struct SQuake
 
 class CEarth;
 
+void txf_load_fonts_qcn(char* dir);
+extern void txf_render_string_qcn(
+						   float alpha_value,
+						   // reference value to which incoming alpha values are compared.
+						   // 0 through to 1
+						   double x, double y, double z, // text position
+						   float fscale,                 // scale factor
+						   GLfloat * col,                // colour 
+						   int i,                        // font index see texfont.h 
+						   char * s,				  	  // string ptr
+						   float fRotAngle = 0.0f,        // optional rotation angle
+						   float fRotX = 0.0f,            // optional rotation vector for X
+						   float fRotY = 0.0f,            // optional rotation vector for Y
+						   float fRotZ = 1.0f             // optional rotation vector for Z
+						   );
+
 //#ifndef QCNLIVE
 // boinc stuff -- need to keep out of the namespace as boinc calls these exact named functions
 extern void app_graphics_init();
@@ -104,48 +122,18 @@ extern void boinc_app_key_release(int k1, int k2);
 extern void app_graphics_reread_prefs();
 //#endif
 
-// fader trick from Dave A., modified to use a maxalpha value (instead of just 1)
+// based on the fader trick from Dave A., modified to use a maxalpha value (instead of just 1), and start full on then "decay" etc.
 struct FADER {
     double grow, on, fade, off, maxalpha;
     double start, total;
-    FADER(double g, double n, double f, double o, double ma) {
-		maxalpha = ma;
-        grow = g;
-        on = n;
-        fade = f;
-        off = o;
-        start = 0;
-        total = grow + on + fade + off;
-    }
-    bool value(const double& t, double& v) {
-        if (!start) {
-            start = t;
-            v = 0;
-            return false;
-        }
-        double dt = t - start;
-        if (dt > total) {
-            start = t;
-            v = 0;
-            return true;
-        }
-        if (dt < grow) {
-            v = dt/grow * maxalpha;
-        } else if (dt < grow+on) {
-            v = maxalpha;
-        } else if (dt < grow + on + fade) {
-            double x = dt-(grow+on);
-            v = maxalpha * (1.0f - (x/fade));
-        } else {
-            v = 0;
-        }
-        return false;
-    }
+    FADER(double g, double n, double f, double o, double ma);
+    bool value(const double& t, double& v, bool bReset = false);
 };
 
 namespace qcn_graphics {
 
-
+extern const float cfTextAlpha;
+	
 extern void Cleanup();
 
 extern void Init();
@@ -159,7 +147,7 @@ extern void KeyUp(int k1, int k2);
 extern double g_alphaLogo;
 extern double g_alphaText;
 extern FADER g_faderLogo;
-extern FADER g_faderText;
+//extern FADER g_faderText;
 
 extern vector<SQuake> vsq; // a vector of earthquake data struct
 extern bool g_bFullScreen;
@@ -245,6 +233,7 @@ extern const long  TimeWindowForward();
 extern const bool TimeWindowIsStopped();
 extern void SetScaled(bool scaleit);
 extern const bool IsScaled();
+extern void FaderOn();
 
 extern int graphics_main(int argc, char** argv);
 

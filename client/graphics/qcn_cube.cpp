@@ -152,21 +152,21 @@ void CCube::RenderText()
         mode_unshaded();
         mode_ortho();
         sprintf(buf, "Press 'Q' to return to");
-        txf_render_string(.1, 0, .32, 0, MSG_SIZE_NORMAL, yellow, TXF_HELVETICA, buf);
+        txf_render_string_qcn(qcn_graphics::cfTextAlpha, 0, .32, 0, MSG_SIZE_NORMAL, yellow, TXF_HELVETICA, buf);
         sprintf(buf, "seismic sensor view");
-        txf_render_string(.1, 0, .30, 0, MSG_SIZE_NORMAL, yellow, TXF_HELVETICA, buf);
+        txf_render_string_qcn(qcn_graphics::cfTextAlpha, 0, .30, 0, MSG_SIZE_NORMAL, yellow, TXF_HELVETICA, buf);
         ortho_done();
    }
 
    // print a "legend"
    mode_unshaded();
    mode_ortho();
-   txf_render_string(.1, 0, .27, 0, MSG_SIZE_NORMAL, red, TXF_HELVETICA, "Red is Significance");
-   txf_render_string(.1, 0, .25, 0, MSG_SIZE_NORMAL, blue, TXF_HELVETICA, "Blue is Z-axis");
-   txf_render_string(.1, 0, .23, 0, MSG_SIZE_NORMAL, yellow, TXF_HELVETICA, "Yellow is Y-axis");
-   txf_render_string(.1, 0, .21, 0, MSG_SIZE_NORMAL, green, TXF_HELVETICA, "Green is X-axis");
-   txf_render_string(.1, 0, .19, 0, MSG_SIZE_NORMAL, cyan, TXF_HELVETICA, "Cyan is Magnitude");
-   txf_render_string(.1, 0, .17, 0, MSG_SIZE_NORMAL, magenta, TXF_HELVETICA, "Magenta is Variance");
+   txf_render_string_qcn(qcn_graphics::cfTextAlpha, 0, .27, 0, MSG_SIZE_NORMAL, red, TXF_HELVETICA, "Red is Significance");
+   txf_render_string_qcn(qcn_graphics::cfTextAlpha, 0, .25, 0, MSG_SIZE_NORMAL, blue, TXF_HELVETICA, "Blue is Z-axis");
+   txf_render_string_qcn(qcn_graphics::cfTextAlpha, 0, .23, 0, MSG_SIZE_NORMAL, yellow, TXF_HELVETICA, "Yellow is Y-axis");
+   txf_render_string_qcn(qcn_graphics::cfTextAlpha, 0, .21, 0, MSG_SIZE_NORMAL, green, TXF_HELVETICA, "Green is X-axis");
+   txf_render_string_qcn(qcn_graphics::cfTextAlpha, 0, .19, 0, MSG_SIZE_NORMAL, cyan, TXF_HELVETICA, "Cyan is Magnitude");
+   txf_render_string_qcn(qcn_graphics::cfTextAlpha, 0, .17, 0, MSG_SIZE_NORMAL, magenta, TXF_HELVETICA, "Magenta is Variance");
    ortho_done();
  }
    // NB: draw_text_user called automatically from qcn_graphics to show BOINC username, CPU time etc

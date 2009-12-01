@@ -33,7 +33,6 @@
 		E34E9CDE0FF2C236004998DB /* qcn_curl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3D49FE90D6F74C70088DE83 /* qcn_curl.cpp */; };
 		E34E9CE30FF2C25A004998DB /* gutil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C967230FF1A1DD00F20324 /* gutil.cpp */; };
 		E34E9CE40FF2C25A004998DB /* texfont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C967250FF1A1DD00F20324 /* texfont.cpp */; };
-		E34E9CE70FF2C27B004998DB /* txf_util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C9672A0FF1A1DD00F20324 /* txf_util.cpp */; };
 		E388F83D0FF1B85E00D948DE /* graphics2_util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C9671B0FF1A1DD00F20324 /* graphics2_util.cpp */; };
 		E388F84E0FF1B9A900D948DE /* graphics2_util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C9671B0FF1A1DD00F20324 /* graphics2_util.cpp */; };
 		E388F8500FF1B9A900D948DE /* qcn_shmem_usb.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3D35C190FF17AB200E64121 /* qcn_shmem_usb.cpp */; };
@@ -76,7 +75,6 @@
 		E3C967460FF1A1DD00F20324 /* gutil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C967230FF1A1DD00F20324 /* gutil.cpp */; };
 		E3C967470FF1A1DD00F20324 /* gutil_text.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C967240FF1A1DD00F20324 /* gutil_text.cpp */; };
 		E3C967480FF1A1DD00F20324 /* texfont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C967250FF1A1DD00F20324 /* texfont.cpp */; };
-		E3C9674B0FF1A1DD00F20324 /* txf_util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C9672A0FF1A1DD00F20324 /* txf_util.cpp */; };
 		E3C967540FF1A22200F20324 /* parse.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C9674C0FF1A22200F20324 /* parse.cpp */; };
 		E3C967550FF1A22200F20324 /* shmem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C9674D0FF1A22200F20324 /* shmem.cpp */; };
 		E3C967560FF1A22200F20324 /* str_util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C967500FF1A22200F20324 /* str_util.cpp */; };
@@ -314,8 +312,6 @@
 		E3C967270FF1A1DD00F20324 /* texture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = texture.cpp; path = ../../../boinc/api/texture.cpp; sourceTree = SOURCE_ROOT; };
 		E3C967280FF1A1DD00F20324 /* texture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = texture.h; path = ../../../boinc/api/texture.h; sourceTree = SOURCE_ROOT; };
 		E3C967290FF1A1DD00F20324 /* tgalib.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = tgalib.cpp; path = ../../../boinc/api/tgalib.cpp; sourceTree = SOURCE_ROOT; };
-		E3C9672A0FF1A1DD00F20324 /* txf_util.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = txf_util.cpp; path = ../../../boinc/api/txf_util.cpp; sourceTree = SOURCE_ROOT; };
-		E3C9672B0FF1A1DD00F20324 /* txf_util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = txf_util.h; path = ../../../boinc/api/txf_util.h; sourceTree = SOURCE_ROOT; };
 		E3C9674C0FF1A22200F20324 /* parse.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = parse.cpp; path = ../../../boinc/lib/parse.cpp; sourceTree = SOURCE_ROOT; };
 		E3C9674D0FF1A22200F20324 /* shmem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = shmem.cpp; path = ../../../boinc/lib/shmem.cpp; sourceTree = SOURCE_ROOT; };
 		E3C9674E0FF1A22200F20324 /* shmem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = shmem.h; path = ../../../boinc/lib/shmem.h; sourceTree = SOURCE_ROOT; };
@@ -721,8 +717,6 @@
 				E3C967270FF1A1DD00F20324 /* texture.cpp */,
 				E3C967280FF1A1DD00F20324 /* texture.h */,
 				E3C967290FF1A1DD00F20324 /* tgalib.cpp */,
-				E3C9672A0FF1A1DD00F20324 /* txf_util.cpp */,
-				E3C9672B0FF1A1DD00F20324 /* txf_util.h */,
 			);
 			name = api;
 			sourceTree = "<group>";
@@ -972,7 +966,6 @@
 				E3CD09B20FF2ACE20043EE7E /* parse.cpp in Sources */,
 				E3CD09B30FF2ACE20043EE7E /* shmem.cpp in Sources */,
 				E3CD09B40FF2ACE20043EE7E /* str_util.cpp in Sources */,
-				E34E9CE70FF2C27B004998DB /* txf_util.cpp in Sources */,
 				E3CD099C0FF2ACE20043EE7E /* graphics2_util.cpp in Sources */,
 				E34E9CA00FF2BDCE004998DB /* graphics2.cpp in Sources */,
 				E3CD09B50FF2ACE20043EE7E /* util.cpp in Sources */,
@@ -1094,7 +1087,6 @@
 				E3C967780FF1A40200F20324 /* mac_backtrace.cpp in Sources */,
 				E3C967480FF1A1DD00F20324 /* texfont.cpp in Sources */,
 				E3C967470FF1A1DD00F20324 /* gutil_text.cpp in Sources */,
-				E3C9674B0FF1A1DD00F20324 /* txf_util.cpp in Sources */,
 				43E17E8C10A47F2600EFA3A7 /* url.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
