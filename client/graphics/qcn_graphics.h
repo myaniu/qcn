@@ -104,11 +104,12 @@ extern void boinc_app_key_release(int k1, int k2);
 extern void app_graphics_reread_prefs();
 //#endif
 
-// fader trick from Dave A.
+// fader trick from Dave A., modified to use a maxalpha value (instead of just 1)
 struct FADER {
-    double grow, on, fade, off;
+    double grow, on, fade, off, maxalpha;
     double start, total;
-    FADER(double g, double n, double f, double o) {
+    FADER(double g, double n, double f, double o, double ma) {
+		maxalpha = ma;
         grow = g;
         on = n;
         fade = f;
@@ -129,12 +130,12 @@ struct FADER {
             return true;
         }
         if (dt < grow) {
-            v = dt/grow;
+            v = dt/grow * maxalpha;
         } else if (dt < grow+on) {
-            v = 1;
+            v = maxalpha;
         } else if (dt < grow + on + fade) {
             double x = dt-(grow+on);
-            v = 1-(x/fade);
+            v = maxalpha * (1.0f - (x/fade));
         } else {
             v = 0;
         }
@@ -155,8 +156,10 @@ extern void MouseButton(int x, int y, int which, int is_down);
 extern void KeyDown(int k1, int k2);
 extern void KeyUp(int k1, int k2);
 
-extern double g_alpha;
-extern FADER g_fader;
+extern double g_alphaLogo;
+extern double g_alphaText;
+extern FADER g_faderLogo;
+extern FADER g_faderText;
 
 extern vector<SQuake> vsq; // a vector of earthquake data struct
 extern bool g_bFullScreen;
