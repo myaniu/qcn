@@ -10,6 +10,7 @@
 #include "qcn_2dplot.h"
 #include "qcn_earth.h"
 #include "qcn_cube.h"
+#include "filesys.h"  // boinc include
 
 #ifndef QCNLIVE
     #include "qcn_signal.h"
