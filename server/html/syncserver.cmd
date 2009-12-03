@@ -13,6 +13,7 @@ pscp carlgt1@qcn-web:/var/www/boinc/qcnalpha/html/inc/phoogle.inc inc/
 pscp carlgt1@qcn-web:/var/www/boinc/qcnalpha/html/inc/prefs.inc inc/
 pscp carlgt1@qcn-web:/var/www/boinc/qcnalpha/html/inc/user.inc inc/
 pscp carlgt1@qcn-web:/var/www/boinc/qcnalpha/html/inc/util.inc inc/
+pscp carlgt1@qcn-web:/var/www/boinc/qcnalpha/html/inc/utils.inc inc/
 pscp carlgt1@qcn-web:/var/www/boinc/qcnalpha/html/project/cache_parameters.inc project/
 pscp carlgt1@qcn-web:/var/www/boinc/qcnalpha/html/project/project.inc project/
 pscp carlgt1@qcn-web:/var/www/boinc/qcnalpha/html/project/project_news.inc project/
