@@ -38,6 +38,7 @@
   #include <cstdlib>
   #include <csignal>
   #include <unistd.h>
+  #include <fcntl.h>
   #include <sys/wait.h>
 #endif
 
