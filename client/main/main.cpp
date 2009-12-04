@@ -266,6 +266,10 @@ int qcn_main(int argc, char **argv)
     g_endian = qcn_util::check_endian(); // g_endian is global to all procs, i.e. the sac file I/O utils can now use it
     fprintf(stdout, "Host machine is %s-endian\n", g_endian == ENDIAN_BIG ? "big" : "little");
     fflush(stdout);
+    if (g_bContinual) {
+       fprintf(stdout, "Running in continual mode\n");
+       fflush(stdout);
+    }
 
 #ifdef __USE_BOINC_OPTIONS
     BOINC_OPTIONS optBOINC;
