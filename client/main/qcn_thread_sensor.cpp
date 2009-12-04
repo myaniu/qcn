@@ -58,7 +58,7 @@ void uploadSACMem(const long lCurTime, const char* strTypeSensor);
 void initDemoCounters(bool bReset)
 {
    // first, if in demo mode and init'ing from a timing error reset, write out what we can
-	if (bReset && (qcn_main::g_bDemo || qcn_main::g_bContinual || g_bRecordState)) {
+   if (bReset && (qcn_main::g_bDemo || qcn_main::g_bContinual || g_bRecordState)) {
         checkDemoTrigger(true);
    }
    g_bRecordState = false;   // force recording off on a reset
@@ -107,7 +107,7 @@ void checkDemoTrigger(bool bForce)
 	else if (bForce && !g_bRecordState && !sm->bRecording) {  // no need to force it, we're not recording anymore
 		bForce = false;
 	}
-    if (bForce || (sm->bRecording && g_dStartDemoTime > 0.0f && ((sm->t0active + qcn_main::g_dTimeOffset) >= g_dStartDemoTime) ) ) { // we have a valid start time and aren't recording
+    if (bForce || ((sm->bRecording || qcn_main::g_bContinual) && g_dStartDemoTime > 0.0f && ((sm->t0active + qcn_main::g_dTimeOffset) >= g_dStartDemoTime) ) ) { // we have a valid start time and aren't recording
        //double dTimeOffset, dTimeOffsetTime;      
        //qcn_util::getTimeOffset((const double*) sm->dTimeServerTime, (const double*) sm->dTimeServerOffset, (const double) sm->t0active, dTimeOffset, dTimeOffsetTime);
 		// this will do every 10 minute interval until quit (bdemo or continual) or hit stop recording button
