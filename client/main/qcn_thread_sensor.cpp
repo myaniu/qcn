@@ -153,6 +153,7 @@ void psmsForceSensor(CSensor* volatile *ppsms)
 	 #endif
 	 #endif
 					break;
+#ifndef _WIN64
 				case SENSOR_USB_MOTIONNODEACCEL:
 					*ppsms = (CSensor*) new CSensorUSBMotionNodeAccel();
 					break;
@@ -164,6 +165,7 @@ void psmsForceSensor(CSensor* volatile *ppsms)
 				 *ppsms = (CSensor*) new CSensorMacUSBONavi01();
 #endif
 #endif
+#endif // win64
 				 break;
 		 }
 	 }
