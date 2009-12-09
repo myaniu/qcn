@@ -10,7 +10,8 @@
 
 #include "main.h"
 #include "csensor_mac_usb_onavi01.h"
-#include "boinc_zip.h"   // need some boinc_zip functions
+#include <fnmatch.h>
+#include <glob.h>
 #include "filesys.h"    // boinc_file_or_symlink_exists
 #include <termios.h>
 
@@ -38,16 +39,33 @@ bool CSensorMacUSBONavi01::detect()
 {
 	// first see if the port actually exists (the device is a "file" at /dev/tty.xrusbmodemNNN, given in STR_USB_ONAVI01
 
-        // use the boinc/zip functions i.e. ZipFileList struct & boinc_filelist() function
-        // to match names
-        ZipFileList zfl;  // really just a vector of strings i.e. filenames
-	    zfl.clear();
-        boinc_filelist("/dev/", "tty.xrusbmodem|", &zfl);
-        if (zfl.size() == 0) return false;
-	if (!boinc_file_or_symlink_exists(zfl.at(0).c_str())) return false;
-        	
-	m_fd = open(zfl.at(0).c_str(), O_RDONLY | O_NOCTTY | O_NONBLOCK); 
-	if (m_fd == -1) return false;  //failure
+        // use glob to match names, if count is > 0, we found a match
+        glob_t gt;
+        memset(&gt, 0x00, sizeof(glob_t));
+        int iRet = glob(STR_USB_ONAVI01, flags, NULL, &gt);
+        if (iRet || !gt.gl_matchc) {  // either glob failed or no match
+           globfree(&gt);
+           return false;
+        }
+        char* strDevice = new char[_MAX_PATH];
+        memset(strDevice, 0x00, sizeof(char) * _MAX_PATH);
+        strncpy(strDevice, gt.gl_pathv, _MAX_PATH);
+        globfree(&gt); // can get rid of gt now
+
+	if (!boinc_file_or_symlink_exists(strDevice) {
+           delete [] strDevice;
+           strDevice = NULL;
+           return false;
+        }
+	
+	m_fd = open(strDevice, O_RDONLY | O_NOCTTY | O_NONBLOCK); 
+        delete [] strDevice; // don't need strDevice after this call
+        strDevice = NULL;
+
+	if (m_fd == -1) { //failure
+           return false;
+        }
+        
 
 	// if here we opened the port, now set comm params
 	struct termios tty;
@@ -78,12 +96,6 @@ bool CSensorMacUSBONavi01::detect()
 	
 	setSingleSampleDT(true);
 
-	/*
-	float x1, y1, z1;
-	if (! read_xyz(x1,y1,z1) ) { // read a value
-		closePort();
-		return false;
-	}*/
 	return true;
 }
 
