@@ -59,33 +59,6 @@ static bool g_bSnapshotArrayProcessed = false;
 // CMC customized txf_render_string from txf_util.cpp to handle alpha blending nicer -- maybe eventually convert to my truetype stuff from the Intel project
 static TexFont* txf[TXF_NUM_FONT];
 
-#ifdef QCNLIVE_DEMO
-const  int g_ciDemoImgMax = 7;
-static int g_iDemoImgCur  = -1;
-
-void demo_switch_ad()
-{
-	if (txAdd.id) { // try and delete this texture
-		glDeleteTextures(1, &txAdd.id);
-		txAdd.id = 0;	
-	}
-	
-	if (++g_iDemoImgCur > g_ciDemoImgMax)  {
-		g_ciDemoImgCur = -1;
-		return; // leaves a blank image again
-    }
-	
-	// setup new image texture
-	char fname[32];
-	sprintf(fname, "logo%02d.jpg", g_ciDemoImgCur);
-	// check for extra logo i.e. museum logo if any
-	if (boinc_file_exists(fname)) {
-		txAdd.CreateTextureJPG(fname);
-	}
-}
-
-#endif
-
 FADER::FADER(double g, double n, double f, double o, double ma) {
 	maxalpha = ma;
 	grow = g;
@@ -529,9 +502,10 @@ void draw_logo(bool bExtraOnly)
     if (txAdd.id) {
         mode_unshaded();
         mode_ortho();
-        float pos[3] = {0.0, 0.25, 0};
+        float pos[3] = {0.0, 0.27, 0};
 		if (bExtraOnly) { // move additional logo to the top
-			pos[1] = 0.58f;
+			pos[0] = -0.015f;
+			pos[1] = 0.545f;
 		}
         float size[3] = {.2, .2, 0};
         txAdd.draw(pos, size, ALIGN_CENTER, ALIGN_CENTER, g_alphaLogo);
@@ -1992,7 +1966,33 @@ void FaderOn()
 	}	
 }
 		
+#ifdef QCNLIVE_DEMO
+		const  int g_ciDemoImgMax = 7;
+		static int g_iDemoImgCur  = -1;
 
+		void demo_switch_ad()
+		{
+			if (txAdd.id) { // try and delete this texture
+				const GLuint cgl = txAdd.id;
+                glDeleteTextures(1, &cgl);
+                txAdd.id = 0;
+			}
+			
+			if (++g_iDemoImgCur > g_ciDemoImgMax)  {
+                g_iDemoImgCur = -1;
+                return; // leaves a blank image again
+			}
+			
+			// setup new image texture
+			char fname[32];
+			sprintf(fname, "logo%02d.jpg", g_iDemoImgCur);
+			// check for extra logo i.e. museum logo if any
+			if (boinc_file_exists(fname)) {
+                txAdd.CreateTextureJPG(fname);
+			}
+		}
+#endif
+		
 }  // namespace qcn_graphics
 
 // load fonts. call once.

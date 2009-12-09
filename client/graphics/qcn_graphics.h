@@ -110,9 +110,6 @@ extern void txf_render_string_qcn(
 						   float fRotZ = 1.0f             // optional rotation vector for Z
 						   );
 
-#ifdef QCNLIVE_DEMO
-extern void demo_switch_ad();
-#endif
 
 //#ifndef QCNLIVE
 // boinc stuff -- need to keep out of the namespace as boinc calls these exact named functions
@@ -135,6 +132,10 @@ struct FADER {
 };
 
 namespace qcn_graphics {
+
+#ifdef QCNLIVE_DEMO
+extern void demo_switch_ad();
+#endif
 
 extern const float cfTextAlpha;
 	
