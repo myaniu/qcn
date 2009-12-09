@@ -10,6 +10,7 @@
 
 #include "main.h"
 #include "csensor_mac_usb_onavi01.h"
+#include "boinc_zip.h"   // need some boinc_zip functions
 #include <termios.h>
 
 CSensorMacUSBONavi01::CSensorMacUSBONavi01()
@@ -34,10 +35,16 @@ void CSensorMacUSBONavi01::closePort()
 
 bool CSensorMacUSBONavi01::detect()
 {
-	// first see if the port actually exists (the device is a "file" at /dev/tty.xrusbmodem, given in STR_USB_ONAVI01
-	if (!boinc_file_exists(STR_USB_ONAVI01)) return false;
-	
-	m_fd = open(STR_USB_ONAVI01, O_RDONLY | O_NOCTTY | O_NONBLOCK); 
+	// first see if the port actually exists (the device is a "file" at /dev/tty.xrusbmodemNNN, given in STR_USB_ONAVI01
+
+        // use the boinc/zip functions i.e. ZipFileList struct & boinc_filelist() function
+        // to match names
+        ZipFileList zfl;  // really just a vector of strings i.e. filenames
+        boinc_filelist("/dev", STR_USB_ONAVI01, &zfl);
+        if (zfl.count() == 0) return false;
+	if (!boinc_file_or_symlink_exists(zfl.at(0).c_str()) return false;
+        	
+	m_fd = open(zfl.at(0).c_str(), O_RDONLY | O_NOCTTY | O_NONBLOCK); 
 	if (m_fd == -1) return false;  //failure
 
 	// if here we opened the port, now set comm params
