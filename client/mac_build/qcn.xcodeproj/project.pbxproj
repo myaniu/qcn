@@ -1363,7 +1363,6 @@
 					"-D_FILE_OFFSET_BITS=64",
 					"-D_LARGE_FILES",
 					"-D__WXMAC__",
-					"-DQCNLIVE_DEMO",
 				);
 				OTHER_LDFLAGS = (
 					"-framework",
