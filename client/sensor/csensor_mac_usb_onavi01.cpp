@@ -42,7 +42,7 @@ bool CSensorMacUSBONavi01::detect()
         // to match names
         ZipFileList zfl;  // really just a vector of strings i.e. filenames
 	    zfl.clear();
-        boinc_filelist("/dev", STR_USB_ONAVI01, &zfl);
+        boinc_filelist("/dev/", "tty.xrusbmodem|", &zfl);
         if (zfl.size() == 0) return false;
 	if (!boinc_file_or_symlink_exists(zfl.at(0).c_str())) return false;
         	
