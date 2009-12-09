@@ -42,17 +42,16 @@ bool CSensorMacUSBONavi01::detect()
         // use glob to match names, if count is > 0, we found a match
         glob_t gt;
         memset(&gt, 0x00, sizeof(glob_t));
-        int iRet = glob(STR_USB_ONAVI01, flags, NULL, &gt);
-        if (iRet || !gt.gl_matchc) {  // either glob failed or no match
+        if (glob(STR_USB_ONAVI01, GLOB_NOCHECK, NULL, &gt) || !gt.gl_matchc) {  // either glob failed or no match
            globfree(&gt);
            return false;
         }
         char* strDevice = new char[_MAX_PATH];
         memset(strDevice, 0x00, sizeof(char) * _MAX_PATH);
-        strncpy(strDevice, gt.gl_pathv, _MAX_PATH);
+        strncpy(strDevice, gt.gl_pathv[0], _MAX_PATH);
         globfree(&gt); // can get rid of gt now
 
-	if (!boinc_file_or_symlink_exists(strDevice) {
+	if (!boinc_file_or_symlink_exists(strDevice)) {
            delete [] strDevice;
            strDevice = NULL;
            return false;
