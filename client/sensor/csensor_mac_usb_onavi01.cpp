@@ -11,6 +11,7 @@
 #include "main.h"
 #include "csensor_mac_usb_onavi01.h"
 #include "boinc_zip.h"   // need some boinc_zip functions
+#include "filesys.h"    // boinc_file_or_symlink_exists
 #include <termios.h>
 
 CSensorMacUSBONavi01::CSensorMacUSBONavi01()
@@ -40,9 +41,10 @@ bool CSensorMacUSBONavi01::detect()
         // use the boinc/zip functions i.e. ZipFileList struct & boinc_filelist() function
         // to match names
         ZipFileList zfl;  // really just a vector of strings i.e. filenames
+	    zfl.clear();
         boinc_filelist("/dev", STR_USB_ONAVI01, &zfl);
-        if (zfl.count() == 0) return false;
-	if (!boinc_file_or_symlink_exists(zfl.at(0).c_str()) return false;
+        if (zfl.size() == 0) return false;
+	if (!boinc_file_or_symlink_exists(zfl.at(0).c_str())) return false;
         	
 	m_fd = open(zfl.at(0).c_str(), O_RDONLY | O_NOCTTY | O_NONBLOCK); 
 	if (m_fd == -1) return false;  //failure
