@@ -59,6 +59,33 @@ static bool g_bSnapshotArrayProcessed = false;
 // CMC customized txf_render_string from txf_util.cpp to handle alpha blending nicer -- maybe eventually convert to my truetype stuff from the Intel project
 static TexFont* txf[TXF_NUM_FONT];
 
+#ifdef QCNLIVE_DEMO
+const  int g_ciDemoImgMax = 7;
+static int g_iDemoImgCur  = -1;
+
+void demo_switch_ad()
+{
+	if (txAdd.id) { // try and delete this texture
+		glDeleteTextures(1, &txAdd.id);
+		txAdd.id = 0;	
+	}
+	
+	if (++g_iDemoImgCur > g_ciDemoImgMax)  {
+		g_ciDemoImgCur = -1;
+		return; // leaves a blank image again
+    }
+	
+	// setup new image texture
+	char fname[32];
+	sprintf(fname, "logo%02d.jpg", g_ciDemoImgCur);
+	// check for extra logo i.e. museum logo if any
+	if (boinc_file_exists(fname)) {
+		txAdd.CreateTextureJPG(fname);
+	}
+}
+
+#endif
+
 FADER::FADER(double g, double n, double f, double o, double ma) {
 	maxalpha = ma;
 	grow = g;
@@ -277,7 +304,8 @@ double viewpoint_distance[4]={ 10.0, 10.0, 10.0, 10.0};
 
 //float color[4] = {.7, .2, .5, 1};
 
-TEXTURE_DESC logo;  // customized version of the boinc/api/gutil.h TEXTURE_DESC
+TEXTURE_DESC logo;   // customized version of the boinc/api/gutil.h TEXTURE_DESC
+TEXTURE_DESC txAdd;  // optional additional image
 RIBBON_GRAPH rgx, rgy, rgz, rgs; // override the standard boinc/api ribbon graph draw as it's making the earth red!
 
 #ifndef QCNLIVE
@@ -476,9 +504,9 @@ void init_lights()
    glDepthFunc(GL_LESS);
 }
 
-void draw_logo() 
+void draw_logo(bool bExtraOnly) 
 {
-    if (logo.id) {
+    if (!bExtraOnly && logo.id) {
         mode_unshaded();
         mode_ortho();
 
@@ -495,6 +523,18 @@ void draw_logo()
           float size[3] = {.21, .21, 0};
           logo.draw(pos, size, ALIGN_CENTER, ALIGN_CENTER, g_alphaLogo);
 //      }
+        ortho_done();
+    }
+
+    if (txAdd.id) {
+        mode_unshaded();
+        mode_ortho();
+        float pos[3] = {0.0, 0.25, 0};
+		if (bExtraOnly) { // move additional logo to the top
+			pos[1] = 0.58f;
+		}
+        float size[3] = {.2, .2, 0};
+        txAdd.draw(pos, size, ALIGN_CENTER, ALIGN_CENTER, g_alphaLogo);
         ortho_done();
     }
 }
@@ -1583,7 +1623,7 @@ void Init()
     boinc_resolve_filename(IMG_LOGO, path, sizeof(path));
 #endif
 
-    if (logo.CreateTextureJPG(path)) { // can use load_image_file but we know it's a JPG so just use that
+    if (!boinc_file_exists(path) || logo.CreateTextureJPG(path)) { // can use load_image_file but we know it's a JPG so just use that
        fprintf(stderr, "Error loading QCN logo file %s\n", path); 
     }
 
@@ -1595,6 +1635,12 @@ void Init()
     // and so don't come into this Init routine again (which shouldn't happen anyway of course)
 
 #ifdef QCNLIVE
+     // check for extra logo i.e. museum logo if any
+     strcpy(path, IMG_LOGO_EXTRA);  // shows up on lower right
+	 if (boinc_file_exists(path)) {
+		txAdd.CreateTextureJPG(path);
+	 }
+
      earth.SetMapCombined();
 #endif
     g_bInitGraphics = true;
@@ -1700,7 +1746,7 @@ void Render(int xs, int ys, double time_of_day)
 			glEnable (GL_BLEND);
 			glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 			glHint (GL_LINE_SMOOTH_HINT, GL_NICEST);
-		  //    draw_logo();
+		  draw_logo(true);
 		  qcn_2dplot::draw_plot();
                   draw_triggers();
 		  qcn_2dplot::draw_text();

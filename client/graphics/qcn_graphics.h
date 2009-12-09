@@ -110,6 +110,10 @@ extern void txf_render_string_qcn(
 						   float fRotZ = 1.0f             // optional rotation vector for Z
 						   );
 
+#ifdef QCNLIVE_DEMO
+extern void demo_switch_ad();
+#endif
+
 //#ifndef QCNLIVE
 // boinc stuff -- need to keep out of the namespace as boinc calls these exact named functions
 extern void app_graphics_init();
@@ -242,7 +246,7 @@ void getSharedMemory();
 void set_viewpoint(double dist);
 void init_camera(double dist = 10.0f, double field = 45.0f);
 void init_lights();
-void draw_logo();
+void draw_logo(bool bExtraOnly = false);
 void draw_text_user();
 void draw_text_plot();
 void draw_text_sensor();

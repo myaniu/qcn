@@ -18,6 +18,7 @@
 const int ID_TOOL_ACTION_CAMERA = 999;
 const int ID_TOOLBAR = 998;
 const int ID_TOOLBAR_2DPLOT = 997;
+const int ID_TOOL_ACTION_AD = 996;  // for cycling through logos on a demo
 
 //#define QCN_TOOLBAR_IMG(mytbimg) wxBitmap(mytbimg, wxBITMAP_TYPE_XPM, 32, 32)
 #define QCN_TOOLBAR_IMG(mytbimg) wxBitmap(mytbimg, wxBITMAP_TYPE_XPM)
@@ -114,7 +115,8 @@ BEGIN_EVENT_TABLE(MyFrame, wxFrame)
 */
 
 	EVT_MENU(ID_TOOL_ACTION_CAMERA, MyFrame::OnScreenshot)
-	
+    EVT_MENU(ID_TOOL_ACTION_AD, MyFrame::OnLogoChange)
+
 END_EVENT_TABLE()
 
 
@@ -440,6 +442,14 @@ void MyFrame::OnScreenshot(wxCommandEvent& WXUNUSED(evt))
 		 delete [] statmsg;
    }
 }
+
+void MyFrame::OnLogoChange(wxCommandEvent& vet)
+{
+#ifdef QCNLIVE_DEMO
+	qcn_graphics::demo_switch_ad();
+#endif
+}
+
 
 
 void MyFrame::ToolBarView()
@@ -785,6 +795,13 @@ void MyFrame::AddScreenshotItem()
 	);
 	menuOptions->Append(ID_TOOL_ACTION_CAMERA, wxString("&Screenshot", wxConvUTF8),
         wxString("Make a screenshot (saved in the 'sac' data folder)", wxConvUTF8));
+	
+#ifdef QCNLIVE_DEMO  
+	// add a function to cycle through ad images i.e. science museum logos
+	menuOptions->Append(ID_TOOL_ACTION_AD, wxString("Next &Logo", wxConvUTF8),
+						wxString("Cycle Through Logos", wxConvUTF8));
+#endif
+	
 }
 
 void MyFrame::ToolBarSensor2D()
