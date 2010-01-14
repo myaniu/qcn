@@ -611,6 +611,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\main\qcn_thread_sensor_util.h"
+				>
+			</File>
+			<File
+				RelativePath="..\main\qcn_thread_sensor_loop.h"
+				>
+			</File>
+			<File
 				RelativePath="..\main\qcn_thread_time.h"
 				>
 			</File>
@@ -691,6 +699,14 @@
 				</File>
 				<File
 					RelativePath="..\main\qcn_thread_sensor.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\main\qcn_thread_sensor_loop.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\main\qcn_thread_sensor_util.cpp"
 					>
 				</File>
 				<File

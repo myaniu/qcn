@@ -337,6 +337,14 @@
 					>
 				</File>
 				<File
+					RelativePath="..\main\qcn_thread_sensor_loop.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\main\qcn_thread_sensor_util.cpp"
+					>
+				</File>
+				<File
 					RelativePath="..\main\qcn_thread_time.cpp"
 					>
 				</File>
