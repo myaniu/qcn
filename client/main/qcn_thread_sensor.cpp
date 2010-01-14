@@ -90,8 +90,10 @@ void checkRecordState()
 			g_dStartDemoTime = getNextDemoTimeInterval();
 		}
 		// check with adjusted server time if we went past a 10-minute even boundary
-		// here's the annoying bit, we have to keep checking the server adjusted time and then break out to do a trigger, then bump up to next boundary
-		checkDemoTrigger(g_bRecordState && !sm->bRecording);  // put all the triggering stuff for demo mode in this function as we may want to call it on a timing reset too
+		// here's the annoying bit, we have to keep checking the server adjusted time and then 
+                // break out to do a trigger, then bump up to next boundary
+                // put all the triggering stuff for demo mode in this function as we may want to call it on a timing reset too
+		checkDemoTrigger(g_bRecordState && !sm->bRecording);  
 	}
 }
 
@@ -686,7 +688,8 @@ extern void* QCNThreadSensor(void*)
       // increment our main counter, if bigger than array size we have to reset & continue!
       if (++sm->lOffset >= MAXI)  {
 #if defined(RANDOM_USB_UPLOAD) && !defined(QCNLIVE) && !defined(QCN_USB)
-         e_sensor esType = qcn_main::g_psms ? qcn_main::g_psms->getTypeEnum() : SENSOR_NOTFOUND;  // save the current sensor for use below (random data upload)
+         // save the current sensor for use below (random data upload)
+         e_sensor esType = qcn_main::g_psms ? qcn_main::g_psms->getTypeEnum() : SENSOR_NOTFOUND;  
          char strTypeSensor[8];
          memset(strTypeSensor, 0x00, sizeof(char) * 8);
          if (qcn_main::g_psms) strncpy(strTypeSensor, qcn_main::g_psms->getTypeStrShort(), 7);
@@ -714,7 +717,8 @@ extern void* QCNThreadSensor(void*)
             long lCurTime = QCN_ROUND(dtime() + qcn_main::g_dTimeOffset);
             fprintf(stderr, "%ld - USB Sensor - End of array - reloop # %d\n", lCurTime, sm->iContinuousCounter);
             if (sm->iNumUpload < 5 && rand() < (RAND_MAX/5)) { // 20% chance to do an upload
-                //if (sm->iNumUpload < 5 && (sm->iContinuousCounter == (1 + (rand() % 10)))) { // this will get a number from 1 to 10 which should match our continuous counter
+                //if (sm->iNumUpload < 5 && (sm->iContinuousCounter == (1 + (rand() % 10)))) { 
+                 // this will get a number from 1 to 10 which should match our continuous counter
                  fprintf(stderr, "%ld - Random upload scheduled # %d\n", lCurTime, sm->iNumUpload);
                  uploadSACMem(lCurTime, strTypeSensor); 
             }
@@ -782,6 +786,7 @@ extern void* QCNThreadSensor(void*)
 //    be to trigger with a delta function. fShortTermAvgMag should vary from 1 to ~5
 //    (5 is looking at 10Hz variations rather than 50).
 //      int fShortTermAvgMag = 3;
+
       sm->fsig[sm->lOffset]=sm->fmag[sm->lOffset] /
                             sqrt(sm->vari[sm->lOffset-1] + 1.0e-3f);
 // .001 to prevent divide-by-zero but so we capture any fmag & vari
