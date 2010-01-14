@@ -2,7 +2,6 @@
 #include "qcn_util.h"
 #include "qcn_thread.h"
 #include "qcn_thread_sensor.h"
-#include "qcn_thread_sensor_util.h"
 #include "sac.h"
 #include "csensor.h"
 #include "boinc_zip.h"
