@@ -62,6 +62,7 @@ qcn_SOURCES = \
            $(QCNUSBDIR)/qcn_shmem_usb.cpp \
            $(MAINDIR)/qcn_thread_sensor.cpp \
            $(MAINDIR)/qcn_thread_sensor_util.cpp \
+           $(MAINDIR)/qcn_thread_sensor_loop.cpp \
            $(MAINDIR)/qcn_thread_time.cpp \
            $(MAINDIR)/main.cpp
 

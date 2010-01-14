@@ -7,6 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		43304A7410FF76BB00A823FE /* qcn_thread_sensor_util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43304A7310FF76BB00A823FE /* qcn_thread_sensor_util.cpp */; };
+		43304A7510FF76BB00A823FE /* qcn_thread_sensor_util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43304A7310FF76BB00A823FE /* qcn_thread_sensor_util.cpp */; };
+		43304A7610FF76BB00A823FE /* qcn_thread_sensor_util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43304A7310FF76BB00A823FE /* qcn_thread_sensor_util.cpp */; };
+		43304A7710FF76BB00A823FE /* qcn_thread_sensor_util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43304A7310FF76BB00A823FE /* qcn_thread_sensor_util.cpp */; };
+		43304A9810FF7D9000A823FE /* qcn_thread_sensor_loop.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43304A9710FF7D9000A823FE /* qcn_thread_sensor_loop.cpp */; };
+		43304A9910FF7D9000A823FE /* qcn_thread_sensor_loop.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43304A9710FF7D9000A823FE /* qcn_thread_sensor_loop.cpp */; };
+		43304A9A10FF7D9000A823FE /* qcn_thread_sensor_loop.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43304A9710FF7D9000A823FE /* qcn_thread_sensor_loop.cpp */; };
+		43304A9B10FF7D9000A823FE /* qcn_thread_sensor_loop.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43304A9710FF7D9000A823FE /* qcn_thread_sensor_loop.cpp */; };
 		439FF8D010BD8DCF00DEFD8E /* csensor_mac_usb_onavi01.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 439FF8CF10BD8DCF00DEFD8E /* csensor_mac_usb_onavi01.cpp */; };
 		439FF8D110BD8DCF00DEFD8E /* csensor_mac_usb_onavi01.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 439FF8CF10BD8DCF00DEFD8E /* csensor_mac_usb_onavi01.cpp */; };
 		43AC1A0810A0C85600F84A0D /* libcurl-universal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 43AC1A0710A0C85600F84A0D /* libcurl-universal.a */; };
@@ -211,6 +219,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		43304A7310FF76BB00A823FE /* qcn_thread_sensor_util.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = qcn_thread_sensor_util.cpp; path = ../main/qcn_thread_sensor_util.cpp; sourceTree = SOURCE_ROOT; };
+		43304A7810FF76D300A823FE /* qcn_thread_sensor_util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = qcn_thread_sensor_util.h; path = ../main/qcn_thread_sensor_util.h; sourceTree = SOURCE_ROOT; };
+		43304A9710FF7D9000A823FE /* qcn_thread_sensor_loop.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = qcn_thread_sensor_loop.cpp; path = ../main/qcn_thread_sensor_loop.cpp; sourceTree = SOURCE_ROOT; };
+		43304A9C10FF7DA400A823FE /* qcn_thread_sensor_loop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = qcn_thread_sensor_loop.h; path = ../main/qcn_thread_sensor_loop.h; sourceTree = SOURCE_ROOT; };
 		4337F497100183CA00E75E05 /* QCNLive-iphone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "QCNLive-iphone.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4337F499100183CA00E75E05 /* QCNLive-iphone-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "QCNLive-iphone-Info.plist"; sourceTree = "<group>"; };
 		4394A75D10A20763006FF691 /* dlgsettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dlgsettings.h; sourceTree = "<group>"; };
@@ -501,6 +513,8 @@
 		E3C0E7AE0D64E9BE0099B905 /* main */ = {
 			isa = PBXGroup;
 			children = (
+				43304A9710FF7D9000A823FE /* qcn_thread_sensor_loop.cpp */,
+				43304A7310FF76BB00A823FE /* qcn_thread_sensor_util.cpp */,
 				E3C0E7AF0D64E9BE0099B905 /* qcn_shmem.cpp */,
 				E3C0E7B00D64E9BE0099B905 /* qcn_thread_sensor.cpp */,
 				E3C0E7B10D64E9BE0099B905 /* qcn_thread_time.cpp */,
@@ -558,6 +572,8 @@
 		E3C0E7DB0D64E9E00099B905 /* main */ = {
 			isa = PBXGroup;
 			children = (
+				43304A9C10FF7DA400A823FE /* qcn_thread_sensor_loop.h */,
+				43304A7810FF76D300A823FE /* qcn_thread_sensor_util.h */,
 				E3C0E7DC0D64E9E00099B905 /* define.h */,
 				E3C0E7DD0D64E9E00099B905 /* cserialize.h */,
 				E3C0E7DE0D64E9E00099B905 /* main.h */,
@@ -885,6 +901,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				43304A7710FF76BB00A823FE /* qcn_thread_sensor_util.cpp in Sources */,
+				43304A9B10FF7D9000A823FE /* qcn_thread_sensor_loop.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -923,6 +941,8 @@
 				E388F8750FF1B9A900D948DE /* QSymbols.c in Sources */,
 				E388F8760FF1B9A900D948DE /* QTaskMemory.c in Sources */,
 				43E17E8B10A47F2600EFA3A7 /* url.cpp in Sources */,
+				43304A7610FF76BB00A823FE /* qcn_thread_sensor_util.cpp in Sources */,
+				43304A9A10FF7D9000A823FE /* qcn_thread_sensor_loop.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -989,6 +1009,8 @@
 				E3CD09C40FF2ACE20043EE7E /* QTaskMemory.c in Sources */,
 				43E17E8A10A47F2600EFA3A7 /* url.cpp in Sources */,
 				439FF8D010BD8DCF00DEFD8E /* csensor_mac_usb_onavi01.cpp in Sources */,
+				43304A7410FF76BB00A823FE /* qcn_thread_sensor_util.cpp in Sources */,
+				43304A9810FF7D9000A823FE /* qcn_thread_sensor_loop.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1039,6 +1061,8 @@
 				E3C9681A0FF1A80100F20324 /* QTaskMemory.c in Sources */,
 				43E17E8D10A47F2600EFA3A7 /* url.cpp in Sources */,
 				439FF8D110BD8DCF00DEFD8E /* csensor_mac_usb_onavi01.cpp in Sources */,
+				43304A7510FF76BB00A823FE /* qcn_thread_sensor_util.cpp in Sources */,
+				43304A9910FF7D9000A823FE /* qcn_thread_sensor_loop.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
