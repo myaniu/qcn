@@ -60,6 +60,7 @@ void initDemoCounters(bool bReset = false);
 void checkDemoTrigger(bool bForce = false);
 void doTrigger(bool bReal = true, long lOffsetStart = 0L, long lOffsetEnd = 0L);
 void psmsForceSensor(CSensor* volatile *ppsms);
+void SetSensorThresholdAndDiffFactor();
 
 #if defined(RANDOM_USB_UPLOAD) && !defined(QCNLIVE) && !defined(QCN_USB)
 // use to upload the entire array to a SAC file which in turn gets zipped and uploaded - used to randomly test hosts

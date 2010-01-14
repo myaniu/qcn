@@ -1,6 +1,12 @@
 #include "qcn_thread_sensor_util.h"
 #include "qcn_thread_sensor_loop.h"
 
+// this is the main thread for monitoring the sensor and generating triggers/trickles as they occur
+// to make it more readable, it has been split into three files, this one, and sensor_util and sensor_loop
+// most function calls in here are in sensor_util, except for the TriggerDetectionAlgorithm which is in sensor_loop  (to make it easier to try other algorithms)
+
+// so this file pretty much will try to detect and open a sensor and read it at 50Hz, then pass the data to the TriggerDetectionAlgorithm for analysis and making a trigger
+
 // some globals which are extern'd in qcn_thread_sensor_util.h
 // mainly if bDemo is true so we can have continual trigger output
 bool   g_bSensorTrickle = false;  // set to true if no sensor found, so we can trickle out this info (disabled now)
@@ -23,10 +29,10 @@ extern void* QCNThreadSensor(void*)
 
   initDemoCounters();
 
-#ifdef __APPLE_CC__
+//#ifdef __APPLE_CC__
   //fprintf(stdout, "Initializing Objective-C library...\n");
   //_objcInit();  // init objective-c
-#endif
+//#endif
 
     // this is the function which does the monitoring, it is launched in a separate thread from the main() program
     sm->setTriggerLock();
@@ -88,7 +94,7 @@ extern void* QCNThreadSensor(void*)
             fprintf(stdout, "Just slept 10 seconds, look for sensor again...\n");
 #endif
             continue;
-         }
+         }  // sensor detected or not
 
 // 1)
          // reset max/min, we could be wrapping around from MAXI
@@ -112,31 +118,8 @@ extern void* QCNThreadSensor(void*)
              usleep(MAIN_LOOP_SLEEP_MICROSECONDS); // 5Hz should be fast enough to monitor things such as trickles, stop/suspend requests etc
              continue;
          }
-
-         // CMC -- use different threshold values based on sensor type
-         g_fSensorDiffFactor = 1.3333f;
-         switch(sm->eSensor) {
-            case SENSOR_MAC_PPC_TYPE1:
-            case SENSOR_MAC_PPC_TYPE2:
-            case SENSOR_MAC_PPC_TYPE3:
-            case SENSOR_MAC_INTEL:
-               g_fThreshold = 0.10f;
-               break;
-            case SENSOR_WIN_HP:
-            case SENSOR_WIN_THINKPAD:
-               g_fThreshold = 0.20f;
-               break;
-            case SENSOR_USB_JW:
-               g_fThreshold = 0.025f;
-	       g_fSensorDiffFactor = 1.10f;   // note USB sensors get a small diff factor below, instead of 33% just 10%
-               break;
-            case SENSOR_USB_MOTIONNODEACCEL:
-               g_fThreshold = 0.01f;
-	       g_fSensorDiffFactor = 1.10f;   // note USB sensors get a small diff factor below, instead of 33% just 10%
-               break;
-            default:
-               g_fThreshold = 0.10f;
-         }
+		  
+		  SetSensorThresholdAndDiffFactor();
 
          fprintf(stdout,"Start of monitoring at time %f  interval %f  threshold %f\n", sm->dTimeStart, sm->dt, g_fThreshold);
          fprintf(stdout,"Initial sensor values:  x0=%f  y0=%f  z0=%f  sample size=%ld  dt=%f\n", sm->x0[0], sm->y0[0], sm->z0[0], sm->lSampleSize, sm->dt);
@@ -258,7 +241,7 @@ extern void* QCNThreadSensor(void*)
 
          // close the open port
          if (qcn_main::g_psms) {
-	     qcn_main::g_psms->closePort();  // close the port, it will be reopened above
+	         qcn_main::g_psms->closePort();  // close the port, it will be reopened above
              delete qcn_main::g_psms;
              qcn_main::g_psms = NULL;
          }
@@ -282,18 +265,38 @@ extern void* QCNThreadSensor(void*)
          //sm->bWrapped = true;
          qcn_util::set_qcn_counter();
          continue;
-      }
+      } // >=MAXI
 #ifdef _DEBUG
       iCtrStart++;
 #endif
 
-      // call the big main loop routine...
-      try {
-         QCNThreadSensorMainLoop();
-      }
-      catch(int ie)  {
-          goto done;
-      }
+		sm->itl++;  // our placeholder for max sig position
+		
+		// now read the sensor value
+		try {
+			if (!qcn_main::g_psms || ! qcn_main::g_psms->mean_xyz()) {// bad error, clock must have changed or lost sensor
+				initDemoCounters(true);
+				qcn_util::ResetCounter(WHERE_THREAD_SENSOR_TIME_ERROR, iNumResetInitial);
+				if (qcn_main::g_psms) {
+					qcn_main::g_psms->closePort();  // close the port, it will be reopened above
+					delete qcn_main::g_psms;
+					qcn_main::g_psms = NULL;
+				}
+				continue;
+			}  
+		}  
+		catch(int ie)  {
+			fprintf(stderr, "Exception 4 caught in sensor thread mean_xyz()\n");
+			if (ie==EXCEPTION_SHUTDOWN) goto done;
+		}
+        if (qcn_main::g_iStop || !sm) goto done;  // handle quit request
+        if (qcn_main::g_threadSensor->IsSuspended()) {
+            usleep(MAIN_LOOP_SLEEP_MICROSECONDS); // 5Hz should be fast enough to monitor things such as trickles, stop/suspend requests etc
+            continue;
+        }
+		
+        // call the main loop trigger detection routine...
+		qcn_thread_sensor_loop::TriggerDetectionAlgorithm();
 
     }  // outermost while loop
 

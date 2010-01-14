@@ -14,8 +14,10 @@ void initDemoCounters(bool bReset)
    g_lDemoOffsetEnd = 0L;
 }
 
+// check if we're recording in qcnlive mode
 void checkRecordState()
 {
+#ifdef QCNLIVE
 	static int iTest = 0;
 	if (++iTest % 20) return; // just goes in every .2 second, good enough for recording
 	iTest = 0;
@@ -40,6 +42,7 @@ void checkRecordState()
                 // put all the triggering stuff for demo mode in this function as we may want to call it on a timing reset too
 		checkDemoTrigger(g_bRecordState && !sm->bRecording);  
 	}
+#endif
 }
 
 
@@ -535,4 +538,31 @@ void uploadSACMem(const long lCurTime, const char* strTypeSensor)
 }
 #endif
 
-
+void SetSensorThresholdAndDiffFactor()
+{	
+	// CMC -- use different threshold values based on sensor type
+	g_fSensorDiffFactor = 1.3333f;
+	switch(sm->eSensor) {
+		case SENSOR_MAC_PPC_TYPE1:
+		case SENSOR_MAC_PPC_TYPE2:
+		case SENSOR_MAC_PPC_TYPE3:
+		case SENSOR_MAC_INTEL:
+			g_fThreshold = 0.10f;
+			break;
+		case SENSOR_WIN_HP:
+		case SENSOR_WIN_THINKPAD:
+			g_fThreshold = 0.20f;
+			break;
+		case SENSOR_USB_JW:
+			g_fThreshold = 0.025f;
+			g_fSensorDiffFactor = 1.10f;   // note USB sensors get a small diff factor below, instead of 33% just 10%
+			break;
+		case SENSOR_USB_MOTIONNODEACCEL:
+			g_fThreshold = 0.01f;
+			g_fSensorDiffFactor = 1.10f;   // note USB sensors get a small diff factor below, instead of 33% just 10%
+			break;
+		default:
+			g_fThreshold = 0.10f;
+	}
+}
+		

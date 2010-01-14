@@ -1,34 +1,12 @@
 #include "qcn_thread_sensor_util.h"
 
-void QCNThreadSensorMainLoop()
+namespace qcn_thread_sensor_loop {
+	
+void TriggerDetectionAlgorithm()
 {
-      sm->itl++;  // our placeholder for max sig position
-
-      try {
-         if (!qcn_main::g_psms || ! qcn_main::g_psms->mean_xyz()) {// bad error, clock must have changed or lost sensor
-            initDemoCounters(true);
-            qcn_util::ResetCounter(WHERE_THREAD_SENSOR_TIME_ERROR, iNumResetInitial);
-			if (qcn_main::g_psms) {
-				qcn_main::g_psms->closePort();  // close the port, it will be reopened above
-                delete qcn_main::g_psms;
-                qcn_main::g_psms = NULL;
-			}
-            continue;
-         }  
-      }  
-      catch(int ie)  {
-        fprintf(stderr, "Exception 4 caught in sensor thread mean_xyz()\n");
-        if (ie==EXCEPTION_SHUTDOWN) goto done;
-      }
-        if (qcn_main::g_iStop || !sm) goto done;  // handle quit request
-        if (qcn_main::g_threadSensor->IsSuspended()) {
-            usleep(MAIN_LOOP_SLEEP_MICROSECONDS); // 5Hz should be fast enough to monitor things such as trickles, stop/suspend requests etc
-            continue;
-        }
-
+ 
       // CMC note -- in original onepoint.c code, sm->lOffset-1 was iM1 & sm->lOffset-iWindow was IB1, these were
       //     used to get the right "place" in case of the array being looped, but I don't see how this could
-
       //     happen because after the one minute mean/baseline above, we are past "iWindow" by this point
       //     as if sm->lOffset >= MAXI above will go to top of loop and reinitialize
       sm->xa[sm->lOffset]  = sm->xa[sm->lOffset-1] + ((sm->x0[sm->lOffset] - sm->x0[sm->lOffset-sm->iWindow]) / sm->iWindow);         //  AVERAGE X
@@ -37,6 +15,7 @@ void QCNThreadSensorMainLoop()
 
 // note -- the bottom three lines of the vari[i] expression are uncommented per JLF
 //   (previously in the original onepoint.c code it ended at the first sm->iWindow)
+// QCN_SQR(A) is a short-hand to square A (i.e. A^2 or A*A, not square root!)
       sm->vari[sm->lOffset] = sm->vari[sm->lOffset-1] + ( QCN_SQR(sm->x0[sm->lOffset] - sm->xa[sm->lOffset]   )
           + QCN_SQR(sm->y0[sm->lOffset]   - sm->ya[sm->lOffset]   )
           + QCN_SQR(sm->z0[sm->lOffset]   - sm->za[sm->lOffset]   ) ) / sm->iWindow
@@ -44,7 +23,7 @@ void QCNThreadSensorMainLoop()
         + QCN_SQR(sm->y0[sm->lOffset-sm->iWindow] - sm->ya[sm->lOffset-sm->iWindow] )
         + QCN_SQR(sm->z0[sm->lOffset-sm->iWindow] - sm->za[sm->lOffset-sm->iWindow] ) ) / sm->iWindow;
 
-      sm->fmag[sm->lOffset]= sqrt(QCN_SQR(sm->x0[sm->lOffset]-sm->xa[sm->lOffset-1])+
+       sm->fmag[sm->lOffset]= sqrt(QCN_SQR(sm->x0[sm->lOffset]-sm->xa[sm->lOffset-1]) +
          QCN_SQR(sm->y0[sm->lOffset]-sm->ya[sm->lOffset-1])+QCN_SQR(sm->z0[sm->lOffset]-sm->za[sm->lOffset-1]));
 
 // CMC added Jesse's mod to have a short term avg mag, and put this var in shared mem so it can be perturbed
@@ -69,28 +48,19 @@ void QCNThreadSensorMainLoop()
          }
          sm->fsig[sm->lOffset]=sm->fsig[sm->lOffset] / (qcn_main::g_fPerturb[PERTURB_SHORT_TERM_AVG_MAG] + 1.0f);
 // Normalize average magnitude over window
-      }
+       }
 
-      // test max/min
-      //sm->testMinMax(sm->x0[sm->lOffset], E_DX);
-      //sm->testMinMax(sm->y0[sm->lOffset], E_DY);
-      //sm->testMinMax(sm->z0[sm->lOffset], E_DZ);
-      //sm->testMinMax(sm->fsig[sm->lOffset], E_DS);
+	   sm->sgmx = sm->fsig[sm->lOffset];
+	   sm->itl=0;
 
-// Determine if significance filter is large enough to warrant a trigger
-//#ifdef _DEBUG // force a trigger
-//      if (bDebugTest) {
-//#else
-      if (sm->fsig[sm->lOffset] > g_fSensorDiffFactor * sm->sgmx) {                      // 33% larger than others -- note fSensorDiffFactor - USB only 10% not 33%
-//#endif
-        sm->sgmx = sm->fsig[sm->lOffset];
-        sm->itl=0;
-
-        // CMC note: the threshold values are from above after sensor detection, the peturb values for sig cutoff are from the workunit generation
-		  // also note the first clause prevents continual qcn app from doing a trigger, they are like demo mode with sac output every 10 minutes
-		  if (!qcn_main::g_bContinual 
-			  && (sm->fsig[sm->lOffset] > qcn_main::g_fPerturb[PERTURB_SIG_CUTOFF])
-			  && (sm->fmag[sm->lOffset] > g_fThreshold) ) {  // was 0.125,  >2 sigma (90% Conf)
+	   // CMC note: the threshold values are from above after sensor detection, the peturb values for sig cutoff are from the workunit generation
+	   // also note the first clause prevents continual qcn app from doing a trigger, they are like demo mode with sac output every 10 minutes
+	
+	   // the threshold values are set in qcn_thread_sensor_util.cpp function SetSensorThresholdAndDiffFactor()
+	
+	   if (!qcn_main::g_bContinual 
+		  && (sm->fsig[sm->lOffset] > qcn_main::g_fPerturb[PERTURB_SIG_CUTOFF])
+		  && (sm->fmag[sm->lOffset] > g_fThreshold) ) {  // was 0.125,  >2 sigma (90% Conf)
 				  // lock & update now if this trigger is >.5 second from the last
 				  double dTime; 
 				  long lTime;
@@ -99,7 +69,7 @@ void QCNThreadSensorMainLoop()
 					  doTrigger(); // last trigger time will get set in the proc
 				  }
            }
-      }
+      // }  where did this brace come from?
 		
     // Find the largest significance in the time window
 	if (sm->itl > sm->iWindow) {
@@ -114,10 +84,13 @@ void QCNThreadSensorMainLoop()
         //fflush(stdout);
       }
 		
-      checkRecordState();
+      checkRecordState();   // test if we're recording in qcnlive
 #ifdef _DEBUG
     DebugTime(4);
 #endif
 
 }
+	
+}  // namespace
+
 
