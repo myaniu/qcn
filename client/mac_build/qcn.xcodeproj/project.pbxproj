@@ -18,6 +18,9 @@
 		439FF8D010BD8DCF00DEFD8E /* csensor_mac_usb_onavi01.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 439FF8CF10BD8DCF00DEFD8E /* csensor_mac_usb_onavi01.cpp */; };
 		439FF8D110BD8DCF00DEFD8E /* csensor_mac_usb_onavi01.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 439FF8CF10BD8DCF00DEFD8E /* csensor_mac_usb_onavi01.cpp */; };
 		43AC1A0810A0C85600F84A0D /* libcurl-universal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 43AC1A0710A0C85600F84A0D /* libcurl-universal.a */; };
+		43D5F1801104EA450045EF34 /* coproc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43D5F17F1104EA450045EF34 /* coproc.cpp */; };
+		43D5F1811104EA450045EF34 /* coproc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43D5F17F1104EA450045EF34 /* coproc.cpp */; };
+		43D5F1821104EA450045EF34 /* coproc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43D5F17F1104EA450045EF34 /* coproc.cpp */; };
 		43E17E8A10A47F2600EFA3A7 /* url.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43E17E8910A47F2600EFA3A7 /* url.cpp */; };
 		43E17E8B10A47F2600EFA3A7 /* url.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43E17E8910A47F2600EFA3A7 /* url.cpp */; };
 		43E17E8C10A47F2600EFA3A7 /* url.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43E17E8910A47F2600EFA3A7 /* url.cpp */; };
@@ -234,6 +237,7 @@
 		439FF8AF10BD8C7A00DEFD8E /* csensor_mac_usb_onavi01.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = csensor_mac_usb_onavi01.h; path = ../sensor/csensor_mac_usb_onavi01.h; sourceTree = SOURCE_ROOT; };
 		439FF8CF10BD8DCF00DEFD8E /* csensor_mac_usb_onavi01.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = csensor_mac_usb_onavi01.cpp; path = ../sensor/csensor_mac_usb_onavi01.cpp; sourceTree = SOURCE_ROOT; };
 		43AC1A0710A0C85600F84A0D /* libcurl-universal.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libcurl-universal.a"; sourceTree = "<group>"; };
+		43D5F17F1104EA450045EF34 /* coproc.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = coproc.cpp; path = ../../../boinc/lib/coproc.cpp; sourceTree = SOURCE_ROOT; };
 		43E17E8910A47F2600EFA3A7 /* url.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = url.cpp; path = ../../../boinc/lib/url.cpp; sourceTree = SOURCE_ROOT; };
 		E3064B950F8FE8A60028A349 /* qcn_2dplot.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = qcn_2dplot.cpp; path = ../graphics/qcn_2dplot.cpp; sourceTree = SOURCE_ROOT; };
 		E3064B970F8FE8C10028A349 /* qcn_2dplot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = qcn_2dplot.h; path = ../graphics/qcn_2dplot.h; sourceTree = SOURCE_ROOT; };
@@ -678,6 +682,7 @@
 		E3C967120FF1A19900F20324 /* lib */ = {
 			isa = PBXGroup;
 			children = (
+				43D5F17F1104EA450045EF34 /* coproc.cpp */,
 				43E17E8910A47F2600EFA3A7 /* url.cpp */,
 				E3C9680F0FF1A80100F20324 /* QBacktrace.c */,
 				E3C968100FF1A80100F20324 /* QCrashReport.c */,
@@ -903,6 +908,7 @@
 			files = (
 				43304A7710FF76BB00A823FE /* qcn_thread_sensor_util.cpp in Sources */,
 				43304A9B10FF7D9000A823FE /* qcn_thread_sensor_loop.cpp in Sources */,
+				43D5F1821104EA450045EF34 /* coproc.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1011,6 +1017,7 @@
 				439FF8D010BD8DCF00DEFD8E /* csensor_mac_usb_onavi01.cpp in Sources */,
 				43304A7410FF76BB00A823FE /* qcn_thread_sensor_util.cpp in Sources */,
 				43304A9810FF7D9000A823FE /* qcn_thread_sensor_loop.cpp in Sources */,
+				43D5F1801104EA450045EF34 /* coproc.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1063,6 +1070,7 @@
 				439FF8D110BD8DCF00DEFD8E /* csensor_mac_usb_onavi01.cpp in Sources */,
 				43304A7510FF76BB00A823FE /* qcn_thread_sensor_util.cpp in Sources */,
 				43304A9910FF7D9000A823FE /* qcn_thread_sensor_loop.cpp in Sources */,
+				43D5F1811104EA450045EF34 /* coproc.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
