@@ -18,6 +18,10 @@ long   g_lDemoOffsetEnd = 0L;
 float  g_fThreshold = 0.10f;
 float  g_fSensorDiffFactor = 1.3333f;
 
+#ifdef _DEBUG
+   int iCtrStart = 0;
+#endif
+
 #ifdef _WIN32
 DWORD WINAPI QCNThreadSensor(LPVOID)
 #else
