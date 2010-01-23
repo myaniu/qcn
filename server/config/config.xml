@@ -31,6 +31,10 @@
     <min_core_client_version_announced> 602 </min_core_client_version_announced>
     <min_core_client_upgrade_deadline> 1241650148 </min_core_client_upgrade_deadline>
     <min_core_client_version> 602 </min_core_client_version>
+    <profile_min_credit>0</profile_min_credit>
+     <recaptcha_public_key>6Le_tAoAAAAAAGD1Djt-vsJ9sD4KfEfiWBYazJmJ</recaptcha_public_key>
+    <recaptcha_private_key>6Le_tAoAAAAAAAxMo0svDpfZc94pfdbnVs5dyDII</recaptcha_private_key>
+    <akismet_key>3b5341233a4a</akismet_key>
     <shmem_key>
       0x11119030
     </shmem_key>
