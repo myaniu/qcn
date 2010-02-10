@@ -57,7 +57,7 @@ bool CSensorMacUSBONavi01::detect()
            return false;
         }
 	
-	m_fd = open(strDevice, O_RDONLY | O_NOCTTY | O_NONBLOCK); 
+	m_fd = open(strDevice, O_RDWR | O_NOCTTY | O_NONBLOCK); 
         delete [] strDevice; // don't need strDevice after this call
         strDevice = NULL;
 
@@ -131,31 +131,48 @@ Values >32768 are positive g and <32768 are negative g. The sampling rate is set
 	bool bRet = true;
 	
 	const int ciLen = 24;  // use a 24 byte buffer
-	short int lOffset[2] = { 0, 0 };
+	const short int lOffset[2] = { 0, 0 };
 	QCN_BYTE bytesIn[ciLen], cs;
 	int x = 0, y = 0, z = 0;
 	int iCS = 0;
 	int iRead = 0;
 	x1 = y1 = z1 = 0.0f;
+	const char cWrite = '*';
 
-	/*
-	QCN_BYTE cc[2048];
-	memset(cc, 0x00, 2048);
-	iRead = read(m_fd, cc, 2048);
-	FILE* fcc = fopen("/tmp/cc.txt", "w");
-	if (fcc) {
-		fprintf(fcc, "\n%s\n", cc);
-		fclose(fcc);
+	memset(bytesIn, 0x00, ciLen);
+
+	if ((iRead = write(m_fd, &cWrite, 1)) == 1) {   // send a * to the device to get back the data
+		if ((iRead = read(m_fd, bytesIn, ciLen)) == 9) {
+				// we found both, the bytes in between are what we want (really bytes after lOffset[0]
+				x = (bytesIn[lOffset[0]] * 255) + bytesIn[lOffset[0]+1];
+				y = (bytesIn[lOffset[0]+2] * 255) + bytesIn[lOffset[0]+3];
+				z = (bytesIn[lOffset[0]+4] * 255) + bytesIn[lOffset[0]+5];
+				cs   = bytesIn[lOffset[0]+6];
+				for (int i = 0; i <= 5; i++) iCS += bytesIn[lOffset[0] + i];
+				
+				// convert to g decimal value
+				// g  = x - 32768 * (5 / 65536) 
+				// Where: x is the data value 0 - 65536 (x0000 to xFFFF). 
+				
+				x1 = ((float) x - 32768.0f) * FLOAT_ONAVI_FACTOR * EARTH_G;
+				y1 = ((float) y - 32768.0f) * FLOAT_ONAVI_FACTOR * EARTH_G;
+				z1 = ((float) z - 32768.0f) * FLOAT_ONAVI_FACTOR * EARTH_G;
+				
+				x0 = x1; y0 = y1; z0 = z1;  // preserve values
+				
+				bRet = true;
+		}
+		else {
+			x1 = x0; y1 = y0; z1 = z0;  // use last good values
+			bRet = false;  // could be just empty, return
+		}
 	}
-	*/
-	
-/*
-   if (lseek(m_fd, -ciLen, SEEK_END) == -1) {
-  	    x1 = x0; y1 = y0; z1 = z0;  // use last good values
-		return false;  // go to end of stream (32 bytes from end), if fail return
+	else {
+		fprintf(stdout, "%d", errno);
+		bRet = false;
 	}
-*/	
-	
+		
+/*	
 	memset(bytesIn, 0x00, ciLen);
 	if ((iRead = read(m_fd, bytesIn, ciLen)) > 8) {
 		for (int i = ciLen-1; i >= 0; i--) { // look for hash-mark i.e. ## boundaries (two sets of ##)
@@ -198,8 +215,9 @@ Values >32768 are positive g and <32768 are negative g. The sampling rate is set
 	else {
 		bRet = false;
 	}
-
-	tcflush(m_fd, TCIOFLUSH);
+    tcflush(m_fd, TCIOFLUSH);
+*/
+	
 	return bRet;
 }
 
