@@ -131,30 +131,28 @@ Values >32768 are positive g and <32768 are negative g. The sampling rate is set
 	bool bRet = true;
 	
 	const int ciLen = 9;  // use a 24 byte buffer
-	const short int lOffset[2] = { 1, 0 };
-	QCN_BYTE bytesIn[ciLen], cs;
+    QCN_BYTE bytesIn[ciLen+1], cs;  // note pad bytesIn with null \0
 	int x = 0, y = 0, z = 0;
 	int iCS = 0;
 	int iRead = 0;
 	x1 = y1 = z1 = 0.0f;
 	const char cWrite = '*';
 
-	memset(bytesIn, 0x00, ciLen);
-
 	if ((iRead = write(m_fd, &cWrite, 1)) == 1) {   // send a * to the device to get back the data
+		memset(bytesIn, 0x00, ciLen+1);
 		iRead = read(m_fd, bytesIn, ciLen);
 		switch (iRead) {
 			case -1:  bRet = false; break; // error
 			case ciLen:  
 				// good data length read in, now test for appropriate characters
-				if (bytesIn[8] == 0x00 && bytesIn[0] == '#' && bytesIn[1] == '#') {
+				if (bytesIn[9] == 0x00 && bytesIn[0] == '#' && bytesIn[1] == '#') {
 					// format is ##XXYYZZC\0
 					// we found both, the bytes in between are what we want (really bytes after lOffset[0]
-					x = (bytesIn[lOffset[0]] * 255) + bytesIn[lOffset[0]+1];
-					y = (bytesIn[lOffset[0]+2] * 255) + bytesIn[lOffset[0]+3];
-					z = (bytesIn[lOffset[0]+4] * 255) + bytesIn[lOffset[0]+5];
-					cs   = bytesIn[lOffset[0]+6];
-					for (int i = 0; i <= 5; i++) iCS += bytesIn[lOffset[0] + i];
+					x = (bytesIn[2] * 255) + bytesIn[3];
+					y = (bytesIn[4] * 255) + bytesIn[5];
+					z = (bytesIn[6] * 255) + bytesIn[7];
+					cs   = bytesIn[8];
+					for (int i = 2; i <= 7; i++) iCS += bytesIn[i];
 					
 					// convert to g decimal value
 					// g  = x - 32768 * (5 / 65536) 
