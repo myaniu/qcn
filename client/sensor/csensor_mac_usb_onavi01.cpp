@@ -145,7 +145,7 @@ Values >32768 are positive g and <32768 are negative g. The sampling rate is set
 			case -1:  bRet = false; break; // error
 			case ciLen:  
 				// good data length read in, now test for appropriate characters
-				if (bytesIn[9] == 0x00 && bytesIn[0] == 0x23 && bytesIn[1] == 0x23) {
+				if (bytesIn[ciLen] == 0x00 && bytesIn[0] == 0x23 && bytesIn[1] == 0x23) {
 					// format is ##XXYYZZC\0
 					// we found both, the bytes in between are what we want (really bytes after lOffset[0]
 					x = (bytesIn[2] * 255) + bytesIn[3];
