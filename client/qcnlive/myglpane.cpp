@@ -236,7 +236,7 @@ void MyGLPane::render( wxPaintEvent& evt )
 	if(!IsShown()) {
         evt.Skip();
 		return;
-    }
+    }	
 
    /* eventually will need to use the 4th wxGLCanvas constructor and then call these two methods:
        wxGLContext myglcontext((wxGLCanvas*) this, NULL);
