@@ -45,7 +45,7 @@
 				Optimization="0"
 				AdditionalIncludeDirectories="../../zlib;../../;../main;../sensor;../util;../../../boinc/lib;../../../boinc/api;../../../boinc/zip"
 				PreprocessorDefinitions="QCNDEMO;_WIN32;WIN32;_DEBUG;_ZLIB;_CRT_SECURE_NO_DEPRECATE"
-				RuntimeLibrary="1"
+				RuntimeLibrary="3"
 				WarningLevel="3"
 				DebugInformationFormat="4"
 				ForcedIncludeFiles="windows.h"
@@ -67,6 +67,81 @@
 				LinkIncremental="2"
 				AdditionalLibraryDirectories=""
 				GenerateDebugInformation="true"
+				SubSystem="1"
+				RandomizedBaseAddress="1"
+				DataExecutionPrevention="0"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+		</Configuration>
+		<Configuration
+			Name="Release|Win32"
+			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
+			IntermediateDirectory="$(ConfigurationName)Demo"
+			ConfigurationType="1"
+			CharacterSet="0"
+			ManagedExtensions="0"
+			WholeProgramOptimization="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="1"
+				AdditionalIncludeDirectories="../../zlib;../../;../main;../sensor;../util;../../../boinc/lib;../../../boinc/api;../../../boinc/zip"
+				PreprocessorDefinitions="QCNDEMO;_WIN32;NDEBUG;_WIN32;_ZLIB;_CRT_SECURE_NO_DEPRECATE"
+				RuntimeLibrary="2"
+				ForcedIncludeFiles="windows.h"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalDependencies="zlib32.lib boinc_lib.lib boinc_zip.lib"
+				ShowProgress="2"
+				OutputFile="../test/qcndemo.exe"
+				Version=""
+				LinkIncremental="1"
+				AdditionalLibraryDirectories=""
 				SubSystem="1"
 				RandomizedBaseAddress="1"
 				DataExecutionPrevention="0"
@@ -147,81 +222,6 @@
 				RandomizedBaseAddress="1"
 				DataExecutionPrevention="0"
 				TargetMachine="17"
-			/>
-			<Tool
-				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCManifestTool"
-			/>
-			<Tool
-				Name="VCXDCMakeTool"
-			/>
-			<Tool
-				Name="VCBscMakeTool"
-			/>
-			<Tool
-				Name="VCFxCopTool"
-			/>
-			<Tool
-				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCPostBuildEventTool"
-			/>
-		</Configuration>
-		<Configuration
-			Name="Release|Win32"
-			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)Demo"
-			ConfigurationType="1"
-			CharacterSet="0"
-			ManagedExtensions="0"
-			WholeProgramOptimization="1"
-			>
-			<Tool
-				Name="VCPreBuildEventTool"
-			/>
-			<Tool
-				Name="VCCustomBuildTool"
-			/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"
-			/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
-			<Tool
-				Name="VCMIDLTool"
-			/>
-			<Tool
-				Name="VCCLCompilerTool"
-				Optimization="1"
-				AdditionalIncludeDirectories="../../zlib;../../;../main;../sensor;../util;../../../boinc/lib;../../../boinc/api;../../../boinc/zip"
-				PreprocessorDefinitions="QCNDEMO;_WIN32;NDEBUG;_WIN32;_ZLIB;_CRT_SECURE_NO_DEPRECATE"
-				RuntimeLibrary="0"
-				ForcedIncludeFiles="windows.h"
-			/>
-			<Tool
-				Name="VCManagedResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCPreLinkEventTool"
-			/>
-			<Tool
-				Name="VCLinkerTool"
-				AdditionalDependencies="zlib32.lib boinc_lib.lib boinc_zip.lib"
-				ShowProgress="2"
-				OutputFile="../test/qcndemo.exe"
-				Version=""
-				LinkIncremental="1"
-				AdditionalLibraryDirectories=""
-				SubSystem="1"
-				RandomizedBaseAddress="1"
-				DataExecutionPrevention="0"
 			/>
 			<Tool
 				Name="VCALinkTool"

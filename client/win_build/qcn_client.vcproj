@@ -47,7 +47,7 @@
 				AdditionalIncludeDirectories="../../;../main;../util;../sensor;../../zlib;../../../boinc/zip;../../../boinc/lib;../../../boinc/api"
 				PreprocessorDefinitions="_USE_NTPDATE_EXEC_;_WIN32;WIN32;_DEBUG;_CRT_SECURE_NO_DEPRECATE;_ZLIB;APP_GRAPHICS"
 				BasicRuntimeChecks="3"
-				RuntimeLibrary="1"
+				RuntimeLibrary="3"
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="false"
 				DebugInformationFormat="4"
@@ -136,7 +136,7 @@
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="../../;../main;../sensor;../util;../../../boinc/lib;../../zlib;../../../boinc/api;../../../boinc/zip"
 				PreprocessorDefinitions="_USE_NTPDATE_EXEC_;_WIN32;NDEBUG;_WIN32;_CRT_SECURE_NO_DEPRECATE;_ZLIB;APP_GRAPHICS"
-				RuntimeLibrary="0"
+				RuntimeLibrary="2"
 				ForcedIncludeFiles="windows.h"
 			/>
 			<Tool
@@ -611,11 +611,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\main\qcn_thread_sensor_util.h"
+				RelativePath="..\main\qcn_thread_sensor_loop.h"
 				>
 			</File>
 			<File
-				RelativePath="..\main\qcn_thread_sensor_loop.h"
+				RelativePath="..\main\qcn_thread_sensor_util.h"
 				>
 			</File>
 			<File

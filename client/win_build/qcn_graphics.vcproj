@@ -48,7 +48,7 @@
 				PreprocessorDefinitions="QCNGRAPHICS;_WIN32;WIN32;_DEBUG;_ZLIB;_CRT_SECURE_NO_DEPRECATE;GRAPHICS_PROGRAM"
 				ExceptionHandling="1"
 				BasicRuntimeChecks="3"
-				RuntimeLibrary="1"
+				RuntimeLibrary="3"
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="false"
 				DebugInformationFormat="4"
@@ -102,6 +102,82 @@
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine=""
+			/>
+		</Configuration>
+		<Configuration
+			Name="Release|Win32"
+			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
+			IntermediateDirectory="$(ConfigurationName)Graphics"
+			ConfigurationType="1"
+			CharacterSet="0"
+			ManagedExtensions="0"
+			WholeProgramOptimization="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				AdditionalIncludeDirectories="../../zlib;../../;../main;../sensor;../util;../../../boinc/lib;../../../boinc/api;&quot;../../jpeg-6b&quot;;../../freeglut/include;../../../boinc/zip"
+				PreprocessorDefinitions="QCNGRAPHICS;_WIN32;NDEBUG;_ZLIB;_CRT_SECURE_NO_DEPRECATE;GRAPHICS_PROGRAM"
+				RuntimeLibrary="2"
+				ForcedIncludeFiles="windows.h"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalDependencies="opengl32.lib glu32.lib jpeglib32.lib boinc_lib.lib boinc_api.lib zlib32.lib boinc_zip.lib"
+				OutputFile="../bin/graphics_app=qcn_graphics.exe"
+				Version=""
+				LinkIncremental="1"
+				AdditionalLibraryDirectories=""
+				SubSystem="2"
+				StackReserveSize="33554432"
+				RandomizedBaseAddress="1"
+				DataExecutionPrevention="0"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+				Description="setwinver"
+				CommandLine="..\bin\setwinver.exe graphics_app=qcn_graphics ..\bin ..\bin"
 			/>
 		</Configuration>
 		<Configuration
@@ -190,82 +266,6 @@
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine=""
-			/>
-		</Configuration>
-		<Configuration
-			Name="Release|Win32"
-			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)Graphics"
-			ConfigurationType="1"
-			CharacterSet="0"
-			ManagedExtensions="0"
-			WholeProgramOptimization="1"
-			>
-			<Tool
-				Name="VCPreBuildEventTool"
-			/>
-			<Tool
-				Name="VCCustomBuildTool"
-			/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"
-			/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
-			<Tool
-				Name="VCMIDLTool"
-			/>
-			<Tool
-				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="../../zlib;../../;../main;../sensor;../util;../../../boinc/lib;../../../boinc/api;&quot;../../jpeg-6b&quot;;../../freeglut/include;../../../boinc/zip"
-				PreprocessorDefinitions="QCNGRAPHICS;_WIN32;NDEBUG;_ZLIB;_CRT_SECURE_NO_DEPRECATE;GRAPHICS_PROGRAM"
-				RuntimeLibrary="0"
-				ForcedIncludeFiles="windows.h"
-			/>
-			<Tool
-				Name="VCManagedResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCPreLinkEventTool"
-			/>
-			<Tool
-				Name="VCLinkerTool"
-				AdditionalDependencies="opengl32.lib glu32.lib jpeglib32.lib boinc_lib.lib boinc_api.lib zlib32.lib boinc_zip.lib"
-				OutputFile="../bin/graphics_app=qcn_graphics.exe"
-				Version=""
-				LinkIncremental="1"
-				AdditionalLibraryDirectories=""
-				SubSystem="2"
-				StackReserveSize="33554432"
-				RandomizedBaseAddress="1"
-				DataExecutionPrevention="0"
-			/>
-			<Tool
-				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCManifestTool"
-			/>
-			<Tool
-				Name="VCXDCMakeTool"
-			/>
-			<Tool
-				Name="VCBscMakeTool"
-			/>
-			<Tool
-				Name="VCFxCopTool"
-			/>
-			<Tool
-				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCPostBuildEventTool"
-				Description="setwinver"
-				CommandLine="..\bin\setwinver.exe graphics_app=qcn_graphics ..\bin ..\bin"
 			/>
 		</Configuration>
 		<Configuration
