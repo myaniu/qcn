@@ -322,7 +322,6 @@ bool MyApp::OnInit()
 	if (myPNGHandler)  {
       wxImage::AddHandler(myPNGHandler);
 	  wxBitmap bitmap;
-#if 0 // CMC HERE
 #ifndef _DEBUG // no splash screen on debug, gets in the way!
       const char cstrSplash[] = {"splash.png"};
 	  if (boinc_file_exists(cstrSplash) 
@@ -334,7 +333,6 @@ bool MyApp::OnInit()
               wxSIMPLE_BORDER|wxSTAY_ON_TOP);
       }
 #endif
-#endif // CMC HERE
     }
 #endif // wxUSE_LIBPNG
 
