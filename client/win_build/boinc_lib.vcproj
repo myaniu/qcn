@@ -1070,10 +1070,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\boinc\lib\coproc.h"
-				>
-			</File>
-			<File
 				RelativePath="..\..\..\boinc\lib\crypt.h"
 				>
 			</File>
