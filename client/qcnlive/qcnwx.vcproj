@@ -134,7 +134,7 @@
 				AdditionalIncludeDirectories="../../zlib;../../curl/include;../../;../main;../util;../sensor;../graphics;../../../boinc/lib;../../../boinc/zip;&quot;..\..\jpeg-6b&quot;;\wxWidgets\lib\vc_lib\msw;\wxWidgets\include;../../../boinc/api;c:\wxWidgets\lib\vc_lib\msw;c:\wxWidgets\include"
 				PreprocessorDefinitions="_USE_NTPDATE_EXEC_;QCNLIVE;GRAPHICS_PROGRAM;FREEGLUT_STATIC;CURL_STATICLIB;_ZLIB;_CRT_SECURE_NO_DEPRECATE;APP_GRAPHICS;WIN32;_WIN32;NDEBUG;__WXMSW__"
 				RuntimeLibrary="2"
-				DebugInformationFormat="0"
+				DebugInformationFormat="3"
 				ForcedIncludeFiles="windows.h"
 			/>
 			<Tool
@@ -154,7 +154,7 @@
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="../win_build;../../curl/lib/Release;\wxWidgets\lib\vc_lib;../sensor/motionnodeaccel;c:\wxWidgets\lib\vc_lib"
 				DelayLoadDLLs="MotionNodeAccelAPI.dll"
-				GenerateDebugInformation="false"
+				GenerateDebugInformation="true"
 				SubSystem="2"
 				HeapReserveSize="0"
 				HeapCommitSize="0"
