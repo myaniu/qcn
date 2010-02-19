@@ -113,6 +113,7 @@ file_url varchar(128),
 runtime_clock double,
 runtime_cpu double,
 ping boolean not null default 0
+flag boolean not null default 0
 );
 
 create index qcn_trigger_time on qcn_trigger (time_trigger desc, ping asc);
