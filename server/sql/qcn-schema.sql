@@ -4,6 +4,7 @@ drop table if exists qcn_geo_ipaddr;
 drop table if exists usgs_quake;
 drop table if exists qcn_sensor;
 drop table if exists qcn_level;
+drop table if exists qcn_align;
 
 create table qcn_sensor (id smallint not null primary key, is_usb boolean not null default 0, description varchar(64));
 insert into qcn_sensor values (0, 0, 'Not Found');
@@ -24,6 +25,14 @@ insert into qcn_level values (2, 'Meters (above/below surface)');
 insert into qcn_level values (3, 'Feet (above/below surface)');
 insert into qcn_level values (4, 'Elevation - meters above sea level');
 insert into qcn_level values (5, 'Elevation - feet above sea level');
+
+create table qcn_align (id smallint not null primary key default 0, description varchar(64));
+insert into qcn_align values (0, 'Unaligned');
+insert into qcn_align values (1, 'North');
+insert into qcn_align values (2, 'South');
+insert into qcn_align values (3, 'East');
+insert into qcn_align values (4, 'West');
+insert into qcn_align values (5, 'Wall');
 
 create table qcn_host_ipaddr
 (
@@ -90,6 +99,7 @@ latitude double,
 longitude double,
 levelvalue float,
 levelid smallint,
+alignid smallint,
 file varchar(64),
 dt float,
 numreset int(6),
