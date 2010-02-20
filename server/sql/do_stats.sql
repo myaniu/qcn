@@ -51,9 +51,9 @@ BEGIN
            max(t.time_received)
          FROM result r
            LEFT JOIN qcn_finalstats f ON r.id=f.resultid 
-           LEFT JOIN qcn_trigger q    ON r.id=q.resultid 
+           LEFT JOIN qcn_trigger q    ON r.name=q.result_name
            JOIN qcnarchive.qcn_trigger t ON r.name=t.result_name
-         WHERE f.resultid IS NULL AND q.resultid IS NULL AND t.runtime_clock>0
+         WHERE f.resultid IS NULL AND q.result_name IS NULL AND t.runtime_clock>0
                    GROUP BY r.id);
 
 
