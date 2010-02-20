@@ -31,7 +31,7 @@ BEGIN
            time_received
          FROM qcn_finalstats);
 
-    /* note the left join below to ignore triggers for resultid's that we received a final stats trickle for above
+    /* note the left join below to ignore triggers for resultid's that we received a final stats trickle for above */
     INSERT INTO qcn_recalcresult
       (SELECT r.id resultid,                              
        exp(-(abs(unix_timestamp()-max(t.time_received))*0.69314718/604800.0)) weight,
@@ -41,8 +41,21 @@ BEGIN
            LEFT JOIN qcn_finalstats f ON r.id=f.resultid 
            JOIN qcn_trigger t ON r.name=t.result_name
          WHERE f.resultid IS NULL and t.runtime_clock>0
-                GROUP BY r.id);
-     */
+                   GROUP BY r.id);
+
+    /* archived triggers */
+    INSERT INTO qcn_recalcresult
+      (SELECT r.id resultid,                              
+       exp(-(abs(unix_timestamp()-max(t.time_received))*0.69314718/604800.0)) weight,
+         (50.0*IF(MAX(t.runtime_clock)>100000.0,100000.0,MAX(t.runtime_clock)))/86400.0 total_credit,
+           max(t.time_received)
+         FROM result r
+           LEFT JOIN qcn_finalstats f ON r.id=f.resultid 
+           LEFT JOIN qcn_trigger q    ON r.id=q.resultid 
+           JOIN qcnarchive.qcn_trigger t ON r.name=t.result_name
+         WHERE f.resultid IS NULL AND q.resultid IS NULL AND t.runtime_clock>0
+                   GROUP BY r.id);
+
 
     TRUNCATE TABLE qcn_stats;
     INSERT INTO qcn_stats 
