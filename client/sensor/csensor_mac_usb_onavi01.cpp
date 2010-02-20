@@ -95,7 +95,8 @@ bool CSensorMacUSBONavi01::detect()
 	
 	setSingleSampleDT(true);
 
-	return true;
+	float x,y,z;
+	return read_xyz(x,y,z);
 }
 
 inline bool CSensorMacUSBONavi01::read_xyz(float& x1, float& y1, float& z1)
@@ -138,7 +139,14 @@ Values >32768 are positive g and <32768 are negative g. The sampling rate is set
 	x1 = y1 = z1 = 0.0f;
 	const char cWrite = '*';
 
-	if ((iRead = write(m_fd, &cWrite, 1)) == 1) {   // send a * to the device to get back the data
+	int iCtr = 0;
+	while ((iRead = write(m_fd, &cWrite, 1)) != 1 && iCtr++<10) {
+	    // try again, may need a little pause on the first time
+		boinc_sleep(0.1f);
+	}
+	if (iRead == 1) {   // send a * to the device to get back the data
+		
+	//if ((iRead = write(m_fd, &cWrite, 1)) == 1) {   // send a * to the device to get back the data
 		memset(bytesIn, 0x00, ciLen+1);
 		iRead = read(m_fd, bytesIn, ciLen);
 		switch (iRead) {
