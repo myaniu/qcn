@@ -42,6 +42,7 @@ BEGIN
            JOIN qcn_trigger t ON r.name=t.result_name
          WHERE f.resultid IS NULL and t.runtime_clock>0
                 GROUP BY r.id);
+     */
 
     TRUNCATE TABLE qcn_stats;
     INSERT INTO qcn_stats 
