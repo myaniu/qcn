@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IFPkgDescriptionDescription</key>
+	<string>This installs the driver for the ONavi USB sensor for use by the Quake-Catcher Network software (BOINC or QCNLive)</string>
+	<key>IFPkgDescriptionTitle</key>
+	<string>QCN ONavi 1 USB Mac OS X Driver Installation</string>
+</dict>
+</plist>
