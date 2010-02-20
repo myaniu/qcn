@@ -31,7 +31,7 @@ BEGIN
            time_received
          FROM qcn_finalstats);
 
-    /* note the left join below to ignore triggers for resultid's that we received a final stats trickle for above */
+    /* note the left join below to ignore triggers for resultid's that we received a final stats trickle for above
     INSERT INTO qcn_recalcresult
       (SELECT r.id resultid,                              
        exp(-(abs(unix_timestamp()-max(t.time_received))*0.69314718/604800.0)) weight,
