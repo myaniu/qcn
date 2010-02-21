@@ -95,12 +95,7 @@ bool CSensorMacUSBONavi01::detect()
 	
 	setSingleSampleDT(true);
 
-	float x,y,z;
-	x = tcdrain(m_fd);
-	y = tcflush(m_fd, TCIOFLUSH);
-	z = tcflow(m_fd, TCION);
-	return true;
-//	return read_xyz(x,y,z);
+    return true;
 }
 
 inline bool CSensorMacUSBONavi01::read_xyz(float& x1, float& y1, float& z1)
