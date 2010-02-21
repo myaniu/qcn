@@ -82,16 +82,18 @@ bool CSensorMacUSBONavi01::detect()
 	}
 	
 	// flow contol
-	tty.c_cflag |= (CS8 | CREAD | CLOCAL);
+	tty.c_iflag = 0;
+	tty.c_oflag = 0;
+	tty.c_cflag = CS8 | CREAD | CLOCAL;
 
-	if (tcsetattr(m_fd, TCSAFLUSH, &tty) == -1 || tcflush(m_fd, TCIOFLUSH) ) {
+	if (tcsetattr(m_fd, TCSANOW, &tty) == -1 || tcsendbreak(m_fd, 10) == -1 ) { // tcflow(m_fd, TCION) == -1) { // || tcflush(m_fd, TCIOFLUSH) == -1) {
 		closePort();
 		return false;
 	}
 	
 	// exists, so setPort & Type
 	setType(SENSOR_USB_ONAVI_1);
-	setPort(1);
+	setPort(m_fd);
 	
 	setSingleSampleDT(true);
 
