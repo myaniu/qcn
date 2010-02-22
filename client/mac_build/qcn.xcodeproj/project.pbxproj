@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		432925DA1132D60500A30C6E /* coproc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43D5F17F1104EA450045EF34 /* coproc.cpp */; };
+		432925F51132D8F000A30C6E /* coproc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43D5F17F1104EA450045EF34 /* coproc.cpp */; };
 		43304A7410FF76BB00A823FE /* qcn_thread_sensor_util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43304A7310FF76BB00A823FE /* qcn_thread_sensor_util.cpp */; };
 		43304A7510FF76BB00A823FE /* qcn_thread_sensor_util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43304A7310FF76BB00A823FE /* qcn_thread_sensor_util.cpp */; };
 		43304A7610FF76BB00A823FE /* qcn_thread_sensor_util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43304A7310FF76BB00A823FE /* qcn_thread_sensor_util.cpp */; };
@@ -916,6 +918,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				432925F51132D8F000A30C6E /* coproc.cpp in Sources */,
 				E388F8780FF1B9CD00D948DE /* qcnusb.cpp in Sources */,
 				E388F8500FF1B9A900D948DE /* qcn_shmem_usb.cpp in Sources */,
 				E388F85E0FF1B9A900D948DE /* qcn_shmem.cpp in Sources */,
@@ -1078,6 +1081,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				432925DA1132D60500A30C6E /* coproc.cpp in Sources */,
 				E3D35BF10FF177FD00E64121 /* qcn_graphics.cpp in Sources */,
 				E3D35BF00FF177FD00E64121 /* qcn_2dplot.cpp in Sources */,
 				E3D35BF20FF177FD00E64121 /* qcn_earth.cpp in Sources */,

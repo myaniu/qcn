@@ -1,5 +1,7 @@
 #include "qcn_thread_sensor_util.h"
 
+#ifndef QCN_USB
+
 namespace qcn_thread_sensor_loop {
 	
 void TriggerDetectionAlgorithm()
@@ -94,3 +96,4 @@ void TriggerDetectionAlgorithm()
 }  // namespace
 
 
+#endif // ifndef QCN_USB

@@ -1,5 +1,6 @@
 #include "qcn_thread_sensor_util.h"
 
+#ifndef QCN_USB
 void initDemoCounters(bool bReset)
 {
    // first, if in demo mode and init'ing from a timing error reset, write out what we can
@@ -566,3 +567,4 @@ void SetSensorThresholdAndDiffFactor()
 	}
 }
 		
+#endif  //ifndef QCN_USB
