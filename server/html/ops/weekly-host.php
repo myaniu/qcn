@@ -9,12 +9,17 @@ require_once("/var/www/boinc/sensor/html/inc/util.inc");
 
 db_init();
 
-$query_weekly = "select yearweek(from_unixtime(time_received)) yw, count(distinct hostid) ctr
-from (
+$result = mysql_query("CREATE TEMPORARY TABLE tmptrigger (time_received double, hostid int(11))");
+$result = mysql_query("INSERT INTO tmptrigger 
       select time_received, hostid from qcnalpha.qcn_trigger
-        UNION
-      select time_received, hostid from qcnarchive.qcn_trigger where time_received>(unix_timestamp()-(3600*24*190))
-      ) a
+     ");
+$result = mysql_query("INSERT INTO tmptrigger 
+      select time_received, hostid from qcnarchive.qcn_trigger
+         where time_received>(unix_timestamp()-(3600*24*190)) 
+     ");
+
+$query_weekly = "select yearweek(from_unixtime(time_received)) yw, count(distinct hostid) ctr
+from tmptrigger
 where yearweek(from_unixtime(time_received))
   between 
       yearweek(date(date_sub(date(date_sub(now(), interval 180 day)), 
@@ -25,11 +30,7 @@ group by yearweek(from_unixtime(time_received))
 order by yearweek(from_unixtime(time_received))";
 
 $query_daily = "select date(from_unixtime(time_received)) yw, count(distinct hostid) ctr
-from (
-      select time_received, hostid from qcnalpha.qcn_trigger
-        UNION
-      select time_received, hostid from qcnarchive.qcn_trigger where time_received>(unix_timestamp()-(3600*24*190))
-      ) a
+from tmptrigger
 where date(from_unixtime(time_received))
   between 
       date(date_sub(date(date_sub(now(), interval 180 day)), 
