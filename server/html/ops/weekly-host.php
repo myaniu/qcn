@@ -13,7 +13,7 @@ $query_weekly = "select yearweek(from_unixtime(time_received)) yw, count(distinc
 from (
       select time_received, hostid from qcnalpha.qcn_trigger
         UNION
-      select time_received, hostid from qcnarchive.qcn_trigger where time_received>unix_timestamp()-(3600*24*190)
+      select time_received, hostid from qcnarchive.qcn_trigger where time_received>(unix_timestamp()-(3600*24*190))
       ) a
 where yearweek(from_unixtime(time_received))
   between 
@@ -28,7 +28,7 @@ $query_daily = "select date(from_unixtime(time_received)) yw, count(distinct hos
 from (
       select time_received, hostid from qcnalpha.qcn_trigger
         UNION
-      select time_received, hostid from qcnarchive.qcn_trigger where time_received>unix_timestamp()-(3600*24*190)
+      select time_received, hostid from qcnarchive.qcn_trigger where time_received>(unix_timestamp()-(3600*24*190))
       ) a
 where date(from_unixtime(time_received))
   between 
