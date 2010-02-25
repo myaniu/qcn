@@ -10,13 +10,18 @@ require_once("/var/www/boinc/sensor/html/inc/util.inc");
 db_init();
 
 $result = mysql_query("CREATE TEMPORARY TABLE tmptrigger (time_received double, hostid int(11))");
+if (!$result) exit(1);
+
 $result = mysql_query("INSERT INTO tmptrigger 
       select time_received, hostid from qcnalpha.qcn_trigger
      ");
+if (!$result) exit(2);
+
 $result = mysql_query("INSERT INTO tmptrigger 
       select time_received, hostid from qcnarchive.qcn_trigger
          where time_received>(unix_timestamp()-(3600*24*190)) 
      ");
+if (!$result) exit(3);
 
 $query_weekly = "select yearweek(from_unixtime(time_received)) yw, count(distinct hostid) ctr
 from tmptrigger
@@ -49,7 +54,7 @@ $dataz = array();
 $ictr = 0;
 
 $result = mysql_query($query_daily);
-if (!$result) exit(1);
+if (!$result) exit(10);
 
 while ($res = mysql_fetch_array($result)) {
    $dataz[$ictr] = $res[1];
@@ -63,7 +68,7 @@ while ($res = mysql_fetch_array($result)) {
 mysql_free_result($result);
 
 $result = mysql_query($query_weekly);
-if (!$result) exit(1);
+if (!$result) exit(11);
 
 $total = $ictr;
 $ictr = 0;
