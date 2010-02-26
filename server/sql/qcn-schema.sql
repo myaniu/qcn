@@ -44,6 +44,7 @@ latitude double,
 longitude double,
 levelvalue float,
 levelid smallint,
+alignid smallint,
 geoipaddrid int(11) not null default 0
 );
 
