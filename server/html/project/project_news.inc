@@ -1,5 +1,13 @@
 <?php
 $project_news = array(
+   array("February 10, 2010",
+"A rare midwestern US earthquake was detected by a QCN participant in Illinois.  The quake was of <A HREF=\"http://earthquake.usgs.gov/earthquakes/recenteqsus/Quakes/us2010snay.php\">magnitude 3.8 and was 45 miles northwest of Chicago, Illinois</A>.  The quake was only one of three detected in the upper Midwest in the past 21 years.  The QCN participant was using an external JoyWarrior USB sensor - you can see the <A HREF=\"http://qcn-web.stanford.edu/download/illinois.png\">plot of the QCN-detected quake activity here.</A><BR><BR>",
+ "QCN Participant Detects Illinois M3.8 Quake"
+  ),
+   array("January 27, 2010",
+"Due to maintenance work in the server room at Stanford, QCN will be down the morning (Pacific Time) of the 27th.<BR><BR>",
+ "Planned Server Outage Weds 01/27/2010"
+  ),
    array("November 9, 2009",
 "New versions of QCNLive for Mac and Windows have been developed which allow you to record the sensor output in a 'csv' (comma-separated values) format for import into spreadsheet software such as Excel.  Also web links to the USGS site have been updated to reflect the new USGS website layout.<BR>",
  "New QCNLive versions (5.34)"

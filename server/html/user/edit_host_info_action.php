@@ -95,6 +95,13 @@ for ($i = 0; $i < 5; $i++)
    }
 }
 
+$ir = $_POST['radioAlign'];
+$iRadioAlign = 0;
+// verify valid value for alignment i.e. unaligned, north, wall (0,1,5) from qcn_align table
+if ($ir == 0 || $ir == 1 || $ir == 5) {
+   $iRadioAlign = $ir;
+}
+
 // if we made it here we're doing OK, i.e. everything validated
 
 // first delete the old records
@@ -124,11 +131,11 @@ for ($i = 0; $i < 5; $i++) {
        $lvlv = "NULL";
        $lvlt = "NULL";
     }
-    $sql = "(hostid, ipaddr, location, latitude, longitude, levelvalue, levelid) "
+    $sql = "(hostid, ipaddr, location, latitude, longitude, levelvalue, levelid, alignid) "
        . " values (" . $host->id . ",'" . $db->base_escape_string($ipaddr) . "','" . $loc . "',"
        . $db->base_escape_string($_POST["lat" . $i]) . ", "
        . $db->base_escape_string($_POST["lng" . $i]) . ", "
-       . $lvlv . ", " . $lvlt . ")";
+       . $lvlv . ", " . $lvlt . ", " . $iRadioAlign . ")";
 
     //echo $sql;
     $retval = $db->insert("qcn_host_ipaddr", $sql);
