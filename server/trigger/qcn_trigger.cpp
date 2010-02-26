@@ -71,6 +71,7 @@
  longitude      double       YES        NULL            
  levelvalue     float        YES        NULL            
  levelid        smallint     YES        NULL            
+ alignid 
  file           varchar(64)  YES        NULL            
  dt             float        YES        NULL            
  numreset       int(6)       YES        NULL            
@@ -167,6 +168,7 @@ int handle_qcn_trigger(const DB_MSG_FROM_HOST* pmfh, bool bPing)
        longitude      double       YES        NULL            
        levelvalue     float        YES        NULL            
        levelid        smallint     YES        NULL            
+       alignid
        ipaddr         varchar(32)
        received_file & file_url & usgs_quakeid should be null
      */
@@ -177,6 +179,7 @@ int handle_qcn_trigger(const DB_MSG_FROM_HOST* pmfh, bool bPing)
      strcpy(qtrig.file_url,"");
      qtrig.levelvalue = 0;
      qtrig.levelid    = 0;
+     qtrig.alignid = 0;
 
      // so it's really latitude, longitude, levelvalue, levelid and ipaddr left to add to qcn_trigger object & database table
 
@@ -277,6 +280,7 @@ int handle_qcn_trigger(const DB_MSG_FROM_HOST* pmfh, bool bPing)
            qtrig.longitude = qhip.longitude;
            qtrig.levelvalue = qhip.levelvalue;
            qtrig.levelid = qhip.levelid;
+           qtrig.alignid = qhip.alignid;
            iRetVal = qtrig.insert();  // note if the insert fails, return code will be set and returned below, for update later
            if (!iRetVal) { // trigger got in OK
                 log_messages.printf(
@@ -388,8 +392,10 @@ int lookupGeoIPWebService(
                                     qtrig.longitude  = qgip.longitude;
                                     qhip.levelvalue = 0;
                                     qhip.levelid    = 0;
+                                    qhip.alignid    = 0;
                                     qtrig.levelvalue = 0;
                                     qtrig.levelid    = 0;
+                                    qtrig.alignid    = 0;
                                     iReturn = qhip.insert();
                                     if (!iReturn) { // success, insert trigger, if fails retcode sent below
                                         iReturn = qtrig.insert();
@@ -451,8 +457,10 @@ int lookupGeoIPWebService(
                        qtrig.longitude  = qgip.longitude;
                        qhip.levelvalue = 0;
                        qhip.levelid    = 0;
+                       qhip.alignid    = 0;
                        qtrig.levelvalue = 0;
                        qtrig.levelid    = 0;
+                       qtrig.alignid    = 0;
 
                        iReturn = qhip.insert();  // note if the insert fails, return code will be set and returned below
                        if (!iReturn) iReturn = qtrig.insert();  // note if the insert fails, return code will be set and returned below

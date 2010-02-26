@@ -72,6 +72,7 @@ struct QCN_HOST_IPADDR
     double longitude;
     float levelvalue;
     int levelid;
+    int alignid;
     int geoipaddrid;
 };
 
@@ -103,6 +104,7 @@ struct QCN_TRIGGER
     double longitude;
     float  levelvalue;
     int levelid;
+    int alignid;
     char file[64];
     double dt;
     int numreset;
@@ -110,11 +112,13 @@ struct QCN_TRIGGER
     char sw_version[9];
     char os_type[9];
     int usgs_quakeid;
+    double time_filereq;
     int received_file;
     char file_url[64];
     double runtime_clock;
     double runtime_cpu;
     int ping;
+    int flag;
 };
 
 class DB_QCN_HOST_IPADDR : public DB_BASE, public QCN_HOST_IPADDR 
@@ -146,9 +150,10 @@ public:
         "longitude=%f,"
         "levelvalue=%s,"
         "levelid=%s,"
+        "alignid=%s,"
         "geoipaddrid=%d",
         hostid, ipaddr, location, latitude, longitude, 
-          strLevelValue, strLevelID,
+          strLevelValue, strLevelID, alignid,
         geoipaddrid
       );
     }
@@ -165,6 +170,7 @@ public:
       longitude = safe_atof(r[i++]);
       levelvalue = safe_atof(r[i++]);
       levelid = safe_atoi(r[i++]);
+      alignid = safe_atoi(r[i++]);
       geoipaddrid = safe_atoi(r[i++]);
     }
 };
@@ -249,6 +255,7 @@ public:
         "longitude=%f,"
         "levelvalue=%s,"
         "levelid=%s,"
+        "alignid=%s,"
         "file='%s',"
         "dt=%f,"
         "numreset=%d,"
@@ -256,14 +263,17 @@ public:
         "sw_version='%s',"
         "os_type='%s',"
         "usgs_quakeid=%d,"
+        "time_filereq=%f,"
         "received_file=%d,"
         "file_url='%s',"
         "runtime_clock=%f,"
         "runtime_cpu=%f,"
-        "ping=%d",
+        "ping=%d,",
+        "flag=%d",
         hostid, ipaddr, result_name, time_trigger, time_sync, sync_offset,
-        significance, magnitude, latitude, longitude, strLevelValue, strLevelID, file, dt, numreset, type_sensor, sw_version, os_type,
-        usgs_quakeid, received_file, file_url, runtime_clock, runtime_cpu, ping
+        significance, magnitude, latitude, longitude, strLevelValue, strLevelID, alignid,
+        file, dt, numreset, type_sensor, sw_version, os_type,
+        usgs_quakeid, time_filereq, received_file, file_url, runtime_clock, runtime_cpu, ping, flag
       );
     }
 
@@ -285,6 +295,7 @@ public:
       longitude = safe_atof(r[i++]);
       levelvalue = safe_atof(r[i++]);
       levelid = safe_atoi(r[i++]);
+      alignid = safe_atoi(r[i++]);
       strcpy2(file, r[i++]);
       dt = safe_atof(r[i++]);
       numreset = safe_atoi(r[i++]);
@@ -292,11 +303,13 @@ public:
       strcpy2(sw_version, r[i++]);
       strcpy2(os_type, r[i++]);
       usgs_quakeid = safe_atoi(r[i++]);
+      time_filereq = safe_atof(r[i++]);
       received_file = safe_atoi(r[i++]);
       strcpy2(file_url, r[i++]);
       runtime_clock = safe_atof(r[i++]);
       runtime_cpu = safe_atof(r[i++]);
       ping = safe_atoi(r[i++]);
+      flag = safe_atoi(r[i++]);
     }
 };
 
