@@ -188,11 +188,6 @@
         transitioner
       </cmd>
     </daemon>
-    <daemon>
-      <cmd>
-        file_deleter
-      </cmd>
-    </daemon>
   </daemons>
 </boinc>
 
