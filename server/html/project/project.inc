@@ -391,7 +391,7 @@ function show_trigger($hostid, $heading, $private=true)
    // CMC note - DBNAME gets replaced by appropriate database name in the db->do_query()
    $sql = "select t.id,file,time_trigger,time_received,"
        . "time_sync,sync_offset,significance, magnitude, " . $sqllatlng 
-       . "dt, numreset, s.description, sw_version,os_type,runtime_cpu,runtime_clock,ping,levelvalue,levelid,received_file,file_url,result_name "
+       . "dt, numreset, s.description, sw_version,os_type,runtime_cpu,runtime_clock,ping,levelvalue,levelid,received_file,file_url,result_name,alignid "
        . "from DBNAME.qcn_trigger t, DBNAME.qcn_sensor s where t.type_sensor=s.id and hostid=$hostid order by time_trigger desc limit " . MAX_NUM_TRIGGER;
    $result=$db->do_query($sql);
    echo "<H2>$heading</H2>\n";
@@ -408,6 +408,7 @@ function show_trigger($hostid, $heading, $private=true)
              <th>Latitude</th>
              <th>Longitude</th>
              <th>Elevation</th>
+             <th>Align</th>
              <th>Delta T</th>
              <th>Num Reset</th>
              <th>Sensor Type</th>
@@ -472,6 +473,12 @@ mysql> select * from qcn_level;
            }
          }
 
+         $alignment = "U";
+         switch($row[23]) { // alignid
+           case 1:  $alignment = "N"; break;
+           case 5:  $alignment = "W"; break;
+         }
+
          echo "    <tr bgcolor=$bgcolor>
                    <td>$strTableFont$row[0]$strFontEnd</td>
                    <td>$strTableFont" . time_str($row[2]) . "$strFontEnd</td>
@@ -483,6 +490,7 @@ mysql> select * from qcn_level;
                    <td>$strTableFont". round($row[8],3) . "$strFontEnd</td>
                    <td>$strTableFont". round($row[9],3) . "$strFontEnd</td>
                    <td>$strTableFont". $elev . "$strFontEnd</td>
+                   <td>$strTableFont". $alignment . "$strFontEnd</td>
                    <td>$strTableFont" . ($row[10] ? $row[10] : 0) . "$strFontEnd</td>
                    <td>$strTableFont$row[11]$strFontEnd</td>
                    <td>$strTableFont$row[12]$strFontEnd</td>
