@@ -150,7 +150,7 @@ public:
         "longitude=%f,"
         "levelvalue=%s,"
         "levelid=%s,"
-        "alignid=%s,"
+        "alignid=%d,"
         "geoipaddrid=%d",
         hostid, ipaddr, location, latitude, longitude, 
           strLevelValue, strLevelID, alignid,
@@ -255,7 +255,7 @@ public:
         "longitude=%f,"
         "levelvalue=%s,"
         "levelid=%s,"
-        "alignid=%s,"
+        "alignid=%d,"
         "file='%s',"
         "dt=%f,"
         "numreset=%d,"
