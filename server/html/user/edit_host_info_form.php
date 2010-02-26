@@ -126,7 +126,8 @@ if (!$hll || !$buserset)
   }
 
    // need to push this into the start of the hll array, i.e. may have geoip entries?
-   // geoipaddrid,ipaddr,location,latitude,longitude
+   // select geoipaddrid,ipaddr,location,latitude,longitude,levelvalue,levelid,alignid from qcn_host_ipaddr where hostid=$hostid order by geoipaddrid,location";
+
    $hll[$hllsize][0] = 0;
    $hll[$hllsize][1] = $ipaddr;
    $hll[$hllsize][2] = "geoip";
@@ -139,7 +140,7 @@ if (!$hll || !$buserset)
    $bnewuser = true;
 }
 
-$iRadioAlign = $hll[0][6];  // the first record is the radio btn alignment
+$iRadioAlign = $hll[0][7];  // the first record is the radio btn alignment
 
 page_head("Edit Host Location/Network Address Map Information", null, null, "", true, $psprefs);
 echo "<H1>Edit Host Location/Network Address Map Information</H1>";
@@ -320,11 +321,11 @@ echo ">(Optional)  Show This Computer's Exact Location on Public QCN Maps and Li
 // add radio buttons for type of alignment
 echo "<tr><td colspan=2>";
 echo "(Optional)  Sensor alignment state: &nbsp&nbsp&nbsp";
-echo "<input type=\"radio\" name=\"radioAlign\" value=\"0\" " . (iRadioAlign==0 ? "checked" : "") . ">Unaligned  ";
+echo "<input type=\"radio\" name=\"radioAlign\" value=\"0\" " . ($iRadioAlign==0 ? "checked" : "") . ">Unaligned  ";
 echo "&nbsp&nbsp&nbsp&nbsp";
-echo "<input type=\"radio\" name=\"radioAlign\" value=\"1\" " . (iRadioAlign==1 ? "checked" : "") . ">North      ";
+echo "<input type=\"radio\" name=\"radioAlign\" value=\"1\" " . ($iRadioAlign==1 ? "checked" : "") . ">North      ";
 echo "&nbsp&nbsp&nbsp&nbsp";
-echo "<input type=\"radio\" name=\"radioAlign\" value=\"5\" " . (iRadioAlign==5 ? "checked" : "") . ">Wall       ";
+echo "<input type=\"radio\" name=\"radioAlign\" value=\"5\" " . ($iRadioAlign==5 ? "checked" : "") . ">Wall       ";
 echo "</td></tr>";
 
 row2("", "<input type=submit value='Update info'>");
