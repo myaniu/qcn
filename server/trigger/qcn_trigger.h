@@ -268,7 +268,7 @@ public:
         "file_url='%s',"
         "runtime_clock=%f,"
         "runtime_cpu=%f,"
-        "ping=%d,",
+        "ping=%d,"
         "flag=%d",
         hostid, ipaddr, result_name, time_trigger, time_sync, sync_offset,
         significance, magnitude, latitude, longitude, strLevelValue, strLevelID, alignid,
