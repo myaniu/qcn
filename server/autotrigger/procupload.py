@@ -35,7 +35,7 @@ UNZIP_CMD = "/usr/bin/unzip -o -d " + UPLOAD_WEB_DIR + " "
 DBNAME = "qcnalpha"
 DBHOST = "db-private"
 DBUSER = "qcn"
-DBPASSWD = ""
+DBPASSWD = "1QCNQuake"
 
    
 def removeTempDir(tmpdir):
@@ -102,13 +102,15 @@ def processSingleZipFile(dbconn, myzipfile):
             dbconn.commit()
 
       myzip.close()
-      shutil.move(fullzippath, UPLOAD_BACKUP_DIR)
+      shutil.copy2(fullzippath, UPLOAD_BACKUP_DIR)
+      os.remove(fullzippath)
       print "Successfully processed " + fullzippath
       
    except zipfile.error:
       print fullzippath + " is an invalid zip file"
       # move out invalid zip file
-      shutil.move(fullzippath, UPLOAD_BACKUP_DIR)
+      shutil.copy2(fullzippath, UPLOAD_BACKUP_DIR)
+      os.remove(fullzippath)
       dbconn.rollback()
       traceback.print_exc()
    except:
