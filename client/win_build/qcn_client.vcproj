@@ -47,7 +47,7 @@
 				AdditionalIncludeDirectories="../../;../main;../util;../sensor;../../zlib;../../../boinc/zip;../../../boinc/lib;../../../boinc/api"
 				PreprocessorDefinitions="_USE_NTPDATE_EXEC_;_WIN32;WIN32;_DEBUG;_CRT_SECURE_NO_DEPRECATE;_ZLIB;APP_GRAPHICS"
 				BasicRuntimeChecks="3"
-				RuntimeLibrary="3"
+				RuntimeLibrary="1"
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="false"
 				DebugInformationFormat="4"
@@ -134,7 +134,7 @@
 				AdditionalIncludeDirectories="../../;../main;../util;../sensor;../../zlib;../../../boinc/zip;../../../boinc/lib;../../../boinc/api"
 				PreprocessorDefinitions="_WIN64;_USE_NTPDATE_EXEC_;_WIN32;WIN32;_DEBUG;_CRT_SECURE_NO_DEPRECATE;_ZLIB;APP_GRAPHICS"
 				BasicRuntimeChecks="3"
-				RuntimeLibrary="3"
+				RuntimeLibrary="1"
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="false"
 				DebugInformationFormat="3"
@@ -223,7 +223,7 @@
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="../../;../main;../sensor;../util;../../../boinc/lib;../../zlib;../../../boinc/api;../../../boinc/zip"
 				PreprocessorDefinitions="_USE_NTPDATE_EXEC_;_WIN32;NDEBUG;_WIN32;_CRT_SECURE_NO_DEPRECATE;_ZLIB;APP_GRAPHICS"
-				RuntimeLibrary="2"
+				RuntimeLibrary="0"
 				ForcedIncludeFiles="windows.h"
 			/>
 			<Tool
@@ -310,7 +310,7 @@
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="../../;../main;../sensor;../util;../../../boinc/lib;../../zlib;../../../boinc/api;../../../boinc/zip"
 				PreprocessorDefinitions="_WIN64;_USE_NTPDATE_EXEC_;_WIN32;NDEBUG;_WIN32;_CRT_SECURE_NO_DEPRECATE;_ZLIB;APP_GRAPHICS"
-				RuntimeLibrary="2"
+				RuntimeLibrary="0"
 				ForcedIncludeFiles="windows.h"
 			/>
 			<Tool
