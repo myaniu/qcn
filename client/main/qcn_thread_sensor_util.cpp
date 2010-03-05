@@ -29,6 +29,7 @@ void checkRecordState()
 		g_bRecordState = true;
 		g_lDemoOffsetStart = sm->lOffset;
 	}
+#endif
 	
 	// put the demo start time on an even time boundary i.e. every 10 minutes from midnight
 	if (g_bRecordState || qcn_main::g_bDemo || qcn_main::g_bContinual) { // have to check versus ntpd server time
@@ -43,7 +44,6 @@ void checkRecordState()
                 // put all the triggering stuff for demo mode in this function as we may want to call it on a timing reset too
 		checkDemoTrigger(g_bRecordState && !sm->bRecording);  
 	}
-#endif
 }
 
 
@@ -337,7 +337,7 @@ bool getInitialMean(CSensor* psms)
            sm->xa[0] += (sm->x0[0] / 10.0f);
            sm->ya[0] += (sm->y0[0] / 10.0f);
            sm->za[0] += (sm->z0[0] / 10.0f);
-			checkRecordState();
+	   checkRecordState();
         }
         sm->sgmx = 0.0f;
         sm->xa[0]  = sm->x0[0];
@@ -376,7 +376,7 @@ bool getBaseline(CSensor* psms)
           sm->za[i]  = ((i) * sm->za[i-1] + sm->z0[i])/(i+1);         //  AVERAGE Z
           sm->fmag[i] = sqrt(QCN_SQR(sm->x0[i]-sm->xa[i-1])+QCN_SQR(sm->y0[i]-sm->ya[i-1])+QCN_SQR(sm->z0[i]-sm->za[i-1]));
 
-		   checkRecordState();
+          checkRecordState();
 
 		   // test max/min
           //sm->testMinMax(sm->x0[i], E_DX);
