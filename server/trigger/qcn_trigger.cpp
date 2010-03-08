@@ -102,15 +102,8 @@ bool execute_curl(const char* strURL, char* strReply, const int iLen);
 // decl for curl write function
 size_t qcn_curl_write_data(void *ptr, size_t size, size_t nmemb, void *stream);
 
-// the qcn_quakelist will insert a record from a quakelist trigger 
-// so that we can get basic diagnostics on a host running QCN (i.e. number of reset errors, last time sync & offset etc)
-int handle_qcn_quakelist(const DB_MSG_FROM_HOST* pmfh)
-{
-    return handle_qcn_trigger(pmfh, true);
-}
-
 // handle_qcn_trigger processes the trigger trickle, does the geoip or database lookup as appropriate, inserts into qcn_trigger
-int handle_qcn_trigger(const DB_MSG_FROM_HOST* pmfh, bool bPing)
+int handle_qcn_trigger(const DB_MSG_FROM_HOST* pmfh, const int iVariety)
 {
      // instantiate the objects
      DB_QCN_HOST_IPADDR qhip;
@@ -147,18 +140,18 @@ int handle_qcn_trigger(const DB_MSG_FROM_HOST* pmfh, bool bPing)
 
      qtrig.time_received = dtime();  // mark current server time as time_received, this gets overridden by database unix_timestamp() in qcn_trigger.h db_print
 
-     if (bPing) {
+     if (iVariety) {
        if (qtrig.time_trigger < 1.0f) qtrig.time_trigger = qtrig.time_received; // sometimes trigtime/<ctime> is sent, older versions it wasn't
        qtrig.significance = 0.0f;
        qtrig.magnitude = 0.0f;
        strcpy(qtrig.file,"");
-       qtrig.ping = 1;
+       qtrig.varietyid = iVariety;
      }
      else {
        parse_double(pmfh->xml, "<fsig>", qtrig.significance);
        parse_double(pmfh->xml, "<fmag>", qtrig.magnitude);
        if (!parse_str(pmfh->xml, "<file>", qtrig.file, sizeof(qtrig.file))) memset(qtrig.file, 0x00, sizeof(qtrig.file));
-       qtrig.ping = 0;
+       qtrig.varietyid = 0;
      }
 
 
@@ -216,7 +209,8 @@ int handle_qcn_trigger(const DB_MSG_FROM_HOST* pmfh, bool bPing)
      log_messages.printf(
            SCHED_MSG_LOG::MSG_DEBUG,
            "[QCN] [HOST#%d] [RESULTNAME=%s] [TIME=%lf] Processing QCN %s trickle message from IP %s\n",
-           qtrig.hostid, qtrig.result_name, qtrig.time_received, bPing ? "ping" : "trigger", qtrig.ipaddr
+           qtrig.hostid, qtrig.result_name, qtrig.time_received, 
+              iVariety ? (iVariety==1 ? "ping" : "continual") : "trigger", qtrig.ipaddr
      );
 
      // note if IP address is '' then this just becomes the user pref lat/lng if they input a record with no IP address

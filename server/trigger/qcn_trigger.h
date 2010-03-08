@@ -57,8 +57,7 @@ using namespace std;
 
 extern DB_CONN boinc_db;
 
-extern int handle_qcn_trigger(const DB_MSG_FROM_HOST* pmfh, bool bPing = false);
-extern int handle_qcn_quakelist(const DB_MSG_FROM_HOST* pmfh);
+extern int handle_qcn_trigger(const DB_MSG_FROM_HOST* pmfh, int iVariety = 0);
 
 // structures matching the mySQL tables for QCN defined by qcn/server/qcn-data.sql
 
@@ -117,7 +116,7 @@ struct QCN_TRIGGER
     char file_url[64];
     double runtime_clock;
     double runtime_cpu;
-    int ping;
+    int varietyid;
     int flag;
 };
 
@@ -268,12 +267,12 @@ public:
         "file_url='%s',"
         "runtime_clock=%f,"
         "runtime_cpu=%f,"
-        "ping=%d,"
+        "varietyid=%d,"
         "flag=%d",
         hostid, ipaddr, result_name, time_trigger, time_sync, sync_offset,
         significance, magnitude, latitude, longitude, strLevelValue, strLevelID, alignid,
         file, dt, numreset, type_sensor, sw_version, os_type,
-        usgs_quakeid, time_filereq, received_file, file_url, runtime_clock, runtime_cpu, ping, flag
+        usgs_quakeid, time_filereq, received_file, file_url, runtime_clock, runtime_cpu, varietyid, flag
       );
     }
 
@@ -308,7 +307,7 @@ public:
       strcpy2(file_url, r[i++]);
       runtime_clock = safe_atof(r[i++]);
       runtime_cpu = safe_atof(r[i++]);
-      ping = safe_atoi(r[i++]);
+      varietyid = safe_atoi(r[i++]);
       flag = safe_atoi(r[i++]);
     }
 };
