@@ -124,13 +124,14 @@ varietyid smallint not null default 0,
 flag boolean not null default 0
 );
 
-create index qcn_trigger_time on qcn_trigger (time_trigger desc, ping asc);
-create index qcn_trigger_hostid on qcn_trigger(hostid, time_trigger, ping);
-create index qcn_trigger_timelatlng on qcn_trigger(time_trigger, latitude, longitude, ping);
+create index qcn_trigger_time on qcn_trigger (time_trigger desc, varietyid asc);
+create index qcn_trigger_hostid on qcn_trigger(hostid, time_trigger, varietyid);
+create index qcn_trigger_timelatlng on qcn_trigger(time_trigger, latitude, longitude, varietyid);
+create index qcn_trigger_result_name on qcn_trigger (result_name,id,varietyid);
+
 create index qcn_trigger_hostid_filereq on qcn_trigger(hostid,time_filereq,received_file);
 create index qcn_trigger_quakeid on qcn_trigger (usgs_quakeid);
 create index qcn_trigger_file on qcn_trigger (file);
-create index qcn_trigger_result_name on qcn_trigger (result_name,id,ping);
 create index qcn_trigger_type_sensor on qcn_trigger (type_sensor);
 create index qcn_trigger_usgs_quakeid on qcn_trigger (usgs_quakeid);
 create index qcn_trigger_flag on qcn_trigger (flag);
