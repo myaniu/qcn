@@ -140,18 +140,26 @@ int handle_qcn_trigger(const DB_MSG_FROM_HOST* pmfh, const int iVariety)
 
      qtrig.time_received = dtime();  // mark current server time as time_received, this gets overridden by database unix_timestamp() in qcn_trigger.h db_print
 
+     if (!parse_str(pmfh->xml, "<file>", qtrig.file, sizeof(qtrig.file))) memset(qtrig.file, 0x00, sizeof(qtrig.file));
      if (iVariety) {
        if (qtrig.time_trigger < 1.0f) qtrig.time_trigger = qtrig.time_received; // sometimes trigtime/<ctime> is sent, older versions it wasn't
-       qtrig.significance = 0.0f;
+       qtrig.significance = 0.0f;  // blank out sig/mag for not normal (variety!=0) triggers
        qtrig.magnitude = 0.0f;
-       strcpy(qtrig.file,"");
+       if (iVariety != 2) strcpy(qtrig.file,"");   // no filename if not continual or normal trigger
        qtrig.varietyid = iVariety;
      }
      else {
        parse_double(pmfh->xml, "<fsig>", qtrig.significance);
        parse_double(pmfh->xml, "<fmag>", qtrig.magnitude);
-       if (!parse_str(pmfh->xml, "<file>", qtrig.file, sizeof(qtrig.file))) memset(qtrig.file, 0x00, sizeof(qtrig.file));
        qtrig.varietyid = 0;
+
+       // fudge database hack - if normal trigger - check for continual trigger amongst the real trig if sw version < 5.47
+       if ( atof(qtrig.sw_version) < 5.47f && strstr(qtrig.result_name, "continual_") ) {
+          qtrig.significance = 0.0f;  // blank out sig/mag for not normal (variety!=0) triggers
+          qtrig.magnitude = 0.0f;
+          qtrig.varietyid = 2;
+       }
+
      }
 
 
