@@ -1130,10 +1130,10 @@ void handle_msgs_from_host() {
         if (!strcmp(mfh.variety, "trigger")) { // it's a trigger
             iVariety = 0;
         }
-        else if (!strcmp(mfh.variety, "ping")) { // it's a trigger
+        else if (!strcmp(mfh.variety, "ping") || !strcmp(mfh.variety, "quakelist") ) { // it's a ping
             iVariety = 1;
         }
-        else if (!strcmp(mfh.variety, "continual")) { // it's a trigger
+        else if (!strcmp(mfh.variety, "continual")) { // it's a continual trigger
             iVariety = 2;
         }
         
@@ -1141,12 +1141,8 @@ void handle_msgs_from_host() {
             retval = handle_qcn_trigger(&mfh, iVariety);
         }
         else {
-            if (!strcmp(mfh.variety, "quakelist")) { // quakelist / status trickle
-               retval = handle_qcn_quakelist(&mfh);
-            }
-            else { // not a real trigger or quakelist trickle, insert into msg_from_host table as usual
-               retval = mfh.insert(); // not a trigger and not a quakelist, process as normal (probably a "nosensor" msg)
-            }
+            // not a real trigger or quakelist trickle, insert into msg_from_host table as usual
+            retval = mfh.insert(); // not a trigger and not a quakelist, process as normal (probably a "nosensor" msg)
         }
 //        retval = mfh.insert();
 // CMC - end block for mfh insert
