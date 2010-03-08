@@ -1126,8 +1126,19 @@ void handle_msgs_from_host() {
         );
    // CMC -- handle triggers via handle_qcn_trigger
         retval = 0;
+        int iVariety = -1;
         if (!strcmp(mfh.variety, "trigger")) { // it's a trigger
-            retval = handle_qcn_trigger(&mfh);
+            iVariety = 0;
+        }
+        else if (!strcmp(mfh.variety, "ping")) { // it's a trigger
+            iVariety = 1;
+        }
+        else if (!strcmp(mfh.variety, "continual")) { // it's a trigger
+            iVariety = 2;
+        }
+        
+        if (iVariety > -1 ) { // it's a trigger
+            retval = handle_qcn_trigger(&mfh, iVariety);
         }
         else {
             if (!strcmp(mfh.variety, "quakelist")) { // quakelist / status trickle
