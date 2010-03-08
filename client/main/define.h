@@ -199,11 +199,11 @@ enum e_sensor  { SENSOR_NOTFOUND = 0,  // 0
                  SENSOR_MAC_PPC_TYPE3, // 3
                  SENSOR_MAC_INTEL,     // 4
                  SENSOR_WIN_THINKPAD,  // 5
-		         SENSOR_WIN_HP,        // 6
-		         SENSOR_USB_JW = 100,        // 100
-                 SENSOR_USB_MOTIONNODEACCEL,   // 101
-	             SENSOR_USB_ONAVI_1     // 102
-	             SENSOR_USB_JW2       // 103
+		     SENSOR_WIN_HP,        // 6
+		     SENSOR_USB_JW = 100,        // 100
+                     SENSOR_USB_MOTIONNODEACCEL,   // 101
+	             SENSOR_USB_ONAVI_1,     // 102
+	             SENSOR_USB_JW24F14      // 103
                };
 
 // set to the min allowable value of a usb sensor enum as above
