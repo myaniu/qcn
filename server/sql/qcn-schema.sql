@@ -5,6 +5,7 @@ drop table if exists usgs_quake;
 drop table if exists qcn_sensor;
 drop table if exists qcn_level;
 drop table if exists qcn_align;
+drop table if exists qcn_variety;
 
 create table qcn_sensor (id smallint not null primary key, is_usb boolean not null default 0, description varchar(64));
 insert into qcn_sensor values (0, 0, 'Not Found');
@@ -33,6 +34,12 @@ insert into qcn_align values (2, 'South');
 insert into qcn_align values (3, 'East');
 insert into qcn_align values (4, 'West');
 insert into qcn_align values (5, 'Wall');
+
+create table qcn_variety (id smallint not null primary key default 0, description varchar(64));
+insert into qcn_variety values (0, 'Normal Trigger');
+insert into qcn_variety values (1, 'Ping Trigger');
+insert into qcn_variety values (2, 'Continual Trigger');
+
 
 create table qcn_host_ipaddr
 (
@@ -113,7 +120,7 @@ received_file tinyint(1),
 file_url varchar(128),
 runtime_clock double,
 runtime_cpu double,
-ping boolean not null default 0,
+varietyid smallint not null default 0,
 flag boolean not null default 0
 );
 
