@@ -11,11 +11,31 @@
 
 namespace trickleup {
 
-void qcnTrickleUp(const char* strTrickle, const char* strVariety, const char* strWU)
+void qcnTrickleUp(const char* strTrickle, const int iVariety, const char* strWU)
 {
 #ifdef QCNLIVE
   return; // no trickles on gui!
 #else
+
+enum e_trigvariety { TRIGGER_VARIETY_FINALSTATS = -2, TRIGGER_VARIETY_QUAKELIST, TRIGGER_VARIETY_NORMAL, TRIGGER_VARIETY_PING, TRIGGER_VARIETY_CONTINUAL };
+
+   char strVariety[32];
+   memset(strVariety, 0x00, 32);
+   strcpy(strVariety, "trigger"); break;
+   switch (iVariety) {
+      case TRIGGER_VARIETY_FINALSTATS:
+        strcpy(strVariety, "finalstats"); break;
+      case TRIGGER_VARIETY_QUAKELIST:
+        strcpy(strVariety, "quakelist"); break;
+      case VARIETY_TRIGGER_NORMAL:
+        strcpy(strVariety, "trigger"); break;
+      case TRIGGER_VARIETY_PING:
+        strcpy(strVariety, "ping"); break;
+      case TRIGGER_VARIETY_CONTINUAL:
+        strcpy(strVariety, "continual"); break;
+   }
+
+
         // BOINC adds the appropriate workunit/resultid etc and posts to trickle_up table in MySQL
         static bool bInHere = false;
         if (bInHere) return;

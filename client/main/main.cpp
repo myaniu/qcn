@@ -151,7 +151,7 @@ void sendFinalTrickle()
           XML_CPU_TIME, sm->cpu_time, XML_CPU_TIME
         );
         // upload the qcn_prefs.xml file
-        trickleup::qcnTrickleUp(strFinal, "finalstats", (const char*) sm->dataBOINC.wu_name);  // trickle the final stats, basically like uploading qcnprefs.xml file
+        trickleup::qcnTrickleUp(strFinal, TRIGGER_VARIETY_FINALSTATS, (const char*) sm->dataBOINC.wu_name);  // trickle the final stats, basically like uploading qcnprefs.xml file
       }
 }
 
@@ -577,7 +577,7 @@ int qcn_main(int argc, char **argv)
                     XML_CLOCK_TIME, sm->clock_time, XML_CLOCK_TIME,
                     XML_CPU_TIME, sm->cpu_time, XML_CPU_TIME
                 );
-                trickleup::qcnTrickleUp(strTrigger, "quakelist", (const char*) sm->dataBOINC.wu_name);  // request a new quake list
+                trickleup::qcnTrickleUp(strTrigger, TRIGGER_VARIETY_QUAKELIST, (const char*) sm->dataBOINC.wu_name);  // request a new quake list
                 delete [] strTrigger;
                 boinc_end_critical_section();
               }
@@ -850,7 +850,7 @@ bool CheckTriggerTrickle(struct STriggerInfo* ti)
           XML_CPU_TIME, sm->cpu_time, XML_CPU_TIME
     );
 
-    trickleup::qcnTrickleUp(strTrigger, "trigger", (const char*) sm->dataBOINC.wu_name);  // send a trigger for this trickle
+    trickleup::qcnTrickleUp(strTrigger, ti->iVariety, (const char*) sm->dataBOINC.wu_name);  // send a trigger for this trickle
 
     // filename already set in ti->strFile
     fprintf(stdout, "Trigger detected at offset %ld  time %f  write at %ld - zip file %s\n", 

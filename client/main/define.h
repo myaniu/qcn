@@ -57,10 +57,6 @@ typedef vector<string> ZipFileList;
 */
 #define QCN_INPUT_LOGICAL_NAME "qcn_0"
 
-// values in the qcn_variety table
-#define TRIGGER_VARIETY_NORMAL    0
-#define TRIGGER_VARIETY_PING      1
-#define TRIGGER_VARIETY_CONTINUAL 2
 
 
 #ifdef _WIN32
@@ -177,10 +173,14 @@ enum e_retcode { ERR_NONE = 0, ERR_FINISHED = 1, ERR_NO_SENSOR = 99, ERR_SHMEM, 
     ERR_CRASH, ERR_DIR_TRIGGER, ERR_DIR_IMAGES, ERR_INPUT_FILE, ERR_INPUT_PARSE, 
     ERR_ABORT, ERR_NUM_RESET, ERR_HEARTBEAT, ERR_SUSPEND, ERR_CREATE_THREAD, ERR_SIGNAL };
 
+// values in the qcn_variety table
+enum e_trigvariety { TRIGGER_VARIETY_FINALSTATS = -2, TRIGGER_VARIETY_QUAKELIST, TRIGGER_VARIETY_NORMAL, TRIGGER_VARIETY_PING, TRIGGER_VARIETY_CONTINUAL };
+
 enum e_maxmin  { E_DX, E_DY, E_DZ, E_DS };
 
 enum e_view    { VIEW_PLOT_3D = 1, VIEW_PLOT_2D, VIEW_EARTH_DAY, VIEW_EARTH_NIGHT, VIEW_EARTH_COMBINED, VIEW_CUBE }; 
-enum e_trigger { TRIGGER_UNSET, TRIGGER_IMMEDIATE, TRIGGER_1MIN, TRIGGER_ALL, TRIGGER_DEMO };  // note TRIGGER_DEMO after TRIGGER_ALL so just gets used once
+// note TRIGGER_DEMO after TRIGGER_ALL so just gets used once
+enum e_trigger { TRIGGER_UNSET, TRIGGER_IMMEDIATE, TRIGGER_10SEC, TRIGGER_20SEC, TRIGGER_30SEC, TRIGGER_1MIN, TRIGGER_ALL, TRIGGER_DEMO };  
 enum e_endian  { ENDIAN_LITTLE, ENDIAN_BIG };
 enum e_where   { WHERE_MAIN_STARTUP,
                  WHERE_MAIN_PROJPREFS, 
@@ -203,6 +203,7 @@ enum e_sensor  { SENSOR_NOTFOUND = 0,  // 0
 		         SENSOR_USB_JW = 100,        // 100
                  SENSOR_USB_MOTIONNODEACCEL,   // 101
 	             SENSOR_USB_ONAVI_1     // 102
+	             SENSOR_USB_JW2       // 103
                };
 
 // set to the min allowable value of a usb sensor enum as above

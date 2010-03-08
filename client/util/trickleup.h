@@ -7,7 +7,7 @@
 
 namespace trickleup {
 
-void qcnTrickleUp(const char* strTrickle, const char* strVariety, const char* strWU);
+void qcnTrickleUp(const char* strTrickle, const int iVariety, const char* strWU);
 
 }
 #endif

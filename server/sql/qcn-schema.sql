@@ -36,6 +36,8 @@ insert into qcn_align values (4, 'West');
 insert into qcn_align values (5, 'Wall');
 
 create table qcn_variety (id smallint not null primary key default 0, description varchar(64));
+insert into qcn_variety values (-2, 'Final Stats Trigger');
+insert into qcn_variety values (-1, 'Quakelist Trigger');
 insert into qcn_variety values (0, 'Normal Trigger');
 insert into qcn_variety values (1, 'Ping Trigger');
 insert into qcn_variety values (2, 'Continual Trigger');
