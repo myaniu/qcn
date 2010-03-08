@@ -60,8 +60,9 @@ void TriggerDetectionAlgorithm()
 	
 	   // the threshold values are set in qcn_thread_sensor_util.cpp function SetSensorThresholdAndDiffFactor()
 	
-	   if (!qcn_main::g_bContinual 
-		  && (sm->fsig[sm->lOffset] > qcn_main::g_fPerturb[PERTURB_SIG_CUTOFF])
+	   // if (!qcn_main::g_bContinual   // CMC 03/08/2010 -- continual now has regular triggers
+	   if (
+		 (sm->fsig[sm->lOffset] > qcn_main::g_fPerturb[PERTURB_SIG_CUTOFF])
 		  && (sm->fmag[sm->lOffset] > g_fThreshold) ) {  // was 0.125,  >2 sigma (90% Conf)
 				  // lock & update now if this trigger is >.5 second from the last
 				  double dTime; 

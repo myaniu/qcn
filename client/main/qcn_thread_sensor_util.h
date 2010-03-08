@@ -58,7 +58,7 @@ bool getInitialMean(CSensor* psms);
 double getNextDemoTimeInterval();
 void initDemoCounters(bool bReset = false);
 void checkDemoTrigger(bool bForce = false);
-void doTrigger(bool bReal = true, long lOffsetStart = 0L, long lOffsetEnd = 0L);
+void doTrigger(const bool bReal = true, const long lOffsetStart = 0L, const long lOffsetEnd = 0L, const int iVariety = 0);
 void psmsForceSensor(CSensor* volatile *ppsms);
 void SetSensorThresholdAndDiffFactor();
 

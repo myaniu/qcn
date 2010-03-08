@@ -57,6 +57,12 @@ typedef vector<string> ZipFileList;
 */
 #define QCN_INPUT_LOGICAL_NAME "qcn_0"
 
+// values in the qcn_variety table
+#define TRIGGER_VARIETY_NORMAL    0
+#define TRIGGER_VARIETY_PING      1
+#define TRIGGER_VARIETY_CONTINUAL 2
+
+
 #ifdef _WIN32
   #include <windows.h>
 

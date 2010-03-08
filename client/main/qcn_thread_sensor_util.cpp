@@ -64,7 +64,7 @@ void checkDemoTrigger(bool bForce)
 		// this will do every 10 minute interval until quit (bdemo or continual) or hit stop recording button
           g_lDemoOffsetEnd = sm->lOffset; 
 	  // send a trigger -- if continual mode it will be true, so processed as a normal trigger (i.e. send a trickle at this time)
-          doTrigger(qcn_main::g_bContinual, g_lDemoOffsetStart, g_lDemoOffsetEnd);  // note we're passing in the offset which is just before the next 10 minute period
+          doTrigger(qcn_main::g_bContinual, g_lDemoOffsetStart, g_lDemoOffsetEnd, TRIGGER_VARIETY_CONTINUAL);  // the 2 is for continual variety, note we're passing in the offset which is just before the next 10 minute period
           g_lDemoOffsetStart = sm->lOffset; // set next start point
           g_dStartDemoTime = getNextDemoTimeInterval();  // set next time break point
     }
@@ -406,7 +406,7 @@ bool getBaseline(CSensor* psms)
 }
 
 // report a trigger
-void doTrigger(bool bReal, long lOffsetStart, long lOffsetEnd)
+void doTrigger(const bool bReal, const long lOffsetStart, const long lOffsetEnd, const int iVariety)
 {
             double dTimeTrigger;
 /*
