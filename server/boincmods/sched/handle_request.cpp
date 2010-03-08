@@ -1548,12 +1548,15 @@ void handle_request(FILE* fin, FILE* fout, char* code_sign_key) {
          //  IFF all entries are "trigger" should we bypass (i.e. may be part of another msg)
          unsigned int iTrigger = 0, iCount = 0;
          for (iCount=0; iCount<sreq.msgs_from_host.size(); iCount++) {
-           if (!strcmp(sreq.msgs_from_host[iCount].variety, "trigger"))  {
+           if (!strcmp(sreq.msgs_from_host[iCount].variety, "trigger") 
+             || !strcmp(sreq.msgs_from_host[iCount].variety, "continual"))  {
               // this is a trigger so bump up our counter
               iTrigger++;
               // tack on the external IP address -- msg_text is a std::string
            }
            if (!strcmp(sreq.msgs_from_host[iCount].variety, "trigger")
+                || !strcmp(sreq.msgs_from_host[iCount].variety, "continual") 
+                || !strcmp(sreq.msgs_from_host[iCount].variety, "ping") 
                 || !strcmp(sreq.msgs_from_host[iCount].variety, "quakelist") ) {
              // tack on external IP address if a trigger or quakelist (ping) trickle
              sreq.msgs_from_host[iCount].msg_text += "<extip>";
