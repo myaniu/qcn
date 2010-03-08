@@ -391,7 +391,7 @@ function show_trigger($hostid, $heading, $private=true)
    // CMC note - DBNAME gets replaced by appropriate database name in the db->do_query()
    $sql = "select t.id,file,time_trigger,time_received,"
        . "time_sync,sync_offset,significance, magnitude, " . $sqllatlng 
-       . "dt, numreset, s.description, sw_version,os_type,runtime_cpu,runtime_clock,ping,levelvalue,levelid,received_file,file_url,result_name,alignid "
+       . "dt, numreset, s.description, sw_version,os_type,runtime_cpu,runtime_clock,varietyid,levelvalue,levelid,received_file,file_url,result_name,alignid "
        . "from DBNAME.qcn_trigger t, DBNAME.qcn_sensor s where t.type_sensor=s.id and hostid=$hostid order by time_trigger desc limit " . MAX_NUM_TRIGGER;
    $result=$db->do_query($sql);
    echo "<H2>$heading</H2>\n";
@@ -428,7 +428,7 @@ function show_trigger($hostid, $heading, $private=true)
          else {
              $bgcolor = "\"#FFFFFF\"";
          }
-         if ($row[17]) { // it's a ping record
+         if ($row[17]==1) { // it's a ping record
            $strTableFont = "<font color=$colorPing>";
            $strFontEnd = "</font>";
          } 
@@ -461,7 +461,7 @@ mysql> select * from qcn_level;
             case 5:  $elev.="f(sl)"; break;
          }
 
-         if ($row[17]) { // it's a ping record
+         if ($row[17]==1) { // it's a ping record
             $filename = " ping trigger - no file for result " . $row[22];
          } 
          else {
