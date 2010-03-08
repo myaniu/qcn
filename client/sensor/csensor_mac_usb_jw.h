@@ -57,6 +57,8 @@ class CSensorMacUSBJW  : public CSensor
 
       bool m_bDevHandleOpen;     // boolean to denote if the DevHandle is open
 
+      enum e_sensor m_esensor;   // store sensor type i.e. SENSOR_USB_JW24F8 or JW24F14
+
 /*
       void printElement(const int level, const pRecElement pelem);
       bool walkElement(const int level, const pRecElement pretmp);
@@ -82,7 +84,7 @@ class CSensorMacUSBJW  : public CSensor
       void closeHandles();
 
    public:
-      CSensorMacUSBJW();
+      CSensorMacUSBJW(enum e_sensor eSensorType = SENSOR_USB_JW24F8);
       virtual ~CSensorMacUSBJW();
 
       virtual bool detect();    // this detects the Mac USB sensor

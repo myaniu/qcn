@@ -242,9 +242,9 @@ IOReturn CSensorMacUSBJW::ReadByteFromAddress (IOHIDDeviceInterface122** hidInte
 }
 
 
-CSensorMacUSBJW::CSensorMacUSBJW()
-  : CSensor()
-{ 
+CSensorMacUSBJW::CSensorMacUSBJW(enum e_sensor eSensorType)
+  : CSensor(), m_esensor(eSensorType)
+{
    m_USBDevHandle[0] = m_USBDevHandle[1] = NULL;
    m_bFoundJW = false;
    m_maDeviceRef = NULL;
