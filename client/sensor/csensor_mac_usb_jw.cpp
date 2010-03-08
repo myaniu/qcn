@@ -546,7 +546,19 @@ bool CSensorMacUSBJW::detect()
     if (qcn_main::g_iStop) return false;
 #endif
 
-   m_maDeviceRef = DiscoverHIDInterfaces(USB_VENDOR, USB_JOYWARRIOR); // from codemercs - inits the JW device in sys registry
+	int myJW = 0;
+	switch(m_esensor) {
+		case SENSOR_USB_JW24F8:
+			myJW = USB_DEVICEID_JW24F8;
+			break;
+		case SENSOR_USB_JW24F14:
+			myJW = USB_DEVICEID_JW24F14;
+			break;
+		default:
+			myJW = 0;
+	}
+	
+   m_maDeviceRef = DiscoverHIDInterfaces(USB_VENDORID_JW, myJW); // from codemercs - inits the JW device in sys registry
    if (!m_maDeviceRef || CFArrayGetCount(m_maDeviceRef) < 2) { // not found, we'd have at least 2 interfaces for the JW USB
        closePort();
 #ifdef _DEBUG
@@ -680,7 +692,7 @@ bool CSensorMacUSBJW::detect()
 */
 
    // OK, we have a JoyWarrior USB sensor, and I/O is setup using Apple HID Utilities at 50Hz, +/- 2g
-   setType(SENSOR_USB_JW);
+   setType(m_esensor);
    setPort(getTypeEnum()); // set > -1 so we know we have a sensor
    //setSingleSampleDT(true);  // note the usb sensor just requires 1 sample per dt, hardware does the rest
    setSingleSampleDT(false);  // note the usb sensor just requires 1 sample per dt, hardware does the rest
@@ -702,7 +714,7 @@ bool CSensorMacUSBJW::detect()
 */
     fprintf(stdout, "Joywarrior 24F8 opened!\n");
 
-    return (bool)(getTypeEnum() == SENSOR_USB_JW);
+    return (bool)(getTypeEnum() == m_esensor);
 }
 
 bool CSensorMacUSBJW::SetQCNState()

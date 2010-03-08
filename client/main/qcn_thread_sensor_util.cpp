@@ -93,22 +93,24 @@ void psmsForceSensor(CSensor* volatile *ppsms)
 	 // see if they want to just use a preferred usb sensor i.e. set in sm->iMySensor - only applies to qcnlive
 	 if (sm->iMySensor >= MIN_SENSOR_USB && sm->iMySensor <= MAX_SENSOR_USB ) {
 		 switch(sm->iMySensor) {
-				case SENSOR_USB_JW:
+			 case SENSOR_USB_JW24F8:
+			 case SENSOR_USB_JW24F14:
+
 	#ifdef _WIN32
-					*ppsms = (CSensor*) new CSensorWinUSBJW();
+					*ppsms = (CSensor*) new CSensorWinUSBJW((enum e_sensor) sm->iMySensor);
 	#else
 	#ifdef __APPLE_CC__
-					*ppsms = (CSensor*) new CSensorMacUSBJW();
+					*ppsms = (CSensor*) new CSensorMacUSBJW((enum e_sensor) sm->iMySensor);
 	 #else // Linux
-					*ppsms = (CSensor*) new CSensorLinuxUSBJW();
+					*ppsms = (CSensor*) new CSensorLinuxUSBJW((enum e_sensor) sm->iMySensor);
 	 #endif
 	 #endif
 					break;
 #ifndef _WIN64
-				case SENSOR_USB_MOTIONNODEACCEL:
+			case SENSOR_USB_MOTIONNODEACCEL:
 					*ppsms = (CSensor*) new CSensorUSBMotionNodeAccel();
 					break;
-			 case SENSOR_USB_ONAVI_1:
+			case SENSOR_USB_ONAVI_1:
 #ifdef _WIN32
 				 *ppsms = (CSensor*) new CSensorWinUSBONavi01();
 #else
@@ -145,9 +147,9 @@ bool getSensor(CSensor* volatile *ppsms)
 	// for Macs the sensor can either be a CSensorMacLaptop or CSensorMacUSBJW or CSensorUSBMotionNodeAccel
 	#ifdef __APPLE_CC__
 	#if defined(__LP64__) || defined(_LP64) // no motion node for 64-bit
-	   const int iMaxSensor = 3;  // JW, ONavi, or Mac laptop
+	   const int iMaxSensor = 4;  // JWF8, JWF24, ONavi, or Mac laptop
 	#else
-	   const int iMaxSensor = 4;  // JW, ONavi, MN, or laptop
+	   const int iMaxSensor = 5;  // JWF8, JWF24, ONavi, MN, or laptop
 	#endif
 	   
 	   // note we try to detect the USB sensors first (if any), then try the laptop
@@ -165,11 +167,11 @@ bool getSensor(CSensor* volatile *ppsms)
 							*ppsms = (CSensor*) new CSensorMacUSBGeneric();
 	#ifndef QCNLIVE
 						 else
-							*ppsms = (CSensor*) new CSensorMacUSBJW();
+							*ppsms = (CSensor*) new CSensorMacUSBJW(SENSOR_USB_JW24F8);
 	#endif
 	#else
 							 if (boinc_is_standalone()) 
-							*ppsms = (CSensor*) new CSensorMacUSBJW();
+								 *ppsms = (CSensor*) new CSensorMacUSBJW(SENSOR_USB_JW24F8);
 	#ifndef QCNLIVE
 						 else
 							*ppsms = (CSensor*) new CSensorMacUSBGeneric();
@@ -177,29 +179,32 @@ bool getSensor(CSensor* volatile *ppsms)
 	#endif		
 				   }
 							 break;
-			   case 1:  // try for ONavi
+			   case 1:   // try the USB driver first
+				   *ppsms = (CSensor*) new CSensorMacUSBJW(SENSOR_USB_JW24F14);
+				   break;
+			   case 2:  // try for ONavi
 				   *ppsms = (CSensor*) new CSensorMacUSBONavi01();
 				   break;
 
 #if defined(__LP64__) || defined(_LP64) // no motion node for 64-bit
-			   case 2:  // note it tries to get an external sensor first before using the internal sensor, is this good logic?
+			   case 3:  // note it tries to get an external sensor first before using the internal sensor, is this good logic?
 				 *ppsms = (CSensor*) new CSensorMacLaptop();
 				 break;
 	#else
-			   case 2:  // note it tries to get an external sensor first before using the internal sensor, is this good logic?
+			   case 3:  // note it tries to get an external sensor first before using the internal sensor, is this good logic?
 				 *ppsms = (CSensor*) new CSensorUSBMotionNodeAccel();
 				 break;
-			   case 3:  // note it tries to get an external sensor first before using the internal sensor, is this good logic?
+			   case 4:  // note it tries to get an external sensor first before using the internal sensor, is this good logic?
 				 *ppsms = (CSensor*) new CSensorMacLaptop();
 				 break;
 	#endif
 		   }
 	#else
 	#ifdef _WIN32
-	#ifdef _WIN64   // just thinkpad & jw & onavi
-	   const int iMaxSensor = 3;
-	#else  // thinkpad, jw, mn, onavi
+	#ifdef _WIN64   // just thinkpad & jw8 & jw14 & onavi
 	   const int iMaxSensor = 4;
+	#else  // thinkpad, jw8, jw14, mn, onavi
+	   const int iMaxSensor = 5;
 	#endif
 	   // for Windows the sensor can either be a CSensorThinkpad or CSensorWinUSBJW
 	   // note we try to detect the USB sensors first (if any), then try the laptop
@@ -210,40 +215,43 @@ bool getSensor(CSensor* volatile *ppsms)
 					   psmsForceSensor(ppsms);
 				   }
 				   else {
-				       *ppsms = (CSensor*) new CSensorWinUSBJW();
+				       *ppsms = (CSensor*) new CSensorWinUSBJW(SENSOR_USB_JW24F8);
 				   }
 				   break;
-	#ifdef _WIN64
-			   // no motionnode support for win64
 			   case 1:
+				       *ppsms = (CSensor*) new CSensorWinUSBJW(SENSOR_USB_JW24F14);
+				   break;
+#ifdef _WIN64
+			   // no motionnode support for win64
+			   case 2:
 				   *ppsms = (CSensor*) new CSensorWinUSBONavi01();
 				   break;
-			   case 2:
+			   case 3:
 				   *ppsms = (CSensor*) new CSensorWinThinkpad();
 				   break;
 			   // no motionnode support for win64
 #else
-			   case 1:
+			   case 2:
 				   *ppsms = (CSensor*) new CSensorUSBMotionNodeAccel();
 				   break;
-			   case 2:
+			   case 3:
 				   *ppsms = (CSensor*) new CSensorWinUSBONavi01();
 				   break;
-			   case 3:
+			   case 4:
 				   *ppsms = (CSensor*) new CSensorWinThinkpad();
 				   break;
 	#endif
 	#if 0
-			   case 3:
+			   case 4:
 				   *ppsms = (CSensor*) new CSensorWinHP();
 				   break;
 	#endif // no luck with the HP
 		   }
 	#else // Linux
 	#if defined(__LP64__) || defined(_LP64) // no motion node for 64-bit
-	   const int iMaxSensor = 1;
-	#else
 	   const int iMaxSensor = 2;
+	#else
+	   const int iMaxSensor = 3;
 	#endif
 	   // for Windows the sensor can either be a CSensorThinkpad or CSensorWinUSBJW
 	   // note we try to detect the USB sensors first (if any), then try the laptop
@@ -254,11 +262,14 @@ bool getSensor(CSensor* volatile *ppsms)
 					   psmsForceSensor(ppsms);
 				   }
 				   else {
-					   *ppsms = (CSensor*) new CSensorLinuxUSBJW();
+					   *ppsms = (CSensor*) new CSensorLinuxUSBJW(SENSOR_USB_JW24F8);
 				   }
 				   break;
-	#if !defined(__LP64__) && !defined(_LP64) // no motion node for 64-bit
 			   case 1:
+					   *ppsms = (CSensor*) new CSensorLinuxUSBJW(SENSOR_USB_JW24F14);
+				   break;
+#if !defined(__LP64__) && !defined(_LP64) // no motion node for 64-bit
+			   case 2:
 				   *ppsms = (CSensor*) new CSensorUSBMotionNodeAccel();
 				   break;
 	#endif
@@ -556,11 +567,13 @@ void SetSensorThresholdAndDiffFactor()
 		case SENSOR_WIN_THINKPAD:
 			g_fThreshold = 0.20f;
 			break;
-		case SENSOR_USB_JW:
+		case SENSOR_USB_JW24F8:
 			g_fThreshold = 0.025f;
 			g_fSensorDiffFactor = 1.10f;   // note USB sensors get a small diff factor below, instead of 33% just 10%
 			break;
+		case SENSOR_USB_JW24F14:
 		case SENSOR_USB_MOTIONNODEACCEL:
+		case SENSOR_USB_ONAVI_1:
 			g_fThreshold = 0.01f;
 			g_fSensorDiffFactor = 1.10f;   // note USB sensors get a small diff factor below, instead of 33% just 10%
 			break;

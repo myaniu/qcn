@@ -98,9 +98,14 @@ typedef vector<string> ZipFileList;
 #define SAC_NULL_LONG   -12345L
 
 // JoyWarrior identification string, number of buttons, and number of axes
-#define IDSTR_JW "Code Mercenaries JoyWarrior24 Force 8"
-#define NUM_BUTTON_JW  8
-#define NUM_AXES_JW    3
+#define IDSTR_JW24F8       "Code Mercenaries JoyWarrior24 Force 8"
+#define NUM_BUTTON_JW24F8  8
+#define NUM_AXES_JW24F8    3
+
+#define IDSTR_JW24F14       "Code Mercenaries JoyWarrior24 Force 14"
+#define NUM_BUTTON_JW24F14  8
+#define NUM_AXES_JW24F14    3
+
 
 #define WORKUNIT_COMPLETION_TIME_ELAPSED 86400.0f
 #define SIZEOF_PROJECT_PREFERENCES 131072
@@ -200,7 +205,7 @@ enum e_sensor  { SENSOR_NOTFOUND = 0,  // 0
                  SENSOR_MAC_INTEL,     // 4
                  SENSOR_WIN_THINKPAD,  // 5
 		     SENSOR_WIN_HP,        // 6
-		     SENSOR_USB_JW = 100,        // 100
+		     SENSOR_USB_JW24F8  = 100,        // 100
                      SENSOR_USB_MOTIONNODEACCEL,   // 101
 	             SENSOR_USB_ONAVI_1,     // 102
 	             SENSOR_USB_JW24F14      // 103
@@ -212,9 +217,10 @@ enum e_sensor  { SENSOR_NOTFOUND = 0,  // 0
 #define MAX_SENSOR_USB 102
  
 // USB id's
-#define USB_MOUSEWARRIOR 0x1114
-#define USB_JOYWARRIOR 0x1113
-#define USB_VENDOR 0x07C0
+#define USB_MOUSEWARRIOR     0x1114
+#define USB_DEVICEID_JW24F8  0x1113
+#define USB_DEVICEID_JW24F14 0x1116
+#define USB_VENDORID_JW      0x07C0
 
 // ERR_NO_SENSOR   = no sensor was detected in the CSensor::detect() call
 // ERR_SHMEM       = could not create/setup shared memory block for the CQCNShMem class

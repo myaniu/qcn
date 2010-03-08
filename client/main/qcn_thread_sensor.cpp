@@ -252,8 +252,10 @@ extern void* QCNThreadSensor(void*)
  
  // CMC - randomly upload whole array for USB sensors on a random basis
 #if defined(RANDOM_USB_UPLOAD) && !defined(QCNLIVE) && !defined(QCN_USB)
-		  if (!qcn_main::g_bDemo && !qcn_main::g_bQCNLive && 
-           (esType == SENSOR_USB_JW || esType == SENSOR_USB_MOTIONNODEACCEL)) { 
+        if (!qcn_main::g_bDemo && !qcn_main::g_bQCNLive && 
+           (esType == SENSOR_USB_JW24F8 
+         || esType == SENSOR_USB_JW24F14
+         || esType == SENSOR_USB_MOTIONNODEACCEL)) { 
             // they're using a JW -- do a random test to see if we want to upload this array
             long lCurTime = QCN_ROUND(dtime() + qcn_main::g_dTimeOffset);
             fprintf(stderr, "%ld - USB Sensor - End of array - reloop # %d\n", lCurTime, sm->iContinuousCounter);

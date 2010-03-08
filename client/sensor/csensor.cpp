@@ -100,10 +100,13 @@ const char* CSensor::getTypeStr(int iType)
      case SENSOR_WIN_HP:
         return "HP Laptop";
         break;
-     case SENSOR_USB_JW:
+     case SENSOR_USB_JW24F8:
         return "JoyWarrior 24F8 USB";
         break;
-     case SENSOR_USB_MOTIONNODEACCEL:
+	   case SENSOR_USB_JW24F14:
+		   return "JoyWarrior 24F14 USB";
+		   break;
+	   case SENSOR_USB_MOTIONNODEACCEL:
         return "MotionNode Accel USB";
         break;
 	 case SENSOR_USB_ONAVI_1:
@@ -129,10 +132,13 @@ const char* CSensor::getTypeStrShort()
      case SENSOR_WIN_HP:
         return "HP";
         break;
-     case SENSOR_USB_JW:
+     case SENSOR_USB_JW24F8:
         return "JW";
         break;
-     case SENSOR_USB_MOTIONNODEACCEL:
+	   case SENSOR_USB_JW24F14:
+		   return "J4";
+		   break;
+	   case SENSOR_USB_MOTIONNODEACCEL:
         return "MN";
         break;
 	 case SENSOR_USB_ONAVI_1:
