@@ -432,6 +432,8 @@ void doTrigger(const bool bReal, const long lOffsetStart, const long lOffsetEnd,
             }
             dTimeTrigger = sm->t0[ti.lOffsetEnd]; // "local" trigger time
 
+            ti.iVariety = iVariety;
+
             // CMC bInteractive can bypass writing trigger files & trickles; but turn off for now
             ti.bInteractive = false;
 	        //ti.bInteractive = (bool) ( sm->t0[ti.lOffsetEnd] < sm->dTimeInteractive + DECAY_INTERACTIVE_SECONDS);  
