@@ -110,7 +110,7 @@ const char* CSensor::getTypeStr(int iType)
         return "MotionNode Accel USB";
         break;
 	 case SENSOR_USB_ONAVI_1:
-		return "O1 USB";
+		return "ONavi G1 USB";
 		break;
 	default:
         return "Not Found";
