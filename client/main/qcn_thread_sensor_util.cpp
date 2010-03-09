@@ -157,9 +157,9 @@ bool getSensor(CSensor* volatile *ppsms)
 	// for Macs the sensor can either be a CSensorMacLaptop or CSensorMacUSBJW or CSensorUSBMotionNodeAccel
 	#ifdef __APPLE_CC__
 	#if defined(__LP64__) || defined(_LP64) // no motion node for 64-bit
-	   const int iMaxSensor = 4;  // JWF8, JWF24, ONavi, or Mac laptop
+	   const int iMaxSensor = 4;  // JWF8, JWF14, ONavi, or Mac laptop
 	#else
-	   const int iMaxSensor = 5;  // JWF8, JWF24, ONavi, MN, or laptop
+	   const int iMaxSensor = 5;  // JWF8, JWF14, ONavi, MN, or laptop
 	#endif
 	   
 	   // note we try to detect the USB sensors first (if any), then try the laptop
