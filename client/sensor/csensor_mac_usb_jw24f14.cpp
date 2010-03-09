@@ -17,7 +17,7 @@
 // IOReturn codes in:
 // /Developer/SDKs/MacOSX10.4u.sdk/System/Library/Frameworks/IOKit.framework/Headers/IOReturn.h
 
-IOHIDDeviceInterface122** CSensorMacUSBJW::CreateHIDDeviceInterface(io_object_t hidDevice)
+IOHIDDeviceInterface122** CSensorMacUSBJW24F14::CreateHIDDeviceInterface(io_object_t hidDevice)
 {
     io_name_t             className;
     IOCFPlugInInterface** plugInInterface = NULL;
@@ -55,7 +55,7 @@ IOHIDDeviceInterface122** CSensorMacUSBJW::CreateHIDDeviceInterface(io_object_t 
     return pphidDeviceInterface;
 }
 
-CFMutableDictionaryRef CSensorMacUSBJW::SetUpHIDMatchingDictionary (int inVendorID, int inDeviceID)
+CFMutableDictionaryRef CSensorMacUSBJW24F14::SetUpHIDMatchingDictionary (int inVendorID, int inDeviceID)
 {
     CFMutableDictionaryRef 	refHIDMatchDictionary = NULL;
 	
@@ -81,7 +81,7 @@ CFMutableDictionaryRef CSensorMacUSBJW::SetUpHIDMatchingDictionary (int inVendor
 
 // Returns an iterator object, which can be used to iterate through all hid devices available on the machine. 
 // You have to release the iterator after usage be calling IOObjectRelease (hidObjectIterator).
-io_iterator_t CSensorMacUSBJW::FindHIDDevices (const mach_port_t masterPort, int inVendorID, int inDeviceID)
+io_iterator_t CSensorMacUSBJW24F14::FindHIDDevices (const mach_port_t masterPort, int inVendorID, int inDeviceID)
 {
     CFMutableDictionaryRef	hidMatchDictionary = NULL;
     IOReturn				ioReturnValue = kIOReturnSuccess;
@@ -107,7 +107,7 @@ io_iterator_t CSensorMacUSBJW::FindHIDDevices (const mach_port_t masterPort, int
     return hidObjectIterator;
 }
 
-CFMutableArrayRef CSensorMacUSBJW::DiscoverHIDInterfaces(int vendorID, int deviceID)
+CFMutableArrayRef CSensorMacUSBJW24F14::DiscoverHIDInterfaces(int vendorID, int deviceID)
 {
 	mach_port_t    masterPort = nil;
 	io_iterator_t  hidObjectIterator = nil;
@@ -148,7 +148,7 @@ CFMutableArrayRef CSensorMacUSBJW::DiscoverHIDInterfaces(int vendorID, int devic
 }
 
 
-IOReturn CSensorMacUSBJW::DisableCommandMode (IOHIDDeviceInterface122** hidInterface)
+IOReturn CSensorMacUSBJW24F14::DisableCommandMode (IOHIDDeviceInterface122** hidInterface)
 {
         UInt8 writeBuffer[8];
         IOReturn ioReturnValue;
@@ -164,7 +164,7 @@ IOReturn CSensorMacUSBJW::DisableCommandMode (IOHIDDeviceInterface122** hidInter
 }
 
 
-IOReturn CSensorMacUSBJW::EnableCommandMode (IOHIDDeviceInterface122** hidInterface)
+IOReturn CSensorMacUSBJW24F14::EnableCommandMode (IOHIDDeviceInterface122** hidInterface)
 {
 
 	UInt8	writeBuffer[8];
@@ -182,7 +182,7 @@ IOReturn CSensorMacUSBJW::EnableCommandMode (IOHIDDeviceInterface122** hidInterf
 
 }
 
-IOReturn CSensorMacUSBJW::ReadByteFromAddress (IOHIDDeviceInterface122** hidInterface, const UInt8 inAddress, UInt8 *result) // , bool bJoystick)
+IOReturn CSensorMacUSBJW24F14::ReadByteFromAddress (IOHIDDeviceInterface122** hidInterface, const UInt8 inAddress, UInt8 *result) // , bool bJoystick)
 {
 
 	UInt8	 readBuffer[8];
@@ -242,28 +242,28 @@ IOReturn CSensorMacUSBJW::ReadByteFromAddress (IOHIDDeviceInterface122** hidInte
 }
 
 
-CSensorMacUSBJW::CSensorMacUSBJW(enum e_sensor eSensorType)
+CSensorMacUSBJW24F14::CSensorMacUSBJW24F14(enum e_sensor eSensorType)
   : CSensor(), m_esensor(eSensorType)
 {
    m_USBDevHandle[0] = m_USBDevHandle[1] = NULL;
-   m_bFoundJW = false;
+   m_bFoundJW24F14 = false;
    m_maDeviceRef = NULL;
    m_bDevHandleOpen = false;
    closeHandles();
 }
 
-CSensorMacUSBJW::~CSensorMacUSBJW()
+CSensorMacUSBJW24F14::~CSensorMacUSBJW24F14()
 {
   closePort();
 }
 
-void CSensorMacUSBJW::closePort()
+void CSensorMacUSBJW24F14::closePort()
 {
   for (int i = 0; i < 2; i++) {
      if (m_USBDevHandle[i]) {
        try {
           // don't think we need the next line, just close & Release
-          if (i==0) WriteData(m_USBDevHandle[0], 0x02, 0x00, 0x00, "closePort()::Free JW");
+          if (i==0) WriteData(m_USBDevHandle[0], 0x02, 0x00, 0x00, "closePort()::Free JW24F14");
           (*m_USBDevHandle[i])->close(m_USBDevHandle[i]);
           (*m_USBDevHandle[i])->Release(m_USBDevHandle[i]);
           m_USBDevHandle[i] = NULL;
@@ -289,39 +289,39 @@ void CSensorMacUSBJW::closePort()
 
 }
 
-void CSensorMacUSBJW::closeHandles()
+void CSensorMacUSBJW24F14::closeHandles()
 {
 /*
-      m_prdJW = NULL;
-      m_prelJW[0] = NULL;
-      m_prelJW[1] = NULL;
-      m_prelJW[2] = NULL;
+      m_prdJW24F14 = NULL;
+      m_prelJW24F14[0] = NULL;
+      m_prelJW24F14[1] = NULL;
+      m_prelJW24F14[2] = NULL;
  */
       closeDevHandle();
-      m_bFoundJW = false;
+      m_bFoundJW24F14 = false;
       m_USBDevHandle[0] = NULL;
       m_USBDevHandle[1] = NULL;
       m_maDeviceRef = NULL;
 }
 
-bool CSensorMacUSBJW::ReadData(IOHIDDeviceInterface122** hidInterface, const UInt8 addr, UInt8* cTemp, const char* strCallProc)
+bool CSensorMacUSBJW24F14::ReadData(IOHIDDeviceInterface122** hidInterface, const UInt8 addr, UInt8* cTemp, const char* strCallProc)
 {
    *cTemp = 0x00;
    IOReturn ioReturnValue = ReadByteFromAddress(hidInterface, addr, cTemp);
    if (ioReturnValue != kIOReturnSuccess) {
-       fprintf(stderr, "CSensorMacUSBJW::ReadData():: couldn't open interface 0x%x - ioRetVal=0x%x  (sys=0x%x subsys=0x%x code=0x%x) - proc %s\n", 
+       fprintf(stderr, "CSensorMacUSBJW24F14::ReadData():: couldn't open interface 0x%x - ioRetVal=0x%x  (sys=0x%x subsys=0x%x code=0x%x) - proc %s\n", 
          (unsigned long) hidInterface, (unsigned long) ioReturnValue, 
          err_get_system(ioReturnValue), err_get_sub(ioReturnValue), err_get_code(ioReturnValue),
          strCallProc ? strCallProc : "Unknown Proc");
        if (ioReturnValue == kIOReturnNotPrivileged) {
-          fprintf(stderr, "CSensorMacUSBJW::ReadData():: privilege violation 0x%x\n", (unsigned int) ioReturnValue);
+          fprintf(stderr, "CSensorMacUSBJW24F14::ReadData():: privilege violation 0x%x\n", (unsigned int) ioReturnValue);
        }
        return false;
    }
    return true;
 }
 
-bool CSensorMacUSBJW::WriteData(IOHIDDeviceInterface122** hidInterface, const UInt8 cmd, const UInt8 addr, const UInt8 data, const char* strCallProc)
+bool CSensorMacUSBJW24F14::WriteData(IOHIDDeviceInterface122** hidInterface, const UInt8 cmd, const UInt8 addr, const UInt8 data, const char* strCallProc)
 {
     UInt8	writeBuffer[8];
     IOReturn    ioReturnValue;
@@ -331,7 +331,7 @@ bool CSensorMacUSBJW::WriteData(IOHIDDeviceInterface122** hidInterface, const UI
     ioReturnValue = (*hidInterface)->open(hidInterface, kIOHIDOptionsTypeNone);
 
     if (ioReturnValue != kIOReturnSuccess) {
-		fprintf(stderr, "CSensorMacUSBJW::WriteData():: couldn't open interface 0x%x - err 0x%x %s\n", 
+		fprintf(stderr, "CSensorMacUSBJW24F14::WriteData():: couldn't open interface 0x%x - err 0x%x %s\n", 
                     (unsigned long) hidInterface, (unsigned long) ioReturnValue, strCallProc ? strCallProc : "Unknown Proc");
                 (*hidInterface)->close(hidInterface);
 		return false;
@@ -370,7 +370,7 @@ bool CSensorMacUSBJW::WriteData(IOHIDDeviceInterface122** hidInterface, const UI
 
 /*
 // for Apple HID Utilities -- walk the linked list of elements for a given USB device
-void CSensorMacUSBJW::printElement(const int level, const pRecElement pelem)
+void CSensorMacUSBJW24F14::printElement(const int level, const pRecElement pelem)
 {
            fprintf(stdout, "%sCookie=0x%x  Min=%ld  Max=%ld  Size=%ld  UsagePg=%ld  Usage=%ld  Name=%s\n",
                level == 1 ? "      " : level == 2 ? "           " : "                ",
@@ -384,18 +384,18 @@ void CSensorMacUSBJW::printElement(const int level, const pRecElement pelem)
             );
 }
 
-bool CSensorMacUSBJW::walkElement(const int level, const pRecElement pretmp)
+bool CSensorMacUSBJW24F14::walkElement(const int level, const pRecElement pretmp)
 {
      if (pretmp) {
         printElement(level, pretmp);
 
-        if (m_bFoundJW)  {  // we're in the JW element we want? 
+        if (m_bFoundJW24F14)  {  // we're in the JW24F14 element we want? 
            switch ((int) pretmp->cookie)
            {
               case 0xb: 
               case 0xc: 
               case 0xd: 
-                 m_prelJW[(int) pretmp->cookie - 0xb] = pretmp;
+                 m_prelJW24F14[(int) pretmp->cookie - 0xb] = pretmp;
                  // fprintf(stdout, "Found Cookie 0x%x\n", (int) pretmp->cookie);
            }
         }
@@ -415,7 +415,7 @@ bool CSensorMacUSBJW::walkElement(const int level, const pRecElement pretmp)
 
 
 /*
-// note this isn't part of CSensorMacUSBJW::
+// note this isn't part of CSensorMacUSBJW24F14::
 void global_JoyWarriorAddedOrRemoved(void *refCon, io_iterator_t iterator)
 {
     io_service_t            usbDevice;
@@ -437,7 +437,7 @@ void global_updateDeviceState()
 }
 */
 
-bool CSensorMacUSBJW::openDevHandle()
+bool CSensorMacUSBJW24F14::openDevHandle()
 {
     if (!m_USBDevHandle[0]) return false;  // handle isn't open yet
     if (m_bDevHandleOpen) closeDevHandle();
@@ -445,7 +445,7 @@ bool CSensorMacUSBJW::openDevHandle()
     IOReturn result = (*m_USBDevHandle[0])->open(m_USBDevHandle[0], kIOHIDOptionsTypeNone);
     if (result != kIOReturnSuccess) {
        m_bDevHandleOpen = false;
-       fprintf(stderr, "CSensorMacUSBJW::openDevHandle: couldn't open interface 0x%x - err 0x%x\n",
+       fprintf(stderr, "CSensorMacUSBJW24F14::openDevHandle: couldn't open interface 0x%x - err 0x%x\n",
          (unsigned long) m_USBDevHandle[0], (unsigned long) result);
        return false;
     }
@@ -453,31 +453,31 @@ bool CSensorMacUSBJW::openDevHandle()
     return true;
 }
 
-bool CSensorMacUSBJW::closeDevHandle()
+bool CSensorMacUSBJW24F14::closeDevHandle()
 {
     m_bDevHandleOpen = false; // set our boolean to false
     if (!m_USBDevHandle[0]) return false;  // handle isn't open yet so can't use
 
     IOReturn result = (*m_USBDevHandle[0])->close(m_USBDevHandle[0]);
     if (result != kIOReturnSuccess) {
-       fprintf(stderr, "CSensorMacUSBJW::closeDevHandle: couldn't close interface 0x%x - err 0x%x\n",
+       fprintf(stderr, "CSensorMacUSBJW24F14::closeDevHandle: couldn't close interface 0x%x - err 0x%x\n",
          (unsigned long) m_USBDevHandle[0], (unsigned long) result);
        return false;
     }
     return true;
 }
 
-inline bool CSensorMacUSBJW::read_xyzJW24F14(float& x1, float& y1, float& z1)
+inline bool CSensorMacUSBJW24F14::read_xyzJW24F1424F14(float& x1, float& y1, float& z1)
 {
 	return true;
 }
 
 
-inline bool CSensorMacUSBJW::read_xyz(float& x1, float& y1, float& z1)
+inline bool CSensorMacUSBJW24F14::read_xyz(float& x1, float& y1, float& z1)
 {  
-	if (m_esensor == SENSOR_USB_JW24F14) return read_xyzJW24F14(x1, y1, z1);  // uses a different mechanism
+	if (m_esensor == SENSOR_USB_JW24F1424F14) return read_xyzJW24F1424F14(x1, y1, z1);  // uses a different mechanism
 	
-	// past here is for the JW24F8 sensor
+	// past here is for the JW24F1424F8 sensor
 	
 /*
         // CMC note -- this is the preferred way from codemercs.com but too slow for QCN -- have to use HID Joystick access
@@ -501,7 +501,7 @@ inline bool CSensorMacUSBJW::read_xyz(float& x1, float& y1, float& z1)
               lVal[i] = 512.0f * rand();
              // read each value from the cookie element in the USB device 
              //   - these were set in detect() by walking the linked list of the device
-          //  lVal[i] = ::HIDGetElementValue(m_prdJW, m_prelJW[i]);
+          //  lVal[i] = ::HIDGetElementValue(m_prdJW24F14, m_prelJW24F14[i]);
         }
 */
     //static int iTestCtr = 0;  // static so we can detect every few seconds if USB stick is still plugged in
@@ -514,7 +514,7 @@ inline bool CSensorMacUSBJW::read_xyz(float& x1, float& y1, float& z1)
 #endif
 
     /*
-    if (iTestCtr++ == 500) { // if DT=.02 this checks every 10 seconds that the JW is still plugged into USB port
+    if (iTestCtr++ == 500) { // if DT=.02 this checks every 10 seconds that the JW24F14 is still plugged into USB port
        iTestCtr = 0;  // reset counter
        closeDevHandle();  // actually this doesn't seem to be working, probably need to close & re-detect?
     }
@@ -523,7 +523,7 @@ inline bool CSensorMacUSBJW::read_xyz(float& x1, float& y1, float& z1)
     // major error if dev handle isn't open or can't be opened & read_xyz being called!
     if (!m_bDevHandleOpen && !openDevHandle()) { // this opens once at the start of reading to save CPU time (8%!)
        // but doesn't seem to detect if handle is bad i.e. when USB device is yanked out
-       fprintf(stderr, "CSensorMacUSBJW::read_xyz: could not open Mac HID device handle!\n");
+       fprintf(stderr, "CSensorMacUSBJW24F14::read_xyz: could not open Mac HID device handle!\n");
        return false; 
     }
 
@@ -546,30 +546,30 @@ inline bool CSensorMacUSBJW::read_xyz(float& x1, float& y1, float& z1)
     return true;
 }
 
-bool CSensorMacUSBJW::detect()
+bool CSensorMacUSBJW24F14::detect()
 {
    // first try and discover the HID interface (JoyWarrior)
    setType(SENSOR_NOTFOUND);  // initialize to no sensor until detected below
-   closeHandles();  // reset the handles for JW detection
+   closeHandles();  // reset the handles for JW24F14 detection
    
 #ifndef QCN_USB
     if (qcn_main::g_iStop) return false;
 #endif
 
-	int myJW = 0;
+	int myJW24F14 = 0;
 	switch(m_esensor) {
-		case SENSOR_USB_JW24F8:
-			myJW = USB_DEVICEID_JW24F8;
+		case SENSOR_USB_JW24F1424F8:
+			myJW24F14 = USB_DEVICEID_JW24F1424F8;
 			break;
-		case SENSOR_USB_JW24F14:
-			myJW = USB_DEVICEID_JW24F14;
+		case SENSOR_USB_JW24F1424F14:
+			myJW24F14 = USB_DEVICEID_JW24F1424F14;
 			break;
 		default:
-			myJW = 0;
+			myJW24F14 = 0;
 	}
 	
-   m_maDeviceRef = DiscoverHIDInterfaces(USB_VENDORID_JW, myJW); // from codemercs - inits the JW device in sys registry
-   if (!m_maDeviceRef || CFArrayGetCount(m_maDeviceRef) < 2) { // not found, we'd have at least 2 interfaces for the JW USB
+   m_maDeviceRef = DiscoverHIDInterfaces(USB_VENDORID_JW24F14, myJW24F14); // from codemercs - inits the JW24F14 device in sys registry
+   if (!m_maDeviceRef || CFArrayGetCount(m_maDeviceRef) < 2) { // not found, we'd have at least 2 interfaces for the JW24F14 USB
        closePort();
 #ifdef _DEBUG
        fprintf(stdout, "No JoyWarrior USB device detected.\n");
@@ -584,7 +584,7 @@ bool CSensorMacUSBJW::detect()
    CFRelease(interfaceRef);
 
    if (!m_USBDevHandle[0] || !m_USBDevHandle[1] || ! SetQCNState()) {
-       // exit if this fails esp SetQCNState, can't communicate with JW properly...
+       // exit if this fails esp SetQCNState, can't communicate with JW24F14 properly...
        closePort();
        fprintf(stdout, "Could not setup JoyWarrior USB device.\n");
        return false;
@@ -598,7 +598,7 @@ bool CSensorMacUSBJW::detect()
 
 /*
    // start of using Mac HID Utilities
-   // now use HID Utilities to open the JW USB sensor
+   // now use HID Utilities to open the JW24F14 USB sensor
    ::HIDBuildDeviceList(0, 0);
 
    pRecDevice newDevice = ::HIDGetFirstDevice();
@@ -607,43 +607,43 @@ bool CSensorMacUSBJW::detect()
        if (newDevice->vendorID == USB_VENDOR && newDevice->productID == USB_JOYWARRIOR) {
           if (newDevice->inputs == 11 || newDevice->axis == 3) { // this is the joystick interface (index 1)
              m_USBDevHandle[1] = (IOHIDDeviceInterface122**) newDevice->interface;
-             m_prdJW = newDevice;
-             m_bFoundJW = true;
-             walkElement(1, m_prdJW->pListElements);
-             fprintf(stdout, "Found JW Joystick Interface at 0x%x\n", (unsigned int) m_USBDevHandle[1]);
+             m_prdJW24F14 = newDevice;
+             m_bFoundJW24F14 = true;
+             walkElement(1, m_prdJW24F14->pListElements);
+             fprintf(stdout, "Found JW24F14 Joystick Interface at 0x%x\n", (unsigned int) m_USBDevHandle[1]);
           }
           else { // must be the accelerometer interface (index 0)
              m_USBDevHandle[0] = (IOHIDDeviceInterface122**) newDevice->interface;
-             fprintf(stdout, "Found JW Accelerometer Interface at 0x%x\n", (unsigned int) m_USBDevHandle[0]);
+             fprintf(stdout, "Found JW24F14 Accelerometer Interface at 0x%x\n", (unsigned int) m_USBDevHandle[0]);
           }
        }
-       if (m_USBDevHandle[0] && m_USBDevHandle[1]) break; // found a JW, break out of loop
+       if (m_USBDevHandle[0] && m_USBDevHandle[1]) break; // found a JW24F14, break out of loop
        newDevice = ::HIDGetNextDevice(newDevice);
    }
 
    if (!m_USBDevHandle[0] || !m_USBDevHandle[1] || ! SetQCNState()) {
-       // exit if this fails esp SetQCNState, can't communicate with JW properly...
+       // exit if this fails esp SetQCNState, can't communicate with JW24F14 properly...
        ::HIDReleaseDeviceList();  // cleanup HID devices
        return false;  // didn't find it
    } 
 
    fprintf(stdout, "JoyWarrior USB HID Detected - prDev 0x%x  XYZ = (0x%x, 0x%x, 0x%x)\n", 
-         (unsigned int) m_prdJW,
-         (unsigned int) m_prelJW[0],
-         (unsigned int) m_prelJW[1],
-         (unsigned int) m_prelJW[2]
+         (unsigned int) m_prdJW24F14,
+         (unsigned int) m_prelJW24F14[0],
+         (unsigned int) m_prelJW24F14[1],
+         (unsigned int) m_prelJW24F14[2]
    );
 */
 
 /*
    CFMutableArrayRef interfaces, deviceProperties;
    CFNumberRef hidInterfaceRef[2];
-   int iCount, iCountJW;
+   int iCount, iCountJW24F14;
 
    // JoyWarrior24 Force 8
    interfaces = (CFMutableArrayRef) ::DiscoverHIDInterfaces(USB_VENDOR, USB_JOYWARRIOR);
-   iCountJW = ::CFArrayGetCount(interfaces);
-   if (iCountJW < 2) { // should have 2 for JW USB
+   iCountJW24F14 = ::CFArrayGetCount(interfaces);
+   if (iCountJW24F14 < 2) { // should have 2 for JW24F14 USB
       return false;
    }
 
@@ -653,7 +653,7 @@ bool CSensorMacUSBJW::detect()
    hidInterfaceRef[1] = (CFNumberRef) CFArrayGetValueAtIndex(interfaces, 1);
    CFNumberGetValue(hidInterfaceRef[1], kCFNumberLongType, &m_USBDevHandle[1]);
 
-   // get properties for the JW device (just to get the product name & serial number for now)
+   // get properties for the JW24F14 device (just to get the product name & serial number for now)
    deviceProperties = ::DiscoverHIDDeviceProperties(USB_VENDOR, USB_JOYWARRIOR);
    iCount = ::CFArrayGetCount(deviceProperties);
    CFStringRef cfstrProduct = NULL, cfstrSerial = NULL;
@@ -676,7 +676,7 @@ bool CSensorMacUSBJW::detect()
 
 
    fprintf(stdout, "%d JoyWarrior Handles found: 0=0x%x 1=0x%x\n",  
-                iCountJW,
+                iCountJW24F14,
                 (unsigned int) m_USBDevHandle[0],
                 (unsigned int) m_USBDevHandle[1]
    );
@@ -693,7 +693,7 @@ bool CSensorMacUSBJW::detect()
 
     for (int i = 0; i < 2; i++) {
           if (m_USBDevHandle[i]) {
-                WriteData(m_USBDevHandle[i], 0x02, 0x00, 0x00, "detect()::Free JW");
+                WriteData(m_USBDevHandle[i], 0x02, 0x00, 0x00, "detect()::Free JW24F14");
                 (*m_USBDevHandle[i])->close(m_USBDevHandle[i]);
                 m_USBDevHandle[i] = NULL;
           }
@@ -709,7 +709,7 @@ bool CSensorMacUSBJW::detect()
 
 /* CMC Note:  the USB add/remove device logic doesn't seem to work -- may need to revisit if this becomes important
 
-   // CMC Note: the next two callbacks can be used to detect if the JW USB accelerometer was removed or added
+   // CMC Note: the next two callbacks can be used to detect if the JW24F14 USB accelerometer was removed or added
    int result[2];
    if ((result[0] = ::AddUSBDeviceAddedCallback(USB_VENDOR, USB_JOYWARRIOR, global_JoyWarriorAddedOrRemoved)) == -1) {
      fprintf(stderr, "Could not add USB AddedCallback()\n");
@@ -727,7 +727,7 @@ bool CSensorMacUSBJW::detect()
     return (bool)(getTypeEnum() == m_esensor);
 }
 
-bool CSensorMacUSBJW::SetQCNStateJW24F14()
+bool CSensorMacUSBJW24F14::SetQCNStateJW24F1424F14()
 {
 	return true;
 /*	UInt8 mReg14 = 0x00;
@@ -777,11 +777,11 @@ bool CSensorMacUSBJW::SetQCNStateJW24F14()
 	return true;
 }
 
-bool CSensorMacUSBJW::SetQCNState()
+bool CSensorMacUSBJW24F14::SetQCNState()
 { // puts the Joystick Warrior USB sensor into the proper state for QCN (50Hz, +/- 2g)
   // and also writes these settings to EEPROM (so each device needs to just get set once hopefully)
 	
-	if (m_esensor == SENSOR_USB_JW24F14) return SetQCNStateJW24F14();
+	if (m_esensor == SENSOR_USB_JW24F1424F14) return SetQCNStateJW24F1424F14();
 
    UInt8 mReg14 = 0x00;
    if (! ReadData(m_USBDevHandle[1], 0x14, &mReg14, "SetQCNState:R1")) {  // get current settings of device
@@ -836,7 +836,7 @@ bool CSensorMacUSBJW::SetQCNState()
 
 /*
 // Calculate a 10 bit value with MSB and LSB
-short CSensorMacUSBJW::CalcMsbLsb(unsigned char lsb, unsigned char msb)
+short CSensorMacUSBJW24F14::CalcMsbLsb(unsigned char lsb, unsigned char msb)
 {
 	short erg;
 	short LSB, MSB, EXEC;
@@ -921,7 +921,7 @@ bool getHIDCookies(IOHIDDeviceInterface122** handle, cookie_struct_t cookies, co
 					
 					
 					switch (eSensor) {
-						case SENSOR_USB_JW24F8:
+						case SENSOR_USB_JW24F1424F8:
 								//Check for x axis
 								if (usage == 48 && usagePage == 1)
 									cookies->gAxisCookie[0] = cookie;
@@ -939,7 +939,7 @@ bool getHIDCookies(IOHIDDeviceInterface122** handle, cookie_struct_t cookies, co
 								else if (usage == 3 && usagePage == 9)
 									cookies->gButtonCookie[2] = cookie;
 							break;
-						case SENSOR_USB_JW24F14:
+						case SENSOR_USB_JW24F1424F14:
 								//Check for x axis
 								if (usage == 48 && usagePage == 1)
 									cookies->gAxisCookie[0] = cookie;

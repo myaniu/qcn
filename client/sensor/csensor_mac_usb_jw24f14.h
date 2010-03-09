@@ -1,5 +1,5 @@
-#ifndef _CSENSOR_MAC_USB_JW_H_
-#define _CSENSOR_MAC_USB_JW_H_
+#ifndef _CSENSOR_MAC_USB_JW24F14_H_
+#define _CSENSOR_MAC_USB_JW24F14_H_
 
 /*
  *  csensor-mac-usb-jw.h
@@ -41,24 +41,24 @@ typedef struct cookie_struct
 bool getHIDCookies(IOHIDDeviceInterface122** handle, cookie_struct_t cookies, const e_sensor eSensor);
 
 // this is the Mac implementation for the JoyWarrior sensor, used for QCNLive as well as the Mac service program qcnmacusb under BOINC
-class CSensorMacUSBJW  : public CSensor
+class CSensorMacUSBJW24F14  : public CSensor
 {
    private:
       // Mac IO Utilities vars for detecting and using the USB JoyWarrior
       IOHIDDeviceInterface122** m_USBDevHandle[2];
-      //pRecDevice m_prdJW;
-      //pRecElement m_prelJW[3];
-      bool m_bFoundJW;
+      //pRecDevice m_prdJW24F14;
+      //pRecElement m_prelJW24F14[3];
+      bool m_bFoundJW24F14;
       CFMutableArrayRef m_maDeviceRef;
 
       virtual bool read_xyz(float& x1, float& y1, float& z1);  
-	  bool read_xyzJW24F14(float& x1, float& y1, float& z1);  
+	  bool read_xyzJW24F1424F14(float& x1, float& y1, float& z1);  
 	
       struct cookie_struct m_cookies;
 
       bool m_bDevHandleOpen;     // boolean to denote if the DevHandle is open
 
-      enum e_sensor m_esensor;   // store sensor type i.e. SENSOR_USB_JW24F8 or JW24F14
+      enum e_sensor m_esensor;   // store sensor type i.e. SENSOR_USB_JW24F1424F8 or JW24F1424F14
 
 /*
       void printElement(const int level, const pRecElement pelem);
@@ -75,7 +75,7 @@ class CSensorMacUSBJW  : public CSensor
       IOReturn ReadByteFromAddress(IOHIDDeviceInterface122** hidInterface, const UInt8 inAddress, UInt8 *result); //, bool bJoystick = false);
 
       bool SetQCNState();
-	  bool SetQCNStateJW24F14();
+	  bool SetQCNStateJW24F1424F14();
 	
       bool ReadData(IOHIDDeviceInterface122** hidInterface, const UInt8 addr, UInt8* cTemp, const char* strCallProc = NULL);
       bool WriteData(IOHIDDeviceInterface122** hidInterface, const UInt8 cmd, const UInt8 addr, const UInt8 data, const char* strCallProc = NULL);
@@ -86,8 +86,8 @@ class CSensorMacUSBJW  : public CSensor
       void closeHandles();
 
    public:
-      CSensorMacUSBJW(enum e_sensor eSensorType = SENSOR_USB_JW24F8);
-      virtual ~CSensorMacUSBJW();
+      CSensorMacUSBJW24F14(enum e_sensor eSensorType = SENSOR_USB_JW24F1424F8);
+      virtual ~CSensorMacUSBJW24F14();
 
       virtual bool detect();    // this detects the Mac USB sensor
       virtual void closePort(); // closes the port if open

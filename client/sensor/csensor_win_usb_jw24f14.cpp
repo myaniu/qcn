@@ -11,30 +11,30 @@
 #include "main.h"
 #include "csensor_win_usb_jw.h"
 
-CSensorWinUSBJW::CSensorWinUSBJW()
+CSensorWinUSBJW24F14::CSensorWinUSBJW24F14()
   : CSensor(), m_USBHandle(NULL)
 { 
    m_USBDevHandle[0] = NULL;
    m_USBDevHandle[1] = NULL;
 }
 
-CSensorWinUSBJW::~CSensorWinUSBJW()
+CSensorWinUSBJW24F14::~CSensorWinUSBJW24F14()
 {
   closePort();
 }
 
-void CSensorWinUSBJW::closePort()
+void CSensorWinUSBJW24F14::closePort()
 {
   for (int i = 0; i < 2; i++) {
      if (m_USBDevHandle[i]) {
        try {
           // don't think we need the next line, just close & Release
-      WriteData(m_USBDevHandle[i], 0x02, 0x00, 0x00);  // Free JW
+      WriteData(m_USBDevHandle[i], 0x02, 0x00, 0x00);  // Free JW24F14
 	  ::CancelIo(m_USBDevHandle[i]);
 	  ::CloseHandle(m_USBDevHandle[i]);
 	  m_USBDevHandle[i] = NULL;
           // mac version:
-          //WriteData(m_USBDevHandle[i], 0x02, 0x00, 0x00, "closePort()::Free JW");
+          //WriteData(m_USBDevHandle[i], 0x02, 0x00, 0x00, "closePort()::Free JW24F14");
           //(*m_USBDevHandle[i])->close(m_USBDevHandle[i]);
           //(*m_USBDevHandle[i])->Release(m_USBDevHandle[i]);
           //m_USBDevHandle[i] = NULL;
@@ -57,9 +57,9 @@ void CSensorWinUSBJW::closePort()
   }
 }
 
-bool CSensorWinUSBJW::detect()
+bool CSensorWinUSBJW24F14::detect()
 {
-    // tries to detect & initialize the USB JW Sensor
+    // tries to detect & initialize the USB JW24F14 Sensor
 	setType();
     e_sensor esTmp = SENSOR_NOTFOUND; 
 	int iPort = -1;  
@@ -153,9 +153,9 @@ bool CSensorWinUSBJW::detect()
 	SetupDiDestroyDeviceInfoList(hDevInfo);
 
 	if (bStart && SetupJoystick() >= 0) {
-		esTmp = SENSOR_USB_JW;
+		esTmp = SENSOR_USB_JW24F14;
 		iPort = getPort();
-        // no single sample, JW actually needs to sample within the 50hz,
+        // no single sample, JW24F14 actually needs to sample within the 50hz,
         // since we're reading from joystick port, not the downsampling "chip"
 		//setSingleSampleDT(true);  // note the usb sensor just requires 1 sample per dt, hardware does the rest
 		fprintf(stdout, "USB sensor detected on Windows joystick port %d\n"
@@ -170,13 +170,13 @@ bool CSensorWinUSBJW::detect()
     setType(esTmp);
 	setPort(iPort);
 
-	return (bool)(getTypeEnum() == SENSOR_USB_JW);
+	return (bool)(getTypeEnum() == SENSOR_USB_JW24F14);
 }
 
 // USB stick accelerometer specific stuff (codemercs.com JoyWarrior 24F8)
-// http://codemercs.com/JW24F8_E.html
+// http://codemercs.com/JW24F1424F8_E.html
 
-void CSensorWinUSBJW::GetCapabilities(HANDLE handle)
+void CSensorWinUSBJW24F14::GetCapabilities(HANDLE handle)
 {
 	PHIDP_PREPARSED_DATA PreparsedData;
 	::HidD_GetPreparsedData(handle, &PreparsedData);
@@ -184,7 +184,7 @@ void CSensorWinUSBJW::GetCapabilities(HANDLE handle)
 	::HidD_FreePreparsedData(PreparsedData);
 }
 
-int CSensorWinUSBJW::SetupJoystick()
+int CSensorWinUSBJW24F14::SetupJoystick()
 {
 	const int cnumJoy = ::joyGetNumDevs();
 	LPJOYCAPS pjc = new JOYCAPS;
@@ -208,7 +208,7 @@ int CSensorWinUSBJW::SetupJoystick()
 	return getPort();
 }
 
-inline bool CSensorWinUSBJW::read_xyz(float& x1, float& y1, float& z1)
+inline bool CSensorWinUSBJW24F14::read_xyz(float& x1, float& y1, float& z1)
 {
 	// joystick fn usage
 	if (getPort() < 0) return false;
@@ -242,7 +242,7 @@ inline bool CSensorWinUSBJW::read_xyz(float& x1, float& y1, float& z1)
 }
 
 /*
-unsigned char CSensorWinUSBJW::ReadData(HANDLE handle, unsigned char cmd, unsigned char addr)
+unsigned char CSensorWinUSBJW24F14::ReadData(HANDLE handle, unsigned char cmd, unsigned char addr)
 {
 	unsigned char			WriteBuffer[10];
 	unsigned char			ReadBuffer[10];
@@ -272,7 +272,7 @@ unsigned char CSensorWinUSBJW::ReadData(HANDLE handle, unsigned char cmd, unsign
 		return 0;
 }
 
-float CSensorWinUSBJW::ReadedData(unsigned char addr_LSB, unsigned char addr_MSB, char axe)
+float CSensorWinUSBJW24F14::ReadedData(unsigned char addr_LSB, unsigned char addr_MSB, char axe)
 {
 	unsigned char MSB, LSB;
 
@@ -288,7 +288,7 @@ float CSensorWinUSBJW::ReadedData(unsigned char addr_LSB, unsigned char addr_MSB
 */
 
 // USB read function
-unsigned char CSensorWinUSBJW::ReadData(HANDLE handle, unsigned char addr)
+unsigned char CSensorWinUSBJW24F14::ReadData(HANDLE handle, unsigned char addr)
 {
 	unsigned char			WriteBuffer[10];
 	unsigned char			ReadBuffer[10];
@@ -323,7 +323,7 @@ unsigned char CSensorWinUSBJW::ReadData(HANDLE handle, unsigned char addr)
 
 
 // USB write function
-bool CSensorWinUSBJW::WriteData(HANDLE handle, unsigned char cmd, unsigned char addr, unsigned char data)
+bool CSensorWinUSBJW24F14::WriteData(HANDLE handle, unsigned char cmd, unsigned char addr, unsigned char data)
 {
 	unsigned char			WriteBuffer[10];
 	unsigned char			ReadBuffer[10];
@@ -352,7 +352,7 @@ bool CSensorWinUSBJW::WriteData(HANDLE handle, unsigned char cmd, unsigned char 
 		return false;
 }
 
-void CSensorWinUSBJW::SetQCNState()
+void CSensorWinUSBJW24F14::SetQCNState()
 { // puts the Joystick Warrior USB sensor into the proper state for QCN (50Hz, +/- 2g)
   // and also writes these settings to EEPROM (so each device needs to just get set once hopefully)
 
@@ -377,7 +377,7 @@ void CSensorWinUSBJW::SetQCNState()
 
 /*
 // Calculate a 10 bit value with MSB and LSB
-short CSensorWinUSBJW::CalcMsbLsb(unsigned char lsb, unsigned char msb)
+short CSensorWinUSBJW24F14::CalcMsbLsb(unsigned char lsb, unsigned char msb)
 {
 	short erg;
 	short LSB, MSB, EXEC;

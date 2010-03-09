@@ -1,8 +1,8 @@
-#ifndef _CSENSOR_LINUX_USB_JW_H_
-#define _CSENSOR_LINUX_USB_JW_H_
+#ifndef _CSENSOR_LINUX_USB_JW24F14_H_
+#define _CSENSOR_LINUX_USB_JW24F14_H_
 
 /*
- *  csensor_linux_usb_jw.h
+ *  csensor_linux_usb_jw24f14.h
  *  qcn
  *
  *  Created by Carl Christensen on 08/11/2007.
@@ -22,10 +22,10 @@ using namespace std;
 #include <linux/joystick.h>
 
 // this is the Linux implementation for the JoyWarrior sensor, used for QCNLive as well as the Mac service program qcnmacusb under BOINC
-class CSensorLinuxUSBJW  : public CSensor
+class CSensorLinuxUSBJW24F14  : public CSensor
 {
    private:
-      // vars lifted from the codemercs.com JW24F8 Linux example
+      // vars lifted from the codemercs.com JW24F14 Linux example
       int m_fdJoy, *m_piAxes, m_iNumAxes, m_iNumButtons;
       char *m_strButton, m_strJoystick[80];
       struct js_event m_js;
@@ -35,8 +35,8 @@ class CSensorLinuxUSBJW  : public CSensor
       bool testJoystick();  // tests that it really is the JoyWarrior & sets to "raw data" mode
 
    public:
-      CSensorLinuxUSBJW();
-      virtual ~CSensorLinuxUSBJW();
+      CSensorLinuxUSBJW24F14();
+      virtual ~CSensorLinuxUSBJW24F14();
 
       virtual bool detect();    // this detects the Mac USB sensor
       virtual void closePort(); // closes the port if open

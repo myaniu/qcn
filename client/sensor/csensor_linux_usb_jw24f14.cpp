@@ -1,33 +1,33 @@
 /*
- *  csensor_linux_usb_jw.cpp
+ *  csensor_linux_usb_jw24f14.cpp
  *  qcn
  *
  *  Created by Carl Christensen on 08/11/2007.
  *  Copyright 2007 Stanford University.  All rights reserved.
  *
  * Implementation file for Linux JoyWarrior 24F8 USB sensor - 
- *    note this just does a simple read of the joystick, so no setting of sample rate etc on-board the JW24F8 (which is fine)
+ *    note this just does a simple read of the joystick, so no setting of sample rate etc on-board the JW24F1424F8 (which is fine)
  */
 
 #include "main.h"
 #include "csensor_linux_usb_jw.h"
 
 
-CSensorLinuxUSBJW::CSensorLinuxUSBJW()
+CSensorLinuxUSBJW24F14::CSensorLinuxUSBJW24F14()
   : CSensor(), 
        m_fdJoy(-1), m_piAxes(NULL), m_iNumAxes(0), m_iNumButtons(0), m_strButton(NULL)
 { 
-   // vars lifted from the codemercs.com JW24F8 Linux example
+   // vars lifted from the codemercs.com JW24F1424F8 Linux example
    memset(m_strJoystick, 0x00, 80);
    memset(&m_js, 0x0, sizeof(struct js_event));
 }
 
-CSensorLinuxUSBJW::~CSensorLinuxUSBJW()
+CSensorLinuxUSBJW24F14::~CSensorLinuxUSBJW24F14()
 {
   closePort();
 }
 
-void CSensorLinuxUSBJW::closePort()
+void CSensorLinuxUSBJW24F14::closePort()
 {
   if (m_fdJoy > -1) {
      close(m_fdJoy);
@@ -50,7 +50,7 @@ void CSensorLinuxUSBJW::closePort()
   setPort();
 }
 
-inline bool CSensorLinuxUSBJW::read_xyz(float& x1, float& y1, float& z1)
+inline bool CSensorLinuxUSBJW24F14::read_xyz(float& x1, float& y1, float& z1)
 {  
 #ifndef QCN_USB
     if (qcn_main::g_iStop) return false;
@@ -105,8 +105,8 @@ inline bool CSensorLinuxUSBJW::read_xyz(float& x1, float& y1, float& z1)
     return true;
 }
 
-// tests the open joystick file descriptor to see if it's really a JW, and set to read rawdata
-bool CSensorLinuxUSBJW::testJoystick()
+// tests the open joystick file descriptor to see if it's really a JW24F14, and set to read rawdata
+bool CSensorLinuxUSBJW24F14::testJoystick()
 {
    // if made it here, then we have opened a joystick file descriptor
    m_iNumAxes = 0;
@@ -118,9 +118,9 @@ bool CSensorLinuxUSBJW::testJoystick()
    ioctl(m_fdJoy, JSIOCGNAME(80), m_strJoystick);
 
    // compare the name of device, and number of buttons & axes with valid JoyWarrior values
-   if (strcmp(m_strJoystick, IDSTR_JW)
-     || m_iNumButtons != NUM_BUTTON_JW
-     || m_iNumAxes != NUM_AXES_JW) {
+   if (strcmp(m_strJoystick, IDSTR_JW24F14)
+     || m_iNumButtons != NUM_BUTTON_JW24F14
+     || m_iNumAxes != NUM_AXES_JW24F14) {
          closePort();  // this far in, we need to close the port!
          return false;
    }
@@ -141,10 +141,10 @@ bool CSensorLinuxUSBJW::testJoystick()
    }
 
    // if made it here, then it's a joywarrior, set to raw data mode
-   struct js_corr corr[NUM_AXES_JW];
+   struct js_corr corr[NUM_AXES_JW24F14];
 
    // Zero correction coefficient structure and set all axes to Raw mode 
-   for (int i=0; i<NUM_AXES_JW; i++) {
+   for (int i=0; i<NUM_AXES_JW24F14; i++) {
      corr[i].type = JS_CORR_NONE;
      corr[i].prec = 0;
      for (int j=0; j<8; j++) {
@@ -153,32 +153,32 @@ bool CSensorLinuxUSBJW::testJoystick()
    }
 
    if (ioctl(m_fdJoy, JSIOCSCORR, &corr)) {
-      fprintf(stderr, "CSensorLinuxUSBJW:: error setting correction for raw data reads\n");
+      fprintf(stderr, "CSensorLinuxUSBJW24F14:: error setting correction for raw data reads\n");
    }
 
-   setType(SENSOR_USB_JW);
+   setType(SENSOR_USB_JW24F14);
    setPort(getTypeEnum());
    
    return true; // if here we can return true, i.e Joywarrior found on Linux joystick port, and hopefully set to read raw data
 }
 
 // try and open up the JoyWarrior file descriptor
-bool CSensorLinuxUSBJW::detect()
+bool CSensorLinuxUSBJW24F14::detect()
 {
    setType();
    setPort();
 
-   const char* strJWEnum[LINUX_JOYSTICK_NUM] = LINUX_JOYSTICK_ARRAY;
+   const char* strJW24F14Enum[LINUX_JOYSTICK_NUM] = LINUX_JOYSTICK_ARRAY;
    // go through and try potential Linux joystick devices from define.h
    int i;
    for (i = 0; i < LINUX_JOYSTICK_NUM; i++) {
-      if (! boinc_file_exists(strJWEnum[i]) ) continue; // first see if file (device) exists
-      if ( ( m_fdJoy = open(strJWEnum[i], O_RDONLY)) != -1 && testJoystick() ) {
-         fprintf(stdout, "%s detected on joystick device %s\n", m_strJoystick, strJWEnum[i]);
-         break;  // found a JW24F8
+      if (! boinc_file_exists(strJW24F14Enum[i]) ) continue; // first see if file (device) exists
+      if ( ( m_fdJoy = open(strJW24F14Enum[i], O_RDONLY)) != -1 && testJoystick() ) {
+         fprintf(stdout, "%s detected on joystick device %s\n", m_strJoystick, strJW24F14Enum[i]);
+         break;  // found a JW24F1424F8
       }
    }
 
-   return (bool)(getTypeEnum() == SENSOR_USB_JW);
+   return (bool)(getTypeEnum() == SENSOR_USB_JW24F14);
 }
 

@@ -1,5 +1,5 @@
-#ifndef _CSENSOR_WIN_USB_JW_H_
-#define _CSENSOR_WIN_USB_JW_H_
+#ifndef _CSENSOR_WIN_USB_JW24F14_H_
+#define _CSENSOR_WIN_USB_JW24F14_H_
 
 /*
  *  csensor-win-usb-jw.h
@@ -25,7 +25,7 @@ extern "C" {
 }
 
 // this is the Windows implementation of the sensor - IBM/Lenovo Thinkpad, HP, USB Stick
-class CSensorWinUSBJW  : public CSensor
+class CSensorWinUSBJW24F14  : public CSensor
 {
    private:
 	  // usb stick stuff
@@ -35,7 +35,7 @@ class CSensorWinUSBJW  : public CSensor
 
       // two usb-specific methods, one for init, one for reading data
       void GetCapabilities(HANDLE handle);
-      // codemercs.com JoyWarrior 24F8  http://codemercs.com/JW24F8_E.html
+      // codemercs.com JoyWarrior 24F8  http://codemercs.com/JW24F1424F8_E.html
       unsigned char ReadData(HANDLE handle, unsigned char addr);
       bool WriteData(HANDLE handle, unsigned char cmd, unsigned char addr, unsigned char data);
       int SetupJoystick();
@@ -44,8 +44,8 @@ class CSensorWinUSBJW  : public CSensor
       virtual bool read_xyz(float& x1, float& y1, float& z1);  
 
    public:
-      CSensorWinUSBJW();
-      virtual ~CSensorWinUSBJW();
+      CSensorWinUSBJW24F14();
+      virtual ~CSensorWinUSBJW24F14();
 
      virtual void closePort(); // closes the port if open
      virtual bool detect();   // this detects & initializes a sensor on a Mac G4/PPC or Intel laptop, sets m_iType to 0 if not found
