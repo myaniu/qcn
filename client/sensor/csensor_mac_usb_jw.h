@@ -38,7 +38,7 @@ typedef struct cookie_struct
         IOHIDElementCookie gButtonCookie[3];
 } *cookie_struct_t;
 
-bool getHIDCookies(IOHIDDeviceInterface122** handle, cookie_struct_t cookies);
+bool getHIDCookies(IOHIDDeviceInterface122** handle, cookie_struct_t cookies, const e_sensor eSensor);
 
 // this is the Mac implementation for the JoyWarrior sensor, used for QCNLive as well as the Mac service program qcnmacusb under BOINC
 class CSensorMacUSBJW  : public CSensor
@@ -52,7 +52,8 @@ class CSensorMacUSBJW  : public CSensor
       CFMutableArrayRef m_maDeviceRef;
 
       virtual bool read_xyz(float& x1, float& y1, float& z1);  
-
+	  bool read_xyzJW24F14(float& x1, float& y1, float& z1);  
+	
       struct cookie_struct m_cookies;
 
       bool m_bDevHandleOpen;     // boolean to denote if the DevHandle is open
@@ -74,7 +75,7 @@ class CSensorMacUSBJW  : public CSensor
       IOReturn ReadByteFromAddress(IOHIDDeviceInterface122** hidInterface, const UInt8 inAddress, UInt8 *result); //, bool bJoystick = false);
 
       bool SetQCNState();
-	  bool SetQCNStateF14();
+	  bool SetQCNStateJW24F14();
 	
       bool ReadData(IOHIDDeviceInterface122** hidInterface, const UInt8 addr, UInt8* cTemp, const char* strCallProc = NULL);
       bool WriteData(IOHIDDeviceInterface122** hidInterface, const UInt8 cmd, const UInt8 addr, const UInt8 data, const char* strCallProc = NULL);
