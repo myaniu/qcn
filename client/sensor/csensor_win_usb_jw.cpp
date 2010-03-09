@@ -111,9 +111,9 @@ bool CSensorWinUSBJW::detect()
 
 			HidD_GetAttributes(m_USBHandle, &Attributes);
 
-			if (m_USBHandle && Attributes.VendorID == USB_VENDOR) 
+			if (m_USBHandle && Attributes.VendorID == USB_VENDORID_JW) 
 			{
-				if((Attributes.ProductID == USB_JOYWARRIOR) || (Attributes.ProductID == USB_MOUSEWARRIOR))
+				if(Attributes.ProductID == USB_DEVICEID_JW_8)
 				{
 					//if(Attributes.ProductID == USB_JOYWARRIOR) GetDlgItem(IDC_STATIC_DEVICE)->SetWindowTextW(_T("JoyWarrior"));
 					//if(Attributes.ProductID == USB_MOUSEWARRIOR) GetDlgItem(IDC_STATIC_DEVICE)->SetWindowTextW(_T("MouseWarrior"));
@@ -153,7 +153,7 @@ bool CSensorWinUSBJW::detect()
 	SetupDiDestroyDeviceInfoList(hDevInfo);
 
 	if (bStart && SetupJoystick() >= 0) {
-		esTmp = SENSOR_USB_JW;
+		esTmp = SENSOR_USB_JW24F8;
 		iPort = getPort();
         // no single sample, JW actually needs to sample within the 50hz,
         // since we're reading from joystick port, not the downsampling "chip"
@@ -170,7 +170,7 @@ bool CSensorWinUSBJW::detect()
     setType(esTmp);
 	setPort(iPort);
 
-	return (bool)(getTypeEnum() == SENSOR_USB_JW);
+	return (bool)(getTypeEnum() == SENSOR_USB_JW24F8);
 }
 
 // USB stick accelerometer specific stuff (codemercs.com JoyWarrior 24F8)
@@ -196,7 +196,7 @@ int CSensorWinUSBJW::SetupJoystick()
 		memset(pjc, 0x00, isizeJC);
 		if (::joyGetDevCaps(i, pjc, isizeJC) == JOYERR_NOERROR) {
 			// see if it matches up to the Product & Vendor ID for codemercs.com JoyWarrior
-			if (pjc->wMid == USB_VENDOR && pjc->wPid == USB_JOYWARRIOR) {
+			if (pjc->wMid == USB_VENDORID_JW && pjc->wPid == USB_DEVICEID_JW_8) {
 				// this is the joystick
 				setPort(i);
 				break;

@@ -9,7 +9,7 @@
  */
 
 #include "main.h"
-#include "csensor_win_usb_jw.h"
+#include "csensor_win_usb_jw24f14.h"
 
 CSensorWinUSBJW24F14::CSensorWinUSBJW24F14()
   : CSensor(), m_USBHandle(NULL)
@@ -25,11 +25,12 @@ CSensorWinUSBJW24F14::~CSensorWinUSBJW24F14()
 
 void CSensorWinUSBJW24F14::closePort()
 {
+	//return;
   for (int i = 0; i < 2; i++) {
      if (m_USBDevHandle[i]) {
        try {
           // don't think we need the next line, just close & Release
-      WriteData(m_USBDevHandle[i], 0x02, 0x00, 0x00);  // Free JW24F14
+      //WriteData(m_USBDevHandle[i], 0x02, 0x00, 0x00);  // Free JW24F14
 	  ::CancelIo(m_USBDevHandle[i]);
 	  ::CloseHandle(m_USBDevHandle[i]);
 	  m_USBDevHandle[i] = NULL;
@@ -111,9 +112,9 @@ bool CSensorWinUSBJW24F14::detect()
 
 			HidD_GetAttributes(m_USBHandle, &Attributes);
 
-			if (m_USBHandle && Attributes.VendorID == USB_VENDOR) 
+			if (m_USBHandle && Attributes.VendorID == USB_VENDORID_JW) 
 			{
-				if((Attributes.ProductID == USB_JOYWARRIOR) || (Attributes.ProductID == USB_MOUSEWARRIOR))
+				if(Attributes.ProductID == USB_DEVICEID_JW_14)
 				{
 					//if(Attributes.ProductID == USB_JOYWARRIOR) GetDlgItem(IDC_STATIC_DEVICE)->SetWindowTextW(_T("JoyWarrior"));
 					//if(Attributes.ProductID == USB_MOUSEWARRIOR) GetDlgItem(IDC_STATIC_DEVICE)->SetWindowTextW(_T("MouseWarrior"));
@@ -133,8 +134,8 @@ bool CSensorWinUSBJW24F14::detect()
 					//GetDlgItem(IDC_STATIC_SERIAL)->SetWindowTextW(GetSerialNumber(m_USBDevHandle[1]));
 					bStart = true;
 				}
-				else
-					NULL;
+				//else
+				//	NULL;
 			}
 			else {
 				if (m_USBHandle) {
@@ -158,7 +159,7 @@ bool CSensorWinUSBJW24F14::detect()
         // no single sample, JW24F14 actually needs to sample within the 50hz,
         // since we're reading from joystick port, not the downsampling "chip"
 		//setSingleSampleDT(true);  // note the usb sensor just requires 1 sample per dt, hardware does the rest
-		fprintf(stdout, "USB sensor detected on Windows joystick port %d\n"
+		fprintf(stdout, "JoyWarrior 24F14 USB sensor detected on Windows joystick port %d\n"
 			"Set to 50Hz internal bandwidth, +/- 2g acceleration.\n", getPort());
 
         SetQCNState();
@@ -196,7 +197,7 @@ int CSensorWinUSBJW24F14::SetupJoystick()
 		memset(pjc, 0x00, isizeJC);
 		if (::joyGetDevCaps(i, pjc, isizeJC) == JOYERR_NOERROR) {
 			// see if it matches up to the Product & Vendor ID for codemercs.com JoyWarrior
-			if (pjc->wMid == USB_VENDOR && pjc->wPid == USB_JOYWARRIOR) {
+			if (pjc->wMid == USB_VENDORID_JW && pjc->wPid == USB_DEVICEID_JW_14) {
 				// this is the joystick
 				setPort(i);
 				break;
@@ -356,6 +357,9 @@ void CSensorWinUSBJW24F14::SetQCNState()
 { // puts the Joystick Warrior USB sensor into the proper state for QCN (50Hz, +/- 2g)
   // and also writes these settings to EEPROM (so each device needs to just get set once hopefully)
 
+	return;
+
+	/*
    unsigned char mReg14 = ReadData(m_USBDevHandle[1], 0x14);  // get current settings of device
    // if not set already, set it to +/-2g accel (0x00) and 50Hz internal bandwidth 0x01
    // NB: 0x08 & 0x10 means accel is set to 4 or 8g, if not bit-and with 0x01 bandwidth is other than 50Hz
@@ -373,6 +377,8 @@ void CSensorWinUSBJW24F14::SetQCNState()
         WriteData(m_USBDevHandle[1], 0x82, 0x0A, 0x02);  // end EEPROM write
         boinc_sleep(.100f);
    }
+}
+*/
 }
 
 /*

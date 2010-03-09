@@ -738,6 +738,10 @@
 					>
 				</File>
 				<File
+					RelativePath="..\sensor\csensor_win_usb_jw24f14.cpp"
+					>
+				</File>
+				<File
 					RelativePath="..\sensor\csensor_win_usb_onavi01.cpp"
 					>
 				</File>

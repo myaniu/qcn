@@ -71,10 +71,10 @@ void draw_text()
 	   }
 	}
 
-//#ifdef _DEBUG
+#ifdef _DEBUG
 	sprintf(strTime, "sampsize=%ld", sm->lSampleSize);
     txf_render_string_qcn(qcn_graphics::cfTextAlpha, .1f, cfAxesLabel[0], 0.0f, MSG_SIZE_SMALL, red, TXF_HELVETICA, (char*) strTime);
-//#endif
+#endif
 	
 	/*
 #ifdef _DEBUG
