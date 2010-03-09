@@ -180,8 +180,28 @@ bool getSensor(CSensor* volatile *ppsms)
 				   }
 							 break;
 			   case 1:   // try the USB driver first
-				   *ppsms = (CSensor*) new CSensorMacUSBJW(SENSOR_USB_JW24F14);
-				   break;
+				   if (bForceSensor) {
+					   psmsForceSensor(ppsms);
+				   }
+				   else {
+					   //#define GENERIC
+#ifdef GENERIC
+					   if (boinc_is_standalone()) 
+						   *ppsms = (CSensor*) new CSensorMacUSBGeneric();
+#ifndef QCNLIVE
+					   else
+						   *ppsms = (CSensor*) new CSensorMacUSBJW(SENSOR_USB_JW24F14);
+#endif
+#else
+					   if (boinc_is_standalone()) 
+						   *ppsms = (CSensor*) new CSensorMacUSBJW(SENSOR_USB_JW24F14);
+#ifndef QCNLIVE
+					   else
+						   *ppsms = (CSensor*) new CSensorMacUSBGeneric();
+#endif
+#endif		
+				   }
+				   break;			   
 			   case 2:  // try for ONavi
 				   *ppsms = (CSensor*) new CSensorMacUSBONavi01();
 				   break;
@@ -219,7 +239,7 @@ bool getSensor(CSensor* volatile *ppsms)
 				   }
 				   break;
 			   case 1:
-				       *ppsms = (CSensor*) new CSensorWinUSBJW(SENSOR_USB_JW24F14);
+				   *ppsms = (CSensor*) new CSensorWinUSBJW(SENSOR_USB_JW24F14);
 				   break;
 #ifdef _WIN64
 			   // no motionnode support for win64
@@ -242,13 +262,13 @@ bool getSensor(CSensor* volatile *ppsms)
 				   break;
 	#endif
 	#if 0
-			   case 4:
+			   case 5:
 				   *ppsms = (CSensor*) new CSensorWinHP();
 				   break;
 	#endif // no luck with the HP
 		   }
 	#else // Linux
-	#if defined(__LP64__) || defined(_LP64) // no motion node for 64-bit
+	#if defined(__LP64__) || defined(_LP64) // no motion node for 64-bit, just JWF8 and JWF14
 	   const int iMaxSensor = 2;
 	#else
 	   const int iMaxSensor = 3;
