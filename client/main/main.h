@@ -51,8 +51,18 @@ using std::vector;
 
 // Mac specific libraries
 #ifdef __APPLE_CC__    
-  #include <IOKit/IOKitLib.h>
-  #include <CoreFoundation/CoreFoundation.h>
+// data structures for sensor information
+#include <mach/mach_port.h>
+#include <CoreFoundation/CoreFoundation.h>
+#include <IOKit/IOKitLib.h>
+#include <IOKit/hid/IOHIDLib.h>
+#include <IOKit/IOCFPlugIn.h>
+#include <IOKit/usb/IOUSBLib.h>
+typedef struct cookie_struct
+	{
+		IOHIDElementCookie gAxisCookie[3];
+		IOHIDElementCookie gButtonCookie[3];
+	} *cookie_struct_t;
 #endif
 
 // BOINC & esp boinc graphics stuff:

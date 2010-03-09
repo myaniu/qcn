@@ -16,22 +16,16 @@ using namespace std;
 
 #include <stdio.h>
 
-// data structures for sensor information
-#include <mach/mach_port.h>
-#include <CoreFoundation/CoreFoundation.h>
-#include <IOKit/IOKitLib.h>
-#include <IOKit/hid/IOHIDLib.h>
-#include <IOKit/IOCFPlugIn.h>
-#include <IOKit/usb/IOUSBLib.h>
+
 //#include "DiscoverHIDInterface.h" 
 //#include "JoyWarrior24F8.h"
 //#include "../mac_hid_lib/HID_Utilities_External.h"   // this links to the Apple HID library in qcn/client/mac_hid_lib
+
 
 /* CMC Note: the USB add/remove logic doesn't seem to be working
 void global_JoyWarriorAddedOrRemoved(void *refCon, io_iterator_t iterator);
 void global_updateDeviceState();
 */
-
 
 // this is the Mac implementation for the JoyWarrior sensor, used for QCNLive as well as the Mac service program qcnmacusb under BOINC
 class CSensorMacUSBJW  : public CSensor
@@ -54,6 +48,7 @@ class CSensorMacUSBJW  : public CSensor
       void printElement(const int level, const pRecElement pelem);
       bool walkElement(const int level, const pRecElement pretmp);
 */
+	  bool getHIDCookies(IOHIDDeviceInterface122** handle, cookie_struct_t cookies);
 
       CFMutableDictionaryRef SetUpHIDMatchingDictionary (int inVendorID, int inDeviceID);
       io_iterator_t FindHIDDevices (const mach_port_t masterPort, int inVendorID, int inDeviceID);

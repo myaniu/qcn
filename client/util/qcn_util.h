@@ -16,20 +16,6 @@
 
 #include "define.h"
 
-#ifdef __APPLE_CC__
-	#include <mach/mach_port.h>
-	#include <CoreFoundation/CoreFoundation.h>
-	#include <IOKit/IOKitLib.h>
-	#include <IOKit/hid/IOHIDLib.h>
-	#include <IOKit/IOCFPlugIn.h>
-	#include <IOKit/usb/IOUSBLib.h>
-	typedef struct cookie_struct
-		{
-			IOHIDElementCookie gAxisCookie[3];
-			IOHIDElementCookie gButtonCookie[3];
-		} *cookie_struct_t;
-#endif
-
 /*
 #ifdef QCNLIVE   // get wxRect def
 #include <wx/gdicmn.h>
@@ -38,12 +24,7 @@
 
 
 namespace qcn_util 
-{
-	
-#ifdef __APPLE_CC__
-	bool getHIDCookies(IOHIDDeviceInterface122** handle, cookie_struct_t cookies);
-#endif
-	
+{	
 // useful functions for all
 void FormatElapsedTime(const double& dTime, char* strFormat, int iLen);
 char cPathSeparator(); // returns path sep, i.e. for strPathTrigger

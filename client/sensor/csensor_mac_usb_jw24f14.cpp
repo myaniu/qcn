@@ -570,7 +570,7 @@ bool CSensorMacUSBJW24F14::detect()
        return false;
    } 
 
-	qcn_util::getHIDCookies(m_USBDevHandle[0], &m_cookies);
+	//getHIDCookies(m_USBDevHandle[0], &m_cookies);
 
     // open port for read_xyz sequential reads...
     //(*m_USBDevHandle[0])->open(m_USBDevHandle[0], kIOHIDOptionsTypeSeizeDevice);
@@ -682,7 +682,7 @@ bool CSensorMacUSBJW24F14::detect()
 */
 
    // OK, we have a JoyWarrior USB sensor, and I/O is setup using Apple HID Utilities at 50Hz, +/- 2g
-   setType(m_esensor);
+   setType(SENSOR_USB_JW24F14);
    setPort(getTypeEnum()); // set > -1 so we know we have a sensor
    //setSingleSampleDT(true);  // note the usb sensor just requires 1 sample per dt, hardware does the rest
    setSingleSampleDT(false);  // note the usb sensor just requires 1 sample per dt, hardware does the rest
@@ -702,14 +702,16 @@ bool CSensorMacUSBJW24F14::detect()
    fprintf(stdout, "AddUSBDeviceAddedCallback=%d  AddUSBDeviceRemovedCallback=%d\n", result[0], result[1]);
    fflush(stdout);
 */
-    fprintf(stdout, "Joywarrior 24F8 opened!\n");
+    fprintf(stdout, "Joywarrior 24F14 opened!\n");
 
-    return (bool)(getTypeEnum() == m_esensor);
+    return (bool)(getTypeEnum() == SENSOR_USB_JW24F14);
 }
 
 bool CSensorMacUSBJW24F14::SetQCNState()
 { // puts the Joystick Warrior USB sensor into the proper state for QCN (50Hz, +/- 2g)
   // and also writes these settings to EEPROM (so each device needs to just get set once hopefully)
+
+	return true;
 	
    UInt8 mReg14 = 0x00;
    if (! ReadData(m_USBDevHandle[1], 0x14, &mReg14, "SetQCNState:R1")) {  // get current settings of device
