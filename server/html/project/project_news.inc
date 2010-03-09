@@ -1,5 +1,13 @@
 <?php
 $project_news = array(
+   array("March 8, 2010",
+"On March 9, two graduate students flew to Chile to begin installing 100 QCN sensors in the region affected by the recent M8.8 earthquake. Our partners at the University of Concepcion are coordinating the installation of sensors. Volunteers from the University of Concepcion and University of Santiago will assist with installing sensors in cities throughout the region. We hope to record many of the aftershocks that are still occurring in the area to better understand the distribution of aftershocks and to study the properties of earthquakes. We will include updates on their progress and the data that are recorded in the coming weeks. If you are in Chile and would like to participate in the Quake-Catcher Network Rapid Aftershock Mobilization Project (QCN-RAMP) <A HREF=\"http://qcn.stanford.edu/RAMP/RAMP_Chile_2010.php\">please fill out the form on this link.</A><BR><BR>",
+ "QCN responds to the M8.8 earthquake in Chile"
+  ),
+   array("February 27, 2010",
+"On February 27, 2010 a M8.8 earthquake struck Chile just northwest of the major city of Concepcion. A QCN partner at the University of Concepcion was testing a JoyWarrior USB sensor with the goal of introducing QCN to the region in the future. The sensor caught the M8.8 mainshock and a number of aftershocks that followed. The computer was attached to a backup power supply that kept the computer running for one hour after the earthquake knocked out power to most of the city.  Unfortunately, at the time of the earthquake the sensor was not connected to the floor, but most of the earthquake record looks surprisingly good. The very high accelerations approximately 15 seconds into the record may be the sensor falling off of the box it was sitting on.  <A HREF=\"http://qcn.stanford.edu/sensor/download/M8.8_first_trigger.png\">Click here to view the QCN output.</A><BR><BR>",
+ "QCN participant records the M8.8 earthquake in Chile"
+  ),
    array("February 10, 2010",
 "A rare midwestern US earthquake was detected by a QCN participant in Illinois.  The quake was of <A HREF=\"http://earthquake.usgs.gov/earthquakes/recenteqsus/Quakes/us2010snay.php\">magnitude 3.8 and was 45 miles northwest of Chicago, Illinois</A>.  The quake was only one of three detected in the upper Midwest in the past 21 years.  The QCN participant was using an external JoyWarrior USB sensor - you can see the <A HREF=\"http://qcn-web.stanford.edu/download/illinois.png\">plot of the QCN-detected quake activity here.</A><BR><BR>",
  "QCN Participant Detects Illinois M3.8 Quake"
