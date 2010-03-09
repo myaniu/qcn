@@ -717,9 +717,64 @@ bool CSensorMacUSBJW::detect()
     return (bool)(getTypeEnum() == m_esensor);
 }
 
+bool CSensorMacUSBJW::SetQCNStateF14()
+{
+	UInt8 mReg14 = 0x00;
+	if (! ReadData(m_USBDevHandle[1], 0x14, &mReg14, "SetQCNState:R1")) {  // get current settings of device
+		fprintf(stdout, "  * Could not read from JoyWarrior USB (SetQCNState:R1), exiting...\n");
+		return false;
+	}
+	
+	// if not set already, set it to +/-2g accel (0x00) and 50Hz internal bandwidth 0x01
+	// NB: 0x08 & 0x10 means accel is set to 4 or 8g, if not bit-and with 0x01 bandwidth is other than 50Hz
+	
+	if ((mReg14 & 0x08) || (mReg14 & 0x10) || ((mReg14 & 0x01) != 0x01)) {
+        fprintf(stdout, "Setting JoyWarrior 24F14 USB to QCN standard 50Hz sample rate, +/- 2g\n");
+		
+        UInt8 uiTmp = 0x00;
+        if (! ReadData(m_USBDevHandle[1], 0x14, &uiTmp, "SetQCNState:R2") ) {
+			fprintf(stdout, "  * Could not read from JoyWarrior 24F14 USB (SetQCNStateF14:R2), exiting...\n");
+			return false;
+        }
+		
+        mReg14 = 0x01 | (uiTmp & 0xE0);
+		
+        // write settings to register
+        if (! WriteData(m_USBDevHandle[1], 0x82, 0x14, mReg14, "SetQCNState:W1")) {
+			fprintf(stdout, "  * Could not write to JoyWarrior 24F14 USB (SetQCNStateF14:W1), exiting...\n");
+			return false;
+        }
+		
+        // write settings to EEPROM for persistent state
+        if (! WriteData(m_USBDevHandle[1], 0x82, 0x0A, 0x10, "SetQCNState:W2")) {  // start EEPROM write
+			fprintf(stdout, "  * Could not write to JoyWarrior 24F14 USB (SetQCNStateF14:W2), exiting...\n");
+			return false;
+        }
+        boinc_sleep(.050f);
+        if (! WriteData(m_USBDevHandle[1], 0x82, 0x34, mReg14, "SetQCNState:W3")) {
+			fprintf(stdout, "  * Could not write to JoyWarrior 24F14 USB (SetQCNStateF14:W3), exiting...\n");
+			return false;
+        }
+        boinc_sleep(.050f);
+        if (! WriteData(m_USBDevHandle[1], 0x82, 0x0A, 0x02, "SetQCNState:W4")) {  // end EEPROM write
+			fprintf(stdout, "  * Could not write to JoyWarrior 24F14 USB (SetQCNStateF14:W4), exiting...\n");
+			return false;
+        }
+        boinc_sleep(.100f);
+	} 
+	/*
+	 else {
+	 fprintf(stdout, "JoyWarrior USB already set to QCN standard 50Hz sample rate, +/- 2g\n");
+	 }
+	 */
+	return true;
+}
+
 bool CSensorMacUSBJW::SetQCNState()
 { // puts the Joystick Warrior USB sensor into the proper state for QCN (50Hz, +/- 2g)
   // and also writes these settings to EEPROM (so each device needs to just get set once hopefully)
+	
+	if (m_esensor == SENSOR_USB_JW24F14) return SetQCNStateF14();
 
    UInt8 mReg14 = 0x00;
    if (! ReadData(m_USBDevHandle[1], 0x14, &mReg14, "SetQCNState:R1")) {  // get current settings of device
@@ -731,11 +786,11 @@ bool CSensorMacUSBJW::SetQCNState()
    // NB: 0x08 & 0x10 means accel is set to 4 or 8g, if not bit-and with 0x01 bandwidth is other than 50Hz
 
    if ((mReg14 & 0x08) || (mReg14 & 0x10) || ((mReg14 & 0x01) != 0x01)) {
-        fprintf(stdout, "Setting JoyWarrior USB to QCN standard 50Hz sample rate, +/- 2g\n");
+        fprintf(stdout, "Setting JoyWarrior 24F8 USB to QCN standard 50Hz sample rate, +/- 2g\n");
 
         UInt8 uiTmp = 0x00;
         if (! ReadData(m_USBDevHandle[1], 0x14, &uiTmp, "SetQCNState:R2") ) {
-           fprintf(stdout, "  * Could not read from JoyWarrior USB (SetQCNState:R2), exiting...\n");
+           fprintf(stdout, "  * Could not read from JoyWarrior 24F8 USB (SetQCNState:R2), exiting...\n");
            return false;
         }
 
@@ -743,30 +798,30 @@ bool CSensorMacUSBJW::SetQCNState()
 
         // write settings to register
         if (! WriteData(m_USBDevHandle[1], 0x82, 0x14, mReg14, "SetQCNState:W1")) {
-           fprintf(stdout, "  * Could not write to JoyWarrior USB (SetQCNState:W1), exiting...\n");
+           fprintf(stdout, "  * Could not write to JoyWarrior 24F8 USB (SetQCNState:W1), exiting...\n");
            return false;
         }
 
         // write settings to EEPROM for persistent state
         if (! WriteData(m_USBDevHandle[1], 0x82, 0x0A, 0x10, "SetQCNState:W2")) {  // start EEPROM write
-           fprintf(stdout, "  * Could not write to JoyWarrior USB (SetQCNState:W2), exiting...\n");
+           fprintf(stdout, "  * Could not write to JoyWarrior 24F8 USB (SetQCNState:W2), exiting...\n");
            return false;
         }
         boinc_sleep(.050f);
         if (! WriteData(m_USBDevHandle[1], 0x82, 0x34, mReg14, "SetQCNState:W3")) {
-           fprintf(stdout, "  * Could not write to JoyWarrior USB (SetQCNState:W3), exiting...\n");
+           fprintf(stdout, "  * Could not write to JoyWarrior 24F8 USB (SetQCNState:W3), exiting...\n");
            return false;
         }
         boinc_sleep(.050f);
         if (! WriteData(m_USBDevHandle[1], 0x82, 0x0A, 0x02, "SetQCNState:W4")) {  // end EEPROM write
-           fprintf(stdout, "  * Could not write to JoyWarrior USB (SetQCNState:W4), exiting...\n");
+           fprintf(stdout, "  * Could not write to JoyWarrior 24F8 USB (SetQCNState:W4), exiting...\n");
            return false;
         }
         boinc_sleep(.100f);
    } 
 /*
    else {
-      fprintf(stdout, "JoyWarrior USB already set to QCN standard 50Hz sample rate, +/- 2g\n");
+      fprintf(stdout, "JoyWarrior 24F8 USB already set to QCN standard 50Hz sample rate, +/- 2g\n");
    }
 */
    return true;
