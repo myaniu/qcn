@@ -1,5 +1,5 @@
 /*
- *  csensor_mac_usb_jw.cpp
+ *  csensor_mac_usb_jw24f14.cpp
  *  qcn
  *
  *  Created by Carl Christensen on 08/11/2007.
@@ -9,7 +9,7 @@
  */
 
 #include "main.h"
-#include "csensor_mac_usb_jw.h"
+#include "csensor_mac_usb_jw24f14.h"
 
 // making sense of IOReturn (IOKit) error codes:  
 // http://developer.apple.com/qa/qa2001/qa1075.html
@@ -242,11 +242,11 @@ IOReturn CSensorMacUSBJW24F14::ReadByteFromAddress (IOHIDDeviceInterface122** hi
 }
 
 
-CSensorMacUSBJW24F14::CSensorMacUSBJW24F14(enum e_sensor eSensorType)
-  : CSensor(), m_esensor(eSensorType)
+CSensorMacUSBJW24F14::CSensorMacUSBJW24F14()
+  : CSensor()
 {
    m_USBDevHandle[0] = m_USBDevHandle[1] = NULL;
-   m_bFoundJW24F14 = false;
+   m_bFoundJW = false;
    m_maDeviceRef = NULL;
    m_bDevHandleOpen = false;
    closeHandles();
@@ -298,7 +298,7 @@ void CSensorMacUSBJW24F14::closeHandles()
       m_prelJW24F14[2] = NULL;
  */
       closeDevHandle();
-      m_bFoundJW24F14 = false;
+      m_bFoundJW = false;
       m_USBDevHandle[0] = NULL;
       m_USBDevHandle[1] = NULL;
       m_maDeviceRef = NULL;
@@ -389,7 +389,7 @@ bool CSensorMacUSBJW24F14::walkElement(const int level, const pRecElement pretmp
      if (pretmp) {
         printElement(level, pretmp);
 
-        if (m_bFoundJW24F14)  {  // we're in the JW24F14 element we want? 
+        if (m_bFoundJW)  {  // we're in the JW24F14 element we want? 
            switch ((int) pretmp->cookie)
            {
               case 0xb: 
@@ -467,17 +467,9 @@ bool CSensorMacUSBJW24F14::closeDevHandle()
     return true;
 }
 
-inline bool CSensorMacUSBJW24F14::read_xyzJW24F1424F14(float& x1, float& y1, float& z1)
-{
-	return true;
-}
-
-
 inline bool CSensorMacUSBJW24F14::read_xyz(float& x1, float& y1, float& z1)
 {  
-	if (m_esensor == SENSOR_USB_JW24F1424F14) return read_xyzJW24F1424F14(x1, y1, z1);  // uses a different mechanism
 	
-	// past here is for the JW24F1424F8 sensor
 	
 /*
         // CMC note -- this is the preferred way from codemercs.com but too slow for QCN -- have to use HID Joystick access
@@ -555,20 +547,8 @@ bool CSensorMacUSBJW24F14::detect()
 #ifndef QCN_USB
     if (qcn_main::g_iStop) return false;
 #endif
-
-	int myJW24F14 = 0;
-	switch(m_esensor) {
-		case SENSOR_USB_JW24F1424F8:
-			myJW24F14 = USB_DEVICEID_JW24F1424F8;
-			break;
-		case SENSOR_USB_JW24F1424F14:
-			myJW24F14 = USB_DEVICEID_JW24F1424F14;
-			break;
-		default:
-			myJW24F14 = 0;
-	}
 	
-   m_maDeviceRef = DiscoverHIDInterfaces(USB_VENDORID_JW24F14, myJW24F14); // from codemercs - inits the JW24F14 device in sys registry
+   m_maDeviceRef = DiscoverHIDInterfaces(USB_VENDORID_JW, USB_DEVICEID_JW_14); // from codemercs - inits the JW24F14 device in sys registry
    if (!m_maDeviceRef || CFArrayGetCount(m_maDeviceRef) < 2) { // not found, we'd have at least 2 interfaces for the JW24F14 USB
        closePort();
 #ifdef _DEBUG
@@ -590,7 +570,7 @@ bool CSensorMacUSBJW24F14::detect()
        return false;
    } 
 
-   ::getHIDCookies(m_USBDevHandle[0], &m_cookies, m_esensor);
+	qcn_util::getHIDCookies(m_USBDevHandle[0], &m_cookies);
 
     // open port for read_xyz sequential reads...
     //(*m_USBDevHandle[0])->open(m_USBDevHandle[0], kIOHIDOptionsTypeSeizeDevice);
@@ -608,7 +588,7 @@ bool CSensorMacUSBJW24F14::detect()
           if (newDevice->inputs == 11 || newDevice->axis == 3) { // this is the joystick interface (index 1)
              m_USBDevHandle[1] = (IOHIDDeviceInterface122**) newDevice->interface;
              m_prdJW24F14 = newDevice;
-             m_bFoundJW24F14 = true;
+             m_bFoundJW = true;
              walkElement(1, m_prdJW24F14->pListElements);
              fprintf(stdout, "Found JW24F14 Joystick Interface at 0x%x\n", (unsigned int) m_USBDevHandle[1]);
           }
@@ -727,62 +707,10 @@ bool CSensorMacUSBJW24F14::detect()
     return (bool)(getTypeEnum() == m_esensor);
 }
 
-bool CSensorMacUSBJW24F14::SetQCNStateJW24F1424F14()
-{
-	return true;
-/*	UInt8 mReg14 = 0x00;
-	if (! ReadData(m_USBDevHandle[1], 0x14, &mReg14, "SetQCNState:R1")) {  // get current settings of device
-		fprintf(stdout, "  * Could not read from JoyWarrior USB (SetQCNState:R1), exiting...\n");
-		return false;
-	}
-	
-	// if not set already, set it to +/-2g accel (0x00) and 50Hz internal bandwidth 0x01
-	// NB: 0x08 & 0x10 means accel is set to 4 or 8g, if not bit-and with 0x01 bandwidth is other than 50Hz
-	
-	if ((mReg14 & 0x08) || (mReg14 & 0x10) || ((mReg14 & 0x01) != 0x01)) {
-        fprintf(stdout, "Setting JoyWarrior 24F14 USB to QCN standard 50Hz sample rate, +/- 2g\n");
-		
-        UInt8 uiTmp = 0x00;
-        if (! ReadData(m_USBDevHandle[1], 0x14, &uiTmp, "SetQCNState:R2") ) {
-			fprintf(stdout, "  * Could not read from JoyWarrior 24F14 USB (SetQCNStateF14:R2), exiting...\n");
-			return false;
-        }
-		
-        mReg14 = 0x01 | (uiTmp & 0xE0);
-		
-        // write settings to register
-        if (! WriteData(m_USBDevHandle[1], 0x82, 0x14, mReg14, "SetQCNState:W1")) {
-			fprintf(stdout, "  * Could not write to JoyWarrior 24F14 USB (SetQCNStateF14:W1), exiting...\n");
-			return false;
-        }
-		
-        // write settings to EEPROM for persistent state
-        if (! WriteData(m_USBDevHandle[1], 0x82, 0x0A, 0x10, "SetQCNState:W2")) {  // start EEPROM write
-			fprintf(stdout, "  * Could not write to JoyWarrior 24F14 USB (SetQCNStateF14:W2), exiting...\n");
-			return false;
-        }
-        boinc_sleep(.050f);
-        if (! WriteData(m_USBDevHandle[1], 0x82, 0x34, mReg14, "SetQCNState:W3")) {
-			fprintf(stdout, "  * Could not write to JoyWarrior 24F14 USB (SetQCNStateF14:W3), exiting...\n");
-			return false;
-        }
-        boinc_sleep(.050f);
-        if (! WriteData(m_USBDevHandle[1], 0x82, 0x0A, 0x02, "SetQCNState:W4")) {  // end EEPROM write
-			fprintf(stdout, "  * Could not write to JoyWarrior 24F14 USB (SetQCNStateF14:W4), exiting...\n");
-			return false;
-        }
-        boinc_sleep(.100f);
-	} 
-*/
-	return true;
-}
-
 bool CSensorMacUSBJW24F14::SetQCNState()
 { // puts the Joystick Warrior USB sensor into the proper state for QCN (50Hz, +/- 2g)
   // and also writes these settings to EEPROM (so each device needs to just get set once hopefully)
 	
-	if (m_esensor == SENSOR_USB_JW24F1424F14) return SetQCNStateJW24F1424F14();
-
    UInt8 mReg14 = 0x00;
    if (! ReadData(m_USBDevHandle[1], 0x14, &mReg14, "SetQCNState:R1")) {  // get current settings of device
        fprintf(stdout, "  * Could not read from JoyWarrior USB (SetQCNState:R1), exiting...\n");
@@ -859,119 +787,3 @@ short CSensorMacUSBJW24F14::CalcMsbLsb(unsigned char lsb, unsigned char msb)
 }
 
 */
-
-bool getHIDCookies(IOHIDDeviceInterface122** handle, cookie_struct_t cookies, const e_sensor eSensor)
-{
-
-        CFTypeRef                               object;
-        long                                    number;
-        IOHIDElementCookie                      cookie;
-        long                                    usage;
-        long                                    usagePage;
-        CFArrayRef                              elements; //
-        CFDictionaryRef                         element;
-        IOReturn                                success;
- 
-        memset(cookies, 0x00, sizeof(struct cookie_struct));
-
-        if (!handle || !(*handle)) return false;
- 
-        // Copy all elements, since we're grabbing most of the elements
-        // for this device anyway, and thus, it's faster to iterate them
-        // ourselves. When grabbing only one or two elements, a matching
-        // dictionary should be passed in here instead of NULL.
-        success = (*handle)->copyMatchingElements(handle, NULL, &elements);
- 
-        if (success == kIOReturnSuccess) {
-                CFIndex i;
-                //printf("ITERATING...\n");
-                for (i=0; i<CFArrayGetCount(elements); i++)
-                {
-                        element = (CFDictionaryRef) CFArrayGetValueAtIndex(elements, i);
-                        // printf("GOT ELEMENT.\n");
- 
-                        //Get cookie
-                        object = (CFDictionaryGetValue(element,
-                            CFSTR(kIOHIDElementCookieKey)));
-                        if (object == 0 || CFGetTypeID(object) != CFNumberGetTypeID())
-                            continue;
-                        if(!CFNumberGetValue((CFNumberRef) object, kCFNumberLongType,
-                            &number))
-                                continue;
-                        cookie = (IOHIDElementCookie) number;
- 
-                        //Get usage
-                        object = CFDictionaryGetValue(element, CFSTR(kIOHIDElementUsageKey));
-                        if (object == 0 || CFGetTypeID(object) != CFNumberGetTypeID())
-                            continue;
-                        if (!CFNumberGetValue((CFNumberRef) object, kCFNumberLongType,
-                            &number))
-                                continue;
-                        usage = number;
- 
-                        //Get usage page
-                        object = CFDictionaryGetValue(element,
-                            CFSTR(kIOHIDElementUsagePageKey));
-                        if (object == 0 || CFGetTypeID(object) != CFNumberGetTypeID())
-                            continue;
-                        if (!CFNumberGetValue((CFNumberRef) object, kCFNumberLongType,
-                            &number))
-                                continue;
-                        usagePage = number;
-					
-					
-					switch (eSensor) {
-						case SENSOR_USB_JW24F1424F8:
-								//Check for x axis
-								if (usage == 48 && usagePage == 1)
-									cookies->gAxisCookie[0] = cookie;
-								//Check for y axis
-								else if (usage == 49 && usagePage == 1)
-									cookies->gAxisCookie[1] = cookie;
-								//Check for z axis
-								else if (usage == 50 && usagePage == 1)
-									cookies->gAxisCookie[2] = cookie;
-								//Check for buttons
-								else if (usage == 1 && usagePage == 9)
-									cookies->gButtonCookie[0] = cookie;
-								else if (usage == 2 && usagePage == 9)
-									cookies->gButtonCookie[1] = cookie;
-								else if (usage == 3 && usagePage == 9)
-									cookies->gButtonCookie[2] = cookie;
-							break;
-						case SENSOR_USB_JW24F1424F14:
-								//Check for x axis
-								if (usage == 48 && usagePage == 1)
-									cookies->gAxisCookie[0] = cookie;
-								//Check for y axis
-								else if (usage == 49 && usagePage == 1)
-									cookies->gAxisCookie[1] = cookie;
-								//Check for z axis
-								else if (usage == 50 && usagePage == 1)
-									cookies->gAxisCookie[2] = cookie;
-								//Check for buttons
-								else if (usage == 1 && usagePage == 9)
-									cookies->gButtonCookie[0] = cookie;
-								else if (usage == 2 && usagePage == 9)
-									cookies->gButtonCookie[1] = cookie;
-								else if (usage == 3 && usagePage == 9)
-									cookies->gButtonCookie[2] = cookie;
-							break;
-					}
-                }
-/*
-           fprintf(stdout, "JoyWarrior HID Cookies for X/Y/Z axes = (0x%x, 0x%x, 0x%x)\n", 
-                (unsigned int) cookies->gAxisCookie[0],
-                (unsigned int) cookies->gAxisCookie[1],
-                (unsigned int) cookies->gAxisCookie[2]
-           );
-*/
-        }
-        else {
-                fprintf(stderr, "copyMatchingElements failed with error %d\n", success);
-        }
- 
-        return true;
-}
-
-

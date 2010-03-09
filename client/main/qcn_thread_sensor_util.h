@@ -15,10 +15,12 @@
     #include "csensor_mac_usb_generic.h"
   #endif
   #include "csensor_mac_usb_jw.h"
+  #include "csensor_mac_usb_jw24f14.h"
   #include "csensor_mac_usb_onavi01.h"
 #else
   #ifdef _WIN32
     #include "csensor_win_usb_jw.h"
+    #include "csensor_win_usb_jw24f14.h"
     #include "csensor_win_usb_onavi01.h"
     #include "csensor_win_laptop_thinkpad.h"
     #include "csensor_win_laptop_hp.h"
@@ -27,6 +29,7 @@
     #endif
   #else // LINUX
     #include "csensor_linux_usb_jw.h"
+    #include "csensor_linux_usb_jw24f14.h"
   #endif // Win or Linux
 #endif // Apple
 // all platforms except win64 get MotionNodeAccel USB support!

@@ -2,13 +2,13 @@
 #define _CSENSOR_MAC_USB_JW24F14_H_
 
 /*
- *  csensor-mac-usb-jw.h
+ *  csensor-mac-usb-jw24f14.h
  *  qcn
  *
  *  Created by Carl Christensen on 08/11/2007.
  *  Copyright 2007 Stanford University
  *
- * This file contains the definition of the Mac JoyWarrior USB Sensor class
+ * This file contains the definition of the Mac JoyWarrior 24F14 USB Sensor class
  */
 
 #include "main.h"
@@ -32,12 +32,6 @@ void global_JoyWarriorAddedOrRemoved(void *refCon, io_iterator_t iterator);
 void global_updateDeviceState();
 */
 
-typedef struct cookie_struct
-{
-        IOHIDElementCookie gAxisCookie[3];
-        IOHIDElementCookie gButtonCookie[3];
-} *cookie_struct_t;
-
 bool getHIDCookies(IOHIDDeviceInterface122** handle, cookie_struct_t cookies, const e_sensor eSensor);
 
 // this is the Mac implementation for the JoyWarrior sensor, used for QCNLive as well as the Mac service program qcnmacusb under BOINC
@@ -48,11 +42,10 @@ class CSensorMacUSBJW24F14  : public CSensor
       IOHIDDeviceInterface122** m_USBDevHandle[2];
       //pRecDevice m_prdJW24F14;
       //pRecElement m_prelJW24F14[3];
-      bool m_bFoundJW24F14;
+      bool m_bFoundJW;
       CFMutableArrayRef m_maDeviceRef;
 
       virtual bool read_xyz(float& x1, float& y1, float& z1);  
-	  bool read_xyzJW24F1424F14(float& x1, float& y1, float& z1);  
 	
       struct cookie_struct m_cookies;
 
@@ -75,7 +68,6 @@ class CSensorMacUSBJW24F14  : public CSensor
       IOReturn ReadByteFromAddress(IOHIDDeviceInterface122** hidInterface, const UInt8 inAddress, UInt8 *result); //, bool bJoystick = false);
 
       bool SetQCNState();
-	  bool SetQCNStateJW24F1424F14();
 	
       bool ReadData(IOHIDDeviceInterface122** hidInterface, const UInt8 addr, UInt8* cTemp, const char* strCallProc = NULL);
       bool WriteData(IOHIDDeviceInterface122** hidInterface, const UInt8 cmd, const UInt8 addr, const UInt8 data, const char* strCallProc = NULL);
@@ -86,7 +78,7 @@ class CSensorMacUSBJW24F14  : public CSensor
       void closeHandles();
 
    public:
-      CSensorMacUSBJW24F14(enum e_sensor eSensorType = SENSOR_USB_JW24F1424F8);
+      CSensorMacUSBJW24F14();
       virtual ~CSensorMacUSBJW24F14();
 
       virtual bool detect();    // this detects the Mac USB sensor

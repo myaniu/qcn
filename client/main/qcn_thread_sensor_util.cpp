@@ -94,18 +94,28 @@ void psmsForceSensor(CSensor* volatile *ppsms)
 	 if (sm->iMySensor >= MIN_SENSOR_USB && sm->iMySensor <= MAX_SENSOR_USB ) {
 		 switch(sm->iMySensor) {
 			 case SENSOR_USB_JW24F8:
-			 case SENSOR_USB_JW24F14:
 
 	#ifdef _WIN32
-					*ppsms = (CSensor*) new CSensorWinUSBJW((enum e_sensor) sm->iMySensor);
+					*ppsms = (CSensor*) new CSensorWinUSBJW();
 	#else
 	#ifdef __APPLE_CC__
-					*ppsms = (CSensor*) new CSensorMacUSBJW((enum e_sensor) sm->iMySensor);
+					*ppsms = (CSensor*) new CSensorMacUSBJW();
 	 #else // Linux
-					*ppsms = (CSensor*) new CSensorLinuxUSBJW((enum e_sensor) sm->iMySensor);
+					*ppsms = (CSensor*) new CSensorLinuxUSBJW();
 	 #endif
 	 #endif
 					break;
+			 case SENSOR_USB_JW24F14:
+#ifdef _WIN32
+				 *ppsms = (CSensor*) new CSensorWinUSBJW24F14();
+#else
+#ifdef __APPLE_CC__
+				 *ppsms = (CSensor*) new CSensorMacUSBJW24F14();
+#else // Linux
+				 *ppsms = (CSensor*) new CSensorLinuxUSBJW24F14();
+#endif
+#endif
+				 break;
 #ifndef _WIN64
 			case SENSOR_USB_MOTIONNODEACCEL:
 					*ppsms = (CSensor*) new CSensorUSBMotionNodeAccel();
@@ -167,11 +177,11 @@ bool getSensor(CSensor* volatile *ppsms)
 							*ppsms = (CSensor*) new CSensorMacUSBGeneric();
 	#ifndef QCNLIVE
 						 else
-							*ppsms = (CSensor*) new CSensorMacUSBJW(SENSOR_USB_JW24F8);
+							*ppsms = (CSensor*) new CSensorMacUSBJW();
 	#endif
 	#else
 							 if (boinc_is_standalone()) 
-								 *ppsms = (CSensor*) new CSensorMacUSBJW(SENSOR_USB_JW24F8);
+								 *ppsms = (CSensor*) new CSensorMacUSBJW();
 	#ifndef QCNLIVE
 						 else
 							*ppsms = (CSensor*) new CSensorMacUSBGeneric();
@@ -190,11 +200,11 @@ bool getSensor(CSensor* volatile *ppsms)
 						   *ppsms = (CSensor*) new CSensorMacUSBGeneric();
 #ifndef QCNLIVE
 					   else
-						   *ppsms = (CSensor*) new CSensorMacUSBJW(SENSOR_USB_JW24F14);
+						   *ppsms = (CSensor*) new CSensorMacUSBJW24F14();
 #endif
 #else
 					   if (boinc_is_standalone()) 
-						   *ppsms = (CSensor*) new CSensorMacUSBJW(SENSOR_USB_JW24F14);
+						   *ppsms = (CSensor*) new CSensorMacUSBJW24F14();
 #ifndef QCNLIVE
 					   else
 						   *ppsms = (CSensor*) new CSensorMacUSBGeneric();
@@ -235,11 +245,11 @@ bool getSensor(CSensor* volatile *ppsms)
 					   psmsForceSensor(ppsms);
 				   }
 				   else {
-				       *ppsms = (CSensor*) new CSensorWinUSBJW(SENSOR_USB_JW24F8);
+				       *ppsms = (CSensor*) new CSensorWinUSBJW();
 				   }
 				   break;
 			   case 1:
-				   *ppsms = (CSensor*) new CSensorWinUSBJW(SENSOR_USB_JW24F14);
+				   *ppsms = (CSensor*) new CSensorWinUSBJW24F14();
 				   break;
 #ifdef _WIN64
 			   // no motionnode support for win64
@@ -282,11 +292,11 @@ bool getSensor(CSensor* volatile *ppsms)
 					   psmsForceSensor(ppsms);
 				   }
 				   else {
-					   *ppsms = (CSensor*) new CSensorLinuxUSBJW(SENSOR_USB_JW24F8);
+					   *ppsms = (CSensor*) new CSensorLinuxUSBJW();
 				   }
 				   break;
 			   case 1:
-					   *ppsms = (CSensor*) new CSensorLinuxUSBJW(SENSOR_USB_JW24F14);
+					   *ppsms = (CSensor*) new CSensorLinuxUSBJW24F14();
 				   break;
 #if !defined(__LP64__) && !defined(_LP64) // no motion node for 64-bit
 			   case 2:
