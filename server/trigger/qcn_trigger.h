@@ -268,11 +268,11 @@ public:
         "runtime_clock=%f,"
         "runtime_cpu=%f,"
         "varietyid=%d,"
-        "flag=%d",
+        "flag=0",
         hostid, ipaddr, result_name, time_trigger, time_sync, sync_offset,
         significance, magnitude, latitude, longitude, strLevelValue, strLevelID, alignid,
         file, dt, numreset, type_sensor, sw_version, os_type,
-        usgs_quakeid, time_filereq, received_file, file_url, runtime_clock, runtime_cpu, varietyid, flag
+        usgs_quakeid, time_filereq, received_file, file_url, runtime_clock, runtime_cpu, varietyid
       );
     }
 
