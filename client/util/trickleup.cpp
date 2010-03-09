@@ -9,6 +9,8 @@
 #include "trickleup.h"
 #include "filesys.h"
 
+enum e_trigvariety { TRIGGER_VARIETY_FINALSTATS = -2, TRIGGER_VARIETY_QUAKELIST, TRIGGER_VARIETY_NORMAL, TRIGGER_VARIETY_PING, TRIGGER_VARIETY_CONTINUAL };
+
 namespace trickleup {
 
 void qcnTrickleUp(const char* strTrickle, const int iVariety, const char* strWU)
@@ -17,17 +19,16 @@ void qcnTrickleUp(const char* strTrickle, const int iVariety, const char* strWU)
   return; // no trickles on gui!
 #else
 
-enum e_trigvariety { TRIGGER_VARIETY_FINALSTATS = -2, TRIGGER_VARIETY_QUAKELIST, TRIGGER_VARIETY_NORMAL, TRIGGER_VARIETY_PING, TRIGGER_VARIETY_CONTINUAL };
 
    char strVariety[32];
    memset(strVariety, 0x00, 32);
-   strcpy(strVariety, "trigger"); break;
+   strcpy(strVariety, "trigger");
    switch (iVariety) {
       case TRIGGER_VARIETY_FINALSTATS:
         strcpy(strVariety, "finalstats"); break;
       case TRIGGER_VARIETY_QUAKELIST:
         strcpy(strVariety, "quakelist"); break;
-      case VARIETY_TRIGGER_NORMAL:
+      case TRIGGER_VARIETY_NORMAL:
         strcpy(strVariety, "trigger"); break;
       case TRIGGER_VARIETY_PING:
         strcpy(strVariety, "ping"); break;
