@@ -53,7 +53,8 @@ define("GLOBAL_PREFS_DEFAULT", "<global_preferences>\n"
 . "<ram_max_used_idle_pct>90</ram_max_used_idle_pct>\n"
 . "<max_bytes_sec_down>0</max_bytes_sec_down>\n"
 . "<max_bytes_sec_up>0</max_bytes_sec_up>\n"
-. "</global_preferences>"); 
+. "<suspend_cpu_usage>0</suspend_cpu_usage>\n"
+. "</global_preferences>");
 
 // Email addresses separated by pipe ( | ) that will receive user reported 
 // offensive forum posts.
