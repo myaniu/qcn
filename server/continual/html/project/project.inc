@@ -37,6 +37,9 @@ define("GLOBAL_PREFS_DEFAULT", "<global_preferences>\n"
 . "<mod_time>" . time() . "</mod_time>\n"
 . "<leave_apps_in_memory>0</leave_apps_in_memory>\n"
 . "<suspend_while_on_batteries>0</suspend_while_on_batteries>\n"
+. "<run_on_batteries>1</run_on_batteries>\n"
+. "<run_if_user_active>1</run_if_user_active>\n"
+. "<run_gpu_if_user_active>0</run_gpu_if_user_active>\n"
 . "<idle_time_to_run>0</idle_time_to_run>\n"
 . "<suspend_if_no_recent_input>0</suspend_if_no_recent_input>\n"
 . "<cpu_scheduling_period_minutes>60</cpu_scheduling_period_minutes>\n"
@@ -53,7 +56,7 @@ define("GLOBAL_PREFS_DEFAULT", "<global_preferences>\n"
 . "<ram_max_used_idle_pct>90</ram_max_used_idle_pct>\n"
 . "<max_bytes_sec_down>0</max_bytes_sec_down>\n"
 . "<max_bytes_sec_up>0</max_bytes_sec_up>\n"
-. "<suspend_cpu_usage>0</suspend_cpu_usage>\n"
+. "<suspend_cpu_usage>101</suspend_cpu_usage>\n"
 . "</global_preferences>");
 
 // Email addresses separated by pipe ( | ) that will receive user reported 
