@@ -778,7 +778,7 @@ bool CheckTriggerFile(struct STriggerInfo* ti, bool bForce)
     // exit if we are in a trigger but not past our n2 write time -- note the wrapping at the end of the array though!
     // if not wrapping (n2orig = 0) and n2 is greater than our lOffset/lSM then we have not exceeded the write point
     // if wrapping (n2orig > 0) and current point is greater than our trigger offset, OR current point less than our n2, we have not exceeded the write point
-    if (!ti->bReal && !bForce && ( (!n2orig && lSM < n2) || (n2orig && (lSM > ti->lOffsetEnd || lSM < n2)))  ) {
+    if (ti->bReal && !bForce && ( (!n2orig && lSM < n2) || (n2orig && (lSM > ti->lOffsetEnd || lSM < n2)))  ) {
          return false; 
     }
 

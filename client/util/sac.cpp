@@ -307,7 +307,7 @@ extern int sacio
 #endif
 
     // event origin time -- trigger time I guess?  in seconds relative to ref time; was set in the above loop and clock adjusted
-    if (!ti->bDemo)  { // NB: if it's a demo trigger, don't mark trigger point
+    if (ti->bReal)  { // NB: if it's a demo trigger, don't mark trigger point
        sacdata.f[esf_o] = fTimeTrigger; // note that it's byte-swapped in the loop above!
        strcpy(sacdata.s[ess_ko], "Trigger");
     }
@@ -528,7 +528,7 @@ extern int sacio
 #ifdef QCNLIVE  // write a message to be picked up on the display
 	char* strTmp = new char[512];
 	memset(strTmp, 0x00, sizeof(char) * 512);
-	sprintf(strTmp, "%s file written to %s",  (ti->bDemo ? "Recorded" : "Trigger"), (sm->bMyOutputSAC ? strZip.c_str() : fname));
+	sprintf(strTmp, "%s file written to %s",  (ti->bReal ? "Trigger" : "Recorded"), (sm->bMyOutputSAC ? strZip.c_str() : fname));
 	strncpy(sm->strDisplay, strTmp, _MAX_PATH);
 	delete [] strTmp;
 #endif

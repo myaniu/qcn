@@ -294,7 +294,7 @@ void ResetCounter(const e_where eWhere, const int iNumResetInitial)
     while (!qcn_main::g_vectTrigger.empty() && !bFinishedDemoTrigger && (dtime() - dTimeStart) < 10.0f)  {
        for (unsigned int i = 0; i < qcn_main::g_vectTrigger.size(); i++) {
          STriggerInfo& ti = qcn_main::g_vectTrigger.at(i);
-         if (ti.bDemo) { // we're just concerned with demo triggers
+         if (!ti.bReal) { // we're just concerned with demo triggers
             bHaveDemoTrigger = true;
             break;
          }
