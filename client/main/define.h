@@ -169,6 +169,7 @@ enum e_perturb {
 const float g_cfTimeWindow = 60.0f;  // time window in seconds
 const double g_DT = 0.02f;          // delta t sampling interval, i.e. target time between points
 const double g_DT_SLOW = 0.10f;      // delta t sampling interval for slow/troublesome machines (i.e. can't keep up at <3 samples per dt=.02)
+const int g_TenSecCount = 500;   // 10 / g_DT
 
 // common QCN defines & return codes can go here
 
@@ -185,7 +186,7 @@ enum e_maxmin  { E_DX, E_DY, E_DZ, E_DS };
 
 enum e_view    { VIEW_PLOT_3D = 1, VIEW_PLOT_2D, VIEW_EARTH_DAY, VIEW_EARTH_NIGHT, VIEW_EARTH_COMBINED, VIEW_CUBE }; 
 // note TRIGGER_DEMO after TRIGGER_ALL so just gets used once
-enum e_trigger { TRIGGER_UNSET, TRIGGER_IMMEDIATE, TRIGGER_10SEC, TRIGGER_20SEC, TRIGGER_30SEC, TRIGGER_1MIN, TRIGGER_ALL, TRIGGER_DEMO };  
+enum e_trigger { TRIGGER_UNSET, TRIGGER_IMMEDIATE, TRIGGER_10SEC, TRIGGER_20SEC, TRIGGER_30SEC, TRIGGER_1MIN, TRIGGER_2MIN, TRIGGER_DEMO };  
 enum e_endian  { ENDIAN_LITTLE, ENDIAN_BIG };
 enum e_where   { WHERE_MAIN_STARTUP,
                  WHERE_MAIN_PROJPREFS, 

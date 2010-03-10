@@ -370,12 +370,12 @@ int qcn_main(int argc, char **argv)
     fflush(stderr);
  
     // OK, if not in demo mode, now get rid of old trigger files i.e. more than two weeks old
-    if (g_bContinual)  { // get rid of files older than 2 hours if running in continual mode
-      qcn_util::removeOldTriggers((const char*) g_strPathTrigger, 7200.0f);
-    }
-    else {
-		if (!g_bDemo && !g_bQCNLive) qcn_util::removeOldTriggers((const char*) g_strPathTrigger);  // default is get rid of files older than two weeks
-    }
+  //  if (g_bContinual)  { // get rid of files older than 2 hours if running in continual mode
+  //    qcn_util::removeOldTriggers((const char*) g_strPathTrigger, 7200.0f);
+  //  }
+  //  else {
+   if (!g_bDemo && !g_bQCNLive) qcn_util::removeOldTriggers((const char*) g_strPathTrigger);  // default is get rid of files older than a month
+   // }
 
     // create time & sensor thread objects
     //sm->bFlagUpload = false;
@@ -720,6 +720,11 @@ bool CheckTriggerFile(struct STriggerInfo* ti, bool bForce)
 
     long n1 = 0L, n2 = 0L, n2orig = 0L, lSM = sm->lOffset - 1; // note save current offset less 1, as could change during this function!
 
+    // enum e_trigger { TRIGGER_UNSET, TRIGGER_IMMEDIATE, TRIGGER_10SEC, TRIGGER_20SEC, TRIGGER_30SEC, TRIGGER_1MIN, TRIGGER_2MIN, TRIGGER_DEMO };
+
+    // default n1 is a minute ago
+    n1 = ti->lOffsetEnd - (6 * g_TenSecCount); // one minute ago
+
     switch(ti->iLevel)
     { // set the window based on our trigger level
        case TRIGGER_DEMO:     // read-only mode write out file every 10 minutes
@@ -727,16 +732,23 @@ bool CheckTriggerFile(struct STriggerInfo* ti, bool bForce)
           n2 = ti->lOffsetEnd;  // start
           break;
        case TRIGGER_IMMEDIATE:    // immediately write out past minute and sm->lTriggerFile (or lOffset if greater)
-          n1 = lSM - sm->iWindow;  // one minute ago
+          n1 = lSM - (6 * g_TenSecCount);  // one minute ago
           n2 = lSM;  // this is the latest point we have
           break;
-       case TRIGGER_1MIN:
-          n1 = ti->lOffsetEnd - sm->iWindow; // one minute ago
-          n2 = ti->lOffsetEnd + sm->iWindow;
+       case TRIGGER_10SEC:
+          n2 = ti->lOffsetEnd + g_TenSecCount;
           break;
-       case TRIGGER_ALL:
-          n1 = ti->lOffsetEnd - sm->iWindow; // one minute ago
-          n2 = ti->lOffsetEnd + (sm->iWindow * 2);
+       case TRIGGER_20SEC:
+          n2 = ti->lOffsetEnd + (2 * g_TenSecCount);
+          break;
+       case TRIGGER_30SEC:
+          n2 = ti->lOffsetEnd + (3 * g_TenSecCount);
+          break;
+       case TRIGGER_1MIN:
+          n2 = ti->lOffsetEnd + (6 * g_TenSecCount);
+          break;
+       case TRIGGER_2MIN:
+          n2 = ti->lOffsetEnd + (12 * g_TenSecCount);
           break;
        default: 
           return true; // delete this trigger, has an invalid level
@@ -766,30 +778,30 @@ bool CheckTriggerFile(struct STriggerInfo* ti, bool bForce)
     // exit if we are in a trigger but not past our n2 write time -- note the wrapping at the end of the array though!
     // if not wrapping (n2orig = 0) and n2 is greater than our lOffset/lSM then we have not exceeded the write point
     // if wrapping (n2orig > 0) and current point is greater than our trigger offset, OR current point less than our n2, we have not exceeded the write point
-    if (!g_bContinual && !ti->bDemo && !bForce && ( (!n2orig && lSM < n2) || (n2orig && (lSM > ti->lOffsetEnd || lSM < n2)))  ) {
+    if (!ti->bReal && !bForce && ( (!n2orig && lSM < n2) || (n2orig && (lSM > ti->lOffsetEnd || lSM < n2)))  ) {
          return false; 
     }
 
     // we reach here if past our window for this file
     // check if trigger was made in interactive mode, if so bypass file creation
     // but always allow demo-mode triggers to get written (i.e. 10-minute dumps)
-    if (g_bContinual || !ti->bInteractive || ti->bDemo) {
+    if (!ti->bInteractive || ti->bReal) {
        char strTypeSensor[8];
        memset(strTypeSensor, 0x00, sizeof(char) * 8);
        if (g_psms) strncpy(strTypeSensor, g_psms->getTypeStrShort(), 7);
        sacio::sacio(n1, n2, ti, strTypeSensor); // note filename already set in ti.strFile
     }
 
-    // don't forget to reset level if it's > TRIGGER_ALL
+    // don't forget to reset level if it's > TRIGGER_2MIN
     // note we're faking that this trigger is all done, since demo mode we just write out every minute and TRIGGER_DEMO is > TRIGGER_ALL
     ti->iLevel++; // bump up trigger level
 
-    return (bool) (ti->iLevel > TRIGGER_ALL);  // return true means it will delete this iterator
+    return (bool) (ti->iLevel > TRIGGER_2MIN);  // return true means it will delete this iterator
 }
 
 bool CheckTriggerTrickle(struct STriggerInfo* ti)
 {
-    if (!ti->lOffsetEnd || ti->bSent || ti->bDemo || ti->bInteractive) {
+    if (!ti->lOffsetEnd || ti->bSent || ti->bReal || ti->bInteractive) {
        return true;  // if no offset and/or already sent or a demo mode trickle (i.e. per-minute trigger) or interactive mode, can just return
     }
 
