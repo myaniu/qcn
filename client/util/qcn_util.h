@@ -51,7 +51,7 @@ void getBOINCInitData(const e_where eWhere);
 void ResetCounter(const e_where eWhere, const int iNumResetInitial = -1);
 void removeOldTriggers(const char* strPathTrigger, const double cdFileDelete = TIME_FILE_DELETE);
 //void getTimeOffset(const double* dTimeServerTime, const double* dTimeServerOffset, const double t0, double& dTimeOffset, double& dTimeOffsetTime);
-bool set_trigger_file(char* strTrigger, const char* strWU, const int iTrigger, const long lTime, bool bReal, const char* strExtra = NULL);
+bool set_trigger_file(char* strTrigger, const char* strWU, const int iTrigger, const long lTime, bool bReal, bool bContinual, const char* strExtra = NULL);
 bool get_qcn_counter();
 bool set_qcn_counter();
 void setLastTrigger(const double dTime, const long lTime);

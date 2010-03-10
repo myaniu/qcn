@@ -241,7 +241,7 @@ void getBOINCInitData(const e_where eWhere)
         );
 #endif
       }
-      else {
+      else { // regular boinc/qcn or continual boinc/qcn
             // check if has a \ or / directory terminator character
         sprintf((char*) qcn_main::g_strPathTrigger,
            "%s%c%s",
@@ -249,6 +249,16 @@ void getBOINCInitData(const e_where eWhere)
                    cOK,
            DIR_TRIGGER
         );
+
+		if	qcn_main::g_bContinual {
+			sprintf((char*) qcn_main::g_strPathContinual,
+			   "%s%c%s",
+			   sm->dataBOINC.project_dir,
+					   cOK,
+			   DIR_CONTINUAL
+			);
+		}
+
         sprintf((char*) sm->strPathImage,
            "%s%cimages",
            sm->dataBOINC.project_dir,
@@ -451,9 +461,9 @@ void removeOldTriggers(const char* strPathTrigger, const double cdFileDelete)
     }
 }
 
-bool set_trigger_file(char* strTrigger, const char* strWU, const int iTrigger, const long lTime, bool bReal, const char* strExtra)
+bool set_trigger_file(char* strTrigger, const char* strWU, const int iTrigger, const long lTime, bool bReal, bool bContinual, const char* strExtra)
 {
-     if (bReal) {
+     if (bReal || bContinual) {
         if (strExtra) {
            sprintf(strTrigger, "%s_%06d_%ld_%s.zip", strWU, iTrigger, lTime, strExtra);
         }

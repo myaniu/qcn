@@ -647,46 +647,6 @@
 			Name="Source Files"
 			>
 			<Filter
-				Name="Util"
-				>
-				<File
-					RelativePath="..\util\cserialize.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\util\execproc.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\util\gzstream.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\util\qcn_signal.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\util\qcn_thread.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\util\qcn_util.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\util\sac.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\util\trickledown.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\util\trickleup.cpp"
-					>
-				</File>
-			</Filter>
-			<Filter
 				Name="Main"
 				>
 				<File
@@ -743,6 +703,46 @@
 				</File>
 				<File
 					RelativePath="..\sensor\csensor_win_usb_onavi01.cpp"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Util"
+				>
+				<File
+					RelativePath="..\util\cserialize.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\util\execproc.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\util\gzstream.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\util\qcn_signal.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\util\qcn_thread.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\util\qcn_util.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\util\sac.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\util\trickledown.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\util\trickleup.cpp"
 					>
 				</File>
 			</Filter>

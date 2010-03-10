@@ -474,6 +474,7 @@ void doTrigger(const bool bReal, const long lOffsetStart, const long lOffsetEnd,
             dTimeTrigger = sm->t0[ti.lOffsetEnd]; // "local" trigger time
 
             ti.iVariety = iVariety;
+			ti.bContinual = !bReal && qcn_main::g_bContinual;  // it's a continual trigger (a 10-minute trigger) which needs to be uploaded asap
 
             // CMC bInteractive can bypass writing trigger files & trickles; but turn off for now
             ti.bInteractive = false;
@@ -488,7 +489,7 @@ void doTrigger(const bool bReal, const long lOffsetStart, const long lOffsetEnd,
 				   (const char*) sm->dataBOINC.wu_name,
 					 bReal ? ++sm->iNumTrigger : sm->iNumTrigger,
                   QCN_ROUND(dTimeTrigger + qcn_main::g_dTimeOffset),
-                  ti.bReal
+                  ti.bReal, ti.bContinual
                );
                if (bReal) {
                   qcn_util::set_qcn_counter();
@@ -547,7 +548,7 @@ void uploadSACMem(const long lCurTime, const char* strTypeSensor)
                   (const char*) sm->dataBOINC.wu_name,
                   sm->iNumTrigger,
                   lCurTime,
-                  true, "usb"
+                  true, false, "usb"
         );
 
         fprintf(stderr, "%ld - Creating upload file %s\n", lCurTime, sti.strFile);

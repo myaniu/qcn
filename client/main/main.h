@@ -118,6 +118,7 @@ struct STriggerInfo
     bool bSent;        // whether the trickle has been sent for this trigger
     bool bReal;        // flag if this is a real reportable event or just a per-minute trickle trigger in Demo mode
     bool bInteractive; // this trigger happened in interactive mode, so don't really trickle
+	bool bContinual;   // this is a continual trigger i.e. should go in triggers/continual
     bool bRemove;      // flag that it's safe to remove this trigger, all processed
     int  iVariety;     // trigger variety  0 = regular sensor trigger, 1 = ping trigger, 2 = continual trigger
 };
@@ -182,6 +183,7 @@ extern int  volatile g_iQCNReturn; // qcn return code
   extern bool g_bReadOnly;
 
   extern char g_strPathTrigger[_MAX_PATH];  // this is the path to trigger, doesn't change after startup
+  extern char g_strPathContinual[_MAX_PATH]; // path for continual stuff
 
   extern double g_dTimeOffset;  // the time offset between client & server, +/- in seconds difference from server
   extern double g_dTimeSync;    // the (unadjusted client) time this element was retrieved

@@ -365,7 +365,8 @@ extern int sacio
     long_swap((QCN_CBYTE*) &lTemp, sacdata.l[esl_nzmsec]); // header start millisecond
 
     ZipFileList zfl;
-	string strZip((const char*) qcn_main::g_strPathTrigger);  // note it DOES NOT HAVE appropriate \ or / at the end
+	const char* strZipPath = (const char*) ((ti->bContinual && strlen(qcn_main::g_strPathContinual)>2) ? qcn_main::g_strPathContinual : qcn_main::g_strPathTrigger);
+	string strZip(strZipPath);  // note it DOES NOT HAVE appropriate \ or / at the end
     double dTimeNow;
     dTimeNow = dtime();
     ttime = (time_t) dTimeNow;
@@ -375,7 +376,7 @@ extern int sacio
     // now print filenames which is workunit name, time, & number of trigger, then send to wsac0
     ifname = (int32_t) strlen((const char*) ti->strFile) - 4; // this is where the zip will be
     memset(fname, 0x00, _MAX_PATH);
-    sprintf(fname, "%s%c", (const char*) qcn_main::g_strPathTrigger, qcn_util::cPathSeparator());
+    sprintf(fname, "%s%c", strZipPath, qcn_util::cPathSeparator());
     strncat(fname, (const char*) ti->strFile, ifname);
 	
 	if (sm->bMyOutputSAC) { // SAC output
@@ -472,7 +473,7 @@ extern int sacio
 			wsac0(fname, t, z, nerr, npts, &sacdata);
 
 			if (zfl.size()>0) {
-			   // now make sure the zip file is stored in sm->strPathTrigger + ti->strFile
+			   // now make sure the zip file is stored in strZipPath + ti->strFile
 			   strZip += qcn_util::cPathSeparator();
 			   strZip += (const char*) ti->strFile;
 			   boinc_delete_file(strZip.c_str());  // we may be overwriting, delete first

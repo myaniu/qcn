@@ -117,7 +117,8 @@ namespace qcn_main  {
 	
   int  g_iContinuousCounter = 0; // counts how many times this run has been through
 
-  char g_strPathTrigger[_MAX_PATH];  // this is the path to trigger, doesn't change after startup
+  char g_strPathTrigger[_MAX_PATH] = {""};  // this is the path to trigger, doesn't change after startup
+  char g_strPathContinual[_MAX_PATH] = {""}; // path for continual stuff
 
   double g_dTimeOffset = 0.0f;  // the time offset between client & server, +/- in seconds difference from server
   double g_dTimeSync = 0.0f;    // the (unadjusted client) time this element was retrieved
@@ -323,6 +324,18 @@ int qcn_main(int argc, char **argv)
           return ERR_DIR_TRIGGER;
        }
     }
+	if (g_bContinual) {
+		if (g_strPathContinual && ! boinc_file_exists((const char*) g_strPathContinual) ) {
+		   // now open dir to see if exists
+		   if (boinc_mkdir((const char*) g_strPathContinual)) {
+			  // OK, now it's a fatal error
+			  fprintf(stderr, "QCN exiting, can't make directory %s\n", g_strPathContinual);
+			  fprintf(stdout, "QCN exiting, can't make directory %s\n", g_strPathContinual);
+			  fflush(stdout);
+			  return ERR_DIR_TRIGGER;
+		   }
+		}
+	}
    
     // make our images directory -- this is stored in sm->strPathImage
     if (sm->strPathImage && ! boinc_file_exists((const char*) sm->strPathImage) ) {
@@ -370,12 +383,12 @@ int qcn_main(int argc, char **argv)
     fflush(stderr);
  
     // OK, if not in demo mode, now get rid of old trigger files i.e. more than two weeks old
-  //  if (g_bContinual)  { // get rid of files older than 2 hours if running in continual mode
-  //    qcn_util::removeOldTriggers((const char*) g_strPathTrigger, 7200.0f);
-  //  }
-  //  else {
-   if (!g_bDemo && !g_bQCNLive) qcn_util::removeOldTriggers((const char*) g_strPathTrigger);  // default is get rid of files older than a month
-   // }
+    //if (g_bContinual)  { // get rid of files older than 2 hours if running in continual mode
+     //  qcn_util::removeOldTriggers((const char*) g_strPathTrigger, 7200.0f);
+    //}
+    //else {
+      if (!g_bDemo && !g_bQCNLive) qcn_util::removeOldTriggers((const char*) g_strPathTrigger);  // default is get rid of files older than a month
+    //}
 
     // create time & sensor thread objects
     //sm->bFlagUpload = false;
@@ -652,7 +665,7 @@ done:
 #ifdef QCN_CONTINUAL
 void checkContinualUpload(bool bForce)
 {
-    // check for more than 5 files in g_strPathTrigger and if so upload then delete them
+    // check for more than 5 files in g_strPathContinual and if so upload then delete them
         // now make sure the zip file is stored in sm->strPathTrigger + ti->strFile
         int iSlot = (int) sm->iNumUpload;
         ZipFileList zfl;
@@ -661,7 +674,7 @@ void checkContinualUpload(bool bForce)
         memset(strPattern, 0x00, _MAX_PATH);
         memset(strResolve, 0x00, _MAX_PATH);
         memset(strLogical, 0x00, _MAX_PATH_LOGICAL);
-        string strPath((const char*) qcn_main::g_strPathTrigger);  // note it DOES NOT HAVE appropriate \ or / at the end
+        string strPath((const char*) qcn_main::g_strPathContinual);  // note it DOES NOT HAVE appropriate \ or / at the end
         int iRetVal = 0;
 
         iSlot++;  // increment the upload slot counter

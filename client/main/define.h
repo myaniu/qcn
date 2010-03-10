@@ -322,6 +322,7 @@ struct FDSET_GROUP {
 #define XML_CPU_TIME      "cpt"
 #define XML_SENSOR        "sms"
 #define DIR_TRIGGER       "triggers"
+#define DIR_CONTINUAL     "continual"
 
 #ifdef QCN_CONTINUAL
   #define MAX_UPLOAD        50
