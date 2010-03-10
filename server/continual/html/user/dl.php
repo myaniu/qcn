@@ -303,7 +303,7 @@ echo "<BR><BR>
    <input type=\"submit\" value=\"Submit Constraints\" />
    </form> <H7>";
 
-$whereString = "t.ping=0";
+$whereString = "t.varietyid>=0";
 
 if ($bUseFile) {
    $whereString .= " AND t.received_file = 100 ";
