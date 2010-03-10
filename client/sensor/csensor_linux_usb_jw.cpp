@@ -118,9 +118,9 @@ bool CSensorLinuxUSBJW::testJoystick()
    ioctl(m_fdJoy, JSIOCGNAME(80), m_strJoystick);
 
    // compare the name of device, and number of buttons & axes with valid JoyWarrior values
-   if (strcmp(m_strJoystick, IDSTR_JW)
-     || m_iNumButtons != NUM_BUTTON_JW
-     || m_iNumAxes != NUM_AXES_JW) {
+   if (strcmp(m_strJoystick, IDSTR_JW24F8)
+     || m_iNumButtons != NUM_BUTTON_JW24F8
+     || m_iNumAxes != NUM_AXES_JW24F8) {
          closePort();  // this far in, we need to close the port!
          return false;
    }
@@ -141,10 +141,10 @@ bool CSensorLinuxUSBJW::testJoystick()
    }
 
    // if made it here, then it's a joywarrior, set to raw data mode
-   struct js_corr corr[NUM_AXES_JW];
+   struct js_corr corr[NUM_AXES_JW24F8];
 
    // Zero correction coefficient structure and set all axes to Raw mode 
-   for (int i=0; i<NUM_AXES_JW; i++) {
+   for (int i=0; i<NUM_AXES_JW24F8; i++) {
      corr[i].type = JS_CORR_NONE;
      corr[i].prec = 0;
      for (int j=0; j<8; j++) {
