@@ -113,7 +113,7 @@ bool CSensorWinUSBJW::detect()
 
 			if (m_USBHandle && Attributes.VendorID == USB_VENDORID_JW) 
 			{
-				if(Attributes.ProductID == USB_DEVICEID_JW_8)
+				if(Attributes.ProductID == USB_DEVICEID_JW24F8)
 				{
 					//if(Attributes.ProductID == USB_JOYWARRIOR) GetDlgItem(IDC_STATIC_DEVICE)->SetWindowTextW(_T("JoyWarrior"));
 					//if(Attributes.ProductID == USB_MOUSEWARRIOR) GetDlgItem(IDC_STATIC_DEVICE)->SetWindowTextW(_T("MouseWarrior"));
@@ -196,7 +196,7 @@ int CSensorWinUSBJW::SetupJoystick()
 		memset(pjc, 0x00, isizeJC);
 		if (::joyGetDevCaps(i, pjc, isizeJC) == JOYERR_NOERROR) {
 			// see if it matches up to the Product & Vendor ID for codemercs.com JoyWarrior
-			if (pjc->wMid == USB_VENDORID_JW && pjc->wPid == USB_DEVICEID_JW_8) {
+			if (pjc->wMid == USB_VENDORID_JW && pjc->wPid == USB_DEVICEID_JW24F8) {
 				// this is the joystick
 				setPort(i);
 				break;
