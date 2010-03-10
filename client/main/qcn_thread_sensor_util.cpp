@@ -478,7 +478,7 @@ void doTrigger(const bool bReal, const long lOffsetStart, const long lOffsetEnd,
             // CMC bInteractive can bypass writing trigger files & trickles; but turn off for now
             ti.bInteractive = false;
 	        //ti.bInteractive = (bool) ( sm->t0[ti.lOffsetEnd] < sm->dTimeInteractive + DECAY_INTERACTIVE_SECONDS);  
-		    ti.bReal = bReal; // flag if trickle is in demo mode or not so bypasses the trigger trickle (but writes output SAC file)
+		    ti.bReal = bReal || qcn_main::g_bContinual; // flag if trickle is in demo mode or not so bypasses the trigger trickle (but writes output SAC file)
 
 		    sm->setTriggerLock();  // we can be confident we have locked the trigger bool when this returns
 	        if (bReal) qcn_util::setLastTrigger(dTimeTrigger, ti.lOffsetEnd); // add to our lasttrigger array (for graphics display) if a real trigger
@@ -488,7 +488,7 @@ void doTrigger(const bool bReal, const long lOffsetStart, const long lOffsetEnd,
 				   (const char*) sm->dataBOINC.wu_name,
 					 bReal ? ++sm->iNumTrigger : sm->iNumTrigger,
                   QCN_ROUND(dTimeTrigger + qcn_main::g_dTimeOffset),
-                  bReal || qcn_main::g_bContinual
+                  ti.bReal
                );
                if (bReal) {
                   qcn_util::set_qcn_counter();
