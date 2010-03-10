@@ -7,12 +7,12 @@
 #define QCN_MAJOR_VERSION 5
 
 /* Minor part of QCN version number */
-#define QCN_MINOR_VERSION 48
+#define QCN_MINOR_VERSION 50
 
 /* Release part of QCN version number */
 #define QCN_RELEASE 
 
 /* String representation of QCN version number */
-#define QCN_VERSION_STRING "5.48"
+#define QCN_VERSION_STRING "5.50"
 
 #endif /* #ifndef QCN_VERSION_H */
