@@ -112,6 +112,7 @@ int handle_qcn_trigger(const DB_MSG_FROM_HOST* pmfh, const int iVariety)
      
      char strIP[32]; // temp holder for IP address
      int iRetVal = 0;
+     char* strErr = NULL;
 
      // parse out all the data into the qtrig object;
      qtrig.hostid = pmfh->hostid; // don't parse hostid, it's in the msg_from_host struct!
@@ -285,7 +286,15 @@ int handle_qcn_trigger(const DB_MSG_FROM_HOST* pmfh, const int iVariety)
            qtrig.levelid = qhip.levelid;
            qtrig.alignid = qhip.alignid;
            iRetVal = qtrig.insert();  // note if the insert fails, return code will be set and returned below, for update later
-           if (!iRetVal) { // trigger got in OK
+           if (iRetVal) { 
+              strErr = new char[512];
+              memset(strErr, 0x00, 512);
+              qtrig.db_print(strErr);
+              log_messages.printf(
+                SCHED_MSG_LOG::MSG_CRITICAL, "qhip/trigger insert errcode %d - %s\n", iRetVal, strErr);
+              delete [] strErr;  strErr = NULL;
+           }
+           else { // trigger got in OK
                 log_messages.printf(
                   SCHED_MSG_LOG::MSG_DEBUG,
                   "[QCN] [HOST#%d] [RESULTNAME=%s] [TIME=%lf] [1] Trigger inserted after qcn_host_ipaddr lookup of IP %s, mag=%lf at (%lf, %lf) - sync offset %f at %f!\n",
@@ -467,7 +476,20 @@ int lookupGeoIPWebService(
 
                        iReturn = qhip.insert();  // note if the insert fails, return code will be set and returned below
                        if (!iReturn) iReturn = qtrig.insert();  // note if the insert fails, return code will be set and returned below
-                       if (!iReturn) { // trigger got in OK
+                       if (iReturn) { // error, print out debug info
+              char* strErr = new char[512];
+              memset(strErr, 0x00, 512);
+              qtrig.db_print(strErr);
+              log_messages.printf(
+                SCHED_MSG_LOG::MSG_CRITICAL, "geoip lookup trigger insert\nerrcode %d - %s\n", iReturn, strErr);
+              memset(strErr, 0x00, 512);
+              qhip.db_print(strErr);
+              log_messages.printf(
+                SCHED_MSG_LOG::MSG_CRITICAL, "qhip trigger insert\nerrcode %d - %s\n", iReturn, strErr);
+              delete [] strErr;  strErr = NULL;
+                       }
+                       else {
+                          // trigger got in OK
                            log_messages.printf(
                              SCHED_MSG_LOG::MSG_DEBUG,
                              "[QCN] [HOST#%d] [RESULTNAME=%s] [TIME=%lf] [3] Trigger inserted after qcn_geo_ipaddr lookup; mag=%lf at (%lf, %lf) - sync offset %f at %f!\n",
