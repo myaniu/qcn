@@ -76,18 +76,17 @@ void draw_text()
     txf_render_string_qcn(qcn_graphics::cfTextAlpha, .1f, cfAxesLabel[0], 0.0f, MSG_SIZE_SMALL, red, TXF_HELVETICA, (char*) strTime);
 #endif
 	
-	/*
-#ifdef _DEBUG
-	sprintf(strTime, "%+6.3f %+6.3f", g_fMin[0], g_fMax[0]);
+
+#ifdef _DEBUG_QCNLIVE
+	sprintf(strTime, "%+6.3f %+6.3f", qcn_graphics::g_fmin[0], qcn_graphics::g_fmax[0]);
     txf_render_string_qcn(qcn_graphics::cfTextAlpha, .1f, cfAxesLabel[0], 0.0f, MSG_SIZE_SMALL, red, TXF_HELVETICA, (char*) strTime);
-	sprintf(strTime, "%+6.3f %+6.3f", g_fMin[1], g_fMax[1]);
+	sprintf(strTime, "%+6.3f %+6.3f", qcn_graphics::g_fmin[1], qcn_graphics::g_fmax[1]);
     txf_render_string_qcn(qcn_graphics::cfTextAlpha, .1f, cfAxesLabel[1], 0.0f, MSG_SIZE_SMALL, red, TXF_HELVETICA, (char*) strTime);
-	sprintf(strTime, "%+6.3f %+6.3f", g_fMin[2], g_fMax[2]);
+	sprintf(strTime, "%+6.3f %+6.3f", qcn_graphics::g_fmin[2], qcn_graphics::g_fmax[2]);
     txf_render_string_qcn(qcn_graphics::cfTextAlpha, .1f, cfAxesLabel[2], 0.0f, MSG_SIZE_SMALL, red, TXF_HELVETICA, (char*) strTime);
-	sprintf(strTime, "%+6.3f %+6.3f", g_fMin[3], g_fMax[3]);
+	sprintf(strTime, "%+6.3f %+6.3f", qcn_graphics::g_fmin[3], qcn_graphics::g_fmax[3]);
     txf_render_string_qcn(qcn_graphics::cfTextAlpha, .1f, cfAxesLabel[3], 0.0f, MSG_SIZE_SMALL, red, TXF_HELVETICA, (char*) strTime);
 #endif
-	*/
 
 	// labels for each axis
 
@@ -331,8 +330,8 @@ void draw_plot()
 					g_fMinAxesCurrent[ee] = 0.0f;
 				}
 				else {
-					g_fMaxAxesCurrent[ee] = (qcn_graphics::g_fmax[ee] == SAC_NULL_FLOAT ? 1.0f : qcn_graphics::g_fmax[ee]);  // save each scale level for autoscaling, so it's not jumping all around
-					g_fMinAxesCurrent[ee] = (qcn_graphics::g_fmin[ee] == -1.0f * SAC_NULL_FLOAT ? 0.0f : qcn_graphics::g_fmin[ee]);  // save each scale level for autoscaling, so it's not jumping all around
+					g_fMaxAxesCurrent[ee] = ((qcn_graphics::g_fmax[ee] == SAC_NULL_FLOAT || abs(qcn_graphics::g_fmax[ee] - qcn_graphics::g_fmin[ee]) < .001f) ? 1.0f : qcn_graphics::g_fmax[ee]);  // save each scale level for autoscaling, so it's not jumping all around
+					g_fMinAxesCurrent[ee] = ((qcn_graphics::g_fmin[ee] == -1.0f * SAC_NULL_FLOAT || abs(qcn_graphics::g_fmax[ee] - qcn_graphics::g_fmin[ee]) < .001f) ? 0.0f : qcn_graphics::g_fmin[ee]);  // save each scale level for autoscaling, so it's not jumping all around
 				}
 			 }
 			 else {

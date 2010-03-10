@@ -261,9 +261,9 @@ static FILE* fileDebug = NULL;
       fprintf(stderr, "Timing error encountered t0check=%f  t0active=%f  diff=%f  timeadj=%d  sample_size=%ld, dt=%f, resetting...\n", 
         sm->t0check, sm->t0active, dTimeDiff, sm->iNumReset, sm->lSampleSize, sm->dt);
       fflush(stderr);
-//#ifndef _DEBUG
+#ifndef _DEBUG_QCNLIVE
       return false;   // if we're not debugging, this is a serious run-time problem, so reset time & counters & try again
-//#endif
+#endif
    }
    
    return true;

@@ -549,7 +549,7 @@ bool CSensorMacUSBJW::detect()
     if (qcn_main::g_iStop) return false;
 #endif
 	
-   m_maDeviceRef = DiscoverHIDInterfaces(USB_VENDORID_JW, USB_DEVICEID_JW_8); // from codemercs - inits the JW device in sys registry
+   m_maDeviceRef = DiscoverHIDInterfaces(USB_VENDORID_JW, USB_DEVICEID_JW24F8); // from codemercs - inits the JW device in sys registry
    if (!m_maDeviceRef || CFArrayGetCount(m_maDeviceRef) < 2) { // not found, we'd have at least 2 interfaces for the JW USB
        closePort();
 #ifdef _DEBUG
@@ -789,98 +789,6 @@ short CSensorMacUSBJW::CalcMsbLsb(unsigned char lsb, unsigned char msb)
 
 */
 
-bool getHIDCookies(IOHIDDeviceInterface122** handle, cookie_struct_t cookies, const e_sensor eSensor)
-{
-
-        CFTypeRef                               object;
-        long                                    number;
-        IOHIDElementCookie                      cookie;
-        long                                    usage;
-        long                                    usagePage;
-        CFArrayRef                              elements; //
-        CFDictionaryRef                         element;
-        IOReturn                                success;
- 
-        memset(cookies, 0x00, sizeof(struct cookie_struct));
-
-        if (!handle || !(*handle)) return false;
- 
-        // Copy all elements, since we're grabbing most of the elements
-        // for this device anyway, and thus, it's faster to iterate them
-        // ourselves. When grabbing only one or two elements, a matching
-        // dictionary should be passed in here instead of NULL.
-        success = (*handle)->copyMatchingElements(handle, NULL, &elements);
- 
-        if (success == kIOReturnSuccess) {
-                CFIndex i;
-                //printf("ITERATING...\n");
-                for (i=0; i<CFArrayGetCount(elements); i++)
-                {
-                        element = (CFDictionaryRef) CFArrayGetValueAtIndex(elements, i);
-                        // printf("GOT ELEMENT.\n");
- 
-                        //Get cookie
-                        object = (CFDictionaryGetValue(element,
-                            CFSTR(kIOHIDElementCookieKey)));
-                        if (object == 0 || CFGetTypeID(object) != CFNumberGetTypeID())
-                            continue;
-                        if(!CFNumberGetValue((CFNumberRef) object, kCFNumberLongType,
-                            &number))
-                                continue;
-                        cookie = (IOHIDElementCookie) number;
- 
-                        //Get usage
-                        object = CFDictionaryGetValue(element, CFSTR(kIOHIDElementUsageKey));
-                        if (object == 0 || CFGetTypeID(object) != CFNumberGetTypeID())
-                            continue;
-                        if (!CFNumberGetValue((CFNumberRef) object, kCFNumberLongType,
-                            &number))
-                                continue;
-                        usage = number;
- 
-                        //Get usage page
-                        object = CFDictionaryGetValue(element,
-                            CFSTR(kIOHIDElementUsagePageKey));
-                        if (object == 0 || CFGetTypeID(object) != CFNumberGetTypeID())
-                            continue;
-                        if (!CFNumberGetValue((CFNumberRef) object, kCFNumberLongType,
-                            &number))
-                                continue;
-                        usagePage = number;
-					
-								//Check for x axis
-								if (usage == 48 && usagePage == 1)
-									cookies->gAxisCookie[0] = cookie;
-								//Check for y axis
-								else if (usage == 49 && usagePage == 1)
-									cookies->gAxisCookie[1] = cookie;
-								//Check for z axis
-								else if (usage == 50 && usagePage == 1)
-									cookies->gAxisCookie[2] = cookie;
-								//Check for buttons
-								else if (usage == 1 && usagePage == 9)
-									cookies->gButtonCookie[0] = cookie;
-								else if (usage == 2 && usagePage == 9)
-									cookies->gButtonCookie[1] = cookie;
-								else if (usage == 3 && usagePage == 9)
-									cookies->gButtonCookie[2] = cookie;
-                }
-/*
-           fprintf(stdout, "JoyWarrior HID Cookies for X/Y/Z axes = (0x%x, 0x%x, 0x%x)\n", 
-                (unsigned int) cookies->gAxisCookie[0],
-                (unsigned int) cookies->gAxisCookie[1],
-                (unsigned int) cookies->gAxisCookie[2]
-           );
-*/
-        }
-        else {
-                fprintf(stderr, "copyMatchingElements failed with error %d\n", success);
-        }
- 
-        return true;
-}
-
-
 bool CSensorMacUSBJW::getHIDCookies(IOHIDDeviceInterface122** handle, cookie_struct_t cookies)
 {
 	
@@ -941,13 +849,13 @@ bool CSensorMacUSBJW::getHIDCookies(IOHIDDeviceInterface122** handle, cookie_str
 			usagePage = number;
 			
 			//Check for x axis
-			if (usage == 48 && usagePage == 1)
+			if (usage == USB_COOKIE_X_JW24F8 && usagePage == 1)
 				cookies->gAxisCookie[0] = cookie;
 			//Check for y axis
-			else if (usage == 49 && usagePage == 1)
+			else if (usage == USB_COOKIE_Y_JW24F8 && usagePage == 1)
 				cookies->gAxisCookie[1] = cookie;
 			//Check for z axis
-			else if (usage == 50 && usagePage == 1)
+			else if (usage == USB_COOKIE_Z_JW24F8 && usagePage == 1)
 				cookies->gAxisCookie[2] = cookie;
 			//Check for buttons
 			else if (usage == 1 && usagePage == 9)

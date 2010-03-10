@@ -322,7 +322,7 @@ bool MyApp::OnInit()
 	if (myPNGHandler)  {
       wxImage::AddHandler(myPNGHandler);
 	  wxBitmap bitmap;
-#ifndef _DEBUG // no splash screen on debug, gets in the way!
+#ifndef _DEBUG_QCNLIVE   // no splash screen on debug, gets in the way!  can't just use _DEBUG as wxWidgets has problems with that
       const char cstrSplash[] = {"splash.png"};
 	  if (boinc_file_exists(cstrSplash) 
 		  && bitmap.LoadFile(wxString(cstrSplash, wxConvUTF8), wxBITMAP_TYPE_PNG))

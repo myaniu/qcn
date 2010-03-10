@@ -21,7 +21,6 @@ void global_JoyWarriorAddedOrRemoved(void *refCon, io_iterator_t iterator);
 void global_updateDeviceState();
 */
 
-bool getHIDCookies(IOHIDDeviceInterface122** handle, cookie_struct_t cookies, const e_sensor eSensor);
 
 // this is the Mac implementation for the JoyWarrior sensor, used for QCNLive as well as the Mac service program qcnmacusb under BOINC
 class CSensorMacUSBJW24F14  : public CSensor
@@ -49,6 +48,7 @@ class CSensorMacUSBJW24F14  : public CSensor
       io_iterator_t FindHIDDevices (const mach_port_t masterPort, int inVendorID, int inDeviceID);
       IOHIDDeviceInterface122** CreateHIDDeviceInterface (io_object_t hidDevice);
       CFMutableArrayRef DiscoverHIDInterfaces (int vendorID, int deviceID);
+	  bool CSensorMacUSBJW24F14::getHIDCookies(IOHIDDeviceInterface122** handle, cookie_struct_t cookies);
 
       IOReturn DisableCommandMode(IOHIDDeviceInterface122** hidInterface);
       IOReturn EnableCommandMode (IOHIDDeviceInterface122** hidInterface);

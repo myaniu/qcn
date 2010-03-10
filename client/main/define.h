@@ -205,9 +205,9 @@ enum e_sensor  { SENSOR_NOTFOUND = 0,  // 0
                  SENSOR_MAC_PPC_TYPE3, // 3
                  SENSOR_MAC_INTEL,     // 4
                  SENSOR_WIN_THINKPAD,  // 5
-		     SENSOR_WIN_HP,        // 6
-		     SENSOR_USB_JW24F8  = 100,        // 100
-                     SENSOR_USB_MOTIONNODEACCEL,   // 101
+		         SENSOR_WIN_HP,        // 6
+		         SENSOR_USB_JW24F8  = 100,        // 100
+			     SENSOR_USB_MOTIONNODEACCEL,   // 101
 	             SENSOR_USB_ONAVI_1,     // 102
 	             SENSOR_USB_JW24F14      // 103
                };
@@ -219,9 +219,17 @@ enum e_sensor  { SENSOR_NOTFOUND = 0,  // 0
  
 // USB id's
 #define USB_MOUSEWARRIOR       0x1114
-#define USB_DEVICEID_JW_8      0x1113
-#define USB_DEVICEID_JW_14     0x1116
+#define USB_DEVICEID_JW24F8    0x1113
+#define USB_DEVICEID_JW24F14   0x1116
 #define USB_VENDORID_JW        0x07C0
+
+#define USB_COOKIE_X_JW24F8    0x30
+#define USB_COOKIE_Y_JW24F8    0x31
+#define USB_COOKIE_Z_JW24F8    0x32
+
+#define USB_COOKIE_X_JW24F14   0x30
+#define USB_COOKIE_Y_JW24F14   0x31
+#define USB_COOKIE_Z_JW24F14   0x32
 
 // ERR_NO_SENSOR   = no sensor was detected in the CSensor::detect() call
 // ERR_SHMEM       = could not create/setup shared memory block for the CQCNShMem class

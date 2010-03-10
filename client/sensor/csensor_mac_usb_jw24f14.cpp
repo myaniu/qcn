@@ -469,7 +469,7 @@ bool CSensorMacUSBJW24F14::closeDevHandle()
 
 inline bool CSensorMacUSBJW24F14::read_xyz(float& x1, float& y1, float& z1)
 {  
-	
+	/*
 	// read LSB first (the order below will suffice)	
     const unsigned int ciNum = 9;
 	UInt8 mReg[ciNum];
@@ -480,7 +480,7 @@ inline bool CSensorMacUSBJW24F14::read_xyz(float& x1, float& y1, float& z1)
 			return false;
 		}
 	}
-	
+	 */
 	/* 14 bits data e.g.
            	-2g == 10 0000 0000 0000
       -1.99975g == 10 0000 0000 0001
@@ -499,16 +499,18 @@ inline bool CSensorMacUSBJW24F14::read_xyz(float& x1, float& y1, float& z1)
 			mReg[6],
 			mReg[7],
 			mReg[8]);
-	 */
+
+	
+	 //                           0         1        2          3         4          5          6          7         8
+	 // read values: from 0-8: chip id, version, acc_x_lsb, acc_x_msb, acc_y_lsb, acc_y_msb, acc_z_lsb, acc_z_msb, temp
 	 
-	//                           0         1        2          3         4          5          6          7         8
-	// read values: from 0-8: chip id, version, acc_x_lsb, acc_x_msb, acc_y_lsb, acc_y_msb, acc_z_lsb, acc_z_msb, temp
-	
-	x1 = (float) mReg[3] / 128.0f;
-	y1 = (float) mReg[5] / 128.0f;
-	z1 = (float) mReg[7] / 128.0f;
-	
-/*
+	 x1 = (float) mReg[3] / 128.0f;
+	 y1 = (float) mReg[5] / 128.0f;
+	 z1 = (float) mReg[7] / 128.0f;
+	 
+	*/
+	 
+	/*
         // CMC note -- this is the preferred way from codemercs.com but too slow for QCN -- have to use HID Joystick access
         UInt8 rawData[6];
         memset(rawData, 0x00, sizeof(UInt8) * 6);
@@ -532,48 +534,48 @@ inline bool CSensorMacUSBJW24F14::read_xyz(float& x1, float& y1, float& z1)
              //   - these were set in detect() by walking the linked list of the device
           //  lVal[i] = ::HIDGetElementValue(m_prdJW24F14, m_prelJW24F14[i]);
         }
-*/
+	*/
 	
-/*
     //static int iTestCtr = 0;  // static so we can detect every few seconds if USB stick is still plugged in
     IOReturn result = kIOReturnSuccess;
     IOHIDEventStruct hidEvent;
     float fVal[3];
-
+	
 #ifndef QCN_USB
     if (qcn_main::g_iStop) return false;
 #endif
-
-    //if (iTestCtr++ == 500) { // if DT=.02 this checks every 10 seconds that the JW24F14 is still plugged into USB port
-    //   iTestCtr = 0;  // reset counter
-    //   closeDevHandle();  // actually this doesn't seem to be working, probably need to close & re-detect?
-    //}
-
+	
+    /*
+	 if (iTestCtr++ == 500) { // if DT=.02 this checks every 10 seconds that the JW is still plugged into USB port
+	 iTestCtr = 0;  // reset counter
+	 closeDevHandle();  // actually this doesn't seem to be working, probably need to close & re-detect?
+	 }
+	 */
+	
     // major error if dev handle isn't open or can't be opened & read_xyz being called!
     if (!m_bDevHandleOpen && !openDevHandle()) { // this opens once at the start of reading to save CPU time (8%!)
-       // but doesn't seem to detect if handle is bad i.e. when USB device is yanked out
-       fprintf(stderr, "CSensorMacUSBJW24F14::read_xyz: could not open Mac HID device handle!\n");
-       return false; 
+		// but doesn't seem to detect if handle is bad i.e. when USB device is yanked out
+		fprintf(stderr, "CSensorMacUSBJW::read_xyz: could not open Mac HID device handle!\n");
+		return false; 
     }
-
+	
     // cookies are 0xb for x-axis, 0xc for y-axis, 0xd for z-axis
     for (int i = 0; i < 3; i++) {
-      fVal[i] = 0.0f;
-
-      hidEvent.value = 0;
-      hidEvent.longValueSize = 0;
-      hidEvent.longValue = 0;
-
-      result = (*m_USBDevHandle[0])->getElementValue(m_USBDevHandle[0], m_cookies.gAxisCookie[i], &hidEvent);
-      // note that x/y/z should be scaled to +/- 2g, return values as +/- 2.0f*EARTH_G (in define.h: 9.78033 m/s^2)
-      if (result == kIOReturnSuccess) 
-         fVal[i]  = (((float) hidEvent.value - 512.0f) / 256.0f) * EARTH_G;
+		fVal[i] = 0.0f;
+		
+		hidEvent.value = 0;
+		hidEvent.longValueSize = 0;
+		hidEvent.longValue = 0;
+		
+		result = (*m_USBDevHandle[0])->getElementValue(m_USBDevHandle[0], m_cookies.gAxisCookie[i], &hidEvent);
+		// note that x/y/z should be scaled to +/- 2g, return values as +/- 2.0f*EARTH_G (in define.h: 9.78033 m/s^2)
+		if (result == kIOReturnSuccess) fVal[i] = (float) hidEvent.value;
+			//fVal[i]  = (((float) hidEvent.value - 32768.0f) / 32768.0f) * EARTH_G;
     }
-
-    x1 = fVal[0]; y1 = fVal[1]; z1 = fVal[2];
-*/
 	
-    return true;
+    x1 = fVal[0]; y1 = fVal[1]; z1 = fVal[2];
+	
+	return true;
 }
 
 bool CSensorMacUSBJW24F14::detect()
@@ -586,7 +588,7 @@ bool CSensorMacUSBJW24F14::detect()
     if (qcn_main::g_iStop) return false;
 #endif
 	
-   m_maDeviceRef = DiscoverHIDInterfaces(USB_VENDORID_JW, USB_DEVICEID_JW_14); // from codemercs - inits the JW24F14 device in sys registry
+   m_maDeviceRef = DiscoverHIDInterfaces(USB_VENDORID_JW, USB_DEVICEID_JW24F14); // from codemercs - inits the JW24F14 device in sys registry
    if (!m_maDeviceRef || CFArrayGetCount(m_maDeviceRef) < 2) { // not found, we'd have at least 2 interfaces for the JW24F14 USB
        closePort();
 #ifdef _DEBUG
@@ -608,7 +610,7 @@ bool CSensorMacUSBJW24F14::detect()
        return false;
    } 
 
-	//getHIDCookies(m_USBDevHandle[0], &m_cookies);
+	getHIDCookies(m_USBDevHandle[0], &m_cookies);
 
     // open port for read_xyz sequential reads...
     //(*m_USBDevHandle[0])->open(m_USBDevHandle[0], kIOHIDOptionsTypeSeizeDevice);
@@ -804,6 +806,100 @@ bool CSensorMacUSBJW24F14::SetQCNState()
 */
    return true;
 }
+
+bool CSensorMacUSBJW24F14::getHIDCookies(IOHIDDeviceInterface122** handle, cookie_struct_t cookies)
+{
+	
+	CFTypeRef                               object;
+	long                                    number;
+	IOHIDElementCookie                      cookie;
+	long                                    usage;
+	long                                    usagePage;
+	CFArrayRef                              elements; //
+	CFDictionaryRef                         element;
+	IOReturn                                success;
+	
+	memset(cookies, 0x00, sizeof(struct cookie_struct));
+	
+	if (!handle || !(*handle)) return false;
+	
+	// Copy all elements, since we're grabbing most of the elements
+	// for this device anyway, and thus, it's faster to iterate them
+	// ourselves. When grabbing only one or two elements, a matching
+	// dictionary should be passed in here instead of NULL.
+	success = (*handle)->copyMatchingElements(handle, NULL, &elements);
+	
+	if (success == kIOReturnSuccess) {
+		CFIndex i;
+		//printf("ITERATING...\n");
+		for (i=0; i<CFArrayGetCount(elements); i++)
+		{
+			element = (CFDictionaryRef) CFArrayGetValueAtIndex(elements, i);
+			// printf("GOT ELEMENT.\n");
+			
+			//Get cookie
+			object = (CFDictionaryGetValue(element,
+										   CFSTR(kIOHIDElementCookieKey)));
+			if (object == 0 || CFGetTypeID(object) != CFNumberGetTypeID())
+				continue;
+			if(!CFNumberGetValue((CFNumberRef) object, kCFNumberLongType,
+								 &number))
+				continue;
+			cookie = (IOHIDElementCookie) number;
+			
+			//Get usage
+			object = CFDictionaryGetValue(element, CFSTR(kIOHIDElementUsageKey));
+			if (object == 0 || CFGetTypeID(object) != CFNumberGetTypeID())
+				continue;
+			if (!CFNumberGetValue((CFNumberRef) object, kCFNumberLongType,
+								  &number))
+				continue;
+			usage = number;
+			
+			//Get usage page
+			object = CFDictionaryGetValue(element,
+										  CFSTR(kIOHIDElementUsagePageKey));
+			if (object == 0 || CFGetTypeID(object) != CFNumberGetTypeID())
+				continue;
+			if (!CFNumberGetValue((CFNumberRef) object, kCFNumberLongType,
+								  &number))
+				continue;
+			usagePage = number;
+			
+			//Check for x axis
+			if (usage == USB_COOKIE_X_JW24F14 && usagePage == 1)
+				cookies->gAxisCookie[0] = cookie;
+			//Check for y axis
+			else if (usage == USB_COOKIE_Y_JW24F14 && usagePage == 1)
+				cookies->gAxisCookie[1] = cookie;
+			//Check for z axis
+			else if (usage == USB_COOKIE_Z_JW24F14 && usagePage == 1)
+				cookies->gAxisCookie[2] = cookie;
+			//Check for buttons
+			else if (usage == 1 && usagePage == 9)
+				cookies->gButtonCookie[0] = cookie;
+			else if (usage == 2 && usagePage == 9)
+				cookies->gButtonCookie[1] = cookie;
+			else if (usage == 3 && usagePage == 9)
+				cookies->gButtonCookie[2] = cookie;
+		}
+		/*
+		 fprintf(stdout, "JoyWarrior HID Cookies for X/Y/Z axes = (0x%x, 0x%x, 0x%x)\n", 
+		 (unsigned int) cookies->gAxisCookie[0],
+		 (unsigned int) cookies->gAxisCookie[1],
+		 (unsigned int) cookies->gAxisCookie[2]
+		 );
+		 */
+		 
+	}
+	else {
+		fprintf(stderr, "copyMatchingElements failed with error %d\n", success);
+	}
+	
+	return true;
+}
+
+
 
 /*
 // Calculate a 10 bit value with MSB and LSB
