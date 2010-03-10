@@ -156,7 +156,7 @@ bool CSensorLinuxUSBJW::testJoystick()
       fprintf(stderr, "CSensorLinuxUSBJW:: error setting correction for raw data reads\n");
    }
 
-   setType(SENSOR_USB_JW);
+   setType(SENSOR_USB_JW24F8);
    setPort(getTypeEnum());
    
    return true; // if here we can return true, i.e Joywarrior found on Linux joystick port, and hopefully set to read raw data
@@ -179,6 +179,6 @@ bool CSensorLinuxUSBJW::detect()
       }
    }
 
-   return (bool)(getTypeEnum() == SENSOR_USB_JW);
+   return (bool)(getTypeEnum() == SENSOR_USB_JW24F8);
 }
 
