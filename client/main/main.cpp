@@ -801,7 +801,7 @@ bool CheckTriggerFile(struct STriggerInfo* ti, bool bForce)
 
 bool CheckTriggerTrickle(struct STriggerInfo* ti)
 {
-    if (!ti->lOffsetEnd || ti->bSent || ti->bReal || ti->bInteractive) {
+    if (!ti->lOffsetEnd || ti->bSent || !ti->bReal || ti->bInteractive) {
        return true;  // if no offset and/or already sent or a demo mode trickle (i.e. per-minute trigger) or interactive mode, can just return
     }
 
