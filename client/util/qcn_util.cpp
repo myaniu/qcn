@@ -250,7 +250,7 @@ void getBOINCInitData(const e_where eWhere)
            DIR_TRIGGER
         );
 
-		if	qcn_main::g_bContinual {
+		if	(qcn_main::g_bContinual) {
 			sprintf((char*) qcn_main::g_strPathContinual,
 			   "%s%c%s",
 			   sm->dataBOINC.project_dir,
