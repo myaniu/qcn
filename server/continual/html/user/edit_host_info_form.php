@@ -313,7 +313,9 @@ for ($i=0; $i<5; $i++)
 
 // checkbox for allowing location to be shown exactly on the map
 echo "<tr><td colspan=2><BR><input type=\"checkbox\" id=\"cbmapexact\" name=\"cbmapexact\" ";
-echo "checked disabled";
+if ($bMapExact) {
+  echo "checked";
+}
 echo ">(Optional)  Show This Computer's Exact Location on Public QCN Maps and Listings <P></td></tr>";
 
 // add radio buttons for type of alignment
