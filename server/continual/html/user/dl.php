@@ -10,7 +10,7 @@ t.sync_offset, t.significance, t.magnitude as trigger_mag,
 t.latitude as trigger_lat, t.longitude as trigger_lon, t.levelvalue, t.levelid, l.description as leveldesc, 
 t.file as trigger_file, t.dt as delta_t,
 t.numreset, s.description as sensor_description, t.sw_version, t.usgs_quakeid, t.time_filereq as trigger_timereq, 
-t.received_file, t.file_url
+t.received_file, t.file_url,t.varietyid
 FROM
   continual.qcn_trigger t
    LEFT JOIN continual.host h ON t.hostid = h.id 
@@ -427,6 +427,9 @@ function SetAllCheckBoxes(FormName, FieldName, CheckValue)
 <HR>
 ";
 
+   $colorPing = "\"#999999\"";
+   echo "<H5>(NB: <font color=$colorPing>grey text</font> is a 'real' trigger, otherwise it's a 10-minute file)</H5>\n";
+
 /*
 echo "<BR><BR>
 $bUseTime<BR>
@@ -438,6 +441,7 @@ $timeMinuteEnd<BR>
 */
  
 $start_1_offset = $start_at + 1;
+
 echo "
     <p>$count records match the query.
     Displaying $start_1_offset to $last.<p>
@@ -495,8 +499,26 @@ if ($result) {
     echo "<form name=\"formDetail\" method=\"post\" action=dlreq.php >";
     start_table();
     qcn_trigger_header();
+    $i = 0;
+    $bgcolor = "";
+    $strTableFont = "";
+    $strFontEnd = "";
     while ($res = mysql_fetch_object($result)) {
-        qcn_trigger_detail($res);
+         if ($i++ % 2) {
+             $bgcolor = "\"#F4F4F4\"";
+         }
+         else {
+             $bgcolor = "\"#FFFFFF\"";
+         }
+         if ($res->varietyid==0) { // it's a real trigger
+           $strTableFont = "<font color=$colorPing>";
+           $strFontEnd = "</font>";
+         }
+         else {
+           $strTableFont = "";
+           $strFontEnd   = "";
+         }
+        qcn_trigger_detail($res, $bgcolor, $strTableFont, $strFontEnd);
     }
     end_table();
     mysql_free_result($result);
@@ -563,62 +585,62 @@ function qcn_trigger_header() {
 }
 
 
-function qcn_trigger_detail($res) 
+function qcn_trigger_detail($res, $bgcolor, $strTableFont, $strFontEnd) 
 {
     $sensor_type = $res->sensor_description;
     echo "
-        <tr>
-        <td><input type=\"checkbox\" name=\"cb_reqfile[]\" id=\"cb_reqfile[]\" value=\"$res->triggerid\"" . 
-           ($res->received_file == 100 ? " " : " disabled ") . "></td>
-        <td>$res->triggerid</td>
-        <td><a href=\"show_host_detail.php?hostid=$res->hostid\">" . host_name_by_id($res->hostid) . "</a></td>
-        <td>$res->ipaddr</td>
-        <td>$res->result_name</td>
-        <td>" . time_str($res->trigger_time) . "</td>
-        <td>" . round($res->delay_time, 2) . "</td>
-        <td>" . time_str($res->trigger_sync) . "</td>
-        <td>$res->sync_offset</td>
-        <td>$res->trigger_mag</td>
-        <td>$res->significance</td>
-        <td>" . round($res->trigger_lat,4) . "</td>
-        <td>" . round($res->trigger_lon,4) . "</td>
-        <td>" . round($res->levelvalue,4) . "</td>
-        <td>" . $res->leveldesc . "</td>
-        <td>" . ($res->numreset ? $res->numreset : 0) . "</td>
-        <td>$res->delta_t</td>
-        <td>$sensor_type</td>
-        <td>$res->sw_version</td>";
+        <tr bgcolor=$bgcolor>
+        <td>$strTableFont<input type=\"checkbox\" name=\"cb_reqfile[]\" id=\"cb_reqfile[]\" value=\"$res->triggerid\"" . 
+           ($res->received_file == 100 ? " " : " disabled ") . ">$strFontEnd</td>
+        <td>$strTableFont$res->triggerid$strFontEnd</td>
+        <td>$strTableFont<a href=\"show_host_detail.php?hostid=$res->hostid\">" . host_name_by_id($res->hostid) . "</a>$strFontEnd</td>
+        <td>$strTableFont$res->ipaddr$strFontEnd</td>
+        <td>$strTableFont$res->result_name$strFontEnd</td>
+        <td>$strTableFont" . time_str($res->trigger_time) . "$strFontEnd</td>
+        <td>$strTableFont" . round($res->delay_time, 2) . "$strFontEnd</td>
+        <td>$strTableFont" . time_str($res->trigger_sync) . "$strFontEnd</td>
+        <td>$strTableFont$res->sync_offset$strFontEnd</td>
+        <td>$strTableFont$res->trigger_mag$strFontEnd</td>
+        <td>$strTableFont$res->significance$strFontEnd</td>
+        <td>$strTableFont" . round($res->trigger_lat,4) . "$strFontEnd</td>
+        <td>$strTableFont" . round($res->trigger_lon,4) . "$strFontEnd</td>
+        <td>$strTableFont" . round($res->levelvalue,4) . "$strFontEnd</td>
+        <td>$strTableFont" . $res->leveldesc . "$strFontEnd</td>
+        <td>$strTableFont" . ($res->numreset ? $res->numreset : 0) . "$strFontEnd</td>
+        <td>$strTableFont$res->delta_t$strFontEnd</td>
+        <td>$strTableFont$sensor_type$strFontEnd</td>
+        <td>$strTableFont$res->sw_version$strFontEnd</td>";
         
         echo "
-        <td>" . ($res->received_file == 100 ? " Yes " : " No " ) . "</td>";
+        <td>$strTableFont" . ($res->received_file == 100 ? " Yes " : " No " ) . "$strFontEnd</td>";
 
         if ($res->file_url) {
-          echo "<td><a href=\"" . $res->file_url . "\">Download</a></td>";
+          echo "<td>$strTableFont<a href=\"" . $res->file_url . "\">Download</a>$strFontEnd</td>";
         }
         else {
-          echo "<td>N/A</td>";
+          echo "<td>$strTableFontN/A$strFontEnd</td>";
         }
 /*
         if ($res->usgs_quakeid) {
-           echo "<td><a href=\"db_action.php?table=usgs_quake&id=$res->usgs_quakeid\">$res->usgs_quakeid</a></td>";
-           echo "<td>$res->quake_magnitude</td>";
-           echo "<td>" . time_str($res->quake_time) . "</td>";
-           echo "<td>$res->quake_lat</td>";
-           echo "<td>$res->quake_lon</td>";
-           echo "<td>$res->description</td>";
-           echo "<td>$res->guid</td>";
+           echo "<td>$strTableFont<a href=\"db_action.php?table=usgs_quake&id=$res->usgs_quakeid\">$res->usgs_quakeid</a>$strFontEnd</td>";
+           echo "<td>$strTableFont$res->quake_magnitude$strFontEnd</td>";
+           echo "<td>$strTableFont" . time_str($res->quake_time) . "$strFontEnd</td>";
+           echo "<td>$strTableFont$res->quake_lat$strFontEnd</td>";
+           echo "<td>$strTableFont$res->quake_lon$strFontEnd</td>";
+           echo "<td>$strTableFont$res->description$strFontEnd</td>";
+           echo "<td>$strTableFont$res->guid$strFontEnd</td>";
         }
         else {
-           echo "<td>N/A</td>";
-           echo "<td>&nbsp</td>";
-           echo "<td>&nbsp</td>";
-           echo "<td>&nbsp</td>";
-           echo "<td>&nbsp</td>";
-           echo "<td>&nbsp</td>";
-           echo "<td>&nbsp</td>";
+           echo "<td>$strTableFontN/A$strFontEnd</td>";
+           echo "<td>$strTableFont&nbsp$strFontEnd</td>";
+           echo "<td>$strTableFont&nbsp$strFontEnd</td>";
+           echo "<td>$strTableFont&nbsp$strFontEnd</td>";
+           echo "<td>$strTableFont&nbsp$strFontEnd</td>";
+           echo "<td>$strTableFont&nbsp$strFontEnd</td>";
+           echo "<td>$strTableFont&nbsp$strFontEnd</td>";
         }
 */
-    echo "</tr>
+    echo "</font></tr>
     ";
 }
 

@@ -153,6 +153,7 @@ function cache_need_to_regenerate($path, $max_age){
     return $regenerate;
 }
 
+
 // Returns cached data or false if nothing was found -- CMC note the addition of $mypath so I can 'hardcode' a cache file to use
 function get_cached_data($max_age, $params="", $mypath=""){
     if ($mypath) {
@@ -246,7 +247,7 @@ function set_cache_data($data,$params="",$mypath=""){
     if (strstr($params, "..")) {
         return;
     }
-    if ($mypath) { 
+    if ($mypath) {
       get_path($params); // note need this to create dirs 
       $path = $mypath;
     }
