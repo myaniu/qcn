@@ -1,5 +1,9 @@
 <?php
 $project_news = array(
+   array("March 12, 2010",
+"Today there is a <A HREF=\"http://www.latimes.com/news/local/la-me-quakecatchers12-2010mar12,0,440482.story\">good article on QCN in the Los Angeles Times (click here)</A>, featuring Elizabeth Cochran and some of her 'schools outreach' work and an interview with a QCN participant.<BR><BR>",
+ "Los Angeles Times article on QCN"
+  ),
    array("March 8, 2010",
 "On March 9, two graduate students flew to Chile to begin installing 100 QCN sensors in the region affected by the recent M8.8 earthquake. Our partners at the University of Concepcion are coordinating the installation of sensors. Volunteers from the University of Concepcion and University of Santiago will assist with installing sensors in cities throughout the region. We hope to record many of the aftershocks that are still occurring in the area to better understand the distribution of aftershocks and to study the properties of earthquakes. We will include updates on their progress and the data that are recorded in the coming weeks. If you are in Chile and would like to participate in the Quake-Catcher Network Rapid Aftershock Mobilization Project (QCN-RAMP) <A HREF=\"http://qcn.stanford.edu/RAMP/RAMP_Chile_2010.php\">please fill out the form on this link.</A><BR><BR>",
  "QCN responds to the M8.8 earthquake in Chile"

@@ -618,7 +618,7 @@ function qcn_trigger_detail($res, $bgcolor, $strTableFont, $strFontEnd)
           echo "<td>$strTableFont<a href=\"" . $res->file_url . "\">Download</a>$strFontEnd</td>";
         }
         else {
-          echo "<td>$strTableFontN/A$strFontEnd</td>";
+          echo "<td>$strTableFont" . "N/A$strFontEnd</td>";
         }
 /*
         if ($res->usgs_quakeid) {
