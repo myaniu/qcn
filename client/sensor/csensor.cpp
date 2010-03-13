@@ -104,7 +104,7 @@ const char* CSensor::getTypeStr(int iType)
         return "JoyWarrior 24F8 USB";
         break;
 	case SENSOR_USB_JW24F14:
-		   return "JoyWarrior 24F14 USB";
+		   return "JoyWarrior 24F14 (Tomcat) USB";
 		   break;
 	case SENSOR_USB_MOTIONNODEACCEL:
         return "MotionNode Accel USB";
@@ -136,7 +136,7 @@ const char* CSensor::getTypeStrShort()
         return "JW";
         break;
 	case SENSOR_USB_JW24F14:
-		   return "J4";
+		   return "JT";
 		   break;
 	case SENSOR_USB_MOTIONNODEACCEL:
         return "MN";

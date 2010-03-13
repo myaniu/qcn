@@ -359,7 +359,7 @@ bool pollUSB()
        fprintf(stdout, "in detectUSB()\n");
 #endif
 
-   const int iMaxUSB = 1;
+   const int iMaxUSB = 2;  // JW24F8 and JW24F14
    //sm->writepos = 10;
    if (!qcn_signal::PIDRunning(smState->alPID[PID_QCN])) {
 #ifdef _DEBUG
@@ -379,6 +379,15 @@ bool pollUSB()
 #endif
 #endif
               break;
+           case 1:
+#ifdef _WIN32
+			   psms = (CSensor*) new CSensorWinUSBJW24F14();
+#else
+#ifdef __APPLE_CC__
+			   psms = (CSensor*) new CSensorMacUSBJW24F14();
+#endif
+#endif
+			   break;
        }
 
        // ok, instantiated a CSensor object, now see if this sensor is actually detected

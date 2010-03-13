@@ -215,7 +215,7 @@ enum e_sensor  { SENSOR_NOTFOUND = 0,  // 0
 // set to the min allowable value of a usb sensor enum as above
 #define MIN_SENSOR_USB 100
 // set to the max allowable value of a usb sensor enum as above
-#define MAX_SENSOR_USB 102
+#define MAX_SENSOR_USB 103
  
 // USB id's
 #define USB_MOUSEWARRIOR       0x1114

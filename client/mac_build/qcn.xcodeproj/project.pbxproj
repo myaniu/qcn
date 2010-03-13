@@ -232,6 +232,7 @@
 		43304A7810FF76D300A823FE /* qcn_thread_sensor_util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = qcn_thread_sensor_util.h; path = ../main/qcn_thread_sensor_util.h; sourceTree = SOURCE_ROOT; };
 		43304A9710FF7D9000A823FE /* qcn_thread_sensor_loop.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = qcn_thread_sensor_loop.cpp; path = ../main/qcn_thread_sensor_loop.cpp; sourceTree = SOURCE_ROOT; };
 		43304A9C10FF7DA400A823FE /* qcn_thread_sensor_loop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = qcn_thread_sensor_loop.h; path = ../main/qcn_thread_sensor_loop.h; sourceTree = SOURCE_ROOT; };
+		4330BD5B114B11A60008D847 /* qcnusb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = qcnusb.h; path = ../qcnusb/qcnusb.h; sourceTree = SOURCE_ROOT; };
 		4337F497100183CA00E75E05 /* QCNLive-iphone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "QCNLive-iphone.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4337F499100183CA00E75E05 /* QCNLive-iphone-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "QCNLive-iphone-Info.plist"; sourceTree = "<group>"; };
 		4394A75D10A20763006FF691 /* dlgsettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dlgsettings.h; sourceTree = "<group>"; };
@@ -486,6 +487,7 @@
 		E3B747AF0E8C6E5D00D401EB /* qcnusb */ = {
 			isa = PBXGroup;
 			children = (
+				4330BD5B114B11A60008D847 /* qcnusb.h */,
 				E3B747AD0E8C6E3800D401EB /* qcn_shmem_usb.h */,
 			);
 			name = qcnusb;

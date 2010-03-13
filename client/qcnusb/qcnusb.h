@@ -37,6 +37,7 @@
 #else
 #ifdef __APPLE_CC__
 #include "csensor_mac_usb_jw.h"
+#include "csensor_mac_usb_jw24f14.h"
 #endif
 #endif
 
