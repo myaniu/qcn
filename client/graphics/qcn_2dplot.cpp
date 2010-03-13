@@ -330,8 +330,10 @@ void draw_plot()
 					g_fMinAxesCurrent[ee] = 0.0f;
 				}
 				else {
-					g_fMaxAxesCurrent[ee] = ((qcn_graphics::g_fmax[ee] == SAC_NULL_FLOAT || abs(qcn_graphics::g_fmax[ee] - qcn_graphics::g_fmin[ee]) < .001f) ? 1.0f : qcn_graphics::g_fmax[ee]);  // save each scale level for autoscaling, so it's not jumping all around
-					g_fMinAxesCurrent[ee] = ((qcn_graphics::g_fmin[ee] == -1.0f * SAC_NULL_FLOAT || abs(qcn_graphics::g_fmax[ee] - qcn_graphics::g_fmin[ee]) < .001f) ? 0.0f : qcn_graphics::g_fmin[ee]);  // save each scale level for autoscaling, so it's not jumping all around
+					//g_fMaxAxesCurrent[ee] = ((qcn_graphics::g_fmax[ee] == SAC_NULL_FLOAT || abs(qcn_graphics::g_fmax[ee] - qcn_graphics::g_fmin[ee]) < 1.e-8f) ? 1.f : qcn_graphics::g_fmax[ee]);  // save each scale level for autoscaling, so it's not jumping all around
+					//g_fMinAxesCurrent[ee] = ((qcn_graphics::g_fmin[ee] == -1.0f * SAC_NULL_FLOAT || abs(qcn_graphics::g_fmax[ee] - qcn_graphics::g_fmin[ee]) < 1.e-8f) ? 0.0f : qcn_graphics::g_fmin[ee]);  // save each scale level for autoscaling, so it's not jumping all around
+					g_fMaxAxesCurrent[ee] = ((qcn_graphics::g_fmax[ee] == SAC_NULL_FLOAT) ? 1.0f : qcn_graphics::g_fmax[ee]);  // save each scale level for autoscaling, so it's not jumping all around
+					g_fMinAxesCurrent[ee] = ((qcn_graphics::g_fmin[ee] == -1.0f * SAC_NULL_FLOAT) ? 0.0f : qcn_graphics::g_fmin[ee]);  // save each scale level for autoscaling, so it's not jumping all around
 				}
 			 }
 			 else {

@@ -263,7 +263,7 @@ void CSensorMacUSBJW24F14::closePort()
      if (m_USBDevHandle[i]) {
        try {
           // don't think we need the next line, just close & Release
-          if (i==0) WriteData(m_USBDevHandle[0], 0x02, 0x00, 0x00, "closePort()::Free JW24F14");
+          //if (i==0) WriteData(m_USBDevHandle[0], 0x02, 0x00, 0x00, "closePort()::Free JW24F14");
           (*m_USBDevHandle[i])->close(m_USBDevHandle[i]);
           (*m_USBDevHandle[i])->Release(m_USBDevHandle[i]);
           m_USBDevHandle[i] = NULL;
@@ -568,9 +568,10 @@ inline bool CSensorMacUSBJW24F14::read_xyz(float& x1, float& y1, float& z1)
 		hidEvent.longValue = 0;
 		
 		result = (*m_USBDevHandle[0])->getElementValue(m_USBDevHandle[0], m_cookies.gAxisCookie[i], &hidEvent);
-		// note that x/y/z should be scaled to +/- 2g, return values as +/- 2.0f*EARTH_G (in define.h: 9.78033 m/s^2)
-		if (result == kIOReturnSuccess) fVal[i] = (float) hidEvent.value;
-			//fVal[i]  = (((float) hidEvent.value - 32768.0f) / 32768.0f) * EARTH_G;
+		// note that x/y/z should be scaled to +/- 2g, 14 bits = 2^14 = 16384, values from 0 (-2g) to 16383 (+2g)
+		// return values as +/- 2.0f*EARTH_G (in define.h: 9.78033 m/s^2)
+		if (result == kIOReturnSuccess)
+		    fVal[i]  = (((float) hidEvent.value - 8191.5f) / 4095.75f) * EARTH_G;
     }
 	
     x1 = fVal[0]; y1 = fVal[1]; z1 = fVal[2];

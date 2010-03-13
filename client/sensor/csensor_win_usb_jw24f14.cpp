@@ -223,9 +223,9 @@ inline bool CSensorWinUSBJW24F14::read_xyz(float& x1, float& y1, float& z1)
 	MMRESULT mres = ::joyGetPosEx(getPort(), &jix);
         // note x/y/z values should be +/-2g where g = 9.78 (see define.h:: EARTH_G)
 	if (mres == JOYERR_NOERROR) { // successfully read the joystick, -2g = 0, 0g = 32767, 2g = 65535
-		x1 = (((float) jix.dwXpos - 32767.0f) / 16383.0f) * EARTH_G;
-		y1 = (((float) jix.dwYpos - 32767.0f) / 16383.0f) * EARTH_G;
-		z1 = (((float) jix.dwZpos - 32767.0f) / 16383.0f) * EARTH_G;
+                x1 = (((float) jix.dwXpos - 32767.5f) / 16383.75f) * EARTH_G;
+                y1 = (((float) jix.dwYpos - 32767.5f) / 16383.75f) * EARTH_G;
+                z1 = (((float) jix.dwZpos - 32767.5f) / 16383.75f) * EARTH_G;
 	}
 	else {
 		x1 = 0.0f;
