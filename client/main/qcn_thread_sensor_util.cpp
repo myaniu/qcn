@@ -1,3 +1,4 @@
+
 #include "qcn_thread_sensor_util.h"
 
 #ifndef QCN_USB
@@ -113,25 +114,22 @@ void psmsForceSensor(CSensor* volatile *ppsms)
 				 *ppsms = (CSensor*) new CSensorMacUSBJW24F14();
 #else // Linux
 				 *ppsms = (CSensor*) new CSensorLinuxUSBJW24F14();
-#endif // apple or linux
-#endif // win 32
+#endif
+#endif
 				 break;
-#ifndef __APPLE_CC__
-#ifndef _WIN64  // windows 32
+#ifndef _WIN64
 			case SENSOR_USB_MOTIONNODEACCEL:
 					*ppsms = (CSensor*) new CSensorUSBMotionNodeAccel();
 					break;
 			case SENSOR_USB_ONAVI_1:
-#else
-#ifdef _WIN32  // win 32 or 64
+#ifdef _WIN32
 				 *ppsms = (CSensor*) new CSensorWinUSBONavi01();
-#endif  // win 32 or 64
-#endif  // not win 64
-#else  // APPLE
+#else
 #ifdef __APPLE_CC__
 				 *ppsms = (CSensor*) new CSensorMacUSBONavi01();
-#endif // apple
-#endif //apple or win
+#endif
+#endif //win32 or apple
+#endif // win64
 				 break;
 		 }
 	 }
