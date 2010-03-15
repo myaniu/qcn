@@ -1,3 +1,4 @@
+//utility code for the sensor thread
 
 #include "qcn_thread_sensor_util.h"
 
