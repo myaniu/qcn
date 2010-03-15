@@ -1375,7 +1375,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				ARCHS = x86_64;
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/";
 				COPY_PHASE_STRIP = NO;
 				GCC_DEBUGGING_SYMBOLS = full;
@@ -1403,6 +1403,7 @@
 					"\"$(SRCROOT)\"",
 				);
 				LINK_WITH_STANDARD_LIBRARIES = YES;
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = (
 					"-Wall",
 					"-D_DEBUG_QCNLIVE",
@@ -1442,7 +1443,7 @@
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = QCNLive;
-				SDKROOT = macosx10.4;
+				SDKROOT = macosx10.5;
 				SYMROOT = ../bin;
 			};
 			name = Debug;

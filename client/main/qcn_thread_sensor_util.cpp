@@ -113,22 +113,25 @@ void psmsForceSensor(CSensor* volatile *ppsms)
 				 *ppsms = (CSensor*) new CSensorMacUSBJW24F14();
 #else // Linux
 				 *ppsms = (CSensor*) new CSensorLinuxUSBJW24F14();
-#endif
-#endif
+#endif // apple or linux
+#endif // win 32
 				 break;
-#ifndef _WIN64
+#ifndef __APPLE_CC__
+#ifndef _WIN64  // windows 32
 			case SENSOR_USB_MOTIONNODEACCEL:
 					*ppsms = (CSensor*) new CSensorUSBMotionNodeAccel();
 					break;
 			case SENSOR_USB_ONAVI_1:
-#ifdef _WIN32
-				 *ppsms = (CSensor*) new CSensorWinUSBONavi01();
 #else
+#ifdef _WIN32  // win 32 or 64
+				 *ppsms = (CSensor*) new CSensorWinUSBONavi01();
+#endif  // win 32 or 64
+#endif  // not win 64
+#else  // APPLE
 #ifdef __APPLE_CC__
 				 *ppsms = (CSensor*) new CSensorMacUSBONavi01();
-#endif
-#endif
-#endif // win64
+#endif // apple
+#endif //apple or win
 				 break;
 		 }
 	 }
