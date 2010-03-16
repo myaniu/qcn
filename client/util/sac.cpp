@@ -392,7 +392,7 @@ extern int sacio
 			fTemp = s[0];
 			float_swap((QCN_CBYTE*) &fTemp, sacdata.f[esf_b]);  // beginning value of independent variable
 
-			strcpy(sacdata.s[ess_kcmpnm], "LHS");  // component name (axis)
+			strcpy(sacdata.s[ess_kcmpnm], "HLS");  // component name (axis)
 
 			fTemp = SAC_NULL_FLOAT;   // cmpinc, which should be 0 for z, 90 for x & y, and -12345.0f for sig.
 			float_swap((QCN_CBYTE*) &fTemp, sacdata.f[esf_cmpinc]);
@@ -413,7 +413,7 @@ extern int sacio
 			fTemp = x[0];
 			float_swap((QCN_CBYTE*) &fTemp, sacdata.f[esf_b]);  // beginning value of independent variable
 
-			strcpy(sacdata.s[ess_kcmpnm], "LHX");  // component name (axis)
+			strcpy(sacdata.s[ess_kcmpnm], "HLX");  // component name (axis)
 
 			fTemp = 90.0f;   // cmpinc, which should be 0 for z, 90 for x & y, and -12345.0f for sig.
 			float_swap((QCN_CBYTE*) &fTemp, sacdata.f[esf_cmpinc]);
@@ -434,7 +434,7 @@ extern int sacio
 			fTemp = y[0];
 			float_swap((QCN_CBYTE*) &fTemp, sacdata.f[esf_b]);  // beginning value of independent variable
 
-			strcpy(sacdata.s[ess_kcmpnm], "LHY");  // component name (axis)
+			strcpy(sacdata.s[ess_kcmpnm], "HLY");  // component name (axis)
 
 			fTemp = 90.0f;   // cmpinc, which should be 0 for z, 90 for x & y, and -12345.0f for sig.
 			float_swap((QCN_CBYTE*) &fTemp, sacdata.f[esf_cmpinc]);
@@ -455,7 +455,7 @@ extern int sacio
 			fTemp = z[0];
 			float_swap((QCN_CBYTE*) &fTemp, sacdata.f[esf_b]);  // beginning value of independent variable
 
-			strcpy(sacdata.s[ess_kcmpnm], "LHZ");  // component name (axis)
+			strcpy(sacdata.s[ess_kcmpnm], "HLZ");  // component name (axis)
 
 			fTemp = 0.0f;   // cmpinc, which should be 0 for z, 90 for x & y, and -12345.0f for sig.
 			float_swap((QCN_CBYTE*) &fTemp, sacdata.f[esf_cmpinc]);
