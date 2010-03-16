@@ -53,25 +53,25 @@ extern float  g_fSensorDiffFactor;
 
 // util functions to be used for the sensor thread
 // forward declaration for useful functions in this file
-void checkRecordState();
-void initDemoCounters(bool bReset);
-bool getSensor(CSensor* volatile *ppsms);
-bool getBaseline(CSensor* psms);
-bool getInitialMean(CSensor* psms);
-double getNextDemoTimeInterval();
-void initDemoCounters(bool bReset = false);
-void checkDemoTrigger(bool bForce = false);
-void doTrigger(const bool bReal = true, const long lOffsetStart = 0L, const long lOffsetEnd = 0L, const int iVariety = 0);
-void psmsForceSensor(CSensor* volatile *ppsms);
-void SetSensorThresholdAndDiffFactor();
+extern void checkRecordState();
+extern void initDemoCounters(bool bReset);
+extern bool getSensor(CSensor* volatile *ppsms);
+extern bool getBaseline(CSensor* psms);
+extern bool getInitialMean(CSensor* psms);
+extern double getNextDemoTimeInterval();
+extern void initDemoCounters(bool bReset = false);
+extern void checkDemoTrigger(bool bForce = false);
+extern void doTrigger(const bool bReal = true, const long lOffsetStart = 0L, const long lOffsetEnd = 0L, const int iVariety = 0);
+extern void psmsForceSensor(CSensor* volatile *ppsms);
+extern void SetSensorThresholdAndDiffFactor();
 
 #if defined(RANDOM_USB_UPLOAD) && !defined(QCNLIVE) && !defined(QCN_USB)
 // use to upload the entire array to a SAC file which in turn gets zipped and uploaded - used to randomly test hosts
-void uploadSACMem(const long lCurTime, const char* strTypeSensor);
+extern void uploadSACMem(const long lCurTime, const char* strTypeSensor);
 #endif
 
 #ifdef _DEBUG
-    void DebugTime(const int iWhere);
+    extern void DebugTime(const int iWhere);
 #endif
 
 #endif
