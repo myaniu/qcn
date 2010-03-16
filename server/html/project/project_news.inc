@@ -1,5 +1,10 @@
 <?php
 $project_news = array(
+   array("March 16, 2010",
+"This morning there was a <A HREF=\"http://earthquake.usgs.gov/earthquakes/eqinthenews/2010/ci14601172/\">magnitude 4.4 earthquake in the Los Angeles area.</A>
+  Many QCN <A HREF=\"img/20100316_M4.4_LosAngeles.png\">participants detected this earthquake, as shown here.</A><BR><BR>",
+ "Los Angeles area M4.4 Earthquake"
+  ),
    array("March 12, 2010",
 "Today there is a <A HREF=\"http://www.latimes.com/news/local/la-me-quakecatchers12-2010mar12,0,440482.story\">good article on QCN in the Los Angeles Times (click here)</A>, featuring Elizabeth Cochran and some of her 'schools outreach' work and an interview with a QCN participant.<BR><BR>",
  "Los Angeles Times article on QCN"

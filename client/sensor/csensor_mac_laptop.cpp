@@ -289,7 +289,7 @@ inline bool CSensorMacLaptop::read_xyz(float& x1, float& y1, float& z1)
 													   &outputStructureIntel
 													   );                                           /* get original position   */
 #endif
-		 x1 = outputStructureIntel.x;                     /* SIDE-TO-SIDE POSITION         */
+	 x1 = outputStructureIntel.x;                     /* SIDE-TO-SIDE POSITION         */
          y1 = outputStructureIntel.y;                     /* FRONT-TO-BACK POSITION        */
          z1 = outputStructureIntel.z;                     /* VERTICAL POSITION  */
       }
@@ -320,7 +320,7 @@ inline bool CSensorMacLaptop::read_xyz(float& x1, float& y1, float& z1)
 													   &outputStructurePPC
 													   );                                           /* get original position   */
 #endif
-		  x1 = outputStructurePPC.x;                     /* SIDE-TO-SIDE POSITION         */
+         x1 = outputStructurePPC.x;                     /* SIDE-TO-SIDE POSITION         */
          y1 = outputStructurePPC.y;                     /* FRONT-TO-BACK POSITION        */
          z1 = outputStructurePPC.z;                     /* VERTICAL POSITION  */
       } 
