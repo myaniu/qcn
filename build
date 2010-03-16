@@ -25,7 +25,7 @@ else
   cd ../boinc
   make distclean
   ./_autosetup
-  ./configure --disable-client --disable-server --disable-manager --disable-fcgi
+  ./configure --enable-client-release --disable-client --disable-server --disable-manager --disable-fcgi
   make clean && make
   cd ../qcn
   make distclean
