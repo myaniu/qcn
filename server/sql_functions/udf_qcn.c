@@ -373,6 +373,17 @@ longlong quake_hit_test(UDF_INIT *initid, UDF_ARGS *args, char *is_null, char *e
         iSensorFactor = 1;
   }
 
+/* Jesse suggests this
+Mag    distance (deg)
+3          0.49  
+4          0.80  
+5          1.31  
+6          2.15  
+7          3.53  
+8          5.80  
+9          9.53
+*/
+
    // get a value for max distance to check (in meters) based on quake magnitude & sensor type
    // the idea is that a smaller quake but with a better sensor will have a greater search range in distance
    // than a different (coarser) sensor, etc
