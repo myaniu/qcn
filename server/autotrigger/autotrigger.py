@@ -42,7 +42,7 @@ QUERY_TRIGGER_HOST_LIST = "select hostid,count(*) from qcn_trigger "
 # or it was a prior request that we haven't received anything in the past day with up to 20 tries
 # also note we give up for triggers older than 30 days as they would have been deleted by QCN 
 # (also the retry every 8 hours for 90 tries should have given enough chances to get them)
-QUERY_TRIGGER_HOST_WHERE = " (ping=0 AND " +\
+QUERY_TRIGGER_HOST_WHERE = " (varietyid=0 AND " +\
                          "usgs_quakeid>0 AND " +\
                          "((time_filereq is null OR time_filereq=0) " +\
                          " OR " +\
@@ -74,7 +74,7 @@ def updateQuakeTrigger(dbconn):
 
          strSQL = "update qcn_trigger t set t.usgs_quakeid = " + str(rowQuake[0]) +\
             " WHERE t.time_trigger BETWEEN " + str(rowQuake[1]-120.0) + " AND " + str(rowQuake[1]+120.0) +\
-            " AND t.time_sync > 0 AND t.ping = 0 " +\
+            " AND t.time_sync > 0 AND t.varietyid = 0 " +\
             " AND quake_hit_test(t.latitude, t.longitude, t.time_trigger, t.type_sensor, " +\
                str(rowQuake[2]) + ", " +\
                str(rowQuake[3]) + ", " +\
