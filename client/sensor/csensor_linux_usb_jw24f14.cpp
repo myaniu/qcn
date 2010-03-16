@@ -5,19 +5,19 @@
  *  Created by Carl Christensen on 08/11/2007.
  *  Copyright 2007 Stanford University.  All rights reserved.
  *
- * Implementation file for Linux JoyWarrior 24F8 USB sensor - 
- *    note this just does a simple read of the joystick, so no setting of sample rate etc on-board the JW24F1424F8 (which is fine)
+ * Implementation file for Linux JoyWarrior 24F14 USB sensor - 
+ *    note this just does a simple read of the joystick, so no setting of sample rate etc on-board the JW24F14 (which is fine)
  */
 
 #include "main.h"
-#include "csensor_linux_usb_jw.h"
+#include "csensor_linux_usb_jw24f14.h"
 
 
 CSensorLinuxUSBJW24F14::CSensorLinuxUSBJW24F14()
   : CSensor(), 
        m_fdJoy(-1), m_piAxes(NULL), m_iNumAxes(0), m_iNumButtons(0), m_strButton(NULL)
 { 
-   // vars lifted from the codemercs.com JW24F1424F8 Linux example
+   // vars lifted from the codemercs.com JW24F14 Linux example
    memset(m_strJoystick, 0x00, 80);
    memset(&m_js, 0x0, sizeof(struct js_event));
 }
@@ -43,7 +43,7 @@ void CSensorLinuxUSBJW24F14::closePort()
   }
 
   if (getPort() > -1) { // nothing really left to close, as it's just the joystick #
-    fprintf(stdout, "Joywarrior 24F8 closed on Linux joystick port!\n");
+    fprintf(stdout, "Joywarrior 24F14 closed on Linux joystick port!\n");
     fflush(stdout);
   }
   setType();
@@ -175,7 +175,7 @@ bool CSensorLinuxUSBJW24F14::detect()
       if (! boinc_file_exists(strJW24F14Enum[i]) ) continue; // first see if file (device) exists
       if ( ( m_fdJoy = open(strJW24F14Enum[i], O_RDONLY)) != -1 && testJoystick() ) {
          fprintf(stdout, "%s detected on joystick device %s\n", m_strJoystick, strJW24F14Enum[i]);
-         break;  // found a JW24F1424F8
+         break;  // found a JW24F14
       }
    }
 

@@ -37,6 +37,7 @@ else
    LIBS += -z lazy -ldl $(BOINC_LIB) $(GLUT_LIBS) -lwx_x11univ_gl-2.8 @CLIENTLIBS@ 
    SENSORS  = \
         $(SENSORDIR)/csensor_linux_usb_jw.cpp \
+        $(SENSORDIR)/csensor_linux_usb_jw24f14.cpp \
         $(SENSORDIR)/csensor_usb_motionnodeaccel.cpp 
 endif
 
