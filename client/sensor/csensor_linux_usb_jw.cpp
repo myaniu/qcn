@@ -117,6 +117,9 @@ bool CSensorLinuxUSBJW::testJoystick()
    ioctl(m_fdJoy, JSIOCGBUTTONS, &m_iNumButtons);
    ioctl(m_fdJoy, JSIOCGNAME(80), m_strJoystick);
 
+//fprintf(stdout, "joystick found = %s\n", m_strJoystick);
+//fflush(stdout);
+
    // compare the name of device, and number of buttons & axes with valid JoyWarrior values
    if (strcmp(m_strJoystick, IDSTR_JW24F8)
      || m_iNumButtons != NUM_BUTTON_JW24F8

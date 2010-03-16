@@ -102,7 +102,7 @@ typedef vector<string> ZipFileList;
 #define NUM_BUTTON_JW24F8  8
 #define NUM_AXES_JW24F8    3
 
-#define IDSTR_JW24F14       "Code Mercenaries JoyWarrior24 Force 14"
+#define IDSTR_JW24F14       "Code Mercenaries JoyWarrior24F14"
 #define NUM_BUTTON_JW24F14  8
 #define NUM_AXES_JW24F14    3
 
