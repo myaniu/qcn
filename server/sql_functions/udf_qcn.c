@@ -345,7 +345,7 @@ longlong quake_hit_test(UDF_INIT *initid, UDF_ARGS *args, char *is_null, char *e
 
   // OK, now check the time, based on the distance and the slowest wave
   dTimeWindow = dDistanceMeters / dVelocitySlow;  // this will be the time window to check
-  if (dTimeWindow < 60.0f) dTimeWindow = 60.0f;  // always test within 60 seconds
+  if (dTimeWindow < 300.0f) dTimeWindow = 300.0f;  // always test within 60 seconds
 
   // if the trigger falls within the time window of the quake, continue to evaluate based on distance, else return 0
   if (fabs(dTimeQuake-dTimeTrig) > dTimeWindow) { // too far away based on time to bother with detection
@@ -360,12 +360,15 @@ longlong quake_hit_test(UDF_INIT *initid, UDF_ARGS *args, char *is_null, char *e
      case 4:  // Mac's are pretty good
         iSensorFactor = 2;
         break;
-     case 7:  // JoyWarrior is pretty sensitive
+     case 100:  // JoyWarrior is pretty sensitive
         iSensorFactor = 3;
         break;
-     case 8:   // MotionNode is most sensitive
+     case 101:   // MotionNode is most sensitive
         iSensorFactor = 4;
         break;
+     case 102:   // ONavi
+     case 103:   // JW 24F14 Tomcat
+        iSensorFactor = 5;
      default:  // default to "coarse" sensor i.e. Thinkpad
         iSensorFactor = 1;
   }
@@ -373,8 +376,8 @@ longlong quake_hit_test(UDF_INIT *initid, UDF_ARGS *args, char *is_null, char *e
    // get a value for max distance to check (in meters) based on quake magnitude & sensor type
    // the idea is that a smaller quake but with a better sensor will have a greater search range in distance
    // than a different (coarser) sensor, etc
-   // note multiply by 100 kilometer, this gives a range from 100-1000km from mag 4 through 8
-   dDistanceMax = 100000.0f * powf( 2.0f , dMagnitude - (5.4f - sqrt(iSensorFactor-1)) );
+   // note multiply by 200 kilometer, this gives a range from 200-2000km from mag 4 through 8
+   dDistanceMax = 200000.0f * powf( 2.0f , dMagnitude - (5.4f - sqrt(iSensorFactor-1)) );
    // if our max distance exceeds trigger distance, return >0 (actually distance/diff in m), else 0 
    return (longlong) (dDistanceMax > dDistanceMeters ? ceil(dDistanceMax-dDistanceMeters) : 0L);  
 
