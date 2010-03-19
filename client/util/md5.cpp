@@ -44,6 +44,7 @@ documentation and/or software.
 
 #include <assert.h>
 #include <string>
+#include <string.h>
 
 
 extern "C" FILE* boinc_fopen(const char* path, const char* mode);

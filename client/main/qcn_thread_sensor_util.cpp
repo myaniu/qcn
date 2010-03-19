@@ -118,7 +118,7 @@ void psmsForceSensor(CSensor* volatile *ppsms)
 #endif
 #endif
 				 break;
-#ifndef _WIN64
+#if !defined(__LP64__) && !defined(_LP64) // no motion node for 64-bit
 			case SENSOR_USB_MOTIONNODEACCEL:
 					*ppsms = (CSensor*) new CSensorUSBMotionNodeAccel();
 					break;
@@ -130,7 +130,7 @@ void psmsForceSensor(CSensor* volatile *ppsms)
 				 *ppsms = (CSensor*) new CSensorMacUSBONavi01();
 #endif
 #endif //win32 or apple
-#endif // win64
+#endif // 64-bit
 				 break;
 		 }
 	 }
