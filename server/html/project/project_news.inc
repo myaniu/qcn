@@ -2,7 +2,7 @@
 $project_news = array(
    array("March 16, 2010",
 "This morning there was a <A HREF=\"http://earthquake.usgs.gov/earthquakes/eqinthenews/2010/ci14601172/\">magnitude 4.4 earthquake in the Los Angeles area.</A>
-  Many QCN <A HREF=\"img/20100316_M4.4_LosAngeles.png\">participants detected this earthquake, as shown here.</A><BR><BR>",
+  Many QCN <A HREF=\"http://qcn.stanford.edu/sensor/img/20100316_M4.4_LosAngeles.png\">participants detected this earthquake, as shown here.</A><BR><BR>",
  "Los Angeles area M4.4 Earthquake"
   ),
    array("March 12, 2010",

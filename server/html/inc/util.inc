@@ -24,6 +24,7 @@ require_once("../inc/boinc_db.inc");
 require_once("../inc/translation.inc");
 require_once("../inc/profile.inc");
 
+
 ini_set("memory_limit", "64M");
 
 date_default_timezone_set("UTC");
@@ -101,6 +102,8 @@ $cache_control_extra="";
 //
 if (!function_exists("page_head")){
 function page_head($title, $java_onload=null, $title_plain=null, $prefix="") {
+require_once("/var/www/qcn/inc/google_translate.inc");
+
     global $caching;
     global $cache_control_extra;
 
@@ -137,8 +140,13 @@ function page_head($title, $java_onload=null, $title_plain=null, $prefix="") {
     } else {
         echo "<body>";
     }
+
+    google_translate_new();
+
     display_cvs_versions();
     project_banner($title, $prefix);
+    google_translate_new();
+
 }
 }
 

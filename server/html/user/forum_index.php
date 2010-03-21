@@ -8,7 +8,6 @@ require_once('../inc/pm.inc');
 require_once('../inc/time.inc');
 require_once('../inc/utils.inc');
 
-
 $user = get_logged_in_user(false);
 
 // Process request to mark all posts as read
@@ -52,6 +51,7 @@ function show_forum_summary($forum) {
 }
 
 page_head(tra("Message boards"));
+
 show_forum_header($user);
 
 echo "<p>
