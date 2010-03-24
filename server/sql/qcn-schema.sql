@@ -6,6 +6,7 @@ drop table if exists qcn_sensor;
 drop table if exists qcn_level;
 drop table if exists qcn_align;
 drop table if exists qcn_variety;
+drop table if exists qcn_dluser;
 
 create table qcn_sensor (id smallint not null primary key, is_usb boolean not null default 0, description varchar(64));
 insert into qcn_sensor values (0, 0, 'Not Found');
@@ -43,6 +44,7 @@ insert into qcn_variety values (0, 'Normal Trigger');
 insert into qcn_variety values (1, 'Ping Trigger');
 insert into qcn_variety values (2, 'Continual Trigger');
 
+create table qcn_dluser (userid int not null primary key);
 
 create table qcn_host_ipaddr
 (
