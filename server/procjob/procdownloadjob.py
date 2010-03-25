@@ -113,7 +113,7 @@ def sendEmail(Username, ToEmailAddr, DLURL, NumMB):
     "over the next 24 hours from the following URL:\n\n" + DLURL +\
     "\n\nThe file size to download is approximately " + str(NumMB) + " megabytes." +\
     "\n\nNote that this email is automated - please do not reply!"
-  subj = "QCN Continual Download Archive Completed"
+  subj = "QCN Sensor Download Archive Completed"
 
   MessageText = """\
 From: %s
@@ -137,7 +137,7 @@ def updateRequest(dbconn, jobid, numbyte, outfilename, url):
    myCursor.close();
 
 
-def processContinualJobs(dbconn):
+def processJobs(dbconn):
    # read the sensor_download.job table for unfinished jobs, then process the upload files into a single bundle
    myCursor = dbconn.cursor()
    query = "SELECT j.id, j.userid, u.name, u.email_addr, j.create_time, j.list_triggerid " +\
@@ -189,7 +189,7 @@ def main():
                            passwd = DBPASSWD,
                            db = DBNAME)
 
-      totalmb = processContinualJobs(dbconn)
+      totalmb = processJobs(dbconn)
 
       print str(totalmb) + " MB of zip files processed"
 
