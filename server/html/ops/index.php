@@ -112,7 +112,6 @@ echo "
         <li><a href=\"db_form.php?table=qcn_trigger&amp;detail=low\">Trigger View</a></li>
         <li><a href=\"db_form.php?table=qcn_host_ipaddr&amp;detail=low\">Host/IP/LatLng</a></li>
         <li><a href=\"db_form.php?table=qcn_geo_ipaddr&amp;detail=low\">Geo/IP/LatLng</a></li>
-        <li><a href=\"trig.php\">Trigger File Request and Quake Matchup</a></li>
         <li><a href=\"dbinfo.php\">Database Summary Information</a></li>
         <li><a href=\"todo/index.php\">QCN 'To Do' List</a></li>
     </ul>

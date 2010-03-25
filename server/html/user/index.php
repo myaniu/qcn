@@ -15,6 +15,7 @@ require_once("../project/project_news.inc");
 function show_nav() {
     $config = get_config();
     $master_url = parse_config($config, "<master_url>");
+    $user = get_logged_in_user(false);
     if (substr($master_url, -1, 1) == "/") {
        $master_url = substr($master_url, 0, strlen($master_url)-1);
     }
@@ -59,7 +60,18 @@ function show_nav() {
         <li><a href=\"user_search.php\">User search</a>
         <li><a href=\"forum_index.php\">Message boards</a>
         <li><a href=\"stats.php\">Statistics</a>
-        </ul>
+        </ul>";
+
+if ($user->donated) {
+  echo "
+        <h2>".tra("Extra Links")."</h2>
+        <ul>
+        <li><a href=\"trig.php\">".tra("Search Triggers")."</a>
+        <li><a href=\"dl.php\">".tra("Download Trigger Data")."</a>
+        </ul>";
+}
+
+echo "
         </div>
     ";
 }
