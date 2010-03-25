@@ -144,7 +144,7 @@ echo "<html><head>
 
 
 // if no constraints then at least use quakes as otherwise we'll have too many i.e. a million triggers
-if (!$bUseFile && !$bUseQuake && !$bUseLat && !$bUseTime && !$bUseSensor) {
+if (!$bUseFile && !$bUseQuake && !$bUseLat && !$bUseTime && !$bUseSensor && !$bUseHost) {
    $bUseTime = 1;
   /*
    $bUseLat = 1;
@@ -158,8 +158,6 @@ if (!$bUseFile && !$bUseQuake && !$bUseLat && !$bUseTime && !$bUseSensor) {
 echo "
 <form name='formSelect' method=\"get\" action=trig.php >
 <HR>
-<input type=\"checkbox\" id=\"cbUseCSV\" name=\"cbUseCSV\" value=\"1\" " . ($bUseCSV? "checked" : "") . "> Show Triggers As Text/CSV Only?
-<BR><BR>
 Constraints:<br><br>
   <input type=\"checkbox\" id=\"cbUseFile\" name=\"cbUseFile\" value=\"1\" " . ($bUseFile ? "checked" : "") . "> Only Show If Files Received
 <BR><BR>"
@@ -167,7 +165,13 @@ Constraints:<br><br>
 //  &nbsp&nbsp
 //  Minimum Magnitude: <input id=\"quake_mag_min\" name=\"quake_mag_min\" value=\"$quake_mag_min\">
 //<BR><BR>
-. "  <input type=\"checkbox\" id=\"cbUseLat\" name=\"cbUseLat\" value=\"1\" " . ($bUseLat ? "checked" : "") . "> Use Lat/Lon Constraint (+/- 90 Lat, +/- 180 Lon)
+. "
+  <input type=\"checkbox\" id=\"cbUseHost\" name=\"cbUseHost\" value=\"1\" " . ($bUseHost? "checked" : "") . "> Show Specific Host (enter host ID # or host name)<BR>
+    Host ID: <input id=\"HostID\" name=\"HostID\" value=\"$strHostID\">
+    <BR>Host Name: <input id=\"HostName\" name=\"HostName\" value=\"$strHostName\">
+<BR><BR>
+
+  <input type=\"checkbox\" id=\"cbUseLat\" name=\"cbUseLat\" value=\"1\" " . ($bUseLat ? "checked" : "") . "> Use Lat/Lon Constraint (+/- 90 Lat, +/- 180 Lon)
 <BR>
   Lat Min: <input id=\"LatMin\" name=\"LatMin\" value=\"" . $strLatMin . "\">
   Lat Max: <input id=\"LatMax\" name=\"LatMax\" value=\"" . $strLatMax . "\">
@@ -311,6 +315,8 @@ echo "<select name=\"rb_sort\" id=\"rb_sort\">
 
 // end the form
 echo "<BR><BR>
+<input type=\"checkbox\" id=\"cbUseCSV\" name=\"cbUseCSV\" value=\"1\" " . ($bUseCSV? "checked" : "") . "> Create Text/CSV File of Triggers?
+<BR><BR>
    <input type=\"submit\" value=\"Submit Constraints\" />
    </form> <H7>";
 
@@ -318,6 +324,15 @@ $whereString = "t.varietyid=0 ";
 
 if ($bUseFile) {
    $whereString .= " AND t.received_file = 100 ";
+}
+
+if ($bUseHost) {
+  if ($strHostID) {
+     $whereString .= " AND t.hostid = " . $strHostID;
+  }
+  else if ($strHostName) {
+     $whereString .= " AND h.domain_name = '" . $strHostName . "'";
+  }
 }
 
 if ($bUseQuake) {
@@ -337,39 +352,38 @@ if ($bUseTime) {
         . " AND unix_timestamp('" . $dateEnd . " " . sprintf("%02d", $timeHourEnd) . ":" . sprintf("%02d", $timeMinuteEnd) . ":00') ";
 }
 
-$sortString = "t.time_trigger DESC";
-
+$sortString = "trigger_time DESC";
 switch($sortOrder)
 {
    case "maga":
-      $sortString = "q.magnitude ASC, t.time_trigger DESC";
+      $sortString = "quake_magnitude ASC, trigger_time DESC";
       break;
    case "magd":
-      $sortString = "q.magnitude DESC, t.time_trigger DESC";
+      $sortString = "quake_magnitude DESC, trigger_time DESC";
       break;
    case "tta":
-      $sortString = "t.time_trigger ASC";
+      $sortString = "trigger_time ASC";
       break;
    case "ttd":
-      $sortString = "t.time_trigger DESC";
+      $sortString = "trigger_time DESC";
       break;
    case "lata":
-      $sortString = "t.latitude ASC, t.longitude ASC";
+      $sortString = "trigger_lat ASC, trigger_lon ASC";
       break;
    case "latd":
-      $sortString = "t.latitude DESC, t.longitude DESC";
+      $sortString = "trigger_lat DESC, trigger_lon DESC";
       break;
    case "lona":
-      $sortString = "t.longitude ASC, t.latitude ASC";
+      $sortString = "trigger_lon ASC, trigger_lat ASC";
       break;
    case "lond":
-      $sortString = "t.longitude DESC, t.latitude DESC";
+      $sortString = "trigger_lon DESC, trigger_lat DESC";
       break;
    case "hosta":
-      $sortString = "t.hostid ASC";
+      $sortString = "hostid ASC";
       break;
    case "hostd":
-      $sortString = "t.hostid DESC";
+      $sortString = "hostid DESC";
       break;
 }
 
@@ -378,7 +392,7 @@ $query .= " WHERE " . $whereString . " ORDER BY " . $sortString;
 //print "<BR><BR>$query<BR><BR>";
 
 //$main_query = $q->get_select_query($entries_to_show, $start_at);
-        if ($entries_to_show) {
+        if (!$bUseCSV && $entries_to_show) {
             if ($start_at) {
                 $main_query = $query . " limit $start_at,$entries_to_show";
             } else {
@@ -390,6 +404,7 @@ $query .= " WHERE " . $whereString . " ORDER BY " . $sortString;
 
 //$count = 1e6;
 
+if (!$bUseCSV) {
 $count = query_count($query);
 
 if ($count < $start_at + $entries_to_show) {
@@ -397,6 +412,7 @@ if ($count < $start_at + $entries_to_show) {
 }
 
 $last = $start_at + $entries_to_show;
+}
 
 // For display, convert query string characters < and > into 'html form' so
 // that they will be displayed.
@@ -429,17 +445,19 @@ function SetAllCheckBoxes(FormName, FieldName, CheckValue)
 
  
 $start_1_offset = $start_at + 1;
+if (!$bUseCSV) {
 echo "
     <p>$count records match the query.
     Displaying $start_1_offset to $last.<p>
 ";
+}
 
 $url = $q->get_url("trig.php");
 if ($detail) {
     $url .= "&detail=$detail";
 }
-
 $queryString = "&nresults=$page_entries_to_show"
+       . "&cbUseHost=$bUseHost"
        . "&cbUseFile=$bUseFile"
        . "&cbUseQuake=$bUseQuake"
        . "&cbUseLat=$bUseLat"
@@ -457,6 +475,8 @@ $queryString = "&nresults=$page_entries_to_show"
        . "&time_minute_start=$timeMinuteStart"
        . "&time_hour_end=$timeHourEnd"
        . "&time_minute_end=$timeMinuteEnd"
+       . "&HostID=$strHostID"
+       . "&HostName=$strHostName"
        . "&rb_sort=$sortOrder";
 
 //echo "<hr>$url<hr><br>\n";
@@ -482,13 +502,32 @@ if ($start_at || $last < $count) {
 
 echo "<p>\n";
 
+
+if ($bUseCSV) {   
+   // tmp file name tied to user ID & server time
+   $fileTemp = sprintf("data/%ld_u%d.csv", time(), $user->id);
+   $ftmp = fopen($fileTemp, "w");
+   if ($ftmp) {
+      fwrite($ftmp, qcn_trigger_header_csv());
+   }
+   else {
+      $fileTemp = ""; // to check for status later on down
+   }
+}
+
+
 $result = mysql_query($main_query);
 if ($result) {
     echo "<form name=\"formDetail\" method=\"get\" action=trigreq.php >";
     start_table();
-    qcn_trigger_header();
+    if (!$bUseCSV && $ftmp) qcn_trigger_header();
     while ($res = mysql_fetch_object($result)) {
-        qcn_trigger_detail($res);
+        if ($bUseCSV && $ftmp) {
+           fwrite($ftmp, qcn_trigger_detail_csv($res));
+        }
+        else { 
+           qcn_trigger_detail($res);
+        }
     }
     end_table();
     mysql_free_result($result);
@@ -496,14 +535,18 @@ if ($result) {
     echo "<h2>No results found</h2>";
 }
 
-echo "
+if ($bUseCSV && $ftmp) {
+  echo "<BR><BR><A HREF=\"" . $fileTemp . "\">Download CSV/Text File Here (File Size " . sprintf("%7.2f", (filesize($fileTemp) / 1e6)) . " MB)</A> (you may want to right-click to save locally)<BR><BR>";
+}
+else {
+ echo "
   <input type=\"submit\" value=\"Submit Trigger File Requests\" />
   <input type=\"button\" value=\"Check All\" onclick=\"SetAllCheckBoxes('formDetail', 'cb_reqfile[]', true);\" >
   <input type=\"button\" value=\"Uncheck All\" onclick=\"SetAllCheckBoxes('formDetail', 'cb_reqfile[]', false);\" >
   </form>";
 
 
-if ($start_at || $last < $count) {
+  if ($start_at || $last < $count) {
     echo "<table border=\"1\"><tr><td width=\"100\">";
     if ($start_at) {
         $prev_pos = $start_at - $page_entries_to_show;
@@ -521,10 +564,50 @@ if ($start_at || $last < $count) {
         ";
     }
     echo "</td></tr></table>";
+  }
 }
+    if ($bUseCSV && $ftmp) {
+      fclose($ftmp);
+    }
+
 
 page_tail();
 
+function qcn_trigger_header_csv() {
+   return "TriggerID, HostID, IPAddr, ResultName, TimeTrigger, Delay, TimeSync, SyncOffset, "
+    . "Magnitude, Significance, Latitude, Longitude, NumReset, DT, Sensor, Version, Time File Req, "
+    . "Received File, File Download, USGS ID, Quake Magnitude, Quake Time, "
+    . "Quake Lat, Quake Long, USGS GUID, Quake Desc"
+    . "\n";
+}
+
+function qcn_trigger_detail_csv($res)
+{
+    $quakestuff = "";
+    if ($res->usgs_quakeid) {
+          $quakestuff = $res->usgs_quakeid . "," .
+             $res->quake_magnitude . "," . 
+             time_str_csv($res->quake_time) . "," .
+             $res->quake_lat . "," .
+             $res->quake_lon . "," .
+             $res->guid . "," .
+             $res->description;
+    }
+    else {
+          $quakestuff = ",,,,,,";
+    }
+
+    return $res->triggerid . "," . $res->hostid . "," . $res->ipaddr . "," .
+       $res->result_name . "," . time_str_csv($res->trigger_time) . "," . round($res->delay_time, 2) . "," .
+        time_str_csv($res->trigger_sync) . "," . $res->sync_offset . "," . $res->trigger_mag . "," . $res->significance . "," .
+        round($res->trigger_lat, 8) . "," . round($res->trigger_lon, 8) . "," . ($res->numreset ? $res->numreset : 0) . "," .
+        $res->delta_t . "," . $res->sensor_description . "," . $res->sw_version . "," .
+        time_str_csv($res->trigger_timereq) . "," . ($res->received_file == 100 ? " Yes " : " No " ) . "," .
+        ($res->file_url ? $res->file_url : "N/A") . "," .
+        $quakestuff .
+        "\n";
+
+}
 
 function qcn_trigger_header() {
     echo "
@@ -629,5 +712,9 @@ function query_count($myquery) {
         return $res->cnt;
 }
 
+function time_str_csv($x) {
+    if ($x == 0) return "";
+    return gmdate('Y/m/d H:i:s', $x); // . " UTC";
+}
 
 ?>
