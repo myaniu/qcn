@@ -45,8 +45,6 @@ scp carlgt1@qcn-web:/var/www/boinc/sensor/html/user/trig.php user/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/html/user/trigreq.php user/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/html/user/calendarDateInput.js user/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/html/user/calendar.jpg user/
-scp carlgt1@qcn-web:/var/www/boinc/sensor/html/ops/calendarDateInput.js ops/
-scp carlgt1@qcn-web:/var/www/boinc/sensor/html/ops/calendar.jpg ops/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/html/ops/db_form.php ops/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/html/ops/db_action.php ops/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/html/ops/index.php ops/
@@ -70,7 +68,7 @@ scp carlgt1@qcn-web:/var/www/boinc/continual/html/user/dlreq.php ../continual/ht
 scp carlgt1@qcn-web:/var/www/boinc/continual/html/user/trig.php ../continual/html/user/
 scp carlgt1@qcn-web:/var/www/boinc/continual/html/user/trigreq.php ../continual/html/user/
 scp carlgt1@qcn-web:/var/www/boinc/continual/html/user/calendar.jpg ../continual/html/user/
-scp carlgt1@qcn-web:/var/www/boinc/continual/html/ops/calendarDateInput.js ../continual/html/user/
+scp carlgt1@qcn-web:/var/www/boinc/continual/html/user/calendarDateInput.js ../continual/html/user/
 scp carlgt1@qcn-web:/var/www/boinc/continual/html/user/prefs.php ../continual/html/user/
 scp carlgt1@qcn-web:/var/www/boinc/continual/html/user/edit_host_info_form.php ../continual/html/user/
 scp carlgt1@qcn-web:/var/www/boinc/continual/html/user/edit_host_info_action.php ../continual/html/user/

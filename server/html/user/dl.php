@@ -70,32 +70,48 @@ $detail = null;
 $show_aggregate = false;
 
 $q = new SqlQueryString();
-$numresults = $_GET["numresults"];
-if (!$numresults) $numresults = 1000;
-$last_pos = $_GET["last_pos"];
 
-//$bUseQuake = $_GET["cbUseQuake"];
-$bUseArchive = $_GET["cbUseArchive"];
-$bUseFile  = $_GET["cbUseFile"];
-$bUseLat   = $_GET["cbUseLat"];
-$bUseSensor = $_GET["cbUseSensor"];
-$bUseTime  = $_GET["cbUseTime"];
-$bUseHost = $_GET["cbUseHost"];
+// start of $_GET
 
-$quake_mag_min = $_GET["quake_mag_min"];
+$nresults = get_int("nresults", true);
+$last_pos = get_int("last_pos", true);
+
+$bUseArchive = get_int("cbUseArchive", true);
+$bUseFile  = get_int("cbUseFile", true);
+//$bUseQuake = get_int("cbUseQuake", true);
+$bUseLat   = get_int("cbUseLat", true);
+$bUseSensor = get_int("cbUseSensor", true);
+$bUseTime  = get_int("cbUseTime", true);
+
+$quake_mag_min = get_str("quake_mag_min", true);
+
+$type_sensor = get_int("type_sensor", true);
+$dateStart = get_str("date_start", true);
+$dateEnd   = get_str("date_end", true);
+
+$strLonMin = get_str("LonMin", true);
+$strLonMax = get_str("LonMax", true);
+$strLatMin = get_str("LatMin", true);
+$strLatMax = get_str("LatMax", true);
+
+$timeHourStart   = get_int("time_hour_start", true);
+$timeMinuteStart = get_int("time_minute_start", true);
+
+$timeHourEnd   = get_int("time_hour_end", true);
+$timeMinuteEnd = get_int("time_minute_end", true);
+
+$sortOrder = get_str("rb_sort", true);
+
+$strHostID = get_int("HostID", true);
+$strHostName = get_str("HostName", true);
+
+
+// end of $_GET's
+
+if (!$nresults) $nresults = 1000;
+
 if (!$quake_mag_min) $quake_mag_min = "3.0";  // set minimum quake mag cutoff
 
-$type_sensor = $_GET["type_sensor"];
-$dateStart = $_GET["date_start"];
-$dateEnd   = $_GET["date_end"];
-
-$strHostID = $_GET["HostID"];
-$strHostName = $_GET["HostName"];
-
-$strLonMin = $_GET["LonMin"];
-$strLonMax = $_GET["LonMax"];
-$strLatMin = $_GET["LatMin"];
-$strLatMax = $_GET["LatMax"];
 
 // make sure these are in the right order, as the sql "between" will fail if max < min!
 // people may forget that lon -76 is less than -72 as it may make more sense to think -72 to -76
@@ -111,17 +127,10 @@ if ($strLatMax < $strLatMin) {
    $strLatMin = $temp;
 }
 
-$timeHourStart   = $_GET["time_hour_start"];
-$timeMinuteStart = $_GET["time_minute_start"];
-
-$timeHourEnd   = $_GET["time_hour_end"];
-$timeMinuteEnd = $_GET["time_minute_end"];
-
-$sortOrder = $_GET["rb_sort"];
 if (!$sortOrder) $sortOrder = "ttd";  // trigger time desc is default sort order
 
-if ($numresults) {
-    $entries_to_show = $numresults;
+if ($nresults) {
+    $entries_to_show = $nresults;
 } else {
     $entries_to_show = 1000;
 }
@@ -333,7 +342,7 @@ echo "<select name=\"rb_sort\" id=\"rb_sort\">
    echo "</select>";
 
 echo "<BR><BR>
-  Max Triggers Per Page:  <input id=\"numresults\" name=\"numresults\" value=\"$numresults\">
+  Max Triggers Per Page:  <input id=\"nresults\" name=\"nresults\" value=\"$nresults\">
 ";
 
 // end the form
@@ -503,7 +512,7 @@ if ($detail) {
     $url .= "&detail=$detail";
 }
 
-$queryString = "&numresults=$page_entries_to_show"
+$queryString = "&nresults=$page_entries_to_show"
        . "&cbUseArchive=$bUseArchive"
        . "&cbUseFile=$bUseFile"
        . "&cbUseLat=$bUseLat"

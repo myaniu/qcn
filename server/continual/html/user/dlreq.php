@@ -28,7 +28,7 @@ echo "<html><head>
   echo TABLE . "<tr " . TITLE_COLOR . "><td>" . TITLE_FONT . "<font size=\"6\"><b><a href=\"index.php\">".PROJECT.":</a>  QCN Trigger File Request </b></font></td></tr></table>\n";
 
    $insertid = 0;
-if ($numTrig == 0) {
+if ($numTrig == 0 || !$aryTrig || !is_array($aryTrig)) {
     echo "<H3>No Triggers Chosen!</H3><BR><BR>";
 }
 else {

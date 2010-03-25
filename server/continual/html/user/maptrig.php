@@ -11,7 +11,7 @@ $cy = get_int("cy", true);
 $zoom = get_int("zoom", true);
 $mapwidth = get_int("width", true);
 $mapheight = get_int("height", true);
-$timeint = $_GET["timeint"];  // H / D / M / W - blank or H is 4-hourly, D = day, M=month, W = week
+$timeint = get_str("timeint", true);  // H / D / M / W - blank or H is 4-hourly, D = day, M=month, W = week
 
 //see if hostid gets a value
 $hostid = get_int("hostid", true);  // note the (int) so it's a safe sql statement i.e. no sql injection string
