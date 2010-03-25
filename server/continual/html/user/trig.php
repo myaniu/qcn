@@ -72,6 +72,9 @@ $bUseQuake = get_int("cbUseQuake", true);
 $bUseLat   = get_int("cbUseLat", true);
 $bUseSensor = get_int("cbUseSensor", true);
 $bUseTime  = get_int("cbUseTime", true);
+$bUseHost = get_int("cbUseHost", true);
+$strHostID = get_int("HostID", true);
+$strHostName = get_str("HostName", true);
 
 $quake_mag_min = get_str("quake_mag_min", true);
 

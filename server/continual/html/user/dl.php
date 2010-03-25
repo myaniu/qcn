@@ -66,6 +66,9 @@ $bUseFile  = get_int("cbUseFile", true);
 $bUseLat   = get_int("cbUseLat", true);
 $bUseSensor = get_int("cbUseSensor", true);
 $bUseTime  = get_int("cbUseTime", true);
+$bUseHost = get_int("cbUseHost", true);
+$strHostID = get_int("HostID", true);
+$strHostName = get_str("HostName", true);
 
 $quake_mag_min = get_str("quake_mag_min", true);
 
@@ -86,12 +89,9 @@ $timeMinuteEnd = get_int("time_minute_end", true);
 
 $sortOrder = get_str("rb_sort", true);
 
-$strHostID = get_int("HostID", true);
-$strHostName = get_str("HostName", true);
-
 // end of gets
 
-if (!$nresult) $nresult = 1000;
+if (!$nresults) $nresults = 1000;
 
 if (!$quake_mag_min) $quake_mag_min = "3.0";  // set minimum quake mag cutoff
 
@@ -111,8 +111,8 @@ if ($strLatMax < $strLatMin) {
 
 if (!$sortOrder) $sortOrder = "ttd";  // trigger time desc is default sort order
 
-if ($nresult) {
-    $entries_to_show = $nresult;
+if ($nresults) {
+    $entries_to_show = $nresults;
 } else {
     $entries_to_show = 1000;
 }
@@ -319,7 +319,7 @@ echo "<select name=\"rb_sort\" id=\"rb_sort\">
    echo "</select>";
 
 echo "<BR><BR>
-  Max Triggers Per Page:  <input id=\"nresult\" name=\"nresult\" value=\"$nresult\">
+  Max Triggers Per Page:  <input id=\"nresults\" name=\"nresults\" value=\"$nresults\">
 <BR>";
 
 // end the form
@@ -476,7 +476,8 @@ if ($detail) {
     $url .= "&detail=$detail";
 }
 
-$queryString = "&nresult=$page_entries_to_show"
+$queryString = "&nresults=$page_entries_to_show"
+       . "&cbUseHost=$bUseHost"
        . "&cbUseFile=$bUseFile"
        . "&cbUseLat=$bUseLat"
        . "&cbUseTime=$bUseTime"
@@ -484,6 +485,8 @@ $queryString = "&nresult=$page_entries_to_show"
        . "&type_sensor=$type_sensor"
        . "&date_start=$dateStart"
        . "&date_end=$dateEnd"
+       . "&HostID=$strHostID"
+       . "&HostName=$strHostName"
        . "&LonMin=$strLonMin"
        . "&LonMax=$strLonMax"
        . "&LatMin=$strLatMin"
@@ -492,6 +495,7 @@ $queryString = "&nresult=$page_entries_to_show"
        . "&time_hour_start=$timeHourStart"
        . "&time_minute_start=$timeMinuteStart"
        . "&time_hour_end=$timeHourEnd"
+       . "&nresults=$nresults"
        . "&time_minute_end=$timeMinuteEnd"
        . "&rb_sort=$sortOrder";
 
