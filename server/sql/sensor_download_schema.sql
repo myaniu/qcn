@@ -1,7 +1,7 @@
-drop database if exists continual_download;
-create database continual_download;
+drop database if exists sensor_download;
+create database sensor_download;
 
-use continual_download;
+use sensor_download;
 
 drop table if exists user;
 
