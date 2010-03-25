@@ -1,7 +1,9 @@
 <?php
 
-require_once("../inc/util_ops.inc");
+require_once("../inc/util.inc");
 require_once("../inc/db.inc");
+
+$DB = "qcnalpha";
 
 $query_base = "select 
 t.id as triggerid, t.hostid, h.domain_name, t.ipaddr, t.result_name, t.time_trigger as trigger_time, 
@@ -12,10 +14,10 @@ t.file as trigger_file, t.dt as delta_t,
 t.numreset, s.description as sensor_description, t.sw_version, t.usgs_quakeid, t.time_filereq as trigger_timereq, 
 t.received_file, t.file_url,t.varietyid
 FROM
-  continual.qcn_trigger t
-   LEFT JOIN continual.host h ON t.hostid = h.id 
-   LEFT JOIN continual.qcn_sensor s ON t.type_sensor = s.id 
-   LEFT OUTER JOIN continual.qcn_level l ON t.levelid = l.id 
+  " . $DB . ".qcn_trigger t
+   LEFT JOIN " . $DB . ".host h ON t.hostid = h.id 
+   LEFT JOIN " . $DB . ".qcn_sensor s ON t.type_sensor = s.id 
+   LEFT OUTER JOIN " . $DB . ".qcn_level l ON t.levelid = l.id 
 ";
 
 db_init();
@@ -29,7 +31,7 @@ http://qcn.stanford.edu/sensor_ops/trig.php?quake_mag_min=3.0&LatMin=&LatMax=&Lo
 */
 
 // first off get the sensor types
-$sqlsensor = "SELECT id,description FROM continual.qcn_sensor order by id";
+$sqlsensor = "SELECT id,description FROM " . $DB . ".qcn_sensor order by id";
 $result = mysql_query($sqlsensor);
 $i = 0;
 $arrSensor = array();

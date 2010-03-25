@@ -1,0 +1,5 @@
+AuthUserFile /var/www/boinc/boinc_passwd
+AuthName EnterPassword
+AuthType Basic
+
+require user qcndl

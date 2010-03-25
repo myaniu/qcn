@@ -6,6 +6,9 @@ require_once("../inc/db_ops.inc");
 $aryTrig = $_POST["cb_reqfile"];
 $numTrig = count($aryTrig);
 
+$DB = "continual";
+$URL_UPL_ BASE = "http://qcn-upl.stanford.edu/trigger/continual/job/u";
+
 db_init();
 
 $user = get_logged_in_user(true);
@@ -30,7 +33,7 @@ else {
     }
     $triglist .= ")";
 
-    $query = "INSERT INTO continual_download.job (userid,create_time,list_triggerid) VALUES ("
+    $query = "INSERT INTO " . $DB . ".job (userid,create_time,list_triggerid) VALUES ("
        . "$user->id, unix_timestamp(), '$triglist')";
 
     $loopctr = 0; 
@@ -39,7 +42,7 @@ else {
 }
 
   if ($insertid) {
-    $myurl = "http://qcn-upl.stanford.edu/trigger/continual/job/u" . $user->id . "_j" . $insertid . ".zip";
+    $myurl = $URL_UPL_BASE . $user->id . "_j" . $insertid . ".zip";
     echo "<BR><BR><H3>$numTrig trigger file requests processed!</H3><BR><BR>";
     echo "<BR><BR>An email will be sent to $user->email_addr when this job is processed with the download link/URL:<BR><BR>"
        . "<A HREF=\"" . $myurl . "\">" . $myurl . "</A><BR><BR>";

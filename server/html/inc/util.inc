@@ -82,6 +82,7 @@ function get_logged_in_user($must_be_logged_in=true) {
     if ($must_be_logged_in) {
         require_login($g_logged_in_user);
     }
+
     return $g_logged_in_user;
 }
 

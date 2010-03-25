@@ -27,6 +27,11 @@ t.received_file, t.file_url
 from qcn_trigger t ";
 */
 
+// full querystring
+// http://qcn.stanford.edu/continual_dl/trig.php?cbCSV=1&cbUseLat=1&LatMin=-39&LatMax=-30&LonMin=-76&LonMax=-69&cbUseSensor=1&type_sensor=100&cbUseTime=1&date_start=2010-03-24&time_hour_start=0&time_minute_start=0&date_end=2010-03-25&time_hour_end=0&time_minute_end=0&rb_sort=ttd
+
+// sort order options: tta/d  hosta/d  maga/d lata/d lona/d
+
 db_init();
 
 // first off get the sensor types
@@ -49,8 +54,9 @@ $q = new SqlQueryString();
 $nresults = $_GET["nresults"];
 $last_pos = $_GET["last_pos"];
 
+$bCSV = $_GET["cbCSV"];
 $bUseFile  = $_GET["cbUseFile"];
-$bUseQuake = $_GET["cbUseQuake"];
+$bUseQuake = false; // $_GET["cbUseQuake"];
 $bUseLat   = $_GET["cbUseLat"];
 $bUseSensor = $_GET["cbUseSensor"];
 $bUseTime  = $_GET["cbUseTime"];
@@ -121,24 +127,33 @@ echo "<html><head>
 
 
 // if no constraints then at least use quakes as otherwise we'll have too many i.e. a million triggers
-if (!$bUseFile && !$bUseQuake && !$bUseLat && !$bUseTime && !$bUseSensor) $bUseQuake = 1;
+if (!$bUseFile && !$bUseQuake && !$bUseLat && !$bUseTime && !$bUseSensor) {
+   $bUseLat = 1;
+   $bUseTime = 1;
+   $strLatMin = -39;
+   $strLatMax = -30;
+   $strLonMin = -76;
+   $strLonMax = -69;
+}
 
 echo "
 <form name='formSelect' method=\"get\" action=trig.php >
 <HR>
+<input type=\"checkbox\" id=\"cbCSV\" name=\"cbCSV\" value=\"1\" " . ($bCSV? "checked" : "") . "> Show Triggers As Text/CSV Only?
+<BR><BR>
 Constraints:<br><br>
   <input type=\"checkbox\" id=\"cbUseFile\" name=\"cbUseFile\" value=\"1\" " . ($bUseFile ? "checked" : "") . "> Only Show If Files Received
-<BR><BR>
-  <input type=\"checkbox\" id=\"cbUseQuake\" name=\"cbUseQuake\" value=\"1\" " . ($bUseQuake ? "checked" : "") . "> Show Matching USGS Quakes 
-  &nbsp&nbsp
-  Minimum Magnitude: <input id=\"quake_mag_min\" name=\"quake_mag_min\" value=\"$quake_mag_min\">
-<BR><BR>
-  <input type=\"checkbox\" id=\"cbUseLat\" name=\"cbUseLat\" value=\"1\" " . ($bUseLat ? "checked" : "") . "> Use Lat/Lon Constraint (+/- 90 Lat, +/- 180 Lon)
+<BR><BR>"
+//  <input type=\"checkbox\" id=\"cbUseQuake\" name=\"cbUseQuake\" value=\"1\" " . ($bUseQuake ? "checked" : "") . "> Show Matching USGS Quakes 
+//  &nbsp&nbsp
+//  Minimum Magnitude: <input id=\"quake_mag_min\" name=\"quake_mag_min\" value=\"$quake_mag_min\">
+//<BR><BR>
+. "  <input type=\"checkbox\" id=\"cbUseLat\" name=\"cbUseLat\" value=\"1\" " . ($bUseLat ? "checked" : "") . "> Use Lat/Lon Constraint (+/- 90 Lat, +/- 180 Lon)
 <BR>
-  Lat Min: <input id=\"LatMin\" name=\"LatMin\" value=\"$strLatMin\">
-  Lat Max: <input id=\"LatMax\" name=\"LatMax\" value=\"$strLatMax\">
-  Lon Min: <input id=\"LonMin\" name=\"LonMin\" value=\"$strLonMin\">
-  Lon Max: <input id=\"LonMax\" name=\"LonMax\" value=\"$strLonMax\">
+  Lat Min: <input id=\"LatMin\" name=\"LatMin\" value=\"" . $strLatMin . "\">
+  Lat Max: <input id=\"LatMax\" name=\"LatMax\" value=\"" . $strLatMax . "\">
+  Lon Min: <input id=\"LonMin\" name=\"LonMin\" value=\"" . $strLonMin . "\">
+  Lon Max: <input id=\"LonMax\" name=\"LonMax\" value=\"" . $strLonMax . "\">
 <BR><BR>
 
 
@@ -165,12 +180,14 @@ echo "</select>
 echo "<ul><table><tr><td>
 Start Time (UTC):";
 
-if ($dateStart) {
-  echo "<script>DateInput('date_start', true, 'YYYY-MM-DD', '$dateStart')</script>";
+if (!$dateStart) {
+  $dateStart = date("Y/m/d", time());  
 }
-else {
-  echo "<script>DateInput('date_start', true, 'YYYY-MM-DD')</script>";
+if (!$dateEnd) {
+  $dateEnd = date("Y/m/d", time() + (3600*24));  
 }
+
+echo "<script>DateInput('date_start', true, 'YYYY-MM-DD', '$dateStart')</script>";
 
 echo "<select name=\"time_hour_start\" id=\"time_hour_start\">
 ";
@@ -198,12 +215,7 @@ echo "
 
 End Time (UTC):";
 
-if ($dateEnd) {
   echo "<script>DateInput('date_end', true, 'YYYY-MM-DD', '$dateEnd')</script>";
-}
-else {
-  echo "<script>DateInput('date_end', true, 'YYYY-MM-DD')</script>";
-}
 
 echo "<select name=\"time_hour_end\">
 ";
@@ -283,7 +295,7 @@ echo "<BR><BR>
    <input type=\"submit\" value=\"Submit Constraints\" />
    </form> <H7>";
 
-$whereString = "t.varietyid=0";
+$whereString = "t.varietyid=0 ";
 
 if ($bUseFile) {
    $whereString .= " AND t.received_file = 100 ";
