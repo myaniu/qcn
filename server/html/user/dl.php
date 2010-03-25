@@ -6,7 +6,7 @@ require_once("../inc/db_ops.inc");
 
 $DB = "qcnalpha";
 
-$query_base = "select 
+$queryNew = "select 
 t.id as triggerid, t.hostid, h.domain_name, t.ipaddr, t.result_name, t.time_trigger as trigger_time, 
 (t.time_received-t.time_trigger) as delay_time, t.time_sync as trigger_sync,
 t.sync_offset, t.significance, t.magnitude as trigger_mag, 
@@ -20,6 +20,22 @@ FROM
    LEFT JOIN " . $DB . ".qcn_sensor s ON t.type_sensor = s.id 
    LEFT OUTER JOIN " . $DB . ".qcn_level l ON t.levelid = l.id 
 ";
+
+$queryOld = "select 
+t.id as triggerid, t.hostid, h.domain_name, t.ipaddr, t.result_name, t.time_trigger as trigger_time, 
+(t.time_received-t.time_trigger) as delay_time, t.time_sync as trigger_sync,
+t.sync_offset, t.significance, t.magnitude as trigger_mag, 
+t.latitude as trigger_lat, t.longitude as trigger_lon, t.levelvalue, t.levelid, l.description as leveldesc, 
+t.file as trigger_file, t.dt as delta_t,
+t.numreset, s.description as sensor_description, t.sw_version, t.usgs_quakeid, t.time_filereq as trigger_timereq, 
+t.received_file, t.file_url,t.varietyid
+FROM
+   qcnarchive.qcn_trigger t
+   LEFT JOIN " . $DB . ".host h ON t.hostid = h.id 
+   LEFT JOIN " . $DB . ".qcn_sensor s ON t.type_sensor = s.id 
+   LEFT OUTER JOIN " . $DB . ".qcn_level l ON t.levelid = l.id 
+";
+
 
 db_init();
 
@@ -59,6 +75,7 @@ if (!$numresults) $numresults = 1000;
 $last_pos = $_GET["last_pos"];
 
 //$bUseQuake = $_GET["cbUseQuake"];
+$bUseArchive = $_GET["cbUseArchive"];
 $bUseFile  = $_GET["cbUseFile"];
 $bUseLat   = $_GET["cbUseLat"];
 $bUseSensor = $_GET["cbUseSensor"];
@@ -182,6 +199,10 @@ echo "<H5>";
   }
 
 echo "</select>
+<BR><BR>
+  <input type=\"checkbox\" id=\"cbUseArchive\" name=\"cbUseArchive\" value=\"1\" " . ($bUseArchive ? "checked" : "") . "
+> 
+Include the Archive Database (Triggers Older Than Two Months - May Take Awhile!)
   <BR><BR>
   <input type=\"checkbox\" id=\"cbUseTime\" name=\"cbUseTime\" value=\"1\" " . ($bUseTime ? "checked" : "") 
      . "> Use Time Constraint
@@ -263,7 +284,7 @@ echo "
 </select> </tr></table> </UL>
 ";
 
-echo "<BR><BR>Sort Order: ";
+echo "Sort Order: ";
 
 echo "<H7>";
 
@@ -313,7 +334,7 @@ echo "<select name=\"rb_sort\" id=\"rb_sort\">
 
 echo "<BR><BR>
   Max Triggers Per Page:  <input id=\"numresults\" name=\"numresults\" value=\"$numresults\">
-<BR>";
+";
 
 // end the form
 echo "<BR><BR>
@@ -354,43 +375,53 @@ if ($bUseTime) {
         . " AND unix_timestamp('" . $dateEnd . " " . sprintf("%02d", $timeHourEnd) . ":" . sprintf("%02d", $timeMinuteEnd+1) . ":00') ";
 }
 
-$sortString = "t.time_trigger DESC";
+$sortString = "trigger_time DESC";
 
 switch($sortOrder)
 {
    case "maga":
-      $sortString = "q.magnitude ASC, t.time_trigger DESC";
+      $sortString = "quake_magnitude ASC, trigger_time DESC";
       break;
    case "magd":
-      $sortString = "q.magnitude DESC, t.time_trigger DESC";
+      $sortString = "quake_magnitude DESC, trigger_time DESC";
       break;
    case "tta":
-      $sortString = "t.time_trigger ASC";
+      $sortString = "trigger_time ASC";
       break;
    case "ttd":
-      $sortString = "t.time_trigger DESC";
+      $sortString = "trigger_time DESC";
       break;
    case "lata":
-      $sortString = "t.latitude ASC, t.longitude ASC";
+      $sortString = "trigger_lat ASC, trigger_lon ASC";
       break;
    case "latd":
-      $sortString = "t.latitude DESC, t.longitude DESC";
+      $sortString = "trigger_lat DESC, trigger_lon DESC";
       break;
    case "lona":
-      $sortString = "t.longitude ASC, t.latitude ASC";
+      $sortString = "trigger_lon ASC, trigger_lat ASC";
       break;
    case "lond":
-      $sortString = "t.longitude DESC, t.latitude DESC";
+      $sortString = "trigger_lon DESC, trigger_lat DESC";
       break;
    case "hosta":
-      $sortString = "t.hostid ASC";
+      $sortString = "hostid ASC";
       break;
    case "hostd":
-      $sortString = "t.hostid DESC";
+      $sortString = "hostid DESC";
       break;
 }
 
-$query = $query_base . " WHERE " . $whereString . " ORDER BY " . $sortString;
+if ($bUseArchive) {
+  $query .=
+     $queryNew . " WHERE " . $whereString
+       . " UNION "
+       . $queryOld . " WHERE " . $whereString
+       . " ORDER BY " . $sortString
+     ;
+}
+else {
+  $query = $queryNew . " WHERE " . $whereString . " ORDER BY " . $sortString;
+}
 
 //print "<BR><BR>$query<BR><BR>";
 
@@ -473,6 +504,7 @@ if ($detail) {
 }
 
 $queryString = "&numresults=$page_entries_to_show"
+       . "&cbUseArchive=$bUseArchive"
        . "&cbUseFile=$bUseFile"
        . "&cbUseLat=$bUseLat"
        . "&cbUseTime=$bUseTime"
