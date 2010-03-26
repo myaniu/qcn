@@ -138,7 +138,7 @@ echo "<html><head>
   <title>Trigger Download</title>
 </head><body " . BODY_COLOR . ">\n";
  echo "<h5>";
-  echo TABLE . "<tr " . TITLE_COLOR . "><td>" . TITLE_FONT . "<font size=\"6\"><b><a href=\"dl.php\">".PROJECT.":</a>  Trigger Download</b></font></td></tr></table>\n";
+  echo "<table><tr " . TITLE_COLOR . "><td>" . TITLE_FONT . "<font size=\"6\"><b><a href=\"dl.php\">".PROJECT.":</a>  Trigger Download</b></font></td></tr></table>\n";
 
 
 // if no constraints then at least use time within past day

@@ -5,6 +5,7 @@ scp carlgt1@qcn-web:/var/www/boinc/sensor/gui_urls.xml ../config/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/config.xml ../config/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/bin/generate_maptrig.sh ../config/
 scp carlgt1@qcn-web:/usr/local/apache2/conf/extra/httpd-ssl.conf ../config/
+scp carlgt1@qcn-web:/var/www/boinc/sensor/bin/clean_tmpdata.sh ../config/
 scp carlgt1@qcn-web:/usr/local/apache2/conf/httpd.conf ../config/
 scp carlgt1@qcn-web:/usr/local/apache2/conf/drupal.conf ../config/
 scp carlgt1@qcn-web:/etc/init.d/httpd ../config/

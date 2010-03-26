@@ -142,7 +142,7 @@ echo "<html><head>
   <title>QCN Trigger Listing</title>
 </head><body " . BODY_COLOR . ">\n";
  echo "<h5>";
-  echo TABLE . "<tr " . TITLE_COLOR . "><td>" . TITLE_FONT . "<font size=\"6\"><b><a href=\"trig.php\">".PROJECT.":</a>  QCN Trigger Listing </b></font></td></tr></table>\n";
+  echo "<table><tr " . TITLE_COLOR . "><td>" . TITLE_FONT . "<font size=\"6\"><b><a href=\"trig.php\">".PROJECT.":</a>  QCN Trigger Listing </b></font></td></tr></table>\n";
 
 
 // if no constraints then at least use quakes as otherwise we'll have too many i.e. a million triggers
