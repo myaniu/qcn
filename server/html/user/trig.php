@@ -120,6 +120,7 @@ if ($strLatMax < $strLatMin) {
 
 if (!$sortOrder) $sortOrder = "ttd";  // triger time desc is default sort order
 
+if (!$nresults) $nresults = 1000;
 if ($nresults) {
     $entries_to_show = $nresults;
 } else {
@@ -550,7 +551,7 @@ $result = mysql_query($main_query);
 if ($result) {
     echo "<form name=\"formDetail\" method=\"get\" action=trigreq.php >";
     start_table();
-    if (!$bUseCSV && $ftmp) qcn_trigger_header();
+    if (!$bUseCSV && !$ftmp) qcn_trigger_header();
     while ($res = mysql_fetch_object($result)) {
         if ($bUseCSV && $ftmp) {
            fwrite($ftmp, qcn_trigger_detail_csv($res));
