@@ -144,13 +144,8 @@ echo "<html><head>
 // if no constraints then at least use time within past day
 if ((!$bUseHost || !$strHostID || !$strHostName) && !$bUseFile && !$bUseLat && !$bUseTime && !$bUseSensor) {
    $bUseTime= 1;
-   $tsNow = time();
-   // date_start=2009-08-20
-   $dateStart = date("Y-m-d", $tsNow);
-   $dateEnd = date("Y-m-d", $tsNow + (3600*24));
-   $whereString .= " AND t.time_trigger BETWEEN "
-      . "unix_timestamp('" . $dateStart . " 00:00:00')" 
-      . " AND unix_timestamp('" . $dateEnd . " 00:00:00')";
+   $dateStart = "";
+   $dateEnd = "";
 }
 
 $sortString = "t.time_trigger DESC";
@@ -199,12 +194,22 @@ echo "</select>
 echo "<ul><table><tr><td>
 Start Time (UTC):";
 
+// set last four hours for start, current time for end
+$timeStart = time() - (3600*4);
+$timeEnd = time();
 if (!$dateStart) {
-  $dateStart = date("Y/m/d", time());
+  $dateStart = date("Y/m/d", $timeStart);
 }
 if (!$dateEnd) {
-  $dateEnd = date("Y/m/d", time() + (3600*24));
+  $dateEnd = date("Y/m/d", $timeEnd);
 }
+
+// now set the times based on timeStart & timeEnd
+$timeHourStart = gmdate("H", $timeStart);
+$timeHourEnd   = gmdate("H", $timeEnd);
+
+$timeMinuteStart = gmdate("i", $timeStart);
+$timeMinuteEnd   = gmdate("i", $timeEnd);
 
 if ($dateStart) {
   echo "<script>DateInput('date_start', true, 'YYYY-MM-DD', '$dateStart')</script>";
