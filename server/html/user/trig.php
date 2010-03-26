@@ -204,22 +204,20 @@ Include the Archive Database (Triggers Older Than Two Months - May Take Awhile!)
 echo "<ul><table><tr><td>
 Start Time (UTC):";
 
-// set last four hours for start, current time for end
-$timeStart = time() - (3600*4);
-$timeEnd = time();
+// set last four hours for start, current time + 1 for end
+$timeStart = gmdate("U", time() - (3600*4));
+$timeEnd = gmdate("U", time() + 3600);
 if (!$dateStart) {
   $dateStart = date("Y/m/d", $timeStart);
+  // now set the times based on timeStart & timeEnd
+  $timeHourStart = date("H", $timeStart);
+  $timeMinuteStart = "00"; //date("i", $timeStart);
 }
 if (!$dateEnd) {
   $dateEnd = date("Y/m/d", $timeEnd);
+  $timeHourEnd   = date("H", $timeEnd);
+  $timeMinuteEnd = "00";
 }
-
-// now set the times based on timeStart & timeEnd
-$timeHourStart = gmdate("H", $timeStart);
-$timeHourEnd   = gmdate("H", $timeEnd);
-
-$timeMinuteStart = gmdate("i", $timeStart);
-$timeMinuteEnd   = gmdate("i", $timeEnd);
 
 echo "<script>DateInput('date_start', true, 'YYYY-MM-DD', '$dateStart')</script>";
 
