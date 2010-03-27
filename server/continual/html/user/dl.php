@@ -6,6 +6,8 @@ require_once("../inc/db_ops.inc");
 
 db_init();
 
+set_time_limit(3600); // let run an hour tops
+
 $user = get_logged_in_user(true);
 // user->donated means they can do download stuff (donated is a SETI@home field reused here)
 if (!$user->id || !$user->donated) {
@@ -60,6 +62,7 @@ $q = new SqlQueryString();
 $nresults = get_int("nresults", true);
 $last_pos = get_int("last_pos", true);
 
+$bUseContinual = get_int("cbUseContinual", true);
 $bUseArchive = get_int("cbUseArchive", true);
 $bUseFile  = get_int("cbUseFile", true);
 //$bUseQuake = get_int("cbUseQuake", true);
@@ -144,6 +147,7 @@ echo "<html><head>
 // if no constraints then at least use time within past day
 if ((!$bUseHost || !$strHostID || !$strHostName) && !$bUseFile && !$bUseLat && !$bUseTime && !$bUseSensor) {
    $bUseTime= 1;
+   $bUseContinual = 1;
    $dateStart = "";
    $dateEnd = "";
 }
@@ -274,6 +278,8 @@ echo "
 </select> </tr></table> </UL>
 ";
 
+echo "<BR><input type=\"checkbox\" id=\"cbUseContinual\" name=\"cbUseContinual\" value=\"1\" " . ($bUseContinual ? "checked" : "") . "> Show Both Continual and Real Triggers <BR><BR> ";
+
 echo "<BR>Sort Order: ";
 
 echo "<H7>";
@@ -331,7 +337,12 @@ echo "<BR><BR>
    <input type=\"submit\" value=\"Submit Constraints\" />
    </form> <H7>";
 
-$whereString = "t.varietyid>=0";
+if ($bUseContinual) {
+  $whereString = "(t.varietyid=0 OR t.varietyid=2) ";
+}
+else {
+  $whereString = "t.varietyid=0 ";
+}
 
 if ($bUseFile) {
    $whereString .= " AND t.received_file = 100 ";
@@ -481,6 +492,7 @@ if ($detail) {
 }
 
 $queryString = "&nresults=$page_entries_to_show"
+       . "&cbUseContinual=$bUseContinual"
        . "&cbUseHost=$bUseHost"
        . "&cbUseFile=$bUseFile"
        . "&cbUseLat=$bUseLat"

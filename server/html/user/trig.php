@@ -5,6 +5,8 @@ require_once("../inc/db_ops.inc");
 
 db_init();
 
+set_time_limit(3600); // let run an hour tops
+
 $user = get_logged_in_user(true);
 // user->donated means they can do download stuff (donated is a SETI@home field reused here)
 if (!$user->id || !$user->donated) {

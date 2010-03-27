@@ -5,6 +5,8 @@ require_once("../inc/db_ops.inc");
 
 db_init();
 
+set_time_limit(3600); // let run an hour tops
+
 $user = get_logged_in_user(true);
 // user->donated means they can do download stuff (donated is a SETI@home field reused here)
 if (!$user->id || !$user->donated) {
@@ -12,19 +14,34 @@ if (!$user->id || !$user->donated) {
    exit();
 }
 
-$query = "select q.id as quakeid, q.time_utc as quake_time, q.magnitude as quake_magnitude, 
-q.depth_km as quake_depth, q.latitude as quake_lat,
-q.longitude as quake_lon, q.description, q.url, q.guid,
+$query = "select NULL as quakeid, NULL as quake_time, NULL as quake_magnitude, 
+NULL as quake_depth, NULL as quake_lat,
+NULL as quake_lon, NULL as description, NULL as url, NULL as guid,
 t.id as triggerid, t.hostid, t.ipaddr, t.result_name, t.time_trigger as trigger_time, 
 (t.time_received-t.time_trigger) as delay_time, t.time_sync as trigger_sync,
 t.sync_offset, t.significance, t.magnitude as trigger_mag, 
 t.latitude as trigger_lat, t.longitude as trigger_lon, t.file as trigger_file, t.dt as delta_t,
 t.numreset, s.description as sensor_description, t.sw_version, t.usgs_quakeid, t.time_filereq as trigger_timereq, 
-t.received_file, t.file_url
+t.received_file, t.file_url, NULL as min_time, NULL as max_time
 FROM
-  qcn_trigger t LEFT OUTER JOIN usgs_quake q ON t.usgs_quakeid = q.id
+  qcn_trigger t 
    LEFT JOIN qcn_sensor s ON t.type_sensor = s.id 
 ";
+
+$queryHostGroup = "select NULL as quakeid, NULL as quake_time, NULL as quake_magnitude, 
+NULL as quake_depth, NULL as quake_lat,
+NULL as quake_lon, NULL as description, NULL as url, NULL as guid,
+t.id as triggerid, t.hostid, t.ipaddr, t.result_name, t.time_trigger as trigger_time, 
+(t.time_received-t.time_trigger) as delay_time, t.time_sync as trigger_sync,
+t.sync_offset, t.significance, t.magnitude as trigger_mag, 
+t.latitude as trigger_lat, t.longitude as trigger_lon, t.file as trigger_file, t.dt as delta_t,
+t.numreset, s.description as sensor_description, t.sw_version, t.usgs_quakeid, t.time_filereq as trigger_timereq, 
+t.received_file, t.file_url, min(t.time_trigger) as min_time, max(t.time_trigger) as max_time
+FROM
+  qcn_trigger t 
+   LEFT JOIN qcn_sensor s ON t.type_sensor = s.id 
+";
+
 
 /*
 $query = "select t.id as triggerid, t.hostid, t.ipaddr, t.result_name, t.time_trigger as trigger_time, 
@@ -66,13 +83,16 @@ $nresults = get_int("nresults", true);
 $last_pos = get_int("last_pos", true);
 
 $bUseCSV = get_int("cbUseCSV", true);
+$bUseHostGroup = get_int("cbUseHostGroup", true);
 $bUseArchive = get_int("cbUseArchive", true);
 $bUseFile  = get_int("cbUseFile", true);
 $bUseQuake = get_int("cbUseQuake", true);
 $bUseLat   = get_int("cbUseLat", true);
 $bUseSensor = get_int("cbUseSensor", true);
 $bUseTime  = get_int("cbUseTime", true);
+$bUseContinual = get_int("cbUseContinual", true);
 $bUseHost = get_int("cbUseHost", true);
+
 $strHostID = get_int("HostID", true);
 $strHostName = get_str("HostName", true);
 
@@ -148,6 +168,7 @@ echo "<html><head>
 // if no constraints then at least use quakes as otherwise we'll have too many i.e. a million triggers
 if (!$bUseFile && !$bUseQuake && !$bUseLat && !$bUseTime && !$bUseSensor && !$bUseHost) {
    $bUseTime = 1;
+   $bUseContinual = 1;
   /*
    $bUseLat = 1;
    $strLatMin = -39;
@@ -273,6 +294,13 @@ for ($i = 0; $i < 60; $i++) {
 echo "
 </select> </tr></table> </UL>
 ";
+  
+echo "<BR><input type=\"checkbox\" id=\"cbUseContinual\" name=\"cbUseContinual\" value=\"1\" " . ($bUseContinual ? "checked" : "") . "> Show Both Continual and Real Triggers <BR><BR> ";
+
+echo "
+<input type=\"checkbox\" id=\"cbUseHostGroup\" name=\"cbUseHostGroup\" value=\"1\" " . ($bUseHostGroup? "checked" : "") . "> Group By Host To Show Min/Max Trigger Times For Selected Range (Can Take Awhile!)
+<BR><BR>";
+
 
 echo "<BR>Sort Order: ";
 
@@ -330,7 +358,12 @@ echo "<BR><BR>
    <input type=\"submit\" value=\"Submit Constraints\" />
    </form> <H7>";
 
-$whereString = "t.varietyid=0 ";
+if ($bUseContinual) {
+  $whereString = "(t.varietyid=0 OR t.varietyid=2) ";
+}
+else {
+  $whereString = "t.varietyid=0 ";
+}
 
 if ($bUseFile) {
    $whereString .= " AND t.received_file = 100 ";
@@ -397,25 +430,30 @@ switch($sortOrder)
       break;
 }
 
-$query .= " WHERE " . $whereString . " ORDER BY " . $sortString;
+if ($bUseHostGroup) {
+  $queryHostGroup .= " WHERE " . $whereString . " GROUP BY hostid ORDER BY " . $sortString;
+  $main_query = $queryHostGroup;
+}
+else {
+  $query .= " WHERE " . $whereString . " ORDER BY " . $sortString;
+  $main_query = $query;
+}
 
 //print "<BR><BR>$query<BR><BR>";
 
 //$main_query = $q->get_select_query($entries_to_show, $start_at);
         if (!$bUseCSV && $entries_to_show) {
             if ($start_at) {
-                $main_query = $query . " limit $start_at,$entries_to_show";
+                $main_query .= " limit $start_at,$entries_to_show";
             } else {
-                $main_query = $query . " limit $entries_to_show";
+                $main_query .= " limit $entries_to_show";
             }
-        } else {
-                $main_query = $query;
         }
 
 //$count = 1e6;
 
 if (!$bUseCSV) {
-$count = query_count($query);
+$count = query_count($main_query);
 
 if ($count < $start_at + $entries_to_show) {
     $entries_to_show = $count - $start_at;
@@ -467,12 +505,15 @@ if ($detail) {
     $url .= "&detail=$detail";
 }
 $queryString = "&nresults=$page_entries_to_show"
+       . "&cbUseContinual=$bUseContinual"
        . "&cbUseHost=$bUseHost"
        . "&cbUseFile=$bUseFile"
        . "&cbUseQuake=$bUseQuake"
        . "&cbUseLat=$bUseLat"
        . "&cbUseTime=$bUseTime"
        . "&cbUseSensor=$bUseSensor"
+       . "&cbUseCSV=$bUseCSV"
+       . "&cbUseHostGroup=$bUseHostGroup"
        . "&type_sensor=$type_sensor"
        . "&date_start=$dateStart"
        . "&date_end=$dateEnd"
@@ -584,11 +625,56 @@ else {
 page_tail();
 
 function qcn_trigger_header_csv() {
-   return "TriggerID, HostID, IPAddr, ResultName, TimeTrigger, Delay, TimeSync, SyncOffset, "
+  // show query stuff?
+  $csvh = "Continual Trigger Request\n\n";
+
+/*
+$bUseHostGroup = get_int("cbUseHostGroup", true);
+$bUseArchive = get_int("cbUseArchive", true);
+$bUseQuake = get_int("cbUseQuake", true);
+$bUseLat   = get_int("cbUseLat", true);
+$bUseSensor = get_int("cbUseSensor", true);
+$type_sensor = get_int("type_sensor", true);
+
+$bUseTime  = get_int("cbUseTime", true);
+$bUseContinual = get_int("cbUseContinual", true);
+
+kkkk$bUseHost = get_int("cbUseHost", true);
+
+$strHostID = get_int("HostID", true);
+$strHostName = get_str("HostName", true);
+
+$dateStart = get_str("date_start", true);
+$dateEnd   = get_str("date_end", true);
+
+$strLonMin = get_str("LonMin", true);
+$strLonMax = get_str("LonMax", true);
+$strLatMin = get_str("LatMin", true);
+$strLatMax = get_str("LatMax", true);
+
+$timeHourStart   = get_int("time_hour_start", true);
+$timeMinuteStart = get_int("time_minute_start", true);
+
+$timeHourEnd   = get_int("time_hour_end", true);
+$timeMinuteEnd = get_int("time_minute_end", true);
+
+$sortOrder = get_str("rb_sort", true);
+  if ($bUseFile) {   
+    $csvh = "Triggers With Received Files";
+  }
+
+  if ($bUseQuake) {
+    $csvh = "Triggers With Matching Quakes of Magnitude >= " . $quake_mag_min;
+  }
+*/
+
+  $csvh .= "TriggerID, HostID, IPAddr, ResultName, TimeTrigger, Delay, TimeSync, SyncOffset, "
     . "Magnitude, Significance, Latitude, Longitude, NumReset, DT, Sensor, Version, Time File Req, "
     . "Received File, File Download, USGS ID, Quake Magnitude, Quake Time, "
-    . "Quake Lat, Quake Long, USGS GUID, Quake Desc"
+    . "Quake Lat, Quake Long, USGS GUID, Quake Desc, Min Trig Time, Max Trig Time"
     . "\n";
+
+    return $csvh;
 }
 
 function qcn_trigger_detail_csv($res)
@@ -614,7 +700,7 @@ function qcn_trigger_detail_csv($res)
         $res->delta_t . "," . $res->sensor_description . "," . $res->sw_version . "," .
         time_str_csv($res->trigger_timereq) . "," . ($res->received_file == 100 ? " Yes " : " No " ) . "," .
         ($res->file_url ? $res->file_url : "N/A") . "," .
-        $quakestuff .
+        $quakestuff . "," . time_str_csv($res->min_time) . "," . time_str_csv($res->max_time) .
         "\n";
 
 }
@@ -649,6 +735,8 @@ function qcn_trigger_header() {
         <th>Quake Longitude</th>
         <th>Quake Description</th>
         <th>USGS GUID</th>
+        <th>Min Trig Time</th>
+        <th>Max Trig Time</th>
         </tr>
     ";
 }
@@ -708,9 +796,11 @@ function qcn_trigger_detail($res)
            echo "<td>&nbsp</td>";
            echo "<td>&nbsp</td>";
         }
-
-    echo "</tr>
-    ";
+   echo "<td>" . 
+     ($res->min_time < 100 ? "" : time_str($res->min_time)) . 
+       "</td><td>" . 
+     ($res->max_time < 100 ? "" : time_str($res->max_time)) ; 
+   echo "</td></tr>";
 }
 
 function query_count($myquery) {
@@ -723,7 +813,7 @@ function query_count($myquery) {
 }
 
 function time_str_csv($x) {
-    if ($x == 0) return "";
+    if (!$x || $x<100) return "";
     return gmdate('Y/m/d H:i:s', $x); // . " UTC";
 }
 
