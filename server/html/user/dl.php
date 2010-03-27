@@ -39,7 +39,7 @@ FROM
 
 db_init();
 
-set_time_limit(3600); // let run an hour tops
+set_time_limit(600);
 
 $user = get_logged_in_user(true);
 

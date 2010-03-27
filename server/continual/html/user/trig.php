@@ -5,7 +5,7 @@ require_once("../inc/db_ops.inc");
 
 db_init();
 
-set_time_limit(3600); // let run an hour tops
+set_time_limit(600);
 
 $user = get_logged_in_user(true);
 // user->donated means they can do download stuff (donated is a SETI@home field reused here)
@@ -797,10 +797,10 @@ function qcn_trigger_detail($res)
            echo "<td>&nbsp</td>";
         }
    echo "<td>" . 
-     ($res->min_time < 100 ? "" : time_str($res->min_time)) . 
+     time_str($res->min_time) .
        "</td><td>" . 
-     ($res->max_time < 100 ? "" : time_str($res->max_time)) ; 
-   echo "</td></tr>";
+     time_str($res->max_time) .
+    "</td></tr>";
 }
 
 function query_count($myquery) {
@@ -813,7 +813,7 @@ function query_count($myquery) {
 }
 
 function time_str_csv($x) {
-    if (!$x || $x<100) return "";
+    if (!$x || $x>1e20) return "";
     return gmdate('Y/m/d H:i:s', $x); // . " UTC";
 }
 
