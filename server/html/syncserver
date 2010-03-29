@@ -77,3 +77,4 @@ scp carlgt1@qcn-web:/var/www/boinc/continual/html/user/maptrig.php ../continual/
 scp carlgt1@qcn-web:/var/www/boinc/continual/html/user/maptrigtime.php ../continual/html/user/
 scp carlgt1@qcn-web:/var/www/boinc/continual/html/user/account_finish.php ../continual/html/user/
 scp carlgt1@qcn-web:/var/www/boinc/continual/html/user/account_finish_action.php ../continual/html/user/
+scp carlgt1@qcn-web:/var/www/boinc/continual/html/user/index.php ../continual/html/user/
