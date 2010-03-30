@@ -46,17 +46,22 @@ thread_stack = 128K
 server-id	= 1
 
 # Uncomment the following if you want to log updates
-#log-bin=mysql-bin
+log-bin=mysql-bin
 
 # binary logging format - mixed recommended
-#binlog_format=mixed
+#stop slave;
+#CHANGE MASTER TO MASTER_HOST='171.64.173.101', MASTER_USER='qcnsql', MASTER_PASSWORD='qcnsql', MASTER_LOG_FILE='mysql-bin.000001', MASTER_LOG_POS= 1964834;
+#start slave;
+
 
 server-id=2
+binlog_format=mixed
 master-host=171.64.173.101
 master-user=qcndb
 master-password=qcndb
 master-connect-retry=60
 replicate-do-db=continual
+relay-log=kew-relay-bin
 
 # Uncomment the following if you are using InnoDB tables
 innodb_data_home_dir = /usr/local/mysql/data/
