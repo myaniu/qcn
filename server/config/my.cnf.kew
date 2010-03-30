@@ -26,7 +26,8 @@ socket		= /tmp/mysql.sock
 [mysqld]
 port		= 3306
 socket		= /tmp/mysql.sock
-skip-locking
+lower_case_table_names=2
+skip-external-locking
 key_buffer_size = 16K
 max_allowed_packet = 1M
 table_open_cache = 4
@@ -56,9 +57,6 @@ log-bin=mysql-bin
 
 server-id=2
 binlog_format=mixed
-master-host=171.64.173.101
-master-user=qcndb
-master-password=qcndb
 master-connect-retry=60
 replicate-do-db=continual
 relay-log=kew-relay-bin
