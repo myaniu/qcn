@@ -12,8 +12,11 @@ update continual.qcn_host_ipaddr set ipaddr='' where id in (select id from tmp_s
 
 update continual.qcn_trigger t, continual.qcn_host_ipaddr i set t.latitude=i.latitude,t.longitude=i.longitude where t.hostid=i.hostid and i.ipaddr='' and i.geoipaddrid=0;
 
-// query to see which triggers have geoipaddr records
+// query to see which hosts in the trigger table have geoipaddr records
 
-select t.id,t.hostid,count(*) from continual.qcn_trigger t, continual.qcn_host_ipaddr i
-   where t.ipaddr=i.ipaddr and i.geoipaddrid>0;
+select t.hostid, t.ipaddr, count(*) 
+   from continual.qcn_trigger t, continual.qcn_host_ipaddr i
+   where t.hostid=i.hostid and t.ipaddr=i.ipaddr and i.geoipaddrid>0 
+  group by t.hostid, t.ipaddr;
+
 
