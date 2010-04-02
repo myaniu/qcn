@@ -1,3 +1,4 @@
+// update host ipaddr's to just use one lat/lng per host
 
 create temporary table tmp_setip 
    (select id from continual.qcn_host_ipaddr where (geoipaddrid is null or geoipaddrid=0) and ipaddr is not null and ipaddr!=''
@@ -7,4 +8,12 @@ create temporary table tmp_setip
 
 update continual.qcn_host_ipaddr set ipaddr='' where id in (select id from tmp_setip);
 
+// update trigger table with "sole location" hosts
+
+update continual.qcn_trigger t, continual.qcn_host_ipaddr i set t.latitude=i.latitude,t.longitude=i.longitude where t.hostid=i.hostid and i.ipaddr='' and i.geoipaddrid=0;
+
+// query to see which triggers have geoipaddr records
+
+select t.id,t.hostid,count(*) from continual.qcn_trigger t, continual.qcn_host_ipaddr i
+   where t.ipaddr=i.ipaddr and i.geoipaddrid>0;
 
