@@ -293,10 +293,10 @@ longlong quake_hit_test(UDF_INIT *initid, UDF_ARGS *args, char *is_null, char *e
      args->args[0] == NULL
     || args->args[1] == NULL
     || args->args[2] == NULL
-    || args->args[3] == NULL) {
-    || args->args[4] == NULL) {
-    || args->args[5] == NULL) {
-    || args->args[6] == NULL) {
+    || args->args[3] == NULL
+    || args->args[4] == NULL
+    || args->args[5] == NULL
+    || args->args[6] == NULL
     || args->args[7] == NULL) {
       // no null's allowed!
       return 0.0f;
