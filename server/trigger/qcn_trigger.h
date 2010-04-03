@@ -145,8 +145,8 @@ public:
         "hostid=%d,"
         "ipaddr='%s',"
         "location='%s',"
-        "latitude=%f,"
-        "longitude=%f,"
+        "latitude=%16.9f,"
+        "longitude=%16.9f,"
         "levelvalue=%s,"
         "levelid=%s,"
         "alignid=%d,"
@@ -195,8 +195,8 @@ public:
         "country='%s',"
         "region='%s',"
         "city='%s',"
-        "latitude=%f,"
-        "longitude=%f",
+        "latitude=%16.9f,"
+        "longitude=%16.9f",
         ipaddr, time_lookup, country, region, city, latitude, longitude
       );
       UNESCAPE(city);
@@ -250,8 +250,8 @@ public:
         "sync_offset=%f,"
         "significance=%f,"
         "magnitude=%f,"
-        "latitude=%f,"
-        "longitude=%f,"
+        "latitude=%16.9f,"
+        "longitude=%16.9f,"
         "levelvalue=%s,"
         "levelid=%s,"
         "alignid=%d,"
