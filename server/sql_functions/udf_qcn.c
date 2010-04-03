@@ -231,6 +231,7 @@ double distance_vincenty(const double lat1, const double lon1, const double lat2
 
 double lat_lon_distance_m(UDF_INIT *initid, UDF_ARGS *args, char *is_null, char *error)
 {
+ // test again for NULL's because somehow they can slip through and crash the server nastily!
   if (
      args->args[0] == NULL
     || args->args[1] == NULL
@@ -292,6 +293,7 @@ mysql> select * from qcn_sensor;
 
 longlong quake_hit_test(UDF_INIT *initid, UDF_ARGS *args, char *is_null, char *error)
 {
+ // test again for NULL's because somehow they can slip through and crash the server nastily!
   if (
      args->args[0] == NULL
     || args->args[1] == NULL
