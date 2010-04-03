@@ -170,6 +170,9 @@ void quake_hit_test_deinit(UDF_INIT *initid)
 /*
  * Calculate geodesic distance (in m) between two points specified by latitude/longitude 
  * (in numeric degrees) using Vincenty inverse formula for ellipsoids
+
+http://en.wikipedia.org/wiki/Vincenty's_formulae
+
  */
 // the implementation of lat_lon_distance_m
 
