@@ -289,6 +289,19 @@ mysql> select * from qcn_sensor;
 
 longlong quake_hit_test(UDF_INIT *initid, UDF_ARGS *args, char *is_null, char *error)
 {
+  if (
+     args->args[0] == NULL
+    || args->args[1] == NULL
+    || args->args[2] == NULL
+    || args->args[3] == NULL) {
+    || args->args[4] == NULL) {
+    || args->args[5] == NULL) {
+    || args->args[6] == NULL) {
+    || args->args[7] == NULL) {
+      // no null's allowed!
+      return 0.0f;
+  }
+
   const int iSensor = (int) (*((double*) args->args[3]));
   const double lat1 = *((double*) args->args[0]);
   const double lon1 = *((double*) args->args[1]);
