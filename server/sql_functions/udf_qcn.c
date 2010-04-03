@@ -228,6 +228,16 @@ double distance_vincenty(const double lat1, const double lon1, const double lat2
 
 double lat_lon_distance_m(UDF_INIT *initid, UDF_ARGS *args, char *is_null, char *error)
 {
+  if (
+     args->args[0] == NULL
+    || args->args[1] == NULL
+    || args->args[2] == NULL
+    || args->args[3] == NULL) {
+      // no null's allowed!
+      return 0.0f;
+  }
+
+
   const double lat1 = *((double*) args->args[0]);
   const double lon1 = *((double*) args->args[1]);
   const double lat2 = *((double*) args->args[2]);
