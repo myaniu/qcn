@@ -15,8 +15,9 @@ if (!$user->id || !$user->donated) {
 }
 
 $queryNew = "select q.id as quakeid, q.time_utc as quake_time, q.magnitude as quake_magnitude, 
-q.depth_km as quake_depth, q.latitude as quake_lat,
+q.depth_km as quake_depth, q.latitude as quake_lat, 
 q.longitude as quake_lon, q.description, q.url, q.guid,
+round(lat_lon_distance_m(q.latitude, q.longitude, t.latitude, t.longitude) / 1000.0, 3) as quake_distance_km,
 t.id as triggerid, t.hostid, t.ipaddr, t.result_name, t.time_trigger as trigger_time, 
 (t.time_received-t.time_trigger) as delay_time, t.time_sync as trigger_sync,
 t.sync_offset, t.significance, t.magnitude as trigger_mag, 
@@ -31,6 +32,7 @@ FROM
 $queryOld = "select q.id as quakeid, q.time_utc as quake_time, q.magnitude as quake_magnitude, 
 q.depth_km as quake_depth, q.latitude as quake_lat,
 q.longitude as quake_lon, q.description, q.url, q.guid,
+round(lat_lon_distance_m(q.latitude, q.longitude, t.latitude, t.longitude) / 1000.0, 3) as quake_distance_km,
 t.id as triggerid, t.hostid, t.ipaddr, t.result_name, t.time_trigger as trigger_time, 
 (t.time_received-t.time_trigger) as delay_time, t.time_sync as trigger_sync,
 t.sync_offset, t.significance, t.magnitude as trigger_mag, 
@@ -321,6 +323,14 @@ echo "<select name=\"rb_sort\" id=\"rb_sort\">
    if ($sortOrder == "hostd") echo "selected";
    echo ">Host ID (Descending)";
 
+   echo "<option value=\"qda\" ";
+   if ($sortOrder == "qda") echo "selected";
+   echo ">Quake Distance (Ascending)";
+
+   echo "<option value=\"qdd\" ";
+   if ($sortOrder == "qdd") echo "selected";
+   echo ">Quake Distance (Decending)";
+
    echo "</select>";
 
 
@@ -409,6 +419,12 @@ switch($sortOrder)
       break;
    case "hostd":
       $sortString = "hostid DESC";
+      break;
+   case "qda":
+      $sortString = "quake_distance_km ASC, trigger_time DESC";
+      break;
+   case "qdd":
+      $sortString = "quake_distance_km DESC, trigger_time DESC";
       break;
 }
 
@@ -617,7 +633,7 @@ page_tail();
 function qcn_trigger_header_csv() {
    return "TriggerID, HostID, IPAddr, ResultName, TimeTrigger, Delay, TimeSync, SyncOffset, "
     . "Magnitude, Significance, Latitude, Longitude, NumReset, DT, Sensor, Version, Time File Req, "
-    . "Received File, File Download, USGS ID, Quake Magnitude, Quake Time, "
+    . "Received File, File Download, USGS ID, Quake Dist (km), Quake Magnitude, Quake Time, "
     . "Quake Lat, Quake Long, USGS GUID, Quake Desc"
     . "\n";
 }
@@ -627,6 +643,7 @@ function qcn_trigger_detail_csv($res)
     $quakestuff = "";
     if ($res->usgs_quakeid) {
           $quakestuff = $res->usgs_quakeid . "," .
+             $res->quake_distance_km . "," .
              $res->quake_magnitude . "," . 
              time_str_csv($res->quake_time) . "," .
              $res->quake_lat . "," .
@@ -635,7 +652,7 @@ function qcn_trigger_detail_csv($res)
              $res->description; 
     }
     else {
-          $quakestuff = ",,,,,,";
+          $quakestuff = ",,,,,,,";
     }
 
     return $res->triggerid . "," . $res->hostid . "," . $res->ipaddr . "," .
@@ -674,6 +691,7 @@ function qcn_trigger_header() {
         <th>Received File</th>
         <th>File Download</th>
         <th>USGS ID</th>
+        <th>Quake Dist (km)</th>
         <th>Quake Magnitude</th>
         <th>Quake Time (UTC)</th>
         <th>Quake Latitude</th>
@@ -723,6 +741,7 @@ function qcn_trigger_detail($res)
 
         if ($res->usgs_quakeid) {
            echo "<td><a href=\"db_action.php?table=usgs_quake&id=$res->usgs_quakeid\">$res->usgs_quakeid</a></td>";
+           echo "<td>$res->quake_distance_km</td>";
            echo "<td>$res->quake_magnitude</td>";
            echo "<td>" . time_str($res->quake_time) . "</td>";
            echo "<td>$res->quake_lat</td>";
@@ -732,6 +751,7 @@ function qcn_trigger_detail($res)
         }
         else {
            echo "<td>N/A</td>";
+           echo "<td>&nbsp</td>";
            echo "<td>&nbsp</td>";
            echo "<td>&nbsp</td>";
            echo "<td>&nbsp</td>";
