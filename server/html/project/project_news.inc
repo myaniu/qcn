@@ -1,5 +1,11 @@
 <?php
 $project_news = array(
+   array("April 4, 2010",
+"
+The M7.2 earthquake that occurred this afternoon along the Laguna Salada fault in Mexico was recorded by several QCN participants in Southern California.  <A HREF=\"http://qcn.stanford.edu/sensor/img/M7.2_Mexico.png\">Attached is a plot of waveforms from stations</A> that have reported back already; we will update this plot as more information comes in. We have a number of stations also reporting in with data for the numerous aftershocks that followed the large mainshock.
+<BR><BR>",
+ "M7.2 Earthquake in Mexico"
+  ),
    array("March 16, 2010",
 "This morning there was a <A HREF=\"http://earthquake.usgs.gov/earthquakes/eqinthenews/2010/ci14601172/\">magnitude 4.4 earthquake in the Los Angeles area.</A>
   Many QCN <A HREF=\"http://qcn.stanford.edu/sensor/img/20100316_M4.4_LosAngeles.png\">participants detected this earthquake, as shown here.</A><BR><BR>",

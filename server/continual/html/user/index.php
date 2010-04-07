@@ -83,6 +83,7 @@ if ($user->donated) {
         <li><a href=\"dl.php?cbUseLat=1&cbUseTime=1&LatMin=-39&LatMax=-30&LonMin=-76&LonMax=-69\">".tra("Download Trigger Data (Chile RAMP Area)")."</a>
         ";
 
+/*
      // database backup
      $backupfile = "data/qcn-backup-continual.sql.gz";
      $fsizebackup = filesize($backupfile);
@@ -91,7 +92,7 @@ if ($user->donated) {
               sprintf("Full Database Backup Dated %s UTC  (Size %9.2f MB)", date ("F d Y H:i:s", filemtime($backupfile)), 
                 $fsizebackup / 1.048576e6)  . "</a>";
      }
-
+*/
      echo "   </ul>";
 }
 
