@@ -279,6 +279,7 @@ double viewpoint_distance[4]={ 10.0, 10.0, 10.0, 10.0};
 
 TEXTURE_DESC logo;   // customized version of the boinc/api/gutil.h TEXTURE_DESC
 TEXTURE_DESC txAdd;  // optional additional image
+TEXTURE_DESC txXYZAxes;  // legend for XYZ axes
 RIBBON_GRAPH rgx, rgy, rgz, rgs; // override the standard boinc/api ribbon graph draw as it's making the earth red!
 
 #ifndef QCNLIVE
@@ -511,6 +512,16 @@ void draw_logo(bool bExtraOnly)
         txAdd.draw(pos, size, ALIGN_CENTER, ALIGN_CENTER, g_alphaLogo);
         ortho_done();
     }
+	
+    if (txXYZAxes.id) {
+        mode_unshaded();
+        mode_ortho();
+        float pos[3] = {0.0, 0.27, 0};
+        float size[3] = {.2, .2, 0};
+        txXYZAxes.draw(pos, size, ALIGN_CENTER, ALIGN_CENTER, g_alphaLogo);
+        ortho_done();
+    }
+	
 }
 
 void draw_text_sensor()
@@ -1615,6 +1626,12 @@ void Init()
 		txAdd.CreateTextureJPG(path);
 	 }
 
+	// XYZ axes to show at the bottom right of 2d/3d/cube view
+	strcpy(path, IMG_LOGO_XYZAXES);  // shows up on lower right
+	if (boinc_file_exists(path)) {
+		txXYZAxes.CreateTextureJPG(path);
+	}
+	
      earth.SetMapCombined();
 #endif
     g_bInitGraphics = true;

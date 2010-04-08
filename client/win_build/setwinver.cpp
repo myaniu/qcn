@@ -116,11 +116,11 @@ const char cstrQCNLive[] = {"qcnlive-win.zip"};
 		// "init/earthmask.rgb",   // multitexturing mask -- seems to crash for some people though
 #ifdef _WIN64
 	sprintf_s(strCmd, 1024, "%s %s "
-		"%s %s %s %s %s %s %s %s%s%c%s%s %s", ZIPCMD, cstrQCNLive,
+		"%s %s %s %s %s %s %s %s %s%s%c%s%s %s", ZIPCMD, cstrQCNLive,
 		"qcnlive.exe",
 #else
 	sprintf_s(strCmd, 1024, "%s %s "
-		"%s %s %s %s %s %s %s %s %s%s%c%s%s %s", ZIPCMD, cstrQCNLive,
+		"%s %s %s %s %s %s %s %s %s %s%s%c%s%s %s", ZIPCMD, cstrQCNLive,
 		"qcnlive.exe",
 		"init/MotionNodeAccelAPI.dll",
 #endif
@@ -129,6 +129,7 @@ const char cstrQCNLive[] = {"qcnlive-win.zip"};
 		"init/Courier-Bold.txf",
 		"init/earthday4096.jpg",
 		"init/splash.png",
+		"init/xyzaxes.jpg",
 		"init/logo.jpg",
 		"init/", NTPDATE_EXEC_VERSION, '_', BOINC_WIN_SUFFIX, ".exe",
 		"init/earthnight4096.jpg"

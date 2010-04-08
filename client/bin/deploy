@@ -32,6 +32,7 @@ uplstring='init/Helvetica.txf \
          init/earthday4096.jpg \
          init/splash.png \
          init/earthnight4096.jpg \
+         init/xyzaxes.jpg \
          init/logo.jpg'
  ntpversion='ntpdate_4.2.4p7b_'
  ntpdv='ntpdate_4.2.4p7b_universal-apple-darwin'
