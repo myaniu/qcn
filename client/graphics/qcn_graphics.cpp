@@ -278,8 +278,11 @@ double viewpoint_distance[4]={ 10.0, 10.0, 10.0, 10.0};
 //float color[4] = {.7, .2, .5, 1};
 
 TEXTURE_DESC logo;   // customized version of the boinc/api/gutil.h TEXTURE_DESC
+
 TEXTURE_DESC txAdd;  // optional additional image
 TEXTURE_DESC txXYZAxes;  // legend for XYZ axes
+TEXTURE_DESC txXYZAxesBlack;  // legend for XYZ axes for 3D and Cube view
+
 RIBBON_GRAPH rgx, rgy, rgz, rgs; // override the standard boinc/api ribbon graph draw as it's making the earth red!
 
 #ifndef QCNLIVE
@@ -480,9 +483,10 @@ void init_lights()
 
 void draw_logo(bool bExtraOnly) 
 {
+	mode_unshaded();
+	mode_ortho();
+
     if (!bExtraOnly && logo.id) {
-        mode_unshaded();
-        mode_ortho();
 
         float pos[3] = {0.0, .5, 0};
 /* CMC note -- the shake/jiggle sucks, don't bother
@@ -497,12 +501,9 @@ void draw_logo(bool bExtraOnly)
           float size[3] = {.21, .21, 0};
           logo.draw(pos, size, ALIGN_CENTER, ALIGN_CENTER, g_alphaLogo);
 //      }
-        ortho_done();
     }
 
     if (txAdd.id) {
-        mode_unshaded();
-        mode_ortho();
         float pos[3] = {0.0, 0.27, 0};
 		if (bExtraOnly) { // move additional logo to the top
 			pos[0] = -0.015f;
@@ -510,18 +511,22 @@ void draw_logo(bool bExtraOnly)
 		}
         float size[3] = {.2, .2, 0};
         txAdd.draw(pos, size, ALIGN_CENTER, ALIGN_CENTER, g_alphaLogo);
-        ortho_done();
     }
 	
-    if (txXYZAxes.id) {
-        mode_unshaded();
-        mode_ortho();
-        float pos[3] = {0.0, 0.27, 0};
-        float size[3] = {.2, .2, 0};
-        txXYZAxes.draw(pos, size, ALIGN_CENTER, ALIGN_CENTER, g_alphaLogo);
-        ortho_done();
-    }
-	
+	// draw the xyz axes if available
+	if (g_eView == VIEW_PLOT_2D || g_eView == VIEW_PLOT_3D || g_eView == VIEW_CUBE) {
+		float pos[3] =  {1.00, 0.0, 0};
+		float size[3] = {.05, .05, 0};
+		
+		if (g_eView == VIEW_PLOT_2D && txXYZAxes.id) {
+			txXYZAxes.draw(pos, size, ALIGN_CENTER, ALIGN_CENTER, g_alphaLogo);
+		}
+		else if ((g_eView == VIEW_PLOT_3D || g_eView == VIEW_CUBE) && txXYZAxesBlack.id) {
+			txXYZAxesBlack.draw(pos, size, ALIGN_CENTER, ALIGN_CENTER, g_alphaLogo);
+		}
+	}
+
+	ortho_done();
 }
 
 void draw_text_sensor()
@@ -1546,6 +1551,12 @@ void Init()
     bFirstIn = true;
 
     char path[_MAX_PATH];
+	
+	// init textures
+	memset(&logo, 0x00, sizeof(TEXTURE_DESC));
+	memset(&txAdd, 0x00, sizeof(TEXTURE_DESC));
+	memset(&txXYZAxes, 0x00, sizeof(TEXTURE_DESC));
+	memset(&txXYZAxesBlack, 0x00, sizeof(TEXTURE_DESC));
 
     getProjectPrefs();
 
@@ -1632,7 +1643,13 @@ void Init()
 		txXYZAxes.CreateTextureJPG(path);
 	}
 	
-     earth.SetMapCombined();
+	// XYZ axes to show at the bottom right of 2d/3d/cube view
+	strcpy(path, IMG_LOGO_XYZAXES_BLACK);  // shows up on lower right
+	if (boinc_file_exists(path)) {
+		txXYZAxesBlack.CreateTextureJPG(path);
+	}
+	
+	earth.SetMapCombined();
 #endif
     g_bInitGraphics = true;
 }
