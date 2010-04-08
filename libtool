@@ -1,7 +1,7 @@
 #! /bin/sh
 
 # libtoolT - Provide generalized library-building support services.
-# Generated automatically by  (GNU qcn 5.42)
+# Generated automatically by  (GNU qcn 5.62)
 # NOTE: Changes made to this file will be lost: look at ltmain.sh.
 #
 # Copyright (C) 1996, 1997, 1998, 1999, 2000, 2001
@@ -44,7 +44,7 @@ available_tags=" CXX"
 
 # ### BEGIN LIBTOOL CONFIG
 
-# Libtool was configured on host carl-christensens-macbook-pro.local:
+# Libtool was configured on host Carl-Christensens-MacBook-Pro.local:
 
 # Shell to use when invoking shell scripts.
 SHELL="/bin/sh"
@@ -6765,7 +6765,7 @@ build_old_libs=`case $build_libtool_libs in yes) $echo no;; *) $echo yes;; esac`
 # End:
 # ### BEGIN LIBTOOL TAG CONFIG: CXX
 
-# Libtool was configured on host carl-christensens-macbook-pro.local:
+# Libtool was configured on host Carl-Christensens-MacBook-Pro.local:
 
 # Shell to use when invoking shell scripts.
 SHELL="/bin/sh"
