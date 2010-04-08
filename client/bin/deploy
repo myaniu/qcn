@@ -127,7 +127,7 @@ echo put graphics_app=qcn_graphics_$2_$suffixs >> qcnsftp.up
 print_common_files $ntpdv
 
 echo exit >> qcnsftp.up
-sftp -b qcnsftp.up carlgt1@qcn-web
+sftp -b qcnsftp.up carlgt1@qcn-web.stanford.edu
 
 
 else
@@ -162,5 +162,5 @@ echo put qcn_$2_$suffix >> qcnsftp.up
 echo put graphics_app=qcn_graphics_$2_$suffix >> qcnsftp.up
 print_common_files $ntpdv
 echo exit >> qcnsftp.up
-sftp -b qcnsftp.up carlgt1@qcn-web 
+sftp -b qcnsftp.up carlgt1@qcn-web.stanford.edu
 fi
