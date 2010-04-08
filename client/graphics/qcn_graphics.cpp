@@ -517,7 +517,6 @@ void draw_logo(bool bExtraOnly)
 	if (g_eView == VIEW_PLOT_2D || g_eView == VIEW_PLOT_3D || g_eView == VIEW_CUBE) {
 		float pos[3] =  {1.00, 0.0, 0};
 		float size[3] = {.05, .05, 0};
-		
 		if (g_eView == VIEW_PLOT_2D && txXYZAxes.id) {
 			txXYZAxes.draw(pos, size, ALIGN_CENTER, ALIGN_CENTER, g_alphaLogo);
 		}
@@ -1642,7 +1641,7 @@ void Init()
 	if (boinc_file_exists(path)) {
 		txXYZAxes.CreateTextureJPG(path);
 	}
-	
+
 	// XYZ axes to show at the bottom right of 2d/3d/cube view
 	strcpy(path, IMG_LOGO_XYZAXES_BLACK);  // shows up on lower right
 	if (boinc_file_exists(path)) {
