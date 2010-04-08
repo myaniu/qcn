@@ -47,6 +47,8 @@ bool ComputeMeanStdDevVarianceKnuth(const float* pfArray, const int iLen, const 
 void getBOINCInitData(const e_where eWhere);
 #endif
 
+bool launchURL(const char* strURL = NULL);
+
 #if (!defined(QCNDEMO) && !defined(QCN_USB) && !defined(GRAPHICS_PROGRAM)) || defined(QCNLIVE)
 void ResetCounter(const e_where eWhere, const int iNumResetInitial = -1);
 void removeOldTriggers(const char* strPathTrigger, const double cdFileDelete = TIME_FILE_DELETE);

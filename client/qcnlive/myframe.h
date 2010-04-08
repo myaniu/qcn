@@ -61,6 +61,7 @@ class MyFrame : public wxFrame
     void OnActionView(wxCommandEvent& evt);
     void OnActionEarth(wxCommandEvent& evt);
     void OnActionSensor(wxCommandEvent& evt);
+    void OnActionHelp(wxCommandEvent& evt);
     void OnScreenshot(wxCommandEvent& vet);
     void OnLogoChange(wxCommandEvent& vet);
 

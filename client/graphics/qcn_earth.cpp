@@ -896,83 +896,11 @@ void CEarth::checkURLClick(bool bShift)
    // if they did click, open a browser with this URL
    //if (!bShift || !psqActive) return; // only go into this if shift key is down on a mouse down event
    if (!bShift) return;
-
-   // OK, now see if they clicked on this area using mouseX & Y with shift & left button
-   //      OR they just did a right-mouse button to select one (psqActive != NULL)
-/*
-   if ( (mouseLeftButtonDown &&
-          (mouseX > (.2 * MSG_SIZE_NORMAL) 
-            || mouseY > (m_iHeight - (.11 * MSG_SIZE_NORMAL))
-            || mouseY < (m_iHeight - (.13 * MSG_SIZE_NORMAL)))
-        )
-   )
-     return;  // out of range
-*/
-
-     //|| !(mouseRightButtonDown && psqActive)
-// launch appropriate web browser
-#ifdef _WIN32
-   // Windows browser command
-/*
-   typedef struct _SHELLEXECUTEINFO {
-    DWORD cbSize;
-    ULONG fMask;
-    HWND hwnd;
-    LPCTSTR lpVerb;
-    LPCTSTR lpFile;
-    LPCTSTR lpParameters;
-    LPCTSTR lpDirectory;
-    int nShow;
-    HINSTANCE hInstApp;
-    LPVOID lpIDList;
-    LPCTSTR lpClass;
-    HKEY hkeyClass;
-    DWORD dwHotKey;
-    union {
-        HANDLE hIcon;
-        HANDLE hMonitor;
-    } DUMMYUNIONNAME;
-    HANDLE hProcess;
-} SHELLEXECUTEINFO, *LPSHELLEXECUTEINFO
-*/
-   const char strAction[5] = "open";
-   SHELLEXECUTEINFO sei;
-   ::SecureZeroMemory(&sei, sizeof(SHELLEXECUTEINFO));
-   sei.cbSize = sizeof(SHELLEXECUTEINFO);
-   sei.lpVerb = (LPCSTR) strAction;
-   if (psqActive)
-       sei.lpFile = (LPCSTR) psqActive->strURL.c_str();
-   else
-       sei.lpFile = (LPCSTR) URL_USGS;
-   sei.nShow  = SW_SHOWNORMAL;
-   sei.fMask  = SEE_MASK_FLAG_NO_UI;
-
-   try {
-       ::ShellExecuteEx(&sei);
-   }
-   catch(...) {
-       fprintf(stderr, "Could not launch Windows browser and url %s\n", psqActive->strURL.c_str());
-   }
-
-#else
-#ifdef __APPLE_CC__
-   // Apple browser command
-   string strTmp = "open ";
-   if (psqActive)  
-      strTmp += psqActive->strURL;
-   else
-	  strTmp += URL_USGS;
-	  
-   try {
-      system(strTmp.c_str());
-   }
-   catch(...) {
-       fprintf(stderr, "Could not launch Mac browser and url %s\n", strTmp.c_str());
-   }
-#else
-   // Linux browser ommand
-#endif
-#endif
+	if (psqActive)
+		qcn_util::launchURL(psqActive->strURL.c_str());
+	else
+		qcn_util::launchURL(URL_USGS);
+	
    isShiftDown = 0;  // set shift state off
 }
 

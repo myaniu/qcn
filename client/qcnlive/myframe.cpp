@@ -64,6 +64,16 @@ enum e_tool_action_sensor {
 	ID_TOOL_ACTION_SENSOR_VERT_ZOOM_AUTO
 };
 
+enum e_tool_help {
+	ID_TOOL_HELP_WEB_QCN = 1040,
+	ID_TOOL_HELP_WEB_QCNLIVE,
+	ID_TOOL_HELP_WEB_MANUAL,
+	ID_TOOL_HELP_WEB_EARTHQUAKES,
+	ID_TOOL_HELP_WEB_LESSONS,
+	ID_TOOL_HELP_WEB_REQUEST_SENSOR,
+	ID_TOOL_HELP_WEB_GLOSSARY
+};
+
 BEGIN_EVENT_TABLE(MyFrame, wxFrame)
     EVT_SIZE(MyFrame::OnSize)
     EVT_CLOSE(MyFrame::OnCloseWindow)
@@ -103,6 +113,15 @@ BEGIN_EVENT_TABLE(MyFrame, wxFrame)
 	EVT_MENU(ID_TOOL_ACTION_SENSOR_VERT_ZOOM_OUT, MyFrame::OnActionSensor)
 	EVT_MENU(ID_TOOL_ACTION_SENSOR_VERT_ZOOM_IN, MyFrame::OnActionSensor)
 	EVT_MENU(ID_TOOL_ACTION_SENSOR_VERT_ZOOM_AUTO, MyFrame::OnActionSensor)
+
+	EVT_MENU(ID_TOOL_HELP_WEB_QCN, MyFrame::OnActionHelp)
+    EVT_MENU(ID_TOOL_HELP_WEB_QCNLIVE, MyFrame::OnActionHelp)
+	EVT_MENU(ID_TOOL_HELP_WEB_MANUAL, MyFrame::OnActionHelp)
+	EVT_MENU(ID_TOOL_HELP_WEB_EARTHQUAKES, MyFrame::OnActionHelp)
+	EVT_MENU(ID_TOOL_HELP_WEB_LESSONS, MyFrame::OnActionHelp)
+	EVT_MENU(ID_TOOL_HELP_WEB_REQUEST_SENSOR, MyFrame::OnActionHelp)
+	EVT_MENU(ID_TOOL_HELP_WEB_GLOSSARY, MyFrame::OnActionHelp)
+
 
 /*
 	EVT_MENU(ID_TOOL_ACTION_2D_01, MyFrame::OnActionPlot)
@@ -145,6 +164,13 @@ MyFrame::MyFrame(const wxRect& rect, MyApp* papp)
 //#ifndef __WXMAC__  // Mac's have a default about box btn
     menuHelp->Append(wxID_ABOUT, wxString("&About", wxConvUTF8), wxString("About QCNLive", wxConvUTF8));
 //#endif
+    menuHelp->Append(ID_TOOL_HELP_WEB_MANUAL, wxString("&Manual (PDF) for QCNLive", wxConvUTF8), wxString("Download/View Manual (PDF) for QCNLive", wxConvUTF8));
+    menuHelp->Append(ID_TOOL_HELP_WEB_QCN, wxString("&QCN Website", wxConvUTF8), wxString("Visit the main QCN website", wxConvUTF8));
+    menuHelp->Append(ID_TOOL_HELP_WEB_QCNLIVE, wxString("QCN&Live Website", wxConvUTF8), wxString("Visit the QCNLive website", wxConvUTF8));
+    menuHelp->Append(ID_TOOL_HELP_WEB_EARTHQUAKES, wxString("&Earthquake Information", wxConvUTF8), wxString("Visit QCN's website for earthquakes", wxConvUTF8));
+    menuHelp->Append(ID_TOOL_HELP_WEB_LESSONS, wxString("Lessons and &Activities", wxConvUTF8), wxString("Lessons and Activities website", wxConvUTF8));
+    menuHelp->Append(ID_TOOL_HELP_WEB_REQUEST_SENSOR, wxString("&Request a Sensor", wxConvUTF8), wxString("Request/Purchase a sensor to use with QCN", wxConvUTF8));
+    menuHelp->Append(ID_TOOL_HELP_WEB_GLOSSARY, wxString("&Glossary", wxConvUTF8), wxString("Online Glossary", wxConvUTF8));
 
     menuView = new wxMenu;
     menuOptions = new wxMenu;
@@ -330,6 +356,38 @@ void MyFrame::OnActionEarth(wxCommandEvent& evt)
 	     break;
   }
   SetToggleEarth();
+}
+
+void MyFrame::OnActionHelp(wxCommandEvent& evt)
+{
+	static int current = evt.GetId();
+	wxString wxstrURL = "";
+	switch(evt.GetId())
+	{
+		case ID_TOOL_HELP_WEB_QCN:
+			wxstrURL = _("http://qcn.stanford.edu");
+			break;
+		case ID_TOOL_HELP_WEB_QCNLIVE:
+			wxstrURL = _("http://qcn.stanford.edu/learning/software.php");
+			break;
+		case ID_TOOL_HELP_WEB_MANUAL:
+			wxstrURL = _("http://qcn.stanford.edu/downloads/QCNLive_User_Manual.pdf");
+			break;
+		case ID_TOOL_HELP_WEB_EARTHQUAKES:
+			wxstrURL = _("http://qcn.stanford.edu/learning/earthquakes.php");
+			break;
+		case ID_TOOL_HELP_WEB_LESSONS:
+			wxstrURL = _("http://qcn.stanford.edu/learning/lessons.php");
+			break;
+		case ID_TOOL_HELP_WEB_REQUEST_SENSOR:
+			wxstrURL = _("http://qcn.stanford.edu/learning/requests.php");
+			break;
+		case ID_TOOL_HELP_WEB_GLOSSARY:
+			wxstrURL = _("http://qcn.stanford.edu/learning/glossary.php");
+			break;
+	}
+	if (!wxstrURL.empty())  qcn_util::launchURL(wxstrURL.c_str());
+	current = evt.GetId();
 }
 
 void MyFrame::OnActionSensor(wxCommandEvent& evt)

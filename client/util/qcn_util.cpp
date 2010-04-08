@@ -61,6 +61,45 @@ const char* os_type_str()
 #endif
 }
 
+bool launchURL(const char* strURL)
+{
+  if (!strURL) return false;
+#ifdef _WIN32
+   const char strAction[5] = "open";
+   SHELLEXECUTEINFO sei;
+   ::SecureZeroMemory(&sei, sizeof(SHELLEXECUTEINFO));
+   sei.cbSize = sizeof(SHELLEXECUTEINFO);
+   sei.lpVerb = (LPCSTR) strAction;
+   sei.lpFile = (LPCSTR) strURL;
+   sei.nShow  = SW_SHOWNORMAL;
+   sei.fMask  = SEE_MASK_FLAG_NO_UI;
+
+   try {
+       ::ShellExecuteEx(&sei);
+   }
+   catch(...) {
+       fprintf(stderr, "Could not launch Windows browser and url %s\n", strURL);
+   }
+
+#else
+#ifdef __APPLE_CC__
+   // Apple browser command
+   string strTmp = "open " + string(strURL);	  
+   try {
+      system(strTmp.c_str());
+   }
+   catch(...) {
+       fprintf(stderr, "Could not launch Mac browser and url %s\n", strURL);
+   }
+#else
+   // Linux browser ommand
+#endif
+#endif
+	
+	return true;
+}
+
+
 void FormatElapsedTime(const double& dTime, char* strFormat, int iLen)
 {
     char *strTemp = new char[_MAX_PATH];
