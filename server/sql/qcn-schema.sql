@@ -169,6 +169,33 @@ ALTER TABLE result ADD INDEX result_random (random);
 
 create table qcn_showhostlocation (hostid int(11) primary key not null);
 
+create table qcn_trigger_memory 
+(
+id int(11) not null primary key,
+hostid int(11) not null,
+ipaddr varchar(32) not null,
+result_name varchar(64) not null,
+time_trigger double,
+time_received double,
+time_sync double,
+sync_offset double,
+significance double,
+magnitude double,
+latitude double,
+longitude double,
+levelvalue float,
+levelid smallint,
+alignid smallint,
+dt float,
+numreset int(6),
+type_sensor int(3),
+varietyid smallint not null default 0
+) ENGINE = MEMORY;
+
+create index qcn_trigger_memory_time on qcn_trigger (time_trigger desc, varietyid asc);
+create index qcn_trigger_memory_hostid on qcn_trigger(hostid, time_trigger, varietyid);
+create index qcn_trigger_memory_latlng on qcn_trigger(latitude, longitude, varietyid);
+
 /* Now generate the stored procedures */
 
 SOURCE do_final_trigger.sql;
