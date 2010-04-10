@@ -1,3 +1,22 @@
+/*
+
+CMC here -- setup different dbconn for trigmem
+ -- also need to change trigmmeo table to have server (qcnalpha, continual, chile) etc with primary key of trigger.id
+
+extern SCHED_CONFIG config;
+
+#include "sched_config.h"
+
+    retval = trigmem_db.open(
+        config.db_name,
+        db_host?db_host:config.db_host,
+        config.db_user,
+        config.db_passwd
+    );
+
+
+*/
+
 #include "qcn_trigger.h"
 #include <curl/curl.h>
 
