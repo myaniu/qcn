@@ -83,7 +83,7 @@ bool mark_jobs_done = false;
 bool all_apps_use_hr;
 
 // CMC here -- createthe trigmem db connection
-//DB_CONN trigmem_db;
+DB_CONN trigmem_db;
 // end CMC
 
 static void usage(char* p) {
@@ -185,9 +185,9 @@ int open_database() {
     int retval;
 
     if (db_opened) {
-// CMC here
         retval = boinc_db.ping();
-  //      if (!retval) retval = trigmem_db.ping();
+// CMC here
+        if (!retval) retval = trigmem_db.ping();
 // end CMC
         if (retval) {
             log_messages.printf(MSG_CRITICAL,
@@ -207,10 +207,6 @@ int open_database() {
     }
 
 // CMC here -- create the trigmem db connection
-/*
-log_messages.printf(MSG_CRITICAL, "tdb=%s tdh=%s tdu=%s tdp=%s\n",
-    config.trigmem_db_name, config.trigmem_db_host, config.trigmem_db_user, config.trigmem_db_passwd
-);
     retval = trigmem_db.open(
         config.trigmem_db_name, config.trigmem_db_host, config.trigmem_db_user, config.trigmem_db_passwd
     );
@@ -218,7 +214,6 @@ log_messages.printf(MSG_CRITICAL, "tdb=%s tdh=%s tdu=%s tdp=%s\n",
         log_messages.printf(MSG_CRITICAL, "can't open trigmem database\n");
         return retval;
     }
-*/
 // end CMC
 
     db_opened = true;
@@ -603,7 +598,7 @@ done:
     if (db_opened) {
         boinc_db.close();
 //CMC here
-  //      trigmem_db.close();
+        trigmem_db.close();
 // end CMC
     }
 }

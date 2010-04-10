@@ -56,7 +56,7 @@ using namespace std;
 #endif
 
 extern DB_CONN boinc_db;
-//extern DB_CONN trigmem_db;
+extern DB_CONN trigmem_db;
 
 extern int handle_qcn_trigger(const DB_MSG_FROM_HOST* pmfh, const int iVariety = 0);
 
@@ -121,7 +121,6 @@ struct QCN_TRIGGER
     int flag;
 };
 
-/*
 struct QCN_TRIGGER_MEMORY
 {
     char db_name[16];
@@ -145,13 +144,12 @@ struct QCN_TRIGGER_MEMORY
     int type_sensor;
     int varietyid;
 };
-*/
 
 class DB_QCN_HOST_IPADDR : public DB_BASE, public QCN_HOST_IPADDR 
 {
 public:
     DB_QCN_HOST_IPADDR(DB_CONN* dc=0) :
-          DB_BASE("qcn_host_ipaddr", dc ? dc : &boinc_db)  { clear(); }
+          DB_BASE("qcn_host_ipaddr", dc ? dc : &boinc_db)  { }
 
     void clear() {memset(this, 0x00, sizeof(DB_QCN_HOST_IPADDR));}
 
@@ -205,7 +203,7 @@ class DB_QCN_GEO_IPADDR : public DB_BASE, public QCN_GEO_IPADDR
 {
 public:
     DB_QCN_GEO_IPADDR(DB_CONN* dc=0) :
-          DB_BASE("qcn_geo_ipaddr", dc ? dc : &boinc_db)  { clear(); }
+          DB_BASE("qcn_geo_ipaddr", dc ? dc : &boinc_db)  { }
 
     void clear() {memset(this, 0x00, sizeof(DB_QCN_GEO_IPADDR));}
 
@@ -250,7 +248,7 @@ class DB_QCN_TRIGGER : public DB_BASE, public QCN_TRIGGER
 {
 public:
     DB_QCN_TRIGGER(DB_CONN* dc=0) :
-          DB_BASE("qcn_trigger", dc ? dc : &boinc_db)  { clear(); }
+          DB_BASE("qcn_trigger", dc ? dc : &boinc_db)  { }
 
     void clear() {memset(this, 0x00, sizeof(DB_QCN_TRIGGER));}
 
@@ -339,13 +337,11 @@ public:
     }
 };
 
-/*
 class DB_QCN_TRIGGER_MEMORY : public DB_BASE, public QCN_TRIGGER_MEMORY
 {
 public:
     DB_QCN_TRIGGER_MEMORY(DB_CONN* dc=0) :
-          DB_BASE("qcn_trigger_memory", dc ? dc : &boinc_db)  { clear(); }
-          //DB_BASE("qcn_trigger_memory", dc ? dc : &trigmem_db)  { clear(); }
+        DB_BASE("qcn_trigger_memory", dc ? dc : &trigmem_db)  { }
 
     void clear() {memset(this, 0x00, sizeof(DB_QCN_TRIGGER_MEMORY));}
 
@@ -364,7 +360,7 @@ public:
       }
       sprintf(buf,
         "db_name='%s',"
-        "triggerid=%d," 
+        "triggerid=%d,"
         "hostid=%d,"
         "ipaddr='%s',"
         "result_name='%s',"
@@ -415,7 +411,6 @@ public:
       varietyid = safe_atoi(r[i++]);
     }
 };
-*/
 
 #endif  // ifndef _QCN_TRIGGER_H
 
