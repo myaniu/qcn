@@ -205,6 +205,9 @@ insert into qcn_trigger_memory
       levelvalue, levelid, alignid, dt, numreset, type_sensor, varietyid
          from qcn_trigger where time_sync>1e6 order by time_trigger desc limit 10000;
 
+
+ select round(latitude,1) lat, round(longitude,1) lng, count(*) from qcn_trigger_memory  group by lat,lng;
+
 */
 
 /* Now generate the stored procedures */
