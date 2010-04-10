@@ -36,11 +36,11 @@ public:
     char db_host[256];
 
 // CMC HERE  add 4 fields for trigmem databse info
-    char trigmem_db_name[256];
-    char trigmem_db_user[256];
-    char trigmem_db_passwd[256];
-    char trigmem_db_host[256];
-    int trigmem_db_port;
+  //  char trigmem_db_name[256];
+  //  char trigmem_db_user[256];
+  //  char trigmem_db_passwd[256];
+  //  char trigmem_db_host[256];
+  //  int trigmem_db_port;
 // CMC end
 
     int shmem_key;
