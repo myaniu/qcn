@@ -1,30 +1,13 @@
-/*
-
-CMC here -- setup different dbconn for trigmem
- -- also need to change trigmmeo table to have server (qcnalpha, continual, chile) etc with primary key of trigger.id
-
-extern SCHED_CONFIG config;
-
-#include "sched_config.h"
-
-    retval = trigmem_db.open(
-        config.db_name,
-        db_host?db_host:config.db_host,
-        config.db_user,
-        config.db_passwd
-    );
-
-
-*/
-
-#include "qcn_trigger.h"
-#include <curl/curl.h>
-
 // CMC Note -- this file is actually included from boinc/sched/handle_request.C so as to make it easier
 //             to add the necessary functions and code
 
 // CMC -- now we need to handle triggers differently and put them into the appropriate table
 //     at the point this function is called we know this is a trigger trickle (i.e. variety='trigger')
+
+#include "qcn_trigger.h"
+#include <curl/curl.h>
+
+#include "sched_config.h"
 
    /*
       Note: all references to "IP address" are really the first 3 bytes of an ipaddress, i.e. the 127.0.0 part of 127.0.0.1
@@ -156,6 +139,18 @@ bool doTriggerMemoryInsert(const DB_QCN_TRIGGER& qtrig)
 
     return (qtrigmem.insert() == 0);
 }
+
+//CMC here -- setup different dbconn for trigmem
+// -- also need to change trigmmeo table to have server (qcnalpha, continual, chile) etc with primary key of trigger.id
+/*
+
+    retval = trigmem_db.open(
+        config.db_name,
+        db_host?db_host:config.db_host,
+        config.db_user,
+        config.db_passwd
+    );
+*/
 
 
 // handle_qcn_trigger processes the trigger trickle, does the geoip or database lookup as appropriate, inserts into qcn_trigger

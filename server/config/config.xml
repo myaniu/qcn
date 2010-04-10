@@ -18,16 +18,21 @@
       1024
     </uldl_dir_fanout>
     <download_url>http://qcn.stanford.edu/sensor/download</download_url>
-    <db_user>qcn</db_user>
     <log_dir>/var/www/boinc/sensor/log_qcn-web</log_dir>
     <app_dir>/var/www/boinc/sensor/apps</app_dir>
     <download_dir>/var/www/boinc/sensor/download</download_dir>
     <fuh_debug_level>0</fuh_debug_level>
     <master_url>http://qcn.stanford.edu/sensor/</master_url>
     <host>qcn-web</host>
-    <db_name>
-      qcnalpha
-    </db_name>
+    <db_user>qcn</db_user>
+    <db_name>qcnalpha</db_name>
+    <db_passwd></db_passwd>
+    <db_host>db-private</db_host>
+    <trigmem_db_user>trigmem</trigmem_db_user>
+    <trigmem_db_name>trigmem</trigmem_db_name>
+    <trigmem_db_passwd>insertTrigMem</trigmem_db_passwd>
+    <trigmem_db_host>db-private</trigmem_db_host>
+    <trigmem_db_port>3306</trigmem_db_port>
     <min_core_client_version_announced> 602 </min_core_client_version_announced>
     <min_core_client_upgrade_deadline> 1241650148 </min_core_client_upgrade_deadline>
     <min_core_client_version> 602 </min_core_client_version>
@@ -44,11 +49,6 @@
     <upload_url>
       http://qcn.stanford.edu/sensor_cgi/file_upload_handler
     </upload_url>
-    <db_passwd>
-    </db_passwd>
-    <db_host>
-      db-private
-    </db_host>
     <non_cpu_intensive>
        1
     </non_cpu_intensive>
