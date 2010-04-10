@@ -120,11 +120,35 @@ struct QCN_TRIGGER
     int flag;
 };
 
+struct QCN_TRIGGER_MEMORY
+{
+    int id;
+    int hostid;
+    char ipaddr[32];
+    char result_name[64];
+    double time_trigger;
+    double time_received;
+    double time_sync;
+    double sync_offset;
+    double significance;
+    double magnitude;
+    double latitude;
+    double longitude;
+    float  levelvalue;
+    int levelid;
+    int alignid;
+    double dt;
+    int numreset;
+    int type_sensor;
+    int varietyid;
+};
+
+
 class DB_QCN_HOST_IPADDR : public DB_BASE, public QCN_HOST_IPADDR 
 {
 public:
     DB_QCN_HOST_IPADDR(DB_CONN* dc=0) :
-          DB_BASE("qcn_host_ipaddr", dc ? dc : &boinc_db)  { }
+          DB_BASE("qcn_host_ipaddr", dc ? dc : &boinc_db)  { clear(); }
 
     void clear() {memset(this, 0x00, sizeof(DB_QCN_HOST_IPADDR));}
 
@@ -178,7 +202,7 @@ class DB_QCN_GEO_IPADDR : public DB_BASE, public QCN_GEO_IPADDR
 {
 public:
     DB_QCN_GEO_IPADDR(DB_CONN* dc=0) :
-          DB_BASE("qcn_geo_ipaddr", dc ? dc : &boinc_db)  { }
+          DB_BASE("qcn_geo_ipaddr", dc ? dc : &boinc_db)  { clear(); }
 
     void clear() {memset(this, 0x00, sizeof(DB_QCN_GEO_IPADDR));}
 
@@ -223,7 +247,7 @@ class DB_QCN_TRIGGER : public DB_BASE, public QCN_TRIGGER
 {
 public:
     DB_QCN_TRIGGER(DB_CONN* dc=0) :
-          DB_BASE("qcn_trigger", dc ? dc : &boinc_db)  { }
+          DB_BASE("qcn_trigger", dc ? dc : &boinc_db)  { clear(); }
 
     void clear() {memset(this, 0x00, sizeof(DB_QCN_TRIGGER));}
 
@@ -312,6 +336,78 @@ public:
     }
 };
 
+class DB_QCN_TRIGGER_MEMORY : public DB_BASE, public QCN_TRIGGER_MEMORY
+{
+public:
+    DB_QCN_TRIGGER_MEMORY(DB_CONN* dc=0) :
+          DB_BASE("qcn_trigger_memory", dc ? dc : &boinc_db)  { clear(); }
+
+    void clear() {memset(this, 0x00, sizeof(DB_QCN_TRIGGER_MEMORY));}
+
+    int get_id() {return id;}
+
+    void db_print(char* buf)
+    {
+      char strLevelValue[32], strLevelID[16];
+      if (levelid==0) {
+        strcpy(strLevelValue, "NULL");
+        strcpy(strLevelID, "NULL");
+      }
+      else {
+        sprintf(strLevelValue, "%f", levelvalue);
+        sprintf(strLevelID, "%d", levelid);
+      }
+      sprintf(buf,
+        "id=%d," 
+        "hostid=%d,"
+        "ipaddr='%s',"
+        "result_name='%s',"
+        "time_trigger=%f,"
+        "time_received=unix_timestamp(),"
+        "time_sync=%f,"
+        "sync_offset=%f,"
+        "significance=%f,"
+        "magnitude=%f,"
+        "latitude=%16.9f,"
+        "longitude=%16.9f,"
+        "levelvalue=%s,"
+        "levelid=%s,"
+        "alignid=%d,"
+        "dt=%f,"
+        "numreset=%d,"
+        "type_sensor=%d,"
+        "varietyid=%d",
+        id, hostid, ipaddr, result_name, time_trigger, time_sync, sync_offset,
+        significance, magnitude, latitude, longitude, strLevelValue, strLevelID, alignid,
+        dt, numreset, type_sensor, varietyid
+      );
+    }
+
+    void db_parse(MYSQL_ROW& r)
+    {
+      int i=0;
+      clear();
+      id = safe_atoi(r[i++]);
+      hostid = safe_atoi(r[i++]);
+      strcpy2(ipaddr, r[i++]);
+      strcpy2(result_name, r[i++]);
+      time_trigger = safe_atof(r[i++]);
+      time_received = safe_atof(r[i++]);
+      time_sync = safe_atof(r[i++]);
+      sync_offset = safe_atof(r[i++]);
+      significance = safe_atof(r[i++]);
+      magnitude = safe_atof(r[i++]);
+      latitude = safe_atof(r[i++]);
+      longitude = safe_atof(r[i++]);
+      levelvalue = safe_atof(r[i++]);
+      levelid = safe_atoi(r[i++]);
+      alignid = safe_atoi(r[i++]);
+      dt = safe_atof(r[i++]);
+      numreset = safe_atoi(r[i++]);
+      type_sensor = safe_atoi(r[i++]);
+      varietyid = safe_atoi(r[i++]);
+    }
+};
 
 #endif  // ifndef _QCN_TRIGGER_H
 

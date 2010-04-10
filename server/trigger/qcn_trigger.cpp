@@ -102,6 +102,43 @@ bool execute_curl(const char* strURL, char* strReply, const int iLen);
 // decl for curl write function
 size_t qcn_curl_write_data(void *ptr, size_t size, size_t nmemb, void *stream);
 
+bool doTriggerMemoryInsert(const DB_QCN_TRIGGER& qtrig)
+{  // call this after inserting a "regular" trigger record - this will add the 
+   // trigger (if applicable i.e. insertid>0, timesync>0) to the memory table for event polling
+
+    DB_QCN_TRIGGER_MEMO qtrigmem;
+
+    // don't put in triggers into memory which haven't had a time sync as they can be way off
+    if (qtrig.time_sync < 1e6) return false;
+
+    int iInsertID = qtrig.db->insert_id();
+    if (iInsertID <= 0) return false;  // invalid trigger ID
+    qtrigmem.id = iInsertID;  // memory trigger ID matches disk table trigger ID
+
+    // copy over remainig trigger fields of interest
+    qtrigmem.hostid = qtrig.hostid;
+    strncpy(qtrigmem.ipaddr, qtrig.ipaddr, 31);
+    strncpy(qtrigmem.result_name, qtrig.result_name, 63);
+    qtrigmem.time_trigger = qtrig.time_trigger;
+    qtrigmem.time_received = qtrig.time_received;
+    qtrigmem.time_sync = qtrig.time_sync;
+    qtrigmem.sync_offset = qtrig.sync_offset;
+    qtrigmem.significance = qtrig.significance;
+    qtrigmem.magnitude = qtrig.magnitude;
+    qtrigmem.latitude = qtrig.latitude;
+    qtrigmem.longitude = qtrig.longitude;
+    qtrigmem.levelvalue = qtrig.levelvalue;
+    qtrigmem.levelid = qtrig.levelid;
+    qtrigmem.alignid = qtrig.alignid;
+    qtrigmem.dt = qtrig.dt;
+    qtrigmem.numreset = qtrig.numreset;
+    qtrigmem.type_sensor = qtrig.type_sensor;
+    qtrigmem.varietyid = qtrig.varietyid;
+
+    return (qtrigmem.insert() == 0);
+}
+
+
 // handle_qcn_trigger processes the trigger trickle, does the geoip or database lookup as appropriate, inserts into qcn_trigger
 int handle_qcn_trigger(const DB_MSG_FROM_HOST* pmfh, const int iVariety)
 {
@@ -261,6 +298,7 @@ int handle_qcn_trigger(const DB_MSG_FROM_HOST* pmfh, const int iVariety)
                  qtrig.longitude = qhip.longitude;
                  iRetVal = qtrig.insert();  // note if the insert fails, return code will be set and returned below
                  if (!iRetVal) { // trigger got in OK
+                    doTriggerMemoryInsert(qtrig);
                     log_messages.printf(
                           SCHED_MSG_LOG::MSG_DEBUG,
                           "[QCN] [HOST#%d] [RESULTNAME=%s] [TIME=%lf] [1] Trigger inserted after qcn_host_ipaddr lookup of blank IP, mag=%lf at (%lf, %lf)!\n",
@@ -295,6 +333,7 @@ int handle_qcn_trigger(const DB_MSG_FROM_HOST* pmfh, const int iVariety)
               delete [] strErr;  strErr = NULL;
            }
            else { // trigger got in OK
+                    doTriggerMemoryInsert(qtrig);
                 log_messages.printf(
                   SCHED_MSG_LOG::MSG_DEBUG,
                   "[QCN] [HOST#%d] [RESULTNAME=%s] [TIME=%lf] [1] Trigger inserted after qcn_host_ipaddr lookup of IP %s, mag=%lf at (%lf, %lf) - sync offset %f at %f!\n",
@@ -419,6 +458,7 @@ int lookupGeoIPWebService(
                                             );
                                         }
                                         else {
+                                             doTriggerMemoryInsert(qtrig);
                                             log_messages.printf(
                                               SCHED_MSG_LOG::MSG_DEBUG,
                                               "[QCN] [HOST#%d] [RESULTNAME=%s] [TIME=%lf] [2] Maxmind/GeoIP web lookup -- trigger %s insert success\n",
@@ -489,6 +529,7 @@ int lookupGeoIPWebService(
               delete [] strErr;  strErr = NULL;
                        }
                        else {
+                          doTriggerMemoryInsert(qtrig);
                           // trigger got in OK
                            log_messages.printf(
                              SCHED_MSG_LOG::MSG_DEBUG,
