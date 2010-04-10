@@ -174,7 +174,8 @@ create table qcn_showhostlocation (hostid int(11) primary key not null);
 create database trigmem;
 create table trigmem.qcn_trigger_memory 
 (
-id int(11) not null primary key,
+db_name varchar(16) not null,
+triggerid int(11) not null,
 hostid int(11) not null,
 ipaddr varchar(32) not null,
 result_name varchar(64) not null,
@@ -195,6 +196,7 @@ type_sensor int(3),
 varietyid smallint not null default 0
 ) ENGINE = MEMORY;
 
+alter table trigmem.qcn_trigger_memory ADD PRIMARY KEY (db_name, triggerid);
 create index qcn_trigger_memory_time on trigmem.qcn_trigger_memory (time_trigger desc, varietyid asc);
 create index qcn_trigger_memory_hostid on trigmem.qcn_trigger_memory(hostid, time_trigger, varietyid);
 create index qcn_trigger_memory_latlng on trigmem.qcn_trigger_memory(latitude, longitude, varietyid);
