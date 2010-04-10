@@ -203,14 +203,14 @@ create index qcn_trigger_memory_latlng on trigmem.qcn_trigger_memory(latitude, l
 
 /*
 
-insert into qcn_trigger_memory
-   select id,hostid,ipaddr,result_name,time_trigger,time_received,time_sync,sync_offset,
+insert into trigmem.qcn_trigger_memory
+   select 'qcnalpha',id,hostid,ipaddr,result_name,time_trigger,time_received,time_sync,sync_offset,
       significance,magnitude,latitude,longitude,
       levelvalue, levelid, alignid, dt, numreset, type_sensor, varietyid
          from qcn_trigger where time_sync>1e6 order by time_trigger desc limit 10000;
 
 
- select round(latitude,1) lat, round(longitude,1) lng, count(*) from qcn_trigger_memory  group by lat,lng;
+ select round(latitude,1) lat, round(longitude,1) lng, count(*) from trigmem.qcn_trigger_memory  group by lat,lng;
 
 */
 
