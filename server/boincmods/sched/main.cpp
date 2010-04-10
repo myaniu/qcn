@@ -185,7 +185,9 @@ int open_database() {
     int retval;
 
     if (db_opened) {
-        retval = boinc_db.ping();
+// CMC here
+        retval = boinc_db.ping() + trigmem_db.ping();
+// end CMC
         if (retval) {
             log_messages.printf(MSG_CRITICAL,
                 "lost connection to database - trying to reconnect\n"
@@ -594,6 +596,9 @@ done:
 #endif
     if (db_opened) {
         boinc_db.close();
+//CMC here
+        trigmem_db.close();
+// end CMC
     }
 }
 
