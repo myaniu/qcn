@@ -104,9 +104,12 @@ bool execute_curl(const char* strURL, char* strReply, const int iLen);
 // decl for curl write function
 size_t qcn_curl_write_data(void *ptr, size_t size, size_t nmemb, void *stream);
 
+/*
 bool doTriggerMemoryInsert(const DB_QCN_TRIGGER& qtrig)
 {  // call this after inserting a "regular" trigger record - this will add the 
    // trigger (if applicable i.e. insertid>0, timesync>0) to the memory table for event polling
+
+   return true;
 
     DB_QCN_TRIGGER_MEMORY qtrigmem;
 
@@ -149,6 +152,7 @@ bool doTriggerMemoryInsert(const DB_QCN_TRIGGER& qtrig)
     }
     return (iVal == 0);
 }
+*/
 
 // handle_qcn_trigger processes the trigger trickle, does the geoip or database lookup as appropriate, inserts into qcn_trigger
 int handle_qcn_trigger(const DB_MSG_FROM_HOST* pmfh, const int iVariety)
@@ -344,7 +348,7 @@ int handle_qcn_trigger(const DB_MSG_FROM_HOST* pmfh, const int iVariety)
               delete [] strErr;  strErr = NULL;
            }
            else { // trigger got in OK
-                    doTriggerMemoryInsert(qtrig);
+                    //doTriggerMemoryInsert(qtrig);
                 log_messages.printf(
                   SCHED_MSG_LOG::MSG_DEBUG,
                   "[QCN] [HOST#%d] [RESULTNAME=%s] [TIME=%lf] [1] Trigger inserted after qcn_host_ipaddr lookup of IP %s, mag=%lf at (%lf, %lf) - sync offset %f at %f!\n",
@@ -469,7 +473,7 @@ int lookupGeoIPWebService(
                                             );
                                         }
                                         else {
-                                             doTriggerMemoryInsert(qtrig);
+                                             //doTriggerMemoryInsert(qtrig);
                                             log_messages.printf(
                                               SCHED_MSG_LOG::MSG_DEBUG,
                                               "[QCN] [HOST#%d] [RESULTNAME=%s] [TIME=%lf] [2] Maxmind/GeoIP web lookup -- trigger %s insert success\n",
@@ -540,7 +544,7 @@ int lookupGeoIPWebService(
               delete [] strErr;  strErr = NULL;
                        }
                        else {
-                          doTriggerMemoryInsert(qtrig);
+                          //doTriggerMemoryInsert(qtrig);
                           // trigger got in OK
                            log_messages.printf(
                              SCHED_MSG_LOG::MSG_DEBUG,
