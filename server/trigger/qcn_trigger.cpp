@@ -108,14 +108,16 @@ bool doTriggerMemoryInsert(const DB_QCN_TRIGGER& qtrig)
 {  // call this after inserting a "regular" trigger record - this will add the 
    // trigger (if applicable i.e. insertid>0, timesync>0) to the memory table for event polling
 
-    DB_QCN_TRIGGER_MEMO qtrigmem;
+    DB_QCN_TRIGGER_MEMORY qtrigmem;
 
     // don't put in triggers into memory which haven't had a time sync as they can be way off
-    if (qtrig.time_sync < 1e6) return false;
+    // also we just want varietyid=0 (i.e. normal triggers)
+    if (qtrig.varietyid !=0 || qtrig.time_sync < 1e6) return false;
 
-    int iInsertID = qtrig.db->insert_id();
-    if (iInsertID <= 0) return false;  // invalid trigger ID
-    qtrigmem.id = iInsertID;  // memory trigger ID matches disk table trigger ID
+    int iVal = qtrig.db->insert_id();
+    if (iVal <= 0) return false;  // invalid trigger ID
+    strncpy(qtrigmem.db_name, config.db_name, 15);   // database name from config file is stored in mem table
+    qtrigmem.triggerid = iVal;  // memory trigger ID matches disk table trigger ID
 
     // copy over remainig trigger fields of interest
     qtrigmem.hostid = qtrig.hostid;
@@ -137,21 +139,16 @@ bool doTriggerMemoryInsert(const DB_QCN_TRIGGER& qtrig)
     qtrigmem.type_sensor = qtrig.type_sensor;
     qtrigmem.varietyid = qtrig.varietyid;
 
-    return (qtrigmem.insert() == 0);
+    iVal = qtrigmem.insert();
+    if (iVal) { //error
+         log_messages.printf(
+           SCHED_MSG_LOG::MSG_CRITICAL,
+           "[QCN] [HOST#%d] [RESULTNAME=%s] [TIME=%lf] [0] Could not insert trigmem.qcn_trigger_memory record\n",
+           qtrig.hostid, qtrig.result_name, qtrig.time_received
+         );
+    }
+    return (iVal == 0);
 }
-
-//CMC here -- setup different dbconn for trigmem
-// -- also need to change trigmmeo table to have server (qcnalpha, continual, chile) etc with primary key of trigger.id
-/*
-
-    retval = trigmem_db.open(
-        config.db_name,
-        db_host?db_host:config.db_host,
-        config.db_user,
-        config.db_passwd
-    );
-*/
-
 
 // handle_qcn_trigger processes the trigger trickle, does the geoip or database lookup as appropriate, inserts into qcn_trigger
 int handle_qcn_trigger(const DB_MSG_FROM_HOST* pmfh, const int iVariety)

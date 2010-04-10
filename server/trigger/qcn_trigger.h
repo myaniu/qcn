@@ -56,6 +56,7 @@ using namespace std;
 #endif
 
 extern DB_CONN boinc_db;
+extern DB_CONN trigmem_db;
 
 extern int handle_qcn_trigger(const DB_MSG_FROM_HOST* pmfh, const int iVariety = 0);
 
@@ -122,7 +123,8 @@ struct QCN_TRIGGER
 
 struct QCN_TRIGGER_MEMORY
 {
-    int id;
+    char db_name[16];
+    int triggerid;
     int hostid;
     char ipaddr[32];
     char result_name[64];
@@ -340,11 +342,11 @@ class DB_QCN_TRIGGER_MEMORY : public DB_BASE, public QCN_TRIGGER_MEMORY
 {
 public:
     DB_QCN_TRIGGER_MEMORY(DB_CONN* dc=0) :
-          DB_BASE("qcn_trigger_memory", dc ? dc : &boinc_db)  { clear(); }
+          DB_BASE("qcn_trigger_memory", dc ? dc : &trigmem_db)  { clear(); }
 
     void clear() {memset(this, 0x00, sizeof(DB_QCN_TRIGGER_MEMORY));}
 
-    int get_id() {return id;}
+    int get_id() {return triggerid;}
 
     void db_print(char* buf)
     {
@@ -358,7 +360,8 @@ public:
         sprintf(strLevelID, "%d", levelid);
       }
       sprintf(buf,
-        "id=%d," 
+        "db_name='%s',"
+        "triggerid=%d," 
         "hostid=%d,"
         "ipaddr='%s',"
         "result_name='%s',"
@@ -377,7 +380,7 @@ public:
         "numreset=%d,"
         "type_sensor=%d,"
         "varietyid=%d",
-        id, hostid, ipaddr, result_name, time_trigger, time_sync, sync_offset,
+        db_name, triggerid, hostid, ipaddr, result_name, time_trigger, time_sync, sync_offset,
         significance, magnitude, latitude, longitude, strLevelValue, strLevelID, alignid,
         dt, numreset, type_sensor, varietyid
       );
@@ -387,7 +390,8 @@ public:
     {
       int i=0;
       clear();
-      id = safe_atoi(r[i++]);
+      strcpy2(db_name, r[i++]);
+      triggerid = safe_atoi(r[i++]);
       hostid = safe_atoi(r[i++]);
       strcpy2(ipaddr, r[i++]);
       strcpy2(result_name, r[i++]);
