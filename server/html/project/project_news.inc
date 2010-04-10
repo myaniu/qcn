@@ -35,10 +35,6 @@ The M7.2 earthquake that occurred this afternoon along the Laguna Salada fault i
 "New versions of QCNLive for Mac and Windows have been developed which allow you to record the sensor output in a 'csv' (comma-separated values) format for import into spreadsheet software such as Excel.  Also web links to the USGS site have been updated to reflect the new USGS website layout.<BR>",
  "New QCNLive versions (5.34)"
   ),
-   array("June 26, 2009",
-"New versions have been put up which support 64-bit Mac OS X and 64-bit Windows (XP and Vista) operating systems.  If you are running the BOINC Mac Universal client or the BOINC Windows x64 client it should automatically detect this and download the correct version.  The 64-bit versions do not support the MotionNode Accel USB accelerometer at this time.<BR><BR>There are also 64-bit versons of <A HREF=\"http://qcn.stanford.edu/sensor/download/qcnlive-mac.zip\">QCNLive for Mac available here</A> (actually a universal binary for PowerPC, Intel 32-bit, and Intel 64-bit).  There is a <A HREF=\"http://qcn.stanford.edu/sensor/download/qcnlive-win64.zip\">64-bit Windows QCNLive available here</A><BR><BR>Please post any problems in the Message Boards!<BR>",
- "QCN Supports 64-bit Mac and Windows"
-  ),
    array("May 5, 2009",
 "A Quake-Catcher Network participant <A HREF=\"img/qcngermanym45.png\">detected a magnitude 4.5 earthquake in SW Germany</A>, near the borders of France and Switzerland using his JoyWarrior USB sensor and QCN/BOINC.  This is a fairly rare event to capture on QCN and we thank him and others running QCN!  The participant's computer was only 10km from the epicentre.<BR>",
  "QCN Participant Detects <A HREF=\"http://earthquake.usgs.gov/eqcenter/recenteqsww/Quakes/us2009ggaf.php\">M4.5 earthquake in Southwest Germany</A>"

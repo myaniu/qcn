@@ -23,16 +23,35 @@
     <download_dir>/var/www/boinc/sensor/download</download_dir>
     <fuh_debug_level>0</fuh_debug_level>
     <master_url>http://qcn.stanford.edu/sensor/</master_url>
-    <host>qcn-web</host>
-    <db_user>qcn</db_user>
-    <db_name>qcnalpha</db_name>
-    <db_passwd></db_passwd>
-    <db_host>db-private</db_host>
-    <trigmem_db_user>trigmem</trigmem_db_user>
-    <trigmem_db_name>trigmem</trigmem_db_name>
-    <trigmem_db_passwd>insertTrigMem</trigmem_db_passwd>
-    <trigmem_db_host>db-private</trigmem_db_host>
-    <trigmem_db_port>3306</trigmem_db_port>
+    <host>
+      qcn-web
+    </host>
+    <db_host>
+       db-private
+    </db_host>
+    <db_user>
+       qcn
+    </db_user>
+    <db_name>
+       qcnalpha
+    </db_name>
+    <db_passwd>
+    </db_passwd>
+    <trigmem_db_user>
+       trigmem
+    </trigmem_db_user>
+    <trigmem_db_name>
+       trigmem
+    </trigmem_db_name>
+    <trigmem_db_passwd>
+       insertTrigMem
+    </trigmem_db_passwd>
+    <trigmem_db_host>
+       db-private
+    </trigmem_db_host>
+    <trigmem_db_port>
+       3306
+    </trigmem_db_port>
     <min_core_client_version_announced> 602 </min_core_client_version_announced>
     <min_core_client_upgrade_deadline> 1241650148 </min_core_client_upgrade_deadline>
     <min_core_client_version> 602 </min_core_client_version>
