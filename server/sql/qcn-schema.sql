@@ -1,5 +1,6 @@
 drop table if exists qcn_host_ipaddr;
 drop table if exists qcn_trigger;
+drop table if exists qcn_trigger_memory;
 drop table if exists qcn_geo_ipaddr;
 drop table if exists usgs_quake;
 drop table if exists qcn_sensor;
@@ -192,9 +193,19 @@ type_sensor int(3),
 varietyid smallint not null default 0
 ) ENGINE = MEMORY;
 
-create index qcn_trigger_memory_time on qcn_trigger (time_trigger desc, varietyid asc);
-create index qcn_trigger_memory_hostid on qcn_trigger(hostid, time_trigger, varietyid);
-create index qcn_trigger_memory_latlng on qcn_trigger(latitude, longitude, varietyid);
+create index qcn_trigger_memory_time on qcn_trigger_memory (time_trigger desc, varietyid asc);
+create index qcn_trigger_memory_hostid on qcn_trigger_memory(hostid, time_trigger, varietyid);
+create index qcn_trigger_memory_latlng on qcn_trigger_memory(latitude, longitude, varietyid);
+
+/*
+
+insert into qcn_trigger_memory
+   select id,hostid,ipaddr,result_name,time_trigger,time_received,time_sync,sync_offset,
+      significance,magnitude,latitude,longitude,
+      levelvalue, levelid, alignid, dt, numreset, type_sensor, varietyid
+         from qcn_trigger where time_sync>1e6 order by time_trigger desc limit 10000;
+
+*/
 
 /* Now generate the stored procedures */
 
