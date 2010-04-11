@@ -170,7 +170,7 @@
         generate_maptrig.sh
       </cmd>
       <period>
-        20 minutes
+        30 minutes
       </period>
     </task>
     <task>
