@@ -62,8 +62,9 @@ function qcn_generate_world_map(&$data, $timeint)
           0 is_quake, concat('Total: ', count(*), '<BR>Earliest: ', 
                from_unixtime(min(time_trigger)), ' UTC', '<BR>Latest: ', 
                from_unixtime(max(time_trigger)), ' UTC') descript
-             from qcn_trigger t, qcn_sensor s
-                where t.type_sensor = s.id and t.hostid not in (select hostid from qcn_showhostlocation)
+             from qcn_trigger t
+              LEFT JOIN qcn_sensor s ON t.type_sensor=s.id 
+                where t.hostid not in (select hostid from qcn_showhostlocation)
                  and time_trigger>unix_timestamp()-" . $trigtime . "
                    group by lat,lng,s.is_usb
          UNION
@@ -71,8 +72,9 @@ function qcn_generate_world_map(&$data, $timeint)
           0 is_quake, concat('Total (#', t.hostid, ' Location): ', count(*), '<BR>Earliest: ', 
                from_unixtime(min(time_trigger)), ' UTC', '<BR>Latest: ', 
                from_unixtime(max(time_trigger)), ' UTC') descript
-             from qcn_trigger t, qcn_sensor s
-                where t.type_sensor = s.id and t.hostid in (select hostid from qcn_showhostlocation)
+             from qcn_trigger t
+              LEFT JOIN qcn_sensor s ON t.type_sensor=s.id 
+                where t.hostid in (select hostid from qcn_showhostlocation)
                  and time_trigger>unix_timestamp()-" . $trigtime . "
                    group by lat,lng,s.is_usb
        ";
