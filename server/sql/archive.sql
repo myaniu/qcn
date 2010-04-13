@@ -3,4 +3,3 @@ INSERT INTO qcnarchive.qcn_trigger SELECT * FROM qcnalpha.qcn_trigger WHERE flag
 DELETE FROM qcnalpha.qcn_trigger WHERE flag=1;
 OPTIMIZE TABLE qcnarchive.qcn_trigger;
 OPTIMIZE TABLE qcnalpha.qcn_trigger;
-
