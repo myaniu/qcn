@@ -751,7 +751,7 @@ function qcn_trigger_detail($res)
        ($res->received_file == 100 || $res->trigger_timereq>0 ? " disabled " : " " ) . 
        "></td>
         <td>$res->triggerid</td>
-        <td><a href=\"db_action.php?table=host&id=$res->hostid\">" . host_name_by_id($res->hostid) . "</a></td>
+        <td><a href=\"show_host_detail.php?hostid=$res->hostid\">" . host_name_by_id($res->hostid) . "</a></td>
         <td>$res->ipaddr</td>
         <td>$res->result_name</td>
         <td>" . time_str($res->trigger_time) . "</td>
@@ -779,7 +779,7 @@ function qcn_trigger_detail($res)
         }
 
         if ($res->usgs_quakeid) {
-           echo "<td><a href=\"db_action.php?table=usgs_quake&id=$res->usgs_quakeid\">$res->usgs_quakeid</a></td>";
+           echo "<td>$res->usgs_quakeid</td>";
            echo "<td>$res->quake_magnitude</td>";
            echo "<td>" . time_str($res->quake_time) . "</td>";
            echo "<td>$res->quake_lat</td>";

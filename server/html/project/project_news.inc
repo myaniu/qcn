@@ -1,5 +1,12 @@
 <?php
 $project_news = array(
+   array("April 12, 2010",
+"
+The BBC have done a story on the Quake-Catcher Network featuring Prof. Cochran.  
+<A HREF=\"http://news.bbc.co.uk/2/hi/technology/8615558.stm\">It is available for viewing here.</A>
+<BR><BR>",
+ "BBC News Item on QCN"
+  ),
    array("April 4, 2010",
 "
 The M7.2 earthquake that occurred this afternoon along the Laguna Salada fault in Mexico was recorded by several QCN participants in Southern California.  <A HREF=\"http://qcn.stanford.edu/sensor/img/M7.2_Mexico.png\">Attached is a plot of waveforms from stations</A> that have reported back already; we will update this plot as more information comes in. We have a number of stations also reporting in with data for the numerous aftershocks that followed the large mainshock.
