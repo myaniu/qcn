@@ -210,7 +210,11 @@ insert into trigmem.qcn_trigger_memory
          from qcn_trigger where time_sync>1e6 order by time_trigger desc limit 10000;
 
 
- select round(time_trigger,0) tt, round(latitude,1) lat, round(longitude,1) lng, count(*) from trigmem.qcn_trigger_memory  group by tt, lat,lng;
+ select round(time_trigger,0) tt, round(latitude,1) lat, round(longitude,1) lng, count(*) 
+    from trigmem.qcn_trigger_memory  group by tt, lat,lng;
+
+select from_Unixtime(min(time_trigger)) min_time, from_Unixtime(max(time_trigger)) max_time
+   from trigmem.qcn_trigger_memory;
 
 */
 
