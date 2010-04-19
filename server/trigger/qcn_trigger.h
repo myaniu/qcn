@@ -314,7 +314,9 @@ public:
       time_sync = safe_atof(r[i++]);
       sync_offset = safe_atof(r[i++]);
       significance = safe_atof(r[i++]);
+      if (isnan(significance)) significance = 0;
       magnitude = safe_atof(r[i++]);
+      if (isnan(magnitude)) magnitude = 0;  // some reason sig &  or mag can be NaN
       latitude = safe_atof(r[i++]);
       longitude = safe_atof(r[i++]);
       levelvalue = safe_atof(r[i++]);
@@ -399,7 +401,9 @@ public:
       time_sync = safe_atof(r[i++]);
       sync_offset = safe_atof(r[i++]);
       significance = safe_atof(r[i++]);
+      if (isnan(significance)) significance = 0;
       magnitude = safe_atof(r[i++]);
+      if (isnan(magnitude)) magnitude = 0;  // some reason sig &  or mag can be NaN
       latitude = safe_atof(r[i++]);
       longitude = safe_atof(r[i++]);
       levelvalue = safe_atof(r[i++]);
