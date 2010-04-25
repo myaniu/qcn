@@ -57,7 +57,6 @@ def processSingleZipFile(dbconn, myzipfile):
    # test the zips within the zip file perhaps?, and of course update the qcn_trigger
    # table that we have received this zipfile
    fullzippath = os.path.join(UPLOAD_BOINC_DIR, myzipfile)
-
    try:  # catch zipfile exceptions if any
       myCursor = dbconn.cursor()
       
@@ -110,12 +109,13 @@ def processSingleZipFile(dbconn, myzipfile):
       print fullzippath + " is an invalid zip file"
       # move out invalid zip file
       #shutil.copy2(fullzippath, UPLOAD_BACKUP_DIR)
-      os.remove(fullzippath)
       dbconn.rollback()
+      os.remove(fullzippath)
       traceback.print_exc()
    except:
       print "Error 2 in " + fullzippath
       dbconn.rollback()
+      os.remove(fullzippath)
       traceback.print_exc()
    
 def processUploadZIPFiles(dbconn):
@@ -141,8 +141,10 @@ def processUploadZIPFiles(dbconn):
 
    newzips = os.listdir(UPLOAD_BOINC_DIR)
    for myzipfile in newzips:
+      fullzippath = os.path.join(UPLOAD_BOINC_DIR, myzipfile)
       if myzipfile[-3:] == "zip" \
-        and zipfile.is_zipfile(os.path.join(UPLOAD_BOINC_DIR, myzipfile)):
+        and os.path.isfile(fullzippath) \
+        and zipfile.is_zipfile(fullzippath):
          # if here then this is a zipfile, so process
          processSingleZipFile(dbconn, myzipfile)
 
