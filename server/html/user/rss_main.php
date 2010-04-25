@@ -90,25 +90,35 @@ for ($i=0; $i < $news; $i++) {
     } else {
         $title = "Project News ".$item[0];
     }
+    $urlItem = "";
     $body = image_as_link($item[1]);
+    if (isset($item[3])) {
+         $urlItem = $item[3];
+    }
+    else {
+         $urlItem = $unique_url;
+    }
     echo "<item>
         <title>".$title."</title>
-        <link>$unique_url</link>
-        <guid isPermaLink=\"true\">$unique_url</guid>
+        <link>$urlItem</link>
+        <guid isPermaLink=\"true\">$urlItem</guid>
         <description><![CDATA[$body]]></description>
+        <category>News</category>
         <pubDate>$news_date</pubDate>
-    ";/*
+    ";
+    /*
     if (isset($item[3])) {
         $category = $item[3];
         echo "
             <category>$category</category>
         ";
-    }*/
+    }
     if (isset($item[3])) {
         echo "
-            <source url=\"$item[3]\">Further Information</source>
+            <source url=\"$urlItem\">Further Information</source>
         ";
     }
+    */
     echo "
         </item>
     ";
