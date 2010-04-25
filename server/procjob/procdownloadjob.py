@@ -1,6 +1,6 @@
 #! /usr/bin/env python
 
-# this program will bundle up files from a sensor_download.job request
+# this program will bundle up files from a continual_download.job request
 # into a single file for downloading
 
 # this will of course be run on the upload server as a cron task, mysqldb for
@@ -13,34 +13,73 @@ from datetime import datetime
 from zipfile import ZIP_STORED
 from time import strptime, mktime
 
-# trigger file download URL base
-URL_DOWNLOAD_BASE = "http://qcn-upl.stanford.edu/trigger/job/"
+global DBHOST 
+global DBUSER
+global DBPASSWD
+global SMTP_HOST
 
-# CMC note -- make sure these paths exist, or they will be created!
-UPLOAD_CONTINUAL_WEB_DIR = "/var/www/trigger/"
-DOWNLOAD_CONTINUAL_WEB_DIR = "/var/www/trigger/job/"
-UPLOAD_WEB_DIR = "/var/www/trigger/"
-
-UNZIP_CMD = "/usr/bin/unzip -o -d " + UPLOAD_WEB_DIR + " " 
-
-# use fast zip -1 compression as the files are already compressed
-ZIP_CMD = "/usr/bin/zip -1 "
-
-DBNAME = "qcnalpha"
 DBHOST = "db-private"
 DBUSER = "qcn"
 DBPASSWD = ""
 SMTP_HOST = "smtp.stanford.edu"
 
+# the next 5 globals will be set by the appropriate run type in SetRunType()
+global URL_DOWNLOAD_BASE
+global UPLOAD_WEB_DIR
+global DOWNLOAD_WEB_DIR
+global DBNAME
+global DBNAME_JOB
+
+# use fast zip -1 compression as the files are already compressed
+global ZIP_CMD
+ZIP_CMD  = "/usr/bin/zip -1 "
+global UNZIP_CMD
+global typeRunning
+typeRunning = ""
+
+def SetRunType():
+  global URL_DOWNLOAD_BASE
+  global UPLOAD_WEB_DIR
+  global DOWNLOAD_WEB_DIR
+  global DBNAME
+  global DBNAME_JOB
+  global typeRunning
+  icnt = 0
+  typeRunning = ""
+  for arg in sys.argv:
+    if icnt == 1:
+      typeRunning = arg
+    icnt = icnt + 1
+
+  if typeRunning != "C" and typeRunning != "S":
+    print "Must pass in C for Continual jobs, S for regular qcnalpha/sensor DB jobs"
+    sys.exit(3)
+
+  if typeRunning == "C":  # continual
+    URL_DOWNLOAD_BASE = "http://qcn-upl.stanford.edu/trigger/continual/job/"
+    # CMC note -- make sure these paths exist
+    UPLOAD_WEB_DIR = "/var/www/trigger/continual/"
+    DOWNLOAD_WEB_DIR = "/var/www/trigger/continual/job/"
+    DBNAME = "continual"
+    DBNAME_JOB = "continual_download"
+  else:   #qcnalpha/sensor database
+    URL_DOWNLOAD_BASE = "http://qcn-upl.stanford.edu/trigger/job/"
+    UPLOAD_WEB_DIR = "/var/www/trigger/"
+    DOWNLOAD_WEB_DIR = "/var/www/trigger/job/"
+    DBNAME = "qcnalpha"
+    DBNAME_JOB = "sensor_download"
+
+  UNZIP_CMD = "/usr/bin/unzip -o -d " + UPLOAD_WEB_DIR + " "
+
 def procDownloadRequest(dbconn, outfilename, url, jobid, userid, trigidlist):
  tmpdir = tempfile.mkdtemp()
  myCursor = dbconn.cursor()
  query = "SELECT id,hostid,latitude,longitude,levelvalue,levelid,file " +\
-              "FROM qcnalpha.qcn_trigger " +\
+              "FROM " + DBNAME + ".qcn_trigger " +\
               "WHERE received_file=100 AND id IN " + trigidlist
  myCursor.execute(query)
 
- zipoutpath = os.path.join(DOWNLOAD_CONTINUAL_WEB_DIR, outfilename)
+ zipoutpath = os.path.join(DOWNLOAD_WEB_DIR, outfilename)
  zipinpath = ""
 
  # get the resultset as a tuple
@@ -61,20 +100,24 @@ def procDownloadRequest(dbconn, outfilename, url, jobid, userid, trigidlist):
       errlevel = 2
       #print "    ", rec[0] , "  ", rec[1], "  ", rec[2], "  ", rec[3], "  ", rec[4], "  ", rec[5], "  ", rec[6]
 
-      zipinpath = os.path.join(UPLOAD_CONTINUAL_WEB_DIR, rec[6])
-      myzipin = zipfile.ZipFile(zipinpath, "r")
       # test for valid zip file
-      if myzipin.testzip() == None:
-         errlevel = 3
-         # valid zip file so add to myzipout, first close
-         zipinlist = myzipin.namelist()
-         myzipin.extractall(tmpdir)
-         myzipin.close()
-         for zipinname in zipinlist:
-            errlevel = 4
-            zipinpath = os.path.join(tmpdir, zipinname)
-            myzipout.write(zipinpath)
-            os.remove(zipinpath)
+      try:
+        zipinpath = os.path.join(UPLOAD_WEB_DIR, rec[6])
+        myzipin = zipfile.ZipFile(zipinpath, "r")
+        if os.path.isfile(zipinpath) and myzipin.testzip() == None:
+           errlevel = 3
+           # valid zip file so add to myzipout, first close
+           zipinlist = myzipin.namelist()
+           myzipin.extractall(tmpdir)
+           myzipin.close()
+           for zipinname in zipinlist:
+             errlevel = 4
+             zipinpath = os.path.join(tmpdir, zipinname)
+             myzipout.write(zipinpath)
+             os.remove(zipinpath)
+      except:
+        print "Error " + str(errlevel) + " in myzipin " + zipinpath
+        continue
 
    myzipout.close() 
    numbyte = os.path.getsize(zipoutpath)
@@ -103,7 +146,6 @@ def procDownloadRequest(dbconn, outfilename, url, jobid, userid, trigidlist):
       myzipout.close() 
       os.remove(zipoutpath)
    return 0
- 
 
 def sendEmail(Username, ToEmailAddr, DLURL, NumMB):
   # sends email that job is done
@@ -113,7 +155,10 @@ def sendEmail(Username, ToEmailAddr, DLURL, NumMB):
     "over the next 24 hours from the following URL:\n\n" + DLURL +\
     "\n\nThe file size to download is approximately " + str(NumMB) + " megabytes." +\
     "\n\nNote that this email is automated - please do not reply!"
-  subj = "QCN Sensor Download Archive Completed"
+  if typeRunning == "C":
+    subj = "QCN Continual Download Archive Completed"
+  else:
+    subj = "QCN Sensor Download Archive Completed"
 
   MessageText = """\
 From: %s
@@ -128,7 +173,7 @@ Subject: %s
 
 def updateRequest(dbconn, jobid, numbyte, outfilename, url):
    myCursor = dbconn.cursor()
-   query = "UPDATE sensor_download.job SET finish_time=unix_timestamp(), " +\
+   query = "UPDATE " + DBNAME_JOB + ".job SET finish_time=unix_timestamp(), " +\
                 "url='" + url + "', local_path='" + outfilename + "', size=" + str(numbyte) +\
                 " WHERE id=" + str(jobid)
    #print query
@@ -137,11 +182,11 @@ def updateRequest(dbconn, jobid, numbyte, outfilename, url):
    myCursor.close();
 
 
-def processJobs(dbconn):
-   # read the sensor_download.job table for unfinished jobs, then process the upload files into a single bundle
+def processContinualJobs(dbconn):
+   # read the DBNAME_JOB table for unfinished jobs, then process the upload files into a single bundle
    myCursor = dbconn.cursor()
    query = "SELECT j.id, j.userid, u.name, u.email_addr, j.create_time, j.list_triggerid " +\
-      "FROM sensor_download.job j, qcnalpha.user u " +\
+      "FROM " + DBNAME_JOB + ".job j, " + DBNAME + ".user u " +\
       "WHERE j.userid=u.id AND finish_time IS NULL"
 
    myCursor.execute(query)
@@ -167,29 +212,34 @@ def processJobs(dbconn):
 
 # makes sure that the necessary paths are in place as defined above
 def checkPaths():
-   if not os.access(UPLOAD_CONTINUAL_WEB_DIR, os.F_OK | os.W_OK):
-      print UPLOAD_CONTINUAL_WEB_DIR + " directory for UPLOAD_CONTINUAL_WEB_DIR does not exist or not writable!"
+   global UPLOAD_WEB_DIR
+   global DOWNLOAD_WEB_DIR
+   if not os.access(UPLOAD_WEB_DIR, os.F_OK | os.W_OK):
+      print UPLOAD_WEB_DIR + " directory for UPLOAD_WEB_DIR does not exist or not writable!"
       return 1
    
-   if not os.access(DOWNLOAD_CONTINUAL_WEB_DIR, os.F_OK | os.W_OK):
-      print DOWNLOAD_CONTINUAL_WEB_DIR + " directory for UPLOAD_CONTINUAL_WEB_DIR does not exist or not writable!"
+   if not os.access(DOWNLOAD_WEB_DIR, os.F_OK | os.W_OK):
+      print DOWNLOAD_WEB_DIR + " directory for UPLOAD_WEB_DIR does not exist or not writable!"
       return 1
    
    return 0
       
 def main():
+   global typeRunning
    try:
+      # set appropriate global vars for run type (i.e. continual or sensor)
+      SetRunType() 
 
       # first make sure all the necessary paths are in place
       if (checkPaths() != 0):
          sys.exit(2)
-         
+
       dbconn = MySQLdb.connect (host = DBHOST,
                            user = DBUSER,
                            passwd = DBPASSWD,
                            db = DBNAME)
 
-      totalmb = processJobs(dbconn)
+      totalmb = processContinualJobs(dbconn)
 
       print str(totalmb) + " MB of zip files processed"
 
