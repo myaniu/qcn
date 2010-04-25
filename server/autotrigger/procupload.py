@@ -102,14 +102,14 @@ def processSingleZipFile(dbconn, myzipfile):
             dbconn.commit()
 
       myzip.close()
-      shutil.copy2(fullzippath, UPLOAD_BACKUP_DIR)
+      #shutil.copy2(fullzippath, UPLOAD_BACKUP_DIR)
       os.remove(fullzippath)
       print "Successfully processed " + fullzippath
       
    except zipfile.error:
       print fullzippath + " is an invalid zip file"
       # move out invalid zip file
-      shutil.copy2(fullzippath, UPLOAD_BACKUP_DIR)
+      #shutil.copy2(fullzippath, UPLOAD_BACKUP_DIR)
       os.remove(fullzippath)
       dbconn.rollback()
       traceback.print_exc()
