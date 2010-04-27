@@ -11,7 +11,7 @@ detected by QCN sensors via lat/lng & time etc
 #include "trigmon.h"
 
 const char* order_clause="";
-char mod_select_clause[256];
+char strSQLTrigger[256];
 double scan_interval = DEFAULT_SCAN_INTERVAL;
 
 void trigmon_loop() {
@@ -105,7 +105,7 @@ int main(int argc, char** argv) {
         );
         exit(1);
     }
-    retval = boinc_db.set_isolation_level(READ_UNCOMMITTED);
+    retval = boinc_db.set_isolation_level(REPEATABLE_READ);
     if (retval) {
         log_messages.printf(MSG_CRITICAL,
             "boinc_db.set_isolation_level: %d; %s\n", retval, boinc_db.error_string()
