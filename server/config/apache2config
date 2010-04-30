@@ -1,1 +1,1 @@
-./configure --enable-ssl --enable-so --enable-rewrite --enable-cgi --enable-cache --enable-deflate
+./configure --enable-dav --enable-ssl --enable-so --enable-rewrite --enable-cgi --enable-cache --enable-deflate

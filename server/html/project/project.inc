@@ -16,6 +16,8 @@ define("STYLESHEET", "qcn.css");
 define("COPYRIGHT_HOLDER", "Stanford University");
 define("SYS_ADMIN_EMAIL", "carlgt1@yahoo.com");
 define("UOTD_ADMIN_EMAIL", "carlgt1@yahoo.com"); # who gets user of the day pool running low e-mails?
+define("EMAIL_FROM_NAME", "Quake-Catcher Network  (Do Not Reply)");
+define("EMAIL_FROM", "noreply@qcn.stanford.edu");
 define("TITLE_COLOR", "");
 define("TITLE_FONT", "");
 define("QUAKE_XML", "../../qcn-quake.xml");

@@ -75,11 +75,18 @@ function send_email($user, $subject, $body, $body_html=null) {
 /*
  Stanford using smtps i.e. SSL smtp email server 
    -- sendmail configured on qcn to use this as of 4/25/2010 
-  Uses the PEAR Mail package from http://download.pear.php.net/package/Mail-1.2.0.tgz
-   (installed to /var/www)
+  Uses the PEAR Mail package (build PEAR from php i.e. --enable-pear
+  istall via PEAR:  
+     pear install Mail
+     pear install Net_Socket
+     pear install Net_SMTP
+
+  installs to:
+     /usr/local/lib/php
 */
 
- require_once "/var/www/Mail.php";
+ require_once "/usr/local/lib/php/Mail.php";
+
  $host = "ssl://smtp.stanford.edu";
  $port = "465";
  $to = $user->email_addr;
@@ -100,9 +107,17 @@ function send_email($user, $subject, $body, $body_html=null) {
 
 //       return mail($user->email_addr, $subject, $body, $headers);
 
+
  $mail = $smtp->send($to, $hdrs, $body);
 
- return ! PEAR::isError($mail);
+/*
+//debug:
+print_r($user);
+echo $to . "   " . $mail . "\n";
+echo "[" . PEAR::isError($mail) . "]\n";
+*/
+
+  return ! PEAR::isError($mail);
    }
 }
 
