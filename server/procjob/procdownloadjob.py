@@ -104,6 +104,8 @@ def procDownloadRequest(dbconn, outfilename, url, jobid, userid, trigidlist):
    myzipout = zipfile.ZipFile(zipoutpath, "w", ZIP_STORED, True)
 
    # iterate through resultset
+   curdir = os.getcwd()   # save current directory and go to the temp dir (so paths aren't stored in zip's)
+   os.chdir(tmpdir)
    for rec in result:
       errlevel = 2
       #print "    ", rec[0] , "  ", rec[1], "  ", rec[2], "  ", rec[3], "  ", rec[4], "  ", rec[5], "  ", rec[6]
@@ -120,13 +122,14 @@ def procDownloadRequest(dbconn, outfilename, url, jobid, userid, trigidlist):
            myzipin.close()
            for zipinname in zipinlist:
              errlevel = 4
-             zipinpath = os.path.join(tmpdir, zipinname)
-             myzipout.write(zipinpath)
-             os.remove(zipinpath)
+             #zipinpath = os.path.join(tmpdir, zipinname)
+             myzipout.write(zipinname)
+             os.remove(zipinname)
       except:
         print "Error " + str(errlevel) + " in myzipin " + zipinpath
         continue
 
+   os.chdir(curdir)   # go back to regular directory so tmpdir can be erased
    myzipout.close() 
    numbyte = os.path.getsize(zipoutpath)
    shutil.rmtree(tmpdir)    # remove temp directory
