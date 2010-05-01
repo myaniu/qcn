@@ -1,4 +1,5 @@
-#! /usr/bin/env python
+#! /usr/local/bin/python
+#// #! /usr/bin/env python
 
 # this program will bundle up files from a continual_download.job request
 # into a single file for downloading
@@ -16,12 +17,19 @@ from time import strptime, mktime
 global DBHOST 
 global DBUSER
 global DBPASSWD
-global SMTP_HOST
+global SMTPS_HOST, SMTPS_PORT, SMTPS_LOCAL_HOSTNAME, SMTPS_KEYFILE, SMTPS_CERTFILE, SMTPS_TIMEOUT
 
 DBHOST = "db-private"
 DBUSER = "qcn"
 DBPASSWD = ""
-SMTP_HOST = "smtp.stanford.edu"
+
+SMTPS_HOST = "smtp.stanford.edu"
+SMTPS_PORT = 465
+SMTPS_LOCAL_HOSTNAME = "qcn-upl.stanford.edu"
+SMTPS_KEYFILE = "/etc/sslcerts/server.key"
+SMTPS_CERTFILE = "/etc/sslcerts/server.crt"
+SMTPS_TIMEOUT = 60
+
 
 # the next 5 globals will be set by the appropriate run type in SetRunType()
 global URL_DOWNLOAD_BASE
@@ -148,9 +156,10 @@ def procDownloadRequest(dbconn, outfilename, url, jobid, userid, trigidlist):
    return 0
 
 def sendEmail(Username, ToEmailAddr, DLURL, NumMB):
+  global SMTPS_HOST, SMTPS_PORT, SMTPS_LOCAL_HOSTNAME, SMTPS_KEYFILE, SMTPS_CERTFILE, SMTPS_TIMEOUT
   # sends email that job is done
   FromEmailAddr = "noreply@qcn.stanford.edu"
-  server=smtplib.SMTP(SMTP_HOST)
+  server=smtplib.SMTP_SSL(SMTPS_HOST, SMTPS_PORT, SMTPS_LOCAL_HOSTNAME, SMTPS_KEYFILE, SMTPS_CERTFILE, SMTPS_TIMEOUT)
   msg = "Hello " + Username + ":\n\n" + "Your requested files are available for download " +\
     "over the next 24 hours from the following URL:\n\n" + DLURL +\
     "\n\nThe file size to download is approximately " + str(NumMB) + " megabytes." +\
