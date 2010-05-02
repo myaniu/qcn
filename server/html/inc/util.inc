@@ -549,6 +549,32 @@ function undo_magic_quotes($x) {
     return $x;
 }
 
+function get_double($name, $optional=false) {
+    $x=null;
+    if (isset($_GET[$name])) $x = $_GET[$name];
+    if (!is_numeric($x)) {
+        if ($optional) {
+            return null;
+        } else {
+            error_page("missing or bad parameter: $name; supplied: ".htmlspecialchars($x));
+        }
+    }
+    return (double)$x;
+}
+
+function post_double($name, $optional=false) {
+    $x = null;
+    if (isset($_POST[$name])) $x = $_POST[$name];
+    if (!is_numeric($x)) {
+        if ($optional) {
+            return null;
+        } else {
+            error_page("missing or bad parameter: $name; supplied: ".htmlspecialchars($x));
+        }
+    }
+    return (double)$x;
+}
+
 function get_int($name, $optional=false) {
     $x=null;
     if (isset($_GET[$name])) $x = $_GET[$name];

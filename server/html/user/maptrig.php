@@ -6,8 +6,8 @@ require_once('../inc/translation.inc');
 require_once('../inc/phoogle.inc');
 require_once('../project/project_specific_prefs.inc');
 
-$cx = get_int("cx", true);
-$cy = get_int("cy", true);
+$cx = get_double("cx", true);
+$cy = get_double("cy", true);
 $zoom = get_int("zoom", true);
 $mapwidth = get_int("width", true);
 $mapheight = get_int("height", true);

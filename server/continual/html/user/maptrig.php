@@ -6,8 +6,8 @@ require_once('../inc/translation.inc');
 require_once('../inc/phoogle.inc');
 require_once('../project/project_specific_prefs.inc');
 
-$cx = get_int("cx", true);
-$cy = get_int("cy", true);
+$cx = get_double("cx", true);
+$cy = get_double("cy", true);
 $zoom = get_int("zoom", true);
 $mapwidth = get_int("width", true);
 $mapheight = get_int("height", true);
@@ -21,14 +21,14 @@ if ($hostid>0) {
   where t.hostid=$hostid order by time_trigger desc limit 1";
   $result = mysql_query($sqlhost);
   if ($result && ($res = mysql_fetch_array($result))) {
-  //    if ($res[4]) {
+      if ($res[4]) {
       $cx = $res[0];
       $cy = $res[1];
-  //    }
-  //    else { // round
-  //    $cx = $res[2];
-  //    $cy = $res[3];
-  //    }
+      }
+      else { // round
+      $cx = $res[2];
+      $cy = $res[3];
+      }
       mysql_free_result($result); 
   }  
   else { // no host info, set zoom level to default
@@ -74,7 +74,7 @@ page_head(tra($title), null, $title, "", true, null, true);
 
 echo "<h3>" . $title . "</h3>";
 echo "<h5>" . $legend . "</h5>";
-//echo "<h7>Note: locations changed at the kilometer-level to protect privacy, unless participant authorized exact location be used</h7><BR>";
+echo "<h7>Note: locations changed at the kilometer-level to protect privacy, unless participant authorized exact location be used</h7><BR>";
 echo "<I>click and drag to move map; on empty region - left dbl-click to zoom in, right dbl-click to zoom out</I><BR>";
 
 $pm = new PhoogleMap();
