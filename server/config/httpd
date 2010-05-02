@@ -20,8 +20,6 @@ fi
 # Start httpd in the C locale by default.
 HTTPD_LANG=${HTTPD_LANG-"C"}
 
-# CMC note environment needs LD_LIBRARY_PATH=/usr/local/mysql/lib
-
 # This will prevent initlog from swallowing up a pass-phrase prompt if
 # mod_ssl needs a pass-phrase from the user.
 INITLOG_ARGS=""
@@ -31,10 +29,8 @@ INITLOG_ARGS=""
 # work correctly with a thread-based MPM; notably PHP will refuse to start.
 
 # Path to the apachectl script, server binary, and short-form for messages.
-#apachectl=/usr/sbin/apachectl
-#httpd=${HTTPD-/usr/sbin/httpd}
-apachectl=/usr/local/apache2/bin/apachectl
-httpd=${HTTPD-/usr/local/apache2/bin/httpd}
+apachectl=/usr/sbin/apachectl
+httpd=${HTTPD-/usr/sbin/httpd}
 prog=httpd
 pidfile=${PIDFILE-/var/run/httpd.pid}
 lockfile=${LOCKFILE-/var/lock/subsys/httpd}
@@ -63,7 +59,7 @@ check13 () {
 start() {
         echo -n $"Starting $prog: "
         check13 || exit 1
-        LANG=$HTTPD_LANG daemon $httpd $OPTIONS
+        LANG=$HTTPD_LANG daemon --pidfile=${pidfile} $httpd $OPTIONS
         RETVAL=$?
         echo
         [ $RETVAL = 0 ] && touch ${lockfile}
@@ -75,7 +71,7 @@ start() {
 # errant children.
 stop() {
 	echo -n $"Stopping $prog: "
-	killproc -d 10 $httpd
+	killproc -p ${pidfile} -d 10 $httpd
 	RETVAL=$?
 	echo
 	[ $RETVAL = 0 ] && rm -f ${lockfile} ${pidfile}
@@ -87,7 +83,7 @@ reload() {
         echo $"not reloading due to configuration syntax error"
         failure $"not reloading $httpd due to configuration syntax error"
     else
-        killproc $httpd -HUP
+        killproc -p ${pidfile} $httpd -HUP
         RETVAL=$?
     fi
     echo
@@ -102,7 +98,7 @@ case "$1" in
 	stop
 	;;
   status)
-        status $httpd
+        status -p ${pidfile} $httpd
 	RETVAL=$?
 	;;
   restart)
