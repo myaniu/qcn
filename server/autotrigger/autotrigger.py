@@ -2,7 +2,7 @@
 
 # this file will update the qcn database triggers (qcn_trigger table)
 # to reflect any matches with actual seismic activity from the
-# usgs_quake table
+# qcn_quake table
 
 # it should be run on the BOINC scheduler server as a task in config.xml
 # from the bin/ subdir, i.e. in config.xml <tasks> section:
@@ -34,7 +34,7 @@ from datetime import datetime
 from time import strptime, mktime
 
 QUERY_QUAKE_PROCESSED = "select id, time_utc, latitude, longitude, magnitude " +\
-                        "from usgs_quake where processed is null or not processed"
+                        "from qcn_quake where processed is null or not processed"
 
 QUERY_TRIGGER_HOST_LIST = "select hostid,count(*) from qcn_trigger "
 
@@ -43,7 +43,7 @@ QUERY_TRIGGER_HOST_LIST = "select hostid,count(*) from qcn_trigger "
 # also note we give up for triggers older than 30 days as they would have been deleted by QCN 
 # (also the retry every 8 hours for 90 tries should have given enough chances to get them)
 QUERY_TRIGGER_HOST_WHERE = " (varietyid=0 AND " +\
-                         "usgs_quakeid>0 AND " +\
+                         "qcn_quakeid>0 AND " +\
                          "((time_filereq is null OR time_filereq=0) " +\
                          " OR " +\
                          " ((time_filereq + (3600.0*24.0)) < unix_timestamp() " +\
@@ -54,11 +54,11 @@ QUERY_TRIGGER_HOST_WHERE = " (varietyid=0 AND " +\
 DBNAME = "qcnalpha"
 DBHOST = "db-private"
 DBUSER = "root"
-DBPASSWD = "PWD"
+DBPASSWD = ""
 
 def updateQuakeTrigger(dbconn):
-   # this will update the trigger table with usgs quake events
-   # the quake table has a bool that gets saved so we know we processed it (usgs_quake.processed)
+   # this will update the trigger table with qcn quake events
+   # the quake table has a bool that gets saved so we know we processed it (qcn_quake.processed)
    try:
       cMain = dbconn.cursor()
       cMain.execute(QUERY_QUAKE_PROCESSED)
@@ -72,7 +72,7 @@ def updateQuakeTrigger(dbconn):
          print "Updating triggers for quake # " + str(rowQuake[0])
          cTrig = dbconn.cursor()
 
-         strSQL = "update qcn_trigger t set t.usgs_quakeid = " + str(rowQuake[0]) +\
+         strSQL = "update qcn_trigger t set t.qcn_quakeid = " + str(rowQuake[0]) +\
             " WHERE t.time_trigger BETWEEN " + str(rowQuake[1]-120.0) + " AND " + str(rowQuake[1]+120.0) +\
             " AND t.time_sync > 0 AND t.varietyid = 0 " +\
             " AND quake_hit_test(t.latitude, t.longitude, t.time_trigger, t.type_sensor, " +\
@@ -84,7 +84,7 @@ def updateQuakeTrigger(dbconn):
 
          #print strSQL;
          cTrig.execute(strSQL);
-         cTrig.execute("update usgs_quake set processed=true where id = " + str(rowQuake[0]))
+         cTrig.execute("update qcn_quake set processed=true where id = " + str(rowQuake[0]))
          
          dbconn.commit()
          cTrig.close()
@@ -161,7 +161,7 @@ def main():
       updateQuakeTrigger(dbconn)
 
       # OK, at this point we have updated the qcn_trigger table with any matching
-      # earthquakes from the usgs_quake table
+      # earthquakes from the qcn_quake table
 
       # next step will be to request the matching triggers be uploaded
       generateFileRequestTrickleDown(dbconn)

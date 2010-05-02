@@ -167,7 +167,7 @@ def updateTriggerFile(filename, dbconn):
          print "Requesting files for host # " + str(rowTrig[0])
          cTrig = dbconn.cursor()
          cTrig.execute("select concat('<sendme>',t.file,'</sendme>\n') from qcn_trigger t " +\
-            "where hostid=" + str(rowTrig[0]) + " and t.usgs_quakeid>0 " +\
+            "where hostid=" + str(rowTrig[0]) + " and t.qcn_quakeid>0 " +\
             "and (time_filereq is null or time_filereq=0)" )
 
          strSendMe = ""
@@ -193,7 +193,7 @@ def updateTriggerFile(filename, dbconn):
 
          cTrig.execute("update qcn_trigger set time_filereq=unix_timestamp() " +\
                        "where hostid=" + str(rowTrig[0]) +\
-                       " and usgs_quakeid>0 and " +\
+                       " and qcn_quakeid>0 and " +\
                          "(time_filereq is null or time_filereq=0)")
          
          dbconn.commit()
