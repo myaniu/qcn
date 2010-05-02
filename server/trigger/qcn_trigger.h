@@ -111,7 +111,7 @@ struct QCN_TRIGGER
     int type_sensor;
     char sw_version[9];
     char os_type[9];
-    int usgs_quakeid;
+    int qcn_quakeid;
     double time_filereq;
     int received_file;
     char file_url[64];
@@ -286,7 +286,7 @@ public:
         "type_sensor=%d,"
         "sw_version='%s',"
         "os_type='%s',"
-        "usgs_quakeid=%d,"
+        "qcn_quakeid=%d,"
         "time_filereq=%f,"
         "received_file=%d,"
         "file_url='%s',"
@@ -297,7 +297,7 @@ public:
         hostid, ipaddr, result_name, time_trigger, time_sync, sync_offset,
         significance, magnitude, latitude, longitude, strLevelValue, strLevelID, alignid,
         file, dt, numreset, type_sensor, sw_version, os_type,
-        usgs_quakeid, time_filereq, received_file, file_url, runtime_clock, runtime_cpu, varietyid
+        qcn_quakeid, time_filereq, received_file, file_url, runtime_clock, runtime_cpu, varietyid
       );
     }
 
@@ -328,7 +328,7 @@ public:
       type_sensor = safe_atoi(r[i++]);
       strcpy2(sw_version, r[i++]);
       strcpy2(os_type, r[i++]);
-      usgs_quakeid = safe_atoi(r[i++]);
+      qcn_quakeid = safe_atoi(r[i++]);
       time_filereq = safe_atof(r[i++]);
       received_file = safe_atoi(r[i++]);
       strcpy2(file_url, r[i++]);

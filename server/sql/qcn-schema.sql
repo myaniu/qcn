@@ -3,7 +3,7 @@ drop table if exists qcn_trigger;
 drop table if exists trigmem.qcn_trigger_memory;
 drop database trigmem;
 drop table if exists qcn_geo_ipaddr;
-drop table if exists usgs_quake;
+drop table if exists qcn_quake;
 drop table if exists qcn_sensor;
 drop table if exists qcn_level;
 drop table if exists qcn_align;
@@ -78,7 +78,7 @@ longitude double
 
 create unique index qcn_geo_ipaddr_ipaddr on qcn_geo_ipaddr (ipaddr);
 
-create table usgs_quake
+create table qcn_quake
 (
 id int(11) not null primary key auto_increment,
 time_utc double,
@@ -92,11 +92,11 @@ url varchar(256),
 guid varchar(256)
 );
 
-create unique index usgs_quake_guid on usgs_quake (guid);
-alter table usgs_quake add index usgs_quake_magnitude (magnitude);
-alter table usgs_quake add index usgs_time_utc (time_utc);
-alter table usgs_quake add index usgs_latitude (latitude);
-alter table usgs_quake add index usgs_longitude (longitude);
+create unique index qcn_quake_guid on qcn_quake (guid);
+alter table qcn_quake add index qcn_quake_magnitude (magnitude);
+alter table qcn_quake add index qcn_time_utc (time_utc);
+alter table qcn_quake add index qcn_latitude (latitude);
+alter table qcn_quake add index qcn_longitude (longitude);
 
 create table qcn_trigger
 (
@@ -121,7 +121,7 @@ numreset int(6),
 type_sensor int(3),
 sw_version varchar(8),
 os_type varchar(8),
-usgs_quakeid int(11),
+qcn_quakeid int(11),
 time_filereq double,
 received_file tinyint(1),
 file_url varchar(128),
@@ -137,10 +137,10 @@ create index qcn_trigger_timelatlng on qcn_trigger(time_trigger, latitude, longi
 create index qcn_trigger_result_name on qcn_trigger (result_name,id,varietyid);
 
 create index qcn_trigger_hostid_filereq on qcn_trigger(hostid,time_filereq,received_file);
-create index qcn_trigger_quakeid on qcn_trigger (usgs_quakeid);
+create index qcn_trigger_quakeid on qcn_trigger (qcn_quakeid);
 create index qcn_trigger_file on qcn_trigger (file);
 create index qcn_trigger_type_sensor on qcn_trigger (type_sensor);
-create index qcn_trigger_usgs_quakeid on qcn_trigger (usgs_quakeid);
+create index qcn_trigger_qcn_quakeid on qcn_trigger (qcn_quakeid);
 create index qcn_trigger_flag on qcn_trigger (flag);
 
 /* temp tables for stats */

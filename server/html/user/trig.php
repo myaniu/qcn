@@ -22,10 +22,10 @@ t.id as triggerid, t.hostid, t.ipaddr, t.result_name, t.time_trigger as trigger_
 (t.time_received-t.time_trigger) as delay_time, t.time_sync as trigger_sync,
 t.sync_offset, t.significance, t.magnitude as trigger_mag, 
 t.latitude as trigger_lat, t.longitude as trigger_lon, t.file as trigger_file, t.dt as delta_t,
-t.numreset, s.description as sensor_description, t.sw_version, t.usgs_quakeid, t.time_filereq as trigger_timereq, 
+t.numreset, s.description as sensor_description, t.sw_version, t.qcn_quakeid, t.time_filereq as trigger_timereq, 
 t.received_file, t.file_url
 FROM
-  qcnalpha.qcn_trigger t LEFT OUTER JOIN usgs_quake q ON t.usgs_quakeid = q.id
+  qcnalpha.qcn_trigger t LEFT OUTER JOIN qcn_quake q ON t.qcn_quakeid = q.id
    LEFT JOIN qcn_sensor s ON t.type_sensor = s.id 
 ";
 
@@ -37,10 +37,10 @@ t.id as triggerid, t.hostid, t.ipaddr, t.result_name, t.time_trigger as trigger_
 (t.time_received-t.time_trigger) as delay_time, t.time_sync as trigger_sync,
 t.sync_offset, t.significance, t.magnitude as trigger_mag, 
 t.latitude as trigger_lat, t.longitude as trigger_lon, t.file as trigger_file, t.dt as delta_t,
-t.numreset, s.description as sensor_description, t.sw_version, t.usgs_quakeid, t.time_filereq as trigger_timereq, 
+t.numreset, s.description as sensor_description, t.sw_version, t.qcn_quakeid, t.time_filereq as trigger_timereq, 
 t.received_file, t.file_url
 FROM
-  qcnarchive.qcn_trigger t LEFT OUTER JOIN usgs_quake q ON t.usgs_quakeid = q.id
+  qcnarchive.qcn_trigger t LEFT OUTER JOIN qcn_quake q ON t.qcn_quakeid = q.id
    LEFT JOIN qcn_sensor s ON t.type_sensor = s.id 
 ";
 
@@ -357,7 +357,7 @@ if ($bUseHost) {
 }
 
 if ($bUseQuake) {
-   $whereString .= " AND t.usgs_quakeid>0 AND q.magnitude >= " . $quake_mag_min;
+   $whereString .= " AND t.qcn_quakeid>0 AND q.magnitude >= " . $quake_mag_min;
 }
 
 if ($bUseLat) {
@@ -380,10 +380,10 @@ t.id as triggerid, t.hostid, t.ipaddr, t.result_name, t.time_trigger as trigger_
 (t.time_received-t.time_trigger) as delay_time, t.time_sync as trigger_sync,
 t.sync_offset, t.significance, t.magnitude as trigger_mag, 
 t.latitude as trigger_lat, t.longitude as trigger_lon, t.file as trigger_file, t.dt as delta_t,
-t.numreset, s.description as sensor_description, t.sw_version, t.usgs_quakeid, t.time_filereq as trigger_timereq, 
+t.numreset, s.description as sensor_description, t.sw_version, t.qcn_quakeid, t.time_filereq as trigger_timereq, 
 t.received_file, t.file_url
 FROM
-  qcnalpha.qcn_trigger t LEFT OUTER JOIN usgs_quake q ON t.usgs_quakeid = q.id
+  qcnalpha.qcn_trigger t LEFT OUTER JOIN qcn_quake q ON t.qcn_quakeid = q.id
    LEFT JOIN qcn_sensor s ON t.type_sensor = s.id 
 ";
 */
@@ -641,8 +641,8 @@ function qcn_trigger_header_csv() {
 function qcn_trigger_detail_csv($res)
 {
     $quakestuff = "";
-    if ($res->usgs_quakeid) {
-          $quakestuff = $res->usgs_quakeid . "," .
+    if ($res->qcn_quakeid) {
+          $quakestuff = $res->qcn_quakeid . "," .
              $res->quake_distance_km . "," .
              $res->quake_magnitude . "," . 
              time_str_csv($res->quake_time) . "," .
@@ -739,8 +739,8 @@ function qcn_trigger_detail($res)
           echo "<td>N/A</td>";
         }
 
-        if ($res->usgs_quakeid) {
-           echo "<td>$res->usgs_quakeid</td>";
+        if ($res->qcn_quakeid) {
+           echo "<td>$res->qcn_quakeid</td>";
            echo "<td>$res->quake_distance_km</td>";
            echo "<td>$res->quake_magnitude</td>";
            echo "<td>" . time_str($res->quake_time) . "</td>";

@@ -90,7 +90,7 @@ switch($table){
         print_query_field();
         break;
 //CMC here
-    case "usgs_quake":
+    case "qcn_quake":
         print_detail_field();
         print_query_field();
         echo "<input type=\"hidden\" name=\"sort_by\" value=\"id\">\n";

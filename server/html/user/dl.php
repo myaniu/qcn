@@ -12,7 +12,7 @@ t.id as triggerid, t.hostid, h.domain_name, t.ipaddr, t.result_name, t.time_trig
 t.sync_offset, t.significance, t.magnitude as trigger_mag, 
 t.latitude as trigger_lat, t.longitude as trigger_lon, t.levelvalue, t.levelid, l.description as leveldesc, 
 t.file as trigger_file, t.dt as delta_t,
-t.numreset, s.description as sensor_description, t.sw_version, t.usgs_quakeid, t.time_filereq as trigger_timereq, 
+t.numreset, s.description as sensor_description, t.sw_version, t.qcn_quakeid, t.time_filereq as trigger_timereq, 
 t.received_file, t.file_url,t.varietyid
 FROM
   " . $DB . ".qcn_trigger t
@@ -27,7 +27,7 @@ t.id as triggerid, t.hostid, h.domain_name, t.ipaddr, t.result_name, t.time_trig
 t.sync_offset, t.significance, t.magnitude as trigger_mag, 
 t.latitude as trigger_lat, t.longitude as trigger_lon, t.levelvalue, t.levelid, l.description as leveldesc, 
 t.file as trigger_file, t.dt as delta_t,
-t.numreset, s.description as sensor_description, t.sw_version, t.usgs_quakeid, t.time_filereq as trigger_timereq, 
+t.numreset, s.description as sensor_description, t.sw_version, t.qcn_quakeid, t.time_filereq as trigger_timereq, 
 t.received_file, t.file_url,t.varietyid
 FROM
    qcnarchive.qcn_trigger t
@@ -363,7 +363,7 @@ if ($bUseFile) {
 
 /*
 if ($bUseQuake) {
-   $whereString .= " AND t.usgs_quakeid>0 AND q.magnitude >= " . $quake_mag_min;
+   $whereString .= " AND t.qcn_quakeid>0 AND q.magnitude >= " . $quake_mag_min;
 }
 */
 
@@ -687,8 +687,8 @@ function qcn_trigger_detail($res, $bgcolor, $strTableFont, $strFontEnd)
           echo "<td>$strTableFont" . "N/A$strFontEnd</td>";
         }
 /*
-        if ($res->usgs_quakeid) {
-           echo "<td>$strTableFont<a href=\"db_action.php?table=usgs_quake&id=$res->usgs_quakeid\">$res->usgs_quakeid</a>$strFontEnd</td>";
+        if ($res->qcn_quakeid) {
+           echo "<td>$strTableFont<a href=\"db_action.php?table=qcn_quake&id=$res->qcn_quakeid\">$res->qcn_quakeid</a>$strFontEnd</td>";
            echo "<td>$strTableFont$res->quake_magnitude$strFontEnd</td>";
            echo "<td>$strTableFont" . time_str($res->quake_time) . "$strFontEnd</td>";
            echo "<td>$strTableFont$res->quake_lat$strFontEnd</td>";

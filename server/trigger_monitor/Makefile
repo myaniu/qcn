@@ -20,7 +20,7 @@ SRCS = $(BOINCDIR)/db/db_base.cpp \
 
 MAIN = trigmon.cpp
 
-all: trigmon
+all: clean trigmon
 
 trigmon: 
 	$(CC) $(CFLAGS) $(INCLUDES) $(MAIN) $(SRCS) $(LIBS) -o trigmon 

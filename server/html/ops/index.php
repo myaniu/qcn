@@ -108,7 +108,7 @@ echo "
         <li><a href=\"db_form.php?table=host&amp;detail=low\">Hosts</a></li>
         <li><a href=\"db_form.php?table=workunit\">Workunits</a></li>
         <li><a href=\"db_form.php?table=result&amp;detail=low\">Results</a></li>
-        <li><a href=\"db_form.php?table=usgs_quake&amp;detail=low\">USGS Quakes</a></li>
+        <li><a href=\"db_form.php?table=qcn_quake&amp;detail=low\">Known Quakes</a></li>
         <li><a href=\"db_form.php?table=qcn_trigger&amp;detail=low\">Trigger View</a></li>
         <li><a href=\"db_form.php?table=qcn_host_ipaddr&amp;detail=low\">Host/IP/LatLng</a></li>
         <li><a href=\"db_form.php?table=qcn_geo_ipaddr&amp;detail=low\">Geo/IP/LatLng</a></li>

@@ -42,7 +42,7 @@ function qcn_generate_world_map(&$data, $timeint)
     $strSQL =
       "select latitude lat, longitude lng, 0 is_usb, magnitude ctr, from_unixtime(time_utc) timetrig, 
          1 is_quake, concat('Magnitude: ', magnitude, '<BR>' , description, '<BR>Time: ', from_unixtime(time_utc), ' UTC') descript
-           from usgs_quake
+           from qcn_quake
              where time_utc>unix_timestamp()-" . $trigtime . " and magnitude>=" . $minmag;
     $result = mysql_query($strSQL);
     $i = 0;

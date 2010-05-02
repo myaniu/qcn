@@ -173,7 +173,7 @@ if ($result) {
             workunit_short_header();
            break;
 // CMC here
-        case "usgs_quake":
+        case "qcn_quake":
             quake_short_header();
             break;
         case "qcn_trigger":
@@ -203,8 +203,8 @@ if ($result) {
                 show_workunit_short($res);
                 break;
 // CMC here
-            case "usgs_quake":
-                ops_show_usgs_quake_short($res);
+            case "qcn_quake":
+                ops_show_qcn_quake_short($res);
                 break;
             case "qcn_trigger":
                 ops_show_trigger_short($res);
@@ -243,8 +243,8 @@ if ($result) {
                 show_user($res);
                 break;
 // CMC here
-            case "usgs_quake":
-                ops_show_usgs_quake($res);
+            case "qcn_quake":
+                ops_show_qcn_quake($res);
                 break;
             case "qcn_trigger":
                 ops_show_trigger($res); // note there's a non-ops show_trigger()

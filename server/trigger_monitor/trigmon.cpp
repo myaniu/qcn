@@ -4,14 +4,34 @@
 The general idea is that a query is run every few seconds to see if any quakes were
 detected by QCN sensors via lat/lng & time etc
 
+if there were "hits" in a certain area, then flag this as a quake and put in the qcn_quake table
+
 (c) 2010  Stanford University School of Earth Sciences
 
 */
 
 #include "trigmon.h"
 
-const char* order_clause="";
+// important constants for the main query
+#define TRIGGER_TIME_INTERVAL 10
+#define TRIGGER_COUNT 1
+
 char strSQLTrigger[256];
+
+// first test query - simple just rounts lat/lng to integers, does 10 seconds
+void setQuery() {
+  sprintf(strSQLTrigger,
+    "select "
+    "   round(latitude,0) rlat, "
+    "   round(longitude,0) rlng, "
+    "   count(*) from trigmem.qcn_trigger_memory  "
+    "where time_trigger > unix_timestamp()-%d  "
+  "group by rlat, rlng "
+  "having count(*) > %d ",
+     TRIGGER_TIME_INTERVAL,
+     TRIGGER_COUNT 
+}
+
 double scan_interval = DEFAULT_SCAN_INTERVAL;
 
 void trigmon_loop() {

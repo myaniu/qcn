@@ -29,7 +29,7 @@
 #
 #   <qu005>2.6|2007/11/21 12:46:34   | 53.737       | -164.664 |    95.3     |UNIMAK ISLAND REGION, ALASKA |http://blahblahblah</qu005>
 #
-# guid is used & stored in the usgs_quake table so we have a "running list" of usgs events
+# guid is used & stored in the qcn_quake table so we have a "running list" of usgs events
 
 
 # CMC note -- need to install 3rd party pycurl, MySQLdb & mxDateTime libraries for python
@@ -73,20 +73,20 @@ class SQuake:
       self.strGUID   = ""
 
    def checkDB(self, dbconn):
-       #CMC here -- lookup this guid in usgs_quake table, if not exist, insert
+       #CMC here -- lookup this guid in qcn_quake table, if not exist, insert
       try:
          cursor = dbconn.cursor()
-         cursor.execute("SELECT COUNT(*) FROM usgs_quake WHERE guid='" + self.strGUID + "'")
+         cursor.execute("SELECT COUNT(*) FROM qcn_quake WHERE guid='" + self.strGUID + "'")
          row = cursor.fetchone()
          #print "GUID: ", self.strGUID, "  count=", row[0]
          if row[0] == 0:
-            #insert into usgs_quake table
+            #insert into qcn_quake table
             timepattern = '%Y/%m/%d %H:%M:%S'
             utc_strptime = strptime(self.strTime, timepattern)[0:6]
             mydt = mx.DateTime.DateTime(*utc_strptime)
             try:
                #print utc_strptime, mydt, self.strTime, self.strGUID
-               strBigSQL = "INSERT INTO usgs_quake (time_utc, magnitude, depth_km, latitude, longitude, description, url, guid) " +\
+               strBigSQL = "INSERT INTO qcn_quake (time_utc, magnitude, depth_km, latitude, longitude, description, url, guid) " +\
                   " VALUES ( " + str(mydt.gmticks()) + "," +\
                   str(self.magnitude) + "," + str(self.depth_km) + "," + str(self.latitude) + "," +\
                   str(self.longitude) + ",'" +\

@@ -22,6 +22,9 @@ using std::vector;
 #include "sched_msgs.h"
 #include "sched_util.h"
 
+// re-use the data structures from the qcn_trigger scheduler stuff
+#include "../trigger/qcn_trigger.h"
+
 #define DEFAULT_SCAN_INTERVAL  3.0
 
 #define ENUM_FIRST_PASS     0
