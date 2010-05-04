@@ -12,10 +12,6 @@ if there were "hits" in a certain area, then flag this as a quake and put in the
 
 #include "trigmon.h"
 
-// important constants for the main query
-#define TRIGGER_TIME_INTERVAL 10
-#define TRIGGER_COUNT 1
-
 char strSQLTrigger[256];
 
 // first test query - simple just rounts lat/lng to integers, does 10 seconds

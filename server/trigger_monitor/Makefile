@@ -18,14 +18,14 @@ SRCS = $(BOINCDIR)/db/db_base.cpp \
   $(BOINCDIR)/lib/parse.cpp \
   $(BOINCDIR)/db/boinc_db.cpp 
 
-MAIN = trigmon.cpp
+MAIN = qcn_trigmon.cpp
 
-all: clean trigmon
+all: clean qcn_trigmon
 
-trigmon: 
-	$(CC) $(CFLAGS) $(INCLUDES) $(MAIN) $(SRCS) $(LIBS) -o trigmon 
+qcn_trigmon: 
+	$(CC) $(CFLAGS) $(INCLUDES) $(MAIN) $(SRCS) $(LIBS) -o qcn_trigmon 
 
 clean:
-	rm -f *.o core *~ trigmon
+	rm -f *.o core *~ qcn_trigmon
 
 
