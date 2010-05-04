@@ -6,6 +6,13 @@ detected by QCN sensors via lat/lng & time etc
 
 if there were "hits" in a certain area, then flag this as a quake and put in the qcn_quake table
 
+logic:
+  1) check for numerous trickles within a region in a short time period (i.e. 10 seconds) -- see g_strSQLTrigger
+  2) if there are numerous trickles - see if this event has been reported in qcnalpha.qcn_quake - lookup by time/lat/lng
+  3) if has been reported, use that event to tag trickles; else make an entry in qcn_quake and tag triggers
+  4) request uploads from these triggers as appropriate
+
+
 (c) 2010  Stanford University School of Earth Sciences
 
 */
@@ -42,10 +49,11 @@ void setQuery()
     "select "
     "   round(latitude,0) rlat, "
     "   round(longitude,0) rlng, "
-    "   count(*) from trigmem.qcn_trigger_memory  "
+    "   count(distinct hostid) ctr "
+    "from trigmem.qcn_trigger_memory "
     "where time_trigger > unix_timestamp()-%d  "
   "group by rlat, rlng "
-  "having count(*) > %d ",
+  "having ctr > %d ",
      g_iTriggerTimeInterval, 
      g_iTriggerCount
    );
@@ -54,6 +62,9 @@ void setQuery()
 void do_trigmon() 
 {
    vector<DB_QCN_TRIGGER_MEMORY> vqtm;
+
+   // first get a vector of potential matchups by region i.e. lat/lnt/count/time
+
 /*    
     for (int i=0; i<napps; i++) {
         DB_WORK_ITEM* wi = new DB_WORK_ITEM();
