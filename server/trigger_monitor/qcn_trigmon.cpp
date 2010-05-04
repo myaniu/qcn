@@ -10,13 +10,35 @@ if there were "hits" in a certain area, then flag this as a quake and put in the
 
 */
 
-#include "trigmon.h"
+#include "qcn_trigmon.h"
 
-char strSQLTrigger[256];
+DB_CONN trigmem_db;
+
+char g_strSQLTrigger[256];
+double g_dSleepInterval = -1.0;
+int g_iTriggerTimeInterval = -1;
+int g_iTriggerCount = -1;
+int g_iTriggerDeleteInterval = -1;
+
+void close_db()
+{
+   log_messages.printf(MSG_DEBUG, "Closing databases.\n");
+   boinc_db.close();
+   trigmem_db.close();
+}
+
+void do_delete_trigmem()  
+{
+    char strQueryDelete[512];
+    sprintf(strQueryDelete, 
+      "delete from trigmem.qcn_trigger_memory where time_trigger<(unix_timestamp() - %d) OR time_trigger>(unix_timestamp()+1.0)", TRIGGER_DELETE_INTERVAL);
+    trigmem_db.do_query(strQueryDelete);
+}
 
 // first test query - simple just rounts lat/lng to integers, does 10 seconds
-void setQuery() {
-  sprintf(strSQLTrigger,
+void setQuery() 
+{
+  sprintf(g_strSQLTrigger,
     "select "
     "   round(latitude,0) rlat, "
     "   round(longitude,0) rlng, "
@@ -24,93 +46,58 @@ void setQuery() {
     "where time_trigger > unix_timestamp()-%d  "
   "group by rlat, rlng "
   "having count(*) > %d ",
-     TRIGGER_TIME_INTERVAL,
-     TRIGGER_COUNT 
+     g_iTriggerTimeInterval, 
+     g_iTriggerCount
+   );
 }
 
-double scan_interval = DEFAULT_SCAN_INTERVAL;
-
-void trigmon_loop() {
-
-/*
-    vector<DB_WORK_ITEM> work_items;
-    
+void do_trigmon() 
+{
+   vector<DB_QCN_TRIGGER_MEMORY> vqtm;
+/*    
     for (int i=0; i<napps; i++) {
         DB_WORK_ITEM* wi = new DB_WORK_ITEM();
         work_items.push_back(*wi);
-    }
-
-    while (1) {
-        bool action = scan_work_array(work_items);
-        ssp->ready = true;
-        if (!action) {
-            log_messages.printf(MSG_DEBUG,
-                "No action; sleeping %.2f sec\n", sleep_interval
-            );
-            boinc_sleep(sleep_interval);
-        } else {
-            if (config.job_size_matching) {
-                update_stats();
-            }
-        }
-
-        fflush(stdout);
-        check_stop_daemons();
-        //check_reread_trigger();
     }
 */
 }
 
 int main(int argc, char** argv) {
     int retval;
-    
+ 
     retval = config.parse_file();
     if (retval) {
         log_messages.printf(MSG_CRITICAL,
             "Can't parse config.xml: %s\n", boincerror(retval)
         );
-        exit(1);
+        return 1;
     }
 
-/*
-    for (i=1; i<argc; i++) {
+    for (int i=1; i<argc; i++) {
         if (!strcmp(argv[i], "-d")) {
             log_messages.set_debug_level(atoi(argv[++i]));
-        } else if (!strcmp(argv[i], "-random_order")) {
-            order_clause = "order by r1.random ";
-        } else if (!strcmp(argv[i], "-allapps")) {
-            all_apps = true;
-        } else if (!strcmp(argv[i], "-priority_order")) {
-            order_clause = "order by r1.priority desc ";
-        } else if (!strcmp(argv[i], "-priority_order_create_time")) {
-            order_clause = "order by r1.priority desc, r1.workunitid";
-        } else if (!strcmp(argv[i], "-purge_stale")) {
-            purge_stale_time = atoi(argv[++i])*60;
-        } else if (!strcmp(argv[i], "-appids")) {
-           strcat(mod_select_clause, " and workunit.appid in (");
-           strcat(mod_select_clause, argv[++i]);
-           strcat(mod_select_clause, ")");
-        } else if (!strcmp(argv[i], "-mod")) {
-            int n = atoi(argv[++i]);
-            int j = atoi(argv[++i]);
-            sprintf(mod_select_clause, "and r1.id %% %d = %d ", n, j);
-        } else if (!strcmp(argv[i], "-wmod")) {
-            int n = atoi(argv[++i]);
-            int j = atoi(argv[++i]);
-            sprintf(mod_select_clause, "and workunit.id %% %d = %d ", n, j);
         } else if (!strcmp(argv[i], "-sleep_interval")) {
-            sleep_interval = atof(argv[++i]);
+            g_dSleepInterval = atof(argv[++i]);
+        } else if (!strcmp(argv[i], "-count")) {
+            g_iTriggerCount = atoi(argv[++i]);
+        } else if (!strcmp(argv[i], "-time_interval")) {
+            g_iTriggerTimeInterval = atoi(argv[++i]);
+        } else if (!strcmp(argv[i], "-delete_interval")) {
+            g_iTriggerDeleteInterval = atoi(argv[++i]);
         } else {
             log_messages.printf(MSG_CRITICAL,
                 "bad cmdline arg: %s\n", argv[i]
             );
-            exit(1);
+            return 2;
         }
     }
-*/
+    if (g_dSleepInterval < 0) g_dSleepInterval = TRIGGER_SLEEP_INTERVAL;
+    if (g_iTriggerTimeInterval < 0) g_iTriggerTimeInterval = TRIGGER_TIME_INTERVAL;
+    if (g_iTriggerCount < 0) g_iTriggerCount = TRIGGER_COUNT;
+    if (g_iTriggerDeleteInterval < 0) g_iTriggerDeleteInterval = TRIGGER_DELETE_INTERVAL;
 
-    //atexit(cleanup_shmem);
     install_stop_signal_handler();
+    atexit(close_db);
 
     retval = boinc_db.open(
         config.db_name, config.db_host, config.db_user, config.db_passwd
@@ -119,7 +106,16 @@ int main(int argc, char** argv) {
         log_messages.printf(MSG_CRITICAL,
             "boinc_db.open: %d; %s\n", retval, boinc_db.error_string()
         );
-        exit(1);
+        return 3;
+    }
+    retval = trigmem_db.open(
+        DB_TRIGMEM, config.db_host, config.db_user, config.db_passwd
+    );
+    if (retval) {
+        log_messages.printf(MSG_CRITICAL,
+            "trigmem_db.open: %d; %s\n", retval, boinc_db.error_string()
+        );
+        return 4;
     }
     retval = boinc_db.set_isolation_level(REPEATABLE_READ);
     if (retval) {
@@ -128,8 +124,35 @@ int main(int argc, char** argv) {
         );
     }
 
-    //signal(SIGUSR1, show_state);
+    log_messages.printf(MSG_NORMAL,
+            "qcn_trigmon started with the following options:\n"
+            "  -count           = %d\n" 
+            "  -time_interval   = %d\n" 
+            "  -sleep_interval  = %f\n" 
+            "  -delete_interval = %d\n\n",
+         g_iTriggerCount,
+         g_iTriggerTimeInterval,
+         g_dSleepInterval,
+         g_iTriggerDeleteInterval
+    ); 
 
-    trigmon_loop();
+    do_delete_trigmem();  // get rid of triggers every once in awhile, i.e. if daemon just starting, it may have a lot of old triggers
+
+    //signal(SIGUSR1, show_state);
+    double dtDelete = dtime() + TRIGGER_DELETE_INTERVAL; // delete every TRIGGER_DELETE_INTERVAL (probably a minute when live, otherwise 30 minutes in the map_trigger.sh
+    while (1) {
+      double dtEnd = dtime() + TRIGGER_SLEEP_INTERVAL, dtCheck = 0.0;
+      do_trigmon();
+      dtCheck = dtime();
+      check_stop_daemons();
+      if (dtCheck > dtDelete) {
+         do_delete_trigmem();  // get rid of triggers every once in awhile
+      }
+      if (dtCheck < dtEnd && (dtEnd - dtCheck) < 60.0) { // sleep a bit if not less than 60 seconds
+          log_messages.printf(MSG_DEBUG, "Sleeping %f seconds....\n", dtEnd - dtCheck);
+          boinc_sleep(dtEnd - dtCheck);
+      } 
+    }
+    return 0;
 }
 

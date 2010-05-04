@@ -25,11 +25,13 @@ using std::vector;
 // re-use the data structures from the qcn_trigger scheduler stuff
 #include "../trigger/qcn_trigger.h"
 
+#define DB_TRIGMEM "trigmem"
+
 // important constants for the main query
 #define TRIGGER_TIME_INTERVAL 10
 #define TRIGGER_COUNT 10
-
-#define DEFAULT_SCAN_INTERVAL  1.0
+#define TRIGGER_SLEEP_INTERVAL 3.0
+#define TRIGGER_DELETE_INTERVAL 900
 
 #define ENUM_FIRST_PASS     0
 #define ENUM_SECOND_PASS    1
