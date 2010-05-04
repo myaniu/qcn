@@ -108,16 +108,18 @@ bool doTriggerMemoryInsert(const DB_QCN_TRIGGER& qtrig)
 {  // call this after inserting a "regular" trigger record - this will add the 
    // trigger (if applicable i.e. insertid>0, timesync>0) to the memory table for event polling
 
-    DB_QCN_TRIGGER_MEMORY qtrigmem;
-
     // don't put in triggers into memory which haven't had a time sync as they can be way off
     // also we just want varietyid=0 (i.e. normal triggers)
     if (qtrig.varietyid !=0 || qtrig.time_sync < 1e6) return false;
 
     int iVal = qtrig.db->insert_id();
     if (iVal <= 0) return false;  // invalid trigger ID
+
+    DB_QCN_TRIGGER_MEMORY qtrigmem;
+
     strncpy(qtrigmem.db_name, config.db_name, 15);   // database name from config file is stored in mem table
     qtrigmem.triggerid = iVal;  // memory trigger ID matches disk table trigger ID
+    qtrigmem.qcn_quakeid = 0;
 
     // copy over remainig trigger fields of interest
     qtrigmem.hostid = qtrig.hostid;

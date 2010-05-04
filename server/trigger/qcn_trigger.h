@@ -143,6 +143,7 @@ struct QCN_TRIGGER_MEMORY
     int numreset;
     int type_sensor;
     int varietyid;
+    int qcn_quakeid;
 };
 
 class DB_QCN_HOST_IPADDR : public DB_BASE, public QCN_HOST_IPADDR 
@@ -293,7 +294,8 @@ public:
         "runtime_clock=%f,"
         "runtime_cpu=%f,"
         "varietyid=%d,"
-        "flag=0",
+        "flag=0"
+        ,
         hostid, ipaddr, result_name, time_trigger, time_sync, sync_offset,
         significance, magnitude, latitude, longitude, strLevelValue, strLevelID, alignid,
         file, dt, numreset, type_sensor, sw_version, os_type,
@@ -380,10 +382,12 @@ public:
         "dt=%f,"
         "numreset=%d,"
         "type_sensor=%d,"
-        "varietyid=%d",
+        "varietyid=%d,"
+        "qcn_quakeid=%d"
+        ,
         db_name, triggerid, hostid, ipaddr, result_name, time_trigger, time_sync, sync_offset,
         significance, magnitude, latitude, longitude, strLevelValue, strLevelID, alignid,
-        dt, numreset, type_sensor, varietyid
+        dt, numreset, type_sensor, varietyid, qcn_quakeid
       );
     }
 
@@ -413,6 +417,7 @@ public:
       numreset = safe_atoi(r[i++]);
       type_sensor = safe_atoi(r[i++]);
       varietyid = safe_atoi(r[i++]);
+      qcn_quakeid = safe_atoi(r[i++]);
     }
 };
 
