@@ -21,11 +21,16 @@ logic:
 
 DB_CONN trigmem_db;
 
-char g_strSQLTrigger[256];
 double g_dSleepInterval = -1.0;
 int g_iTriggerTimeInterval = -1;
 int g_iTriggerCount = -1;
 int g_iTriggerDeleteInterval = -1;
+
+#define QUERY_DELETE 0
+#define QUERY_LATLNG 1
+#define QUERY_QUAKE  2
+
+char g_strSQL[6][256] = { {""}, {""}, {""}, {""}, {""}, {""} };
 
 void close_db()
 {
@@ -36,27 +41,41 @@ void close_db()
 
 void do_delete_trigmem()  
 {
-    char strQueryDelete[512];
-    sprintf(strQueryDelete, 
-      "delete from trigmem.qcn_trigger_memory where time_trigger<(unix_timestamp() - %d) OR time_trigger>(unix_timestamp()+1.0)", TRIGGER_DELETE_INTERVAL);
-    trigmem_db.do_query(strQueryDelete);
+    if (!g_strSQL[QUERY_DELETE][0]) { // err, something wrong, no query string
+        log_messages.printf(MSG_CRITICAL,
+            "do_delete_trigmem() error: %s\n", "No Query String Found"
+        );
+        exit(10);
+    }
+
+    int retval = trigmem_db.do_query(g_strSQL[QUERY_DELETE]);
+    if (retval) {
+        log_messages.printf(MSG_CRITICAL,
+            "do_delete_trigmem() error: %s\n", boincerror(retval)
+        );
+    }
 }
 
 // first test query - simple just rounts lat/lng to integers, does 10 seconds
-void setQuery() 
+void setQueries() 
 {
-  sprintf(g_strSQLTrigger,
-    "select "
-    "   round(latitude,0) rlat, "
-    "   round(longitude,0) rlng, "
-    "   count(distinct hostid) ctr "
-    "from trigmem.qcn_trigger_memory "
-    "where time_trigger > unix_timestamp()-%d  "
-  "group by rlat, rlng "
-  "having ctr > %d ",
-     g_iTriggerTimeInterval, 
-     g_iTriggerCount
-   );
+   sprintf(g_strSQL[QUERY_DELETE],
+    "DELETE FROM trigmem.qcn_trigger_memory WHERE time_trigger<(unix_timestamp() - %d"
+       ") OR time_trigger>(unix_timestamp()+1.0)",
+      g_iTriggerDeleteInterval);
+
+   sprintf(g_strSQL[QUERY_LATLNG],
+      "select "
+      "   round(latitude,0) rlat, "
+      "   round(longitude,0) rlng, "
+      "   count(distinct hostid) ctr "
+      "from trigmem.qcn_trigger_memory "
+      "where time_trigger > unix_timestamp()-%d, "
+      "group by rlat, rlng "
+      "having ctr > %d",
+         g_iTriggerTimeInterval,
+         g_iTriggerCount
+    );
 }
 
 void do_trigmon() 
@@ -109,6 +128,8 @@ int main(int argc, char** argv) {
 
     install_stop_signal_handler();
     atexit(close_db);
+
+    setQueries();  // setup the sql queries used by this process
 
     retval = boinc_db.open(
         config.db_name, config.db_host, config.db_user, config.db_passwd
