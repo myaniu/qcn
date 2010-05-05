@@ -7,7 +7,7 @@ detected by QCN sensors via lat/lng & time etc
 if there were "hits" in a certain area, then flag this as a quake and put in the qcn_quake table
 
 logic:
-  1) check for numerous trickles within a region in a short time period (i.e. 10 seconds) -- see g_strSQLTrigger
+  1) check for numerous trickles within a region in a short time period (i.e. 10 seconds) 
   2) if there are numerous trickles - see if this event has been reported in qcnalpha.qcn_quake - lookup by time/lat/lng
   3) if has been reported, use that event to tag trickles; else make an entry in qcn_quake and tag triggers
   4) request uploads from these triggers as appropriate
@@ -31,12 +31,6 @@ int g_iTriggerTimeInterval = -1;  // number of seconds to check for triggers (i.
 int g_iTriggerCount = -1;         // number of distinct hostid triggers to count as a qcn quake event
 int g_iTriggerDeleteInterval = -1;  // number of seconds to delete trigmem table array
 
-#define QUERY_DELETE 0
-#define QUERY_LATLNG 1
-#define QUERY_QUAKE  2
-
-char g_strSQL[6][256] = { {""}, {""}, {""}, {""}, {""}, {""} };
-
 // keep a global vector of recent QCN quake events, remove them after an hour or so
 // this way follup triggers can be matched to a known QCN quake event (i.e. qcn_quake table)
 //vector<QCN_QUAKE_EVENT> vQuakeEvent;
@@ -50,14 +44,14 @@ void close_db()
 
 void do_delete_trigmem()  
 {
-    if (!g_strSQL[QUERY_DELETE][0]) { // err, something wrong, no query string
-        log_messages.printf(MSG_CRITICAL,
-            "do_delete_trigmem() error: %s\n", "No Query String Found"
-        );
-        exit(10);
-    }
+    char strDelete[128];
+    sprintf(strDelete,
+      "DELETE FROM trigmem.qcn_trigger_memory WHERE time_trigger<(unix_timestamp() - %d"
+       ") OR time_trigger>(unix_timestamp()+10.0)",
+      g_iTriggerDeleteInterval
+    );
 
-    int retval = trigmem_db.do_query(g_strSQL[QUERY_DELETE]);
+    int retval = trigmem_db.do_query(strDelete);
     if (retval) {
         log_messages.printf(MSG_CRITICAL,
             "do_delete_trigmem() error: %s\n", boincerror(retval)
@@ -70,38 +64,28 @@ void do_delete_trigmem()
     }
 }
 
-// first test query - simple just rounts lat/lng to integers, does 10 seconds
-void setQueries() 
+void do_trigmon() 
 {
-   sprintf(g_strSQL[QUERY_DELETE],
-    "DELETE FROM trigmem.qcn_trigger_memory WHERE time_trigger<(unix_timestamp() - %d"
-       ") OR time_trigger>(unix_timestamp()+1.0)",
-      g_iTriggerDeleteInterval);
 
-   sprintf(g_strSQL[QUERY_LATLNG],
-"select  "
-       "  round(latitude,0) rlat,  "
-       "  round(longitude,0) rlng,  "
-       "  count(distinct hostid) ctr, "
-       "  min(time_trigger) time_min, "
-       "  max(time_trigger) time_max "
-      "from trigmem.qcn_trigger_memory "
-      "where time_trigger > (unix_timestamp() - %d) "
-      "group by rlat, rlng "
-      "having ctr > %d",
+   // first get a vector of potential matchups by region i.e. lat/lnt/count/time
+
+   char strQuery[256];
+   sprintf(strQuery,
+      "SELECT "
+      "  ROUND(latitude,0) rlat, "
+      "  ROUND(longitude,0) rlng, "
+      "  COUNT(distinct hostid) ctr, "
+      "  MIN(time_trigger) time_min, "
+      "  MAX(time_trigger) time_max "
+      "FROM trigmem.qcn_trigger_memory "
+      "WHERE time_trigger > (unix_timestamp() - %d) "
+      "GROUP BY rlat, rlng "
+      "HAVING ctr > %d",
          g_iTriggerTimeInterval,
          g_iTriggerCount
     );
 
-}
-
-void do_trigmon() 
-{
-   //vector<DB_QCN_TRIGGER_MEMORY> vqtm;
-
-    //fprintf(stdout, "%s\n", g_strSQL[QUERY_LATLNG]);
-    // first get a vector of potential matchups by region i.e. lat/lnt/count/time
-    int retval = trigmem_db.do_query(g_strSQL[QUERY_LATLNG]);
+    int retval = trigmem_db.do_query(strQuery);
     if (retval) { // big error, should probably quit as may have lost database connection
         log_messages.printf(MSG_CRITICAL,
             "do_trigmon() error: %s - %s\n", "Query Error", boincerror(retval)
@@ -172,8 +156,8 @@ void checkQCNEvent(const double& dLat,
    if (!iQCNQuakeID) { // didn't find anything so make a record in qcn_quake table and an entry 
 */
      DB_QCN_QUAKE dqq;
-
-     sprintf(g_strSQL[QUERY_QUAKE],
+     char strWhere[256];
+     sprintf(strWhere,
         "WHERE ROUND(latitude,0) = ROUND(%f,0) "
         "  AND ROUND(longitude,0)= ROUND(%f,0) "
         "  AND time_utc BETWEEN %f AND %f ",
@@ -181,14 +165,14 @@ void checkQCNEvent(const double& dLat,
      );
 
       // search via dqq.lookup(WHERE_CLAUSE)
-     int iRetVal = dqq.lookup(g_strSQL[QUERY_QUAKE]);
+     dqq.clear();
+     int iRetVal = dqq.lookup(strWhere);
      switch(iRetVal) {
         case ERR_DB_NOT_FOUND:  // insert new qcn_quake record
-           dqq.clear();
            dqq.time_utc = dTimeMin;  // min time of triggers found // (dTimeMin + dTimeMax) / 2.0;  // avg time of trigger?
            dqq.latitude = dLat;
            dqq.longitude = dLng;
-           sprintf(dqq.description, "QCN Event %ld", (long) dTimeMin);
+           sprintf(dqq.description, "QCN Event %ld - %d Hosts", (long) dTimeMin, iCtr);
            dqq.processed = 0;
            sprintf(dqq.guid, "QCN_%ld", (long) dTimeMin);
            iRetVal = dqq.insert();
@@ -205,8 +189,8 @@ void checkQCNEvent(const double& dLat,
            break;
         default:  // other database error
            log_messages.printf(
-              SCHED_MSG_LOG::MSG_CRITICAL, "qcn_quake lookupfailed for (%f,%f) at %f\n%s\n\n",
-                 dLat, dLng, dTimeMin, g_strSQL[QUERY_QUAKE]);
+              SCHED_MSG_LOG::MSG_CRITICAL, "qcn_quake lookup, failed for (%f,%f) at %f\n%s\n\n%s\n\n",
+                 dLat, dLng, dTimeMin, strWhere, boincerror(iRetVal));
      }
 
      if (!iQCNQuakeID) return; // must have had an error
@@ -256,8 +240,6 @@ int main(int argc, char** argv)
 
     install_stop_signal_handler();
     atexit(close_db);
-
-    setQueries();  // setup the sql queries used by this process
 
     retval = boinc_db.open(
         config.db_name, config.db_host, config.db_user, config.db_passwd

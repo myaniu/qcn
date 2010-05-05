@@ -74,6 +74,7 @@ struct QCN_HOST_IPADDR
     int levelid;
     int alignid;
     int geoipaddrid;
+    void clear() {memset(this, 0x00, sizeof(QCN_HOST_IPADDR));}
 };
 
 struct QCN_GEO_IPADDR 
@@ -86,6 +87,7 @@ struct QCN_GEO_IPADDR
     char city[32];
     double latitude;
     double longitude;
+    void clear() {memset(this, 0x00, sizeof(QCN_GEO_IPADDR));}
 };
 
 struct QCN_TRIGGER 
@@ -119,6 +121,7 @@ struct QCN_TRIGGER
     double runtime_cpu;
     int varietyid;
     int flag;
+    void clear() {memset(this, 0x00, sizeof(QCN_TRIGGER));}
 };
 
 struct QCN_TRIGGER_MEMORY
@@ -144,6 +147,7 @@ struct QCN_TRIGGER_MEMORY
     int type_sensor;
     int varietyid;
     int qcn_quakeid;
+    void clear() {memset(this, 0x00, sizeof(QCN_TRIGGER_MEMORY));}
 };
 
 struct QCN_QUAKE
@@ -158,6 +162,7 @@ struct QCN_QUAKE
    int processed;
    char url[256];
    char guid[256];
+   void clear() {memset(this, 0x00, sizeof(QCN_QUAKE));}
 };
 
 
@@ -166,8 +171,6 @@ class DB_QCN_HOST_IPADDR : public DB_BASE, public QCN_HOST_IPADDR
 public:
     DB_QCN_HOST_IPADDR(DB_CONN* dc=0) :
           DB_BASE("qcn_host_ipaddr", dc ? dc : &boinc_db)  { }
-
-    void clear() {memset(this, 0x00, sizeof(DB_QCN_HOST_IPADDR));}
 
     int get_id() {return id;}
 
@@ -221,8 +224,6 @@ public:
     DB_QCN_GEO_IPADDR(DB_CONN* dc=0) :
           DB_BASE("qcn_geo_ipaddr", dc ? dc : &boinc_db)  { }
 
-    void clear() {memset(this, 0x00, sizeof(DB_QCN_GEO_IPADDR));}
-
     int get_id() {return id;}
 
     void db_print(char* buf)
@@ -265,8 +266,6 @@ class DB_QCN_TRIGGER : public DB_BASE, public QCN_TRIGGER
 public:
     DB_QCN_TRIGGER(DB_CONN* dc=0) :
           DB_BASE("qcn_trigger", dc ? dc : &boinc_db)  { }
-
-    void clear() {memset(this, 0x00, sizeof(DB_QCN_TRIGGER));}
 
     int get_id() {return id;}
 
@@ -362,8 +361,6 @@ public:
     DB_QCN_TRIGGER_MEMORY(DB_CONN* dc=0) :
         DB_BASE("qcn_trigger_memory", dc ? dc : &trigmem_db)  { }
 
-    void clear() {memset(this, 0x00, sizeof(DB_QCN_TRIGGER_MEMORY));}
-
     int get_id() {return triggerid;}
 
     void db_print(char* buf)
@@ -442,15 +439,13 @@ public:
     DB_QCN_QUAKE(DB_CONN* dc=0) :
           DB_BASE("qcn_quake", dc ? dc : &boinc_db)  { }
 
-    void clear() {memset(this, 0x00, sizeof(DB_QCN_QUAKE));}
-
     int get_id() {return id;}
 
     void db_print(char* buf)
     {
-      ESCAPE(description);
-      ESCAPE(url);
-      ESCAPE(guid);
+      //ESCAPE(description);
+      //ESCAPE(url);
+      //ESCAPE(guid);
       sprintf(buf,
         "id=%d,"
         "time_utc=%f,"
@@ -465,9 +460,9 @@ public:
         ,
         id, time_utc, magnitude, depth_km, latitude, longitude, description, processed, url, guid 
       );
-      UNESCAPE(description);
-      UNESCAPE(url);
-      UNESCAPE(guid);
+      //UNESCAPE(description);
+      //UNESCAPE(url);
+      //UNESCAPE(guid);
     }
 
     void db_parse(MYSQL_ROW& r)
