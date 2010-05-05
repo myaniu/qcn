@@ -39,7 +39,7 @@ char g_strSQL[6][256] = { {""}, {""}, {""}, {""}, {""}, {""} };
 
 // keep a global vector of recent QCN quake events, remove them after an hour or so
 // this way follup triggers can be matched to a known QCN quake event (i.e. qcn_quake table)
-vector<QCN_QUAKE_EVENT> vQuakeEvent;
+//vector<QCN_QUAKE_EVENT> vQuakeEvent;
 
 void close_db()
 {
@@ -92,11 +92,12 @@ void setQueries()
          g_iTriggerTimeInterval,
          g_iTriggerCount
     );
+
 }
 
 void do_trigmon() 
 {
-   vector<DB_QCN_TRIGGER_MEMORY> vqtm;
+   //vector<DB_QCN_TRIGGER_MEMORY> vqtm;
 
     //fprintf(stdout, "%s\n", g_strSQL[QUERY_LATLNG]);
     // first get a vector of potential matchups by region i.e. lat/lnt/count/time
@@ -114,14 +115,22 @@ void do_trigmon()
 
     rp = mysql_store_result(trigmem_db.mysql);
     while ((row = mysql_fetch_row(rp))) {
+      // if we have rows from the above query, then we have detected an event
+      // so need to see if this is in our current event array, and add it if it isn't
+
       numRows++;
       double dLat = atof(row[0]);
       double dLng = atof(row[1]);
       int iCtr = atoi(row[2]);
       double dTimeMin = atof(row[3]);
       double dTimeMax = atof(row[4]);
-      fprintf(stdout, "  #%d  %f - (%f, %f) - %d distinct hosts from %f to %f\n", 
-           numRows, g_dTimeCurrent, dLat, dLng, iCtr, dTimeMin, dTimeMax);
+      log_messages.printf(MSG_DEBUG,
+          "  #%d  %f - (%f, %f) - %d distinct hosts from %f to %f\n", 
+           numRows, g_dTimeCurrent, dLat, dLng, iCtr, dTimeMin, dTimeMax
+      );
+
+      checkQCNEvent(dLat, dLng, iCtr, dTimeMin, dTimeMax);
+     
     }
     if (!numRows) { 
        fprintf(stdout, "  No rows found\n");
@@ -130,16 +139,87 @@ void do_trigmon()
     mysql_free_result(rp);
 
 
-/*    
-    for (int i=0; i<napps; i++) {
-        DB_WORK_ITEM* wi = new DB_WORK_ITEM();
-        work_items.push_back(*wi);
-    }
-*/
 }
 
-int main(int argc, char** argv) {
+// check this potential event is in our vector of quake events (i.e. we may have
+// already processed triggers from other hosts for this event) -- also make sure
+// this event is reported in the qcn_quake table and save the qcn_quakeid to update the
+// qcn_trigger entries
+void checkQCNEvent(const double& dLat, 
+    const double& dLng, 
+    const int& iCtr, 
+    const double& dTimeMin, 
+    const double& dTimeMax)
+{
+   int iQCNQuakeID = 0L;  // store qcn_quakeid for quick retrieval later
+
+   // enumerate through our vector to see if it matches within reason
+   // based on lat/lng & trigger time
+/*
+   vector<QCN_QUAKE_EVENT>::const_iterator ciqe;
+   for (ciqe = vQuakeEvent.begin(); ciqe != vQuakeEvent.end(); ciqe++) {
+      if ( floor(ciqe->latitude) == floor(dLat) 
+        && floor(ciqe->longitude) == floor(dLng)
+        && ciqe->dTime > g_dTimeCurrent - 30
+        && ciqe->dTime < g_dTimeCurrent + 5
+       ) {
+         // this record matches so get the qcn_quakeid
+         iQCNQuakeID = ciqe->qcn_quakeid;
+         break;
+       }
+   }
+ 
+   if (!iQCNQuakeID) { // didn't find anything so make a record in qcn_quake table and an entry 
+*/
+     DB_QCN_QUAKE dqq;
+
+     sprintf(g_strSQL[QUERY_QUAKE],
+        "WHERE ROUND(latitude,0) = ROUND(%f,0) "
+        "  AND ROUND(longitude,0)= ROUND(%f,0) "
+        "  AND time_utc BETWEEN %f AND %f ",
+          dLat, dLng, dTimeMin-10.0, dTimeMax+10.0
+     );
+
+      // search via dqq.lookup(WHERE_CLAUSE)
+     int iRetVal = dqq.lookup(g_strSQL[QUERY_QUAKE]);
+     switch(iRetVal) {
+        case ERR_DB_NOT_FOUND:  // insert new qcn_quake record
+           dqq.clear();
+           dqq.time_utc = dTimeMin;  // min time of triggers found // (dTimeMin + dTimeMax) / 2.0;  // avg time of trigger?
+           dqq.latitude = dLat;
+           dqq.longitude = dLng;
+           sprintf(dqq.description, "QCN Event %ld", (long) dTimeMin);
+           dqq.processed = 0;
+           sprintf(dqq.guid, "QCN_%ld", (long) dTimeMin);
+           iRetVal = dqq.insert();
+           if (iRetVal) {
+              log_messages.printf(
+                 SCHED_MSG_LOG::MSG_CRITICAL, "qcn_quake insert failed for (%f,%f) at %f\n",
+                      dLat, dLng, dTimeMin);
+           } else { // trigger got in OK
+              iQCNQuakeID = dqq.db->insert_id();
+           }
+           break;
+        case 0: // found, get the ID
+           iQCNQuakeID = dqq.id;
+           break;
+        default:  // other database error
+           log_messages.printf(
+              SCHED_MSG_LOG::MSG_CRITICAL, "qcn_quake lookupfailed for (%f,%f) at %f\n%s\n\n",
+                 dLat, dLng, dTimeMin, g_strSQL[QUERY_QUAKE]);
+     }
+
+     if (!iQCNQuakeID) return; // must have had an error
+
+     // if here we have a quake id we can associate with the triggers and update the trigger table
+
+}
+
+int main(int argc, char** argv) 
+{
     int retval;
+
+    //vQuakeEvent.clear();
  
     retval = config.parse_file();
     if (retval) {

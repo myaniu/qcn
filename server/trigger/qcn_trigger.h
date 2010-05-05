@@ -146,6 +146,21 @@ struct QCN_TRIGGER_MEMORY
     int qcn_quakeid;
 };
 
+struct QCN_QUAKE
+{
+   int id;
+   double time_utc;
+   double magnitude;
+   double depth_km;
+   double latitude;
+   double longitude;
+   char description[256];
+   int processed;
+   char url[256];
+   char guid[256];
+};
+
+
 class DB_QCN_HOST_IPADDR : public DB_BASE, public QCN_HOST_IPADDR 
 {
 public:
@@ -421,5 +436,55 @@ public:
     }
 };
 
-#endif  // ifndef _QCN_TRIGGER_H
+class DB_QCN_QUAKE: public DB_BASE, public QCN_QUAKE
+{
+public:
+    DB_QCN_QUAKE(DB_CONN* dc=0) :
+          DB_BASE("qcn_quake", dc ? dc : &boinc_db)  { }
 
+    void clear() {memset(this, 0x00, sizeof(DB_QCN_QUAKE));}
+
+    int get_id() {return id;}
+
+    void db_print(char* buf)
+    {
+      ESCAPE(description);
+      ESCAPE(url);
+      ESCAPE(guid);
+      sprintf(buf,
+        "id=%d,"
+        "time_utc=%f,"
+        "magnitude=%f,"
+        "depth_km=%f,"
+        "latitude=%f,"
+        "longitude=%f,"
+        "description='%s',"
+        "processed=%d,"
+        "url='%s',"
+        "guid='%s'"
+        ,
+        id, time_utc, magnitude, depth_km, latitude, longitude, description, processed, url, guid 
+      );
+      UNESCAPE(description);
+      UNESCAPE(url);
+      UNESCAPE(guid);
+    }
+
+    void db_parse(MYSQL_ROW& r)
+    {
+      int i=0;
+      clear();
+      id = safe_atoi(r[i++]);
+      time_utc = safe_atof(r[i++]);
+      magnitude = safe_atof(r[i++]);
+      depth_km = safe_atof(r[i++]);
+      latitude = safe_atof(r[i++]);
+      longitude = safe_atof(r[i++]);
+      strcpy2(description, r[i++]);
+      processed = safe_atoi(r[i++]);
+      strcpy2(url, r[i++]);
+      strcpy2(guid, r[i++]);
+    }
+};
+
+#endif  // ifndef _QCN_TRIGGER_H

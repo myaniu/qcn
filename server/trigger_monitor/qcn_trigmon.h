@@ -53,4 +53,15 @@ struct QCN_QUAKE_EVENT
     QCN_QUAKE_EVENT() { clear(); };
 };
 
+void checkQCNEvent(
+    const double& dLat, 
+    const double& dLng, 
+    const int& iCtr, 
+    const double& dTimeMin, 
+    const double& dTimeMax);
+void close_db();
+void do_delete_trigmem();
+void setQueries();
+void do_trigmon();
+
 #endif //_QCN_TRIGMON_H_
