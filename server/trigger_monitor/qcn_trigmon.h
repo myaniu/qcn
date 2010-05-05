@@ -1,5 +1,5 @@
-#ifndef _TRIGMON_H_
-#define _TRIGMON_H_
+#ifndef _QCN_TRIGMON_H_
+#define _QCN_TRIGMON_H_
 
 #include <cstdio>
 #include <cstdlib>
@@ -37,4 +37,20 @@ using std::vector;
 #define ENUM_SECOND_PASS    1
 #define ENUM_OVER           2
 
-#endif // 
+// struct to keep in a vector of the most recent QCN generated quake events
+// so followup triggers can be matched to this if we are scanning the trigmem.qcn_trigger_memory 
+// table very frequently (i.e. <5 seconds)
+
+struct QCN_QUAKE_EVENT
+{
+    double dTime;
+    int qcn_quakeid;
+    double latitude;
+    double longitude;
+    int count;
+
+    void clear() { memset(this, 0x00, sizeof(QCN_QUAKE_EVENT)); }
+    QCN_QUAKE_EVENT() { clear(); };
+};
+
+#endif //_QCN_TRIGMON_H_

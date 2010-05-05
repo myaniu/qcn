@@ -12,6 +12,8 @@ logic:
   3) if has been reported, use that event to tag trickles; else make an entry in qcn_quake and tag triggers
   4) request uploads from these triggers as appropriate
 
+Example usage:
+./qcn_trigmon -d 3 -sleep_interval 1 -count 2 -time_interval 100 -delete_interval 300
 
 (c) 2010  Stanford University School of Earth Sciences
 
@@ -21,16 +23,23 @@ logic:
 
 DB_CONN trigmem_db;
 
-double g_dSleepInterval = -1.0;
-int g_iTriggerTimeInterval = -1;
-int g_iTriggerCount = -1;
-int g_iTriggerDeleteInterval = -1;
+double g_dTimeCurrent = 0.0;  // global for current time
+
+// global params for trigger monitoring behavior
+double g_dSleepInterval = -1.0;   // number of seconds to sleep between trigmem enumerations
+int g_iTriggerTimeInterval = -1;  // number of seconds to check for triggers (i.e. "time width" of triggers for an event)
+int g_iTriggerCount = -1;         // number of distinct hostid triggers to count as a qcn quake event
+int g_iTriggerDeleteInterval = -1;  // number of seconds to delete trigmem table array
 
 #define QUERY_DELETE 0
 #define QUERY_LATLNG 1
 #define QUERY_QUAKE  2
 
 char g_strSQL[6][256] = { {""}, {""}, {""}, {""}, {""}, {""} };
+
+// keep a global vector of recent QCN quake events, remove them after an hour or so
+// this way follup triggers can be matched to a known QCN quake event (i.e. qcn_quake table)
+vector<QCN_QUAKE_EVENT> vQuakeEvent;
 
 void close_db()
 {
@@ -54,6 +63,11 @@ void do_delete_trigmem()
             "do_delete_trigmem() error: %s\n", boincerror(retval)
         );
     }
+    else {
+        log_messages.printf(MSG_DEBUG,
+            "do_delete_trigmem(): Removed old triggers from memory\n"
+        );
+    }
 }
 
 // first test query - simple just rounts lat/lng to integers, does 10 seconds
@@ -65,12 +79,14 @@ void setQueries()
       g_iTriggerDeleteInterval);
 
    sprintf(g_strSQL[QUERY_LATLNG],
-      "select "
-      "   round(latitude,0) rlat, "
-      "   round(longitude,0) rlng, "
-      "   count(distinct hostid) ctr "
+"select  "
+       "  round(latitude,0) rlat,  "
+       "  round(longitude,0) rlng,  "
+       "  count(distinct hostid) ctr, "
+       "  min(time_trigger) time_min, "
+       "  max(time_trigger) time_max "
       "from trigmem.qcn_trigger_memory "
-      "where time_trigger > unix_timestamp()-%d, "
+      "where time_trigger > (unix_timestamp() - %d) "
       "group by rlat, rlng "
       "having ctr > %d",
          g_iTriggerTimeInterval,
@@ -82,7 +98,37 @@ void do_trigmon()
 {
    vector<DB_QCN_TRIGGER_MEMORY> vqtm;
 
-   // first get a vector of potential matchups by region i.e. lat/lnt/count/time
+    //fprintf(stdout, "%s\n", g_strSQL[QUERY_LATLNG]);
+    // first get a vector of potential matchups by region i.e. lat/lnt/count/time
+    int retval = trigmem_db.do_query(g_strSQL[QUERY_LATLNG]);
+    if (retval) { // big error, should probably quit as may have lost database connection
+        log_messages.printf(MSG_CRITICAL,
+            "do_trigmon() error: %s - %s\n", "Query Error", boincerror(retval)
+        );
+        exit(10);
+    }
+
+    MYSQL_ROW row;
+    MYSQL_RES* rp;
+    int numRows = 0;
+
+    rp = mysql_store_result(trigmem_db.mysql);
+    while ((row = mysql_fetch_row(rp))) {
+      numRows++;
+      double dLat = atof(row[0]);
+      double dLng = atof(row[1]);
+      int iCtr = atoi(row[2]);
+      double dTimeMin = atof(row[3]);
+      double dTimeMax = atof(row[4]);
+      fprintf(stdout, "  #%d  %f - (%f, %f) - %d distinct hosts from %f to %f\n", 
+           numRows, g_dTimeCurrent, dLat, dLng, iCtr, dTimeMin, dTimeMax);
+    }
+    if (!numRows) { 
+       fprintf(stdout, "  No rows found\n");
+    }
+
+    mysql_free_result(rp);
+
 
 /*    
     for (int i=0; i<napps; i++) {
@@ -116,7 +162,9 @@ int main(int argc, char** argv) {
             g_iTriggerDeleteInterval = atoi(argv[++i]);
         } else {
             log_messages.printf(MSG_CRITICAL,
-                "bad cmdline arg: %s\n", argv[i]
+                "bad cmdline arg: %s\n\n"
+                "Example usage: qcn_trigmon -d 3 -sleep_interval 3 -count 10 -time_interval 10 -delete_interval 300\n\n"
+             , argv[i]
             );
             return 2;
         }
@@ -168,21 +216,21 @@ int main(int argc, char** argv) {
          g_iTriggerDeleteInterval
     ); 
 
-    do_delete_trigmem();  // get rid of triggers every once in awhile, i.e. if daemon just starting, it may have a lot of old triggers
-
     //signal(SIGUSR1, show_state);
-    double dtDelete = dtime() + TRIGGER_DELETE_INTERVAL; // delete every TRIGGER_DELETE_INTERVAL (probably a minute when live, otherwise 30 minutes in the map_trigger.sh
+    double dtDelete = 0.0f; // time to delete old triggers from memory
     while (1) {
-      double dtEnd = dtime() + TRIGGER_SLEEP_INTERVAL, dtCheck = 0.0;
-      do_trigmon();
-      dtCheck = dtime();
-      check_stop_daemons();
-      if (dtCheck > dtDelete) {
+      g_dTimeCurrent = dtime();
+      double dtEnd = g_dTimeCurrent + g_dSleepInterval;
+      if (g_dTimeCurrent > dtDelete) {
          do_delete_trigmem();  // get rid of triggers every once in awhile
+         dtDelete = g_dTimeCurrent + g_iTriggerDeleteInterval;
       }
-      if (dtCheck < dtEnd && (dtEnd - dtCheck) < 60.0) { // sleep a bit if not less than 60 seconds
-          log_messages.printf(MSG_DEBUG, "Sleeping %f seconds....\n", dtEnd - dtCheck);
-          boinc_sleep(dtEnd - dtCheck);
+      do_trigmon();
+      check_stop_daemons();
+      g_dTimeCurrent = dtime();
+      if (g_dTimeCurrent < dtEnd && (dtEnd - g_dTimeCurrent) < 60.0) { // sleep a bit if not less than 60 seconds
+          log_messages.printf(MSG_DEBUG, "Sleeping %f seconds....\n", dtEnd - g_dTimeCurrent);
+          boinc_sleep(dtEnd - g_dTimeCurrent);
       } 
     }
     return 0;
