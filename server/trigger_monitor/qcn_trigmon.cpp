@@ -115,6 +115,9 @@ void do_trigmon()
 
       int iQuakeID = getQCNQuakeID(dLat, dLng, iCtr, dTimeMin, dTimeMax);
       if (iQuakeID) {
+         log_messages.printf(MSG_DEBUG,
+           "do_trigmon() processing QCN Quake # %d - %d hosts\n", iQuakeID, iCtr);
+
          // get matching triggers and update appropriate qcn_trigger table (qcnalpha and/or continual)
          char strTrigs[512];
          sprintf(strTrigs, 
@@ -153,7 +156,7 @@ void do_trigmon()
                   );
                }
 
-               sprintf(strUpdate, "UPDATE %s.qcn_trigger SET qcn_quakeid=%d WHERE triggerid=%d",
+               sprintf(strUpdate, "UPDATE %s.qcn_trigger SET qcn_quakeid=%d WHERE id=%d",
                    strDBName, iQuakeID, iTriggerID
                );
                tret = boinc_db.do_query(strUpdate);
@@ -204,7 +207,7 @@ int getQCNQuakeID(const double& dLat,
            dqq.longitude = dLng;
            sprintf(dqq.description, "QCN Event %ld - %d Hosts", (long) dTimeMin, iCtr);
            dqq.processed = 0;
-           sprintf(dqq.guid, "QCN_%ld", (long) dTimeMin);
+           sprintf(dqq.guid, "QCN_%ld_%ld_%ld", (long) dTimeMin, (long) dLat, (long) dLng);
            iRetVal = dqq.insert();
            if (iRetVal) {
               log_messages.printf(
