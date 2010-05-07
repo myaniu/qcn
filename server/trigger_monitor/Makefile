@@ -1,5 +1,5 @@
-CFLAGS = -O2 -Wall
 CFLAGS = -g -O0 -Wall
+CFLAGS = -O2 -Wall
 CC = g++
 BOINCDIR = ../../../boinc
 MYSQLDIR = /usr/local/mysql
@@ -25,6 +25,8 @@ all: clean qcn_trigmon
 
 qcn_trigmon: 
 	$(CC) $(CFLAGS) $(INCLUDES) $(MAIN) $(SRCS) $(LIBS) -o qcn_trigmon 
+	strip qcn_trigmon
+	cp qcn_trigmon /var/www/boinc/sensor/bin/
 
 clean:
 	rm -f *.o core *~ qcn_trigmon
