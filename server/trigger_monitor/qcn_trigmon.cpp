@@ -206,7 +206,7 @@ int getQCNQuakeID(const double& dLat,
            dqq.latitude = dLat;
            dqq.longitude = dLng;
            sprintf(dqq.description, "QCN Event %ld - %d Hosts", (long) dTimeMin, iCtr);
-           dqq.processed = 0;
+           dqq.processed = 1; // flag that it's already processed
            sprintf(dqq.guid, "QCN_%ld_%ld_%ld", (long) dTimeMin, (long) dLat, (long) dLng);
            iRetVal = dqq.insert();
            if (iRetVal) {
