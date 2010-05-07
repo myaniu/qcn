@@ -33,10 +33,10 @@ import traceback, sys, string, MySQLdb, mx.DateTime
 from datetime import datetime
 from time import strptime, mktime
 
-QUERY_QUAKE_PROCESSED = "select id, time_utc, latitude, longitude, magnitude " +\
-                        "from qcn_quake where processed is null or not processed"
+QUERY_QUAKE_PROCESSED = "SELECT id, time_utc, latitude, longitude, magnitude " +\
+                        "FROM qcn_quake WHERE guid NOT LIKE 'QCN_%' AND (processed IS NULL OR NOT processed) "
 
-QUERY_TRIGGER_HOST_LIST = "select hostid,count(*) from qcn_trigger "
+QUERY_TRIGGER_HOST_LIST = "SELECT hostid,count(*) FROM qcn_trigger "
 
 # note that we want to get host & trigger records matching a quake
 # or it was a prior request that we haven't received anything in the past day with up to 20 tries
