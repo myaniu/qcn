@@ -53,7 +53,8 @@ struct QCN_QUAKE_EVENT
     QCN_QUAKE_EVENT() { clear(); };
 };
 
-void checkQCNEvent(
+// returns quakeid if event found/created (0 if not)
+int getQCNQuakeID(
     const double& dLat, 
     const double& dLng, 
     const int& iCtr, 
