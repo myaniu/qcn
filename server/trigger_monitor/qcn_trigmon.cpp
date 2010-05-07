@@ -171,8 +171,6 @@ void do_trigmon()
     }
 
     mysql_free_result(rp);
-
-
 }
 
 // check this potential event is in our vector of quake events (i.e. we may have
