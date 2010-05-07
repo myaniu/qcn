@@ -212,6 +212,11 @@
         transitioner
       </cmd>
     </daemon>
+    <daemon>
+      <cmd>
+        qcn_trigmon -d 3 -sleep_interval 5 -count 5 -time_interval 60 -delete_interval 300
+      </cmd>
+    </daemon>
   </daemons>
 </boinc>
 
