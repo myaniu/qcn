@@ -113,7 +113,8 @@ void do_trigmon()
            numRows, g_dTimeCurrent, dLat, dLng, iCtr, dTimeMin, dTimeMax
       );
 
-      if ((int iQuakeID = getQCNQuakeID(dLat, dLng, iCtr, dTimeMin, dTimeMax))) {
+      int iQuakeID = getQCNQuakeID(dLat, dLng, iCtr, dTimeMin, dTimeMax);
+      if (iQuakeID) {
          // get matching triggers and update appropriate qcn_trigger table (qcnalpha and/or continual)
          char strTrigs[512];
          sprintf(strTrigs, 
@@ -140,9 +141,9 @@ void do_trigmon()
              int iTriggerID = atoi(trow[1]);
              memset(strUpdate, 0x00, 256);
              memset(strDBName, 0x00, 17);
-             strcpy2(strDBName, trow[0], 17);
+             strcpy2(strDBName, trow[0]);
              if (iTriggerID) {
-               sprintf(strUpdate, "UPDATE trigmem.qcn_trigger_memory SET qcn_quakeid=%ld WHERE db_name='%s' AND triggerid=%ld",
+               sprintf(strUpdate, "UPDATE trigmem.qcn_trigger_memory SET qcn_quakeid=%d WHERE db_name='%s' AND triggerid=%d",
                    iQuakeID, strDBName, iTriggerID
                );
                tret = trigmem_db.do_query(strUpdate);
@@ -152,7 +153,7 @@ void do_trigmon()
                   );
                }
 
-               sprintf(strUpdate, "UPDATE %s.qcn_trigger SET qcn_quakeid=%ld WHERE triggerid=%ld",
+               sprintf(strUpdate, "UPDATE %s.qcn_trigger SET qcn_quakeid=%d WHERE triggerid=%d",
                    strDBName, iQuakeID, iTriggerID
                );
                tret = boinc_db.do_query(strUpdate);
@@ -162,10 +163,10 @@ void do_trigmon()
                   );
                }
              } // iTriggerID     
-         }
+         } // while trow
          mysql_free_result(trp);
-      }
-    }
+      } // if iQuakeID
+    } // outer while
     if (!numRows) { 
        fprintf(stdout, "  No rows found\n");
     }
