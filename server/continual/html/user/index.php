@@ -93,7 +93,21 @@ if ($user->donated) {
                 $fsizebackup / 1.048576e6)  . "</a>";
      }
 */
-     echo "   </ul>";
+        //if ($user->id == 15) {
+
+        // check for db replication timestamp
+        $kewfile = "/var/www/boinc/sensor/html/user/max.txt";
+        if (file_exists($kewfile) && ($handle = fopen($kewfile, 'r'))) {
+              $output = fgets($handle); // skip first line
+              $output = fgets($handle);
+              fclose($handle);
+              echo "        <li>Latest Trigger Sync'd on Kew: " . $output . "<BR>(should be no more than an hour behind)<BR>";
+        }
+        else {
+              echo "        <li>No Replication Sync File on Kew - Better Check!";
+        }
+
+     echo "   </ul> ";
 }
 
 echo "

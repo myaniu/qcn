@@ -67,8 +67,22 @@ if ($user->donated) {
         <h2>".tra("Extra Links")."</h2>
         <ul>
         <li><a href=\"trig.php\">".tra("Search Triggers")."</a>
-        <li><a href=\"dl.php\">".tra("Download Trigger Data")."</a>
-        </ul>";
+        <li><a href=\"dl.php\">".tra("Download Trigger Data")."</a>";
+
+        //if ($user->id == 15) {
+        // check for db replication timestamp
+        $kewfile = "/var/www/boinc/sensor/html/user/max.txt";
+        if (file_exists($kewfile) && ($handle = fopen($kewfile, 'r'))) {
+              $output = fgets($handle); // skip first line
+              $output = fgets($handle);              fclose($handle);
+              echo "        <li>Latest Trigger Sync'd on Kew: " . $output . "<BR>(should be no more than an hour behind)
+<BR>";
+        }        else {
+              echo "        <li>No Replication Sync File on Kew - Better Check!";
+        }
+        //}
+
+  echo "</ul>";
 }
 
 echo "

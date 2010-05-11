@@ -77,6 +77,7 @@ $bUseCSV = get_int("cbUseCSV", true);
 $bUseArchive = get_int("cbUseArchive", true);
 $bUseFile  = get_int("cbUseFile", true);
 $bUseQuake = get_int("cbUseQuake", true);
+$bUseQCNQuake = get_int("cbUseQCNQuake", true);
 $bUseLat   = get_int("cbUseLat", true);
 $bUseSensor = get_int("cbUseSensor", true);
 $bUseTime  = get_int("cbUseTime", true);
@@ -156,7 +157,7 @@ echo "<html><head>
 
 
 // if no constraints then at least use quakes as otherwise we'll have too many i.e. a million triggers
-if (!$bUseFile && !$bUseQuake && !$bUseLat && !$bUseTime && !$bUseSensor) $bUseQuake = 1;
+if (!$bUseFile && !$bUseQuake && !$bUseQCNQuake && !$bUseLat && !$bUseTime && !$bUseSensor) $bUseQuake = 1;
 
 echo "
 <form name='formSelect' method=\"get\" action=trig.php >
@@ -167,6 +168,8 @@ Constraints:<br><br>
   <input type=\"checkbox\" id=\"cbUseQuake\" name=\"cbUseQuake\" value=\"1\" " . ($bUseQuake ? "checked" : "") . "> Show Matching USGS Quakes 
   &nbsp&nbsp
   Minimum Magnitude: <input id=\"quake_mag_min\" name=\"quake_mag_min\" value=\"$quake_mag_min\">
+<BR><BR>
+  <input type=\"checkbox\" id=\"cbUseQCNQuake\" name=\"cbUseQCNQuake\" value=\"1\" " . ($bUseQCNQuake ? "checked" : "") . "> Show QCN-Detected 'Quakes'
 <BR><BR>
   <input type=\"checkbox\" id=\"cbUseHost\" name=\"cbUseHost\" value=\"1\" " . ($bUseHost? "checked" : "") . "> Show Specific Host (enter host ID # or host name)<BR>
     Host ID: <input id=\"HostID\" name=\"HostID\" value=\"$strHostID\">
@@ -360,6 +363,10 @@ if ($bUseQuake) {
    $whereString .= " AND t.qcn_quakeid>0 AND q.magnitude >= " . $quake_mag_min;
 }
 
+if ($bUseQCNQuake) {
+   $whereString .= " AND t.qcn_quakeid>0 AND q.guid like 'QCN_%' ";
+}
+
 if ($bUseLat) {
    $whereString .= " AND t.latitude BETWEEN $strLatMin AND $strLatMax AND t.longitude BETWEEN $strLonMin AND $strLonMax ";
 }
@@ -517,6 +524,7 @@ $queryString = "&nresults=$page_entries_to_show"
        . "&cbUseFile=$bUseFile"
        . "&cbUseCSV=$bUseCSV"
        . "&cbUseQuake=$bUseQuake"
+       . "&cbUseQCNQuake=$bUseQCNQuake"
        . "&cbUseLat=$bUseLat"
        . "&cbUseTime=$bUseTime"
        . "&cbUseSensor=$bUseSensor"

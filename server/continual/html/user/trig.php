@@ -14,33 +14,38 @@ if (!$user->id || !$user->donated) {
    exit();
 }
 
-$query = "select NULL as quakeid, NULL as quake_time, NULL as quake_magnitude, 
+$queryQuakeNull = "select NULL as quakeid, NULL as quake_time, NULL as quake_magnitude, 
 NULL as quake_depth, NULL as quake_lat,
-NULL as quake_lon, NULL as description, NULL as url, NULL as guid,
-t.id as triggerid, t.hostid, t.ipaddr, t.result_name, t.time_trigger as trigger_time, 
-(t.time_received-t.time_trigger) as delay_time, t.time_sync as trigger_sync,
-t.sync_offset, t.significance, t.magnitude as trigger_mag, 
-t.latitude as trigger_lat, t.longitude as trigger_lon, t.file as trigger_file, t.dt as delta_t,
-t.numreset, s.description as sensor_description, t.sw_version, t.qcn_quakeid, t.time_filereq as trigger_timereq, 
-t.received_file, t.file_url, NULL as min_time, NULL as max_time
-FROM
-  qcn_trigger t 
-   LEFT JOIN qcn_sensor s ON t.type_sensor = s.id 
-";
+NULL as quake_lon, NULL as description, NULL as url, NULL as guid,";
 
-$queryHostGroup = "select NULL as quakeid, NULL as quake_time, NULL as quake_magnitude, 
-NULL as quake_depth, NULL as quake_lat,
-NULL as quake_lon, NULL as description, NULL as url, NULL as guid,
-t.id as triggerid, t.hostid, t.ipaddr, t.result_name, t.time_trigger as trigger_time, 
+$queryQuakeActive = "select q.id as quakeid, q.time_utc as quake_time, q.magnitude as quake_magnitude, 
+q.depth_km as quake_depth, q.latitude as quake_lat, 
+q.longitude as quake_lon, q.description, q.url, q.guid,";
+
+$queryQuakeNullJoin = "FROM
+  qcnalpha.qcn_trigger t 
+   LEFT JOIN qcn_sensor s ON t.type_sensor = s.id ";
+
+$queryQuakeActiveJoin = "FROM
+  qcnalpha.qcn_trigger t LEFT OUTER JOIN qcn_quake q ON t.qcn_quakeid = q.id
+   LEFT JOIN qcn_sensor s ON t.type_sensor = s.id ";
+
+$query = 
+"t.id as triggerid, t.hostid, t.ipaddr, t.result_name, t.time_trigger as trigger_time, 
 (t.time_received-t.time_trigger) as delay_time, t.time_sync as trigger_sync,
 t.sync_offset, t.significance, t.magnitude as trigger_mag, 
 t.latitude as trigger_lat, t.longitude as trigger_lon, t.file as trigger_file, t.dt as delta_t,
 t.numreset, s.description as sensor_description, t.sw_version, t.qcn_quakeid, t.time_filereq as trigger_timereq, 
-t.received_file, t.file_url, min(t.time_trigger) as min_time, max(t.time_trigger) as max_time
-FROM
-  qcn_trigger t 
-   LEFT JOIN qcn_sensor s ON t.type_sensor = s.id 
-";
+t.received_file, t.file_url, NULL as min_time, NULL as max_time ";
+
+
+$queryHostGroup = 
+"t.id as triggerid, t.hostid, t.ipaddr, t.result_name, t.time_trigger as trigger_time, 
+(t.time_received-t.time_trigger) as delay_time, t.time_sync as trigger_sync,
+t.sync_offset, t.significance, t.magnitude as trigger_mag, 
+t.latitude as trigger_lat, t.longitude as trigger_lon, t.file as trigger_file, t.dt as delta_t,
+t.numreset, s.description as sensor_description, t.sw_version, t.qcn_quakeid, t.time_filereq as trigger_timereq, 
+t.received_file, t.file_url, min(t.time_trigger) as min_time, max(t.time_trigger) as max_time ";
 
 
 /*
@@ -87,6 +92,7 @@ $bUseHostGroup = get_int("cbUseHostGroup", true);
 $bUseArchive = get_int("cbUseArchive", true);
 $bUseFile  = get_int("cbUseFile", true);
 $bUseQuake = get_int("cbUseQuake", true);
+$bUseQCNQuake = get_int("cbUseQCNQuake", true);
 $bUseLat   = get_int("cbUseLat", true);
 $bUseSensor = get_int("cbUseSensor", true);
 $bUseTime  = get_int("cbUseTime", true);
@@ -166,7 +172,7 @@ echo "<html><head>
 
 
 // if no constraints then at least use quakes as otherwise we'll have too many i.e. a million triggers
-if (!$bUseFile && !$bUseQuake && !$bUseLat && !$bUseTime && !$bUseSensor && !$bUseHost) {
+if (!$bUseFile && !$bUseQuake && !$bUseQCNQuake && !$bUseLat && !$bUseTime && !$bUseSensor && !$bUseHost) {
    $bUseTime = 1;
    $bUseContinual = 1;
   /*
@@ -188,6 +194,8 @@ Constraints:<br><br>
 //  &nbsp&nbsp
 //  Minimum Magnitude: <input id=\"quake_mag_min\" name=\"quake_mag_min\" value=\"$quake_mag_min\">
 //<BR><BR>
+. "  <input type=\"checkbox\" id=\"cbUseQCNQuake\" name=\"cbUseQCNQuake\" value=\"1\" " . ($bUseQCNQuake ? "checked" : "") . "> Show QCN-Detected 'Quakes'
+<BR><BR>"
 . "
   <input type=\"checkbox\" id=\"cbUseHost\" name=\"cbUseHost\" value=\"1\" " . ($bUseHost? "checked" : "") . "> Show Specific Host (enter host ID # or host name)<BR>
     Host ID: <input id=\"HostID\" name=\"HostID\" value=\"$strHostID\">
@@ -359,10 +367,10 @@ echo "<BR><BR>
    </form> <H7>";
 
 if ($bUseContinual) {
-  $whereString = "(t.varietyid=0 OR t.varietyid=2) ";
+  $whereString = " WHERE (t.varietyid=0 OR t.varietyid=2) ";
 }
 else {
-  $whereString = "t.varietyid=0 ";
+  $whereString = " WHERE t.varietyid=0 ";
 }
 
 if ($bUseFile) {
@@ -380,6 +388,11 @@ if ($bUseHost) {
 
 if ($bUseQuake) {
    $whereString .= " AND t.qcn_quakeid>0 AND q.magnitude >= " . $quake_mag_min;
+}
+
+
+if ($bUseQCNQuake) {
+   $whereString .= " AND t.qcn_quakeid>0 AND q.guid like 'QCN_%' ";
 }
 
 if ($bUseLat) {
@@ -431,12 +444,24 @@ switch($sortOrder)
 }
 
 if ($bUseHostGroup) {
-  $queryHostGroup .= " WHERE " . $whereString . " GROUP BY hostid ORDER BY " . $sortString;
-  $main_query = $queryHostGroup;
+  if ($bUseQuake || $bUseQCNQuake) {
+      $main_query = $queryQuakeActive . $queryHostGroup . $queryQuakeActiveJoin . $whereString
+           . " GROUP BY hostid ORDER BY " . $sortString;
+  }
+  else {
+      $main_query = $queryQuakeNull . $queryHostGroup . $queryQuakeNullJoin . $whereString
+           . " GROUP BY hostid ORDER BY " . $sortString;
+  }
 }
 else {
-  $query .= " WHERE " . $whereString . " ORDER BY " . $sortString;
-  $main_query = $query;
+  if ($bUseQuake || $bUseQCNQuake) {
+      $main_query = $queryQuakeActive . $query . $queryQuakeActiveJoin . $whereString
+           . " ORDER BY " . $sortString;
+  }
+  else {
+      $main_query = $queryQuakeNull . $query . $queryQuakeNullJoin . $whereString
+           . " ORDER BY " . $sortString;
+  }
 }
 
 //print "<BR><BR>$query<BR><BR>";
@@ -451,6 +476,7 @@ else {
         }
 
 //$count = 1e6;
+//echo $main_query;
 
 if (!$bUseCSV) {
 $count = query_count($main_query);
@@ -509,6 +535,7 @@ $queryString = "&nresults=$page_entries_to_show"
        . "&cbUseHost=$bUseHost"
        . "&cbUseFile=$bUseFile"
        . "&cbUseQuake=$bUseQuake"
+       . "&cbUseQCNQuake=$bUseQCNQuake"
        . "&cbUseLat=$bUseLat"
        . "&cbUseTime=$bUseTime"
        . "&cbUseSensor=$bUseSensor"
