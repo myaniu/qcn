@@ -75,7 +75,7 @@ if ($user->donated) {
         if (file_exists($kewfile) && ($handle = fopen($kewfile, 'r'))) {
               $output = fgets($handle); // skip first line
               $output = fgets($handle);              fclose($handle);
-              echo "        <li>Latest Trigger Sync'd on Kew: " . $output . "<BR>(should be no more than an hour behind)
+              echo "        <li>Kew Sync Diff (seconds): " . $output . "<BR>(should be a small number else server is down)
 <BR>";
         }        else {
               echo "        <li>No Replication Sync File on Kew - Better Check!";
