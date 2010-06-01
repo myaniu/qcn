@@ -7,10 +7,10 @@ SSLDIR = /usr/local/ssl
 
 LIBS = -L$(MYSQLDIR)/lib -lmysqlclient_r \
   -L$(BOINCDIR)/lib -lboinc \
-  -L$(SSLDIR)/lib -lcrypto -lssl
+  -L$(SSLDIR)/lib -lcurl -lcrypto -lssl
 
 INCLUDES = -I$(BOINCDIR) -I$(BOINCDIR)/lib -I$(BOINCDIR)/tools -I$(BOINCDIR)/db \
-           -I$(MYSQLDIR)/include -I$(BOINCDIR)/sched -I../../client/util
+           -I$(MYSQLDIR)/include -I$(BOINCDIR)/sched -I/usr/local/include -I../../client/util
 
 SRCS = $(BOINCDIR)/db/db_base.cpp \
   $(BOINCDIR)/sched/sched_msgs.cpp \
@@ -19,7 +19,7 @@ SRCS = $(BOINCDIR)/db/db_base.cpp \
   $(BOINCDIR)/lib/parse.cpp \
   $(BOINCDIR)/db/boinc_db.cpp 
 
-MAIN = qcn_trigmon.cpp
+MAIN = qcn_trigmon.cpp qcn_post.cpp
 
 all: clean qcn_trigmon
 
