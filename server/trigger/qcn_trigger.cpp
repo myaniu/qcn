@@ -120,6 +120,7 @@ bool doTriggerMemoryInsert(const DB_QCN_TRIGGER& qtrig)
     strncpy(qtrigmem.db_name, config.db_name, 15);   // database name from config file is stored in mem table
     qtrigmem.triggerid = iVal;  // memory trigger ID matches disk table trigger ID
     qtrigmem.qcn_quakeid = 0;
+    qtrigmem.posted = 0;
 
     // copy over remainig trigger fields of interest
     qtrigmem.hostid = qtrig.hostid;

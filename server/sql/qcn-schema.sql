@@ -208,13 +208,14 @@ dt float,
 numreset int(6),
 type_sensor int(3),
 varietyid smallint not null default 0,
-qcn_quakeid int not null default 0
+qcn_quakeid int not null default 0,
+posted boolean not null default false
 ) ENGINE = MEMORY;
 
 alter table trigmem.qcn_trigger_memory ADD PRIMARY KEY (db_name, triggerid);
 create index qcn_trigger_memory_time on trigmem.qcn_trigger_memory (time_trigger desc, varietyid asc);
-create index qcn_trigger_memory_hostid on trigmem.qcn_trigger_memory(hostid, time_trigger, qcn_quakeid, varietyid);
-create index qcn_trigger_memory_latlng on trigmem.qcn_trigger_memory(latitude, longitude, qcn_quakeid, varietyid);
+create index qcn_trigger_memory_hostid on trigmem.qcn_trigger_memory(hostid, time_trigger, qcn_quakeid, varietyid, posted);
+create index qcn_trigger_memory_latlng on trigmem.qcn_trigger_memory(latitude, longitude, qcn_quakeid, varietyid, posted);
 
 /*
 

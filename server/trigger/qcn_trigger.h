@@ -147,6 +147,7 @@ struct QCN_TRIGGER_MEMORY
     int type_sensor;
     int varietyid;
     int qcn_quakeid;
+    bool posted;
     void clear() {memset(this, 0x00, sizeof(QCN_TRIGGER_MEMORY));}
 };
 
@@ -395,11 +396,12 @@ public:
         "numreset=%d,"
         "type_sensor=%d,"
         "varietyid=%d,"
-        "qcn_quakeid=%d"
+        "qcn_quakeid=%d,"
+        "posted=%d"
         ,
         db_name, triggerid, hostid, ipaddr, result_name, time_trigger, time_sync, sync_offset,
         significance, magnitude, latitude, longitude, strLevelValue, strLevelID, alignid,
-        dt, numreset, type_sensor, varietyid, qcn_quakeid
+        dt, numreset, type_sensor, varietyid, qcn_quakeid, posted ? 1 : 0
       );
     }
 
@@ -430,6 +432,7 @@ public:
       type_sensor = safe_atoi(r[i++]);
       varietyid = safe_atoi(r[i++]);
       qcn_quakeid = safe_atoi(r[i++]);
+      posted = (bool) safe_atoi(r[i++]);
     }
 };
 
