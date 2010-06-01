@@ -8,6 +8,18 @@
 
 vector <DB_QCN_POST> vQCN_Post;
 
+#define XML_FORMAT \
+  "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+  "<Quake>\n"
+  "<QuakeMagnitude>%f</QuakeMagnitude>\n"
+  "<QuakeLon>%f</QuakeLon>\n"
+  "<QuakeLat>%f</QuakeLat>\n"
+  "<QuakeDepth>%f</QuakeDepth>
+  "<QuakeOriginTime>%ld</QuakeOriginTime>
+  "<QuakeID>%s</QuakeID>\n"
+  "</Quake>\n"
+
+
 // setup the vector
 // just call qcn_post_check when qcn_trigmon is starting up to get a list of servers to post to (if any)
 bool qcn_post_check()
