@@ -7,7 +7,8 @@ SSLDIR = /usr/local/ssl
 
 LIBS = -L$(MYSQLDIR)/lib -lmysqlclient_r \
   -L$(BOINCDIR)/lib -lboinc \
-  -L$(SSLDIR)/lib -lcurl -lcrypto -lssl
+  -L$(SSLDIR)/lib -lcrypto -lssl \
+  -L/usr/local/lib -lcurl
 
 INCLUDES = -I$(BOINCDIR) -I$(BOINCDIR)/lib -I$(BOINCDIR)/tools -I$(BOINCDIR)/db \
            -I$(MYSQLDIR)/include -I$(BOINCDIR)/sched -I/usr/local/include -I../../client/util

@@ -2,7 +2,7 @@
 $xml = $_POST["xml"];
 
 if ($xml) {
-  echo "XML";
+  echo $xml;
 }
 else {
    header("HTTP/1.0 400 Bad Request");
