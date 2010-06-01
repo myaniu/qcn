@@ -52,12 +52,14 @@ create table qcn_dluser (userid int not null primary key);
 create table qcn_post (
     id int not null primary key,
     where_clause varchar(255) not null,
-    url varchar(255) not null
+    url varchar(255) not null,
+    active boolean not null default 1
 );
 
 insert into qcn_post values (1, 
   'latitude BETWEEN -15 AND -13 AND longitude BETWEEN -173 AND -169', 
-  'http://qcn-upl.stanford.edu/carlc/test-post.php'
+  'http://qcn-upl.stanford.edu/carlc/test-post.php',
+  1
 );
 
 create table qcn_host_ipaddr
