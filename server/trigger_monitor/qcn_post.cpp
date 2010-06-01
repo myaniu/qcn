@@ -125,6 +125,9 @@ bool qcn_post_check()
       } // if iQuakeID
     } // outer while
     mysql_free_result(rp);
+
+    //trigmem.update_field("posted=1");
+
     return true;
 }
 

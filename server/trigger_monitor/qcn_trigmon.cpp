@@ -308,6 +308,8 @@ int main(int argc, char** argv)
          g_iTriggerDeleteInterval
     ); 
 
+    qcn_post_start();  // setup the vars for the servers to post to (if any)
+
     //signal(SIGUSR1, show_state);
     double dtDelete = 0.0f; // time to delete old triggers from memory
     while (1) {
@@ -328,4 +330,6 @@ int main(int argc, char** argv)
     }
     return 0;
 }
+
+
 
