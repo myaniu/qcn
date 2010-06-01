@@ -6,7 +6,7 @@
 
 #include "qcn_post.h"
 
-vector <DB_QCN_POST> vQCN_Post;
+vector<DB_QCN_POST> vQCN_Post;
 
 #define XML_FORMAT \
   "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
@@ -22,85 +22,51 @@ vector <DB_QCN_POST> vQCN_Post;
 
 // setup the vector
 // just call qcn_post_check when qcn_trigmon is starting up to get a list of servers to post to (if any)
-bool qcn_post_check()
-{
-
+bool qcn_post_start()
+{  // databases should be open by now, so get fill vector with qcn_post entries
+   DB_QCN_POST qp;
+   vQCN_Post.clear();
+   while (!qp.enumerate("WHERE active=1")) {  // active=1 means it is a server record we want to use i.e. post XML to
+      vQCN_Post.push_back(qp);
+   } 
+   log_messages.printf(MSG_DEBUG, "%d Server(s) to Post XML triggers to\n", vQCN_Post.size());
    return true;
 }
 
 // ideally this should be a multithreaded asychronous curl post to the servers,
-// and set the post state in qcn_trigger_memory
+// and set the post state in qcn_trigger_memory (posted = 1)
 bool qcn_post_check()
 {
+   if (!vQCN_Post.size()) return true;
 
-   char strQuery[256];
-   sprintf(strQuery,
-      "SELECT "
-      "  ROUND(latitude,0) rlat, "
-      "  ROUND(longitude,0) rlng, "
-      "  COUNT(distinct hostid) ctr, "
-      "  MIN(time_trigger) time_min, "
-      "  MAX(time_trigger) time_max "
-      "FROM trigmem.qcn_trigger_memory "
-      "WHERE time_trigger > (unix_timestamp() - %d) AND qcn_quakeid=0 "
-      "GROUP BY rlat, rlng "
-      "HAVING ctr > %d",
-         g_iTriggerTimeInterval,
-         g_iTriggerCount
-    );
+   char strQuery[512];
 
-    int retval = trigmem_db.do_query(strQuery);
-    if (retval) { // big error, should probably quit as may have lost database connection
-        log_messages.printf(MSG_CRITICAL,
-            "do_trigmon() error: %s - %s\n", "Query Error", boincerror(retval)
-        );
-        exit(10);
-    }
-
-    MYSQL_ROW row;
-    MYSQL_RES* rp;
-    int numRows = 0;
-
-    rp = mysql_store_result(trigmem_db.mysql);
-    while ((row = mysql_fetch_row(rp))) {
-      // if we have rows from the above query, then we have detected an event
-      // so need to see if this is in our current event array, and add it if it isn't
-
-      numRows++;
-      double dLat = atof(row[0]);
-
-      double dLng = atof(row[1]);
-      int iCtr = atoi(row[2]);
-      double dTimeMin = atof(row[3]);
-      double dTimeMax = atof(row[4]);
-      log_messages.printf(MSG_DEBUG,
-          "  #%d  %f - (%f, %f) - %d distinct hosts from %f to %f\n",
-           numRows, g_dTimeCurrent, dLat, dLng, iCtr, dTimeMin, dTimeMax
-      );
-
-      int iQuakeID = getQCNQuakeID(dLat, dLng, iCtr, dTimeMin, dTimeMax);
-      if (iQuakeID) {
-         log_messages.printf(MSG_DEBUG,
-           "do_trigmon() processing QCN Quake # %d - %d hosts\n", iQuakeID, iCtr);
-
-         // get matching triggers and update appropriate qcn_trigger table (qcnalpha and/or continual)
-         char strTrigs[512];
-         sprintf(strTrigs,
-             "SELECT db_name, triggerid "
+   vector<DB_QCN_POST>::iterator itPost;
+   for (it = vQCN_Post.begin(); it < vQCN_Post.end(); it++) {
+      // enumerate through our vector of qcn_post entries (i.e. servers we should send XML Post triggers to)
+     // try the where statement
+        QCN_TRIGGER_MEMORY qtm;
+        qtm.clear();
+         sprintf(strQuery,
+             "SELECT * "
+/*
+             "db_name, triggerid, time_trigger, time_sync, sync_offset, 
+              significance, magnitude, latitude, longitude, type_sensor, qcn_quakeid "
+*/
+//CMC HERE
              "FROM trigmem.qcn_trigger_memory "
-             "WHERE ROUND(latitude,0)=ROUND(%f,0) AND ROUND(longitude,0)=ROUND(%f,0) "
-             " AND time_trigger BETWEEN FLOOR(%f) AND CEIL(%f) AND qcn_quakeid=0 ",
-           dLat, dLng, dTimeMin, dTimeMax
+             "WHERE (posted = 0) AND (%s)",
+           it->where_clause
          );
 
          MYSQL_ROW trow;
          MYSQL_RES* trp;
-         int tret = boinc_db.do_query(strTrigs);
+         int tret = boinc_db.do_query(strQuery);
          if (tret) {
             log_messages.printf(MSG_CRITICAL,
-              "do_trigmon() strTrigs error: %s - %s\n", "Query Error", boincerror(retval)
+              "qcn_post_check() strQuery error: %s - %s\n", "Query Error", boincerror(retval)
             );
-            exit(10);
+            return false; ////exit(10);
          }
          trp = mysql_store_result(boinc_db.mysql);
          while ((trow = mysql_fetch_row(trp))) {
@@ -112,7 +78,7 @@ bool qcn_post_check()
              memset(strDBName, 0x00, 17);
              strcpy2(strDBName, trow[0]);
              if (iTriggerID) {
-               sprintf(strUpdate, "UPDATE trigmem.qcn_trigger_memory SET qcn_quakeid=%d WHERE db_name='%s' AND triggerid=%d",
+               sprintf(strUpdate, "UPDATE trigmem.qcn_trigger_memory SET posted=1 WHERE db_name='%s' AND triggerid=%d",
                    iQuakeID, strDBName, iTriggerID
                );
                tret = trigmem_db.do_query(strUpdate);
