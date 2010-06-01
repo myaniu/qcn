@@ -171,7 +171,7 @@ void do_trigmon()
       } // if iQuakeID
     } // outer while
     if (!numRows) { 
-       fprintf(stdout, "  No rows found\n");
+       log_messages.printf(MSG_DEBUG, "  No rows found ");
     }
 
     mysql_free_result(rp);
@@ -317,8 +317,9 @@ int main(int argc, char** argv)
          do_delete_trigmem();  // get rid of triggers every once in awhile
          dtDelete = g_dTimeCurrent + g_iTriggerDeleteInterval;
       }
-      do_trigmon();
-      check_stop_daemons();
+      do_trigmon();          // the main trigger monitoring routine
+      qcn_post_check(trigmem_db);      // checks to see if any triggers need to be posted back
+      check_stop_daemons();  // checks for a quit request
       g_dTimeCurrent = dtime();
       if (g_dTimeCurrent < dtEnd && (dtEnd - g_dTimeCurrent) < 60.0) { // sleep a bit if not less than 60 seconds
           log_messages.printf(MSG_DEBUG, "Sleeping %f seconds....\n", dtEnd - g_dTimeCurrent);
