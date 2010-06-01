@@ -65,6 +65,7 @@ void do_delete_trigmem();
 void setQueries();
 void do_trigmon();
 
-extern void qcn_post_check(DB_CONN& rdbconn);
+extern bool qcn_post_check();
+extern bool qcn_post_setup();
 
 #endif //_QCN_TRIGMON_H_

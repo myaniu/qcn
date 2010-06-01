@@ -6,7 +6,19 @@
 
 #include "qcn_post.h"
 
-void qcn_post_check(DB_CONN& rdbconn)
+vector <DB_QCN_POST> vQCN_Post;
+
+// setup the vector
+// just call qcn_post_check when qcn_trigmon is starting up to get a list of servers to post to (if any)
+bool qcn_post_check()
+{
+
+   return true;
+}
+
+// ideally this should be a multithreaded asychronous curl post to the servers,
+// and set the post state in qcn_trigger_memory
+bool qcn_post_check()
 {
 
    char strQuery[256];
@@ -113,6 +125,6 @@ void qcn_post_check(DB_CONN& rdbconn)
       } // if iQuakeID
     } // outer while
     mysql_free_result(rp);
-
+    return true;
 }
 
