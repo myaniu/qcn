@@ -9,6 +9,7 @@ drop table if exists qcn_level;
 drop table if exists qcn_align;
 drop table if exists qcn_variety;
 drop table if exists qcn_dluser;
+drop table if exists qcn_post;
 
 create table qcn_sensor (id smallint not null primary key, is_usb boolean not null default 0, description varchar(64));
 insert into qcn_sensor values (0, 0, 'Not Found');
@@ -47,6 +48,17 @@ insert into qcn_variety values (1, 'Ping Trigger');
 insert into qcn_variety values (2, 'Continual Trigger');
 
 create table qcn_dluser (userid int not null primary key);
+
+create table qcn_post (
+    id int not null primary key,
+    where_clause varchar(255) not null,
+    url varchar(255) not null
+);
+
+insert into qcn_post values (1, 
+  'latitude BETWEEN -15 AND -13 AND longitude BETWEEN -173 AND -169', 
+  'http://qcn-upl.stanford.edu/carlc/test-post.php'
+);
 
 create table qcn_host_ipaddr
 (
