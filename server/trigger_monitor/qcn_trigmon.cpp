@@ -130,14 +130,14 @@ void do_trigmon()
 
          MYSQL_ROW trow;
          MYSQL_RES* trp;
-         int tret = boinc_db.do_query(strTrigs);
+         int tret = trigmem_db.do_query(strTrigs);
          if (tret) {
             log_messages.printf(MSG_CRITICAL,
               "do_trigmon() strTrigs error: %s - %s\n", "Query Error", boincerror(retval)
             );
             exit(10);
          }
-         trp = mysql_store_result(boinc_db.mysql);
+         trp = mysql_store_result(trigmem_db.mysql);
          while ((trow = mysql_fetch_row(trp))) {
              // for each db_name & triggerid need to update trigmem table with qcn_quakeid as well as db_name.qcn_trigger
              char strUpdate[256], strDBName[17];
