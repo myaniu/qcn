@@ -9,6 +9,9 @@
 static vector<DB_QCN_POST> vQCN_Post;
 static long g_curlBytes = 0L;
 
+// for now just use a system call to command-line curl
+#define CURL_EXEC_FORMAT "/usr/local/bin/curl --data-urlencode \"xml@%s\" %s &"
+
 #define XML_FORMAT \
   "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" \
   "<Quake>\n" \
@@ -20,11 +23,13 @@ static long g_curlBytes = 0L;
   "<QuakeID>%d</QuakeID>\n" \
   "</Quake>\n\n"
 
+/*
 // for curl post
 struct WriteThis {
   const char *readptr;
   int sizeleft;
 };
+*/
 
 // setup the vector
 // just call qcn_post_check when qcn_trigmon is starting up to get a list of servers to post to (if any)
@@ -102,6 +107,22 @@ bool qcn_post_xml_http(const DB_QCN_TRIGGER_MEMORY& qtm)
 // CMC - as noted above, eventually do this as async curl calls
 bool qcn_post_curl(const char* strURL, char* strPost, const int iLenPost)
 {
+   // #define CURL_EXEC_FORMAT "/usr/local/bin/curl --data-urlencode \"xml@%s\" %s &"
+   // curl --data-urlencode "xml@test.xml" http://qcn-upl.stanford.edu/carlc/test-post.php
+
+   // simply do a system call - the curl string needs a filename and URL
+   char strCmd[256], strFile[32];
+   strcpy(strFile, "/tmp/tmpFileXXXXXX");
+   if (!mktemp(strFile)) strcpy(strFile, "/tmp/tmpFile000");
+   FILE* ftemp = fopen(strFile, "w");
+   if (!ftemp) return false;
+   fwrite(ftemp, strPost);
+   fclose(ftemp)
+   sprintf(strCmd, CURL_EXEC_FORMAT, strFile, strURL);
+   unlink(strFile);
+   return true;
+
+/*
    // easycurl should be fine, just send a request to maxmind (strURL has the key & ip etc),
    CURLcode cc;
    struct WriteThis wt;
@@ -135,6 +156,7 @@ bool qcn_post_curl(const char* strURL, char* strPost, const int iLenPost)
    curl_easy_cleanup(curlHandle);
 
    return (bool) (cc == 0 && lResponse == 200);  // 0 is good CURLcode
+*/
 }
 
 size_t qcn_post_curl_read_data(void *ptr, size_t size, size_t nmemb, void *stream)
@@ -147,19 +169,22 @@ size_t qcn_post_curl_read_data(void *ptr, size_t size, size_t nmemb, void *strea
    g_curlBytes += (size * nmemb);
    return size * nmemb;
 */
+
+/*
   struct WriteThis *pwt= (struct WriteThis *)stream;
  
   if(size*nmemb < 1)
     return 0;
  
   if(pwt->sizeleft) {
-    *(char *)ptr = pwt->readptr[0]; /* copy one single byte */ 
-    pwt->readptr++;                 /* advance pointer */ 
-    pwt->sizeleft--;                /* less data left */ 
-    return 1;                        /* we return 1 byte at a time! */ 
+    *(char *)ptr = pwt->readptr[0]; // copy one single byte 
+    pwt->readptr++;                 // advance pointer 
+    pwt->sizeleft--;                // less data left 
+    return 1;                       // we return 1 byte at a time! 
   }
  
-  return 0;                          /* no more data left to deliver */ 
+  return 0;                         // no more data left to deliver 
+*/
 
 }
 
