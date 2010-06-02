@@ -214,7 +214,7 @@
     </daemon>
     <daemon>
       <cmd>
-        qcn_trigmon -d 3 -sleep_interval 1 -count 10 -time_interval 10 -delete_interval 300
+        qcn_trigmon -d 3 -sleep_interval 1 -count 7 -time_interval 15 -delete_interval 60
       </cmd>
     </daemon>
   </daemons>
