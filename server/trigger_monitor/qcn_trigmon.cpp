@@ -308,7 +308,7 @@ int main(int argc, char** argv)
          g_iTriggerDeleteInterval
     ); 
 
-    qcn_post_start();  // setup the vars for the servers to post to (if any)
+    qcn_post_setup();  // setup the vars for the servers to post to (if any)
 
     //signal(SIGUSR1, show_state);
     double dtDelete = 0.0f; // time to delete old triggers from memory
@@ -320,7 +320,7 @@ int main(int argc, char** argv)
          dtDelete = g_dTimeCurrent + g_iTriggerDeleteInterval;
       }
       do_trigmon();          // the main trigger monitoring routine
-      qcn_post_check(trigmem_db);      // checks to see if any triggers need to be posted back
+      qcn_post_check();      // checks to see if any triggers need to be posted back
       check_stop_daemons();  // checks for a quit request
       g_dTimeCurrent = dtime();
       if (g_dTimeCurrent < dtEnd && (dtEnd - g_dTimeCurrent) < 60.0) { // sleep a bit if not less than 60 seconds

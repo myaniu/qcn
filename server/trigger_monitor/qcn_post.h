@@ -19,11 +19,14 @@ using std::vector;
 #include "util.h"
 #include "str_util.h"
 
+#include "../trigger/qcn_trigger.h"
+
 extern DB_CONN boinc_db;
 extern DB_CONN trigmem_db;
 
 bool qcn_post_check();
 bool qcn_post_setup();
+bool qcn_post_xml_httpd(const DB_QCN_TRIGGER_MEMORY& qtm);
 
 struct QCN_POST
 {
