@@ -83,7 +83,7 @@ bool qcn_post_xml_http(const DB_QCN_TRIGGER_MEMORY& qtm)
     char strXML[512];
     // provide magnitude, longitude, latitude, depth_km, time_trigger, qcn_quakeid
     
-    sprintf(strXML, XML_FORMAT, qtm.magnitude, qtm.longitude, qtm.latitude, 0.0f, qtm.time_trigger, (int) (rand()*12345.));
+    sprintf(strXML, XML_FORMAT, qtm.magnitude, qtm.longitude, qtm.latitude, 0.0f, qtm.time_trigger, rand());
 
     log_messages.printf(MSG_DEBUG,
           strXML
