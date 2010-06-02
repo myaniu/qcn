@@ -20,6 +20,11 @@ static long g_curlBytes = 0L;
   "<QuakeID>%d</QuakeID>\n" \
   "</Quake>\n\n"
 
+// for curl post
+struct WriteThis {
+  const char *readptr;
+  int sizeleft;
+};
 
 // setup the vector
 // just call qcn_post_check when qcn_trigmon is starting up to get a list of servers to post to (if any)
@@ -93,31 +98,72 @@ bool qcn_post_xml_http(const DB_QCN_TRIGGER_MEMORY& qtm)
     return true;
 }
 
-bool qcn_post_curl(const char* strURL, char* strReply, const int iLen)
+
+// CMC - as noted above, eventually do this as async curl calls
+bool qcn_post_curl(const char* strURL, char* strPost, const int iLenPost)
 {
    // easycurl should be fine, just send a request to maxmind (strURL has the key & ip etc),
-   // and output to strReply up to iLen size
    CURLcode cc;
+   struct WriteThis wt;
+ 
+   wt.readptr = strPost;
+   wt.sizeleft = strlen(strPost);
+
    CURL* curlHandle = curl_easy_init();
 
    g_curlBytes = 0L;  // reset long num of curl bytes read
+   long lResponse = 0L;
 
    if (!curlHandle) return false;  // problem with init
 
    cc = curl_easy_setopt(curlHandle, CURLOPT_VERBOSE, 0L);
    cc = curl_easy_setopt(curlHandle, CURLOPT_NOPROGRESS, 1L);
    cc = curl_easy_setopt(curlHandle, CURLOPT_URL, strURL);
-   cc = curl_easy_setopt(curlHandle, CURLOPT_WRITEDATA, strReply);
-   cc = curl_easy_setopt(curlHandle, CURLOPT_WRITEFUNCTION, qcn_post_curl_write_data);
+   //cc = curl_easy_setopt(curlHandle, CURLOPT_WRITEDATA, strReply);
+   //cc = curl_easy_setopt(curlHandle, CURLOPT_WRITEFUNCTION, qcn_post_curl_write_data);
+   cc = curl_easy_setopt(curlHandle, CURLOPT_READDATA, &wt);
+   cc = curl_easy_setopt(curlHandle, CURLOPT_READFUNCTION, qcn_post_curl_read_data);
+   cc = curl_easy_setopt(curlHandle, CURLOPT_POSTREDIR, CURL_REDIR_POST_ALL);
+   cc = curl_easy_setopt(curlHandle, CURLOPT_POSTFIELDSIZE, strlen(strPost));
    cc = curl_easy_setopt(curlHandle, CURLOPT_POST, 1L);
 
    cc = curl_easy_perform(curlHandle);
 
+   // get response code, should be 200
+   curl_easy_getinfo(curlHandle, CURLINFO_RESPONSE_CODE, &lResponse);
+
    curl_easy_cleanup(curlHandle);
 
-   return (bool) (cc == 0 && sizeof(strReply)>0);  // 0 is good CURLcode
+   return (bool) (cc == 0 && lResponse == 200);  // 0 is good CURLcode
 }
 
+size_t qcn_post_curl_read_data(void *ptr, size_t size, size_t nmemb, void *stream)
+{
+/*
+   int iLeft = BYTESIZE_CURL - g_curlBytes - 1;
+   if (iLeft > 0 && size > 0) { // we have some room left to write
+      strlcat((char*) stream, (char*) ptr, BYTESIZE_CURL);
+   }
+   g_curlBytes += (size * nmemb);
+   return size * nmemb;
+*/
+  struct WriteThis *pwt= (struct WriteThis *)stream;
+ 
+  if(size*nmemb < 1)
+    return 0;
+ 
+  if(pwt->sizeleft) {
+    *(char *)ptr = pwt->readptr[0]; /* copy one single byte */ 
+    pwt->readptr++;                 /* advance pointer */ 
+    pwt->sizeleft--;                /* less data left */ 
+    return 1;                        /* we return 1 byte at a time! */ 
+  }
+ 
+  return 0;                          /* no more data left to deliver */ 
+
+}
+
+/*
 size_t qcn_post_curl_write_data(void *ptr, size_t size, size_t nmemb, void *stream)
 {
    int iLeft = BYTESIZE_CURL - g_curlBytes - 1;
@@ -127,4 +173,6 @@ size_t qcn_post_curl_write_data(void *ptr, size_t size, size_t nmemb, void *stre
    g_curlBytes += (size * nmemb);
    return size * nmemb;
 }
+*/
+
 

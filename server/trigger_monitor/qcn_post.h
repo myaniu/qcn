@@ -30,11 +30,12 @@ bool qcn_post_check();
 bool qcn_post_setup();
 bool qcn_post_xml_http(const DB_QCN_TRIGGER_MEMORY& qtm);
 
-// decl for curl function
-bool qcn_post_curl(const char* strURL, char* strReply, const int iLen);
+// decl for curl wrapper function
+bool qcn_post_curl(const char* strURL, char* strPost, const int iLenPost);
 
-// decl for curl write function
-size_t qcn_post_curl_write_data(void *ptr, size_t size, size_t nmemb, void *stream);
+// decl for curl write and read functions
+//size_t qcn_post_curl_write_data(void *ptr, size_t size, size_t nmemb, void *stream);
+size_t qcn_post_curl_read_data(void *ptr, size_t size, size_t nmemb, void *stream);
 
 struct QCN_POST
 {
