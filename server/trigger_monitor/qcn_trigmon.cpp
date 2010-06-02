@@ -281,7 +281,7 @@ int main(int argc, char** argv)
         return 3;
     }
     retval = trigmem_db.open(
-        DB_TRIGMEM, config.db_host, config.db_user, config.db_passwd
+        config.trigmem_db_name, config.trigmem_db_host, config.trigmem_db_user, config.trigmem_db_passwd
     );
     if (retval) {
         log_messages.printf(MSG_CRITICAL,
