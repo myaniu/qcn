@@ -47,7 +47,7 @@
        insertTrigMem
     </trigmem_db_passwd>
     <trigmem_db_host>
-       db-private
+       localhost
     </trigmem_db_host>
     <trigmem_db_port>
        3306
@@ -214,7 +214,7 @@
     </daemon>
     <daemon>
       <cmd>
-        qcn_trigmon -d 3 -sleep_interval 5 -count 10 -time_interval 10 -delete_interval 300
+        qcn_trigmon -d 3 -sleep_interval 1 -count 10 -time_interval 10 -delete_interval 300
       </cmd>
     </daemon>
   </daemons>
