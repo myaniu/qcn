@@ -26,7 +26,7 @@ extern DB_CONN trigmem_db;
 
 bool qcn_post_check();
 bool qcn_post_setup();
-bool qcn_post_xml_httpd(const DB_QCN_TRIGGER_MEMORY& qtm);
+bool qcn_post_xml_http(const DB_QCN_TRIGGER_MEMORY& qtm);
 
 struct QCN_POST
 {
@@ -40,7 +40,7 @@ struct QCN_POST
 class DB_QCN_POST: public DB_BASE, public QCN_POST
 {
 public:
-    DB_QCN_HOST_IPADDR(DB_CONN* dc=0) :
+    DB_QCN_POST(DB_CONN* dc=0) :
           DB_BASE("qcn_post", dc ? dc : &boinc_db)  { }
 
     int get_id() {return id;}

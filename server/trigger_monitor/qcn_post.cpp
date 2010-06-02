@@ -15,21 +15,21 @@ vector<DB_QCN_POST> vQCN_Post;
   "<QuakeLon>%f</QuakeLon>\n" \
   "<QuakeLat>%f</QuakeLat>\n" \
   "<QuakeDepth>%f</QuakeDepth>\n" \
-  "<QuakeOriginTime>%ld</QuakeOriginTime>\n" \
+  "<QuakeOriginTime>%f</QuakeOriginTime>\n" \
   "<QuakeID>%d</QuakeID>\n" \
   "</Quake>\n\n"
 
 
 // setup the vector
 // just call qcn_post_check when qcn_trigmon is starting up to get a list of servers to post to (if any)
-bool qcn_post_start()
+bool qcn_post_setup()
 {  // databases should be open by now, so get fill vector with qcn_post entries
    DB_QCN_POST qp;
    vQCN_Post.clear();
    while (!qp.enumerate("WHERE active=1")) {  // active=1 means it is a server record we want to use i.e. post XML to
       vQCN_Post.push_back(qp);
    } 
-   log_messages.printf(MSG_DEBUG, "%d Server(s) to Post XML triggers to\n", vQCN_Post.size());
+   log_messages.printf(MSG_DEBUG, "%d Server(s) to Post XML triggers to\n", (int) vQCN_Post.size());
    return true;
 }
 
@@ -39,7 +39,7 @@ bool qcn_post_check()
 {
    if (!vQCN_Post.size()) return true;
 
-   vector<DB_QCN_POST>::iterator itPost;
+   vector<DB_QCN_POST>::iterator it;
    for (it = vQCN_Post.begin(); it < vQCN_Post.end(); it++) {
       // enumerate through our vector of qcn_post entries (i.e. servers we should send XML Post triggers to)
      // try the where statement
@@ -69,7 +69,7 @@ bool qcn_post_check()
             int tret = trigmem_db.do_query(strUpdate);
             if (tret) { // on error print a message and return false
                   log_messages.printf(MSG_CRITICAL,
-                    "do_trigmon() strUpdate error: %s - %s\n", strUpdate, boincerror(retval)
+                    "do_trigmon() strUpdate error: %s - %s\n", strUpdate, boincerror(tret)
                   );
                   return false;
             }
@@ -78,7 +78,7 @@ bool qcn_post_check()
     return true; // processed OK
 }
 
-bool qcn_post_xml_httpd(const DB_QCN_TRIGGER_MEMORY& qtm)
+bool qcn_post_xml_http(const DB_QCN_TRIGGER_MEMORY& qtm)
 {
     char strXML[512];
     // provide magnitude, longitude, latitude, depth_km, time_trigger, qcn_quakeid
