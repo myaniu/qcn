@@ -15,6 +15,8 @@
 using std::string;
 using std::vector;
 
+#include <curl/curl.h>
+
 #include "boinc_db.h"
 #include "util.h"
 #include "str_util.h"
@@ -27,6 +29,12 @@ extern DB_CONN trigmem_db;
 bool qcn_post_check();
 bool qcn_post_setup();
 bool qcn_post_xml_http(const DB_QCN_TRIGGER_MEMORY& qtm);
+
+// decl for curl function
+bool qcn_post_curl(const char* strURL, char* strReply, const int iLen);
+
+// decl for curl write function
+size_t qcn_post_curl_write_data(void *ptr, size_t size, size_t nmemb, void *stream);
 
 struct QCN_POST
 {

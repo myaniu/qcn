@@ -6,7 +6,8 @@
 
 #include "qcn_post.h"
 
-vector<DB_QCN_POST> vQCN_Post;
+static vector<DB_QCN_POST> vQCN_Post;
+static long g_curlBytes = 0L;
 
 #define XML_FORMAT \
   "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" \
@@ -92,4 +93,38 @@ bool qcn_post_xml_http(const DB_QCN_TRIGGER_MEMORY& qtm)
     return true;
 }
 
+bool qcn_post_curl(const char* strURL, char* strReply, const int iLen)
+{
+   // easycurl should be fine, just send a request to maxmind (strURL has the key & ip etc),
+   // and output to strReply up to iLen size
+   CURLcode cc;
+   CURL* curlHandle = curl_easy_init();
+
+   g_curlBytes = 0L;  // reset long num of curl bytes read
+
+   if (!curlHandle) return false;  // problem with init
+
+   cc = curl_easy_setopt(curlHandle, CURLOPT_VERBOSE, 0L);
+   cc = curl_easy_setopt(curlHandle, CURLOPT_NOPROGRESS, 1L);
+   cc = curl_easy_setopt(curlHandle, CURLOPT_URL, strURL);
+   cc = curl_easy_setopt(curlHandle, CURLOPT_WRITEDATA, strReply);
+   cc = curl_easy_setopt(curlHandle, CURLOPT_WRITEFUNCTION, qcn_post_curl_write_data);
+   cc = curl_easy_setopt(curlHandle, CURLOPT_POST, 1L);
+
+   cc = curl_easy_perform(curlHandle);
+
+   curl_easy_cleanup(curlHandle);
+
+   return (bool) (cc == 0 && sizeof(strReply)>0);  // 0 is good CURLcode
+}
+
+size_t qcn_post_curl_write_data(void *ptr, size_t size, size_t nmemb, void *stream)
+{
+   int iLeft = BYTESIZE_CURL - g_curlBytes - 1;
+   if (iLeft > 0 && size > 0) { // we have some room left to write
+      strlcat((char*) stream, (char*) ptr, BYTESIZE_CURL);
+   }
+   g_curlBytes += (size * nmemb);
+   return size * nmemb;
+}
 
