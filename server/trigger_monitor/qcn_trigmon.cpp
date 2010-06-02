@@ -171,7 +171,7 @@ void do_trigmon()
       } // if iQuakeID
     } // outer while
     if (!numRows) { 
-       log_messages.printf(MSG_DEBUG, "  No rows found ");
+       log_messages.printf(MSG_DEBUG, "  No rows found \n");
     }
 
     mysql_free_result(rp);
