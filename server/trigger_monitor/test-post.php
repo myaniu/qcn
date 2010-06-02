@@ -14,13 +14,26 @@
 */
 
 $xml = $_POST["xml"];
+$filename = "trigger.xml"
 
 if ($xml) {
-  echo $xml;
+  //echo $xml;
+  $fs = fopen($filename, "a");
+  if ($fs) {
+     $numbytes = fwrite($fs, $xml);
+     fclose($fs);
+     if (!$numbytes) {
+         header("HTTP/1.0 400 File Open Error");
+     }
+     else {
+         header("HTTP/1.0 200 OK");  // we wrote the xml to our local file
+     }
+  }
+  else {
+     header("HTTP/1.0 400 File Open Error");
+  } 
 }
 else {
    header("HTTP/1.0 400 Bad Request");
-   echo "Invalid data";
 }
-
 ?>
