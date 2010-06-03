@@ -20,6 +20,7 @@ static vector<DB_QCN_POST> vQCN_Post;
   "<QuakeLat>%f</QuakeLat>\n" \
   "<QuakeDepth>%f</QuakeDepth>\n" \
   "<QuakeOriginTime>%f</QuakeOriginTime>\n" \
+  "<QuakeOriginTimeYMD>%s</QuakeOriginTimeYMD>\n" \
   "<QuakeID>%d</QuakeID>\n" \
   "</Quake>\n\n"
 
@@ -91,10 +92,13 @@ bool qcn_post_check()
 
 bool qcn_post_xml_http(const DB_QCN_TRIGGER_MEMORY& qtm, const char* strURL)
 {
-    char strXML[512];
+    char strXML[512], strYMD[64];
+    memset(strXML, 0x00, sizeof(char) * 512);
+    memset(strYMD, 0x00, sizeof(char) * 64);
+
     // provide magnitude, longitude, latitude, depth_km, time_trigger, qcn_quakeid
-    
-    sprintf(strXML, XML_FORMAT, qtm.magnitude, qtm.longitude, qtm.latitude, 0.0f, qtm.time_trigger, rand());
+    mysql_timestamp(qtm.time_trigger, strYMD); 
+    sprintf(strXML, XML_FORMAT, qtm.magnitude, qtm.longitude, qtm.latitude, 0.0f, qtm.time_trigger, strYMD, rand());
 
     log_messages.printf(MSG_DEBUG,
           strXML
