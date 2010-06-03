@@ -10,7 +10,7 @@ static vector<DB_QCN_POST> vQCN_Post;
 //static long g_curlBytes = 0L;
 
 // for now just use a system call to command-line curl
-#define CURL_EXEC_FORMAT "/usr/local/bin/curl --data-urlencode \"xml@%s\" %s &"
+#define CURL_EXEC_FORMAT "/usr/local/bin/curl -f -s --data-urlencode \"xml@%s\" %s &"
 
 #define XML_FORMAT \
   "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" \
