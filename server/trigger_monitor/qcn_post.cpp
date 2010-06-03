@@ -97,7 +97,7 @@ bool qcn_post_xml_http(const DB_QCN_TRIGGER_MEMORY& qtm, const char* strURL)
     memset(strYMD, 0x00, sizeof(char) * 64);
 
     // provide magnitude, longitude, latitude, depth_km, time_trigger, qcn_quakeid
-    mysql_timestamp(qtm.time_trigger, strYMD); 
+    utc_timestamp(qtm.time_trigger, strYMD); 
     sprintf(strXML, XML_FORMAT, qtm.magnitude, qtm.longitude, qtm.latitude, 0.0f, qtm.time_trigger, strYMD, rand());
 
     log_messages.printf(MSG_DEBUG,
@@ -206,4 +206,14 @@ size_t qcn_post_curl_write_data(void *ptr, size_t size, size_t nmemb, void *stre
 }
 */
 
+void utc_timestamp(double dt, char* p) {
+    struct tm* tmp;
+    double dDiff = dt - floor(dt);
+    time_t t = (time_t)dt;
+    tmp = gmtime(&t);     // MySQL timestamps are in local time
+    sprintf(p, "%4d/%02d/%02d %02d:%02d:%02d.%03d",
+        tmp->tm_year+1900, tmp->tm_mon+1, tmp->tm_mday,
+        tmp->tm_hour, tmp->tm_min, tmp->tm_sec, (int) (dDiff * 1000.0f)
+    );
+}
 
