@@ -204,7 +204,7 @@
     </daemon>
     <daemon>
       <cmd>
-        feeder -random_order
+        feeder -d 2
       </cmd>
     </daemon>
     <daemon>
