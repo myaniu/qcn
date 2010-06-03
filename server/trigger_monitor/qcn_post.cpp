@@ -109,6 +109,7 @@ bool qcn_post_curl(const char* strURL, char* strPost, const int iLenPost)
 {
    // #define CURL_EXEC_FORMAT "/usr/local/bin/curl --data-urlencode \"xml@%s\" %s &"
    // curl --data-urlencode "xml@test.xml" http://qcn-upl.stanford.edu/carlc/test-post.php
+   // /usr/local/bin/curl -f -s --data-urlencode "xml@test.xml" http://125.236.203.222:10501/AlertService/
 
    // simply do a system call - the curl string needs a filename and URL
    // the tmpFile gets erased upon the weeky cleanup as this is async command
