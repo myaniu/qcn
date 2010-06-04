@@ -92,9 +92,9 @@ bool qcn_post_check()
 
 bool qcn_post_xml_http(const DB_QCN_TRIGGER_MEMORY& qtm, const char* strURL)
 {
-    char strXML[512], strYMD[64];
+    char strXML[512], strYMD[32];
     memset(strXML, 0x00, sizeof(char) * 512);
-    memset(strYMD, 0x00, sizeof(char) * 64);
+    memset(strYMD, 0x00, sizeof(char) * 32);
 
     // provide magnitude, longitude, latitude, depth_km, time_trigger, qcn_quakeid
     utc_timestamp(qtm.time_trigger, strYMD); 
