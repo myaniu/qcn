@@ -10,10 +10,10 @@ static vector<DB_QCN_POST> vQCN_Post;
 //static long g_curlBytes = 0L;
 
 // for now just use a system call to command-line curl
-#define CURL_EXEC_FORMAT "/usr/local/bin/curl -f -s --data-urlencode \"xml@%s\" %s &"
+#define CURL_EXEC_FORMAT "/usr/local/bin/curl -f -s --data \"xml@%s\" %s &"
 
 #define XML_FORMAT \
-  "<?xml version='1.0' encoding='ISO-8859-1'?>\n" \
+  "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>\n" \
   "<quake>\n" \
   "<mag>%f</mag>\n" \
   "<lat>%f</lat>\n" \
@@ -92,6 +92,7 @@ bool qcn_post_check()
 
 bool qcn_post_xml_http(const DB_QCN_TRIGGER_MEMORY& qtm, const char* strURL)
 {
+    string strEncode;
     char strXML[512], strYMD[32];
     memset(strXML, 0x00, sizeof(char) * 512);
     memset(strYMD, 0x00, sizeof(char) * 32);
@@ -100,16 +101,18 @@ bool qcn_post_xml_http(const DB_QCN_TRIGGER_MEMORY& qtm, const char* strURL)
     utc_timestamp(qtm.time_trigger, strYMD); 
     sprintf(strXML, XML_FORMAT, qtm.magnitude, qtm.latitude, qtm.longitude, 0.0f, qtm.time_trigger, strYMD, rand());
 
+    strEncode = urlencode(strXML);
+
     log_messages.printf(MSG_DEBUG,
           strXML
     );
 
-    return qcn_post_curl(strURL, strXML, strlen(strXML));
+    return qcn_post_curl(strURL, strEncode.c_str(), strEncode.length());
 }
 
 
 // CMC - as noted above, eventually do this as async curl calls
-bool qcn_post_curl(const char* strURL, char* strPost, const int iLenPost)
+bool qcn_post_curl(const char* strURL, const char* strPost, const int iLenPost)
 {
    // #define CURL_EXEC_FORMAT "/usr/local/bin/curl --data-urlencode \"xml@%s\" %s &"
    // curl --data-urlencode "xml@test.xml" http://qcn-upl.stanford.edu/carlc/test-post.php
@@ -216,4 +219,44 @@ void utc_timestamp(double dt, char* p) {
         tmp->tm_hour, tmp->tm_min, tmp->tm_sec, (int) (dDiff * 1000.0f)
     );
 }
+
+//based on javascript encodeURIComponent()
+string urlencode(const string& c)
+{
+    string escaped="";
+    int max = c.length();
+    for(int i=0; i<max; i++)
+    {
+        if ( (48 <= c[i] && c[i] <= 57) ||//0-9
+             (65 <= c[i] && c[i] <= 90) ||//abc...xyz
+             (97 <= c[i] && c[i] <= 122) || //ABC...XYZ
+             (c[i]=='~' || c[i]=='!' || c[i]=='*' || c[i]=='(' || c[i]==')' || c[i]=='\'')
+        )
+        {
+            escaped.append( &c[i], 1);
+        }
+        else
+        {
+            escaped.append("%");
+            escaped.append( char2hex(c[i]) );//converts char 255 to string "ff"
+        }
+    }
+    return escaped;
+}
+
+string char2hex( char dec )
+{
+    char dig1 = (dec&0xF0)>>4;
+    char dig2 = (dec&0x0F);
+    if ( 0<= dig1 && dig1<= 9) dig1+=48;    //0,48inascii
+    if (10<= dig1 && dig1<=15) dig1+=97-10; //a,97inascii
+    if ( 0<= dig2 && dig2<= 9) dig2+=48;
+    if (10<= dig2 && dig2<=15) dig2+=97-10;
+
+    string r;
+    r.append( &dig1, 1);
+    r.append( &dig2, 1);
+    return r;
+}
+
 

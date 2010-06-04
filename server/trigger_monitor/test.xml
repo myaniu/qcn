@@ -1,10 +1,10 @@
-<?xml version='1.0' encoding='ISO-8859-1'?>
+<?xml version="1.0" encoding="iso-8859-1"?>
 <quake>
-<mag>0.603055</mag>
+<mag>0.416037</mag>
 <lat>40.129524</lat>
 <lon>-75.324633</lon>
 <dep>0.000000</dep>
-<time>1275616165.061249</time>
-<timeymd>2010/06/04 01:49:25.061</timeymd>
-<id>1714636915</id>
+<time>1275617457.035681</time>
+<timeymd>2010/06/04 02:10:57.035</timeymd>
+<id>1303455736</id>
 </quake>
