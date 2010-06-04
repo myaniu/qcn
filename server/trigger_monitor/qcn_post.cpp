@@ -13,16 +13,16 @@ static vector<DB_QCN_POST> vQCN_Post;
 #define CURL_EXEC_FORMAT "/usr/local/bin/curl -f -s --data-urlencode \"xml@%s\" %s &"
 
 #define XML_FORMAT \
-  "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" \
-  "<Quake>\n" \
-  "<QuakeMagnitude>%f</QuakeMagnitude>\n" \
-  "<QuakeLon>%f</QuakeLon>\n" \
-  "<QuakeLat>%f</QuakeLat>\n" \
-  "<QuakeDepth>%f</QuakeDepth>\n" \
-  "<QuakeOriginTime>%f</QuakeOriginTime>\n" \
-  "<QuakeOriginTimeYMD>%s</QuakeOriginTimeYMD>\n" \
-  "<QuakeID>%d</QuakeID>\n" \
-  "</Quake>\n\n"
+  "<?xml version='1.0' encoding='ISO-8859-1'?>\n" \
+  "<quake>\n" \
+  "<mag>%f</mag>\n" \
+  "<lat>%f</lat>\n" \
+  "<lon>%f</lon>\n" \
+  "<dep>%f</dep>\n" \
+  "<time>%f</time>\n" \
+  "<timeymd>%s</timeymd>\n" \
+  "<id>%d</id>\n" \
+  "</quake>\n\n"
 
 /*
 // for curl post
@@ -98,7 +98,7 @@ bool qcn_post_xml_http(const DB_QCN_TRIGGER_MEMORY& qtm, const char* strURL)
 
     // provide magnitude, longitude, latitude, depth_km, time_trigger, qcn_quakeid
     utc_timestamp(qtm.time_trigger, strYMD); 
-    sprintf(strXML, XML_FORMAT, qtm.magnitude, qtm.longitude, qtm.latitude, 0.0f, qtm.time_trigger, strYMD, rand());
+    sprintf(strXML, XML_FORMAT, qtm.magnitude, qtm.latitude, qtm.longitude, 0.0f, qtm.time_trigger, strYMD, rand());
 
     log_messages.printf(MSG_DEBUG,
           strXML
