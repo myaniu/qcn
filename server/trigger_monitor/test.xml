@@ -1,10 +1,10 @@
-<?xml version=\"1.0\" encoding=\"UTF-8\"?>
-<Quake>
-<QuakeMagnitude>7.770204</QuakeMagnitude>
-<QuakeLon>-75.324633</QuakeLon>
-<QuakeLat>40.129524</QuakeLat>
-<QuakeDepth>0.000000</QuakeDepth>
-<QuakeOriginTime>1275608570.109602</QuakeOriginTime>
-<QuakeOriginTimeYMD>2010/06/03 23:42:50.109</QuakeOriginTimeYMD>
-<QuakeID>424238335</QuakeID>
-</Quake>
+<?xml version='1.0' encoding='ISO-8859-1'?>
+<quake>
+<mag>0.603055</mag>
+<lat>40.129524</lat>
+<lon>-75.324633</lon>
+<dep>0.000000</dep>
+<time>1275616165.061249</time>
+<timeymd>2010/06/04 01:49:25.061</timeymd>
+<id>1714636915</id>
+</quake>
