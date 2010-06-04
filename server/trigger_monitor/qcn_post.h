@@ -33,8 +33,6 @@ bool qcn_post_xml_http(const DB_QCN_TRIGGER_MEMORY& qtm, const char* strURL);
 
 //formatted time
 void utc_timestamp(double dt, char* p);
-string urlencode(const string& c);
-string char2hex( char dec );
 
 // decl for curl wrapper function
 bool qcn_post_curl(const char* strURL, const char* strPost, const int iLenPost);
