@@ -53,13 +53,19 @@ create table qcn_post (
     id int not null primary key,
     where_clause varchar(255) not null,
     url varchar(255) not null,
-    active boolean not null default 1
+    active boolean not null default 1,
+    contact_name varchar(255),
+    contact_email varchar(255),
+    contact_address varchar(255)
 );
 
 insert into qcn_post values (1, 
   'latitude BETWEEN -15 AND -13 AND longitude BETWEEN -173 AND -169', 
   'http://qcn-upl.stanford.edu/carlc/test-post.php',
-  1
+  1,
+  'Mihai Tarabuta',
+  'mihai.tarabuta@mobilis.com',
+  ''
 );
 
 create table qcn_host_ipaddr
