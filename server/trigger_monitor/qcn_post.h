@@ -47,6 +47,9 @@ struct QCN_POST
     char where_clause[256];
     char url[256];
     bool active;
+    char contact_name[256];
+    char contact_email[256];
+    char contact_address[256];
     void clear() {memset(this, 0x00, sizeof(QCN_POST));}
 };
 
@@ -64,8 +67,11 @@ public:
         "id=%d,"
         "where_clause='%s',"
         "url='%s',"
-        "active=%d",
-        id, where_clause, url, active ? 1 : 0
+        "active=%d,"
+        "contact_name='%s',"
+        "contact_email='%s',"
+        "contact_address='%s'"
+        , id, where_clause, url, active ? 1 : 0, contact_name, contact_email, contact_address
        );
     }
     void db_parse(MYSQL_ROW& r)
@@ -76,6 +82,9 @@ public:
       strcpy2(where_clause, r[i++]);
       strcpy2(url, r[i++]);
       active = (bool) safe_atoi(r[i++]);
+      strcpy2(contact_name, r[i++]);
+      strcpy2(contact_email, r[i++]);
+      strcpy2(contact_address, r[i++]);
     }
 };
 

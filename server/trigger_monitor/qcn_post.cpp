@@ -40,6 +40,8 @@ bool qcn_post_setup()
    vQCN_Post.clear();
    while (!qp.enumerate("WHERE active=1")) {  // active=1 means it is a server record we want to use i.e. post XML to
       vQCN_Post.push_back(qp);
+      log_messages.printf(MSG_DEBUG, "    Added trigger Post XML server %s (%s %s)\n", 
+            qp.url, qp.contact_name, qp.contact_email);
    } 
    log_messages.printf(MSG_DEBUG, "%d Server(s) to Post XML triggers to\n", (int) vQCN_Post.size());
    return true;
