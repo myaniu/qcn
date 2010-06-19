@@ -16,6 +16,28 @@
 
 
 $project_news = array(
+   array("June 18, 2010 15:45",
+"
+The QCN Servers will be down for maintenance and upgrades on Tuesday June 22nd from approximately
+3PM PST (6PM EST, 11PM BST).  You will not be able to send triggers or access the websites
+for about an hour from this time.
+<BR><BR>",
+ "QCN Server Maintenance June 22nd 3PM PST",
+ ""
+  ),
+   array("June 15, 2010 15:45",
+"
+We have received 500 of <A HREF=\"http://qcn.stanford.edu/images/jw24F14.png\">the new JoyWarrior 24F14 'Tomcat' USB sensors</A> from codemercs.com, with more on the way.  It's in a new stylish red case.  So if you
+placed an order you should be getting it soon, as they are being shipped out by our student
+helpers Tom and Jordan.  We apologize again for the delay
+but it was out of our control due to production and shipping delays (the recent volcano in Iceland didn't help either!).  
+The new sensor is fairy high sensitive, 14-bit resolution, and appears to be 16 times better than the 
+previous sensors.  We are still testing it on a shake table but preliminary results are very promising.  
+<A HREF=\"http://qcn.stanford.edu/learning/requests.php\">Click here for the order form (still $49).</A>
+<BR><BR>",
+ "New JoyWarrior 24F14 Sensors Have Arrived",
+ "http://qcn.stanford.edu/learning/requests.php"
+  ),
    array("April 24, 2010 12:00",
 "
 QCN now has an 'official' group on Facebook.  We hope to have news items, photos, and events listed here.  If you're interested and use Facebook, 
