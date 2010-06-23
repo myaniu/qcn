@@ -13,9 +13,9 @@
 # Source function library.
 . /etc/rc.d/init.d/functions
 
-if [ -f /etc/sysconfig/httpd ]; then
-        . /etc/sysconfig/httpd
-fi
+#if [ -f /etc/sysconfig/httpd ]; then
+#        . /etc/sysconfig/httpd
+#fi
 
 # Start httpd in the C locale by default.
 HTTPD_LANG=${HTTPD_LANG-"C"}
@@ -42,7 +42,7 @@ RETVAL=0
 
 # check for 1.3 configuration
 check13 () {
-	CONFFILE=/etc/httpd/conf/httpd.conf
+        CONFFILE=/usr/local/apache2/conf/httpd.conf
 	GONE="(ServerType|BindAddress|Port|AddModule|ClearModuleList|"
 	GONE="${GONE}AgentLog|RefererLog|RefererIgnore|FancyIndexing|"
 	GONE="${GONE}AccessConfig|ResourceConfig)"
