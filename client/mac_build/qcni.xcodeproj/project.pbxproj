@@ -878,7 +878,7 @@
 /* Begin PBXProject section */
 		E3A499DD0D64E60400E51CDF /* Project object */ = {
 			isa = PBXProject;
-			buildConfigurationList = E3A499DE0D64E60400E51CDF /* Build configuration list for PBXProject "qcn" */;
+			buildConfigurationList = E3A499DE0D64E60400E51CDF /* Build configuration list for PBXProject "qcni" */;
 			compatibilityVersion = "Xcode 3.1";
 			hasScannedForEncodings = 0;
 			mainGroup = E3A499DB0D64E60400E51CDF;
@@ -1545,11 +1545,7 @@
 		E3A499F30D64E62A00E51CDF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					i386,
-					ppc,
-					x86_64,
-				);
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				CONFIGURATION_BUILD_DIR = ../bin;
 				COPY_PHASE_STRIP = NO;
 				GCC_DEBUGGING_SYMBOLS = full;
@@ -1560,6 +1556,7 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "";
+				GCC_VERSION = 4.0;
 				HEADER_SEARCH_PATHS = (
 					../../,
 					../main,
@@ -1607,7 +1604,6 @@
 				PREBINDING = NO;
 				PRODUCT_NAME = qcn;
 				SDKROOT = macosx10.4;
-				"SDKROOT[arch=ppc]" = macosx10.3.9;
 				"SDKROOT[arch=x86_64]" = macosx10.5;
 				SYMROOT = ../bin;
 				WRAPPER_EXTENSION = app;
@@ -1700,6 +1696,7 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_VERSION = 4.0;
 				HEADER_SEARCH_PATHS = (
 					../../,
 					../main,
@@ -2434,7 +2431,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		E3A499DE0D64E60400E51CDF /* Build configuration list for PBXProject "qcn" */ = {
+		E3A499DE0D64E60400E51CDF /* Build configuration list for PBXProject "qcni" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E3A499DF0D64E60400E51CDF /* Debug */,

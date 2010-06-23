@@ -16,6 +16,13 @@
 
 
 $project_news = array(
+   array("June 23, 2010 17:16",
+"
+A QCN participant has detected the rare magnitude 5.5 earthquake in Quebec, Canada today.<BR>
+<A HREF=\"http://qcn.stanford.edu/sensor/img/quebec_june_23_2010.png\">QCN Participant Plot of M5.5 Quebec</A><BR><BR>",
+ "QCN Participant Detects M5.5 Quebec Earthquake Today",
+ "http://qcn.stanford.edu/sensor/img/quebec_june_23_2010.png"
+  ),
    array("June 18, 2010 15:45",
 "
 The QCN Servers will be down for maintenance and upgrades on Tuesday June 22nd from approximately
