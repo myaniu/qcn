@@ -234,12 +234,14 @@ function show_user_info_private($user) {
 function show_community_private($user) {
     row1(tra("Community"));
 
+/*
     if ($user->has_profile) {
         $x = "<a href=\"view_profile.php?userid=$user->id\">".tra("View")."</a> | <a href=\"delete_profile.php\">".tra("Delete")."</a>";
     } else {
         $x = "<a href=\"create_profile.php\">".tra("Create")."</a>";
     }
     row2(tra("Profile"), $x);
+*/
     $tot = total_posts($user);
     if ($tot) {
         row2(tra("Message boards"), "<a href=\"".URL_BASE."forum_user_posts.php?userid=$user->id\">".tra("%1 posts", $tot)."</a>");
