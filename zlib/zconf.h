@@ -283,7 +283,7 @@ typedef uLong FAR uLongf;
    typedef Byte FAR   *voidpf;
    typedef Byte       *voidp;
 #endif
-#ifndef _WIN32
+
 #if 1           /* HAVE_UNISTD_H -- this line is updated by ./configure */
 #  include <sys/types.h> /* for off_t */
 #  include <unistd.h>    /* for SEEK_* and off_t */
@@ -291,7 +291,6 @@ typedef uLong FAR uLongf;
 #    include <unixio.h>   /* for off_t */
 #  endif
 #  define z_off_t off_t
-#endif
 #endif
 #ifndef SEEK_SET
 #  define SEEK_SET        0       /* Seek from beginning of file.  */
