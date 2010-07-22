@@ -196,10 +196,18 @@ inline bool CSensorUSBMotionNodeAccel::read_xyz(float& x1, float& y1, float& z1)
     bool bRet = false;
     // note that x/y/z should be scaled to +/- 2g, return values as +/- 2.0f*EARTH_G (in define.h: 9.78033 m/s^2)
     // MotionNode returns +/-2g values so just multiply by EARTH_G
+
     if (m_node && m_node->sample() && m_node->get_sensor(a)) {
-        x1 = a[0] * EARTH_G;
-        y1 = a[1] * EARTH_G;
-        z1 = a[2] * EARTH_G;
+/*
+  Error in motion node directions:
+The attached plot shows how data is currently being displayed in QCNLive from the MotionNode on both Mac and Windows. This suggests that all of the components are mixed up: e.g. current Z should be X (north), current X should be Y (east), current Y should be Z (Vertical). 
+//        x1 = a[0] * EARTH_G;
+//        y1 = a[1] * EARTH_G;
+//        z1 = a[2] * EARTH_G;
+*/
+        x1 = a[2] * EARTH_G;
+        y1 = a[0] * EARTH_G;
+        z1 = a[1] * EARTH_G;
         bRet = true;
     }
     return bRet;
