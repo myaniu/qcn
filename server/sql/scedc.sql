@@ -1,6 +1,6 @@
 select 
   concat(m.mydb, ',' , m.id, ',', m.hostid, ',', 
-    from_unixtime(m.time_trigger), ',', LPAD(FLOOR(ROUND((m.time_trigger-FLOOR(m.time_trigger)), 6) * 1e6), 6, '0'),
+    from_unixtime(m.time_trigger), ',', FLOOR(ROUND((m.time_trigger-FLOOR(m.time_trigger)), 6) * 1e6),
      ',',
     m.magnitude, ',', m.significance, ',',
     m.latitude, ',', m.longitude, ',', m.file,',', m.numreset, ',',
