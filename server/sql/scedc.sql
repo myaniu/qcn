@@ -24,5 +24,5 @@ and latitude between 31.5 and 37.5 and longitude between -121 and -114
 ) m, qcnalpha.qcn_sensor s
 
 where m.type_sensor=s.id
-order by time_trigger
+order by time_trigger,hostid
 ;
