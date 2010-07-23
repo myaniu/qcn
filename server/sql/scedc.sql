@@ -8,6 +8,7 @@ and time_sync>0
 and varietyid in (0,2)
 and received_file=100
 and latitude between 31.5 and 37.5 and longitude between -121 and -114
+order by time_trigger
 UNION
 select
   concat('C',tt.id, ',' , from_unixtime(time_trigger), ',',
@@ -18,5 +19,6 @@ and time_sync>0
 and varietyid in (0,2)
 and received_file=100
 and latitude between 31.5 and 37.5 and longitude between -121 and -114
+order by time_trigger
 ;
 
