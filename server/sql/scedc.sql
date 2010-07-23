@@ -1,5 +1,7 @@
 select 
-  concat(m.mydb, ',' , m.id, ',', m.hostid, ',', from_unixtime(m.time_trigger), ',',
+  concat(m.mydb, ',' , m.id, ',', m.hostid, ',', 
+    from_unixtime(m.time_trigger), '.', LPAD(FLOOR(ROUND((m.time_trigger-FLOOR(m.time_trigger)), 4) * 10000), 4, '0'),
+     ',',
     m.magnitude, ',', m.significance, ',', s.description, ',',
     m.latitude, ',', m.longitude, ',', m.file)
 from
