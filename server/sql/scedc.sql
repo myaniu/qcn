@@ -1,5 +1,5 @@
 select 
-  concat(m.mydb, ',' , m.id, ',', from_unixtime(m.time_trigger), ',',
+  concat(m.mydb, ',' , m.id, ',', m.hostid, ',', from_unixtime(m.time_trigger), ',',
     m.magnitude, ',', m.significance, ',', s.description, ',',
     m.latitude, ',', m.longitude, ',', m.file)
 from
