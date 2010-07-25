@@ -1,13 +1,17 @@
 #!/bin/bash
 echo Restarting web server and BOINC procs at `/bin/date -u`
-sudo -u boinc /var/www/boinc/sensor/bin/stop
+cd /var/www/boinc/sensor
+sudo -u boinc bin/stop
 #continual project
-sudo -u boinc /var/www/boinc/continual/bin/stop
+cd /var/www/boinc/continual
+sudo -u boinc bin/stop
 #run update versions
 sudo su - boinc /home/carlgt1/qcn/server/config/updateversions
 #restart boinc on each project
-sudo -u boinc /var/www/boinc/continual/bin/start
-sudo -u boinc /var/www/boinc/sensor/bin/start
+cd /var/www/boinc/sensor
+sudo -u boinc bin/start
+cd /var/www/boinc/continual
+sudo -u boinc bin/start
 #restart web server
 sudo /etc/init.d/httpd restart
 echo Finished restart at `/bin/date -u`
