@@ -18,7 +18,7 @@ global SMTPS_HOST, SMTPS_PORT, SMTPS_LOCAL_HOSTNAME, SMTPS_KEYFILE, SMTPS_CERTFI
 
 DBHOST = "db-private"
 DBUSER = "qcn"
-DBPASSWD = ""
+DBPASSWD = "1QCNQuake"
 
 SMTPS_HOST = "smtp.stanford.edu"
 SMTPS_PORT = 465
@@ -28,108 +28,123 @@ SMTPS_CERTFILE = "/etc/sslcerts/server.crt"
 SMTPS_TIMEOUT = 60
 
 
-# the next 5 globals will be set by the appropriate run type in SetRunType()
 global URL_DOWNLOAD_BASE
 global UPLOAD_WEB_DIR
 global DOWNLOAD_WEB_DIR
+global UPLOAD_WEB_DIR_CONTINUAL
 global DBNAME
-global DBNAME_JOB
+global DBNAME_CONTINUAL
 global sqlQuery
+global ZIP_CMD
+global UNZIP_CMD
+global DATE_MIN
+global DATE_MAX
+global LAT_MIN
+global LAT_MAX
+global LNG_MIN
+global LNG_MAX
+global FILE_CSV
+global FILE_ZIP
+
+UPLOAD_WEB_DIR           = "/var/www/trigger/"
+DOWNLOAD_WEB_DIR         = "/var/www/trigger/job/"
+UPLOAD_WEB_DIR_CONTINUAL = "/var/www/trigger/continual/"
+DBNAME                   = "qcnalpha"
+DBNAME_CONTINUAL         = "continual"
+FILE_CSV                 = "qcn_scedc.csv"
+FILE_ZIP                 = "qcn_scedc.zip"
+  
+DATE_MIN = "2010-04-04 00:00:00"
+DATE_MAX = "2010-04-08 00:00:00"
+LAT_MIN  = 31.5
+LAT_MAX  = 37.5
+LNG_MIN  = -121.0
+LNG_MAX  = -114.0
 
 # use fast zip -1 compression as the files are already compressed
-global ZIP_CMD
 ZIP_CMD  = "/usr/bin/zip -1 "
-global UNZIP_CMD
-global typeRunning
-typeRunning = ""
+UNZIP_CMD = "/usr/bin/unzip -o -d "
+ 
+# can use concat for direct query to csv file 
+#  concat(m.mydb, ',' , m.id, ',', m.hostid, ',',
+#    from_unixtime(m.time_trigger), ',', FLOOR(ROUND((m.time_trigger-FLOOR(m.time_trigger)), 6) * 1e6),
+#     ',',
+#    m.magnitude, ',', m.significance, ',',
+#    m.latitude, ',', m.longitude, ',', m.file,',', m.numreset, ',',
+#    s.description, ',', IFNULL(a.description,''), ',' , IFNULL(m.levelvalue,''), ',', IFNULL(l.description,'')
+#  )
 
-sqlQuery = "select
-  concat(m.mydb, ',' , m.id, ',', m.hostid, ',',
-    from_unixtime(m.time_trigger), ',', FLOOR(ROUND((m.time_trigger-FLOOR(m.time_trigger)), 6) * 1e6),
-     ',',
-    m.magnitude, ',', m.significance, ',',
-    m.latitude, ',', m.longitude, ',', m.file,',', m.numreset, ',',
-    s.description, ',', IFNULL(a.description,''), ',' , IFNULL(m.levelvalue,''), ',', IFNULL(l.description,'')
-  )
+def procRequest(dbconn):
+  global sqlQuery
+  global DOWNLOAD_WEB_DIR
+  global ZIP_CMD
+  global UNZIP_CMD
+  global DATE_MIN
+  global DATE_MAX
+  global LAT_MIN
+  global LAT_MAX
+  global LNG_MIN
+  global LNG_MAX
+  global FILE_CSV
+  global FILE_ZIP
+
+
+  sqlQuery = """select
+  m.mydb, m.id, m.hostid, 
+    from_unixtime(m.time_trigger) time_trig, FLOOR(ROUND((m.time_trigger-FLOOR(m.time_trigger)), 6) * 1e6) utime_trig,
+    m.magnitude,  m.significance, 
+    m.latitude, m.longitude, m.file, m.numreset, 
+    s.description sensor, IFNULL(a.description,'') alignment, 
+     IFNULL(m.levelvalue,'') level, IFNULL(l.description,'') level_type
 from
 (
 select 'Q' mydb, t.*
 from qcnalpha.qcn_trigger t
-where time_trigger between unix_timestamp('2010-04-04 00:00:00') and unix_timestamp('2010-04-07 00:00:00')
+where time_trigger between unix_timestamp('%s') and unix_timestamp('%s')
 and time_sync>0
 and varietyid in (0,2)
 and received_file=100
-and latitude between 31.5 and 37.5 and longitude between -121 and -114
-
+and latitude between %f and %f and longitude between %f and %f
 UNION
-
 select 'C' mydb, tt.*
 from continual.qcn_trigger tt
-where time_trigger between unix_timestamp('2010-04-04 00:00:00') and unix_timestamp('2010-04-07 00:00:00')
+where time_trigger between unix_timestamp('%s') and unix_timestamp('%s')
 and time_sync>0
 and varietyid in (0,2)
 and received_file=100
-and latitude between 31.5 and 37.5 and longitude between -121 and -114
+and latitude between %f and %f and longitude between %f and %f
 ) m
 LEFT JOIN qcnalpha.qcn_sensor s ON m.type_sensor = s.id
 LEFT OUTER JOIN qcnalpha.qcn_align a ON m.alignid = a.id
 LEFT OUTER JOIN qcnalpha.qcn_level l ON m.levelid = l.id
 where m.type_sensor=s.id
-order by time_trigger,hostid
-"
+order by time_trigger,hostid"""  \
+  % ( \
+      DATE_MIN, DATE_MAX, LAT_MIN, LAT_MAX, LNG_MIN, LNG_MAX, \
+      DATE_MIN, DATE_MAX, LAT_MIN, LAT_MAX, LNG_MIN, LNG_MAX  \
+    )
 
-def SetRunType():
-  global URL_DOWNLOAD_BASE
-  global UPLOAD_WEB_DIR
-  global DOWNLOAD_WEB_DIR
-  global DBNAME
-  global DBNAME_JOB
-  global typeRunning
-  icnt = 0
-  typeRunning = ""
-  for arg in sys.argv:
-    if icnt == 1:
-      typeRunning = arg
-    icnt = icnt + 1
+  strHeader = "db, triggerid, hostid, time_utc, time_us, magnitude, significance, latitude, longitude, file, " +\
+     "numreset, sensor, alignment, level_value, level_type\n"
 
-  if typeRunning != "C" and typeRunning != "S":
-    print "Must pass in C for Continual jobs, S for regular qcnalpha/sensor DB jobs"
-    sys.exit(3)
+  tmpdir = tempfile.mkdtemp()
+  myCursor = dbconn.cursor()
+  myCursor.execute(sqlQuery)
 
-  if typeRunning == "C":  # continual
-    URL_DOWNLOAD_BASE = "http://qcn-upl.stanford.edu/trigger/continual/job/"
-    # CMC note -- make sure these paths exist
-    UPLOAD_WEB_DIR = "/var/www/trigger/continual/"
-    DOWNLOAD_WEB_DIR = "/var/www/trigger/continual/job/"
-    DBNAME = "continual"
-    DBNAME_JOB = "continual_download"
-  else:   #qcnalpha/sensor database
-    URL_DOWNLOAD_BASE = "http://qcn-upl.stanford.edu/trigger/job/"
-    UPLOAD_WEB_DIR = "/var/www/trigger/"
-    DOWNLOAD_WEB_DIR = "/var/www/trigger/job/"
-    DBNAME = "qcnalpha"
-    DBNAME_JOB = "sensor_download"
+  zipoutpath = os.path.join(DOWNLOAD_WEB_DIR, FILE_ZIP)
+  zipinpath = ""
 
-  UNZIP_CMD = "/usr/bin/unzip -o -d " + UPLOAD_WEB_DIR + " "
+  strCSVFile = os.path.join(DOWNLOAD_WEB_DIR, FILE_CSV)
+  fileCSV = open(strCSVFile, "w")
+  fileCSV.write(strHeader)
 
-def procDownloadRequest(dbconn, outfilename, url, jobid, userid, trigidlist):
- tmpdir = tempfile.mkdtemp()
- myCursor = dbconn.cursor()
- query = "SELECT id,hostid,latitude,longitude,levelvalue,levelid,file " +\
-              "FROM " + DBNAME + ".qcn_trigger " +\
-              "WHERE received_file=100 AND id IN " + trigidlist
- myCursor.execute(query)
+  # get the resultset as a tuple
+  result = myCursor.fetchall()
+  numbyte = 0
+  myzipout = None
+  errlevel = 0
 
- zipoutpath = os.path.join(DOWNLOAD_WEB_DIR, outfilename)
- zipinpath = ""
-
- # get the resultset as a tuple
- result = myCursor.fetchall()
- numbyte = 0
- myzipout = None
- errlevel = 0
-
- try:
+  try:
  
    # open a zip output file - allow zip64 compression for large (>2GB) files
    errlevel = 1
@@ -142,10 +157,16 @@ def procDownloadRequest(dbconn, outfilename, url, jobid, userid, trigidlist):
    for rec in result:
       errlevel = 2
       #print "    ", rec[0] , "  ", rec[1], "  ", rec[2], "  ", rec[3], "  ", rec[4], "  ", rec[5], "  ", rec[6]
+      #"db, triggerid, hostid, time_utc, time_us, magnitude, significance, latitude, longitude, file, " +\
+      # "numreset, sensor, alignment, level_value, level_type\n"
 
       # test for valid zip file
       try:
-        zipinpath = os.path.join(UPLOAD_WEB_DIR, rec[6])
+        if (rec[0] == "Q"):
+          zipinpath = os.path.join(UPLOAD_WEB_DIR, rec[9])
+        else:
+          zipinpath = os.path.join(UPLOAD_WEB_DIR_CONTINUAL, rec[9])
+
         myzipin = zipfile.ZipFile(zipinpath, "r")
         if os.path.isfile(zipinpath) and myzipin.testzip() == None:
            errlevel = 3
@@ -158,10 +179,21 @@ def procDownloadRequest(dbconn, outfilename, url, jobid, userid, trigidlist):
              #zipinpath = os.path.join(tmpdir, zipinname)
              myzipout.write(zipinname)
              os.remove(zipinname)
+
+           # valid file - print out line of csv
+           for x in range(14):
+             fileCSV.write(str(rec[x]))
+             if x < 14:
+               fileCSV.write(",")
+           fileCSV.write("\n")
+
       except:
         print "Error " + str(errlevel) + " in myzipin " + zipinpath
+        #traceback.print_exc()
+        #exit(3)
         continue
 
+   fileCSV.close()
    os.chdir(curdir)   # go back to regular directory so tmpdir can be erased
    myzipout.close() 
    numbyte = os.path.getsize(zipoutpath)
@@ -169,7 +201,7 @@ def procDownloadRequest(dbconn, outfilename, url, jobid, userid, trigidlist):
    myCursor.close();
    return numbyte
 
- except zipfile.error:
+  except zipfile.error:
    print "Error " + str(errlevel) + " in " + zipoutpath + " or " + zipinpath +\
         " is an invalid zip file (tmpdir=" + tmpdir + ")"
    #dbconn.rollback()
@@ -180,7 +212,7 @@ def procDownloadRequest(dbconn, outfilename, url, jobid, userid, trigidlist):
       myzipout.close() 
       os.remove(zipoutpath)
    return 0
- except:
+  except:
    print "Error " + str(errlevel) + " in " + zipoutpath + " or " + zipinpath + " (tmpdir=" + tmpdir + ")"
    #dbconn.rollback()
    traceback.print_exc()
@@ -258,11 +290,17 @@ def processContinualJobs(dbconn):
 # makes sure that the necessary paths are in place as defined above
 def checkPaths():
    global UPLOAD_WEB_DIR
+   global UPLOAD_WEB_DIR_CONTINUAL
    global DOWNLOAD_WEB_DIR
+
    if not os.access(UPLOAD_WEB_DIR, os.F_OK | os.W_OK):
       print UPLOAD_WEB_DIR + " directory for UPLOAD_WEB_DIR does not exist or not writable!"
       return 1
    
+   if not os.access(UPLOAD_WEB_DIR_CONTINUAL, os.F_OK | os.W_OK):
+      print UPLOAD_WEB_DIR + " directory for UPLOAD_WEB_DIR_CONTINUAL does not exist or not writable!"
+      return 1
+
    if not os.access(DOWNLOAD_WEB_DIR, os.F_OK | os.W_OK):
       print DOWNLOAD_WEB_DIR + " directory for UPLOAD_WEB_DIR does not exist or not writable!"
       return 1
@@ -270,11 +308,7 @@ def checkPaths():
    return 0
       
 def main():
-   global typeRunning
    try:
-      # set appropriate global vars for run type (i.e. continual or sensor)
-      SetRunType() 
-
       # first make sure all the necessary paths are in place
       if (checkPaths() != 0):
          sys.exit(2)
@@ -284,9 +318,11 @@ def main():
                            passwd = DBPASSWD,
                            db = DBNAME)
 
-      totalmb = processContinualJobs(dbconn)
+      #totalmb = processContinualJobs(dbconn)
+      #print str(totalmb) + " MB of zip files processed"
 
-      print str(totalmb) + " MB of zip files processed"
+      procRequest(dbconn)
+
 
       dbconn.close()
 
