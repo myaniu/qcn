@@ -18,7 +18,7 @@ global SMTPS_HOST, SMTPS_PORT, SMTPS_LOCAL_HOSTNAME, SMTPS_KEYFILE, SMTPS_CERTFI
 
 DBHOST = "db-private"
 DBUSER = "qcn"
-DBPASSWD = "1QCNQuake"
+DBPASSWD = ""
 
 SMTPS_HOST = "smtp.stanford.edu"
 SMTPS_PORT = 465
@@ -181,9 +181,9 @@ order by time_trigger,hostid"""  \
              os.remove(zipinname)
 
            # valid file - print out line of csv
-           for x in range(14):
+           for x in range(15):
              fileCSV.write(str(rec[x]))
-             if x < 14:
+             if x < 15:
                fileCSV.write(",")
            fileCSV.write("\n")
 
