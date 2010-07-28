@@ -73,7 +73,7 @@
        1
     </non_cpu_intensive>
     <daily_result_quota>
-       10
+       5
     </daily_result_quota>
     <max_wus_in_progress>
       1
@@ -215,7 +215,7 @@
     </daemon>
     <daemon>
       <cmd>
-        qcn_trigmon -d 3 -sleep_interval 1 -count 7 -time_interval 15 -delete_interval 300
+        qcn_trigmon -d 3 -sleep_interval 10 -count 6 -time_interval 15 -delete_interval 300
       </cmd>
     </daemon>
   </daemons>

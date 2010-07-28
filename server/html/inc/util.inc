@@ -52,9 +52,9 @@ function clear_cookie($name) {
 
 // if not logged in, put up login form and exit
 //
-function require_login($user) {
+function require_login($user, $ramp=false) {
     if (!$user) {
-        print_login_form();
+        print_login_form($ramp);
         exit();
     }
 }
@@ -66,7 +66,7 @@ function get_user_from_id($id) {
 
 $g_logged_in_user = null;
 
-function get_logged_in_user($must_be_logged_in=true) {
+function get_logged_in_user($must_be_logged_in=true, $ramp=false) {
     global $g_logged_in_user;
     if ($g_logged_in_user) return $g_logged_in_user;
 
@@ -80,7 +80,7 @@ function get_logged_in_user($must_be_logged_in=true) {
         $g_logged_in_user = BoincUser::lookup("authenticator='$authenticator'");
     }
     if ($must_be_logged_in) {
-        require_login($g_logged_in_user);
+        require_login($g_logged_in_user, $ramp);
     }
 
     return $g_logged_in_user;
@@ -377,11 +377,20 @@ function check_tokens($auth) {
 }
 
 if (!function_exists("print_login_form_aux")){
-function print_login_form_aux($next_url, $user) {
+function print_login_form_aux($next_url, $user, $ramp) {
+    $x = urlencode($next_url);
     echo "
         <form name=\"f\" method=\"post\" action=\"login_action.php\">
         <input type=\"hidden\" name=\"next_url\" value=\"$next_url\">
     ";
+
+    if ($ramp) {
+      $x = "ramp_signup.php";
+      echo "<p><b>Please login below or <a href=\"create_account_form.php?next_url=$x\">create an account</a> to sign up for QCN RAMP.</b><BR>
+         You will be able to use this login information when you join QCN via the
+         BOINC software (i.e. when you are setting up a computer with a sensor to join QCN</p><BR>";
+    }
+
     start_table();
     row2("Email address:", '<input name="email_addr" size="40" tabindex="1">');
     row2("Password:<br><span class=note><a href=get_passwd.php>Forgot password?</a></span>",
@@ -390,7 +399,6 @@ function print_login_form_aux($next_url, $user) {
     row2("Stay logged in on this computer",
         '<input type="checkbox" name="stay_logged_in" checked>'
     );
-    $x = urlencode($next_url);
     row2("",
         "<input type=\"submit\" name=\"mode\" value=\"Log in\" tabindex=\"3\"><br><br>or <a href=\"create_account_form.php?next_url=$x\">create an account</a>."
     );
@@ -411,11 +419,11 @@ function print_login_form_aux($next_url, $user) {
 }
 
 if (!function_exists("print_login_form")){
-function print_login_form() {
+function print_login_form($ramp=false) {
 include "./temp_top.php";
 //    page_head("Please log in");
     $next_url = $_SERVER['REQUEST_URI'];
-    print_login_form_aux($next_url, null);
+    print_login_form_aux($next_url, null, $ramp);
 include "./temp_bot.php";
 //    page_tail();
 }

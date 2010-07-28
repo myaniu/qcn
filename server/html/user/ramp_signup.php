@@ -5,7 +5,7 @@ require_once("../inc/db.inc");
 require_once("../inc/countries.inc");
 require_once("../inc/translation.inc");
 
-$user = get_logged_in_user(true);
+$user = get_logged_in_user(true, true);
 
 page_top();
 
@@ -18,7 +18,7 @@ echo "
 -->
 </a>
 
-<h2>Project Goals:</h2>
+<h2>Welcome Back " . $user->name . "</h2>
 
 
 <p align=\"justify\">This project aims to increase our understanding of earthquakes and the associated seismic hazard using dense seismic networks. By recording many earthquakes within a dense network we can better understand how earthquakes rupture from initiation to termination. The Quake-Catcher Network hopes to attach small seismic sensors to internet-connected computers throughout your earthquake-pron region.
