@@ -19,14 +19,9 @@ echo "
 </a>
 
 <h2>Welcome Back " . $user->name . "</h2>
-
-
-<p align=\"justify\">This project aims to increase our understanding of earthquakes and the associated seismic hazard using dense seismic networks. By recording many earthquakes within a dense network we can better understand how earthquakes rupture from initiation to termination. The Quake-Catcher Network hopes to attach small seismic sensors to internet-connected computers throughout your earthquake-pron region.
-
-";
-
-echo "
-<ul><p>You can volunteer your computer by submitting this form to QCN:</p>
+<BR>
+<ul><p align=\"justify\">You can add yourself to QCN RAMP by submitting the following information,
+    or edit a previous submission:</p>
          <form name=\"ramp_form\" method=\"post\" action=\"ramp_submit.php\">
 
          <input type=hidden name=\"Recipient1\" value=\"QCN\">
@@ -34,9 +29,6 @@ echo "
          <input type=hidden name=\"realname\"  value=\"QCN_RAMP\">
 
 <table>
-            <tr>
-               <td colspan=\"3\"><b>Important Information:</b></td>
-            </tr>
             <tr>
                <td width=\"3%\">&nbsp;</td>
                <td width=\"17%\">Name:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Last:</td>
@@ -51,7 +43,8 @@ echo "
             <tr>
                <td>&nbsp;</td>
                <td>E-mail:</td>
-               <td><input name=\"email\" type=\"text\" id=\"email\" size=\"45\"></td>
+               <td><input name=\"email\" type=\"text\" id=\"email\" size=\"45\" value=\"" 
+                   . $user->email_addr . "\"></td>
             </tr>
             <tr>
                <td>&nbsp;</td>
@@ -105,6 +98,7 @@ echo "
                <td colspan=\"2\"><p>If you have any comments or concerns, please let us know.</p><textarea name=\"essay\" id=\"essay\" rows=\"15\" cols=\"64\"></textarea></td>
 
             </tr>
+            <tr>   <td colspan=3><hr></td>  </tr>
             <tr>
                <td>&nbsp;</td>
                <td>&nbsp;</td>
@@ -117,5 +111,58 @@ echo "
 ";
 
 page_end();
+
+/*
+mysql> desc qcn_ramp_participant;+-------------------------+--------------+------+-----+---------+-------+| Field                   | Type         | Null | Key | Default | Extra |
++-------------------------+--------------+------+-----+---------+-------+
+| id                      | int(11)      | NO   | PRI | NULL    |       | 
+| userid                  | int(11)      | NO   | UNI | NULL    |       | 
+| qcn_ramp_coordinator_id | int(11)      | YES  |     | NULL    |       | 
+| fname                   | varchar(64)  | YES  |     | NULL    |       | 
+| lname                   | varchar(64)  | YES  |     | NULL    |       | 
+| email_addr              | varchar(100) | YES  |     | NULL    |       | 
+| addr1                   | varchar(64)  | YES  |     | NULL    |       | 
+| addr2                   | varchar(64)  | YES  |     | NULL    |       | 
+| city                    | varchar(64)  | YES  |     | NULL    |       | 
+| region                  | varchar(64)  | YES  |     | NULL    |       | 
+| country                 | varchar(64)  | YES  |     | NULL    |       | 
+| latitude                | double       | YES  |     | NULL    |       | 
+| longitude               | double       | YES  |     | NULL    |       | 
+| gmap_view_level         | int(11)      | YES  |     | NULL    |       | 
+| gmap_view_type          | int(11)      | YES  |     | NULL    |       | 
+| phone                   | varchar(64)  | YES  |     | NULL    |       | 
+| fax                     | varchar(64)  | YES  |     | NULL    |       | 
+| bshare_coord            | tinyint(1)   | YES  |     | NULL    |       | 
+| bshare_map              | tinyint(1)   | YES  |     | NULL    |       | 
+| bshare_ups              | tinyint(1)   | YES  |     | NULL    |       | 
+| cpu_type                | varchar(20)  | YES  |     | NULL    |       | 
+| cpu_os                  | varchar(20)  | YES  |     | NULL    |       | 
+| cpu_age                 | varchar(5)   | YES  |     | NULL    |       | 
+| cpu_admin               | varchar(5)   | YES  |     | NULL    |       | 
+| cpu_firewall            | varchar(20)  | YES  |     | NULL    |       | 
+| cpu_floor               | int(11)      | YES  |     | NULL    |       | 
+| internet_access         | varchar(20)  | YES  |     | NULL    |       | 
+| unint_power             | varchar(20)  | YES  |     | NULL    |       | 
+| active                  | tinyint(1)   | NO   |     | 1       |       | 
+| comments                | varchar(255) | YES  |     | NULL    |       | 
++-------------------------+--------------+------+-----+---------+-------+
+30 rows in set (0.00 sec)
+
+mysql> desc qcn_ramp_coordinator;
++--------------------+--------------+------+-----+---------+-------+
+| Field              | Type         | Null | Key | Default | Extra |
++--------------------+--------------+------+-----+---------+-------+
+| id                 | int(11)      | NO   | PRI | NULL    |       | 
+| userid             | int(11)      | NO   | UNI | NULL    |       | 
+| receive_distribute | tinyint(1)   | YES  |     | NULL    |       | 
+| help_troubleshoot  | tinyint(1)   | YES  |     | NULL    |       | 
+| enlist_volunteers  | tinyint(1)   | YES  |     | NULL    |       | 
+| how_many           | int(11)      | YES  |     | NULL    |       | 
+| active             | tinyint(1)   | NO   |     | 1       |       | 
+| comments           | varchar(255) | YES  |     | NULL    |       | 
++--------------------+--------------+------+-----+---------+-------+
+8 rows in set (0.00 sec)
+
+*/
 
 ?>
