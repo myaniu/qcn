@@ -1,5 +1,6 @@
 #!/bin/bash
 # note -- as you edit a file on the server, add a line here to get it locally, also don't forget to add it to subversion (& commit)
+scp carlgt1@qcn-web:/var/www/qcn/ramp/index.php ../ramp/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/project_files.xml ../config/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/gui_urls.xml ../config/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/config.xml ../config/
@@ -25,6 +26,8 @@ scp carlgt1@qcn-web:/var/www/boinc/sensor/html/project/project.inc project/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/html/project/project_news.inc project/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/html/project/project_specific_prefs.inc project/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/html/project/plate_boundary.inc project/
+scp carlgt1@qcn-web:/var/www/boinc/sensor/html/user/ramp_signup.php user/
+scp carlgt1@qcn-web:/var/www/boinc/sensor/html/user/ramp_submit.php user/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/html/user/account_finish.php user/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/html/user/account_finish_action.php user/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/html/user/create_account.php user/
