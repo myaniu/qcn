@@ -10,6 +10,8 @@ drop table if exists qcn_align;
 drop table if exists qcn_variety;
 drop table if exists qcn_dluser;
 drop table if exists qcn_post;
+drop table if exists qcn_ramp_participant;
+drop table if exists qcn_ramp_coordinator;
 
 create table qcn_sensor (id smallint not null primary key, is_usb boolean not null default 0, description varchar(64));
 insert into qcn_sensor values (0, 0, 'Not Found');
@@ -48,6 +50,52 @@ insert into qcn_variety values (1, 'Ping Trigger');
 insert into qcn_variety values (2, 'Continual Trigger');
 
 create table qcn_dluser (userid int not null primary key);
+
+create table qcn_ramp_coordinator (
+    id int not null primary key,
+    userid int not null,
+    receive_distribute boolean,
+    help_troubleshoot boolean,
+    enlist_volunteers boolean,
+    how_many int,
+    active boolean not null default 1,
+    comments varchar(255)
+);
+create unique index qcn_ramp_coordinator_userid on qcn_ramp_coordinator(userid);
+
+create table qcn_ramp_participant (
+    id int not null primary key,
+    userid int not null,
+    qcn_ramp_coordinator_id int,
+    fname varchar(64),
+    lname varchar(64),
+    email_addr varchar(100),
+    addr1 varchar(64),
+    addr2 varchar(64),
+    city varchar(64),
+    region varchar(64),
+    country varchar(64),
+    latitude double,
+    longitude double,
+    gmap_view_level int,
+    gmap_view_type int,
+    phone varchar(64),
+    fax varchar(64),
+    bshare_coord boolean,
+    bshare_map boolean,
+    bshare_ups boolean,
+    cpu_type varchar(20),
+    cpu_os varchar(20),
+    cpu_age varchar(5),
+    cpu_admin varchar(5),
+    cpu_firewall varchar(20), 
+    cpu_floor int,
+    internet_access varchar(20),
+    unint_power varchar(20),
+    active boolean not null default 1,
+    comments varchar(255)
+);
+create unique index qcn_ramp_participant_userid on qcn_ramp_participant(userid);
 
 create table qcn_post (
     id int not null primary key,
