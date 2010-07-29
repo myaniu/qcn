@@ -306,7 +306,7 @@ echo "
 
 // this overrides the util.inc page_head
 //function page_head($google=false, $prefs=null)
-function page_head($title, $java_onload=null, $title_plain=null, $prefix="", $google=false, $prefs=null, $maptrig=false) 
+function page_head($title, $java_onload=null, $title_plain=null, $prefix="", $google=false, $prefs=null, $maptrig=false, $numMarker=5) 
 {
        $metahttp = "<meta http-equiv=\"content-type\" content=\"text/html; charset=utf-8\"/>\n"
          . "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . STYLESHEET . "\">\n"
@@ -322,7 +322,7 @@ function page_head($title, $java_onload=null, $title_plain=null, $prefix="", $go
          printGoogleMapsHeader();
 
          if (!$maptrig)  {
-            printGoogleMapsScript($prefs);
+            printGoogleMapsScript($prefs, $numMarker);
             echo "</head>\n<body onload=\"showMap()\" onunload=\"GUnload()\">\n";
          }
        }
