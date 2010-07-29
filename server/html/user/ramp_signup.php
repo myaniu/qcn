@@ -1,13 +1,41 @@
 <?php
 
+require_once("../project/project.inc");
+require_once("../project/project_specific_prefs.inc");
 require_once("../inc/utils.inc");
 require_once("../inc/db.inc");
 require_once("../inc/countries.inc");
 require_once("../inc/translation.inc");
 
-$user = get_logged_in_user(true, true);
+db_init();
 
-page_top();
+$user = get_logged_in_user(true, true);
+$psprefs = project_specific_prefs_parse($user->project_prefs);
+
+//$db = BoincDb::get();
+$rowRAMP = array();
+$action = $_POST["submit"];
+
+if ($action) { // we're updating ramp info
+}
+else { // we're coming into the page to add or edit ramp info
+  // get the row for this user
+  $sqlRAMP = "SELECT * FROM qcn_ramp WHERE userid=$user->id";
+  $result = mysql_query($sqlRAMP);
+  /*if (!$result) {
+     echo "<BR><BR><font color=\"red\">Database Error - Try Again Later!</font><BR><BR>";
+     page_tail();
+     exit();
+  }*/
+  if ($result && mysql_num_rows($result)==1) {
+      $rowRAMP = mysql_fetch_assoc($result); // assoc array i.e. $rowRAMP["userid"]
+      mysql_free_result($result);
+  }
+}
+
+// note this has google stuff  
+page_head("QCN RAMP Information", null, null, "", true, $psprefs);
+
 
 echo "      
 
@@ -32,8 +60,8 @@ echo "
             <tr>
                <td width=\"3%\">&nbsp;</td>
                <td width=\"17%\">Name:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Last:</td>
-               <td width=\"80%\"><input name=\"name_last\" type=\"text\" id=\"name_last\" size=\"18\">
-               &nbsp;&nbsp;First:<input name=\"name_first\" type=\"text\" id=\"name_first\" size=\"18\">
+               <td width=\"80%\"><input name=\"db_lname\" type=\"text\" id=\"db_lname\" size=\"18\" value=\"$db_lname\">
+               &nbsp;&nbsp;First:<input name=\"db_fname\" type=\"text\" id=\"db_fname\" size=\"18\" value=\"$db_fname\">
             </tr>
             <tr>
                <td>&nbsp;</td>
@@ -72,6 +100,12 @@ echo "
                <td><input name=\"post_code\" type=\"text\" id=\"post_code\" size=\"45\"></td>
             </tr>
 
+<tr><td colspan=2>Enter/Select your Location (latitude/longitude)</td></tr>
+<tr><td colspan=2><div id=\"map\" style=\"width: 640px; height: 480px\"></div></td></tr>
+<tr><td colspan=2>Use the following box to lookup an address (i.e. 360 Panama Mall, Stanford, CA)</td></tr>
+<tr><td colspan=2 width=\"50\"><input type=\"text\" name=\"addrlookup\" id=\"addrlookup\" size=50 value=\"\"> <input type=\"button\" name=\"btnaddress\" id=\"btnaddress\" onclick=\"clickedAddressLookup(addrlookup.value)\" value=\"Lookup Address\" size=20></td></tr>
+
+              <tr><td colspan=2><hr></tr>
             <tr>
                <td>&nbsp;</td>
                <td>Computer Age:<br>(Years)</td>
@@ -110,7 +144,7 @@ echo "
 </ul>
 ";
 
-page_end();
+page_tail();
 
 /*
 mysql> desc qcn_ramp_participant;+-------------------------+--------------+------+-----+---------+-------+| Field                   | Type         | Null | Key | Default | Extra |
