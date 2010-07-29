@@ -60,7 +60,7 @@ create table qcn_ramp_coordinator (
     how_many int,
     active boolean not null default 1,
     comments varchar(255),
-    time_edit double
+    time_edit int 
 );
 create unique index qcn_ramp_coordinator_userid on qcn_ramp_coordinator(userid);
 
@@ -97,7 +97,7 @@ create table qcn_ramp_participant (
     unint_power varchar(20),
     active boolean not null default 1,
     comments varchar(255),
-    time_edit double
+    time_edit int
 );
 create unique index qcn_ramp_participant_userid on qcn_ramp_participant(userid);
 
