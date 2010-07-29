@@ -59,7 +59,8 @@ create table qcn_ramp_coordinator (
     enlist_volunteers boolean,
     how_many int,
     active boolean not null default 1,
-    comments varchar(255)
+    comments varchar(255),
+    time_edit double
 );
 create unique index qcn_ramp_coordinator_userid on qcn_ramp_coordinator(userid);
 
@@ -95,7 +96,8 @@ create table qcn_ramp_participant (
     internet_access varchar(20),
     unint_power varchar(20),
     active boolean not null default 1,
-    comments varchar(255)
+    comments varchar(255),
+    time_edit double
 );
 create unique index qcn_ramp_participant_userid on qcn_ramp_participant(userid);
 
