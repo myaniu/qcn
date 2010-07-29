@@ -316,8 +316,7 @@ function page_head($title, $java_onload=null, $title_plain=null, $prefix="", $go
        if ($google) {
          echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">
            <html xmlns=\"http://www.w3.org/1999/xhtml\" xmlns:v=\"urn:schemas-microsoft-com:vml\">
-             $metahttp 
-           <head>\n<title>" . PROJECT . " - " . $title . "</title>\n";
+           <head>\n<title>" . PROJECT . " - " . $title . "</title>\n" . $metahttp;
 
          printGoogleMapsHeader();
 

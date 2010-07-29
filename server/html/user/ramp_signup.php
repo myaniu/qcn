@@ -34,10 +34,14 @@ else { // we're coming into the page to add or edit ramp info
 }
 
 // note this has google stuff  
-page_head("QCN RAMP Information", null, null, "", true, $psprefs);
+page_head("QCN RAMP Information", null, null, "", true, $psprefs, false, 1);
 
-
-echo "      
+echo "
+<script type=\"text/javascript\">
+   function clickedAddressCopy() {
+       getElement(\"addrlookup\").value = getElement(\"address1\").value + \", \" + getElement(\"address2\").value + \", \" + getElement(\"city\").value + \", \" + getElement(\"region\").value + \", \" + getElement(\"country\").value;
+   }
+</script>
 
 <h1>Rapid Aftershock Mobilization Program (RAMP)</h1>
 <a href=\"http://qcn.stanford.edu/sensor/maptrig.php?cx=-38&cy=-70&timeint=W\">
@@ -77,12 +81,12 @@ echo "
             <tr>
                <td>&nbsp;</td>
                <td>Address 1:</td>
-               <td><input name=\"address1\" type=\"text\" id=\"building\" size=\"45\"></td>
+               <td><input name=\"address1\" type=\"text\" id=\"address1\" size=\"45\"></td>
             </tr>
             <tr>
                <td>&nbsp;</td>
                <td>Address 2:</td>
-               <td><input name=\"address2\" type=\"text\" id=\"building\" size=\"45\"></td>
+               <td><input name=\"address2\" type=\"text\" id=\"address2\" size=\"45\"></td>
             </tr>
             <tr>
                <td>&nbsp;</td>
@@ -92,18 +96,42 @@ echo "
             <tr>
                <td>&nbsp;</td>
                <td>Province/State:</td>
-               <td><input name=\"state\" type=\"text\" id=\"state\" size=\"45\"></td>
+               <td><input name=\"region\" type=\"text\" id=\"region\" size=\"45\"></td>
+            </tr>
+            <tr>
+               <td>&nbsp;</td>
+               <td>Country:</td>
+               <td><input name=\"country\" type=\"text\" id=\"country\" size=\"45\"></td>
             </tr>
             <tr>
                <td>&nbsp;</td>
                <td>Post Code:</td>
                <td><input name=\"post_code\" type=\"text\" id=\"post_code\" size=\"45\"></td>
             </tr>
+            <tr>
+               <td>&nbsp;</td>
+               <td>Latitude:</td>
+               <td><input name=\"lat0\" type=\"text\" id=\"lat0\" size=\"45\"></td>
+            </tr>
+            <tr>
+               <td>&nbsp;</td>
+               <td>Longitude:</td>
+               <td><input name=\"lng0\" type=\"text\" id=\"lng0\" size=\"45\"></td>
+            </tr>
+            <tr>
+               <td>&nbsp;</td>
+               <td>placename:</td>
+               <td><input name=\"lnm0\" type=\"text\" id=\"lnm0\" size=\"45\"></td>
+            </tr>
 
 <tr><td colspan=2>Enter/Select your Location (latitude/longitude)</td></tr>
-<tr><td colspan=2><div id=\"map\" style=\"width: 640px; height: 480px\"></div></td></tr>
+<tr><td colspan=2><div name=\"map\" id=\"map\" style=\"width: 640px; height: 480px\"></div></td></tr>
 <tr><td colspan=2>Use the following box to lookup an address (i.e. 360 Panama Mall, Stanford, CA)</td></tr>
-<tr><td colspan=2 width=\"50\"><input type=\"text\" name=\"addrlookup\" id=\"addrlookup\" size=50 value=\"\"> <input type=\"button\" name=\"btnaddress\" id=\"btnaddress\" onclick=\"clickedAddressLookup(addrlookup.value)\" value=\"Lookup Address\" size=20></td></tr>
+<tr><td colspan=2 width=\"50\"><input type=\"text\" name=\"addrlookup\" id=\"addrlookup\" size=50 value=\"\"> 
+    <input type=\"button\" name=\"btncopyaddr\" id=\"btncopyaddr\" onclick=\"clickedAddressCopy()\"
+   value=\"Copy Address From Above\" size=20>
+    <input type=\"button\" name=\"btnaddress\" id=\"btnaddress\" onclick=\"clickedAddressLookup(addrlookup.value)\" value=\"Lookup Address\" size=20>
+</td></tr>
 
               <tr><td colspan=2><hr></tr>
             <tr>
