@@ -13,7 +13,7 @@ $user = get_logged_in_user(true, true);
 $psprefs = project_specific_prefs_parse($user->project_prefs);
 
 //$db = BoincDb::get();
-$rowRAMP = array();
+$row = array();
 $action = $_POST["submit"];
 
 if ($action) { // we're updating ramp info
@@ -28,7 +28,7 @@ else { // we're coming into the page to add or edit ramp info
      exit();
   }*/
   if ($result && mysql_num_rows($result)==1) {
-      $rowRAMP = mysql_fetch_assoc($result); // assoc array i.e. $rowRAMP["userid"]
+      $row = mysql_fetch_assoc($result); // assoc array i.e. $row["userid"]
       mysql_free_result($result);
   }
 }
@@ -60,13 +60,28 @@ echo "
          <input type=hidden name=\"subject\"   value=\"QCN_RAMP\">
          <input type=hidden name=\"realname\"  value=\"QCN_RAMP\">
 
-<table>
-            <tr>
-               <td width=\"3%\">&nbsp;</td>
-               <td width=\"17%\">Name:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Last:</td>
-               <td width=\"80%\"><input name=\"db_lname\" type=\"text\" id=\"db_lname\" size=\"18\" value=\"$db_lname\">
-               &nbsp;&nbsp;First:<input name=\"db_fname\" type=\"text\" id=\"db_fname\" size=\"18\" value=\"$db_fname\">
-            </tr>
+<table>";
+     row_heading_array(array("Enter Your Postal Address (for UPS Delivery)"));
+     row2("Name (First, Last)" , 
+       "<input name=\"db_fname\" type=\"text\" id=\"db_fname\" size=\"30\" value=\"" . $row["fname"] . "\">"
+       . "&nbsp;&nbsp;<input name=\"db_lname\" type=\"text\" id=\"db_lname\" size=\"60\" value=\"" 
+           . $row["lname"] . "\">");
+     row2("Street Address (Line 1)",
+              "<input name=\"db_addr1\" type=\"text\" id=\"db_addr1\" size=\"60\" value=\"" . $row["addr1"] . "\">");
+     row2("Street Address (Line 2)",
+              "<input name=\"db_addr2\" type=\"text\" id=\"db_addr2\" size=\"60\" value=\"" . $row["addr2"] . "\">");
+     row2("City",
+              "<input name=\"db_city\" type=\"text\" id=\"db_city\" size=\"60\" value=\"" . $row["city"] . "\">");
+     row2("Region/State/Province",
+              "<input name=\"db_region\" type=\"text\" id=\"db_region\" size=\"60\">");
+
+     row2_init("Country", "<select name=country>");
+     print_country_select($row["country"]);
+     echo "</select></td></tr>";
+
+     row2("Post Code", "<input name=\"db_region\" type=\"text\" id=\"db_region\" size=\"60\">");
+
+echo "
             <tr>
                <td>&nbsp;</td>
                <td>Phone:</td>
@@ -77,36 +92,6 @@ echo "
                <td>E-mail:</td>
                <td><input name=\"email\" type=\"text\" id=\"email\" size=\"45\" value=\"" 
                    . $user->email_addr . "\"></td>
-            </tr>
-            <tr>
-               <td>&nbsp;</td>
-               <td>Address 1:</td>
-               <td><input name=\"address1\" type=\"text\" id=\"address1\" size=\"45\"></td>
-            </tr>
-            <tr>
-               <td>&nbsp;</td>
-               <td>Address 2:</td>
-               <td><input name=\"address2\" type=\"text\" id=\"address2\" size=\"45\"></td>
-            </tr>
-            <tr>
-               <td>&nbsp;</td>
-               <td>City:</td>
-               <td><input name=\"city\" type=\"text\" id=\"city\" size=\"45\"></td>
-            </tr>
-            <tr>
-               <td>&nbsp;</td>
-               <td>Province/State:</td>
-               <td><input name=\"region\" type=\"text\" id=\"region\" size=\"45\"></td>
-            </tr>
-            <tr>
-               <td>&nbsp;</td>
-               <td>Country:</td>
-               <td><input name=\"country\" type=\"text\" id=\"country\" size=\"45\"></td>
-            </tr>
-            <tr>
-               <td>&nbsp;</td>
-               <td>Post Code:</td>
-               <td><input name=\"post_code\" type=\"text\" id=\"post_code\" size=\"45\"></td>
             </tr>
             <tr>
                <td>&nbsp;</td>
@@ -175,7 +160,10 @@ echo "
 page_tail();
 
 /*
-mysql> desc qcn_ramp_participant;+-------------------------+--------------+------+-----+---------+-------+| Field                   | Type         | Null | Key | Default | Extra |
+
+mysql> desc qcn_ramp_participant;
++-------------------------+--------------+------+-----+---------+-------+
+| Field                   | Type         | Null | Key | Default | Extra |
 +-------------------------+--------------+------+-----+---------+-------+
 | id                      | int(11)      | NO   | PRI | NULL    |       | 
 | userid                  | int(11)      | NO   | UNI | NULL    |       | 
@@ -187,9 +175,11 @@ mysql> desc qcn_ramp_participant;+-------------------------+--------------+-----
 | addr2                   | varchar(64)  | YES  |     | NULL    |       | 
 | city                    | varchar(64)  | YES  |     | NULL    |       | 
 | region                  | varchar(64)  | YES  |     | NULL    |       | 
+| postcode                | varchar(20)  | YES  |     | NULL    |       | 
 | country                 | varchar(64)  | YES  |     | NULL    |       | 
 | latitude                | double       | YES  |     | NULL    |       | 
 | longitude               | double       | YES  |     | NULL    |       | 
+| gmap_placename          | varchar(64)  | YES  |     | NULL    |       | 
 | gmap_view_level         | int(11)      | YES  |     | NULL    |       | 
 | gmap_view_type          | int(11)      | YES  |     | NULL    |       | 
 | phone                   | varchar(64)  | YES  |     | NULL    |       | 
@@ -208,22 +198,23 @@ mysql> desc qcn_ramp_participant;+-------------------------+--------------+-----
 | active                  | tinyint(1)   | NO   |     | 1       |       | 
 | comments                | varchar(255) | YES  |     | NULL    |       | 
 +-------------------------+--------------+------+-----+---------+-------+
-30 rows in set (0.00 sec)
+
 
 mysql> desc qcn_ramp_coordinator;
 +--------------------+--------------+------+-----+---------+-------+
 | Field              | Type         | Null | Key | Default | Extra |
 +--------------------+--------------+------+-----+---------+-------+
-| id                 | int(11)      | NO   | PRI | NULL    |       | 
-| userid             | int(11)      | NO   | UNI | NULL    |       | 
-| receive_distribute | tinyint(1)   | YES  |     | NULL    |       | 
-| help_troubleshoot  | tinyint(1)   | YES  |     | NULL    |       | 
-| enlist_volunteers  | tinyint(1)   | YES  |     | NULL    |       | 
-| how_many           | int(11)      | YES  |     | NULL    |       | 
-| active             | tinyint(1)   | NO   |     | 1       |       | 
-| comments           | varchar(255) | YES  |     | NULL    |       | 
+| id                 | int(11)      | NO   | PRI | NULL    |       |
+| userid             | int(11)      | NO   | UNI | NULL    |       |
+| receive_distribute | tinyint(1)   | YES  |     | NULL    |       |
+| help_troubleshoot  | tinyint(1)   | YES  |     | NULL    |       |
+| enlist_volunteers  | tinyint(1)   | YES  |     | NULL    |       |
+| how_many           | int(11)      | YES  |     | NULL    |       |
+| active             | tinyint(1)   | NO   |     | 1       |       |
+| comments           | varchar(255) | YES  |     | NULL    |       |
 +--------------------+--------------+------+-----+---------+-------+
 8 rows in set (0.00 sec)
+
 
 */
 
