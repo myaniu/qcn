@@ -144,7 +144,7 @@ function printGoogleMapsHeader()
   echo "\n<script src=\"http://maps.google.com/maps?file=api&v=2&key=ABQIAAAA7FMxjQepz_hQElGJ5tGPvhR_-dF_tBKZEzXEmb5veXIjh7ji-BSpO1s_bzlk2XSTyJa-06G_6sf7rw\" type=\"text/javascript\"></script>\n";
 } 
 
-function printGoogleMapsScript($prefs)
+function printGoogleMapsScript($prefs, $numMarker = 5)
 {
 if (!$prefs) return;
  
@@ -152,8 +152,8 @@ echo "
 <script type=\"text/javascript\">
     //<![CDATA[
 
-   var lastOverlay = new Array(5);
-   var micon = new Array(5);
+   var lastOverlay = new Array($numMarker);
+   var micon = new Array($numMarker);
    var map;
    var geocoder;
    var iSelect = 0;
@@ -255,7 +255,7 @@ echo "
       map.addControl(new GScaleControl);
       map.addControl(new GMapTypeControl);
       geocoder = new GClientGeocoder();
-      for (i = 0 ; i < 5 ; i++) {
+      for (i = 0 ; i < $numMarker ; i++) {
         lastOverlay[i] = null;
         micon[i] = new GIcon();
         micon[i].shadow = \"http://labs.google.com/ridefinder/images/mm_20_shadow.png\";
@@ -267,10 +267,10 @@ echo "
       }
    ";
 
-   for ($i = 0 ; $i < 5 ; $i++)
+   for ($i = 0 ; $i < $numMarker ; $i++)
      echo "   micon[" . $i . "].image = \"" . constant("MAP_ICON_" . $i) . "\";\n";
 
-   for ($i = 4 ; $i >= 0 ; $i--) {
+   for ($i = ($numMarker - 1) ; $i >= 0 ; $i--) {
      echo "
       if (getElement(\"lat" . $i . "\").value != \"\" && getElement(\"lng" . $i . "\").value != \"\") {
             iSelect = " . $i . ";
