@@ -144,7 +144,7 @@ function printGoogleMapsHeader()
   echo "\n<script src=\"http://maps.google.com/maps?file=api&v=2&key=ABQIAAAA7FMxjQepz_hQElGJ5tGPvhR_-dF_tBKZEzXEmb5veXIjh7ji-BSpO1s_bzlk2XSTyJa-06G_6sf7rw\" type=\"text/javascript\"></script>\n";
 } 
 
-function printGoogleMapsScript($prefs, $numMarker = 5)
+function printGoogleMapsScript($prefs, $numMarker = 5, $zoomout = 0)
 {
 if (!$prefs) return;
  
@@ -275,7 +275,7 @@ echo "
       if (getElement(\"lat" . $i . "\").value != \"\" && getElement(\"lng" . $i . "\").value != \"\") {
             iSelect = " . $i . ";
             newpt = new GLatLng(getElement(\"lat" . $i . "\").value, getElement(\"lng" . $i . "\").value);
-            map.setCenter(newpt, 15);
+            map.setCenter(newpt, " . ($zoomout ? "6" : "15") . ");
             addMarker(map,newpt);
       }
      ";
@@ -306,7 +306,7 @@ echo "
 
 // this overrides the util.inc page_head
 //function page_head($google=false, $prefs=null)
-function page_head($title, $java_onload=null, $title_plain=null, $prefix="", $google=false, $prefs=null, $maptrig=false, $numMarker=5) 
+function page_head($title, $java_onload=null, $title_plain=null, $prefix="", $google=false, $prefs=null, $maptrig=false, $numMarker=5, $zoomout = 0) 
 {
        $metahttp = "<meta http-equiv=\"content-type\" content=\"text/html; charset=utf-8\"/>\n"
          . "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . STYLESHEET . "\">\n"
@@ -321,7 +321,7 @@ function page_head($title, $java_onload=null, $title_plain=null, $prefix="", $go
          printGoogleMapsHeader();
 
          if (!$maptrig)  {
-            printGoogleMapsScript($prefs, $numMarker);
+            printGoogleMapsScript($prefs, $numMarker, $zoomout);
             echo "</head>\n<body onload=\"showMap()\" onunload=\"GUnload()\">\n";
          }
        }

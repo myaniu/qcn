@@ -31,10 +31,41 @@ else { // we're coming into the page to add or edit ramp info
       $row = mysql_fetch_assoc($result); // assoc array i.e. $row["userid"]
       mysql_free_result($result);
   }
+
+
+  $mylat = $row["latitude"];
+  $mylng = $row["longitude"];
+  $zoomout = 0;
+
+  if (!$mylat || !$mylng) { // use geoip
+    //See if we can find the user's country and select it as default:
+    require_once("../inc/geoip.inc");
+    $gi = geoip_open("../inc/GeoIP.dat",GEOIP_STANDARD);
+    $countrycode = geoip_country_code_by_addr($gi,$_SERVER["REMOTE_ADDR"]);
+    geoip_close($gi);
+    if ($countrycode) { // lookup country lat/lng
+       $sqlCC = "SELECT latitude,longitude FROM qcn_country_latlng WHERE id='$countrycode'";
+       $rowCC = array();
+       $result = mysql_query($sqlCC);
+       if ($result && mysql_num_rows($result)>0) {
+          $rowCC = mysql_fetch_assoc($result); // assoc array i.e. $row["userid"]
+          mysql_free_result($result);
+          $mylat = $rowCC["latitude"];
+          $mylng = $rowCC["longitude"];
+          $zoomout = 1;
+       }
+    }
+  }
+  if (!$mylat || !$mylng){ // default to Turkey?
+       $mylat = 39;
+       $mylng = 35;
+       $zoomout = 1;
+  }
+
 }
 
 // note this has google stuff  
-page_head("QCN RAMP Information", null, null, "", true, $psprefs, false, 1);
+page_head("QCN RAMP Information", null, null, "", true, $psprefs, false, 1, $zoomout);
 
 echo "
 <script type=\"text/javascript\">
@@ -101,8 +132,8 @@ echo "
      echo "<tr><td colspan=2><hr></td></tr>";
      row_heading_array(array("Enter Your Location (Latitude, Longitude) or Use the Google Map"));
      row2("Latitude, Longitude<BR><font color=\"red\"><i>(use '-' sign for south of equator latitude or west of Greenwich longitude)</i></font>",
-              "<input name=\"lat0\" type=\"text\" id=\"lat0\" size=\"20\" value=\"" . $row["latitude"] . "\">" . " , " .
-              "<input name=\"lng0\" type=\"text\" id=\"lng0\" size=\"20\" value=\"" . $row["longitude"] . "\">"
+              "<input name=\"lat0\" type=\"text\" id=\"lat0\" size=\"20\" value=\"" . $mylat . "\">" . " , " .
+              "<input name=\"lng0\" type=\"text\" id=\"lng0\" size=\"20\" value=\"" . $mylng . "\">"
      );
 
 
@@ -187,7 +218,7 @@ echo "
                <td>&nbsp;</td>
                <td>&nbsp;</td>
 
-               <td><input type=\"submit\" name=\"Submit\" value=\"Send\"></td>
+               <td><input type=\"submit\" name=\"Submit\" value=\"Submit\"></td>
             </tr>
 
 </table>
