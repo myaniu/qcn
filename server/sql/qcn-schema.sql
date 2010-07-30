@@ -293,6 +293,8 @@ select from_Unixtime(min(time_trigger)) min_time, from_Unixtime(max(time_trigger
 
 */
 
+SOURCE qcn_country_latlng.sql
+
 /* Now generate the stored procedures */
 
 SOURCE do_final_trigger.sql;
