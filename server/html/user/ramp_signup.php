@@ -54,15 +54,15 @@ echo "
 <BR>
 <ul><p align=\"justify\">You can add yourself to QCN RAMP by submitting the following information,
     or edit a previous submission:</p>
-         <form name=\"ramp_form\" method=\"post\" action=\"ramp_submit.php\">
+         <form name=\"ramp_form\" method=\"post\" action=\"ramp_signup.php\">
 
-         <input type=hidden name=\"Recipient1\" value=\"QCN\">
-         <input type=hidden name=\"subject\"   value=\"QCN_RAMP\">
-         <input type=hidden name=\"realname\"  value=\"QCN_RAMP\">
+    <input name=\"db_id\" type=\"hidden\" id=\"db_id\" size=\"20\" value=\"" . $row["id"] . "\">
+    <input name=\"lnm0\" type=\"hidden\" id=\"lnm0\" size=\"64\">
 
 <table>";
+
      row_heading_array(array("Enter Your Postal Address (for UPS Delivery)"));
-     row2("Name (First, Last)" , 
+     row2("Name (First and Last/Surname)" , 
        "<input name=\"db_fname\" type=\"text\" id=\"db_fname\" size=\"30\" value=\"" . $row["fname"] . "\">"
        . "&nbsp;&nbsp;<input name=\"db_lname\" type=\"text\" id=\"db_lname\" size=\"60\" value=\"" 
            . $row["lname"] . "\">");
@@ -73,51 +73,88 @@ echo "
      row2("City",
               "<input name=\"db_city\" type=\"text\" id=\"db_city\" size=\"60\" value=\"" . $row["city"] . "\">");
      row2("Region/State/Province",
-              "<input name=\"db_region\" type=\"text\" id=\"db_region\" size=\"60\">");
+              "<input name=\"db_region\" type=\"text\" id=\"db_region\" size=\"40\" value=\"" . $row["region"] . "\">");
+
+     row2("Post Code", "<input name=\"db_postcode \" type=\"text\" id=\"db_postcode\" size=\"20\" value=\"" . $row["postcoe"] . "\">");
 
      row2_init("Country", "<select name=country>");
      print_country_select($row["country"]);
      echo "</select></td></tr>";
 
-     row2("Post Code", "<input name=\"db_region\" type=\"text\" id=\"db_region\" size=\"60\">");
+     
+     echo "<tr><td colspan=2><hr></td></tr>";
+     row_heading_array(array("Enter Your Contact Information (Phone / Fax/ Email)"));
+     row2("Phone Number (include country code)",
+              "<input name=\"db_phone\" type=\"text\" id=\"db_phone\" size=\"40\" value=\"" . $row["phone"] . "\">");
+     row2("FAX Number (include country code)",
+              "<input name=\"db_fax\" type=\"text\" id=\"db_fax\" size=\"40\" value=\"" . $row["fax"] . "\">");
 
+     $defEmail = $user->email_addr;
+     if (strlen($row["email_addr"])>0) {
+          $defEmail = $row["email_addr"];
+     }
+     row2("E-mail address (default is your QCN Account email address)",
+              "<input name=\"db_fax\" type=\"text\" id=\"db_fax\" size=\"40\" value=\"" . $defEmail . "\">");
+
+     // note the form field names change frm db_* as using google map api the names are lat0, lng0
+     // this will ensure the contact lat/lng will be displayed in the google map below
+     echo "<tr><td colspan=2><hr></td></tr>";
+     row_heading_array(array("Enter Your Location (Latitude, Longitude) or Use the Google Map"));
+     row2("Latitude, Longitude<BR><font color=\"red\"><i>(use '-' sign for south of equator latitude or west of Greenwich longitude)</i></font>",
+              "<input name=\"lat0\" type=\"text\" id=\"lat0\" size=\"20\" value=\"" . $row["latitude"] . "\">" . " , " .
+              "<input name=\"lng0\" type=\"text\" id=\"lng0\" size=\"20\" value=\"" . $row["longitude"] . "\">"
+     );
+
+
+   // google map stuff (that isn't in ../project/project.inc
+   // note the field name addrlookup should map/be stored in the database table as gmap_placename
 echo "
-            <tr>
-               <td>&nbsp;</td>
-               <td>Phone:</td>
-               <td><input name=\"phone\" type=\"text\" id=\"phone\" size=\"45\"></td>
-            </tr>
-            <tr>
-               <td>&nbsp;</td>
-               <td>E-mail:</td>
-               <td><input name=\"email\" type=\"text\" id=\"email\" size=\"45\" value=\"" 
-                   . $user->email_addr . "\"></td>
-            </tr>
-            <tr>
-               <td>&nbsp;</td>
-               <td>Latitude:</td>
-               <td><input name=\"lat0\" type=\"text\" id=\"lat0\" size=\"45\"></td>
-            </tr>
-            <tr>
-               <td>&nbsp;</td>
-               <td>Longitude:</td>
-               <td><input name=\"lng0\" type=\"text\" id=\"lng0\" size=\"45\"></td>
-            </tr>
-            <tr>
-               <td>&nbsp;</td>
-               <td>placename:</td>
-               <td><input name=\"lnm0\" type=\"text\" id=\"lnm0\" size=\"45\"></td>
-            </tr>
-
-<tr><td colspan=2>Enter/Select your Location (latitude/longitude)</td></tr>
-<tr><td colspan=2><div name=\"map\" id=\"map\" style=\"width: 640px; height: 480px\"></div></td></tr>
-<tr><td colspan=2>Use the following box to lookup an address (i.e. 360 Panama Mall, Stanford, CA)</td></tr>
-<tr><td colspan=2 width=\"50\"><input type=\"text\" name=\"addrlookup\" id=\"addrlookup\" size=50 value=\"\"> 
+<tr><td colspan=2><div name=\"map\" id=\"map\" style=\"width: 800px; height: 480px\"></div></td></tr>
+<tr><td colspan-2>Use the following box to lookup an address (i.e. 360 Panama Mall, Stanford, CA)</td></tr>
+<tr><td colspan=2>Click on the map for exact placement of the computer (zoom in if necessary)</td></tr>
+<tr><td colspan=2 width=\"50\"><input type=\"text\" name=\"addrlookup\" id=\"addrlookup\" size=64 value=\""
+    . $row["gmap_placename"] . "\"> 
+    <input type=\"button\" name=\"btnaddress\" id=\"btnaddress\" onclick=\"clickedAddressLookup(addrlookup.value)\" value=\"Lookup Address\" size=20>
     <input type=\"button\" name=\"btncopyaddr\" id=\"btncopyaddr\" onclick=\"clickedAddressCopy()\"
    value=\"Copy Address From Above\" size=20>
-    <input type=\"button\" name=\"btnaddress\" id=\"btnaddress\" onclick=\"clickedAddressLookup(addrlookup.value)\" value=\"Lookup Address\" size=20>
-</td></tr>
+</td></tr>";
 
+     $bshare = " checked ";
+     if (strlen($row["email_addr"]) > 0 && $row["bshare_map"] == 0) { // don't want to share
+        $bshare = "";
+     }
+     row2("Share This Location on the QCN Participant Map?", "<input type=\"checkbox\" name=\"db_bshare_map\" id=\"db_bshare_map\" $bshare>");
+   
+/* remaining questions
+    ->     bshare_coord boolean,
+    ->     bshare_ups boolean,
+    ->     cpu_type varchar(20),
+    ->     cpu_os varchar(20),
+    ->     cpu_age int,
+    ->     cpu_admin boolean,
+    ->     cpu_permission boolean,
+    ->     cpu_firewall varchar(20),
+    ->     cpu_floor int,
+    ->     internet_access boolean,
+    ->     unint_power boolean,
+    ->     comments varchar(255),
+
+1.f) Will the volunteer allow QCN-RAMP to share information with:
+1.f.i) A volunteer RAMP coordinator after a major earthquake?
+1.f.ii) As a point on the RAMP volunteer map?
+1.f.iii) With UPS for more rapid delivery?
+1.g) What kind of computer?
+1.g.i) Windows XP? Vista? OS X?
+1.g.ii) Is it connected to the internet always?
+1.g.iii) Does the computer have an uninteruptable power supply?
+1.g.iv) How old is the computer (years)?
+1.h) What floor is the computer on? Basement, ground floor, 1, 2, 3, 4, ...?
+1.i) ask if they have Administrative privileges on their computer
+1.j) ask about firewall issues for a computer?  describe...
+
+*/
+ 
+echo "
               <tr><td colspan=2><hr></tr>
             <tr>
                <td>&nbsp;</td>
@@ -159,63 +196,5 @@ echo "
 
 page_tail();
 
-/*
-
-mysql> desc qcn_ramp_participant;
-+-------------------------+--------------+------+-----+---------+-------+
-| Field                   | Type         | Null | Key | Default | Extra |
-+-------------------------+--------------+------+-----+---------+-------+
-| id                      | int(11)      | NO   | PRI | NULL    |       | 
-| userid                  | int(11)      | NO   | UNI | NULL    |       | 
-| qcn_ramp_coordinator_id | int(11)      | YES  |     | NULL    |       | 
-| fname                   | varchar(64)  | YES  |     | NULL    |       | 
-| lname                   | varchar(64)  | YES  |     | NULL    |       | 
-| email_addr              | varchar(100) | YES  |     | NULL    |       | 
-| addr1                   | varchar(64)  | YES  |     | NULL    |       | 
-| addr2                   | varchar(64)  | YES  |     | NULL    |       | 
-| city                    | varchar(64)  | YES  |     | NULL    |       | 
-| region                  | varchar(64)  | YES  |     | NULL    |       | 
-| postcode                | varchar(20)  | YES  |     | NULL    |       | 
-| country                 | varchar(64)  | YES  |     | NULL    |       | 
-| latitude                | double       | YES  |     | NULL    |       | 
-| longitude               | double       | YES  |     | NULL    |       | 
-| gmap_placename          | varchar(64)  | YES  |     | NULL    |       | 
-| gmap_view_level         | int(11)      | YES  |     | NULL    |       | 
-| gmap_view_type          | int(11)      | YES  |     | NULL    |       | 
-| phone                   | varchar(64)  | YES  |     | NULL    |       | 
-| fax                     | varchar(64)  | YES  |     | NULL    |       | 
-| bshare_coord            | tinyint(1)   | YES  |     | NULL    |       | 
-| bshare_map              | tinyint(1)   | YES  |     | NULL    |       | 
-| bshare_ups              | tinyint(1)   | YES  |     | NULL    |       | 
-| cpu_type                | varchar(20)  | YES  |     | NULL    |       | 
-| cpu_os                  | varchar(20)  | YES  |     | NULL    |       | 
-| cpu_age                 | varchar(5)   | YES  |     | NULL    |       | 
-| cpu_admin               | varchar(5)   | YES  |     | NULL    |       | 
-| cpu_firewall            | varchar(20)  | YES  |     | NULL    |       | 
-| cpu_floor               | int(11)      | YES  |     | NULL    |       | 
-| internet_access         | varchar(20)  | YES  |     | NULL    |       | 
-| unint_power             | varchar(20)  | YES  |     | NULL    |       | 
-| active                  | tinyint(1)   | NO   |     | 1       |       | 
-| comments                | varchar(255) | YES  |     | NULL    |       | 
-+-------------------------+--------------+------+-----+---------+-------+
-
-
-mysql> desc qcn_ramp_coordinator;
-+--------------------+--------------+------+-----+---------+-------+
-| Field              | Type         | Null | Key | Default | Extra |
-+--------------------+--------------+------+-----+---------+-------+
-| id                 | int(11)      | NO   | PRI | NULL    |       |
-| userid             | int(11)      | NO   | UNI | NULL    |       |
-| receive_distribute | tinyint(1)   | YES  |     | NULL    |       |
-| help_troubleshoot  | tinyint(1)   | YES  |     | NULL    |       |
-| enlist_volunteers  | tinyint(1)   | YES  |     | NULL    |       |
-| how_many           | int(11)      | YES  |     | NULL    |       |
-| active             | tinyint(1)   | NO   |     | 1       |       |
-| comments           | varchar(255) | YES  |     | NULL    |       |
-+--------------------+--------------+------+-----+---------+-------+
-8 rows in set (0.00 sec)
-
-
-*/
-
 ?>
+
