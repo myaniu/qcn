@@ -148,9 +148,9 @@ echo "<ul><p align=\"justify\">You can add yourself to QCN RAMP by submitting th
    // google map stuff (that isn't in ../project/project.inc
    // note the field name addrlookup should map/be stored in the database table as gmap_placename
 echo "
-<tr><td colspan=2><div name=\"map\" id=\"map\" style=\"width: 800px; height: 480px\"></div></td></tr>
 <tr><td colspan-2>Use the following box to lookup an address (i.e. 360 Panama Mall, Stanford, CA)</td></tr>
 <tr><td colspan=2>Click on the map for exact placement of the computer (zoom in if necessary)</td></tr>
+<tr><td colspan=2><div name=\"map\" id=\"map\" style=\"width: 800px; height: 480px\"></div></td></tr>
 <tr><td colspan=2 width=\"50\"><input type=\"text\" name=\"addrlookup\" id=\"addrlookup\" size=64 value=\""
     . $row["gmap_placename"] . "\"> 
     <input type=\"button\" name=\"btnaddress\" id=\"btnaddress\" onclick=\"clickedAddressLookup(addrlookup.value)\" value=\"Lookup Address\" size=20>
