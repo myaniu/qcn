@@ -372,7 +372,7 @@ n] => on [db_cpu_permission] => on [db_cpu_firewall] => on [db_cpu_internet] => 
             cpu_internet=" . $row["cpu_internet"] . ", 
             cpu_unint_power=" . $row["cpu_unint_power"] . ",             
             sensor_distribute=" . $row["sensor_distribute"] . ", 
-            comments='" . $row["comments"] . "`', 
+            comments='" . $row["comments"] . "', 
             active=1, time_edit=unix_timestamp() ";
 
 //echo "<BR><BR>" . $sqlStart . $sqlSet . $sqlEnd . "<BR><BR>";
