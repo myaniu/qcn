@@ -6,6 +6,7 @@ require_once("../inc/utils.inc");
 require_once("../inc/db.inc");
 require_once("../inc/countries.inc");
 require_once("../inc/translation.inc");
+require_once("../inc/google_translate.inc");
 
 db_init();
 
@@ -74,20 +75,24 @@ page_head("QCN RAMP Information", null, null, "", true, $psprefs, false, 1, $zoo
 echo "
 <script type=\"text/javascript\">
    function clickedAddressCopy() {
-       getElement(\"addrlookup\").value = getElement(\"address1\").value + \", \" + getElement(\"address2\").value + \", \" + getElement(\"city\").value + \", \" + getElement(\"region\").value + \", \" + getElement(\"country\").value;
+       getElement(\"addrlookup\").value = getElement(\"db_addr1\").value + \", \" + getElement(\"db_addr2\").value + \", \" + getElement(\"db_city\").value + \", \" + getElement(\"db_region\").value + \", \" + getElement(\"db_country\").value;
    }
 </script>
 
 <h1>Rapid Aftershock Mobilization Program (RAMP)</h1>
-<a href=\"http://qcn.stanford.edu/sensor/maptrig.php?cx=-38&cy=-70&timeint=W\">
 <!-- 
    <img src=\"http://qcn.stanford.edu/images/QCN-USB-Aftershocks_Cut.png\" align=\"right\" width=\"260\" height=\"320\" margin=\"6\">
 -->
 </a>
+";
 
+echo "
 <h2>Welcome Back " . $user->name . "</h2>
-<BR>
-<ul><p align=\"justify\">You can add yourself to QCN RAMP by submitting the following information,
+<BR>";
+
+google_translate_new();
+
+echo "<ul><p align=\"justify\">You can add yourself to QCN RAMP by submitting the following information,
     or edit a previous submission:</p>
          <form name=\"ramp_form\" method=\"post\" action=\"ramp_signup.php\">
 
