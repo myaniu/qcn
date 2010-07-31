@@ -17,6 +17,10 @@ $row = array();
 $action = $_POST["submit"];
 
 if ($action) { // we're updating ramp info
+   print_r($_POST);
+/*
+  Array ( [db_id] => [lnm0] => haga sofia, istanbul, turkey [db_fname] => first [db_lname] => last [db_addr1] => add 1 [db_addr2] => add 2 [db_city] => city 3 [db_region] => state 4 [db_postcode_] => postc 5 [db_country] => Turkey [db_phone] => phon3 [db_fax] => fax4 [db_email_addr] => carlgt1@yahoo.com [lat0] => 41.00527 [lng0] => 28.97696 [addrlookup] => haga sofia, istanbul, turkey [db_bshare_map] => on [db_bshare_coord] => on [db_bshare_ups] => on [db_cpu_os] => Mac OS X (Intel) [db_cpu_age] => 1 [db_cpu_admin] => on [db_cpu_firewall] => on [db_internet_access] => on [db_unint_power] => on [db_cpu_floor] => 1 [db_comments] => testing!!!!!! ok [submit] => Submit )
+*/
 }
 else { // we're coming into the page to add or edit ramp info
   // get the row for this user
@@ -94,27 +98,27 @@ echo "
 
      row_heading_array(array("Enter Your Postal Address (for UPS Delivery)"));
      row2("Name (First and Last/Surname)" , 
-       "<input name=\"db_fname\" type=\"text\" id=\"db_fname\" size=\"30\" value=\"" . $row["fname"] . "\">"
+       "<input name=\"db_fname\" type=\"text\" id=\"db_fname\" size=\"30\" value=\"" . stripslashes($row["fname"]) . "\">"
        . "&nbsp;&nbsp;<input name=\"db_lname\" type=\"text\" id=\"db_lname\" size=\"60\" value=\"" 
-           . $row["lname"] . "\">");
+           . stripslashes($row["lname"]) . "\">");
      row2("Street Address (Line 1)",
-              "<input name=\"db_addr1\" type=\"text\" id=\"db_addr1\" size=\"60\" value=\"" . $row["addr1"] . "\">");
+              "<input name=\"db_addr1\" type=\"text\" id=\"db_addr1\" size=\"60\" value=\"" . stripslashes($row["addr1"]) . "\">");
      row2("Street Address (Line 2)",
-              "<input name=\"db_addr2\" type=\"text\" id=\"db_addr2\" size=\"60\" value=\"" . $row["addr2"] . "\">");
+              "<input name=\"db_addr2\" type=\"text\" id=\"db_addr2\" size=\"60\" value=\"" . stripslashes($row["addr2"]) . "\">");
      row2("City",
-              "<input name=\"db_city\" type=\"text\" id=\"db_city\" size=\"60\" value=\"" . $row["city"] . "\">");
+              "<input name=\"db_city\" type=\"text\" id=\"db_city\" size=\"60\" value=\"" . stripslashes($row["city"]) . "\">");
      row2("Region/State/Province",
-              "<input name=\"db_region\" type=\"text\" id=\"db_region\" size=\"40\" value=\"" . $row["region"] . "\">");
+              "<input name=\"db_region\" type=\"text\" id=\"db_region\" size=\"40\" value=\"" . stripslashes($row["region"]) . "\">");
 
-     row2("Post Code", "<input name=\"db_postcode \" type=\"text\" id=\"db_postcode\" size=\"20\" value=\"" . $row["postcoe"] . "\">");
+     row2("Post Code", "<input name=\"db_postcode \" type=\"text\" id=\"db_postcode\" size=\"20\" value=\"" . stripslashes($row["postcode"]) . "\">");
 
-     row2_init("Country", "<select name=country>");
+     row2_init("Country", "<select name=db_country id=db_country>");
      print_country_select($row["country"]);
      echo "</select></td></tr>";
 
      
      echo "<tr><td colspan=2><hr></td></tr>";
-     row_heading_array(array("Enter Your Contact Information (Phone / Fax/ Email)"));
+     row_heading_array(array("Enter Your Contact Information"));
      row2("Phone Number (include country code)",
               "<input name=\"db_phone\" type=\"text\" id=\"db_phone\" size=\"40\" value=\"" . $row["phone"] . "\">");
      row2("FAX Number (include country code)",
@@ -125,7 +129,7 @@ echo "
           $defEmail = $row["email_addr"];
      }
      row2("E-mail address (default is your QCN Account email address)",
-              "<input name=\"db_fax\" type=\"text\" id=\"db_fax\" size=\"40\" value=\"" . $defEmail . "\">");
+              "<input name=\"db_email_addr\" type=\"text\" id=\"db_email_addr\" size=\"40\" value=\"" . stripslashes($defEmail) . "\">");
 
      // note the form field names change frm db_* as using google map api the names are lat0, lng0
      // this will ensure the contact lat/lng will be displayed in the google map below
@@ -135,7 +139,6 @@ echo "
               "<input name=\"lat0\" type=\"text\" id=\"lat0\" size=\"20\" value=\"" . $mylat . "\">" . " , " .
               "<input name=\"lng0\" type=\"text\" id=\"lng0\" size=\"20\" value=\"" . $mylng . "\">"
      );
-
 
    // google map stuff (that isn't in ../project/project.inc
    // note the field name addrlookup should map/be stored in the database table as gmap_placename
@@ -149,80 +152,100 @@ echo "
     <input type=\"button\" name=\"btncopyaddr\" id=\"btncopyaddr\" onclick=\"clickedAddressCopy()\"
    value=\"Copy Address From Above\" size=20>
 </td></tr>";
+   
+     // extra info
+     echo "<tr><td colspan=2><hr></td></tr>";
+     row_heading_array(array("Extra Options"));
 
+     // more checkboxes to default to true unless there is a record and it was set to false
+
+     // bshare_map == share map location
      $bshare = " checked ";
      if (strlen($row["email_addr"]) > 0 && $row["bshare_map"] == 0) { // don't want to share
         $bshare = "";
      }
-     row2("Share This Location on the QCN Participant Map?", "<input type=\"checkbox\" name=\"db_bshare_map\" id=\"db_bshare_map\" $bshare>");
-   
-/* remaining questions
-    ->     bshare_coord boolean,
-    ->     bshare_ups boolean,
-    ->     cpu_type varchar(20),
-    ->     cpu_os varchar(20),
-    ->     cpu_age int,
-    ->     cpu_admin boolean,
-    ->     cpu_permission boolean,
-    ->     cpu_firewall varchar(20),
-    ->     cpu_floor int,
-    ->     internet_access boolean,
-    ->     unint_power boolean,
-    ->     comments varchar(255),
+     row2("Share This Location on the QCN Participant Map?", 
+       "<input type=\"checkbox\" name=\"db_bshare_map\" id=\"db_bshare_map\" $bshare>");
+    
+     // bshare_coord == share info with RAMP coordinator
+     $bshare = " checked ";
+     if (strlen($row["email_addr"]) > 0 && $row["bshare_coord"] == 0) { // don't want to share
+        $bshare = "";
+     }
+     row2("Share Your Information With a Volunteer RAMP coordinator After A Major Earthquake?",
+       "<input type=\"checkbox\" name=\"db_bshare_coord\" id=\"db_bshare_coord \" $bshare>");
 
-1.f) Will the volunteer allow QCN-RAMP to share information with:
-1.f.i) A volunteer RAMP coordinator after a major earthquake?
-1.f.ii) As a point on the RAMP volunteer map?
-1.f.iii) With UPS for more rapid delivery?
-1.g) What kind of computer?
-1.g.i) Windows XP? Vista? OS X?
-1.g.ii) Is it connected to the internet always?
-1.g.iii) Does the computer have an uninteruptable power supply?
-1.g.iv) How old is the computer (years)?
-1.h) What floor is the computer on? Basement, ground floor, 1, 2, 3, 4, ...?
-1.i) ask if they have Administrative privileges on their computer
-1.j) ask about firewall issues for a computer?  describe...
-
-*/
+     // bshare_ups == share info with UPS
+     $bshare = " checked ";
+     if (strlen($row["email_addr"]) > 0 && $row["bshare_ups"] == 0) { // don't want to share
+        $bshare = "";
+     }
+     row2("Share Your Information With UPS For Faster Sensor Delivery?",
+       "<input type=\"checkbox\" name=\"db_bshare_ups\" id=\"db_bshare_ups\" $bshare>");
  
-echo "
-              <tr><td colspan=2><hr></tr>
-            <tr>
-               <td>&nbsp;</td>
-               <td>Computer Age:<br>(Years)</td>
-               <td><input name=\"cage\" type=\"text\" id=\"cage\" size=\"45\"></td>
-            </tr>
-            <tr>
-               <td>&nbsp;</td>
-               <td>Operating System:</td>
-               <td>OS X:<input name=\"OS\" type=\"radio\" id=\"OS\" value=\"OSX\"><br>
-                   Windows XP:<input name=\"OS\" type=\"radio\" id=\"OS\" value=\"WindowsXP\"><br></td>
-            </tr>
-            <tr>
-               <td>&nbsp;</td>
-               <td>Regional Coordinator:</td>
-               <td>Are you willing to help distribute sensors to participants in your area?<br>
-               
-               <dd>Yes:<input name=\"RC\" type=\"radio\" id=\"RC\" value=\"YES\"><br>
-               <dd>No: <input name=\"RC\" type=\"radio\" id=\"RC\" value=\"NO\"><br></td>
-            </tr>
+     echo "<tr><td colspan=2><hr></td></tr>";
+     row_heading_array(array("Computer Information"));
 
+     $os = array("Mac OS X (Intel)", 
+                 "Mac OS X (PPC)", "Mac (Other)",
+             "Windows XP", "Windows Vista", "Windows 7", "Windows (other i.e. 98)",
+             "Linux", "Other");
+     $os_select = "<select name=\"db_cpu_os\" id=\"db_cpu_os\">";
+     for ($i = 0; $i < count($os); $i++) {
+        $os_select .= "<option";
+        if ($row["db_cpu_os"] == $os[$i]) {
+           $os_select .= " selected";
+        }
+        $os_select .= (">" . $os[$i] . "</option>\n");
+     }
+     $os_select .= "</select>";
 
-            <tr>
-               <td>&nbsp;</td>
-               <td colspan=\"2\"><p>If you have any comments or concerns, please let us know.</p><textarea name=\"essay\" id=\"essay\" rows=\"15\" cols=\"64\"></textarea></td>
+     row2("Operating System", $os_select);
 
-            </tr>
-            <tr>   <td colspan=3><hr></td>  </tr>
-            <tr>
-               <td>&nbsp;</td>
-               <td>&nbsp;</td>
+     $cpuage = "<select name=\"db_cpu_age\" id=\"db_cpu_age\">";
+     for ($i = 0; $i <=20; $i++) {  
+         $cpuage .= "<option";
+         if ($row["db_cpu_age"] == $i) {
+            $cpuage .= " selected";
+         }
+         $cpuage .= (">" . $i . "</option>\n");
+     }
+     $cpuage .= "</select>";
+     row2("Computer Age In Years<BR><i><font color=red>(0=<1 yr old)</font></i>", $cpuage);
 
-               <td><input type=\"submit\" name=\"Submit\" value=\"Submit\"></td>
-            </tr>
+     row2("Do You Have Administrator Rights On This Computer?",
+       "<input type=\"checkbox\" name=\"db_cpu_admin\" id=\"db_cpu_admin\" "   . ($row["cpu_admin"] ? "checked" : "") . ">");
 
+     row2("Is This Computer Behind A Firewall?",
+       "<input type=\"checkbox\" name=\"db_cpu_firewall\" id=\"db_cpu_firewall\" " . ($row["cpu_firewall"] ? "checked" : "") . ">");
+
+     row2("Is This Computer Usually Connected To The Internet?",
+       "<input type=\"checkbox\" name=\"db_internet_access\" id=\"db_internet_access\" " . ($row["internet_access"] ? "checked" : "") . ">");
+
+     row2("Do You Have An Uninterruptible Power Supply Attached To This Computer?",
+       "<input type=\"checkbox\" name=\"db_unint_power\" id=\"db_unint_power\" " . ($row["unint_power"] ? "checked" : "") . ">");
+
+     $cpufl = "<select name=\"db_cpu_floor\" id=\"db_cpu_floor\">";
+     if (!$row["db_cpu_floor"]) $row["db_cpu_floor"] = 0;
+     for ($i = -10; $i <= 100; $i++) {
+         $cpufl .= "<option";
+         if ($row["db_cpu_floor"] == $i) {
+            $cpufl .= " selected";
+         }
+         $cpufl .= (">" . $i . "</option>\n");
+     }
+     $cpufl .= "</select>";
+     row2("Floor Location of Computer<BR><i><font color=red>(-1 = Basement, 0 = Ground Floor, 1 = First Floor etc)<font></i>", $cpufl);
+
+     echo "<tr><td colspan=2><hr></td></tr>";
+     row_heading_array(array("Comments (Firewall type, Proxy type, Can you distribute sensors etc)"));
+     echo "<tr><td colspan=2><textarea name=\"db_comments\" id=\"db_comments\" cols=\"60\" rows=\"4\">" 
+        . stripslashes($row["comments"]) . "</textarea></td></tr>";
+
+echo "<tr>
+         <td colspan=2 align=center><input type=\"submit\" id=\"submit\" name=\"submit\" value=\"Submit\"></td>
+      </tr>
 </table>
-</ul>
 ";
 
 page_tail();
