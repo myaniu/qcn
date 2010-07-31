@@ -150,14 +150,15 @@ echo "<ul><p align=\"justify\">You can add yourself to QCN RAMP by submitting th
 echo "
 <tr><td colspan-2>Use the following box to lookup an address (i.e. 360 Panama Mall, Stanford, CA)</td></tr>
 <tr><td colspan=2>Click on the map for exact placement of the computer (zoom in if necessary)</td></tr>
-<tr><td colspan=2><div name=\"map\" id=\"map\" style=\"width: 800px; height: 480px\"></div></td></tr>
 <tr><td colspan=2 width=\"50\"><input type=\"text\" name=\"addrlookup\" id=\"addrlookup\" size=64 value=\""
     . $row["gmap_placename"] . "\"> 
     <input type=\"button\" name=\"btnaddress\" id=\"btnaddress\" onclick=\"clickedAddressLookup(addrlookup.value)\" value=\"Lookup Address\" size=20>
     <input type=\"button\" name=\"btncopyaddr\" id=\"btncopyaddr\" onclick=\"clickedAddressCopy()\"
    value=\"Copy Address From Above\" size=20>
-</td></tr>";
-   
+</td></tr>
+<tr><td colspan=2><div name=\"map\" id=\"map\" style=\"width: 800px; height: 480px\"></div></td></tr>
+  ";
+ 
      // extra info
      echo "<tr><td colspan=2><hr></td></tr>";
      row_heading_array(array("Extra Options"));
