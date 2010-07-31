@@ -95,7 +95,7 @@ create table qcn_ramp_participant (
     cpu_firewall varchar(20), 
     cpu_proxy varchar(20), 
     cpu_floor int,
-    cpu_internetboolean,
+    cpu_internet boolean,
     cpu_unint_power boolean,
     sensor_distribute boolean,
     comments blob,
