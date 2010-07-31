@@ -93,11 +93,13 @@ create table qcn_ramp_participant (
     cpu_admin boolean,
     cpu_permission boolean,
     cpu_firewall varchar(20), 
+    cpu_proxy varchar(20), 
     cpu_floor int,
-    internet_access boolean,
-    unint_power boolean,
+    cpu_internetboolean,
+    cpu_unint_power boolean,
+    sensor_distribute boolean,
+    comments blob,
     active boolean not null default 1,
-    comments varchar(255),
     time_edit int
 );
 create unique index qcn_ramp_participant_userid on qcn_ramp_participant(userid);
