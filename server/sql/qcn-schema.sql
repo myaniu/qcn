@@ -65,7 +65,7 @@ create table qcn_ramp_coordinator (
 create unique index qcn_ramp_coordinator_userid on qcn_ramp_coordinator(userid);
 
 create table qcn_ramp_participant (
-    id int not null primary key,
+    id int not null primary key auto_increment,
     userid int not null,
     qcn_ramp_coordinator_id int,
     fname varchar(64),
