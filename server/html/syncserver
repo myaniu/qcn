@@ -27,7 +27,6 @@ scp carlgt1@qcn-web:/var/www/boinc/sensor/html/project/project_news.inc project/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/html/project/project_specific_prefs.inc project/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/html/project/plate_boundary.inc project/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/html/user/ramp_signup.php user/
-scp carlgt1@qcn-web:/var/www/boinc/sensor/html/user/ramp_submit.php user/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/html/user/account_finish.php user/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/html/user/account_finish_action.php user/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/html/user/create_account.php user/
@@ -65,6 +64,7 @@ scp carlgt1@qcn-web:/var/www/boinc/continual/html/ops/generate_maptrig.php ../co
 scp carlgt1@qcn-web:/var/www/boinc/continual/html/inc/db.inc ../continual/html/inc/
 scp carlgt1@qcn-web:/var/www/boinc/continual/html/inc/prefs.inc ../continual/html/inc/
 scp carlgt1@qcn-web:/var/www/boinc/continual/html/inc/utils.inc ../continual/html/inc/
+scp carlgt1@qcn-web:/var/www/boinc/continual/html/inc/util.inc ../continual/html/inc/
 scp carlgt1@qcn-web:/var/www/boinc/continual/html/inc/user.inc ../continual/html/inc/
 scp carlgt1@qcn-web:/var/www/boinc/continual/html/inc/host.inc ../continual/html/inc/
 scp carlgt1@qcn-web:/var/www/boinc/continual/html/inc/cache.inc ../continual/html/inc/
