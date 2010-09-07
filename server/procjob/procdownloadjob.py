@@ -9,6 +9,12 @@
 # upload server to the database server
 
 # CMC note -- need to install 3rd party MySQLdb libraries for python
+
+# the layout of the program is to unzip each requested zip, insert metadata into the unzipped 
+# SAC files (from the qcn_trigger record), and then after all requested zip files are processed, zip them all up and 
+# move to a download location, with an email to the user of the download link
+
+
 import math, tempfile, smtplib, traceback, sys, os, tempfile, string, MySQLdb, shutil, zipfile
 from datetime import datetime
 from zipfile import ZIP_STORED
@@ -17,12 +23,14 @@ from time import strptime, mktime
 global DBHOST 
 global DBUSER
 global DBPASSWD
+global SAC_CMD
 global SMTPS_HOST, SMTPS_PORT, SMTPS_LOCAL_HOSTNAME, SMTPS_KEYFILE, SMTPS_CERTFILE, SMTPS_TIMEOUT
 
 DBHOST = "db-private"
 DBUSER = "qcn"
 DBPASSWD = ""
 
+SAC_CMD = "/usr/local/sac/bin/sac"
 SMTPS_HOST = "smtp.stanford.edu"
 SMTPS_PORT = 465
 SMTPS_LOCAL_HOSTNAME = "qcn-upl.stanford.edu"
@@ -82,8 +90,11 @@ def SetRunType():
 def procDownloadRequest(dbconn, outfilename, url, jobid, userid, trigidlist):
  tmpdir = tempfile.mkdtemp()
  myCursor = dbconn.cursor()
- query = "SELECT id,hostid,latitude,longitude,levelvalue,levelid,file " +\
-              "FROM " + DBNAME + ".qcn_trigger " +\
+ query = "SELECT t.id,t.hostid,t.latitude,t.longitude,t.levelvalue,t.levelid,t.file, " +\
+            "t.qcn_quakeid, q.time_utc quake_time, q.depth_km quake_depth_km, " +\
+            "q.latitude quake_lat, q.longitude quake_lon, q.magnitude quake_mag " +\
+              "FROM " + DBNAME + ".qcn_trigger t " +\
+              "LEFT OUTER JOIN qcnalpha.qcn_quake q ON q.id = t.qcn_quakeid " +\
               "WHERE received_file=100 AND id IN " + trigidlist
  myCursor.execute(query)
 
@@ -123,8 +134,14 @@ def procDownloadRequest(dbconn, outfilename, url, jobid, userid, trigidlist):
            for zipinname in zipinlist:
              errlevel = 4
              #zipinpath = os.path.join(tmpdir, zipinname)
+             # OK - at this point the zip file requested has been unzipped, so we need to process metadata here
+             #getSACMetadata(zipinname, rec[2], rec[3], rec[4], rec[5], rec[7], rec[8], rec[9], rec[10], rec[11], rec[12])
+
              myzipout.write(zipinname)
              os.remove(zipinname)
+
+           
+
       except:
         print "Error " + str(errlevel) + " in myzipin " + zipinpath
         continue
@@ -157,6 +174,51 @@ def procDownloadRequest(dbconn, outfilename, url, jobid, userid, trigidlist):
       myzipout.close() 
       os.remove(zipoutpath)
    return 0
+
+# this will put metadata into the SAC file using values from the database for this trigger
+# it's very "quick & dirty" and just uses SAC as a cmd line program via a script
+def getSACMetadata(zipinname, latTrig, lonTrig, lvlTrig, lvlType, idQuake, timeQuake, depthKmQuake, latQuake, lonQuake, magQuake):
+  global SAC_CMD
+
+#lvlType should be one of:
+#|  1 | Floor (+/- above/below surface)    | 
+#|  2 | Meters (above/below surface)       | 
+#|  3 | Feet (above/below surface)         | 
+#|  4 | Elevation - meters above sea level | 
+#|  5 | Elevation - feet above sea level   | 
+#
+  # we want level in meters, ideally above sea level, but now just convert to meters (1 floor = 3 m)
+  myLevel = 0
+  if lvlType == 0:
+    myLevel = 0
+  elif lvlType == 1:
+    myLevel = lvlTrig * 3.0
+  elif lvlType == 2:
+    myLevel = lvlTrig
+  elif lvlType == 3:
+    myLevel = lvlTrig * 0.3048
+  elif lvlType == 4:
+    myLevel = lvlTrig
+  elif lvlType == 5:
+    myLevel = lvlTrig * 0.3048
+
+#  sac values to fill in are: stlo, stla, stel (for station)
+#                             evlo, evla, evdp, mag (for quake)
+# CMC HERE
+!#/bin/tcsh
+set file=long_boinc_file_name.X.sac
+set lon = 123.123456789
+set lat = -12.123456789
+set elev = 123.123456789
+sac << EOF
+r $file
+chnhdr stlo $lon
+chnhdr stla $lat
+chnhdr stel $elev
+write over
+EOF 
+
+
 
 def sendEmail(Username, ToEmailAddr, DLURL, NumMB):
   global SMTPS_HOST, SMTPS_PORT, SMTPS_LOCAL_HOSTNAME, SMTPS_KEYFILE, SMTPS_CERTFILE, SMTPS_TIMEOUT
