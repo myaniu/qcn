@@ -95,7 +95,7 @@ def procDownloadRequest(dbconn, outfilename, url, jobid, userid, trigidlist):
             "q.latitude quake_lat, q.longitude quake_lon, q.magnitude quake_mag " +\
               "FROM " + DBNAME + ".qcn_trigger t " +\
               "LEFT OUTER JOIN qcnalpha.qcn_quake q ON q.id = t.qcn_quakeid " +\
-              "WHERE received_file=100 AND id IN " + trigidlist
+              "WHERE t.received_file=100 AND t.id IN " + trigidlist
  myCursor.execute(query)
 
  zipoutpath = os.path.join(DOWNLOAD_WEB_DIR, outfilename)
@@ -135,7 +135,7 @@ def procDownloadRequest(dbconn, outfilename, url, jobid, userid, trigidlist):
              errlevel = 4
              #zipinpath = os.path.join(tmpdir, zipinname)
              # OK - at this point the zip file requested has been unzipped, so we need to process metadata here
-             #getSACMetadata(zipinname, rec[2], rec[3], rec[4], rec[5], rec[7], rec[8], rec[9], rec[10], rec[11], rec[12])
+             getSACMetadata(zipinname, rec[2], rec[3], rec[4], rec[5], rec[7], rec[8], rec[9], rec[10], rec[11], rec[12])
 
              myzipout.write(zipinname)
              os.remove(zipinname)
@@ -179,6 +179,7 @@ def procDownloadRequest(dbconn, outfilename, url, jobid, userid, trigidlist):
 # it's very "quick & dirty" and just uses SAC as a cmd line program via a script
 def getSACMetadata(zipinname, latTrig, lonTrig, lvlTrig, lvlType, idQuake, timeQuake, depthKmQuake, latQuake, lonQuake, magQuake):
   global SAC_CMD
+  return
 
 #lvlType should be one of:
 #|  1 | Floor (+/- above/below surface)    | 
@@ -205,19 +206,27 @@ def getSACMetadata(zipinname, latTrig, lonTrig, lvlTrig, lvlType, idQuake, timeQ
 #  sac values to fill in are: stlo, stla, stel (for station)
 #                             evlo, evla, evdp, mag (for quake)
 # CMC HERE
-!#/bin/tcsh
-set file=long_boinc_file_name.X.sac
-set lon = 123.123456789
-set lat = -12.123456789
-set elev = 123.123456789
-sac << EOF
-r $file
-chnhdr stlo $lon
-chnhdr stla $lat
-chnhdr stel $elev
-write over
-EOF 
 
+  fullcmd = SAC_CMD + " << EOF\n" +\
+    "r " + zipinname + "\n" +\
+    "chnhdr stlo " + str(lonTrig) + "\n" +\
+    "chnhdr stla " + str(latTrig) + "\n" +\
+    "chnhdr stel " + str(myLevel) + "\n" 
+
+  if idQuake > 0:
+    fullcmd = fullcmd +\
+      "chnhdr evlo " + str(lonQuake) + "\n" +\
+      "chnhdr evla " + str(latQuake) + "\n" +\
+      "chnhdr evdp " + str(depthKmQuake) + "\n" +\
+      "chnhdr mag "  + str(magQuake) + "\n" 
+
+
+  fullcmd = fullcmd +\
+      "write over \n" +\
+      "quit\n" +\
+      "EOF\n"
+
+  os.system(fullcmd)
 
 
 def sendEmail(Username, ToEmailAddr, DLURL, NumMB):
