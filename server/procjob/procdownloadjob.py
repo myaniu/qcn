@@ -189,6 +189,11 @@ def getSACMetadata(zipinname, latTrig, lonTrig, lvlTrig, lvlType, idQuake, timeQ
 #|  5 | Elevation - feet above sea level   | 
 #
   # we want level in meters, ideally above sea level, but now just convert to meters (1 floor = 3 m)
+
+# elevation data
+#grd2point /data/cees2/QCN/GMT/share/topo/topo30.grd -R$lng/$lng2/$lat/$lat2
+#> temp.xyz
+
   myLevel = 0
   if lvlType == 0:
     myLevel = 0
@@ -210,6 +215,7 @@ def getSACMetadata(zipinname, latTrig, lonTrig, lvlTrig, lvlType, idQuake, timeQ
     "r " + zipinname + "\n" +\
     "chnhdr stlo " + str(lonTrig) + "\n" +\
     "chnhdr stla " + str(latTrig) + "\n"
+    "chnhdr leven TRUE\n"
 
   if myLevel != 0.0:
     fullcmd = fullcmd + "chnhdr stel " + str(myLevel) + "\n" 
@@ -220,7 +226,6 @@ def getSACMetadata(zipinname, latTrig, lonTrig, lvlTrig, lvlType, idQuake, timeQ
       "chnhdr evla " + str(latQuake) + "\n" +\
       "chnhdr evdp " + str(depthKmQuake) + "\n" +\
       "chnhdr mag "  + str(magQuake) + "\n" 
-
 
   fullcmd = fullcmd +\
       "write over \n" +\
@@ -241,6 +246,7 @@ def getSACMetadata(zipinname, latTrig, lonTrig, lvlTrig, lvlType, idQuake, timeQ
     shutil.move(zipinname + ".swap", zipinname)
 
 # done metadata updating of SAC files
+
 
 def sendEmail(Username, ToEmailAddr, DLURL, NumMB):
   global SMTPS_HOST, SMTPS_PORT, SMTPS_LOCAL_HOSTNAME, SMTPS_KEYFILE, SMTPS_CERTFILE, SMTPS_TIMEOUT
