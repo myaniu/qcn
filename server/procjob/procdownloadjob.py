@@ -23,7 +23,7 @@ from time import strptime, mktime
 global DBHOST 
 global DBUSER
 global DBPASSWD
-global SAC_CMD
+global SAC_CMD, SACSWAP_CMD
 global SMTPS_HOST, SMTPS_PORT, SMTPS_LOCAL_HOSTNAME, SMTPS_KEYFILE, SMTPS_CERTFILE, SMTPS_TIMEOUT
 
 DBHOST = "db-private"
@@ -31,6 +31,7 @@ DBUSER = "qcn"
 DBPASSWD = ""
 
 SAC_CMD = "/usr/local/sac/bin/sac"
+SACSWAP_CMD = "/usr/local/sac/bin/sacswap"
 SMTPS_HOST = "smtp.stanford.edu"
 SMTPS_PORT = 465
 SMTPS_LOCAL_HOSTNAME = "qcn-upl.stanford.edu"
@@ -178,8 +179,7 @@ def procDownloadRequest(dbconn, outfilename, url, jobid, userid, trigidlist):
 # this will put metadata into the SAC file using values from the database for this trigger
 # it's very "quick & dirty" and just uses SAC as a cmd line program via a script
 def getSACMetadata(zipinname, latTrig, lonTrig, lvlTrig, lvlType, idQuake, timeQuake, depthKmQuake, latQuake, lonQuake, magQuake):
-  global SAC_CMD
-  return
+  global SAC_CMD, SACSWAP_CMD
 
 #lvlType should be one of:
 #|  1 | Floor (+/- above/below surface)    | 
@@ -205,13 +205,14 @@ def getSACMetadata(zipinname, latTrig, lonTrig, lvlTrig, lvlType, idQuake, timeQ
 
 #  sac values to fill in are: stlo, stla, stel (for station)
 #                             evlo, evla, evdp, mag (for quake)
-# CMC HERE
 
   fullcmd = SAC_CMD + " << EOF\n" +\
     "r " + zipinname + "\n" +\
     "chnhdr stlo " + str(lonTrig) + "\n" +\
-    "chnhdr stla " + str(latTrig) + "\n" +\
-    "chnhdr stel " + str(myLevel) + "\n" 
+    "chnhdr stla " + str(latTrig) + "\n"
+
+  if myLevel != 0.0:
+    fullcmd = fullcmd + "chnhdr stel " + str(myLevel) + "\n" 
 
   if idQuake > 0:
     fullcmd = fullcmd +\
@@ -226,8 +227,20 @@ def getSACMetadata(zipinname, latTrig, lonTrig, lvlTrig, lvlType, idQuake, timeQ
       "quit\n" +\
       "EOF\n"
 
+# debug info
+#  print fullcmd
+
   os.system(fullcmd)
 
+# now need to run sacswap for some reason
+  fullcmd = SACSWAP_CMD + " " + zipinname
+  os.system(fullcmd)
+
+# if we have a file named zipinname.swap, then we need to move back over to zipinname 
+  if os.path.isfile(zipinname + ".swap"):
+    shutil.move(zipinname + ".swap", zipinname)
+
+# done metadata updating of SAC files
 
 def sendEmail(Username, ToEmailAddr, DLURL, NumMB):
   global SMTPS_HOST, SMTPS_PORT, SMTPS_LOCAL_HOSTNAME, SMTPS_KEYFILE, SMTPS_CERTFILE, SMTPS_TIMEOUT
