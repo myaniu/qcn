@@ -15,7 +15,7 @@
 # move to a download location, with an email to the user of the download link
 
 
-import math, tempfile, smtplib, traceback, sys, os, tempfile, string, MySQLdb, shutil, zipfile
+import math, time, tempfile, smtplib, traceback, sys, os, tempfile, string, MySQLdb, shutil, zipfile
 from datetime import datetime
 from zipfile import ZIP_STORED
 from time import strptime, mktime
@@ -55,6 +55,16 @@ ZIP_CMD  = "/usr/bin/zip -1 "
 global UNZIP_CMD
 global typeRunning
 typeRunning = ""
+
+# delete old job files > 7 days old
+def delFilesPath(path):
+  now = time.time()
+  for f in os.listdir(path):
+    fname = os.path.join(path, f)
+    if os.stat(fname).st_mtime < now - 7 * 86400:
+      if os.path.isfile(fname) and f.find("qcn_scedc") == -1:
+        os.remove(fname)
+
 
 def SetRunType():
   global URL_DOWNLOAD_BASE
@@ -357,6 +367,8 @@ def main():
       # first make sure all the necessary paths are in place
       if (checkPaths() != 0):
          sys.exit(2)
+
+      delFilesPath(DOWNLOAD_WEB_DIR)
 
       dbconn = MySQLdb.connect (host = DBHOST,
                            user = DBUSER,
