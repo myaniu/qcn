@@ -29,7 +29,7 @@ global SMTPS_HOST, SMTPS_PORT, SMTPS_LOCAL_HOSTNAME, SMTPS_KEYFILE, SMTPS_CERTFI
 
 DBHOST = "db-private"
 DBUSER = "qcn"
-DBPASSWD = ""
+DBPASSWD = "1QCNQuake"
 
 SAC_CMD = "/usr/local/sac/bin/sac"
 SACSWAP_CMD = "/usr/local/sac/bin/sacswap"
@@ -215,10 +215,8 @@ def getSACMetadata(zipinname, latTrig, lonTrig, lvlTrig, lvlType, idQuake, timeQ
 #|  5 | Elevation - feet above sea level   |  note 4 & 5 they input actual elevation , so use that
 #
   # we want level in meters, ideally above sea level, but now just convert to meters (1 floor = 3 m)
-  myLevel = 0.0
-  if lvlType == 0:
-    myLevel = myElev
-  elif lvlType == 1:
+  myLevel = myElev
+  if lvlType == 1:
     myLevel = myElev + (lvlTrig * 3.0)
   elif lvlType == 2:
     myLevel = myElev + lvlTrig
@@ -247,7 +245,7 @@ def getSACMetadata(zipinname, latTrig, lonTrig, lvlTrig, lvlType, idQuake, timeQ
     fullcmd = fullcmd +\
       "chnhdr evlo " + str(lonQuake) + "\n" +\
       "chnhdr evla " + str(latQuake) + "\n" +\
-      "chnhdr evdp " + str(depthKmQuake) + "\n" +\
+      "chnhdr evdp " + str(1000.0 * depthKmQuake) + "\n" +\
       "chnhdr mag "  + str(magQuake) + "\n" 
 
   fullcmd = fullcmd +\
