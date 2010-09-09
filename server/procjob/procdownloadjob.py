@@ -29,7 +29,7 @@ global SMTPS_HOST, SMTPS_PORT, SMTPS_LOCAL_HOSTNAME, SMTPS_KEYFILE, SMTPS_CERTFI
 
 DBHOST = "db-private"
 DBUSER = "qcn"
-DBPASSWD = "1QCNQuake"
+DBPASSWD = ""
 
 SAC_CMD = "/usr/local/sac/bin/sac"
 SACSWAP_CMD = "/usr/local/sac/bin/sacswap"
