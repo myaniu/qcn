@@ -16,6 +16,11 @@
 
 
 $project_news = array(
+   array("August 18, 2010 10:58",
+"Prof. Cochran will do a presentation on the Quake-Catcher Network at the London Citizen Cyberscience Summit on September 3rd.  If you are in the area you may wish to see this and the other interesting presentations on volunteer computing, 'citizen science', etc.  Tickets and a full programme are <A HREF=\"http://www.citizencyberscience.net/summit/\">available at this link</A><BR><BR>",
+ "London Citizen Cyberscience Summit - 2-3 Sept 2010",
+ "http://www.citizencyberscience.net/summit/"
+  ),
    array("June 23, 2010 17:16",
 "
 A QCN participant has detected the rare magnitude 5.5 earthquake in Quebec, Canada today.<BR>

@@ -14,8 +14,8 @@ if (!$user->id || !$user->donated) {
    exit();
 }
 
-$query = "select * from qcn_ramp_participant";
-$order = " order by country, lname, fname ";
+$query = "select id, fname, lname, email_addr, addr1, addr2, city, region, postcode, country, latitude, longitude, phone, fax, bshare_coord, bshare_map, bshare_ups, cpu_type, cpu_os, cpu_age, cpu_floor, cpu_admin, cpu_permission, cpu_firewall, cpu_proxy, cpu_internet, cpu_unint_power, sensor_distribute, comments from qcn_ramp_participant WHERE active=1";
+$order = "order by country, lname, fname";
 
 $detail = null;
 $show_aggregate = false;
@@ -38,7 +38,7 @@ $bUseTime  = get_int("cbUseTime", true);
 $bUseHost = get_int("cbUseHost", true);
 $strHostID = get_int("HostID", true);
 */
-$strCountry = get_str("country", true);
+$strCountry = get_str("db_country", true);
 
 /*
 $type_sensor = get_int("type_sensor", true);
@@ -241,11 +241,24 @@ echo "<select name=\"rb_sort\" id=\"rb_sort\">
 */
 
 // end the form
-echo "<BR><BR>
+
+echo "<form name=\"formFilter\" method=\"get\" action=\"ramp.php\" >";
+
+if (!$strCountry || $strCountry == "None") $strCountry = "International";
+echo "Filter by Country:
+<select name=db_country id=db_country>";
+     print_country_select($strCountry);
+echo "
+     </select></td></tr>
+<BR><BR>
 <input type=\"checkbox\" id=\"cbUseCSV\" name=\"cbUseCSV\" value=\"1\" " . ($bUseCSV? "checked" : "") . "> Create Text/CSV File of Triggers?
 <BR><BR>
    <input type=\"submit\" value=\"Submit Constraints\" />
    </form> <H7>";
+
+if ($strCountry != "International" && $strCountry != "None") $query .= " AND country='$strCountry' ";
+
+//print "<BR><BR>$query<BR><BR>";
 
 /*
 $whereString = "t.varietyid=0 ";
@@ -495,10 +508,9 @@ if ($bUseCSV) {
    }
 }
 
-
 $result = mysql_query($main_query);
 if ($result) {
-    echo "<form name=\"formDetail\" method=\"get\" action=trigreq.php >";
+    echo "<form name=\"formDelete\" method=\"get\" action=\"ramp.php\" >";
     start_table();
     if (!$bUseCSV && !$ftmp) qcn_ramp_header();
     while ($res = mysql_fetch_object($result)) {
@@ -517,10 +529,13 @@ if ($result) {
 
 if ($bUseCSV && $ftmp) {
   echo "<BR><BR><A HREF=\"" . $fileTemp . "\">Download CSV/Text File Here (File Size " . sprintf("%7.2f", (filesize($fileTemp) / 1e6)) . " MB)</A> (you may want to right-click to save locally)<BR><BR>";
+  echo "NB:  In Excel, you may have to make a new worksheet, then select 'Data', then 'Get External Data', then 'Import Text File'.  Select the file you have
+downloaded (i.e. 123431_u15.csv), then select 'Delimited' and then ',' (comma) on the 'Next' screen.
+   ";
 }
 else {
  echo "<BR><BR>
-  <input type=\"submit\" value=\"Delete Checked?\" />
+  <input type=\"submit\" value=\"Delete Checked?\" disabled />
   </form>";
 
   if ($start_at || $last < $count) {
@@ -550,137 +565,123 @@ else {
 
 page_tail();
 
+
 function qcn_ramp_header_csv() {
-   return "TriggerID, HostID, IPAddr, ResultName, TimeTrigger, Delay, TimeSync, SyncOffset, "
-    . "Magnitude, Significance, Latitude, Longitude, NumReset, DT, Sensor, Version, Time File Req, "
-    . "Received File, File Download, USGS ID, Quake Dist (km), Quake Magnitude, Quake Time, "
-    . "Quake Lat, Quake Long, USGS GUID, Quake Desc"
-    . "\n";
+   return "ID, FirstName, LastName, Email, Address1, Address2, City, Region, "
+     . "PostCode, Country, Latitude, Longitude, Phone, Fax, ShareCoord, ShareMap, ShareUPS, "
+     . "CPUType, OpSys, CPUAgeYrs, CPUFloor#, AdminRts, Permission, Firewall, Proxy, Internet, UnintPower, DistribSensor"
+     . "\n";
 }
 
 function qcn_ramp_detail_csv($res)
 {
-    $quakestuff = "";
-    if ($res->qcn_quakeid) {
-          $quakestuff = $res->qcn_quakeid . "," .
-             $res->quake_distance_km . "," .
-             $res->quake_magnitude . "," . 
-             time_str_csv($res->quake_time) . "," .
-             $res->quake_lat . "," .
-             $res->quake_lon . "," .
-             $res->guid . "," .
-             $res->description; 
-    }
-    else {
-          $quakestuff = ",,,,,,,";
-    }
-
-    return $res->triggerid . "," . $res->hostid . "," . $res->ipaddr . "," .
-       $res->result_name . "," . time_str_csv($res->trigger_time) . "," . round($res->delay_time, 2) . "," .
-        time_str_csv($res->trigger_sync) . "," . $res->sync_offset . "," . $res->trigger_mag . "," . $res->significance . "," .
-        round($res->trigger_lat, 8) . "," . round($res->trigger_lon, 8) . "," . ($res->numreset ? $res->numreset : 0) . "," .
-        $res->delta_t . "," . $res->sensor_description . "," . $res->sw_version . "," .
-        time_str_csv($res->trigger_timereq) . "," . ($res->received_file == 100 ? " Yes " : " No " ) . "," .
-        ($res->file_url ? $res->file_url : "N/A") . "," .
-        $quakestuff .
+    return 
+       $res->id . "," . 
+       "\"$res->fname\"" . "," . 
+       "\"$res->lname\"" . "," .
+       "\"$res->email_addr\"" . "," .
+       "\"$res->addr1\"" . "," .
+       "\"$res->addr2\"" . "," .
+       "\"$res->city\"" . "," .
+       "\"$res->region\"" . "," .
+       "\"$res->postcode\"" . "," .
+       "\"$res->country\"" . "," .
+       "$res->latitude" . "," .
+       "$res->longitude" . "," .
+       "\"$res->phone\"" . "," .
+       "\"$res->fax\"" . "," .
+       ($res->bshare_coord ? "\"Y\"" : "\"N\"") . "," .
+       ($res->bshare_map ? "\"Y\"" : "\"N\"") . "," .
+       ($res->bshare_ups ? "\"Y\"" : "\"N\"") . "," .
+       "\"$res->cpu_type\"" . "," .
+       "\"$res->cpu_os\"" . "," .
+       "$res->cpu_age" . "," .
+       "$res->cpu_floor" . "," .
+       ($res->cpu_admin ? "\"Y\"" : "\"N\"") . "," .
+       ($res->cpu_permission ? "\"Y\"" : "\"N\"") . "," .
+       ($res->cpu_firewall ? "\"Y\"" : "\"N\"") . "," .
+       ($res->cpu_proxy ? "\"Y\"" : "\"N\"") . "," .
+       ($res->cpu_internet ? "\"Y\"" : "\"N\"") . "," .
+       ($res->cpu_unint_power ? "\"Y\"" : "\"N\"") . "," .
+       ($res->sensor_distribute ? "\"Y\"" : "\"N\"") . "," .
         "\n";
 
+       //"\"$res->comments\"" . 
 }
 
 function qcn_ramp_header() {
-    echo "
-        <tr>
-        <th>Delete?</th>
-        <th>ID</th>
-        <th>HostID</th>
-        <th>IP Addr</th>
-        <th>Result</th>
-        <th>TimeTrig</th>
-        <th>Delay(s)</th>
-        <th>TimeSync</th>
-        <th>SyncOffset(s)</th>
-        <th>Magnitude</th>
-        <th>Significance</th>
-        <th>Latitude</th>
-        <th>Longitude</th>
-        <th>NumReset</th>
-        <th>DT</th>
-        <th>Sensor</th>
-        <th>Version</th>
-        <th>Time File Req</th>
-        <th>Received File</th>
-        <th>File Download</th>
-        <th>USGS ID</th>
-        <th>Quake Dist (km)</th>
-        <th>Quake Magnitude</th>
-        <th>Quake Time (UTC)</th>
-        <th>Quake Latitude</th>
-        <th>Quake Longitude</th>
-        <th>Quake Description</th>
-        <th>USGS GUID</th>
-        </tr>
-    ";
+   echo "
+       <tr>
+       <th>Delete?</th>
+       <th>FirstName</th>
+       <th>LastName</th>
+       <th>Email</th>
+       <th>Address1</th>
+       <th>Address2</th>
+       <th>City</th>
+       <th>Region</th>
+       <th>PostCode</th>
+       <th>Country</th>
+       <th>Latitude</th>
+       <th>Longitude</th>
+       <th>Phone</th>
+       <th>Fax</th>
+       <th>ShareCoord</th>
+       <th>ShareMap</th>
+       <th>ShareUPS</th>
+       <th>CPUType</th>
+       <th>OpSys</th>
+       <th>CPUAge</th>
+       <th>CPUFloor</th>
+       <th>AdminRts</th>
+       <th>Permission</th>
+       <th>Firewall</th>
+       <th>Proxy</th>
+       <th>Internet</th>
+       <th>UnintPower</th>
+       <th>DistribSensor</th>
+       <th>Comments</th>
+       </tr>
+     ";
 }
 
-
+/*
+select id, fname, lname, email_addr, addr1, addr2, city, region, postcode, country, latitude, longitude, phone, fax bshare_coord, bshare_map, bshare_ups, cpu_type, cpu_os, cpu_age, cpu_floor, cpu_admin, cpu_permission, cpu_firewall, cpu_proxy, cpu_internet, cpu_unint_power, sensor_distribute, comments from qcn_ramp_participant WHE
+*/
 function qcn_ramp_detail($res) 
 {
-    $sensor_type = $res->sensor_description;
     echo "
-        <tr>
-        <td><input type=\"checkbox\" name=\"cb_reqfile[]\" id=\"cb_reqfile[]\" value=\"$res->triggerid\"" . 
-       ($res->received_file == 100 || $res->trigger_timereq>0 ? " disabled " : " " ) . 
-       "></td>
-        <td>$res->triggerid</td>
-        <td><a href=\"show_host_detail.php?hostid=$res->hostid\">" . host_name_by_id($res->hostid) . "</a></td>
-        <td>$res->ipaddr</td>
-        <td>$res->result_name</td>
-        <td>" . time_str($res->trigger_time) . "</td>
-        <td>" . round($res->delay_time, 2) . "</td>
-        <td>" . time_str($res->trigger_sync) . "</td>
-        <td>$res->sync_offset</td>
-        <td>$res->trigger_mag</td>
-        <td>$res->significance</td>
-        <td>" . round($res->trigger_lat,4) . "</td>
-        <td>" . round($res->trigger_lon,4) . "</td>
-        <td>" . ($res->numreset ? $res->numreset : 0) . "</td>
-        <td>$res->delta_t</td>
-        <td>$sensor_type</td>
-        <td>$res->sw_version</td>";
-        
-        echo "
-        <td>" . time_str($res->trigger_timereq) . "</td>
-        <td>" . ($res->received_file == 100 ? " Yes " : " No " ) . "</td>";
-
-        if ($res->file_url) {
-          echo "<td><a href=\"" . $res->file_url . "\">Download</a></td>";
-        }
-        else {
-          echo "<td>N/A</td>";
-        }
-
-        if ($res->qcn_quakeid) {
-           echo "<td>$res->qcn_quakeid</td>";
-           echo "<td>$res->quake_distance_km</td>";
-           echo "<td>$res->quake_magnitude</td>";
-           echo "<td>" . time_str($res->quake_time) . "</td>";
-           echo "<td>$res->quake_lat</td>";
-           echo "<td>$res->quake_lon</td>";
-           echo "<td>$res->description</td>";
-           echo "<td>$res->guid</td>";
-        }
-        else {
-           echo "<td>N/A</td>";
-           echo "<td>&nbsp</td>";
-           echo "<td>&nbsp</td>";
-           echo "<td>&nbsp</td>";
-           echo "<td>&nbsp</td>";
-           echo "<td>&nbsp</td>";
-           echo "<td>&nbsp</td>";
-           echo "<td>&nbsp</td>";
-        }
-
-    echo "</tr>
+       <tr>
+       <td><input type=\"checkbox\" name=\"cb_delete[]\" id=\"cb_delete[]\" value=\"$res->id\" disabled>" . "</td>
+       <td>$res->fname</td> 
+       <td>$res->lname</td>
+       <td>$res->email_addr</td>
+       <td>$res->addr1</td>
+       <td>$res->addr2</td>
+       <td>$res->city</td>
+       <td>$res->region </td>
+       <td>$res->postcode</td>
+       <td>$res->country</td>
+       <td>$res->latitude</td>
+       <td>$res->longitude</td>
+       <td>$res->phone</td>
+       <td>$res->fax</td>
+       <td>$res->bshare_coord</td>
+       <td>$res->bshare_map</td>
+       <td>$res->bshare_ups</td>
+       <td>$res->cpu_type</td>
+       <td>$res->cpu_os</td>
+       <td>$res->cpu_age</td>
+       <td>$res->cpu_floor</td>
+       <td>$res->cpu_admin</td>
+       <td>$res->cpu_permission</td>
+       <td>$res->cpu_firewall</td>
+       <td>$res->cpu_proxy</td>
+       <td>$res->cpu_internet</td>
+       <td>$res->cpu_unint_power</td>
+       <td>$res->sensor_distribute</td>
+       <td>$res->comments</td>
+       </tr>
     ";
 }
 

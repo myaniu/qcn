@@ -36,6 +36,7 @@
        qcnalpha
     </db_name>
     <db_passwd>
+       
     </db_passwd>
     <trigmem_db_user>
        trigmem
@@ -82,7 +83,7 @@
       1
     </ignore_delay_bound>
     <max_wus_to_send>
-      2 
+      1
     </max_wus_to_send>
   </config>
   <tasks>

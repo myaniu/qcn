@@ -9,8 +9,9 @@ page_top();
  echo "
       <h1>Rapid Aftershock Mobilization Program (RAMP) </h1>
 
-<a href=\"http://qcn.stanford.edu/sensor/ramp_signup.php\"><h2><strong>QCN RAMP Signup Form</strong></h2></a>.
-
+<p><a href=\"http://qcn.stanford.edu/continual/maptrig.php?cx=-43.5&cy=172.6&timeint=W&zoom=11\"><img src=\"http://qcn.stanford.edu/images/QCN-RAMP.jpg\" align=\"right\" height=250 width=250></a>
+<a href=\"http://qcn.stanford.edu/sensor/ramp_signup.php\"><h2><strong>QCN RAMP Signup Form (New Zealand Only)</strong></h2>
+<dd>volunteer to host a QCN sensor now.</a></dd>
 <h2>Mission Statement:</h2>
 <p align=\"justify\">The Quake-Catcher Network's <strong> Rapid Aftershock Mobilization Program</strong>
 (RAMP) aims to rapidly deploy seismic sensors to any
@@ -61,8 +62,7 @@ In a sequence of earthquakes, the earthquake with the largest magnitude is calle
 </ul>
 
 <p><strong>Q: Is my computer in a useful location?</strong>
-<ul><p align=\"justify\">A: If you are in an earthquake-prone region then you are probably in a useful location!
-</p>
+<ul><p align=\"justify\">A: If you are in an earthquake-prone region then you are probably in a useful location!</p></ul>
 <h2>Disclaimer:</h2>
 <p align=\"justify\">The QCN RAMP program is completely voluntary. QCN takes no responsibility for the actions of RAMP volunteers. QCN encourages all RAMP volunteers to consider safety first. In no way should RAMP volunteers endanger themselves while participating in QCN's RAMP. 
 

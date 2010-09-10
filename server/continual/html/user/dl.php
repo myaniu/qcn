@@ -329,7 +329,7 @@ echo "<select name=\"rb_sort\" id=\"rb_sort\">
    echo "</select>";
 
 echo "<BR><BR>
-  Max Triggers Per Page:  <input id=\"nresults\" name=\"nresults\" value=\"$nresults\">
+  Max Triggers Per Page:  <input id=\"nresults\" name=\"nresults\" value=\"$nresults\"> (Breaks over 1000)
 <BR>";
 
 // end the form

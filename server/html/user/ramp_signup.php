@@ -76,14 +76,14 @@ case "Delete":
           mysql_free_result($result);
           $mylat = $rowCC["latitude"];
           $mylng = $rowCC["longitude"];
-          $zoomout = 1;
+          $zoomout = 4;
        }
     }
   }
-  if (!$mylat || !$mylng){ // default to Turkey?
-       $mylat = 39;
-       $mylng = 35;
-       $zoomout = 1;
+  if (!$mylat || !$mylng){ // default to New Zealand//Turkey?
+       $mylat = -43.5;//39;
+       $mylng = 172.6;//35;
+       $zoomout = 4;
   }
 
 // note this has google stuff  
@@ -327,7 +327,7 @@ n] => on [db_cpu_permission] => on [db_cpu_firewall] => on [db_cpu_internet] => 
 
     $mylat = $row["latitude"];
     $mylng = $row["longitude"];
-    $zoomout = 0;
+    $zoomout = 1;
 
     $bInsert = true; // insert if no db_id posted (i.e. record exists for this userid
     $sqlStart = "INSERT INTO qcn_ramp_participant SET ";
