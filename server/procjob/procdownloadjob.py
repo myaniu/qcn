@@ -103,12 +103,28 @@ def SetRunType():
 def procDownloadRequest(dbconn, outfilename, url, jobid, userid, trigidlist):
  tmpdir = tempfile.mkdtemp()
  myCursor = dbconn.cursor()
- query = "SELECT t.id,t.hostid,t.latitude,t.longitude,t.levelvalue,t.levelid,t.file, " +\
+ # need to join with archive table if qcnalpha/sensor project
+ if DBNAME == "qcnalpha":
+   query = "SELECT t.id,t.hostid,t.latitude,t.longitude,t.levelvalue,t.levelid,t.file, " +\
+            "t.qcn_quakeid, q.time_utc quake_time, q.depth_km quake_depth_km, " +\
+            "q.latitude quake_lat, q.longitude quake_lon, q.magnitude quake_mag " +\
+              "FROM " + DBNAME + ".qcn_trigger t " +\
+              "LEFT OUTER JOIN qcnalpha.qcn_quake q ON q.id = t.qcn_quakeid " +\
+              "WHERE t.received_file=100 AND t.id IN " + trigidlist + " UNION " +\
+        "SELECT t.id,t.hostid,t.latitude,t.longitude,t.levelvalue,t.levelid,t.file, " +\
+            "t.qcn_quakeid, q.time_utc quake_time, q.depth_km quake_depth_km, " +\
+            "q.latitude quake_lat, q.longitude quake_lon, q.magnitude quake_mag " +\
+              "FROM qcnarchive.qcn_trigger t " +\
+              "LEFT OUTER JOIN qcnalpha.qcn_quake q ON q.id = t.qcn_quakeid " +\
+              "WHERE t.received_file=100 AND t.id IN " + trigidlist
+ else:
+   query = "SELECT t.id,t.hostid,t.latitude,t.longitude,t.levelvalue,t.levelid,t.file, " +\
             "t.qcn_quakeid, q.time_utc quake_time, q.depth_km quake_depth_km, " +\
             "q.latitude quake_lat, q.longitude quake_lon, q.magnitude quake_mag " +\
               "FROM " + DBNAME + ".qcn_trigger t " +\
               "LEFT OUTER JOIN qcnalpha.qcn_quake q ON q.id = t.qcn_quakeid " +\
               "WHERE t.received_file=100 AND t.id IN " + trigidlist
+
  myCursor.execute(query)
 
  zipoutpath = os.path.join(DOWNLOAD_WEB_DIR, outfilename)
