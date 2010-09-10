@@ -1,0 +1,3 @@
+0,10,20,30,40,50 * * * * /usr/local/bin/python /home/boinc/procupload.py 1>>/home/boinc/procupload.log 2>>/home/boinc/procupload.err
+55 * * * * /usr/local/bin/python /home/boinc/procdownloadjob.py C 1>>/home/boinc/procdownloadjob.log 2>>/home/boinc/procdownloadjob.err
+25 * * * * /usr/local/bin/python /home/boinc/procdownloadjob.py S 1>>/home/boinc/procdownloadjob.log 2>>/home/boinc/procdownloadjob.err

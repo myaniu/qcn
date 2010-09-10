@@ -27,6 +27,9 @@ global DBPASSWD
 global SAC_CMD, SACSWAP_CMD, GRD_CMD
 global SMTPS_HOST, SMTPS_PORT, SMTPS_LOCAL_HOSTNAME, SMTPS_KEYFILE, SMTPS_CERTFILE, SMTPS_TIMEOUT
 
+os.environ["SACAUX"] = "/usr/local/sac/aux"
+os.environ["HOME"] = "/home/boinc"
+
 DBHOST = "db-private"
 DBUSER = "qcn"
 DBPASSWD = ""
