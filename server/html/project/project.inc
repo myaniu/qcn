@@ -512,4 +512,19 @@ mysql> select * from qcn_level;
    end_table();
 }
 
+function qcn_admin_user_auth($user, $exit_on_nonauth = false)
+{
+// authenticate admin-level user
+$auth = false;
+if ($user) {
+  if (!$user->prefs) BoincForumPrefs::lookup($user);
+  if (substr($user->prefs->special_user, 3, 1) == "1") $auth = true;
+}
+if ($exit_on_nonauth && !$auth) {
+   echo "You are not authorized to use this page.  Please contact a QCN staff member.";
+   exit();
+}
+return $auth;
+}
+
 ?>

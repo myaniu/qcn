@@ -8,11 +8,8 @@ db_init();
 set_time_limit(600);
 
 $user = get_logged_in_user(true);
-// user->donated means they can do download stuff (donated is a SETI@home field reused here)
-if (!$user->id || !$user->donated) {
-   echo "You are not authorized to use this page.  Please contact a QCN staff member.";
-   exit();
-}
+// authenticate admin-level user
+qcn_admin_user_auth($user, true);
 
 $query = "select id, fname, lname, email_addr, addr1, addr2, city, region, postcode, country, latitude, longitude, phone, fax, bshare_coord, bshare_map, bshare_ups, cpu_type, cpu_os, cpu_age, cpu_floor, cpu_admin, cpu_permission, cpu_firewall, cpu_proxy, cpu_internet, cpu_unint_power, sensor_distribute, comments from qcn_ramp_participant WHERE active=1";
 $order = "order by country, lname, fname";

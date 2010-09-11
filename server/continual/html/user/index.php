@@ -73,8 +73,9 @@ function show_nav() {
         <li><a href=language_select.php>Languages</a>
         </ul>";
 
-if ($user->donated) {
-  echo "
+  // CMC changed to forum prefs 4th bit
+  if (qcn_admin_user_auth($user)) {  // defined in project/project.inc
+     echo "
         <h2>".tra("Extra Links")."</h2>
         <ul>
         <li><a href=\"trig.php\">".tra("Search Triggers")."</a>

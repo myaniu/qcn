@@ -8,11 +8,9 @@ db_init();
 set_time_limit(600);
 
 $user = get_logged_in_user(true);
-// user->donated means they can do download stuff (donated is a SETI@home field reused here)
-if (!$user->id || !$user->donated) {
-   echo "You are not authorized to use this page.  Please contact a QCN staff member.";
-   exit();
-}
+
+// authenticate admin-level user
+qcn_admin_user_auth($user, true);
 
 $queryNew = "select q.id as quakeid, q.time_utc as quake_time, q.magnitude as quake_magnitude, 
 q.depth_km as quake_depth, q.latitude as quake_lat, 

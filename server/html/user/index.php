@@ -62,8 +62,9 @@ function show_nav() {
         <li><a href=\"stats.php\">Statistics</a>
         </ul>";
 
-if ($user->donated) {
-  echo "
+// CMC changed to forum prefs 4th bit
+  if (qcn_admin_user_auth($user)) {  // defined in project/project.inc
+       echo "
         <h2>".tra("Extra Links")."</h2>
         <ul>
         <li><a href=\"trig.php\">".tra("Search Triggers")."</a>
@@ -81,8 +82,7 @@ if ($user->donated) {
 <BR>";
         }        else {
               echo "        <li>No Replication Sync File on Kew - Better Check!";
-        }
-        //}
+    }
 
   echo "</ul>";
 }

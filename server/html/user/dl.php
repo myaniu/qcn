@@ -42,12 +42,8 @@ db_init();
 set_time_limit(600);
 
 $user = get_logged_in_user(true);
-
-// user->donated means they can do download stuff (donated is a SETI@home field reused here)
-if (!$user->id || !$user->donated) {
-   echo "You are not authorized to use this page.  Please contact a QCN staff member.";
-   exit();
-}
+// authenticate admin-level user
+qcn_admin_user_auth($user, true);
 
 /* sample query string (html query string)
 

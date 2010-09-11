@@ -6,11 +6,7 @@ require_once("../inc/db_ops.inc");
 db_init();
 
 $user = get_logged_in_user(true);
-// user->donated means they can do download stuff (donated is a SETI@home field reused here)
-if (!$user->id || !$user->donated) {
-   echo "You are not authorized to use this page.  Please contact a QCN staff member.";
-   exit();
-}
+qcn_admin_user_auth($user, true);
 
 $DB = "continual_download";
 $URL_UPL_BASE = "http://qcn-upl.stanford.edu/trigger/continual/job/u";
