@@ -36,7 +36,7 @@ DBPASSWD = ""
 
 SAC_CMD = "/usr/local/sac/bin/sac"
 SACSWAP_CMD = "/usr/local/sac/bin/sacswap"
-GRD_CMD = "/data/cees2/QCN/GMT/bin/grd2point /data/cees2/QCN/GMT/share/topo/topo30.grd -R"
+GRD_CMD = "/data/cees2/QCN/GMT/bin/grd2point /home/boinc/topo30.grd -R"
 
 SMTPS_HOST = "smtp.stanford.edu"
 SMTPS_PORT = 465
