@@ -45,7 +45,7 @@ def delFilesPath(path):
   for f in os.listdir(path):
     fname = os.path.join(path, f)
     if os.stat(fname).st_mtime < now - 30 * 86400:
-      if os.path.isfile(fname) and f.endswith(".zip") > 0:
+      if os.path.isfile(fname) and f.endswith(".zip"):
         os.remove(fname)
 
    
