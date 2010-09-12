@@ -13,9 +13,8 @@
 # upload server to the database server
 
 # CMC note -- need to install 3rd party MySQLdb libraries for python
-import traceback, sys, os, tempfile, string, MySQLdb, shutil, zipfile
+import traceback, sys, os, time, tempfile, string, MySQLdb, shutil, zipfile
 from datetime import datetime
-from time import strptime, mktime
 
 # trigger file download URL base
 URL_DOWNLOAD_BASE = "http://qcn-upl.stanford.edu/trigger/"
@@ -38,13 +37,13 @@ DBHOST = "db-private"
 DBUSER = "qcn"
 DBPASSWD = ""
 
-# delete old job files > 7 days old
+# delete old invalid zip files > 30 days old, they'll never get uploaded or fixed
 def delFilesPath(path):
   now = time.time()
   for f in os.listdir(path):
     fname = os.path.join(path, f)
     if os.stat(fname).st_mtime < now - 30 * 86400:
-      if os.path.isfile(fname):
+      if os.path.isfile(fname) and f.find(".zip") > 0:
         os.remove(fname)
 
    
@@ -250,6 +249,8 @@ def main():
       # first make sure all the necessary paths are in place
       if (checkPaths() != 0):
          sys.exit(2)
+
+      delFilesPath(UPLOAD_BOINC_DIR)
          
       dbconn = MySQLdb.connect (host = DBHOST,
                            user = DBUSER,

@@ -1,3 +1,4 @@
-0,20,40 * * * * /usr/local/bin/python /home/boinc/procupload.py 1>>/home/boinc/procupload.log 2>>/home/boinc/procupload.err
-10 * * * * /usr/local/bin/python /home/boinc/procdownloadjob.py C 1>>/home/boinc/procdownloadjob.log 2>>/home/boinc/procdownloadjob.err
-30 * * * * /usr/local/bin/python /home/boinc/procdownloadjob.py S 1>>/home/boinc/procdownloadjob.log 2>>/home/boinc/procdownloadjob.err
+# note don't put it on an even 10 minute boundary as files are coming in from continual!
+15,35,55 * * * * /usr/local/bin/python /home/boinc/procupload.py 1>>/home/boinc/procupload.log 2>>/home/boinc/procupload.err
+24 * * * * /usr/local/bin/python /home/boinc/procdownloadjob.py C 1>>/home/boinc/procdownloadjob.log 2>>/home/boinc/procdownloadjob.err
+44 * * * * /usr/local/bin/python /home/boinc/procdownloadjob.py S 1>>/home/boinc/procdownloadjob.log 2>>/home/boinc/procdownloadjob.err
