@@ -32,7 +32,7 @@ os.environ["HOME"] = "/home/boinc"
 
 DBHOST = "db-private"
 DBUSER = "qcn"
-DBPASSWD = "PASSWD"
+DBPASSWD = ""
 
 SAC_CMD = "/usr/local/sac/bin/sac"
 SACSWAP_CMD = "/usr/local/sac/bin/sacswap"

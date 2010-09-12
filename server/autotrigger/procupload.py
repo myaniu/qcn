@@ -38,6 +38,15 @@ DBHOST = "db-private"
 DBUSER = "qcn"
 DBPASSWD = ""
 
+# delete old job files > 7 days old
+def delFilesPath(path):
+  now = time.time()
+  for f in os.listdir(path):
+    fname = os.path.join(path, f)
+    if os.stat(fname).st_mtime < now - 30 * 86400:
+      if os.path.isfile(fname):
+        os.remove(fname)
+
    
 def removeTempDir(tmpdir):
    # first see if this tmpdir exists!
@@ -103,7 +112,8 @@ def processSingleZipFile(dbconn, myzipfile):
 
       myzip.close()
       #shutil.copy2(fullzippath, UPLOAD_BACKUP_DIR)
-      os.remove(fullzippath)
+      if os.path.isfile(fullzippath):
+        os.remove(fullzippath)
       print "Successfully processed " + fullzippath
       
    except zipfile.error:
@@ -111,12 +121,14 @@ def processSingleZipFile(dbconn, myzipfile):
       # move out invalid zip file
       #shutil.copy2(fullzippath, UPLOAD_BACKUP_DIR)
       dbconn.rollback()
-      os.remove(fullzippath)
+      if os.path.isfile(fullzippath):
+        os.remove(fullzippath)
       traceback.print_exc()
    except:
       print "Error 2 in " + fullzippath
       dbconn.rollback()
-      os.remove(fullzippath)
+      if os.path.isfile(fullzippath):
+        os.remove(fullzippath)
       traceback.print_exc()
    
 def processUploadZIPFiles(dbconn):
