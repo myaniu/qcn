@@ -20,11 +20,13 @@ from datetime import datetime
 URL_DOWNLOAD_BASE = "http://qcn-upl.stanford.edu/trigger/"
 
 # CMC note -- make sure these paths exist, or they will be created!
+TMP_DIR = "/tmp"
 UPLOAD_WEB_DIR = "/var/www/trigger/"
 UPLOAD_USB_WEB_DIR = "/var/www/trigger/usb/"
 UPLOAD_CONTINUAL_WEB_DIR = "/var/www/trigger/continual/"
 UPLOAD_BOINC_DIR = "/var/www/boinc/qcn/upload/"
-UPLOAD_BACKUP_DIR = "/home/boinc/upload_backup/"
+#not saving original file, moves to /cees2
+#UPLOAD_BACKUP_DIR = "/home/boinc/upload_backup/"
 UNZIP_CMD = "/usr/bin/unzip -o -d " + UPLOAD_WEB_DIR + " " 
 
 #UPLOAD_WEB_DIR = "c:\\temp\\web\\"
@@ -43,7 +45,7 @@ def delFilesPath(path):
   for f in os.listdir(path):
     fname = os.path.join(path, f)
     if os.stat(fname).st_mtime < now - 30 * 86400:
-      if os.path.isfile(fname) and f.find(".zip") > 0:
+      if os.path.isfile(fname) and f.endswith(".zip") > 0:
         os.remove(fname)
 
    
@@ -77,31 +79,30 @@ def processSingleZipFile(dbconn, myzipfile):
 
       # get the files within the zip
       infiles = myzip.namelist()
-         
+
       for name in infiles:
+        # process in /tmp to save time as the trigger dirs are a network drive i.e. just copy at end
+        tmpfile = os.path.join(TMP_DIR, name)
+        outfile = open(tmpfile, 'wb')
+        outfile.write(myzip.read(name))
+        outfile.close()
+
         if name.endswith("_usb.zip"):
             # this is an upload from a usb test zip file
-            outfile = open(os.path.join(UPLOAD_USB_WEB_DIR, name), 'wb')
-            outfile.write(myzip.read(name))
-            outfile.close()
+            shutil.move(tmpfile, UPLOAD_USB_WEB_DIR)
         elif name.startswith("continual_"):
-            # this is an upload from a usb test zip file
-            outfile = open(os.path.join(UPLOAD_CONTINUAL_WEB_DIR, name), 'wb')
-            outfile.write(myzip.read(name))
-            outfile.close()
+            # this is an upload from a continual job
+            shutil.move(tmpfile, UPLOAD_CONTINUAL_WEB_DIR)
 
             # now update the qcn_trigger table!
             strSQL = "UPDATE continual.qcn_trigger SET received_file=100, " +\
                           "file_url='" + URL_DOWNLOAD_BASE + "continual/" + name + "' " +\
                           "WHERE file='" + name + "'"
-            #print strSQL
             myCursor.execute(strSQL)
             dbconn.commit()
         else: 
             # this is a regular trigger
-            outfile = open(os.path.join(UPLOAD_WEB_DIR, name), 'wb')
-            outfile.write(myzip.read(name))
-            outfile.close()
+            shutil.move(tmpfile, UPLOAD_WEB_DIR)
 
             # now update the qcn_trigger table!
             myCursor.execute("UPDATE qcnalpha.qcn_trigger SET received_file=100, " +\
@@ -110,7 +111,6 @@ def processSingleZipFile(dbconn, myzipfile):
             dbconn.commit()
 
       myzip.close()
-      #shutil.copy2(fullzippath, UPLOAD_BACKUP_DIR)
       if os.path.isfile(fullzippath):
         os.remove(fullzippath)
       print "Successfully processed " + fullzippath
@@ -235,11 +235,11 @@ def checkPaths():
       print UPLOAD_BOINC_DIR + " directory for UPLOAD_BOINC_DIR does not exist or not writable!"
       return 1
       
-   if not os.access(UPLOAD_BACKUP_DIR, os.F_OK):
-      print UPLOAD_BACKUP_DIR + " directory for UPLOAD_BACKUP_DIR does not exist, creating!"
-      if os.mkdir(UPLOAD_BACKUP_DIR):
-         print "Could not create UPLOAD_BACKUP_DIR=" + UPLOAD_BACKUP_DIR
-         return 1
+   #if not os.access(UPLOAD_BACKUP_DIR, os.F_OK):
+   #   print UPLOAD_BACKUP_DIR + " directory for UPLOAD_BACKUP_DIR does not exist, creating!"
+   #   if os.mkdir(UPLOAD_BACKUP_DIR):
+   #      print "Could not create UPLOAD_BACKUP_DIR=" + UPLOAD_BACKUP_DIR
+   #      return 1
 
    return 0
       
