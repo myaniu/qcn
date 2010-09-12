@@ -32,11 +32,11 @@ os.environ["HOME"] = "/home/boinc"
 
 DBHOST = "db-private"
 DBUSER = "qcn"
-DBPASSWD = ""
+DBPASSWD = "PASSWD"
 
 SAC_CMD = "/usr/local/sac/bin/sac"
 SACSWAP_CMD = "/usr/local/sac/bin/sacswap"
-GRD_CMD = "/data/cees2/QCN/GMT/bin/grd2point /home/boinc/topo30.grd -R"
+GRD_CMD = "/usr/local/gmt/bin/grd2point /usr/local/gmt/share/topo/topo30.grd -R"
 
 SMTPS_HOST = "smtp.stanford.edu"
 SMTPS_PORT = 465
@@ -214,14 +214,14 @@ def getSACMetadata(zipinname, latTrig, lonTrig, lvlTrig, lvlType, idQuake, timeQ
 
 
 # elevation data - usage of GRD_CMD -Rlon_min/lon_max/lat_min/lat_max
-#grd2point /data/cees2/QCN/GMT/share/topo/topo30.grd -R$lng/$lng2/$lat/$lat2
+#grd2point /usr/local/gmt/share/topo/topo30.grd -R$lng/$lng2/$lat/$lat2
 #> temp.xyz
 #output
-#/data/cees2/QCN/GMT/bin/grd2point /data/cees2/QCN/GMT/share/topo/topo30.grd -R-75.01/-75.00/40.00/40.01
-#grd2point: GMT WARNING: (w - x_min) must equal (NX + eps) * x_inc), where NX is an integer and |eps| <= 0.0001.
-#grd2point: GMT WARNING: w reset to -75.0083
-#grd2point: GMT WARNING: (n - y_min) must equal (NY + eps) * y_inc), where NY is an integer and |eps| <= 0.0001.
-#grd2point: GMT WARNING: n reset to 40.0083
+#/usr/local/gmt/bin/grd2point /usr/local/gmt/share/topo/topo30.grd -R-75.01/-75.00/40.00/40.01
+#grd2point: gmt WARNING: (w - x_min) must equal (NX + eps) * x_inc), where NX is an integer and |eps| <= 0.0001.
+#grd2point: gmt WARNING: w reset to -75.0083
+#grd2point: gmt WARNING: (n - y_min) must equal (NY + eps) * y_inc), where NY is an integer and |eps| <= 0.0001.
+#grd2point: gmt WARNING: n reset to 40.0083
 #-75.0041666667	40.0041666667	19
 
 #outputs closest lon/lat point and elevation in meters
