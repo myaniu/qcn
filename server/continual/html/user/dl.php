@@ -58,7 +58,11 @@ $q = new SqlQueryString();
 $nresults = get_int("nresults", true);
 $last_pos = get_int("last_pos", true);
 
-$bUseContinual = get_int("cbUseContinual", true);
+$strUseContinual = get_str("rbUseContinual", true);
+if ($strUseContinual != "Both" && $strUseContinual != "Continual" && $strUseContinual != "Real") {
+   $strUseContinual = "Continual";   //default to show continual triggers
+}
+
 $bUseArchive = get_int("cbUseArchive", true);
 $bUseFile  = get_int("cbUseFile", true);
 //$bUseQuake = get_int("cbUseQuake", true);
@@ -143,7 +147,7 @@ echo "<html><head>
 // if no constraints then at least use time within past day
 if ((!$bUseHost || !$strHostID || !$strHostName) && !$bUseFile && !$bUseLat && !$bUseTime && !$bUseSensor) {
    $bUseTime= 1;
-   $bUseContinual = 1;
+   $strUseContinual = "Continual";
    $dateStart = "";
    $dateEnd = "";
 }
@@ -274,7 +278,13 @@ echo "
 </select> </tr></table> </UL>
 ";
 
-echo "<BR><input type=\"checkbox\" id=\"cbUseContinual\" name=\"cbUseContinual\" value=\"1\" " . ($bUseContinual ? "checked" : "") . "> Show Both Continual and Real Triggers <BR><BR> ";
+echo "<BR><BR>Show Triggers of Type:&nbsp&nbsp<BR><BR>";
+echo "<input type=\"radio\" id=\"rbUseContinual\" name=\"rbUseContinual\" value=\"Both\" " 
+   . ($strUseContinual == "Both"? "checked" : "") . ">Both Continual and Real<BR> ";
+echo "<input type=\"radio\" id=\"rbUseContinual\" name=\"rbUseContinual\" value=\"Continual\" " 
+   . ($strUseContinual == "Continual"? "checked" : "") . ">Continual Only<BR> ";
+echo "<input type=\"radio\" id=\"rbUseContinual\" name=\"rbUseContinual\" value=\"Real\" " 
+   . ($strUseContinual == "Real"? "checked" : "") . ">Real Only<BR><BR> ";
 
 echo "<BR>Sort Order: ";
 
@@ -333,11 +343,15 @@ echo "<BR><BR>
    <input type=\"submit\" value=\"Submit Constraints\" />
    </form> <H7>";
 
-if ($bUseContinual) {
-  $whereString = "(t.varietyid=0 OR t.varietyid=2) ";
-}
-else {
-  $whereString = "t.varietyid=0 ";
+switch($strUseContinual) {
+  case "Continual":
+     $whereString = "t.varietyid=2 ";
+     break;
+  case "Real":
+     $whereString = "t.varietyid=0 ";
+     break;
+  default:
+     $whereString = "(t.varietyid=0 OR t.varietyid=2) ";
 }
 
 if ($bUseFile) {
