@@ -15,9 +15,9 @@ logic:
   4) request uploads from these triggers as appropriate
 
 Example usage:
-./jfl_trigmon -d 3 -sleep_interval 1 -time_interval 100
+./jfl_trigmon -d 3 -sleep_interval 10 -time_interval 100
 
-(run every second, show all debug (-d 3), triggers in last 100 seconds)
+(run every 10 seconds, show all debug (-d 3), triggers in last 100 seconds)
 
 (c) 2010  Stanford University School of Earth Sciences
 
@@ -46,159 +46,20 @@ void close_db()
 
 void do_trigmon() 
 {
-
-   // first get a vector of potential matchups by region i.e. lat/lnt/count/time
-
-   char strQuery[256];
-   sprintf(strQuery,
-      "SELECT * "
-      "FROM trigmem.qcn_trigger_memory "
-      "WHERE time_trigger > (unix_timestamp() - %d) ",
-         g_iTriggerTimeInterval
-    );
-
-    int retval = trigmem_db.do_query(strQuery);
-    if (retval) { // big error, should probably quit as may have lost database connection
-        log_messages.printf(MSG_CRITICAL,
-            "do_trigmon() error: %s - %s\n", "Query Error", boincerror(retval)
-        );
-        exit(10);
-    }
-
-    MYSQL_ROW row;
-    MYSQL_RES* rp;
-    int numRows = 0;
-
-    rp = mysql_store_result(trigmem_db.mysql);
-    while ((row = mysql_fetch_row(rp))) {
-      // if we have rows from the above query, then we have detected an event
-      // so need to see if this is in our current event array, and add it if it isn't
-
-      numRows++;
-      double dLat = atof(row[0]);
-      double dLng = atof(row[1]);
-      int iCtr = atoi(row[2]);
-      double dTimeMin = atof(row[3]);
-      double dTimeMax = atof(row[4]);
-      log_messages.printf(MSG_DEBUG,
-          "  #%d  %f - (%f, %f) - %d distinct hosts from %f to %f\n", 
-           numRows, g_dTimeCurrent, dLat, dLng, iCtr, dTimeMin, dTimeMax
-      );
-
-      int iQuakeID = getQCNQuakeID(dLat, dLng, iCtr, dTimeMin, dTimeMax);
-      if (iQuakeID) {
-         log_messages.printf(MSG_DEBUG,
-           "do_trigmon() processing QCN Quake # %d - %d hosts\n", iQuakeID, iCtr);
-
-         // get matching triggers and update appropriate qcn_trigger table (qcnalpha and/or continual)
-         char strTrigs[512];
-         sprintf(strTrigs, 
-             "SELECT db_name, triggerid "
-             "FROM trigmem.qcn_trigger_memory "
-             "WHERE ROUND(latitude,0)=ROUND(%f,0) AND ROUND(longitude,0)=ROUND(%f,0) "
-             " AND time_trigger BETWEEN FLOOR(%f) AND CEIL(%f) AND qcn_quakeid=0 ",
-           dLat, dLng, dTimeMin, dTimeMax
-         );
-
-         MYSQL_ROW trow;
-         MYSQL_RES* trp;
-         int tret = trigmem_db.do_query(strTrigs);
-         if (tret) {
-            log_messages.printf(MSG_CRITICAL,
-              "do_trigmon() strTrigs error: %s - %s\n", "Query Error", boincerror(retval)
-            );
-            exit(10);
-         }
-         trp = mysql_store_result(trigmem_db.mysql);
-         while ((trow = mysql_fetch_row(trp))) {
-             // for each db_name & triggerid need to update trigmem table with qcn_quakeid as well as db_name.qcn_trigger
-             char strUpdate[256], strDBName[17];
-             int iTriggerID = atoi(trow[1]);
-             memset(strUpdate, 0x00, 256);
-             memset(strDBName, 0x00, 17);
-             strcpy2(strDBName, trow[0]);
-             if (iTriggerID) {
-               sprintf(strUpdate, "UPDATE trigmem.qcn_trigger_memory SET qcn_quakeid=%d WHERE db_name='%s' AND triggerid=%d",
-                   iQuakeID, strDBName, iTriggerID
-               );
-               tret = trigmem_db.do_query(strUpdate);
-               if (tret) {
-                  log_messages.printf(MSG_CRITICAL,
-                    "do_trigmon() strUpdate error: %s - %s\n", strUpdate, boincerror(retval)
-                  );
-               }
-
-               sprintf(strUpdate, "UPDATE %s.qcn_trigger SET qcn_quakeid=%d WHERE id=%d",
-                   strDBName, iQuakeID, iTriggerID
-               );
-               tret = boinc_db.do_query(strUpdate);
-               if (tret) {
-                  log_messages.printf(MSG_CRITICAL,
-                    "do_trigmon() strUpdate error: %s - %s\n", strUpdate, boincerror(retval)
-                  );
-               }
-             } // iTriggerID     
-         } // while trow
-         mysql_free_result(trp);
-      } // if iQuakeID
-    } // outer while
-    if (!numRows) { 
-       log_messages.printf(MSG_DEBUG, "  No rows found \n");
-    }
-
-    mysql_free_result(rp);
-}
-
-// check this potential event is in our vector of quake events (i.e. we may have
-// already processed triggers from other hosts for this event) -- also make sure
-// this event is reported in the qcn_quake table and save the qcn_quakeid to update the
-// qcn_trigger entries
-int getQCNQuakeID(const double& dLat, 
-    const double& dLng, 
-    const int& iCtr, 
-    const double& dTimeMin, 
-    const double& dTimeMax)
-{
-     int iQCNQuakeID = 0;  // store qcn_quakeid for quick retrieval later
-     DB_QCN_QUAKE dqq;
-     char strWhere[256];
-     sprintf(strWhere,
-        "WHERE ROUND(latitude,0) = ROUND(%f,0) "
-        "  AND ROUND(longitude,0)= ROUND(%f,0) "
-        "  AND time_utc BETWEEN %f AND %f ",
-          dLat, dLng, dTimeMin-10.0, dTimeMax+10.0
+   DB_QCN_TRIGGER_MEMORY qtm;
+   qtm.clear();
+   int iCtr = 0;
+   char strWhere[64];
+   sprintf(strWhere, "WHERE time_trigger > (unix_timestamp()-%d)", g_iTriggerTimeInterval);
+   while (!qtm.enumerate(strWhere))  {
+    // just print a line out of trigger info i.e. all fields in qtm
+     fprintf(stdout, "%d %s %d %d %s %s %f %f %f %f %f %f %f %f %f %d %d %f %d %d %d %d %d\n",
+        ++iCtr, qtm.db_name, qtm.triggerid, qtm.hostid, qtm.ipaddr, qtm.result_name, qtm.time_trigger,
+        qtm.time_received, qtm.time_sync, qtm.sync_offset, qtm.significance, qtm.magnitude, qtm.latitude,
+         qtm.longitude, qtm.levelvalue, qtm.levelid, qtm.alignid, qtm.dt, qtm.numreset, qtm.type_sensor,
+         qtm.varietyid, qtm.qcn_quakeid, qtm.posted
      );
-
-      // search via dqq.lookup(WHERE_CLAUSE)
-     dqq.clear();
-     int iRetVal = dqq.lookup(strWhere);
-     switch(iRetVal) {
-        case ERR_DB_NOT_FOUND:  // insert new qcn_quake record
-           dqq.time_utc = dTimeMin;  // min time of triggers found // (dTimeMin + dTimeMax) / 2.0;  // avg time of trigger?
-           dqq.latitude = dLat;
-           dqq.longitude = dLng;
-           sprintf(dqq.description, "QCN Event %ld - %d Hosts", (long) dTimeMin, iCtr);
-           dqq.processed = 1; // flag that it's already processed
-           sprintf(dqq.guid, "QCN_%ld_%ld_%ld", (long) dTimeMin, (long) dLat, (long) dLng);
-           iRetVal = dqq.insert();
-           if (iRetVal) {
-              log_messages.printf(
-                 SCHED_MSG_LOG::MSG_CRITICAL, "qcn_quake insert failed for (%f,%f) at %f\n",
-                      dLat, dLng, dTimeMin);
-           } else { // trigger got in OK
-              iQCNQuakeID = dqq.db->insert_id();
-           }
-           break;
-        case 0: // found, get the ID
-           iQCNQuakeID = dqq.id;
-           break;
-        default:  // other database error
-           log_messages.printf(
-              SCHED_MSG_LOG::MSG_CRITICAL, "qcn_quake lookup, failed for (%f,%f) at %f\n%s\n\n%s\n\n",
-                 dLat, dLng, dTimeMin, strWhere, boincerror(iRetVal));
-     }
-
-     return iQCNQuakeID; // will either be 0 or a valid qcn_quakeid
+   }
 }
 
 int main(int argc, char** argv) 
