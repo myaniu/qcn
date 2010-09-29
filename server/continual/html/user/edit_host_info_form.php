@@ -231,9 +231,10 @@ if ($bnewuser) {
   echo "\n<tr><td $COLSPAN><font color=red>Note that the first row is set based on a guess based on your current IP address, this is not saved until you confirm by pressing the 'Update Info' button</font></td</tr>\n";
 }
 
-  echo "\n<tr><td $COLSPAN><font color=red><i>" .      "If you have a single location just enter the lat/lng and 'clear' the IP/Network address field " .
+  echo "\n<tr><td $COLSPAN><font color=red><i>" .
+      "<B>If you have a single location (e.g. USB sensor) just enter the lat/lng and 'clear' the IP/Network address field (do not enter an IP address as all triggers will be recorded at this location)</B>" .
       "</i></font></td</tr>\n";
- 
+
 echo "\n<tr><th width=\"5\">Select</th><th>Location Name (optional)</th><th>Latitude</th><th>Longitude</th><th>Level (Height)</th><th>Level Type</th><th>Net (IP) Addr</th><th>Set Net  Addr</th><th>Clear Net Addr</th></tr>\n";
 
 for ($i=0; $i<5; $i++)

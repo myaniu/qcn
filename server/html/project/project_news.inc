@@ -16,6 +16,11 @@
 
 
 $project_news = array(
+   array("September 17, 2010 17:40",
+"CNN has released a <A HREF=\"http://edition.cnn.com/2010/TECH/innovation/09/17/ibm.earthquakes/index.html\">news story</A> about QCN and some of our rapid response efforts in Chile and New Zealand.<BR><BR>",
+ "CNN News Story On QCN and Our 'Rapid Aftershock Mobilization Program'",
+ "http://edition.cnn.com/2010/TECH/innovation/09/17/ibm.earthquakes/index.html"
+  ),
    array("August 18, 2010 10:58",
 "Prof. Cochran will do a presentation on the Quake-Catcher Network at the London Citizen Cyberscience Summit on September 3rd.  If you are in the area you may wish to see this and the other interesting presentations on volunteer computing, 'citizen science', etc.  Tickets and a full programme are <A HREF=\"http://www.citizencyberscience.net/summit/\">available at this link</A><BR><BR>",
  "London Citizen Cyberscience Summit - 2-3 Sept 2010",
