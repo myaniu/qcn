@@ -11,8 +11,8 @@ chmod uog+rx config.guess
 make distclean
 export LIBTOOLIZE=/usr/local/bin/libtoolize
 
-export CXX=g++-4.0
-export CC=gcc-4.0
+export CXX=/Developer/usr/bin/g++-4.0
+export CC=/Developer/usr/bin/gcc-4.0
 export MARCH=ppc
 export MACOSX_DEPLOYMENT_TARGET=10.4
 export SDKROOT="/Developer/SDKs/MacOSX10.4u.sdk"
@@ -26,8 +26,8 @@ make clean
 make
 mv .libs/libjpeg.a lib/libjpeg_ppc.a
 
-export CXX=g++-4.0
-export CC=gcc-4.0
+export CXX=/Developer/usr/bin/g++-4.0
+export CC=/Developer/usr/bin/gcc-4.0
 export MARCH=i386
 export MACOSX_DEPLOYMENT_TARGET=10.4
 export SDKROOT="/Developer/SDKs/MacOSX10.4u.sdk"
@@ -41,8 +41,8 @@ make clean
 make
 mv .libs/libjpeg.a lib/libjpeg_i386.a
 
-export CXX=g++-4.2
-export CC=gcc-4.2
+export CXX=/Developer/usr/bin/g++-4.2
+export CC=/Developer/usr/bin/gcc-4.2
 export MARCH=x86_64
 export MACOSX_DEPLOYMENT_TARGET=10.5
 export SDKROOT="/Developer/SDKs/MacOSX10.5.sdk"
