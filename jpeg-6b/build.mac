@@ -8,8 +8,8 @@ chmod uog+rx configure
 make distclean
 export LIBTOOLIZE=/usr/local/bin/libtoolize
 
-export CXX=g++
-export CC=gcc
+export CXX=g++-4.0
+export CC=gcc-4.0
 export MARCH=ppc
 export MACOSX_DEPLOYMENT_TARGET=10.4
 export SDKROOT="/Developer/SDKs/MacOSX10.4u.sdk"
