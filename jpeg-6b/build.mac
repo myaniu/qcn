@@ -6,6 +6,7 @@ mkdir lib
 rm -rf .libs
 chmod uog+rx configure
 chmod uog+rx ltconfig
+chmod uog+rx config.sub
 make distclean
 export LIBTOOLIZE=/usr/local/bin/libtoolize
 
