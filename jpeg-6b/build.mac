@@ -14,6 +14,7 @@ export LIBTOOLIZE=/usr/local/bin/libtoolize
 export CXX=/Developer/usr/bin/g++-4.0
 export CC=/Developer/usr/bin/gcc-4.0
 export MARCH=ppc
+export TAG="--tag=$MARCH"
 export MACOSX_DEPLOYMENT_TARGET=10.4
 export SDKROOT="/Developer/SDKs/MacOSX10.4u.sdk"
 export LDFLAGS="-isysroot $SDKROOT -Wl,-syslibroot,$SDKROOT -arch $MARCH"
