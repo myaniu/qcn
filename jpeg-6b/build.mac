@@ -3,19 +3,22 @@
 #!/bin/bash
 rm -rf lib
 mkdir lib
+rm -rf .libs
 chmod uog+rx configure
+make distclean
 export LIBTOOLIZE=/usr/local/bin/libtoolize
 
 export CXX=g++
 export CC=gcc
 export MARCH=ppc
-export MACOSX_DEPLOYMENT_TARGET=10.3
-export SDKROOT="/Developer/SDKs/MacOSX10.3.9.sdk"
+export MACOSX_DEPLOYMENT_TARGET=10.4
+export SDKROOT="/Developer/SDKs/MacOSX10.4u.sdk"
 export LDFLAGS="-isysroot $SDKROOT -Wl,-syslibroot,$SDKROOT -arch $MARCH"
 export CPPFLAGS="-O2 -I$SDKROOT/usr/include -I$SDKROOT/usr/local/include -isysroot $SDKROOT -arch $MARCH"
 export CFLAGS="-O2 -I$SDKROOT/usr/include -I$SDKROOT/usr/local/include -isysroot $SDKROOT -arch $MARCH"
 export CXXFLAGS="-O2 -I$SDKROOT/usr/include -I$SDKROOT/usr/local/include -isysroot $SDKROOT -arch $MARCH"
 ./configure --enable-static --disable-shared
+make distclean
 make clean
 make
 mv .libs/libjpeg.a lib/libjpeg_ppc.a
@@ -28,6 +31,7 @@ export CPPFLAGS="-O2 -I$SDKROOT/usr/include -I$SDKROOT/usr/local/include -isysro
 export CFLAGS="-O2 -I$SDKROOT/usr/include -I$SDKROOT/usr/local/include -isysroot $SDKROOT -arch $MARCH"
 export CXXFLAGS="-O2 -I$SDKROOT/usr/include -I$SDKROOT/usr/local/include -isysroot $SDKROOT -arch $MARCH"
 ./configure --enable-static --disable-shared
+make distclean
 make clean
 make
 mv .libs/libjpeg.a lib/libjpeg_i386.a
@@ -40,10 +44,11 @@ export CPPFLAGS="-O2 -I$SDKROOT/usr/include -I$SDKROOT/usr/local/include -isysro
 export CFLAGS="-O2 -I$SDKROOT/usr/include -I$SDKROOT/usr/local/include -isysroot $SDKROOT -arch $MARCH"
 export CXXFLAGS="-O2 -I$SDKROOT/usr/include -I$SDKROOT/usr/local/include -isysroot $SDKROOT -arch $MARCH"
 ./configure --enable-static --disable-shared
+make distclean
 make clean
 make
 mv .libs/libjpeg.a lib/libjpeg_x86_64.a
 lipo -arch ppc lib/libjpeg_ppc.a -arch i386 lib/libjpeg_i386.a -arch x86_64 lib/libjpeg_x86_64.a -create -output libjpeg-universal.a
 #lipo -arch ppc lib/libjpeg_ppc.a -arch i386 lib/libjpeg_i386.a -create -output libjpeg-universal.a
 mv libjpeg-universal.a ../client/mac_build/
-rm -rf lib ; make clean
+rm -rf lib ; make clean ; make distclean
