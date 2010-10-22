@@ -423,6 +423,7 @@ function show_trigger($hostid, $heading, $private=true)
              <th>WU CPU Time</th>
              <th>WU Run Time</th>
              <th>File Name</th>
+             <th>view</th>
          </tr>";
 
    if ($result && mysql_num_rows($result)>0) {  // we found some records
@@ -469,13 +470,16 @@ mysql> select * from qcn_level;
 
          if ($row[17]==1) { // it's a ping record
             $filename = " ping trigger - no file for result " . $row[22];
+            $view = "N/A";
          } 
          else {
            if ($row[20] == 100) { // received_file: show file download link
               $filename = "<A HREF=\"$row[21]\">$row[1]</A>";
+              $view = "<A HREF=\"javascript:void(0)\"onclick=\"window.open('http://qcn.stanford.edu/earthquakes/view/view_data.php?dat=".$row[1]."','linkname','height=500,width=400,scrollbars=no')\">View</a>";
            }
            else {
               $filename = $row[1];
+              $view = "N/A";
            }
          }
 
@@ -505,6 +509,7 @@ mysql> select * from qcn_level;
                    <td>$strTableFont$row[15]$strFontEnd</td>
                    <td>$strTableFont$row[16]$strFontEnd</td>
                    <td>$strTableFont$filename$strFontEnd</td>
+                   <td>$strTableFont$view$strFontEnd</td>
               </font></tr>";
       }
    }

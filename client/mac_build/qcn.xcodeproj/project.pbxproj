@@ -880,7 +880,14 @@
 			isa = PBXProject;
 			buildConfigurationList = E3A499DE0D64E60400E51CDF /* Build configuration list for PBXProject "qcn" */;
 			compatibilityVersion = "Xcode 3.1";
+			developmentRegion = English;
 			hasScannedForEncodings = 0;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+			);
 			mainGroup = E3A499DB0D64E60400E51CDF;
 			productRefGroup = E3A499EF0D64E62A00E51CDF /* Products */;
 			projectDirPath = "";

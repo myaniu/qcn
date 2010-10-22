@@ -634,6 +634,7 @@ function qcn_trigger_header() {
         <th>Version</th>
         <th>Received File</th>
         <th>File Download</th>
+        <th>View</th>
         </tr>
     ";
 }
@@ -667,11 +668,12 @@ function qcn_trigger_detail($res, $bgcolor, $strTableFont, $strFontEnd)
         
         echo "
         <td>$strTableFont" . ($res->received_file == 100 ? " Yes " : " No " ) . "$strFontEnd</td>";
-
         if ($res->file_url) {
           echo "<td>$strTableFont<a href=\"" . $res->file_url . "\">Download</a>$strFontEnd</td>";
+          echo "<td>$strTableFont<a href=\"javascript:void(0)\"onclick=\"window.open('http://qcn.stanford.edu/earthquakes/view/view_data.php?dat=".basename($res->file_url)."','linkname','height=500,width=400,scrollbars=no')\">View</a>$strFontEnd</td>";
         }
         else {
+          echo "<td>$strTableFont" . "N/A$strFontEnd</td>";
           echo "<td>$strTableFont" . "N/A$strFontEnd</td>";
         }
 /*

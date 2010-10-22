@@ -642,6 +642,7 @@ function qcn_trigger_header() {
         <th>Version</th>
         <th>Received File</th>
         <th>File Download</th>
+        <th>View Waveforms</th>
         </tr>
     ";
 }
@@ -678,8 +679,10 @@ function qcn_trigger_detail($res, $bgcolor, $strTableFont, $strFontEnd)
 
         if ($res->file_url) {
           echo "<td>$strTableFont<a href=\"" . $res->file_url . "\">Download</a>$strFontEnd</td>";
+          echo "<td>$strTableFont<a href=\"javascript:void(0)\"onclick=\"window.open('http://qcn.stanford.edu/earthquakes/view/view_data.php?dat=".basename($res->file_url)."','linkname','height=500,width=400,scrollbars=no')\">View</a>$strFontEnd</td>";
         }
         else {
+          echo "<td>$strTableFont" . "N/A$strFontEnd</td>";
           echo "<td>$strTableFont" . "N/A$strFontEnd</td>";
         }
 /*
@@ -705,6 +708,19 @@ function qcn_trigger_detail($res, $bgcolor, $strTableFont, $strFontEnd)
     echo "</font></tr>
     ";
 }
+
+function ShowFileName($filepath) {
+        preg_match('/[^?]*/', $filepath, $matches);
+        $string = $matches[0];
+        #split the string by the literal dot in the filename
+        $pattern = preg_split('/\./', $string, -1, PREG_SPLIT_OFFSET_CAPTURE);
+        #get the last dot position
+        $lastdot = $pattern[count($pattern)-1][1];
+        #now extract the filename using the basename function
+        $filename = basename(substr($string, 0, $lastdot-1));
+        #return the filename part
+        return $filename;
+} 
 
 function query_count($myquery) {
         $count_query = "select count(*) as cnt from ( $myquery ) mydb ";

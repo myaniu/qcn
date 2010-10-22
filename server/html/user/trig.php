@@ -639,7 +639,7 @@ page_tail();
 function qcn_trigger_header_csv() {
    return "TriggerID, HostID, IPAddr, ResultName, TimeTrigger, Delay, TimeSync, SyncOffset, "
     . "Magnitude, Significance, Latitude, Longitude, NumReset, DT, Sensor, Version, Time File Req, "
-    . "Received File, File Download, USGS ID, Quake Dist (km), Quake Magnitude, Quake Time, "
+    . "Received File, File Download, View, USGS ID, Quake Dist (km), Quake Magnitude, Quake Time, "
     . "Quake Lat, Quake Long, USGS GUID, Quake Desc"
     . "\n";
 }
@@ -696,6 +696,7 @@ function qcn_trigger_header() {
         <th>Time File Req</th>
         <th>Received File</th>
         <th>File Download</th>
+        <th>View</th>
         <th>USGS ID</th>
         <th>Quake Dist (km)</th>
         <th>Quake Magnitude</th>
@@ -740,8 +741,10 @@ function qcn_trigger_detail($res)
 
         if ($res->file_url) {
           echo "<td><a href=\"" . $res->file_url . "\">Download</a></td>";
+          echo "<td><a href=\"javascript:void(0)\"onclick=\"window.open('http://qcn.stanford.edu/earthquakes/view/view_data.php?dat=".basename($res->file_url)."','linkname','height=500,width=400,scrollbars=no')\">View</a></td>";
         }
         else {
+          echo "<td>N/A</td>";
           echo "<td>N/A</td>";
         }
 

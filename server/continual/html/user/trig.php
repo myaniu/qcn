@@ -751,6 +751,7 @@ function qcn_trigger_header() {
         <th>Time File Req</th>
         <th>Received File</th>
         <th>File Download</th>
+        <th>View</th>
         <th>USGS ID</th>
         <th>Quake Magnitude</th>
         <th>Quake Time (UTC)</th>
@@ -796,8 +797,10 @@ function qcn_trigger_detail($res)
 
         if ($res->file_url) {
           echo "<td><a href=\"" . $res->file_url . "\">Download</a></td>";
+          echo "<td><a href=\"javascript:void(0)\"onclick=\"window.open('http://qcn.stanford.edu/earthquakes/view/view_data.php?dat=".basename($res->file_url)."','linkname','height=500,width=400,scrollbars=no')\">View</a></td>";        
         }
         else {
+          echo "<td>N/A</td>";
           echo "<td>N/A</td>";
         }
 
