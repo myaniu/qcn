@@ -1529,7 +1529,7 @@ fi
 
 if test "x$LTSHARED" != xno  -o  "x$LTSTATIC" != xno; then
   USELIBTOOL="yes"
-  LIBTOOL="/usr/local/bin/libtool"
+#  LIBTOOL="/usr/local/bin/libtool --tag=CC"
   O="lo"
   A="la"
   LN='$(LIBTOOL) --mode=link $(CC)'

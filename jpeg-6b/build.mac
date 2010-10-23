@@ -1,10 +1,11 @@
-#notes - upgrade libtool, autoconf, automake, and ln /usr/bin to /usr/bin/include refs as needed
+# notes - upgrade GNU libtool, autoconf, automake, and ln /usr/bin to /usr/bin/include refs as needed
 # also need to ln -s /usr/local/bin/libtoolize /usr/bin/glibtoolize
 #!/bin/bash
 rm -rf lib
 mkdir lib
 chmod uog+rx configure
-export LIBTOOL=/usr/local/bin/libtool
+chmod uog+rx ltconfig
+export LIBTOOL=/usr/local/bin/libtool --tag=CC
 export LIBTOOLIZE=/usr/local/bin/libtoolize
 
 #PowerPC (old) Macs on OS X 10.4 (Tiger)
