@@ -6,11 +6,12 @@ mkdir lib
 chmod uog+rx configure
 export LIBTOOLIZE=/usr/local/bin/libtoolize
 
-export CXX=g++
-export CC=gcc
+#PowerPC Mac
 export MARCH=ppc
-export MACOSX_DEPLOYMENT_TARGET=10.3
-export SDKROOT="/Developer/SDKs/MacOSX10.3.9.sdk"
+export CXX=g++-4.0
+export CC=gcc-4.0
+export MACOSX_DEPLOYMENT_TARGET=10.4
+export SDKROOT="/Developer/SDKs/MacOSX10.4u.sdk"
 export LDFLAGS="-isysroot $SDKROOT -Wl,-syslibroot,$SDKROOT -arch $MARCH"
 export CPPFLAGS="-O2 -I$SDKROOT/usr/include -I$SDKROOT/usr/local/include -isysroot $SDKROOT -arch $MARCH"
 export CFLAGS="-O2 -I$SDKROOT/usr/include -I$SDKROOT/usr/local/include -isysroot $SDKROOT -arch $MARCH"
@@ -20,7 +21,10 @@ make clean
 make
 mv libz.a lib/libz_ppc.a
 
+#Intel 32-bit Mac
 export MARCH=i386
+export CXX=g++-4.0
+export CC=gcc-4.0
 export MACOSX_DEPLOYMENT_TARGET=10.4
 export SDKROOT="/Developer/SDKs/MacOSX10.4u.sdk"
 export LDFLAGS="-isysroot $SDKROOT -Wl,-syslibroot,$SDKROOT -arch $MARCH"
@@ -32,7 +36,10 @@ make clean
 make
 mv libz.a lib/libz_i386.a
 
+#Intel 64-bit Mac
 export MARCH=x86_64
+export CXX=g++-4.0
+export CC=gcc-4.0
 export MACOSX_DEPLOYMENT_TARGET=10.5
 export SDKROOT="/Developer/SDKs/MacOSX10.5.sdk"
 export LDFLAGS="-isysroot $SDKROOT -Wl,-syslibroot,$SDKROOT -arch $MARCH"
