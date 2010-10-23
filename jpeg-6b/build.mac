@@ -5,7 +5,7 @@ rm -rf lib
 mkdir lib
 chmod uog+rx configure
 chmod uog+rx ltconfig
-export LIBTOOL=/usr/local/bin/libtool --tag=CC
+export LIBTOOL='/usr/local/bin/libtool --tag=CC'
 export LIBTOOLIZE=/usr/local/bin/libtoolize
 
 #PowerPC (old) Macs on OS X 10.4 (Tiger)
