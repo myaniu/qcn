@@ -6,9 +6,10 @@ mkdir lib
 chmod uog+rx configure
 export LIBTOOLIZE=/usr/local/bin/libtoolize
 
+#PowerPC (old) Macs on OS X 10.4 (Tiger)
+export MARCH=ppc
 export CXX=g++-4.0
 export CC=gcc-4.0
-export MARCH=ppc
 export MACOSX_DEPLOYMENT_TARGET=10.4
 export SDKROOT="/Developer/SDKs/MacOSX10.4u.sdk"
 export LDFLAGS="-isysroot $SDKROOT -Wl,-syslibroot,$SDKROOT -arch $MARCH"
@@ -23,9 +24,10 @@ cd ..
 mv ntpdate/ntpdate ../client/bin/init/ntpdate_4.2.4p7_powerpc-apple-darwin
 make clean
 
+#Intel 32-bit Macs on OS X 10.4 (Tiger)
+export MARCH=i386
 export CXX=g++-4.0
 export CC=gcc-4.0
-export MARCH=i386
 export MACOSX_DEPLOYMENT_TARGET=10.4
 export SDKROOT="/Developer/SDKs/MacOSX10.4u.sdk"
 export LDFLAGS="-isysroot $SDKROOT -Wl,-syslibroot,$SDKROOT -arch $MARCH"
@@ -39,9 +41,10 @@ make
 cd ..
 mv ntpdate/ntpdate ../client/bin/init/ntpdate_4.2.4p7_i686-apple-darwin
 
+#Intel 64-bit Macs on 10.5
+export MARCH=x86_64
 export CXX=g++-4.0
 export CC=gcc-4.0
-export MARCH=x86_64
 export MACOSX_DEPLOYMENT_TARGET=10.5
 export SDKROOT="/Developer/SDKs/MacOSX10.5.sdk"
 export LDFLAGS="-isysroot $SDKROOT -Wl,-syslibroot,$SDKROOT -arch $MARCH"

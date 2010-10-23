@@ -1,3 +1,4 @@
+# note this file is needed as libraries such as ntpd, zlib, jpeg etc do not have XCode projects, but use the Linux-style autoconf/automake
 #!/bin/bash
 if (test "$1" = "all" || test "$2" = "all") then
 cd ntp-4.2.4p7
