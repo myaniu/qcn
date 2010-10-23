@@ -3,16 +3,11 @@
 #!/bin/bash
 rm -rf lib
 mkdir lib
-rm -rf .libs
 chmod uog+rx configure
-chmod uog+rx ltconfig
-chmod uog+rx config.sub
-chmod uog+rx config.guess
-make distclean
 export LIBTOOLIZE=/usr/local/bin/libtoolize
 
-export CXX=/Developer/usr/bin/g++-4.0
-export CC=/Developer/usr/bin/gcc-4.0
+export CXX=g++-4.0
+export CC=gcc-4.0
 export MARCH=ppc
 export MACOSX_DEPLOYMENT_TARGET=10.4
 export SDKROOT="/Developer/SDKs/MacOSX10.4u.sdk"
@@ -20,14 +15,11 @@ export LDFLAGS="-isysroot $SDKROOT -Wl,-syslibroot,$SDKROOT -arch $MARCH"
 export CPPFLAGS="-O2 -I$SDKROOT/usr/include -I$SDKROOT/usr/local/include -isysroot $SDKROOT -arch $MARCH"
 export CFLAGS="-O2 -I$SDKROOT/usr/include -I$SDKROOT/usr/local/include -isysroot $SDKROOT -arch $MARCH"
 export CXXFLAGS="-O2 -I$SDKROOT/usr/include -I$SDKROOT/usr/local/include -isysroot $SDKROOT -arch $MARCH"
-make distclean
 ./configure --enable-static --disable-shared
 make clean
 make
 mv .libs/libjpeg.a lib/libjpeg_ppc.a
 
-export CXX=/Developer/usr/bin/g++-4.0
-export CC=/Developer/usr/bin/gcc-4.0
 export MARCH=i386
 export MACOSX_DEPLOYMENT_TARGET=10.4
 export SDKROOT="/Developer/SDKs/MacOSX10.4u.sdk"
@@ -35,14 +27,11 @@ export LDFLAGS="-isysroot $SDKROOT -Wl,-syslibroot,$SDKROOT -arch $MARCH"
 export CPPFLAGS="-O2 -I$SDKROOT/usr/include -I$SDKROOT/usr/local/include -isysroot $SDKROOT -arch $MARCH"
 export CFLAGS="-O2 -I$SDKROOT/usr/include -I$SDKROOT/usr/local/include -isysroot $SDKROOT -arch $MARCH"
 export CXXFLAGS="-O2 -I$SDKROOT/usr/include -I$SDKROOT/usr/local/include -isysroot $SDKROOT -arch $MARCH"
-make distclean
 ./configure --enable-static --disable-shared
 make clean
 make
 mv .libs/libjpeg.a lib/libjpeg_i386.a
 
-export CXX=/Developer/usr/bin/g++-4.2
-export CC=/Developer/usr/bin/gcc-4.2
 export MARCH=x86_64
 export MACOSX_DEPLOYMENT_TARGET=10.5
 export SDKROOT="/Developer/SDKs/MacOSX10.5.sdk"
@@ -50,7 +39,6 @@ export LDFLAGS="-isysroot $SDKROOT -Wl,-syslibroot,$SDKROOT -arch $MARCH"
 export CPPFLAGS="-O2 -I$SDKROOT/usr/include -I$SDKROOT/usr/local/include -isysroot $SDKROOT -arch $MARCH"
 export CFLAGS="-O2 -I$SDKROOT/usr/include -I$SDKROOT/usr/local/include -isysroot $SDKROOT -arch $MARCH"
 export CXXFLAGS="-O2 -I$SDKROOT/usr/include -I$SDKROOT/usr/local/include -isysroot $SDKROOT -arch $MARCH"
-make distclean
 ./configure --enable-static --disable-shared
 make clean
 make
@@ -58,4 +46,5 @@ mv .libs/libjpeg.a lib/libjpeg_x86_64.a
 lipo -arch ppc lib/libjpeg_ppc.a -arch i386 lib/libjpeg_i386.a -arch x86_64 lib/libjpeg_x86_64.a -create -output libjpeg-universal.a
 #lipo -arch ppc lib/libjpeg_ppc.a -arch i386 lib/libjpeg_i386.a -create -output libjpeg-universal.a
 mv libjpeg-universal.a ../client/mac_build/
-rm -rf lib ; make clean ; make distclean
+rm -rf lib ; make clean
+
