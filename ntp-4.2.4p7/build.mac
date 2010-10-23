@@ -6,21 +6,25 @@ mkdir lib
 chmod uog+rx configure
 export LIBTOOLIZE=/usr/local/bin/libtoolize
 
-export CXX=g++
-export CC=gcc
+export CXX=g++-4.0
+export CC=gcc-4.0
 export MARCH=ppc
-export MACOSX_DEPLOYMENT_TARGET=10.3
-export SDKROOT="/Developer/SDKs/MacOSX10.3.9.sdk"
+export MACOSX_DEPLOYMENT_TARGET=10.4
+export SDKROOT="/Developer/SDKs/MacOSX10.4u.sdk"
 export LDFLAGS="-isysroot $SDKROOT -Wl,-syslibroot,$SDKROOT -arch $MARCH"
 export CPPFLAGS="-O2 -I$SDKROOT/usr/include -I$SDKROOT/usr/local/include -isysroot $SDKROOT -arch $MARCH"
 export CFLAGS="-O2 -I$SDKROOT/usr/include -I$SDKROOT/usr/local/include -isysroot $SDKROOT -arch $MARCH"
 export CXXFLAGS="-O2 -I$SDKROOT/usr/include -I$SDKROOT/usr/local/include -isysroot $SDKROOT -arch $MARCH"
 ./configure --without-openssl-incdir --enable-static --disable-shared --oldincludedir=$SDKROOT/usr/include
 make clean
+cd ntpdate
 make
+cd ..
 mv ntpdate/ntpdate ../client/bin/init/ntpdate_4.2.4p7_powerpc-apple-darwin
 make clean
 
+export CXX=g++-4.0
+export CC=gcc-4.0
 export MARCH=i386
 export MACOSX_DEPLOYMENT_TARGET=10.4
 export SDKROOT="/Developer/SDKs/MacOSX10.4u.sdk"
@@ -30,9 +34,13 @@ export CFLAGS="-O2 -I$SDKROOT/usr/include -I$SDKROOT/usr/local/include -isysroot
 export CXXFLAGS="-O2 -I$SDKROOT/usr/include -I$SDKROOT/usr/local/include -isysroot $SDKROOT -arch $MARCH"
 ./configure --without-openssl-incdir --enable-static --disable-shared --oldincludedir=$SDKROOT/usr/include
 make clean
+cd ntpdate
 make
+cd ..
 mv ntpdate/ntpdate ../client/bin/init/ntpdate_4.2.4p7_i686-apple-darwin
 
+export CXX=g++-4.0
+export CC=gcc-4.0
 export MARCH=x86_64
 export MACOSX_DEPLOYMENT_TARGET=10.5
 export SDKROOT="/Developer/SDKs/MacOSX10.5.sdk"
@@ -42,7 +50,9 @@ export CFLAGS="-O2 -I$SDKROOT/usr/include -I$SDKROOT/usr/local/include -isysroot
 export CXXFLAGS="-O2 -I$SDKROOT/usr/include -I$SDKROOT/usr/local/include -isysroot $SDKROOT -arch $MARCH"
 ./configure --without-openssl-incdir --enable-static --disable-shared --oldincludedir=$SDKROOT/usr/include
 make clean
+cd ntpdate
 make
+cd ..
 mv ntpdate/ntpdate ../client/bin/init/ntpdate_4.2.4p7_x86_64-apple-darwin
 lipo -arch ppc ../client/bin/init/ntpdate_4.2.4p7_powerpc-apple-darwin -arch i386 ../client/bin/init/ntpdate_4.2.4p7_i686-apple-darwin -arch x86_64 ../client/bin/init/ntpdate_4.2.4p7_x86_64-apple-darwin -create -output ../client/bin/init/ntpdate_4.2.4p7_universal-apple-darwin
 make clean
