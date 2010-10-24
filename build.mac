@@ -15,7 +15,7 @@ chmod uog+rx build.mac
 ./build.mac
 cd ../
 unzip -o boinc_zip_xcode.zip -d ../boinc/zip/
-cd ../../boinc/mac_build
+cd ../boinc/mac_build
 #NB - not using boinc libs, just use files directly
 #xcodebuild -project boinc.xcodeproj -configuration Deployment -target libboinc clean build
 #xcodebuild USER_HEADER_SEARCH_PATHS='../lib ../../qcn/jpeg-6b' -project boinc.xcodeproj -configuration Deployment -target api_libboinc clean build
