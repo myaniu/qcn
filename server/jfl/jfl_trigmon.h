@@ -46,6 +46,8 @@ using std::vector;
 #define EVENT_MASK 0755
 
 char EVENT_PATH[]= "/var/www/qcn/earthquakes/";
+char BAD_HOSTS_FILE[] = "/var/www/qcn/earthquakes/inc/bad_hosts.txt";
+
 
 struct trigger {
 /*  Data structure for input trigger data to be used with QCN MySQL output & location
@@ -107,7 +109,11 @@ struct bounds {
    float lon_factor;              // Longitude/latitude factor as approach poles
 };
 
+struct bad_hosts {
+   int   nh;                      // Number of bad host ids
+   int   hid[n_long];              // Bad host ids
 
+}
 
 
 // struct to keep in a vector of the most recent QCN generated quake events
@@ -148,7 +154,7 @@ void set_grid3D( struct bounds g, float elon, float elat, float edep, float widt
 void qcn_event_locate(struct trigger t[], int i, struct event e[]);
 
 void estimate_magnitude_bs(struct trigger t[], struct event e[], int i);
-float intensity_extrapolate(float dist, float dist_eq_nd, float intensity_in);
+float intensity_extrapolate(int pors, float dist, float dist_eq_nd, float intensity_in);
 void php_event_email(struct trigger t[], int i, struct event e[], char* epath);
 void php_event_page(struct trigger t[], int i, struct event e[], char* epath);
 void preserve_dir(char * edir, char * epath);
@@ -157,7 +163,7 @@ void scatter_plot_gmt(struct event e[], char* epath);
 void intensity_map(struct trigger t[], int i, struct event e[]);
 
 void detect_qcn_event(struct trigger t[], int iCtr, struct event e[]);
-
+void get_bad_hosts(struct bad_hosts bh[]);
 
 
 //extern bool qcn_post_check();

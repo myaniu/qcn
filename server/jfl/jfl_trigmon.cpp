@@ -186,7 +186,7 @@ void vel_calc(float dep, float v[]) {
 
 void qcn_event_locate(struct trigger t[], int i, struct event e[]) {
    fprintf(stdout,"Locate possible event %d \n",t[i].c_cnt);
-   if ( ( t[i].trig > T_max+e[1].e_time)||(abs(t[i].slat-e[1].elat)>5.) ) e[1].eid=(int) e[1].e_time;         // If new Time or location, then new event
+   if ( ( t[i].trig > T_max+e[1].e_time)||(abs(t[i].slat-e[1].elat)>3.) ) e[1].eid=0;         // If new Time or location, then new event
    
    
    float  width = 4.f; float zrange=150.f;                // Lateral and vertical grid size
@@ -421,15 +421,16 @@ void estimate_magnitude_bs(struct trigger t[], struct event e[], int i) {
 
 
 
-float intensity_extrapolate(float dist, float dist_eq_nd, float intensity_in) {
+float intensity_extrapolate(int pors, float dist, float dist_eq_nd, float intensity_in) {
 /* This is a simplistic aproach to wave amplitude decay: 
    The amplitude for a cylindrically expanding wave should be 
    proportional to 1./sqrt(distance).  This blows up near zer 
    distance.  We should take attenuation into account. */
 
  float fact = dist_eq_nd / dist;                        // Factor of node distance (for intensity map) to event-station distance (from trigger)
+ if (pors == 0) fact *= 2.;
  if (fact <=0.01) fact = 0.01;                          // If the factor will lead to order of magnitude stronger shaking, then cap it.
- float intensity_out = 1./sqrt(fact);                   // Calculate the projected intensity
+ float intensity_out = intensity_in/((fact+sqrt(fact))/2.);                   // Calculate the projected intensity
  return intensity_out;                                  // 
 }
 
@@ -558,7 +559,7 @@ void intensity_map_gmt(struct event e[], char* epath){
     fprintf(fp10,"$GMT/grdgradient $GRDFILE -A270/20 -Ne0.5 -G$GRADFILE \n");                                // Create gradient shadow from topogray
   
 /*  Creat grid from intensity */ 
-    fprintf(fp10,"$GMT/surface $IFILE -S2 -T0.1 $GRID $BOUNDS -G$GRDFILE \n");                                  // Contour a surface to the intensity data    
+    fprintf(fp10,"$GMT/surface $IFILE -S2 -T0.9 $GRID $BOUNDS -G$GRDFILE \n");                                  // Contour a surface to the intensity data    
    for (k=1;k<=2;k++) { 
 
     fprintf(fp10,"set PSFILE   = \"$OUTDIR/intensity_%02d.ps\"\n",k);                  // Set post script file name
@@ -702,7 +703,7 @@ void intensity_map(struct trigger t[], int i, struct event e[]) {
    fp10 = fopen(sfile,"w+");                                  // Open station output file
    for (k = 0; k<=t[i].c_cnt; k++) {                          // For each correlated trigger
      n = t[i].c_ind[k];                                       // Index of correlated trigger
-     fprintf(fp10,"%f,%f,%f \n",t[n].slon,t[n].slat,t[n].mag);// Output correlated trigger loc & magnitude
+     fprintf(fp10,"%f,%f,%f,%d \n",t[n].slon,t[n].slat,t[n].mag,t[n].hid);// Output correlated trigger loc & magnitude
    }
    fclose(fp10);                                               // Close station output file name
 
@@ -724,7 +725,7 @@ void intensity_map(struct trigger t[], int i, struct event e[]) {
 	dist = ang_dist_km(ln_x,lt_x,t[n].slon,t[n].slat);   // Horizontal distance from event to station/host
 	if (dist_min > dist) {dist_min=dist;il=n;};          // Set minimum distance and lth trigger at dist
 	dist = ang_dist_km(elon,elat,t[n].slon,t[n].slat);   // Horizontal distance from event to station/host
-        imap=imap+intensity_extrapolate(dist, dist_eq_nd, t[n].mag)/ dist/dist;//(float) (t[i].c_cnt+1);                  // 
+        imap=imap+intensity_extrapolate(t[n].pors,dist, dist_eq_nd, t[n].mag)/ dist/dist;//(float) (t[i].c_cnt+1);                  // 
         wt = wt + 1./dist/dist;
        }
        imap=imap/wt;                                         // Normalized intensity
@@ -792,34 +793,30 @@ void detect_qcn_event(struct trigger t[], int iCtr, struct event e[]) {
    float   dist;                               // Distance between triggers
    int   nh = 0;int ih=0;                      // Number of hosts, ith host
    int   h[n_long]; int ind[n_long];           // host ids already used
+   h[0]=t[iCtr].hid;                           // First host id is last in trigger list
+   ind[0]=iCtr;                                // Index of host id's start at last trigger first
    fprintf(stdout,"New possible event: Correlate triggers: %d \n",iCtr);
    for (i=iCtr; i>=2; i--) {                   // For each trigger (go backwards because triggers in order of latest first, and we want first first)
     t[i].c_cnt=0;                              // Zero the count of correlated triggers 
     t[i].c_ind[0]=i;                           // Index the same trigger as zeroth trigger
-    ih = 0;                                    // Unassigned host id
-    if (nh>0) {                                // if there are assigned host ids, then
-     for (j = 1; j<=nh;j++) {                  // search through the assigned host ids
-      if (t[i].hid == h[j]) {                  // to find a match
-       ih = j;                                 // Match found
-      }   
+    ih = -10;                                    // Unassigned host id
+    for (j = 0; j<=nh;j++) {                  // search through the assigned host ids
+     if (t[i].hid == h[j]) {                  // to find a match
+      ih = j;                                 // Match found
+     }   
+    }
+    if (ih<0) {                               // If no match found, then
+     nh++;                                    // add a new assigned host id 
+     h[nh]=t[i].hid;                          // assign the new host id
+     ind[nh]=i;                               // Index the trigger
+    } else {                                  // If a prior match is found, then
+/*   Save peak fmag for all triggers within 5 seconds of first arrival */
+     if ( (t[i].trig>t[ind[ih]].trig) && (t[1].trig<t[ind[ih]].trig + 5.) ) { // Trigger is older than prior, but less than prior + 5 seconds use the higher value
+      if (t[i].mag > t[ind[nh]].mag) {t[ind[nh]].mag=t[i].mag;} // Use largest fmag for primary trigger
      }
-     if (ih==0) {                              // If no match found, then
-      nh++;                                    // add a new assigned host id 
-      h[nh]=t[i].hid;                          // assign the new host id
-      ind[nh]=i;                               // Index the trigger
-     } else {                                  // If a prior match is found, then
-/*    Save peak fmag for all triggers within 5 seconds of first arrival */
-      if ( (t[i].trig>t[ind[ih]].trig) && (t[1].trig<t[ind[ih]].trig + 5.) ) { // Trigger is older than prior, but less than prior + 5 seconds use the higher value
-       if (t[i].mag > t[ind[nh]].mag) {t[ind[nh]].mag=t[i].mag;} // Use largest fmag for primary trigger
-      }
-     }
-    } else {                                   // If no previously assigned host ids, then
-     nh = 1;                                   // add the first assigned host id
-     h[nh]=t[i].hid;                           // assign the first host id
-     ind[nh]=i;
-    }                                          //
+    }
     
-    if ( (t[i].hid!=t[i-1].hid) && (ih==0) ) {        // Do not use repeating triggers
+    if ( (t[i].hid!=t[i-1].hid) && (ih<0) ) {        // Do not use repeating triggers
      for (j = i-1; j>=1; j--) {                // For every other trigger
       if ( (t[j].hid!=t[i].hid) && (t[j].hid!=t[j-1].hid) && (abs(t[i].trig-t[j].trig) <= T_max) ) {//For non-repeating triggers & triggers less than t_max apart
        dist=ang_dist_km(t[i].slon,t[i].slat,t[j].slon,t[j].slat);//Distance between triggers
@@ -843,16 +840,16 @@ void detect_qcn_event(struct trigger t[], int iCtr, struct event e[]) {
    correlated with the initial trigger itself */
    for (i =iCtr; i>1; i--) {                   // For each trigger 
     if (t[i].c_cnt > C_CNT_MIN) {              // If more than 4 correlated triggers, possible regional event
-     for (j = i-1;j>=1; j--) {                 // Compare with all later triggers
+     for (j = i-1;j>=0; j--) {                 // Compare with all later triggers
       if (t[j].c_cnt > C_CNT_MIN) {            // Make sure this trigger is an event all of it's own 
-       kl = 0;
-       for (k = 1; k<=t[j].c_cnt;k++) {        // Compare all potential secondary correlated triggers 
-        for (l = 1; l<=t[i].c_cnt;l++) {       // Make sure trigger isn't same host as prior trigger
+       kl = -10;
+       for (k = 0; k<=t[j].c_cnt;k++) {        // Compare all potential secondary correlated triggers 
+        for (l = 0; l<=t[i].c_cnt;l++) {       // Make sure trigger isn't same host as prior trigger
          if (t[i].c_ind[l]==t[j].c_ind[k]) {
-          kl = l;
+          kl = l;break;
          }   
         }
-        if (kl == 0) {                         // If no matching trigger, then add secondary trigger to primary trigger list
+        if (kl < 0) {                         // If no matching trigger, then add secondary trigger to primary trigger list
          t[i].c_cnt++;
          t[i].c_ind[t[i].c_cnt]=t[j].c_ind[k];
          t[i].c_hid[t[i].c_cnt]=t[j].c_hid[k];
@@ -880,6 +877,18 @@ void detect_qcn_event(struct trigger t[], int iCtr, struct event e[]) {
    return;                                     // Done
 };
 
+void get_bad_hosts(struct bad_hosts bh) {
+/*  This subrouting retrieves the bad host names */
+   FILE *fp10; fp10 = fopen(BAD_HOSTS_FILE,"r+");
+   bh.nh = -1;
+   while (feof(fp10) == 0) {
+    bh.nh++;
+    fscanf(fp10,"$d",bh.hid[bh.nh]);
+   }
+   fclose(fp10);
+   return;
+}
+
 
 
 
@@ -890,6 +899,9 @@ int main(int argc, char** argv)
     struct event   e[2];e[1].eid=0;                      // event
     int retval;
     int tidl=0; int hidl=0;                                         // default last host id
+    struct bad_hosts(bh);
+    get_bad_hosts(bh);
+
     
 /* initialize random seed: */
     srand ( time(NULL) );

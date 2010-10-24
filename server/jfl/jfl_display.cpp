@@ -77,11 +77,27 @@ void do_trigmon()
    fclose(fp11);                                        // Close output file
 }
 
+
+void get_bad_hosts(struct bad_hosts bh) {
+/*  This subrouting retrieves the bad host names */
+   FILE *fp10; fp10 = fopen(BAD_HOSTS_FILE,"r+");
+   bh.nh = 0;
+   while (feof(fp10) == 0) { 
+    bh.nh++;
+    fscanf(fp10,"$d",bh.hid); 
+   }
+   fclose(fp10);
+   return;
+}
+
 int main(int argc, char** argv) 
 {
     int retval;
 
     //vQuakeEvent.clear();
+
+    get_bad_hosts(bh);
+
  
     retval = config.parse_file();
     if (retval) {
