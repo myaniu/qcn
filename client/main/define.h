@@ -283,7 +283,7 @@ struct FDSET_GROUP {
 // ntpdate stuff for sync'ing a BOINC/QCN participant with the qcn-upl time server
 // ntpdate exec can be obtained by boinc_resolve_filename, set ntpdate=ntpdate_4.2.4_i686-apple-darwin in boinc/apps/qcnalpha/*
 #define NTPDATE_EXEC "ntpdate"
-#define NTPDATE_EXEC_VERSION "ntpdate_4.2.4p7b"
+#define NTPDATE_EXEC_VERSION "ntpdate_4.2.4p7c"
 
 #ifdef _WIN32
 #ifdef _WIN64
