@@ -1260,6 +1260,7 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
+				GCC_VERSION = 4.0;
 				HEADER_SEARCH_PATHS = (
 					../../,
 					../main,
@@ -1304,7 +1305,7 @@
 				PREBINDING = NO;
 				PRODUCT_NAME = qcnusb;
 				SDKROOT = macosx10.4;
-				"SDKROOT[arch=ppc]" = macosx10.3.9;
+				"SDKROOT[arch=ppc]" = macosx10.4;
 				"SDKROOT[arch=x86_64]" = macosx10.5;
 				SYMROOT = ../bin;
 			};
@@ -1327,6 +1328,7 @@
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
+				GCC_VERSION = 4.0;
 				HEADER_SEARCH_PATHS = (
 					../../,
 					../main,
@@ -1371,7 +1373,7 @@
 				PREBINDING = NO;
 				PRODUCT_NAME = qcnusb;
 				SDKROOT = macosx10.4;
-				"SDKROOT[arch=ppc]" = macosx10.3.9;
+				"SDKROOT[arch=ppc]" = macosx10.4;
 				"SDKROOT[arch=x86_64]" = macosx10.5;
 				SYMROOT = ../bin;
 				ZERO_LINK = NO;
@@ -1392,6 +1394,7 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
+				GCC_VERSION = 4.0;
 				HEADER_SEARCH_PATHS = (
 					../../,
 					"../../jpeg-6b",
@@ -1467,6 +1470,7 @@
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
+				GCC_VERSION = 4.0;
 				HEADER_SEARCH_PATHS = (
 					../../,
 					"../../jpeg-6b",
@@ -1567,6 +1571,7 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "";
+				GCC_VERSION = 4.0;
 				HEADER_SEARCH_PATHS = (
 					../../,
 					../main,
@@ -1614,7 +1619,7 @@
 				PREBINDING = NO;
 				PRODUCT_NAME = qcn;
 				SDKROOT = macosx10.4;
-				"SDKROOT[arch=ppc]" = macosx10.3.9;
+				"SDKROOT[arch=ppc]" = macosx10.4;
 				"SDKROOT[arch=x86_64]" = macosx10.5;
 				SYMROOT = ../bin;
 				WRAPPER_EXTENSION = app;
@@ -1638,6 +1643,7 @@
 				GCC_MODEL_TUNING = G4;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "";
+				GCC_VERSION = 4.0;
 				HEADER_SEARCH_PATHS = (
 					../../,
 					../main,
@@ -1685,7 +1691,7 @@
 				PREBINDING = NO;
 				PRODUCT_NAME = qcn;
 				SDKROOT = macosx10.4;
-				"SDKROOT[arch=ppc]" = macosx10.3.9;
+				"SDKROOT[arch=ppc]" = macosx10.4;
 				"SDKROOT[arch=x86_64]" = macosx10.5;
 				SYMROOT = ../bin;
 				WRAPPER_EXTENSION = app;
@@ -1707,6 +1713,7 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_VERSION = 4.0;
 				HEADER_SEARCH_PATHS = (
 					../../,
 					../main,
@@ -1751,7 +1758,7 @@
 				PREBINDING = NO;
 				PRODUCT_NAME = qcn_graphics;
 				SDKROOT = macosx10.4;
-				"SDKROOT[arch=ppc]" = macosx10.3.9;
+				"SDKROOT[arch=ppc]" = macosx10.4;
 				"SDKROOT[arch=x86_64]" = macosx10.5;
 				SYMROOT = ../bin;
 			};
@@ -1772,6 +1779,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_VERSION = 4.0;
 				HEADER_SEARCH_PATHS = (
 					../../,
 					../main,
@@ -1816,7 +1824,7 @@
 				PREBINDING = NO;
 				PRODUCT_NAME = qcn_graphics;
 				SDKROOT = macosx10.4;
-				"SDKROOT[arch=ppc]" = macosx10.3.9;
+				"SDKROOT[arch=ppc]" = macosx10.4;
 				"SDKROOT[arch=x86_64]" = macosx10.5;
 				SYMROOT = ../bin;
 				ZERO_LINK = NO;
@@ -1848,6 +1856,7 @@
 				GCC_MODEL_TUNING = G4;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "";
+				GCC_VERSION = 4.0;
 				HEADER_SEARCH_PATHS = (
 					../../,
 					../main,
@@ -1896,7 +1905,7 @@
 				PREBINDING = NO;
 				PRODUCT_NAME = qcn;
 				SDKROOT = macosx10.4;
-				"SDKROOT[arch=ppc]" = macosx10.3.9;
+				"SDKROOT[arch=ppc]" = macosx10.4;
 				"SDKROOT[arch=x86_64]" = macosx10.5;
 				SYMROOT = ../bin;
 				WRAPPER_EXTENSION = app;
@@ -1918,6 +1927,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_VERSION = 4.0;
 				HEADER_SEARCH_PATHS = (
 					../../,
 					../main,
@@ -1962,7 +1972,7 @@
 				PREBINDING = NO;
 				PRODUCT_NAME = qcn_graphics;
 				SDKROOT = macosx10.4;
-				"SDKROOT[arch=ppc]" = macosx10.3.9;
+				"SDKROOT[arch=ppc]" = macosx10.4;
 				"SDKROOT[arch=x86_64]" = macosx10.5;
 				SYMROOT = ../bin;
 				ZERO_LINK = NO;
@@ -1986,6 +1996,7 @@
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
+				GCC_VERSION = 4.0;
 				HEADER_SEARCH_PATHS = (
 					../../,
 					../main,
@@ -2030,7 +2041,7 @@
 				PREBINDING = NO;
 				PRODUCT_NAME = qcnusb;
 				SDKROOT = macosx10.4;
-				"SDKROOT[arch=ppc]" = macosx10.3.9;
+				"SDKROOT[arch=ppc]" = macosx10.4;
 				"SDKROOT[arch=x86_64]" = macosx10.5;
 				SYMROOT = ../bin;
 				ZERO_LINK = NO;
@@ -2049,6 +2060,7 @@
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
+				GCC_VERSION = 4.0;
 				HEADER_SEARCH_PATHS = (
 					../../,
 					"../../jpeg-6b",
@@ -2141,6 +2153,7 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "";
+				GCC_VERSION = 4.0;
 				HEADER_SEARCH_PATHS = (
 					../../,
 					../main,
@@ -2189,7 +2202,7 @@
 				PREBINDING = NO;
 				PRODUCT_NAME = qcn;
 				SDKROOT = macosx10.4;
-				"SDKROOT[arch=ppc]" = macosx10.3.9;
+				"SDKROOT[arch=ppc]" = macosx10.4;
 				"SDKROOT[arch=x86_64]" = macosx10.5;
 				SYMROOT = ../bin;
 				WRAPPER_EXTENSION = app;
@@ -2211,6 +2224,7 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_VERSION = 4.0;
 				HEADER_SEARCH_PATHS = (
 					../../,
 					../main,
@@ -2255,7 +2269,7 @@
 				PREBINDING = NO;
 				PRODUCT_NAME = qcn_graphics;
 				SDKROOT = macosx10.4;
-				"SDKROOT[arch=ppc]" = macosx10.3.9;
+				"SDKROOT[arch=ppc]" = macosx10.4;
 				"SDKROOT[arch=x86_64]" = macosx10.5;
 				SYMROOT = ../bin;
 			};
@@ -2279,6 +2293,7 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
+				GCC_VERSION = 4.0;
 				HEADER_SEARCH_PATHS = (
 					../../,
 					../main,
@@ -2323,7 +2338,7 @@
 				PREBINDING = NO;
 				PRODUCT_NAME = qcnusb;
 				SDKROOT = macosx10.4;
-				"SDKROOT[arch=ppc]" = macosx10.3.9;
+				"SDKROOT[arch=ppc]" = macosx10.4;
 				"SDKROOT[arch=x86_64]" = macosx10.5;
 				SYMROOT = ../bin;
 			};
@@ -2342,6 +2357,7 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
+				GCC_VERSION = 4.0;
 				HEADER_SEARCH_PATHS = (
 					../../,
 					"../../jpeg-6b",
