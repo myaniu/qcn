@@ -13,6 +13,8 @@ chmod uog+rx build.mac
 cd ../curl
 chmod uog+rx build.mac
 ./build.mac
+cd ../
+unzip boinc_zip_xcode.zip -d ../../boinc/zip/
 cd ../../boinc/mac_build
 #NB - not using boinc libs, just use files directly
 #xcodebuild -project boinc.xcodeproj -configuration Deployment -target libboinc clean build
