@@ -16,7 +16,7 @@
 # To install in $HOME instead of /usr/local, use:
 #    make install prefix=$HOME
 
-CC=gcc-4.0
+CC=gcc-4.2
 
 CFLAGS=-O2 -I/Developer/SDKs/MacOSX10.5.sdk/usr/include -I/Developer/SDKs/MacOSX10.5.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64 -DUSE_MMAP
 #CFLAGS=-O -DMAX_WBITS=14 -DMAX_MEM_LEVEL=7
@@ -25,8 +25,8 @@ CFLAGS=-O2 -I/Developer/SDKs/MacOSX10.5.sdk/usr/include -I/Developer/SDKs/MacOSX
 #           -Wstrict-prototypes -Wmissing-prototypes
 
 LDFLAGS=-L. libz.a
-LDSHARED=gcc-4.0
-CPP=gcc-4.0 -E
+LDSHARED=gcc-4.2
+CPP=gcc-4.2 -E
 
 LIBS=libz.a
 SHAREDLIB=libz.dylib
