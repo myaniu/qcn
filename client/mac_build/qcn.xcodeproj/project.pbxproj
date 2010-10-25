@@ -1582,6 +1582,8 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "";
 				GCC_VERSION = 4.0;
+				"GCC_VERSION[sdk=macosx10.4][arch=*]" = 4.0;
+				"GCC_VERSION[sdk=macosx10.5][arch=*]" = 4.2;
 				HEADER_SEARCH_PATHS = (
 					../../,
 					../main,
@@ -1602,7 +1604,7 @@
 					"\"$(SRCROOT)\"",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
-				"MACOSX_DEPLOYMENT_TARGET[arch=ppc]" = 10.3;
+				"MACOSX_DEPLOYMENT_TARGET[arch=ppc]" = 10.4;
 				"MACOSX_DEPLOYMENT_TARGET[arch=x86_64]" = 10.5;
 				OBJROOT = ../bin;
 				OTHER_CFLAGS = (
@@ -1654,6 +1656,8 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "";
 				GCC_VERSION = 4.0;
+				"GCC_VERSION[sdk=macosx10.4][arch=*]" = 4.0;
+				"GCC_VERSION[sdk=macosx10.5][arch=*]" = 4.2;
 				HEADER_SEARCH_PATHS = (
 					../../,
 					../main,
@@ -1674,8 +1678,8 @@
 					"\"$(SRCROOT)\"",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
-				"MACOSX_DEPLOYMENT_TARGET[arch=ppc]" = 10.3;
-				"MACOSX_DEPLOYMENT_TARGET[arch=x86_64]" = 10.5;
+				"MACOSX_DEPLOYMENT_TARGET[sdk=macosx10.4]" = 10.4;
+				"MACOSX_DEPLOYMENT_TARGET[sdk=macosx10.5]" = 10.5;
 				OBJROOT = ../bin;
 				OTHER_CFLAGS = (
 					"-Wall",
@@ -1867,6 +1871,8 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "";
 				GCC_VERSION = 4.0;
+				"GCC_VERSION[sdk=macosx10.4][arch=*]" = 4.0;
+				"GCC_VERSION[sdk=macosx10.5][arch=*]" = 4.2;
 				HEADER_SEARCH_PATHS = (
 					../../,
 					../main,
@@ -1887,8 +1893,8 @@
 					"\"$(SRCROOT)\"",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
-				"MACOSX_DEPLOYMENT_TARGET[arch=ppc]" = 10.3;
-				"MACOSX_DEPLOYMENT_TARGET[arch=x86_64]" = 10.5;
+				"MACOSX_DEPLOYMENT_TARGET[arch=*]" = 10.4;
+				"MACOSX_DEPLOYMENT_TARGET[sdk=macosx10.5][arch=x86_64]" = 10.5;
 				OBJROOT = ../bin;
 				OTHER_CFLAGS = (
 					"-Wall",
@@ -2165,6 +2171,8 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "";
 				GCC_VERSION = 4.0;
+				"GCC_VERSION[sdk=macosx10.4][arch=*]" = 4.0;
+				"GCC_VERSION[sdk=macosx10.5][arch=*]" = 4.2;
 				HEADER_SEARCH_PATHS = (
 					../../,
 					../main,
@@ -2185,7 +2193,7 @@
 					"\"$(SRCROOT)\"",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
-				"MACOSX_DEPLOYMENT_TARGET[arch=ppc]" = 10.3;
+				"MACOSX_DEPLOYMENT_TARGET[arch=ppc]" = 10.4;
 				"MACOSX_DEPLOYMENT_TARGET[arch=x86_64]" = 10.5;
 				OBJROOT = ../bin;
 				OTHER_CFLAGS = (
