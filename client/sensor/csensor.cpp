@@ -85,10 +85,10 @@ inline bool CSensor::mean_xyz()
  * sensor in a window dt from time t0.
  */
    static long lLastSample = 10L;  // store last sample size, start at 10 so doesn't give less sleep below, but will if lastSample<3
-   static double dLastTime = 0.0;
+   static double dLast[4] = {0.0, 0.0, 0.0, 0.0};
+	static long lError = 0;
    float x1,y1,z1;
    double dTimeDiff=0.0f;
-   bool result = false;
 
    // set up pointers to array offset for ease in functions below
    float *px2, *py2, *pz2;
@@ -96,7 +96,7 @@ inline bool CSensor::mean_xyz()
 
 #ifdef QCN_USB
    if (!sm || smState->bStop) throw EXCEPTION_SHUTDOWN;   // see if we're shutting down, if so throw an exception which gets caught in the sensor_thread
-   //sm->bWriting = true;
+   sm->bWriting = true;
    //sm->writepos = 0;
    px2 = (float*) &(sm->x0);
    py2 = (float*) &(sm->y0);
@@ -106,7 +106,8 @@ inline bool CSensor::mean_xyz()
    if (qcn_main::g_iStop || !sm) {
        throw EXCEPTION_SHUTDOWN;   // see if we're shutting down, if so throw an exception which gets caught in the sensor_thread
    }
-   //sm->bWriting = true;
+
+   sm->bWriting = true;
    //sm->writepos = 0;
    px2 = (float*) &(sm->x0[sm->lOffset]);
    py2 = (float*) &(sm->y0[sm->lOffset]);
@@ -114,11 +115,41 @@ inline bool CSensor::mean_xyz()
    pt2 = (double*) &(sm->t0[sm->lOffset]);
 #endif
 
+#ifdef _DEBUG   // lots of output below!
+	static FILE* fileDebug = NULL;
+	if (!fileDebug) {
+		fileDebug = (FILE*) fopen("sensoroutput.txt", "wt");
+	}
+#endif
+	
    *px2 = *py2 = *pz2 = 0.0f;  // zero sample averages
    *pt2 = 0.0f;
  
    sm->lSampleSize = 0L; 
 		 
+   // first check if we're behind time, i.e. the last time is greater than our dt, if so carry over the last value and get out fast so it can catch up
+	if (dLast[3] > sm->t0check) {
+	   // weird timing issue, i.e. current time is 
+		
+        sm->bWriting = true;
+		dLast[3] = dtime();  // save this current time
+		*px2 = dLast[0]; 
+		*py2 = dLast[1]; 
+		*pz2 = dLast[2];
+		*pt2 = dLast[3];   
+		sm->t0check += sm->dt;  // make a new "target" t0check
+        sm->bWriting = false;
+		lError++;
+#ifdef _DEBUG
+		if (fileDebug) { 
+			fprintf(fileDebug, "Falling back time:  Cur=%f  Req=%f  Err=%ld\n", dLast[3], sm->t0check, lError);
+		}
+#endif		
+		if (lError > (TIME_ERROR_SECONDS / sm->dt)) goto error_Timing;
+		usleep(DT_MICROSECOND_SAMPLE); // sleep a little so it's not an instantaneous return
+		return true;
+	}
+	
    // this will get executed at least once, then the time is checked to see if we have enough time left for more samples
    do {
        if ( (!m_bSingleSampleDT && sm->lSampleSize < SAMPLE_SIZE)
@@ -145,21 +176,16 @@ inline bool CSensor::mean_xyz()
        sm->t0active = dtime(); // use the function in the util library (was used to set t0)
        dTimeDiff = sm->t0check - sm->t0active;  // t0check should be bigger than t0active by dt, when t0check = t0active we're done
    }
-   while (dTimeDiff > 0.0f && dTimeDiff < sm->dt);
+   while (dTimeDiff > 0.0f && dTimeDiff < sm->dt && sm->t0active > dLast[3]);
+	
+   // somehow it seems the clock can occasionally have less time than the last value, so set the tactive/pt2 to be the last time + dt, which is more realistic
+	if (sm->t0active < dLast[3]) {
+		sm->t0active = dLast[3] + sm->dt;
+	}
 
 #ifdef _DEBUG   // lots of output below!
-/*
-static FILE* fileDebug = NULL;
-   if (!fileDebug) {
-	   fileDebug = (FILE*) fopen("sensoroutput.txt", "wt");
-   }
-   if (fileDebug) { 
-*/
-//   fprintf(stdout, "Sensor sampling info:  t0check=%f  t0active=%f  diff=%f  timeadj=%d  sample_size=%ld, dt=%f\n", 
-//         sm->t0check, sm->t0active, dTimeDiff, sm->iNumReset, sm->lSampleSize, sm->dt);
-//   }
-   //fprintf(stdout, "sensorout,%f,%f,%f,%d,%ld,%f\n",
-   //   sm->t0check, sm->t0active, dTimeDiff, sm->iNumReset, sm->lSampleSize, sm->dt);
+   fprintf(fileDebug, "sensorout,%f,%f,%f,%d,%ld,%f\n",
+      sm->t0check, sm->t0active, dTimeDiff, sm->iNumReset, sm->lSampleSize, sm->dt);
    //fflush(stdout);
 #endif
 
@@ -181,22 +207,31 @@ static FILE* fileDebug = NULL;
 
    sm->fRealDT += (float) fabs(sm->t0active - sm->t0check);
 
-   dLastTime = sm->t0active;
+   dLast[0] = *px2; 
+   dLast[1] = *py2; 
+   dLast[2] = *pz2;    // save current values as they may carry forward if the computer "skips"
+   dLast[3] = *pt2;
+   lError = 0;  // reset timing error values as must be OK now
    sm->bWriting = false;
    //sm->writepos = 10;
    
    if (fabs(dTimeDiff) > TIME_ERROR_SECONDS) { // if our times are different by a second, that's a big lag, so let's reset t0check to t0active
-      fprintf(stdout, "Timing error encountered t0check=%f  t0active=%f  diff=%f  timeadj=%d  sample_size=%ld, dt=%f, resetting...\n", 
-        sm->t0check, sm->t0active, dTimeDiff, sm->iNumReset, sm->lSampleSize, sm->dt);
-      fflush(stdout);
-      fprintf(stderr, "Timing error encountered t0check=%f  t0active=%f  diff=%f  timeadj=%d  sample_size=%ld, dt=%f, resetting...\n", 
-        sm->t0check, sm->t0active, dTimeDiff, sm->iNumReset, sm->lSampleSize, sm->dt);
-      fflush(stderr);
-#ifndef _DEBUG_QCNLIVE
-      return false;   // if we're not debugging, this is a serious run-time problem, so reset time & counters & try again
-#endif
+	   goto error_Timing;
    }
  
    return true;
+
+error_Timing:    // too many timing errors encountered, should probably drop back dt?
+	lError = 0;  
+	fprintf(stdout, "Timing error encountered t0check=%f  t0active=%f  diff=%f  timeadj=%d  sample_size=%ld, dt=%f, resetting...\n", 
+			sm->t0check, sm->t0active, dTimeDiff, sm->iNumReset, sm->lSampleSize, sm->dt);
+	fprintf(stderr, "Timing error encountered t0check=%f  t0active=%f  diff=%f  timeadj=%d  sample_size=%ld, dt=%f, resetting...\n", 
+			sm->t0check, sm->t0active, dTimeDiff, sm->iNumReset, sm->lSampleSize, sm->dt);
+#ifdef _DEBUG_QCNLIVE
+	return true;
+#else
+	return false;   // if we're not debugging, this is a serious run-time problem, so reset time & counters & try again
+#endif
+	
 }
 

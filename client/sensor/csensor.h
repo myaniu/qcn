@@ -16,7 +16,10 @@
 // this is the base class for all QCN sensors
 class CSensor
 {
-   private:
+protected:
+	e_sensor m_iType; // what type of sensor, i.e. Thinkpad, HP, USB?
+	
+private:
       // private member vars
       int m_port;  // port number, -1 if no sensor opened, if >-1 then we have a port number (i.e. joystick port, Apple I/O port, subclass-specific)
       bool m_bSingleSampleDT; // set to true if just want a single sample per dt interval
@@ -25,9 +28,6 @@ class CSensor
       // private function
       // note that x/y/z should be scaled to +/- 2g, return values as +/- 2.0f*EARTH_G (in define.h: 9.78033 m/s^2)
       virtual bool read_xyz(float& x1, float& y1, float& z1) = 0;   // read raw sensor data, pure virtual function subclass implemented  
-
-    protected:
-	   e_sensor m_iType; // what type of sensor, i.e. Thinkpad, HP, USB?
 
    public:
      CSensor();

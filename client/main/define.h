@@ -167,8 +167,9 @@ enum e_perturb {
 #define INTERVAL_PING_SECONDS 1800.0f
 
 const float g_cfTimeWindow = 60.0f;  // time window in seconds
-const double g_DT = 0.02f;          // delta t sampling interval, i.e. target time between points
-const double g_DT_SLOW = 0.10f;      // delta t sampling interval for slow/troublesome machines (i.e. can't keep up at <3 samples per dt=.02)
+const double g_DT = 0.02;          // delta t sampling interval, i.e. target time between points
+const double g_DT_SLOW = 0.10;      // delta t sampling interval for slow/troublesome machines (i.e. can't keep up at <3 samples per dt=.02)
+const double g_DT_SNAIL = 0.20;      // for horrible machines but maybe let them run for educational purposes?
 const int g_TenSecCount = 500;   // 10 / g_DT
 
 // common QCN defines & return codes can go here
@@ -273,8 +274,8 @@ enum e_sensor  { SENSOR_NOTFOUND = 0,  // 0
 // ERR_CRASH       = an unspecified catch-all for a QCN crash
 
 // the number of seconds lag before we consider it an error an reset the sensor
-#define TIME_ERROR_SECONDS .90f         // an error of more than this (2000%!) is critical and we should reset timer
-#define SLUGGISH_MACHINE_THRESHOLD 100   // if exceededs this many time resets in a session, bump up DT to DT_SLOW
+#define TIME_ERROR_SECONDS .50f         // an error of more than this (2000%!) is critical and we should reset timer
+#define SLUGGISH_MACHINE_THRESHOLD 50   // if exceeds this many time resets in a session, bump up DT to DT_SLOW
 
 #define THREAD_EXIT -1
 #define QCN_SHMEM         "quake"
@@ -421,7 +422,7 @@ struct FDSET_GROUP {
 // this is DT/SAMPLING_FREQUENCY * 1e6
 #define DT_MICROSECOND_SAMPLE 2000
 #define SAMPLING_FREQUENCY  10.0f
-#define SAMPLE_SIZE 5
+#define SAMPLE_SIZE 3
 
 #ifdef GRAPHICS_PROGRAM
 
