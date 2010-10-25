@@ -378,7 +378,7 @@ void CDialogSettings::OnStationUpdated( wxCommandEvent& WXUNUSED(event) )
 		 sprintf(strErr, "Error: Station should be a maximum of %d alphanumeric characters in length, not %d", 
              SIZEOF_STATION_STRING-1, iLen);
          wxMessageBox(
-            _T(strErr), 
+            strErr, 
             _T("Station Validation Error")
          );
 		 delete [] strErr;

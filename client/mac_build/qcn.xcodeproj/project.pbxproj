@@ -1403,12 +1403,13 @@
 					../util,
 					../sensor,
 					../../../boinc/lib/mac,
-					"/usr/local/lib/wx/include/mac-ansi-release-static-2.8",
-					"/usr/local/include/wx-2.8",
+					"/usr/local/lib/wx/include/osx_carbon-unicode-static-2.9",
+					"/usr/local/include/wx-2.9",
 				);
 				INFOPLIST_FILE = "qcnlive-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = (
+					"/usr/local/include/wx-2.9",
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
 				);
@@ -1417,14 +1418,16 @@
 				OTHER_CFLAGS = (
 					"-Wall",
 					"-D_DEBUG_QCNLIVE",
+					"-D_DEBUG",
 					"-D_USE_NTPDATE_EXEC_",
 					"-DQCNLIVE",
 					"-DGRAPHICS_PROGRAM",
 					"-DAPP_GRAPHICS",
 					"-DHAVE_SYS_RESOURCE_H",
 					"-D_FILE_OFFSET_BITS=64",
-					"-D_LARGE_FILES",
 					"-D__WXMAC__",
+					"-D__WXOSX__",
+					"-D__WXOSX_CARBON__",
 				);
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -1443,11 +1446,11 @@
 					AGL,
 					"-framework",
 					WebKit,
-					"-lwxexpat-2.8",
-					"-lwxtiff-2.8",
-					"-lwxpng-2.8",
-					"-lwx_mac_gl-2.8",
-					"-lwx_mac-2.8",
+					"-lwxexpat-2.9",
+					"-lwxtiff-2.9",
+					"-lwxpng-2.9",
+					"-lwx_osx_carbonu_gl-2.9",
+					"-lwx_osx_carbonu-2.9",
 					"-lpthread",
 					"-liconv",
 				);
@@ -1479,13 +1482,13 @@
 					../util,
 					../sensor,
 					../../../boinc/lib/mac,
-					"/usr/local/lib/wx/include/mac-ansi-release-static-2.8",
-					"/usr/local/include/wx-2.8",
+					"/usr/local/lib/wx/include/osx_carbon-unicode-static-2.9",
+					"/usr/local/include/wx-2.9",
 				);
 				INFOPLIST_FILE = "qcnlive-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = (
-					"/usr/local/include/wx-2.8",
+					"/usr/local/include/wx-2.9",
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
 				);
@@ -1498,8 +1501,9 @@
 					"-DHAVE_SYS_RESOURCE_H",
 					"-DNDEBUG",
 					"-D_FILE_OFFSET_BITS=64",
-					"-D_LARGE_FILES",
 					"-D__WXMAC__",
+					"-D__WXOSX__",
+					"-D__WXOSX_CARBON__",
 				);
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -1518,11 +1522,11 @@
 					AGL,
 					"-framework",
 					WebKit,
-					"-lwxexpat-2.8",
-					"-lwxtiff-2.8",
-					"-lwxpng-2.8",
-					"-lwx_mac_gl-2.8",
-					"-lwx_mac-2.8",
+					"-lwxexpat-2.9",
+					"-lwxtiff-2.9",
+					"-lwxpng-2.9",
+					"-lwx_osx_carbonu_gl-2.9",
+					"-lwx_osx_carbonu-2.9",
 					"-lpthread",
 					"-liconv",
 				);
@@ -2069,13 +2073,13 @@
 					../util,
 					../sensor,
 					../../../boinc/lib/mac,
-					"/usr/local/lib/wx/include/mac-ansi-release-static-2.8",
-					"/usr/local/include/wx-2.8",
+					"/usr/local/lib/wx/include/osx_carbon-unicode-static-2.9",
+					"/usr/local/include/wx-2.9",
 				);
 				INFOPLIST_FILE = "qcnlive-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = (
-					"/usr/local/include/wx-2.8",
+					"/usr/local/include/wx-2.9",
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
 				);
@@ -2088,8 +2092,9 @@
 					"-DHAVE_SYS_RESOURCE_H",
 					"-DNDEBUG",
 					"-D_FILE_OFFSET_BITS=64",
-					"-D_LARGE_FILES",
 					"-D__WXMAC__",
+					"-D__WXOSX__",
+					"-D__WXOSX_CARBON__",
 				);
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -2108,11 +2113,11 @@
 					AGL,
 					"-framework",
 					WebKit,
-					"-lwxexpat-2.8",
-					"-lwxtiff-2.8",
-					"-lwxpng-2.8",
-					"-lwx_mac_gl-2.8",
-					"-lwx_mac-2.8",
+					"-lwxexpat-2.9",
+					"-lwxtiff-2.9",
+					"-lwxpng-2.9",
+					"-lwx_osx_carbonu_gl-2.9",
+					"-lwx_osx_carbonu-2.9",
 					"-lpthread",
 					"-liconv",
 				);
@@ -2366,12 +2371,13 @@
 					../util,
 					../sensor,
 					../../../boinc/lib/mac,
-					"/usr/local/lib/wx/include/mac-ansi-release-static-2.8",
-					"/usr/local/include/wx-2.8",
+					"/usr/local/lib/wx/include/osx_carbon-unicode-static-2.9",
+					"/usr/local/include/wx-2.9",
 				);
 				INFOPLIST_FILE = "qcnlive-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = (
+					"/usr/local/include/wx-2.9",
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
 				);
@@ -2384,10 +2390,11 @@
 					"-DGRAPHICS_PROGRAM",
 					"-DAPP_GRAPHICS",
 					"-DHAVE_SYS_RESOURCE_H",
-					"-D_FILE_OFFSET_BITS=64",
-					"-D_LARGE_FILES",
-					"-D__WXMAC__",
 					"-D_DEBUG",
+					"-D_FILE_OFFSET_BITS=64",
+					"-D__WXMAC__",
+					"-D__WXOSX__",
+					"-D__WXOSX_CARBON__",
 				);
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -2406,11 +2413,11 @@
 					AGL,
 					"-framework",
 					WebKit,
-					"-lwxexpat-2.8",
-					"-lwxtiff-2.8",
-					"-lwxpng-2.8",
-					"-lwx_mac_gl-2.8",
-					"-lwx_mac-2.8",
+					"-lwxexpat-2.9",
+					"-lwxtiff-2.9",
+					"-lwxpng-2.9",
+					"-lwx_osx_carbonu_gl-2.9",
+					"-lwx_osx_carbonu-2.9",
 					"-lpthread",
 					"-liconv",
 				);
