@@ -128,6 +128,16 @@ inline bool CSensorMacUSBGeneric::read_xyz(float& x1, float& y1, float& z1)
    return true;
 }
 
+const char* CSensorMacUSBGeneric::getTypeStr(int iType)
+{
+        return SENSOR_STRLG_USB_MAC_DRIVER;
+}
+
+const char* CSensorMacUSBGeneric::getTypeStrShort()
+{
+      return SENSOR_STRSH_USB_MAC_DRIVER;
+}
+
 bool CSensorMacUSBGeneric::detect()
 {
    // first try and discover the HID interface (JoyWarrior)

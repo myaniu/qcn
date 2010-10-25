@@ -205,12 +205,47 @@ enum e_sensor  { SENSOR_NOTFOUND = 0,  // 0
                  SENSOR_MAC_PPC_TYPE3, // 3
                  SENSOR_MAC_INTEL,     // 4
                  SENSOR_WIN_THINKPAD,  // 5
-		         SENSOR_WIN_HP,        // 6
-		         SENSOR_USB_JW24F8  = 100,        // 100
-			     SENSOR_USB_MOTIONNODEACCEL,   // 101
-	             SENSOR_USB_ONAVI_1,     // 102
-	             SENSOR_USB_JW24F14      // 103
+		 SENSOR_WIN_HP,        // 6
+		 SENSOR_USB_JW24F8  = 100,        // 100
+		 SENSOR_USB_MOTIONNODEACCEL,   // 101
+	         SENSOR_USB_ONAVI_1,     // 102
+	         SENSOR_USB_JW24F14      // 103
                };
+
+// strings for sensor types
+#define SENSOR_STRLG_NOTFOUND "Not Found"
+#define SENSOR_STRSH_NOTFOUND ""
+
+#define SENSOR_STRLG_MAC_PPC1  "PPC Mac Laptop Type 1"
+#define SENSOR_STRSH_MAC_PPC1  "MP"
+#define SENSOR_STRLG_MAC_PPC2  "PPC Mac Laptop Type 2"
+#define SENSOR_STRSH_MAC_PPC2  "MP"
+#define SENSOR_STRLG_MAC_PPC3  "PPC Mac Laptop Type 3"
+#define SENSOR_STRSH_MAC_PPC3  "MP"
+#define SENSOR_STRLG_MAC_INTEL "Intel Mac Laptop"
+#define SENSOR_STRSH_MAC_INTEL "MI"
+
+#define SENSOR_STRLG_WIN_THINKPAD "Lenovo Thinkpad Laptop"
+#define SENSOR_STRSH_WIN_THINKPAD "TP"
+
+#define SENSOR_STRLG_WIN_HP "HP Laptop"
+#define SENSOR_STRSH_WIN_HP "HP"
+
+#define SENSOR_STRLG_USB_MAC_DRIVER "Mac USB Driver"
+#define SENSOR_STRSH_USB_MAC_DRIVER "MD"
+
+#define SENSOR_STRLG_USB_JW24F8 "JoyWarrior 24F8 USB"
+#define SENSOR_STRSH_USB_JW24F8 "JW"
+
+#define SENSOR_STRLG_USB_JW24F14 "JoyWarrior 24F14 (Tomcat) USB"
+#define SENSOR_STRSH_USB_JW24F14 "JT"
+
+#define SENSOR_STRLG_USB_MN "MotionNode Accel USB"
+#define SENSOR_STRSH_USB_MN "MN"
+
+#define SENSOR_STRLG_USB_ONAVI1 "ONavi G1 USB"
+#define SENSOR_STRSH_USB_ONAVI1 "O1"
+
 
 // set to the min allowable value of a usb sensor enum as above
 #define MIN_SENSOR_USB 100

@@ -579,6 +579,17 @@ inline bool CSensorMacUSBJW24F14::read_xyz(float& x1, float& y1, float& z1)
 	return true;
 }
 
+const char* CSensorMacUSBJW::getTypeStr(int iType)
+{
+   return SENSOR_STRLG_USB_JW24F8;
+}
+
+
+const char* CSensorMacUSBJW::getTypeStrShort()
+{
+   return SENSOR_STRSH_USB_JW24F8;
+}
+
 bool CSensorMacUSBJW24F14::detect()
 {
    // first try and discover the HID interface (JoyWarrior)

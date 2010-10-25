@@ -70,6 +70,17 @@ void CSensorUSBMotionNodeAccel::closePort()
     }
 }
 
+const char* CSensorUSBMotionNodeAccel::getTypeStr(int iType)
+{
+        return SENSOR_STRLG_USB_MN;
+}
+
+
+const char* CSensorUSBMotionNodeAccel::getTypeStrShort()
+{
+      return SENSOR_STRSH_USB_MN;
+}
+
 bool CSensorUSBMotionNodeAccel::detect()
 {
    setType();

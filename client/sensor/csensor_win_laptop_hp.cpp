@@ -113,6 +113,17 @@ void CSensorWinHP::closePort()
     }
 }
 
+const char* CSensorWinHP::getTypeStr(int iType)
+{
+        return SENSOR_STRLG_WIN_HP;
+}
+
+
+const char* CSensorWinHP::getTypeStrShort()
+{
+      return SENSOR_STRSH_WIN_HP;
+}
+
 bool CSensorWinHP::detect()
 {
 

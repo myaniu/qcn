@@ -45,13 +45,14 @@ class CSensor
      // pure virtual functions that subclasses of CSensor (for specific sensor types) need to implement
      virtual bool detect() = 0;   // this detects & initializes a sensor on a Mac G4/PPC or Intel laptop, sets m_iType to 0 if not found
 
+	// following two are pure virtual functions which are defined in derived classes for setting appropriate sensor name etc
+	 virtual const char* getTypeStr(int iType = -1) = 0;  // return the iType member variable
+	 virtual const char* getTypeStrShort() = 0;  // return the iType member variable
+	
      // public virtual functions implemented in CSensor but can be overridden
      virtual void closePort(); // closes the port if open
      virtual const e_sensor getTypeEnum(); // return the iType member variable
  
-     // following two are pure virtual functions which are defined in derived classes for setting appropriate sensor name etc
-     virtual const char* getTypeStr(int iType = -1) = 0;  // return the iType member variable
-     virtual const char* getTypeStrShort() = 0;  // return the iType member variable
 
      virtual bool mean_xyz();   // mean sensor data, implemented here but can be overridden
 };
