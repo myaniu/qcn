@@ -1386,11 +1386,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = (
-					i386,
-					ppc,
-					x86_64,
-				);
+				ARCHS = i386;
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/";
 				COPY_PHASE_STRIP = NO;
 				GCC_DEBUGGING_SYMBOLS = full;
@@ -1479,7 +1475,7 @@
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
-				GCC_VERSION = 4.0;
+				GCC_VERSION = 4.2;
 				HEADER_SEARCH_PATHS = (
 					../../,
 					"../../jpeg-6b",
@@ -2076,7 +2072,7 @@
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
-				GCC_VERSION = 4.0;
+				GCC_VERSION = 4.2;
 				HEADER_SEARCH_PATHS = (
 					../../,
 					"../../jpeg-6b",
@@ -2376,7 +2372,7 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
-				GCC_VERSION = 4.0;
+				GCC_VERSION = 4.2;
 				HEADER_SEARCH_PATHS = (
 					../../,
 					"../../jpeg-6b",
