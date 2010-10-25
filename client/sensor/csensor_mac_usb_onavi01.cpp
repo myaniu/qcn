@@ -41,7 +41,7 @@ const char* CSensorMacUSBONavi01::getTypeStr(int iType)
 }
 
 
-const char* CSensorUSBONavi01::getTypeStrShort()
+const char* CSensorMacUSBONavi01::getTypeStrShort()
 {
       return SENSOR_STRSH_USB_ONAVI1;
 }

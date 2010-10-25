@@ -22,8 +22,7 @@
 #else
    const char CSensorUSBMotionNodeAccel::m_cstrDLL[] = {"libMotionNodeAccelAPI.so"};   
 #endif // apple or linux
-#endif // windows
-
+#endif // windows˚˚
 CSensorUSBMotionNodeAccel::CSensorUSBMotionNodeAccel()
   : CSensor(), 
      m_WinDLLHandle(NULL), m_SymHandle(NULL), m_node(NULL)
@@ -34,6 +33,18 @@ CSensorUSBMotionNodeAccel::~CSensorUSBMotionNodeAccel()
 {
    closePort();
 }
+
+const char* CSensorUSBMotionNodeAccel::getTypeStr(int iType)
+{
+	return SENSOR_STRLG_USB_MN;
+}
+
+
+const char* CSensorUSBMotionNodeAccel::getTypeStrShort()
+{
+	return SENSOR_STRSH_USB_MN;
+}
+
 
 void CSensorUSBMotionNodeAccel::closePort()
 {
@@ -68,17 +79,6 @@ void CSensorUSBMotionNodeAccel::closePort()
 #endif
 	m_WinDLLHandle = NULL;
     }
-}
-
-const char* CSensorUSBMotionNodeAccel::getTypeStr(int iType)
-{
-        return SENSOR_STRLG_USB_MN;
-}
-
-
-const char* CSensorUSBMotionNodeAccel::getTypeStrShort()
-{
-      return SENSOR_STRSH_USB_MN;
 }
 
 bool CSensorUSBMotionNodeAccel::detect()

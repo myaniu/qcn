@@ -335,7 +335,7 @@ bool CSensorMacUSBGeneric::detect()
     setSingleSampleDT(true);  // note the usb sensor the sampling is done in the qcnusb driver, with pipes synchronizing the communication
 
     fprintf(stdout, "Using the QCN Generic USB Driver for the Mac (qcnusb)\nSensor Type # %d - %s detected in %f seconds\n", 
-       getTypeEnum(), getTypeStr(), (float) iWait * .1f
+			getTypeEnum(), getTypeStr(), (float) iWait * .1f
     );
 
     // initialize time checks

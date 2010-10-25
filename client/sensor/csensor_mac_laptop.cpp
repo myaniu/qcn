@@ -50,6 +50,8 @@ const char* CSensorMacLaptop::getTypeStr(int iType)
      case SENSOR_MAC_INTEL:
         return SENSOR_STRLG_MAC_INTEL;
         break;
+	  default:
+		   return SENSOR_STRLG_NOTFOUND;
    }
 }
 
@@ -69,6 +71,8 @@ const char* CSensorMacLaptop::getTypeStrShort()
      case SENSOR_MAC_INTEL:
         return SENSOR_STRSH_MAC_INTEL;
         break;
+	   default:
+		   return SENSOR_STRSH_NOTFOUND;
    }
 }
 
