@@ -37,8 +37,8 @@ mv lib/.libs/libcurl.a lib/libcurl_i386.a
 
 #Intel 64-bit Mac
 export MARCH=x86_64
-export CXX=g++-4.0
-export CC=gcc-4.0
+export CXX=g++-4.2
+export CC=gcc-4.2
 export MACOSX_DEPLOYMENT_TARGET=10.5
 export SDKROOT="/Developer/SDKs/MacOSX10.5.sdk"
 export LDFLAGS="-isysroot $SDKROOT -Wl,-syslibroot,$SDKROOT -arch $MARCH"

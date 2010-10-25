@@ -43,8 +43,8 @@ mv ntpdate/ntpdate ../client/bin/init/ntpdate_4.2.4p7c_i686-apple-darwin
 
 #Intel 64-bit Macs on 10.5
 export MARCH=x86_64
-export CXX=g++-4.0
-export CC=gcc-4.0
+export CXX=g++-4.2
+export CC=gcc-4.2
 export MACOSX_DEPLOYMENT_TARGET=10.5
 export SDKROOT="/Developer/SDKs/MacOSX10.5.sdk"
 export LDFLAGS="-isysroot $SDKROOT -Wl,-syslibroot,$SDKROOT -arch $MARCH"
