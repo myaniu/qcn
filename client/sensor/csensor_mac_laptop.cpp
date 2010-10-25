@@ -37,7 +37,7 @@ void CSensorMacLaptop::closePort()
 const char* CSensorMacLaptop::getTypeStr(int iType)
 {
    if (iType == -1) iType = m_iType;  // default is to use the type for the given CSensor
-   switch (m_iType) {
+   switch (iType) {
      case SENSOR_MAC_PPC_TYPE1:
         return SENSOR_STRLG_MAC_PPC1;
         break;

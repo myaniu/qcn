@@ -271,8 +271,12 @@ extern int sacio
     lTemp = npts;
     long_swap((QCN_CBYTE*) &lTemp, sacdata.l[esl_npts]);   // number of points per data component
 
+/*
     lTemp = FALSE;
     long_swap((QCN_CBYTE*) &lTemp, sacdata.l[esl_leven]);   // can't guarantee evenly spaced due to idle priority, accelerometer grade, etc!
+*/
+    lTemp = TRUE;
+    long_swap((QCN_CBYTE*) &lTemp, sacdata.l[esl_leven]);   // actually we are going to force even spaced .02s (50Hz) timings
 
     lTemp = TRUE;
     long_swap((QCN_CBYTE*) &lTemp, sacdata.l[esl_lovrok]);   // OK to overwrite

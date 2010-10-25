@@ -226,15 +226,71 @@ inline bool CSensorMacUSBGeneric::read_xyz(float& x1, float& y1, float& z1)
 
 const char* CSensorMacUSBGeneric::getTypeStr(int iType)
 {
-   // should never be called here, just
-   return SENSOR_STRLG_USB_MAC_DRIVER;
+	if (iType == -1) iType = m_iType;  // default is to use the type for the given CSensor
+	//return "JoyWarrior 24F8 USB";
+	switch (iType) {
+		case SENSOR_MAC_PPC_TYPE1:
+			return SENSOR_STRLG_MAC_PPC1;
+			break;
+		case SENSOR_MAC_PPC_TYPE2:
+			return SENSOR_STRLG_MAC_PPC2;
+			break;
+		case SENSOR_MAC_PPC_TYPE3:
+			return SENSOR_STRLG_MAC_PPC3;
+			break;
+		case SENSOR_MAC_INTEL:
+			return SENSOR_STRLG_MAC_INTEL;
+			break;
+		case SENSOR_USB_JW24F8:
+			return SENSOR_STRLG_USB_JW24F8;
+			break;
+		case SENSOR_USB_JW24F14:
+			return SENSOR_STRLG_USB_JW24F14;
+			break;
+		case SENSOR_USB_ONAVI_1:
+			return SENSOR_STRLG_USB_ONAVI1;
+			break;
+		case SENSOR_USB_MOTIONNODEACCEL:
+			return SENSOR_STRLG_USB_MN;
+			break;
+		default:
+			return SENSOR_STRLG_NOTFOUND;
+	}
 }
 
 
 const char* CSensorMacUSBGeneric::getTypeStrShort()
 {
-   return SENSOR_STRSH_USB_MAC_DRIVER;
+	switch (m_iType) {
+		case SENSOR_MAC_PPC_TYPE1:
+			return SENSOR_STRSH_MAC_PPC1;
+			break;
+		case SENSOR_MAC_PPC_TYPE2:
+			return SENSOR_STRSH_MAC_PPC2;
+			break;
+		case SENSOR_MAC_PPC_TYPE3:
+			return SENSOR_STRSH_MAC_PPC3;
+			break;
+		case SENSOR_MAC_INTEL:
+			return SENSOR_STRSH_MAC_INTEL;
+			break;
+		case SENSOR_USB_JW24F8:
+			return SENSOR_STRSH_USB_JW24F8;
+			break;
+		case SENSOR_USB_JW24F14:
+			return SENSOR_STRSH_USB_JW24F14;
+			break;
+		case SENSOR_USB_ONAVI_1:
+			return SENSOR_STRSH_USB_ONAVI1;
+			break;
+		case SENSOR_USB_MOTIONNODEACCEL:
+			return SENSOR_STRSH_USB_MN;
+			break;
+		default:
+			return SENSOR_STRSH_NOTFOUND;
+	}
 }
+
 
 bool CSensorMacUSBGeneric::detect()
 {

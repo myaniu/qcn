@@ -85,6 +85,7 @@ inline bool CSensor::mean_xyz()
  * sensor in a window dt from time t0.
  */
    static long lLastSample = 10L;  // store last sample size, start at 10 so doesn't give less sleep below, but will if lastSample<3
+   static double dLastTime = 0.0;
    float x1,y1,z1;
    double dTimeDiff=0.0f;
    bool result = false;
@@ -180,6 +181,7 @@ static FILE* fileDebug = NULL;
 
    sm->fRealDT += (float) fabs(sm->t0active - sm->t0check);
 
+   dLastTime = sm->t0active;
    sm->bWriting = false;
    //sm->writepos = 10;
    
@@ -194,7 +196,7 @@ static FILE* fileDebug = NULL;
       return false;   // if we're not debugging, this is a serious run-time problem, so reset time & counters & try again
 #endif
    }
-   
+ 
    return true;
 }
 
