@@ -83,6 +83,7 @@ bool CSensorMacLaptop::detect()
  *  sensor, and thus figuring out which works.
  */
     int i;
+	setSingleSampleDT(true);
     setType(SENSOR_NOTFOUND);
     for ( i = 1; i < 4; i++ ) {
         init_ppc(i);
@@ -159,16 +160,21 @@ void CSensorMacLaptop::init_intel(const int iType)
 
 void CSensorMacLaptop::init_ppc(const int iType)
 {
-/*  Initiallizes the PowerBook & iBook Sudden Motion Sensors:
+/*  Initializes the PowerBook & iBook Sudden Motion Sensors:
  *    1) Sets up data structure for device
  *    2) Determines if port even exists
  *    3) Checks if the device is available
  *    4) Attempts to open the sensor
  *    5) Attempts to read the sensor
  */
-      io_connect_t  dataPort;
       
-      m_iStruct = 0;
+	kern_return_t result;                    /* time variables            */
+	mach_port_t   masterPort;
+	io_iterator_t iterator;
+	io_object_t   aDevice;
+	io_connect_t  dataPort;
+
+	m_iStruct = 0;
       switch (iType) {
       case 1:
           m_iKernel = 21;
@@ -187,6 +193,32 @@ void CSensorMacLaptop::init_ppc(const int iType)
 		  m_iKernel = 0;
 	      setSensorStr();
       }
+	
+	result = IOMasterPort(MACH_PORT_NULL, &masterPort);
+	CFMutableDictionaryRef matchingDictionary = IOServiceMatching(getSensorStr());
+	result = IOServiceGetMatchingServices(masterPort, matchingDictionary, &iterator);
+	if (result != KERN_SUCCESS) {
+		//          fputs("IOServiceGetMatchingServices returned error.\n", stderr);
+		return;
+	};
+	
+	
+	aDevice = IOIteratorNext(iterator);   /*CHECK THAT DEVICE IS AVAILABLE    */
+	IOObjectRelease(iterator);
+	if (aDevice == 0) {
+		fprintf(stdout, "No motion sensor available of type # %d %s\n", iType, getSensorStr());
+		return;
+	};
+	
+	result = IOServiceOpen(aDevice, mach_task_self(), 0, &dataPort);
+	IOObjectRelease(aDevice);
+	if(result != KERN_SUCCESS) {
+		setPort(-1);
+		fprintf(stdout, "Could not open motion sensor device\n");
+		return;
+	};
+	setPort(dataPort);
+	
 	setPort(dataPort);
 	setType((e_sensor) iType);
 	
