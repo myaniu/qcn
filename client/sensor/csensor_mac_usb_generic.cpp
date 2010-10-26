@@ -226,7 +226,7 @@ inline bool CSensorMacUSBGeneric::read_xyz(float& x1, float& y1, float& z1)
 
 const char* CSensorMacUSBGeneric::getTypeStr(int iType)
 {
-	if (iType == -1) iType = m_iType;  // default is to use the type for the given CSensor
+	if (iType == SENSOR_NOTFOUND || iType == -1) iType = m_iType;  // default is to use the type for the given CSensor
 	//return "JoyWarrior 24F8 USB";
 	switch (iType) {
 		case SENSOR_MAC_PPC_TYPE1:

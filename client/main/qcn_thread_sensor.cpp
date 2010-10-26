@@ -63,7 +63,7 @@ extern void* QCNThreadSensor(void*)
                 continue;
             }
             g_bSensorTrickle = false;
-            fprintf(stderr, "Motion sensor initialized of type %d - %s.\n", qcn_main::g_psms->getTypeEnum(), qcn_main::g_psms->getTypeStr());
+            //fprintf(stderr, "Motion sensor initialized of type %d - %s.\n", qcn_main::g_psms->getTypeEnum(), qcn_main::g_psms->getTypeStr());
             fprintf(stdout, "Motion sensor initialized of type %d - %s.\n", qcn_main::g_psms->getTypeEnum(), qcn_main::g_psms->getTypeStr());
          }
          else { // if (!qcn_main::g_psms || qcn_main::g_psms->getTypeEnum() == SENSOR_NOTFOUND) { // no sensor of any type detected

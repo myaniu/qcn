@@ -36,7 +36,8 @@ void CSensorMacLaptop::closePort()
 
 const char* CSensorMacLaptop::getTypeStr(int iType)
 {
-   if (iType == -1) iType = m_iType;  // default is to use the type for the given CSensor
+   //fprintf(stdout, "getTypeStr(%d)  (m_iType=%d)\n", iType, m_iType);
+   if (iType == SENSOR_NOTFOUND || iType == -1) iType = m_iType;  // default is to use the type for the given CSensor
    switch (iType) {
      case SENSOR_MAC_PPC_TYPE1:
         return SENSOR_STRLG_MAC_PPC1;
@@ -147,12 +148,12 @@ void CSensorMacLaptop::init_intel(const int iType)
 	  if (!read_xyz(x1, y1, z1)) {
 	  	setPort(-1);
 		setType(SENSOR_NOTFOUND);
-		printf("no coords returned, error!\n");
+		fprintf(stdout, "No coords returned for Intel Mac, error!\n");
 	  }
 	  else {
+		 setType(SENSOR_MAC_INTEL); // must have been detected, so set the member var for iType
          fprintf(stdout, "Intel Macbook Pro compatible motion sensor detected!\n");
          fflush(stdout);
-         setType(SENSOR_MAC_INTEL); // must have been detected, so set the member var for iType
 	  }
 }
 
@@ -182,9 +183,9 @@ void CSensorMacLaptop::init_ppc(const int iType)
           setSensorStr("PMUMotionSensor");
           break;
       default:
-	  setType(SENSOR_NOTFOUND);
-	  m_iKernel = 0;
-	  setSensorStr();
+	      setType(SENSOR_NOTFOUND);
+		  m_iKernel = 0;
+	      setSensorStr();
       }
 	setPort(dataPort);
 	setType((e_sensor) iType);
@@ -193,12 +194,12 @@ void CSensorMacLaptop::init_ppc(const int iType)
 	if (!read_xyz(x1, y1, z1)) {
 	  	setPort(-1);
 		setType(SENSOR_NOTFOUND);
-		printf("no coords returned, error!\n");
+		fprintf(stdout, "No coords returned for PPC Mac Type %d, error!\n", iType);
 	}
 	else {
-		fprintf(stdout, "Intel Macbook Pro compatible motion sensor detected!\n");
-		fflush(stdout);
 		setType((e_sensor) iType);
+		fprintf(stdout, "Intel Macbook Pro Type %d compatible motion sensor detected!\n", iType);
+		fflush(stdout);
 	}
 	
 };
@@ -224,9 +225,10 @@ inline bool CSensorMacLaptop::read_xyz(float& x1, float& y1, float& z1)
          memset(&inputStructureIntel,  0x00, sizeof(inputStructureIntel));  // this was set to 0x01 originally, why?
          memset(&outputStructureIntel, 0x00, sizeof(outputStructureIntel));
 
-#if defined(__LP64__)
-		  // Check if Mac OS X 10.5 API is available...
-			  result = IOConnectCallStructMethod(getPort(),                     // an io_connect_t returned from IOServiceOpen().
+#if defined(__LP64__) 
+		  // Mac OS X 10.5 API is available...
+			  result = IOConnectCallStructMethod(
+												     getPort(),                     // an io_connect_t returned from IOServiceOpen().
 													 m_iKernel,     // selector of the function to be called via the user client.
 													 &inputStructureIntel,                     // pointer to the input struct parameter.
 													 structureInputSize,                 // the size of the input structure parameter.
@@ -261,17 +263,19 @@ inline bool CSensorMacLaptop::read_xyz(float& x1, float& y1, float& z1)
          memset(&inputStructurePPC,  0x00, sizeof(inputStructurePPC));
          memset(&outputStructurePPC, 0x00, sizeof(outputStructurePPC));
 
-#ifdef __LP64__ // MAC_OS_X_VERSION_10_5
-		  // 'kern_return_t IOConnectCallStructMethod(mach_port_t, uint32_t, const void*, size_t, void*, size_t*)'
-		  
-		  result = IOConnectCallStructMethod(getPort(), 
-											 m_iKernel,
-											 &inputStructurePPC, 
-											 structureInputSize,
-											 &outputStructurePPC, 
-											 &structureOutputSize );
+		  // CMC note:  these single calls to IOConnect are eating up a lot of CPU at only 3 samples per dt
+#if defined(__LP64__)
+		  // Check if Mac OS X 10.5 API is available...
+		  result = IOConnectCallStructMethod(getPort(),                     // an io_connect_t returned from IOServiceOpen().
+											 m_iKernel,     // selector of the function to be called via the user client.
+											 &inputStructurePPC,                     // pointer to the input struct parameter.
+											 structureInputSize,                 // the size of the input structure parameter.
+											 &outputStructurePPC,                     // pointer to the output struct parameter.
+											 &structureOutputSize                  // pointer to the size of the output structure parameter.
+											 );
+		  // Otherwise fall back to older API.
 #else
-		  result = IOConnectMethodStructureIStructureO(
+		result = IOConnectMethodStructureIStructureO(
 													   getPort(),
 													   m_iKernel,			           // index to kernel ,5,21,24
 													   structureInputSize,
@@ -293,6 +297,6 @@ inline bool CSensorMacLaptop::read_xyz(float& x1, float& y1, float& z1)
       y1 = (y1 / 256.0) * EARTH_G;
       z1 = (z1 / 256.0) * EARTH_G;
  
-      return true;
+      return (result == KERN_SUCCESS);
 }
 

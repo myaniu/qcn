@@ -74,7 +74,7 @@ class CSensorMacUSBJW  : public CSensor
       virtual ~CSensorMacUSBJW();
 
       virtual bool detect();    // this detects the Mac USB sensor
-      virtual const char* getTypeStr(int iType);
+      virtual const char* getTypeStr(int iType = SENSOR_NOTFOUND);
       virtual const char* getTypeStrShort();
       virtual void closePort(); // closes the port if open
 };

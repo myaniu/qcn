@@ -38,7 +38,7 @@ using std::vector;
 typedef vector<string> ZipFileList;
 #endif
 
-// first define some useful match functions
+// first define some useful math functions
 /*! 
    \def QCN_SQR(A} 
    takes \a A to the second power (i.e. \a A^2 or \a A**2) 
@@ -206,11 +206,11 @@ enum e_sensor  { SENSOR_NOTFOUND = 0,  // 0
                  SENSOR_MAC_PPC_TYPE3, // 3
                  SENSOR_MAC_INTEL,     // 4
                  SENSOR_WIN_THINKPAD,  // 5
-		 SENSOR_WIN_HP,        // 6
-		 SENSOR_USB_JW24F8  = 100,        // 100
-		 SENSOR_USB_MOTIONNODEACCEL,   // 101
-	         SENSOR_USB_ONAVI_1,     // 102
-	         SENSOR_USB_JW24F14      // 103
+		         SENSOR_WIN_HP,        // 6
+		         SENSOR_USB_JW24F8  = 100,   // 100
+		         SENSOR_USB_MOTIONNODEACCEL, // 101
+	             SENSOR_USB_ONAVI_1,     // 102
+				 SENSOR_USB_JW24F14      // 103
                };
 
 // strings for sensor types
