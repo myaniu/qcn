@@ -56,8 +56,8 @@ void removeOldTriggers(const char* strPathTrigger, const double cdFileDelete = T
 bool set_trigger_file(char* strTrigger, const char* strWU, const int iTrigger, const long lTime, bool bReal, bool bContinual, const char* strExtra = NULL);
 bool get_qcn_counter();
 bool set_qcn_counter();
-void setLastTrigger(const double dTime, const long lTime);
-void getLastTrigger(double& dTime, long& lTime);
+int setLastTrigger(const double dTime, const long lTime);  // set & getLastTrigger returns # of triggers this session
+int getLastTrigger(double& dTime, long& lTime);
 void sendIntermediateUpload(std::string strLogicalName, std::string strFullPath);
 #endif
 

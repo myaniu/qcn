@@ -452,7 +452,9 @@ bool getBaseline(CSensor* psms)
 void doTrigger(const bool bReal, const long lOffsetStart, const long lOffsetEnd, const int iVariety)
 {
             double dTimeTrigger;
-/*
+
+	
+	/*
 #ifdef _DEBUG // fake a trigger
             bDebugTest = false;
             fprintf(stdout, "Debug Mode: faking a trigger event!\n");
@@ -466,6 +468,23 @@ void doTrigger(const bool bReal, const long lOffsetStart, const long lOffsetEnd,
             // if this interaction time + a decay offset (usually 60 seconds) is exceeded by the trigger time, it's a valid trigger
 
             if (bReal) { 
+				// first check if we've triggered too recently or had too many triggers on average
+				// lock & update now if this trigger is >3 seconds from the last
+				double dTime = 0.0, dTriggerRate = 0.0, dTimeDiff = 0.0; 
+				long lTime = 0, lTriggerCount = 0;
+				dTimeDiff = sm->t0[sm->lOffset] - sm->t0start;
+				lTriggerCount = qcn_util::getLastTrigger(dTime, lTime);
+				if (dTimeDiff > 300.0) { // calculate a trigger rate for at least 5 minutes worth of data (300 seconds)
+					dTriggerRate = 60.0 * (double) lTriggerCount / dTimeDiff;   // this will be a rate of triggers per minute
+				}
+
+				if (dTime + MIN_RETRIGGER_SECONDS > sm->t0[sm->lOffset] 
+					|| dTriggerRate > MAX_TRIGGER_COUNT_MINUTE) { 
+					// if in here, the last trigger was less than 3 seconds ago, also note boinc can't process trickles within a second
+					// also can skip out of the trigger rate of the session is too high (i.e. averaging a trigger every 30 seconds)
+					return; // too much trigger activity
+				}
+					
               ti.lOffsetStart = sm->lOffset - (long)(60.0f / sm->dt);  // for a real trigger we just need the end point as we go back a minute, and forward a minute or two
               ti.lOffsetEnd   = sm->lOffset;  // for a real trigger we just need the end point as we go back a minute, and forward a minute or two
             }

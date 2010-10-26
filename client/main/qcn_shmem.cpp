@@ -69,6 +69,7 @@ float CQCNShMem::averageSamples()
 void CQCNShMem::resetSampleClock()
 {
     t0active = dtime(); // use the function in boinc/lib
+	t0start = t0active; // save the start time of the session
     t0check = t0active + dt;
     //sm->resetMinMax();
 }

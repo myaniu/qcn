@@ -136,6 +136,8 @@ typedef vector<string> ZipFileList;
 
 #define DEFAULT_SIG_CUTOFF 3.0f
 #define DEFAULT_SHORT_TERM_AVG_MAG 3.0f
+#define MIN_RETRIGGER_SECONDS       3.0f     // min time allowed between triggers
+#define MAX_TRIGGER_COUNT_MINUTE    2.0f     // max trigger count in a minute we can assume their sensor sucks or triggers too much, i.e. 2 per minute avg over a long period is a bit much
 
 #define XML_SIG_CUTOFF         "<fsig>"
 #define XML_SHORT_TERM_AVG_MAG "<fsta>"

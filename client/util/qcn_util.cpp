@@ -409,7 +409,8 @@ void ResetCounter(const e_where eWhere, const int iNumResetInitial)
     bInHere = false;  // set so can come in again
 }
 
-void getLastTrigger(double& dTime, long& lTime)
+// returns count of triggers logged this session (i.e. up to an hour, up to MAX_TRIGGER_LAST (100))
+int getLastTrigger(double& dTime, long& lTime)
 {
     int iOpen;
     for (iOpen = MAX_TRIGGER_LAST-1; iOpen >=0; iOpen--)  {
@@ -423,9 +424,11 @@ void getLastTrigger(double& dTime, long& lTime)
        dTime = sm->dTriggerLastTime[iOpen];
        lTime = sm->lTriggerLastOffset[iOpen];
     }
+	return (iOpen+1);
 }
 
-void setLastTrigger(const double dTime, const long lTime)
+// returns count of triggers logged this session (i.e. up to an hour, up to MAX_TRIGGER_LAST (100))
+int setLastTrigger(const double dTime, const long lTime)
 {  // set trigger at the end of the array, pushout out beginning element if necessary
     int iOpen;
     for (iOpen = 0; iOpen < MAX_TRIGGER_LAST; iOpen++) {
@@ -443,6 +446,7 @@ void setLastTrigger(const double dTime, const long lTime)
         sm->lTriggerLastOffset[iOpen] = lTime;
         sm->dTriggerLastTime[iOpen]   = dTime;
     }
+	return (iOpen+1);
 }
 
 void sendIntermediateUpload(std::string strLogicalName, std::string strFullPath)

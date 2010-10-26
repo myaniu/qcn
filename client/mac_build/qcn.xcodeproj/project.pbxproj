@@ -513,10 +513,10 @@
 			isa = PBXGroup;
 			children = (
 				E3D35C130FF179E900E64121 /* qcn_signal.cpp */,
+				E3C0E7A60D64E9BE0099B905 /* qcn_gzip.cpp */,
 				E3D49FE90D6F74C70088DE83 /* qcn_curl.cpp */,
 				E3C0E7A40D64E9BE0099B905 /* sac.cpp */,
 				E3C0E7A50D64E9BE0099B905 /* gzstream.cpp */,
-				E3C0E7A60D64E9BE0099B905 /* qcn_gzip.cpp */,
 				E3C0E7A70D64E9BE0099B905 /* qcn_thread.cpp */,
 				E3C0E7AD0D64E9BE0099B905 /* qcn_util.cpp */,
 				E3C0E7A80D64E9BE0099B905 /* trickleup.cpp */,

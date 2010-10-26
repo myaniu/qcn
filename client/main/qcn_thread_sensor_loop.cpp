@@ -64,15 +64,8 @@ void TriggerDetectionAlgorithm()
 	   if (
 		 (sm->fsig[sm->lOffset] > qcn_main::g_fPerturb[PERTURB_SIG_CUTOFF])
 		  && (sm->fmag[sm->lOffset] > g_fThreshold) ) {  // was 0.125,  >2 sigma (90% Conf)
-				  // lock & update now if this trigger is >.5 second from the last
-				  double dTime; 
-				  long lTime;
-				  qcn_util::getLastTrigger(dTime, lTime);
-				  if (dTime + 0.50f <= sm->t0[sm->lOffset]) { // if in here, the last trigger was more than a second ago
-					  doTrigger(); // last trigger time will get set in the proc
-				  }
-           }
-      // }  where did this brace come from?
+				doTrigger(); // last trigger time will get set in the proc
+		}
 		
     // Find the largest significance in the time window
 	if (sm->itl > sm->iWindow) {
