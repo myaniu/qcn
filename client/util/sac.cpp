@@ -44,7 +44,7 @@ void wsac0(
     //FILE* fp; 
     //if ( (fp = fopen(fname, "wb")) == NULL) {
     if ( fp.open(fname, "wb") ) {
-       fprintf(stdout, "Error opening file %s\n", fname);
+       fprintf(stderr, "Error opening file %s\n", fname);
        return;
     }
 
@@ -53,20 +53,20 @@ void wsac0(
     //sizeWrite = fwrite(psacdata, 1, sizeof(struct sac_header), fp);  // write the header
     sizeWrite = fp.write(psacdata, 1, sizeof(struct sac_header));  // write the header
     if (sizeWrite != (size_t) sizeof(struct sac_header)) {
-       fprintf(stdout, "wsac0:header:: Expected %ld bytes written but wrote %ld for %s\n", sizeof(struct sac_header), sizeWrite, fname);
+       fprintf(stderr, "wsac0:header:: Expected %ld bytes written but wrote %ld for %s\n", sizeof(struct sac_header), sizeWrite, fname);
     }
 
     // now write the data -- should be independent data (yarray) first then time data (xarray)
     //sizeWrite = fwrite(yarray, sizeof(float), npts, fp);  // write the y-axis (x0/y0/z0/fsig/)
     sizeWrite = fp.write(yarray, sizeof(float), npts);  // write the y-axis (x0/y0/z0/fsig/)
     if (sizeWrite != (size_t) (npts)) {
-       fprintf(stdout, "wsac0:yarray:: Expected %ld bytes written but wrote %ld for %s\n", sizeof(float) * npts, sizeof(float) * sizeWrite, fname);
+       fprintf(stderr, "wsac0:yarray:: Expected %ld bytes written but wrote %ld for %s\n", sizeof(float) * npts, sizeof(float) * sizeWrite, fname);
     }
 
     //sizeWrite = fwrite(xarray, sizeof(float), npts, fp);  // write the x-axis (time/t0) as floats differenced from ref (zero) time
     sizeWrite = fp.write(xarray, sizeof(float), npts);  // write the x-axis (time/t0) as floats differenced from ref (zero) time
     if (sizeWrite != (size_t) (npts)) {
-       fprintf(stdout, "wsac0:xarray:: Expected %ld bytes written but wrote %ld for %s\n", sizeof(float) * npts, sizeof(float) * sizeWrite, fname);
+       fprintf(stderr, "wsac0:xarray:: Expected %ld bytes written but wrote %ld for %s\n", sizeof(float) * npts, sizeof(float) * sizeWrite, fname);
     }
 
     //fclose(fp);
@@ -207,7 +207,7 @@ extern int sacio
 		ti->strFile, n1, QCN_ROUND(sm->t0[n1]), n2, QCN_ROUND(sm->t0[n2]), QCN_ROUND(sm->t0[n2] - sm->t0[n1]), npts );
 	fflush(stdout); 
 */
-
+	
     x = new float[npts];
     y = new float[npts];
     z = new float[npts];
@@ -221,6 +221,7 @@ extern int sacio
     memset(t, 0x00, sizeof(float) * npts);
 
     lOff = n1;
+	double dCtr = 0.0f;
     for (j = 0; j < npts; j++) {
        if (lOff == MAXI) lOff = 1; // wraparound, skip 0, baseline point
 
@@ -229,15 +230,17 @@ extern int sacio
        // note the adjustment for server offset time 
        if (j == 0) {
           dTimeZero = sm->t0[lOff] + qcn_main::g_dTimeOffset;
-          //t[0] = (float) dTimeZero;
-          t[0] = 0.0f;
+		  t[0] = 0.0f;
        }
        else {
-          // this will make the point corrected for the difference between client and server time, also filenames will be correct
-		  //t[j] = t[j-1] + sm->dt; // force even delta t?
-		  //t[j] = (float) (sm->t0[lOff] + qcn_main::g_dTimeOffset); 
-		   t[j] = (float) (sm->t0[lOff] + qcn_main::g_dTimeOffset - dTimeZero); 
-       }
+          // it's fairly reliable & safe to assume that each point is sm->dt apart (leven = true)
+		  dCtr += sm->dt;
+		  t[j] = dCtr;
+	   }
+	   if (lOff == ti->lOffsetEnd) {
+		  fTimeTrigger = t[j]; 
+	   }
+		
        fTemp = t[j];
        float_swap((QCN_CBYTE*) &fTemp, t[j]);
        float_swap((QCN_CBYTE*) &sm->x0[lOff], x[j]);
@@ -256,10 +259,6 @@ extern int sacio
        if (smin > sm->fsig[lOff]) smin = sm->fsig[lOff];
        if (smax < sm->fsig[lOff]) smax = sm->fsig[lOff];
 
-       if (lOff == ti->lOffsetEnd) {
-           fTimeTrigger = t[j];  // note this trigger-time is already byte-swapped
-       }
-
        lOff++;
     }
 
@@ -271,14 +270,7 @@ extern int sacio
 
     lTemp = npts;
     long_swap((QCN_CBYTE*) &lTemp, sacdata.l[esl_npts]);   // number of points per data component
-
-/*
-    lTemp = FALSE;
-    long_swap((QCN_CBYTE*) &lTemp, sacdata.l[esl_leven]);   // can't guarantee evenly spaced due to idle priority, accelerometer grade, etc!
-*/
-    lTemp = TRUE;
-    long_swap((QCN_CBYTE*) &lTemp, sacdata.l[esl_leven]);   // actually we are going to force even spaced .02s (50Hz) timings
-
+	
     lTemp = TRUE;
     long_swap((QCN_CBYTE*) &lTemp, sacdata.l[esl_lovrok]);   // OK to overwrite
     long_swap((QCN_CBYTE*) &lTemp, sacdata.l[esl_lcalda]);   // TRUE if DIST, AZ, BAZ, and GCARC are to be calculated from station and event coordinates
@@ -310,10 +302,14 @@ extern int sacio
     fTemp = (float) sm->iMyElevationFloor;
     float_swap((QCN_CBYTE*) &fTemp, sacdata.f[esf_stdp]);  // this is the delta in evenly spaced file -- we try for .02 but not guaranteed based on accelerometer grade
 #endif
-
+	
+	 lTemp = TRUE;
+	 long_swap((QCN_CBYTE*) &lTemp, sacdata.l[esl_leven]);   // actually we are going to force even spaced .02s (50Hz) timings
+	
     // event origin time -- trigger time I guess?  in seconds relative to ref time; was set in the above loop and clock adjusted
     if (ti->bReal)  { // NB: if it's a demo trigger, don't mark trigger point
-       sacdata.f[esf_o] = fTimeTrigger; // note that it's byte-swapped in the loop above!
+	   fTemp = fTimeTrigger;
+	   float_swap((QCN_CBYTE*) &fTemp, sacdata.f[esf_o]);  // trigger time offset
        strcpy(sacdata.s[ess_ko], "Trigger");
     }
 

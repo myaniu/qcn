@@ -750,7 +750,8 @@ bool CheckTriggerFile(struct STriggerInfo* ti, bool bForce)
           n1 = lSM - (6 * g_TenSecCount);  // one minute ago
           n2 = lSM;  // this is the latest point we have
           break;
-       case TRIGGER_10SEC:
+/*
+		case TRIGGER_10SEC:
           n2 = ti->lOffsetEnd + g_TenSecCount;
           break;
        case TRIGGER_20SEC:
@@ -759,6 +760,7 @@ bool CheckTriggerFile(struct STriggerInfo* ti, bool bForce)
        case TRIGGER_30SEC:
           n2 = ti->lOffsetEnd + (3 * g_TenSecCount);
           break;
+*/
        case TRIGGER_1MIN:
           n2 = ti->lOffsetEnd + (6 * g_TenSecCount);
           break;
