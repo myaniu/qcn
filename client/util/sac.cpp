@@ -34,7 +34,8 @@ void wsac0(
    const int32_t& npts,
    const struct sac_header* psacdata
 )
-{ 
+{ 	
+	
   // fname=filename, xarray is usually time dimension, yarray is data per time point, 
   // nerr is error #, npts is # of points in array, psacdata is pointer to the sacdata struct
   // example usage:   wsac0(fname, t, s, nerr, npts, &sacdata);
@@ -63,11 +64,13 @@ void wsac0(
        fprintf(stderr, "wsac0:yarray:: Expected %ld bytes written but wrote %ld for %s\n", sizeof(float) * npts, sizeof(float) * sizeWrite, fname);
     }
 
+	/*
     //sizeWrite = fwrite(xarray, sizeof(float), npts, fp);  // write the x-axis (time/t0) as floats differenced from ref (zero) time
     sizeWrite = fp.write(xarray, sizeof(float), npts);  // write the x-axis (time/t0) as floats differenced from ref (zero) time
     if (sizeWrite != (size_t) (npts)) {
        fprintf(stderr, "wsac0:xarray:: Expected %ld bytes written but wrote %ld for %s\n", sizeof(float) * npts, sizeof(float) * sizeWrite, fname);
     }
+	 */
 
     //fclose(fp);
     //fp = NULL;
@@ -93,16 +96,16 @@ void long_swap(QCN_CBYTE* cbuf, int32_t& lVal)
 	} l_union;
 	if (sm->bMyOutputSAC) {
         if (qcn_main::g_endian == ENDIAN_BIG) {
-          l_union.cval[0] = cbuf[0];
-          l_union.cval[1] = cbuf[1];
-          l_union.cval[2] = cbuf[2];
-          l_union.cval[3] = cbuf[3];
+			l_union.cval[0] = cbuf[0];
+			l_union.cval[1] = cbuf[1];
+			l_union.cval[2] = cbuf[2];
+			l_union.cval[3] = cbuf[3];
         }
-        else {
-          l_union.cval[0] = cbuf[3];
-          l_union.cval[1] = cbuf[2];
-          l_union.cval[2] = cbuf[1];
-          l_union.cval[3] = cbuf[0];
+        else { // little endian needs to swap
+			l_union.cval[0] = cbuf[3];
+			l_union.cval[1] = cbuf[2];
+			l_union.cval[2] = cbuf[1];
+			l_union.cval[3] = cbuf[0];
         }
 	}
 	else {
@@ -122,23 +125,23 @@ void float_swap(QCN_CBYTE* cbuf, float& fVal)
 	} f_union;
 	if (sm->bMyOutputSAC) {
         if (qcn_main::g_endian == ENDIAN_BIG) {
-          f_union.cval[0] = cbuf[0];
-          f_union.cval[1] = cbuf[1];
-          f_union.cval[2] = cbuf[2];
-          f_union.cval[3] = cbuf[3];
+			f_union.cval[0] = cbuf[0];
+			f_union.cval[1] = cbuf[1];
+			f_union.cval[2] = cbuf[2];
+			f_union.cval[3] = cbuf[3];			
         }
         else { // little endian needs to swap
-          f_union.cval[0] = cbuf[3];
-          f_union.cval[1] = cbuf[2];
-          f_union.cval[2] = cbuf[1];
-          f_union.cval[3] = cbuf[0];
+			f_union.cval[0] = cbuf[3];
+			f_union.cval[1] = cbuf[2];
+			f_union.cval[2] = cbuf[1];
+			f_union.cval[3] = cbuf[0];
         }
 	}
 	else {
-		f_union.cval[0] = cbuf[0];
-		f_union.cval[1] = cbuf[1];
-		f_union.cval[2] = cbuf[2];
-		f_union.cval[3] = cbuf[3];
+		 f_union.cval[0] = cbuf[0];
+		 f_union.cval[1] = cbuf[1];
+		 f_union.cval[2] = cbuf[2];
+		 f_union.cval[3] = cbuf[3];
 	}
 	fVal = f_union.fval;
 }
@@ -189,7 +192,7 @@ extern int sacio
     //double  dTimeOffset = 0.0f, dTimeOffsetTime = 0.0f, dTimeZero = 0.0f;
     double  dTimeZero = 0.0f;
     int32_t lTemp;
-    float fTimeTrigger = 0.0f, fTemp = 0.0f, 
+    float fTimeTrigger = -1.0f, fTemp = 0.0f, 
          xmin = 10000.0, xmax = -10000.0, 
          ymin = 10000.0, ymax = -10000.0, 
          zmin = 10000.0, zmax = -10000.0, 
@@ -221,46 +224,62 @@ extern int sacio
     memset(t, 0x00, sizeof(float) * npts);
 
     lOff = n1;
+	//double dCtr = 0.0;
     for (j = 0; j < npts; j++) {
        if (lOff == MAXI) lOff = 1; // wraparound, skip 0, baseline point
 
        //qcn_util::getTimeOffset((const double*) sm->dTimeServerTime, (const double*) sm->dTimeServerOffset, (const double) sm->t0[lOff], dTimeOffset, dTimeOffsetTime);
 
-       // note the adjustment for server offset time 
-       if (j == 0) {
-          dTimeZero = sm->t0[lOff] + qcn_main::g_dTimeOffset;
-		  t[0] = 0.0f;
-       }
-       else {
-          // it's fairly reliable & safe to assume that each point is sm->dt apart (leven = true)
-		  t[j] = t[j-1] + sm->dt;
-	   }
+	   // it's fairly reliable & safe to assume that each point is sm->dt apart (leven = true)
+		if (j == 0) {
+			dTimeZero = sm->t0[lOff] + qcn_main::g_dTimeOffset;
+			t[0] = 0.0f;
+		}
+		else {
+			//dCtr += sm->dt;
+ 	        //t[j] = dCtr;
+			t[j] = sm->t0[lOff] + qcn_main::g_dTimeOffset - dTimeZero;
+		}
+				
+	   x[j] = sm->x0[lOff];
+       if (xmin > x[j]) xmin = x[j];
+       if (xmax < x[j]) xmax = x[j];
+
+	   y[j] = sm->y0[lOff];
+       if (ymin > y[j]) ymin = y[j];
+       if (ymax < y[j]) ymax = y[j];
+
+	   z[j] = sm->z0[lOff];
+       if (zmin > z[j]) zmin = z[j];
+       if (zmax < z[j]) zmax = z[j];
+
+	   s[j] = sm->fsig[lOff];
+       if (smin > s[j]) smin = s[j];
+       if (smax < s[j]) smax = s[j];
+
+		fTemp = t[j];
+		float_swap((QCN_CBYTE*) &fTemp, t[j]);
+		
+		fTemp = x[j];
+		float_swap((QCN_CBYTE*) &fTemp, x[j]);
+
+		fTemp = y[j];
+		float_swap((QCN_CBYTE*) &fTemp, y[j]);
+
+		fTemp = z[j];
+		float_swap((QCN_CBYTE*) &fTemp, z[j]);
+
+		fTemp = s[j];
+		float_swap((QCN_CBYTE*) &fTemp, s[j]);
 		
 		if (ti->bReal && lOff == ti->lOffsetEnd) {
 			fTimeTrigger = t[j]; 
 		}
 		
-       fTemp = t[j];
-       float_swap((QCN_CBYTE*) &fTemp, t[j]);
-		
-	   float_swap((QCN_CBYTE*) &sm->x0[lOff], x[j]);
-       if (xmin > sm->x0[lOff]) xmin = sm->x0[lOff];
-       if (xmax < sm->x0[lOff]) xmax = sm->x0[lOff];
-
-       float_swap((QCN_CBYTE*) &sm->y0[lOff], y[j]);
-       if (ymin > sm->y0[lOff]) ymin = sm->y0[lOff];
-       if (ymax < sm->y0[lOff]) ymax = sm->y0[lOff];
-
-       float_swap((QCN_CBYTE*) &sm->z0[lOff], z[j]);
-       if (zmin > sm->z0[lOff]) zmin = sm->z0[lOff];
-       if (zmax < sm->z0[lOff]) zmax = sm->z0[lOff];
-
-       float_swap((QCN_CBYTE*) &sm->fsig[lOff], s[j]);
-       if (smin > sm->fsig[lOff]) smin = sm->fsig[lOff];
-       if (smax < sm->fsig[lOff]) smax = sm->fsig[lOff];
-
        lOff++;
     }
+		
+	// note the time & accel aces arrays are all byte-swapped at this point!
 
     // ref for header values:  http://terra.rice.edu/comp.res/apps/S/sac/docs/FileFormatPt2.html
     set_sac_null(&sacdata); 
@@ -307,11 +326,12 @@ extern int sacio
 	 long_swap((QCN_CBYTE*) &lTemp, sacdata.l[esl_leven]);   // actually we are going to force even spaced .02s (50Hz) timings
 	
     // event origin time -- trigger time I guess?  in seconds relative to ref time; was set in the above loop and clock adjusted
-    if (ti->bReal)  { // NB: if it's a demo trigger, don't mark trigger point
-	   fTemp = fTimeTrigger;
-	   float_swap((QCN_CBYTE*) &fTemp, sacdata.f[esf_o]);  // trigger time offset
+    if (ti->bReal && fTimeTrigger > -1.0f)  { // NB: if it's a demo trigger, don't mark trigger point
+	   sacdata.f[esf_o] = fTimeTrigger;  // note already byte-swapped above i.e. all t, s, x, y, z were processed
        strcpy(sacdata.s[ess_ko], "Trigger");
     }
+	sacdata.f[esf_b] = t[0];  // note already byte-swapped above i.e. all t, s, x, y, z were processed
+	sacdata.f[esf_e] = t[npts-1];  // note already byte-swapped above i.e. all t, s, x, y, z were processed
 
     strcpy(sacdata.s[ess_knetwk], "QC");  // call the network QC, squeeze wu name in kevnm (QC not QCN, due to tradition of 2-chars)
 
@@ -387,11 +407,9 @@ extern int sacio
 		//fprintf(stdout, "DEBUG: fnamebf = [%s]\n", fname);
 
 			ifname = (int32_t) strlen(fname) - 5;
-
+		
 			// Significance section (fsig)
 			fname[ifname] = 'S';
-			fTemp = s[0];
-			float_swap((QCN_CBYTE*) &fTemp, sacdata.f[esf_b]);  // beginning value of independent variable
 
 			strcpy(sacdata.s[ess_kcmpnm], "HLS");  // component name (axis)
 
@@ -404,15 +422,11 @@ extern int sacio
 			fTemp = smax;
 			float_swap((QCN_CBYTE*) &fTemp, sacdata.f[esf_depmax]);  // max value of independent variable
 
-			fTemp = s[npts-1];
-			float_swap((QCN_CBYTE*) &fTemp, sacdata.f[esf_e]);  // ending value of independent variable
 			zfl.push_back(fname);
 			wsac0(fname, t, s, nerr, npts, &sacdata);
 		 
 			// X section
 			fname[ifname] = 'X';
-			fTemp = x[0];
-			float_swap((QCN_CBYTE*) &fTemp, sacdata.f[esf_b]);  // beginning value of independent variable
 
 			strcpy(sacdata.s[ess_kcmpnm], "HLX");  // component name (axis)
 
@@ -425,15 +439,11 @@ extern int sacio
 			fTemp = xmax;
 			float_swap((QCN_CBYTE*) &fTemp, sacdata.f[esf_depmax]);  // max value of independent variable
 
-			fTemp = x[npts-1];
-			float_swap((QCN_CBYTE*) &fTemp, sacdata.f[esf_e]);  // ending value of independent variable
 			zfl.push_back(fname);
 			wsac0(fname, t, x, nerr, npts, &sacdata);
 
 			// Y section
 			fname[ifname] = 'Y';
-			fTemp = y[0];
-			float_swap((QCN_CBYTE*) &fTemp, sacdata.f[esf_b]);  // beginning value of independent variable
 
 			strcpy(sacdata.s[ess_kcmpnm], "HLY");  // component name (axis)
 
@@ -446,15 +456,11 @@ extern int sacio
 			fTemp = ymax;
 			float_swap((QCN_CBYTE*) &fTemp, sacdata.f[esf_depmax]);  // max value of independent variable
 		 
-			fTemp = y[npts-1];
-			float_swap((QCN_CBYTE*) &fTemp, sacdata.f[esf_e]);  // ending value of independent variable
 			zfl.push_back(fname);
 			wsac0(fname, t, y, nerr, npts, &sacdata);
 
 			// Z section
 			fname[ifname] = 'Z';
-			fTemp = z[0];
-			float_swap((QCN_CBYTE*) &fTemp, sacdata.f[esf_b]);  // beginning value of independent variable
 
 			strcpy(sacdata.s[ess_kcmpnm], "HLZ");  // component name (axis)
 
@@ -467,8 +473,6 @@ extern int sacio
 			fTemp = zmax;
 			float_swap((QCN_CBYTE*) &fTemp, sacdata.f[esf_depmax]);  // max value of independent variable
 
-			fTemp = z[npts-1];
-			float_swap((QCN_CBYTE*) &fTemp, sacdata.f[esf_e]);  // ending value of independent variable
 			zfl.push_back(fname);
 
 			wsac0(fname, t, z, nerr, npts, &sacdata);
@@ -521,6 +525,35 @@ extern int sacio
 		wcsv0(fname, t, x, y, z, nerr, npts, &sacdata, dTimeZero);	
     }  // sac vs csv i/o
 
+	
+	
+#ifdef _DEBUG   // lots of output below!
+	FILE* fileDebug = fopen("sacio.csv", "at");
+	if (fileDebug) {
+		float_swap((QCN_CBYTE*) &fTimeTrigger, fTemp);  // trigger time offset
+		fprintf(fileDebug, "sizeof(float)=%d, sizeof(double)=%d, big_endian=%c, fTimeTrigger=%f\n", 
+				(int) sizeof(float), (int) sizeof(double), (qcn_main::g_endian == ENDIAN_BIG) ? 'T' : 'F', fTemp);
+		fprintf(fileDebug, "xmin=%f, xmax=%f\n", xmin, xmax);
+		fprintf(fileDebug, "ymin=%f, ymax=%f\n", ymin, ymax);
+		fprintf(fileDebug, "zmin=%f, zmax=%f\n", zmin, zmax);
+		fprintf(fileDebug, "smin=%f, smax=%f\n", smin, smax);
+		fprintf(fileDebug, "n1=%d, n2=%d, npts=%d, dt=%f\nt, x, y, z, s\n", n1, n2, npts, sm->dt);
+		for (j = 0; j < npts; j++) {
+			float ft[5];
+			float_swap((QCN_CBYTE*) &t[j], ft[0]);
+			float_swap((QCN_CBYTE*) &x[j], ft[1]);
+			float_swap((QCN_CBYTE*) &y[j], ft[2]);
+			float_swap((QCN_CBYTE*) &z[j], ft[3]);
+			float_swap((QCN_CBYTE*) &s[j], ft[4]);
+			fprintf(fileDebug, "%f, %f, %f, %f, %f\n",
+					ft[0], ft[1], ft[2], ft[3], ft[4]
+					);
+		}
+		fclose(fileDebug);
+	}
+#endif
+	
+	
     delete [] x;
     delete [] y;
     delete [] z;

@@ -129,22 +129,23 @@ inline bool CSensor::mean_xyz()
 		 
    // first check if we're behind time, i.e. the last time is greater than our dt, if so carry over the last value and get out fast so it can catch up
 	if (dLast[3] > sm->t0check) {
-	   // weird timing issue, i.e. current time is 
-		
+	   // weird timing issue, i.e. current time is greater than the requested time		
         sm->bWriting = true;
 		dLast[3] = dtime();  // save this current time
 		*px2 = dLast[0]; 
 		*py2 = dLast[1]; 
 		*pz2 = dLast[2];
-		*pt2 = dLast[3];   
-		sm->t0check += sm->dt;  // make a new "target" t0check
-        sm->bWriting = false;
-		lError++;
+		*pt2 = sm->t0check;  // use this point for the requested time and hope it catches up, if it exceeds our error time (.5 sec) it will reset  
 #ifdef _DEBUG
 		if (fileDebug) { 
 			fprintf(fileDebug, "Falling back time:  Cur=%f  Req=%f  Err=%ld\n", dLast[3], sm->t0check, lError);
+			fprintf(fileDebug, "sensorout,%f,%f,%f,%d,%ld,%f\n",
+					sm->t0check, sm->t0active, dTimeDiff, sm->iNumReset, sm->lSampleSize, sm->dt);
 		}
 #endif		
+		sm->t0check += sm->dt;  // make a new "target" t0check
+        sm->bWriting = false;
+		lError++;
 		if (lError > (TIME_ERROR_SECONDS / sm->dt)) goto error_Timing;
 		usleep(DT_MICROSECOND_SAMPLE); // sleep a little so it's not an instantaneous return
 		return true;
