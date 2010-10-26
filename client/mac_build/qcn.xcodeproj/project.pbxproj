@@ -1475,7 +1475,7 @@
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
-				GCC_VERSION = 4.2;
+				GCC_VERSION = 4.0;
 				HEADER_SEARCH_PATHS = (
 					../../,
 					"../../jpeg-6b",
@@ -2072,7 +2072,7 @@
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
-				GCC_VERSION = 4.2;
+				GCC_VERSION = 4.0;
 				HEADER_SEARCH_PATHS = (
 					../../,
 					"../../jpeg-6b",
@@ -2372,7 +2372,7 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
-				GCC_VERSION = 4.2;
+				GCC_VERSION = 4.0;
 				HEADER_SEARCH_PATHS = (
 					../../,
 					"../../jpeg-6b",
