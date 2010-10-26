@@ -234,8 +234,9 @@ extern int sacio
        }
        else {
           // this will make the point corrected for the difference between client and server time, also filenames will be correct
-          //t[j] = (float) (sm->t0[lOff] + dTimeOffset); //  - dTimeZero); 
-          t[j] = (float) (sm->t0[lOff] + qcn_main::g_dTimeOffset - dTimeZero); 
+		  //t[j] = t[j-1] + sm->dt; // force even delta t?
+		  //t[j] = (float) (sm->t0[lOff] + qcn_main::g_dTimeOffset); 
+		   t[j] = (float) (sm->t0[lOff] + qcn_main::g_dTimeOffset - dTimeZero); 
        }
        fTemp = t[j];
        float_swap((QCN_CBYTE*) &fTemp, t[j]);
@@ -298,9 +299,9 @@ extern int sacio
     // if they input a valid lat/lng, enter it
     if (sm && sm->dMyLatitude != NO_LAT && sm->dMyLongitude != NO_LNG && sm->dMyLatitude != 0.0f && sm->dMyLongitude != 0.0f) {
        fTemp = (float) sm->dMyLatitude;
-       float_swap((QCN_CBYTE*) &fTemp, sacdata.f[esf_stla]);  // this is the delta in evenly spaced file -- we try for .02 but not guaranteed based on accelerometer grade
+       float_swap((QCN_CBYTE*) &fTemp, sacdata.f[esf_stla]);  
        fTemp = (float) sm->dMyLongitude;
-       float_swap((QCN_CBYTE*) &fTemp, sacdata.f[esf_stlo]);  // this is the delta in evenly spaced file -- we try for .02 but not guaranteed based on accelerometer grade
+       float_swap((QCN_CBYTE*) &fTemp, sacdata.f[esf_stlo]);  
     }
    
     // put in elevation data

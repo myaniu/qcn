@@ -172,7 +172,6 @@ const float g_cfTimeWindow = 60.0f;  // time window in seconds
 const double g_DT = 0.02;          // delta t sampling interval, i.e. target time between points
 const double g_DT_SLOW = 0.10;      // delta t sampling interval for slow/troublesome machines (i.e. can't keep up at <3 samples per dt=.02)
 const double g_DT_SNAIL = 0.20;      // for horrible machines but maybe let them run for educational purposes?
-const int g_TenSecCount = 500;   // 10 / g_DT
 
 // common QCN defines & return codes can go here
 

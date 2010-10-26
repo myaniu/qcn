@@ -730,6 +730,8 @@ void checkContinualUpload(bool bForce)
 bool CheckTriggerFile(struct STriggerInfo* ti, bool bForce)
 {  
     if (!ti->lOffsetEnd) return true;   // we're not in a trigger, just return true so this element gets deleted
+	
+	const int g_TenSecCount = (int) (10.0/sm->dt);  // reference number of points for 10 seconds
 
     long n1 = 0L, n2 = 0L, n2orig = 0L, lSM = sm->lOffset - 1; // note save current offset less 1, as could change during this function!
 
