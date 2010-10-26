@@ -738,8 +738,7 @@ bool CSensorMacUSBJW24F14::detect()
    // OK, we have a JoyWarrior USB sensor, and I/O is setup using Apple HID Utilities at 50Hz, +/- 2g
    setType(SENSOR_USB_JW24F14);
    setPort(getTypeEnum()); // set > -1 so we know we have a sensor
-   //setSingleSampleDT(true);  // note the usb sensor just requires 1 sample per dt, hardware does the rest
-   setSingleSampleDT(false);  // note the usb sensor just requires 1 sample per dt, hardware does the rest
+   setSingleSampleDT(true);  // note the usb sensor just requires 1 sample per dt, hardware does the rest
 
 /* CMC Note:  the USB add/remove device logic doesn't seem to work -- may need to revisit if this becomes important
 

@@ -168,8 +168,8 @@ bool CSensorWinUSBJW::detect()
 		iPort = getPort();
         // no single sample, JW actually needs to sample within the 50hz,
         // since we're reading from joystick port, not the downsampling "chip"
-		//setSingleSampleDT(true);  // note the usb sensor just requires 1 sample per dt, hardware does the rest
-		fprintf(stdout, "USB sensor detected on Windows joystick port %d\n"
+	setSingleSampleDT(true);  // note the usb sensor just requires 1 sample per dt, hardware does the rest
+	fprintf(stdout, "USB sensor detected on Windows joystick port %d\n"
 			"Set to 50Hz internal bandwidth, +/- 2g acceleration.\n", getPort());
 
         SetQCNState();

@@ -190,7 +190,7 @@ bool CSensorUSBMotionNodeAccel::detect()
 
    // OK, at this point we should be connected, so from here on out can just read_xyz until closePort()
    // set as a single sample per point
-   //setSingleSampleDT(true); 
+   setSingleSampleDT(true); 
 
    // NB: closePort resets the type & port, so have to set again 
    setType(SENSOR_USB_MOTIONNODEACCEL);
