@@ -221,7 +221,6 @@ extern int sacio
     memset(t, 0x00, sizeof(float) * npts);
 
     lOff = n1;
-	double dCtr = 0.0f;
     for (j = 0; j < npts; j++) {
        if (lOff == MAXI) lOff = 1; // wraparound, skip 0, baseline point
 
@@ -234,16 +233,17 @@ extern int sacio
        }
        else {
           // it's fairly reliable & safe to assume that each point is sm->dt apart (leven = true)
-		  dCtr += sm->dt;
-		  t[j] = dCtr;
+		  t[j] = t[j-1] + sm->dt;
 	   }
-	   if (lOff == ti->lOffsetEnd) {
-		  fTimeTrigger = t[j]; 
-	   }
+		
+		if (ti->bReal && lOff == ti->lOffsetEnd) {
+			fTimeTrigger = t[j]; 
+		}
 		
        fTemp = t[j];
        float_swap((QCN_CBYTE*) &fTemp, t[j]);
-       float_swap((QCN_CBYTE*) &sm->x0[lOff], x[j]);
+		
+	   float_swap((QCN_CBYTE*) &sm->x0[lOff], x[j]);
        if (xmin > sm->x0[lOff]) xmin = sm->x0[lOff];
        if (xmax < sm->x0[lOff]) xmax = sm->x0[lOff];
 
