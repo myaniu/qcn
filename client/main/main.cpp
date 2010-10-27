@@ -820,7 +820,7 @@ bool CheckTriggerFile(struct STriggerInfo* ti, bool bForce)
 bool CheckTriggerTrickle(struct STriggerInfo* ti)
 {
 	// note - check for a followup trig required, if trig was already sent, and we're 5 seconds after it was sent, with no bFollowUp
-	bool bFollowUp = ti->bSent && !ti->bSentFollowUp && (ti->lOffsetEnd + (5.0 * sm->dt)) < sm->lOffset;
+	bool bFollowUp = ti->bSent && !ti->bSentFollowUp && (ti->lOffsetEnd + ceil(4.0 / sm->dt)) < sm->lOffset;
     if (!bFollowUp && (!ti->lOffsetEnd || ti->bSent || !ti->bReal || ti->bInteractive)) {
        return true;  // if no offset and/or already sent or a demo mode trickle (i.e. per-minute trigger) or interactive mode, can just return
     }

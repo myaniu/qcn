@@ -137,11 +137,20 @@ struct QCN_TRIGGER_MEMORY
     double sync_offset;
     double significance;
     double magnitude;
+    float mxy1p;
+    float mz1p;
+    float mxy1a;
+    float mz1a;
+    float mxy2a;
+    float mz2a;
+    float mxy4a;
+    float mz4a;
     double latitude;
     double longitude;
     float  levelvalue;
     int levelid;
     int alignid;
+    char file[64];
     double dt;
     int numreset;
     int type_sensor;
@@ -387,11 +396,20 @@ public:
         "sync_offset=%f,"
         "significance=%f,"
         "magnitude=%f,"
+        "mxy1p=%f,"
+        "mz1p=%f,"
+        "mxy1a=%f,"
+        "mz1a=%f,"
+        "mxy2a=%f,"
+        "mz2a=%f,"
+        "mxy4a=%f,"
+        "mz4a=%f,"
         "latitude=%16.9f,"
         "longitude=%16.9f,"
         "levelvalue=%s,"
         "levelid=%s,"
         "alignid=%d,"
+        "file='%s',"
         "dt=%f,"
         "numreset=%d,"
         "type_sensor=%d,"
@@ -400,8 +418,17 @@ public:
         "posted=%d"
         ,
         db_name, triggerid, hostid, ipaddr, result_name, time_trigger, time_sync, sync_offset,
-        significance, magnitude, latitude, longitude, strLevelValue, strLevelID, alignid,
-        dt, numreset, type_sensor, varietyid, qcn_quakeid, posted ? 1 : 0
+        significance, magnitude, 
+        mxy1p,
+        mz1p,
+        mxy1a,
+        mz1a,
+        mxy2a,
+        mz2a,
+        mxy4a,
+        mz4a,
+        latitude, longitude, strLevelValue, strLevelID, alignid,
+        file, dt, numreset, type_sensor, varietyid, qcn_quakeid, posted ? 1 : 0
       );
     }
 
@@ -421,12 +448,21 @@ public:
       significance = safe_atof(r[i++]);
       if (isnan(significance)) significance = 0;
       magnitude = safe_atof(r[i++]);
+      mxy1p = safe_atof(r[i++]);
+      mz1p = safe_atof(r[i++]);
+      mxy1a = safe_atof(r[i++]);
+      mz1a = safe_atof(r[i++]);
+      mxy2a = safe_atof(r[i++]);
+      mz2a = safe_atof(r[i++]);
+      mxy4a = safe_atof(r[i++]);
+      mz4a = safe_atof(r[i++]);
       if (isnan(magnitude)) magnitude = 0;  // some reason sig &  or mag can be NaN
       latitude = safe_atof(r[i++]);
       longitude = safe_atof(r[i++]);
       levelvalue = safe_atof(r[i++]);
       levelid = safe_atoi(r[i++]);
       alignid = safe_atoi(r[i++]);
+      strcpy2(file, r[i++]);
       dt = safe_atof(r[i++]);
       numreset = safe_atoi(r[i++]);
       type_sensor = safe_atoi(r[i++]);
