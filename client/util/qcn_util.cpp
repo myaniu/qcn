@@ -113,11 +113,23 @@ bool get_fmax_components(const long& lOffsetEnd, double& dfmax_xy_1s, double& df
         - for now just go back 1 second and look for the max of xy component & z
         //- eventually update memory database with a secondary trigger for the +3 second values of fmax_xy & _z*/
 
+    double dXY;
     long lOffsetStart = lOffsetEnd - (1.0 / sm->dt);   // a second back
     if lOffsetStart < 1) { // possible but not likely lOffsetEnd is at start of the array, so just go to 1
        lOffsetStart = 1;  // don't use 0 as that's the baseline value we use for reference
     }
+   
+    dfmax_xy_1s = -99999.9; // start off with tiny values 
+    dfmax_z_1s  = -99999.9; // start off with tiny values 
 
+    for (long i = lOffsetStart; i <= lOffsetEnd; i++)  {
+       // look for max value past second
+       dXY = sqrt(QCN_SQR(sm->x0[i]) + QCN_SQR(sm->y0[i])) ;
+
+       if (dXY > dfmax_xy_1s) dfmax_xy_1s = dXY;
+       if (sm->z0[i] > dfmax_z_1s) dfmax_z_1s = dXY;
+
+    }
 
 } // get_fmax_components
 
