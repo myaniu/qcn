@@ -349,6 +349,8 @@ int qcn_main(int argc, char **argv)
        }
     }
 
+// don't perturb now
+/*
     // now get the input file (if we're not in demo mode, i.e. running "live" under BOINC)
     if (!g_bDemo && !g_bQCNLive)  {
       char strData[_MAX_PATH], strResolve[_MAX_PATH];
@@ -373,14 +375,12 @@ int qcn_main(int argc, char **argv)
          if (tmpbuf) free(tmpbuf);
       }
     } // end getting the input file data if not in demo mode
+*/
 
     // print out our values just as a "sanity check"
     fprintf(stdout, "Significance Filter Cutoff    = %f\n", g_fPerturb[PERTURB_SIG_CUTOFF]);
     fprintf(stdout, "Short Term Average Magnitude  = %f\n", g_fPerturb[PERTURB_SHORT_TERM_AVG_MAG]);
     fflush(stdout);
-    fprintf(stderr, "Significance Filter Cutoff    = %f\n", g_fPerturb[PERTURB_SIG_CUTOFF]);
-    fprintf(stderr, "Short Term Average Magnitude  = %f\n", g_fPerturb[PERTURB_SHORT_TERM_AVG_MAG]);
-    fflush(stderr);
  
     // OK, if not in demo mode, now get rid of old trigger files i.e. more than two weeks old
     //if (g_bContinual)  { // get rid of files older than 2 hours if running in continual mode
