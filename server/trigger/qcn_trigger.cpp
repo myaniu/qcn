@@ -6,7 +6,7 @@
 
 #include "qcn_trigger.h"
 #include <curl/curl.h>
-
+#include <float.h>  // for -DBL_MAX i.e. min possible error val
 #include "sched_config.h"
 
    /*
@@ -95,7 +95,9 @@ int lookupGeoIPWebService(
    const int iRetGeo,
    DB_QCN_HOST_IPADDR& qhip,
    DB_QCN_GEO_IPADDR&  qgip,
-   DB_QCN_TRIGGER&     qtrig
+   DB_QCN_TRIGGER&     qtrig,
+   const double* dmxy,
+   const double* dmz
 );
 
 // decl for curl function
@@ -104,18 +106,44 @@ bool execute_curl(const char* strURL, char* strReply, const int iLen);
 // decl for curl write function
 size_t qcn_curl_write_data(void *ptr, size_t size, size_t nmemb, void *stream);
 
-bool doTriggerMemoryUpdate(const DB_QCN_TRIGGER& qtrig, const float* fmxy, const float* fmz)
+bool doTriggerMemoryUpdate(const DB_QCN_TRIGGER& qtrig, const double* dmxy, const double* dmz)
 {
-  log_messages.printf(
+  // don't put in triggers into memory which haven't had a time sync as they can be way off
+  // also we just want varietyid=0 (i.e. normal triggers)
+  if (qtrig.varietyid !=0 || qtrig.time_sync < 1e6) return false;
+
+  DB_QCN_TRIGGER_MEMORY qtrigmem;
+  if (dmxy[0] > -DBL_MAX) qtrigmem.mxy1p = dmxy[0];
+  if (dmz[0] > -DBL_MAX) qtrigmem.mz1p = dmz[0];
+
+  if (dmxy[1] > -DBL_MAX) qtrigmem.mxy1a = dmxy[1];
+  if (dmz[1] > -DBL_MAX) qtrigmem.mz1a = dmz[1];
+
+  if (dmxy[2] > -DBL_MAX) qtrigmem.mxy2a = dmxy[2];
+  if (dmz[2] > -DBL_MAX) qtrigmem.mz2a = dmz[2];
+
+  if (dmxy[3] > -DBL_MAX) qtrigmem.mxy4a = dmxy[3];
+  if (dmz[3] > -DBL_MAX) qtrigmem.mz4a = dmz[3];
+
+   // lookup this trigger in memory based on file
+   char* strWhere = new char[512];
+   memset(strWhere, 0x00, 512);
+   sprintf(strWhere, "WHERE file='%s'", qtrig.file);
+   if (qtrigmem.lookup(strWhere) == 0)  { // we found this trigger in memory based on file name, so update the values
+      qtrigmem.update();
+   }
+   
+   log_messages.printf(
            SCHED_MSG_LOG::MSG_DEBUG,
-           "[QCN] [HOST#%d] [RESULTNAME=%s] [TIME=%lf] Processing QCN %s trickle message from IP %s\n",
+           "[QCN] [HOST#%d] [RESULTNAME=%s] [TIME=%lf] Processing QCN followup trickle message from IP %s\n",
            qtrig.hostid, qtrig.result_name, qtrig.time_received,
-              iVariety ? (iVariety==1 ? "ping" : "continual") : "trigger", qtrig.ipaddr
+              qtrig.ipaddr
   );
+
   return true;
 }
 
-bool doTriggerMemoryInsert(const DB_QCN_TRIGGER& qtrig, const float* fmxy, const float* fmz)
+bool doTriggerMemoryInsert(const DB_QCN_TRIGGER& qtrig, const double* dmxy, const double* dmz)
 {  // call this after inserting a "regular" trigger record - this will add the 
    // trigger (if applicable i.e. insertid>0, timesync>0) to the memory table for event polling
 
@@ -153,8 +181,8 @@ bool doTriggerMemoryInsert(const DB_QCN_TRIGGER& qtrig, const float* fmxy, const
     qtrigmem.type_sensor = qtrig.type_sensor;
     qtrigmem.varietyid = qtrig.varietyid;
 
-    if (fmxy[0] > FLT_MIN) qtrigmem.mxy1p = fmxy[0];
-    if (fmz[0] > FLT_MIN) qtrigmem.mz1p = fmz[0];
+    if (dmxy[0] > -DBL_MAX) qtrigmem.mxy1p = dmxy[0];
+    if (dmz[0] > -DBL_MAX) qtrigmem.mz1p = dmz[0];
 
     iVal = qtrigmem.insert();
     if (iVal) { //error
@@ -180,10 +208,10 @@ int handle_qcn_trigger(const DB_MSG_FROM_HOST* pmfh, const int iVariety)
      char* strErr = NULL;
      int iFollowUp = 0;
      bool bFollowUp = false;
-     float fmxy[4], fmz[4];
+     double dmxy[4], dmz[4];
      for (int i = 0; i < 4; i++) {
-        fmxy[i] = FLT_MIN;
-        fmz[i] = FLT_MIN;
+        dmxy[i] = -DBL_MAX;
+        dmz[i] = -DBL_MAX;
      }
 
      // parse out all the data into the qtrig object;
@@ -207,18 +235,18 @@ int handle_qcn_trigger(const DB_MSG_FROM_HOST* pmfh, const int iVariety)
 
      // check for followup info if any, i.e. 1 sec prev, 1 sec after 2 sec after 4 sec after data for xy component & z component
      // all normal triggers will possibly have the 1 sec prev values
-     if (!parse_double(pmfh->xml, "<mxy1p>", fmxy[0])) fmxy[0] = FLT_MIN;     
-     if (!parse_double(pmfh->xml, "<mz1p>", fmz[0]) fmz[0] = FLT_MIN;     
+     if (!parse_double(pmfh->xml, "<mxy1p>", dmxy[0])) dmxy[0] = -DBL_MAX;     
+     if (!parse_double(pmfh->xml, "<mz1p>", dmz[0])) dmz[0] = -DBL_MAX;     
 
      if (bFollowUp) {  // only followup triggers will have the 4 sec after values
-     if (!parse_double(pmfh->xml, "<mxy1a>", fmxy[1])) fmxy[1] = FLT_MIN;     
-     if (!parse_double(pmfh->xml, "<mz1a>", fmz[1]) fmz[1] = FLT_MIN;     
+       if (!parse_double(pmfh->xml, "<mxy1a>", dmxy[1])) dmxy[1] = -DBL_MAX;     
+       if (!parse_double(pmfh->xml, "<mz1a>", dmz[1])) dmz[1] = -DBL_MAX;     
+  
+       if (!parse_double(pmfh->xml, "<mxy2a>", dmxy[2])) dmxy[2] = -DBL_MAX;     
+       if (!parse_double(pmfh->xml, "<mz2a>", dmz[2])) dmz[2] = -DBL_MAX;     
 
-     if (!parse_double(pmfh->xml, "<mxy2a>", fmxy[2])) fmxy[2] = FLT_MIN;     
-     if (!parse_double(pmfh->xml, "<mz2a>", fmz[2]) fmz[2] = FLT_MIN;     
-
-     if (!parse_double(pmfh->xml, "<mxy4a>", fmxy[3])) fmxy[3] = FLT_MIN;     
-     if (!parse_double(pmfh->xml, "<mz4a>", fmz[3]) fmz[3] = FLT_MIN;     
+       if (!parse_double(pmfh->xml, "<mxy4a>", dmxy[3])) dmxy[3] = -DBL_MAX;     
+       if (!parse_double(pmfh->xml, "<mz4a>", dmz[3])) dmz[3] = -DBL_MAX;     
      }
 
 // CMC hack - change JW 7 to 100, MN 8 to 101
@@ -305,16 +333,9 @@ int handle_qcn_trigger(const DB_MSG_FROM_HOST* pmfh, const int iVariety)
 
      // at this point, if a followup trigger, we can jsut update the memory table qcn_trigger_memory and split
      if (bFollowUp) {
-       doTriggerMemoryUpdate(qtrig, fmxy, fmz);
-       log_messages.printf(
-           SCHED_MSG_LOG::MSG_DEBUG,
-           "[QCN] [HOST#%d] [RESULTNAME=%s] [TIME=%lf] Processing QCN %s trickle message from IP %s\n",
-           qtrig.hostid, qtrig.result_name, qtrig.time_received,
-              iVariety ? (iVariety==1 ? "ping" : "continual") : "trigger", qtrig.ipaddr
-       );
+       doTriggerMemoryUpdate(qtrig, dmxy, dmz);
        return 0;
      }
-
 
      // OK, now just the lat/lng lookup
      // the first step will be to search into qcn_host_ipaddr to see if this exists already, sorted by geoip so user setting will be preferred
@@ -349,7 +370,7 @@ int handle_qcn_trigger(const DB_MSG_FROM_HOST* pmfh, const int iVariety)
 
            // no record, need to do a maxmind/geoip database table lookup, and possibly web service lookup!
            sprintf(strWhere, "WHERE ipaddr='%s'", qtrig.ipaddr);
-           iRetVal = lookupGeoIPWebService(qgip.lookup(strWhere), qhip, qgip, qtrig); 
+           iRetVal = lookupGeoIPWebService(qgip.lookup(strWhere), qhip, qgip, qtrig, dmxy, dmz); 
 
            /*
 
@@ -369,7 +390,7 @@ int handle_qcn_trigger(const DB_MSG_FROM_HOST* pmfh, const int iVariety)
                  qtrig.longitude = qhip.longitude;
                  iRetVal = qtrig.insert();  // note if the insert fails, return code will be set and returned below
                  if (!iRetVal) { // trigger got in OK
-                    doTriggerMemoryInsert(qtrig, fmxy, fmz);
+                    doTriggerMemoryInsert(qtrig, dmxy, dmz);
                     log_messages.printf(
                           SCHED_MSG_LOG::MSG_DEBUG,
                           "[QCN] [HOST#%d] [RESULTNAME=%s] [TIME=%lf] [1] Trigger inserted after qcn_host_ipaddr lookup of blank IP, mag=%lf at (%lf, %lf)!\n",
@@ -404,7 +425,7 @@ int handle_qcn_trigger(const DB_MSG_FROM_HOST* pmfh, const int iVariety)
               delete [] strErr;  strErr = NULL;
            }
            else { // trigger got in OK
-                doTriggerMemoryInsert(qtrig, fmxy, fmz);
+                doTriggerMemoryInsert(qtrig, dmxy, dmz);
                 log_messages.printf(
                   SCHED_MSG_LOG::MSG_DEBUG,
                   "[QCN] [HOST#%d] [RESULTNAME=%s] [TIME=%lf] [1] Trigger inserted after qcn_host_ipaddr lookup of IP %s, mag=%lf at (%lf, %lf) - sync offset %f at %f!\n",
@@ -429,7 +450,9 @@ int lookupGeoIPWebService(
    const int iRetGeo,
    DB_QCN_HOST_IPADDR& qhip,
    DB_QCN_GEO_IPADDR&  qgip,
-   DB_QCN_TRIGGER&     qtrig
+   DB_QCN_TRIGGER&     qtrig,
+   const double* dmxy,
+   const double* dmz
 )
 {
                  int iReturn = iRetGeo; // "seed" our return code with the initial return code value
@@ -529,7 +552,7 @@ int lookupGeoIPWebService(
                                             );
                                         }
                                         else {
-                                            doTriggerMemoryInsert(qtrig, fmxy, fmz);
+                                            doTriggerMemoryInsert(qtrig, dmxy, dmz);
                                             log_messages.printf(
                                               SCHED_MSG_LOG::MSG_DEBUG,
                                               "[QCN] [HOST#%d] [RESULTNAME=%s] [TIME=%lf] [2] Maxmind/GeoIP web lookup -- trigger %s insert success\n",
@@ -600,7 +623,7 @@ int lookupGeoIPWebService(
               delete [] strErr;  strErr = NULL;
                        }
                        else {
-                          doTriggerMemoryInsert(qtrig, fmxy, fmz);
+                          doTriggerMemoryInsert(qtrig, dmxy, dmz);
                           // trigger got in OK
                            log_messages.printf(
                              SCHED_MSG_LOG::MSG_DEBUG,
