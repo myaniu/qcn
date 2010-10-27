@@ -109,36 +109,44 @@ size_t qcn_curl_write_data(void *ptr, size_t size, size_t nmemb, void *stream);
 bool doTriggerMemoryUpdate(const DB_QCN_TRIGGER& qtrig, const double* dmxy, const double* dmz)
 {
   // don't put in triggers into memory which haven't had a time sync as they can be way off
-  // also we just want varietyid=0 (i.e. normal triggers)
-  if (qtrig.varietyid !=0 || qtrig.time_sync < 1e6) return false;
+  // also we just want varietyid=0 (i.e. normal triggers), also skip out if no valid file name
+  if (qtrig.varietyid !=0 || qtrig.time_sync < 1e6 || strlen(qtrig.file) < 5) return false;
+
+  char* strFields = new char[512];
+  memset(strFields, 0x00, 512);
+  sprintf(strFields, "mxy1p=%f, mz1p=%f, mxy1a=%f, mz1a=%f, mxy2a=%f, mz2a=%f, mxy4a=%f, mz4a=%f", 
+       dmxy[0], dmz[0],
+       dmxy[1], dmz[1],
+       dmxy[2], dmz[2],
+       dmxy[3], dmz[3]
+   );
+
+  char* strQuery = new char[1024];
+  memset(strQuery, 0x00, 1024);
+
+  sprintf(strQuery, "UPDATE trigmem.qcn_trigger_memory SET %s WHERE file='%s'", strFields, qtrig.file);
 
   DB_QCN_TRIGGER_MEMORY qtrigmem;
-  if (dmxy[0] > -DBL_MAX) qtrigmem.mxy1p = dmxy[0];
-  if (dmz[0] > -DBL_MAX) qtrigmem.mz1p = dmz[0];
+  int retval = qtrigmem.db->do_query(strQuery);
 
-  if (dmxy[1] > -DBL_MAX) qtrigmem.mxy1a = dmxy[1];
-  if (dmz[1] > -DBL_MAX) qtrigmem.mz1a = dmz[1];
-
-  if (dmxy[2] > -DBL_MAX) qtrigmem.mxy2a = dmxy[2];
-  if (dmz[2] > -DBL_MAX) qtrigmem.mz2a = dmz[2];
-
-  if (dmxy[3] > -DBL_MAX) qtrigmem.mxy4a = dmxy[3];
-  if (dmz[3] > -DBL_MAX) qtrigmem.mz4a = dmz[3];
-
-   // lookup this trigger in memory based on file
-   char* strWhere = new char[512];
-   memset(strWhere, 0x00, 512);
-   sprintf(strWhere, "WHERE file='%s'", qtrig.file);
-   if (qtrigmem.lookup(strWhere) == 0)  { // we found this trigger in memory based on file name, so update the values
-      qtrigmem.update();
-   }
-   
-   log_messages.printf(
+  if (retval) {
+       log_messages.printf(
+           SCHED_MSG_LOG::MSG_CRITICAL,
+           "[QCN] [HOST#%d] [RESULTNAME=%s] [TIME=%lf] Error - could not update followup info for %s\n",
+            qtrig.hostid, qtrig.result_name, qtrig.time_received,
+            qtrig.file
+          );
+  }
+  else {
+       log_messages.printf(
            SCHED_MSG_LOG::MSG_DEBUG,
-           "[QCN] [HOST#%d] [RESULTNAME=%s] [TIME=%lf] Processing QCN followup trickle message from IP %s\n",
-           qtrig.hostid, qtrig.result_name, qtrig.time_received,
-              qtrig.ipaddr
-  );
+           "[QCN] [HOST#%d] [RESULTNAME=%s] [TIME=%lf] Successfully updated trigmem followup info for %s\n",
+            qtrig.hostid, qtrig.result_name, qtrig.time_received,
+            qtrig.file
+          );
+  }
+  delete [] strFields;
+  delete [] strQuery;
 
   return true;
 }
@@ -165,6 +173,7 @@ bool doTriggerMemoryInsert(const DB_QCN_TRIGGER& qtrig, const double* dmxy, cons
     qtrigmem.hostid = qtrig.hostid;
     strncpy(qtrigmem.ipaddr, qtrig.ipaddr, 31);
     strncpy(qtrigmem.result_name, qtrig.result_name, 63);
+    strncpy(qtrigmem.file, qtrig.file, 63);
     qtrigmem.time_trigger = qtrig.time_trigger;
     qtrigmem.time_received = qtrig.time_received;
     qtrigmem.time_sync = qtrig.time_sync;
