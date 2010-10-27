@@ -819,9 +819,6 @@ bool CheckTriggerFile(struct STriggerInfo* ti, bool bForce)
 // send a trickle when a trigger is hit, if bFollowUp==true it's a followup trigger with supplemental info
 bool CheckTriggerTrickle(struct STriggerInfo* ti)
 {
-	static double dTimeLastTrickle = 0.0;
-	double dCurTime = 0.0;
-	
 	// note - check for a followup trig required, if trig was already sent, and we're 5 seconds after it was sent, with no bFollowUp
 	bool bFollowUp = ti->bSent && !ti->bSentFollowUp && (ti->lOffsetEnd + (5.0 * sm->dt)) < sm->lOffset;
     if (!bFollowUp && (!ti->lOffsetEnd || ti->bSent || !ti->bReal || ti->bInteractive)) {
@@ -833,8 +830,11 @@ bool CheckTriggerTrickle(struct STriggerInfo* ti)
     sm->setTriggerLock();
     sm->releaseTriggerLock();
  
-    char *strTrigger = new char[512];
-    memset(strTrigger, 0x00, sizeof(char) * 512);
+    char *strTrigger = new char[1024];
+    memset(strTrigger, 0x00, sizeof(char) * 1024);
+	
+    char *strFollowUp = new char[512];
+    memset(strFollowUp, 0x00, sizeof(char) * 512);
 
     double dTriggerTime = sm->t0[ti->lOffsetEnd] + g_dTimeOffset; // this is the adjusted time of the trigger, i.e. should match server time
 
@@ -843,16 +843,12 @@ bool CheckTriggerTrickle(struct STriggerInfo* ti)
 	memset(fmax_xy, 0x00, sizeof(float) * 4);
 	memset(fmax_z, 0x00, sizeof(float) * 4);
 
-    if (bFollowUp) {
-		qcn_util::get_fmax_components(ti->lOffsetEnd, fmax_xy, fmax_z, false); // gets later values
-		ti->bSentFollowUp = true;
-	}
-	else {
-		qcn_util::get_fmax_components(ti->lOffsetEnd, fmax_xy, fmax_z, true);  // gets previous 1s values
-		ti->bSent = true;
-	}
+	qcn_util::get_fmax_components(ti->lOffsetEnd, fmax_xy, fmax_z, bFollowUp);
+	ti->bSent = true;
+	ti->bSentFollowUp = bFollowUp;
 
-    // Trigger field tags:
+   
+	// Trigger field tags:
     //    result_name = unique boinc work name [BOINC Scheduler adds]
     //    time   = boinc server database time received [BOIN CScheduler adds]
     //    vr     = QCN app version number i.e. 1.43
@@ -866,8 +862,40 @@ bool CheckTriggerTrickle(struct STriggerInfo* ti)
     //    dt     = the target "delta time" between points, usually .02 sec but could be bumped up to .1 on slow/unreliable machines
     //    loc    = unused now, will perhaps be an array of lat/lngs associated with this host machine (i.e. to track laptop movements etc)
     //    ipaddr = server side ip address [BOINC Scheduler adds]
-
- // note: err -- probably can't send md5 checksum as the file isn't create yet!
+	
+	// followup vals: 
+	//   mxy1p = max xy comp 1 sec prev
+	//   mz1p = max z comp 1 sec prev
+	//   mxy1a = max xy comp 1 sec after
+	//   mz1a = max z comp 1 sec after
+	//   mxy2a = max xy comp 2 sec after
+	//   mz2a = max z comp 2 sec after
+	//   mxy4a = max xy comp 4 sec after
+	//   mz4a = max z comp 4 sec after
+	if (bFollowUp) {  // do all vals above
+		sprintf(strFollowUp, 
+				"<follow>1</follow>\n"
+				"<mxy1p>%f</mxy1p>\n"
+				"<mz1p>%f</mz1p>\n"
+				"<mxy1a>%f</mxy1a>\n"
+				"<mz1a>%f</mz1a>\n"
+				"<mxy2a>%f</mxy2a>\n"
+				"<mz2a>%f</mz2a>\n"
+				"<mxy4a>%f</mxy4a>\n"
+				"<mz4a>%f</mz4a>\n",
+				fmax_xy[0], fmax_z[0],
+				fmax_xy[1], fmax_z[1],
+				fmax_xy[2], fmax_z[2],
+				fmax_xy[3], fmax_z[3]
+				);
+	}
+	else  {  // just do the 1 sec prev values
+		sprintf(strFollowUp, 
+				"<mxy1p>%f</mxy1p>\n"
+				"<mz1p>%f</mz1p>\n",
+				fmax_xy[0], fmax_z[0]
+				);
+	}
 
     sprintf(strTrigger,
            "<vr>%s</vr>\n"
@@ -879,8 +907,7 @@ bool CheckTriggerTrickle(struct STriggerInfo* ti)
            "<file>%s</file>\n"
            "<reset>%d</reset>\n"
            "<dt>%f</dt>\n"
-           "<mxy1p>%f</mxy1p>\n"
-           "<mz1p>%f</mz1p>\n"
+           "%s"
            "<tsync>%f</tsync>\n"
            "<toff>%f</toff>\n"
            "<%s>%.2f</%s>\n"
@@ -894,19 +921,14 @@ bool CheckTriggerTrickle(struct STriggerInfo* ti)
        ti->strFile,
        sm->iNumReset,
        sm->dt,
-       dfmax_xy_1s,
-       dfmax_z_1s,
+       strFollowUp,
        g_dTimeSync>0.0f ? g_dTimeSync + g_dTimeOffset : 0.0f,  // note we're sending the local client offset sync time adjusted to server time!
        g_dTimeOffset, 
           XML_CLOCK_TIME, sm->clock_time, XML_CLOCK_TIME,
           XML_CPU_TIME, sm->cpu_time, XML_CPU_TIME
     );
 
-	dCurTime = dtime();
-	if ((dCurTime - dTimeLastTrickle) < 1.0) { // last trickle sent less than a second ago, which would be bad for boinc, so sleep a bit)
-	}								
     trickleup::qcnTrickleUp(strTrigger, ti->iVariety, (const char*) sm->dataBOINC.wu_name);  // send a trigger for this trickle
-	dTimeLastTrickle = dtime();  // set time trickle sent so we can pause if necessary
 
     // filename already set in ti->strFile
     fprintf(stdout, "Trigger detected at offset %ld  time %f  write at %ld - zip file %s\n", 
@@ -914,6 +936,7 @@ bool CheckTriggerTrickle(struct STriggerInfo* ti)
     fflush(stdout); 
 
     delete [] strTrigger;
+	delete [] strFollowUp;
     boinc_end_critical_section();
     return true;
 }

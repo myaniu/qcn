@@ -99,7 +99,7 @@ bool launchURL(const char* strURL)
 	return true;
 }
 
-bool get_fmax_components(const long& lOffsetEnd, float* pfmax_xy, float* pfmax_z, bool bPrevious)
+bool get_fmax_components(const long& lOffsetEnd, float* pfmax_xy, float* pfmax_z, bool bFollowUp)
 {
 /*
     // CMC new -- go back a second to get max xy & z components
@@ -114,44 +114,54 @@ bool get_fmax_components(const long& lOffsetEnd, float* pfmax_xy, float* pfmax_z
 
     double dXY, dZ;
 	int i;
-	const int iSec = (int) (1.0 / sm->dt);
+	long lCtr;
+	const int iSec = (int) ceil(1.0 / sm->dt);
 	
 	for (int i = 0; i < 4; i++) {
        pfmax_xy[i] = -99999.9; // start off with tiny values 
        pfmax_z[i]  = -99999.9; // start off with tiny values 
 	}
 
-    long lOffsetStart;
-	if (bPrevious) {
-		lOffsetStart = lOffsetEnd - iSec;   // a second back
-		if (lOffsetStart < 0) { 
+	//if (bPrevious) {
+	// always do the second back, to have on the followup trigger as a backup?
+		lCtr = lOffsetEnd - iSec;   // a second back
+		if (lCtr < 0) { 
 			// possible but not likely lOffsetEnd is at start of the array, so just go back and "wrap around" array if necessary
-			lOffsetStart += MAXI;  // will wrap around
+			lCtr += MAXI;  // will wrap around
 		}
 		for (i = 0; i < iSec; i++)  {
-			if (lOffsetStart >= MAXI) lOffsetStart = 1;
+			if (lCtr >= MAXI) lCtr = 1;
 			// look for max value past second
-			dXY = sqrt(QCN_SQR(sm->x0[lOffsetStart]) + QCN_SQR(sm->y0[lOffsetStart]));
-			dZ = fabs(sm->z0[lOffsetStart]);
+			dXY = sqrt(QCN_SQR(sm->x0[lCtr]) + QCN_SQR(sm->y0[lCtr]));
+			dZ = fabs(sm->z0[lCtr]);
 			if (dXY > pfmax_xy[0]) pfmax_xy[0] = dXY;
-			if (dZ > pfmax_z[0]) pfmax_z[0] = dZ;
-			lOffsetStart++;
+			if (dZ > pfmax_z[0])   pfmax_z[0] = dZ;
+			lCtr++;
 		}
-	}
-	else { // get 1/2/4 seconds past lOffsetEnd
-		lOffsetStart = lOffsetEnd - iSec;   // a second back
-		if (lOffsetStart < 0) { 
-			// possible but not likely lOffsetEnd is at start of the array, so just go back and "wrap around" array if necessary
-			lOffsetStart += MAXI;  // will wrap around
-		}
-		for (i = 0; i < iSec; i++)  {
-			if (lOffsetStart >= MAXI) lOffsetStart = 1;
+	//}
+	if (bFollowUp) { // get 1/2/4 seconds past lOffsetEnd
+		long lCtr = lOffsetEnd;  // start at the trigger time, go forward 4 seconds but watch out for wrap at MAXI
+		for (i = 0; i < iSec * 4; i++)  { // note we're actually going forwards for up to 4 seconds, but "stop" at 1/2/4 to get max
+			if (lCtr >= MAXI) lCtr = 1;			
+			
 			// look for max value past second
-			dXY = sqrt(QCN_SQR(sm->x0[lOffsetStart]) + QCN_SQR(sm->y0[lOffsetStart]));
-			dZ = fabs(sm->z0[lOffsetStart]);
-			if (dXY > pfmax_xy[0]) pfmax_xy[0] = dXY;
-			if (dZ > pfmax_z[0]) pfmax_z[0] = dZ;
-			lOffsetStart++;
+			dXY = sqrt(QCN_SQR(sm->x0[lCtr]) + QCN_SQR(sm->y0[lCtr]));
+			dZ = fabs(sm->z0[lCtr]);
+			
+			if (i < iSec) { // within the first second after the trigger
+				if (dXY > pfmax_xy[1]) pfmax_xy[1] = dXY;
+				if (dZ > pfmax_z[1]) pfmax_z[1] = dZ;
+			}
+			if (i < iSec * 2) { // within the second second after the trigger
+				if (dXY > pfmax_xy[2]) pfmax_xy[2] = dXY;
+				if (dZ > pfmax_z[2]) pfmax_z[2] = dZ;
+			}
+			
+			// within our four second region
+			if (dXY > pfmax_xy[3]) pfmax_xy[3] = dXY;
+			if (dZ > pfmax_z[3]) pfmax_z[3] = dZ;
+			
+			lCtr++;
 		}
 	}
 

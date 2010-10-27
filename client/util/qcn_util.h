@@ -48,7 +48,7 @@ void getBOINCInitData(const e_where eWhere);
 #endif
 
 bool launchURL(const char* strURL = NULL);
-bool get_fmax_components(const long& lOffsetEnd, float* pfmax_xy, float* pfmax_z, bool bPrevious = false);
+bool get_fmax_components(const long& lOffsetEnd, float* pfmax_xy, float* pfmax_z, bool bFollowUp);
 
 #if (!defined(QCNDEMO) && !defined(QCN_USB) && !defined(GRAPHICS_PROGRAM)) || defined(QCNLIVE)
 void ResetCounter(const e_where eWhere, const int iNumResetInitial = -1);
