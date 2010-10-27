@@ -99,8 +99,7 @@ bool launchURL(const char* strURL)
 	return true;
 }
 
-
-bool get_fmax_components(const long& lOffsetEnd, double& dfmax_xy_1s, double& dfmax_z_1s)
+bool get_fmax_components(const long& lOffsetEnd, float* pfmax_xy, float* pfmax_z, bool bPrevious)
 {
 /*
     // CMC new -- go back a second to get max xy & z components
@@ -113,21 +112,50 @@ bool get_fmax_components(const long& lOffsetEnd, double& dfmax_xy_1s, double& df
         - for now just go back 1 second and look for the max of xy component & z
         //- eventually update memory database with a secondary trigger for the +3 second values of fmax_xy & _z*/
 
-    double dXY;
-    long lOffsetStart = lOffsetEnd - (1.0 / sm->dt);   // a second back
-    if (lOffsetStart < 1) { // possible but not likely lOffsetEnd is at start of the array, so just go to 1
-       lOffsetStart = 1;  // don't use 0 as that's the baseline value we use for reference
-    }
-   
-    dfmax_xy_1s = -99999.9; // start off with tiny values 
-    dfmax_z_1s  = -99999.9; // start off with tiny values 
+    double dXY, dZ;
+	int i;
+	const int iSec = (int) (1.0 / sm->dt);
+	
+	for (int i = 0; i < 4; i++) {
+       pfmax_xy[i] = -99999.9; // start off with tiny values 
+       pfmax_z[i]  = -99999.9; // start off with tiny values 
+	}
 
-    for (long i = lOffsetStart; i <= lOffsetEnd; i++)  {
-       // look for max value past second
-       dXY = sqrt(QCN_SQR(sm->x0[i]) + QCN_SQR(sm->y0[i])) ;
-       if (dXY > dfmax_xy_1s) dfmax_xy_1s = dXY;
-       if (abs(sm->z0[i]) > dfmax_z_1s) dfmax_z_1s = abs(sm->z0[i]);
-    }
+    long lOffsetStart;
+	if (bPrevious) {
+		lOffsetStart = lOffsetEnd - iSec;   // a second back
+		if (lOffsetStart < 0) { 
+			// possible but not likely lOffsetEnd is at start of the array, so just go back and "wrap around" array if necessary
+			lOffsetStart += MAXI;  // will wrap around
+		}
+		for (i = 0; i < iSec; i++)  {
+			if (lOffsetStart >= MAXI) lOffsetStart = 1;
+			// look for max value past second
+			dXY = sqrt(QCN_SQR(sm->x0[lOffsetStart]) + QCN_SQR(sm->y0[lOffsetStart]));
+			dZ = fabs(sm->z0[lOffsetStart]);
+			if (dXY > pfmax_xy[0]) pfmax_xy[0] = dXY;
+			if (dZ > pfmax_z[0]) pfmax_z[0] = dZ;
+			lOffsetStart++;
+		}
+	}
+	else { // get 1/2/4 seconds past lOffsetEnd
+		lOffsetStart = lOffsetEnd - iSec;   // a second back
+		if (lOffsetStart < 0) { 
+			// possible but not likely lOffsetEnd is at start of the array, so just go back and "wrap around" array if necessary
+			lOffsetStart += MAXI;  // will wrap around
+		}
+		for (i = 0; i < iSec; i++)  {
+			if (lOffsetStart >= MAXI) lOffsetStart = 1;
+			// look for max value past second
+			dXY = sqrt(QCN_SQR(sm->x0[lOffsetStart]) + QCN_SQR(sm->y0[lOffsetStart]));
+			dZ = fabs(sm->z0[lOffsetStart]);
+			if (dXY > pfmax_xy[0]) pfmax_xy[0] = dXY;
+			if (dZ > pfmax_z[0]) pfmax_z[0] = dZ;
+			lOffsetStart++;
+		}
+	}
+
+   
 	return true;  // the max components for xy & z over the past second will have been set
 
 } // get_fmax_components

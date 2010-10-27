@@ -831,7 +831,6 @@ bool CheckTriggerTrickle(struct STriggerInfo* ti)
     boinc_begin_critical_section();
     // mark this trigger as sent
     sm->setTriggerLock();
-    ti->bSent = true;
     sm->releaseTriggerLock();
  
     char *strTrigger = new char[512];
@@ -840,13 +839,17 @@ bool CheckTriggerTrickle(struct STriggerInfo* ti)
     double dTriggerTime = sm->t0[ti->lOffsetEnd] + g_dTimeOffset; // this is the adjusted time of the trigger, i.e. should match server time
 
     // get xy & z components to send for the past 1 second i.e. to get max before trigger
-    double dfmax_xy_1s = 0.0, dfmax_z_1s = 0.0;
+    float fmax_xy[4], fmax_z[4];
+	memset(fmax_xy, 0x00, sizeof(float) * 4);
+	memset(fmax_z, 0x00, sizeof(float) * 4);
+
     if (bFollowUp) {
-		qcn_util::get_fmax_components(ti->lOffsetEnd, dfmax_xy_1s, dfmax_z_1s);
+		qcn_util::get_fmax_components(ti->lOffsetEnd, fmax_xy, fmax_z, false); // gets later values
 		ti->bSentFollowUp = true;
 	}
 	else {
-		qcn_util::get_fmax_components(ti->lOffsetEnd, dfmax_xy_1s, dfmax_z_1s);
+		qcn_util::get_fmax_components(ti->lOffsetEnd, fmax_xy, fmax_z, true);  // gets previous 1s values
+		ti->bSent = true;
 	}
 
     // Trigger field tags:
