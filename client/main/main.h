@@ -116,6 +116,7 @@ struct STriggerInfo
     char strFile[_MAX_PATH]; // the filename associated with this trigger
     char strChecksum[SIZEOF_CHECKSUM]; // the checksum for the strFile filename associated with this trigger
     bool bSent;        // whether the trickle has been sent for this trigger
+    bool bSentFollowUp;        // whether the followup data trickle has been sent for this trigger
     bool bReal;        // flag if this is a real reportable event or just a per-minute trickle trigger in Demo mode
     bool bInteractive; // this trigger happened in interactive mode, so don't really trickle
 	bool bContinual;   // this is a continual trigger i.e. should go in triggers/continual

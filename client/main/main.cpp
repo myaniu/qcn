@@ -816,9 +816,15 @@ bool CheckTriggerFile(struct STriggerInfo* ti, bool bForce)
     return (bool) (ti->iLevel > TRIGGER_2MIN);  // return true means it will delete this iterator
 }
 
+// send a trickle when a trigger is hit, if bFollowUp==true it's a followup trigger with supplemental info
 bool CheckTriggerTrickle(struct STriggerInfo* ti)
 {
-    if (!ti->lOffsetEnd || ti->bSent || !ti->bReal || ti->bInteractive) {
+	static double dTimeLastTrickle = 0.0;
+	double dCurTime = 0.0;
+	
+	// note - check for a followup trig required, if trig was already sent, and we're 5 seconds after it was sent, with no bFollowUp
+	bool bFollowUp = ti->bSent && !ti->bSentFollowUp && (ti->lOffsetEnd + (5.0 * sm->dt)) < sm->lOffset;
+    if (!bFollowUp && (!ti->lOffsetEnd || ti->bSent || !ti->bReal || ti->bInteractive)) {
        return true;  // if no offset and/or already sent or a demo mode trickle (i.e. per-minute trigger) or interactive mode, can just return
     }
 
@@ -835,7 +841,13 @@ bool CheckTriggerTrickle(struct STriggerInfo* ti)
 
     // get xy & z components to send for the past 1 second i.e. to get max before trigger
     double dfmax_xy_1s = 0.0, dfmax_z_1s = 0.0;
-    qcn_util::get_fmax_components(ti->lOffsetEnd, dfmax_xy_1s, dfmax_z_1s);
+    if (bFollowUp) {
+		qcn_util::get_fmax_components(ti->lOffsetEnd, dfmax_xy_1s, dfmax_z_1s);
+		ti->bSentFollowUp = true;
+	}
+	else {
+		qcn_util::get_fmax_components(ti->lOffsetEnd, dfmax_xy_1s, dfmax_z_1s);
+	}
 
     // Trigger field tags:
     //    result_name = unique boinc work name [BOINC Scheduler adds]
@@ -864,8 +876,8 @@ bool CheckTriggerTrickle(struct STriggerInfo* ti)
            "<file>%s</file>\n"
            "<reset>%d</reset>\n"
            "<dt>%f</dt>\n"
-           "<mxy1>%f</mxy1>\n"
-           "<mz1>%f</mz1>\n"
+           "<mxy1p>%f</mxy1p>\n"
+           "<mz1p>%f</mz1p>\n"
            "<tsync>%f</tsync>\n"
            "<toff>%f</toff>\n"
            "<%s>%.2f</%s>\n"
@@ -887,7 +899,11 @@ bool CheckTriggerTrickle(struct STriggerInfo* ti)
           XML_CPU_TIME, sm->cpu_time, XML_CPU_TIME
     );
 
+	dCurTime = dtime();
+	if ((dCurTime - dTimeLastTrickle) < 1.0) { // last trickle sent less than a second ago, which would be bad for boinc, so sleep a bit)
+	}								
     trickleup::qcnTrickleUp(strTrigger, ti->iVariety, (const char*) sm->dataBOINC.wu_name);  // send a trigger for this trickle
+	dTimeLastTrickle = dtime();  // set time trickle sent so we can pause if necessary
 
     // filename already set in ti->strFile
     fprintf(stdout, "Trigger detected at offset %ld  time %f  write at %ld - zip file %s\n", 

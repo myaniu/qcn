@@ -115,7 +115,7 @@ bool get_fmax_components(const long& lOffsetEnd, double& dfmax_xy_1s, double& df
 
     double dXY;
     long lOffsetStart = lOffsetEnd - (1.0 / sm->dt);   // a second back
-    if lOffsetStart < 1) { // possible but not likely lOffsetEnd is at start of the array, so just go to 1
+    if (lOffsetStart < 1) { // possible but not likely lOffsetEnd is at start of the array, so just go to 1
        lOffsetStart = 1;  // don't use 0 as that's the baseline value we use for reference
     }
    
@@ -125,11 +125,10 @@ bool get_fmax_components(const long& lOffsetEnd, double& dfmax_xy_1s, double& df
     for (long i = lOffsetStart; i <= lOffsetEnd; i++)  {
        // look for max value past second
        dXY = sqrt(QCN_SQR(sm->x0[i]) + QCN_SQR(sm->y0[i])) ;
-
        if (dXY > dfmax_xy_1s) dfmax_xy_1s = dXY;
-       if (sm->z0[i] > dfmax_z_1s) dfmax_z_1s = dXY;
-
+       if (abs(sm->z0[i]) > dfmax_z_1s) dfmax_z_1s = abs(sm->z0[i]);
     }
+	return true;  // the max components for xy & z over the past second will have been set
 
 } // get_fmax_components
 
