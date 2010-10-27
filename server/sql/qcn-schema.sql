@@ -1,6 +1,8 @@
 drop table if exists qcn_host_ipaddr;
 drop table if exists qcn_trigger;
+drop table if exists qcn_trigger_followup;
 drop table if exists trigmem.qcn_trigger_memory;
+drop table if exists trigmem.qcn_trigger_followup;
 drop database trigmem;
 drop table if exists qcn_geo_ipaddr;
 drop table if exists qcn_quake;
@@ -217,6 +219,19 @@ create index qcn_trigger_file on qcn_trigger (file);
 create index qcn_trigger_type_sensor on qcn_trigger (type_sensor);
 create index qcn_trigger_qcn_quakeid on qcn_trigger (qcn_quakeid);
 create index qcn_trigger_flag on qcn_trigger (flag);
+
+create table qcn_trigger_followup
+(
+id int(11) not null primary key,
+mxy1p float null,
+mz1p float null,
+mxy1a float null,
+mz1a float null,
+mxy2a float null,
+mz2a float null,
+mxy4a float null,
+mz4a float null
+);
 
 /* temp tables for stats */
 CREATE TABLE qcn_recalcresult (resultid int(11) NOT NULL PRIMARY KEY, weight double, total_credit double, time_received double);
