@@ -275,11 +275,20 @@ time_sync double,
 sync_offset double,
 significance double,
 magnitude double,
+mxy1p float null,
+mz1p float null,
+mxy1a float null,
+mz1a float null,
+mxy2a float null,
+mz2a float null,
+mxy4a float null,
+mz4a float null,
 latitude double,
 longitude double,
 levelvalue float,
 levelid smallint,
 alignid smallint,
+file varchar(64),
 dt float,
 numreset int(6),
 type_sensor int(3),
@@ -292,6 +301,7 @@ alter table trigmem.qcn_trigger_memory ADD PRIMARY KEY (db_name, triggerid);
 create index qcn_trigger_memory_time on trigmem.qcn_trigger_memory (time_trigger desc, varietyid asc);
 create index qcn_trigger_memory_hostid on trigmem.qcn_trigger_memory(hostid, time_trigger, qcn_quakeid, varietyid, posted);
 create index qcn_trigger_memory_latlng on trigmem.qcn_trigger_memory(latitude, longitude, qcn_quakeid, varietyid, posted);
+create index qcn_trigger_memory_file on trigmem.qcn_trigger_memory(file);
 
 /*
 
