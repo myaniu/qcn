@@ -833,6 +833,10 @@ bool CheckTriggerTrickle(struct STriggerInfo* ti)
 
     double dTriggerTime = sm->t0[ti->lOffsetEnd] + g_dTimeOffset; // this is the adjusted time of the trigger, i.e. should match server time
 
+    // get xy & z components to send for the past 1 second i.e. to get max before trigger
+    double dfmax_xy_1s = 0.0, dfmax_z_1s = 0.0;
+    qcn_util::get_fmax_components(ti->lOffsetEnd, dfmax_xy_1s, dfmax_z_1s);
+
     // Trigger field tags:
     //    result_name = unique boinc work name [BOINC Scheduler adds]
     //    time   = boinc server database time received [BOIN CScheduler adds]
@@ -852,7 +856,7 @@ bool CheckTriggerTrickle(struct STriggerInfo* ti)
 
     sprintf(strTrigger,
            "<vr>%s</vr>\n"
-			"<os>%s</os>\n"
+           "<os>%s</os>\n"
            "<sms>%d</sms>\n"
            "<ctime>%f</ctime>\n"
            "<fsig>%f</fsig>\n"
@@ -860,6 +864,8 @@ bool CheckTriggerTrickle(struct STriggerInfo* ti)
            "<file>%s</file>\n"
            "<reset>%d</reset>\n"
            "<dt>%f</dt>\n"
+           "<mxy1>%f</mxy1>\n"
+           "<mz1>%f</mz1>\n"
            "<tsync>%f</tsync>\n"
            "<toff>%f</toff>\n"
            "<%s>%.2f</%s>\n"
@@ -873,6 +879,8 @@ bool CheckTriggerTrickle(struct STriggerInfo* ti)
        ti->strFile,
        sm->iNumReset,
        sm->dt,
+       dfmax_xy_1s,
+       dfmax_z_1s,
        g_dTimeSync>0.0f ? g_dTimeSync + g_dTimeOffset : 0.0f,  // note we're sending the local client offset sync time adjusted to server time!
        g_dTimeOffset, 
           XML_CLOCK_TIME, sm->clock_time, XML_CLOCK_TIME,

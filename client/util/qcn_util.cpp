@@ -100,6 +100,28 @@ bool launchURL(const char* strURL)
 }
 
 
+bool get_fmax_components(const long& lOffsetEnd, double& dfmax_xy_1s, double& dfmax_z_1s)
+{
+/*
+    // CMC new -- go back a second to get max xy & z components
+        add fmax_xy & fmax_z fields to database and trigger:
+        - after trigger find max accel (fmag etc) afterwards
+        - define trickle variety for 3 second - two fmax values
+               - fmax of Z and fmax of sqrt(x2 + y2), +3 seconds from
+                trigger, -1 seconds from trigger
+        - add two fields to trigger table for fmax_z, fmax_xy, initially just look at the last second
+        - for now just go back 1 second and look for the max of xy component & z
+        //- eventually update memory database with a secondary trigger for the +3 second values of fmax_xy & _z*/
+
+    long lOffsetStart = lOffsetEnd - (1.0 / sm->dt);   // a second back
+    if lOffsetStart < 1) { // possible but not likely lOffsetEnd is at start of the array, so just go to 1
+       lOffsetStart = 1;  // don't use 0 as that's the baseline value we use for reference
+    }
+
+
+} // get_fmax_components
+
+
 void FormatElapsedTime(const double& dTime, char* strFormat, int iLen)
 {
     char *strTemp = new char[_MAX_PATH];
@@ -1037,5 +1059,5 @@ bool boinc_filelist(const std::string directory,
     return true;
 }
 #endif //ZIPARCHIVE
-	
+
 } // namespace util
