@@ -10,8 +10,9 @@ TARGET = qcnlive_qt
 TEMPLATE = app
 
 
-SOURCES += main.cpp\
-        mainwindow.cpp
+SOURCES +=\
+        mainwindow.cpp \
+    qtmain.cpp
 
 HEADERS  += mainwindow.h
 
