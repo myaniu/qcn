@@ -14,21 +14,26 @@
    <string>QCNLive</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QGraphicsView" name="graphicsView">
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <widget class="QWidget" name="gridLayoutWidget">
     <property name="geometry">
      <rect>
-      <x>0</x>
-      <y>0</y>
-      <width>661</width>
-      <height>351</height>
+      <x>20</x>
+      <y>10</y>
+      <width>561</width>
+      <height>291</height>
      </rect>
     </property>
-    <property name="frameShape">
-     <enum>QFrame::NoFrame</enum>
-    </property>
-    <property name="frameShadow">
-     <enum>QFrame::Plain</enum>
-    </property>
+    <layout class="QGridLayout" name="gridLayout">
+     <item row="0" column="0">
+      <widget class="QGraphicsView" name="graphicsView"/>
+     </item>
+    </layout>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
@@ -108,41 +113,65 @@
    </property>
   </action>
   <action name="actionEarthquake">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>Earthquakes</string>
    </property>
   </action>
   <action name="actionSensor_2D">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>Sensor 2D</string>
    </property>
   </action>
   <action name="actionSensor_3D">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>Sensor 3D</string>
    </property>
   </action>
   <action name="actionCube">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>Cube</string>
    </property>
   </action>
   <action name="actionDay">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>Day</string>
    </property>
   </action>
   <action name="actionNight">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>Night</string>
    </property>
   </action>
   <action name="actionAuto_Rotate">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>Auto-Rotate</string>
    </property>
   </action>
   <action name="actionStop_Rotation">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>Stop Rotation</string>
    </property>
