@@ -240,16 +240,17 @@ extern int sacio
  	        //t[j] = dCtr;
 			t[j] = sm->t0[lOff] + qcn_main::g_dTimeOffset - dTimeZero;
 		}
-				
-	   x[j] = sm->x0[lOff];
+			
+           // note multiplying by 1e9 as sac format will be nm/s/s  (nanometers)	
+	   x[j] = sm->x0[lOff] * 1.0e9;
        if (xmin > x[j]) xmin = x[j];
        if (xmax < x[j]) xmax = x[j];
 
-	   y[j] = sm->y0[lOff];
+	   y[j] = sm->y0[lOff] * 1.0e9;
        if (ymin > y[j]) ymin = y[j];
        if (ymax < y[j]) ymax = y[j];
 
-	   z[j] = sm->z0[lOff];
+	   z[j] = sm->z0[lOff] * 1.0e9;
        if (zmin > z[j]) zmin = z[j];
        if (zmax < z[j]) zmax = z[j];
 
@@ -297,8 +298,11 @@ extern int sacio
     lTemp = IB;
     long_swap((QCN_CBYTE*) &lTemp, sacdata.l[esl_iztype]);   // IB means it's begin time
 
-    lTemp = IDISP;
-    long_swap((QCN_CBYTE*) &lTemp, sacdata.l[esl_idep]);   // IDISP means it's displacement in nm
+    lTemp = IACC;
+    long_swap((QCN_CBYTE*) &lTemp, sacdata.l[esl_idep]);   // acceleration in nm/s/s, so multiply x/y/z values by 10^9
+
+    lTemp = IRLDTA;
+    long_swap((QCN_CBYTE*) &lTemp, sacdata.l[esl_isynth]);   // real data
 
     lTemp = ITIME;
     long_swap((QCN_CBYTE*) &lTemp, sacdata.l[esl_iftype]);   // ITIME means it's a time-series file
@@ -428,10 +432,13 @@ extern int sacio
 			// X section
 			fname[ifname] = 'X';
 
-			strcpy(sacdata.s[ess_kcmpnm], "HLX");  // component name (axis)
+			strcpy(sacdata.s[ess_kcmpnm], "BN1");  // component name (axis)
 
 			fTemp = 90.0f;   // cmpinc, which should be 0 for z, 90 for x & y, and -12345.0f for sig.
 			float_swap((QCN_CBYTE*) &fTemp, sacdata.f[esf_cmpinc]);
+
+			fTemp = 90.0f;   // cmpaz, X would be true east ideally (N+90 degrees) cmpaz = 90
+			float_swap((QCN_CBYTE*) &fTemp, sacdata.f[esf_cmpaz]);
 
 			fTemp = xmin;
 			float_swap((QCN_CBYTE*) &fTemp, sacdata.f[esf_depmin]);  // min value of independent variable
@@ -445,10 +452,13 @@ extern int sacio
 			// Y section
 			fname[ifname] = 'Y';
 
-			strcpy(sacdata.s[ess_kcmpnm], "HLY");  // component name (axis)
+			strcpy(sacdata.s[ess_kcmpnm], "BN2");  // component name (axis)
 
 			fTemp = 90.0f;   // cmpinc, which should be 0 for z, 90 for x & y, and -12345.0f for sig.
 			float_swap((QCN_CBYTE*) &fTemp, sacdata.f[esf_cmpinc]);
+
+			fTemp = 0.0f;   // cmpaz, Y should be true north, cmpaz = 0
+			float_swap((QCN_CBYTE*) &fTemp, sacdata.f[esf_cmpaz]);
 
 			fTemp = ymin;
 			float_swap((QCN_CBYTE*) &fTemp, sacdata.f[esf_depmin]);  // min value of independent variable
@@ -462,10 +472,13 @@ extern int sacio
 			// Z section
 			fname[ifname] = 'Z';
 
-			strcpy(sacdata.s[ess_kcmpnm], "HLZ");  // component name (axis)
+			strcpy(sacdata.s[ess_kcmpnm], "BN3");  // component name (axis)
 
 			fTemp = 0.0f;   // cmpinc, which should be 0 for z, 90 for x & y, and -12345.0f for sig.
 			float_swap((QCN_CBYTE*) &fTemp, sacdata.f[esf_cmpinc]);
+
+			fTemp = 0.0f;   // cmpaz, Z cmpaz = 0
+			float_swap((QCN_CBYTE*) &fTemp, sacdata.f[esf_cmpaz]);
 
 			fTemp = zmin;
 			float_swap((QCN_CBYTE*) &fTemp, sacdata.f[esf_depmin]);  // min value of independent variable

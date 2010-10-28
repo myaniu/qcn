@@ -52,9 +52,11 @@ extern int sacio
 );
 
 // sac constants we're using, ref http://terra.rice.edu/comp.res/apps/S/sac/docs/FileFormatPt2.html
-const int32_t ITIME = 1L;
-const int32_t IDISP = 6L;
-const int32_t IB = 9L;
+const int32_t ITIME  = 1;
+const int32_t IDISP  = 6;
+const int32_t IACC   = 8;
+const int32_t IB     = 9;
+const int32_t IRLDTA = 49;
 
 // 70 * 4  +  40 * 4 = 440 + 24 * 8 = 632 bytes
 struct sac_header {                    
