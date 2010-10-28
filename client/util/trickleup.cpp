@@ -10,6 +10,7 @@
 #include "filesys.h"
 
 extern double dtime();  // this is from boinc lib
+extern void boinc_sleep(double);   
 
 enum e_trigvariety { TRIGGER_VARIETY_FINALSTATS = -2, TRIGGER_VARIETY_QUAKELIST, TRIGGER_VARIETY_NORMAL, TRIGGER_VARIETY_PING, TRIGGER_VARIETY_CONTINUAL };
 
