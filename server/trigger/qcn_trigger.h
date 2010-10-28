@@ -448,6 +448,7 @@ public:
       significance = safe_atof(r[i++]);
       if (isnan(significance)) significance = 0;
       magnitude = safe_atof(r[i++]);
+      if (isnan(magnitude)) magnitude = 0;  // some reason sig &  or mag can be NaN
       mxy1p = safe_atof(r[i++]);
       mz1p = safe_atof(r[i++]);
       mxy1a = safe_atof(r[i++]);
@@ -456,7 +457,14 @@ public:
       mz2a = safe_atof(r[i++]);
       mxy4a = safe_atof(r[i++]);
       mz4a = safe_atof(r[i++]);
-      if (isnan(magnitude)) magnitude = 0;  // some reason sig &  or mag can be NaN
+      if (isnan(mxy1p)) mxy1p = 0;
+      if (isnan(mxy1a)) mxy1a = 0;
+      if (isnan(mxy2a)) mxy2a = 0;
+      if (isnan(mxy4a)) mxy4a = 0;
+      if (isnan(mz1p)) mz1p = 0;
+      if (isnan(mz1a)) mz1a = 0;
+      if (isnan(mz2a)) mz2a = 0;
+      if (isnan(mz4a)) mz4a = 0;
       latitude = safe_atof(r[i++]);
       longitude = safe_atof(r[i++]);
       levelvalue = safe_atof(r[i++]);
