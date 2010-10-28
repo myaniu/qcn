@@ -94,19 +94,19 @@ void long_swap(QCN_CBYTE* cbuf, int32_t& lVal)
 		QCN_BYTE cval[4];
 		int32_t lval;
 	} l_union;
-	if (sm->bMyOutputSAC) {
-        if (qcn_main::g_endian == ENDIAN_BIG) {
+	if (sm->bMyOutputSAC) {  // only really need to do swap for SAC files
+          if (qcn_main::g_endian == ENDIAN_BIG) {
 			l_union.cval[0] = cbuf[0];
 			l_union.cval[1] = cbuf[1];
 			l_union.cval[2] = cbuf[2];
 			l_union.cval[3] = cbuf[3];
-        }
-        else { // little endian needs to swap
+          }
+          else { // little endian needs to swap
 			l_union.cval[0] = cbuf[3];
 			l_union.cval[1] = cbuf[2];
 			l_union.cval[2] = cbuf[1];
 			l_union.cval[3] = cbuf[0];
-        }
+          }
 	}
 	else {
 		l_union.cval[0] = cbuf[0];
@@ -123,19 +123,19 @@ void float_swap(QCN_CBYTE* cbuf, float& fVal)
 		QCN_BYTE cval[4];
 		float fval;
 	} f_union;
-	if (sm->bMyOutputSAC) {
-        if (qcn_main::g_endian == ENDIAN_BIG) {
+	if (sm->bMyOutputSAC) {  // only really need to do swap for SAC files
+          if (qcn_main::g_endian == ENDIAN_BIG) {
 			f_union.cval[0] = cbuf[0];
 			f_union.cval[1] = cbuf[1];
 			f_union.cval[2] = cbuf[2];
 			f_union.cval[3] = cbuf[3];			
-        }
-        else { // little endian needs to swap
+          }
+          else { // little endian needs to swap
 			f_union.cval[0] = cbuf[3];
 			f_union.cval[1] = cbuf[2];
 			f_union.cval[2] = cbuf[1];
 			f_union.cval[3] = cbuf[0];
-        }
+          }
 	}
 	else {
 		 f_union.cval[0] = cbuf[0];
@@ -223,6 +223,8 @@ extern int sacio
     memset(s, 0x00, sizeof(float) * npts);
     memset(t, 0x00, sizeof(float) * npts);
 
+    const double cfFactor = sm->bMyOutputSAC ? 1.0e9f : 1.0f;  // sac data is in nanometers per sec^2 
+
     lOff = n1;
 	//double dCtr = 0.0;
     for (j = 0; j < npts; j++) {
@@ -241,20 +243,20 @@ extern int sacio
 			t[j] = sm->t0[lOff] + qcn_main::g_dTimeOffset - dTimeZero;
 		}
 			
-           // note multiplying by 1e9 as sac format will be nm/s/s  (nanometers)	
-	   x[j] = sm->x0[lOff] * 1.0e9;
+       // note multiplying by 1e9 as sac format will be nm/s/s  (nanometers)	
+       x[j] = sm->x0[lOff] * cfFactor;
        if (xmin > x[j]) xmin = x[j];
        if (xmax < x[j]) xmax = x[j];
 
-	   y[j] = sm->y0[lOff] * 1.0e9;
+       y[j] = sm->y0[lOff] * cfFactor;
        if (ymin > y[j]) ymin = y[j];
        if (ymax < y[j]) ymax = y[j];
 
-	   z[j] = sm->z0[lOff] * 1.0e9;
+       z[j] = sm->z0[lOff] * cfFactor;
        if (zmin > z[j]) zmin = z[j];
        if (zmax < z[j]) zmax = z[j];
 
-	   s[j] = sm->fsig[lOff];
+       s[j] = sm->fsig[lOff];
        if (smin > s[j]) smin = s[j];
        if (smax < s[j]) smax = s[j];
 
