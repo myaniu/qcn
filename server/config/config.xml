@@ -205,17 +205,22 @@
     </daemon>
     <daemon>
       <cmd>
-        feeder -d 3
+        feeder -d 2
       </cmd>
     </daemon>
     <daemon>
       <cmd>
-        transitioner -d 3
+        transitioner -d 2
       </cmd>
     </daemon>
     <daemon>
       <cmd>
-        qcn_trigmon -d 3 -sleep_interval 10 -count 6 -time_interval 15 -delete_interval 300
+        qcn_trigmon -d 2 -sleep_interval 10 -count 6 -time_interval 15 -delete_interval 300
+      </cmd>
+    </daemon>
+    <daemon>
+      <cmd>
+        jfl_trigmon -d 2
       </cmd>
     </daemon>
   </daemons>
