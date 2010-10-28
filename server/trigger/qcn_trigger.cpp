@@ -156,7 +156,11 @@ bool doTriggerMemoryInsert(const DB_QCN_TRIGGER& qtrig, const double* const dmxy
 
     // don't put in triggers into memory which haven't had a time sync as they can be way off
     // also we just want varietyid=0 (i.e. normal triggers)
-    if (qtrig.varietyid !=0 || qtrig.time_sync < 1e6) return false;
+    // also don't bother putting into memory if trigger time was over 60 seconds from received time
+    if (qtrig.varietyid !=0 
+      || qtrig.time_sync < 1e6
+      || qtrig.time_trigger + 60.0 < qtrig.time_received) 
+         return false;
 
     int iVal = qtrig.db->insert_id();
     if (iVal <= 0) return false;  // invalid trigger ID
