@@ -899,8 +899,8 @@ int main(int argc, char** argv)
     struct event   e[2];e[1].eid=0;                      // event
     int retval;
     int tidl=0; int hidl=0;                                         // default last host id
-    struct bad_hosts(bh);
-    get_bad_hosts(bh);
+    //struct bad_hosts(bh);
+    //get_bad_hosts(bh);
 
     
 /* initialize random seed: */
