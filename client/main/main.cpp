@@ -313,6 +313,13 @@ int qcn_main(int argc, char **argv)
         //boinc_register_timer_callback(update_sharedmem);   // this means update_sharedmem will be automatically called once per second
     }
 */
+
+#ifdef _DEBUG
+   if (strlen(g_strPathTrigger)<1) {
+     strcpy(g_strPathTrigger, "../../data");
+   }
+#endif
+
     // make our trigger zip data dir if it doesn't exist
     if (g_strPathTrigger && ! boinc_file_exists((const char*) g_strPathTrigger) ) {
        // now open dir to see if exists
@@ -325,6 +332,11 @@ int qcn_main(int argc, char **argv)
        }
     }
 	if (g_bContinual) {
+#ifdef _DEBUG
+   if (strlen(g_strPathContinual)<1) {
+     strcpy(g_strPathContinual, "../../data_continual");
+   }
+#endif
 		if (g_strPathContinual && ! boinc_file_exists((const char*) g_strPathContinual) ) {
 		   // now open dir to see if exists
 		   if (boinc_mkdir((const char*) g_strPathContinual)) {
