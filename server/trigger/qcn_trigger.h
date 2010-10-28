@@ -157,7 +157,18 @@ struct QCN_TRIGGER_MEMORY
     int varietyid;
     int qcn_quakeid;
     bool posted;
-    void clear() {memset(this, 0x00, sizeof(QCN_TRIGGER_MEMORY));}
+    void clear() 
+     {
+       memset(this, 0x00, sizeof(QCN_TRIGGER_MEMORY));
+       mxy1p = 0.0;
+       mz1p = 0.0;
+       mxy1a = 0.0;
+       mz1a = 0.0;
+       mxy2a = 0.0;
+       mz2a = 0.0;
+       mxy4a = 0.0;
+       mz4a = 0.0;
+     }
 };
 
 struct QCN_QUAKE

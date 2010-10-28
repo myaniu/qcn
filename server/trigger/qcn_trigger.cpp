@@ -6,7 +6,6 @@
 
 #include "qcn_trigger.h"
 #include <curl/curl.h>
-#include <float.h>  // for -DBL_MAX i.e. min possible error val
 #include "sched_config.h"
 
    /*
@@ -190,8 +189,10 @@ bool doTriggerMemoryInsert(const DB_QCN_TRIGGER& qtrig, const double* dmxy, cons
     qtrigmem.type_sensor = qtrig.type_sensor;
     qtrigmem.varietyid = qtrig.varietyid;
 
-    if (dmxy[0] > -DBL_MAX) qtrigmem.mxy1p = dmxy[0];
-    if (dmz[0] > -DBL_MAX) qtrigmem.mz1p = dmz[0];
+    //if (dmxy[0] > -DBL_MAX) qtrigmem.mxy1p = dmxy[0];
+    //if (dmz[0] > -DBL_MAX) qtrigmem.mz1p = dmz[0];
+    qtrigmem.mxy1p = dmxy[0];
+    qtrigmem.mz1p = dmz[0];
 
     iVal = qtrigmem.insert();
     if (iVal) { //error
@@ -219,8 +220,8 @@ int handle_qcn_trigger(const DB_MSG_FROM_HOST* pmfh, const int iVariety)
      bool bFollowUp = false;
      double dmxy[4], dmz[4];
      for (int i = 0; i < 4; i++) {
-        dmxy[i] = -DBL_MAX;
-        dmz[i] = -DBL_MAX;
+        dmxy[i] = 0.0;
+        dmz[i] = 0.0;
      }
 
      // parse out all the data into the qtrig object;
@@ -244,18 +245,18 @@ int handle_qcn_trigger(const DB_MSG_FROM_HOST* pmfh, const int iVariety)
 
      // check for followup info if any, i.e. 1 sec prev, 1 sec after 2 sec after 4 sec after data for xy component & z component
      // all normal triggers will possibly have the 1 sec prev values
-     if (!parse_double(pmfh->xml, "<mxy1p>", dmxy[0])) dmxy[0] = -DBL_MAX;     
-     if (!parse_double(pmfh->xml, "<mz1p>", dmz[0])) dmz[0] = -DBL_MAX;     
+     if (!parse_double(pmfh->xml, "<mxy1p>", dmxy[0])) dmxy[0] = 0.0;     
+     if (!parse_double(pmfh->xml, "<mz1p>", dmz[0])) dmz[0] = 0.0;     
 
      if (bFollowUp) {  // only followup triggers will have the 4 sec after values
-       if (!parse_double(pmfh->xml, "<mxy1a>", dmxy[1])) dmxy[1] = -DBL_MAX;     
-       if (!parse_double(pmfh->xml, "<mz1a>", dmz[1])) dmz[1] = -DBL_MAX;     
+       if (!parse_double(pmfh->xml, "<mxy1a>", dmxy[1])) dmxy[1] = 0.0;
+       if (!parse_double(pmfh->xml, "<mz1a>", dmz[1])) dmz[1] = 0.0;
   
-       if (!parse_double(pmfh->xml, "<mxy2a>", dmxy[2])) dmxy[2] = -DBL_MAX;     
-       if (!parse_double(pmfh->xml, "<mz2a>", dmz[2])) dmz[2] = -DBL_MAX;     
+       if (!parse_double(pmfh->xml, "<mxy2a>", dmxy[2])) dmxy[2] = 0.0;
+       if (!parse_double(pmfh->xml, "<mz2a>", dmz[2])) dmz[2] = 0.0;
 
-       if (!parse_double(pmfh->xml, "<mxy4a>", dmxy[3])) dmxy[3] = -DBL_MAX;     
-       if (!parse_double(pmfh->xml, "<mz4a>", dmz[3])) dmz[3] = -DBL_MAX;     
+       if (!parse_double(pmfh->xml, "<mxy4a>", dmxy[3])) dmxy[3] = 0.0;
+       if (!parse_double(pmfh->xml, "<mz4a>", dmz[3])) dmz[3] = 0.0;
      }
 
 // CMC hack - change JW 7 to 100, MN 8 to 101
