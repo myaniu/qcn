@@ -95,8 +95,8 @@ int lookupGeoIPWebService(
    DB_QCN_HOST_IPADDR& qhip,
    DB_QCN_GEO_IPADDR&  qgip,
    DB_QCN_TRIGGER&     qtrig,
-   const double* dmxy,
-   const double* dmz
+   const double* const dmxy,
+   const double* const dmz
 );
 
 // decl for curl function
@@ -150,7 +150,7 @@ bool doTriggerMemoryUpdate(const DB_QCN_TRIGGER& qtrig, const double* dmxy, cons
   return true;
 }
 
-bool doTriggerMemoryInsert(const DB_QCN_TRIGGER& qtrig, const double* dmxy, const double* dmz)
+bool doTriggerMemoryInsert(const DB_QCN_TRIGGER& qtrig, const double* const dmxy, const double* const dmz)
 {  // call this after inserting a "regular" trigger record - this will add the 
    // trigger (if applicable i.e. insertid>0, timesync>0) to the memory table for event polling
 
