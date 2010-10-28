@@ -883,7 +883,7 @@ void get_bad_hosts(struct bad_hosts bh) {
    bh.nh = -1;
    while (feof(fp10) == 0) {
     bh.nh++;
-    fscanf(fp10,"$d",bh.hid[bh.nh]);
+    fscanf(fp10,"%d",bh.hid[bh.nh]);
    }
    fclose(fp10);
    return;

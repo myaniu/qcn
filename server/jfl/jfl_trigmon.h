@@ -113,12 +113,13 @@ struct bad_hosts {
    int   nh;                      // Number of bad host ids
    int   hid[n_long];              // Bad host ids
 
-}
+};
 
 
 // struct to keep in a vector of the most recent QCN generated quake events
 // so followup triggers can be matched to this if we are scanning the trigmem.qcn_trigger_memory 
 // table very frequently (i.e. <5 seconds)
+
 
 struct QCN_QUAKE_EVENT
 {
@@ -131,6 +132,7 @@ struct QCN_QUAKE_EVENT
     void clear() { memset(this, 0x00, sizeof(QCN_QUAKE_EVENT)); }
     QCN_QUAKE_EVENT() { clear(); };
 };
+
 
 // returns quakeid if event found/created (0 if not)
 int getQCNQuakeID(
