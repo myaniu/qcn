@@ -414,6 +414,8 @@ extern int sacio
 
 			ifname = (int32_t) strlen(fname) - 5;
 		
+#if 0
+		if (qcn_main::g_bShowSig) {  // we're not sending significance files up by default any more
 			// Significance section (fsig)
 			fname[ifname] = 'S';
 
@@ -430,8 +432,11 @@ extern int sacio
 
 			zfl.push_back(fname);
 			wsac0(fname, t, s, nerr, npts, &sacdata);
-		 
-			// X section
+		  }  // g_bShowSig
+	 	
+#endif // no sig files
+		
+		// X section
 			fname[ifname] = 'X';
 
 			strcpy(sacdata.s[ess_kcmpnm], "BN1");  // component name (axis)

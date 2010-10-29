@@ -31,11 +31,12 @@ static float g_fMinAxesCurrent[4]  = { -g_fScaleAxes[0], -g_fScaleAxes[0], -g_fS
 static const float cfTransAlpha = 1.000f;
 static const float cfAxisLabel  = 1.061f;
 static const float cfVertLabel  = 0.988f;
-static const float cfYOffset    = 0.016f;
+//static const float cfYOffset    = 0.016f;
 static const float cfMSSLabel   = 0.050f; // m/s/s label
-static const float cfSigOffset[7] = { .562f, .588f, .616f, .643f, .670f, .697f, .719f };
+//static const float cfSigOffset[7] = { .562f, .588f, .616f, .643f, .670f, .697f, .719f };
 
 static const float cfAxesLabel[4] = { 0.124f, .284f, .444f, .584f };
+//static const float cfAxesLabelNoSig[4] = { 0.124f, .284f, .444f, .584f };
 
 static const float cfBaseScale[4] = { 0.068f, .232f, .397f, .562f };
 static const float cfAxesOffset[7] = { .0f, .021f, .049f, .077f, .104f, .131f, .151f };
@@ -78,8 +79,10 @@ void draw_text()
 	
 
 #ifdef _DEBUG_QCNLIVE
-	sprintf(strTime, "%+6.3f %+6.3f", qcn_graphics::g_fmin[0], qcn_graphics::g_fmax[0]);
-    txf_render_string_qcn(qcn_graphics::cfTextAlpha, .1f, cfAxesLabel[0], 0.0f, MSG_SIZE_SMALL, red, TXF_HELVETICA, (char*) strTime);
+	//if (qcn_main::g_bShowSig) {
+	  sprintf(strTime, "%+6.3f %+6.3f", qcn_graphics::g_fmin[0], qcn_graphics::g_fmax[0]);
+      txf_render_string_qcn(qcn_graphics::cfTextAlpha, .1f, cfAxesLabel[0], 0.0f, MSG_SIZE_SMALL, red, TXF_HELVETICA, (char*) strTime);
+	//}
 	sprintf(strTime, "%+6.3f %+6.3f", qcn_graphics::g_fmin[1], qcn_graphics::g_fmax[1]);
     txf_render_string_qcn(qcn_graphics::cfTextAlpha, .1f, cfAxesLabel[1], 0.0f, MSG_SIZE_SMALL, red, TXF_HELVETICA, (char*) strTime);
 	sprintf(strTime, "%+6.3f %+6.3f", qcn_graphics::g_fmin[2], qcn_graphics::g_fmax[2]);
@@ -90,13 +93,17 @@ void draw_text()
 
 	// labels for each axis
 
-	txf_render_string_qcn(cfTransAlpha, cfAxisLabel, cfAxesLabel[E_DS], 0, MSG_SIZE_NORMAL, red, TXF_HELVETICA, "Significance", 90.0f);
-    txf_render_string_qcn(cfTransAlpha, cfAxisLabel, cfAxesLabel[E_DZ], 0, MSG_SIZE_NORMAL, blue, TXF_HELVETICA, "Z Axis", 90.0f);
+	//if (qcn_main::g_bShowSig) {
+		txf_render_string_qcn(cfTransAlpha, cfAxisLabel, cfAxesLabel[E_DS], 0, MSG_SIZE_NORMAL, red, TXF_HELVETICA, "Significance", 90.0f);
+	//}
+	txf_render_string_qcn(cfTransAlpha, cfAxisLabel, cfAxesLabel[E_DZ], 0, MSG_SIZE_NORMAL, blue, TXF_HELVETICA, "Z Axis", 90.0f);
     txf_render_string_qcn(cfTransAlpha, cfAxisLabel, cfAxesLabel[E_DY], 0, MSG_SIZE_NORMAL, orange, TXF_HELVETICA, "Y Axis", 90.0f);
     txf_render_string_qcn(cfTransAlpha, cfAxisLabel, cfAxesLabel[E_DX], 0, MSG_SIZE_NORMAL, green, TXF_HELVETICA, "X Axis", 90.0f);
 
 	// labels for significance
-	draw_text_sensor_axis(E_DS);
+	//if (qcn_main::g_bShowSig) {
+		draw_text_sensor_axis(E_DS);
+	//}
 
 	// labels for Z axis
 	draw_text_sensor_axis(E_DZ);

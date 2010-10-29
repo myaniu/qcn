@@ -157,12 +157,14 @@ void update_sharedmem();
 // some globals to extern within the qcn_main namespace
 extern CSensor* volatile g_psms; // pointer to the CSensor - so we can closePort() on a signal error
 extern e_endian volatile g_endian;
-
+	
 #ifndef QCNDEMO // qcndemo needs the g_iStop internally
 extern int volatile g_iStop;
 #endif
 extern bool volatile g_bFinished;
 extern bool volatile g_bSuspended;
+
+extern bool volatile g_bShowSig;  // we're not showing significance by default on sac output or on the screen
 
 extern CQCNThread* volatile g_threadSensor;
 extern CQCNThread* volatile g_threadTime;
