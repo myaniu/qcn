@@ -9,7 +9,7 @@ dnl not sure exactly what the minimum version is (but 2.13 wont work)
 AC_PREREQ(2.57)
 
 dnl Set the BOINC version here.  You can also use the set-version script.
-AC_INIT(QCN, 5.67)
+AC_INIT(QCN, 5.76)
 LIBBOINC_VERSION=`echo ${PACKAGE_VERSION} | sed 's/\./:/g'`
 AC_SUBST([LIBBOINC_VERSION])
 

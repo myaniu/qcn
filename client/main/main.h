@@ -164,8 +164,6 @@ extern int volatile g_iStop;
 extern bool volatile g_bFinished;
 extern bool volatile g_bSuspended;
 
-extern bool volatile g_bShowSig;  // we're not showing significance by default on sac output or on the screen
-
 extern CQCNThread* volatile g_threadSensor;
 extern CQCNThread* volatile g_threadTime;
 extern CQCNThread* volatile g_threadMain;

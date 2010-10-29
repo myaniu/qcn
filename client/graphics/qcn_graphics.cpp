@@ -245,10 +245,13 @@ vector<SQuake> vsq; // a vector of earthquake data struct (see qcn_graphics.h)
 
 const float xax[2] = { -15.0, 44.0 };
 const float yax[4] = { -25.0, -10.0, 8.0, 21.0 };
-const float xax_qcnlive[3] = { -47.0, 44.0, 49.0 };
-const float yax_qcnlive[5] = { -28.5, -13.5, 1.5, 16.5, 32.0 }; // note the last is the very top of sig, so it's 15 + .5 padding for the sig axis which is .5 above next line
+const float xax_2d[3] = { -47.0, 44.0, 49.0 };
+// note the last is the very top of sig, so it's 15 + .5 padding for the sig axis which is .5 above next line
+// also note 2d array as first element/array group is with no sig, second is to show sig
+// size of each height (y) is 20 for x/y/z plot and 15 for x/y/z/s plot
+const float yax_2d[2][5] = { { -28.5, -8.5, 11.5, 31.5, 32.0 }, { -28.5, -13.5, 1.5, 16.5, 32.0 } } ; 
 
-const float Y_TRIGGER_LAST[2] = { -30.0, 32.0 }; // the Y of the trigger & timer tick line
+const float Y_TRIGGER_LAST[2] = { -30.0, yax_2d[0][4] }; // the Y of the trigger & timer tick line
 
 int  iFullScreenView = 0;  // user preferred view, can be set on cmd line
 
@@ -1035,7 +1038,7 @@ void draw_triggers()
        if (dTriggerLastTime[i] > 0.0f) { // there's a trigger here
 	     float fWhere;
 	     if (g_eView == VIEW_PLOT_2D) {
-            fWhere = xax_qcnlive[0] + ( ((float) (lTriggerLastOffset[i]) / (float) PLOT_ARRAY_SIZE) * (xax_qcnlive[1]-xax_qcnlive[0]));
+            fWhere = xax_2d[0] + ( ((float) (lTriggerLastOffset[i]) / (float) PLOT_ARRAY_SIZE) * (xax_2d[1]-xax_2d[0]));
 		 }
 		 else  {
             fWhere = xax[0] + ( ((float) (lTriggerLastOffset[i]) / (float) PLOT_ARRAY_SIZE) * (xax[1]-xax[0]));
@@ -1755,7 +1758,7 @@ void Render(int xs, int ys, double time_of_day)
 			glHint (GL_LINE_SMOOTH_HINT, GL_NICEST);
 		  draw_logo(true);
 		  qcn_2dplot::draw_plot();
-                  draw_triggers();
+		  draw_triggers();
 		  qcn_2dplot::draw_text();
                   // qcn_2dplot::draw_scrollbar();
           break;

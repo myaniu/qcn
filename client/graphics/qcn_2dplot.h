@@ -7,6 +7,8 @@ namespace qcn_2dplot {
 	extern void SensorDataZoomAuto();
 	extern void SensorDataZoomIn();
 	extern void SensorDataZoomOut();
+	extern void ShowSigPlot(bool bShow = true);
+	extern bool IsSigPlot();
 
 	extern int GetTimerTick();
 	extern void SetTimerTick(const int iTT);

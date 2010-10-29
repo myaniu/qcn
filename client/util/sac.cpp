@@ -414,8 +414,7 @@ extern int sacio
 
 			ifname = (int32_t) strlen(fname) - 5;
 		
-#if 0
-		if (qcn_main::g_bShowSig) {  // we're not sending significance files up by default any more
+#if 0   // not saving sig sac file any more as it's only needed for trigger/quake detection
 			// Significance section (fsig)
 			fname[ifname] = 'S';
 
@@ -431,9 +430,7 @@ extern int sacio
 			float_swap((QCN_CBYTE*) &fTemp, sacdata.f[esf_depmax]);  // max value of independent variable
 
 			zfl.push_back(fname);
-			wsac0(fname, t, s, nerr, npts, &sacdata);
-		  }  // g_bShowSig
-	 	
+			wsac0(fname, t, s, nerr, npts, &sacdata);	 	
 #endif // no sig files
 		
 		// X section

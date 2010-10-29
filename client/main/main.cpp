@@ -90,7 +90,6 @@ namespace qcn_main  {
   int volatile g_iStop = FALSE;  // false;   note changed to int because used in a C program (ntpdatemain) which doesn't have bool
   bool volatile g_bFinished   = false;
   bool volatile g_bSuspended  = false;
-  bool volatile g_bShowSig = false;  // we're not showing significance by default on sac output or on the screen
   int  volatile g_iQCNReturn  = 0; // qcn return code
 
   CQCNThread* volatile g_threadSensor = NULL;
