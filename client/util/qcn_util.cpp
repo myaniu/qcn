@@ -99,77 +99,6 @@ bool launchURL(const char* strURL)
 	return true;
 }
 
-bool get_fmax_components(const long& lOffsetEnd, float* pfmax_xy, float* pfmax_z, bool bFollowUp)
-{
-/*
-    // CMC new -- go back a second to get max xy & z components
-        add fmax_xy & fmax_z fields to database and trigger:
-        - after trigger find max accel (fmag etc) afterwards
-        - define trickle variety for 3 second - two fmax values
-               - fmax of Z and fmax of sqrt(x2 + y2), +3 seconds from
-                trigger, -1 seconds from trigger
-        - add two fields to trigger table for fmax_z, fmax_xy, initially just look at the last second
-        - for now just go back 1 second and look for the max of xy component & z
-        //- eventually update memory database with a secondary trigger for the +3 second values of fmax_xy & _z*/
-
-    double dXY, dZ;
-	int i;
-	long lCtr;
-	const int iSec = (int) ceil(1.0 / sm->dt);
-	
-	for (int i = 0; i < 4; i++) {
-       pfmax_xy[i] = -99999.9; // start off with tiny values 
-       pfmax_z[i]  = -99999.9; // start off with tiny values 
-	}
-
-	//if (bPrevious) {
-	// always do the second back, to have on the followup trigger as a backup?
-		lCtr = lOffsetEnd - iSec;   // a second back
-		if (lCtr < 0) { 
-			// possible but not likely lOffsetEnd is at start of the array, so just go back and "wrap around" array if necessary
-			lCtr += MAXI;  // will wrap around
-		}
-		for (i = 0; i < iSec; i++)  {
-			if (lCtr >= MAXI) lCtr = 1;
-			// look for max value past second
-			dXY = sqrt(QCN_SQR(sm->x0[lCtr]) + QCN_SQR(sm->y0[lCtr]));
-			dZ = fabs(sm->z0[lCtr]);
-			if (dXY > pfmax_xy[0]) pfmax_xy[0] = dXY;
-			if (dZ > pfmax_z[0])   pfmax_z[0] = dZ;
-			lCtr++;
-		}
-	//}
-	if (bFollowUp) { // get 1/2/4 seconds past lOffsetEnd
-		long lCtr = lOffsetEnd;  // start at the trigger time, go forward 4 seconds but watch out for wrap at MAXI
-		for (i = 0; i < iSec * 4; i++)  { // note we're actually going forwards for up to 4 seconds, but "stop" at 1/2/4 to get max
-			if (lCtr >= MAXI) lCtr = 1;			
-			
-			// look for max value past second
-			dXY = sqrt(QCN_SQR(sm->x0[lCtr]) + QCN_SQR(sm->y0[lCtr]));
-			dZ = fabs(sm->z0[lCtr]);
-			
-			if (i < iSec) { // within the first second after the trigger
-				if (dXY > pfmax_xy[1]) pfmax_xy[1] = dXY;
-				if (dZ > pfmax_z[1]) pfmax_z[1] = dZ;
-			}
-			if (i < iSec * 2) { // within the second second after the trigger
-				if (dXY > pfmax_xy[2]) pfmax_xy[2] = dXY;
-				if (dZ > pfmax_z[2]) pfmax_z[2] = dZ;
-			}
-			
-			// within our four second region
-			if (dXY > pfmax_xy[3]) pfmax_xy[3] = dXY;
-			if (dZ > pfmax_z[3]) pfmax_z[3] = dZ;
-			
-			lCtr++;
-		}
-	}
-
-   
-	return true;  // the max components for xy & z over the past second will have been set
-
-} // get_fmax_components
-
 
 void FormatElapsedTime(const double& dTime, char* strFormat, int iLen)
 {
@@ -285,6 +214,78 @@ void string_tidy(char* strIn, int length)
 
 #ifndef QCN_USB
 
+	bool get_fmax_components(const long& lOffsetEnd, float* pfmax_xy, float* pfmax_z, bool bFollowUp)
+	{
+		/*
+		 // CMC new -- go back a second to get max xy & z components
+		 add fmax_xy & fmax_z fields to database and trigger:
+		 - after trigger find max accel (fmag etc) afterwards
+		 - define trickle variety for 3 second - two fmax values
+		 - fmax of Z and fmax of sqrt(x2 + y2), +3 seconds from
+		 trigger, -1 seconds from trigger
+		 - add two fields to trigger table for fmax_z, fmax_xy, initially just look at the last second
+		 - for now just go back 1 second and look for the max of xy component & z
+		 //- eventually update memory database with a secondary trigger for the +3 second values of fmax_xy & _z*/
+		
+		double dXY, dZ;
+		int i;
+		long lCtr;
+		const int iSec = (int) ceil(1.0 / sm->dt);
+		
+		for (int i = 0; i < 4; i++) {
+			pfmax_xy[i] = -99999.9; // start off with tiny values 
+			pfmax_z[i]  = -99999.9; // start off with tiny values 
+		}
+		
+		//if (bPrevious) {
+		// always do the second back, to have on the followup trigger as a backup?
+		lCtr = lOffsetEnd - iSec;   // a second back
+		if (lCtr < 0) { 
+			// possible but not likely lOffsetEnd is at start of the array, so just go back and "wrap around" array if necessary
+			lCtr += MAXI;  // will wrap around
+		}
+		for (i = 0; i < iSec; i++)  {
+			if (lCtr >= MAXI) lCtr = 1;
+			// look for max value past second
+			dXY = sqrt(QCN_SQR(sm->x0[lCtr]) + QCN_SQR(sm->y0[lCtr]));
+			dZ = fabs(sm->z0[lCtr]);
+			if (dXY > pfmax_xy[0]) pfmax_xy[0] = dXY;
+			if (dZ > pfmax_z[0])   pfmax_z[0] = dZ;
+			lCtr++;
+		}
+		//}
+		if (bFollowUp) { // get 1/2/4 seconds past lOffsetEnd
+			long lCtr = lOffsetEnd;  // start at the trigger time, go forward 4 seconds but watch out for wrap at MAXI
+			for (i = 0; i < iSec * 4; i++)  { // note we're actually going forwards for up to 4 seconds, but "stop" at 1/2/4 to get max
+				if (lCtr >= MAXI) lCtr = 1;			
+				
+				// look for max value past second
+				dXY = sqrt(QCN_SQR(sm->x0[lCtr]) + QCN_SQR(sm->y0[lCtr]));
+				dZ = fabs(sm->z0[lCtr]);
+				
+				if (i < iSec) { // within the first second after the trigger
+					if (dXY > pfmax_xy[1]) pfmax_xy[1] = dXY;
+					if (dZ > pfmax_z[1]) pfmax_z[1] = dZ;
+				}
+				if (i < iSec * 2) { // within the second second after the trigger
+					if (dXY > pfmax_xy[2]) pfmax_xy[2] = dXY;
+					if (dZ > pfmax_z[2]) pfmax_z[2] = dZ;
+				}
+				
+				// within our four second region
+				if (dXY > pfmax_xy[3]) pfmax_xy[3] = dXY;
+				if (dZ > pfmax_z[3]) pfmax_z[3] = dZ;
+				
+				lCtr++;
+			}
+		}
+		
+		
+		return true;  // the max components for xy & z over the past second will have been set
+		
+	} // get_fmax_components
+
+	
 void retrieveProjectPrefs()
 {
       if (sm->dataBOINC.project_preferences) {

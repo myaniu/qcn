@@ -235,7 +235,6 @@
 		4330BD5B114B11A60008D847 /* qcnusb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = qcnusb.h; path = ../qcnusb/qcnusb.h; sourceTree = SOURCE_ROOT; };
 		4337F497100183CA00E75E05 /* QCNLive-iphone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "QCNLive-iphone.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4337F499100183CA00E75E05 /* QCNLive-iphone-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "QCNLive-iphone-Info.plist"; sourceTree = "<group>"; };
-		43603EFE127B1AB000C73A12 /* qcnlive_qt.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = qcnlive_qt.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		43603F00127B1AB000C73A12 /* qcnlive_qt-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "qcnlive_qt-Info.plist"; sourceTree = "<group>"; };
 		4394A75D10A20763006FF691 /* dlgsettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dlgsettings.h; sourceTree = "<group>"; };
 		4394A7B610A20763006FF691 /* icons.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = icons.h; sourceTree = "<group>"; };
@@ -386,13 +385,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		43603EFC127B1AB000C73A12 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		E388F7C50FF1B3E500D948DE /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -492,7 +484,6 @@
 				E388F7C70FF1B3E500D948DE /* qcnusb.app */,
 				E388F90F0FF1BE6000D948DE /* QCNLive.app */,
 				4337F497100183CA00E75E05 /* QCNLive-iphone.app */,
-				43603EFE127B1AB000C73A12 /* qcnlive_qt.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -820,23 +811,6 @@
 			productReference = 4337F497100183CA00E75E05 /* QCNLive-iphone.app */;
 			productType = "com.apple.product-type.application";
 		};
-		43603EFD127B1AB000C73A12 /* qcnlive_qt */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 43603F05127B1AB000C73A12 /* Build configuration list for PBXNativeTarget "qcnlive_qt" */;
-			buildPhases = (
-				43603EFA127B1AB000C73A12 /* Resources */,
-				43603EFB127B1AB000C73A12 /* Sources */,
-				43603EFC127B1AB000C73A12 /* Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = qcnlive_qt;
-			productName = qcnlive_qt;
-			productReference = 43603EFE127B1AB000C73A12 /* qcnlive_qt.app */;
-			productType = "com.apple.product-type.application";
-		};
 		E388F7C60FF1B3E500D948DE /* qcnusb */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = E388F7CC0FF1B3E600D948DE /* Build configuration list for PBXNativeTarget "qcnusb" */;
@@ -928,20 +902,12 @@
 				E388F7C60FF1B3E500D948DE /* qcnusb */,
 				E388F90E0FF1BE6000D948DE /* QCNLive */,
 				4337F496100183CA00E75E05 /* QCNLive-iphone */,
-				43603EFD127B1AB000C73A12 /* qcnlive_qt */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		4337F493100183CA00E75E05 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		43603EFA127B1AB000C73A12 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -967,13 +933,6 @@
 				43304A9B10FF7D9000A823FE /* qcn_thread_sensor_loop.cpp in Sources */,
 				43D5F1821104EA450045EF34 /* coproc.cpp in Sources */,
 				43E276921146C38F00D80E16 /* csensor_mac_usb_jw24f14.cpp in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		43603EFB127B1AB000C73A12 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1284,96 +1243,6 @@
 				PREBINDING = NO;
 				PRODUCT_NAME = "QCNLive-iphone";
 				SDKROOT = iphoneos2.2.1;
-			};
-			name = ReleaseContinual;
-		};
-		43603F01127B1AB000C73A12 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_MODEL_TUNING = G5;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
-				INFOPLIST_FILE = "qcnlive_qt-Info.plist";
-				INSTALL_PATH = "$(HOME)/Applications";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					AppKit,
-				);
-				PREBINDING = NO;
-				PRODUCT_NAME = qcnlive_qt;
-			};
-			name = Debug;
-		};
-		43603F02127B1AB000C73A12 /* DebugContinual */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_MODEL_TUNING = G5;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
-				INFOPLIST_FILE = "qcnlive_qt-Info.plist";
-				INSTALL_PATH = "$(HOME)/Applications";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					AppKit,
-				);
-				PREBINDING = NO;
-				PRODUCT_NAME = qcnlive_qt;
-			};
-			name = DebugContinual;
-		};
-		43603F03127B1AB000C73A12 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				COPY_PHASE_STRIP = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				GCC_MODEL_TUNING = G5;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
-				INFOPLIST_FILE = "qcnlive_qt-Info.plist";
-				INSTALL_PATH = "$(HOME)/Applications";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					AppKit,
-				);
-				PREBINDING = NO;
-				PRODUCT_NAME = qcnlive_qt;
-				ZERO_LINK = NO;
-			};
-			name = Release;
-		};
-		43603F04127B1AB000C73A12 /* ReleaseContinual */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_MODEL_TUNING = G5;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
-				INFOPLIST_FILE = "qcnlive_qt-Info.plist";
-				INSTALL_PATH = "$(HOME)/Applications";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					AppKit,
-				);
-				PREBINDING = NO;
-				PRODUCT_NAME = qcnlive_qt;
 			};
 			name = ReleaseContinual;
 		};
@@ -2581,17 +2450,6 @@
 				4337F49B100183CA00E75E05 /* DebugContinual */,
 				4337F49C100183CA00E75E05 /* Release */,
 				4337F49D100183CA00E75E05 /* ReleaseContinual */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		43603F05127B1AB000C73A12 /* Build configuration list for PBXNativeTarget "qcnlive_qt" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				43603F01127B1AB000C73A12 /* Debug */,
-				43603F02127B1AB000C73A12 /* DebugContinual */,
-				43603F03127B1AB000C73A12 /* Release */,
-				43603F04127B1AB000C73A12 /* ReleaseContinual */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
