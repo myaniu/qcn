@@ -166,10 +166,6 @@ bool MyApp::get_qcnlive_prefs()
     if (!parse_int(strRead, strParse, myRect.height) || myRect.height<100 || myRect.height > wxsize.GetHeight())
         myRect.height =  MY_RECT_DEFAULT_HEIGHT;
 
-#ifdef __APPLE_CC__
-	myRect.height += 50;  // CMC HERE -- seems on Mac's we lose height on restarts!
-#endif
-
     // get preferred sensor if any
     sprintf(strParse, "<%s>", XML_SENSOR);
     if (!parse_int(strRead, strParse, sm->iMySensor) || sm->iMySensor <= 0)
@@ -251,11 +247,7 @@ bool MyApp::set_qcnlive_prefs()
                     XML_X, myRect.x, XML_X,
                     XML_Y, myRect.y, XML_Y, 
                     XML_WIDTH, myRect.width, XML_WIDTH, 
-#ifdef __WXMAC__  // bizarre Mac problem -- seems to add 39 to the height from the GetRect(), probably a toolbar fudge that they don't report elsewhere?
-                    XML_HEIGHT, myRect.height - 39, XML_HEIGHT,
-#else
                     XML_HEIGHT, myRect.height, XML_HEIGHT,
-#endif
                     XML_LATITUDE, sm->dMyLatitude, XML_LATITUDE,
                     XML_LONGITUDE, sm->dMyLongitude, XML_LONGITUDE,
                     XML_STATION, sm->strMyStation, XML_STATION,
