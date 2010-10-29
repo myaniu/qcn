@@ -166,6 +166,8 @@ bool MyApp::get_qcnlive_prefs()
     if (!parse_int(strRead, strParse, myRect.height) || myRect.height<100 || myRect.height > wxsize.GetHeight())
         myRect.height =  MY_RECT_DEFAULT_HEIGHT;
 
+	myRect.height += 50;  // CMC HERE -- seems on Mac's we lose height on restarts!
+	
     // get preferred sensor if any
     sprintf(strParse, "<%s>", XML_SENSOR);
     if (!parse_int(strRead, strParse, sm->iMySensor) || sm->iMySensor <= 0)
