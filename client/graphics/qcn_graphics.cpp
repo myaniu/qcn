@@ -1478,7 +1478,7 @@ int graphics_main(int argc, char** argv)
 {
     g_bThreadGraphics = false;
     g_bInitGraphics = false;
-#if (defined(__APPLE__) && defined(_DEBUG))
+#if (defined(__APPLE_CC__) && defined(_DEBUG))
     // Provide a way to get error messages from system in Debug builds only. 
     // In Deployment builds, ownership violates sandbox security (unless we 
     // gave it an explicit path outside the BOINC Data directory). 
