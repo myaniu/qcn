@@ -60,35 +60,38 @@ public:
     MainWindow();
 
 private slots:
-    void renderIntoPixmap();
-    void grabFrameBuffer();
-    void clearPixmap();
+    //void renderIntoPixmap();
+    //void grabFrameBuffer();
+    //void clearPixmap();
     void about();
 
 private:
     void createActions();
     void createMenus();
-    QSlider *createSlider(const char *changedSignal, const char *setterSlot);
-    void setPixmap(const QPixmap &pixmap);
+    QSlider* createSlider(const char *changedSignal, const char *setterSlot);
+    //void setPixmap(const QPixmap &pixmap);
     QSize getSize();
 
-    QWidget *centralWidget;
-    QScrollArea *glWidgetArea;
-    QScrollArea *pixmapLabelArea;
-    GLWidget *glWidget;
-    QLabel *pixmapLabel;
-    QSlider *xSlider;
-    QSlider *ySlider;
-    QSlider *zSlider;
+    QWidget* centralWidget;
+    QScrollArea* glWidgetArea;
+    //QScrollArea* pixmapLabelArea;
+    GLWidget* glWidget;
+    QLabel* pixmapLabel;
+	//QStatusBar* pStatusBar;
+	QToolBar* pToolBar;
+	QSlider* pTimeSlider;
+    //QSlider *xSlider;
+    //QSlider *ySlider;
+    //QSlider *zSlider;
 
     QMenu *fileMenu;
     QMenu *helpMenu;
-    QAction *grabFrameBufferAct;
-    QAction *renderIntoPixmapAct;
-    QAction *clearPixmapAct;
+    //QAction *grabFrameBufferAct;
+    //QAction *renderIntoPixmapAct;
+    //QAction *clearPixmapAct;
     QAction *exitAct;
     QAction *aboutAct;
-    QAction *aboutQtAct;
+    //QAction *aboutQtAct;
 };
 
 #endif

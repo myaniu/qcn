@@ -73,9 +73,9 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
         switch (_id) {
-        case 0: renderIntoPixmap(); break;
-        case 1: grabFrameBuffer(); break;
-        case 2: clearPixmap(); break;
+        //case 0: renderIntoPixmap(); break;
+        //case 1: grabFrameBuffer(); break;
+        //case 2: clearPixmap(); break;
         case 3: about(); break;
         default: ;
         }

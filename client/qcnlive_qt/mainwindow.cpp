@@ -44,13 +44,16 @@
 #include "glwidget.h"
 #include "mainwindow.h"
 
+#include "icons32.h"
+//#include "icons.h"
+
 MainWindow::MainWindow()
 {
     centralWidget = new QWidget;
     setCentralWidget(centralWidget);
 
     glWidget = new GLWidget;
-    pixmapLabel = new QLabel;
+    //pixmapLabel = new QLabel;
 
     glWidgetArea = new QScrollArea;
     glWidgetArea->setWidget(glWidget);
@@ -60,37 +63,79 @@ MainWindow::MainWindow()
     glWidgetArea->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
     glWidgetArea->setMinimumSize(50, 50);
 
+	/*
     pixmapLabelArea = new QScrollArea;
     pixmapLabelArea->setWidget(pixmapLabel);
     pixmapLabelArea->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
     pixmapLabelArea->setMinimumSize(50, 50);
+	*/
 
+    pTimeSlider = createSlider(SIGNAL(TimeChanged(int)),
+                           SLOT(setTimeChanged(int)));
+/*
     xSlider = createSlider(SIGNAL(xRotationChanged(int)),
                            SLOT(setXRotation(int)));
     ySlider = createSlider(SIGNAL(yRotationChanged(int)),
                            SLOT(setYRotation(int)));
     zSlider = createSlider(SIGNAL(zRotationChanged(int)),
                            SLOT(setZRotation(int)));
-
+*/
+	
     createActions();
     createMenus();
 
     QGridLayout *centralLayout = new QGridLayout;
-    centralLayout->addWidget(glWidgetArea, 0, 0);
-    centralLayout->addWidget(pixmapLabelArea, 0, 1);
+    centralLayout->addWidget(glWidgetArea, 0, 0, 1, 2);
+    //centralLayout->addWidget(pixmapLabelArea, 0, 1);
+    centralLayout->addWidget(pTimeSlider, 1, 0, 1, 2);
+/*
     centralLayout->addWidget(xSlider, 1, 0, 1, 2);
     centralLayout->addWidget(ySlider, 2, 0, 1, 2);
     centralLayout->addWidget(zSlider, 3, 0, 1, 2);
+*/
     centralWidget->setLayout(centralLayout);
 
+    pTimeSlider->setValue(100);
+
+/*
     xSlider->setValue(15 * 16);
     ySlider->setValue(345 * 16);
     zSlider->setValue(0 * 16);
+*/
+	//pStatusBar = new QStatusBar(centralWidget);
 
-    setWindowTitle(tr("Grabber"));
-    resize(400, 300);
+    setWindowTitle(tr("QCNLive"));
+	statusBar()->showMessage(tr("This is a test of the status bar"), 0);
+	
+	pToolBar = new QToolBar(tr("Actions"), centralWidget);
+	
+	QIcon pm[5];
+	QToolButton* pTB[5];
+
+	pm[0] = QIcon(xpm_icon_absolute);
+	pm[1] = QIcon(xpm_icon_spin);
+	pm[2] = QIcon(xpm_icon_ff);
+	pm[3] = QIcon(xpm_icon_record);
+	pm[4] = QIcon(xpm_icon_usgs);
+	
+	for (int i = 0; i < 5; i++) {
+		pTB[i] = new QToolButton(pToolBar);
+		pTB[i]->setIcon(pm[i]);
+		pToolBar->addWidget(pTB[i]);
+	}
+	
+	this->addToolBar(pToolBar);
+
+	// tool bar
+	
+#ifdef __APPLE_CC__
+	setUnifiedTitleAndToolBarOnMac(true);
+#endif
+	
+    resize(640, 480);
 }
 
+/*
 void MainWindow::renderIntoPixmap()
 {
     QSize size = getSize();
@@ -110,16 +155,17 @@ void MainWindow::clearPixmap()
 {
     setPixmap(QPixmap());
 }
+*/
 
 void MainWindow::about()
 {
-    QMessageBox::about(this, tr("About Grabber"),
-            tr("The <b>Grabber</b> example demonstrates two approaches for "
-               "rendering OpenGL into a Qt pixmap."));
+    QMessageBox::about(this, tr("About QCNLive"),
+					   tr("<b>QCNLive</b> is provided by the Quake-Catcher Network Project (c) 2010 Stanford University"));
 }
 
 void MainWindow::createActions()
 {
+	/*
     renderIntoPixmapAct = new QAction(tr("&Render into Pixmap..."), this);
     renderIntoPixmapAct->setShortcut(tr("Ctrl+R"));
     connect(renderIntoPixmapAct, SIGNAL(triggered()),
@@ -133,6 +179,7 @@ void MainWindow::createActions()
     clearPixmapAct = new QAction(tr("&Clear Pixmap"), this);
     clearPixmapAct->setShortcut(tr("Ctrl+L"));
     connect(clearPixmapAct, SIGNAL(triggered()), this, SLOT(clearPixmap()));
+	*/
 
     exitAct = new QAction(tr("E&xit"), this);
     exitAct->setShortcuts(QKeySequence::Quit);
@@ -141,22 +188,22 @@ void MainWindow::createActions()
     aboutAct = new QAction(tr("&About"), this);
     connect(aboutAct, SIGNAL(triggered()), this, SLOT(about()));
 
-    aboutQtAct = new QAction(tr("About &Qt"), this);
-    connect(aboutQtAct, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
+    //aboutQtAct = new QAction(tr("About &Qt"), this);
+    //connect(aboutQtAct, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
 }
 
 void MainWindow::createMenus()
 {
     fileMenu = menuBar()->addMenu(tr("&File"));
-    fileMenu->addAction(renderIntoPixmapAct);
-    fileMenu->addAction(grabFrameBufferAct);
-    fileMenu->addAction(clearPixmapAct);
+    //fileMenu->addAction(renderIntoPixmapAct);
+    //fileMenu->addAction(grabFrameBufferAct);
+    //fileMenu->addAction(clearPixmapAct);
     fileMenu->addSeparator();
     fileMenu->addAction(exitAct);
 
     helpMenu = menuBar()->addMenu(tr("&Help"));
     helpMenu->addAction(aboutAct);
-    helpMenu->addAction(aboutQtAct);
+    //helpMenu->addAction(aboutQtAct);
 }
 
 QSlider *MainWindow::createSlider(const char *changedSignal,
@@ -173,6 +220,7 @@ QSlider *MainWindow::createSlider(const char *changedSignal,
     return slider;
 }
 
+/*
 void MainWindow::setPixmap(const QPixmap &pixmap)
 {
     pixmapLabel->setPixmap(pixmap);
@@ -181,11 +229,12 @@ void MainWindow::setPixmap(const QPixmap &pixmap)
         size -= QSize(1, 0);
     pixmapLabel->resize(size);
 }
+*/
 
 QSize MainWindow::getSize()
 {
     bool ok;
-    QString text = QInputDialog::getText(this, tr("Grabber"),
+    QString text = QInputDialog::getText(this, tr("QCNLive"),
                                          tr("Enter pixmap size:"),
                                          QLineEdit::Normal,
                                          tr("%1 x %2").arg(glWidget->width())
