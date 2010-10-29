@@ -24,7 +24,7 @@
 		F6069D5A5DA8AA28EDB8B3C6 /* Project Copy */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
-			dstPath = /Developer/Examples/Qt/opengl/grabber;
+			dstPath = ../bin/;
 			dstSubfolderSpec = 0;
 			files = (
 				430796D6127A40AD009D4017 /* QCNLive.app in Project Copy */,
@@ -205,7 +205,7 @@
 			name = "Qt Preprocessors";
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "make -C /Developer/Examples/Qt/opengl/grabber -f 'grabber.xcodeproj/qt_preprocess.mak'";
+			shellScript = "make -C ./ -f 'qcnlive.xcodeproj/qt_preprocess.mak'";
 		};
 		D7BA7D76DAB5DD13389D6332 /* Qt Qmake */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -215,7 +215,7 @@
 			name = "Qt Qmake";
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "make -C /Developer/Examples/Qt/opengl/grabber -f 'grabber.xcodeproj/qt_makeqmake.mak'";
+			shellScript = "make -C ./ -f 'qcnlive.xcodeproj/qt_makeqmake.mak'";
 		};
 /* End PBXShellScriptBuildPhase section */
 
