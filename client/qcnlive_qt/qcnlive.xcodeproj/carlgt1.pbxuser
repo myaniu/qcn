@@ -40,36 +40,6 @@
 		vrLen = 1266;
 		vrLoc = 0;
 	};
-	43603F53127B1DAC00C73A12 /* QCNLive */ = {
-		isa = PBXExecutable;
-		activeArgIndices = (
-		);
-		argumentStrings = (
-		);
-		autoAttachOnCrash = 1;
-		breakpointsEnabled = 0;
-		configStateDict = {
-		};
-		customDataFormattersEnabled = 1;
-		dataTipCustomDataFormattersEnabled = 1;
-		dataTipShowTypeColumn = 1;
-		dataTipSortType = 0;
-		debuggerPlugin = GDBDebugging;
-		disassemblyDisplayState = 0;
-		dylibVariantSuffix = "";
-		enableDebugStr = 1;
-		environmentEntries = (
-		);
-		executableSystemSymbolLevel = 0;
-		executableUserSymbolLevel = 0;
-		libgmallocEnabled = 0;
-		name = QCNLive;
-		savedGlobals = {
-		};
-		showTypeColumn = 0;
-		sourceDirectories = (
-		);
-	};
 	43603F99127B1EA100C73A12 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
 		fRef = 43603F9A127B1EA100C73A12 /* icons32.h */;
@@ -86,11 +56,6 @@
 		name = icons32.h;
 		path = /Users/carlgt1/projects/qcn/client/qcnlive_qt/icons32.h;
 		sourceTree = "<absolute>";
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1094, 66131}}";
-			sepNavSelRange = "{5649, 0}";
-			sepNavVisRange = "{5038, 1514}";
-		};
 	};
 	4381588E127A417100F27DBD /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
@@ -138,6 +103,40 @@
 		vrLen = 2122;
 		vrLoc = 0;
 	};
+	43C34607127B202400FC339B /* qcnqt.cpp */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1094, 6253}}";
+			sepNavSelRange = "{363, 0}";
+			sepNavVisRange = "{0, 1408}";
+		};
+	};
+	43C34629127B20CA00FC339B /* QCNLive */ = {
+		isa = PBXExecutable;
+		activeArgIndices = (
+		);
+		argumentStrings = (
+		);
+		autoAttachOnCrash = 1;
+		breakpointsEnabled = 0;
+		configStateDict = {
+		};
+		customDataFormattersEnabled = 1;
+		dataTipCustomDataFormattersEnabled = 1;
+		dataTipShowTypeColumn = 1;
+		dataTipSortType = 0;
+		debuggerPlugin = GDBDebugging;
+		disassemblyDisplayState = 0;
+		enableDebugStr = 1;
+		environmentEntries = (
+		);
+		executableSystemSymbolLevel = 0;
+		executableUserSymbolLevel = 0;
+		libgmallocEnabled = 0;
+		name = QCNLive;
+		showTypeColumn = 0;
+		sourceDirectories = (
+		);
+	};
 	43D80597127B1F5C00E05187 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
 		fRef = 43D80598127B1F5C00E05187 /* icons32.h */;
@@ -150,14 +149,20 @@
 	};
 	43D80598127B1F5C00E05187 /* icons32.h */ = {
 		isa = PBXFileReference;
+		lastKnownFileType = sourcecode.c.h;
 		name = icons32.h;
 		path = /Users/carlgt1/projects/qcn/client/qcnlive_qt/icons32.h;
 		sourceTree = "<absolute>";
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1094, 66118}}";
+			sepNavSelRange = "{5649, 0}";
+			sepNavVisRange = "{5038, 1550}";
+		};
 	};
 	91B15E841AA80083484172DE /* Project object */ = {
 		activeArchitecturePreference = i386;
 		activeBuildConfigurationName = Debug;
-		activeExecutable = 43603F53127B1DAC00C73A12 /* QCNLive */;
+		activeExecutable = 43C34629127B20CA00FC339B /* QCNLive */;
 		activeTarget = D372CB05C46D8A3D86DB04B4 /* QCNLive */;
 		addToTargets = (
 			D372CB05C46D8A3D86DB04B4 /* QCNLive */,
@@ -166,7 +171,7 @@
 		);
 		codeSenseManager = 430796EE127A40B7009D4017 /* Code sense */;
 		executables = (
-			43603F53127B1DAC00C73A12 /* QCNLive */,
+			43C34629127B20CA00FC339B /* QCNLive */,
 		);
 		perUserDictionary = {
 			PBXConfiguration.PBXFileTableDataSource3.PBXExecutablesDataSource = {
@@ -175,7 +180,7 @@
 				PBXFileTableDataSourceColumnWidthsKey = (
 					22,
 					300,
-					804,
+					803.58349609375,
 				);
 				PBXFileTableDataSourceColumnsKey = (
 					PBXExecutablesDataSource_ActiveFlagID,
@@ -227,18 +232,18 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 310058675;
-			PBXWorkspaceStateSaveDate = 310058675;
+			PBXPerProjectTemplateStateSaveDate = 310059028;
+			PBXWorkspaceStateSaveDate = 310059028;
 		};
 		perUserProjectItems = {
-			431EE1D0127A5B05004771DF /* PBXTextBookmark */ = 431EE1D0127A5B05004771DF /* PBXTextBookmark */;
-			43603F99127B1EA100C73A12 /* PBXTextBookmark */ = 43603F99127B1EA100C73A12 /* PBXTextBookmark */;
-			4381588E127A417100F27DBD /* PBXTextBookmark */ = 4381588E127A417100F27DBD /* PBXTextBookmark */;
-			43A5A854127A625400B0F0ED /* PBXTextBookmark */ = 43A5A854127A625400B0F0ED /* PBXTextBookmark */;
-			43A5A855127A625400B0F0ED /* PBXTextBookmark */ = 43A5A855127A625400B0F0ED /* PBXTextBookmark */;
-			43A5A8AB127A64C700B0F0ED /* PBXTextBookmark */ = 43A5A8AB127A64C700B0F0ED /* PBXTextBookmark */;
-			43A5A8AC127A64C700B0F0ED /* PBXTextBookmark */ = 43A5A8AC127A64C700B0F0ED /* PBXTextBookmark */;
-			43D80597127B1F5C00E05187 /* PBXTextBookmark */ = 43D80597127B1F5C00E05187 /* PBXTextBookmark */;
+			431EE1D0127A5B05004771DF = 431EE1D0127A5B05004771DF /* PBXTextBookmark */;
+			43603F99127B1EA100C73A12 = 43603F99127B1EA100C73A12 /* PBXTextBookmark */;
+			4381588E127A417100F27DBD = 4381588E127A417100F27DBD /* PBXTextBookmark */;
+			43A5A854127A625400B0F0ED = 43A5A854127A625400B0F0ED /* PBXTextBookmark */;
+			43A5A855127A625400B0F0ED = 43A5A855127A625400B0F0ED /* PBXTextBookmark */;
+			43A5A8AB127A64C700B0F0ED = 43A5A8AB127A64C700B0F0ED /* PBXTextBookmark */;
+			43A5A8AC127A64C700B0F0ED = 43A5A8AC127A64C700B0F0ED /* PBXTextBookmark */;
+			43D80597127B1F5C00E05187 = 43D80597127B1F5C00E05187 /* PBXTextBookmark */;
 		};
 		sourceControlManager = 430796ED127A40B7009D4017 /* Source Control */;
 		userBuildSettings = {
@@ -247,7 +252,7 @@
 	D372CB05C46D8A3D86DB04B4 /* QCNLive */ = {
 		activeExec = 0;
 		executables = (
-			43603F53127B1DAC00C73A12 /* QCNLive */,
+			43C34629127B20CA00FC339B /* QCNLive */,
 		);
 	};
 }

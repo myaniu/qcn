@@ -1,6 +1,6 @@
 /* qcnwx -- main QCN GUI (using wxWidgets cross-platform windowing toolkit) */
 
-#include "qcnwx.h"
+#include "qcnqt.h"
 #include "qcn_graphics.h"
 #include "qcn_curl.h"
 

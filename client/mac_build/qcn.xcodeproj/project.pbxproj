@@ -235,7 +235,7 @@
 		4330BD5B114B11A60008D847 /* qcnusb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = qcnusb.h; path = ../qcnusb/qcnusb.h; sourceTree = SOURCE_ROOT; };
 		4337F497100183CA00E75E05 /* QCNLive-iphone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "QCNLive-iphone.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4337F499100183CA00E75E05 /* QCNLive-iphone-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "QCNLive-iphone-Info.plist"; sourceTree = "<group>"; };
-		43603EFE127B1AB000C73A12 /* qcnlive_qt.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = qcnlive_qt.app; path = build/Debug/qcnlive_qt.app; sourceTree = "<group>"; };
+		43603EFE127B1AB000C73A12 /* qcnlive_qt.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = qcnlive_qt.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		43603F00127B1AB000C73A12 /* qcnlive_qt-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "qcnlive_qt-Info.plist"; sourceTree = "<group>"; };
 		4394A75D10A20763006FF691 /* dlgsettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dlgsettings.h; sourceTree = "<group>"; };
 		4394A7B610A20763006FF691 /* icons.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = icons.h; sourceTree = "<group>"; };
@@ -509,13 +509,13 @@
 		E3C0E79B0D64E9BE0099B905 /* .. */ = {
 			isa = PBXGroup;
 			children = (
-				E3CD09C50FF2AD000043EE7E /* qcnlive */,
-				E3C967100FF1A18C00F20324 /* .. */,
-				E3D35C180FF17A9D00E64121 /* qcnusb */,
-				E3D35C120FF179B200E64121 /* sensor */,
 				E3C0E7B70D64E9BE0099B905 /* graphics */,
 				E3C0E7AE0D64E9BE0099B905 /* main */,
+				E3CD09C50FF2AD000043EE7E /* qcnlive */,
+				E3D35C120FF179B200E64121 /* sensor */,
 				E3C0E7A30D64E9BE0099B905 /* util */,
+				E3C967100FF1A18C00F20324 /* .. */,
+				E3D35C180FF17A9D00E64121 /* qcnusb */,
 			);
 			name = ..;
 			sourceTree = "<group>";
@@ -523,6 +523,7 @@
 		E3C0E7A30D64E9BE0099B905 /* util */ = {
 			isa = PBXGroup;
 			children = (
+				E3C0E7B40D64E9BE0099B905 /* cserialize.cpp */,
 				E3D35C130FF179E900E64121 /* qcn_signal.cpp */,
 				E3C0E7A60D64E9BE0099B905 /* qcn_gzip.cpp */,
 				E3D49FE90D6F74C70088DE83 /* qcn_curl.cpp */,
@@ -547,7 +548,6 @@
 				E3C0E7B00D64E9BE0099B905 /* qcn_thread_sensor.cpp */,
 				E3C0E7B10D64E9BE0099B905 /* qcn_thread_time.cpp */,
 				E3C0E7B30D64E9BE0099B905 /* main.cpp */,
-				E3C0E7B40D64E9BE0099B905 /* cserialize.cpp */,
 			);
 			name = main;
 			sourceTree = "<group>";
@@ -555,13 +555,13 @@
 		E3C0E7B70D64E9BE0099B905 /* graphics */ = {
 			isa = PBXGroup;
 			children = (
-				E3064B950F8FE8A60028A349 /* qcn_2dplot.cpp */,
-				E3C0E7B80D64E9BE0099B905 /* qcn_graphics.cpp */,
-				E3C0E7B90D64E9BE0099B905 /* qcn_earth.cpp */,
-				E3C0E7BA0D64E9BE0099B905 /* qcn_cube.cpp */,
-				E3C0E7BB0D64E9BE0099B905 /* nation_boundary.cpp */,
 				E3C0E7BC0D64E9BE0099B905 /* coastline.cpp */,
+				E3C0E7BB0D64E9BE0099B905 /* nation_boundary.cpp */,
 				E3C0E7BD0D64E9BE0099B905 /* plate_boundary.cpp */,
+				E3064B950F8FE8A60028A349 /* qcn_2dplot.cpp */,
+				E3C0E7BA0D64E9BE0099B905 /* qcn_cube.cpp */,
+				E3C0E7B90D64E9BE0099B905 /* qcn_earth.cpp */,
+				E3C0E7B80D64E9BE0099B905 /* qcn_graphics.cpp */,
 			);
 			name = graphics;
 			sourceTree = "<group>";
