@@ -1,7 +1,7 @@
 #ifndef _MYGLPANE_H_
 #define _MYGLPANE_H_
 
-#include "qcnwx.h"
+#include "qcnqt.h"
 
 class MyFrame;
 class MyGLTimer;

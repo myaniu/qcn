@@ -105,6 +105,9 @@
 /* Begin PBXFileReference section */
 		24FC5F21B8D858EDB1CC09E6 /* moc_glwidget.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = moc_glwidget.cpp; sourceTree = "<group>"; };
 		336D3C48DD3B44974395C633 /* moc_mainwindow.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = moc_mainwindow.cpp; sourceTree = "<group>"; };
+		43275E63127B272700FCC2CB /* myframe.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = myframe.h; sourceTree = "<group>"; };
+		43275E64127B272700FCC2CB /* myglpane.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = myglpane.h; sourceTree = "<group>"; };
+		43275E65127B272700FCC2CB /* qcnlive_define.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = qcnlive_define.h; sourceTree = "<group>"; };
 		43603F5F127B1DD300C73A12 /* glwidget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = glwidget.cpp; sourceTree = "<group>"; };
 		43C34607127B202400FC339B /* qcnqt.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = qcnqt.cpp; sourceTree = "<group>"; };
 		43C34615127B205100FC339B /* qcnqt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = qcnqt.h; sourceTree = "<group>"; };
@@ -388,6 +391,9 @@
 		883D7615C4D2DE3FA1218F12 /* Headers */ = {
 			isa = PBXGroup;
 			children = (
+				43275E63127B272700FCC2CB /* myframe.h */,
+				43275E64127B272700FCC2CB /* myglpane.h */,
+				43275E65127B272700FCC2CB /* qcnlive_define.h */,
 				43C34634127B214B00FC339B /* qcn_graphics */,
 				43C34635127B215200FC339B /* qcn_main */,
 				43C34637127B215D00FC339B /* qcn_util */,
