@@ -1,6 +1,6 @@
 /*
- *  qcnwx.h
- *  qcnwx
+ *  qcnqt.h
+ *  qcnqt
  *
  *  Created by Carl Christensen on 2/9/08.
  *  Copyright 2008 Stanford U All rights reserved.
@@ -10,28 +10,7 @@
 #ifndef _QCNLIVE_H_
 #define _QCNLIVE_H_
 
-#include <QMainWindow
-
-// For compilers that support precompilation, includes "wx.h".
-#include <wx/wxprec.h>
-
-#ifdef __BORLANDC__
-    #pragma hdrstop
-#endif
-
-#ifndef WX_PRECOMP
-    #include <wx/wx.h>
-#endif
-
-#include <wx/aboutdlg.h>
-#include <wx/image.h>
-#include <wx/splash.h>
-
-#include <wx/glcanvas.h>
-#include <wx/timer.h>
-#include <wx/frame.h>
-#include <wx/dialog.h>
-#include <wx/valtext.h>
+#include <QMainWindow>
 
 #ifndef _WIN32
 #include <unistd.h>

@@ -9,13 +9,14 @@
 #include <QtOpenGL>
 
 #include "glwidget.h"
-#include "mainwindow.h"
+#include "qcnqt.h"
 
 #include "icons32.h"
 //#include "icons.h"
 
 #include <QApplication>
 
+// main program for Qt window
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
