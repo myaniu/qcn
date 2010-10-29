@@ -10,6 +10,8 @@
 #ifndef _QCNLIVE_H_
 #define _QCNLIVE_H_
 
+#include <QMainWindow
+
 // For compilers that support precompilation, includes "wx.h".
 #include <wx/wxprec.h>
 
@@ -41,6 +43,59 @@
 #include "myglpane.h"
 #include "myframe.h"
 #include "qcnlive_define.h"
+
+
+QT_BEGIN_NAMESPACE
+class QAction;
+class QLabel;
+class QMenu;
+class QScrollArea;
+class QSlider;
+QT_END_NAMESPACE
+class GLWidget;
+
+class MainWindow : public QMainWindow
+{
+    Q_OBJECT
+	
+public:
+    MainWindow();
+	
+	private slots:
+    //void renderIntoPixmap();
+    //void grabFrameBuffer();
+    //void clearPixmap();
+    void about();
+	
+private:
+    void createActions();
+    void createMenus();
+    QSlider* createSlider(const char *changedSignal, const char *setterSlot);
+    //void setPixmap(const QPixmap &pixmap);
+    QSize getSize();
+	
+    QWidget* centralWidget;
+    QScrollArea* glWidgetArea;
+    //QScrollArea* pixmapLabelArea;
+    GLWidget* glWidget;
+    QLabel* pixmapLabel;
+	//QStatusBar* pStatusBar;
+	QToolBar* pToolBar;
+	QSlider* pTimeSlider;
+    //QSlider *xSlider;
+    //QSlider *ySlider;
+    //QSlider *zSlider;
+	
+    QMenu *fileMenu;
+    QMenu *helpMenu;
+    //QAction *grabFrameBufferAct;
+    //QAction *renderIntoPixmapAct;
+    //QAction *clearPixmapAct;
+    QAction *exitAct;
+    QAction *aboutAct;
+    //QAction *aboutQtAct;
+};
+
 
 class MyApp; // defined below
 class MyAppTimer; // defined below
