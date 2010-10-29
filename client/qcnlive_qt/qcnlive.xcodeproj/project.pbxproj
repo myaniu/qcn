@@ -267,7 +267,6 @@
 				LEXFLAGS = "";
 				LIBRARY_SEARCH_PATHS = (
 					/Library/Frameworks,
-					"/tmp/qt-stuff-6474/source/qt-everywhere-opensource-src-4.7.0/lib",
 					/System/Library/Frameworks/,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
@@ -295,8 +294,6 @@
 					"-headerpad_max_install_names",
 					"-L/Library/Frameworks",
 					"-F/Library/Frameworks",
-					"-L/tmp/qt-stuff-6474/source/qt-everywhere-opensource-src-4.7.0/lib",
-					"-F/tmp/qt-stuff-6474/source/qt-everywhere-opensource-src-4.7.0/lib",
 				);
 				OTHER_REZFLAGS = "";
 				PREBINDING = NO;
@@ -338,7 +335,6 @@
 				LEXFLAGS = "";
 				LIBRARY_SEARCH_PATHS = (
 					/Library/Frameworks,
-					"/tmp/qt-stuff-6474/source/qt-everywhere-opensource-src-4.7.0/lib",
 					/System/Library/Frameworks/,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
@@ -366,8 +362,6 @@
 					"-headerpad_max_install_names",
 					"-L/Library/Frameworks",
 					"-F/Library/Frameworks",
-					"-L/tmp/qt-stuff-6474/source/qt-everywhere-opensource-src-4.7.0/lib",
-					"-F/tmp/qt-stuff-6474/source/qt-everywhere-opensource-src-4.7.0/lib",
 				);
 				OTHER_REZFLAGS = "";
 				PREBINDING = NO;
@@ -407,7 +401,6 @@
 				LEXFLAGS = "";
 				LIBRARY_SEARCH_PATHS = (
 					/Library/Frameworks,
-					"/tmp/qt-stuff-6474/source/qt-everywhere-opensource-src-4.7.0/lib",
 					/System/Library/Frameworks/,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
@@ -435,8 +428,6 @@
 					"-headerpad_max_install_names",
 					"-L/Library/Frameworks",
 					"-F/Library/Frameworks",
-					"-L/tmp/qt-stuff-6474/source/qt-everywhere-opensource-src-4.7.0/lib",
-					"-F/tmp/qt-stuff-6474/source/qt-everywhere-opensource-src-4.7.0/lib",
 				);
 				OTHER_REZFLAGS = "";
 				PREBINDING = NO;
