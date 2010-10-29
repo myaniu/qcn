@@ -29,17 +29,17 @@ mocclean: compiler_moc_header_clean compiler_moc_source_clean
 
 mocables: compiler_moc_header_make_all compiler_moc_source_make_all
 
-compilers: ./moc_glwidget.cpp ./moc_mainwindow.cpp
+compilers: ./moc_glwidget.cpp ./moc_qcnqt.cpp
 compiler_objective_c_make_all:
 compiler_objective_c_clean:
-compiler_moc_header_make_all: moc_glwidget.cpp moc_mainwindow.cpp
+compiler_moc_header_make_all: moc_glwidget.cpp moc_qcnqt.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_glwidget.cpp moc_mainwindow.cpp
+	-$(DEL_FILE) moc_glwidget.cpp moc_qcnqt.cpp
 moc_glwidget.cpp: glwidget.h
 	/Developer/Tools/Qt/moc $(DEFINES) $(INCPATH) -D__APPLE__ -D__GNUC__ glwidget.h -o moc_glwidget.cpp
 
-moc_mainwindow.cpp: mainwindow.h
-	/Developer/Tools/Qt/moc $(DEFINES) $(INCPATH) -D__APPLE__ -D__GNUC__ mainwindow.h -o moc_mainwindow.cpp
+moc_qcnqt.cpp: qcnqt.h
+	/Developer/Tools/Qt/moc $(DEFINES) $(INCPATH) -D__APPLE__ -D__GNUC__ qcnqt.h -o moc_qcnqt.cpp
 
 compiler_rcc_make_all:
 compiler_rcc_clean:
