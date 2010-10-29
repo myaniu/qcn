@@ -41,10 +41,11 @@
 		43603F5F127B1DD300C73A12 /* glwidget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = glwidget.cpp; sourceTree = "<group>"; };
 		43603F60127B1DD300C73A12 /* mainwindow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = mainwindow.cpp; sourceTree = "<group>"; };
 		43603F61127B1DD300C73A12 /* qt_main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = qt_main.cpp; sourceTree = "<group>"; };
-		48DC6788C8DADEFAC8AF8EA1 /* mainwindow.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = mainwindow.h; path = ../mainwindow.h; sourceTree = "<group>"; };
+		43D8058A127B1F0200E05187 /* glwidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = glwidget.h; sourceTree = "<group>"; };
+		43D8058B127B1F0200E05187 /* mainwindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mainwindow.h; sourceTree = "<group>"; };
+		43D8058C127B1F0200E05187 /* qtlogo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = qtlogo.h; sourceTree = "<group>"; };
 		7BC2E65A5E699A5E5D834CA2 /* QtCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QtCore.framework; path = /Library/Frameworks/QtCore.framework; sourceTree = "<absolute>"; };
 		9B36DA7E32F0304E780E7972 /* QtGui.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QtGui.framework; path = /Library/Frameworks/QtGui.framework; sourceTree = "<absolute>"; };
-		C2F0D8F4CBF9B2534F7C4904 /* glwidget.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = glwidget.h; path = ../glwidget.h; sourceTree = "<group>"; };
 		C374004D45E01156F931B37D /* QtOpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QtOpenGL.framework; path = /Library/Frameworks/QtOpenGL.framework; sourceTree = "<absolute>"; };
 		C6766F86E49E9C8701C8E637 /* AGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AGL.framework; path = /System/Library/Frameworks/AGL.framework; sourceTree = "<absolute>"; };
 		DA18A6831232F53228631AD1 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = /System/Library/Frameworks/OpenGL.framework; sourceTree = "<absolute>"; };
@@ -89,15 +90,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		4458B98565818D7E2682FA2D /* .. */ = {
-			isa = PBXGroup;
-			children = (
-				C2F0D8F4CBF9B2534F7C4904 /* glwidget.h */,
-				48DC6788C8DADEFAC8AF8EA1 /* mainwindow.h */,
-			);
-			name = ..;
-			sourceTree = "<group>";
-		};
 		46E892BBB6BB6952967E0561 /* Temporary Sources */ = {
 			isa = PBXGroup;
 			children = (
@@ -118,7 +110,9 @@
 		883D7615C4D2DE3FA1218F12 /* Headers */ = {
 			isa = PBXGroup;
 			children = (
-				4458B98565818D7E2682FA2D /* .. */,
+				43D8058A127B1F0200E05187 /* glwidget.h */,
+				43D8058B127B1F0200E05187 /* mainwindow.h */,
+				43D8058C127B1F0200E05187 /* qtlogo.h */,
 			);
 			name = Headers;
 			sourceTree = "<group>";
@@ -148,9 +142,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		D372CB05C46D8A3D86DB04B4 /* qcnlive */ = {
+		D372CB05C46D8A3D86DB04B4 /* QCNLive */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 43603F5C127B1DB200C73A12 /* Build configuration list for PBXNativeTarget "qcnlive" */;
+			buildConfigurationList = 43603F5C127B1DB200C73A12 /* Build configuration list for PBXNativeTarget "QCNLive" */;
 			buildPhases = (
 				D7BA7D76DAB5DD13389D6332 /* Qt Qmake */,
 				A0A52A2ADF7A1E2A99738674 /* Qt Preprocessors */,
@@ -163,7 +157,7 @@
 			);
 			dependencies = (
 			);
-			name = qcnlive;
+			name = QCNLive;
 			productName = qcnlive;
 			productReference = 43603F51127B1DAC00C73A12 /* qcnlive.app */;
 			productType = "com.apple.product-type.application";
@@ -188,7 +182,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				D372CB05C46D8A3D86DB04B4 /* qcnlive */,
+				D372CB05C46D8A3D86DB04B4 /* QCNLive */,
 			);
 		};
 /* End PBXProject section */
@@ -482,7 +476,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		43603F5C127B1DB200C73A12 /* Build configuration list for PBXNativeTarget "qcnlive" */ = {
+		43603F5C127B1DB200C73A12 /* Build configuration list for PBXNativeTarget "QCNLive" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				43603F59127B1DAC00C73A12 /* Debug */,

@@ -1,18 +1,5 @@
 // !$*UTF8*$!
 {
-	118FCBAABA162BA17933C789 /* main.cpp */ = {
-		isa = PBXFileReference;
-		lastKnownFileType = sourcecode.cpp.cpp;
-		name = main.cpp;
-		path = /Users/carlgt1/projects/qcn/client/qcnlive_qt/main.cpp;
-		sourceTree = "<absolute>";
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {904, 676}}";
-			sepNavSelRange = "{2230, 0}";
-			sepNavVisRange = "{224, 2006}";
-			sepNavWindowFrame = "{{15, 130}, {1468, 1043}}";
-		};
-	};
 	24FC5F21B8D858EDB1CC09E6 /* moc_glwidget.cpp */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {773, 1521}}";
@@ -27,38 +14,6 @@
 			sepNavSelRange = "{2356, 0}";
 			sepNavVisRange = "{2012, 574}";
 			sepNavWindowFrame = "{{38, 109}, {1468, 1043}}";
-		};
-	};
-	430796D5127A40AD009D4017 /* QCNLive */ = {
-		isa = PBXExecutable;
-		activeArgIndices = (
-		);
-		argumentStrings = (
-		);
-		autoAttachOnCrash = 1;
-		breakpointsEnabled = 1;
-		configStateDict = {
-		};
-		customDataFormattersEnabled = 1;
-		dataTipCustomDataFormattersEnabled = 1;
-		dataTipShowTypeColumn = 1;
-		dataTipSortType = 0;
-		debuggerPlugin = GDBDebugging;
-		disassemblyDisplayState = 0;
-		dylibVariantSuffix = "";
-		enableDebugStr = 1;
-		environmentEntries = (
-		);
-		executableSystemSymbolLevel = 0;
-		executableUserSymbolLevel = 0;
-		libgmallocEnabled = 0;
-		name = QCNLive;
-		savedGlobals = {
-		};
-		showTypeColumn = 0;
-		sourceDirectories = (
-		);
-		variableFormatDictionary = {
 		};
 	};
 	430796ED127A40B7009D4017 /* Source Control */ = {
@@ -85,77 +40,7 @@
 		vrLen = 1266;
 		vrLoc = 0;
 	};
-	43603F12127B1AE000C73A12 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 118FCBAABA162BA17933C789 /* main.cpp */;
-		name = "qt_main.cpp: 52";
-		rLen = 0;
-		rLoc = 2230;
-		rType = 0;
-		vrLen = 2006;
-		vrLoc = 224;
-	};
-	43603F16127B1B1E00C73A12 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 118FCBAABA162BA17933C789 /* main.cpp */;
-		name = "qt_main.cpp: 52";
-		rLen = 0;
-		rLoc = 2230;
-		rType = 0;
-		vrLen = 2006;
-		vrLoc = 224;
-	};
-	43603F17127B1B3D00C73A12 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 118FCBAABA162BA17933C789 /* main.cpp */;
-		name = "qt_main.cpp: 52";
-		rLen = 0;
-		rLoc = 2230;
-		rType = 0;
-		vrLen = 2006;
-		vrLoc = 224;
-	};
-	43603F18127B1B7F00C73A12 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 118FCBAABA162BA17933C789 /* main.cpp */;
-		name = "qt_main.cpp: 52";
-		rLen = 0;
-		rLoc = 2230;
-		rType = 0;
-		vrLen = 2006;
-		vrLoc = 224;
-	};
-	43603F19127B1B8C00C73A12 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 118FCBAABA162BA17933C789 /* main.cpp */;
-		name = "qt_main.cpp: 52";
-		rLen = 0;
-		rLoc = 2230;
-		rType = 0;
-		vrLen = 2006;
-		vrLoc = 224;
-	};
-	43603F1B127B1BB000C73A12 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 118FCBAABA162BA17933C789 /* main.cpp */;
-		name = "qt_main.cpp: 52";
-		rLen = 0;
-		rLoc = 2230;
-		rType = 0;
-		vrLen = 2006;
-		vrLoc = 224;
-	};
-	43603F1C127B1BD000C73A12 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 118FCBAABA162BA17933C789 /* main.cpp */;
-		name = "qt_main.cpp: 52";
-		rLen = 0;
-		rLoc = 2230;
-		rType = 0;
-		vrLen = 2006;
-		vrLoc = 224;
-	};
-	43603F53127B1DAC00C73A12 /* qcnlive */ = {
+	43603F53127B1DAC00C73A12 /* QCNLive */ = {
 		isa = PBXExecutable;
 		activeArgIndices = (
 		);
@@ -171,113 +56,41 @@
 		dataTipSortType = 0;
 		debuggerPlugin = GDBDebugging;
 		disassemblyDisplayState = 0;
+		dylibVariantSuffix = "";
 		enableDebugStr = 1;
 		environmentEntries = (
 		);
 		executableSystemSymbolLevel = 0;
 		executableUserSymbolLevel = 0;
 		libgmallocEnabled = 0;
-		name = qcnlive;
+		name = QCNLive;
+		savedGlobals = {
+		};
 		showTypeColumn = 0;
 		sourceDirectories = (
 		);
 	};
-	43603F69127B1E0B00C73A12 /* XCBuildMessageTextBookmark */ = {
+	43603F99127B1EA100C73A12 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
-		comments = "Deprecated conversion from string constant to 'char*'";
-		fRef = 43603F6A127B1E0B00C73A12 /* icons32.h */;
-		fallbackIsa = XCBuildMessageTextBookmark;
-		rLen = 1;
-		rLoc = 190;
-		rType = 1;
+		fRef = 43603F9A127B1EA100C73A12 /* icons32.h */;
+		name = "icons32.h: 191";
+		rLen = 0;
+		rLoc = 5649;
+		rType = 0;
+		vrLen = 1406;
+		vrLoc = 5038;
 	};
-	43603F6A127B1E0B00C73A12 /* icons32.h */ = {
+	43603F9A127B1EA100C73A12 /* icons32.h */ = {
 		isa = PBXFileReference;
 		lastKnownFileType = sourcecode.c.h;
 		name = icons32.h;
 		path = /Users/carlgt1/projects/qcn/client/qcnlive_qt/icons32.h;
 		sourceTree = "<absolute>";
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {876, 66066}}";
+			sepNavIntBoundsRect = "{{0, 0}, {1094, 66131}}";
 			sepNavSelRange = "{5649, 0}";
-			sepNavVisRange = "{5446, 512}";
+			sepNavVisRange = "{5038, 1514}";
 		};
-	};
-	43603F6B127B1E0B00C73A12 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 43603F6C127B1E0B00C73A12 /* icons32.h */;
-		name = "icons32.h: 191";
-		rLen = 0;
-		rLoc = 5649;
-		rType = 0;
-		vrLen = 1406;
-		vrLoc = 5038;
-	};
-	43603F6C127B1E0B00C73A12 /* icons32.h */ = {
-		isa = PBXFileReference;
-		name = icons32.h;
-		path = /Users/carlgt1/projects/qcn/client/qcnlive_qt/icons32.h;
-		sourceTree = "<absolute>";
-	};
-	43603F73127B1E4800C73A12 /* XCBuildMessageTextBookmark */ = {
-		isa = PBXTextBookmark;
-		comments = "Deprecated conversion from string constant to 'char*'";
-		fRef = 43603F74127B1E4800C73A12 /* icons32.h */;
-		fallbackIsa = XCBuildMessageTextBookmark;
-		rLen = 1;
-		rLoc = 190;
-		rType = 1;
-	};
-	43603F74127B1E4800C73A12 /* icons32.h */ = {
-		isa = PBXFileReference;
-		name = icons32.h;
-		path = /Users/carlgt1/projects/qcn/client/qcnlive_qt/icons32.h;
-		sourceTree = "<absolute>";
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {904, 66222}}";
-			sepNavSelRange = "{5649, 0}";
-			sepNavVisRange = "{5038, 1406}";
-		};
-	};
-	43603F75127B1E4800C73A12 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 43603F6A127B1E0B00C73A12 /* icons32.h */;
-		name = "icons32.h: 191";
-		rLen = 0;
-		rLoc = 5649;
-		rType = 0;
-		vrLen = 512;
-		vrLoc = 5446;
-	};
-	43603F78127B1E5000C73A12 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 43603F74127B1E4800C73A12 /* icons32.h */;
-		name = "icons32.h: 191";
-		rLen = 0;
-		rLoc = 5649;
-		rType = 0;
-		vrLen = 491;
-		vrLoc = 5446;
-	};
-	43603F81127B1E5600C73A12 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 43603F74127B1E4800C73A12 /* icons32.h */;
-		name = "icons32.h: 191";
-		rLen = 0;
-		rLoc = 5649;
-		rType = 0;
-		vrLen = 491;
-		vrLoc = 5446;
-	};
-	43603F82127B1E5800C73A12 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 43603F74127B1E4800C73A12 /* icons32.h */;
-		name = "icons32.h: 191";
-		rLen = 0;
-		rLoc = 5649;
-		rType = 0;
-		vrLen = 1406;
-		vrLoc = 5038;
 	};
 	4381588E127A417100F27DBD /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
@@ -325,64 +138,35 @@
 		vrLen = 2122;
 		vrLoc = 0;
 	};
-	43A5A8AD127A64C700B0F0ED /* PBXBookmark */ = {
-		isa = PBXBookmark;
-		fRef = 118FCBAABA162BA17933C789 /* main.cpp */;
-	};
-	43A5A911127A67D400B0F0ED /* PBXTextBookmark */ = {
+	43D80597127B1F5C00E05187 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
-		name = "mainwindow.cpp: 110";
+		fRef = 43D80598127B1F5C00E05187 /* icons32.h */;
+		name = "icons32.h: 191";
 		rLen = 0;
-		rLoc = 4602;
+		rLoc = 5649;
 		rType = 0;
-		vrLen = 1758;
-		vrLoc = 3059;
+		vrLen = 1586;
+		vrLoc = 5038;
 	};
-	43A5A928127A68BC00B0F0ED /* PBXBookmark */ = {
-		isa = PBXBookmark;
-	};
-	43A5A9A3127A701700B0F0ED /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 118FCBAABA162BA17933C789 /* main.cpp */;
-		name = "qt_main.cpp: 52";
-		rLen = 0;
-		rLoc = 2230;
-		rType = 0;
-		vrLen = 2056;
-		vrLoc = 174;
-	};
-	43A5A9A4127A701700B0F0ED /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		name = "mainwindow.cpp: 47";
-		rLen = 0;
-		rLoc = 2127;
-		rType = 0;
-		vrLen = 2993;
-		vrLoc = 384;
-	};
-	43A5A9A5127A701700B0F0ED /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		name = "mainwindow.h: 81";
-		rLen = 0;
-		rLoc = 2816;
-		rType = 0;
-		vrLen = 1937;
-		vrLoc = 1222;
+	43D80598127B1F5C00E05187 /* icons32.h */ = {
+		isa = PBXFileReference;
+		name = icons32.h;
+		path = /Users/carlgt1/projects/qcn/client/qcnlive_qt/icons32.h;
+		sourceTree = "<absolute>";
 	};
 	91B15E841AA80083484172DE /* Project object */ = {
 		activeArchitecturePreference = i386;
 		activeBuildConfigurationName = Debug;
-		activeExecutable = 430796D5127A40AD009D4017 /* QCNLive */;
-		activeTarget = D372CB05C46D8A3D86DB04B4 /* qcnlive */;
+		activeExecutable = 43603F53127B1DAC00C73A12 /* QCNLive */;
+		activeTarget = D372CB05C46D8A3D86DB04B4 /* QCNLive */;
 		addToTargets = (
-			D372CB05C46D8A3D86DB04B4 /* qcnlive */,
+			D372CB05C46D8A3D86DB04B4 /* QCNLive */,
 		);
 		breakpoints = (
 		);
 		codeSenseManager = 430796EE127A40B7009D4017 /* Code sense */;
 		executables = (
-			430796D5127A40AD009D4017 /* QCNLive */,
-			43603F53127B1DAC00C73A12 /* qcnlive */,
+			43603F53127B1DAC00C73A12 /* QCNLive */,
 		);
 		perUserDictionary = {
 			PBXConfiguration.PBXFileTableDataSource3.PBXExecutablesDataSource = {
@@ -391,7 +175,7 @@
 				PBXFileTableDataSourceColumnWidthsKey = (
 					22,
 					300,
-					483,
+					804,
 				);
 				PBXFileTableDataSourceColumnsKey = (
 					PBXExecutablesDataSource_ActiveFlagID,
@@ -404,7 +188,7 @@
 				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
 				PBXFileTableDataSourceColumnWidthsKey = (
 					20,
-					726,
+					916,
 					20,
 					48,
 					43,
@@ -426,7 +210,7 @@
 				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
 				PBXFileTableDataSourceColumnWidthsKey = (
 					20,
-					686,
+					876,
 					60,
 					20,
 					48,
@@ -443,45 +227,27 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 310058412;
-			PBXWorkspaceStateSaveDate = 310058412;
+			PBXPerProjectTemplateStateSaveDate = 310058675;
+			PBXWorkspaceStateSaveDate = 310058675;
 		};
 		perUserProjectItems = {
-			431EE1D0127A5B05004771DF = 431EE1D0127A5B05004771DF /* PBXTextBookmark */;
-			43603F12127B1AE000C73A12 = 43603F12127B1AE000C73A12 /* PBXTextBookmark */;
-			43603F16127B1B1E00C73A12 = 43603F16127B1B1E00C73A12 /* PBXTextBookmark */;
-			43603F17127B1B3D00C73A12 = 43603F17127B1B3D00C73A12 /* PBXTextBookmark */;
-			43603F18127B1B7F00C73A12 = 43603F18127B1B7F00C73A12 /* PBXTextBookmark */;
-			43603F19127B1B8C00C73A12 = 43603F19127B1B8C00C73A12 /* PBXTextBookmark */;
-			43603F1B127B1BB000C73A12 = 43603F1B127B1BB000C73A12 /* PBXTextBookmark */;
-			43603F1C127B1BD000C73A12 = 43603F1C127B1BD000C73A12 /* PBXTextBookmark */;
-			43603F69127B1E0B00C73A12 /* XCBuildMessageTextBookmark */ = 43603F69127B1E0B00C73A12 /* XCBuildMessageTextBookmark */;
-			43603F6B127B1E0B00C73A12 /* PBXTextBookmark */ = 43603F6B127B1E0B00C73A12 /* PBXTextBookmark */;
-			43603F73127B1E4800C73A12 /* XCBuildMessageTextBookmark */ = 43603F73127B1E4800C73A12 /* XCBuildMessageTextBookmark */;
-			43603F75127B1E4800C73A12 /* PBXTextBookmark */ = 43603F75127B1E4800C73A12 /* PBXTextBookmark */;
-			43603F78127B1E5000C73A12 /* PBXTextBookmark */ = 43603F78127B1E5000C73A12 /* PBXTextBookmark */;
-			43603F81127B1E5600C73A12 /* PBXTextBookmark */ = 43603F81127B1E5600C73A12 /* PBXTextBookmark */;
-			43603F82127B1E5800C73A12 /* PBXTextBookmark */ = 43603F82127B1E5800C73A12 /* PBXTextBookmark */;
-			4381588E127A417100F27DBD = 4381588E127A417100F27DBD /* PBXTextBookmark */;
-			43A5A854127A625400B0F0ED = 43A5A854127A625400B0F0ED /* PBXTextBookmark */;
-			43A5A855127A625400B0F0ED = 43A5A855127A625400B0F0ED /* PBXTextBookmark */;
-			43A5A8AB127A64C700B0F0ED = 43A5A8AB127A64C700B0F0ED /* PBXTextBookmark */;
-			43A5A8AC127A64C700B0F0ED = 43A5A8AC127A64C700B0F0ED /* PBXTextBookmark */;
-			43A5A8AD127A64C700B0F0ED = 43A5A8AD127A64C700B0F0ED /* PBXBookmark */;
-			43A5A911127A67D400B0F0ED = 43A5A911127A67D400B0F0ED /* PBXTextBookmark */;
-			43A5A928127A68BC00B0F0ED = 43A5A928127A68BC00B0F0ED /* PBXBookmark */;
-			43A5A9A3127A701700B0F0ED = 43A5A9A3127A701700B0F0ED /* PBXTextBookmark */;
-			43A5A9A4127A701700B0F0ED = 43A5A9A4127A701700B0F0ED /* PBXTextBookmark */;
-			43A5A9A5127A701700B0F0ED = 43A5A9A5127A701700B0F0ED /* PBXTextBookmark */;
+			431EE1D0127A5B05004771DF /* PBXTextBookmark */ = 431EE1D0127A5B05004771DF /* PBXTextBookmark */;
+			43603F99127B1EA100C73A12 /* PBXTextBookmark */ = 43603F99127B1EA100C73A12 /* PBXTextBookmark */;
+			4381588E127A417100F27DBD /* PBXTextBookmark */ = 4381588E127A417100F27DBD /* PBXTextBookmark */;
+			43A5A854127A625400B0F0ED /* PBXTextBookmark */ = 43A5A854127A625400B0F0ED /* PBXTextBookmark */;
+			43A5A855127A625400B0F0ED /* PBXTextBookmark */ = 43A5A855127A625400B0F0ED /* PBXTextBookmark */;
+			43A5A8AB127A64C700B0F0ED /* PBXTextBookmark */ = 43A5A8AB127A64C700B0F0ED /* PBXTextBookmark */;
+			43A5A8AC127A64C700B0F0ED /* PBXTextBookmark */ = 43A5A8AC127A64C700B0F0ED /* PBXTextBookmark */;
+			43D80597127B1F5C00E05187 /* PBXTextBookmark */ = 43D80597127B1F5C00E05187 /* PBXTextBookmark */;
 		};
 		sourceControlManager = 430796ED127A40B7009D4017 /* Source Control */;
 		userBuildSettings = {
 		};
 	};
-	D372CB05C46D8A3D86DB04B4 /* qcnlive */ = {
+	D372CB05C46D8A3D86DB04B4 /* QCNLive */ = {
 		activeExec = 0;
 		executables = (
-			43603F53127B1DAC00C73A12 /* qcnlive */,
+			43603F53127B1DAC00C73A12 /* QCNLive */,
 		);
 	};
 }
