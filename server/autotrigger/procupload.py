@@ -87,15 +87,17 @@ def processSingleZipFile(dbconn, myzipfile):
         outfile = open(tmpfile, 'wb')
         outfile.write(myzip.read(name))
         outfile.close()
-
         newfile = ""
-
         if name.endswith("_usb.zip"):
             # this is an upload from a usb test zip file
             newfile = os.path.join(UPLOAD_USB_WEB_DIR, name)
+            # move the file over to our disk archive as appropriate for the trigger type
+            shutil.move(tmpfile, newfile)
         elif name.startswith("continual_"):
             # this is an upload from a continual job
             newfile = os.path.join(UPLOAD_CONTINUAL_WEB_DIR, name)
+            # move the file over to our disk archive as appropriate for the trigger type
+            shutil.move(tmpfile, newfile)
 
             # now update the qcn_trigger table!
             strSQL = "UPDATE continual.qcn_trigger SET received_file=100, " +\
@@ -106,6 +108,8 @@ def processSingleZipFile(dbconn, myzipfile):
         else: 
             # this is a regular trigger
             newfile = os.path.join(UPLOAD_WEB_DIR, name)
+            # move the file over to our disk archive as appropriate for the trigger type
+            shutil.move(tmpfile, newfile)
 
             # now update the qcn_trigger table!
             myCursor.execute("UPDATE qcnalpha.qcn_trigger SET received_file=100, " +\
@@ -113,32 +117,27 @@ def processSingleZipFile(dbconn, myzipfile):
                           "WHERE file='" + name + "'")
             dbconn.commit()
 
-        # move the file over to our disk archive as appropriate for the trigger type
-        shutil.copy(tmpfile, newfile)
-        os.remove(tmpfile)
-
         # end of for loop of files within the zip archive
 
       myzip.close()
       if errLevel == 0 and os.path.isfile(fullzippath):
         os.remove(fullzippath)
       print "Successfully processed " + fullzippath
-      
+     
+   # note error zip files ages over 30 days will get deleted by delFilesPath, so don't delete here
    except zipfile.error:
       errLevel = 1
-      print "Error 1 in " + fullzippath + "(invalid zip file)"
       dbconn.rollback()
-      # don't delete, could be just an upload not finished
-      #if os.path.isfile(fullzippath):
-      #  os.remove(fullzippath)
+      if myzip != None:
+         myzip.close()
+      print "Error 1 in " + fullzippath + "(invalid zip file)"
       traceback.print_exc()
    except:
       errLevel = 2
-      print "Error 2 in " + fullzippath
       dbconn.rollback()
-      # don't delete, could be just the network drive is down
-      #if os.path.isfile(fullzippath):
-      #  os.remove(fullzippath)
+      if myzip != None:
+         myzip.close()
+      print "Error 2 in " + fullzippath
       traceback.print_exc()
    
 def processUploadZIPFiles(dbconn):
