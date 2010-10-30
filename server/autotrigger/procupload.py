@@ -120,14 +120,16 @@ def processSingleZipFile(dbconn, myzipfile):
       # move out invalid zip file
       #shutil.copy2(fullzippath, UPLOAD_BACKUP_DIR)
       dbconn.rollback()
-      if os.path.isfile(fullzippath):
-        os.remove(fullzippath)
+      # don't delete, could be just an upload not finished
+      #if os.path.isfile(fullzippath):
+      #  os.remove(fullzippath)
       traceback.print_exc()
    except:
       print "Error 2 in " + fullzippath
       dbconn.rollback()
-      if os.path.isfile(fullzippath):
-        os.remove(fullzippath)
+      # don't delete, could be just the network drive is down
+      #if os.path.isfile(fullzippath):
+      #  os.remove(fullzippath)
       traceback.print_exc()
    
 def processUploadZIPFiles(dbconn):
