@@ -13,6 +13,9 @@ else
    svn update boinc
    cd qcn
 fi
+if (test "$3" = "continual" || test "$4" = "continual") then
+   export QCN_CONTINUAL='-DQCN_CONTINUAL'
+fi
 if ( test "`uname -s`" = "Darwin" ) then
   cp config.h.mac config.h
   chmod uog+rx build.mac
