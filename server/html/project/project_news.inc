@@ -16,6 +16,11 @@
 
 
 $project_news = array(
+   array("October 30, 2010 05:34",
+"New software is on the server which should fix some bugs, false/too many triggers, and enhanced processing of the seismic data files which reduces their size.  You should automatically get this new version via BOINC within a day.  Also a new feature is in place whereby we can get followup information after a quake (basically a trickle to our server with more information 4-5 seconds after the original trigger).  Please report any problems to the 'Message Boards' (and hopefully this won't be the scariest thing you'll see this Halloween)!<BR><BR>",
+ "Upgraded QCN Software (version 5.83)",
+ ""
+  ),
    array("September 17, 2010 17:40",
 "CNN has released a <A HREF=\"http://edition.cnn.com/2010/TECH/innovation/09/17/ibm.earthquakes/index.html\">news story</A> about QCN and some of our rapid response efforts in Chile and New Zealand.<BR><BR>",
  "CNN News Story On QCN and Our 'Rapid Aftershock Mobilization Program'",
