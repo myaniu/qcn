@@ -547,10 +547,14 @@ int qcn_main(int argc, char **argv)
           // check every half-hour
           // unnecessary for demo mode
           if (g_dTimeNextPing < g_dTimeCurrent) { // time for a ping trickle & trickle down check
+			  double dTimeLastTrigger = 0.0;
+			  long lTimeLastTrigger, lTriggerCount;
+			  lTriggerCount = qcn_util::getLastTrigger(dTimeLastTrigger, lTimeLastTrigger);
+			  
+              g_dTimeNextPing = g_dTimeCurrent + INTERVAL_PING_SECONDS;  // set the next interval
 
-             g_dTimeNextPing = g_dTimeCurrent + INTERVAL_PING_SECONDS;  // set the next interval
-
-             trickledown::processTrickleDown();  // from util/trickledown.cpp
+			  // a good point to check for trickle down i.e. file request
+			  trickledown::processTrickleDown();  // from util/trickledown.cpp
 
              // see if we have an intermediate upload
 //#ifndef QCNLIVE
@@ -574,8 +578,11 @@ int qcn_main(int argc, char **argv)
              // unnecessary for demo mode -- but should we wget or curl the latest quake list, perhaps just in the ./runme script?
              //if (!g_iStop && !(++iQuakeList % QUAKELIST_CHECK))  {
 
-             // this skips the very first time in i.e. when we're just starting up, also bypasses for the continual reporting app
-             if (!g_iStop && g_bFirstPing && !g_bContinual) {
+			  // OK now send the ping trickle if we haven't heard from this machine in a half-hour
+              // this skips the very first time in i.e. when we're just starting up, also bypasses for the continual reporting app
+			  // also make sure we didn't just have a trickle within the past INTERVAL_PING_SECONDS (30 minutes)
+			  // i.e. don't bother sending a ping since we heard from this machine anyway!
+             if (!g_iStop && g_bFirstPing && !g_bContinual && (dTimeLastTrigger + INTERVAL_PING_SECONDS < g_dTimeCurrent)) {
                 char *strTrigger = new char[512];
                 double dTrigTimeOffset = g_dTimeSync>0.0f ? g_dTimeOffset : 0.0f;
                 boinc_begin_critical_section();
