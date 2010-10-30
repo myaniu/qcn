@@ -145,7 +145,7 @@ else
    cp graphics_app=qcn_graphics_$1_$suffix graphics_app=qcn_graphics_$2_$suffix
    rm -f qcnlive-linux.zip
 
-  if ( test "$cont" = "continual" ) then
+  if ( test "$cont" = "" ) then
    zip -r qcnlive-linux.zip qcnlive init/Helvetica.txf init/Courier-Bold.txf init/earthmask.rgb init/earthday4096.jpg \
          init/$ntpdv $uplstring \
          init/libMotionNodeAccelAPI.so \
