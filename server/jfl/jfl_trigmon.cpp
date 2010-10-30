@@ -879,11 +879,11 @@ void detect_qcn_event(struct trigger t[], int iCtr, struct event e[]) {
 
 void get_bad_hosts(struct bad_hosts bh) {
 /*  This subrouting retrieves the bad host names */
-   FILE *fp10; fp10 = fopen(BAD_HOSTS_FILE,"r+");
+   FILE *fp10; fp10 = fopen(BAD_HOSTS_FILE,"r");
    bh.nh = -1;
    while (feof(fp10) == 0) {
     bh.nh++;
-    fscanf(fp10,"%d",bh.hid[bh.nh]);
+    fscanf(fp10,"%d",&bh.hid[bh.nh]);
    }
    fclose(fp10);
    return;
