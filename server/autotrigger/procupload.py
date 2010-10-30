@@ -87,12 +87,17 @@ def processSingleZipFile(dbconn, myzipfile):
         outfile.write(myzip.read(name))
         outfile.close()
 
+        if os.path.isfile(fullzippath):
+          os.remove(fullzippath)
+
+        newfile = ""
+
         if name.endswith("_usb.zip"):
             # this is an upload from a usb test zip file
-            shutil.move(tmpfile, UPLOAD_USB_WEB_DIR)
+            newfile = os.path.join(UPLOAD_USB_WEB_DIR, name)
         elif name.startswith("continual_"):
             # this is an upload from a continual job
-            shutil.move(tmpfile, UPLOAD_CONTINUAL_WEB_DIR)
+            newfile = os.path.join(UPLOAD_CONTINUAL_WEB_DIR, name)
 
             # now update the qcn_trigger table!
             strSQL = "UPDATE continual.qcn_trigger SET received_file=100, " +\
@@ -102,13 +107,19 @@ def processSingleZipFile(dbconn, myzipfile):
             dbconn.commit()
         else: 
             # this is a regular trigger
-            shutil.move(tmpfile, UPLOAD_WEB_DIR)
+            newfile = os.path.join(UPLOAD_WEB_DIR, name)
 
             # now update the qcn_trigger table!
             myCursor.execute("UPDATE qcnalpha.qcn_trigger SET received_file=100, " +\
                           "file_url='" + URL_DOWNLOAD_BASE + name + "' " +\
                           "WHERE file='" + name + "'")
             dbconn.commit()
+
+        # move the file over to our disk archive as appropriate for the trigger type
+        shutil.copy(tmpfile, newfile)
+        os.remove(tmpfile)
+
+        # end of for loop of files within the zip archive
 
       myzip.close()
       if os.path.isfile(fullzippath):
