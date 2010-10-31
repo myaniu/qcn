@@ -450,13 +450,15 @@ void ResetCounter(const e_where eWhere, const int iNumResetInitial)
        //memset(sm->strFileUpload, 0x00, sizeof(char) * _MAX_PATH);
 
        // bump up the DT value (.1 vs .02) -- note MAXI now holds 4.2 hours of time not just 1 hour!
-       if ((sm->iNumReset - iNumResetInitial) > SLUGGISH_MACHINE_THRESHOLD) 
-		  if (sm->dt == g_DT_SLOW)
-			  sm->dt = g_DT_SNAIL;  // too many failures this session (10), try a lower dt
-		  else 		  
+       if ((sm->iNumReset - iNumResetInitial) > SLUGGISH_MACHINE_THRESHOLD) {
+		  if (sm->dt == g_DT)
 			  sm->dt = g_DT_SLOW;  // too many failures this session (10), try a lower dt
-       else
+		  else 		  
+			  sm->dt = g_DT_SNAIL;  // too many failures this session (10), try a lower dt
+       }
+       else {
          sm->dt = g_DT;
+       }
     }
     sm->lOffset = 0;              //  LOOP BACK THRU DATA SERIES
     sm->iWindow = (int) (g_cfTimeWindow / (sm->dt > 0 ? sm->dt : g_DT));  // number of points in time window

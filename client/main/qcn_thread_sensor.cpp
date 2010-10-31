@@ -46,8 +46,8 @@ extern void* QCNThreadSensor(void*)
     // seed random number generator
     srand((unsigned) time(NULL));
 
-    //const int iNumResetInitial = sm->iNumReset;  // initialize to total num reset, so we can see how many failures in current session
-    const int iNumResetInitial = 0; // change to 0, don't use the saved reset number, reset to 0 every wraparound
+    int iNumResetInitial = sm->iNumReset;  // initialize to total num reset, so we can see how many failures in current session
+    //const int iNumResetInitial = 0; // change to 0, don't use the saved reset number, reset to 0 every wraparound
     qcn_main::g_vectTrigger.clear();
     while (sm->lOffset > -1) {  // start the main loop
       if (qcn_main::g_iStop || !sm) goto done;  // handle quit request
@@ -241,6 +241,7 @@ extern void* QCNThreadSensor(void*)
          // close the port first -- because if running as a service (Mac JoyWarrior) this will cause a timing lag/reset error
          // as the port is still monitoring, but the big file I/O below will cause this thread to suspend a few seconds
          sm->iNumReset = 0;  // let's reset our reset counter every wraparound (1 hour)
+         iNumResetInitial = 0; // "local" reset counter
          sm->lOffset = 0;  // don't reset, that's only for drastic errors i.e. bad timing errors
 
          // close the open port
