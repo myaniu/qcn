@@ -824,7 +824,7 @@ bool CheckTriggerFile(struct STriggerInfo* ti, bool bForce)
     if (!ti->bInteractive || ti->bReal) {
        char strTypeSensor[8];
        memset(strTypeSensor, 0x00, sizeof(char) * 8);
-       if (g_psms) strncpy(strTypeSensor, g_psms->getTypeStrShort(), 7);
+       if (g_psms) strncpy(strTypeSensor, g_psms->getTypeStrShort(), sizeof(strTypeSensor));
        sacio::sacio(n1, n2, ti, strTypeSensor); // note filename already set in ti.strFile
     }
 

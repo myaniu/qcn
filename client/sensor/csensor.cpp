@@ -51,6 +51,7 @@
 
 // end sensor strings
 
+map<int, CSensorType> CSensor::m_map;
 
 CSensor::CSensor()
   : 

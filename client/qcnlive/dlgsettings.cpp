@@ -166,11 +166,6 @@ void CDialogSettings::SaveValues()
 	// for the sensor combo, save the value of the combo -1 + SENSOR_USB_
 	sm->iMySensor = -1;
 	wxString strCombo = m_comboSensor->GetValue();
-	//SENSOR_STRLG_USB_JW24F8)); // 100
-	//SENSOR_STRLG_USB_JW24F14)); // 101
-	//SENSOR_STRLG_USB_MN)); // 101
-	//SENSOR_STRLG_USB_ONAVI)); // 102
-	
 	for (int i = MIN_SENSOR_USB; i <= MAX_SENSOR_USB; i++)   {// usb sensors are between the values MIN & MAX_SENSOR_USB given in define.h
 		if (!strCombo.Cmp(m_psms->getTypeStr(i))) {
 			sm->iMySensor = i;
@@ -317,11 +312,8 @@ void CDialogSettings::CreateControls()
 	// create an array of strings of the USB sensor choices
 	wxArrayString astrUSB;
 	astrUSB.Add(_("No Preference"));
-	astrUSB.Add(_(SENSOR_STRLG_USB_JW24F8));
-	astrUSB.Add(_(SENSOR_STRLG_USB_JW24F14));
-	astrUSB.Add(_(SENSOR_STRLG_USB_MN));
-	//for (int i = MIN_SENSOR_USB; m_psms && i <= MAX_SENSOR_USB; i++)   // usb sensors are between the values MIN & MAX_SENSOR_USB given in define.h
-	//	astrUSB.Add(m_psms->getTypeStr(i));
+	for (int i = MIN_SENSOR_USB; m_psms && i <= MAX_SENSOR_USB; i++)   // usb sensors are between the values MIN & MAX_SENSOR_USB given in define.h
+		astrUSB.Add(m_psms->getTypeStr(i));
 	
 	//bool Create(wxWindow* parent, wxWindowID id, const wxString& value, const wxPoint& pos, const wxSize& size, const wxArrayString& choices, long style = 0, const wxValidator& validator = wxDefaultValidator, const wxString& name = "comboBox")
     m_comboSensor->Create(this, ID_COMBOSENSOR, m_strSensor, wxDefaultPosition, wxSize(200, -1), astrUSB, wxCB_READONLY, wxDefaultValidator, _("strCombo"));

@@ -91,10 +91,10 @@ private:
      // pure virtual functions that subclasses of CSensor (for specific sensor types) need to implement
      virtual bool detect() = 0;   // this detects & initializes a sensor on a Mac G4/PPC or Intel laptop, sets m_iType to 0 if not found
 
-	// get sensor id or string based on the map of sensors (m_map private member var initialized in constructor)
+	 // get sensor id or string based on the map of sensors (m_map private member var initialized in constructor)
 	 const char* getTypeStr(int iType = -1);  // return the sensor name for this iType
 	 const char* getTypeStrShort(int iType = -1);  // return the sensor name (short) for this iType or m_Type if not entered
-	// const int getID();
+	 // const int getID();
 	
      // public virtual functions implemented in CSensor but can be overridden
      virtual void closePort(); // closes the port if open

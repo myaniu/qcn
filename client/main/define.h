@@ -200,7 +200,7 @@ enum e_where   { WHERE_MAIN_STARTUP,
 enum e_quake   { QUAKE_CURRENT, QUAKE_WORLD85, QUAKE_DEADLIEST };
 
 // sensor information
-// if add sensors or strings here don't forget to update the const class CSensorType in main.cpp!
+// if add sensors or strings here don't forget to update the class CSensor in sensor/csensor.cpp!
 
 // set to the min allowable value of a usb sensor enum as above
 #define MIN_SENSOR_USB 100
