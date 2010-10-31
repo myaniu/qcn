@@ -216,10 +216,10 @@
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>4329D18C127D0EEC00C1F3C2</string>
+						<string>4329D199127D0FA600C1F3C2</string>
 						<key>history</key>
 						<array>
-							<string>4329D0D3127D001500C1F3C2</string>
+							<string>4329D190127D0F3C00C1F3C2</string>
 						</array>
 					</dict>
 					<key>SplitCount</key>
@@ -256,7 +256,7 @@
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>4329D18D127D0EEC00C1F3C2</string>
+						<string>4329D19A127D0FA600C1F3C2</string>
 						<key>history</key>
 						<array>
 							<string>4329D151127D09F300C1F3C2</string>
@@ -408,7 +408,7 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>4329D18B127D0EEC00C1F3C2</string>
+										<string>4329D198127D0FA600C1F3C2</string>
 										<key>history</key>
 										<array>
 											<string>431EE1D0127A5B05004771DF</string>
@@ -620,9 +620,9 @@
 	<array>
 		<string>1CD10A99069EF8BA00B06720</string>
 		<string>4329D160127D0ABC00C1F3C2</string>
+		<string>/Users/carlgt1/projects/qcn/client/qcnlive_qt/qcnlive.xcodeproj</string>
 		<string>430796EA127A40B7009D4017</string>
 		<string>43275E70127B275600FCC2CB</string>
-		<string>/Users/carlgt1/projects/qcn/client/qcnlive_qt/qcnlive.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
 	<string>53 178 1363 994 0 0 1920 1178 </string>
@@ -646,7 +646,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>1CD0528F0623707200166675</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>qitemdelegate.h</string>
+								<string>icons32.h</string>
 								<key>StatusBarVisibility</key>
 								<true/>
 							</dict>

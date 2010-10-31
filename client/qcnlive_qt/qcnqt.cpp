@@ -378,6 +378,8 @@ bool MyApp::OnInit()
 	// final setup of the frame and the OpenGL canvas
     // note all the graphics init stuff is in the myGLPane constructor
 
+	/*  CMC
+	 
     int aiAttrib[] = { WX_GL_RGBA, WX_GL_DOUBLEBUFFER, WX_GL_DEPTH_SIZE, 16, 0 };
 
     frame->glPane = new MyGLPane(frame, aiAttrib);
@@ -391,9 +393,11 @@ bool MyApp::OnInit()
     frame->SetPosition(myRect.GetPosition());
 
     frame->SetStatusText(wxString("Ready", wxConvUTF8));
+	
+	*/
 
     // setup the toolbar controls for the 2D Plot, i.e. a horiz scrollbar, buttons for scaling etc
-    frame->SetupToolbars();
+    // CMC frame->SetupToolbars();
 
         // send a resized event
 	//qcn_graphics::Resize(frame->GetClientSize().GetWidth(), frame->GetClientSize().GetHeight());	
@@ -406,7 +410,7 @@ bool MyApp::OnInit()
 	// setup & start the timer for getting the next earthquake list from the qcn server
 	myapptimer = new MyAppTimer(this);
 	if (myapptimer) {
-	  myapptimer->Start(3600000L);  // this will get the earthquake list every hour
+//	CMC   myapptimer->Start(3600000L);  // this will get the earthquake list every hour
 	}
 
     //KillSplashScreen();
@@ -415,7 +419,7 @@ bool MyApp::OnInit()
 
 void MyApp::GetLatestQuakeList()
 {
-    frame->statusBar->SetStatusText(wxString("Getting recent earthquake list...", wxConvUTF8));
+    // CMC frame->statusBar->SetStatusText(wxString("Getting recent earthquake list...", wxConvUTF8));
     // this sequence will get the latest earthquake list
     if (! CreateBOINCInitFile()) {
 	    frame->statusBar->SetStatusText(wxString("Failed to get the latest earthquake list, try again later!", wxConvUTF8));
@@ -429,13 +433,13 @@ int MyApp::OnExit()
 {
     // just in case we're exiting early and the splash screen still up!
 	if (m_psplash)  {
-	   m_psplash->Close();
+	  // CMC m_psplash->Close();
 	   delete m_psplash;
            m_psplash = NULL;
 	}
 	
 	if (myapptimer) {
-		myapptimer->Stop();
+		// CMC myapptimer->Stop();
 		delete myapptimer;
 		myapptimer = NULL;
 	}
