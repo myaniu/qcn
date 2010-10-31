@@ -165,18 +165,6 @@ bool CSensorLinuxUSBJW::testJoystick()
    return true; // if here we can return true, i.e Joywarrior found on Linux joystick port, and hopefully set to read raw data
 }
 
-const char* CSensorLinuxUSBJW::getTypeStr(int iType)
-{
-   //if (iType == -1) iType = m_iType;  // default is to use the type for the given CSensor
-   return SENSOR_STRLG_USB_JW24F8;
-}
-
-
-const char* CSensorLinuxUSBJW::getTypeStrShort()
-{
-    return SENSOR_STRSH_USB_JW24F8;
-}
-
 // try and open up the JoyWarrior file descriptor
 bool CSensorLinuxUSBJW::detect()
 {

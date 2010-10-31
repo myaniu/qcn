@@ -39,17 +39,6 @@ void CSensorWinThinkpad::closePort()
     }
 }
 
-const char* CSensorWinThinkpad::getTypeStr(int iType)
-{
-        return SENSOR_STRLG_WIN_THINKPAD;
-}
-
-
-const char* CSensorWinThinkpad::getTypeStrShort()
-{
-      return SENSOR_STRSH_WIN_THINKPAD;
-}
-
 bool CSensorWinThinkpad::detect()
 {
 	 // basically, just try to open the sensor.dll and read a value, if it fails, they don't have a thinkpad

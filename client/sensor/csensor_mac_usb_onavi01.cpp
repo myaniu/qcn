@@ -35,17 +35,6 @@ void CSensorMacUSBONavi01::closePort()
 	setType();
 }
 
-const char* CSensorMacUSBONavi01::getTypeStr(int iType)
-{
-        return SENSOR_STRLG_USB_ONAVI1;
-}
-
-
-const char* CSensorMacUSBONavi01::getTypeStrShort()
-{
-      return SENSOR_STRSH_USB_ONAVI1;
-}
-
 bool CSensorMacUSBONavi01::detect()
 {
 	// first see if the port actually exists (the device is a "file" at /dev/tty.xrusbmodemNNN, given in STR_USB_ONAVI01

@@ -199,8 +199,16 @@ enum e_where   { WHERE_MAIN_STARTUP,
 // enum of quake types for the globe list
 enum e_quake   { QUAKE_CURRENT, QUAKE_WORLD85, QUAKE_DEADLIEST };
 
+// sensor information
+// if add sensors or strings here don't forget to update the const class CSensorType in main.cpp!
+
+// set to the min allowable value of a usb sensor enum as above
+#define MIN_SENSOR_USB 100
+// set to the max allowable value of a usb sensor enum as above
+#define MAX_SENSOR_USB 103
+
 // enumerate the various sensor types, we can trickle this int back for easier comparisons
-// don't forget to update in the csensor-* class as well as the client/util/sac.cpp so sensor type gets written to disk
+// don't forget to update in the csensor.cpp CSensor constructor
 enum e_sensor  { SENSOR_NOTFOUND = 0,  // 0
                  SENSOR_MAC_PPC_TYPE1, // 1
                  SENSOR_MAC_PPC_TYPE2, // 2
@@ -214,46 +222,6 @@ enum e_sensor  { SENSOR_NOTFOUND = 0,  // 0
 				 SENSOR_USB_JW24F14      // 103
                };
 
-// strings for sensor types
-#define SENSOR_STRLG_NOTFOUND "Not Found"
-#define SENSOR_STRSH_NOTFOUND ""
-
-#define SENSOR_STRLG_MAC_PPC1  "PPC Mac Laptop Type 1"
-#define SENSOR_STRSH_MAC_PPC1  "MP"
-#define SENSOR_STRLG_MAC_PPC2  "PPC Mac Laptop Type 2"
-#define SENSOR_STRSH_MAC_PPC2  "MP"
-#define SENSOR_STRLG_MAC_PPC3  "PPC Mac Laptop Type 3"
-#define SENSOR_STRSH_MAC_PPC3  "MP"
-#define SENSOR_STRLG_MAC_INTEL "Intel Mac Laptop"
-#define SENSOR_STRSH_MAC_INTEL "MI"
-
-#define SENSOR_STRLG_WIN_THINKPAD "Lenovo Thinkpad Laptop"
-#define SENSOR_STRSH_WIN_THINKPAD "TP"
-
-#define SENSOR_STRLG_WIN_HP "HP Laptop"
-#define SENSOR_STRSH_WIN_HP "HP"
-
-#define SENSOR_STRLG_USB_MAC_DRIVER "Mac USB Driver"
-#define SENSOR_STRSH_USB_MAC_DRIVER "MD"
-
-#define SENSOR_STRLG_USB_JW24F8 "JoyWarrior 24F8 USB"
-#define SENSOR_STRSH_USB_JW24F8 "JW"
-
-#define SENSOR_STRLG_USB_JW24F14 "JoyWarrior 24F14 (Tomcat) USB"
-#define SENSOR_STRSH_USB_JW24F14 "JT"
-
-#define SENSOR_STRLG_USB_MN "MotionNode Accel USB"
-#define SENSOR_STRSH_USB_MN "MN"
-
-#define SENSOR_STRLG_USB_ONAVI1 "ONavi G1 USB"
-#define SENSOR_STRSH_USB_ONAVI1 "O1"
-
-
-// set to the min allowable value of a usb sensor enum as above
-#define MIN_SENSOR_USB 100
-// set to the max allowable value of a usb sensor enum as above
-#define MAX_SENSOR_USB 103
- 
 // USB id's
 #define USB_MOUSEWARRIOR       0x1114
 #define USB_DEVICEID_JW24F8    0x1113

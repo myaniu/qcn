@@ -34,49 +34,6 @@ void CSensorMacLaptop::closePort()
   }
 }
 
-const char* CSensorMacLaptop::getTypeStr(int iType)
-{
-   //fprintf(stdout, "getTypeStr(%d)  (m_iType=%d)\n", iType, m_iType);
-   if (iType == SENSOR_NOTFOUND || iType == -1) iType = m_iType;  // default is to use the type for the given CSensor
-   switch (iType) {
-     case SENSOR_MAC_PPC_TYPE1:
-        return SENSOR_STRLG_MAC_PPC1;
-        break;
-     case SENSOR_MAC_PPC_TYPE2:
-        return SENSOR_STRLG_MAC_PPC2;
-        break;
-     case SENSOR_MAC_PPC_TYPE3:
-        return SENSOR_STRLG_MAC_PPC3;
-        break;
-     case SENSOR_MAC_INTEL:
-        return SENSOR_STRLG_MAC_INTEL;
-        break;
-	  default:
-		   return SENSOR_STRLG_NOTFOUND;
-   }
-}
-
-
-const char* CSensorMacLaptop::getTypeStrShort()
-{
-   switch (m_iType) {
-     case SENSOR_MAC_PPC_TYPE1:
-        return SENSOR_STRSH_MAC_PPC1;
-        break;
-     case SENSOR_MAC_PPC_TYPE2:
-        return SENSOR_STRSH_MAC_PPC2;
-        break;
-     case SENSOR_MAC_PPC_TYPE3:
-        return SENSOR_STRSH_MAC_PPC3;
-        break;
-     case SENSOR_MAC_INTEL:
-        return SENSOR_STRSH_MAC_INTEL;
-        break;
-	   default:
-		   return SENSOR_STRSH_NOTFOUND;
-   }
-}
-
 bool CSensorMacLaptop::detect()
 {
 /*  Initializes the sudden motion sensor by attempting to access each kind of 

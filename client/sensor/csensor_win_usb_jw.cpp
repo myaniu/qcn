@@ -57,17 +57,6 @@ void CSensorWinUSBJW::closePort()
   }
 }
 
-const char* CSensorWinUSBJW::getTypeStr(int iType)
-{
-        return SENSOR_STRLG_USB_JW24F8;
-}
-
-
-const char* CSensorWinUSBJW::getTypeStrShort()
-{
-      return SENSOR_STRSH_USB_JW24F8;
-}
-
 bool CSensorWinUSBJW::detect()
 {
     // tries to detect & initialize the USB JW Sensor

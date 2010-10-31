@@ -12,13 +12,92 @@
 #include "main.h"
 #include "csensor.h"
 
+
+// begin sensor strings, the ID's are the e_sensor enum in define.h
+// strings for sensor types
+#define SENSOR_STRLG_NOTFOUND "Not Found"
+#define SENSOR_STRSH_NOTFOUND ""
+
+
+#define SENSOR_STRLG_MAC_PPC1  "PPC Mac Laptop Type 1"
+#define SENSOR_STRSH_MAC_PPC1  "MP"
+#define SENSOR_STRLG_MAC_PPC2  "PPC Mac Laptop Type 2"
+#define SENSOR_STRSH_MAC_PPC2  "MP"
+#define SENSOR_STRLG_MAC_PPC3  "PPC Mac Laptop Type 3"
+#define SENSOR_STRSH_MAC_PPC3  "MP"
+#define SENSOR_STRLG_MAC_INTEL "Intel Mac Laptop"
+#define SENSOR_STRSH_MAC_INTEL "MI"
+
+#define SENSOR_STRLG_WIN_THINKPAD "Lenovo Thinkpad Laptop"
+#define SENSOR_STRSH_WIN_THINKPAD "TP"
+
+#define SENSOR_STRLG_WIN_HP "HP Laptop"
+#define SENSOR_STRSH_WIN_HP "HP"
+
+#define SENSOR_STRLG_USB_MAC_DRIVER "Mac USB Driver"
+#define SENSOR_STRSH_USB_MAC_DRIVER "MD"
+
+#define SENSOR_STRLG_USB_JW24F8 "JoyWarrior 24F8 USB"
+#define SENSOR_STRSH_USB_JW24F8 "JW"
+
+#define SENSOR_STRLG_USB_JW24F14 "JoyWarrior 24F14 (Tomcat) USB"
+#define SENSOR_STRSH_USB_JW24F14 "JT"
+
+#define SENSOR_STRLG_USB_MN "MotionNode Accel USB"
+#define SENSOR_STRSH_USB_MN "MN"
+
+#define SENSOR_STRLG_USB_ONAVI_1 "ONavi G1 USB"
+#define SENSOR_STRSH_USB_ONAVI_1 "O1"
+
+// end sensor strings
+
+
 CSensor::CSensor()
   : 
     m_iType(SENSOR_NOTFOUND), 
     m_port(-1),
     m_bSingleSampleDT(false),
     m_strSensor("")
-{ 
+{
+	if (m_map.size() == 0) { // build map of sensor types
+		
+		// setup the map for sensors
+		m_map.clear();
+		CSensorType cst;
+		
+		cst.init(SENSOR_NOTFOUND, SENSOR_STRLG_NOTFOUND, SENSOR_STRSH_NOTFOUND);
+		m_map.insert(make_pair(SENSOR_NOTFOUND, cst));
+		
+		cst.init(SENSOR_MAC_PPC_TYPE1, SENSOR_STRLG_MAC_PPC1, SENSOR_STRSH_MAC_PPC1);
+		m_map.insert(make_pair(SENSOR_MAC_PPC_TYPE1, cst));
+		
+		cst.init(SENSOR_MAC_PPC_TYPE2, SENSOR_STRLG_MAC_PPC2, SENSOR_STRSH_MAC_PPC2);
+		m_map.insert(make_pair(SENSOR_MAC_PPC_TYPE2, cst));
+		
+		cst.init(SENSOR_MAC_PPC_TYPE3, SENSOR_STRLG_MAC_PPC3, SENSOR_STRSH_MAC_PPC3);
+		m_map.insert(make_pair(SENSOR_MAC_PPC_TYPE3, cst));
+		
+		cst.init(SENSOR_MAC_INTEL, SENSOR_STRLG_MAC_INTEL, SENSOR_STRSH_MAC_INTEL);
+		m_map.insert(make_pair(SENSOR_MAC_INTEL, cst));
+		
+		cst.init(SENSOR_WIN_THINKPAD, SENSOR_STRLG_WIN_THINKPAD, SENSOR_STRSH_WIN_THINKPAD);
+		m_map.insert(make_pair(SENSOR_WIN_THINKPAD, cst));
+		
+		cst.init(SENSOR_WIN_HP, SENSOR_STRLG_WIN_HP, SENSOR_STRSH_WIN_HP);
+		m_map.insert(make_pair(SENSOR_WIN_HP, cst));
+		
+		cst.init(SENSOR_USB_JW24F8, SENSOR_STRLG_USB_JW24F8, SENSOR_STRSH_USB_JW24F8);
+		m_map.insert(make_pair(SENSOR_USB_JW24F8, cst));
+		
+		cst.init(SENSOR_USB_JW24F14, SENSOR_STRLG_USB_JW24F14, SENSOR_STRSH_USB_JW24F14);
+		m_map.insert(make_pair(SENSOR_USB_JW24F14, cst));
+		
+		cst.init(SENSOR_USB_MOTIONNODEACCEL, SENSOR_STRLG_USB_MN, SENSOR_STRSH_USB_MN);
+		m_map.insert(make_pair(SENSOR_USB_MOTIONNODEACCEL, cst));
+		
+		cst.init(SENSOR_USB_ONAVI_1, SENSOR_STRLG_USB_ONAVI_1, SENSOR_STRSH_USB_ONAVI_1);
+		m_map.insert(make_pair(SENSOR_USB_ONAVI_1, cst));
+	}
 }
 
 CSensor::~CSensor()
@@ -77,6 +156,29 @@ const e_sensor CSensor::getTypeEnum()
 {
    return m_iType;
 }
+
+const char* CSensor::getTypeStr(int iType)
+{
+	if (iType == -1) iType = m_iType;  // default is to use the type for the given CSensor
+	map<int, CSensorType>::iterator iter = m_map.find(iType);
+	if (iter != m_map.end() ) 
+		return iter->second.getStr();
+	else 
+		return "";
+}
+
+
+const char* CSensor::getTypeStrShort(int iType)
+{
+	if (iType == -1) iType = m_iType;  // default is to use the type for the given CSensor
+	map<int, CSensorType>::iterator iter = m_map.find(iType);
+	if (iter != m_map.end() ) 
+		return iter->second.getStrSh();
+	else 
+		return "";
+}
+
+
 
 // this is the heart of qcn -- it gets called 50-500 times a second!
 inline bool CSensor::mean_xyz()

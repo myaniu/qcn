@@ -49,8 +49,6 @@ class CSensorWinUSBJW  : public CSensor
 
      virtual void closePort(); // closes the port if open
      virtual bool detect();   // this detects & initializes a sensor on a Mac G4/PPC or Intel laptop, sets m_iType to 0 if not found
-     virtual const char* getTypeStr(int iType);
-     virtual const char* getTypeStrShort();
 };
 
 #endif

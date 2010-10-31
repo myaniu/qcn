@@ -45,8 +45,6 @@ class CSensorMacUSBGeneric  : public CSensor
 
       virtual bool detect();    // this detects the Mac USB sensor
       virtual void closePort(); // closes the port if open
-      virtual const char* getTypeStr(int iType = SENSOR_NOTFOUND);
-      virtual const char* getTypeStrShort();
 
       virtual bool mean_xyz();   // mean sensor data, implemented here but can be overridden
 };

@@ -12,6 +12,48 @@
 
 #include "define.h"
 #include <string>
+#include <map>
+
+using std::pair;
+using std::make_pair;
+using std::map;
+
+
+
+// simple class to store/retrieve sensor info
+class CSensorType
+{
+private:
+	int m_id;
+	char m_strLong[64];
+	char m_strShort[3];
+	
+public:
+	CSensorType() { clear(); }
+	CSensorType(const int id, const char* strLong, const char* strShort) 
+	{ 
+		init(id, strLong, strShort);
+	}
+	~CSensorType() { clear(); }
+	void clear() { memset(this, 0x00, sizeof(CSensorType)); }
+	void init(const int id, const char* strLong, const char* strShort)
+	{
+		clear(); 
+		m_id = id; 
+		strncpy(m_strLong, strLong, sizeof(m_strLong)); 
+		strncpy(m_strShort, strShort, sizeof(m_strShort)); 
+	}	
+	int getID() { return m_id; }
+	const char* getStr() { return m_strLong; }
+	const char* getStrSh() { return m_strShort; }
+	
+	// public static member functions to operate on all instances of CSensorType (i.e. enumerate strings)
+	//static const int getIDByStr(const char* strTest);
+	//static const char* getStrByID(const int iTest);
+	//static const char* getStrShByID(const int iTest);
+	
+};
+
 
 // this is the base class for all QCN sensors
 class CSensor
@@ -28,6 +70,8 @@ private:
       // private function
       // note that x/y/z should be scaled to +/- 2g, return values as +/- 2.0f*EARTH_G (in define.h: 9.78033 m/s^2)
       virtual bool read_xyz(float& x1, float& y1, float& z1) = 0;   // read raw sensor data, pure virtual function subclass implemented  
+
+	  static map<int, CSensorType> m_map;  // map enum ID's to sensor name
 
    public:
      CSensor();
@@ -47,16 +91,17 @@ private:
      // pure virtual functions that subclasses of CSensor (for specific sensor types) need to implement
      virtual bool detect() = 0;   // this detects & initializes a sensor on a Mac G4/PPC or Intel laptop, sets m_iType to 0 if not found
 
-	// following two are pure virtual functions which are defined in derived classes for setting appropriate sensor name etc
-	 virtual const char* getTypeStr(int iType = -1) = 0;  // return the iType member variable
-	 virtual const char* getTypeStrShort() = 0;  // return the iType member variable
+	// get sensor id or string based on the map of sensors (m_map private member var initialized in constructor)
+	 const char* getTypeStr(int iType = -1);  // return the sensor name for this iType
+	 const char* getTypeStrShort(int iType = -1);  // return the sensor name (short) for this iType or m_Type if not entered
+	// const int getID();
 	
      // public virtual functions implemented in CSensor but can be overridden
      virtual void closePort(); // closes the port if open
      virtual const e_sensor getTypeEnum(); // return the iType member variable
- 
 
      virtual bool mean_xyz();   // mean sensor data, implemented here but can be overridden
+	
 };
 
 #endif

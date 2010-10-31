@@ -124,6 +124,7 @@ struct STriggerInfo
     int  iVariety;     // trigger variety  0 = regular sensor trigger, 1 = ping trigger, 2 = continual trigger
 };
 
+					  
 /*! 
    qcn_main namespace declaration
 */
