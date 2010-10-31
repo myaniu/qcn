@@ -11,6 +11,7 @@
 		0C6D4628EE0B0D1479A20551 /* AGL.framework in Frameworks & Libraries */ = {isa = PBXBuildFile; fileRef = C6766F86E49E9C8701C8E637 /* AGL.framework */; };
 		26C2BED6C570C95F5243C556 /* moc_mainwindow.cpp in Build Sources */ = {isa = PBXBuildFile; fileRef = 336D3C48DD3B44974395C633 /* moc_mainwindow.cpp */; settings = {ATTRIBUTES = (); }; };
 		3BBD6E3E630068B57C2CEC5B /* moc_glwidget.cpp in Build Sources */ = {isa = PBXBuildFile; fileRef = 24FC5F21B8D858EDB1CC09E6 /* moc_glwidget.cpp */; settings = {ATTRIBUTES = (); }; };
+		4329D0BC127CFDE400C1F3C2 /* myframe.cpp in Build Sources */ = {isa = PBXBuildFile; fileRef = 4329D0BB127CFDE400C1F3C2 /* myframe.cpp */; };
 		43603F62127B1DD300C73A12 /* glwidget.cpp in Build Sources */ = {isa = PBXBuildFile; fileRef = 43603F5F127B1DD300C73A12 /* glwidget.cpp */; };
 		43C34608127B202400FC339B /* qcnqt.cpp in Build Sources */ = {isa = PBXBuildFile; fileRef = 43C34607127B202400FC339B /* qcnqt.cpp */; };
 		43C34627127B20C900FC339B /* libboinc_zip.a in Frameworks & Libraries */ = {isa = PBXBuildFile; fileRef = 43C34623127B20C900FC339B /* libboinc_zip.a */; };
@@ -106,8 +107,8 @@
 		24FC5F21B8D858EDB1CC09E6 /* moc_glwidget.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = moc_glwidget.cpp; sourceTree = "<group>"; };
 		336D3C48DD3B44974395C633 /* moc_mainwindow.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = moc_mainwindow.cpp; sourceTree = "<group>"; };
 		43275E63127B272700FCC2CB /* myframe.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = myframe.h; sourceTree = "<group>"; };
-		43275E64127B272700FCC2CB /* myglpane.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = myglpane.h; sourceTree = "<group>"; };
 		43275E65127B272700FCC2CB /* qcnlive_define.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = qcnlive_define.h; sourceTree = "<group>"; };
+		4329D0BB127CFDE400C1F3C2 /* myframe.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = myframe.cpp; sourceTree = "<group>"; };
 		43603F5F127B1DD300C73A12 /* glwidget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = glwidget.cpp; sourceTree = "<group>"; };
 		43C34607127B202400FC339B /* qcnqt.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = qcnqt.cpp; sourceTree = "<group>"; };
 		43C34615127B205100FC339B /* qcnqt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = qcnqt.h; sourceTree = "<group>"; };
@@ -392,7 +393,6 @@
 			isa = PBXGroup;
 			children = (
 				43275E63127B272700FCC2CB /* myframe.h */,
-				43275E64127B272700FCC2CB /* myglpane.h */,
 				43275E65127B272700FCC2CB /* qcnlive_define.h */,
 				43C34634127B214B00FC339B /* qcn_graphics */,
 				43C34635127B215200FC339B /* qcn_main */,
@@ -423,6 +423,7 @@
 		FB61758D0F0FDA4BA867C3D5 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				4329D0BB127CFDE400C1F3C2 /* myframe.cpp */,
 				43C34676127B22A700FC339B /* boinc_api */,
 				43C34677127B22AD00FC339B /* boinc_lib */,
 				43C34632127B212200FC339B /* qcn_graphics */,
@@ -593,6 +594,7 @@
 				43C346BE127B23D400FC339B /* QMachOImageList.c in Build Sources */,
 				43C346BF127B23D400FC339B /* QSymbols.c in Build Sources */,
 				43C346C0127B23D400FC339B /* QTaskMemory.c in Build Sources */,
+				4329D0BC127CFDE400C1F3C2 /* myframe.cpp in Build Sources */,
 			);
 			name = "Build Sources";
 			runOnlyForDeploymentPostprocessing = 0;

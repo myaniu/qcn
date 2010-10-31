@@ -10,7 +10,10 @@
 #ifndef _QCNLIVE_H_
 #define _QCNLIVE_H_
 
+#include <QApplication>
 #include <QMainWindow>
+#include <QSplashScreen>
+#include <QTimer>
 
 #ifndef _WIN32
 #include <unistd.h>
@@ -19,7 +22,6 @@
 #include "main.h"
 #include "qcn_graphics.h"
 #include "qcn_curl.h"
-#include "myglpane.h"
 #include "myframe.h"
 #include "qcnlive_define.h"
 
@@ -33,54 +35,11 @@ class QSlider;
 QT_END_NAMESPACE
 class GLWidget;
 
-class MainWindow : public QMainWindow
-{
-    Q_OBJECT
-	
-public:
-    MainWindow();
-	
-	private slots:
-    //void renderIntoPixmap();
-    //void grabFrameBuffer();
-    //void clearPixmap();
-    void about();
-	
-private:
-    void createActions();
-    void createMenus();
-    QSlider* createSlider(const char *changedSignal, const char *setterSlot);
-    //void setPixmap(const QPixmap &pixmap);
-    QSize getSize();
-	
-    QWidget* centralWidget;
-    QScrollArea* glWidgetArea;
-    //QScrollArea* pixmapLabelArea;
-    GLWidget* glWidget;
-    QLabel* pixmapLabel;
-	//QStatusBar* pStatusBar;
-	QToolBar* pToolBar;
-	QSlider* pTimeSlider;
-    //QSlider *xSlider;
-    //QSlider *ySlider;
-    //QSlider *zSlider;
-	
-    QMenu *fileMenu;
-    QMenu *helpMenu;
-    //QAction *grabFrameBufferAct;
-    //QAction *renderIntoPixmapAct;
-    //QAction *clearPixmapAct;
-    QAction *exitAct;
-    QAction *aboutAct;
-    //QAction *aboutQtAct;
-};
-
-
 class MyApp; // defined below
 class MyAppTimer; // defined below
 
 // definition for the main app
-class MyApp: public wxApp
+class MyApp: public QApplication
 {
   private:
     virtual bool OnInit();
@@ -88,18 +47,23 @@ class MyApp: public wxApp
 
     MyFrame* frame;
 	MyAppTimer* myapptimer;
+	
+	/*
 #if wxUSE_LIBPNG
 	wxPNGHandler* myPNGHandler;
 #endif
 #if wxUSE_LIBJPEG
 	wxJPEGHandler* myJPEGHandler;
 #endif
+	*/
 
-    wxRect myRect;            // apps screen coordinates
+    QRect myRect;            // apps screen coordinates
 
   public:
+	MyApp(int& argc, char** argv)  : QApplication(argc, argv) {};
+	
     //void SetRect(const wxSize& newsize, const wxPoint& newposition);
-    void SetRect(const wxRect& rect);
+    void SetRect(const QRect& rect);
     void GetLatestQuakeList();
 
     bool get_qcnlive_prefs();
@@ -112,11 +76,11 @@ class MyApp: public wxApp
 	bool KillMainThread();
 	bool StartMainThread();
 	
-    wxSplashScreen* m_psplash;  // the apps splash screen
+    QSplashScreen* m_psplash;  // the apps splash screen
 };
 
 // this time is called every hour to get the earthquake list
-class MyAppTimer : public wxTimer
+class MyAppTimer : public QTimer
 {
    public:
       MyAppTimer(MyApp* papp) { pMyApp = papp; };

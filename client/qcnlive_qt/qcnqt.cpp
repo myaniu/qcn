@@ -14,13 +14,11 @@
 #include "icons32.h"
 //#include "icons.h"
 
-#include <QApplication>
-
 // main program for Qt window
 int main(int argc, char *argv[])
 {
-    QApplication app(argc, argv);
-    MainWindow mainWin;
+    MyApp app(argc, argv);
+	MyFrame mainWin(QRect(0, 0, 640, 480), &app);
     mainWin.show();
     return app.exec();
 }
@@ -145,10 +143,10 @@ bool MyApp::get_qcnlive_prefs()
     memset(strRead, 0x00, _MAX_PATH);
 	
     // basic defaults
-    myRect.x      =  MY_RECT_DEFAULT_POS_X;
-    myRect.y      =  MY_RECT_DEFAULT_POS_Y;
-    myRect.width  =  MY_RECT_DEFAULT_WIDTH;
-    myRect.height =  MY_RECT_DEFAULT_HEIGHT;
+    myRect.setX(MY_RECT_DEFAULT_POS_X);
+    myRect.setY(MY_RECT_DEFAULT_POS_Y);
+    myRect.setWidth(MY_RECT_DEFAULT_WIDTH);
+    myRect.setHeight(MY_RECT_DEFAULT_HEIGHT);
 
     sm->dMyLatitude = NO_LAT;
     sm->dMyLongitude = NO_LNG; 
@@ -171,22 +169,37 @@ bool MyApp::get_qcnlive_prefs()
 
     // get the current screen dimensions so we can reset to a sensible size
     // in case they are at a lower resolution now than when they saved in the past etc
-    wxSize wxsize = ::wxGetDisplaySize();
+    QSize qsize(this->desktop()->size());
 
     // parse the settings, but default to sensible sizes in case they don't make sense
     char strParse[16];  // make the tag from the define which don't have the <>
+	int iTemp = -1;
     sprintf(strParse, "<%s>", XML_X);
-    if (!parse_int(strRead, strParse, myRect.x) || myRect.x<0)
-        myRect.x =  MY_RECT_DEFAULT_POS_X;
+    if (parse_int(strRead, strParse, iTemp) && iTemp >= 0)
+		myRect.setX(iTemp);
+	else
+        myRect.setX(MY_RECT_DEFAULT_POS_X);
+	
+	iTemp = -1;
     sprintf(strParse, "<%s>", XML_Y);
-    if (!parse_int(strRead, strParse, myRect.y) || myRect.y<0)
-        myRect.y =  MY_RECT_DEFAULT_POS_Y;
+    if (parse_int(strRead, strParse, iTemp) && iTemp >= 0)
+		myRect.setY(iTemp);
+	else
+        myRect.setY(MY_RECT_DEFAULT_POS_Y);
+
+	iTemp = -1;
     sprintf(strParse, "<%s>", XML_WIDTH);
-    if (!parse_int(strRead, strParse, myRect.width) || myRect.width<100 || myRect.width > wxsize.GetWidth())
-        myRect.width =  MY_RECT_DEFAULT_WIDTH;
-    sprintf(strParse, "<%s>", XML_HEIGHT);
-    if (!parse_int(strRead, strParse, myRect.height) || myRect.height<100 || myRect.height > wxsize.GetHeight())
-        myRect.height =  MY_RECT_DEFAULT_HEIGHT;
+    if (parse_int(strRead, strParse, iTemp) && iTemp >= 100 && iTemp <= qsize.width())
+		myRect.setWidth(iTemp);
+	else
+        myRect.setWidth(MY_RECT_DEFAULT_WIDTH);
+    
+	iTemp = -1;
+	sprintf(strParse, "<%s>", XML_HEIGHT);
+    if (parse_int(strRead, strParse, iTemp) && iTemp >= 100 && iTemp <= qsize.height())
+		myRect.setHeight(iTemp);
+	else
+        myRect.setHeight(MY_RECT_DEFAULT_HEIGHT);
 
     // get preferred sensor if any
     sprintf(strParse, "<%s>", XML_SENSOR);

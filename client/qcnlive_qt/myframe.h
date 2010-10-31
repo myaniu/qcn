@@ -1,15 +1,62 @@
 #ifndef _MYFRAME_H_
 #define _MYFRAME_H_
 
-#include "qcnwx.h"
+#include "qcnqt.h"
+#include "glwidget.h"
 
-class MyGLPane;
+#include <QApplication>
+#include <QMainWindow>
+#include <QSplashScreen>
+#include <QTimer>
+#include <QSlider>
+#include <QScrollArea>
+#include <QLabel>
+
 class MyApp;
+class GLWidget;
 
-class MyFrame : public wxFrame
+
+class MyFrame : public QMainWindow
 {
-   public:
-    MyFrame(const wxRect& rect, MyApp* papp);
+
+    Q_OBJECT
+	
+private:
+    void createActions();
+    void createMenus();
+    QSlider* createSlider(const char *changedSignal, const char *setterSlot);
+    //void setPixmap(const QPixmap &pixmap);
+    QSize getSize();
+	
+    QWidget* centralWidget;
+    QScrollArea* glWidgetArea;
+    //QScrollArea* pixmapLabelArea;
+    GLWidget* glWidget;
+    QLabel* pixmapLabel;
+	//QStatusBar* pStatusBar;
+	QToolBar* pToolBar;
+	QSlider* pTimeSlider;
+    //QSlider *xSlider;
+    //QSlider *ySlider;
+    //QSlider *zSlider;
+	
+    QMenu *fileMenu;
+    QMenu *helpMenu;
+    //QAction *grabFrameBufferAct;
+    //QAction *renderIntoPixmapAct;
+    //QAction *clearPixmapAct;
+    QAction *exitAct;
+    QAction *aboutAct;
+    //QAction *aboutQtAct;
+	
+public:
+	MyFrame(const QRect& rect, MyApp* papp);
+		
+	private slots:
+    //void renderIntoPixmap();
+    //void grabFrameBuffer();
+    //void clearPixmap();
+    void about();
 
     void ToolBarView();
     void Toggle(const int id, const bool bOn  = true, const bool bView = false);
@@ -26,20 +73,15 @@ class MyFrame : public wxFrame
 	void ToggleStartStop(bool bStart);
 
     MyApp* pMyApp;
-    MyGLPane* glPane;
-    wxBoxSizer* sizer;
-    wxToolBar* toolBar;
-    wxScrollBar* scrollBar2D;
-    //wxButtonBar* toolBar;
-    wxStatusBar* statusBar;
+    //MyGLPane* glPane;
 
   private:
 
-        wxMenu *menuFile;
-        wxMenu *menuView;
-        wxMenu *menuOptions;
-        wxMenu *menuHelp;
-        wxMenuBar* menuBar;
+        QMenu *menuFile;
+        QMenu *menuView;
+        QMenu *menuOptions;
+        QMenu *menuHelp;
+        QMenuBar* menuBar;
  
     bool bEarthDay;
     bool bEarthRotate;
@@ -48,9 +90,10 @@ class MyFrame : public wxFrame
         bool bSensorAbsolute3D;
 
         long m_view;  // holds the current enum ID above
-        wxToolBarToolBase* m_ptbBase;
+     QToolBar* m_ptbBase;
 
-    void OnCloseWindow(wxCloseEvent& wxc);
+	/*
+    void closeEvent(QCloseEvent* pqc);
     void OnSize(wxSizeEvent& evt);
 
     // menu events
@@ -64,10 +107,10 @@ class MyFrame : public wxFrame
     void OnActionHelp(wxCommandEvent& evt);
     void OnScreenshot(wxCommandEvent& vet);
     void OnLogoChange(wxCommandEvent& vet);
-
+	*/
+	
     void RemoveCurrentTools();
 
-    DECLARE_EVENT_TABLE()
 };
 
 #endif // _MYFRAME_H_
