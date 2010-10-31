@@ -216,7 +216,7 @@
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>4329D149127D08E800C1F3C2</string>
+						<string>4329D18C127D0EEC00C1F3C2</string>
 						<key>history</key>
 						<array>
 							<string>4329D0D3127D001500C1F3C2</string>
@@ -235,7 +235,47 @@
 				<key>PBXModuleWindowStatusBarHidden2</key>
 				<false/>
 				<key>RubberWindowFrame</key>
-				<string>221 145 1558 1021 0 0 1920 1178 </string>
+				<string>215 142 1558 1021 0 0 1920 1178 </string>
+			</dict>
+		</dict>
+		<dict>
+			<key>Content</key>
+			<dict>
+				<key>PBXProjectModuleGUID</key>
+				<string>4329D160127D0ABC00C1F3C2</string>
+				<key>PBXProjectModuleLabel</key>
+				<string>qcnqt.h</string>
+				<key>PBXSplitModuleInNavigatorKey</key>
+				<dict>
+					<key>Split0</key>
+					<dict>
+						<key>PBXProjectModuleGUID</key>
+						<string>4329D161127D0ABC00C1F3C2</string>
+						<key>PBXProjectModuleLabel</key>
+						<string>qcnqt.h</string>
+						<key>_historyCapacity</key>
+						<integer>0</integer>
+						<key>bookmark</key>
+						<string>4329D18D127D0EEC00C1F3C2</string>
+						<key>history</key>
+						<array>
+							<string>4329D151127D09F300C1F3C2</string>
+						</array>
+					</dict>
+					<key>SplitCount</key>
+					<string>1</string>
+				</dict>
+				<key>StatusBarVisibility</key>
+				<true/>
+			</dict>
+			<key>Geometry</key>
+			<dict>
+				<key>Frame</key>
+				<string>{{0, 20}, {1468, 946}}</string>
+				<key>PBXModuleWindowStatusBarHidden2</key>
+				<false/>
+				<key>RubberWindowFrame</key>
+				<string>127 178 1468 987 0 0 1920 1178 </string>
 			</dict>
 		</dict>
 	</array>
@@ -270,6 +310,8 @@
 			<key>Layout</key>
 			<array>
 				<dict>
+					<key>BecomeActive</key>
+					<true/>
 					<key>ContentConfiguration</key>
 					<dict>
 						<key>PBXBottomSmartGroupGIDs</key>
@@ -349,8 +391,6 @@
 					<key>Dock</key>
 					<array>
 						<dict>
-							<key>BecomeActive</key>
-							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
@@ -368,7 +408,7 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>4329D148127D08E800C1F3C2</string>
+										<string>4329D18B127D0EEC00C1F3C2</string>
 										<key>history</key>
 										<array>
 											<string>431EE1D0127A5B05004771DF</string>
@@ -579,9 +619,10 @@
 	<key>WindowOrderList</key>
 	<array>
 		<string>1CD10A99069EF8BA00B06720</string>
+		<string>4329D160127D0ABC00C1F3C2</string>
+		<string>430796EA127A40B7009D4017</string>
 		<string>43275E70127B275600FCC2CB</string>
 		<string>/Users/carlgt1/projects/qcn/client/qcnlive_qt/qcnlive.xcodeproj</string>
-		<string>430796EA127A40B7009D4017</string>
 	</array>
 	<key>WindowString</key>
 	<string>53 178 1363 994 0 0 1920 1178 </string>
@@ -605,7 +646,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>1CD0528F0623707200166675</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>glwidget.cpp</string>
+								<string>qitemdelegate.h</string>
 								<key>StatusBarVisibility</key>
 								<true/>
 							</dict>
@@ -614,7 +655,7 @@
 								<key>Frame</key>
 								<string>{{0, 0}, {937, 283}}</string>
 								<key>RubberWindowFrame</key>
-								<string>973 244 937 662 0 0 1920 1178 </string>
+								<string>969 235 937 662 0 0 1920 1178 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
@@ -640,7 +681,7 @@
 								<key>Frame</key>
 								<string>{{0, 288}, {937, 333}}</string>
 								<key>RubberWindowFrame</key>
-								<string>973 244 937 662 0 0 1920 1178 </string>
+								<string>969 235 937 662 0 0 1920 1178 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXBuildResultsModule</string>
@@ -672,7 +713,7 @@
 			<key>WindowContentMinSize</key>
 			<string>486 300</string>
 			<key>WindowString</key>
-			<string>973 244 937 662 0 0 1920 1178 </string>
+			<string>969 235 937 662 0 0 1920 1178 </string>
 			<key>WindowToolGUID</key>
 			<string>430796EA127A40B7009D4017</string>
 			<key>WindowToolIsVisible</key>

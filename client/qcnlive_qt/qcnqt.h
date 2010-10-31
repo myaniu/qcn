@@ -10,10 +10,27 @@
 #ifndef _QCNLIVE_H_
 #define _QCNLIVE_H_
 
+#include <QtGui>
+#include <QtOpenGL>
+
+/*
 #include <QApplication>
 #include <QMainWindow>
 #include <QSplashScreen>
 #include <QTimer>
+
+QT_BEGIN_NAMESPACE
+class QApplication
+class QMainWindow
+class QSplashScreen
+class QTimer
+class QAction
+class QLabel
+class QMenu
+class QScrollArea
+class QSlider
+QT_END_NAMESPACE
+*/
 
 #ifndef _WIN32
 #include <unistd.h>
@@ -25,18 +42,9 @@
 #include "myframe.h"
 #include "qcnlive_define.h"
 
-
-QT_BEGIN_NAMESPACE
-class QAction;
-class QLabel;
-class QMenu;
-class QScrollArea;
-class QSlider;
-QT_END_NAMESPACE
 class GLWidget;
-
-class MyApp; // defined below
-class MyAppTimer; // defined below
+class MyApp;
+class MyAppTimer;
 
 // definition for the main app
 class MyApp: public QApplication
@@ -45,7 +53,7 @@ class MyApp: public QApplication
     virtual bool OnInit();
     virtual int OnExit();
 
-    MyFrame* frame;
+    //MyFrame* frame;
 	MyAppTimer* myapptimer;
 	
 	/*
@@ -89,5 +97,6 @@ class MyAppTimer : public QTimer
       MyApp* pMyApp;
 	  void Notify();
 };
+
 
 #endif // ifndef _QCNLIVE_H_

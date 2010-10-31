@@ -4,10 +4,6 @@
 #include "qcn_graphics.h"
 #include "qcn_curl.h"
 
-
-#include <QtGui>
-#include <QtOpenGL>
-
 #include "glwidget.h"
 #include "qcnqt.h"
 
@@ -42,10 +38,12 @@ int main(int argc, char *argv[])
 // the next two will be used in the main thread, but declare here (outside the thread)
 CQCNShMem* volatile sm = NULL;
 
+/*
 void MyAppTimer::Notify() 
 { // get the earthquake list every hour
     if (pMyApp) pMyApp->GetLatestQuakeList();
 }
+*/
 
 void MyApp::SetPath(const char* strArgv)
 {
@@ -279,14 +277,10 @@ bool MyApp::set_qcnlive_prefs()
 				"<%s>%d</%s>\n"
 				"<%s>%d</%s>\n"
                         ,
-                    XML_X, myRect.x, XML_X,
-                    XML_Y, myRect.y, XML_Y, 
-                    XML_WIDTH, myRect.width, XML_WIDTH, 
-#ifdef __WXMAC__  // bizarre Mac problem -- seems to add 39 to the height from the GetRect(), probably a toolbar fudge that they don't report elsewhere?
-                    XML_HEIGHT, myRect.height - 39, XML_HEIGHT,
-#else
-                    XML_HEIGHT, myRect.height, XML_HEIGHT,
-#endif
+                    XML_X, myRect.x(), XML_X,
+                    XML_Y, myRect.y(), XML_Y, 
+                    XML_WIDTH, myRect.width(), XML_WIDTH, 
+                    XML_HEIGHT, myRect.height(), XML_HEIGHT,
                     XML_LATITUDE, sm->dMyLatitude, XML_LATITUDE,
                     XML_LONGITUDE, sm->dMyLongitude, XML_LONGITUDE,
                     XML_STATION, sm->strMyStation, XML_STATION,
@@ -301,19 +295,17 @@ bool MyApp::set_qcnlive_prefs()
     return true;
 }
 
-IMPLEMENT_APP(MyApp) 
-
 void MyApp::KillSplashScreen()
 {  // used in a wx.CallAfter from the initial myglpane Render() call so that we can get rid of the splash screen just as soon 
    // as the final init (the graphics files loaded etc) is completed!
    if (m_psplash) {
-	   m_psplash->Close();
+	   //m_psplash->Close();
 	   delete m_psplash;
 	   m_psplash = NULL;
    }
 }
 	
-void MyApp::SetRect(const wxRect& rect)
+void MyApp::SetRect(const QRect& rect)
 {
    myRect = rect;
    //myRect.SetSize(newsize);
@@ -338,14 +330,15 @@ bool MyApp::OnInit()
     }
     strcpy(sm->dataBOINC.wu_name, "qcnlive");
 
-    myRect.x      = MY_RECT_DEFAULT_POS_X;
-    myRect.y      = MY_RECT_DEFAULT_POS_Y;
-    myRect.width  = MY_RECT_DEFAULT_WIDTH;
-    myRect.height = MY_RECT_DEFAULT_HEIGHT;
+    myRect.setX(MY_RECT_DEFAULT_POS_X);
+    myRect.setY(MY_RECT_DEFAULT_POS_Y);
+    myRect.setWidth(MY_RECT_DEFAULT_WIDTH);
+    myRect.setHeight(MY_RECT_DEFAULT_HEIGHT);
 
+	/*
     frame = new MyFrame(myRect, this);
     if (!frame) return false;  // big error if can't make the window frame!
-
+	
 #if wxUSE_LIBJPEG
     myJPEGHandler = new wxJPEGHandler();
     if (myJPEGHandler) 
@@ -370,6 +363,7 @@ bool MyApp::OnInit()
 #endif
     }
 #endif // wxUSE_LIBPNG
+	 */
 
 #ifdef _WIN32   // load the icons in init/qcnwin.ico, not we're in init/ dir by now
 	if (boinc_file_exists("qcnwin.ico")) {

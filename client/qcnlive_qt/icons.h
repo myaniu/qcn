@@ -1,3 +1,6 @@
+#ifndef _ICONS_H_
+#define _ICONS_H_
+
 /* XPM */
 static char *xpm_icon_absolute[] = {
 /* columns rows colors chars-per-pixel */
@@ -6072,3 +6075,7 @@ static char * xpm_vert_zoom_out[] = {
 "                                                                                                                                ",
 "                                                                                                                                ",
 "                                                                                                                                "};
+
+
+
+#endif // _ICONS_H_
