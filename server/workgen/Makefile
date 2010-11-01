@@ -1,16 +1,17 @@
-CFLAGS = -DQCN_SERVER -g -Wall
+CFLAGS = -g -Wall -DQCN_SERVER
 CC = g++
 BOINCDIR = ../../../boinc
 MYSQLDIR = /usr/local/mysql
+
 SSLDIR = /usr/local/ssl
 #QCNDIR = /var/www/boinc/continual
 QCNDIR = /var/www/boinc/sensor
 CONTDIR = /var/www/boinc/continual
 
-# CMC note - ssl lib used seems to be in /usr/kerberos/lib64, not the one in /usr/local/ssl !
-LIBS = -L$(BOINCDIR)/lib -lboinc \
-   -L$(MYSQLDIR)/lib -lmysqlclient \
-   -L/usr/kerberos/lib64 -lidn -lssl -lcrypto -lldap -lrt -lcrypto -ldl -lz
+LIBS = -L$(MYSQLDIR)/lib -lmysqlclient_r \
+  -L$(BOINCDIR)/lib -lboinc \
+  -L$(SSLDIR)/lib64 -lcrypto -lssl \
+  -L/usr/local/lib -lcurl
 
 INCLUDES = -I$(SSLDIR)/include -I$(BOINCDIR) -I$(BOINCDIR)/lib -I$(BOINCDIR)/tools -I$(BOINCDIR)/db \
            -I$(MYSQLDIR)/include -I$(BOINCDIR)/sched

@@ -25,7 +25,7 @@ int main(int argc, char** argv) {
     char path[1024];
 
     if (argc!=4) {
-       fprintf(stdout, "Usage: ./workgen wu_prefix num_wu appname\n"
+       fprintf(stdout, "Usage: bin/qcn_workgen wu_prefix num_wu appname\n"
          "  where wu_template is the prefix for each workunit (e.g. 'qcna')\n"
          "  and num_wu is the total number of workunits to create\n"
          "  and appname is the BOINC app name (e.g. 'qcnalpha')\n"
