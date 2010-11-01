@@ -5,6 +5,7 @@ MYSQLDIR = /usr/local/mysql
 SSLDIR = /usr/local/ssl
 #QCNDIR = /var/www/boinc/continual
 QCNDIR = /var/www/boinc/sensor
+CONTDIR = /var/www/boinc/continual
 
 # CMC note - ssl lib used seems to be in /usr/kerberos/lib64, not the one in /usr/local/ssl !
 LIBS = -L$(BOINCDIR)/lib -lboinc \
@@ -30,6 +31,8 @@ qcn_workgen:
 	$(CC) $(CFLAGS) $(INCLUDES) $(SRCS) $(LIBS) $(MAIN) -o qcn_workgen
 	cp -rf templates/ $(QCNDIR)/
 	mv qcn_workgen $(QCNDIR)/bin/
+	cp -rf templates/ $(CONTDIR)/
+	mv qcn_workgen $(CONTDIR)/bin/
 
 clean:
 	rm -f *.o core *~ qcn_workgen
