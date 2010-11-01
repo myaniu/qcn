@@ -30,7 +30,7 @@ all: qcn_workgen
 qcn_workgen: 
 	$(CC) $(CFLAGS) $(INCLUDES) $(SRCS) $(LIBS) $(MAIN) -o qcn_workgen
 	cp -rf templates/ $(QCNDIR)/
-	mv qcn_workgen $(QCNDIR)/bin/
+	cp qcn_workgen $(QCNDIR)/bin/
 	cp -rf templates/ $(CONTDIR)/
 	mv qcn_workgen $(CONTDIR)/bin/
 
