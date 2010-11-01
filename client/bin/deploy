@@ -1,12 +1,8 @@
 #!/bin/bash
 if (test "$1" = "" || test "$2" = "") then
-   echo "Usage:  ./deploy VERSION_NUMBER_NCI VERSION_NUMBER_REGULAR [continual]"
+   echo "Usage:  ./deploy VERSION_NUMBER_NCI VERSION_NUMBER_REGULAR"
    echo "NCI should usually be .01 higher than regular version number"
    exit 1
-fi
-cont=''
-if (test "$3" = "continual" || test "$4" = "continual") then
-  cont='continual'
 fi
 
 print_common_files ()
@@ -42,7 +38,6 @@ if ( test "`uname -s`" = "Darwin" ) then
   suffixp='powerpc-apple-darwin'
   suffixi='i686-apple-darwin'
   suffixs='x86_64-apple-darwin'
-  if ( test "$cont" = "" ) then
     rm -f qcnlive-mac.zip
     zip -r qcnlive-mac.zip QCNLive.app \
        init/$ntpdv $uplstring \
@@ -53,7 +48,6 @@ if ( test "`uname -s`" = "Darwin" ) then
     /Developer/usr/bin/packagemaker --doc qcnusb.pmdoc --out ../../bin/qcnusb-mac.mpkg
     cd ../../bin/
     zip -r qcnusb-mac.zip qcnusb-mac.mpkg -x@exclude.lst
-  fi
   lipo -extract i386 qcn.app/Contents/MacOS/qcn -output "qcn$cont"_$1_$suffixi$ncisuffix
   lipo -extract i386 qcn.app/Contents/MacOS/qcn -output "qcn$cont"_$2_$suffixi
   lipo -extract ppc qcn.app/Contents/MacOS/qcn -output "qcn$cont"_$1_$suffixp$ncisuffix
@@ -75,15 +69,13 @@ appspathfive="qcn$cont"_$1_$suffixs$ncisuffix
 appspathsix="qcn$cont"_$2_$suffixs
 
 pathpre='/var/www/boinc/sensor/apps/qcnsensor'
-if ( test "$cont" = "continual" ) then
-  pathpre='/var/www/boinc/continual/apps/qcncontinual'
-fi
+pathprecont='/var/www/boinc/continual/apps/qcncontinual'
 
 rm -f qcnsftp.up
-if ( test "$cont" = "" ) then
-  echo chdir /var/www/boinc/sensor/download >> qcnsftp.up
-  echo put \*.zip >> qcnsftp.up
-fi
+echo chdir /var/www/boinc/sensor/download >> qcnsftp.up
+echo put \*.zip >> qcnsftp.up
+
+#regular QCN/BOINC
 echo chdir $pathpre >> qcnsftp.up
 echo -mkdir $appspathone >> qcnsftp.up
 echo chdir $appspathone >> qcnsftp.up
@@ -126,6 +118,50 @@ echo put "qcn$cont"_$2_$suffixs >> qcnsftp.up
 echo put graphics_app=qcn_graphics_$2_$suffixs >> qcnsftp.up
 print_common_files $ntpdv
 
+#continual QCN/BOINC
+echo chdir $pathprecont >> qcnsftp.up
+echo -mkdir $appspathone >> qcnsftp.up
+echo chdir $appspathone >> qcnsftp.up
+echo put "qcn$cont"_$1_$suffixi$ncisuffix >> qcnsftp.up
+echo put graphics_app=qcn_graphics_$1_$suffixi >> qcnsftp.up
+print_common_files $ntpdv
+
+echo chdir $pathprecont >> qcnsftp.up
+echo -mkdir $appspathtwo >> qcnsftp.up
+echo chdir $appspathtwo >> qcnsftp.up
+echo put "qcn$cont"_$2_$suffixi >> qcnsftp.up
+echo put graphics_app=qcn_graphics_$2_$suffixi >> qcnsftp.up
+print_common_files $ntpdv
+
+echo chdir $pathprecont >> qcnsftp.up
+echo -mkdir $appspaththree >> qcnsftp.up
+echo chdir $appspaththree >> qcnsftp.up
+echo put "qcn$cont"_$1_$suffixp$ncisuffix >> qcnsftp.up
+echo put graphics_app=qcn_graphics_$1_$suffixp >> qcnsftp.up
+print_common_files $ntpdv
+
+echo chdir $pathprecont >> qcnsftp.up
+echo -mkdir $appspathfour >> qcnsftp.up
+echo chdir $appspathfour >> qcnsftp.up
+echo put "qcn$cont"_$2_$suffixp >> qcnsftp.up
+echo put graphics_app=qcn_graphics_$2_$suffixp >> qcnsftp.up
+print_common_files $ntpdv
+
+echo chdir $pathprecont >> qcnsftp.up
+echo -mkdir $appspathfive >> qcnsftp.up
+echo chdir $appspathfive >> qcnsftp.up
+echo put "qcn$cont"_$1_$suffixs$ncisuffix >> qcnsftp.up
+echo put graphics_app=qcn_graphics_$1_$suffixs >> qcnsftp.up
+print_common_files $ntpdv
+
+echo chdir $pathprecont >> qcnsftp.up
+echo -mkdir $appspathsix >> qcnsftp.up
+echo chdir $appspathsix >> qcnsftp.up
+echo put "qcn$cont"_$2_$suffixs >> qcnsftp.up
+echo put graphics_app=qcn_graphics_$2_$suffixs >> qcnsftp.up
+print_common_files $ntpdv
+
+
 echo exit >> qcnsftp.up
 sftp -b qcnsftp.up carlgt1@qcn-web.stanford.edu
 
@@ -153,17 +189,15 @@ else
   fi
 
   pathpre='/var/www/boinc/sensor/apps/qcnsensor'
-  if ( test "$cont" = "continual" ) then
-    pathpre='/var/www/boinc/continual/apps/qcncontinual'
-  fi
+  pathprecont='/var/www/boinc/continual/apps/qcncontinual'
 
   rm -f qcnsftp.up
 
   # copy qcnlive to download dir
-  if ( test "$cont" = "" ) then
     echo chdir /var/www/boinc/sensor/download >> qcnsftp.up
     echo put qcnlive-linux.zip >> qcnsftp.up
-  fi
+
+  #regular QCN/BOINC
   # now copy apps up
   echo chdir $pathpre >> qcnsftp.up
   echo -mkdir $appspathone >> qcnsftp.up
@@ -178,6 +212,22 @@ else
   echo put $appspathtwo >> qcnsftp.up
   echo put graphics_app=qcn_graphics_$2_$suffix >> qcnsftp.up
   print_common_files $ntpdv
+
+  #continual QCN/BOINC
+  echo chdir $pathprecont >> qcnsftp.up
+  echo -mkdir $appspathone >> qcnsftp.up
+  echo chdir $appspathone >> qcnsftp.up
+  echo put $appspathone >> qcnsftp.up
+  echo put graphics_app=qcn_graphics_$1_$suffix >> qcnsftp.up
+  print_common_files $ntpdv
+
+  echo chdir ../ >> qcnsftp.up
+  echo -mkdir $appspathtwo >> qcnsftp.up
+  echo chdir $appspathtwo >> qcnsftp.up
+  echo put $appspathtwo >> qcnsftp.up
+  echo put graphics_app=qcn_graphics_$2_$suffix >> qcnsftp.up
+  print_common_files $ntpdv
+
   echo exit >> qcnsftp.up
 
   sftp -b qcnsftp.up carlgt1@qcn-web.stanford.edu
