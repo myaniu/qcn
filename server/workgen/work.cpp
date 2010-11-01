@@ -15,10 +15,12 @@ int main(int argc, char** argv) {
     DB_WORKUNIT wu;
     char strWU[64];
     char strApp[64];
+    memset(strApp, 0x00, 64);
+    memset(strWU, 0x00, 64);
     long int lNumWU;
     char* wu_template = NULL;
     //char* infiles[3] = {"qcn_t1", "qcn_t2", "qcn_t3"};
-    char* infileA[1] = {"qcn_t1"};
+    char* infileA[1] = {"qcn_t5"};
     char* infileB[1] = {"qcn_t2"};
     char* infileC[1] = {"qcn_t3"};
     char* infileD[1] = {"qcn_t4"};
@@ -29,6 +31,7 @@ int main(int argc, char** argv) {
          "  where wu_template is the prefix for each workunit (e.g. 'qcna')\n"
          "  and num_wu is the total number of workunits to create\n"
          "  and appname is the BOINC app name (e.g. 'qcnalpha')\n"
+         "  (usually run in the application boinc directory i.e. cb to /var/www/boinc/sensor  )\n"
        );
        fflush(stdout);
        return 1;
@@ -39,19 +42,20 @@ int main(int argc, char** argv) {
     strcpy(strApp, argv[3]);
 
     SCHED_CONFIG config;
-    config.parse_file();
+    if (config.parse_file("./")) {
+     fprintf(stdout, "Cannot parse config file!\n");
+     return 2;
+    }
 
     boinc_db.open(config.db_name, config.db_host, config.db_user, config.db_passwd);
+
+    fprintf(stdout, "Creating workunits for app '%s' in database '%s'\n", strApp, config.db_name);
+
     char strLookup[64];
     sprintf(strLookup, "where name='%s'", strApp);
-    app.lookup(strLookup);
-    if (!app.id) {
+    if (app.lookup(strLookup) || !app.get_id()) {
        fprintf(stdout, "Error -- app ID for %s not found\n\n"
-         "Usage: ./workgen wu_prefix num_wu appname\n"
-         "  where wu_template is the prefix for each workunit\n"
-         "  and num_wu is the total number of workunits to create\n"
-         "  and appname is the BOINC app name (i.e. 'qcnalpha')\n",
-         strApp
+         , strApp
        );
        fflush(stdout);
        return 2;
@@ -67,7 +71,7 @@ int main(int argc, char** argv) {
     fwrite(strWrite, 1+strlen(strWrite), sizeof(char), f);
     fclose(f);
   */
-
+/*
     float fSigCutoff = 3.0f;
 
     sprintf(path, "%s/%s", config.download_dir, infileA[0]);
@@ -93,7 +97,12 @@ int main(int argc, char** argv) {
     sprintf(strWrite, "<fsig>%.2f</fsig>\n<fsta>%.2f</fsta>\n", fSigCutoff, 3.00f);
     fwrite(strWrite, 1+strlen(strWrite), sizeof(char), f);
     fclose(f);
-
+*/
+    sprintf(path, "%s/%s", config.download_dir, infileA[0]);
+    FILE* f = fopen(path, "w");
+    sprintf(strWrite, "<fsig></fsig>\n<fsta></fsta>\n");
+    fwrite(strWrite, 1+strlen(strWrite), sizeof(char), f);
+    fclose(f);
 
     // read the template
     if (!strcmp(strApp, APP_CONTINUAL))
@@ -106,7 +115,7 @@ int main(int argc, char** argv) {
 
     for (long int i = 0L; i < lNumWU; i++)  {
        wu.clear();     // zeroes all fields
-
+      /*
        switch(i%4) {
           case 0:
             fShortTermAvg = 0.0f;
@@ -125,6 +134,8 @@ int main(int argc, char** argv) {
             inFileUse = infileD;
             break;
        }
+       */
+       inFileUse = infileA;
 
     if (!strcmp(strApp, APP_CONTINUAL))
        sprintf(wu.name, "continual_%s_%06ld", strWU, i);

@@ -4,7 +4,7 @@ BOINCDIR = ../../../boinc
 MYSQLDIR = /usr/local/mysql
 
 MYSQL_CFLAGS = -I$(MYSQLDIR)/include  -DUNIV_LINUX
-MYSQL_LIBS = -rdynamic -L$(MYSQLDIR)/lib -lmysqlclient -lz -lrt -lcrypt -lnsl -lm -lmygcc
+MYSQL_LIBS = -rdynamic -L$(MYSQLDIR)/lib -lmysqlclient_r -lz -lrt -lcrypt -lnsl -lm -lmygcc
 
 SSL_CFLAGS = -I/usr/kerberos/include
 SSL_CXXFLAGS = -I/usr/kerberos/include
