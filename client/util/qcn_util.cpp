@@ -247,8 +247,8 @@ void string_tidy(char* strIn, int length)
 		for (i = 0; i < iSec; i++)  {
 			if (lCtr >= MAXI) lCtr = 1;
 			// look for max value past second
-			dXY = sqrt(QCN_SQR(sm->x0[lCtr]) + QCN_SQR(sm->y0[lCtr]));
-			dZ = fabs(sm->z0[lCtr]);
+			dXY = sqrt(QCN_SQR(sm->x0[lCtr]-sm->xa[lCtr]) + QCN_SQR(sm->y0[lCtr]-sm->ya[lCtr]));
+			dZ = fabs(sqrt(QCN_SQR(sm->z0[lCtr]-sm->za[lCtr])));
 			if (dXY > pfmax_xy[0]) pfmax_xy[0] = dXY;
 			if (dZ > pfmax_z[0])   pfmax_z[0] = dZ;
 			lCtr++;
@@ -260,8 +260,10 @@ void string_tidy(char* strIn, int length)
 				if (lCtr >= MAXI) lCtr = 1;			
 				
 				// look for max value past second
-				dXY = sqrt(QCN_SQR(sm->x0[lCtr]) + QCN_SQR(sm->y0[lCtr]));
-				dZ = fabs(sm->z0[lCtr]);
+			//	dXY = sqrt(QCN_SQR(sm->x0[lCtr]) + QCN_SQR(sm->y0[lCtr]));
+			//	dZ = fabs(sm->z0[lCtr]);
+			dXY = sqrt(QCN_SQR(sm->x0[lCtr]-sm->xa[lCtr]) + QCN_SQR(sm->y0[lCtr]-sm->ya[lCtr]));
+			dZ = fabs(sqrt(QCN_SQR(sm->z0[lCtr]-sm->za[lCtr])));
 				
 				if (i < iSec) { // within the first second after the trigger
 					if (dXY > pfmax_xy[1]) pfmax_xy[1] = dXY;
