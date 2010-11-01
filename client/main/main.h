@@ -178,7 +178,7 @@ extern int  volatile g_iQCNReturn; // qcn return code
 
   extern float g_fPerturb[MAX_PERTURB];  // define 10 vars we will perturb
 
-  extern const bool g_bContinual;
+  extern bool g_bContinual;
   extern bool g_bDemo;
   extern const bool g_bQCNLive;
   extern int  g_iContinuousCounter; // counts how many times this run has been through
