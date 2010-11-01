@@ -1,4 +1,3 @@
-#CFLAGS = -DQCN_CONTINUAL -DQCN_SERVER -g -Wall
 CFLAGS = -DQCN_SERVER -g -Wall
 CC = g++
 BOINCDIR = ../../../boinc

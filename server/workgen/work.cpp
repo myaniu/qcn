@@ -7,6 +7,9 @@
 #include "parse.h"
 #include "filesys.h"
 
+#define APP_SENSOR    "qcnsensor"
+#define APP_CONTINUAL "qcncontinual"
+
 int main(int argc, char** argv) {
     DB_APP app;
     DB_WORKUNIT wu;
@@ -93,11 +96,10 @@ int main(int argc, char** argv) {
 
 
     // read the template
-#ifdef QCN_CONTINUAL
-    read_file_malloc("templates/qcn_input_continual.xml", wu_template);
-#else
-    read_file_malloc("templates/qcn_input.xml", wu_template);
-#endif
+    if (!strcmp(strApp, APP_CONTINUAL) 
+      read_file_malloc("templates/qcn_input_continual.xml", wu_template);
+    else
+      read_file_malloc("templates/qcn_input.xml", wu_template);
 
     float fShortTermAvg = 3.0f;
     char **inFileUse = NULL;
@@ -124,11 +126,11 @@ int main(int argc, char** argv) {
             break;
        }
 
-#ifdef QCN_CONTINUAL
-       sprintf(wu.name, "continual_sc%03d_sta%03d_%06ld", (int)(fSigCutoff * 100.0f), (int)(fShortTermAvg * 100.0f), i);
-#else
-       sprintf(wu.name, "%s_sc%03d_sta%03d_%06ld", strWU, (int)(fSigCutoff * 100.0f), (int)(fShortTermAvg * 100.0f), i);
-#endif
+    if (!strcmp(strApp, APP_CONTINUAL) 
+       sprintf(wu.name, "continual_%s_%06ld", strWU, i);
+    else
+       sprintf(wu.name, "%s_%06ld", strWU, i);
+
        wu.appid = app.id;
        wu.min_quorum = 1;
        wu.target_nresults = 1;
@@ -141,16 +143,24 @@ int main(int argc, char** argv) {
        wu.rsc_disk_bound = 1e9;
        wu.delay_bound = 14*86400L;
 
+    if (!strcmp(strApp, APP_CONTINUAL) 
        create_work(
           wu,
           wu_template,
-#ifdef QCN_CONTINUAL
           "templates/qcn_output_continual.xml",
           "templates/qcn_output_continual.xml",
-#else
+          (const char**) inFileUse,
+          1,
+          config,
+          NULL,
+          NULL
+      );
+     else
+       create_work(
+          wu,
+          wu_template,
           "templates/qcn_output.xml",
           "templates/qcn_output.xml",
-#endif
           (const char**) inFileUse,
           1,
           config,
