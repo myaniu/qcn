@@ -337,11 +337,8 @@ struct FDSET_GROUP {
 #define DIR_TRIGGER       "triggers"
 #define DIR_CONTINUAL     "continual"
 
-#ifdef QCN_CONTINUAL
-  #define MAX_UPLOAD        50
-#else
-  #define MAX_UPLOAD        20
-#endif
+// 50 uploads max for continual, 20 for regular, default to 50
+#define MAX_UPLOAD        50
 
 // delete files over a month old
 #define TIME_FILE_DELETE  2592000.0f

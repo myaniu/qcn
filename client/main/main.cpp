@@ -101,11 +101,7 @@ namespace qcn_main  {
   bool g_bReadOnly = false;
 
 	// simple flag to denote continual app
-#ifdef QCN_CONTINUAL
-  const bool g_bContinual = true;
-#else
-  const bool g_bContinual = false;
-#endif
+  bool g_bContinual = false;  // default to not running in continual mode i.e. 10 minute output
 
   bool g_bDemo = false;
 	
@@ -129,9 +125,7 @@ namespace qcn_main  {
 
   vector<struct STriggerInfo> g_vectTrigger;  // a list for all the trigger info, use bTriggerLock to control access for writing
 
-#ifdef QCN_CONTINUAL
-  void checkContinualUpload(bool bForce = false);
-#endif
+void checkContinualUpload(bool bForce = false);
 
 // function to send the final trigger as the workunit is done either normal or via a crash or abort
 void sendFinalTrickle()
@@ -561,10 +555,8 @@ int qcn_main(int argc, char **argv)
 //             checkForUpload();
 //#endif
 
-#ifdef QCN_CONTINUAL
              // this is a good spot to check for file uploads
              checkContinualUpload();
-#endif
 
              // this is also a good spot to check for massive numbers of resets (time adjustments) for this workunit
              if (sm->iNumReset > MAX_NUM_RESET) { // this computer sucks, trickle up and exit workunit
@@ -662,9 +654,7 @@ done:
     // see if we have an intermediate upload
 //    checkForUpload();
     if (g_bFinished)  { // not a requested exit, we must be done this workunit
-#ifdef QCN_CONTINUAL  // this is a good spot to check for file uploads
       checkContinualUpload(true);  // note that the doMainQuit would have stopped the sensor thread and marked the final trigger which we'll now process
-#endif
       sendFinalTrickle();
       boinc_fraction_done(1.00);
       update_sharedmem();  // final call
@@ -681,9 +671,9 @@ done:
     return g_iQCNReturn;
 }
 
-#ifdef QCN_CONTINUAL
 void checkContinualUpload(bool bForce)
 {
+   if (!g_bContinual) return; // quit if not continual upload!
     // check for more than 5 files in g_strPathContinual and if so upload then delete them
         // now make sure the zip file is stored in sm->strPathTrigger + ti->strFile
         int iSlot = (int) sm->iNumUpload;
@@ -697,7 +687,7 @@ void checkContinualUpload(bool bForce)
         int iRetVal = 0;
 
         iSlot++;  // increment the upload slot counter
-        if (iSlot<1 || iSlot>MAX_UPLOAD) {  // sanity check, only zip file #'s 1 through MAX_UPLOAD (50 for QCN_CONTINUAL) reserved for intermediate uploading
+        if (iSlot<1 || iSlot>MAX_UPLOAD) {  // sanity check, only zip file #'s 1 through MAX_UPLOAD
           fprintf(stderr, "%ld - No zip slots left (%d) for upload file!\n", lCurTime, iSlot);
           return;
         }
@@ -744,7 +734,6 @@ void checkContinualUpload(bool bForce)
         boinc_end_critical_section();
 
 }
-#endif // checkContinualUpload -- only if QCN_CONTINUAL defined
 
 bool CheckTriggerFile(struct STriggerInfo* ti, bool bForce)
 {  

@@ -332,7 +332,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="1"
 				AdditionalIncludeDirectories="../../;../../../boinc/lib;../main"
-				PreprocessorDefinitions="QCN_CONTINUAL;_WIN32;NDEBUG"
+				PreprocessorDefinitions="_WIN32;NDEBUG"
 				RuntimeLibrary="0"
 				DebugInformationFormat="0"
 			/>
@@ -403,7 +403,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="1"
 				AdditionalIncludeDirectories="../../;../../../boinc/lib;../main"
-				PreprocessorDefinitions="QCN_CONTINUAL;_WIN64;_WIN32;NDEBUG"
+				PreprocessorDefinitions="_WIN64;_WIN32;NDEBUG"
 				RuntimeLibrary="0"
 				DebugInformationFormat="0"
 			/>
