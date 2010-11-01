@@ -44,11 +44,11 @@ void close_db()
    trigmem_db.close();
 }
 
-int do_trigmon(struct trigger t[]) 
+int do_trigmon(struct trigger t[], struct bad_hosts bh) 
 {
    DB_QCN_TRIGGER_MEMORY qtm;
    qtm.clear();
-   int iCtr = 0; int iCtr2 = 0;
+   int iCtr = 0; int iCtr2 = 0; int j;
    char strWhere[64];
    sprintf(strWhere, "WHERE time_trigger > (unix_timestamp()-%d)", g_iTriggerTimeInterval);
    while (!qtm.enumerate(strWhere))  {
@@ -59,18 +59,40 @@ int do_trigmon(struct trigger t[])
          qtm.longitude, qtm.levelvalue, qtm.levelid, qtm.alignid, qtm.dt, qtm.numreset, qtm.type_sensor,
          qtm.varietyid, qtm.qcn_quakeid, qtm.posted
      );*/
+    int bad_host=-999;
+    for (j=1; j<bh.nh;j++) {
+     if (qtm.hostid==bh.hid[j]) bad_host=j;  
+    }
     ++iCtr;
-     if (qtm.type_sensor>=100) {                           // Only use triggers from usb accelerometers
+     if ( (qtm.type_sensor>=100)&&(bad_host<0) ) {                           // Only use triggers from usb accelerometers
       ++iCtr2;                                             // Count triggers
       t[iCtr2].hid  = qtm.hostid;                          // Host ID
       t[iCtr2].tid  = qtm.triggerid;                       // Trigger ID
       sprintf(t[iCtr2].db,"%s",qtm.db_name);               // Database Name
+      sprintf(t[iCtr2].file,"%s",qtm.file);                // File name
       t[iCtr2].slat = qtm.latitude;                        // Latitude
       t[iCtr2].slon = qtm.longitude;                       // Longitude
       t[iCtr2].trig = qtm.time_trigger;                    // Trigger Time
       t[iCtr2].rec  = qtm.time_received;                   // Time Trigger received
       t[iCtr2].sig  = qtm.significance;                    // Significance (Trigger detection filter)
-      t[iCtr2].mag  = qtm.magnitude;                       // |acceleration| (m/s/s)
+      t[iCtr2].mag  = qtm.magnitude;                       // set mag to magnitude at time of trigger
+      t[iCtr2].pgah[0] = qtm.mxy1p;                        // Peak Ground Acceleration (1 second before and during trigger) (m/s/s)
+      t[iCtr2].pgaz[0] = qtm.mz1p;                         // Peak Ground Acceleration (1 seconds before and during trigger) (m/s/s)
+    
+      t[iCtr2].pgah[1] = qtm.mxy1a;                        // Peak Ground Acceleration (1 second after trigger)  (m/s/s)
+      t[iCtr2].pgaz[1] = qtm.mz1a;                         // Peak Ground Acceleration (1 second after trigger)  (m/s/s)
+    
+      t[iCtr2].pgah[2] = qtm.mxy2a;                        // Peak Ground Acceleration (2 seconds after trigger)  (m/s/s)
+      t[iCtr2].pgaz[2] = qtm.mz2a;                         // Peak Ground Acceleration (2 seconds after trigger)  (m/s/s)
+    
+      t[iCtr2].pgah[3] = qtm.mxy4a;                        // Peak Ground Acceleration (4 seconds after trigger) (m/s/s)
+      t[iCtr2].pgaz[3] = qtm.mz4a;                         // Peak Ground Acceleration (4 seconds after trigger) (m/s/s)
+
+      for (j=0;j<=3;j++) {
+       if (t[iCtr2].pgah[j] > t[iCtr2].mag) t[iCtr2].mag = t[iCtr2].pgah[j];  
+       if (t[iCtr2].pgaz[j] > t[iCtr2].mag) t[iCtr2].mag = t[iCtr2].pgah[j];  
+      }    
+
      }     
    }
 
@@ -483,8 +505,9 @@ void php_event_page(struct trigger t[], int i, struct event e[], char* epath) {
     int ij = t[i].c_ind[j];
     if(ji>1){fprintf(fp11,"<tr bgcolor=\\\"#FFFFFF\\\"> \n");ji=0;}// Alternate color from white to gray 
     else {fprintf(fp11,"<tr bgcolor=\\\"#DDDDDD\\\"> \n");ji++; }  // Color gray
-    fprintf(fp11,"<td><a href=\\\"http://qcn.stanford.edu/%s/show_host_detail.php?hostid=%d\\\">%d</a></td>",t[ij].db,t[ij].hid,t[ij].hid);
-    fprintf(fp11,"<td>%d</td><td>%2.4f</td><td>%2.4f</td><td>%f</td><td>%d</td><td>%4.2f</td><td>%4.2f</td><td>%2.5f</td>\n",t[ij].tid,t[ij].slon,t[ij].slat,t[ij].trig,(int) t[ij].rec,t[ij].sig,t[ij].mag,t[ij].dis);
+    fprintf(fp11,"<td><a href=\\\"http://qcn.stanford.edu/%s/show_host_detail.php?hostid=%d\\\">%d</a></td>\n",t[ij].db,t[ij].hid,t[ij].hid); // Link to host
+    fprintf(fp11,"<td><a href=\\\"http://qcn.stanford.edo/%s/%s\">%d</a></td>\n",t[ij].db,t[ij].file,t[ij].tid); // Link to downlaod data
+    fprintf(fp11,"<td>%2.4f</td><td>%2.4f</td><td>%f</td><td>%d</td><td>%4.2f</td><td>%4.2f</td><td>%2.5f</td>\n",t[ij].slon,t[ij].slat,t[ij].trig,(int) t[ij].rec,t[ij].sig,t[ij].mag,t[ij].dis);
     fprintf(fp11,"</tr> \n");
    }
    fprintf(fp11,"</table> \n");
@@ -703,7 +726,9 @@ void intensity_map(struct trigger t[], int i, struct event e[]) {
    fp10 = fopen(sfile,"w+");                                  // Open station output file
    for (k = 0; k<=t[i].c_cnt; k++) {                          // For each correlated trigger
      n = t[i].c_ind[k];                                       // Index of correlated trigger
-     fprintf(fp10,"%f,%f,%f,%d \n",t[n].slon,t[n].slat,t[n].mag,t[n].hid);// Output correlated trigger loc & magnitude
+     fprintf(fp10,"%f,%f,%f,%d,%d,%s,%f,%d,%f,%f",t[n].slon,t[n].slat,t[n].mag,t[n].hid,t[n].tid,t[n].file,t[n].trig,(int) t[n].rec,t[n].sig,t[n].dis);
+     fprintf(fp10,",%f,%f,%f,%f,%f,%f,%f,%f \n",t[n].pgah[0],t[n].pgaz[0],t[n].pgah[1],t[n].pgaz[1],t[n].pgah[2],t[n].pgaz[2],t[n].pgah[3],t[n].pgaz[3]);// Output correlated trigger loc & magnitude
+//t[ij].tid,t[ij].slon,t[ij].slat,t[ij].trig,(int) t[ij].rec,t[ij].sig,t[ij].mag,t[ij].dis)
    }
    fclose(fp10);                                               // Close station output file name
 
@@ -899,8 +924,10 @@ int main(int argc, char** argv)
     struct event   e[2];e[1].eid=0;                      // event
     int retval;
     int tidl=0; int hidl=0;                                         // default last host id
-    //struct bad_hosts(bh);
-    //get_bad_hosts(bh);
+    struct bad_hosts bh;
+
+/*  Get list of bad hosts  */
+    get_bad_hosts(bh);
 
     
 /* initialize random seed: */
@@ -976,7 +1003,7 @@ int main(int argc, char** argv)
     while (1) {
       g_dTimeCurrent = dtime();
       double dtEnd = g_dTimeCurrent + g_dSleepInterval;
-      int iCtr = do_trigmon(t);          // the main trigger monitoring routine
+      int iCtr = do_trigmon(t,bh);          // the main trigger monitoring routine
       
       if (iCtr>C_CNT_MIN) {
        if ( (t[1].tid != tidl) && (t[1].hid != hidl) ) {  // Dont allow repeat trigger id or host id as last entry otherwise redundant process

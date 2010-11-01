@@ -42,7 +42,7 @@ using std::vector;
 #define D_max 200.                          // Maximum distance between triggers
 #define n_long 1000                         // Length of trigger buffer ring
 #define n_short 200                         // Max # of correlated triggers
-#define C_CNT_MIN 5                         // Min # of correlated triggers for event detect
+#define C_CNT_MIN 1                         // Min # of correlated triggers for event detect
 #define EVENT_MASK 0755
 
 char EVENT_PATH[]= "/var/www/qcn/earthquakes/";
@@ -56,10 +56,12 @@ struct trigger {
    int    hid;                   // Host ID (Sensor number) 
    int    tid;                   // Trigger ID
 
-   char   db[64];               // Database
+   char   db[64];                // Database
+   char   file[64];              // File name
    float  slon, slat;            // Sensor location
    double trig, rec,t_est;       // Time of trigger & Time received
    float  sig, mag;              // Significance and magnitude (sig/noise)
+   float  pgah[4],pgaz[4];       // Peak Ground Acceleration (Horizontal & vertical)
    int    c_cnt;                 // Count of correlated triggers
    int    c_ind[n_short];        // Correlated trigger IDs
    int    c_hid[n_short];        // Correlated host IDs
@@ -144,7 +146,7 @@ int getQCNQuakeID(
 void close_db();
 void do_delete_trigmem();
 void setQueries();
-int do_trigmon(struct trigger t[]);
+int do_trigmon(struct trigger t[],struct bad_hosts bh);
 
 float average( float dat[], int ndat);
 float std_dev( float dat[], int ndat, float dat_ave);
