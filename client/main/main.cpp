@@ -100,7 +100,7 @@ namespace qcn_main  {
 
   bool g_bReadOnly = false;
 
-	// simple flag to denote continual app
+  // simple flag to denote continual app
   bool g_bContinual = false;  // default to not running in continual mode i.e. 10 minute output
 
   bool g_bDemo = false;
@@ -261,10 +261,6 @@ int qcn_main(int argc, char **argv)
     g_endian = qcn_util::check_endian(); // g_endian is global to all procs, i.e. the sac file I/O utils can now use it
     fprintf(stdout, "Host machine is %s-endian\n", g_endian == ENDIAN_BIG ? "big" : "little");
     fflush(stdout);
-    if (g_bContinual) {
-       fprintf(stdout, "Running in continual mode\n");
-       fflush(stdout);
-    }
 
 #ifdef __USE_BOINC_OPTIONS
     BOINC_OPTIONS optBOINC;
@@ -290,7 +286,7 @@ int qcn_main(int argc, char **argv)
     if (sm) {
         g_bDemo = (bool) boinc_is_standalone(); // ? true : false;
         qcn_util::ResetCounter(WHERE_MAIN_STARTUP);  // this is the one and only place ResetCounter is called outside of the sensor thread, so it's safe
-        parseArgs(argc, argv);
+        parseArgs(argc, argv); // parse command line arguments, could be different options from the server per workunit
     }
     else {
         fprintf(stderr, "failed to create shared mem segment\n");
@@ -389,12 +385,12 @@ int qcn_main(int argc, char **argv)
     fflush(stdout);
  
     // OK, if not in demo mode, now get rid of old trigger files i.e. more than two weeks old
-    //if (g_bContinual)  { // get rid of files older than 2 hours if running in continual mode
-     //  qcn_util::removeOldTriggers((const char*) g_strPathTrigger, 7200.0f);
-    //}
-    //else {
+    if (g_bContinual)  { // get rid of files older than a day if running in continual mode
+       qcn_util::removeOldTriggers((const char*) g_strPathTrigger, 86400.0f);
+    }
+    else {
       if (!g_bDemo && !g_bQCNLive) qcn_util::removeOldTriggers((const char*) g_strPathTrigger);  // default is get rid of files older than a month
-    //}
+    }
 
     // create time & sensor thread objects
     //sm->bFlagUpload = false;
@@ -1002,13 +998,15 @@ bool CheckTriggers(bool bForce)
 
 void parseArgs(int argc, char* argv[])
 {
+   // set perturb defaults which may be overridden on cmd-line
     g_fPerturb[PERTURB_SIG_CUTOFF] = DEFAULT_SIG_CUTOFF;
     g_fPerturb[PERTURB_SHORT_TERM_AVG_MAG] = DEFAULT_SHORT_TERM_AVG_MAG;
   
     // workunit name _fs??_ the ?? is sig cutoff, _stam??_ is short-term-avg mag 
 
-    // parse command-line arguments, right now just an optional memory dump that can be loaded
-    for (int i=0; i<argc; i++) { /*
+    // parse command line arguments
+    for (int i=0; i<argc; i++) { 
+      /*
         if (sm && !strcmp(argv[i], "--dump") && (i+1)<argc && (argv[i+1])) 
         {
             strcpy((char*)sm->strCurFile, argv[i+1]);
@@ -1026,13 +1024,21 @@ void parseArgs(int argc, char* argv[])
              g_fPerturb[PERTURB_SIG_CUTOFF] = (float) atof(argv[i+1]);
           }
         }
-        */
 
         if (sm && !strcmp(argv[i], "--demo"))
         {   // run in demo mode
             g_bDemo = true; // flag it's in demo mode
             fprintf(stdout, "QCN running in interactive mode - time sync to server, but no trigger trickles to server.\n");
                       fprintf(stdout, "All SAC file output in sac/ subdirectory\n");
+            fflush(stdout);
+        }
+        */
+
+        // Important -- continual workunits set here as a cmd line argument, or check if exec is qcncontinual
+        if (!g_bContinual && !strcmp(argv[i], "--continual"))
+        {   // run in continual mode
+            g_bContinual = true; // flag it's in demo mode
+            fprintf(stdout, "QCN running in continual output mode:\n - time sync to server, upload trigger files hourly to QCN server.\n");
             fflush(stdout);
         }
     }
