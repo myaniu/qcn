@@ -285,8 +285,8 @@ int qcn_main(int argc, char **argv)
     sm = static_cast<CQCNShMem*>(boinc_graphics_make_shmem((char*) QCN_SHMEM, sizeof(CQCNShMem)));
     if (sm) {
         g_bDemo = (bool) boinc_is_standalone(); // ? true : false;
+        parseArgs(argc, argv); // parse command line arguments, very important to set g_bContinual for ResetCounter below (i.e. to get paths)
         qcn_util::ResetCounter(WHERE_MAIN_STARTUP);  // this is the one and only place ResetCounter is called outside of the sensor thread, so it's safe
-        parseArgs(argc, argv); // parse command line arguments, could be different options from the server per workunit
     }
     else {
         fprintf(stderr, "failed to create shared mem segment\n");
