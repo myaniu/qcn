@@ -6,6 +6,7 @@
        <file_number>0</file_number>
        <open_name>qcn_0</open_name>
     </file_ref>
+    <command_line>--continual</command_line>
     <result_template_file> templates/qcn_output_continual.xml </result_template_file>
     <priority> 5000 </priority>
 </workunit>
