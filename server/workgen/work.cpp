@@ -96,7 +96,7 @@ int main(int argc, char** argv) {
 
 
     // read the template
-    if (!strcmp(strApp, APP_CONTINUAL) 
+    if (!strcmp(strApp, APP_CONTINUAL))
       read_file_malloc("templates/qcn_input_continual.xml", wu_template);
     else
       read_file_malloc("templates/qcn_input.xml", wu_template);
@@ -126,7 +126,7 @@ int main(int argc, char** argv) {
             break;
        }
 
-    if (!strcmp(strApp, APP_CONTINUAL) 
+    if (!strcmp(strApp, APP_CONTINUAL))
        sprintf(wu.name, "continual_%s_%06ld", strWU, i);
     else
        sprintf(wu.name, "%s_%06ld", strWU, i);
@@ -143,7 +143,7 @@ int main(int argc, char** argv) {
        wu.rsc_disk_bound = 1e9;
        wu.delay_bound = 14*86400L;
 
-    if (!strcmp(strApp, APP_CONTINUAL) 
+    if (!strcmp(strApp, APP_CONTINUAL))
        create_work(
           wu,
           wu_template,
