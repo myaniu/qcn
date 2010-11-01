@@ -243,7 +243,7 @@ enum e_sensor  { SENSOR_NOTFOUND = 0,  // 0
 // ERR_CRASH       = an unspecified catch-all for a QCN crash
 
 // the number of seconds lag before we consider it an error an reset the sensor
-#define TIME_ERROR_SECONDS .50f         // an error of more than this (2000%!) is critical and we should reset timer
+#define TIME_ERROR_SECONDS .61f         // an error of more than this (2000%!) is critical and we should reset timer
 #define SLUGGISH_MACHINE_THRESHOLD 50   // if exceeds this many time resets in a session, bump up DT to DT_SLOW
 
 #define THREAD_EXIT -1

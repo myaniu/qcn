@@ -249,8 +249,11 @@ inline bool CSensor::mean_xyz()
 		sm->t0check += sm->dt;  // make a new "target" t0check
         sm->bWriting = false;
 		lError++;
-		if (lError > (TIME_ERROR_SECONDS / sm->dt)) goto error_Timing;
-		usleep(DT_MICROSECOND_SAMPLE); // sleep a little so it's not an instantaneous return
+		if (lError > (TIME_ERROR_SECONDS / sm->dt)) {
+			dTimeDiff = (double) (lError-1) * sm->dt;
+			goto error_Timing;
+		}
+		//usleep(DT_MICROSECOND_SAMPLE); // sleep a little so it's not an instantaneous return
 		return true;
 	}
 	
