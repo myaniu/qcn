@@ -26,14 +26,7 @@ cp build/Release/libboinc_zip.a ../../qcn/client/mac_build/
 cd ../../qcn
 fi
 cd client/mac_build
-if (test "$1" = "continual" || test "$2" = "continual") then
-rtype=ReleaseContinual
-else
-rtype=Release
-fi
-xcodebuild -project qcn.xcodeproj -configuration $rtype -target qcn clean build
+xcodebuild -project qcn.xcodeproj -configuration Release -target qcn clean build
 xcodebuild -project qcn.xcodeproj -configuration Release -target qcn_graphics clean build
-if (test "$rtype" = "Release") then
 xcodebuild -project qcn.xcodeproj -configuration Release -target qcnusb clean build
 xcodebuild -project qcn.xcodeproj -configuration Release -target QCNLive clean build
-fi

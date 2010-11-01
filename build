@@ -1,6 +1,6 @@
 #!/bin/sh
 if ( test "$1" = "" || test "$2" = "") then
-   echo "Usage:  ./build VERSION_NUMBER_NCI VERSION_NUMBER_REGULAR [all|continual]"
+   echo "Usage:  ./build VERSION_NUMBER_NCI VERSION_NUMBER_REGULAR [all]"
    echo "NCI should usually be .01 higher than regular version number"
    exit 1
 fi
@@ -12,9 +12,6 @@ else
    cd ..
    svn update boinc
    cd qcn
-fi
-if (test "$3" = "continual" || test "$4" = "continual") then
-   export QCN_CONTINUAL='-DQCN_CONTINUAL'
 fi
 if ( test "`uname -s`" = "Darwin" ) then
   cp config.h.mac config.h
