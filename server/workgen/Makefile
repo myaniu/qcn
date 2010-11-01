@@ -3,17 +3,20 @@ CC = g++
 BOINCDIR = ../../../boinc
 MYSQLDIR = /usr/local/mysql
 
-SSLDIR = /usr/local/ssl
+MYSQL_CFLAGS = -I$(MYSQLDIR)/include  -DUNIV_LINUX
+MYSQL_LIBS = -rdynamic -L$(MYSQLDIR)/lib -lmysqlclient -lz -lrt -lcrypt -lnsl -lm -lmygcc
+
+SSL_CFLAGS = -I/usr/kerberos/include
+SSL_CXXFLAGS = -I/usr/kerberos/include
+SSL_LIBS = -L/usr/kerberos/lib64 -lssl -lcrypto -ldl -lz
+
 #QCNDIR = /var/www/boinc/continual
 QCNDIR = /var/www/boinc/sensor
 CONTDIR = /var/www/boinc/continual
 
-LIBS = -L$(MYSQLDIR)/lib -lmysqlclient_r \
-  -L$(BOINCDIR)/lib -lboinc \
-  -L$(SSLDIR)/lib64 -lcrypto -lssl \
-  -L/usr/local/lib -lcurl
+LIBS = $(SSL_LIBS) -L$(BOINCDIR)/lib -lboinc $(MYSQL_LIBS)
 
-INCLUDES = -I$(SSLDIR)/include -I$(BOINCDIR) -I$(BOINCDIR)/lib -I$(BOINCDIR)/tools -I$(BOINCDIR)/db \
+INCLUDES = -I$(BOINCDIR) -I$(BOINCDIR)/lib -I$(BOINCDIR)/tools -I$(BOINCDIR)/db \
            -I$(MYSQLDIR)/include -I$(BOINCDIR)/sched
 
 SRCS = $(BOINCDIR)/db/db_base.cpp \
