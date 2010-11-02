@@ -125,7 +125,7 @@ class CQCNShMem : public CSerialize
 
     double t0active; // for use by the sensor polling, this value is the real system time (unadjusted from server time)
     double t0check;  // used to see what the timing error is from constant polling of sensor, it's start time + # of dt's/lOffsets
-	double t0start;  // save the start time of the session for comparison of trickle rate (i.e. hosts that send too many triggers etc)
+    double t0start;  // save the start time of the session for comparison of trickle rate (i.e. hosts that send too many triggers etc)
 
     long lOffset; // current position/index into the arrays
 
