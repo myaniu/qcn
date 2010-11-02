@@ -242,7 +242,7 @@ inline bool CSensor::mean_xyz()
 		}
 #endif		
 		sm->t0check += sm->dt;  // make a new "target" t0check
-        sm->bWriting = false;
+                sm->bWriting = false;
 		lError++;
 		if (lError > (TIME_ERROR_SECONDS / sm->dt)) {
 			dTimeDiff = (double) (lError-1) * sm->dt;
@@ -327,8 +327,10 @@ error_Timing:    // too many timing errors encountered, should probably drop bac
 	lError = 0;  
 	fprintf(stdout, "Timing error encountered t0check=%f  t0active=%f  diff=%f  timeadj=%d  sample_size=%ld, dt=%f, resetting...\n", 
 			sm->t0check, sm->t0active, dTimeDiff, sm->iNumReset, sm->lSampleSize, sm->dt);
+	fprintf(stdout, "  Last values were %f %f %f %f\n", dLast[0], dLast[1], dLast[2], dLast[3]);
 	fprintf(stderr, "Timing error encountered t0check=%f  t0active=%f  diff=%f  timeadj=%d  sample_size=%ld, dt=%f, resetting...\n", 
 			sm->t0check, sm->t0active, dTimeDiff, sm->iNumReset, sm->lSampleSize, sm->dt);
+	fprintf(stderr, "  Last values were %f %f %f %f\n", dLast[0], dLast[1], dLast[2], dLast[3]);
 #ifdef _DEBUG_QCNLIVE
 	return true;
 #else
