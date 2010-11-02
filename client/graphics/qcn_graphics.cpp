@@ -346,22 +346,22 @@ int getLastTrigger(const long lTriggerCheck, const int iWinSizeArray, const int 
 	   long lMod = 1L;
 	   if (qcn_2dplot::GetTimerTick() == 1) { // just get the nearest "even" second point
 	       //if ( (sm->t0[lTriggerCheck] - (float) ((long) sm->t0[lTriggerCheck])) <= 0.3f) lMod = 0L;
-		   if (fmodf(sm->t0[lTriggerCheck] - sm->t0start, 1.0f) < .1f) {
+		   if (fmodf(sm->t0[lTriggerCheck] - floor(sm->t0start), 1.0f) < .1f) {
 		      lMod = 0L;
 		   }
 	   }
 	   else {
-		   lMod = ( (long)(sm->t0[lTriggerCheck] - sm->t0start) ) % qcn_2dplot::GetTimerTick();
+		   lMod = ( (long)(sm->t0[lTriggerCheck] - floor(sm->t0start)) ) % qcn_2dplot::GetTimerTick();
 	   }
 	   */
 	   
 	   // use fmodf function to get tick mark boundary
-	   if (sm->t0[lTriggerCheck] >= sm->t0start && fmodf(sm->t0[lTriggerCheck] - sm->t0start, (float) qcn_2dplot::GetTimerTick() ) < 0.1f) 
+	   if (sm->t0[lTriggerCheck] >= floor(sm->t0start) && fmodf(sm->t0[lTriggerCheck] - floor(sm->t0start), (float) qcn_2dplot::GetTimerTick() ) < 0.1f) 
 		//  && lMod == 0L )
 		{
 		  //&& (sm->t0[lTriggerCheck] - (float((long) sm->t0[lTriggerCheck]))) < 0.30f ) { 
            // get the even increment of sm->t0 from t0start 
-		   //long lMult = (sm->t0[lTriggerCheck] - sm->t0start) / g_TimerTick;
+		   //long lMult = (sm->t0[lTriggerCheck] - floor(sm->t0start)) / g_TimerTick;
 		   lCheckTime = sm->t0[lTriggerCheck];
 	       lTimeLast[g_iTimeCtr] = lCheckTime;
 		   lStartTime = lCheckTime;
