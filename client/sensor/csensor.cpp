@@ -199,8 +199,6 @@ inline bool CSensor::mean_xyz()
 
 #ifdef QCN_USB
    if (!sm || smState->bStop) throw EXCEPTION_SHUTDOWN;   // see if we're shutting down, if so throw an exception which gets caught in the sensor_thread
-   sm->bWriting = true;
-   //sm->writepos = 0;
    px2 = (float*) &(sm->x0);
    py2 = (float*) &(sm->y0);
    pz2 = (float*) &(sm->z0);
@@ -210,8 +208,6 @@ inline bool CSensor::mean_xyz()
        throw EXCEPTION_SHUTDOWN;   // see if we're shutting down, if so throw an exception which gets caught in the sensor_thread
    }
 
-   sm->bWriting = true;
-   //sm->writepos = 0;
    px2 = (float*) &(sm->x0[sm->lOffset]);
    py2 = (float*) &(sm->y0[sm->lOffset]);
    pz2 = (float*) &(sm->z0[sm->lOffset]);
@@ -225,15 +221,14 @@ inline bool CSensor::mean_xyz()
 	}
 #endif
 	
+   sm->bWriting = true;
+   sm->lSampleSize = 0L; 
    *px2 = *py2 = *pz2 = 0.0f;  // zero sample averages
    *pt2 = 0.0f;
- 
-   sm->lSampleSize = 0L; 
 		 
    // first check if we're behind time, i.e. the last time is greater than our dt, if so carry over the last value and get out fast so it can catch up
 	if (dLast[3] > sm->t0check) {
 	   // weird timing issue, i.e. current time is greater than the requested time		
-        sm->bWriting = true;
 		dLast[3] = dtime();  // save this current time
 		*px2 = dLast[0]; 
 		*py2 = dLast[1]; 
