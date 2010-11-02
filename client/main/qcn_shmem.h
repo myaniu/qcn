@@ -67,7 +67,6 @@ class CQCNShMem : public CSerialize
     APP_INIT_DATA dataBOINC;
 	char strProjectPreferences[SIZEOF_PROJECT_PREFERENCES];
 
-        double dTimeStart;  // the start time to the nearest second, used for graphics timer tick marks primarily
     // end of "persistent" values
 
     // the following section of data is more dynamic and can be safely cleared

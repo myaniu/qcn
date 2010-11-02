@@ -69,7 +69,7 @@ float CQCNShMem::averageSamples()
 void CQCNShMem::resetSampleClock()
 {
     t0active = dtime(); // use the function in boinc/lib
-	t0start = t0active; // save the start time of the session
+    t0start = t0active; // save the start time of the session
     t0check = t0active + dt;
     //sm->resetMinMax();
 }
@@ -122,8 +122,6 @@ void CQCNShMem::clear(bool bAll)
 	pshmem->bMyContinual = bMyContinual;
 	pshmem->bMyOutputSAC = bMyOutputSAC;
     strcpy(pshmem->strMyStation, strMyStation);
-
-    pshmem->dTimeStart = dTimeStart; // keep the original start time for tick mark display
 
     pshmem->clock_time  = clock_time;
 	pshmem->cpu_time    = cpu_time;

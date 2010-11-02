@@ -33,8 +33,8 @@ void* QCNThreadTime(void*)
 #endif
 { 
     if (qcn_main::g_threadTime) qcn_main::g_threadTime->SetRunning(true);  // mark the entry point of the thread
-    double dTimeStart = dtime();
-    fprintf(stdout, "Server time synchronization started at   %f\n", dTimeStart);
+    double dStart = dtime();
+    fprintf(stdout, "Server time synchronization started at   %f\n", dStart);
     fflush(stdout);
 
     double dTimeNow = 0.0;
@@ -100,18 +100,18 @@ void* QCNThreadTime(void*)
     } 
     if (bRet) { // successful, set it for 15 minutes
        fprintf(stdout, "Synchronized server time at local time = %f   offset = %f   elapsed time = %f\n",
-           qcn_main::g_dTimeSync, qcn_main::g_dTimeOffset, qcn_main::g_dTimeSync - dTimeStart);
+           qcn_main::g_dTimeSync, qcn_main::g_dTimeOffset, qcn_main::g_dTimeSync - dStart);
        fflush(stdout);
        qcn_main::g_dTimeSyncRetry = dTimeNow + 900.0f;  // 15 minutes until the next sync
     }
     else { // try again in two minutes
        if (qcn_main::g_iStop) {
-          fprintf(stderr, "Time synchronization failed local time = %f, stop request received - elapsed time = %f\n", dTimeNow, dTimeNow - dTimeStart);
-          fprintf(stdout, "Time synchronization failed local time = %f, stop request received - elapsed time = %f\n", dTimeNow, dTimeNow - dTimeStart);
+          fprintf(stderr, "Time synchronization failed local time = %f, stop request received - elapsed time = %f\n", dTimeNow, dTimeNow - dStart);
+          fprintf(stdout, "Time synchronization failed local time = %f, stop request received - elapsed time = %f\n", dTimeNow, dTimeNow - dStart);
        }
        else {
-          fprintf(stderr, "Time synchronization failed local time = %f, will retry in 3 minutes - elapsed time = %f\n", dTimeNow, dTimeNow - dTimeStart);
-          fprintf(stdout, "Time synchronization failed local time = %f, will retry in 3 minutes - elapsed time = %f\n", dTimeNow, dTimeNow - dTimeStart);
+          fprintf(stderr, "Time synchronization failed local time = %f, will retry in 3 minutes - elapsed time = %f\n", dTimeNow, dTimeNow - dStart);
+          fprintf(stdout, "Time synchronization failed local time = %f, will retry in 3 minutes - elapsed time = %f\n", dTimeNow, dTimeNow - dStart);
        }
        fflush(stdout);
        fflush(stderr);

@@ -338,7 +338,7 @@ int getLastTrigger(const long lTriggerCheck, const int iWinSizeArray, const int 
   }
 
 //  if (g_eView == VIEW_PLOT_2D) { // only need the timing markers on 2d view
-	// use a mod of the time interval with time - sm->dTimeStart
+	// use a mod of the time interval with time - sm->t0start
     // first point is never a boundary, but mark second for next time
     //long lTimeTest = (long)(sm->t0[lTriggerCheck]);
 	if (lStartTime == 0L) {  // it's our first time in and our point is a valid start time
@@ -346,22 +346,22 @@ int getLastTrigger(const long lTriggerCheck, const int iWinSizeArray, const int 
 	   long lMod = 1L;
 	   if (qcn_2dplot::GetTimerTick() == 1) { // just get the nearest "even" second point
 	       //if ( (sm->t0[lTriggerCheck] - (float) ((long) sm->t0[lTriggerCheck])) <= 0.3f) lMod = 0L;
-		   if (fmodf(sm->t0[lTriggerCheck] - sm->dTimeStart, 1.0f) < .1f) {
+		   if (fmodf(sm->t0[lTriggerCheck] - sm->t0start, 1.0f) < .1f) {
 		      lMod = 0L;
 		   }
 	   }
 	   else {
-		   lMod = ( (long)(sm->t0[lTriggerCheck] - sm->dTimeStart) ) % qcn_2dplot::GetTimerTick();
+		   lMod = ( (long)(sm->t0[lTriggerCheck] - sm->t0start) ) % qcn_2dplot::GetTimerTick();
 	   }
 	   */
 	   
 	   // use fmodf function to get tick mark boundary
-	   if (sm->t0[lTriggerCheck] >= sm->dTimeStart && fmodf(sm->t0[lTriggerCheck] - sm->dTimeStart, (float) qcn_2dplot::GetTimerTick() ) < 0.1f) 
+	   if (sm->t0[lTriggerCheck] >= sm->t0start && fmodf(sm->t0[lTriggerCheck] - sm->t0start, (float) qcn_2dplot::GetTimerTick() ) < 0.1f) 
 		//  && lMod == 0L )
 		{
 		  //&& (sm->t0[lTriggerCheck] - (float((long) sm->t0[lTriggerCheck]))) < 0.30f ) { 
-           // get the even increment of sm->t0 from dTimeStart
-		   //long lMult = (sm->t0[lTriggerCheck] - sm->dTimeStart) / g_TimerTick;
+           // get the even increment of sm->t0 from t0start 
+		   //long lMult = (sm->t0[lTriggerCheck] - sm->t0start) / g_TimerTick;
 		   lCheckTime = sm->t0[lTriggerCheck];
 	       lTimeLast[g_iTimeCtr] = lCheckTime;
 		   lStartTime = lCheckTime;

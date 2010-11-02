@@ -49,6 +49,8 @@ extern void* QCNThreadSensor(void*)
     int iNumResetInitial = sm->iNumReset;  // initialize to total num reset, so we can see how many failures in current session
     //const int iNumResetInitial = 0; // change to 0, don't use the saved reset number, reset to 0 every wraparound
     qcn_main::g_vectTrigger.clear();
+
+    // the main loop
     while (sm->lOffset > -1) {  // start the main loop
       if (qcn_main::g_iStop || !sm) goto done;  // handle quit request
       if (qcn_main::g_threadSensor->IsSuspended()) {
@@ -125,7 +127,7 @@ extern void* QCNThreadSensor(void*)
 		  
 		  SetSensorThresholdAndDiffFactor();
 
-         fprintf(stdout,"Start of monitoring at time %f  interval %f  threshold %f\n", sm->dTimeStart, sm->dt, g_fThreshold);
+         fprintf(stdout,"Start of monitoring at time %f  interval %f  threshold %f\n", sm->t0start, sm->dt, g_fThreshold);
          fprintf(stdout,"Initial sensor values:  x0=%f  y0=%f  z0=%f  sample size=%ld  dt=%f\n", sm->x0[0], sm->y0[0], sm->z0[0], sm->lSampleSize, sm->dt);
          fflush(stdout);
 

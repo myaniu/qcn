@@ -411,10 +411,10 @@ void ResetCounter(const e_where eWhere, const int iNumResetInitial)
 
     // if in sm->bDemo mode, i.e. the 10-minute SAC dumps,
     // make sure triggers are all processed (10 seconds should be enough)
-    double dTimeStart = dtime();
+    double dStart = dtime();
     bool bFinishedDemoTrigger = false;
     bool bHaveDemoTrigger = false;
-    while (!qcn_main::g_vectTrigger.empty() && !bFinishedDemoTrigger && (dtime() - dTimeStart) < 10.0f)  {
+    while (!qcn_main::g_vectTrigger.empty() && !bFinishedDemoTrigger && (dtime() - dStart) < 10.0f)  {
        for (unsigned int i = 0; i < qcn_main::g_vectTrigger.size(); i++) {
          STriggerInfo& ti = qcn_main::g_vectTrigger.at(i);
          if (!ti.bReal) { // we're just concerned with demo triggers
@@ -425,7 +425,7 @@ void ResetCounter(const e_where eWhere, const int iNumResetInitial)
        }
        boinc_sleep(0.25f); // wait 1/4 second up to 10 seconds for triggers to empty
     } 
-    if (bHaveDemoTrigger) fprintf(stdout, "Waited %f seconds for triggers to finish to disk\n", dtime() - dTimeStart);
+    if (bHaveDemoTrigger) fprintf(stdout, "Waited %f seconds for triggers to finish to disk\n", dtime() - dStart);
 
     if (eWhere != WHERE_MAIN_STARTUP) {
        // we must have had a timing error, check the number of resets, if we broke 30 (SLUGGISH_MACHINE_THRESHOLD)

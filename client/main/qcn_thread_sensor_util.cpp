@@ -350,7 +350,7 @@ bool getSensor(CSensor* volatile *ppsms)
 
 	  if (!(sm->lOffset % (sm->dt == .02 ? 3000 : 600)) || iWhere<4) {
          fprintf(stdout,"%d: timeadj=%ld  t0MaxActive=%22.10f  t0MaxCheck=%22.10f  t0active=%22.10f  t0check=%22.10f  tstart=%22.10f  lSampleSize=%ld  TimeErr=%6.2f%c  NumErr>35pct=%ld (%6.2f%c)  sm->lOffset=%ld\n",
-              iWhere, sm->iNumReset, t0MaxActive, t0MaxCheck, sm->t0active, sm->t0check, sm->dTimeStart + (sm->dt * (double) iCtrStart), sm->lSampleSize, dErrorMax, '%', lCtrErr, (double) lCtrErr / 3000.0 * 100.0f, '%', sm->lOffset);
+              iWhere, sm->iNumReset, t0MaxActive, t0MaxCheck, sm->t0active, sm->t0check, sm->t0start + (sm->dt * (double) iCtrStart), sm->lSampleSize, dErrorMax, '%', lCtrErr, (double) lCtrErr / 3000.0 * 100.0f, '%', sm->lOffset);
 		 fprintf(stdout, "Real DT Avg = %f    Avg Sample Size = %f\n",
 			 sm->averageDT(), sm->averageSamples()
 		 );
@@ -390,7 +390,6 @@ bool getInitialMean(CSensor* psms)
         sm->fmag[0] = sqrt(QCN_SQR(sm->x0[0])+QCN_SQR(sm->y0[0])+QCN_SQR(sm->z0[0]));
         sm->vari[0] = sm->f1;
         sm->fsig[0] = 0.0f;
-        if (sm->dTimeStart < 1.0f) sm->dTimeStart = ceil(sm->t0[0]);
 #ifdef _DEBUG
        DebugTime(2);
 #endif
