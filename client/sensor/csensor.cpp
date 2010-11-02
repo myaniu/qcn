@@ -331,11 +331,11 @@ error_Timing:    // too many timing errors encountered, should probably drop bac
 	fprintf(stderr, "Timing error encountered t0check=%f  t0active=%f  diff=%f  timeadj=%d  sample_size=%ld, dt=%f, resetting...\n", 
 			sm->t0check, sm->t0active, dTimeDiff, sm->iNumReset, sm->lSampleSize, sm->dt);
 	fprintf(stderr, "  Last values were %f %f %f %f\n", dLast[0], dLast[1], dLast[2], dLast[3]);
-#ifdef _DEBUG_QCNLIVE
-	return true;
-#else
+//#ifdef _DEBUG_QCNLIVE
+//	return true;
+//#else
 	return false;   // if we're not debugging, this is a serious run-time problem, so reset time & counters & try again
-#endif
+//#endif
 	
 }
 
