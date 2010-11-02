@@ -220,7 +220,7 @@
     </daemon>
     <daemon>
       <cmd>
-        jfl_trigmon -d 2
+        jfl_trigmon -d 2 -sleep_interval .2 -time_interval 100
       </cmd>
     </daemon>
   </daemons>
