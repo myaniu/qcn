@@ -356,12 +356,12 @@ int getLastTrigger(const long lTriggerCheck, const int iWinSizeArray, const int 
 	   */
 	   
 	   // use fmodf function to get tick mark boundary
-	   if (sm->t0[lTriggerCheck] >= floor(sm->t0start) && fmodf(sm->t0[lTriggerCheck] - floor(sm->t0start), (float) qcn_2dplot::GetTimerTick() ) < 0.1f) 
+	   if (sm->t0[lTriggerCheck] >= ceil(sm->t0start) && fmodf(sm->t0[lTriggerCheck] - ceil(sm->t0start), (float) qcn_2dplot::GetTimerTick() ) < 0.1f) 
 		//  && lMod == 0L )
 		{
 		  //&& (sm->t0[lTriggerCheck] - (float((long) sm->t0[lTriggerCheck]))) < 0.30f ) { 
            // get the even increment of sm->t0 from t0start 
-		   //long lMult = (sm->t0[lTriggerCheck] - floor(sm->t0start)) / g_TimerTick;
+		   //long lMult = (sm->t0[lTriggerCheck] - ceil(sm->t0start)) / g_TimerTick;
 		   lCheckTime = sm->t0[lTriggerCheck];
 	       lTimeLast[g_iTimeCtr] = lCheckTime;
 		   lStartTime = lCheckTime;
