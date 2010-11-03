@@ -278,7 +278,7 @@ inline bool CSensor::mean_xyz()
        sm->t0active = dtime(); // use the function in the util library (was used to set t0)
        dTimeDiff = sm->t0check - sm->t0active;  // t0check should be bigger than t0active by dt, when t0check = t0active we're done
    }
-   while (dTimeDiff > 0.0f && dTimeDiff < sm->dt && sm->t0active > dLast[3]);
+   while (dTimeDiff > 0.0f && sm->t0active > dLast[3] && fabs(dTimeDiff) < TIME_ERROR_SECONDS);
 	
    // somehow it seems the clock can occasionally have less time than the last value, so set the tactive/pt2 to be the last time + dt, which is more realistic
 	if (sm->t0active < dLast[3]) {
@@ -301,6 +301,10 @@ inline bool CSensor::mean_xyz()
 	}
 	*pt2 = sm->t0active; // save the time into the array, this is the real clock time
 
+   if (fabs(dTimeDiff) > TIME_ERROR_SECONDS) { // if our times are different by a second, that's a big lag, so let's reset t0check to t0active
+	   goto error_Timing;
+   }
+
    // if active time is falling behind the checked (wall clock) time -- set equal, may have gone to sleep & woken up etc
    sm->t0check += sm->dt;   // t0check is the "ideal" time i.e. start time + the dt interval
 
@@ -317,10 +321,6 @@ inline bool CSensor::mean_xyz()
    sm->bWriting = false;
    //sm->writepos = 10;
    
-   if (fabs(dTimeDiff) > TIME_ERROR_SECONDS) { // if our times are different by a second, that's a big lag, so let's reset t0check to t0active
-	   goto error_Timing;
-   }
- 
    return true;
 
 error_Timing:    // too many timing errors encountered, should probably drop back dt?
