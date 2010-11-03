@@ -110,7 +110,7 @@ def main():
          sys.exit(2)
 
       archiveFilesPath(False)
-      #archiveFilesPath(True)
+      archiveFilesPath(True)
 
       #dbconn = MySQLdb.connect (host = DBHOST,
       #                     user = DBUSER,
