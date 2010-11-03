@@ -190,6 +190,7 @@ inline bool CSensor::mean_xyz()
    static long lLastSample = 10L;  // store last sample size, start at 10 so doesn't give less sleep below, but will if lastSample<3
    static double dLast[4] = {0.0, 0.0, 0.0, 0.0};
 	static long lError = 0;
+	static long lErrorCumulative = 0;
    float x1,y1,z1;
    double dTimeDiff=0.0f;
 
@@ -241,13 +242,13 @@ inline bool CSensor::mean_xyz()
 					sm->t0check, sm->t0active, dTimeDiff, sm->iNumReset, sm->lSampleSize, sm->dt);
 		}
 #endif		
-		sm->t0check += sm->dt;  // make a new "target" t0check
-                sm->bWriting = false;
-		lError++;
-		if (lError > (TIME_ERROR_SECONDS / sm->dt)) {
+		if (++lError > (TIME_ERROR_SECONDS / sm->dt) || ++lErrorCumulative > 1000) {
 			dTimeDiff = (double) (lError-1) * sm->dt;
+                        sm->bWriting = false;
 			goto error_Timing;
 		}
+		sm->t0check += sm->dt;  // make a new "target" t0check
+                sm->bWriting = false;
 		//usleep(DT_MICROSECOND_SAMPLE); // sleep a little so it's not an instantaneous return
 		return true;
 	}
@@ -278,9 +279,10 @@ inline bool CSensor::mean_xyz()
        sm->t0active = dtime(); // use the function in the util library (was used to set t0)
        dTimeDiff = sm->t0check - sm->t0active;  // t0check should be bigger than t0active by dt, when t0check = t0active we're done
    }
-   while (dTimeDiff > 0.0f && sm->t0active > dLast[3] && fabs(dTimeDiff) < TIME_ERROR_SECONDS);
+   while (dTimeDiff > 0.0f && dTimeDiff < TIME_ERROR_SECONDS && sm->t0active > dLast[3]);
 	
-   // somehow it seems the clock can occasionally have less time than the last value, so set the tactive/pt2 to be the last time + dt, which is more realistic
+   // somehow it seems the clock can occasionally have less time than the last value, 
+   // so set the tactive/pt2 to be the last time + dt, which is more realistic
 	if (sm->t0active < dLast[3]) {
 		sm->t0active = dLast[3] + sm->dt;
 	}
@@ -298,15 +300,14 @@ inline bool CSensor::mean_xyz()
 		*px2 /= (float) sm->lSampleSize; 
 		*py2 /= (float) sm->lSampleSize; 
 		*pz2 /= (float) sm->lSampleSize; 
-	}
-	*pt2 = sm->t0active; // save the time into the array, this is the real clock time
+   }
+   *pt2 = sm->t0active; // save the time into the array, this is the real clock time
 
-   if (fabs(dTimeDiff) > TIME_ERROR_SECONDS) { // if our times are different by a second, that's a big lag, so let's reset t0check to t0active
+   if (fabs(dTimeDiff) > TIME_ERROR_SECONDS) { 
+      // if our times are different by a second, that's a big lag, so let's reset t0check to t0active
+           sm->bWriting = false;
 	   goto error_Timing;
    }
-
-   // if active time is falling behind the checked (wall clock) time -- set equal, may have gone to sleep & woken up etc
-   sm->t0check += sm->dt;   // t0check is the "ideal" time i.e. start time + the dt interval
 
    sm->ullSampleTotal += sm->lSampleSize;
    sm->ullSampleCount++;
@@ -318,19 +319,26 @@ inline bool CSensor::mean_xyz()
    dLast[2] = *pz2;    // save current values as they may carry forward if the computer "skips"
    dLast[3] = *pt2;
    lError = 0;  // reset timing error values as must be OK now
+
+   // if active time is falling behind the checked (wall clock) time -- set equal, may have gone to sleep & woken up etc
+   sm->t0check += sm->dt;   // t0check is the "ideal" time i.e. start time + the dt interval
+
    sm->bWriting = false;
    //sm->writepos = 10;
    
    return true;
 
 error_Timing:    // too many timing errors encountered, should probably drop back dt?
-	lError = 0;  
-	fprintf(stdout, "Timing error encountered t0check=%f  t0active=%f  diff=%f  timeadj=%d  sample_size=%ld, dt=%f, resetting...\n", 
-			sm->t0check, sm->t0active, dTimeDiff, sm->iNumReset, sm->lSampleSize, sm->dt);
+	fprintf(stdout, "Timing error encountered t0check=%f  t0active=%f  diff=%f  timeadj=%d  sample_size=%ld, dt=%f, lErr=%ld, lErrCum=%ld resetting...\n", 
+			sm->t0check, sm->t0active, dTimeDiff, sm->iNumReset, sm->lSampleSize, sm->dt, lError, lErrorCumulative);
 	fprintf(stdout, "  Last values were %f %f %f %f\n", dLast[0], dLast[1], dLast[2], dLast[3]);
-	fprintf(stderr, "Timing error encountered t0check=%f  t0active=%f  diff=%f  timeadj=%d  sample_size=%ld, dt=%f, resetting...\n", 
-			sm->t0check, sm->t0active, dTimeDiff, sm->iNumReset, sm->lSampleSize, sm->dt);
+	fprintf(stderr, "Timing error encountered t0check=%f  t0active=%f  diff=%f  timeadj=%d  sample_size=%ld, dt=%f, lErr=%ld, lErrCum=%ld resetting...\n", 
+			sm->t0check, sm->t0active, dTimeDiff, sm->iNumReset, sm->lSampleSize, sm->dt, lError, lErrorCumulative);
 	fprintf(stderr, "  Last values were %f %f %f %f\n", dLast[0], dLast[1], dLast[2], dLast[3]);
+
+	lError = 0;  
+	lErrorCumulative = 0;  // reset error counts  
+
 //#ifdef _DEBUG_QCNLIVE
 //	return true;
 //#else
