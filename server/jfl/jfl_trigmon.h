@@ -42,7 +42,7 @@ using std::vector;
 #define D_max 200.                          // Maximum distance between triggers
 #define n_long 1000                         // Length of trigger buffer ring
 #define n_short 200                         // Max # of correlated triggers
-#define C_CNT_MIN 1                         // Min # of correlated triggers for event detect
+#define C_CNT_MIN 5                         // Min # of correlated triggers for event detect
 #define EVENT_MASK 0755
 
 char EVENT_PATH[]= "/var/www/qcn/earthquakes/";

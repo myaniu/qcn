@@ -55,7 +55,7 @@ void do_trigmon()
 {
    DB_QCN_TRIGGER_MEMORY qtm;
    qtm.clear();
-   fprintf(stdout,"HELLO\n");
+//   fprintf(stdout,"HELLO\n");
 //   time_t t_now; time(&t_now);                        // Current time
 //   fprintf(stdout,"HELLO2 %s\n",rtfile);
    char rtfile_ltn[sizeof "/var/www/qcn/rt_image/rt_triggers_LTN.xyz"]="/var/www/qcn/rt_image/rt_triggers_LTN.xyz";  // real time triggers   
