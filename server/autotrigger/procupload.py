@@ -233,9 +233,9 @@ def checkPaths():
       print UPLOAD_WEB_DIR + " directory for UPLOAD_WEB_DIR does not exist or not writable!"
       return 1
    
-   if not os.access(UPLOAD_USB_WEB_DIR, os.F_OK | os.W_OK):
-      print UPLOAD_USB_WEB_DIR + " directory for UPLOAD_USB_WEB_DIR does not exist or not writable!"
-      return 1
+   #if not os.access(UPLOAD_USB_WEB_DIR, os.F_OK | os.W_OK):
+   #   print UPLOAD_USB_WEB_DIR + " directory for UPLOAD_USB_WEB_DIR does not exist or not writable!"
+   #   return 1
    
    if not os.access(UPLOAD_CONTINUAL_WEB_DIR, os.F_OK | os.W_OK):
       print UPLOAD_CONTINUAL_WEB_DIR + " directory for UPLOAD_CONTINUAL_WEB_DIR does not exist or not writable!"
