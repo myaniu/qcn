@@ -506,7 +506,7 @@ void php_event_page(struct trigger t[], int i, struct event e[], char* epath) {
     if(ji>1){fprintf(fp11,"<tr bgcolor=\\\"#FFFFFF\\\"> \n");ji=0;}// Alternate color from white to gray 
     else {fprintf(fp11,"<tr bgcolor=\\\"#DDDDDD\\\"> \n");ji++; }  // Color gray
     fprintf(fp11,"<td><a href=\\\"http://qcn.stanford.edu/%s/show_host_detail.php?hostid=%d\\\">%d</a></td>\n",t[ij].db,t[ij].hid,t[ij].hid); // Link to host
-    fprintf(fp11,"<td><a href=\\\"http://qcn.stanford.edo/%s/%s\">%d</a></td>\n",t[ij].db,t[ij].file,t[ij].tid); // Link to downlaod data
+    fprintf(fp11,"<td><a href=\\\"http://qcn.stanford.edu/%s/%s\\\">%d</a></td>\n",t[ij].db,t[ij].file,t[ij].tid); // Link to downlaod data
     fprintf(fp11,"<td>%2.4f</td><td>%2.4f</td><td>%f</td><td>%d</td><td>%4.2f</td><td>%4.2f</td><td>%2.5f</td>\n",t[ij].slon,t[ij].slat,t[ij].trig,(int) t[ij].rec,t[ij].sig,t[ij].mag,t[ij].dis);
     fprintf(fp11,"</tr> \n");
    }

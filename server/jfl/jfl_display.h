@@ -127,7 +127,7 @@ int getQCNQuakeID(
 void close_db();
 void do_delete_trigmem();
 void setQueries();
-int do_trigmon(struct trigger t[]);
+int do_trigmon(int hid[]);
 
 
 //extern bool qcn_post_check();

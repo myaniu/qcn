@@ -44,22 +44,31 @@ void close_db()
    trigmem_db.close();
 }
 
+void create_plot() {
+
+
+    system ("csh /var/www/qcn/rt_image/inc/rt_images.csh &");
+
+}
+
 void do_trigmon() 
 {
    DB_QCN_TRIGGER_MEMORY qtm;
    qtm.clear();
    fprintf(stdout,"HELLO\n");
+//   time_t t_now; time(&t_now);                        // Current time
+//   fprintf(stdout,"HELLO2 %s\n",rtfile);
    char rtfile_ltn[sizeof "/var/www/qcn/rt_image/rt_triggers_LTN.xyz"]="/var/www/qcn/rt_image/rt_triggers_LTN.xyz";  // real time triggers   
    char rtfile_dtn[sizeof "/var/www/qcn/rt_image/rt_triggers_DTN.xyz"]="/var/www/qcn/rt_image/rt_triggers_DTN.xyz";  // real time triggers   
    FILE *fp10; fp10 = fopen(rtfile_ltn,"w+");             // Open output file
    FILE *fp11; fp11 = fopen(rtfile_dtn,"w+");             // Open output file
-//   time_t t_now; time(&t_now);                        // Current time
-//   fprintf(stdout,"HELLO2 %s\n",rtfile);
 
-   int iCtr = 0;
+
+   int iCtr = -1;
    char strWhere[64];
    sprintf(strWhere, "WHERE time_trigger > (unix_timestamp()-%d)", g_iTriggerTimeInterval);
    while (!qtm.enumerate(strWhere))  {
+    iCtr++;
     // just print a line out of trigger info i.e. all fields in qtm
 /*     fprintf(stdout, "%d %s %d %d %s %s %f %f %f %f %f %f %f %f %f %d %d %f %d %d %d %d %d\n",
         ++iCtr, qtm.db_name, qtm.triggerid, qtm.hostid, qtm.ipaddr, qtm.result_name, qtm.time_trigger,
@@ -72,31 +81,18 @@ void do_trigmon()
     } else {
      fprintf(fp11,"%f,%f,%f,%d\n",qtm.longitude,qtm.latitude,qtm.magnitude,qtm.hostid);
     }
+    iCtr++;
    }
+   create_plot();
    fclose(fp10);                                        // Close output file
    fclose(fp11);                                        // Close output file
 }
 
 
-void get_bad_hosts(struct bad_hosts bh) {
-/*  This subrouting retrieves the bad host names */
-   FILE *fp10; fp10 = fopen(BAD_HOSTS_FILE,"r+");
-   bh.nh = 0;
-   while (feof(fp10) == 0) { 
-    bh.nh++;
-    fscanf(fp10,"$d",bh.hid); 
-   }
-   fclose(fp10);
-   return;
-}
-
 int main(int argc, char** argv) 
 {
     int retval;
-
     //vQuakeEvent.clear();
-
-    get_bad_hosts(bh);
 
  
     retval = config.parse_file();
