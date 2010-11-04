@@ -51,7 +51,7 @@ def archiveFilesPath(bContinual):
        if long(dtime) + ARCHIVE_TIME < now:
          # old file to archive
          # look for zip file with this bin
-         fullzippath = ARCHIVE_DIR + dbin + ".zip"
+         fullzippath = dirArchive + dbin + ".zip"
          errLevel = 0
          try:  # catch zipfile exceptions if any - open for append, no compression (since already a zip), and allow > 2GB
            myzip = zipfile.ZipFile(fullzippath, "a", zipfile.ZIP_STORED, True)
@@ -90,7 +90,7 @@ def checkPaths():
       return 1
 
    if not os.access(ARCHIVE_CONTINUAL_DIR, os.F_OK | os.W_OK):
-      print ARCHIVE_CONTINUAL_DIR + " directory for ARCHIVE_DIR does not exist or not writable!"
+      print ARCHIVE_CONTINUAL_DIR + " directory for ARCHIVE_CONTINUAL_DIR does not exist or not writable!"
       return 1
 
    #if not os.access(UPLOAD_BACKUP_DIR, os.F_OK):
