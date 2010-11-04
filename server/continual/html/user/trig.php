@@ -19,11 +19,11 @@ q.depth_km as quake_depth, q.latitude as quake_lat,
 q.longitude as quake_lon, q.description, q.url, q.guid,";
 
 $queryQuakeNullJoin = "FROM
-  qcnalpha.qcn_trigger t 
+  qcn_trigger t 
    LEFT JOIN qcn_sensor s ON t.type_sensor = s.id ";
 
 $queryQuakeActiveJoin = "FROM
-  qcnalpha.qcn_trigger t LEFT OUTER JOIN qcn_quake q ON t.qcn_quakeid = q.id
+  qcn_trigger t LEFT OUTER JOIN qcn_quake q ON t.qcn_quakeid = q.id
    LEFT JOIN qcn_sensor s ON t.type_sensor = s.id ";
 
 $query = 
