@@ -18,4 +18,4 @@ UPDATE qcnalpha.result SET xml_doc_in=NULL, xml_doc_out=NULL where server_state>
 UPDATE qcnalpha.workunit SET xml_doc=NULL,min_quorum=0,target_nresults=0 
    WHERE id IN (SELECT id FROM qcnalpha.result WHERE server_state>2);
 OPTIMIZE TABLE qcnalpha.result;
-OPTIMIZE TABLE qcnalpha..workunit;
+OPTIMIZE TABLE qcnalpha.workunit;
