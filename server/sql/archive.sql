@@ -5,7 +5,7 @@ OPTIMIZE TABLE contarchive.qcn_trigger;
 OPTIMIZE TABLE continual.qcn_trigger;
 UPDATE continual.result SET xml_doc_in=NULL, xml_doc_out=NULL where server_state>2;
 UPDATE continual.workunit SET xml_doc=NULL,min_quorum=0,target_nresults=0 
-   WHERE id IN (SELECT id FROM continual.result WHERE server_state>2);
+   WHERE id IN (SELECT workunitid FROM continual.result WHERE server_state>2);
 OPTIMIZE TABLE continual.result;
 OPTIMIZE TABLE continual.workunit;
 
@@ -16,6 +16,6 @@ OPTIMIZE TABLE qcnarchive.qcn_trigger;
 OPTIMIZE TABLE qcnalpha.qcn_trigger;
 UPDATE qcnalpha.result SET xml_doc_in=NULL, xml_doc_out=NULL where server_state>2;
 UPDATE qcnalpha.workunit SET xml_doc=NULL,min_quorum=0,target_nresults=0 
-   WHERE id IN (SELECT id FROM qcnalpha.result WHERE server_state>2);
+   WHERE id IN (SELECT workunitid FROM qcnalpha.result WHERE server_state>2);
 OPTIMIZE TABLE qcnalpha.result;
 OPTIMIZE TABLE qcnalpha.workunit;
