@@ -39,12 +39,12 @@ DBHOST = "db-private"
 DBUSER = "qcn"
 DBPASSWD = ""
 
-# delete old invalid zip files > 30 days old, they'll never get uploaded or fixed
+# delete old invalid zip files > 14 days old, they'll never get uploaded or fixed
 def delFilesPath(path):
   now = time.time()
   for f in os.listdir(path):
     fname = os.path.join(path, f)
-    if os.stat(fname).st_mtime < now - 30 * 86400:
+    if os.stat(fname).st_mtime < now - (14 * 86400):
       if os.path.isfile(fname) and f.endswith(".zip"):
         os.remove(fname)
 
