@@ -70,6 +70,7 @@ def archiveFilesPath(bContinual):
 
            # if we made it here then it was archived and can remove the original
            os.remove(fname)
+           print "Successfully archived " + f
 
          except:
            print "Error in my zip file: " + f + "  " + fname + "  " + fullzippath
@@ -77,8 +78,8 @@ def archiveFilesPath(bContinual):
            print ""
            errLevel = 1
 
-    else:
-      print "Invalid file name?  " + fname   
+#    else:
+#      print "Invalid file name?  " + fname   
 
 # makes sure that the necessary paths are in place as defined above
 def checkPaths():
