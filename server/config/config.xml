@@ -196,17 +196,6 @@
         24 hours
       </period>
     </task>
-    <task>
-      <output>
-        archive.out
-      </output>
-      <cmd>
-        archive.sh
-      </cmd>
-      <period>
-        30 days
-      </period>
-    </task>
   </tasks>
   <daemons>
     <daemon>
