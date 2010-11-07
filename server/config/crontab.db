@@ -1,5 +1,5 @@
 #
 # don't forget this server is using UTC so 4-5 hours ahead of EST or 7-8 hours from Pacific Time
-8 10 * * * /root/backupdb 1>>/root/backupdb.log 2>>/root/backupdb.err
+8 10 * * * /root/backupdb.sh 1>>/root/backupdb.log 2>>/root/backupdb.err
 # monthly archive of triggers in database (also @monthly on qcn-upl to move/zip triggers to /data/cees2
 @monthly /root/archive.sh 1>>/root/archive.log 2>>/root/archive.err
