@@ -3,8 +3,10 @@
 for X in `ps acx | grep -i qcnusb | awk {'print $1'}`; do
   kill -15 $X;
 done
+LQCN="/Library/QCN"
 LCTL="/bin/launchctl"
 PLIST="/Library/LaunchDaemons/edu.stanford.qcn.qcnusb.plist"
+rm -rf $LQCN
 if [ -e $PLIST ] && [ -e $LCTL ];
 then
   $LCTL unload $PLIST
