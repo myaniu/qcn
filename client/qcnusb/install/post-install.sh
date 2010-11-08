@@ -1,4 +1,7 @@
 #!/bin/sh
-#run qcnusb
-launchctl load /Library/LaunchDaemons/edu.stanford.qcn.qcnusb.plist
-#nohup /Library/QCN/qcnusb 1>/tmp/qcnusb.out 2>/tmp/qcnusb.err &
+LCTL="/bin/launchctl"
+PLIST="/Library/LaunchDaemons/edu.stanford.qcn.qcnusb.plist"
+if [ -e $PLIST ] && [ -e $LCTL ];
+then
+  launchctl load /Library/LaunchDaemons/edu.stanford.qcn.qcnusb.plist
+fi
