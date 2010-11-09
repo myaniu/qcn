@@ -9,14 +9,15 @@
 /* Begin PBXBuildFile section */
 		069D05B0128AE5DC7EE31738 /* QtCore.framework in Frameworks & Libraries */ = {isa = PBXBuildFile; fileRef = 7BC2E65A5E699A5E5D834CA2 /* QtCore.framework */; };
 		0C6D4628EE0B0D1479A20551 /* AGL.framework in Frameworks & Libraries */ = {isa = PBXBuildFile; fileRef = C6766F86E49E9C8701C8E637 /* AGL.framework */; };
-		2B093CA6F071B023A473CED0 /* main.cpp in Build Sources */ = {isa = PBXBuildFile; fileRef = 118FCBAABA162BA17933C789 /* main.cpp */; settings = {ATTRIBUTES = (); }; };
 		2E812FBC8E1A8F8CA0084814 /* glwidget.cpp in Build Sources */ = {isa = PBXBuildFile; fileRef = 5F02801ACF9C72A274A802D8 /* glwidget.cpp */; settings = {ATTRIBUTES = (); }; };
 		3BBD6E3E630068B57C2CEC5B /* moc_glwidget.cpp in Build Sources */ = {isa = PBXBuildFile; fileRef = 24FC5F21B8D858EDB1CC09E6 /* moc_glwidget.cpp */; settings = {ATTRIBUTES = (); }; };
-		435C05A01289F69D001DA6F9 /* qcnlive.app in Project Copy */ = {isa = PBXBuildFile; fileRef = 435C059D1289F69D001DA6F9 /* qcnlive.app */; };
+		43B434341289F7570004CA5F /* qcnlive.app in Project Copy */ = {isa = PBXBuildFile; fileRef = 43B434311289F7570004CA5F /* qcnlive.app */; };
 		450A0D11527AF164AEFE7377 /* QtOpenGL.framework in Frameworks & Libraries */ = {isa = PBXBuildFile; fileRef = C374004D45E01156F931B37D /* QtOpenGL.framework */; };
-		462C0F34BBEF2375A9469BB5 /* mainwindow.cpp in Build Sources */ = {isa = PBXBuildFile; fileRef = EA177DE95BF7D3EF58EE43F7 /* mainwindow.cpp */; settings = {ATTRIBUTES = (); }; };
 		501667F26B3C1FF6767A7C12 /* QtGui.framework in Frameworks & Libraries */ = {isa = PBXBuildFile; fileRef = 9B36DA7E32F0304E780E7972 /* QtGui.framework */; };
+		55BAA308AFB2B93E05C799F0 /* myframe.cpp in Build Sources */ = {isa = PBXBuildFile; fileRef = AAC5D3BB2B45E06D7BEABBA5 /* myframe.cpp */; settings = {ATTRIBUTES = (); }; };
 		BCEF71E1EDFB18DA77DC750B /* OpenGL.framework in Frameworks & Libraries */ = {isa = PBXBuildFile; fileRef = DA18A6831232F53228631AD1 /* OpenGL.framework */; };
+		BEDED976F515C7289AFF293C /* main.cpp in Build Sources */ = {isa = PBXBuildFile; fileRef = BF44A226F82642BA4403C02B /* main.cpp */; settings = {ATTRIBUTES = (); }; };
+		E87ECDCF58FDC2B1DA157BCC /* moc_myframe.cpp in Build Sources */ = {isa = PBXBuildFile; fileRef = E24F3CA780209F58A9D75EB0 /* moc_myframe.cpp */; settings = {ATTRIBUTES = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -26,7 +27,7 @@
 			dstPath = /Users/carlgt1/projects/qcn/client/qcnlive_qt;
 			dstSubfolderSpec = 0;
 			files = (
-				435C05A01289F69D001DA6F9 /* qcnlive.app in Project Copy */,
+				43B434341289F7570004CA5F /* qcnlive.app in Project Copy */,
 			);
 			name = "Project Copy";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -34,18 +35,19 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		118FCBAABA162BA17933C789 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		174B4969275AA57F83F57165 /* glwidget.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = glwidget.h; sourceTree = "<group>"; };
 		24FC5F21B8D858EDB1CC09E6 /* moc_glwidget.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = moc_glwidget.cpp; sourceTree = "<group>"; };
-		435C059D1289F69D001DA6F9 /* qcnlive.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = qcnlive.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		43B434311289F7570004CA5F /* qcnlive.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = qcnlive.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5F02801ACF9C72A274A802D8 /* glwidget.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = glwidget.cpp; sourceTree = "<group>"; };
 		7BC2E65A5E699A5E5D834CA2 /* QtCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QtCore.framework; path = /Library/Frameworks/QtCore.framework; sourceTree = "<absolute>"; };
+		9360C082BB1E9191E72216B5 /* myframe.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = myframe.h; sourceTree = "<group>"; };
 		9B36DA7E32F0304E780E7972 /* QtGui.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QtGui.framework; path = /Library/Frameworks/QtGui.framework; sourceTree = "<absolute>"; };
+		AAC5D3BB2B45E06D7BEABBA5 /* myframe.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = myframe.cpp; sourceTree = "<group>"; };
+		BF44A226F82642BA4403C02B /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = ../main/main.cpp; sourceTree = "<group>"; };
 		C374004D45E01156F931B37D /* QtOpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QtOpenGL.framework; path = /Library/Frameworks/QtOpenGL.framework; sourceTree = "<absolute>"; };
-		C63FA392C61F27B1B13369C1 /* mainwindow.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = mainwindow.h; sourceTree = "<group>"; };
 		C6766F86E49E9C8701C8E637 /* AGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AGL.framework; path = /System/Library/Frameworks/AGL.framework; sourceTree = "<absolute>"; };
 		DA18A6831232F53228631AD1 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = /System/Library/Frameworks/OpenGL.framework; sourceTree = "<absolute>"; };
-		EA177DE95BF7D3EF58EE43F7 /* mainwindow.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = mainwindow.cpp; sourceTree = "<group>"; };
+		E24F3CA780209F58A9D75EB0 /* moc_myframe.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = moc_myframe.cpp; sourceTree = "<group>"; };
 		F1235E634B6FAF8A1D8BD12B /* qcnlive.pro */ = {isa = PBXFileReference; lastKnownFileType = text; path = qcnlive.pro; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -74,15 +76,23 @@
 				883D7615C4D2DE3FA1218F12 /* Headers */,
 				7CABE3C80E79AD2B307756D2 /* Sources [qmake] */,
 				ED1E82605DD74B483AF3C982 /* External Frameworks and Libraries */,
-				435C059E1289F69D001DA6F9 /* Products */,
+				43B434321289F7570004CA5F /* Products */,
 			);
 			name = qcnlive;
 			sourceTree = "<group>";
 		};
-		435C059E1289F69D001DA6F9 /* Products */ = {
+		174AC5C013434B20F3F8526C /* main */ = {
 			isa = PBXGroup;
 			children = (
-				435C059D1289F69D001DA6F9 /* qcnlive.app */,
+				BF44A226F82642BA4403C02B /* main.cpp */,
+			);
+			name = main;
+			sourceTree = "<group>";
+		};
+		43B434321289F7570004CA5F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				43B434311289F7570004CA5F /* qcnlive.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -91,6 +101,7 @@
 			isa = PBXGroup;
 			children = (
 				24FC5F21B8D858EDB1CC09E6 /* moc_glwidget.cpp */,
+				E24F3CA780209F58A9D75EB0 /* moc_myframe.cpp */,
 			);
 			name = "Temporary Sources";
 			sourceTree = "<group>";
@@ -107,9 +118,17 @@
 			isa = PBXGroup;
 			children = (
 				174B4969275AA57F83F57165 /* glwidget.h */,
-				C63FA392C61F27B1B13369C1 /* mainwindow.h */,
+				9360C082BB1E9191E72216B5 /* myframe.h */,
 			);
 			name = Headers;
+			sourceTree = "<group>";
+		};
+		BFA3A29D17FD123C907B6E35 /* .. */ = {
+			isa = PBXGroup;
+			children = (
+				174AC5C013434B20F3F8526C /* main */,
+			);
+			name = ..;
 			sourceTree = "<group>";
 		};
 		ED1E82605DD74B483AF3C982 /* External Frameworks and Libraries */ = {
@@ -128,8 +147,8 @@
 			isa = PBXGroup;
 			children = (
 				5F02801ACF9C72A274A802D8 /* glwidget.cpp */,
-				118FCBAABA162BA17933C789 /* main.cpp */,
-				EA177DE95BF7D3EF58EE43F7 /* mainwindow.cpp */,
+				BFA3A29D17FD123C907B6E35 /* .. */,
+				AAC5D3BB2B45E06D7BEABBA5 /* myframe.cpp */,
 			);
 			name = Sources;
 			sourceTree = "<group>";
@@ -139,7 +158,7 @@
 /* Begin PBXNativeTarget section */
 		05DA951A83F53A998C545C0E /* QCNLive */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 435C05B01289F69F001DA6F9 /* Build configuration list for PBXNativeTarget "QCNLive" */;
+			buildConfigurationList = 43B434481289F7750004CA5F /* Build configuration list for PBXNativeTarget "QCNLive" */;
 			buildPhases = (
 				D7BA7D76DAB5DD13389D6332 /* Qt Qmake */,
 				A0A52A2ADF7A1E2A99738674 /* Qt Preprocessors */,
@@ -154,7 +173,7 @@
 			);
 			name = QCNLive;
 			productName = qcnlive;
-			productReference = 435C059D1289F69D001DA6F9 /* qcnlive.app */;
+			productReference = 43B434311289F7570004CA5F /* qcnlive.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -173,7 +192,7 @@
 				German,
 			);
 			mainGroup = 05596AB53D8D521C69802C27 /* qcnlive */;
-			productRefGroup = 435C059E1289F69D001DA6F9 /* Products */;
+			productRefGroup = 43B434321289F7570004CA5F /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -222,9 +241,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				2E812FBC8E1A8F8CA0084814 /* glwidget.cpp in Build Sources */,
-				2B093CA6F071B023A473CED0 /* main.cpp in Build Sources */,
-				462C0F34BBEF2375A9469BB5 /* mainwindow.cpp in Build Sources */,
+				BEDED976F515C7289AFF293C /* main.cpp in Build Sources */,
+				55BAA308AFB2B93E05C799F0 /* myframe.cpp in Build Sources */,
 				3BBD6E3E630068B57C2CEC5B /* moc_glwidget.cpp in Build Sources */,
+				E87ECDCF58FDC2B1DA157BCC /* moc_myframe.cpp in Build Sources */,
 			);
 			name = "Build Sources";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -232,7 +252,7 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		435C05A41289F69E001DA6F9 /* Debug */ = {
+		43B434381289F7570004CA5F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = i386;
@@ -243,6 +263,15 @@
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				HEADER_SEARCH_PATHS = (
+					../../,
+					"../../jpeg-6b",
+					../../../boinc/api,
+					../../../boinc/lib,
+					../util,
+					../sensor,
+					../graphics,
+					../main,
+					../../../boinc/lib/mac,
 					/Library/Frameworks/QtCore.framework/Versions/4/Headers,
 					/usr/include/QtCore,
 					/Library/Frameworks/QtGui.framework/Versions/4/Headers,
@@ -266,6 +295,8 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				OTHER_CFLAGS = (
+					"-D_DEBUG_QCNLIVE",
+					"-D_DEBUG",
 					"-pipe",
 					"-g",
 					"-Wall",
@@ -274,8 +305,16 @@
 					"-DQT_GUI_LIB",
 					"-DQT_CORE_LIB",
 					"-DQT_SHARED",
+					"-Wall",
+					"-D_USE_NTPDATE_EXEC_",
+					"-DQCNLIVE",
+					"-DGRAPHICS_PROGRAM",
+					"-DAPP_GRAPHICS",
+					"-DHAVE_SYS_RESOURCE_H",
 				);
 				OTHER_CPLUSPLUSFLAGS = (
+					"-D_DEBUG_QCNLIVE",
+					"-D_DEBUG",
 					"-pipe",
 					"-g",
 					"-Wall",
@@ -284,6 +323,12 @@
 					"-DQT_GUI_LIB",
 					"-DQT_CORE_LIB",
 					"-DQT_SHARED",
+					"-Wall",
+					"-D_USE_NTPDATE_EXEC_",
+					"-DQCNLIVE",
+					"-DGRAPHICS_PROGRAM",
+					"-DAPP_GRAPHICS",
+					"-DHAVE_SYS_RESOURCE_H",
 				);
 				OTHER_LDFLAGS = (
 					"-headerpad_max_install_names",
@@ -301,7 +346,7 @@
 			};
 			name = Debug;
 		};
-		435C05A51289F69E001DA6F9 /* Release */ = {
+		43B434391289F7570004CA5F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = i386;
@@ -311,6 +356,15 @@
 				DYLIB_CURRENT_VERSION = 1.0.0;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				HEADER_SEARCH_PATHS = (
+					../../,
+					"../../jpeg-6b",
+					../../../boinc/api,
+					../../../boinc/lib,
+					../util,
+					../sensor,
+					../graphics,
+					../main,
+					../../../boinc/lib/mac,
 					/Library/Frameworks/QtCore.framework/Versions/4/Headers,
 					/usr/include/QtCore,
 					/Library/Frameworks/QtGui.framework/Versions/4/Headers,
@@ -342,6 +396,12 @@
 					"-DQT_GUI_LIB",
 					"-DQT_CORE_LIB",
 					"-DQT_SHARED",
+					"-Wall",
+					"-D_USE_NTPDATE_EXEC_",
+					"-DQCNLIVE",
+					"-DGRAPHICS_PROGRAM",
+					"-DAPP_GRAPHICS",
+					"-DHAVE_SYS_RESOURCE_H",
 				);
 				OTHER_CPLUSPLUSFLAGS = (
 					"-pipe",
@@ -352,6 +412,12 @@
 					"-DQT_GUI_LIB",
 					"-DQT_CORE_LIB",
 					"-DQT_SHARED",
+					"-Wall",
+					"-D_USE_NTPDATE_EXEC_",
+					"-DQCNLIVE",
+					"-DGRAPHICS_PROGRAM",
+					"-DAPP_GRAPHICS",
+					"-DHAVE_SYS_RESOURCE_H",
 				);
 				OTHER_LDFLAGS = (
 					"-headerpad_max_install_names",
@@ -369,7 +435,7 @@
 			};
 			name = Release;
 		};
-		435C05A61289F69E001DA6F9 /* Default */ = {
+		43B4343A1289F7570004CA5F /* Default */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = i386;
@@ -377,6 +443,15 @@
 				DYLIB_COMPATIBILITY_VERSION = 1.0;
 				DYLIB_CURRENT_VERSION = 1.0.0;
 				HEADER_SEARCH_PATHS = (
+					../../,
+					"../../jpeg-6b",
+					../../../boinc/api,
+					../../../boinc/lib,
+					../util,
+					../sensor,
+					../graphics,
+					../main,
+					../../../boinc/lib/mac,
 					/Library/Frameworks/QtCore.framework/Versions/4/Headers,
 					/usr/include/QtCore,
 					/Library/Frameworks/QtGui.framework/Versions/4/Headers,
@@ -464,12 +539,12 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		435C05B01289F69F001DA6F9 /* Build configuration list for PBXNativeTarget "QCNLive" */ = {
+		43B434481289F7750004CA5F /* Build configuration list for PBXNativeTarget "QCNLive" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				435C05A41289F69E001DA6F9 /* Debug */,
-				435C05A51289F69E001DA6F9 /* Release */,
-				435C05A61289F69E001DA6F9 /* Default */,
+				43B434381289F7570004CA5F /* Debug */,
+				43B434391289F7570004CA5F /* Release */,
+				43B4343A1289F7570004CA5F /* Default */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Default;

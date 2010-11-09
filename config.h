@@ -416,7 +416,4 @@
 /* #undef size_t */
 
 
-
-/* end double-inclusion protection for config.h */
-#endif /* #ifndef QCN_CONFIG_H */
-
+#endif

@@ -1,8 +1,8 @@
 HEADERS       = glwidget.h \
-                mainwindow.h
+                myframe.h
 SOURCES       = glwidget.cpp \
-                main.cpp \
-                mainwindow.cpp
+                ../main/main.cpp \
+                myframe.cpp
 QT           += opengl
 
 # install

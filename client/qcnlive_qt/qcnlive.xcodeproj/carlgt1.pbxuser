@@ -3,8 +3,16 @@
 	05DA951A83F53A998C545C0E /* QCNLive */ = {
 		activeExec = 0;
 		executables = (
-			435C059F1289F69D001DA6F9 /* QCNLive */,
+			43B434331289F7570004CA5F /* QCNLive */,
 		);
+	};
+	174B4969275AA57F83F57165 /* glwidget.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1499, 1274}}";
+			sepNavSelRange = "{242, 1405}";
+			sepNavVisRange = "{421, 1551}";
+			sepNavWindowFrame = "{{15, 96}, {1558, 1077}}";
+		};
 	};
 	24FC5F21B8D858EDB1CC09E6 /* moc_glwidget.cpp */ = {
 		uiCtxt = {
@@ -94,49 +102,6 @@
 	435C05821289F50C001DA6F9 /* PBXBookmark */ = {
 		isa = PBXBookmark;
 	};
-	435C059F1289F69D001DA6F9 /* QCNLive */ = {
-		isa = PBXExecutable;
-		activeArgIndices = (
-		);
-		argumentStrings = (
-		);
-		autoAttachOnCrash = 1;
-		breakpointsEnabled = 0;
-		configStateDict = {
-		};
-		customDataFormattersEnabled = 1;
-		dataTipCustomDataFormattersEnabled = 1;
-		dataTipShowTypeColumn = 1;
-		dataTipSortType = 0;
-		debuggerPlugin = GDBDebugging;
-		disassemblyDisplayState = 0;
-		enableDebugStr = 1;
-		environmentEntries = (
-		);
-		executableSystemSymbolLevel = 0;
-		executableUserSymbolLevel = 0;
-		libgmallocEnabled = 0;
-		name = QCNLive;
-		showTypeColumn = 0;
-		sourceDirectories = (
-		);
-	};
-	435C05B61289F6EA001DA6F9 /* XCBuildMessageTextBookmark */ = {
-		isa = PBXTextBookmark;
-		comments = "Main.h: No such file or directory";
-		fRef = 435C05B71289F6EA001DA6F9 /* qcnqt.h */;
-		fallbackIsa = XCBuildMessageTextBookmark;
-		rLen = 1;
-		rLoc = 36;
-		rType = 1;
-	};
-	435C05B71289F6EA001DA6F9 /* qcnqt.h */ = {
-		isa = PBXFileReference;
-		lastKnownFileType = sourcecode.c.h;
-		name = qcnqt.h;
-		path = /Users/carlgt1/projects/qcn/client/qcnlive_qt/qcnqt.h;
-		sourceTree = "<absolute>";
-	};
 	435C05B91289F705001DA6F9 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
 		fRef = 435C05BA1289F705001DA6F9 /* qcnqt.h */;
@@ -149,6 +114,7 @@
 	};
 	435C05BA1289F705001DA6F9 /* qcnqt.h */ = {
 		isa = PBXFileReference;
+		lastKnownFileType = sourcecode.c.h;
 		name = qcnqt.h;
 		path = /Users/carlgt1/projects/qcn/client/qcnlive_qt/qcnqt.h;
 		sourceTree = "<absolute>";
@@ -187,6 +153,124 @@
 		rLoc = 0;
 		rType = 0;
 		vrLen = 2122;
+		vrLoc = 0;
+	};
+	43B434331289F7570004CA5F /* QCNLive */ = {
+		isa = PBXExecutable;
+		activeArgIndices = (
+		);
+		argumentStrings = (
+		);
+		autoAttachOnCrash = 1;
+		breakpointsEnabled = 0;
+		configStateDict = {
+		};
+		customDataFormattersEnabled = 1;
+		dataTipCustomDataFormattersEnabled = 1;
+		dataTipShowTypeColumn = 1;
+		dataTipSortType = 0;
+		debuggerPlugin = GDBDebugging;
+		disassemblyDisplayState = 0;
+		enableDebugStr = 1;
+		environmentEntries = (
+		);
+		executableSystemSymbolLevel = 0;
+		executableUserSymbolLevel = 0;
+		libgmallocEnabled = 0;
+		name = QCNLive;
+		showTypeColumn = 0;
+		sourceDirectories = (
+		);
+	};
+	43B4345B1289F7FC0004CA5F /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 43B4345C1289F7FC0004CA5F /* define.h */;
+		name = "define.h: 15";
+		rLen = 0;
+		rLoc = 341;
+		rType = 0;
+		vrLen = 1284;
+		vrLoc = 0;
+	};
+	43B4345C1289F7FC0004CA5F /* define.h */ = {
+		isa = PBXFileReference;
+		lastKnownFileType = sourcecode.c.h;
+		name = define.h;
+		path = /Users/carlgt1/projects/qcn/client/qcnlive_qt/../main/define.h;
+		sourceTree = "<absolute>";
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1499, 6279}}";
+			sepNavSelRange = "{485, 0}";
+			sepNavVisRange = "{0, 1658}";
+		};
+	};
+	43B434821289FE2D0004CA5F /* PBXBookmark */ = {
+		isa = PBXBookmark;
+		fRef = 5F02801ACF9C72A274A802D8 /* glwidget.cpp */;
+	};
+	43B434851289FE380004CA5F /* XCBuildMessageTextBookmark */ = {
+		isa = PBXTextBookmark;
+		comments = "Expected unqualified-id before 'using'";
+		fRef = 43B4345C1289F7FC0004CA5F /* define.h */;
+		fallbackIsa = XCBuildMessageTextBookmark;
+		rLen = 1;
+		rLoc = 27;
+		rType = 1;
+	};
+	43B434861289FE3E0004CA5F /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 5F02801ACF9C72A274A802D8 /* glwidget.cpp */;
+		name = "glwidget.cpp: 246";
+		rLen = 0;
+		rLoc = 7743;
+		rType = 0;
+		vrLen = 2396;
+		vrLoc = 0;
+	};
+	43B434871289FE3E0004CA5F /* PBXBookmark */ = {
+		isa = PBXBookmark;
+		fRef = 9360C082BB1E9191E72216B5 /* myframe.h */;
+	};
+	43B434881289FE3E0004CA5F /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 9360C082BB1E9191E72216B5 /* myframe.h */;
+		name = "myframe.h: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 1229;
+		vrLoc = 0;
+	};
+	43B434891289FE3E0004CA5F /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 43B4348A1289FE3E0004CA5F /* define.h */;
+		name = "define.h: 28";
+		rLen = 0;
+		rLoc = 486;
+		rType = 0;
+		vrLen = 1658;
+		vrLoc = 0;
+	};
+	43B4348A1289FE3E0004CA5F /* define.h */ = {
+		isa = PBXFileReference;
+		name = define.h;
+		path = /Users/carlgt1/projects/qcn/client/qcnlive_qt/../main/define.h;
+		sourceTree = "<absolute>";
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {876, 6188}}";
+			sepNavSelRange = "{486, 0}";
+			sepNavVisRange = "{342, 311}";
+			sepNavWindowFrame = "{{152, 101}, {1558, 1077}}";
+		};
+	};
+	43B4348D1289FE3E0004CA5F /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 5F02801ACF9C72A274A802D8 /* glwidget.cpp */;
+		name = "glwidget.cpp: 18";
+		rLen = 0;
+		rLoc = 822;
+		rType = 0;
+		vrLen = 2593;
 		vrLoc = 0;
 	};
 	43C34629127B20CA00FC339B /* QCNLive */ = {
@@ -242,6 +326,14 @@
 		vrLen = 723;
 		vrLoc = 0;
 	};
+	5F02801ACF9C72A274A802D8 /* glwidget.cpp */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1499, 5954}}";
+			sepNavSelRange = "{822, 0}";
+			sepNavVisRange = "{0, 2593}";
+			sepNavWindowFrame = "{{15, 96}, {1558, 1077}}";
+		};
+	};
 	91B15E841AA80083484172DE /* Project object */ = {
 		activeArchitecturePreference = i386;
 		activeBuildConfigurationName = Debug;
@@ -254,7 +346,7 @@
 		codeSenseManager = 430796EE127A40B7009D4017 /* Code sense */;
 		executables = (
 			43C34629127B20CA00FC339B /* QCNLive */,
-			435C059F1289F69D001DA6F9 /* QCNLive */,
+			43B434331289F7570004CA5F /* QCNLive */,
 		);
 		perUserDictionary = {
 			PBXConfiguration.PBXFileTableDataSource3.PBXBookmarksDataSource = {
@@ -329,8 +421,8 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 311031453;
-			PBXWorkspaceStateSaveDate = 311031453;
+			PBXPerProjectTemplateStateSaveDate = 311031639;
+			PBXWorkspaceStateSaveDate = 311031639;
 		};
 		perUserProjectItems = {
 			431EE1D0127A5B05004771DF /* PBXTextBookmark */ = 431EE1D0127A5B05004771DF /* PBXTextBookmark */;
@@ -340,17 +432,31 @@
 			435C04FA1289EB58001DA6F9 /* PBXTextBookmark */ = 435C04FA1289EB58001DA6F9 /* PBXTextBookmark */;
 			435C05811289F50C001DA6F9 /* PBXTextBookmark */ = 435C05811289F50C001DA6F9 /* PBXTextBookmark */;
 			435C05821289F50C001DA6F9 /* PBXBookmark */ = 435C05821289F50C001DA6F9 /* PBXBookmark */;
-			435C05B61289F6EA001DA6F9 /* XCBuildMessageTextBookmark */ = 435C05B61289F6EA001DA6F9 /* XCBuildMessageTextBookmark */;
 			435C05B91289F705001DA6F9 /* PBXTextBookmark */ = 435C05B91289F705001DA6F9 /* PBXTextBookmark */;
 			43A5A854127A625400B0F0ED /* PBXTextBookmark */ = 43A5A854127A625400B0F0ED /* PBXTextBookmark */;
 			43A5A855127A625400B0F0ED /* PBXTextBookmark */ = 43A5A855127A625400B0F0ED /* PBXTextBookmark */;
 			43A5A8AB127A64C700B0F0ED /* PBXTextBookmark */ = 43A5A8AB127A64C700B0F0ED /* PBXTextBookmark */;
 			43A5A8AC127A64C700B0F0ED /* PBXTextBookmark */ = 43A5A8AC127A64C700B0F0ED /* PBXTextBookmark */;
+			43B4345B1289F7FC0004CA5F /* PBXTextBookmark */ = 43B4345B1289F7FC0004CA5F /* PBXTextBookmark */;
+			43B434821289FE2D0004CA5F /* PBXBookmark */ = 43B434821289FE2D0004CA5F /* PBXBookmark */;
+			43B434851289FE380004CA5F /* XCBuildMessageTextBookmark */ = 43B434851289FE380004CA5F /* XCBuildMessageTextBookmark */;
+			43B434861289FE3E0004CA5F /* PBXTextBookmark */ = 43B434861289FE3E0004CA5F /* PBXTextBookmark */;
+			43B434871289FE3E0004CA5F /* PBXBookmark */ = 43B434871289FE3E0004CA5F /* PBXBookmark */;
+			43B434881289FE3E0004CA5F /* PBXTextBookmark */ = 43B434881289FE3E0004CA5F /* PBXTextBookmark */;
+			43B434891289FE3E0004CA5F /* PBXTextBookmark */ = 43B434891289FE3E0004CA5F /* PBXTextBookmark */;
+			43B4348D1289FE3E0004CA5F /* PBXTextBookmark */ = 43B4348D1289FE3E0004CA5F /* PBXTextBookmark */;
 			43C346D8127B242400FC339B /* PBXTextBookmark */ = 43C346D8127B242400FC339B /* PBXTextBookmark */;
 			43EB8459128851A0005DF3E9 /* PBXTextBookmark */ = 43EB8459128851A0005DF3E9 /* PBXTextBookmark */;
 		};
 		sourceControlManager = 430796ED127A40B7009D4017 /* Source Control */;
 		userBuildSettings = {
+		};
+	};
+	9360C082BB1E9191E72216B5 /* myframe.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1446, 1573}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 1229}";
 		};
 	};
 }
