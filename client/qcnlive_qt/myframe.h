@@ -71,12 +71,12 @@ public:
 	void SetupToolbars();
 	void ToggleStartStop(bool bStart);
 
-    MyApp* pMyApp;
-    //MyGLPane* glPane;
-
   private:
 
-        QMenu *menuFile;
+    MyApp* pMyApp;
+    //MyGLPane* glPane;
+	
+	QMenu *menuFile;
         QMenu *menuView;
         QMenu *menuOptions;
         QMenu *menuHelp;
