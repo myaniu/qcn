@@ -216,10 +216,10 @@
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>434512BE128A083200A6FE18</string>
+						<string>4384AB16128A091A00EA6D16</string>
 						<key>history</key>
 						<array>
-							<string>4329D19A127D0FA600C1F3C2</string>
+							<string>434512BE128A083200A6FE18</string>
 						</array>
 					</dict>
 					<key>SplitCount</key>
@@ -315,8 +315,9 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>25</integer>
-									<integer>24</integer>
+									<integer>9</integer>
+									<integer>1</integer>
+									<integer>0</integer>
 								</array>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateVisibleRectKey</key>
@@ -367,7 +368,7 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>434512BD128A083200A6FE18</string>
+										<string>4384AB15128A091A00EA6D16</string>
 										<key>history</key>
 										<array>
 											<string>431EE1D0127A5B05004771DF</string>
@@ -379,7 +380,7 @@
 											<string>4329D0D0127D001500C1F3C2</string>
 											<string>4329D108127D061A00C1F3C2</string>
 											<string>4329D109127D061A00C1F3C2</string>
-											<string>4329D198127D0FA600C1F3C2</string>
+											<string>434512BD128A083200A6FE18</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -391,14 +392,14 @@
 							<key>GeometryConfiguration</key>
 							<dict>
 								<key>Frame</key>
-								<string>{{0, 0}, {1155, 669}}</string>
+								<string>{{0, 0}, {1155, 663}}</string>
 								<key>RubberWindowFrame</key>
 								<string>53 178 1363 994 0 0 1920 1178 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
 							<key>Proportion</key>
-							<string>669pt</string>
+							<string>663pt</string>
 						</dict>
 						<dict>
 							<key>ContentConfiguration</key>
@@ -411,14 +412,14 @@
 							<key>GeometryConfiguration</key>
 							<dict>
 								<key>Frame</key>
-								<string>{{0, 674}, {1155, 279}}</string>
+								<string>{{0, 668}, {1155, 285}}</string>
 								<key>RubberWindowFrame</key>
 								<string>53 178 1363 994 0 0 1920 1178 </string>
 							</dict>
 							<key>Module</key>
 							<string>XCDetailModule</string>
 							<key>Proportion</key>
-							<string>279pt</string>
+							<string>285pt</string>
 						</dict>
 					</array>
 					<key>Proportion</key>
@@ -437,9 +438,9 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>434512B3128A082C00A6FE18</string>
+				<string>4384AB0B128A091900EA6D16</string>
 				<string>1CE0B1FE06471DED0097A5F4</string>
-				<string>434512B4128A082C00A6FE18</string>
+				<string>4384AB0C128A091900EA6D16</string>
 				<string>1CE0B20306471E060097A5F4</string>
 				<string>1CE0B20506471E060097A5F4</string>
 			</array>
@@ -660,7 +661,7 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>430796EA127A40B7009D4017</string>
-				<string>434512B6128A082C00A6FE18</string>
+				<string>4384AB0E128A091900EA6D16</string>
 				<string>1CD0528F0623707200166675</string>
 				<string>XCMainBuildResultsModuleGUID</string>
 			</array>
@@ -782,13 +783,13 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>1CD10A99069EF8BA00B06720</string>
-				<string>434512B7128A082C00A6FE18</string>
+				<string>4384AB0F128A091900EA6D16</string>
 				<string>1C162984064C10D400B95A72</string>
-				<string>434512B8128A082C00A6FE18</string>
-				<string>434512B9128A082C00A6FE18</string>
-				<string>434512BA128A082C00A6FE18</string>
-				<string>434512BB128A082C00A6FE18</string>
-				<string>434512BC128A082C00A6FE18</string>
+				<string>4384AB10128A091900EA6D16</string>
+				<string>4384AB11128A091900EA6D16</string>
+				<string>4384AB12128A091900EA6D16</string>
+				<string>4384AB13128A091900EA6D16</string>
+				<string>4384AB14128A091900EA6D16</string>
 			</array>
 			<key>ToolbarConfiguration</key>
 			<string>xcode.toolbar.config.debugV3</string>
