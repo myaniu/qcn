@@ -26,10 +26,6 @@ public slots:
     void setYRotation(int angle);
     void setZRotation(int angle);
 	
-	MyFrame* m_pframe;  // reference to parent frame
-	MyGLTimer* m_ptimer;
-	bool m_mouseDown[3];  // bools for mouse down -- in order of left/middle/right
-	
 	// methods
 	int getWidth();
 	int getHeight();
@@ -78,6 +74,13 @@ private:
     int gear1Rot;
     
     QPoint lastPos;
+
+public:
+	MyFrame* m_pframe;  // reference to parent frame
+	MyGLTimer* m_ptimer;
+	bool m_mouseDown[3];  // bools for mouse down -- in order of left/middle/right
+	
+	
 };
 
 /*

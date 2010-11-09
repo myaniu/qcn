@@ -74,6 +74,7 @@ enum e_tool_help {
 	ID_TOOL_HELP_WEB_GLOSSARY
 };
 
+/*
 BEGIN_EVENT_TABLE(MyFrame, wxFrame)
     EVT_SIZE(MyFrame::OnSize)
     EVT_CLOSE(MyFrame::OnCloseWindow)
@@ -123,20 +124,14 @@ BEGIN_EVENT_TABLE(MyFrame, wxFrame)
 	EVT_MENU(ID_TOOL_HELP_WEB_GLOSSARY, MyFrame::OnActionHelp)
 
 
-/*
-	EVT_MENU(ID_TOOL_ACTION_2D_01, MyFrame::OnActionPlot)
-	EVT_MENU(ID_TOOL_ACTION_2D_10, MyFrame::OnActionPlot)
-	EVT_MENU(ID_TOOL_ACTION_2D_60, MyFrame::OnActionPlot)
-
-	EVT_MENU(ID_TOOL_ACTION_3D_01, MyFrame::OnActionPlot)
-	EVT_MENU(ID_TOOL_ACTION_3D_10, MyFrame::OnActionPlot)
-	EVT_MENU(ID_TOOL_ACTION_3D_60, MyFrame::OnActionPlot)
-*/
 
 	EVT_MENU(ID_TOOL_ACTION_CAMERA, MyFrame::OnScreenshot)
     EVT_MENU(ID_TOOL_ACTION_AD, MyFrame::OnLogoChange)
 
 END_EVENT_TABLE()
+*/
+
+/*
 
 
 MyFrame::MyFrame(const wxRect& rect, MyApp* papp) 
@@ -200,18 +195,7 @@ void MyFrame::SetupToolbars()
 		if (scrollBar2D) scrollBar2D->Hide();
 	}
 
-/*
-	if (glPane) {
-		toolBar2DPlot = new wxToolBar((wxWindow*) glPane, ID_TOOLBAR_2DPLOT, wxDefaultPosition, wxDefaultSize, 
-			wxTB_HORIZONTAL | wxTB_RIGHT | wxTB_BOTTOM, 
-			//wxTB_BOTTOM | wxTB_RIGHT | wxTB_HORIZONTAL | wxNO_BORDER, 
-			wxT("2D Plot Controls"));
-		scrollBar = new wxScrollBar(toolBar2DPlot, ID_TOOL_ACTION_SENSOR_SCROLLBAR);
-		toolBar2DPlot->AddControl(scrollBar);
-		toolBar2DPlot->Realize();
-		toolBar2DPlot->Show(true);
-	}
-*/
+
 }
 
 void MyFrame::OnCloseWindow(wxCloseEvent& wxc)
@@ -988,34 +972,6 @@ void MyFrame::ToolBarSensor3D()
 
 	//toolBar->AddSeparator();
 
-/*
-	m_ptbBase = toolBar->AddRadioTool(ID_TOOL_ACTION_SENSOR_01, 
-	   wxsShort[0], 
-	   QCN_TOOLBAR_IMG(xpm_icon_one),
-	   wxNullBitmap,
-	   wxsShort[0], 
-	   wxsLong[0]
-	);
-    menuOptions->AppendCheckItem(ID_TOOL_ACTION_SENSOR_01, wxsShort[0], wxsLong[0]);
-
-	m_ptbBase = toolBar->AddRadioTool(ID_TOOL_ACTION_SENSOR_10, 
-	   wxsShort[1], 
-	   QCN_TOOLBAR_IMG(xpm_icon_ten),
-	   wxNullBitmap,
-	   wxsShort[1], 
-	   wxsLong[1]
-	);
-    menuOptions->AppendCheckItem(ID_TOOL_ACTION_SENSOR_10, wxsShort[1], wxsLong[1]);
-	
-	m_ptbBase = toolBar->AddRadioTool(ID_TOOL_ACTION_SENSOR_60, 
-	   wxsShort[2], 
-	   QCN_TOOLBAR_IMG(xpm_icon_sixty),
-	   wxNullBitmap,
-	   wxsShort[2], 
-	   wxsLong[2]
-	);
-    menuOptions->AppendCheckItem(ID_TOOL_ACTION_SENSOR_60, wxsShort[2], wxsLong[2]);
-*/
 
 	SensorNavButtons();
 	
@@ -1070,4 +1026,214 @@ void MyFrame::EarthRotate(bool bAuto)
    }
 }
  
+*/
+
+MyFrame::MyFrame(const QRect& rect, MyApp* papp)
+{
+    centralWidget = new QWidget;
+    setCentralWidget(centralWidget);
+	
+    glWidget = new GLWidget;
+    //pixmapLabel = new QLabel;
+	
+    glWidgetArea = new QScrollArea;
+    glWidgetArea->setWidget(glWidget);
+    glWidgetArea->setWidgetResizable(true);
+    glWidgetArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    glWidgetArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    glWidgetArea->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
+    glWidgetArea->setMinimumSize(50, 50);
+	
+	/*
+	 pixmapLabelArea = new QScrollArea;
+	 pixmapLabelArea->setWidget(pixmapLabel);
+	 pixmapLabelArea->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
+	 pixmapLabelArea->setMinimumSize(50, 50);
+	 */
+	
+    pTimeSlider = createSlider(SIGNAL(TimeChanged(int)),
+							   SLOT(setTimeChanged(int)));
+	/*
+	 xSlider = createSlider(SIGNAL(xRotationChanged(int)),
+	 SLOT(setXRotation(int)));
+	 ySlider = createSlider(SIGNAL(yRotationChanged(int)),
+	 SLOT(setYRotation(int)));
+	 zSlider = createSlider(SIGNAL(zRotationChanged(int)),
+	 SLOT(setZRotation(int)));
+	 */
+	
+    createActions();
+    createMenus();
+	
+    QGridLayout *centralLayout = new QGridLayout;
+    centralLayout->addWidget(glWidgetArea, 0, 0, 1, 2);
+    //centralLayout->addWidget(pixmapLabelArea, 0, 1);
+    centralLayout->addWidget(pTimeSlider, 1, 0, 1, 2);
+	/*
+	 centralLayout->addWidget(xSlider, 1, 0, 1, 2);
+	 centralLayout->addWidget(ySlider, 2, 0, 1, 2);
+	 centralLayout->addWidget(zSlider, 3, 0, 1, 2);
+	 */
+    centralWidget->setLayout(centralLayout);
+	
+    pTimeSlider->setValue(100);
+	
+	/*
+	 xSlider->setValue(15 * 16);
+	 ySlider->setValue(345 * 16);
+	 zSlider->setValue(0 * 16);
+	 */
+	//pStatusBar = new QStatusBar(centralWidget);
+	
+    setWindowTitle(tr("QCNLive"));
+	statusBar()->showMessage(tr("This is a test of the status bar"), 0);
+	
+	pToolBar = new QToolBar(tr("Actions"), centralWidget);
+	
+	QIcon pm[5];
+	QToolButton* pTB[5];
+	
+	pm[0] = QIcon(xpm_icon_absolute);
+	pm[1] = QIcon(xpm_icon_spin);
+	pm[2] = QIcon(xpm_icon_ff);
+	pm[3] = QIcon(xpm_icon_record);
+	pm[4] = QIcon(xpm_icon_usgs);
+	
+	for (int i = 0; i < 5; i++) {
+		pTB[i] = new QToolButton(pToolBar);
+		pTB[i]->setIcon(pm[i]);
+		pToolBar->addWidget(pTB[i]);
+	}
+	
+	this->addToolBar(pToolBar);
+	
+	// tool bar
+	
+#ifdef __APPLE_CC__
+	setUnifiedTitleAndToolBarOnMac(true);
+#endif
+	
+    resize(640, 480);
+}
+
+/*
+ void MyFrame::renderIntoPixmap()
+ {
+ QSize size = getSize();
+ if (size.isValid()) {
+ QPixmap pixmap = glWidget->renderPixmap(size.width(), size.height());
+ setPixmap(pixmap);
+ }
+ }
+ 
+ void MyFrame::grabFrameBuffer()
+ {
+ QImage image = glWidget->grabFrameBuffer();
+ setPixmap(QPixmap::fromImage(image));
+ }
+ 
+ void MyFrame::clearPixmap()
+ {
+ setPixmap(QPixmap());
+ }
+ */
+
+void MyFrame::about()
+{
+    QMessageBox::about(this, tr("About QCNLive"),
+					   tr("<b>QCNLive</b> is provided by the Quake-Catcher Network Project (c) 2010 Stanford University"));
+}
+
+void MyFrame::createActions()
+{
+	/*
+	 renderIntoPixmapAct = new QAction(tr("&Render into Pixmap..."), this);
+	 renderIntoPixmapAct->setShortcut(tr("Ctrl+R"));
+	 connect(renderIntoPixmapAct, SIGNAL(triggered()),
+	 this, SLOT(renderIntoPixmap()));
+	 
+	 grabFrameBufferAct = new QAction(tr("&Grab Frame Buffer"), this);
+	 grabFrameBufferAct->setShortcut(tr("Ctrl+G"));
+	 connect(grabFrameBufferAct, SIGNAL(triggered()),
+	 this, SLOT(grabFrameBuffer()));
+	 
+	 clearPixmapAct = new QAction(tr("&Clear Pixmap"), this);
+	 clearPixmapAct->setShortcut(tr("Ctrl+L"));
+	 connect(clearPixmapAct, SIGNAL(triggered()), this, SLOT(clearPixmap()));
+	 */
+	
+    exitAct = new QAction(tr("E&xit"), this);
+    exitAct->setShortcuts(QKeySequence::Quit);
+    connect(exitAct, SIGNAL(triggered()), this, SLOT(close()));
+	
+    aboutAct = new QAction(tr("&About"), this);
+    connect(aboutAct, SIGNAL(triggered()), this, SLOT(about()));
+	
+    //aboutQtAct = new QAction(tr("About &Qt"), this);
+    //connect(aboutQtAct, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
+}
+
+void MyFrame::createMenus()
+{
+    // CMC fileMenu = menuBar()->addMenu(tr("&File"));
+    //fileMenu->addAction(renderIntoPixmapAct);
+    //fileMenu->addAction(grabFrameBufferAct);
+    //fileMenu->addAction(clearPixmapAct);
+    fileMenu->addSeparator();
+    fileMenu->addAction(exitAct);
+	
+    // CMC helpMenu = menuBar()->addMenu(tr("&Help"));
+    helpMenu->addAction(aboutAct);
+    //helpMenu->addAction(aboutQtAct);
+}
+
+QSlider *MyFrame::createSlider(const char *changedSignal,
+                                  const char *setterSlot)
+{
+    QSlider *slider = new QSlider(Qt::Horizontal);
+    slider->setRange(0, 360 * 16);
+    slider->setSingleStep(16);
+    slider->setPageStep(15 * 16);
+    slider->setTickInterval(15 * 16);
+    slider->setTickPosition(QSlider::TicksRight);
+    connect(slider, SIGNAL(valueChanged(int)), glWidget, setterSlot);
+    connect(glWidget, changedSignal, slider, SLOT(setValue(int)));
+    return slider;
+}
+
+/*
+ void MyFrame::setPixmap(const QPixmap &pixmap)
+ {
+ pixmapLabel->setPixmap(pixmap);
+ QSize size = pixmap.size();
+ if (size - QSize(1, 0) == pixmapLabelArea->maximumViewportSize())
+ size -= QSize(1, 0);
+ pixmapLabel->resize(size);
+ }
+ */
+
+QSize MyFrame::getSize()
+{
+    bool ok;
+    QString text = QInputDialog::getText(this, tr("QCNLive"),
+                                         tr("Enter pixmap size:"),
+                                         QLineEdit::Normal,
+                                         tr("%1 x %2").arg(glWidget->width())
+										 .arg(glWidget->height()),
+                                         &ok);
+    if (!ok)
+        return QSize();
+	
+    QRegExp regExp(tr("([0-9]+) *x *([0-9]+)"));
+    if (regExp.exactMatch(text)) {
+        int width = regExp.cap(1).toInt();
+        int height = regExp.cap(2).toInt();
+        if (width > 0 && width < 2048 && height > 0 && height < 2048)
+            return QSize(width, height);
+    }
+	
+    return glWidget->size();
+}
+
+
 

@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'glwidget.h'
 **
-** Created: Thu Oct 28 19:35:18 2010
+** Created: Tue Nov 9 16:38:05 2010
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.7.0)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ static const uint qt_meta_data_GLWidget[] = {
        5,       // revision
        0,       // classname
        0,    0, // classinfo
-       7,   14, // methods
+       9,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -39,7 +39,9 @@ static const uint qt_meta_data_GLWidget[] = {
       82,   10,    9,    9, 0x0a,
      100,   10,    9,    9, 0x0a,
      118,   10,    9,    9, 0x0a,
-     136,    9,    9,    9, 0x08,
+     140,    9,  136,    9, 0x0a,
+     151,    9,  136,    9, 0x0a,
+     163,    9,    9,    9, 0x08,
 
        0        // eod
 };
@@ -48,7 +50,8 @@ static const char qt_meta_stringdata_GLWidget[] = {
     "GLWidget\0\0angle\0xRotationChanged(int)\0"
     "yRotationChanged(int)\0zRotationChanged(int)\0"
     "setXRotation(int)\0setYRotation(int)\0"
-    "setZRotation(int)\0advanceGears()\0"
+    "setZRotation(int)\0int\0getWidth()\0"
+    "getHeight()\0advanceGears()\0"
 };
 
 const QMetaObject GLWidget::staticMetaObject = {
@@ -86,10 +89,14 @@ int GLWidget::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         case 3: setXRotation((*reinterpret_cast< int(*)>(_a[1]))); break;
         case 4: setYRotation((*reinterpret_cast< int(*)>(_a[1]))); break;
         case 5: setZRotation((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 6: advanceGears(); break;
+        case 6: { int _r = getWidth();
+            if (_a[0]) *reinterpret_cast< int*>(_a[0]) = _r; }  break;
+        case 7: { int _r = getHeight();
+            if (_a[0]) *reinterpret_cast< int*>(_a[0]) = _r; }  break;
+        case 8: advanceGears(); break;
         default: ;
         }
-        _id -= 7;
+        _id -= 9;
     }
     return _id;
 }

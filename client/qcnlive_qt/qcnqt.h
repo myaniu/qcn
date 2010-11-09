@@ -13,7 +13,6 @@
 #include <QtGui>
 #include <QtOpenGL>
 
-/*
 #include <QApplication>
 #include <QMainWindow>
 #include <QSplashScreen>
@@ -30,7 +29,6 @@ class QMenu
 class QScrollArea
 class QSlider
 QT_END_NAMESPACE
-*/
 
 #ifndef _WIN32
 #include <unistd.h>
