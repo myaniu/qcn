@@ -1,5 +1,5 @@
-#ifndef GLWIDGET_H
-#define GLWIDGET_H
+#ifndef _GLWIDGET_H
+#define _GLWIDGET_H
 
 #include "qcnqt.h"
 

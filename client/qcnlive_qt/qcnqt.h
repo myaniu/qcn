@@ -13,11 +13,23 @@
 #include <QtGui>
 #include <QtOpenGL>
 
-#include <QApplication>
-#include <QMainWindow>
-#include <QSplashScreen>
-#include <QTimer>
+ #include <QApplication>
+ #include <QMainWindow>
+ #include <QSplashScreen>
+ #include <QTimer>
+ 
+ #ifndef _WIN32
+ #include <unistd.h>
+ #endif
 
+#include "main.h"
+#include "qcn_graphics.h"
+#include "qcn_curl.h"
+#include "myframe.h"
+#include "qcnlive_define.h"
+
+
+/*
 QT_BEGIN_NAMESPACE
 class QApplication
 class QMainWindow
@@ -28,21 +40,16 @@ class QLabel
 class QMenu
 class QScrollArea
 class QSlider
+class MyFrame
+class GLWidget
+class MyAppTimer
 QT_END_NAMESPACE
+*/
 
-#ifndef _WIN32
-#include <unistd.h>
-#endif
-
-#include "main.h"
-#include "qcn_graphics.h"
-#include "qcn_curl.h"
-#include "myframe.h"
-#include "qcnlive_define.h"
-
+class MyFrame;
 class GLWidget;
-class MyApp;
 class MyAppTimer;
+
 
 // definition for the main app
 class MyApp: public QApplication
@@ -53,15 +60,6 @@ class MyApp: public QApplication
 
     //MyFrame* frame;
 	MyAppTimer* myapptimer;
-	
-	/*
-#if wxUSE_LIBPNG
-	wxPNGHandler* myPNGHandler;
-#endif
-#if wxUSE_LIBJPEG
-	wxJPEGHandler* myJPEGHandler;
-#endif
-	*/
 
     QRect myRect;            // apps screen coordinates
 

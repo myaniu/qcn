@@ -16,14 +16,12 @@
 #include <vector>
 #include <string>
 
-/*
 #ifdef _WIN32
    #include "config.h.win"
    #include <direct.h>
 #else
    #include "config.h"
 #endif
-*/
 
 using std::string;
 using std::vector;

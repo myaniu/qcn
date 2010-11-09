@@ -12,9 +12,8 @@
 #include <QScrollArea>
 #include <QLabel>
 
-class MyApp;
 class GLWidget;
-
+class MyApp;
 
 class MyFrame : public QMainWindow
 {

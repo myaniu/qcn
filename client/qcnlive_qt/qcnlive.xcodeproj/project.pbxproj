@@ -16,7 +16,6 @@
 		501667F26B3C1FF6767A7C12 /* QtGui.framework in Frameworks & Libraries */ = {isa = PBXBuildFile; fileRef = 9B36DA7E32F0304E780E7972 /* QtGui.framework */; };
 		55BAA308AFB2B93E05C799F0 /* myframe.cpp in Build Sources */ = {isa = PBXBuildFile; fileRef = AAC5D3BB2B45E06D7BEABBA5 /* myframe.cpp */; settings = {ATTRIBUTES = (); }; };
 		BCEF71E1EDFB18DA77DC750B /* OpenGL.framework in Frameworks & Libraries */ = {isa = PBXBuildFile; fileRef = DA18A6831232F53228631AD1 /* OpenGL.framework */; };
-		BEDED976F515C7289AFF293C /* main.cpp in Build Sources */ = {isa = PBXBuildFile; fileRef = BF44A226F82642BA4403C02B /* main.cpp */; settings = {ATTRIBUTES = (); }; };
 		E87ECDCF58FDC2B1DA157BCC /* moc_myframe.cpp in Build Sources */ = {isa = PBXBuildFile; fileRef = E24F3CA780209F58A9D75EB0 /* moc_myframe.cpp */; settings = {ATTRIBUTES = (); }; };
 /* End PBXBuildFile section */
 
@@ -43,7 +42,6 @@
 		9360C082BB1E9191E72216B5 /* myframe.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = myframe.h; sourceTree = "<group>"; };
 		9B36DA7E32F0304E780E7972 /* QtGui.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QtGui.framework; path = /Library/Frameworks/QtGui.framework; sourceTree = "<absolute>"; };
 		AAC5D3BB2B45E06D7BEABBA5 /* myframe.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = myframe.cpp; sourceTree = "<group>"; };
-		BF44A226F82642BA4403C02B /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = ../main/main.cpp; sourceTree = "<group>"; };
 		C374004D45E01156F931B37D /* QtOpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QtOpenGL.framework; path = /Library/Frameworks/QtOpenGL.framework; sourceTree = "<absolute>"; };
 		C6766F86E49E9C8701C8E637 /* AGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AGL.framework; path = /System/Library/Frameworks/AGL.framework; sourceTree = "<absolute>"; };
 		DA18A6831232F53228631AD1 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = /System/Library/Frameworks/OpenGL.framework; sourceTree = "<absolute>"; };
@@ -81,14 +79,6 @@
 			name = qcnlive;
 			sourceTree = "<group>";
 		};
-		174AC5C013434B20F3F8526C /* main */ = {
-			isa = PBXGroup;
-			children = (
-				BF44A226F82642BA4403C02B /* main.cpp */,
-			);
-			name = main;
-			sourceTree = "<group>";
-		};
 		43B434321289F7570004CA5F /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -123,14 +113,6 @@
 			name = Headers;
 			sourceTree = "<group>";
 		};
-		BFA3A29D17FD123C907B6E35 /* .. */ = {
-			isa = PBXGroup;
-			children = (
-				174AC5C013434B20F3F8526C /* main */,
-			);
-			name = ..;
-			sourceTree = "<group>";
-		};
 		ED1E82605DD74B483AF3C982 /* External Frameworks and Libraries */ = {
 			isa = PBXGroup;
 			children = (
@@ -147,7 +129,6 @@
 			isa = PBXGroup;
 			children = (
 				5F02801ACF9C72A274A802D8 /* glwidget.cpp */,
-				BFA3A29D17FD123C907B6E35 /* .. */,
 				AAC5D3BB2B45E06D7BEABBA5 /* myframe.cpp */,
 			);
 			name = Sources;
@@ -241,7 +222,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				2E812FBC8E1A8F8CA0084814 /* glwidget.cpp in Build Sources */,
-				BEDED976F515C7289AFF293C /* main.cpp in Build Sources */,
 				55BAA308AFB2B93E05C799F0 /* myframe.cpp in Build Sources */,
 				3BBD6E3E630068B57C2CEC5B /* moc_glwidget.cpp in Build Sources */,
 				E87ECDCF58FDC2B1DA157BCC /* moc_myframe.cpp in Build Sources */,
@@ -267,6 +247,7 @@
 					"../../jpeg-6b",
 					../../../boinc/api,
 					../../../boinc/lib,
+					../../../boinc/zip,
 					../util,
 					../sensor,
 					../graphics,
@@ -360,6 +341,7 @@
 					"../../jpeg-6b",
 					../../../boinc/api,
 					../../../boinc/lib,
+					../../../boinc/zip,
 					../util,
 					../sensor,
 					../graphics,
@@ -447,6 +429,7 @@
 					"../../jpeg-6b",
 					../../../boinc/api,
 					../../../boinc/lib,
+					../../../boinc/zip,
 					../util,
 					../sensor,
 					../graphics,
