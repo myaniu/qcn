@@ -6,4 +6,4 @@
 # note for the following line need to have .ssh id between root & carlgt1 setup
 # also make sure that '.ssh/known_hosts' is setup to receive connections
 /bin/nice -n19 /usr/bin/scp -C /tmp/qcn-backup.sql carlgt1@upl-private:
-/bin/rm -f /tmp/qcn-backup.sql
+/bin/nice -n19 /bin/mv -f /tmp/qcn-backup.sql /data/cees2/QCN/
