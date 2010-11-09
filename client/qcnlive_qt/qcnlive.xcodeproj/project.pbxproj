@@ -110,6 +110,7 @@
 		43275E65127B272700FCC2CB /* qcnlive_define.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = qcnlive_define.h; sourceTree = "<group>"; };
 		4329D0BB127CFDE400C1F3C2 /* myframe.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = myframe.cpp; sourceTree = "<group>"; };
 		43603F5F127B1DD300C73A12 /* glwidget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = glwidget.cpp; sourceTree = "<group>"; };
+		43BAC3F01289961F0031EAD1 /* define.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = define.h; path = ../main/define.h; sourceTree = SOURCE_ROOT; };
 		43C34607127B202400FC339B /* qcnqt.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = qcnqt.cpp; sourceTree = "<group>"; };
 		43C34615127B205100FC339B /* qcnqt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = qcnqt.h; sourceTree = "<group>"; };
 		43C34623127B20C900FC339B /* libboinc_zip.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboinc_zip.a; path = ../mac_build/libboinc_zip.a; sourceTree = SOURCE_ROOT; };
@@ -296,6 +297,7 @@
 		43C34635127B215200FC339B /* qcn_main */ = {
 			isa = PBXGroup;
 			children = (
+				43BAC3F01289961F0031EAD1 /* define.h */,
 			);
 			name = qcn_main;
 			sourceTree = "<group>";
@@ -633,7 +635,7 @@
 					../../qcnlive_qt,
 					/usr/local/include,
 					/System/Library/Frameworks/CarbonCore.framework/Headers,
-					.,
+					../main,
 					"/usr/local/Qt4.7/mkspecs/macx-xcode",
 				);
 				INFOPLIST_FILE = Info.plist;
@@ -713,7 +715,7 @@
 					../../qcnlive_qt,
 					/usr/local/include,
 					/System/Library/Frameworks/CarbonCore.framework/Headers,
-					.,
+					../main,
 					"/usr/local/Qt4.7/mkspecs/macx-xcode",
 				);
 				INFOPLIST_FILE = Info.plist;
@@ -791,7 +793,7 @@
 					../../qcnlive_qt,
 					/usr/local/include,
 					/System/Library/Frameworks/CarbonCore.framework/Headers,
-					.,
+					../main,
 					"/usr/local/Qt4.7/mkspecs/macx-xcode",
 				);
 				INFOPLIST_FILE = Info.plist;

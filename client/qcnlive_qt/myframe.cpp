@@ -7,11 +7,11 @@
  *
  */
 
-#include "qcnwx.h"
+#include "qcnqt.h"
 // these are our toolbar icons in C-array-style XPM format, var names prefixed xpm_icon_
 //#include "icons.h"   // 64x64
 #include "icons32.h"   // 32x32
-#include "dlgsettings.h"
+// CMC #include "dlgsettings.h"
 #include "qcn_earth.h"
 #include "qcn_2dplot.h"
 
