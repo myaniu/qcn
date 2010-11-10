@@ -134,5 +134,5 @@ QT           += opengl
 # install
 target.path = $$BINDIR
 sources.files = $$SOURCES $$HEADERS $$RESOURCES $$FORMS QCNLive.pro
-sources.path = ./
+sources.path = $$BINDIR
 INSTALLS += target sources
