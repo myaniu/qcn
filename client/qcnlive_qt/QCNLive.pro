@@ -22,7 +22,7 @@ LIBS += -framework IOKit
 
 SRC_SENSOR = $$SENSORDIR/csensor_mac_laptop.cpp \
            $$SENSORDIR/csensor_usb_motionnodeaccel.cpp \
-           $$SENSORDIR/csensor_usb_onavi01.cpp \
+           $$SENSORDIR/csensor_mac_usb_onavi01.cpp \
            $$SENSORDIR/csensor_mac_usb_jw.cpp \
            $$SENSORDIR/csensor_mac_usb_jw24f14.cpp \
            $$SENSORDIR/csensor.cpp
@@ -76,12 +76,12 @@ SRC_BOINC = $$BAPIDIR/boinc_api.cpp \
    $$BLIBDIR/url.cpp \
    $$BLIBDIR/coproc.cpp \
    $$BLIBDIR/mac/mac_backtrace.cpp \
-   $$BLIBDIR/mac/QBacktrace.cpp \
-   $$BLIBDIR/mac/QCrashReport.cpp \
-   $$BLIBDIR/mac/QMachOImage.cpp \
-   $$BLIBDIR/mac/QMachOImageList.cpp \
-   $$BLIBDIR/mac/QSymbols.cpp \
-   $$BLIBDIR/mac/QTaskMemory.cpp
+   $$BLIBDIR/mac/QBacktrace.c \
+   $$BLIBDIR/mac/QCrashReport.c \
+   $$BLIBDIR/mac/QMachOImage.c \
+   $$BLIBDIR/mac/QMachOImageList.c \
+   $$BLIBDIR/mac/QSymbols.c \
+   $$BLIBDIR/mac/QTaskMemory.c
 
 LIBS += -framework IOKit -framework Foundation
 
@@ -121,12 +121,12 @@ SOURCES       = glwidget.cpp \
 
 QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.4
 QMAKE_MAC_SDK=/Developer/SDKs/MacOSX10.4u.sdk
-#CONFIG+=x86 ppc
+CONFIG+=x86 ppc
 QT           += opengl
 
 
 # install
 target.path = $$BINDIR
-sources.files = $$SOURCES $$HEADERS $$RESOURCES $$FORMS qcnlive.pro
+sources.files = $$SOURCES $$HEADERS $$RESOURCES $$FORMS QCNLive.pro
 sources.path = ./
 INSTALLS += target sources
