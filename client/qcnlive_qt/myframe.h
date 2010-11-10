@@ -35,26 +35,43 @@ private:
     //void setPixmap(const QPixmap &pixmap);
     QSize getSize();
 	
-    QWidget* centralWidget;
-    QScrollArea* glWidgetArea;
+    QWidget* m_centralWidget;
+    QScrollArea* m_glWidgetArea;
     //QScrollArea* pixmapLabelArea;
-    GLWidget* glWidget;
-    QLabel* pixmapLabel;
-	//QStatusBar* pStatusBar;
-	QToolBar* pToolBar;
-	QSlider* pTimeSlider;
-    //QSlider *xSlider;
-    //QSlider *ySlider;
-    //QSlider *zSlider;
+    GLWidget* m_glWidget;
+	QStatusBar* m_statusbar;
+	QToolBar* m_toolbar;
+	QSlider* m_sliderTime;
 	
-    QMenu *fileMenu;
-    QMenu *helpMenu;
-    //QAction *grabFrameBufferAct;
-    //QAction *renderIntoPixmapAct;
-    //QAction *clearPixmapAct;
-    QAction *exitAct;
-    QAction *aboutAct;
-    //QAction *aboutQtAct;
+    QAction* m_actionFileExit;
+	QAction* m_actionFileDlgSettings;	
+	QAction* m_actionFileMakeQuake;
+	
+    QAction* m_actionHelpAbout;
+	QAction* m_actionHelpManual;
+	QAction* m_actionHelpWebQCN;
+	QAction* m_actionHelpWebQCNLive;
+	QAction* m_actionHelpWebEarthquakes;
+	QAction* m_actionHelpWebLessons;
+	QAction* m_actionHelpWebRequestSensor;
+	QAction* m_actionHelpWebGlossary;
+	
+    MyApp* m_pMyApp;
+	
+	QMenu* m_menuFile;
+	QMenu* m_menuView;
+	QMenu* m_menuOptions;
+	QMenu* m_menuHelp;
+	QMenuBar* m_menuBar;
+	
+    bool m_bEarthDay;
+    bool m_bEarthRotate;
+    long m_iSensorAction;
+	bool m_bSensorAbsolute2D;
+	bool m_bSensorAbsolute3D;
+	
+	long m_view;  // holds the current enum ID above
+	QToolBar* m_ptbBase;
 	
 public:
 	MyFrame(const QRect& rect, MyApp* papp);
@@ -81,24 +98,6 @@ public:
 	void ToggleStartStop(bool bStart);
 */
   private:
-
-    MyApp* pMyApp;
-    //MyGLPane* glPane;
-	
-	QMenu *menuFile;
-        QMenu *menuView;
-        QMenu *menuOptions;
-        QMenu *menuHelp;
-        QMenuBar* menuBar;
- 
-    bool bEarthDay;
-    bool bEarthRotate;
-    long iSensorAction;
-        bool bSensorAbsolute2D;
-        bool bSensorAbsolute3D;
-
-        long m_view;  // holds the current enum ID above
-     QToolBar* m_ptbBase;
 
 	/*
     void closeEvent(QCloseEvent* pqc);

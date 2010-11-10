@@ -134,53 +134,6 @@ END_EVENT_TABLE()
 /*
 
 
-MyFrame::MyFrame(const wxRect& rect, MyApp* papp) 
- : wxFrame(NULL, -1,  wxT("QCNLive"), rect.GetPosition(), rect.GetSize()), pMyApp(papp), glPane(NULL), toolBar(NULL), scrollBar2D(NULL)
-{
-
-    statusBar = CreateStatusBar();
-	m_view = ID_TOOL_VIEW_EARTH;  // set view to 0
-	m_ptbBase = NULL; // no toolbar base yet
-
-    bEarthDay = true;
-    bEarthRotate = true;
-    iSensorAction = 0;
-	
-    bSensorAbsolute2D = false;
-    bSensorAbsolute3D = false;
-
-    // Make a menubar
-    menuFile = new wxMenu;
-    menuFile->Append(wxID_FILE_SETTINGS, wxString("&Local Settings", wxConvUTF8), 
-        wxString("Enter local settings such as station name, latutide, longitude, elevation", wxConvUTF8));
-    menuFile->Append(wxID_EXIT, wxString("E&xit", wxConvUTF8), wxString("Quit QCNLive", wxConvUTF8));
-
-    menuHelp = new wxMenu;
-//#ifndef __WXMAC__  // Mac's have a default about box btn
-    menuHelp->Append(wxID_ABOUT, wxString("&About", wxConvUTF8), wxString("About QCNLive", wxConvUTF8));
-//#endif
-    menuHelp->Append(ID_TOOL_HELP_WEB_MANUAL, wxString("&Manual (PDF) for QCNLive", wxConvUTF8), wxString("Download/View Manual (PDF) for QCNLive", wxConvUTF8));
-    menuHelp->Append(ID_TOOL_HELP_WEB_QCN, wxString("&QCN Website", wxConvUTF8), wxString("Visit the main QCN website", wxConvUTF8));
-    menuHelp->Append(ID_TOOL_HELP_WEB_QCNLIVE, wxString("QCN&Live Website", wxConvUTF8), wxString("Visit the QCNLive website", wxConvUTF8));
-    menuHelp->Append(ID_TOOL_HELP_WEB_EARTHQUAKES, wxString("&Earthquake Information", wxConvUTF8), wxString("Visit QCN's website for earthquakes", wxConvUTF8));
-    menuHelp->Append(ID_TOOL_HELP_WEB_LESSONS, wxString("Lessons and &Activities", wxConvUTF8), wxString("Lessons and Activities website", wxConvUTF8));
-    menuHelp->Append(ID_TOOL_HELP_WEB_REQUEST_SENSOR, wxString("&Request a Sensor", wxConvUTF8), wxString("Request/Purchase a sensor to use with QCN", wxConvUTF8));
-    menuHelp->Append(ID_TOOL_HELP_WEB_GLOSSARY, wxString("&Glossary", wxConvUTF8), wxString("Online Glossary", wxConvUTF8));
-
-    menuView = new wxMenu;
-    menuOptions = new wxMenu;
-    menuBar = new wxMenuBar;
-	
-    menuBar->Append(menuFile, wxString("&File", wxConvUTF8));
-    menuBar->Append(menuView, wxString("&View", wxConvUTF8));
-    menuBar->Append(menuOptions, wxString("&Options", wxConvUTF8));
-    menuBar->Append(menuHelp, wxString("&Help", wxConvUTF8));
-
-    // Associate the menu bar with the frame
-    SetMenuBar(menuBar);
-
-}
-
 void MyFrame::SetupToolbars()
 {
 	toolBar = CreateToolBar(wxNO_BORDER|wxHORIZONTAL, ID_TOOLBAR);
@@ -1030,65 +983,52 @@ void MyFrame::EarthRotate(bool bAuto)
 
 MyFrame::MyFrame(const QRect& rect, MyApp* papp)
 {
-    centralWidget = new QWidget;
-    setCentralWidget(centralWidget);
+	// setup splash screen here?
 	
-    glWidget = new GLWidget(this);
+    m_centralWidget = new QWidget;
+    setCentralWidget(m_centralWidget);
+	
+    m_glWidget = new GLWidget(this);
     //pixmapLabel = new QLabel;
 	
-    glWidgetArea = new QScrollArea;
-    glWidgetArea->setWidget(glWidget);
-    glWidgetArea->setWidgetResizable(true);
-    glWidgetArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    glWidgetArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    glWidgetArea->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
-    glWidgetArea->setMinimumSize(50, 50);
+    m_glWidgetArea = new QScrollArea;
+    m_glWidgetArea->setWidget(m_glWidget);
+    m_glWidgetArea->setWidgetResizable(true);
+    m_glWidgetArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    m_glWidgetArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    m_glWidgetArea->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
+    m_glWidgetArea->setMinimumSize(50, 50);
 	
-	/*
-	 pixmapLabelArea = new QScrollArea;
-	 pixmapLabelArea->setWidget(pixmapLabel);
-	 pixmapLabelArea->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
-	 pixmapLabelArea->setMinimumSize(50, 50);
-	 */
 		
-    pTimeSlider = createSlider(SIGNAL(TimePositionChanged(const double&)),
+    m_sliderTime = createSlider(SIGNAL(TimePositionChanged(const double&)),
 							   SLOT(setTimePosition(const double&)));
-	/*
-	 xSlider = createSlider(SIGNAL(xRotationChanged(int)),
-	 SLOT(setXRotation(int)));
-	 ySlider = createSlider(SIGNAL(yRotationChanged(int)),
-	 SLOT(setYRotation(int)));
-	 zSlider = createSlider(SIGNAL(zRotationChanged(int)),
-	 SLOT(setZRotation(int)));
-	 */
+	
+	m_view = ID_TOOL_VIEW_EARTH;  // set view to 0
+	m_ptbBase = NULL; // no toolbar base yet
+	
+    m_bEarthDay = true;
+    m_bEarthRotate = true;
+    m_iSensorAction = 0;
+	
+    m_bSensorAbsolute2D = false;
+    m_bSensorAbsolute3D = false;
 	
     createActions();
     createMenus();
 	
     QGridLayout *centralLayout = new QGridLayout;
-    centralLayout->addWidget(glWidgetArea, 0, 0, 1, 2);
-    //centralLayout->addWidget(pixmapLabelArea, 0, 1);
-    centralLayout->addWidget(pTimeSlider, 1, 0, 1, 2);
-	/*
-	 centralLayout->addWidget(xSlider, 1, 0, 1, 2);
-	 centralLayout->addWidget(ySlider, 2, 0, 1, 2);
-	 centralLayout->addWidget(zSlider, 3, 0, 1, 2);
-	 */
-    centralWidget->setLayout(centralLayout);
+    centralLayout->addWidget(m_glWidgetArea, 0, 0, 1, 2);
+    centralLayout->addWidget(m_sliderTime, 1, 0, 1, 2);
+    m_centralWidget->setLayout(centralLayout);
 	
-    pTimeSlider->setValue(100);
+    m_sliderTime->setValue(100);
 	
-	/*
-	 xSlider->setValue(15 * 16);
-	 ySlider->setValue(345 * 16);
-	 zSlider->setValue(0 * 16);
-	 */
-	//pStatusBar = new QStatusBar(centralWidget);
+	m_statusbar = statusBar();
 	
     setWindowTitle(tr("QCNLive"));
-	statusBar()->showMessage(tr("This is a test of the status bar"), 0);
+	m_statusbar->showMessage(tr("This is a test of the status bar"), 0);
 	
-	pToolBar = new QToolBar(tr("Actions"), centralWidget);
+	m_toolbar = new QToolBar(tr("Actions"), m_centralWidget);
 	
 	QIcon pm[5];
 	QToolButton* pTB[5];
@@ -1100,12 +1040,12 @@ MyFrame::MyFrame(const QRect& rect, MyApp* papp)
 	pm[4] = QIcon(xpm_icon_usgs);
 	
 	for (int i = 0; i < 5; i++) {
-		pTB[i] = new QToolButton(pToolBar);
+		pTB[i] = new QToolButton(m_toolbar);
 		pTB[i]->setIcon(pm[i]);
-		pToolBar->addWidget(pTB[i]);
+		m_toolbar->addWidget(pTB[i]);
 	}
 	
-	this->addToolBar(pToolBar);
+	this->addToolBar(m_toolbar);
 	
 	// tool bar
 	
@@ -1113,6 +1053,7 @@ MyFrame::MyFrame(const QRect& rect, MyApp* papp)
 	setUnifiedTitleAndToolBarOnMac(true);
 #endif
 	
+	// eventually use saved sizes of course
     resize(640, 480);
 }
 
@@ -1146,47 +1087,85 @@ void MyFrame::about()
 
 void MyFrame::createActions()
 {
-	/*
-	 renderIntoPixmapAct = new QAction(tr("&Render into Pixmap..."), this);
-	 renderIntoPixmapAct->setShortcut(tr("Ctrl+R"));
-	 connect(renderIntoPixmapAct, SIGNAL(triggered()),
-	 this, SLOT(renderIntoPixmap()));
-	 
-	 grabFrameBufferAct = new QAction(tr("&Grab Frame Buffer"), this);
-	 grabFrameBufferAct->setShortcut(tr("Ctrl+G"));
-	 connect(grabFrameBufferAct, SIGNAL(triggered()),
-	 this, SLOT(grabFrameBuffer()));
-	 
-	 clearPixmapAct = new QAction(tr("&Clear Pixmap"), this);
-	 clearPixmapAct->setShortcut(tr("Ctrl+L"));
-	 connect(clearPixmapAct, SIGNAL(triggered()), this, SLOT(clearPixmap()));
-	 */
+	// setup the actions of the various menu bar and toggle buttons
 	
-    exitAct = new QAction(tr("E&xit"), this);
-    exitAct->setShortcuts(QKeySequence::Quit);
-    connect(exitAct, SIGNAL(triggered()), this, SLOT(close()));
 	
-    aboutAct = new QAction(tr("&About"), this);
-    connect(aboutAct, SIGNAL(triggered()), this, SLOT(about()));
+	// File actions
+    m_actionFileExit = new QAction(tr("E&xit"), this);
+	m_actionFileExit->setToolTip(tr("Quit QCNLive"));
+    m_actionFileExit->setShortcuts(QKeySequence::Quit);
+    connect(m_actionFileExit, SIGNAL(triggered()), this, SLOT(close()));	
 	
-    //aboutQtAct = new QAction(tr("About &Qt"), this);
-    //connect(aboutQtAct, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
+	m_actionFileDlgSettings = new QAction(tr("&Local Settings"), this);
+	m_actionFileDlgSettings->setShortcut(tr("Ctrl+F"));
+	m_actionFileDlgSettings->setToolTip(tr("Enter local settings such as station name, latutide, longitude, elevation"));
+	//connect(m_actionFileDlgSettings, SIGNAL(triggered()), this, SLOT(fileDlgSettings()));
+
+	m_actionFileMakeQuake = new QAction(tr("&Make Earthquake"), this);
+	m_actionFileMakeQuake->setToolTip(tr("Make and Print Your Own Earthquake"));
+	m_actionFileMakeQuake->setShortcut(tr("Ctrl+M")); 
+	//connect(m_actionFileMakeQuake, SIGNAL(triggered()), this, SLOT(makeEarthquake()));
+	
+	
+	// Help action
+    m_actionHelpAbout = new QAction(tr("&About"), this);
+	m_actionHelpAbout->setToolTip(tr("About QCNLive"));
+    connect(m_actionHelpAbout, SIGNAL(triggered()), this, SLOT(about()));
+
+	m_actionHelpManual = new QAction(tr("&Manual (PDF) for QCNLive"), this);
+	m_actionHelpManual->setToolTip(tr("Download/View Manual (PDF) for QCNLive"));
+
+	m_actionHelpWebQCN = new QAction(tr("&QCN Website"), this);
+	m_actionHelpWebQCN->setToolTip(tr("Visit the main QCN website"));
+	
+	m_actionHelpWebQCNLive = new QAction(tr("QCN&Live Website"), this);
+	m_actionHelpWebQCNLive->setToolTip(tr("Visit the QCNLive website"));
+	
+	m_actionHelpWebEarthquakes = new QAction(tr("&Earthquake Information"), this);
+	m_actionHelpWebEarthquakes->setToolTip(tr("Visit QCN's website for earthquakes"));
+	
+	m_actionHelpWebLessons = new QAction(tr("Lessons and &Activities"), this);
+	m_actionHelpWebLessons->setToolTip(tr("Lessons and Activities website"));
+	
+	m_actionHelpWebRequestSensor = new QAction(tr("&Request a Sensor"), this);
+	m_actionHelpWebRequestSensor->setToolTip(tr("Request/Purchase a sensor to use with QCN"));
+	
+	m_actionHelpWebGlossary = new QAction(tr("&Glossary"), this);
+	m_actionHelpWebGlossary->setToolTip(tr("Online Glossary"));
+	
 }
 
 void MyFrame::createMenus()
 {
-	/*
-    fileMenu = menuBar()->addMenu(tr("&File"));
-    fileMenu->addAction(renderIntoPixmapAct);
-    fileMenu->addAction(grabFrameBufferAct);
-    fileMenu->addAction(clearPixmapAct);
-    fileMenu->addSeparator();
-    fileMenu->addAction(exitAct);
+    // Make a menubar
 	
-    // CMC helpMenu = menuBar()->addMenu(tr("&Help"));
-    helpMenu->addAction(aboutAct);
-    //helpMenu->addAction(aboutQtAct);
-	 */
+	// File
+    m_menuFile = menuBar()->addMenu(tr("&File"));
+    m_menuFile->addAction(m_actionFileDlgSettings);
+    m_menuFile->addAction(m_actionFileMakeQuake);
+	//m_menuFile->addSeparator();
+    m_menuFile->addAction(m_actionFileExit);
+	
+	// View
+	m_menuView = menuBar()->addMenu(tr("&View"));
+	
+	// Options
+	m_menuOptions = menuBar()->addMenu(tr("&Options"));
+	
+
+	// Help
+	m_menuHelp = menuBar()->addMenu(tr("&Help"));
+	m_menuHelp->addAction(m_actionHelpManual);
+	m_menuHelp->addAction(m_actionHelpWebQCN);
+	m_menuHelp->addAction(m_actionHelpWebQCNLive);
+	m_menuHelp->addAction(m_actionHelpWebEarthquakes);
+	m_menuHelp->addAction(m_actionHelpWebLessons);
+	m_menuHelp->addAction(m_actionHelpWebRequestSensor);
+	m_menuHelp->addAction(m_actionHelpWebGlossary);
+	//m_menuHelp->addSeparator();
+	m_menuHelp->addAction(m_actionHelpAbout);
+	
+		
 }
 
 QSlider *MyFrame::createSlider(const char *changedSignal,
@@ -1198,21 +1177,10 @@ QSlider *MyFrame::createSlider(const char *changedSignal,
     slider->setPageStep(15 * 16);
     slider->setTickInterval(15 * 16);
     slider->setTickPosition(QSlider::TicksRight);
-    connect(slider, SIGNAL(valueChanged(int)), glWidget, setterSlot);
-    connect(glWidget, changedSignal, slider, SLOT(setValue(int)));
+    connect(slider, SIGNAL(valueChanged(int)), m_glWidget, setterSlot);
+    connect(m_glWidget, changedSignal, slider, SLOT(setValue(int)));
     return slider;
 }
-
-/*
- void MyFrame::setPixmap(const QPixmap &pixmap)
- {
- pixmapLabel->setPixmap(pixmap);
- QSize size = pixmap.size();
- if (size - QSize(1, 0) == pixmapLabelArea->maximumViewportSize())
- size -= QSize(1, 0);
- pixmapLabel->resize(size);
- }
- */
 
 QSize MyFrame::getSize()
 {
@@ -1220,8 +1188,8 @@ QSize MyFrame::getSize()
     QString text = QInputDialog::getText(this, tr("QCNLive"),
                                          tr("Enter pixmap size:"),
                                          QLineEdit::Normal,
-                                         tr("%1 x %2").arg(glWidget->width())
-										 .arg(glWidget->height()),
+                                         tr("%1 x %2").arg(m_glWidget->width())
+										 .arg(m_glWidget->height()),
                                          &ok);
     if (!ok)
         return QSize();
@@ -1234,7 +1202,7 @@ QSize MyFrame::getSize()
             return QSize(width, height);
     }
 	
-    return glWidget->size();
+    return m_glWidget->size();
 }
 
 
