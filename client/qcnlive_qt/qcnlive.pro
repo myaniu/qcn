@@ -34,6 +34,7 @@ SOURCES       = glwidget.cpp \
            ../sensor/csensor_mac_usb_jw.cpp \
            ../sensor/csensor_mac_usb_jw24f14.cpp 
 
+CONFIG       += qt
 QT           += opengl
 
 target.path = ../bin
