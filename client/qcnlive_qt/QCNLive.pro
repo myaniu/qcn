@@ -23,7 +23,7 @@ LIBS += -framework IOKit -framework Carbon \
      -lboinc_zip -ljpeg-universal -lcurl-universal -lz-universal
 
 ICON = $$BASEDIRQCN/doc/qcnmac.icns
-#QMAKE_INFO_PLIST = Info.plist.mac
+QMAKE_INFO_PLIST = Info.plist.mac
 
 #   LIBS += -bind_at_load -framework IOKit -framework Foundation \
 #          -framework ScreenSaver -framework Carbon -framework Cocoa
