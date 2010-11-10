@@ -22,6 +22,8 @@ LIBS += -framework IOKit -framework Carbon \
    -L$$BASEDIRQCN/client/mac_build \
      -lboinc_zip -ljpeg-universal -lcurl-universal -lz-universal
 
+ICON = $$BASEDIRQCN/doc/qcnmac.icns
+
 #   LIBS += -bind_at_load -framework IOKit -framework Foundation \
 #          -framework ScreenSaver -framework Carbon -framework Cocoa
 
