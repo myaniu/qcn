@@ -1364,6 +1364,54 @@
 			isa = PBXSourcesBuildPhase;
 			name = "Build Sources";
 		};
+		910F3CDDAC84F23FCC42F6BE = {
+			isa = PBXFileReference;
+			name = "boinc_zip";
+			path = "../mac_build/libboinc_zip.a";
+			refType = 4;
+		};
+		B22A9AEFE15D8FD9C4403B99 = {
+			fileRef = "910F3CDDAC84F23FCC42F6BE";
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DF185A2B36F50D644A4FE3C8 = {
+			isa = PBXFileReference;
+			name = "jpeg-universal";
+			path = "../mac_build/libjpeg-universal.a";
+			refType = 4;
+		};
+		E2716A181A38026B9338F465 = {
+			fileRef = "DF185A2B36F50D644A4FE3C8";
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		CBC834D798404DDE42DF1A31 = {
+			isa = PBXFileReference;
+			name = "curl-universal";
+			path = "../mac_build/libcurl-universal.a";
+			refType = 4;
+		};
+		2F7A941326358F03CCD93237 = {
+			fileRef = "CBC834D798404DDE42DF1A31";
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		56AC31C7FFE6B1646C5B875E = {
+			isa = PBXFileReference;
+			name = "z-universal";
+			path = "../mac_build/libz-universal.a";
+			refType = 4;
+		};
+		2694CAA4DD56AFC7E26BF00A = {
+			fileRef = "56AC31C7FFE6B1646C5B875E";
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		B41DB44ED1FE16D3A80D5696 = {
 			isa = PBXFrameworkReference;
 			name = "IOKit.framework";
@@ -1450,6 +1498,10 @@
 		};
 		ED1E82605DD74B483AF3C982 = {
 			children = (
+				"910F3CDDAC84F23FCC42F6BE",
+				"DF185A2B36F50D644A4FE3C8",
+				"CBC834D798404DDE42DF1A31",
+				"56AC31C7FFE6B1646C5B875E",
 				"B41DB44ED1FE16D3A80D5696",
 				"BC52FAE3CF80A871217A111D",
 				"C374004D45E01156F931B37D",
@@ -1465,6 +1517,10 @@
 		2A1043669E6E5A7426EA502A = {
 			buildActionMask = 2147483647;
 			files = (
+				"B22A9AEFE15D8FD9C4403B99",
+				"E2716A181A38026B9338F465",
+				"2F7A941326358F03CCD93237",
+				"2694CAA4DD56AFC7E26BF00A",
 				"E8B9F0C58A5A7125FD5B79D3",
 				"5AAC0D9BBAE5CD615557CD7D",
 				"450A0D11527AF164AEFE7377",
@@ -1560,6 +1616,7 @@
 					"/usr/local/Qt4.7/mkspecs/macx-xcode");
 				LIBRARY_SEARCH_PATHS = (
 					"/Library/Frameworks",
+					"/Users/carlgt1/projects/qcn/client/mac_build",
 					"/System/Library/Frameworks/",
 					"/tmp/qt-stuff-70447/source/qt-everywhere-opensource-src-4.7.0/lib");
 				OPTIMIZATION_CFLAGS = (
@@ -1614,6 +1671,7 @@
 						"-headerpad_max_install_names",
 						"-L/Library/Frameworks",
 						"-F/Library/Frameworks",
+						"-L/Users/carlgt1/projects/qcn/client/mac_build",
 						"-L/tmp/qt-stuff-70447/source/qt-everywhere-opensource-src-4.7.0/lib",
 						"-F/tmp/qt-stuff-70447/source/qt-everywhere-opensource-src-4.7.0/lib");
 				DYLIB_CURRENT_VERSION = "1.0.0";
