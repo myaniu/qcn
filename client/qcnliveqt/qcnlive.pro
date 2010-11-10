@@ -50,7 +50,7 @@ SRC_GRAPHICS = $$GRAPHICSDIR/qcn_graphics.cpp \
       $$GRAPHICSDIR/coastline.cpp \
       $$GRAPHICSDIR/plate_boundary.cpp
 
-LIBS += -bind_at_load -framework IOKit -framework Foundation -framework Screensaver -framework Cocoa
+LIBS += -framework IOKit -framework Foundation
 
 DEFINES += _USE_NTPDATE_EXEC_ QCNLIVE GRAPHICS_PROGRAM APP_GRAPHICS _ZLIB QCN _THREAD_SAFE
 
@@ -84,6 +84,10 @@ SOURCES       = glwidget.cpp \
                 $$SRC_SENSOR \
                 $$SRC_GRAPHICS
 
+
+QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.4
+#QMAKE_MAC_SDK=/Developer/SDKs/MacOSX10.4u.sdk
+#CONFIG+=x86 ppc
 QT           += opengl
 
 
