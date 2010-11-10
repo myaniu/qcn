@@ -653,6 +653,7 @@
 					"/usr/local/Qt4.7/mkspecs/macx-xcode",
 				);
 				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/projects/qcn/client/bin";
 				LEXFLAGS = "";
 				LIBRARY_SEARCH_PATHS = (
 					/Library/Frameworks,
