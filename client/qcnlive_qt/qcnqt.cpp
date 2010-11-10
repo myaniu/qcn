@@ -411,10 +411,10 @@ bool MyApp::OnInit()
 	// CMC frame->Show();
 
 	// setup & start the timer for getting the next earthquake list from the qcn server
-	myapptimer = new MyAppTimer(this);
-	if (myapptimer) {
+	//myapptimer = new MyAppTimer(this);
+	//if (myapptimer) {
 //	CMC   myapptimer->Start(3600000L);  // this will get the earthquake list every hour
-	}
+	//}
 
     //KillSplashScreen();
     return true;
@@ -441,12 +441,13 @@ int MyApp::OnExit()
            m_psplash = NULL;
 	}
 	
-	if (myapptimer) {
+/* CMC
+ if (myapptimer) {
 		// CMC myapptimer->Stop();
 		delete myapptimer;
 		myapptimer = NULL;
 	}
-	
+*/	
     KillMainThread();
 	
 	if (sm) { // try to remove the global shared mem?  that would be nice...

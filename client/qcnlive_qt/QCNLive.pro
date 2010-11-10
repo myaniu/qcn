@@ -18,7 +18,7 @@ QMAKE_CFLAGS_DEBUG = $$CFLAGS -D_DEBUG -g -O0
 QMAKE_CFLAGS_RELEASE = $$CFLAGS -O2
 QMAKE_CXXFLAGS_DEBUG = $$QMAKE_CFLAGS_DEBUG
 QMAKE_CXXFLAGS_RELEASE = $$QMAKE_CFLAGS_RELEASE
-LIBS += -framework IOKit \
+LIBS += -framework IOKit -framework Carbon \
    -L$$BASEDIRQCN/client/mac_build \
      -lboinc_zip -ljpeg-universal -lcurl-universal -lz-universal
 

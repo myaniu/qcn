@@ -64,6 +64,7 @@ public:
     //void grabFrameBuffer();
     //void clearPixmap();
     void about();
+/*
 
     void ToolBarView();
     void Toggle(const int id, const bool bOn  = true, const bool bView = false);
@@ -78,7 +79,7 @@ public:
 	void SensorNavButtons();
 	void SetupToolbars();
 	void ToggleStartStop(bool bStart);
-
+*/
   private:
 
     MyApp* pMyApp;

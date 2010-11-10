@@ -26,12 +26,13 @@ public slots:
     void setYRotation(int angle);
     void setZRotation(int angle);
 	
-	// methods
+	
+	/*
+	 // methods
 	int getWidth();
 	int getHeight();
-	
-	// events
-	/*
+	 
+	 // events
 	void render(wxPaintEvent& evt);
 	void resized(wxSizeEvent& evt);
 	
