@@ -997,6 +997,7 @@ MyFrame::MyFrame(MyApp* papp)
     m_centralWidget->setLayout(centralLayout);
 	
     m_sliderTime->setValue(100);
+	m_sliderTime->hide();
 	
 	m_statusbar = statusBar();
 	
@@ -1199,9 +1200,11 @@ QSize MyFrame::getSize()
     return m_glWidget->size();
 }
 
+/*
 void MyFrame::closeEvent(QCloseEvent* pqc)
 {
 }
+*/
 
 void MyFrame::resizeEvent(QResizeEvent* prs)
 {

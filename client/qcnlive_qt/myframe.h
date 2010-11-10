@@ -95,8 +95,9 @@ public:
 	void SetupToolbars();
 	void ToggleStartStop(bool bStart);
 */
+	
   private:
-    void closeEvent(QCloseEvent* pqc);
+    //void closeEvent(QCloseEvent* pqc);
 	void resizeEvent(QResizeEvent* prs);
 
 	/*
