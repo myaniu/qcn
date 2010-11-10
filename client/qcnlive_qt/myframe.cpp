@@ -1175,16 +1175,18 @@ void MyFrame::createActions()
 
 void MyFrame::createMenus()
 {
-    // CMC fileMenu = menuBar()->addMenu(tr("&File"));
-    //fileMenu->addAction(renderIntoPixmapAct);
-    //fileMenu->addAction(grabFrameBufferAct);
-    //fileMenu->addAction(clearPixmapAct);
+	/*
+    fileMenu = menuBar()->addMenu(tr("&File"));
+    fileMenu->addAction(renderIntoPixmapAct);
+    fileMenu->addAction(grabFrameBufferAct);
+    fileMenu->addAction(clearPixmapAct);
     fileMenu->addSeparator();
     fileMenu->addAction(exitAct);
 	
     // CMC helpMenu = menuBar()->addMenu(tr("&Help"));
     helpMenu->addAction(aboutAct);
     //helpMenu->addAction(aboutQtAct);
+	 */
 }
 
 QSlider *MyFrame::createSlider(const char *changedSignal,
