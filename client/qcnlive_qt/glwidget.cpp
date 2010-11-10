@@ -44,11 +44,12 @@
 #include <math.h>
 
 #include "glwidget.h"
-
+#include "qcn_earth.h"
 
 GLWidget::GLWidget(QWidget *parent)
     : QGLWidget(parent)
 {
+	/*
     gear1 = 0;
     gear2 = 0;
     gear3 = 0;
@@ -60,14 +61,17 @@ GLWidget::GLWidget(QWidget *parent)
     QTimer *timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(advanceGears()));
     timer->start(20);
+	*/
+	// init the OpenGL graphics vars from the qcn_graphics namespace
+	qcn_graphics::graphics_main(0, NULL);
 }
 
 GLWidget::~GLWidget()
 {
     makeCurrent();
-    glDeleteLists(gear1, 1);
-    glDeleteLists(gear2, 1);
-    glDeleteLists(gear3, 1);
+    //glDeleteLists(gear1, 1);
+    //glDeleteLists(gear2, 1);
+    //glDeleteLists(gear3, 1);
 }
 
 void GLWidget::setXRotation(int angle)
@@ -102,6 +106,7 @@ void GLWidget::setZRotation(int angle)
 
 void GLWidget::initializeGL()
 {
+  /*
     static const GLfloat lightPos[4] = { 5.0f, 5.0f, 10.0f, 1.0f };
     static const GLfloat reflectance1[4] = { 0.8f, 0.1f, 0.0f, 1.0f };
     static const GLfloat reflectance2[4] = { 0.0f, 0.8f, 0.2f, 1.0f };
@@ -118,10 +123,16 @@ void GLWidget::initializeGL()
 
     glEnable(GL_NORMALIZE);
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);    
+  */	
+    if (!qcn_graphics::g_bInitGraphics) {  // first time in, need to init OpenGL settings & load bitmaps etc
+        qcn_graphics::Init(); 
+        // m_pframe->pMyApp->KillSplashScreen();
+    }	
 }
 
 void GLWidget::paintGL()
 {
+	/*
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     glPushMatrix();
@@ -136,10 +147,16 @@ void GLWidget::paintGL()
     drawGear(gear3, -3.1, -1.8, -2.2, +2.0 * (gear1Rot / 16.0) - 2.0);
 
     glPopMatrix();
+	 */
+		
+	//void Render(int xs, int ys, double time_of_day)
+    qcn_graphics::Render(0,0,0);
+	
 }
 
 void GLWidget::resizeGL(int width, int height)
 {
+	/*
     int side = qMin(width, height);
     //glViewport((width - side) / 2, (height - side) / 2, side, side);
     //glViewport((width - side), (height - side), side, side);
@@ -151,6 +168,13 @@ void GLWidget::resizeGL(int width, int height)
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
     glTranslated(0.0, 0.0, -40.0);
+	*/
+	
+    // call the qcn_graphics.cpp resize	
+	qcn_graphics::Resize(width, height);	
+	// tell the earth to regen earthquakes coords
+	qcn_graphics::earth.RecalculateEarthquakePositions();
+	
 }
 
 void GLWidget::mousePressEvent(QMouseEvent *event)
