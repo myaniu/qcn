@@ -619,7 +619,7 @@
 					i386,
 					ppc,
 				);
-				BUILD_ROOT = /Users/carlgt1/projects/qcn/client/qcnlive_qt;
+				BUILD_ROOT = $HOME/projects/qcn/client/bin;
 				COPY_PHASE_STRIP = NO;
 				DYLIB_COMPATIBILITY_VERSION = 1.0;
 				DYLIB_CURRENT_VERSION = 1.0.0;
@@ -727,7 +727,7 @@
 					i386,
 					ppc,
 				);
-				BUILD_ROOT = /Users/carlgt1/projects/qcn/client/qcnlive_qt;
+				BUILD_ROOT = $HOME/projects/qcn/client/bin;
 				COPY_PHASE_STRIP = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1.0;
 				DYLIB_CURRENT_VERSION = 1.0.0;
@@ -833,7 +833,7 @@
 					i386,
 					ppc,
 				);
-				BUILD_ROOT = /Users/carlgt1/projects/qcn/client/qcnlive_qt;
+				BUILD_ROOT = $HOME/projects/qcn/client/bin;
 				DYLIB_COMPATIBILITY_VERSION = 1.0;
 				DYLIB_CURRENT_VERSION = 1.0.0;
 				GCC_VERSION = 4.0;
