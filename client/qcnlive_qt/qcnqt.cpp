@@ -14,12 +14,17 @@
 int main(int argc, char *argv[])
 {
     MyApp app(argc, argv);
+	app.setWindowIcon(QIcon("qcnicns.icn"));
 	MyFrame mainWin(QRect(0, 0, 640, 480), &app);
     mainWin.show();
     return app.exec();
 }
 
 MyApp::MyApp(int& argc, char** argv)  : QApplication(argc, argv)
+{
+}
+
+MyApp::~MyApp()
 {
 }
 
@@ -130,7 +135,7 @@ bool MyApp::MainInit()
     qcn_util::ResetCounter(WHERE_MAIN_STARTUP);  // this is the one and only place ResetCounter is called outside of the sensor thread, so it's safe
     qcn_main::parseArgs(0, NULL); // parse args has to be done early in startup, right after the first ResetCounter usually
 
-    get_qcnlive_prefs();  // this sets the myRect among other things
+    get_qcnlive_prefs();  // this sets the m_rect among other things
 
     return StartMainThread();  
 }
@@ -144,10 +149,10 @@ bool MyApp::get_qcnlive_prefs()
     memset(strRead, 0x00, _MAX_PATH);
 	
     // basic defaults
-    myRect.setX(MY_RECT_DEFAULT_POS_X);
-    myRect.setY(MY_RECT_DEFAULT_POS_Y);
-    myRect.setWidth(MY_RECT_DEFAULT_WIDTH);
-    myRect.setHeight(MY_RECT_DEFAULT_HEIGHT);
+    m_rect.setX(MY_RECT_DEFAULT_POS_X);
+    m_rect.setY(MY_RECT_DEFAULT_POS_Y);
+    m_rect.setWidth(MY_RECT_DEFAULT_WIDTH);
+    m_rect.setHeight(MY_RECT_DEFAULT_HEIGHT);
 
     sm->dMyLatitude = NO_LAT;
     sm->dMyLongitude = NO_LNG; 
@@ -177,30 +182,30 @@ bool MyApp::get_qcnlive_prefs()
 	int iTemp = -1;
     sprintf(strParse, "<%s>", XML_X);
     if (parse_int(strRead, strParse, iTemp) && iTemp >= 0)
-		myRect.setX(iTemp);
+		m_rect.setX(iTemp);
 	else
-        myRect.setX(MY_RECT_DEFAULT_POS_X);
+        m_rect.setX(MY_RECT_DEFAULT_POS_X);
 	
 	iTemp = -1;
     sprintf(strParse, "<%s>", XML_Y);
     if (parse_int(strRead, strParse, iTemp) && iTemp >= 0)
-		myRect.setY(iTemp);
+		m_rect.setY(iTemp);
 	else
-        myRect.setY(MY_RECT_DEFAULT_POS_Y);
+        m_rect.setY(MY_RECT_DEFAULT_POS_Y);
 
 	iTemp = -1;
     sprintf(strParse, "<%s>", XML_WIDTH);
     if (parse_int(strRead, strParse, iTemp) && iTemp >= 100 && iTemp <= qsize.width())
-		myRect.setWidth(iTemp);
+		m_rect.setWidth(iTemp);
 	else
-        myRect.setWidth(MY_RECT_DEFAULT_WIDTH);
+        m_rect.setWidth(MY_RECT_DEFAULT_WIDTH);
     
 	iTemp = -1;
 	sprintf(strParse, "<%s>", XML_HEIGHT);
     if (parse_int(strRead, strParse, iTemp) && iTemp >= 100 && iTemp <= qsize.height())
-		myRect.setHeight(iTemp);
+		m_rect.setHeight(iTemp);
 	else
-        myRect.setHeight(MY_RECT_DEFAULT_HEIGHT);
+        m_rect.setHeight(MY_RECT_DEFAULT_HEIGHT);
 
     // get preferred sensor if any
     sprintf(strParse, "<%s>", XML_SENSOR);
@@ -280,10 +285,10 @@ bool MyApp::set_qcnlive_prefs()
 				"<%s>%d</%s>\n"
 				"<%s>%d</%s>\n"
                         ,
-                    XML_X, myRect.x(), XML_X,
-                    XML_Y, myRect.y(), XML_Y, 
-                    XML_WIDTH, myRect.width(), XML_WIDTH, 
-                    XML_HEIGHT, myRect.height(), XML_HEIGHT,
+                    XML_X, m_rect.x(), XML_X,
+                    XML_Y, m_rect.y(), XML_Y, 
+                    XML_WIDTH, m_rect.width(), XML_WIDTH, 
+                    XML_HEIGHT, m_rect.height(), XML_HEIGHT,
                     XML_LATITUDE, sm->dMyLatitude, XML_LATITUDE,
                     XML_LONGITUDE, sm->dMyLongitude, XML_LONGITUDE,
                     XML_STATION, sm->strMyStation, XML_STATION,
@@ -310,9 +315,9 @@ void MyApp::KillSplashScreen()
 	
 void MyApp::SetRect(const QRect& rect)
 {
-   myRect = rect;
-   //myRect.SetSize(newsize);
-   //myRect.SetPosition(newposition);
+   m_rect = rect;
+   //m_rect.SetSize(newsize);
+   //m_rect.SetPosition(newposition);
 }
 
 bool MyApp::OnInit()
@@ -333,13 +338,13 @@ bool MyApp::OnInit()
     }
     strcpy(sm->dataBOINC.wu_name, "qcnlive");
 
-    myRect.setX(MY_RECT_DEFAULT_POS_X);
-    myRect.setY(MY_RECT_DEFAULT_POS_Y);
-    myRect.setWidth(MY_RECT_DEFAULT_WIDTH);
-    myRect.setHeight(MY_RECT_DEFAULT_HEIGHT);
+    m_rect.setX(MY_RECT_DEFAULT_POS_X);
+    m_rect.setY(MY_RECT_DEFAULT_POS_Y);
+    m_rect.setWidth(MY_RECT_DEFAULT_WIDTH);
+    m_rect.setHeight(MY_RECT_DEFAULT_HEIGHT);
 
 	/*
-    frame = new MyFrame(myRect, this);
+    frame = new MyFrame(m_rect, this);
     if (!frame) return false;  // big error if can't make the window frame!
 	
 #if wxUSE_LIBJPEG
@@ -391,9 +396,9 @@ bool MyApp::OnInit()
     frame->SetSizer(frame->sizer);
     frame->SetAutoLayout(true);	
    	
-    // set size that was loaded into myRect earlier in the Init()
-    frame->SetSize(myRect.GetSize());
-    frame->SetPosition(myRect.GetPosition());
+    // set size that was loaded into m_rect earlier in the Init()
+    frame->SetSize(m_rect.GetSize());
+    frame->SetPosition(m_rect.GetPosition());
 
     frame->SetStatusText(wxString("Ready", wxConvUTF8));
 	

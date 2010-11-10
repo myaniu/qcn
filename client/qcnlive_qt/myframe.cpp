@@ -193,31 +193,6 @@ void MyFrame::OnFileSettings(wxCommandEvent& WXUNUSED(evt))
 	 }
 }
 
-void MyFrame::OnQuit(wxCommandEvent& WXUNUSED(evt))
-{
-    Close(true);
-}
-
-void MyFrame::OnAbout(wxCommandEvent& WXUNUSED(evt))
-{
-	wxAboutDialogInfo myAboutBox;
-	//myAboutBox.SetIcon(wxIcon("qcnwin.ico", wxBITMAP_TYPE_ICO));
-	myAboutBox.SetVersion(wxString(QCN_VERSION_STRING));
-	myAboutBox.SetName(wxT("QCNLive"));
-	myAboutBox.SetWebSite(wxT("http://qcn.stanford.edu"), wxT("Quake-Catcher Network Website"));
-	myAboutBox.SetCopyright(wxT("(c) 2009 Stanford University")); 
-	//myAboutBox.AddDeveloper(wxT("Carl Christensen  (carlgt1@yahoo.com"));
-	myAboutBox.SetDescription(wxT("This software is provided free of charge for educational purposes.\n\nPlease visit us on the web:\n"));
-
-    wxAboutBox(myAboutBox);
-}
-
-void MyFrame::OnSize(wxSizeEvent& evt)
-{
-	 if (glPane) glPane->resized(evt);
-	 wxFrame::OnSize(evt);
-}
-
 void MyFrame::OnActionView(wxCommandEvent& evt)
 {
    // get item from event do appropriate action (boinc_key_press!)
@@ -1079,10 +1054,28 @@ MyFrame::MyFrame(const QRect& rect, MyApp* papp)
  }
  */
 
+
 void MyFrame::about()
 {
     QMessageBox::about(this, tr("About QCNLive"),
-					   tr("<b>QCNLive</b> is provided by the Quake-Catcher Network Project (c) 2010 Stanford University"));
+					   tr("<b>QCNLive</b> is provided by the <BR> Quake-Catcher Network Project <BR><BR>http://qcn.stanford.edu<BR><BR>(c) 2010 Stanford University"));
+/*
+	wxAboutDialogInfo myAboutBox;
+	//myAboutBox.SetIcon(wxIcon("qcnwin.ico", wxBITMAP_TYPE_ICO));
+	myAboutBox.SetVersion(wxString(QCN_VERSION_STRING));
+	myAboutBox.SetName(wxT("QCNLive"));
+	myAboutBox.SetWebSite(wxT("http://qcn.stanford.edu"), wxT("Quake-Catcher Network Website"));
+	myAboutBox.SetCopyright(wxT("(c) 2009 Stanford University")); 
+	//myAboutBox.AddDeveloper(wxT("Carl Christensen  (carlgt1@yahoo.com"));
+	myAboutBox.SetDescription(wxT("This software is provided free of charge for educational purposes.\n\nPlease visit us on the web:\n"));
+	
+    wxAboutBox(myAboutBox);
+
+	QDialog* dlgAbout = new QDialog(this);
+	dlgAbout->setModal(true);
+	dlgAbout->exec();
+ 
+*/		
 }
 
 void MyFrame::createActions()

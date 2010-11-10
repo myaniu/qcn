@@ -28,23 +28,10 @@
 #include "myframe.h"
 #include "qcnlive_define.h"
 
-/*
-QT_BEGIN_NAMESPACE
-class QApplication
-class QMainWindow
-class QMenu
-class QScrollArea
-class QSlider
-class QSplashScreen
-class QTimer
-class QAction
-class QLabel
-QT_END_NAMESPACE
-*/
-
 class GLWidget;
 class MyFrame;
-class MyAppTimer;
+//class MyAppTimer;
+
 
 // definition for the main app
 class MyApp: public QApplication
@@ -54,12 +41,13 @@ class MyApp: public QApplication
     virtual int OnExit();
 
     //MyFrame* frame;
-    MyAppTimer* myapptimer;
+    //MyAppTimer* myapptimer;
 
-    QRect myRect;            // apps screen coordinates
+    QRect m_rect;            // apps screen coordinates
 
   public:
     MyApp(int& argc, char** argv);
+	~MyApp();
 	
     //void SetRect(const wxSize& newsize, const wxPoint& newposition);
     void SetRect(const QRect& rect);
@@ -78,6 +66,7 @@ class MyApp: public QApplication
     QSplashScreen* m_psplash;  // the apps splash screen
 };
 
+/*
 // this time is called every hour to get the earthquake list
 class MyAppTimer : public QTimer
 {
@@ -89,5 +78,5 @@ class MyAppTimer : public QTimer
 	  void Notify();
 };
 
-
+*/
 #endif // ifndef _QCNLIVE_H_

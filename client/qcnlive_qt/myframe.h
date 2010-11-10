@@ -77,11 +77,9 @@ public:
 	MyFrame(const QRect& rect, MyApp* papp);
 		
 	private slots:
-    //void renderIntoPixmap();
-    //void grabFrameBuffer();
-    //void clearPixmap();
     void about();
-/*
+
+	/*
 
     void ToolBarView();
     void Toggle(const int id, const bool bOn  = true, const bool bView = false);
@@ -101,11 +99,8 @@ public:
 
 	/*
     void closeEvent(QCloseEvent* pqc);
-    void OnSize(wxSizeEvent& evt);
 
     // menu events
-    void OnAbout(wxCommandEvent& evt);
-    void OnQuit(wxCommandEvent& evt);
     void OnFileSettings(wxCommandEvent& evt);
 
     void OnActionView(wxCommandEvent& evt);
