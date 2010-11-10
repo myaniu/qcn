@@ -188,8 +188,8 @@ IOReturn CSensorMacUSBJW24F14::ReadByteFromAddress (IOHIDDeviceInterface122** hi
 	UInt8	 readBuffer[8];
 	UInt8	 writeBuffer[8];
 	IOReturn ioReturnValue;
-	//UInt32   readDataSize;
-	uint32_t readDataSize;
+	UInt32   readDataSize;    // for 10.4
+	// uint32_t readDataSize; // for 10.5+
 
 	*result = 0x00;
 	
