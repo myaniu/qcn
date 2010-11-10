@@ -19,6 +19,9 @@ int main(int argc, char *argv[])
     return app.exec();
 }
 
+MyApp::MyApp(int& argc, char** argv)  : QApplication(argc, argv)
+{
+}
 
 #ifdef _WIN32  // Win fn ptr
   DWORD WINAPI QCNThreadMain(LPVOID /* lpParameter */)

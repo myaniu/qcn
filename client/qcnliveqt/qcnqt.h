@@ -28,28 +28,23 @@
 #include "myframe.h"
 #include "qcnlive_define.h"
 
-
 /*
 QT_BEGIN_NAMESPACE
 class QApplication
 class QMainWindow
+class QMenu
+class QScrollArea
+class QSlider
 class QSplashScreen
 class QTimer
 class QAction
 class QLabel
-class QMenu
-class QScrollArea
-class QSlider
-class MyFrame
-class GLWidget
-class MyAppTimer
 QT_END_NAMESPACE
 */
 
-class MyFrame;
 class GLWidget;
+class MyFrame;
 class MyAppTimer;
-
 
 // definition for the main app
 class MyApp: public QApplication
@@ -59,12 +54,12 @@ class MyApp: public QApplication
     virtual int OnExit();
 
     //MyFrame* frame;
-	MyAppTimer* myapptimer;
+    MyAppTimer* myapptimer;
 
     QRect myRect;            // apps screen coordinates
 
   public:
-	MyApp(int& argc, char** argv)  : QApplication(argc, argv) {};
+    MyApp(int& argc, char** argv);
 	
     //void SetRect(const wxSize& newsize, const wxPoint& newposition);
     void SetRect(const QRect& rect);
@@ -87,7 +82,7 @@ class MyApp: public QApplication
 class MyAppTimer : public QTimer
 {
    public:
-      MyAppTimer(MyApp* papp) { pMyApp = papp; };
+      MyAppTimer(MyApp* papp);
    
    private:
       MyApp* pMyApp;
