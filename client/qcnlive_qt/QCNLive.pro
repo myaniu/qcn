@@ -70,7 +70,6 @@ SRC_BOINC = $$BAPIDIR/boinc_api.cpp \
    $$BLIBDIR/filesys.cpp \
    $$BLIBDIR/mfile.cpp \
    $$BLIBDIR/miofile.cpp \
-   $$BLIBDIR/miofile.cpp \
    $$BLIBDIR/app_ipc.cpp \
    $$BLIBDIR/hostinfo.cpp \
    $$BLIBDIR/proxy_info.cpp \
