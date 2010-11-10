@@ -74,7 +74,7 @@ private:
 	QToolBar* m_ptbBase;
 	
 public:
-	MyFrame(const QRect& rect, MyApp* papp);
+	MyFrame(MyApp* papp);
 		
 	private slots:
     void about();
@@ -96,10 +96,10 @@ public:
 	void ToggleStartStop(bool bStart);
 */
   private:
+    void closeEvent(QCloseEvent* pqc);
+	void resizeEvent(QResizeEvent* prs);
 
 	/*
-    void closeEvent(QCloseEvent* pqc);
-
     // menu events
     void OnFileSettings(wxCommandEvent& evt);
 

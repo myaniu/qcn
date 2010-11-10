@@ -13,19 +13,20 @@
 // main program for Qt window
 int main(int argc, char *argv[])
 {
-    MyApp app(argc, argv);
-	app.setWindowIcon(QIcon("qcnicns.icn"));
-	MyFrame mainWin(QRect(0, 0, 640, 480), &app);
-    mainWin.show();
-    return app.exec();
+    MyApp myApp(argc, argv); // the constructor of MyApp does all the necessary initialization, splash screens etc (destructor does the cleanup of course)
+	MyFrame myWin(&myApp);
+    myWin.show();
+    return myApp.exec();
 }
 
 MyApp::MyApp(int& argc, char** argv)  : QApplication(argc, argv)
 {
+	OnInit();
 }
 
 MyApp::~MyApp()
 {
+	OnExit();
 }
 
 #ifdef _WIN32  // Win fn ptr
@@ -73,6 +74,12 @@ void MyApp::SetPath(const char* strArgv)
 	
     strlcat(strPath, QCNGUI_INIT_DIR, _MAX_PATH);
     _chdir(strPath); // first off, move to the init directory, this is where the boinc startup stuff is etc
+	
+	// set icon
+	if (boinc_file_exists(FILENAME_LOGO)) 
+		setWindowIcon(QIcon(FILENAME_LOGO));
+	
+	
     delete [] strPath;
 }
 
@@ -322,7 +329,9 @@ void MyApp::SetRect(const QRect& rect)
 
 bool MyApp::OnInit()
 {
+	// do splash screen until the mainwin show	
     m_psplash = NULL; // init the splash screen
+	
     SetPath();  // go to the init/ directory
 
     // note that since we're all in one process (yet with multiple threads, we can just build our shmem struct on the heap with new

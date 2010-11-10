@@ -6,6 +6,8 @@
 #define QCNGUI_XML_PREFS_FILE  "qcnliveprefs.xml"
 //#define QCNGUI_XML_GRAPHICS_PREFS_FILE  "graphicsprefs.xml"
 
+#define FILENAME_LOGO  "qcnlogo_big.png"
+
 #define MY_RECT_DEFAULT_POS_X    16
 #define MY_RECT_DEFAULT_POS_Y    24
 #define MY_RECT_DEFAULT_WIDTH   945

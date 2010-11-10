@@ -63,6 +63,12 @@ class MyApp: public QApplication
 	bool KillMainThread();
 	bool StartMainThread();
 	
+	int getWidth() {return m_rect.width(); }
+	int getHeight() {return m_rect.height(); }
+	int getX() {return m_rect.x(); }
+	int getY() {return m_rect.y(); }
+	void setRect(const QRect& rect) {  m_rect = rect; }
+	
     QSplashScreen* m_psplash;  // the apps splash screen
 };
 

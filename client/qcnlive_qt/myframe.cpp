@@ -153,10 +153,10 @@ void MyFrame::SetupToolbars()
 
 void MyFrame::OnCloseWindow(wxCloseEvent& wxc)
 {
-     if (pMyApp) { // save the current window position & size, in MyApp::OnExit these get written to a prefs xml file
-        //pMyApp->SetRect(GetSize(), GetPosition());
-        //pMyApp->SetRect(GetRect());   // GetScreenRect()
-        pMyApp->SetRect(GetScreenRect());   // GetScreenRect()
+     if (m_pMyApp) { // save the current window position & size, in MyApp::OnExit these get written to a prefs xml file
+        //m_pMyApp->SetRect(GetSize(), GetPosition());
+        //m_pMyApp->SetRect(GetRect());   // GetScreenRect()
+        m_pMyApp->SetRect(GetScreenRect());   // GetScreenRect()
       }
      // stop timers and get rid of OpenGL window which causes a hang on Windows
      if (glPane) {
@@ -178,9 +178,9 @@ void MyFrame::OnFileSettings(wxCommandEvent& WXUNUSED(evt))
 	       //statusBar->SetStatusText(wxString("Saving your settings and updating earthquake list", wxConvUTF8));
 	       pcds->SaveValues();  // save to the global variables
 	       // call our save function to write values to disk
-		   pMyApp->set_qcnlive_prefs(); // saved in KillMainThread 
+		   m_pMyApp->set_qcnlive_prefs(); // saved in KillMainThread 
 		   // probably have to kill & restart the main thread too?
-			if (pMyApp && myOldSensor != sm->iMySensor) {  // we changed sensors, have to restart main thread?
+			if (m_pMyApp && myOldSensor != sm->iMySensor) {  // we changed sensors, have to restart main thread?
 				// put up a message box to quit and restart
 				if (::wxMessageBox(_("You have changed your preferred sensor.\n\nPlease restart to use your new preferred USB sensor choice.\n\nClick 'OK' to quit now.\nClick 'Cancel' to continue this session of QCNLive."), 
 							   _("Restart Required"), 
@@ -264,7 +264,7 @@ void MyFrame::OnActionEarth(wxCommandEvent& evt)
 	     qcn_graphics::earth.checkURLClick(true);
 	     break;
 	case ID_TOOL_ACTION_EARTH_LATEST:
-	     if (pMyApp) pMyApp->GetLatestQuakeList();
+	     if (m_pMyApp) m_pMyApp->GetLatestQuakeList();
 	     break;
   }
   SetToggleEarth();
@@ -956,9 +956,9 @@ void MyFrame::EarthRotate(bool bAuto)
  
 */
 
-MyFrame::MyFrame(const QRect& rect, MyApp* papp)
+MyFrame::MyFrame(MyApp* papp)
 {
-	// setup splash screen here?
+	m_pMyApp = papp;
 	
     m_centralWidget = new QWidget;
     setCentralWidget(m_centralWidget);
@@ -1027,9 +1027,10 @@ MyFrame::MyFrame(const QRect& rect, MyApp* papp)
 #ifdef __APPLE_CC__
 	setUnifiedTitleAndToolBarOnMac(true);
 #endif
-	
-	// eventually use saved sizes of course
-    resize(640, 480);
+
+	// set the size to be the sizes from our saved prefs (or default sizes, either way it's set in myApp)
+	move(m_pMyApp->getX(), m_pMyApp->getY());
+    resize(m_pMyApp->getWidth(), m_pMyApp->getHeight());
 }
 
 /*
@@ -1052,7 +1053,7 @@ MyFrame::MyFrame(const QRect& rect, MyApp* papp)
  {
  setPixmap(QPixmap());
  }
- */
+*/
 
 
 void MyFrame::about()
@@ -1198,5 +1199,14 @@ QSize MyFrame::getSize()
     return m_glWidget->size();
 }
 
+void MyFrame::closeEvent(QCloseEvent* pqc)
+{
+}
 
-
+void MyFrame::resizeEvent(QResizeEvent* prs)
+{
+	int w = prs->size().width();
+	int h = prs->size().height(); // also oldsize if needed
+	if (m_pMyApp && w>50 && h>50)
+		m_pMyApp->setRect(QRect(x(), y(), w, h));
+}
