@@ -17,82 +17,38 @@ public:
     GLWidget(QWidget *parent = 0);
     ~GLWidget();
 
-    int xRotation() const { return xRot; }
-    int yRotation() const { return yRot; }
-    int zRotation() const { return zRot; }
-
+    int getWidth() const { return m_width; }
+    int getHeight() const { return m_height; }
+	const int whichGLUTButton(const QMouseEvent* event) const;
+	
 public slots:
-    void setXRotation(int angle);
-    void setYRotation(int angle);
-    void setZRotation(int angle);
+    void setTimePosition(const double& dValue);
 	
-	
-	/*
-	 // methods
-	int getWidth();
-	int getHeight();
-	 
-	 // events
-	void render(wxPaintEvent& evt);
-	void resized(wxSizeEvent& evt);
-	
-	void OnMouseMove(wxMouseEvent& evt);
-	void OnMouseDoubleClick(wxMouseEvent& evt);
-	void OnMouseDown(wxMouseEvent& evt);
-	void OnMouseRelease(wxMouseEvent& evt);
-	void OnEraseBackground(wxEraseEvent& evt);
-	 */
-
 signals:
-    void xRotationChanged(int angle);
-    void yRotationChanged(int angle);
-    void zRotationChanged(int angle);
-
+	void TimePositionChanged(const double& dValue);
+	
 protected:
     void initializeGL();
     void paintGL();
     void resizeGL(int width, int height);
+    void mouseDoubleClickEvent(QMouseEvent *event);
     void mousePressEvent(QMouseEvent *event);
+    void mouseReleaseEvent(QMouseEvent *event);
     void mouseMoveEvent(QMouseEvent *event);
 
 private slots:
-    void advanceGears();
+    void animate();
 
 private:
-    GLuint makeGear(const GLfloat *reflectance, GLdouble innerRadius,
-                    GLdouble outerRadius, GLdouble thickness,
-                    GLdouble toothSize, GLint toothCount);
-    void drawGear(GLuint gear, GLdouble dx, GLdouble dy, GLdouble dz,
-                  GLdouble angle);
-    void normalizeAngle(int *angle);
-
-    GLuint gear1;
-    GLuint gear2;
-    GLuint gear3;
-    int xRot;
-    int yRot;
-    int zRot;
-    int gear1Rot;
-    
+	int m_width;
+	int m_height;
     QPoint lastPos;
 
 public:
 	MyFrame* m_pframe;  // reference to parent frame
-	MyGLTimer* m_ptimer;
 	bool m_mouseDown[3];  // bools for mouse down -- in order of left/middle/right
-	
+	QTimer* m_timer;  // animation timer
 	
 };
-
-/*
-class MyGLTimer : public QTimer
-{
-public:
-	MyGLTimer(GLWidget* pglw);
-	void Notify();
-private:
-	GLWidget* m_pGLW;
-};
-*/
 
 #endif

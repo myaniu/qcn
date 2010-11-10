@@ -85,6 +85,7 @@ typedef vector<string> ZipFileList;
 #ifndef GLUT_LEFT_BUTTON
 // put glut keys here
 // GLUT key definitions, although we're not actually using GLUT, just these key mappings!
+#define  GLUT_NO_BUTTON                     -1
 #define  GLUT_LEFT_BUTTON                   0x0000
 #define  GLUT_MIDDLE_BUTTON                 0x0001
 #define  GLUT_RIGHT_BUTTON                  0x0002

@@ -1033,7 +1033,7 @@ MyFrame::MyFrame(const QRect& rect, MyApp* papp)
     centralWidget = new QWidget;
     setCentralWidget(centralWidget);
 	
-    glWidget = new GLWidget;
+    glWidget = new GLWidget(this);
     //pixmapLabel = new QLabel;
 	
     glWidgetArea = new QScrollArea;
