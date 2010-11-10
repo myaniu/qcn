@@ -1050,9 +1050,9 @@ MyFrame::MyFrame(const QRect& rect, MyApp* papp)
 	 pixmapLabelArea->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
 	 pixmapLabelArea->setMinimumSize(50, 50);
 	 */
-	
-    pTimeSlider = createSlider(SIGNAL(TimeChanged(int)),
-							   SLOT(setTimeChanged(int)));
+		
+    pTimeSlider = createSlider(SIGNAL(TimePositionChanged(const double&)),
+							   SLOT(setTimePosition(const double&)));
 	/*
 	 xSlider = createSlider(SIGNAL(xRotationChanged(int)),
 	 SLOT(setXRotation(int)));

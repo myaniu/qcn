@@ -26,14 +26,10 @@ GLWidget::~GLWidget()
     makeCurrent();
 }
 
-void GLWidget::TimePositionChanged(const double& dTime)
-{
-}
-
 void GLWidget::setTimePosition(const double& dTime)
 {
 	emit TimePositionChanged(dTime);
-	//updateGL();
+	updateGL();
 }
 
 void GLWidget::initializeGL()
@@ -47,7 +43,6 @@ void GLWidget::initializeGL()
 void GLWidget::paintGL()
 {
     qcn_graphics::Render(0,0,0);
-	
 }
 
 void GLWidget::resizeGL(int width, int height)
