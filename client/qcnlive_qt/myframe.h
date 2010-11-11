@@ -61,25 +61,21 @@ private:
 	QAction* m_actionViewSensor3D;
 	QAction* m_actionViewCube;
 	
-    QAction* m_actionHelpAbout;
-	QAction* m_actionHelpManual;
-	QAction* m_actionHelpWebQCN;
-	QAction* m_actionHelpWebQCNLive;
-	QAction* m_actionHelpWebEarthquakes;
-	QAction* m_actionHelpWebLessons;
-	QAction* m_actionHelpWebRequestSensor;
-	QAction* m_actionHelpWebGlossary;
-	
 	QAction* m_actionOptionEarthDay;
 	QAction* m_actionOptionEarthNight;
 	QAction* m_actionOptionEarthRotateOn;
 	QAction* m_actionOptionEarthRotateOff;
-	QAction* m_actionOptionEarthRotateUSGS;
-	QAction* m_actionOptionEarthRotateQuakelist;
+	QAction* m_actionOptionEarthUSGS;
+	QAction* m_actionOptionEarthQuakelist;
 
 	//QAction* m_actionOptionSensor01;
 	//QAction* m_actionOptionSensor10;
 	//QAction* m_actionOptionSensor60;
+	QAction* m_actionOptionSensorVerticalZoomAuto;
+	QAction* m_actionOptionSensorVerticalZoomIn;
+	QAction* m_actionOptionSensorVerticalZoomOut;
+	QAction* m_actionOptionSensorHorizontalZoomIn;
+	QAction* m_actionOptionSensorHorizontalZoomOut;
 	QAction* m_actionOptionSensorBack;
 	QAction* m_actionOptionSensorPause;
 	QAction* m_actionOptionSensorResume;
@@ -89,12 +85,16 @@ private:
 	QAction* m_actionOptionSensorAbsolute;
 	QAction* m_actionOptionSensorScaled;
 	//QAction* m_actionOptionSensorScrollbar;
-	QAction* m_actionOptionSensorHorizontalZoomOut;
-	QAction* m_actionOptionSensorHorizontalZoomIn;
-	QAction* m_actionOptionSensorVerticalZoomOut;
-	QAction* m_actionOptionSensorVerticalZoomIn;
-	QAction* m_actionOptionSensorVerticalZoomAuto;
 
+	
+    QAction* m_actionHelpAbout;
+	QAction* m_actionHelpManual;
+	QAction* m_actionHelpWebQCN;
+	QAction* m_actionHelpWebQCNLive;
+	QAction* m_actionHelpWebEarthquakes;
+	QAction* m_actionHelpWebLessons;
+	QAction* m_actionHelpWebRequestSensor;
+	QAction* m_actionHelpWebGlossary;
 	QAction* m_actionOptionScreenshot;
 	QAction* m_actionOptionLogo;
 	
@@ -118,16 +118,47 @@ public:
 	void ToggleStartStop(bool bStart);
 		
 private slots:
-	void actionHelpAbout();
-	
+	void actionView();
+/*
 	void actionViewEarth();
 	void actionViewSensor2D();
 	void actionViewSensor3D();
 	void actionViewCube();
+*/
+	
+	void actionOptionEarthDay();
+	void actionOptionEarthNight();
+	void actionOptionEarthRotateOn();
+	void actionOptionEarthRotateOff();
+	void actionOptionEarthUSGS();
+	void actionOptionEarthQuakelist();
+	
+	void actionOptionSensorVerticalZoomAuto();
+	void actionOptionSensorVerticalZoomIn();
+	void actionOptionSensorVerticalZoomOut();
+	void actionOptionSensorHorizontalZoomIn();
+	void actionOptionSensorHorizontalZoomOut();
+	void actionOptionSensorBack();
+	void actionOptionSensorPause();
+	void actionOptionSensorResume();
+	void actionOptionSensorRecordStart();
+	void actionOptionSensorRecordStop();
+	void actionOptionSensorForward();
+	void actionOptionSensorAbsolute();
+	void actionOptionSensorScaled();
 	
 	void actionOptionScreenshot();
 	void actionOptionLogo();
 
+    void actionHelpAbout();
+	void actionHelpManual();
+	void actionHelpWebQCN();
+	void actionHelpWebQCNLive();
+	void actionHelpWebEarthquakes();
+	void actionHelpWebLessons();
+	void actionHelpWebRequestSensor();
+	void actionHelpWebGlossary();
+		
 /*
 
     void ToolBarView();

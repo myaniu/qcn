@@ -228,16 +228,7 @@ void MyFrame::OnLogoChange(wxCommandEvent& vet)
 void MyFrame::ToolBarView()
 {
     if (!toolBar) return; // null toolbar?
-    wxString wxsShort[4], wxsLong[4];
-    wxsShort[0].assign("&Earthquakes");
-    wxsLong[0].assign("Select this view to see the latest earthquakes worldwide");
-    wxsShort[1].assign("Sensor &2-dimensional");
-    wxsLong[1].assign("Select this view to see your accelerometer output as a 2-dimensional plot");
-    wxsShort[2].assign("Sensor &3-dimensional");
-    wxsLong[2].assign("Select this to see your accelerometer output as a 3-dimensional plot");
-    wxsShort[3].assign("&Cube");
-    wxsLong[3].assign("Select this view to see a bouncing cube that responds to your accelerometer");
-
+ 
 #ifndef wxUSE_LIBPNG	
     fprintf(stdout, "Error -- you need wxWidgets with PNG support!\n");
 	return;
@@ -657,41 +648,6 @@ void MyFrame::ToolBarSensor3D()
 
     wxString wxsShort[10], wxsLong[10];
 
-    wxsShort[0].assign("&1-minute Window");
-    wxsLong[0].assign("1-minute Time Window");
-
-    wxsShort[1].assign("1&0-minute Window");
-    wxsLong[1].assign("10-minute Time Window");
-
-    wxsShort[2].assign("&60-minute Window");
-    wxsLong[2].assign("60-minute Time Window");
-
-//    wxsShort[3].assign("&Previous Time Window");
-//    wxsLong[3].assign("Previous Time Window");
-
-//    wxsShort[4].assign("&Pause Sensor Display");
-//    wxsLong[4].assign("Pause Sensor Display");
-
-    wxsShort[3].assign("Zoom In Time Scale");
-    wxsShort[4].assign("Zoom Out Time Scale");
-
-    wxsShort[5].assign("&Current Sensor Display");
-    wxsLong[5].assign("Current Sensor Display");
-
-    wxsShort[6].assign("&Next Time Window");
-	wxsLong[6].assign("Go forwards one 'window' of time");
-
-    wxsShort[7].assign("&Absolute sensor values");
-    wxsLong[7].assign("View the absolute sensor values");
-
-    wxsShort[8].assign("S&caled sensor values");
-    wxsLong[8].assign("View the scaled sensor values");
-
-    wxsShort[9].assign("&Record sensor output");
-    wxsLong[9].assign("Set recording state of the sensor output");
-
-	//toolBar->AddSeparator();
-
 
 	SensorNavButtons();
 	
@@ -866,127 +822,102 @@ void MyFrame::createActions()
 	
 	// View actions
 	m_actionViewEarth = new QAction(tr("&Earthquakes"), this);
-	m_actionViewEarth->setToolTip(tr("View recent and historical global earthquakes"));
-    connect(m_actionViewEarth, SIGNAL(triggered()), this, SLOT(actionViewEarth()));
+	m_actionViewEarth->setToolTip(tr("Select this view to see the latest and historical earthquakes worldwide"));
+    connect(m_actionViewEarth, SIGNAL(triggered()), this, SLOT(actionView()));
 
-	m_actionViewSensor2D = new QAction(tr("Sensor &2D"), this);
-	m_actionViewSensor2D->setToolTip(tr("View sensor data in 2D"));
-    connect(m_actionViewSensor2D, SIGNAL(triggered()), this, SLOT(actionViewSensor2D()));
+	m_actionViewSensor2D = new QAction(tr("Sensor &2-dimensional"), this);
+	m_actionViewSensor2D->setToolTip(tr("Select this view to see your accelerometer output as a 2-dimensional plot"));
+    connect(m_actionViewSensor2D, SIGNAL(triggered()), this, SLOT(actionView()));
 
-	m_actionViewSensor3D = new QAction(tr("Sensor &3D"), this);
-	m_actionViewSensor3D->setToolTip(tr("View sensor data in 3D"));
-    connect(m_actionViewSensor3D, SIGNAL(triggered()), this, SLOT(actionViewSensor3D()));
+	m_actionViewSensor3D = new QAction(tr("Sensor &3-dimensional"), this);
+	m_actionViewSensor3D->setToolTip(tr("Select this to see your accelerometer output as a 3-dimensional plot"));
+    connect(m_actionViewSensor3D, SIGNAL(triggered()), this, SLOT(actionView()));
 
 	m_actionViewCube = new QAction(tr("&Cube"), this);
-	m_actionViewCube->setToolTip(tr("Move a cube using the sensor"));
-    connect(m_actionViewCube, SIGNAL(triggered()), this, SLOT(actionViewCube()));
+	m_actionViewCube->setToolTip(tr("Select this view to see a bouncing cube that responds to your accelerometer"));
+    connect(m_actionViewCube, SIGNAL(triggered()), this, SLOT(actionView()));
 	
-	// Option actions  (these change based on which view above we're in)
-/*
+	
 	// Option - Earth
-	m_actionOptionEarth = new QAction(tr(""), this);
-	m_actionOptionEarth->setToolTip(tr(""));
-	connect(m_actionOptionEarth, SIGNAL(triggered()), this, SLOT(actionOptionEarth()));
+	m_actionOptionEarthDay = new QAction(tr("&Day"), this);
+	m_actionOptionEarthDay->setToolTip(tr("Show day view global earthquake map"));
+	connect(m_actionOptionEarthDay, SIGNAL(triggered()), this, SLOT(actionOptionEarthDay()));
 
-	m_actionOptionEarth = new QAction(tr(""), this);
-	m_actionOptionEarth->setToolTip(tr(""));
-	connect(m_actionOptionEarth, SIGNAL(triggered()), this, SLOT(actionOptionEarth()));
+	m_actionOptionEarthNight = new QAction(tr("&Night"), this);
+	m_actionOptionEarthNight->setToolTip(tr("Show night view of global earthquake map"));
+	connect(m_actionOptionEarthNight, SIGNAL(triggered()), this, SLOT(actionOptionEarthNight()));
 	
-	m_actionOptionEarth = new QAction(tr(""), this);
-	m_actionOptionEarth->setToolTip(tr(""));
-	connect(m_actionOptionEarth, SIGNAL(triggered()), this, SLOT(actionOptionEarth()));
+	m_actionOptionEarthRotateOn = new QAction(tr("&Auto-rotate"), this);
+	m_actionOptionEarthRotateOn->setToolTip(tr("Auto-rotate the globe"));
+	connect(m_actionOptionEarthRotateOn, SIGNAL(triggered()), this, SLOT(actionOptionEarthRotateOn()));
 	
-	m_actionOptionEarth = new QAction(tr(""), this);
-	m_actionOptionEarth->setToolTip(tr(""));
-	connect(m_actionOptionEarth, SIGNAL(triggered()), this, SLOT(actionOptionEarth()));
+	m_actionOptionEarthRotateOff = new QAction(tr("&Stop rotation"), this);
+	m_actionOptionEarthRotateOff->setToolTip(tr("Stop rotation of the globe"));
+	connect(m_actionOptionEarthRotateOff, SIGNAL(triggered()), this, SLOT(actionOptionEarthRotateOff()));
 	
-	m_actionOptionEarth = new QAction(tr(""), this);
-	m_actionOptionEarth->setToolTip(tr(""));
-	connect(m_actionOptionEarth, SIGNAL(triggered()), this, SLOT(actionOptionEarth()));
+	m_actionOptionEarthQuakelist = new QAction(tr("&Get latest earthquakes"), this);
+	m_actionOptionEarthQuakelist->setToolTip(tr("Get the latest earthquake list from the USGS"));
+	connect(m_actionOptionEarthQuakelist, SIGNAL(triggered()), this, SLOT(actionOptionEarthQuakelist()));
 	
-	m_actionOptionEarth = new QAction(tr(""), this);
-	m_actionOptionEarth->setToolTip(tr(""));
-	connect(m_actionOptionEarth, SIGNAL(triggered()), this, SLOT(actionOptionEarth()));
+	m_actionOptionEarthUSGS = new QAction(tr("&USGS Website"), this);
+	m_actionOptionEarthUSGS->setToolTip(tr("Go to the USGS website for the currently selected earthquake"));
+	connect(m_actionOptionEarthUSGS, SIGNAL(triggered()), this, SLOT(actionOptionEarthUSGS()));
 	
-	// CMC HERE
-	
-	QAction* m_actionOptionEarthDay;
-	QAction* m_actionOptionEarthNight;
-	QAction* m_actionOptionEarthRotateOn;
-	QAction* m_actionOptionEarthRotateOff;
-	QAction* m_actionOptionEarthRotateUSGS;
-	QAction* m_actionOptionEarthRotateQuakelist;
 	
 	// Option - Sensor (2D & 3D)
-	m_actionOptionSensorBack = new QAction(tr(""), this);
-	m_actionOptionSensor->setToolTip(tr(""));
-	connect(m_actionOptionSensor, SIGNAL(triggered()), this, SLOT(actionOptionSensor()));
+	m_actionOptionSensorVerticalZoomAuto = new QAction(tr("Auto-Zoom Vertical Scale"), this);
+	m_actionOptionSensorVerticalZoomAuto->setToolTip(tr("Auto-Zoom Vertical Scale"));
+	connect(m_actionOptionSensorVerticalZoomAuto, SIGNAL(triggered()), this, SLOT(actionOptionSensorVerticalZoomAuto()));
 	
-	m_actionOptionSensor = new QAction(tr(""), this);
-	m_actionOptionSensor->setToolTip(tr(""));
-	connect(m_actionOptionSensor, SIGNAL(triggered()), this, SLOT(actionOptionSensor()));
+	m_actionOptionSensorVerticalZoomIn = new QAction(tr("Zoom In Vertical Scale"), this);
+	m_actionOptionSensorVerticalZoomIn->setToolTip(tr("Zoom In Vertical Scale"));
+	connect(m_actionOptionSensorVerticalZoomIn, SIGNAL(triggered()), this, SLOT(actionOptionSensorVerticalZoomIn()));
 	
-	m_actionOptionSensor = new QAction(tr(""), this);
-	m_actionOptionSensor->setToolTip(tr(""));
-	connect(m_actionOptionSensor, SIGNAL(triggered()), this, SLOT(actionOptionSensor()));
+	m_actionOptionSensorVerticalZoomOut = new QAction(tr("Zoom Out Vertical Scale"), this);
+	m_actionOptionSensorVerticalZoomOut->setToolTip(tr("Zoom Out Vertical Scale"));
+	connect(m_actionOptionSensorVerticalZoomOut, SIGNAL(triggered()), this, SLOT(actionOptionSensorVerticalZoomOut()));
 	
-	m_actionOptionSensor = new QAction(tr(""), this);
-	m_actionOptionSensor->setToolTip(tr(""));
-	connect(m_actionOptionSensor, SIGNAL(triggered()), this, SLOT(actionOptionSensor()));
+	m_actionOptionSensorHorizontalZoomIn = new QAction(tr("Zoom In Time Scale"), this);
+	m_actionOptionSensorHorizontalZoomIn->setToolTip(tr("Zoom In Time Scale"));
+	connect(m_actionOptionSensorHorizontalZoomIn, SIGNAL(triggered()), this, SLOT(actionOptionSensorHorizontalZoomIn()));
 	
-	m_actionOptionSensor = new QAction(tr(""), this);
-	m_actionOptionSensor->setToolTip(tr(""));
-	connect(m_actionOptionSensor, SIGNAL(triggered()), this, SLOT(actionOptionSensor()));
+	m_actionOptionSensorHorizontalZoomOut = new QAction(tr("Zoom Out Time Scale"), this);
+	m_actionOptionSensorHorizontalZoomOut->setToolTip(tr("Zoom Out Time Scale"));
+	connect(m_actionOptionSensorHorizontalZoomOut, SIGNAL(triggered()), this, SLOT(actionOptionSensorHorizontalZoomOut()));
 	
-	m_actionOptionSensor = new QAction(tr(""), this);
-	m_actionOptionSensor->setToolTip(tr(""));
-	connect(m_actionOptionSensor, SIGNAL(triggered()), this, SLOT(actionOptionSensor()));
+	m_actionOptionSensorBack = new QAction(tr("Move Back"), this);
+	m_actionOptionSensorBack->setToolTip(tr("Move Back In Time"));
+	connect(m_actionOptionSensorBack, SIGNAL(triggered()), this, SLOT(actionOptionSensorBack()));
 	
-	m_actionOptionSensor = new QAction(tr(""), this);
-	m_actionOptionSensor->setToolTip(tr(""));
-	connect(m_actionOptionSensor, SIGNAL(triggered()), this, SLOT(actionOptionSensor()));
+	m_actionOptionSensorPause = new QAction(tr("Pause Display"), this);
+	m_actionOptionSensorPause->setToolTip(tr("Pause Sensor Display"));
+	connect(m_actionOptionSensorPause, SIGNAL(triggered()), this, SLOT(actionOptionSensorPause()));
 	
-	m_actionOptionSensor = new QAction(tr(""), this);
-	m_actionOptionSensor->setToolTip(tr(""));
-	connect(m_actionOptionSensor, SIGNAL(triggered()), this, SLOT(actionOptionSensor()));
+	m_actionOptionSensorResume = new QAction(tr("Start Display"), this);
+	m_actionOptionSensorResume->setToolTip(tr("Start Sensor Display"));
+	connect(m_actionOptionSensorResume, SIGNAL(triggered()), this, SLOT(actionOptionSensorResume()));
 	
-	m_actionOptionSensor = new QAction(tr(""), this);
-	m_actionOptionSensor->setToolTip(tr(""));
-	connect(m_actionOptionSensor, SIGNAL(triggered()), this, SLOT(actionOptionSensor()));
+	m_actionOptionSensorRecordStart = new QAction(tr("Start Recording"), this);
+	m_actionOptionSensorRecordStart->setToolTip(tr("Start Recording Sensor Time Series"));
+	connect(m_actionOptionSensorRecordStart, SIGNAL(triggered()), this, SLOT(actionOptionSensorRecordStart()));
 	
-	m_actionOptionSensor = new QAction(tr(""), this);
-	m_actionOptionSensor->setToolTip(tr(""));
-	connect(m_actionOptionSensor, SIGNAL(triggered()), this, SLOT(actionOptionSensor()));
+	m_actionOptionSensorRecordStop = new QAction(tr("Stop Recording"), this);
+	m_actionOptionSensorRecordStop->setToolTip(tr("Stop Recording Sensor Time Series"));
+	connect(m_actionOptionSensorRecordStop, SIGNAL(triggered()), this, SLOT(actionOptionSensorRecordStop()));
 	
-	m_actionOptionSensor = new QAction(tr(""), this);
-	m_actionOptionSensor->setToolTip(tr(""));
-	connect(m_actionOptionSensor, SIGNAL(triggered()), this, SLOT(actionOptionSensor()));
+	m_actionOptionSensorForward = new QAction(tr("Move Forward"), this);
+	m_actionOptionSensorForward->setToolTip(tr("Move Forward In Time"));
+	connect(m_actionOptionSensorForward, SIGNAL(triggered()), this, SLOT(actionOptionSensorForward()));
 	
-	m_actionOptionSensor = new QAction(tr(""), this);
-	m_actionOptionSensor->setToolTip(tr(""));
-	connect(m_actionOptionSensor, SIGNAL(triggered()), this, SLOT(actionOptionSensor()));
+	m_actionOptionSensorAbsolute = new QAction(tr("&Absolute sensor values"), this);
+	m_actionOptionSensorAbsolute->setToolTip(tr("Absolute sensor values"));
+	connect(m_actionOptionSensorAbsolute, SIGNAL(triggered()), this, SLOT(actionOptionSensorAbsolute()));
 	
-	m_actionOptionSensor = new QAction(tr(""), this);
-	m_actionOptionSensor->setToolTip(tr(""));
-	connect(m_actionOptionSensor, SIGNAL(triggered()), this, SLOT(actionOptionSensor()));
+	m_actionOptionSensorScaled = new QAction(tr("S&caled sensor values"), this);
+	m_actionOptionSensorScaled->setToolTip(tr("Scaled sensor values"));
+	connect(m_actionOptionSensorScaled, SIGNAL(triggered()), this, SLOT(actionOptionSensorScaled()));
 	
-	
-	QAction* m_actionOptionSensorBack;
-	QAction* m_actionOptionSensorPause;
-	QAction* m_actionOptionSensorResume;
-	QAction* m_actionOptionSensorRecordStart;
-	QAction* m_actionOptionSensorRecordStop;
-	QAction* m_actionOptionSensorForward;
-	QAction* m_actionOptionSensorAbsolute;
-	QAction* m_actionOptionSensorScaled;
-	//QAction* m_actionOptionSensorScrollbar;
-	QAction* m_actionOptionSensorHorizontalZoomOut;
-	QAction* m_actionOptionSensorHorizontalZoomIn;
-	QAction* m_actionOptionSensorVerticalZoomOut;
-	QAction* m_actionOptionSensorVerticalZoomIn;
-	QAction* m_actionOptionSensorVerticalZoomAuto;
-	
-*/
+
 	// Option action for all (Screenshot / Logo)
 	m_actionOptionScreenshot = new QAction(tr(""), this);
 	m_actionOptionScreenshot->setToolTip(tr(""));
@@ -995,8 +926,7 @@ void MyFrame::createActions()
 	m_actionOptionLogo = new QAction(tr(""), this);
 	m_actionOptionLogo->setToolTip(tr(""));
 	connect(m_actionOptionLogo, SIGNAL(triggered()), this, SLOT(actionOptionLogo()));
-	
-	
+		
 	
 	// Help actions
     m_actionHelpAbout = new QAction(tr("&About"), this);
@@ -1005,24 +935,31 @@ void MyFrame::createActions()
 
 	m_actionHelpManual = new QAction(tr("&Manual (PDF) for QCNLive"), this);
 	m_actionHelpManual->setToolTip(tr("Download/View Manual (PDF) for QCNLive"));
+    connect(m_actionHelpManual, SIGNAL(triggered()), this, SLOT(actionHelpManual()));
 
 	m_actionHelpWebQCN = new QAction(tr("&QCN Website"), this);
 	m_actionHelpWebQCN->setToolTip(tr("Visit the main QCN website"));
+    connect(m_actionHelpWebQCN, SIGNAL(triggered()), this, SLOT(actionHelpWebQCN()));
 	
 	m_actionHelpWebQCNLive = new QAction(tr("QCN&Live Website"), this);
 	m_actionHelpWebQCNLive->setToolTip(tr("Visit the QCNLive website"));
+    connect(m_actionHelpWebQCNLive, SIGNAL(triggered()), this, SLOT(actionHelpWebQCNLive()));
 	
 	m_actionHelpWebEarthquakes = new QAction(tr("&Earthquake Information"), this);
 	m_actionHelpWebEarthquakes->setToolTip(tr("Visit QCN's website for earthquakes"));
+    connect(m_actionHelpWebEarthquakes, SIGNAL(triggered()), this, SLOT(actionHelpWebEarthquakes()));
 	
 	m_actionHelpWebLessons = new QAction(tr("Lessons and &Activities"), this);
 	m_actionHelpWebLessons->setToolTip(tr("Lessons and Activities website"));
+    connect(m_actionHelpWebLessons, SIGNAL(triggered()), this, SLOT(actionHelpWebLessons()));
 	
 	m_actionHelpWebRequestSensor = new QAction(tr("&Request a Sensor"), this);
 	m_actionHelpWebRequestSensor->setToolTip(tr("Request/Purchase a sensor to use with QCN"));
+    connect(m_actionHelpWebRequestSensor, SIGNAL(triggered()), this, SLOT(actionHelpWebRequestSensor()));
 	
 	m_actionHelpWebGlossary = new QAction(tr("&Glossary"), this);
 	m_actionHelpWebGlossary->setToolTip(tr("Online Glossary"));
+    connect(m_actionHelpWebGlossary, SIGNAL(triggered()), this, SLOT(actionHelpWebGlossary()));
 
 	
 }
@@ -1045,7 +982,7 @@ void MyFrame::createMenus()
 	m_menuView->addAction(m_actionViewSensor3D);
 	m_menuView->addAction(m_actionViewCube);
 	
-	// Options
+	// Options - these change based on the View
 	m_menuOptions = menuBar()->addMenu(tr("&Options"));
 	
 
@@ -1058,7 +995,7 @@ void MyFrame::createMenus()
 	m_menuHelp->addAction(m_actionHelpWebLessons);
 	m_menuHelp->addAction(m_actionHelpWebRequestSensor);
 	m_menuHelp->addAction(m_actionHelpWebGlossary);
-	//m_menuHelp->addSeparator();
+	m_menuHelp->addSeparator();
 	m_menuHelp->addAction(m_actionHelpAbout);
 	
 		
@@ -1164,6 +1101,58 @@ void MyFrame::SetupToolbars()
 	 */
 }
 
+void MyFrame::actionView()
+{
+	// get item from event do appropriate action (boinc_key_press!)
+	// todo: hook up the other toolbars
+	// CMC Toggle(m_view, false, true);
+	
+	// figure out who called this
+	QAction *pAction = qobject_cast<QAction*>(QObject::sender());
+	bool bChanged = false;
+	if (pAction == m_actionViewSensor2D)
+	{
+		qcn_graphics::g_eView = VIEW_PLOT_2D;
+		// note only redraw sensor toolbar if not coming from a sensor view already
+		//if (m_view != ID_TOOL_VIEW_SENSOR_2D && m_view != ID_TOOL_VIEW_SENSOR_3D) ToolBarSensor(evt.GetId());
+		m_view = VIEW_PLOT_2D;
+		// CMC ToolBarSensor2D();
+		bChanged = true;
+	}
+	else if (pAction == m_actionViewSensor3D)
+	{
+		qcn_graphics::g_eView = VIEW_PLOT_3D;
+		// note only redraw sensor toolbar if not coming from a sensor view already
+		//if (m_view != ID_TOOL_VIEW_SENSOR_2D && m_view != ID_TOOL_VIEW_SENSOR_3D) ToolBarSensor(evt.GetId());
+		m_view = VIEW_PLOT_3D;
+		// CMC ToolBarSensor3D();
+		bChanged = true;
+	}
+	else if (pAction == m_actionViewCube)
+	{
+		qcn_graphics::g_eView = VIEW_CUBE;
+		m_view = VIEW_CUBE;
+		// CMC ToolBarCube();
+		bChanged = true;
+	}
+	else {
+		if (m_bEarthDay)
+			qcn_graphics::earth.SetMapCombined();
+		else
+			qcn_graphics::earth.SetMapNight();
+		m_view = VIEW_EARTH_DAY;
+		// CMC ToolBarEarth();
+		bChanged = true;
+	}
+
+	qcn_graphics::FaderOn();
+    if (bChanged) {
+		// CMC Toggle(m_view, true, true);
+    }
+    qcn_graphics::ResetPlotArray();
+}
+
+/*
 void MyFrame::actionViewEarth()
 {
 	// CMC Toggle(m_view, false, true);
@@ -1206,6 +1195,7 @@ void MyFrame::actionViewCube()
 	qcn_graphics::g_eView = VIEW_CUBE;
 	//CMC			ToolBarCube();
 }
+*/
 
 void MyFrame::actionHelpAbout()
 {
@@ -1239,3 +1229,109 @@ void MyFrame::actionOptionLogo()
 {
 }
 
+void MyFrame::actionOptionEarthDay()
+{
+}
+
+void MyFrame::actionOptionEarthNight()
+{
+}
+
+void MyFrame::actionOptionEarthRotateOn()
+{
+}
+
+void MyFrame::actionOptionEarthRotateOff()
+{
+}
+
+void MyFrame::actionOptionEarthUSGS()
+{
+}
+
+void MyFrame::actionOptionEarthQuakelist()
+{
+}
+
+
+void MyFrame::actionOptionSensorVerticalZoomAuto()
+{
+}
+
+void MyFrame::actionOptionSensorVerticalZoomIn()
+{
+}
+
+void MyFrame::actionOptionSensorVerticalZoomOut()
+{
+}
+
+void MyFrame::actionOptionSensorHorizontalZoomIn()
+{
+}
+
+void MyFrame::actionOptionSensorHorizontalZoomOut()
+{
+}
+
+void MyFrame::actionOptionSensorBack()
+{
+}
+
+void MyFrame::actionOptionSensorPause()
+{
+}
+
+void MyFrame::actionOptionSensorResume()
+{
+}
+
+void MyFrame::actionOptionSensorRecordStart()
+{
+}
+
+void MyFrame::actionOptionSensorRecordStop()
+{
+}
+
+void MyFrame::actionOptionSensorForward()
+{
+}
+
+void MyFrame::actionOptionSensorAbsolute()
+{
+}
+
+void MyFrame::actionOptionSensorScaled()
+{
+}
+
+
+
+void MyFrame::actionHelpManual()
+{
+}
+
+void MyFrame::actionHelpWebQCN()
+{
+}
+
+void MyFrame::actionHelpWebQCNLive()
+{
+}
+
+void MyFrame::actionHelpWebEarthquakes()
+{
+}
+
+void MyFrame::actionHelpWebLessons()
+{
+}
+
+void MyFrame::actionHelpWebRequestSensor()
+{
+}
+
+void MyFrame::actionHelpWebGlossary()
+{
+}
