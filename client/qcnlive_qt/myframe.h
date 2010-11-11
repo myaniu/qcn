@@ -29,18 +29,13 @@ class MyFrame : public QMainWindow
     Q_OBJECT
 	
 private:
-    void createActions();
-    void createMenus();
-    
-	//void setPixmap(const QPixmap &pixmap);
-    QSize getSize();
-	
     QWidget* m_centralWidget;
     QScrollArea* m_glWidgetArea;
     //QScrollArea* pixmapLabelArea;
     GLWidget* m_glWidget;
 	//QStatusBar* m_statusbar;
-	QToolBar* m_toolbar;
+	QToolBar* m_toolBar;
+	QMenuBar* m_menuBar;
 	QSlider* m_sliderTime;
 
 	// menu objects
@@ -48,8 +43,6 @@ private:
 	QMenu* m_menuView;
 	QMenu* m_menuOptions;
 	QMenu* m_menuHelp;
-	QMenuBar* m_menuBar;
-	
 	
 	// actions for menu & toggle buttons
     QAction* m_actionFileExit;
@@ -99,6 +92,8 @@ private:
 	QAction* m_actionOptionScreenshot;
 	QAction* m_actionOptionLogo;
 	
+	QAction* m_actionCurrent; // save the current action
+	
 	// pointer to the base app instance
     MyApp* m_pMyApp;
 	
@@ -110,13 +105,16 @@ private:
 	
 	QToolBar* m_ptbBase;
 	
+	vector<QAction*> m_vqaSeparator; // a vector of separators so we can remove them as needed i.e. when redrawing toolbars
+	void AddToolBarSeparator();  // function to keep track of separators for easy removal
+	
 public:
 	MyFrame(MyApp* papp);
+
 	bool Init();
 	void EarthRotate(bool bAuto = true);
-	void SetupToolbars();
 	void ToggleStartStop(bool bStart);
-		
+	
 private slots:
 	void actionView();
 	
@@ -128,12 +126,21 @@ private slots:
     void actionHelp();
 			
   private:
+	// inherited events
     void closeEvent(QCloseEvent* pqc);
 	//void resizeEvent(QResizeEvent* prs);
 	//void moveEvent (QMoveEvent* pme);
 
+	// utility functions for toolbars menus etc
+    void createActions();
+    void createMenus();
+	void createToolbar();
+    
+	//void setPixmap(const QPixmap &pixmap);
+    QSize getSize();
+
     void ToolBarView();
-    void Toggle(const QAction* pqa, const bool bOn  = true, const bool bView = false);
+	void Toggle(QAction* pqa, const bool bCheck = true, const bool bEnable = true);
     void ToolBarEarth(bool bFirst = false);
     void ToolBarSensor2D();
     void ToolBarSensor3D();
