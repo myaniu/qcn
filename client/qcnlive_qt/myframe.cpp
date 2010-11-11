@@ -54,22 +54,31 @@
  */
 
 MyFrame::MyFrame(MyApp* papp)
-     : m_toolBar(NULL), m_menuBar(NULL), m_actionCurrent(NULL), m_pMyApp(papp)
+     : m_dockWidgetView(NULL), m_dockWidgetOption(NULL), m_toolBarView(NULL), m_toolBarOption(NULL), m_menuBar(NULL), m_actionCurrent(NULL), m_pMyApp(papp)
 {
 	//m_vqaSeparator.clear();
 }
 
 bool MyFrame::Init()
-{
-	QSettings settings(SET_COMPANY, SET_APP);
-	restoreGeometry(settings.value("geometry").toByteArray());
+{	
+	// initial view is the earth
+	qcn_graphics::g_eView = VIEW_EARTH_DAY;  // set view to 0
+    m_bEarthDay = true;
+    m_bEarthRotate = true;
+    m_iSensorAction = 0;
 	
+    m_bSensorAbsolute2D = false;
+    m_bSensorAbsolute3D = false;
+	
+    createActions();
+    createMenus();
+	createToolbar();
+
     m_centralWidget = new QWidget;
     setCentralWidget(m_centralWidget);
 	
     m_glWidget = new GLWidget(this);
     //pixmapLabel = new QLabel;
-	
     m_glWidgetArea = new QScrollArea;
     m_glWidgetArea->setWidget(m_glWidget);
     m_glWidgetArea->setWidgetResizable(true);
@@ -89,19 +98,6 @@ bool MyFrame::Init()
     connect(m_glWidget, SIGNAL(TimePositionChanged(const double&)), m_sliderTime, SLOT(setTimePosition(const double&)));
 	
 	m_ptbBase = NULL; // no toolbar base yet
-
-	// initial view is the earth
-	qcn_graphics::g_eView = VIEW_EARTH_DAY;  // set view to 0
-    m_bEarthDay = true;
-    m_bEarthRotate = true;
-    m_iSensorAction = 0;
-	
-    m_bSensorAbsolute2D = false;
-    m_bSensorAbsolute3D = false;
-	
-    createActions();
-    createMenus();
-	createToolbar();
 	
     QGridLayout *centralLayout = new QGridLayout;
     centralLayout->addWidget(m_glWidgetArea, 0, 0, 1, 2);
@@ -114,6 +110,9 @@ bool MyFrame::Init()
     setWindowTitle(tr("QCNLive"));
 	statusBar()->showMessage(tr("Ready"), 0);
 		
+	QSettings settings(SET_COMPANY, SET_APP);
+	restoreGeometry(settings.value("geometry").toByteArray());
+
 	return true;
 }
 
@@ -456,17 +455,40 @@ void MyFrame::ToggleStartStop(bool bStart)
 }
 
 void MyFrame::createToolbar()
-{
-	m_toolBar = new QToolBar(tr("Actions"), m_centralWidget);	
-	if (m_toolBar) {
-		this->addToolBar(m_toolBar);
-		m_toolBar->setIconSize(QSize(32,32));		
+{	
+	//m_dockWidgetView = new QDockWidget(tr("View"), this, Qt::Tool);
+	m_toolBarView = new QToolBar(tr("View"), this);	
+	if (m_toolBarView) { // && m_dockWidgetView) {
+		//m_dockWidgetView->setFeatures(QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetFloatable | QDockWidget::DockWidgetVerticalTitleBar);
+		//m_dockWidgetView->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+
+		m_toolBarView->setIconSize(QSize(32,32));		
+		//m_toolBarView->setOrientation(Qt::Vertical);
+
 		ToolBarView();
-		ToolBarEarth(true);
-#ifdef __APPLE_CC__
-		setUnifiedTitleAndToolBarOnMac(true);
-#endif
+
+		//addDockWidget(Qt::LeftDockWidgetArea, m_dockWidgetView, Qt::Vertical);
+		//m_dockWidgetView->show();
+		addToolBar(Qt::TopToolBarArea, m_toolBarView);
 	}
+	
+	//m_dockWidgetOption = new QDockWidget(tr("Options"), this, Qt::Tool);
+	m_toolBarOption = new QToolBar(tr("Options"), this);	
+	if (m_toolBarOption) {
+		m_toolBarOption->setIconSize(QSize(32,32));		
+		m_toolBarOption->setOrientation(Qt::Horizontal);
+		ToolBarEarth(true);
+		//m_dockWidgetOption->setWidget(m_toolBarOption);
+		//this->addDockWidget(Qt::TopDockWidgetArea, m_dockWidgetOption, Qt::Horizontal);
+		//m_dockWidgetOption->show();
+		//addToolBar(Qt::TopToolBarArea, m_toolBarOption);
+		addToolBar(Qt::TopToolBarArea, m_toolBarOption);
+	}
+ 
+	
+#ifdef __APPLE_CC__
+//	setUnifiedTitleAndToolBarOnMac(true);
+#endif
 }
 
 void MyFrame::actionView()
@@ -746,30 +768,29 @@ void MyFrame::actionOptionSensor()
 
 void MyFrame::ToolBarView()
 {
-	if (!m_toolBar) return; // null toolbar?  should have already been created in Init()
-
+	if (!m_toolBarView) return; // null toolbar?  should have already been created in Init()
 	// just set the actions which were already created and map to the menu
-	m_toolBar->addAction(m_actionViewEarth); 
-	m_toolBar->addAction(m_actionViewSensor2D); 
-	m_toolBar->addAction(m_actionViewSensor3D); 
-	m_toolBar->addAction(m_actionViewCube); 
+	m_toolBarView->addAction(m_actionViewEarth); 
+	m_toolBarView->addAction(m_actionViewSensor2D); 
+	m_toolBarView->addAction(m_actionViewSensor3D); 
+	m_toolBarView->addAction(m_actionViewCube); 
 }
 
 void MyFrame::RemoveCurrentTools()
 {   
-	m_toolBar->clear();
+    m_toolBarOption->clear();
 	m_menuOptions->clear();
-	ToolBarView();
 	return;   // simpler!!!
 	
 	// remove the current "Option" tools if any 
 	// it depends on what the current view is so don't switch the view before calling this function!
+	m_menuOptions->clear(); // can just clear the options menu
 	
 	// first get rid of any separators
 	/*
 	vector<QAction*>::iterator itAction = m_vqaSeparator.begin();
 	while (itAction != m_vqaSeparator.end()) {
-		if (!*itAction) m_toolBar->removeAction(*itAction); // check for null pointer
+		if (!*itAction) m_toolBarOption->removeAction(*itAction); // check for null pointer
 		itAction++;
 	}
 	m_vqaSeparator.clear(); // clear the separator vector
@@ -779,102 +800,58 @@ void MyFrame::RemoveCurrentTools()
 	{
 		case VIEW_EARTH_DAY:
 		case VIEW_EARTH_NIGHT:
-			m_toolBar->removeAction(m_actionOptionEarthDay);
-			m_toolBar->removeAction(m_actionOptionEarthNight);
-			m_toolBar->removeAction(m_actionOptionEarthRotateOn);
-			m_toolBar->removeAction(m_actionOptionEarthRotateOff);
-			m_toolBar->removeAction(m_actionOptionEarthUSGS);
-			m_toolBar->removeAction(m_actionOptionEarthQuakelist);
+			m_toolBarOption->removeAction(m_actionOptionEarthDay);
+			m_toolBarOption->removeAction(m_actionOptionEarthNight);
+			m_toolBarOption->removeAction(m_actionOptionEarthRotateOn);
+			m_toolBarOption->removeAction(m_actionOptionEarthRotateOff);
+			m_toolBarOption->removeAction(m_actionOptionEarthUSGS);
+			m_toolBarOption->removeAction(m_actionOptionEarthQuakelist);
 			break;
 		case VIEW_PLOT_2D:
-			m_toolBar->removeAction(m_actionOptionSensorVerticalZoomAuto);
-			m_toolBar->removeAction(m_actionOptionSensorVerticalZoomIn);
-			m_toolBar->removeAction(m_actionOptionSensorVerticalZoomOut);
-			m_toolBar->removeAction(m_actionOptionSensorHorizontalZoomIn);
-			m_toolBar->removeAction(m_actionOptionSensorHorizontalZoomOut);
-			m_toolBar->removeAction(m_actionOptionSensorBack);
-			m_toolBar->removeAction(m_actionOptionSensorPause);
-			m_toolBar->removeAction(m_actionOptionSensorResume);
-			m_toolBar->removeAction(m_actionOptionSensorRecordStart);
-			m_toolBar->removeAction(m_actionOptionSensorRecordStop);
-			m_toolBar->removeAction(m_actionOptionSensorForward);
-			m_toolBar->removeAction(m_actionOptionSensorAbsolute);
-			m_toolBar->removeAction(m_actionOptionSensorScaled);
+			m_toolBarOption->removeAction(m_actionOptionSensorVerticalZoomAuto);
+			m_toolBarOption->removeAction(m_actionOptionSensorVerticalZoomIn);
+			m_toolBarOption->removeAction(m_actionOptionSensorVerticalZoomOut);
+			m_toolBarOption->removeAction(m_actionOptionSensorHorizontalZoomIn);
+			m_toolBarOption->removeAction(m_actionOptionSensorHorizontalZoomOut);
+			m_toolBarOption->removeAction(m_actionOptionSensorBack);
+			m_toolBarOption->removeAction(m_actionOptionSensorPause);
+			m_toolBarOption->removeAction(m_actionOptionSensorResume);
+			m_toolBarOption->removeAction(m_actionOptionSensorRecordStart);
+			m_toolBarOption->removeAction(m_actionOptionSensorRecordStop);
+			m_toolBarOption->removeAction(m_actionOptionSensorForward);
+			m_toolBarOption->removeAction(m_actionOptionSensorAbsolute);
+			m_toolBarOption->removeAction(m_actionOptionSensorScaled);
 			break;
 		case VIEW_PLOT_3D:
-			m_toolBar->removeAction(m_actionOptionSensorHorizontalZoomIn);
-			m_toolBar->removeAction(m_actionOptionSensorHorizontalZoomOut);
-			m_toolBar->removeAction(m_actionOptionSensorBack);
-			m_toolBar->removeAction(m_actionOptionSensorPause);
-			m_toolBar->removeAction(m_actionOptionSensorResume);
-			m_toolBar->removeAction(m_actionOptionSensorRecordStart);
-			m_toolBar->removeAction(m_actionOptionSensorRecordStop);
-			m_toolBar->removeAction(m_actionOptionSensorForward);
-			m_toolBar->removeAction(m_actionOptionSensorAbsolute);
-			m_toolBar->removeAction(m_actionOptionSensorScaled);
+			m_toolBarOption->removeAction(m_actionOptionSensorHorizontalZoomIn);
+			m_toolBarOption->removeAction(m_actionOptionSensorHorizontalZoomOut);
+			m_toolBarOption->removeAction(m_actionOptionSensorBack);
+			m_toolBarOption->removeAction(m_actionOptionSensorPause);
+			m_toolBarOption->removeAction(m_actionOptionSensorResume);
+			m_toolBarOption->removeAction(m_actionOptionSensorRecordStart);
+			m_toolBarOption->removeAction(m_actionOptionSensorRecordStop);
+			m_toolBarOption->removeAction(m_actionOptionSensorForward);
+			m_toolBarOption->removeAction(m_actionOptionSensorAbsolute);
+			m_toolBarOption->removeAction(m_actionOptionSensorScaled);
 			break;
 		default:
 			break;
 	}
 	
 	// we always need to get rid of the screenshot icon
-	m_toolBar->removeAction(m_actionOptionScreenshot);
-	
-	m_menuOptions->clear(); // can just clear the options menu
+	m_toolBarOption->removeAction(m_actionOptionScreenshot);	
 }
 
 void MyFrame::AddToolBarSeparator()
 {
 	//QAction* pqa = 
-	m_toolBar->addSeparator();
+	m_toolBarOption->addSeparator();
 	m_menuOptions->addSeparator();
 	/*
 	 if (pqa) {
 		m_vqaSeparator.push_back(pqa);
 	}
 	*/
-}
-
-void MyFrame::ToolBarEarth(bool bFirst)
-{
-    if (!m_toolBar) return; // null toolbar?
-	
-    if (bFirst) Toggle(m_actionViewEarth, true, true);
-
-    if (!bFirst)
-		RemoveCurrentTools();
-
-	m_toolBar->addSeparator();	 // don't need to use our function as we want to keep this separator permanently
-
-	// menu & toolbar options were cleared, so have to add actions again
-
-	// day & night view
-	m_toolBar->addAction(m_actionOptionEarthDay); 
-	m_menuOptions->addAction(m_actionOptionEarthDay);
-
-	m_toolBar->addAction(m_actionOptionEarthNight); 
-	m_menuOptions->addAction(m_actionOptionEarthNight);
-
-	AddToolBarSeparator(); // use our function to keep track of separators so they can be easily removed	
-
-	// rotate on/off
-	m_toolBar->addAction(m_actionOptionEarthRotateOn); 
-	m_menuOptions->addAction(m_actionOptionEarthRotateOn);
-	
-	m_toolBar->addAction(m_actionOptionEarthRotateOff); 
-	m_menuOptions->addAction(m_actionOptionEarthRotateOff);
-	
-	AddToolBarSeparator(); // use our function to keep track of separators so they can be easily removed
-	
-	m_toolBar->addAction(m_actionOptionEarthQuakelist); 
-	m_menuOptions->addAction(m_actionOptionEarthQuakelist);
-
-	m_toolBar->addAction(m_actionOptionEarthUSGS); 
-	m_menuOptions->addAction(m_actionOptionEarthUSGS);
-	
-    AddScreenshotItem();
-	
-    SetToggleEarth();
 }
 
 // toggle on off both the menu & the toolbar
@@ -926,30 +903,30 @@ void MyFrame::SetToggleEarth()
 void MyFrame::SensorNavButtons()
 {  // common buttons/menu choices for 2 or 3-d sensor plot view
 	
-	m_toolBar->addAction(m_actionOptionSensorHorizontalZoomIn);
+	m_toolBarOption->addAction(m_actionOptionSensorHorizontalZoomIn);
 	m_menuOptions->addAction(m_actionOptionSensorHorizontalZoomIn);
 
-	m_toolBar->addAction(m_actionOptionSensorHorizontalZoomOut);
+	m_toolBarOption->addAction(m_actionOptionSensorHorizontalZoomOut);
 	m_menuOptions->addAction(m_actionOptionSensorHorizontalZoomOut);
 	
 	AddToolBarSeparator(); // use our function to keep track of separators so they can be easily removed
 	
-	m_toolBar->addAction(m_actionOptionSensorBack);
+	m_toolBarOption->addAction(m_actionOptionSensorBack);
 	m_menuOptions->addAction(m_actionOptionSensorBack);
 	
-	m_toolBar->addAction(m_actionOptionSensorPause);
+	m_toolBarOption->addAction(m_actionOptionSensorPause);
 	m_menuOptions->addAction(m_actionOptionSensorPause);
 	
-	m_toolBar->addAction(m_actionOptionSensorResume);
+	m_toolBarOption->addAction(m_actionOptionSensorResume);
 	m_menuOptions->addAction(m_actionOptionSensorResume);
 	
-	m_toolBar->addAction(m_actionOptionSensorRecordStart);
+	m_toolBarOption->addAction(m_actionOptionSensorRecordStart);
 	m_menuOptions->addAction(m_actionOptionSensorRecordStart);
 	
-	m_toolBar->addAction(m_actionOptionSensorRecordStop);
+	m_toolBarOption->addAction(m_actionOptionSensorRecordStop);
 	m_menuOptions->addAction(m_actionOptionSensorRecordStop);
 	
-	m_toolBar->addAction(m_actionOptionSensorForward);
+	m_toolBarOption->addAction(m_actionOptionSensorForward);
 	m_menuOptions->addAction(m_actionOptionSensorForward);
 	
 }
@@ -958,7 +935,7 @@ void MyFrame::AddScreenshotItem()
 {
 	AddToolBarSeparator(); // use our function to keep track of separators so they can be easily removed
 
-	m_toolBar->addAction(m_actionOptionScreenshot);
+	m_toolBarOption->addAction(m_actionOptionScreenshot);
 	m_menuOptions->addAction(m_actionOptionScreenshot);
 	
 #ifdef QCNLIVE_DEMO  
@@ -968,20 +945,62 @@ void MyFrame::AddScreenshotItem()
 	
 }
 
+void MyFrame::ToolBarEarth(bool bFirst)
+{
+    if (!m_toolBarOption) return; // null toolbar?
+	
+    if (bFirst) Toggle(m_actionViewEarth, true, true);
+	
+    if (!bFirst)
+		RemoveCurrentTools();
+	
+	//m_toolBarOption->addSeparator();	 // don't need to use our function as we want to keep this separator permanently
+	
+	// menu & toolbar options were cleared, so have to add actions again
+	
+	// day & night view
+	m_toolBarOption->addAction(m_actionOptionEarthDay); 
+	m_menuOptions->addAction(m_actionOptionEarthDay);
+	
+	m_toolBarOption->addAction(m_actionOptionEarthNight); 
+	m_menuOptions->addAction(m_actionOptionEarthNight);
+	
+	AddToolBarSeparator(); // use our function to keep track of separators so they can be easily removed	
+	
+	// rotate on/off
+	m_toolBarOption->addAction(m_actionOptionEarthRotateOn); 
+	m_menuOptions->addAction(m_actionOptionEarthRotateOn);
+	
+	m_toolBarOption->addAction(m_actionOptionEarthRotateOff); 
+	m_menuOptions->addAction(m_actionOptionEarthRotateOff);
+	
+	AddToolBarSeparator(); // use our function to keep track of separators so they can be easily removed
+	
+	m_toolBarOption->addAction(m_actionOptionEarthQuakelist); 
+	m_menuOptions->addAction(m_actionOptionEarthQuakelist);
+	
+	m_toolBarOption->addAction(m_actionOptionEarthUSGS); 
+	m_menuOptions->addAction(m_actionOptionEarthUSGS);
+	
+    AddScreenshotItem();
+	
+    SetToggleEarth();
+}
+
 void MyFrame::ToolBarSensor2D()
 {
-    if (!m_toolBar) return; // null toolbar?
+    if (!m_toolBarOption) return; // null toolbar?
     RemoveCurrentTools();
 
-	m_toolBar->addSeparator();	 // don't need to use our function as we want to keep this separator permanently
+	//m_toolBarOption->addSeparator();	 // don't need to use our function as we want to keep this separator permanently
 
-	m_toolBar->addAction(m_actionOptionSensorVerticalZoomAuto);
+	m_toolBarOption->addAction(m_actionOptionSensorVerticalZoomAuto);
 	m_menuOptions->addAction(m_actionOptionSensorVerticalZoomAuto);
 
-	m_toolBar->addAction(m_actionOptionSensorVerticalZoomIn);
+	m_toolBarOption->addAction(m_actionOptionSensorVerticalZoomIn);
 	m_menuOptions->addAction(m_actionOptionSensorVerticalZoomIn);
 
-	m_toolBar->addAction(m_actionOptionSensorVerticalZoomOut);
+	m_toolBarOption->addAction(m_actionOptionSensorVerticalZoomOut);
 	m_menuOptions->addAction(m_actionOptionSensorVerticalZoomOut);
 
 		
@@ -997,10 +1016,10 @@ void MyFrame::ToolBarSensor2D()
 	
 	AddToolBarSeparator(); // use our function to keep track of separators so they can be easily removed
 	
-	m_toolBar->addAction(m_actionOptionSensorAbsolute);
+	m_toolBarOption->addAction(m_actionOptionSensorAbsolute);
 	m_menuOptions->addAction(m_actionOptionSensorAbsolute);
 	
-	m_toolBar->addAction(m_actionOptionSensorScaled);
+	m_toolBarOption->addAction(m_actionOptionSensorScaled);
 	m_menuOptions->addAction(m_actionOptionSensorScaled);
 	
     AddScreenshotItem();
@@ -1010,19 +1029,19 @@ void MyFrame::ToolBarSensor2D()
 
 void MyFrame::ToolBarSensor3D()
 {
-    if (!m_toolBar) return; // null toolbar?
+    if (!m_toolBarOption) return; // null toolbar?
     RemoveCurrentTools();
 
-	m_toolBar->addSeparator();	 // don't need to use our function as we want to keep this separator permanently
+	//m_toolBarOption->addSeparator();	 // don't need to use our function as we want to keep this separator permanently
 
 	SensorNavButtons();
 
 	AddToolBarSeparator(); // use our function to keep track of separators so they can be easily removed
 	
-	m_toolBar->addAction(m_actionOptionSensorAbsolute);
+	m_toolBarOption->addAction(m_actionOptionSensorAbsolute);
 	m_menuOptions->addAction(m_actionOptionSensorAbsolute);
 	
-	m_toolBar->addAction(m_actionOptionSensorScaled);
+	m_toolBarOption->addAction(m_actionOptionSensorScaled);
 	m_menuOptions->addAction(m_actionOptionSensorScaled);
 	
     AddScreenshotItem();
@@ -1033,9 +1052,8 @@ void MyFrame::ToolBarSensor3D()
 
 void MyFrame::ToolBarCube()
 {
-    if (!m_toolBar) return; // null toolbar?
+    if (!m_toolBarOption) return; // null toolbar?
     RemoveCurrentTools();
-	
     AddScreenshotItem();
 }
 

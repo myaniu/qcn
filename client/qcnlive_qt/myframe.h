@@ -11,6 +11,7 @@
 #include <QSlider>
 #include <QScrollArea>
 #include <QLabel>
+#include <QDockWidget>
 
 QT_BEGIN_NAMESPACE
 class QAction;
@@ -34,7 +35,10 @@ private:
     //QScrollArea* pixmapLabelArea;
     GLWidget* m_glWidget;
 	//QStatusBar* m_statusbar;
-	QToolBar* m_toolBar;
+	QDockWidget* m_dockWidgetView;
+	QDockWidget* m_dockWidgetOption;
+	QToolBar* m_toolBarView;
+	QToolBar* m_toolBarOption;
 	QMenuBar* m_menuBar;
 	QSlider* m_sliderTime;
 
