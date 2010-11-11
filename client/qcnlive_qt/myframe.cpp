@@ -642,17 +642,6 @@ void MyFrame::SetToggleEarth()
       Toggle(ID_TOOL_ACTION_EARTH_ROTATE_ON, bEarthRotate);
 }
 
-void MyFrame::ToggleStartStop(bool bStart)
-{
-	Toggle(ID_TOOL_ACTION_SENSOR_RESUME, bStart);
-	Toggle(ID_TOOL_ACTION_SENSOR_PAUSE, !bStart);
-	if (bStart && qcn_graphics::TimeWindowIsStopped()) {
-		qcn_graphics::TimeWindowStart();
-	}
-	else if (!bStart && !qcn_graphics::TimeWindowIsStopped()) {
-		qcn_graphics::TimeWindowStop();
-	}
-}
 
 void MyFrame::SensorNavButtons()
 {
@@ -941,24 +930,18 @@ void MyFrame::ToolBarCube()
 	toolBar->Realize();
 }
 
-void MyFrame::EarthRotate(bool bAuto)
-{
-   if (!qcn_graphics::earth.IsShown()) return;  // only matters if we're on the earth view!
-   // see if it's rotating and we want to stop, or it's not rotating and we want it to start
-   if ( (!bAuto && qcn_graphics::earth.IsAutoRotate())
-	|| (bAuto && ! qcn_graphics::earth.IsAutoRotate()))  {
-      bEarthRotate = bAuto;
-      Toggle(ID_TOOL_ACTION_EARTH_ROTATE_OFF, !bAuto);
-      Toggle(ID_TOOL_ACTION_EARTH_ROTATE_ON, bAuto);
-      qcn_graphics::earth.AutoRotate(bAuto);
-   }
-}
  
 */
 
 MyFrame::MyFrame(MyApp* papp)
 {
 	m_pMyApp = papp;
+}
+
+bool MyFrame::Init()
+{
+	QSettings settings(SET_COMPANY, SET_APP);
+	restoreGeometry(settings.value("geometry").toByteArray());
 	
     m_centralWidget = new QWidget;
     setCentralWidget(m_centralWidget);
@@ -974,9 +957,9 @@ MyFrame::MyFrame(MyApp* papp)
     m_glWidgetArea->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
     m_glWidgetArea->setMinimumSize(50, 50);
 	
-		
+	
     m_sliderTime = createSlider(SIGNAL(TimePositionChanged(const double&)),
-							   SLOT(setTimePosition(const double&)));
+								SLOT(setTimePosition(const double&)));
 	
 	m_view = ID_TOOL_VIEW_EARTH;  // set view to 0
 	m_ptbBase = NULL; // no toolbar base yet
@@ -998,11 +981,9 @@ MyFrame::MyFrame(MyApp* papp)
 	
     m_sliderTime->setValue(100);
 	m_sliderTime->hide();
-	
-	m_statusbar = statusBar();
-	
+		
     setWindowTitle(tr("QCNLive"));
-	m_statusbar->showMessage(tr("This is a test of the status bar"), 0);
+	statusBar()->showMessage(tr("Ready"), 0);
 	
 	m_toolbar = new QToolBar(tr("Actions"), m_centralWidget);
 	
@@ -1028,10 +1009,12 @@ MyFrame::MyFrame(MyApp* papp)
 #ifdef __APPLE_CC__
 	setUnifiedTitleAndToolBarOnMac(true);
 #endif
-
+	
 	// set the size to be the sizes from our saved prefs (or default sizes, either way it's set in myApp)
-	move(m_pMyApp->getX(), m_pMyApp->getY());
-    resize(m_pMyApp->getWidth(), m_pMyApp->getHeight());
+	//move(m_pMyApp->getX(), m_pMyApp->getY());
+    //resize(m_pMyApp->getWidth(), m_pMyApp->getHeight());
+	//setGeometry(m_pMyApp->getRect());
+	return true;
 }
 
 /*
@@ -1200,16 +1183,49 @@ QSize MyFrame::getSize()
     return m_glWidget->size();
 }
 
-/*
 void MyFrame::closeEvent(QCloseEvent* pqc)
+{
+	QSettings settings(SET_COMPANY, SET_APP);
+	settings.setValue("geometry", saveGeometry());
+	QWidget::closeEvent(pqc);
+}
+
+/*
+void MyFrame::moveEvent (QMoveEvent* pme)
+{
+}
+
+void MyFrame::resizeEvent(QResizeEvent* prs)
 {
 }
 */
 
-void MyFrame::resizeEvent(QResizeEvent* prs)
+void MyFrame::EarthRotate(bool bAuto)
 {
-	int w = prs->size().width();
-	int h = prs->size().height(); // also oldsize if needed
-	if (m_pMyApp && w>50 && h>50)
-		m_pMyApp->setRect(QRect(x(), y(), w, h));
+	/*
+	if (!qcn_graphics::earth.IsShown()) return;  // only matters if we're on the earth view!
+	// see if it's rotating and we want to stop, or it's not rotating and we want it to start
+	if ( (!bAuto && qcn_graphics::earth.IsAutoRotate())
+		|| (bAuto && ! qcn_graphics::earth.IsAutoRotate()))  {
+		bEarthRotate = bAuto;
+		Toggle(ID_TOOL_ACTION_EARTH_ROTATE_OFF, !bAuto);
+		Toggle(ID_TOOL_ACTION_EARTH_ROTATE_ON, bAuto);
+		qcn_graphics::earth.AutoRotate(bAuto);
+	}
+	*/
 }
+
+void MyFrame::ToggleStartStop(bool bStart)
+{
+	/*
+	Toggle(ID_TOOL_ACTION_SENSOR_RESUME, bStart);
+	Toggle(ID_TOOL_ACTION_SENSOR_PAUSE, !bStart);
+	if (bStart && qcn_graphics::TimeWindowIsStopped()) {
+		qcn_graphics::TimeWindowStart();
+	}
+	else if (!bStart && !qcn_graphics::TimeWindowIsStopped()) {
+		qcn_graphics::TimeWindowStop();
+	}
+	*/
+}
+

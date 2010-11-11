@@ -6,7 +6,11 @@
 #define QCNGUI_XML_PREFS_FILE  "qcnliveprefs.xml"
 //#define QCNGUI_XML_GRAPHICS_PREFS_FILE  "graphicsprefs.xml"
 
-#define FILENAME_LOGO  "qcnlogo_big.png"
+#define FILENAME_LOGO   "qcnlogo_big.png"
+#define FILENAME_SPLASH "splash.png"
+
+#define SET_COMPANY "edu.stanford.qcn"
+#define SET_APP     "QCNLive"
 
 #define MY_RECT_DEFAULT_POS_X    16
 #define MY_RECT_DEFAULT_POS_Y    24

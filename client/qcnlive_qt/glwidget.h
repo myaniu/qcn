@@ -42,7 +42,7 @@ private slots:
 private:
 	int m_width;
 	int m_height;
-    QPoint lastPos;
+    QPoint m_lastPos;
 
 public:
 	MyFrame* m_pframe;  // reference to parent frame

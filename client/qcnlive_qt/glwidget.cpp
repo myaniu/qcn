@@ -36,7 +36,6 @@ void GLWidget::initializeGL()
 {
     if (!qcn_graphics::g_bInitGraphics) {  // first time in, need to init OpenGL settings & load bitmaps etc
         qcn_graphics::Init(); 
-        // m_pframe->pMyApp->KillSplashScreen();
     }	
 }
 
@@ -60,10 +59,10 @@ void GLWidget::mouseDoubleClickEvent(QMouseEvent *event)
 	switch(qcn_graphics::g_eView) {
 		case VIEW_EARTH_DAY:
 		case VIEW_EARTH_NIGHT:
-		//CMC	m_pframe->EarthRotate(true);
+			m_pframe->EarthRotate(true);
 			break;
 		case VIEW_PLOT_2D:
-		//CMC	m_pframe->ToggleStartStop(true);
+			m_pframe->ToggleStartStop(true);
 			break;
 		case VIEW_PLOT_3D:
 		case VIEW_EARTH_COMBINED:
@@ -107,17 +106,17 @@ void GLWidget::mouseReleaseEvent(QMouseEvent *event)
 void GLWidget::mousePressEvent(QMouseEvent *event)
 {
 	int which = whichGLUTButton(event);
-    lastPos = event->pos();
+    m_lastPos = event->pos();
 	
-// CMC	m_mouseDown[evt.GetButton()-1] = true;  // the wxwidgets getbutton is one off from our left/mid/right array
+	m_mouseDown[which] = true;  // the wxwidgets getbutton is one off from our left/mid/right array
 	
 	switch(qcn_graphics::g_eView) {
 		case VIEW_EARTH_DAY:
 		case VIEW_EARTH_NIGHT:
-// CMC			m_pframe->EarthRotate(false);
+			m_pframe->EarthRotate(false);
 			break;
 		case VIEW_PLOT_2D:
-// CMC			m_pframe->ToggleStartStop(false);
+			m_pframe->ToggleStartStop(false);
 			break;
 		case VIEW_PLOT_3D:
 		case VIEW_EARTH_COMBINED:
@@ -133,11 +132,11 @@ void GLWidget::mousePressEvent(QMouseEvent *event)
 
 void GLWidget::mouseMoveEvent(QMouseEvent *event)
 {
-   // int dx = event->x() - lastPos.x();
-   // int dy = event->y() - lastPos.y();
-   // lastPos = event->pos();
-	qcn_graphics::MouseMove(event->x(), event->y(), 
-		event->button() == Qt::LeftButton ? 1 : 0, event->button() == Qt::MidButton ? 1 : 0, event->button() == Qt::RightButton ? 1 : 0);
+   int dx = event->x() - m_lastPos.x();
+   int dy = event->y() - m_lastPos.y();
+   m_lastPos = event->pos();
+   qcn_graphics::MouseMove(event->x(), event->y(), 
+	  event->button() == Qt::LeftButton ? 1 : 0, event->button() == Qt::MidButton ? 1 : 0, event->button() == Qt::RightButton ? 1 : 0);
 }
 
 void GLWidget::animate()

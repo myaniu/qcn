@@ -13,20 +13,19 @@
 // main program for Qt window
 int main(int argc, char *argv[])
 {
+	int iReturn = 1; // default to error status exit
     MyApp myApp(argc, argv); // the constructor of MyApp does all the necessary initialization, splash screens etc (destructor does the cleanup of course)
-	MyFrame myWin(&myApp);
-    myWin.show();
-    return myApp.exec();
+    if (myApp.Init()) { // if this is false then an error on startup
+		iReturn = myApp.exec();
+	}
+	myApp.Exit();
+    return iReturn;
 }
 
-MyApp::MyApp(int& argc, char** argv)  : QApplication(argc, argv)
+MyApp::MyApp(int& argc, char** argv)  
+  : QApplication(argc, argv), 
+    m_timer(NULL), m_frame(NULL)
 {
-	OnInit();
-}
-
-MyApp::~MyApp()
-{
-	OnExit();
 }
 
 #ifdef _WIN32  // Win fn ptr
@@ -46,13 +45,6 @@ MyApp::~MyApp()
 
 // the next two will be used in the main thread, but declare here (outside the thread)
 CQCNShMem* volatile sm = NULL;
-
-/*
-void MyAppTimer::Notify() 
-{ // get the earthquake list every hour
-    if (pMyApp) pMyApp->GetLatestQuakeList();
-}
-*/
 
 void MyApp::SetPath(const char* strArgv)
 {
@@ -135,7 +127,7 @@ bool MyApp::MainInit()
            fprintf(stderr, "Can't redirect stdout for qcnwx!\n");
 	}
 	
-    // CMC - start init QCN/BOINC stuff -- this gets the latest quake data and creates a boinc-style init_data.xml file
+    // start init QCN/BOINC stuff -- this gets the latest quake data and creates a boinc-style init_data.xml file
 	CreateBOINCInitFile();
 
     qcn_main::g_bDemo = false;
@@ -323,19 +315,30 @@ void MyApp::KillSplashScreen()
 void MyApp::SetRect(const QRect& rect)
 {
    m_rect = rect;
-   //m_rect.SetSize(newsize);
-   //m_rect.SetPosition(newposition);
 }
 
-bool MyApp::OnInit()
+bool MyApp::Init()
 {
+	m_bInit = false;
 	// do splash screen until the mainwin show	
     m_psplash = NULL; // init the splash screen
 	
     SetPath();  // go to the init/ directory
-
+	
+	// splash screen
+	/* CMC
+	if (boinc_file_exists(FILENAME_SPLASH) 
+		&& bitmap.LoadFile(wxString(FILENAME_SPLASH, wxConvUTF8), wxBITMAP_TYPE_PNG))
+	{
+		m_psplash = new wxSplashScreen(bitmap,
+									   wxSPLASH_CENTRE_ON_SCREEN|wxSPLASH_TIMEOUT,
+									   60000, frame, wxID_ANY, wxDefaultPosition, wxDefaultSize,
+									   wxSIMPLE_BORDER|wxSTAY_ON_TOP);
+	}
+	 */
+		
     // note that since we're all in one process (yet with multiple threads, we can just build our shmem struct on the heap with new
-	// it will get deleted in MyApp::OnExit, so we don't need the boinc call below (which I think never destroys the shared mem segment!)
+	// it will get deleted in MyApp::Exit, so we don't need the boinc call below (which I think never destroys the shared mem segment!)
     //	sm = (CQCNShMem*) boinc_graphics_make_shmem(QCNGUI_SHMEM, sizeof(CQCNShMem));
 	// init the graphics stuff, i.e. memory pointer
     // clear memory and setup important vars below
@@ -347,121 +350,72 @@ bool MyApp::OnInit()
     }
     strcpy(sm->dataBOINC.wu_name, "qcnlive");
 
+	/*
     m_rect.setX(MY_RECT_DEFAULT_POS_X);
     m_rect.setY(MY_RECT_DEFAULT_POS_Y);
     m_rect.setWidth(MY_RECT_DEFAULT_WIDTH);
     m_rect.setHeight(MY_RECT_DEFAULT_HEIGHT);
+	*/
 
-	/*
-    frame = new MyFrame(m_rect, this);
-    if (!frame) return false;  // big error if can't make the window frame!
-	
-#if wxUSE_LIBJPEG
-    myJPEGHandler = new wxJPEGHandler();
-    if (myJPEGHandler) 
-        wxImage::AddHandler(myJPEGHandler);
-#endif
-
-#if wxUSE_LIBPNG	
-    myPNGHandler = new wxPNGHandler();
-	if (myPNGHandler)  {
-      wxImage::AddHandler(myPNGHandler);
-	  wxBitmap bitmap;
-#ifndef _DEBUG_QCNLIVE   // no splash screen on debug, gets in the way!  can't just use _DEBUG as wxWidgets has problems with that
-      const char cstrSplash[] = {"splash.png"};
-	  if (boinc_file_exists(cstrSplash) 
-		  && bitmap.LoadFile(wxString(cstrSplash, wxConvUTF8), wxBITMAP_TYPE_PNG))
-	  {
-          m_psplash = new wxSplashScreen(bitmap,
-              wxSPLASH_CENTRE_ON_SCREEN|wxSPLASH_TIMEOUT,
-              60000, frame, wxID_ANY, wxDefaultPosition, wxDefaultSize,
-              wxSIMPLE_BORDER|wxSTAY_ON_TOP);
-      }
-#endif
-    }
-#endif // wxUSE_LIBPNG
-	 */
-
+/*  CMC win icons
 #ifdef _WIN32   // load the icons in init/qcnwin.ico, not we're in init/ dir by now
 	if (boinc_file_exists("qcnwin.ico")) {
         frame->SetIcon(wxIcon("qcnwin.ico", wxBITMAP_TYPE_ICO));
 	}
 #endif
+*/
 
     if (!MainInit()) return false;  // this does a lot of init stuff such as get the latest quake list via curl etc
-
-    // if here then the main thread was launched & init
-
-	// final setup of the frame and the OpenGL canvas
-    // note all the graphics init stuff is in the myGLPane constructor
-
-	/*  CMC
-	 
-    int aiAttrib[] = { WX_GL_RGBA, WX_GL_DOUBLEBUFFER, WX_GL_DEPTH_SIZE, 16, 0 };
-
-    frame->glPane = new MyGLPane(frame, aiAttrib);
-    frame->sizer = new wxBoxSizer(wxHORIZONTAL);
-    frame->sizer->Add(frame->glPane, 1, wxEXPAND);
-    frame->SetSizer(frame->sizer);
-    frame->SetAutoLayout(true);	
-   	
-    // set size that was loaded into m_rect earlier in the Init()
-    frame->SetSize(m_rect.GetSize());
-    frame->SetPosition(m_rect.GetPosition());
-
-    frame->SetStatusText(wxString("Ready", wxConvUTF8));
 	
-	*/
+    // if here then the main thread was launched & init
 
     // setup the toolbar controls for the 2D Plot, i.e. a horiz scrollbar, buttons for scaling etc
     // CMC frame->SetupToolbars();
 
-        // send a resized event
-	//qcn_graphics::Resize(frame->GetClientSize().GetWidth(), frame->GetClientSize().GetHeight());	
-	// tell the earth to regen earthquakes coords
-	//qcn_graphics::earth.RecalculateEarthquakePositions();
-    //frame->Layout();
-
-	// CMC frame->Show();
-
 	// setup & start the timer for getting the next earthquake list from the qcn server
-	//myapptimer = new MyAppTimer(this);
-	//if (myapptimer) {
-//	CMC   myapptimer->Start(3600000L);  // this will get the earthquake list every hour
-	//}
+    m_timer = new QTimer(this);
+    connect(m_timer, SIGNAL(timeout()), this, SLOT(GetLatestQuakeList()));
+    m_timer->start(1800000L);  // in milliseconds, so a half hour is a lot!
+	
+	m_frame = new MyFrame(this);  // construct the window frame
+	if (m_frame) {
+		m_frame->Init();
+		KillSplashScreen();
+		m_frame->show();  // show the main window frame
+		m_bInit = true;
+	}
+	KillSplashScreen(); // just in case the myframe construction failed
 
-    //KillSplashScreen();
-    return true;
+    return m_bInit;
 } 
 
 void MyApp::GetLatestQuakeList()
 {
-    // CMC frame->statusBar->SetStatusText(wxString("Getting recent earthquake list...", wxConvUTF8));
+	m_frame->statusBar()->showMessage(tr("Getting recent earthquake list..."), 5000);
+
     // this sequence will get the latest earthquake list
     if (! CreateBOINCInitFile()) {
-	    // CMC frame->statusBar->SetStatusText(wxString("Failed to get the latest earthquake list, try again later!", wxConvUTF8));
+		m_frame->statusBar()->showMessage(tr("Failed to get the latest earthquake list, try again later!"), 5000);
         return; // may as well split
     }
     qcn_graphics::getProjectPrefs(); // we have the strProjectPrefs so can get earthquake data now, this is in qcn_graphics.cpp
-    //CMC frame->statusBar->SetStatusText(wxString("Recent earthquake data updated", wxConvUTF8));
+	m_frame->statusBar()->showMessage(tr("Earthquake list updated"), 5000);
 }
 
-int MyApp::OnExit()
+int MyApp::Exit()
 {
-    // just in case we're exiting early and the splash screen still up!
-	if (m_psplash)  {
-	  // CMC m_psplash->Close();
-	   delete m_psplash;
-           m_psplash = NULL;
+    // just in case we're exiting early and the splash screen still up!	
+	KillSplashScreen();
+	if (m_timer) {
+		m_timer->stop();
+		delete m_timer;
+		m_timer = NULL;
 	}
-	
-/* CMC
- if (myapptimer) {
-		// CMC myapptimer->Stop();
-		delete myapptimer;
-		myapptimer = NULL;
+	if (m_frame) {
+		delete m_frame; // necessary?
+		m_frame = NULL;
 	}
-*/	
+
     KillMainThread();
 	
 	if (sm) { // try to remove the global shared mem?  that would be nice...
@@ -484,13 +438,8 @@ bool MyApp::StartMainThread()
 
 bool MyApp::KillMainThread()
 {
-	// CMC -- QCN cleanup stuff, especially the main threads, was bombing out in the wxApp::OnExit
-	//   which seems to somehow clobber sm or do cleanup that screws up QCN stuff somehow?
 	qcn_main::doMainQuit(); // qcn_main::g_iStop = TRUE; // try and sleep a little to give the threads a chance to stop, a second should suffice
 	set_qcnlive_prefs();  // save graphics prefs
-	
-	//if (myJPEGHandler) delete myJPEGHandler;
-	//if (myPNGHandler) delete myPNGHandler;
 	
 	int iCtr = 0;
 	if (qcn_main::g_threadMain && qcn_main::g_threadMain->IsRunning())  { // the main thread is running, so kill it

@@ -30,25 +30,24 @@
 
 class GLWidget;
 class MyFrame;
-//class MyAppTimer;
 
 
 // definition for the main app
 class MyApp: public QApplication
 {
   private:
-    virtual bool OnInit();
-    virtual int OnExit();
-
-    //MyFrame* frame;
-    //MyAppTimer* myapptimer;
-
+	QTimer* m_timer;  // slow timer for getting quakes every half hour
+	MyFrame* m_frame;
     QRect m_rect;            // apps screen coordinates
 
   public:
     MyApp(int& argc, char** argv);
-	~MyApp();
 	
+	bool Init();
+    int Exit();
+
+	bool m_bInit;
+
     //void SetRect(const wxSize& newsize, const wxPoint& newposition);
     void SetRect(const QRect& rect);
     void GetLatestQuakeList();
@@ -68,21 +67,9 @@ class MyApp: public QApplication
 	int getX() {return m_rect.x(); }
 	int getY() {return m_rect.y(); }
 	void setRect(const QRect& rect) {  m_rect = rect; }
+	const QRect& getRect() { return m_rect; }
 	
     QSplashScreen* m_psplash;  // the apps splash screen
 };
 
-/*
-// this time is called every hour to get the earthquake list
-class MyAppTimer : public QTimer
-{
-   public:
-      MyAppTimer(MyApp* papp);
-   
-   private:
-      MyApp* pMyApp;
-	  void Notify();
-};
-
-*/
 #endif // ifndef _QCNLIVE_H_

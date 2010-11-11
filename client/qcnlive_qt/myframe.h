@@ -39,7 +39,7 @@ private:
     QScrollArea* m_glWidgetArea;
     //QScrollArea* pixmapLabelArea;
     GLWidget* m_glWidget;
-	QStatusBar* m_statusbar;
+	//QStatusBar* m_statusbar;
 	QToolBar* m_toolbar;
 	QSlider* m_sliderTime;
 	
@@ -75,9 +75,12 @@ private:
 	
 public:
 	MyFrame(MyApp* papp);
+	bool Init();
+	void MyFrame::EarthRotate(bool bAuto);
+	void MyFrame::ToggleStartStop(bool bStart);
 		
 	private slots:
-    void about();
+		void about();
 
 	/*
 
@@ -97,9 +100,10 @@ public:
 */
 	
   private:
-    //void closeEvent(QCloseEvent* pqc);
-	void resizeEvent(QResizeEvent* prs);
-
+    void closeEvent(QCloseEvent* pqc);
+	//void resizeEvent(QResizeEvent* prs);
+	//void moveEvent (QMoveEvent* pme);
+	
 	/*
     // menu events
     void OnFileSettings(wxCommandEvent& evt);
