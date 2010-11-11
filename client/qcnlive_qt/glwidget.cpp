@@ -73,7 +73,7 @@ void GLWidget::mouseDoubleClickEvent(QMouseEvent *event)
 	// force to start
 	qcn_graphics::MouseButton(event->x(), event->y(), which, 1);
 	
-	//CMC  SetCursor(wxCursor(wxNullCursor));
+	QCursor cursorNormal(Qt::ArrowCursor);
 }
 
 const int GLWidget::whichGLUTButton(const QMouseEvent* event) const
@@ -98,9 +98,10 @@ const int GLWidget::whichGLUTButton(const QMouseEvent* event) const
 void GLWidget::mouseReleaseEvent(QMouseEvent *event)
 {
 	int which = whichGLUTButton(event);
-	m_mouseDown[event->button()-Qt::LeftButton] = false;  // the wxwidgets getbutton is one off from our left/mid/right array
+	m_mouseDown[which] = false;  // the wxwidgets getbutton is one off from our left/mid/right array
 	qcn_graphics::MouseButton(event->x(), event->y(), which, 0);
-	//CMC SetCursor(wxNullCursor);
+	QCursor cursorNormal(Qt::ArrowCursor);
+	setCursor(cursorNormal);
 }
 
 void GLWidget::mousePressEvent(QMouseEvent *event)
@@ -123,8 +124,9 @@ void GLWidget::mousePressEvent(QMouseEvent *event)
 		case VIEW_CUBE:		
 			break;
 	}
-	
-	// CMC SetCursor(wxCursor(wxCURSOR_HAND));	
+
+	QCursor cursorHand(Qt::OpenHandCursor);
+	setCursor(cursorHand);
 	
 	qcn_graphics::MouseButton(event->x(), event->y(), which, 1);
 	
@@ -132,9 +134,9 @@ void GLWidget::mousePressEvent(QMouseEvent *event)
 
 void GLWidget::mouseMoveEvent(QMouseEvent *event)
 {
-   int dx = event->x() - m_lastPos.x();
-   int dy = event->y() - m_lastPos.y();
-   m_lastPos = event->pos();
+   //int dx = event->x() - m_lastPos.x();
+   //int dy = event->y() - m_lastPos.y();
+   //m_lastPos = event->pos();
    qcn_graphics::MouseMove(event->x(), event->y(), 
 	  event->button() == Qt::LeftButton ? 1 : 0, event->button() == Qt::MidButton ? 1 : 0, event->button() == Qt::RightButton ? 1 : 0);
 }

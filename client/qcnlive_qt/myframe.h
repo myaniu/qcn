@@ -42,10 +42,24 @@ private:
 	//QStatusBar* m_statusbar;
 	QToolBar* m_toolbar;
 	QSlider* m_sliderTime;
+
+	// menu objects
+	QMenu* m_menuFile;
+	QMenu* m_menuView;
+	QMenu* m_menuOptions;
+	QMenu* m_menuHelp;
+	QMenuBar* m_menuBar;
 	
+	
+	// actions for menu & toggle buttons
     QAction* m_actionFileExit;
 	QAction* m_actionFileDlgSettings;	
 	QAction* m_actionFileMakeQuake;
+	
+	QAction* m_actionViewEarth;
+	QAction* m_actionViewSensor2D;
+	QAction* m_actionViewSensor3D;
+	QAction* m_actionViewCube;
 	
     QAction* m_actionHelpAbout;
 	QAction* m_actionHelpManual;
@@ -56,13 +70,36 @@ private:
 	QAction* m_actionHelpWebRequestSensor;
 	QAction* m_actionHelpWebGlossary;
 	
-    MyApp* m_pMyApp;
+	QAction* m_actionOptionEarthDay;
+	QAction* m_actionOptionEarthNight;
+	QAction* m_actionOptionEarthRotateOn;
+	QAction* m_actionOptionEarthRotateOff;
+	QAction* m_actionOptionEarthRotateUSGS;
+	QAction* m_actionOptionEarthRotateQuakelist;
+
+	//QAction* m_actionOptionSensor01;
+	//QAction* m_actionOptionSensor10;
+	//QAction* m_actionOptionSensor60;
+	QAction* m_actionOptionSensorBack;
+	QAction* m_actionOptionSensorPause;
+	QAction* m_actionOptionSensorResume;
+	QAction* m_actionOptionSensorRecordStart;
+	QAction* m_actionOptionSensorRecordStop;
+	QAction* m_actionOptionSensorForward;
+	QAction* m_actionOptionSensorAbsolute;
+	QAction* m_actionOptionSensorScaled;
+	//QAction* m_actionOptionSensorScrollbar;
+	QAction* m_actionOptionSensorHorizontalZoomOut;
+	QAction* m_actionOptionSensorHorizontalZoomIn;
+	QAction* m_actionOptionSensorVerticalZoomOut;
+	QAction* m_actionOptionSensorVerticalZoomIn;
+	QAction* m_actionOptionSensorVerticalZoomAuto;
+
+	QAction* m_actionOptionScreenshot;
+	QAction* m_actionOptionLogo;
 	
-	QMenu* m_menuFile;
-	QMenu* m_menuView;
-	QMenu* m_menuOptions;
-	QMenu* m_menuHelp;
-	QMenuBar* m_menuBar;
+	// pointer to the base app instance
+    MyApp* m_pMyApp;
 	
     bool m_bEarthDay;
     bool m_bEarthRotate;
@@ -70,19 +107,28 @@ private:
 	bool m_bSensorAbsolute2D;
 	bool m_bSensorAbsolute3D;
 	
-	long m_view;  // holds the current enum ID above
+	e_view m_view;  // holds the current enum ID above
 	QToolBar* m_ptbBase;
 	
 public:
 	MyFrame(MyApp* papp);
 	bool Init();
-	void MyFrame::EarthRotate(bool bAuto);
-	void MyFrame::ToggleStartStop(bool bStart);
+	void EarthRotate(bool bAuto);
+	void SetupToolbars();
+	void ToggleStartStop(bool bStart);
 		
-	private slots:
-		void about();
+private slots:
+	void actionHelpAbout();
+	
+	void actionViewEarth();
+	void actionViewSensor2D();
+	void actionViewSensor3D();
+	void actionViewCube();
+	
+	void actionOptionScreenshot();
+	void actionOptionLogo();
 
-	/*
+/*
 
     void ToolBarView();
     void Toggle(const int id, const bool bOn  = true, const bool bView = false);
@@ -95,8 +141,6 @@ public:
     void SetToggleEarth();
     void SetToggleSensor();
 	void SensorNavButtons();
-	void SetupToolbars();
-	void ToggleStartStop(bool bStart);
 */
 	
   private:

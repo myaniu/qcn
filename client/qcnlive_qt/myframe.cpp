@@ -8,166 +8,16 @@
  */
 
 #include "qcnqt.h"
+
 // these are our toolbar icons in C-array-style XPM format, var names prefixed xpm_icon_
 //#include "icons.h"   // 64x64
 #include "icons32.h"   // 32x32
+
 // CMC #include "dlgsettings.h"
 #include "qcn_earth.h"
 #include "qcn_2dplot.h"
 
-const int ID_TOOL_ACTION_CAMERA = 999;
-const int ID_TOOLBAR = 998;
-const int ID_TOOLBAR_2DPLOT = 997;
-const int ID_TOOL_ACTION_AD = 996;  // for cycling through logos on a demo
-
-//#define QCN_TOOLBAR_IMG(mytbimg) wxBitmap(mytbimg, wxBITMAP_TYPE_XPM, 32, 32)
-#define QCN_TOOLBAR_IMG(mytbimg) wxBitmap(mytbimg, wxBITMAP_TYPE_XPM)
-
-enum e_menu_file {
-   wxID_FILE_SETTINGS = 101
-};
-
-enum e_tool_view { 
-    ID_TOOL_VIEW_EARTH = 1000,
-    ID_TOOL_VIEW_SENSOR_2D,
-    ID_TOOL_VIEW_SENSOR_3D,
-    ID_TOOL_VIEW_CUBE
-};
-const int ciNumView = 4;  // the number of tools
-	
-enum e_tool_action_earth { 
-    ID_TOOL_ACTION_EARTH_DAY = 1010,
-    ID_TOOL_ACTION_EARTH_NIGHT,
-    ID_TOOL_ACTION_EARTH_ROTATE_ON,
-    ID_TOOL_ACTION_EARTH_ROTATE_OFF,	
-    ID_TOOL_ACTION_EARTH_USGS,
-    ID_TOOL_ACTION_EARTH_LATEST
-};
-
-enum e_tool_action_sensor { 
-    ID_TOOL_ACTION_SENSOR_01 = 1020,
-    ID_TOOL_ACTION_SENSOR_10,
-    ID_TOOL_ACTION_SENSOR_60,
-    ID_TOOL_ACTION_SENSOR_BACK,
-    ID_TOOL_ACTION_SENSOR_PAUSE,
-    ID_TOOL_ACTION_SENSOR_RESUME,
-    ID_TOOL_ACTION_SENSOR_RECORD_START,
-    ID_TOOL_ACTION_SENSOR_RECORD_STOP,
-    ID_TOOL_ACTION_SENSOR_FORWARD,
-    ID_TOOL_ACTION_SENSOR_ABSOLUTE,
-    ID_TOOL_ACTION_SENSOR_SCALED,
-	ID_TOOL_ACTION_SENSOR_SCROLLBAR,
-	ID_TOOL_ACTION_SENSOR_HORIZ_ZOOM_OUT,
-	ID_TOOL_ACTION_SENSOR_HORIZ_ZOOM_IN,
-	ID_TOOL_ACTION_SENSOR_VERT_ZOOM_OUT,
-	ID_TOOL_ACTION_SENSOR_VERT_ZOOM_IN,
-	ID_TOOL_ACTION_SENSOR_VERT_ZOOM_AUTO
-};
-
-enum e_tool_help {
-	ID_TOOL_HELP_WEB_QCN = 1040,
-	ID_TOOL_HELP_WEB_QCNLIVE,
-	ID_TOOL_HELP_WEB_MANUAL,
-	ID_TOOL_HELP_WEB_EARTHQUAKES,
-	ID_TOOL_HELP_WEB_LESSONS,
-	ID_TOOL_HELP_WEB_REQUEST_SENSOR,
-	ID_TOOL_HELP_WEB_GLOSSARY
-};
-
 /*
-BEGIN_EVENT_TABLE(MyFrame, wxFrame)
-    EVT_SIZE(MyFrame::OnSize)
-    EVT_CLOSE(MyFrame::OnCloseWindow)
-
-    EVT_MENU(wxID_EXIT, MyFrame::OnQuit)
-    EVT_MENU(wxID_FILE_SETTINGS, MyFrame::OnFileSettings)
-    //EVT_MENU(wxID_HELP, MyFrame::OnAbout)
-    EVT_MENU(wxID_ABOUT, MyFrame::OnAbout)
-
-	EVT_MENU(ID_TOOL_VIEW_EARTH, MyFrame::OnActionView)
-	EVT_MENU(ID_TOOL_VIEW_SENSOR_2D, MyFrame::OnActionView)
-	EVT_MENU(ID_TOOL_VIEW_SENSOR_3D, MyFrame::OnActionView)
-	EVT_MENU(ID_TOOL_VIEW_CUBE, MyFrame::OnActionView)
-	
-	EVT_MENU(ID_TOOL_ACTION_EARTH_DAY, MyFrame::OnActionEarth)
-	EVT_MENU(ID_TOOL_ACTION_EARTH_NIGHT, MyFrame::OnActionEarth)
-	EVT_MENU(ID_TOOL_ACTION_EARTH_ROTATE_ON, MyFrame::OnActionEarth)
-	EVT_MENU(ID_TOOL_ACTION_EARTH_ROTATE_OFF, MyFrame::OnActionEarth)
-	EVT_MENU(ID_TOOL_ACTION_EARTH_USGS, MyFrame::OnActionEarth)
-	EVT_MENU(ID_TOOL_ACTION_EARTH_LATEST, MyFrame::OnActionEarth)
-
-	EVT_MENU(ID_TOOL_ACTION_SENSOR_01, MyFrame::OnActionSensor)
-	EVT_MENU(ID_TOOL_ACTION_SENSOR_10, MyFrame::OnActionSensor)
-	EVT_MENU(ID_TOOL_ACTION_SENSOR_60, MyFrame::OnActionSensor)
-	EVT_MENU(ID_TOOL_ACTION_SENSOR_BACK, MyFrame::OnActionSensor)
-	EVT_MENU(ID_TOOL_ACTION_SENSOR_PAUSE, MyFrame::OnActionSensor)
-	EVT_MENU(ID_TOOL_ACTION_SENSOR_RESUME, MyFrame::OnActionSensor)
-	EVT_MENU(ID_TOOL_ACTION_SENSOR_RECORD_START, MyFrame::OnActionSensor)
-	EVT_MENU(ID_TOOL_ACTION_SENSOR_RECORD_STOP, MyFrame::OnActionSensor)
-	EVT_MENU(ID_TOOL_ACTION_SENSOR_FORWARD, MyFrame::OnActionSensor)
-	EVT_MENU(ID_TOOL_ACTION_SENSOR_ABSOLUTE, MyFrame::OnActionSensor)
-	EVT_MENU(ID_TOOL_ACTION_SENSOR_SCALED, MyFrame::OnActionSensor)
-
-	EVT_MENU(ID_TOOL_ACTION_SENSOR_SCROLLBAR, MyFrame::OnActionSensor)
-	EVT_MENU(ID_TOOL_ACTION_SENSOR_HORIZ_ZOOM_OUT, MyFrame::OnActionSensor)
-	EVT_MENU(ID_TOOL_ACTION_SENSOR_HORIZ_ZOOM_IN, MyFrame::OnActionSensor)
-	EVT_MENU(ID_TOOL_ACTION_SENSOR_VERT_ZOOM_OUT, MyFrame::OnActionSensor)
-	EVT_MENU(ID_TOOL_ACTION_SENSOR_VERT_ZOOM_IN, MyFrame::OnActionSensor)
-	EVT_MENU(ID_TOOL_ACTION_SENSOR_VERT_ZOOM_AUTO, MyFrame::OnActionSensor)
-
-	EVT_MENU(ID_TOOL_HELP_WEB_QCN, MyFrame::OnActionHelp)
-    EVT_MENU(ID_TOOL_HELP_WEB_QCNLIVE, MyFrame::OnActionHelp)
-	EVT_MENU(ID_TOOL_HELP_WEB_MANUAL, MyFrame::OnActionHelp)
-	EVT_MENU(ID_TOOL_HELP_WEB_EARTHQUAKES, MyFrame::OnActionHelp)
-	EVT_MENU(ID_TOOL_HELP_WEB_LESSONS, MyFrame::OnActionHelp)
-	EVT_MENU(ID_TOOL_HELP_WEB_REQUEST_SENSOR, MyFrame::OnActionHelp)
-	EVT_MENU(ID_TOOL_HELP_WEB_GLOSSARY, MyFrame::OnActionHelp)
-
-
-
-	EVT_MENU(ID_TOOL_ACTION_CAMERA, MyFrame::OnScreenshot)
-    EVT_MENU(ID_TOOL_ACTION_AD, MyFrame::OnLogoChange)
-
-END_EVENT_TABLE()
-*/
-
-/*
-
-
-void MyFrame::SetupToolbars()
-{
-	toolBar = CreateToolBar(wxNO_BORDER|wxHORIZONTAL, ID_TOOLBAR);
-
-	if (toolBar) {
-		toolBar->SetToolBitmapSize(wxSize(32,32));
-
-		ToolBarView();
-		ToolBarEarth(true);
-		
-		//scrollBar2D = new wxScrollBar(toolBar, ID_TOOL_ACTION_SENSOR_SCROLLBAR, wxDefaultPosition, wxSize(100,10), wxSB_HORIZONTAL, wxDefaultValidator, "Time Scroll");
-		if (scrollBar2D) scrollBar2D->Hide();
-	}
-
-
-}
-
-void MyFrame::OnCloseWindow(wxCloseEvent& wxc)
-{
-     if (m_pMyApp) { // save the current window position & size, in MyApp::OnExit these get written to a prefs xml file
-        //m_pMyApp->SetRect(GetSize(), GetPosition());
-        //m_pMyApp->SetRect(GetRect());   // GetScreenRect()
-        m_pMyApp->SetRect(GetScreenRect());   // GetScreenRect()
-      }
-     // stop timers and get rid of OpenGL window which causes a hang on Windows
-     if (glPane) {
-         if (glPane->m_ptimer) {
-            glPane->m_ptimer->Stop();
-         }
-         glPane->Destroy();
-     }
-	 wxFrame::OnCloseWindow(wxc);
-}
-
 void MyFrame::OnFileSettings(wxCommandEvent& WXUNUSED(evt))
 {
      CDialogSettings* pcds = new CDialogSettings(this, wxID_FILE_SETTINGS);
@@ -191,53 +41,6 @@ void MyFrame::OnFileSettings(wxCommandEvent& WXUNUSED(evt))
 	    pcds->Destroy();
 	    delete pcds;
 	 }
-}
-
-void MyFrame::OnActionView(wxCommandEvent& evt)
-{
-   // get item from event do appropriate action (boinc_key_press!)
-   // todo: hook up the other toolbars
-  Toggle(m_view, false, true);
-  bool bChanged = false;
-  switch(evt.GetId())
-  {
-     case ID_TOOL_VIEW_EARTH:
-	     if (bEarthDay) 
-                qcn_graphics::earth.SetMapCombined();
-	     else 
-                qcn_graphics::earth.SetMapNight();
-         m_view = evt.GetId();
-	     ToolBarEarth();
-	     bChanged = true;
-	     break;
-	 case ID_TOOL_VIEW_SENSOR_2D:
-	     qcn_graphics::g_eView = VIEW_PLOT_2D;
-		 // note only redraw sensor toolbar if not coming from a sensor view already
-         //if (m_view != ID_TOOL_VIEW_SENSOR_2D && m_view != ID_TOOL_VIEW_SENSOR_3D) ToolBarSensor(evt.GetId());
-         m_view = evt.GetId();
-         ToolBarSensor2D();
-         bChanged = true;
-		 break;
-	 case ID_TOOL_VIEW_SENSOR_3D:
-	     qcn_graphics::g_eView = VIEW_PLOT_3D;
-		 // note only redraw sensor toolbar if not coming from a sensor view already
-         //if (m_view != ID_TOOL_VIEW_SENSOR_2D && m_view != ID_TOOL_VIEW_SENSOR_3D) ToolBarSensor(evt.GetId());
-         m_view = evt.GetId();
-         ToolBarSensor3D();
-         bChanged = true;
-		 break;
-	 case ID_TOOL_VIEW_CUBE:
-	     qcn_graphics::g_eView = VIEW_CUBE;
-         m_view = evt.GetId();
-		 ToolBarCube();
-		 bChanged = true;
-		 break;
-	}
-	qcn_graphics::FaderOn();
-    if (bChanged) {
-      Toggle(m_view, true, true);
-    }
-    qcn_graphics::ResetPlotArray();
 }
 	
 void MyFrame::OnActionEarth(wxCommandEvent& evt)
@@ -961,7 +764,7 @@ bool MyFrame::Init()
     m_sliderTime = createSlider(SIGNAL(TimePositionChanged(const double&)),
 								SLOT(setTimePosition(const double&)));
 	
-	m_view = ID_TOOL_VIEW_EARTH;  // set view to 0
+	m_view = VIEW_EARTH_DAY;  // set view to 0
 	m_ptbBase = NULL; // no toolbar base yet
 	
     m_bEarthDay = true;
@@ -1040,29 +843,6 @@ bool MyFrame::Init()
 */
 
 
-void MyFrame::about()
-{
-    QMessageBox::about(this, tr("About QCNLive"),
-					   tr("<b>QCNLive</b> is provided by the <BR> Quake-Catcher Network Project <BR><BR>http://qcn.stanford.edu<BR><BR>(c) 2010 Stanford University"));
-/*
-	wxAboutDialogInfo myAboutBox;
-	//myAboutBox.SetIcon(wxIcon("qcnwin.ico", wxBITMAP_TYPE_ICO));
-	myAboutBox.SetVersion(wxString(QCN_VERSION_STRING));
-	myAboutBox.SetName(wxT("QCNLive"));
-	myAboutBox.SetWebSite(wxT("http://qcn.stanford.edu"), wxT("Quake-Catcher Network Website"));
-	myAboutBox.SetCopyright(wxT("(c) 2009 Stanford University")); 
-	//myAboutBox.AddDeveloper(wxT("Carl Christensen  (carlgt1@yahoo.com"));
-	myAboutBox.SetDescription(wxT("This software is provided free of charge for educational purposes.\n\nPlease visit us on the web:\n"));
-	
-    wxAboutBox(myAboutBox);
-
-	QDialog* dlgAbout = new QDialog(this);
-	dlgAbout->setModal(true);
-	dlgAbout->exec();
- 
-*/		
-}
-
 void MyFrame::createActions()
 {
 	// setup the actions of the various menu bar and toggle buttons
@@ -1084,11 +864,144 @@ void MyFrame::createActions()
 	m_actionFileMakeQuake->setShortcut(tr("Ctrl+M")); 
 	//connect(m_actionFileMakeQuake, SIGNAL(triggered()), this, SLOT(makeEarthquake()));
 	
+	// View actions
+	m_actionViewEarth = new QAction(tr("&Earthquakes"), this);
+	m_actionViewEarth->setToolTip(tr("View recent and historical global earthquakes"));
+    connect(m_actionViewEarth, SIGNAL(triggered()), this, SLOT(actionViewEarth()));
+
+	m_actionViewSensor2D = new QAction(tr("Sensor &2D"), this);
+	m_actionViewSensor2D->setToolTip(tr("View sensor data in 2D"));
+    connect(m_actionViewSensor2D, SIGNAL(triggered()), this, SLOT(actionViewSensor2D()));
+
+	m_actionViewSensor3D = new QAction(tr("Sensor &3D"), this);
+	m_actionViewSensor3D->setToolTip(tr("View sensor data in 3D"));
+    connect(m_actionViewSensor3D, SIGNAL(triggered()), this, SLOT(actionViewSensor3D()));
+
+	m_actionViewCube = new QAction(tr("&Cube"), this);
+	m_actionViewCube->setToolTip(tr("Move a cube using the sensor"));
+    connect(m_actionViewCube, SIGNAL(triggered()), this, SLOT(actionViewCube()));
 	
-	// Help action
+	// Option actions  (these change based on which view above we're in)
+/*
+	// Option - Earth
+	m_actionOptionEarth = new QAction(tr(""), this);
+	m_actionOptionEarth->setToolTip(tr(""));
+	connect(m_actionOptionEarth, SIGNAL(triggered()), this, SLOT(actionOptionEarth()));
+
+	m_actionOptionEarth = new QAction(tr(""), this);
+	m_actionOptionEarth->setToolTip(tr(""));
+	connect(m_actionOptionEarth, SIGNAL(triggered()), this, SLOT(actionOptionEarth()));
+	
+	m_actionOptionEarth = new QAction(tr(""), this);
+	m_actionOptionEarth->setToolTip(tr(""));
+	connect(m_actionOptionEarth, SIGNAL(triggered()), this, SLOT(actionOptionEarth()));
+	
+	m_actionOptionEarth = new QAction(tr(""), this);
+	m_actionOptionEarth->setToolTip(tr(""));
+	connect(m_actionOptionEarth, SIGNAL(triggered()), this, SLOT(actionOptionEarth()));
+	
+	m_actionOptionEarth = new QAction(tr(""), this);
+	m_actionOptionEarth->setToolTip(tr(""));
+	connect(m_actionOptionEarth, SIGNAL(triggered()), this, SLOT(actionOptionEarth()));
+	
+	m_actionOptionEarth = new QAction(tr(""), this);
+	m_actionOptionEarth->setToolTip(tr(""));
+	connect(m_actionOptionEarth, SIGNAL(triggered()), this, SLOT(actionOptionEarth()));
+	
+	// CMC HERE
+	
+	QAction* m_actionOptionEarthDay;
+	QAction* m_actionOptionEarthNight;
+	QAction* m_actionOptionEarthRotateOn;
+	QAction* m_actionOptionEarthRotateOff;
+	QAction* m_actionOptionEarthRotateUSGS;
+	QAction* m_actionOptionEarthRotateQuakelist;
+	
+	// Option - Sensor (2D & 3D)
+	m_actionOptionSensorBack = new QAction(tr(""), this);
+	m_actionOptionSensor->setToolTip(tr(""));
+	connect(m_actionOptionSensor, SIGNAL(triggered()), this, SLOT(actionOptionSensor()));
+	
+	m_actionOptionSensor = new QAction(tr(""), this);
+	m_actionOptionSensor->setToolTip(tr(""));
+	connect(m_actionOptionSensor, SIGNAL(triggered()), this, SLOT(actionOptionSensor()));
+	
+	m_actionOptionSensor = new QAction(tr(""), this);
+	m_actionOptionSensor->setToolTip(tr(""));
+	connect(m_actionOptionSensor, SIGNAL(triggered()), this, SLOT(actionOptionSensor()));
+	
+	m_actionOptionSensor = new QAction(tr(""), this);
+	m_actionOptionSensor->setToolTip(tr(""));
+	connect(m_actionOptionSensor, SIGNAL(triggered()), this, SLOT(actionOptionSensor()));
+	
+	m_actionOptionSensor = new QAction(tr(""), this);
+	m_actionOptionSensor->setToolTip(tr(""));
+	connect(m_actionOptionSensor, SIGNAL(triggered()), this, SLOT(actionOptionSensor()));
+	
+	m_actionOptionSensor = new QAction(tr(""), this);
+	m_actionOptionSensor->setToolTip(tr(""));
+	connect(m_actionOptionSensor, SIGNAL(triggered()), this, SLOT(actionOptionSensor()));
+	
+	m_actionOptionSensor = new QAction(tr(""), this);
+	m_actionOptionSensor->setToolTip(tr(""));
+	connect(m_actionOptionSensor, SIGNAL(triggered()), this, SLOT(actionOptionSensor()));
+	
+	m_actionOptionSensor = new QAction(tr(""), this);
+	m_actionOptionSensor->setToolTip(tr(""));
+	connect(m_actionOptionSensor, SIGNAL(triggered()), this, SLOT(actionOptionSensor()));
+	
+	m_actionOptionSensor = new QAction(tr(""), this);
+	m_actionOptionSensor->setToolTip(tr(""));
+	connect(m_actionOptionSensor, SIGNAL(triggered()), this, SLOT(actionOptionSensor()));
+	
+	m_actionOptionSensor = new QAction(tr(""), this);
+	m_actionOptionSensor->setToolTip(tr(""));
+	connect(m_actionOptionSensor, SIGNAL(triggered()), this, SLOT(actionOptionSensor()));
+	
+	m_actionOptionSensor = new QAction(tr(""), this);
+	m_actionOptionSensor->setToolTip(tr(""));
+	connect(m_actionOptionSensor, SIGNAL(triggered()), this, SLOT(actionOptionSensor()));
+	
+	m_actionOptionSensor = new QAction(tr(""), this);
+	m_actionOptionSensor->setToolTip(tr(""));
+	connect(m_actionOptionSensor, SIGNAL(triggered()), this, SLOT(actionOptionSensor()));
+	
+	m_actionOptionSensor = new QAction(tr(""), this);
+	m_actionOptionSensor->setToolTip(tr(""));
+	connect(m_actionOptionSensor, SIGNAL(triggered()), this, SLOT(actionOptionSensor()));
+	
+	
+	QAction* m_actionOptionSensorBack;
+	QAction* m_actionOptionSensorPause;
+	QAction* m_actionOptionSensorResume;
+	QAction* m_actionOptionSensorRecordStart;
+	QAction* m_actionOptionSensorRecordStop;
+	QAction* m_actionOptionSensorForward;
+	QAction* m_actionOptionSensorAbsolute;
+	QAction* m_actionOptionSensorScaled;
+	//QAction* m_actionOptionSensorScrollbar;
+	QAction* m_actionOptionSensorHorizontalZoomOut;
+	QAction* m_actionOptionSensorHorizontalZoomIn;
+	QAction* m_actionOptionSensorVerticalZoomOut;
+	QAction* m_actionOptionSensorVerticalZoomIn;
+	QAction* m_actionOptionSensorVerticalZoomAuto;
+	
+*/
+	// Option action for all (Screenshot / Logo)
+	m_actionOptionScreenshot = new QAction(tr(""), this);
+	m_actionOptionScreenshot->setToolTip(tr(""));
+	connect(m_actionOptionScreenshot, SIGNAL(triggered()), this, SLOT(actionOptionScreenshot()));
+	
+	m_actionOptionLogo = new QAction(tr(""), this);
+	m_actionOptionLogo->setToolTip(tr(""));
+	connect(m_actionOptionLogo, SIGNAL(triggered()), this, SLOT(actionOptionLogo()));
+	
+	
+	
+	// Help actions
     m_actionHelpAbout = new QAction(tr("&About"), this);
 	m_actionHelpAbout->setToolTip(tr("About QCNLive"));
-    connect(m_actionHelpAbout, SIGNAL(triggered()), this, SLOT(about()));
+    connect(m_actionHelpAbout, SIGNAL(triggered()), this, SLOT(actionHelpAbout()));
 
 	m_actionHelpManual = new QAction(tr("&Manual (PDF) for QCNLive"), this);
 	m_actionHelpManual->setToolTip(tr("Download/View Manual (PDF) for QCNLive"));
@@ -1110,6 +1023,7 @@ void MyFrame::createActions()
 	
 	m_actionHelpWebGlossary = new QAction(tr("&Glossary"), this);
 	m_actionHelpWebGlossary->setToolTip(tr("Online Glossary"));
+
 	
 }
 
@@ -1126,6 +1040,10 @@ void MyFrame::createMenus()
 	
 	// View
 	m_menuView = menuBar()->addMenu(tr("&View"));
+	m_menuView->addAction(m_actionViewEarth);
+	m_menuView->addAction(m_actionViewSensor2D);
+	m_menuView->addAction(m_actionViewSensor3D);
+	m_menuView->addAction(m_actionViewCube);
 	
 	// Options
 	m_menuOptions = menuBar()->addMenu(tr("&Options"));
@@ -1202,8 +1120,8 @@ void MyFrame::resizeEvent(QResizeEvent* prs)
 
 void MyFrame::EarthRotate(bool bAuto)
 {
-	/*
 	if (!qcn_graphics::earth.IsShown()) return;  // only matters if we're on the earth view!
+	/*
 	// see if it's rotating and we want to stop, or it's not rotating and we want it to start
 	if ( (!bAuto && qcn_graphics::earth.IsAutoRotate())
 		|| (bAuto && ! qcn_graphics::earth.IsAutoRotate()))  {
@@ -1227,5 +1145,97 @@ void MyFrame::ToggleStartStop(bool bStart)
 		qcn_graphics::TimeWindowStop();
 	}
 	*/
+}
+
+void MyFrame::SetupToolbars()
+{
+	/* CMC
+	 toolBar = CreateToolBar(wxNO_BORDER|wxHORIZONTAL, ID_TOOLBAR);
+	
+	if (toolBar) {
+		toolBar->SetToolBitmapSize(wxSize(32,32));
+		
+		ToolBarView();
+		ToolBarEarth(true);
+		
+		//scrollBar2D = new wxScrollBar(toolBar, ID_TOOL_ACTION_SENSOR_SCROLLBAR, wxDefaultPosition, wxSize(100,10), wxSB_HORIZONTAL, wxDefaultValidator, "Time Scroll");
+		if (scrollBar2D) scrollBar2D->Hide();
+	}
+	 */
+}
+
+void MyFrame::actionViewEarth()
+{
+	// CMC Toggle(m_view, false, true);
+	if (m_bEarthDay)  {
+		m_view = VIEW_EARTH_DAY;
+		qcn_graphics::earth.SetMapCombined();
+	}
+	else  { 
+		m_view = VIEW_EARTH_NIGHT;
+		qcn_graphics::earth.SetMapNight();
+	}
+	//CMC			ToolBarEarth();
+}
+
+void MyFrame::actionViewSensor2D()
+{
+	// CMC Toggle(m_view, false, true);
+	qcn_graphics::g_eView = VIEW_PLOT_2D;
+	m_view = qcn_graphics::g_eView;	
+	//CMC			ToolBarSensor2D();
+	qcn_graphics::FaderOn();
+	// CMC Toggle(m_view, true, true);
+    qcn_graphics::ResetPlotArray();
+}
+
+void MyFrame::actionViewSensor3D()
+{
+	// CMC Toggle(m_view, false, true);
+	qcn_graphics::g_eView = VIEW_PLOT_3D;
+	m_view = qcn_graphics::g_eView;	
+	//CMC			ToolBarSensor3D();
+	qcn_graphics::FaderOn();
+	// CMC Toggle(m_view, true, true);
+    qcn_graphics::ResetPlotArray();
+}
+
+void MyFrame::actionViewCube()
+{
+	// CMC Toggle(m_view, false, true);
+	qcn_graphics::g_eView = VIEW_CUBE;
+	//CMC			ToolBarCube();
+}
+
+void MyFrame::actionHelpAbout()
+{
+    QMessageBox::about(this, tr("About QCNLive"),
+					   tr("<b>QCNLive</b> is provided by the <BR> Quake-Catcher Network Project <BR><BR>http://qcn.stanford.edu<BR><BR>(c) 2010 Stanford University"));
+	
+	/*
+	 wxAboutDialogInfo myAboutBox;
+	 //myAboutBox.SetIcon(wxIcon("qcnwin.ico", wxBITMAP_TYPE_ICO));
+	 myAboutBox.SetVersion(wxString(QCN_VERSION_STRING));
+	 myAboutBox.SetName(wxT("QCNLive"));
+	 myAboutBox.SetWebSite(wxT("http://qcn.stanford.edu"), wxT("Quake-Catcher Network Website"));
+	 myAboutBox.SetCopyright(wxT("(c) 2009 Stanford University")); 
+	 //myAboutBox.AddDeveloper(wxT("Carl Christensen  (carlgt1@yahoo.com"));
+	 myAboutBox.SetDescription(wxT("This software is provided free of charge for educational purposes.\n\nPlease visit us on the web:\n"));
+	 
+	 wxAboutBox(myAboutBox);
+	 
+	 QDialog* dlgAbout = new QDialog(this);
+	 dlgAbout->setModal(true);
+	 dlgAbout->exec();
+	 
+	 */		
+}
+
+void MyFrame::actionOptionScreenshot()
+{
+}
+
+void MyFrame::actionOptionLogo()
+{
 }
 
