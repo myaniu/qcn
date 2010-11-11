@@ -1107,7 +1107,7 @@ void MyFrame::actionView()
 	// todo: hook up the other toolbars
 	// CMC Toggle(m_view, false, true);
 	
-	// figure out who called this
+	// figure out who called this, i.e. get the pointer of the QAction* from trigger and compare
 	QAction *pAction = qobject_cast<QAction*>(QObject::sender());
 	bool bChanged = false;
 	if (pAction == m_actionViewSensor2D)

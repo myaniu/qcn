@@ -11,19 +11,19 @@ BINDIR = $$BASEDIRQCN/client/bin
 BAPIDIR = $$BASEDIRBOINC/api
 BLIBDIR = $$BASEDIRBOINC/lib
 
-CPP = gcc-4.0
-CXX = g++-4.0
+mac:CPP = gcc-4.0
+mac:CXX = g++-4.0
 CFLAGS = -Wno-deprecated
 QMAKE_CFLAGS_DEBUG = $$CFLAGS -D_DEBUG -g -O0
 QMAKE_CFLAGS_RELEASE = $$CFLAGS -O2
 QMAKE_CXXFLAGS_DEBUG = $$QMAKE_CFLAGS_DEBUG
 QMAKE_CXXFLAGS_RELEASE = $$QMAKE_CFLAGS_RELEASE
-LIBS += -framework IOKit -framework Carbon \
+mac:LIBS += -framework IOKit -framework Carbon \
    -L$$BASEDIRQCN/client/mac_build \
      -lboinc_zip -ljpeg-universal -lcurl-universal -lz-universal
 
-ICON = $$BASEDIRQCN/doc/qcnmac.icns
-QMAKE_INFO_PLIST = Info.plist.mac
+mac:ICON = $$BASEDIRQCN/doc/qcnmac.icns
+mac:QMAKE_INFO_PLIST = Info.plist.mac
 
 #   LIBS += -bind_at_load -framework IOKit -framework Foundation \
 #          -framework ScreenSaver -framework Carbon -framework Cocoa
@@ -90,7 +90,7 @@ SRC_BOINC = $$BAPIDIR/boinc_api.cpp \
    $$BLIBDIR/mac/QSymbols.c \
    $$BLIBDIR/mac/QTaskMemory.c
 
-LIBS += -framework IOKit -framework Foundation
+mac:LIBS += -framework IOKit -framework Foundation
 
 DEFINES += _USE_NTPDATE_EXEC_ QCNLIVE GRAPHICS_PROGRAM APP_GRAPHICS _ZLIB QCN _THREAD_SAFE
 
@@ -126,9 +126,9 @@ SOURCES       = glwidget.cpp \
                 $$SRC_BOINC
 
 
-QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.4
-QMAKE_MAC_SDK=/Developer/SDKs/MacOSX10.4u.sdk
-CONFIG+=x86 ppc
+mac:QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.4
+mac:QMAKE_MAC_SDK=/Developer/SDKs/MacOSX10.4u.sdk
+mac:CONFIG+=x86 ppc
 QT           += opengl
 
 
