@@ -56,7 +56,7 @@
 MyFrame::MyFrame(MyApp* papp)
      : m_toolBar(NULL), m_menuBar(NULL), m_actionCurrent(NULL), m_pMyApp(papp)
 {
-	m_vqaSeparator.clear();
+	//m_vqaSeparator.clear();
 }
 
 bool MyFrame::Init()
@@ -473,7 +473,7 @@ void MyFrame::actionView()
 {
 	// get item from event do appropriate action (boinc_key_press!)
 	// todo: hook up the other toolbars
-	if (m_actionCurrent) Toggle(m_actionCurrent, false, false);
+	if (m_actionCurrent) Toggle(m_actionCurrent, false, true);
 	
 	// figure out who called this, i.e. get the pointer of the QAction* from trigger and compare
 	QAction *pAction = qobject_cast<QAction*>(QObject::sender());
@@ -753,20 +753,27 @@ void MyFrame::ToolBarView()
 	m_toolBar->addAction(m_actionViewSensor2D); 
 	m_toolBar->addAction(m_actionViewSensor3D); 
 	m_toolBar->addAction(m_actionViewCube); 
-	m_toolBar->addSeparator();	 // don't need to use our function as we want to keep this separator permanently
 }
 
 void MyFrame::RemoveCurrentTools()
-{   // remove the current "Option" tools if any 
+{   
+	m_toolBar->clear();
+	m_menuOptions->clear();
+	ToolBarView();
+	return;   // simpler!!!
+	
+	// remove the current "Option" tools if any 
 	// it depends on what the current view is so don't switch the view before calling this function!
 	
 	// first get rid of any separators
+	/*
 	vector<QAction*>::iterator itAction = m_vqaSeparator.begin();
 	while (itAction != m_vqaSeparator.end()) {
 		if (!*itAction) m_toolBar->removeAction(*itAction); // check for null pointer
 		itAction++;
 	}
 	m_vqaSeparator.clear(); // clear the separator vector
+	*/
 	
 	switch (qcn_graphics::g_eView)
 	{
@@ -818,11 +825,14 @@ void MyFrame::RemoveCurrentTools()
 
 void MyFrame::AddToolBarSeparator()
 {
-	QAction* pqa = m_toolBar->addSeparator();
+	//QAction* pqa = 
+	m_toolBar->addSeparator();
 	m_menuOptions->addSeparator();
-	if (pqa) {
+	/*
+	 if (pqa) {
 		m_vqaSeparator.push_back(pqa);
 	}
+	*/
 }
 
 void MyFrame::ToolBarEarth(bool bFirst)
@@ -833,6 +843,8 @@ void MyFrame::ToolBarEarth(bool bFirst)
 
     if (!bFirst)
 		RemoveCurrentTools();
+
+	m_toolBar->addSeparator();	 // don't need to use our function as we want to keep this separator permanently
 
 	// menu & toolbar options were cleared, so have to add actions again
 
@@ -960,7 +972,9 @@ void MyFrame::ToolBarSensor2D()
 {
     if (!m_toolBar) return; // null toolbar?
     RemoveCurrentTools();
-	
+
+	m_toolBar->addSeparator();	 // don't need to use our function as we want to keep this separator permanently
+
 	m_toolBar->addAction(m_actionOptionSensorVerticalZoomAuto);
 	m_menuOptions->addAction(m_actionOptionSensorVerticalZoomAuto);
 
@@ -998,7 +1012,9 @@ void MyFrame::ToolBarSensor3D()
 {
     if (!m_toolBar) return; // null toolbar?
     RemoveCurrentTools();
-	
+
+	m_toolBar->addSeparator();	 // don't need to use our function as we want to keep this separator permanently
+
 	SensorNavButtons();
 
 	AddToolBarSeparator(); // use our function to keep track of separators so they can be easily removed
