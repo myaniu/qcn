@@ -305,8 +305,8 @@ void MyFrame::createActions()
 	
 
 	// Option action for all (Screenshot / Logo)
-	m_actionOptionScreenshot = new QAction(tr(""), this);
-	m_actionOptionScreenshot->setToolTip(tr(""));
+	m_actionOptionScreenshot = new QAction(tr("Screenshot"), this);
+	m_actionOptionScreenshot->setToolTip(tr("Make a screenshot and save as a JPG file in data directory"));
 	m_actionOptionScreenshot->setIcon(QIcon(xpm_icon_camera));
 	connect(m_actionOptionScreenshot, SIGNAL(triggered()), this, SLOT(actionOptionScreenshot()));
 	
@@ -759,6 +759,15 @@ void MyFrame::ToolBarView()
 void MyFrame::RemoveCurrentTools()
 {   // remove the current "Option" tools if any 
 	// it depends on what the current view is so don't switch the view before calling this function!
+	
+	// first get rid of any separators
+	vector<QAction*>::iterator itAction = m_vqaSeparator.begin();
+	while (itAction != m_vqaSeparator.end()) {
+		if (!*itAction) m_toolBar->removeAction(*itAction); // check for null pointer
+		itAction++;
+	}
+	m_vqaSeparator.clear(); // clear the separator vector
+	
 	switch (qcn_graphics::g_eView)
 	{
 		case VIEW_EARTH_DAY:
@@ -812,7 +821,7 @@ void MyFrame::AddToolBarSeparator()
 	QAction* pqa = m_toolBar->addSeparator();
 	m_menuOptions->addSeparator();
 	if (pqa) {
-		m_vqaSeparator.insert(pqa);
+		m_vqaSeparator.push_back(pqa);
 	}
 }
 

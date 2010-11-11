@@ -105,7 +105,7 @@ private:
 	
 	QToolBar* m_ptbBase;
 	
-	vector<QAction*> m_vqaSeparator; // a vector of separators so we can remove them as needed i.e. when redrawing toolbars
+	std::vector<QAction*> m_vqaSeparator; // a vector of separators so we can remove them as needed i.e. when redrawing toolbars
 	void AddToolBarSeparator();  // function to keep track of separators for easy removal
 	
 public:
