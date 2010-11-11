@@ -31,8 +31,8 @@ class MyFrame : public QMainWindow
 private:
     void createActions();
     void createMenus();
-    QSlider* createSlider(const char *changedSignal, const char *setterSlot);
-    //void setPixmap(const QPixmap &pixmap);
+    
+	//void setPixmap(const QPixmap &pixmap);
     QSize getSize();
 	
     QWidget* m_centralWidget;
@@ -95,6 +95,7 @@ private:
 	QAction* m_actionHelpWebLessons;
 	QAction* m_actionHelpWebRequestSensor;
 	QAction* m_actionHelpWebGlossary;
+	
 	QAction* m_actionOptionScreenshot;
 	QAction* m_actionOptionLogo;
 	
@@ -107,90 +108,40 @@ private:
 	bool m_bSensorAbsolute2D;
 	bool m_bSensorAbsolute3D;
 	
-	e_view m_view;  // holds the current enum ID above
 	QToolBar* m_ptbBase;
 	
 public:
 	MyFrame(MyApp* papp);
 	bool Init();
-	void EarthRotate(bool bAuto);
+	void EarthRotate(bool bAuto = true);
 	void SetupToolbars();
 	void ToggleStartStop(bool bStart);
 		
 private slots:
 	void actionView();
-/*
-	void actionViewEarth();
-	void actionViewSensor2D();
-	void actionViewSensor3D();
-	void actionViewCube();
-*/
 	
-	void actionOptionEarthDay();
-	void actionOptionEarthNight();
-	void actionOptionEarthRotateOn();
-	void actionOptionEarthRotateOff();
-	void actionOptionEarthUSGS();
-	void actionOptionEarthQuakelist();
-	
-	void actionOptionSensorVerticalZoomAuto();
-	void actionOptionSensorVerticalZoomIn();
-	void actionOptionSensorVerticalZoomOut();
-	void actionOptionSensorHorizontalZoomIn();
-	void actionOptionSensorHorizontalZoomOut();
-	void actionOptionSensorBack();
-	void actionOptionSensorPause();
-	void actionOptionSensorResume();
-	void actionOptionSensorRecordStart();
-	void actionOptionSensorRecordStop();
-	void actionOptionSensorForward();
-	void actionOptionSensorAbsolute();
-	void actionOptionSensorScaled();
-	
+	void actionOptionEarth();
+	void actionOptionSensor();	
 	void actionOptionScreenshot();
 	void actionOptionLogo();
 
-    void actionHelpAbout();
-	void actionHelpManual();
-	void actionHelpWebQCN();
-	void actionHelpWebQCNLive();
-	void actionHelpWebEarthquakes();
-	void actionHelpWebLessons();
-	void actionHelpWebRequestSensor();
-	void actionHelpWebGlossary();
-		
-/*
-
-    void ToolBarView();
-    void Toggle(const int id, const bool bOn  = true, const bool bView = false);
-    void ToolBarEarth(bool bFirst = false);
-    void ToolBarSensor2D();
-    void ToolBarSensor3D();
-    void ToolBarCube();
-    void EarthRotate(bool bAuto = true);
-    void AddScreenshotItem();
-    void SetToggleEarth();
-    void SetToggleSensor();
-	void SensorNavButtons();
-*/
-	
+    void actionHelp();
+			
   private:
     void closeEvent(QCloseEvent* pqc);
 	//void resizeEvent(QResizeEvent* prs);
 	//void moveEvent (QMoveEvent* pme);
-	
-	/*
-    // menu events
-    void OnFileSettings(wxCommandEvent& evt);
 
-    void OnActionView(wxCommandEvent& evt);
-    void OnActionEarth(wxCommandEvent& evt);
-    void OnActionSensor(wxCommandEvent& evt);
-    void OnActionHelp(wxCommandEvent& evt);
-    void OnScreenshot(wxCommandEvent& vet);
-    void OnLogoChange(wxCommandEvent& vet);
-	*/
-	
+    void ToolBarView();
+    void Toggle(const QAction* pqa, const bool bOn  = true, const bool bView = false);
+    void ToolBarEarth(bool bFirst = false);
+    void ToolBarSensor2D();
+    void ToolBarSensor3D();
+    void ToolBarCube();
+    void AddScreenshotItem();
+    void SetToggleEarth();
+    void SetToggleSensor();
+	void SensorNavButtons();
     void RemoveCurrentTools();
 
 };
