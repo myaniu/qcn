@@ -42,16 +42,38 @@ bool wxTextValidatorLatLng::TransferFromWindow()
 
 bool CDialogSettings::wxTextValidatorLatLng::Validate(wxWindow* parent)
 {
-    double dTest = atof(((wxTextCtrl*) parent)->GetValue().c_str());
+    double dTest = atof(((wxTextCtrl*) parent)->GetValue().toAscii());
 	if (m_bIsLat && (dTest < -90.0f || dTest > 90.0f)) return false;
     else if (!m_bIsLat && (dTest < -180.0f || dTest > 180.0f)) return false;
     return true;
 }
 */
 
-CDialogSettings(QWidget* parent, Qt::WindowFlags f)  : QDialog(parent, f)
+
+CDialogSettings::CDialogSettings(QWidget* parent, Qt::WindowFlags f)  : QDialog(parent, f)
 {
+	setModal(true);  // make it an application level modal window
+	setWindowModality(Qt::ApplicationModal);
+	setWindowTitle(tr("Edit QCNLive Preferences"));
+	
     InitPointers();
+
+    if (sm->dMyLatitude == NO_LAT) 
+		m_strLatitude.clear();
+    else
+		m_strLatitude.sprintf("%.6g", sm->dMyLatitude);
+	
+    if (sm->dMyLongitude == NO_LNG) 
+		m_strLongitude.clear();
+    else
+		m_strLongitude.sprintf("%.6g", sm->dMyLongitude);
+	
+    m_strStation = (char *) sm->strMyStation;
+	
+    m_strElevationMeter.sprintf("%.6g", sm->dMyElevationMeter);
+    m_strElevationFloor.sprintf("%d", sm->iMyElevationFloor);
+	
+    CreateControls();
 }
 
 
@@ -61,37 +83,20 @@ CDialogSettings::~CDialogSettings()
 		delete m_psms;  
 	    m_psms = NULL;
 	}
-/*
+
     if (m_textctrlLatitude) delete m_textctrlLatitude;
     if (m_textctrlLongitude) delete m_textctrlLongitude;
 	if (m_textctrlStation) delete m_textctrlStation;
+	if (m_textctrlElevationFloor) delete m_textctrlElevationFloor;
+	if (m_textctrlElevationMeter) delete m_textctrlElevationMeter;
 
-	if (itemBoxSizer2) delete itemBoxSizer2;
-    if (itemFlexGridSizer3) {
-        itemFlexGridSizer3->Clear();
-        delete itemFlexGridSizer3;
-    }
-    if (itemFlexGridSizer5) {
-        itemFlexGridSizer5->Clear();
-        delete itemFlexGridSizer5;
-    }
-    if (itemBoxSizer4) {
-        itemBoxSizer4->Clear();
-        delete itemBoxSizer4;
-    }
+	if (m_comboSensor) delete m_comboSensor;
+	if (m_radioSAC) delete m_radioSAC;
+	if (m_radioCSV) delete m_radioCSV;
+	
+	if (m_buttonSave) delete m_buttonSave;
+	if (m_buttonCancel) delete m_buttonCancel;
 
-    if (itemStaticText6) delete itemStaticText6;
-	if (itemStaticText7) delete itemStaticText7;
-	if (itemStaticText8) delete itemStaticText8;
-	if (itemButton11) delete itemButton11;
-	if (itemButton12) delete itemButton12;
- */
-}
-
-CDialogSettings::CDialogSettings(wxWindow* parent, wxWindowID id)
-{
-    InitPointers();
-    Create(parent, id);
 }
 
 void CDialogSettings::InitPointers()
@@ -114,6 +119,8 @@ void CDialogSettings::InitPointers()
     m_strStation.clear();
     m_strElevationMeter.clear();
     m_strElevationFloor.clear();
+	
+	m_buttonSave = m_buttonCancel = NULL;
 
     /*
     itemBoxSizer10 = NULL;
@@ -130,7 +137,6 @@ void CDialogSettings::InitPointers()
 	itemButton12 = NULL;
     */
 
-	m_psms = NULL;
 #ifdef _WIN32
 	m_psms = new CSensorWinUSBJW;
 #else
@@ -144,68 +150,88 @@ void CDialogSettings::InitPointers()
 
 void CDialogSettings::SaveValues()
 {
-    double dTest = atof(m_strLatitude.c_str());
+    double dTest = atof((const char*) m_strLatitude.toAscii());
     if (dTest >= -90.0f && dTest <= 90.0f)
         sm->dMyLatitude = dTest;
 
-    dTest = atof(m_strLongitude.c_str());
+    dTest = atof((const char*) m_strLongitude.toAscii());
     if (dTest >= -180.0f && dTest <= 180.0f)
         sm->dMyLongitude = dTest;
 
     memset((char*) sm->strMyStation, 0x00, SIZEOF_STATION_STRING);
-    strlcpy((char*) sm->strMyStation, m_strStation.c_str(), SIZEOF_STATION_STRING);	
+    strlcpy((char*) sm->strMyStation, (const char*) m_strStation.toAscii(), SIZEOF_STATION_STRING);	
 
-    sm->dMyElevationMeter = atof(m_strElevationMeter.c_str());
-    sm->iMyElevationFloor = atoi(m_strElevationFloor.c_str());
+    sm->dMyElevationMeter = atof((const char*) m_strElevationMeter.toAscii());
+    sm->iMyElevationFloor = atoi((const char*) m_strElevationFloor.toAscii());
 	
 	// for the sensor combo, save the value of the combo -1 + SENSOR_USB_
 	sm->iMySensor = -1;
-	wxString strCombo = m_comboSensor->GetValue();
+	QString strCombo = m_comboSensor->currentText();
 	for (int i = MIN_SENSOR_USB; i <= MAX_SENSOR_USB; i++)   {// usb sensors are between the values MIN & MAX_SENSOR_USB given in define.h
-		if (!strCombo.Cmp(m_psms->getTypeStr(i))) {
+		if (!strCombo.compare(m_psms->getTypeStr(i))) { // strings match
 			sm->iMySensor = i;
 			break;
 		}
 	}
 
-	if (m_radioCSV->GetValue()) sm->bMyOutputSAC = false;
-	else if (m_radioSAC->GetValue()) sm->bMyOutputSAC = true;
+	if (m_radioCSV->isChecked()) sm->bMyOutputSAC = false;
+	else if (m_radioSAC->isChecked()) sm->bMyOutputSAC = true;
 	
-}
-
-bool CDialogSettings::Create(wxWindow* parent, wxWindowID id)
-{
-    if (sm->dMyLatitude == NO_LAT) 
-      m_strLatitude.Clear();
-    else
-      m_strLatitude.Printf("%.6g", sm->dMyLatitude);
-
-    if (sm->dMyLongitude == NO_LNG) 
-      m_strLongitude.Clear();
-    else
-      m_strLongitude.Printf("%.6g", sm->dMyLongitude);
-
-    m_strStation = (char *) sm->strMyStation;
-
-    m_strElevationMeter.Printf("%.6g", sm->dMyElevationMeter);
-    m_strElevationFloor.Printf("%d", sm->iMyElevationFloor);
-
-    wxDialog::Create(parent, id,  _("Local Settings for QCNLive"), wxDefaultPosition, wxDefaultSize);
-
-    CreateControls();
-
-    // unblock events
-    SetExtraStyle(GetExtraStyle() & ~wxWS_EX_BLOCK_EVENTS);
-
-    GetSizer()->Fit(this);
-    GetSizer()->SetSizeHints(this);
-    Centre();
-
-    return true;
 }
 
 void CDialogSettings::CreateControls()
 {
+	
+	///////////////
+	
+    QGroupBox *packagesGroup = new QGroupBox(tr("qcn settings"));
+	QGroupBox *buttonGroup = new QGroupBox();
+	
+    QLabel *nameLabel = new QLabel(tr("Name:"));
+    QLineEdit *nameEdit = new QLineEdit;
+	
+    QLabel *dateLabel = new QLabel(tr("Released after:"));
+    QDateTimeEdit *dateEdit = new QDateTimeEdit(QDate::currentDate());
+	
+    QCheckBox *releasesCheckBox = new QCheckBox(tr("Releases"));
+    QCheckBox *upgradesCheckBox = new QCheckBox(tr("Upgrades"));
+	
+    QSpinBox *hitsSpinBox = new QSpinBox;
+    hitsSpinBox->setPrefix(tr("Return up to "));
+    hitsSpinBox->setSuffix(tr(" results"));
+    hitsSpinBox->setSpecialValueText(tr("Return only the first result"));
+    hitsSpinBox->setMinimum(1);
+    hitsSpinBox->setMaximum(100);
+    hitsSpinBox->setSingleStep(10);
+	
+	m_buttonSave = new QPushButton(tr("Save"));
+	m_buttonCancel = new QPushButton(tr("Cancel"));
+	
+    QGridLayout *packagesLayout = new QGridLayout(this);
+    packagesLayout->addWidget(nameLabel, 0, 0);
+    packagesLayout->addWidget(nameEdit, 0, 1);
+    packagesLayout->addWidget(dateLabel, 1, 0);
+    packagesLayout->addWidget(dateEdit, 1, 1);
+    packagesLayout->addWidget(releasesCheckBox, 2, 0);
+    packagesLayout->addWidget(upgradesCheckBox, 3, 0);
+    packagesLayout->addWidget(hitsSpinBox, 4, 0, 1, 2);
+    packagesGroup->setLayout(packagesLayout);
+
+	QHBoxLayout* m_layoutButton = new QHBoxLayout(this);
+    m_layoutButton->addWidget(m_buttonSave, 1, Qt::AlignLeft);
+    m_layoutButton->addWidget(m_buttonCancel, 1, Qt::AlignRight);
+	buttonGroup->setLayout(m_layoutButton);
+	
+    QVBoxLayout *mainLayout = new QVBoxLayout(this);
+    mainLayout->addWidget(packagesGroup);
+    mainLayout->addSpacing(12);
+    mainLayout->addWidget(buttonGroup);
+    mainLayout->addStretch(1);
+    setLayout(mainLayout);
+	
+	///////////	
+
+	/*
     // misc controls	
 	wxBoxSizer* itemBoxSizer2;
 	wxFlexGridSizer* itemFlexGridSizer3;
@@ -332,13 +358,15 @@ void CDialogSettings::CreateControls()
     itemButton12 = new wxButton;
     itemButton12->Create( this, wxID_CANCEL, _("&Cancel"), wxDefaultPosition, wxDefaultSize, 0 );
     itemBoxSizer10->Add(itemButton12, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+	 */
 
 }
+ 
 
 /*  CMC
 void CDialogSettings::OnLatitudeUpdated( wxCommandEvent& WXUNUSED(event) )
 {
-    float fTest = atof(m_textctrlLatitude->GetValue().c_str());
+    float fTest = atof(m_textctrlLatitude->GetValue().toAscii());
 	if (fTest < -90.0f || fTest > 90.0f) {
          wxMessageBox(
             _T("Error: Latitude must be between -90 (South Pole) and 90 (North Pole)"), 
@@ -349,7 +377,7 @@ void CDialogSettings::OnLatitudeUpdated( wxCommandEvent& WXUNUSED(event) )
 
 void CDialogSettings::OnLongitudeUpdated( wxCommandEvent& WXUNUSED(event) )
 {
-    float fTest = atof(m_textctrlLongitude->GetValue().c_str());
+    float fTest = atof(m_textctrlLongitude->GetValue().toAscii());
 	if (fTest < -180.0f || fTest > 180.0f) {
          wxMessageBox(
             _T("Error: Longitude must be between -180 (W) and 180 (E)\n(0 = Greenwich)"), 

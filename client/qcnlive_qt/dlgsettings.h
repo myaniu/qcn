@@ -4,24 +4,10 @@
 #include "qcnqt.h"
 #include "csensor.h"
 
-enum eSettingsCtrlID {
-     ID_TEXTCTRLLATITUDE = 1001,
-     ID_TEXTCTRLLONGITUDE,
-     ID_TEXTCTRLSTATION,
-     ID_TEXTCTRLELEVATIONMETER,
-     ID_TEXTCTRLELEVATIONFLOOR,
-	 ID_COMBOSENSOR,
-	 ID_RADIOCSV,
-	 ID_RADIOSAC
-};
-
 class CDialogSettings  : public QDialog
-{
-	
-	Q_OBJECT
-	
+{	
 private:
-    QString m_strLatitude;
+	QString m_strLatitude;
     QString m_strLongitude;
     QString m_strStation;
     QString m_strElevationMeter;
@@ -40,11 +26,14 @@ private:
 	
 	QRadioButton* m_radioSAC;
 	QRadioButton* m_radioCSV;
+	
+	QPushButton* m_buttonSave;
+	QPushButton* m_buttonCancel;
+	
+	QVBoxLayout* m_layoutMain;
+	QHBoxLayout* m_layoutButtons;
 
     void InitPointers();
-    //bool Create(wxWindow* parent, wxWindowID id);
-	
-    /// Creates the controls and sizers
     void CreateControls();
 	
 /*
@@ -66,7 +55,6 @@ private slots:
     //void OnClose( wxCloseEvent& evt );
 	
 public:
-    CDialogSettings();
     CDialogSettings(QWidget* parent = NULL, Qt::WindowFlags f = 0);
     ~CDialogSettings();
 

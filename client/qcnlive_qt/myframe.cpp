@@ -572,10 +572,7 @@ void MyFrame::fileDialogSettings()
 {
 	CDialogSettings* pcds = new CDialogSettings(this, Qt::Dialog);
 	if (pcds) {
-		pcds->setModal(true);  // make it an application level modal window
-		pcds->setWindowModality(Qt::ApplicationModal);
-		pcds->setWindowTitle(tr("Set QCNLive Preferences"));
-		pcds->show();
+		pcds->exec();
 		/*
 	    if (pcds->ShowModal() == wxID_OK)  {
 			int myOldSensor = sm->iMySensor;
