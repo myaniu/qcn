@@ -125,6 +125,8 @@ INCLUDEPATH += \
 HEADERS       += qcnqt.h \
                 glwidget.h \
                 myframe.h \
+                dlgsettings.h \
+                qcnlive_define.h \
                 $$MAINDIR/main.h \
                 $$MAINDIR/define.h \
 
@@ -133,6 +135,7 @@ HEADERS       += qcnqt.h \
 SOURCES       = glwidget.cpp \
                 qcnqt.cpp \
                 myframe.cpp \
+                dlgsettings.cpp \
                 $$SRC_MAIN \
                 $$SRC_UTIL \
                 $$SRC_SENSOR \
