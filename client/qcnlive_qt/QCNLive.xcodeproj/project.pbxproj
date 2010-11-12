@@ -1001,6 +1001,12 @@
 			path = "qcnlive_define.h";
 			refType = 4;
 		};
+		6A644DB1CB4F5CFCA71CB2D4 = {
+			isa = PBXFileReference;
+			name = "icons32.h";
+			path = "icons32.h";
+			refType = 4;
+		};
 		76844FA38CC4181BFDA966B7 = {
 			isa = PBXFileReference;
 			name = "main.h";
@@ -1027,6 +1033,7 @@
 				"9360C082BB1E9191E72216B5",
 				"5304A65977DCB8F0A4FFAD28",
 				"CC21C3241233AEF9D80610DA",
+				"6A644DB1CB4F5CFCA71CB2D4",
 				"4458B98565818D7E2682FA2D");
 			name = "Headers";
 			refType = 4;
