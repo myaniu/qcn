@@ -46,7 +46,7 @@ private:
 
 public:
 	MyFrame* m_pframe;  // reference to parent frame
-	bool m_mouseDown[3];  // bools for mouse down -- in order of left/middle/right
+	//bool m_mouseDown[3];  // bools for mouse down -- in order of left/middle/right
 	QTimer* m_timer;  // animation timer
 	
 };

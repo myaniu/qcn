@@ -55,6 +55,8 @@ void GLWidget::resizeGL(int width, int height)
 
 void GLWidget::mouseDoubleClickEvent(QMouseEvent *event)
 {
+	return; // don't handle double clicks now, seems to be too slow?
+	
 	int which = whichGLUTButton(event);
 	switch(qcn_graphics::g_eView) {
 		case VIEW_EARTH_DAY:
@@ -98,7 +100,7 @@ const int GLWidget::whichGLUTButton(const QMouseEvent* event) const
 void GLWidget::mouseReleaseEvent(QMouseEvent *event)
 {
 	int which = whichGLUTButton(event);
-	m_mouseDown[which] = false;  // the wxwidgets getbutton is one off from our left/mid/right array
+	//m_mouseDown[which] = false;  // the wxwidgets getbutton is one off from our left/mid/right array
 	qcn_graphics::MouseButton(event->x(), event->y(), which, 0);
 	QCursor cursorNormal(Qt::ArrowCursor);
 	setCursor(cursorNormal);
@@ -109,7 +111,7 @@ void GLWidget::mousePressEvent(QMouseEvent *event)
 	int which = whichGLUTButton(event);
     m_lastPos = event->pos();
 	
-	m_mouseDown[which] = true;  // the wxwidgets getbutton is one off from our left/mid/right array
+	//if (which >= GLUT_LEFT_BUTTON && which <= GLUT_RIGHT_BUTTON) m_mouseDown[which] = true;  // the wxwidgets getbutton is one off from our left/mid/right array
 	
 	switch(qcn_graphics::g_eView) {
 		case VIEW_EARTH_DAY:
@@ -138,7 +140,10 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
    //int dy = event->y() - m_lastPos.y();
    //m_lastPos = event->pos();
    qcn_graphics::MouseMove(event->x(), event->y(), 
-	  event->button() == Qt::LeftButton ? 1 : 0, event->button() == Qt::MidButton ? 1 : 0, event->button() == Qt::RightButton ? 1 : 0);
+	  event->button() == Qt::LeftButton  ? 1 : 0, 
+	  event->button() == Qt::MidButton   ? 1 : 0, 
+	  event->button() == Qt::RightButton ? 1 : 0
+	);
 }
 
 void GLWidget::animate()
