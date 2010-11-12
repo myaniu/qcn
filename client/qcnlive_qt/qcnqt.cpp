@@ -127,7 +127,11 @@ bool MyApp::MainInit()
            fprintf(stderr, "Can't redirect stdout for qcnwx!\n");
 	}
 	
+	processEvents(); // give the app time to process mouse events since we're before the event loop
+
     // start init QCN/BOINC stuff -- this gets the latest quake data and creates a boinc-style init_data.xml file
+	if (m_psplash) m_psplash->showMessage(tr("Retrieving latest earthquakes..."), Qt::AlignRight | Qt::AlignBottom, Qt::red);
+	
 	CreateBOINCInitFile();
 
     qcn_main::g_bDemo = false;
@@ -135,6 +139,8 @@ bool MyApp::MainInit()
     qcn_util::ResetCounter(WHERE_MAIN_STARTUP);  // this is the one and only place ResetCounter is called outside of the sensor thread, so it's safe
     qcn_main::parseArgs(0, NULL); // parse args has to be done early in startup, right after the first ResetCounter usually
 
+	processEvents(); // give the app time to process mouse events since we're before the event loop
+	if (m_psplash) m_psplash->showMessage(tr("Getting initial settings..."), Qt::AlignRight | Qt::AlignBottom, Qt::red);
     get_qcnlive_prefs();  // this sets the m_rect among other things
 
     return StartMainThread();  
@@ -333,7 +339,7 @@ bool MyApp::Init()
 	}
 	if (m_psplash) {
 		m_psplash->show();
-		m_psplash->showMessage(tr("Starting up..."), Qt::AlignLeft, Qt::red);
+		m_psplash->showMessage(tr("Starting up..."), Qt::AlignRight | Qt::AlignBottom, Qt::red);
 	}
 		
     // note that since we're all in one process (yet with multiple threads, we can just build our shmem struct on the heap with new
@@ -342,6 +348,8 @@ bool MyApp::Init()
 	// init the graphics stuff, i.e. memory pointer
     // clear memory and setup important vars below
 
+	processEvents(); // give the app time to process mouse events since we're before the event loop
+	
     sm = new CQCNShMem();
     if (!sm) {
         fprintf(stderr, "failed to create shared mem segment %s, exiting\n", QCNGUI_SHMEM);
@@ -367,6 +375,7 @@ bool MyApp::Init()
     if (!MainInit()) return false;  // this does a lot of init stuff such as get the latest quake list via curl etc
 	
     // if here then the main thread was launched & init
+	processEvents(); // give the app time to process mouse events since we're before the event loop
 
     // setup the toolbar controls for the 2D Plot, i.e. a horiz scrollbar, buttons for scaling etc
     // CMC frame->SetupToolbars();
@@ -376,9 +385,12 @@ bool MyApp::Init()
     connect(m_timer, SIGNAL(timeout()), this, SLOT(GetLatestQuakeList()));
     m_timer->start(1800000L);  // in milliseconds, so a half hour is a lot!
 	
+	processEvents(); // give the app time to process mouse events since we're before the event loop
+	if (m_psplash) m_psplash->showMessage(tr("Preparing graphics engine..."), Qt::AlignRight | Qt::AlignBottom, Qt::red);
 	m_frame = new MyFrame(this);  // construct the window frame
 	if (m_frame) {
 		m_frame->Init();
+		processEvents(); // give the app time to process mouse events since we're before the event loop
 		m_frame->show();  // show the main window frame
 		if (m_psplash) m_psplash->finish(m_frame);  // this will sto the m_psplash after the main window is shown
 		KillSplashScreen();
