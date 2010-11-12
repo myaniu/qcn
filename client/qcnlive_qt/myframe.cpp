@@ -13,7 +13,7 @@
 //#include "icons.h"   // 64x64
 #include "icons32.h"   // 32x32
 
-// CMC #include "dlgsettings.h"
+#include "dlgsettings.h"
 #include "qcn_earth.h"
 #include "qcn_2dplot.h"
 
@@ -156,29 +156,6 @@ bool MyFrame::Init()
 	return true;
 }
 
-/*
- void MyFrame::renderIntoPixmap()
- {
- QSize size = getSize();
- if (size.isValid()) {
- QPixmap pixmap = glWidget->renderPixmap(size.width(), size.height());
- setPixmap(pixmap);
- }
- }
- 
- void MyFrame::grabFrameBuffer()
- {
- QImage image = glWidget->grabFrameBuffer();
- setPixmap(QPixmap::fromImage(image));
- }
- 
- void MyFrame::clearPixmap()
- {
- setPixmap(QPixmap());
- }
-*/
-
-
 void MyFrame::createActions()
 {
 	// setup the actions of the various menu bar and toggle buttons
@@ -189,15 +166,15 @@ void MyFrame::createActions()
     m_actionFileExit->setShortcuts(QKeySequence::Quit);
     connect(m_actionFileExit, SIGNAL(triggered()), this, SLOT(close()));	
 	
-	m_actionFileDlgSettings = new QAction(tr("&Local Settings"), this);
-	m_actionFileDlgSettings->setShortcut(tr("Ctrl+F"));
-	m_actionFileDlgSettings->setToolTip(tr("Enter local settings such as station name, latutide, longitude, elevation"));
-	//connect(m_actionFileDlgSettings, SIGNAL(triggered()), this, SLOT(fileDlgSettings()));
+	m_actionFileDialogSettings = new QAction(tr("&Local Settings"), this);
+	m_actionFileDialogSettings->setShortcut(tr("Ctrl+F"));
+	m_actionFileDialogSettings->setToolTip(tr("Enter local settings such as station name, latutide, longitude, elevation"));
+	connect(m_actionFileDialogSettings, SIGNAL(triggered()), this, SLOT(fileDialogSettings()));
 
 	m_actionFileMakeQuake = new QAction(tr("&Make Earthquake"), this);
 	m_actionFileMakeQuake->setToolTip(tr("Make and Print Your Own Earthquake"));
 	m_actionFileMakeQuake->setShortcut(tr("Ctrl+M")); 
-	//connect(m_actionFileMakeQuake, SIGNAL(triggered()), this, SLOT(makeEarthquake()));
+	connect(m_actionFileMakeQuake, SIGNAL(triggered()), this, SLOT(fileMakeEarthquake()));
 	
 	// View actions
 	m_actionViewEarth = new QAction(tr("&Earthquakes"), this);
@@ -397,7 +374,7 @@ void MyFrame::createMenus()
 	
 	// File
     m_menuFile = menuBar()->addMenu(tr("&File"));
-    m_menuFile->addAction(m_actionFileDlgSettings);
+    m_menuFile->addAction(m_actionFileDialogSettings);
     m_menuFile->addAction(m_actionFileMakeQuake);
     m_menuFile->addAction(m_actionFileExit);
 	
@@ -587,13 +564,21 @@ void MyFrame::actionOptionLogo()
 #endif
 }
 
-/*
-void MyFrame::OnFileSettings(wxCommandEvent& WXUNUSED(evt))
+void MyFrame::fileMakeEarthquake()
 {
-	CDialogSettings* pcds = new CDialogSettings(this, wxID_FILE_SETTINGS);
+}
+
+void MyFrame::fileDialogSettings()
+{
+	CDialogSettings* pcds = new CDialogSettings(this, Qt::Dialog);
 	if (pcds) {
-		int myOldSensor = sm->iMySensor;
+		pcds->setModal(true);  // make it an application level modal window
+		pcds->setWindowModality(Qt::ApplicationModal);
+		pcds->setWindowTitle(tr("Set QCNLive Preferences"));
+		pcds->show();
+		/*
 	    if (pcds->ShowModal() == wxID_OK)  {
+			int myOldSensor = sm->iMySensor;
 			// accept values
 			//statusBar->SetStatusText(wxString("Saving your settings and updating earthquake list", wxConvUTF8));
 			pcds->SaveValues();  // save to the global variables
@@ -609,10 +594,10 @@ void MyFrame::OnFileSettings(wxCommandEvent& WXUNUSED(evt))
 			}
 		}
 	    pcds->Destroy();
+		*/
 	    delete pcds;
 	}
 }
-*/
 
 void MyFrame::actionOptionEarth()
 {

@@ -11,15 +11,7 @@
 #endif
 #endif
 
-
-IMPLEMENT_DYNAMIC_CLASS(CDialogSettings, wxDialog)
-
-BEGIN_EVENT_TABLE(CDialogSettings, wxDialog)
-   EVT_TEXT(ID_TEXTCTRLLATITUDE, CDialogSettings::OnLatitudeUpdated)
-   EVT_TEXT(ID_TEXTCTRLLONGITUDE, CDialogSettings::OnLongitudeUpdated)
-   EVT_TEXT(ID_TEXTCTRLSTATION, CDialogSettings::OnStationUpdated)
-END_EVENT_TABLE()
-
+/*
 CDialogSettings::wxTextValidatorLatLng::wxTextValidatorLatLng(wxString* ptrStr, int iControl)
 : wxTextValidator(wxFILTER_INCLUDE_CHAR_LIST, ptrStr)
 {
@@ -40,7 +32,6 @@ CDialogSettings::wxTextValidatorLatLng::wxTextValidatorLatLng(wxString* ptrStr, 
     SetIncludes(as);
 }
 
-/*
 bool CDialogSettings::wxTextValidatorLatLng::TransferToWindow()
 {
 }
@@ -58,7 +49,7 @@ bool CDialogSettings::wxTextValidatorLatLng::Validate(wxWindow* parent)
 }
 */
 
-CDialogSettings::CDialogSettings()
+CDialogSettings(QWidget* parent, Qt::WindowFlags f)  : QDialog(parent, f)
 {
     InitPointers();
 }
@@ -112,7 +103,11 @@ void CDialogSettings::InitPointers()
     m_textctrlElevationMeter = NULL; 
     m_textctrlElevationFloor = NULL; 
 	
+	m_psms = NULL;
 	m_comboSensor = NULL;
+	
+	m_radioSAC = NULL;
+	m_radioCSV = NULL;
 
     m_strLatitude.clear();
     m_strLongitude.clear();
@@ -340,14 +335,7 @@ void CDialogSettings::CreateControls()
 
 }
 
-/*
-void CDialogSettings::OnClose( wxCloseEvent& WXUNUSED(evt) )
-{
-    EndModal(wxID_OK);
-}
-
-*/
-
+/*  CMC
 void CDialogSettings::OnLatitudeUpdated( wxCommandEvent& WXUNUSED(event) )
 {
     float fTest = atof(m_textctrlLatitude->GetValue().c_str());
@@ -385,3 +373,4 @@ void CDialogSettings::OnStationUpdated( wxCommandEvent& WXUNUSED(event) )
 		 return;
 	}
 }
+*/

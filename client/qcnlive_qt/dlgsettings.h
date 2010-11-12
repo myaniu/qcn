@@ -1,7 +1,7 @@
 #ifndef _DLG_SETTINGS_H_
 #define _DLG_SETTINGS_H_
 
-#include "qcnwx.h"
+#include "qcnqt.h"
 #include "csensor.h"
 
 enum eSettingsCtrlID {
@@ -15,63 +15,62 @@ enum eSettingsCtrlID {
 	 ID_RADIOSAC
 };
 
-class CDialogSettings  : public wxDialog
+class CDialogSettings  : public QDialog
 {
-    DECLARE_DYNAMIC_CLASS(CDialogSettings)
-    DECLARE_EVENT_TABLE()
+	
+	Q_OBJECT
+	
+private:
+    QString m_strLatitude;
+    QString m_strLongitude;
+    QString m_strStation;
+    QString m_strElevationMeter;
+    QString m_strElevationFloor;
+    QString m_strSensor;
 
-    wxString m_strLatitude;
-    wxString m_strLongitude;
-    wxString m_strStation;
-    wxString m_strElevationMeter;
-    wxString m_strElevationFloor;
-    wxString m_strSensor;
-
-    wxTextCtrl* m_textctrlLatitude; 
-    wxTextCtrl* m_textctrlLongitude; 
-    wxTextCtrl* m_textctrlStation; 
-    wxTextCtrl* m_textctrlElevationMeter; 
-    wxTextCtrl* m_textctrlElevationFloor; 
+    QTextEdit* m_textctrlLatitude; 
+    QTextEdit* m_textctrlLongitude; 
+    QTextEdit* m_textctrlStation; 
+    QTextEdit* m_textctrlElevationMeter; 
+    QTextEdit* m_textctrlElevationFloor; 
 	
 	CSensor* m_psms;  // just a dummy sensor obj to get string names
 	
-	wxComboBox* m_comboSensor;
+	QComboBox* m_comboSensor;
 	
-	wxRadioButton* m_radioSAC;
-	wxRadioButton* m_radioCSV;
+	QRadioButton* m_radioSAC;
+	QRadioButton* m_radioCSV;
 
+    void InitPointers();
+    //bool Create(wxWindow* parent, wxWindowID id);
+	
+    /// Creates the controls and sizers
+    void CreateControls();
+	
+/*
     class wxTextValidatorLatLng : public wxTextValidator
     {
     private:
-        wxString* m_ptrString;
+		QString* m_ptrString;
         int m_iControl;
-        wxArrayString as;
+        QStringList as;
     public:
         wxTextValidatorLatLng(wxString* ptrStr, int iControl);
-        /*
-        virtual bool TransferToWindow();
-        virtual bool TransferFromWindow();
-        bool Validate(wxWindow* parent);
-        */
     }; // *pvalidatorLatitude, *pvalidatorLongitude;
+*/
 
+private slots:
+    //void OnLatitudeUpdated( wxCommandEvent& event );
+    //void OnLongitudeUpdated( wxCommandEvent& event );
+    //void OnStationUpdated( wxCommandEvent& event );
+    //void OnClose( wxCloseEvent& evt );
+	
 public:
     CDialogSettings();
-    CDialogSettings(wxWindow* parent, wxWindowID id);
+    CDialogSettings(QWidget* parent = NULL, Qt::WindowFlags f = 0);
     ~CDialogSettings();
 
-    void InitPointers();
-    bool Create(wxWindow* parent, wxWindowID id);
-
-    /// Creates the controls and sizers
-    void CreateControls();
 	void SaveValues();
-
-    void OnLatitudeUpdated( wxCommandEvent& event );
-    void OnLongitudeUpdated( wxCommandEvent& event );
-    void OnStationUpdated( wxCommandEvent& event );
-    //void OnClose( wxCloseEvent& evt );
-
 };
 
 #endif // _DLG_SETTINGS_H_

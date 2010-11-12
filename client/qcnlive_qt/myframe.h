@@ -65,7 +65,7 @@ private:
 	
 	// actions for menu & toggle buttons
     QAction* m_actionFileExit;
-	QAction* m_actionFileDlgSettings;	
+	QAction* m_actionFileDialogSettings;	
 	QAction* m_actionFileMakeQuake;
 	
 	QAction* m_actionViewEarth;
@@ -135,6 +135,9 @@ public:
 	void ToggleStartStop(bool bStart);
 	
 private slots:
+	void fileDialogSettings();
+	void fileMakeEarthquake();
+
 	void actionView();
 	
 	void actionOptionEarth();
