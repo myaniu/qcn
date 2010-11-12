@@ -16,6 +16,11 @@
 
 
 $project_news = array(
+   array("November 4, 2010 23:23",
+"Due to construction in a new server room at Stanford, we expect intermittent outages between November 22nd and 24th.  No action is required on your part as BOINC will just reconnect when the servers are back online.<BR><BR>",
+ "Server Outages November 22nd - 24th, 2010",
+ ""
+  ),
    array("October 30, 2010 05:34",
 "New software is on the server which should fix some bugs, false/too many triggers, and enhanced processing of the seismic data files which reduces their size.  You should automatically get this new version via BOINC within a day.  Also a new feature is in place whereby we can get followup information after a quake (basically a trickle to our server with more information 4-5 seconds after the original trigger).  Please report any problems to the 'Message Boards' (and hopefully this won't be the scariest thing you'll see this Halloween)!<BR><BR>",
  "Upgraded QCN Software (version 5.83)",

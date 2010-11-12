@@ -73,8 +73,9 @@ $q = new SqlQueryString();
 
 $nresults = get_int("nresults", true);
 $last_pos = get_int("last_pos", true);
-
-$bUseArchive = get_int("cbUseArchive", true);
+//CMC HERE
+$bUseArchive = 0;
+//$bUseArchive = get_int("cbUseArchive", true);
 $bUseFile  = get_int("cbUseFile", true);
 //$bUseQuake = get_int("cbUseQuake", true);
 $bUseLat   = get_int("cbUseLat", true);
@@ -211,6 +212,8 @@ Include the Archive Database (Triggers Older Than Two Months - May Take Awhile!)
 <BR>
 ";
 
+// CMC HERE
+echo "<BR><font color=red><B>Please note that triggers older than two months are temporarily not available.</b></font><BR><BR>";
 
 echo "<ul><table><tr><td>
 Start Time (UTC):";

@@ -63,7 +63,10 @@ if ($strUseContinual != "Both" && $strUseContinual != "Continual" && $strUseCont
    $strUseContinual = "Continual";   //default to show continual triggers
 }
 
-$bUseArchive = get_int("cbUseArchive", true);
+//CMC HERE
+// $bUseArchive = get_int("cbUseArchive", true);
+$bUseArchive = 0;
+
 $bUseFile  = get_int("cbUseFile", true);
 //$bUseQuake = get_int("cbUseQuake", true);
 $bUseLat   = get_int("cbUseLat", true);
@@ -194,6 +197,8 @@ echo "</select>
 <BR>
 ";
 
+// CMC HERE
+echo "<BR><font color=red><B>Please note that triggers older than two months are temporarily not available.</b></font><BR><BR>";
 
 echo "<ul><table><tr><td>
 Start Time (UTC):";
