@@ -118,7 +118,7 @@ void CDialogSettings::InitPointers()
 #endif
 }
 
-void CDialogSettings::SaveValues()
+bool CDialogSettings::SaveValues()
 {
     double dTest = atof((const char*) m_strLatitude.toAscii());
     if (dTest >= -90.0f && dTest <= 90.0f)
@@ -259,7 +259,15 @@ void CDialogSettings::CreateControls()
  
 void CDialogSettings::onSave()
 {
-	SaveValues();
+	QString strError;
+	if (SaveValues(strError)) {
+		close();
+	}
+	else {
+		if (strError.length() > 0) {
+		}		
+	}
+
 }
 			
 /*  CMC
