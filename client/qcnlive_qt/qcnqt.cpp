@@ -307,7 +307,7 @@ void MyApp::KillSplashScreen()
 {  // used in a wx.CallAfter from the initial myglpane Render() call so that we can get rid of the splash screen just as soon 
    // as the final init (the graphics files loaded etc) is completed!
    if (m_psplash) {
-	   //m_psplash->Close();
+	   m_psplash->close();
 	   delete m_psplash;
 	   m_psplash = NULL;
    }
@@ -327,16 +327,14 @@ bool MyApp::Init()
     SetPath();  // go to the init/ directory
 	
 	// splash screen
-	/* CMC
-	if (boinc_file_exists(FILENAME_SPLASH) 
-		&& bitmap.LoadFile(wxString(FILENAME_SPLASH, wxConvUTF8), wxBITMAP_TYPE_PNG))
-	{
-		m_psplash = new wxSplashScreen(bitmap,
-									   wxSPLASH_CENTRE_ON_SCREEN|wxSPLASH_TIMEOUT,
-									   60000, frame, wxID_ANY, wxDefaultPosition, wxDefaultSize,
-									   wxSIMPLE_BORDER|wxSTAY_ON_TOP);
+	if (boinc_file_exists(FILENAME_SPLASH)) {
+		m_psplash = new QSplashScreen(QPixmap(FILENAME_SPLASH));
+
 	}
-	 */
+	if (m_psplash) {
+		m_psplash->show();
+		m_psplash->showMessage(tr("Starting up..."), Qt::AlignLeft, Qt::red);
+	}
 		
     // note that since we're all in one process (yet with multiple threads, we can just build our shmem struct on the heap with new
 	// it will get deleted in MyApp::Exit, so we don't need the boinc call below (which I think never destroys the shared mem segment!)
@@ -381,8 +379,9 @@ bool MyApp::Init()
 	m_frame = new MyFrame(this);  // construct the window frame
 	if (m_frame) {
 		m_frame->Init();
-		KillSplashScreen();
 		m_frame->show();  // show the main window frame
+		if (m_psplash) m_psplash->finish(m_frame);  // this will sto the m_psplash after the main window is shown
+		KillSplashScreen();
 		m_bInit = true;
 	}
 	KillSplashScreen(); // just in case the myframe construction failed
@@ -405,8 +404,6 @@ void MyApp::GetLatestQuakeList()
 
 int MyApp::Exit()
 {
-    // just in case we're exiting early and the splash screen still up!	
-	KillSplashScreen();
 	if (m_timer) {
 		m_timer->stop();
 		delete m_timer;
@@ -426,6 +423,9 @@ int MyApp::Exit()
 	}
 	
 	fflush(stdout);
+
+    // just in case we're exiting early and the splash screen still up!	
+	KillSplashScreen();
 
     return 0;
 }

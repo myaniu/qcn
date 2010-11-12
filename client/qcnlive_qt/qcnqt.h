@@ -39,14 +39,14 @@ class MyApp: public QApplication
 	QTimer* m_timer;  // slow timer for getting quakes every half hour
 	MyFrame* m_frame;
     QRect m_rect;            // apps screen coordinates
+    QSplashScreen* m_psplash;  // the apps splash screen
+	bool m_bInit;  // flag to see if we are initialized
 
   public:
     MyApp(int& argc, char** argv);
 	
 	bool Init();
     int Exit();
-
-	bool m_bInit;
 
     //void SetRect(const wxSize& newsize, const wxPoint& newposition);
     void SetRect(const QRect& rect);
@@ -69,7 +69,6 @@ class MyApp: public QApplication
 	void setRect(const QRect& rect) {  m_rect = rect; }
 	const QRect& getRect() { return m_rect; }
 	
-    QSplashScreen* m_psplash;  // the apps splash screen
 };
 
 #endif // ifndef _QCNLIVE_H_
