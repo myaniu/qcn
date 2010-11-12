@@ -11,22 +11,22 @@ BINDIR = $$BASEDIRQCN/client/bin
 BAPIDIR = $$BASEDIRBOINC/api
 BLIBDIR = $$BASEDIRBOINC/lib
 
-mac:CPP = gcc-4.0
-mac:CXX = g++-4.0
 CFLAGS = -Wno-deprecated
 QMAKE_CFLAGS_DEBUG = $$CFLAGS -D_DEBUG -g -O0
 QMAKE_CFLAGS_RELEASE = $$CFLAGS -O2
 QMAKE_CXXFLAGS_DEBUG = $$QMAKE_CFLAGS_DEBUG
 QMAKE_CXXFLAGS_RELEASE = $$QMAKE_CFLAGS_RELEASE
+
+# Mac specific settings
+mac:CPP = gcc-4.0
+mac:CXX = g++-4.0
+
 mac:LIBS += -framework IOKit -framework Carbon \
    -L$$BASEDIRQCN/client/mac_build \
      -lboinc_zip -ljpeg-universal -lcurl-universal -lz-universal
 
 mac:ICON = $$BASEDIRQCN/doc/qcnmac.icns
 mac:QMAKE_INFO_PLIST = Info.plist.mac
-
-#   LIBS += -bind_at_load -framework IOKit -framework Foundation \
-#          -framework ScreenSaver -framework Carbon -framework Cocoa
 
 mac:SRC_SENSOR = $$SENSORDIR/csensor_mac_laptop.cpp \
            $$SENSORDIR/csensor_usb_motionnodeaccel.cpp \
@@ -127,9 +127,9 @@ HEADERS       += qcnqt.h \
                 myframe.h \
                 dlgsettings.h \
                 qcnlive_define.h \
+                icons32.h \
                 $$MAINDIR/main.h \
-                $$MAINDIR/define.h \
-
+                $$MAINDIR/define.h 
 
 
 SOURCES       = glwidget.cpp \
