@@ -28,11 +28,25 @@ mac:QMAKE_INFO_PLIST = Info.plist.mac
 #   LIBS += -bind_at_load -framework IOKit -framework Foundation \
 #          -framework ScreenSaver -framework Carbon -framework Cocoa
 
-SRC_SENSOR = $$SENSORDIR/csensor_mac_laptop.cpp \
+mac:SRC_SENSOR = $$SENSORDIR/csensor_mac_laptop.cpp \
            $$SENSORDIR/csensor_usb_motionnodeaccel.cpp \
            $$SENSORDIR/csensor_mac_usb_onavi01.cpp \
            $$SENSORDIR/csensor_mac_usb_jw.cpp \
            $$SENSORDIR/csensor_mac_usb_jw24f14.cpp \
+           $$SENSORDIR/csensor.cpp
+
+win:SRC_SENSOR = $$SENSORDIR/csensor_win_laptop_hp.cpp \
+           $$SENSORDIR/csensor_win_laptop_thinkpad.cpp \
+           $$SENSORDIR/csensor_win_usb_jw.cpp \
+           $$SENSORDIR/csensor_win_usb_jw24f14.cpp \
+           $$SENSORDIR/csensor_usb_motionnodeaccel.cpp \
+           $$SENSORDIR/csensor_win_usb_onavi01.cpp \
+           $$SENSORDIR/csensor.cpp
+
+linux:SRC_SENSOR = \
+           $$SENSORDIR/csensor_linux_usb_jw.cpp \
+           $$SENSORDIR/csensor_linux_usb_jw24f14.cpp \
+           $$SENSORDIR/csensor_usb_motionnodeaccel.cpp \
            $$SENSORDIR/csensor.cpp
 
 SRC_MAIN =  $$MAINDIR/qcn_shmem.cpp \
