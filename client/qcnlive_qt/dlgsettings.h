@@ -7,6 +7,11 @@
 class CDialogSettings  : public QDialog
 {	
 private:
+	Q_OBJECT
+    void InitPointers();
+    void CreateControls();
+
+	//data
 	QString m_strLatitude;
     QString m_strLongitude;
     QString m_strStation;
@@ -14,12 +19,13 @@ private:
     QString m_strElevationFloor;
     QString m_strSensor;
 
-    QTextEdit* m_textctrlLatitude; 
-    QTextEdit* m_textctrlLongitude; 
-    QTextEdit* m_textctrlStation; 
-    QTextEdit* m_textctrlElevationMeter; 
-    QTextEdit* m_textctrlElevationFloor; 
-	
+    QLineEdit* m_textctrlStation; 
+
+    QLineEdit* m_textctrlLatitude; 
+    QLineEdit* m_textctrlLongitude; 
+    QLineEdit* m_textctrlElevationMeter; 
+    QSpinBox* m_spinctrlElevationFloor; 
+			
 	CSensor* m_psms;  // just a dummy sensor obj to get string names
 	
 	QComboBox* m_comboSensor;
@@ -31,28 +37,24 @@ private:
 	QPushButton* m_buttonCancel;
 	
 	QVBoxLayout* m_layoutMain;
-	QHBoxLayout* m_layoutButtons;
-
-    void InitPointers();
-    void CreateControls();
+	QHBoxLayout* m_layoutButton;
 	
-/*
-    class wxTextValidatorLatLng : public wxTextValidator
-    {
-    private:
-		QString* m_ptrString;
-        int m_iControl;
-        QStringList as;
-    public:
-        wxTextValidatorLatLng(wxString* ptrStr, int iControl);
-    }; // *pvalidatorLatitude, *pvalidatorLongitude;
-*/
+	QGroupBox* m_groupMain;
+	QGroupBox* m_groupButton;
+	
+	// informative labels for the various controls
+	QLabel* m_labelLatitude;
+	QLabel* m_labelLongitude;
+	QLabel* m_labelStation;
+	QLabel* m_labelElevationMeter;
+	QLabel* m_labelElevationFloor;
+	QLabel* m_labelSensor;	
+	
+	QGridLayout* m_gridlayout;
 
+	
 private slots:
-    //void OnLatitudeUpdated( wxCommandEvent& event );
-    //void OnLongitudeUpdated( wxCommandEvent& event );
-    //void OnStationUpdated( wxCommandEvent& event );
-    //void OnClose( wxCloseEvent& evt );
+	void onSave();		
 	
 public:
     CDialogSettings(QWidget* parent = NULL, Qt::WindowFlags f = 0);

@@ -34,8 +34,10 @@ class MyFrame;
 
 // definition for the main app
 class MyApp: public QApplication
-{
+{	
   private:
+	Q_OBJECT
+
 	QTimer* m_timer;  // slow timer for getting quakes every half hour
 	MyFrame* m_frame;
     QRect m_rect;            // apps screen coordinates

@@ -13,14 +13,6 @@
 #include <QLabel>
 #include <QDockWidget>
 
-QT_BEGIN_NAMESPACE
-class QAction;
-class QLabel;
-class QMenu;
-class QScrollArea;
-class QSlider;
-QT_END_NAMESPACE
-
 class GLWidget;
 class MyApp;
 
@@ -28,6 +20,7 @@ class MyApp;
 // simple about box class so I can trap clicks on the QCN URL
 class MyAboutBox : public QMessageBox
 {
+private:
 	Q_OBJECT 
 	
 public:
@@ -41,10 +34,9 @@ protected:
 
 class MyFrame : public QMainWindow
 {
-
-    Q_OBJECT
-	
 private:
+    Q_OBJECT
+
     QWidget* m_centralWidget;
     QScrollArea* m_glWidgetArea;
     //QScrollArea* pixmapLabelArea;
