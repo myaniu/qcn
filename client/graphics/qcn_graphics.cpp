@@ -1819,9 +1819,11 @@ void Resize(int w, int h)
 
 void MouseMove(int x, int y, int left, int middle, int right)
 {
+/*
 #ifdef _DEBUG 
   sprintf(sm->strDisplay, "x=%d  y=%d  left=%d  mid=%d  right=%d", x, y, left, middle, right);
 #endif
+*/
 	// swap colors on 2d view
 	if (g_eView == VIEW_PLOT_2D && left && right) {
 		qcn_2dplot::SetWhite(qcn_2dplot::IsWhite());

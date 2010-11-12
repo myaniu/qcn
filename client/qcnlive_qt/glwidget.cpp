@@ -16,6 +16,10 @@ GLWidget::GLWidget(QWidget *parent)
     connect(m_timer, SIGNAL(timeout()), this, SLOT(animate()));
     m_timer->start(40);  // 40 milliseconds = 25 frames per second, a decent animation rate
 	
+	m_mouseDown[GLUT_LEFT_BUTTON] = false;
+	m_mouseDown[GLUT_MIDDLE_BUTTON] = false;
+	m_mouseDown[GLUT_RIGHT_BUTTON] = false;
+	
 	// init the OpenGL graphics vars from the qcn_graphics namespace
 	qcn_graphics::graphics_main(0, NULL);
 }
@@ -53,11 +57,11 @@ void GLWidget::resizeGL(int width, int height)
 	
 }
 
+/*
+
 void GLWidget::mouseDoubleClickEvent(QMouseEvent *event)
 {
-	return; // don't handle double clicks now, seems to be too slow?
-	
-	int which = whichGLUTButton(event);
+	int which = whichGLUTButton(event, true);
 	switch(qcn_graphics::g_eView) {
 		case VIEW_EARTH_DAY:
 		case VIEW_EARTH_NIGHT:
@@ -77,8 +81,9 @@ void GLWidget::mouseDoubleClickEvent(QMouseEvent *event)
 	
 	QCursor cursorNormal(Qt::ArrowCursor);
 }
+*/
 
-const int GLWidget::whichGLUTButton(const QMouseEvent* event) const
+const int GLWidget::whichGLUTButton(const QMouseEvent* event, const bool bDown)
 {
 	int which = GLUT_NO_BUTTON;
 	switch(event->button()) {
@@ -94,13 +99,15 @@ const int GLWidget::whichGLUTButton(const QMouseEvent* event) const
 		default:
 			which = GLUT_NO_BUTTON;
 	}
+	if (which != GLUT_NO_BUTTON) {
+		m_mouseDown[which] = bDown;  
+	}
 	return which;
 }
 
 void GLWidget::mouseReleaseEvent(QMouseEvent *event)
 {
-	int which = whichGLUTButton(event);
-	//m_mouseDown[which] = false;  // the wxwidgets getbutton is one off from our left/mid/right array
+	int which = whichGLUTButton(event, false);
 	qcn_graphics::MouseButton(event->x(), event->y(), which, 0);
 	QCursor cursorNormal(Qt::ArrowCursor);
 	setCursor(cursorNormal);
@@ -108,7 +115,7 @@ void GLWidget::mouseReleaseEvent(QMouseEvent *event)
 
 void GLWidget::mousePressEvent(QMouseEvent *event)
 {
-	int which = whichGLUTButton(event);
+	int which = whichGLUTButton(event, true);
     m_lastPos = event->pos();
 	
 	//if (which >= GLUT_LEFT_BUTTON && which <= GLUT_RIGHT_BUTTON) m_mouseDown[which] = true;  // the wxwidgets getbutton is one off from our left/mid/right array
@@ -140,9 +147,9 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
    //int dy = event->y() - m_lastPos.y();
    //m_lastPos = event->pos();
    qcn_graphics::MouseMove(event->x(), event->y(), 
-	  event->button() == Qt::LeftButton  ? 1 : 0, 
-	  event->button() == Qt::MidButton   ? 1 : 0, 
-	  event->button() == Qt::RightButton ? 1 : 0
+	  m_mouseDown[GLUT_LEFT_BUTTON]  ? 1 : 0, 
+	  m_mouseDown[GLUT_MIDDLE_BUTTON]  ? 1 : 0, 
+	  m_mouseDown[GLUT_RIGHT_BUTTON]  ? 1 : 0
 	);
 }
 
