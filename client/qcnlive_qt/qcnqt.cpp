@@ -131,6 +131,7 @@ bool MyApp::MainInit()
 	CreateBOINCInitFile();
 
     qcn_main::g_bDemo = false;
+	qcn_graphics::g_bFader = false; // no fader required, just in screensaver mode
     qcn_util::ResetCounter(WHERE_MAIN_STARTUP);  // this is the one and only place ResetCounter is called outside of the sensor thread, so it's safe
     qcn_main::parseArgs(0, NULL); // parse args has to be done early in startup, right after the first ResetCounter usually
 

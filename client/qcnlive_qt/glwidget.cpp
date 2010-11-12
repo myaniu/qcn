@@ -143,5 +143,9 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
 
 void GLWidget::animate()
 {
-    updateGL();
+	if (sm && m_pframe && sm->strDisplay[0]) { // little trick to display a status message to the GUI from elsewhere in the qcn system i.e. after writing a sac file
+		m_pframe->statusBar()->showMessage(sm->strDisplay, 5000);
+		memset(sm->strDisplay, 0x00, sizeof(sm->strDisplay));
+	}
+	updateGL();
 }

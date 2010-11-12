@@ -24,6 +24,21 @@ QT_END_NAMESPACE
 class GLWidget;
 class MyApp;
 
+/*
+// simple about box class so I can trap clicks on the QCN URL
+class MyAboutBox : public QMessageBox
+{
+	Q_OBJECT 
+	
+public:
+	MyAboutBox(QMainWindow *pmw);
+	
+protected:
+	void mousePressEvent(QMouseEvent *event);
+	
+};
+*/
+
 class MyFrame : public QMainWindow
 {
 
@@ -151,7 +166,7 @@ private slots:
     void ToolBarCube();
     void AddScreenshotItem();
     void SetToggleEarth();
-    void SetToggleSensor();
+    void SetToggleSensor(const bool b3D);
 	void SensorNavButtons();
     void RemoveCurrentTools();
 

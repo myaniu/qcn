@@ -194,7 +194,8 @@ namespace qcn_graphics {
 bool g_bThreadGraphics = false;
 bool g_bInitGraphics   = false;
 bool g_bViewHasStart   = false;
-
+bool g_bFader          = true;  // fader is on by default
+	
 const float cfTextAlpha = 1.0f;
 
 double g_alphaLogo = 1.0f;
@@ -1671,8 +1672,14 @@ void Render(int xs, int ys, double time_of_day)
 	
 	if (time_of_day < 1.0f && sm && sm->current_time > 1.0f) time_of_day = sm->current_time;  // default to update time from main loop if no valid time passed in
 
-	g_faderLogo.value(time_of_day, g_alphaLogo);  // set alpha value for text
-	g_alphaText = g_alphaLogo;
+	if (g_bFader) {
+		g_faderLogo.value(time_of_day, g_alphaLogo);  // set alpha value for text
+		g_alphaText = g_alphaLogo;
+	}
+	else {
+		g_alphaText = g_alphaLogo = 1.0;
+	}
+	
 	//g_faderText.value(time_of_day, g_alphaText);  // set alpha value for text
 
     if (!sm) { // try to get shared mem every few seconds, i.e. 100 frames

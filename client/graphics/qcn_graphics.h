@@ -158,6 +158,7 @@ extern vector<SQuake> vsq; // a vector of earthquake data struct
 extern bool g_bFullScreen;
 extern int g_width, g_height;
 extern CEarth earth;
+extern bool g_bFader;
 
 extern e_view g_eView;  // default to 3d plots unless user prefs override below
 #ifdef QCNLIVE

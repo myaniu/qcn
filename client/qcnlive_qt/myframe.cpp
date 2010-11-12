@@ -53,6 +53,43 @@
 
  */
 
+const short ICON_SIZE = 32;
+
+/*
+MyAboutBox::MyAboutBox(QMainWindow *pmw)  
+   : QMessageBox(QMessageBox::Information, 
+				 tr("About QCNLive"), 
+				 tr("<b>QCNLive</b> is provided by the <BR> Quake-Catcher Network Project <BR><BR>http://qcn.stanford.edu<BR><BR>(c) 2010 Stanford University"),
+				 QMessageBox::Ok,
+				 pmw
+				 )
+{
+	 
+	 wxAboutDialogInfo myAboutBox;
+	 //myAboutBox.SetIcon(wxIcon("qcnwin.ico", wxBITMAP_TYPE_ICO));
+	 myAboutBox.SetVersion(wxString(QCN_VERSION_STRING));
+	 myAboutBox.SetName(wxT("QCNLive"));
+	 myAboutBox.SetWebSite(wxT("http://qcn.stanford.edu"), wxT("Quake-Catcher Network Website"));
+	 myAboutBox.SetCopyright(wxT("(c) 2009 Stanford University")); 
+	 //myAboutBox.AddDeveloper(wxT("Carl Christensen  (carlgt1@yahoo.com"));
+	 myAboutBox.SetDescription(wxT("This software is provided free of charge for educational purposes.\n\nPlease visit us on the web:\n"));
+	 
+	 wxAboutBox(myAboutBox);
+	 
+	 QDialog* dlgAbout = new QDialog(this);
+	 dlgAbout->setModal(true);
+	 dlgAbout->exec();
+}
+
+void MyAboutBox::mousePressEvent(QMouseEvent *event)
+{
+	QString strText;
+	strText.sprintf("x=%d  y=%d", event->x(), event->y());
+	information (this, "clicked", strText);
+}
+ */	
+	
+	
 MyFrame::MyFrame(MyApp* papp)
      : m_dockWidgetView(NULL), m_dockWidgetOption(NULL), m_toolBarView(NULL), m_toolBarOption(NULL), m_menuBar(NULL), m_actionCurrent(NULL), m_pMyApp(papp)
 {
@@ -61,8 +98,6 @@ MyFrame::MyFrame(MyApp* papp)
 
 bool MyFrame::Init()
 {	
-	// initial view is the earth
-	qcn_graphics::g_eView = VIEW_EARTH_DAY;  // set view to 0
     m_bEarthDay = true;
     m_bEarthRotate = true;
     m_iSensorAction = 0;
@@ -70,9 +105,14 @@ bool MyFrame::Init()
     m_bSensorAbsolute2D = false;
     m_bSensorAbsolute3D = false;
 	
+	// setup all the actions, menus, and toolbars before defining the central widget (our OpenGL GLWidget)
     createActions();
     createMenus();
 	createToolbar();
+
+	// initial view is the earth
+	qcn_graphics::g_eView = VIEW_EARTH_DAY;  // set view to 0
+	m_actionCurrent = m_actionViewEarth; // initialize the first action to the earth view, so will turn off the toggle/check mark on the menu
 
     m_centralWidget = new QWidget;
     setCentralWidget(m_centralWidget);
@@ -212,13 +252,13 @@ void MyFrame::createActions()
 	
 	m_actionOptionEarthQuakelist = new QAction(tr("&Get latest earthquakes"), this);
 	m_actionOptionEarthQuakelist->setToolTip(tr("Get the latest earthquake list from the USGS"));
-	m_actionOptionEarthQuakelist->setCheckable(true);
+	//m_actionOptionEarthQuakelist->setCheckable(true);
 	m_actionOptionEarthQuakelist->setIcon(QIcon(xpm_icon_quakelist));
 	connect(m_actionOptionEarthQuakelist, SIGNAL(triggered()), this, SLOT(actionOptionEarth()));
 	
 	m_actionOptionEarthUSGS = new QAction(tr("&USGS Website"), this);
 	m_actionOptionEarthUSGS->setToolTip(tr("Go to the USGS website for the currently selected earthquake"));
-	m_actionOptionEarthUSGS->setCheckable(true);
+	//m_actionOptionEarthUSGS->setCheckable(true);
 	m_actionOptionEarthUSGS->setIcon(QIcon(xpm_icon_usgs));
 	connect(m_actionOptionEarthUSGS, SIGNAL(triggered()), this, SLOT(actionOptionEarth()));
 	
@@ -227,49 +267,49 @@ void MyFrame::createActions()
 	m_actionOptionSensorVerticalZoomAuto = new QAction(tr("Auto-Zoom Vertical Scale"), this);
 	m_actionOptionSensorVerticalZoomAuto->setToolTip(tr("Auto-Zoom Vertical Scale"));
 	m_actionOptionSensorVerticalZoomAuto->setIcon(QIcon(xpm_zoom_auto));
-	m_actionOptionSensorVerticalZoomAuto->setCheckable(true);
+	//m_actionOptionSensorVerticalZoomAuto->setCheckable(true);
 	connect(m_actionOptionSensorVerticalZoomAuto, SIGNAL(triggered()), this, SLOT(actionOptionSensor()));
 	
 	m_actionOptionSensorVerticalZoomIn = new QAction(tr("Zoom In Vertical Scale"), this);
 	m_actionOptionSensorVerticalZoomIn->setToolTip(tr("Zoom In Vertical Scale"));
 	m_actionOptionSensorVerticalZoomIn->setIcon(QIcon(xpm_vert_zoom_in));
-	m_actionOptionSensorVerticalZoomIn->setCheckable(true);
+	//m_actionOptionSensorVerticalZoomIn->setCheckable(true);
 	connect(m_actionOptionSensorVerticalZoomIn, SIGNAL(triggered()), this, SLOT(actionOptionSensor()));
 	
 	m_actionOptionSensorVerticalZoomOut = new QAction(tr("Zoom Out Vertical Scale"), this);
 	m_actionOptionSensorVerticalZoomOut->setToolTip(tr("Zoom Out Vertical Scale"));
 	m_actionOptionSensorVerticalZoomOut->setIcon(QIcon(xpm_vert_zoom_out));
-	m_actionOptionSensorVerticalZoomOut->setCheckable(true);
+	//m_actionOptionSensorVerticalZoomOut->setCheckable(true);
 	connect(m_actionOptionSensorVerticalZoomOut, SIGNAL(triggered()), this, SLOT(actionOptionSensor()));
 	
 	m_actionOptionSensorHorizontalZoomIn = new QAction(tr("Zoom In Time Scale"), this);
 	m_actionOptionSensorHorizontalZoomIn->setToolTip(tr("Zoom In Time Scale"));
 	m_actionOptionSensorHorizontalZoomIn->setIcon(QIcon(xpm_horiz_zoom_in));
-	m_actionOptionSensorHorizontalZoomIn->setCheckable(true);
+	//m_actionOptionSensorHorizontalZoomIn->setCheckable(true);
 	connect(m_actionOptionSensorHorizontalZoomIn, SIGNAL(triggered()), this, SLOT(actionOptionSensor()));
 	
 	m_actionOptionSensorHorizontalZoomOut = new QAction(tr("Zoom Out Time Scale"), this);
 	m_actionOptionSensorHorizontalZoomOut->setToolTip(tr("Zoom Out Time Scale"));
 	m_actionOptionSensorHorizontalZoomOut->setIcon(QIcon(xpm_horiz_zoom_out));
-	m_actionOptionSensorHorizontalZoomOut->setCheckable(true);
+	//m_actionOptionSensorHorizontalZoomOut->setCheckable(true);
 	connect(m_actionOptionSensorHorizontalZoomOut, SIGNAL(triggered()), this, SLOT(actionOptionSensor()));
 	
 	m_actionOptionSensorBack = new QAction(tr("Move Back"), this);
 	m_actionOptionSensorBack->setToolTip(tr("Move Back In Time"));
 	m_actionOptionSensorBack->setIcon(QIcon(xpm_icon_rw));
-	m_actionOptionSensorBack->setCheckable(true);
+	//m_actionOptionSensorBack->setCheckable(true);
 	connect(m_actionOptionSensorBack, SIGNAL(triggered()), this, SLOT(actionOptionSensor()));
 	
 	m_actionOptionSensorPause = new QAction(tr("Pause Display"), this);
 	m_actionOptionSensorPause->setToolTip(tr("Pause Sensor Display"));
 	m_actionOptionSensorPause->setIcon(QIcon(xpm_icon_pause));
-	m_actionOptionSensorPause->setCheckable(true);
+	//m_actionOptionSensorPause->setCheckable(true);
 	connect(m_actionOptionSensorPause, SIGNAL(triggered()), this, SLOT(actionOptionSensor()));
 	
 	m_actionOptionSensorResume = new QAction(tr("Start Display"), this);
 	m_actionOptionSensorResume->setToolTip(tr("Start Sensor Display"));
 	m_actionOptionSensorResume->setIcon(QIcon(xpm_icon_play));
-	m_actionOptionSensorResume->setCheckable(true);
+	//m_actionOptionSensorResume->setCheckable(true);
 	connect(m_actionOptionSensorResume, SIGNAL(triggered()), this, SLOT(actionOptionSensor()));
 	
 	m_actionOptionSensorRecordStart = new QAction(tr("Start Recording"), this);
@@ -287,7 +327,7 @@ void MyFrame::createActions()
 	m_actionOptionSensorForward = new QAction(tr("Move Forward"), this);
 	m_actionOptionSensorForward->setToolTip(tr("Move Forward In Time"));
 	m_actionOptionSensorForward->setIcon(QIcon(xpm_icon_ff));
-	m_actionOptionSensorForward->setCheckable(true);
+	//m_actionOptionSensorForward->setCheckable(true);
 	connect(m_actionOptionSensorForward, SIGNAL(triggered()), this, SLOT(actionOptionSensor()));
 	
 	m_actionOptionSensorAbsolute = new QAction(tr("&Absolute sensor values"), this);
@@ -456,38 +496,22 @@ void MyFrame::ToggleStartStop(bool bStart)
 
 void MyFrame::createToolbar()
 {	
-	//m_dockWidgetView = new QDockWidget(tr("View"), this, Qt::Tool);
 	m_toolBarView = new QToolBar(tr("View"), this);	
 	if (m_toolBarView) { // && m_dockWidgetView) {
-		//m_dockWidgetView->setFeatures(QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetFloatable | QDockWidget::DockWidgetVerticalTitleBar);
-		//m_dockWidgetView->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
-
-		m_toolBarView->setIconSize(QSize(32,32));		
-		//m_toolBarView->setOrientation(Qt::Vertical);
-
+		m_toolBarView->setIconSize(QSize(ICON_SIZE, ICON_SIZE));		
 		ToolBarView();
-
-		//addDockWidget(Qt::LeftDockWidgetArea, m_dockWidgetView, Qt::Vertical);
-		//m_dockWidgetView->show();
 		addToolBar(Qt::TopToolBarArea, m_toolBarView);
 	}
 	
-	//m_dockWidgetOption = new QDockWidget(tr("Options"), this, Qt::Tool);
 	m_toolBarOption = new QToolBar(tr("Options"), this);	
 	if (m_toolBarOption) {
-		m_toolBarOption->setIconSize(QSize(32,32));		
-		m_toolBarOption->setOrientation(Qt::Horizontal);
+		m_toolBarOption->setIconSize(QSize(ICON_SIZE, ICON_SIZE));		
 		ToolBarEarth(true);
-		//m_dockWidgetOption->setWidget(m_toolBarOption);
-		//this->addDockWidget(Qt::TopDockWidgetArea, m_dockWidgetOption, Qt::Horizontal);
-		//m_dockWidgetOption->show();
-		//addToolBar(Qt::TopToolBarArea, m_toolBarOption);
 		addToolBar(Qt::TopToolBarArea, m_toolBarOption);
-	}
- 
+	} 
 	
 #ifdef __APPLE_CC__
-//	setUnifiedTitleAndToolBarOnMac(true);
+	setUnifiedTitleAndToolBarOnMac(false);
 #endif
 }
 
@@ -505,7 +529,7 @@ void MyFrame::actionView()
 		// note only redraw sensor toolbar if not coming from a sensor view already
 		//if (qcn_graphics::g_eView != VIEW_PLOT_2D && cn_graphics::g_eView != VIEW_PLOT_3D) ToolBarSensor(evt.GetId());
 		ToolBarSensor2D();
-		qcn_graphics::g_eView = VIEW_PLOT_2D; // note set graphics after the toolbar build since the RemoveToolBar needs to know current view/options available
+		qcn_graphics::g_eView = VIEW_PLOT_2D;
 		bChanged = true;
 	}
 	else if (pAction == m_actionViewSensor3D)
@@ -536,11 +560,10 @@ void MyFrame::actionView()
 	}
 
 	m_actionCurrent = pAction;
-	
-	qcn_graphics::FaderOn();
-    if (bChanged && m_actionCurrent) {
-		Toggle(m_actionCurrent, true, true);
-    }
+	//qcn_graphics::FaderOn(); // refresh fader
+    //if (bChanged && m_actionCurrent) {
+	//	Toggle(m_actionCurrent, false, true);
+    //}
     qcn_graphics::ResetPlotArray();
 }
 
@@ -642,26 +665,10 @@ void MyFrame::actionHelp()
 		strURL = "http://qcn.stanford.edu/learning/glossary.php";
 	}
 	else if (pAction == m_actionHelpAbout) {
+		//MyAboutBox myabout(this);
+		//myabout.exec();		
 		QMessageBox::about(this, tr("About QCNLive"),
-						   tr("<b>QCNLive</b> is provided by the <BR> Quake-Catcher Network Project <BR><BR>http://qcn.stanford.edu<BR><BR>(c) 2010 Stanford University"));
-		
-		/*
-		 wxAboutDialogInfo myAboutBox;
-		 //myAboutBox.SetIcon(wxIcon("qcnwin.ico", wxBITMAP_TYPE_ICO));
-		 myAboutBox.SetVersion(wxString(QCN_VERSION_STRING));
-		 myAboutBox.SetName(wxT("QCNLive"));
-		 myAboutBox.SetWebSite(wxT("http://qcn.stanford.edu"), wxT("Quake-Catcher Network Website"));
-		 myAboutBox.SetCopyright(wxT("(c) 2009 Stanford University")); 
-		 //myAboutBox.AddDeveloper(wxT("Carl Christensen  (carlgt1@yahoo.com"));
-		 myAboutBox.SetDescription(wxT("This software is provided free of charge for educational purposes.\n\nPlease visit us on the web:\n"));
-		 
-		 wxAboutBox(myAboutBox);
-		 
-		 QDialog* dlgAbout = new QDialog(this);
-		 dlgAbout->setModal(true);
-		 dlgAbout->exec();
-		 
-		 */		
+		tr("<b>QCNLive</b> is provided by the <BR> Quake-Catcher Network Project <BR><BR>http://qcn.stanford.edu<BR><BR>(c) 2010 Stanford University"));
 	}
 	if (!strURL.empty())  qcn_util::launchURL(strURL.c_str());
 }
@@ -689,14 +696,15 @@ void MyFrame::actionOptionSensor()
 			qcn_graphics::TimeWindowStart();
 		}
 	}
-	else if (pAction == m_actionOptionSensorRecordStart) {
+	else if (pAction == m_actionOptionSensorRecordStart || pAction == m_actionOptionSensorRecordStop) {
+		// trying to change recording state -- handled by the Toggle i.e. the appropriate button is enabled and the other disabled
 		if (qcn_graphics::TimeWindowIsStopped()) {
 			m_iSensorAction = 0;
 			qcn_graphics::TimeWindowStart();
 		}
 		if (sm->bSensorFound) {
 			if (sm->bRecording) { // we're turning off recording
-				statusBar()->showMessage(tr("Recording stopped"), 5000);
+				statusBar()->showMessage(tr("Recording stopped"), 1000);
 			}
 			else { // we're starting recording
 				statusBar()->showMessage(tr("Recording..."), 0);
@@ -705,23 +713,6 @@ void MyFrame::actionOptionSensor()
 			// flip the state
 			sm->bRecording = !sm->bRecording;
 		}
-	}
-	else if (pAction == m_actionOptionSensorRecordStop) {
-		if (qcn_graphics::TimeWindowIsStopped()) {
-			m_iSensorAction = 0;
-			qcn_graphics::TimeWindowStart();
-		}
-		if (sm->bSensorFound) {
-			if (sm->bRecording) { // we're turning off recording
-				statusBar()->showMessage(tr("Recording stopped"), 5000);
-			}
-			else { // we're starting recording
-				statusBar()->showMessage(tr("Recording..."), 0);
-			}
-			
-			// flip the state
-			sm->bRecording = !sm->bRecording;
-		}		
 	}
 	else if (pAction == m_actionOptionSensorForward) {
 		if (! qcn_graphics::TimeWindowIsStopped()) {
@@ -730,20 +721,12 @@ void MyFrame::actionOptionSensor()
 		}
 		qcn_graphics::TimeWindowForward(); 
 	}
-	else if (pAction == m_actionOptionSensorAbsolute) {
+	else if (pAction == m_actionOptionSensorAbsolute || pAction == m_actionOptionSensorScaled) {
 		if (qcn_graphics::g_eView == VIEW_PLOT_2D) {
-			m_bSensorAbsolute2D = true;
+			m_bSensorAbsolute2D = (bool)(pAction == m_actionOptionSensorAbsolute);
 		}
 		else {
-			m_bSensorAbsolute3D = false;
-		}
-	}
-	else if (pAction == m_actionOptionSensorScaled) {
-		if (qcn_graphics::g_eView == VIEW_PLOT_2D) {
-			m_bSensorAbsolute2D = false;
-		}
-		else {
-			m_bSensorAbsolute3D = false;
+			m_bSensorAbsolute3D = (bool)(pAction == m_actionOptionSensorAbsolute);
 		}
 	}
 	else if (pAction == m_actionOptionSensorHorizontalZoomOut) {
@@ -762,7 +745,7 @@ void MyFrame::actionOptionSensor()
 		qcn_2dplot::SensorDataZoomAuto();
 	}
 
-    SetToggleSensor();
+    SetToggleSensor((bool)(qcn_graphics::g_eView == VIEW_PLOT_3D));
 }
 
 
@@ -861,34 +844,32 @@ void MyFrame::Toggle(QAction* pqa, const bool bCheck, const bool bEnable)
 	pqa->setEnabled(bEnable);
 }
 
-void MyFrame::SetToggleSensor()
+void MyFrame::SetToggleSensor(const bool b3D)
 {
-	
-	if (qcn_graphics::g_eView == VIEW_PLOT_2D) {
-		Toggle(m_actionOptionSensorRecordStart, !sm->bRecording);
-		Toggle(m_actionOptionSensorRecordStop, sm->bRecording);
-		
-		m_actionOptionSensorAbsolute->setEnabled(true);
+	// m_iSensorAction of 0 means we're playing/recording; if 1 it means we're moving back or forward or paused	
+	Toggle(m_actionOptionSensorResume, (bool)(sm->bRecording && m_iSensorAction == 0));
+	Toggle(m_actionOptionSensorPause, (bool)(sm->bRecording && m_iSensorAction == 1));
+
+	if (b3D) { // force to be scaled in the 3D view
+		m_bSensorAbsolute3D = false;
+		if (!qcn_graphics::IsScaled()) qcn_graphics::SetScaled(true);
+		Toggle(m_actionOptionSensorAbsolute, m_bSensorAbsolute3D, m_bSensorAbsolute3D);
+		Toggle(m_actionOptionSensorScaled, !m_bSensorAbsolute3D, !m_bSensorAbsolute3D);
+	}
+	else { 
 		if (m_bSensorAbsolute2D) {
 			if (qcn_graphics::IsScaled()) qcn_graphics::SetScaled(false);
 		}
 		else {
 			if (!qcn_graphics::IsScaled()) qcn_graphics::SetScaled(true);
-		}		  
+		}
 		Toggle(m_actionOptionSensorAbsolute, m_bSensorAbsolute2D);
-		Toggle(m_actionOptionSensorScaled, !m_bSensorAbsolute2D);
-		
-		Toggle(m_actionOptionSensorResume, (bool)(sm->bRecording && m_iSensorAction == 0));
-		Toggle(m_actionOptionSensorPause, (bool)(sm->bRecording && m_iSensorAction == 1));
+		Toggle(m_actionOptionSensorScaled, !m_bSensorAbsolute2D);		
 	}
-	else if (qcn_graphics::g_eView == VIEW_PLOT_3D) { // force to be scaled
-		m_bSensorAbsolute3D = false;
-		if (!qcn_graphics::IsScaled()) qcn_graphics::SetScaled(true);
-		//toolBar->EnableTool(m_actionOptionSensorAbsolute, false);
-		//menuOptions->Enable(m_actionOptionSensorAbsolute, false);
-		Toggle(m_actionOptionSensorAbsolute, m_bSensorAbsolute3D);
-		Toggle(m_actionOptionSensorScaled, !m_bSensorAbsolute3D);
-	}
+	
+	// recording state
+	Toggle(m_actionOptionSensorRecordStart, sm->bRecording, !sm->bRecording);
+	Toggle(m_actionOptionSensorRecordStop, !sm->bRecording, sm->bRecording);
 }
 
 void MyFrame::SetToggleEarth()
@@ -1024,7 +1005,7 @@ void MyFrame::ToolBarSensor2D()
 	
     AddScreenshotItem();
 	
-    SetToggleSensor();  // put this after realize() because we may enable/disable tools
+    SetToggleSensor(false);  // put this after realize() because we may enable/disable tools
 }
 
 void MyFrame::ToolBarSensor3D()
@@ -1047,7 +1028,7 @@ void MyFrame::ToolBarSensor3D()
     AddScreenshotItem();
 	
 	//	qcn_graphics::g_eView = iView;
-    SetToggleSensor();  // put this after realize() because we may enable/disable tools
+    SetToggleSensor(true);  // put this after realize() because we may enable/disable tools
 }
 
 void MyFrame::ToolBarCube()
