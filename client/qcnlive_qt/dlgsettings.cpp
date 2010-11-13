@@ -16,6 +16,7 @@ CDialogSettings::CDialogSettings(QWidget* parent, Qt::WindowFlags f)  : QDialog(
 	setModal(true);  // make it an application level modal window
 	setWindowModality(Qt::ApplicationModal);
 	setWindowTitle(tr("Local Settings for QCNLive"));
+	m_bSave = false;
 	
     InitPointers();
 
@@ -118,34 +119,45 @@ void CDialogSettings::InitPointers()
 #endif
 }
 
-bool CDialogSettings::SaveValues()
+bool CDialogSettings::saveValues(QString& strError)
 {
+	strError.clear();
+	m_strLatitude = m_textctrlLatitude->text();
     double dTest = atof((const char*) m_strLatitude.toAscii());
-    if (dTest >= -90.0f && dTest <= 90.0f)
+    if (dTest >= -90.0f && dTest <= 90.0f) {
         sm->dMyLatitude = dTest;
-
+	}
+	else {
+		strError += "Error in latitude<BR> - not between -90 and 90<BR><BR>"; 
+	}
+	
+	m_strLongitude = m_textctrlLongitude->text();
     dTest = atof((const char*) m_strLongitude.toAscii());
-    if (dTest >= -180.0f && dTest <= 180.0f)
+    if (dTest >= -180.0f && dTest <= 180.0f) {
         sm->dMyLongitude = dTest;
+	}
+	else {
+		strError += "Error in longitude<BR> - not between -180 and 180<BR><BR>"; 
+	}
 
+	m_strStation = m_textctrlStation->text();
     memset((char*) sm->strMyStation, 0x00, SIZEOF_STATION_STRING);
     strlcpy((char*) sm->strMyStation, (const char*) m_strStation.toAscii(), SIZEOF_STATION_STRING);	
 
+	m_strElevationMeter = m_textctrlElevationMeter->text();
     sm->dMyElevationMeter = atof((const char*) m_strElevationMeter.toAscii());
-    sm->iMyElevationFloor = atoi((const char*) m_strElevationFloor.toAscii());
-	
-	// for the sensor combo, save the value of the combo -1 + SENSOR_USB_
-	sm->iMySensor = -1;
-	QString strCombo = m_comboSensor->currentText();
-	for (int i = MIN_SENSOR_USB; i <= MAX_SENSOR_USB; i++)   {// usb sensors are between the values MIN & MAX_SENSOR_USB given in define.h
-		if (!strCombo.compare(m_psms->getTypeStr(i))) { // strings match
-			sm->iMySensor = i;
-			break;
-		}
-	}
+    sm->iMyElevationFloor = m_spinctrlElevationFloor->value();  // spin controls are ints anyway!
 
+	QVariant qvChoice = m_comboSensor->itemData(m_comboSensor->currentIndex());
+	int iChoice = (qvChoice == QVariant::Invalid ? -1 : qvChoice.toInt());
+	if (iChoice >= MIN_SENSOR_USB && iChoice <= MAX_SENSOR_USB) sm->iMySensor = iChoice; // set if a valid choice
+
+	sm->iMySensor = iChoice;
+	
 	if (m_radioCSV->isChecked()) sm->bMyOutputSAC = false;
 	else if (m_radioSAC->isChecked()) sm->bMyOutputSAC = true;
+	
+	return (bool) (strError.length() == 0);
 	
 }
 
@@ -254,67 +266,16 @@ void CDialogSettings::CreateControls()
     m_layoutMain->addStretch(1);
 	
     setLayout(m_layoutMain);
-	
 }
  
 void CDialogSettings::onSave()
 {
 	QString strError;
-	if (SaveValues(strError)) {
+	m_bSave = saveValues(strError);
+	if (m_bSave) {
 		close();
 	}
-	else {
-		if (strError.length() > 0) {
-		}		
-	}
-
-}
-			
-/*  CMC
-void CDialogSettings::OnLatitudeUpdated( wxCommandEvent& WXUNUSED(event) )
-{
-    float fTest = atof(m_spinctrlLatitude->GetValue().toAscii());
-	if (fTest < -90.0f || fTest > 90.0f) {
-         wxMessageBox(
-            _T("Error: Latitude must be between -90 (South Pole) and 90 (North Pole)"), 
-            _T("Latitude Validation Error")
-         );
-	 }
-}
-
-void CDialogSettings::OnLongitudeUpdated( wxCommandEvent& WXUNUSED(event) )
-{
-    float fTest = atof(m_spinctrlLongitude->GetValue().toAscii());
-	if (fTest < -180.0f || fTest > 180.0f) {
-         wxMessageBox(
-            _T("Error: Longitude must be between -180 (W) and 180 (E)\n(0 = Greenwich)"), 
-            _T("Longitude Validation Error")
-         );
-	 }
-}
- 
- bool CDialogSettings::wxTextValidatorLatLng::Validate(wxWindow* parent)
- {
- double dTest = atof(((wxTextCtrl*) parent)->GetValue().toAscii());
- if (m_bIsLat && (dTest < -90.0f || dTest > 90.0f)) return false;
- else if (!m_bIsLat && (dTest < -180.0f || dTest > 180.0f)) return false;
- return true;
- }
- 
-
-void CDialogSettings::OnStationUpdated( wxCommandEvent& WXUNUSED(event) )
-{
-	int iLen = (int) m_spinctrlStation->GetValue().Len();
-    if ( iLen > SIZEOF_STATION_STRING-1 ) {
-	     char *strErr = new char[_MAX_PATH];
-		 sprintf(strErr, "Error: Station should be a maximum of %d alphanumeric characters in length, not %d", 
-             SIZEOF_STATION_STRING-1, iLen);
-         wxMessageBox(
-            strErr, 
-            _T("Station Validation Error")
-         );
-		 delete [] strErr;
-		 return;
+	else { // must have an error
+		QMessageBox::warning(this, tr("Error in Values"), QString(tr("Please correct the following error(s):<BR><BR>")) + strError, QMessageBox::Ok);
 	}
 }
-*/

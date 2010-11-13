@@ -572,26 +572,19 @@ void MyFrame::fileDialogSettings()
 {
 	CDialogSettings* pcds = new CDialogSettings(this, Qt::Dialog);
 	if (pcds) {
+		int myOldSensor = sm->iMySensor;
 		pcds->exec();
-		/*
-	    if (pcds->ShowModal() == wxID_OK)  {
-			int myOldSensor = sm->iMySensor;
-			// accept values
-			//statusBar->SetStatusText(wxString("Saving your settings and updating earthquake list", wxConvUTF8));
-			pcds->SaveValues();  // save to the global variables
-			// call our save function to write values to disk
+	    if (pcds->saved()) { // data was validated and set in shared memory (sm)
 			m_pMyApp->set_qcnlive_prefs(); // saved in KillMainThread 
 			// probably have to kill & restart the main thread too?
 			if (m_pMyApp && myOldSensor != sm->iMySensor) {  // we changed sensors, have to restart main thread?
 				// put up a message box to quit and restart
-				if (::wxMessageBox(_("You have changed your preferred sensor.\n\nPlease restart to use your new preferred USB sensor choice.\n\nClick 'OK' to quit now.\nClick 'Cancel' to continue this session of QCNLive."), 
-								   _("Restart Required"), 
-								   wxOK | wxCANCEL | wxICON_EXCLAMATION, this) == wxOK)
-					Close();
+				if (QMessageBox::information(this, tr("Restart QCNLive?"),
+						tr("You have changed your preferred sensor.\n\nPlease restart to use your new preferred USB sensor choice.\n\nClick 'OK' to quit now.\nClick 'Cancel' to continue QCNLive."), 
+							QMessageBox::Ok | QMessageBox::Cancel, QMessageBox::Ok) == QMessageBox::Ok)
+					close();
 			}
 		}
-	    pcds->Destroy();
-		*/
 	    delete pcds;
 	}
 }

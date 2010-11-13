@@ -51,6 +51,7 @@ private:
 	QLabel* m_labelSensor;	
 	
 	QGridLayout* m_gridlayout;
+	bool m_bSave; 
 
 	
 private slots:
@@ -60,7 +61,8 @@ public:
     CDialogSettings(QWidget* parent = NULL, Qt::WindowFlags f = 0);
     ~CDialogSettings();
 
-	void SaveValues();
+	bool saved() { return m_bSave; }; // to flag that we need to save the values
+	bool saveValues(QString& strError);
 };
 
 #endif // _DLG_SETTINGS_H_
