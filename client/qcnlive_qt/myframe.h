@@ -92,6 +92,7 @@ private:
 
 	
     QAction* m_actionHelpAbout;
+    QAction* m_actionHelpAboutQt;
 	QAction* m_actionHelpManual;
 	QAction* m_actionHelpWebQCN;
 	QAction* m_actionHelpWebQCNLive;
@@ -139,7 +140,7 @@ private slots:
 
     void actionHelp();
 			
-  private:
+private:
 	// inherited events
     void closeEvent(QCloseEvent* pqc);
 	//void resizeEvent(QResizeEvent* prs);

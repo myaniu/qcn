@@ -23,16 +23,16 @@ CDialogSettings::CDialogSettings(QWidget* parent, Qt::WindowFlags f)  : QDialog(
     if (sm->dMyLatitude == NO_LAT) 
 		m_strLatitude.clear();
     else
-		m_strLatitude.sprintf("%.6g", sm->dMyLatitude);
+		m_strLatitude.sprintf("%f", sm->dMyLatitude);
 	
     if (sm->dMyLongitude == NO_LNG) 
 		m_strLongitude.clear();
     else
-		m_strLongitude.sprintf("%.6g", sm->dMyLongitude);
+		m_strLongitude.sprintf("%f", sm->dMyLongitude);
 	
     m_strStation = (char *) sm->strMyStation;
 	
-    m_strElevationMeter.sprintf("%.6g", sm->dMyElevationMeter);
+    m_strElevationMeter.sprintf("%f", sm->dMyElevationMeter);
     m_strElevationFloor.sprintf("%d", sm->iMyElevationFloor);
 	
     CreateControls();
@@ -151,8 +151,7 @@ bool CDialogSettings::saveValues(QString& strError)
 	QVariant qvChoice = m_comboSensor->itemData(m_comboSensor->currentIndex());
 	int iChoice = (qvChoice == QVariant::Invalid ? -1 : qvChoice.toInt());
 	if (iChoice >= MIN_SENSOR_USB && iChoice <= MAX_SENSOR_USB) sm->iMySensor = iChoice; // set if a valid choice
-
-	sm->iMySensor = iChoice;
+	else sm->iMySensor = -1;
 	
 	if (m_radioCSV->isChecked()) sm->bMyOutputSAC = false;
 	else if (m_radioSAC->isChecked()) sm->bMyOutputSAC = true;

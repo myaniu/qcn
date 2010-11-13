@@ -90,10 +90,16 @@ void MyAboutBox::mousePressEvent(QMouseEvent *event)
  */	
 	
 	
-MyFrame::MyFrame(MyApp* papp)
-     : m_dockWidgetView(NULL), m_dockWidgetOption(NULL), m_toolBarView(NULL), m_toolBarOption(NULL), m_menuBar(NULL), m_actionCurrent(NULL), m_pMyApp(papp)
+MyFrame::MyFrame(MyApp* papp) 
+   : QMainWindow(),
+		m_dockWidgetView(NULL),
+		m_dockWidgetOption(NULL),
+		m_toolBarView(NULL),
+		m_toolBarOption(NULL),
+		m_menuBar(NULL),
+		m_actionCurrent(NULL),
+		m_pMyApp(papp)
 {
-	//m_vqaSeparator.clear();
 }
 
 bool MyFrame::Init()
@@ -337,6 +343,10 @@ void MyFrame::createActions()
 	m_actionHelpAbout->setToolTip(tr("About QCNLive"));
     connect(m_actionHelpAbout, SIGNAL(triggered()), this, SLOT(actionHelp()));
 
+    m_actionHelpAboutQt = new QAction(tr("About Qt"), this);
+	m_actionHelpAboutQt->setToolTip(tr("About Qt"));
+    connect(m_actionHelpAboutQt, SIGNAL(triggered()), this, SLOT(actionHelp()));
+	
 	m_actionHelpManual = new QAction(tr("&Manual (PDF) for QCNLive"), this);
 	m_actionHelpManual->setToolTip(tr("Download/View Manual (PDF) for QCNLive"));
     connect(m_actionHelpManual, SIGNAL(triggered()), this, SLOT(actionHelp()));
@@ -392,6 +402,7 @@ void MyFrame::createMenus()
 	// Help
 	m_menuHelp = menuBar()->addMenu(tr("&Help"));
 	m_menuHelp->addAction(m_actionHelpAbout);
+	m_menuHelp->addAction(m_actionHelpAboutQt);
 #ifndef __APPLE_CC__
 	m_menuHelp->addSeparator();  // on Mac the Help/About goes on the left-most system menu, so don't need a separator
 #endif
@@ -644,6 +655,9 @@ void MyFrame::actionHelp()
 		//myabout.exec();		
 		QMessageBox::about(this, tr("About QCNLive"),
 		tr("<b>QCNLive</b> is provided by the <BR> Quake-Catcher Network Project <BR><BR>http://qcn.stanford.edu<BR><BR>(c) 2010 Stanford University"));
+	}
+	else if (pAction == m_actionHelpAboutQt) {
+		QMessageBox::aboutQt(this, tr("QCNLive Is Built With Qt"));
 	}
 	if (!strURL.empty())  qcn_util::launchURL(strURL.c_str());
 }
