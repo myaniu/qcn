@@ -18,40 +18,9 @@
 #include "qcn_2dplot.h"
 
 /* canonical list of all icons used for toolbar:
- 
- xpm_icon_earth
- xpm_icon_twod
- xpm_icon_threed
- xpm_icon_cube
- 
- xpm_icon_sun
- xpm_icon_moon
- xpm_icon_spin
- xpm_icon_nospin
- 
- xpm_icon_quakelist
- xpm_icon_usgs
- 
- xpm_horiz_zoom_in
- xpm_horiz_zoom_out
- xpm_icon_rw
- xpm_icon_pause
- xpm_icon_play
- xpm_icon_record
- xpm_icon_stop
- xpm_icon_ff
- xpm_icon_camera
- 
- xpm_zoom_auto
- xpm_vert_zoom_in
- xpm_vert_zoom_out
- 
- xpm_icon_absolute
- xpm_icon_scaled
- 
- xpm_icon_camera
 
- */
+
+*/
 
 const short ICON_SIZE = 32;
 
@@ -186,25 +155,25 @@ void MyFrame::createActions()
 	m_actionViewEarth = new QAction(tr("&Earthquakes"), this);
 	m_actionViewEarth->setToolTip(tr("Select this view to see the latest and historical earthquakes worldwide"));
 	m_actionViewEarth->setCheckable(true);
-	m_actionViewEarth->setIcon(QIcon(xpm_icon_earth));
+	m_actionViewEarth->setIcon(QIcon(icon_earth_xpm));
     connect(m_actionViewEarth, SIGNAL(triggered()), this, SLOT(actionView()));
 
 	m_actionViewSensor2D = new QAction(tr("Sensor &2-dimensional"), this);
 	m_actionViewSensor2D->setToolTip(tr("Select this view to see your accelerometer output as a 2-dimensional plot"));
 	m_actionViewSensor2D->setCheckable(true);
-	m_actionViewSensor2D->setIcon(QIcon(xpm_icon_twod_xpm));
+	m_actionViewSensor2D->setIcon(QIcon(icon_twod_xpm));
     connect(m_actionViewSensor2D, SIGNAL(triggered()), this, SLOT(actionView()));
 
 	m_actionViewSensor3D = new QAction(tr("Sensor &3-dimensional"), this);
 	m_actionViewSensor3D->setToolTip(tr("Select this to see your accelerometer output as a 3-dimensional plot"));
 	m_actionViewSensor3D->setCheckable(true);
-	m_actionViewSensor3D->setIcon(QIcon(xpm_icon_threed_xpm));
+	m_actionViewSensor3D->setIcon(QIcon(icon_threed_xpm));
     connect(m_actionViewSensor3D, SIGNAL(triggered()), this, SLOT(actionView()));
 
 	m_actionViewCube = new QAction(tr("&Cube"), this);
 	m_actionViewCube->setToolTip(tr("Select this view to see a bouncing cube that responds to your accelerometer"));
 	m_actionViewCube->setCheckable(true);
-	m_actionViewCube->setIcon(QIcon(xpm_icon_cube_xpm));
+	m_actionViewCube->setIcon(QIcon(icon_cube_xpm));
     connect(m_actionViewCube, SIGNAL(triggered()), this, SLOT(actionView()));
 	
 	
@@ -249,31 +218,31 @@ void MyFrame::createActions()
 	// Option - Sensor (2D & 3D)
 	m_actionOptionSensorVerticalZoomAuto = new QAction(tr("Auto-Zoom Vertical Scale"), this);
 	m_actionOptionSensorVerticalZoomAuto->setToolTip(tr("Auto-Zoom Vertical Scale"));
-	m_actionOptionSensorVerticalZoomAuto->setIcon(QIcon(xpm_zoom_auto));
+	m_actionOptionSensorVerticalZoomAuto->setIcon(QIcon(icon_vert_zoom_auto_xpm));
 	//m_actionOptionSensorVerticalZoomAuto->setCheckable(true);
 	connect(m_actionOptionSensorVerticalZoomAuto, SIGNAL(triggered()), this, SLOT(actionOptionSensor()));
 	
 	m_actionOptionSensorVerticalZoomIn = new QAction(tr("Zoom In Vertical Scale"), this);
 	m_actionOptionSensorVerticalZoomIn->setToolTip(tr("Zoom In Vertical Scale"));
-	m_actionOptionSensorVerticalZoomIn->setIcon(QIcon(xpm_vert_zoom_in));
+	m_actionOptionSensorVerticalZoomIn->setIcon(QIcon(icon_vert_zoom_in_xpm));
 	//m_actionOptionSensorVerticalZoomIn->setCheckable(true);
 	connect(m_actionOptionSensorVerticalZoomIn, SIGNAL(triggered()), this, SLOT(actionOptionSensor()));
 	
 	m_actionOptionSensorVerticalZoomOut = new QAction(tr("Zoom Out Vertical Scale"), this);
 	m_actionOptionSensorVerticalZoomOut->setToolTip(tr("Zoom Out Vertical Scale"));
-	m_actionOptionSensorVerticalZoomOut->setIcon(QIcon(xpm_vert_zoom_out));
+	m_actionOptionSensorVerticalZoomOut->setIcon(QIcon(icon_vert_zoom_out_xpm));
 	//m_actionOptionSensorVerticalZoomOut->setCheckable(true);
 	connect(m_actionOptionSensorVerticalZoomOut, SIGNAL(triggered()), this, SLOT(actionOptionSensor()));
 	
 	m_actionOptionSensorHorizontalZoomIn = new QAction(tr("Zoom In Time Scale"), this);
 	m_actionOptionSensorHorizontalZoomIn->setToolTip(tr("Zoom In Time Scale"));
-	m_actionOptionSensorHorizontalZoomIn->setIcon(QIcon(xpm_horiz_zoom_in));
+	m_actionOptionSensorHorizontalZoomIn->setIcon(QIcon(icon_horiz_zoom_in_xpm));
 	//m_actionOptionSensorHorizontalZoomIn->setCheckable(true);
 	connect(m_actionOptionSensorHorizontalZoomIn, SIGNAL(triggered()), this, SLOT(actionOptionSensor()));
 	
 	m_actionOptionSensorHorizontalZoomOut = new QAction(tr("Zoom Out Time Scale"), this);
 	m_actionOptionSensorHorizontalZoomOut->setToolTip(tr("Zoom Out Time Scale"));
-	m_actionOptionSensorHorizontalZoomOut->setIcon(QIcon(xpm_horiz_zoom_out));
+	m_actionOptionSensorHorizontalZoomOut->setIcon(QIcon(icon_horiz_zoom_out_xpm));
 	//m_actionOptionSensorHorizontalZoomOut->setCheckable(true);
 	connect(m_actionOptionSensorHorizontalZoomOut, SIGNAL(triggered()), this, SLOT(actionOptionSensor()));
 	
