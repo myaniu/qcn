@@ -16,8 +16,33 @@
 #include "qcn_earth.h"
 #include "qcn_2dplot.h"
 
-/* canonical list of all icons used for toolbar:
+/* canonical list of all icons used for toolbar in qcn/client/qcnlive_qt/icons directory:
 
+ icon_absolute.xpm
+ icon_camera.xpm
+ icon_cube.xpm
+ icon_earth.xpm
+ icon_ff.xpm
+ icon_horiz_zoom_in.xpm
+ icon_horiz_zoom_out.xpm
+ icon_moon.xpm
+ icon_nospin.xpm
+ icon_pause.xpm
+ icon_play.xpm
+ icon_quakelist.xpm
+ icon_record.xpm
+ icon_rw.xpm
+ icon_scaled.xpm
+ icon_spin.xpm
+ icon_stop.xpm
+ icon_sun.xpm
+ icon_threed.xpm
+ icon_twod.xpm
+ icon_usgs.xpm
+ icon_vert_zoom_auto.xpm
+ icon_vert_zoom_in.xpm
+ icon_vert_zoom_out.xpm
+ 
 
 */
 
