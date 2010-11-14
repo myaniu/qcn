@@ -7,8 +7,7 @@
 #include "glwidget.h"
 #include "qcnqt.h"
 
-#include "icons32.h"
-//#include "icons.h"
+#include "icons.h"
 
 // main program for Qt window
 int main(int argc, char *argv[])
@@ -382,7 +381,7 @@ bool MyApp::Init()
 
 	// setup & start the timer for getting the next earthquake list from the qcn server
     m_timer = new QTimer(this);
-    connect(m_timer, SIGNAL(timeout()), this, SLOT(GetLatestQuakeList()));
+    connect(m_timer, SIGNAL(timeout()), this, SLOT(slotGetLatestQuakeList()));
     m_timer->start(1800000L);  // in milliseconds, so a half hour is a lot!
 	
 	processEvents(); // give the app time to process mouse events since we're before the event loop
@@ -400,6 +399,12 @@ bool MyApp::Init()
 
     return m_bInit;
 } 
+
+// a private slot to launch the quakelist
+void MyApp::slotGetLatestQuakeList()
+{
+	GetLatestQuakeList();
+}
 
 void MyApp::GetLatestQuakeList()
 {

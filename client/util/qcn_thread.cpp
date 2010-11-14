@@ -134,7 +134,7 @@ bool CQCNThread::Start(bool bHighPriority)
       }
 #ifdef _DEBUG
       else {
-         fprintf(stderr, "CQCNThread::Start(): Thread priority set to high\n");
+         fprintf(stdout, "CQCNThread::Start(): Thread priority set to high\n");
       }
 #endif
     }

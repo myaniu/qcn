@@ -43,6 +43,9 @@ class MyApp: public QApplication
     QRect m_rect;            // apps screen coordinates
     QSplashScreen* m_psplash;  // the apps splash screen
 	bool m_bInit;  // flag to see if we are initialized
+	
+  private slots:
+    void slotGetLatestQuakeList();
 
   public:
     MyApp(int& argc, char** argv);

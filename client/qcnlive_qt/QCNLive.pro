@@ -127,7 +127,7 @@ HEADERS       += qcnqt.h \
                 myframe.h \
                 dlgsettings.h \
                 qcnlive_define.h \
-                icons32.h \
+                icons.h \
                 $$MAINDIR/main.h \
                 $$MAINDIR/define.h 
 
