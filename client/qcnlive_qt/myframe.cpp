@@ -192,19 +192,19 @@ void MyFrame::createActions()
 	m_actionViewSensor2D = new QAction(tr("Sensor &2-dimensional"), this);
 	m_actionViewSensor2D->setToolTip(tr("Select this view to see your accelerometer output as a 2-dimensional plot"));
 	m_actionViewSensor2D->setCheckable(true);
-	m_actionViewSensor2D->setIcon(QIcon(xpm_icon_twod));
+	m_actionViewSensor2D->setIcon(QIcon(xpm_icon_twod_xpm));
     connect(m_actionViewSensor2D, SIGNAL(triggered()), this, SLOT(actionView()));
 
 	m_actionViewSensor3D = new QAction(tr("Sensor &3-dimensional"), this);
 	m_actionViewSensor3D->setToolTip(tr("Select this to see your accelerometer output as a 3-dimensional plot"));
 	m_actionViewSensor3D->setCheckable(true);
-	m_actionViewSensor3D->setIcon(QIcon(xpm_icon_threed));
+	m_actionViewSensor3D->setIcon(QIcon(xpm_icon_threed_xpm));
     connect(m_actionViewSensor3D, SIGNAL(triggered()), this, SLOT(actionView()));
 
 	m_actionViewCube = new QAction(tr("&Cube"), this);
 	m_actionViewCube->setToolTip(tr("Select this view to see a bouncing cube that responds to your accelerometer"));
 	m_actionViewCube->setCheckable(true);
-	m_actionViewCube->setIcon(QIcon(xpm_icon_cube));
+	m_actionViewCube->setIcon(QIcon(xpm_icon_cube_xpm));
     connect(m_actionViewCube, SIGNAL(triggered()), this, SLOT(actionView()));
 	
 	
