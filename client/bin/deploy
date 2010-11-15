@@ -11,7 +11,7 @@ echo put init/Helvetica.txf >> qcnsftp.up
 echo put init/Courier-Bold.txf >> qcnsftp.up
 echo put init/earthday4096.jpg >> qcnsftp.up
 echo put init/earthnight4096.jpg >> qcnsftp.up
-echo put init/qcnlogo_big.jpg >> qcnsftp.up
+echo put init/qcnlogo.jpg >> qcnsftp.up
 echo put init/$1 >> qcnsftp.up
 echo put init/logo.jpg >> qcnsftp.up
 if ( test "`uname -s`" = "Darwin" ) then

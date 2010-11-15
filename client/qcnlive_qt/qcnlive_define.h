@@ -10,7 +10,7 @@
 #ifdef _WIN32
 #define FILENAME_LOGO   "qcnwin.ico"
 #else
-#define FILENAME_LOGO   "qcnlogo_big.png"
+#define FILENAME_LOGO   "qcnlogo.png"
 #endif
 
 #define FILENAME_SPLASH "splash.png"
