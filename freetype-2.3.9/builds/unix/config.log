@@ -30,8 +30,8 @@ Kernel configured for up to 2 processors.
 Processor type: i486 (Intel 80486)
 Processors active: 0 1
 Primary memory available: 4.00 gigabytes
-Default processor set: 76 tasks, 287 threads, 2 processors
-Load average: 1.14, Mach factor: 1.15
+Default processor set: 79 tasks, 284 threads, 2 processors
+Load average: 1.16, Mach factor: 0.83
 /bin/machine           = unknown
 /usr/bin/oslevel       = unknown
 /bin/universe          = unknown
@@ -53,28 +53,27 @@ configure:2090: result: i386-apple-darwin10.5.0
 configure:2112: checking host system type
 configure:2127: result: i386-apple-darwin10.5.0
 configure:2201: checking for gcc
-configure:2228: result: gcc
+configure:2228: result: gcc-4.2
 configure:2460: checking for C compiler version
-configure:2468: gcc --version >&5
+configure:2468: gcc-4.2 --version >&5
 i686-apple-darwin10-gcc-4.2.1 (GCC) 4.2.1 (Apple Inc. build 5664)
 Copyright (C) 2007 Free Software Foundation, Inc.
 This is free software; see the source for copying conditions.  There is NO
 warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 configure:2472: $? = 0
-configure:2479: gcc -v >&5
+configure:2479: gcc-4.2 -v >&5
 Using built-in specs.
 Target: i686-apple-darwin10
 Configured with: /var/tmp/gcc/gcc-5664~105/src/configure --disable-checking --enable-werror --prefix=/usr --mandir=/share/man --enable-languages=c,objc,c++,obj-c++ --program-transform-name=/^[cg][^.-]*$/s/$/-4.2/ --with-slibdir=/usr/lib --build=i686-apple-darwin10 --program-prefix=i686-apple-darwin10- --host=x86_64-apple-darwin10 --target=i686-apple-darwin10 --with-gxx-include-dir=/include/c++/4.2.1
 Thread model: posix
 gcc version 4.2.1 (Apple Inc. build 5664)
 configure:2483: $? = 0
-configure:2490: gcc -V >&5
+configure:2490: gcc-4.2 -V >&5
 gcc-4.2: argument to `-V' is missing
 configure:2494: $? = 1
 configure:2517: checking for C compiler default output file name
-configure:2539: gcc -O2 -I/Developer/SDKs/MacOSX10.4u.sdk/usr/include -I/Developer/SDKs/MacOSX10.4u.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc -O2 -I/Developer/SDKs/MacOSX10.4u.sdk/usr/include -I/Developer/SDKs/MacOSX10.4u.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc -isysroot  -Wl,-syslibroot,/Developer/SDKs/MacOSX10.4u.sdk -arch ppc conftest.c  >&5
-ld: warning: object file compiled with -mlong-branch which is no longer needed. To remove this warning, recompile without -mlong-branch: /Developer/SDKs/MacOSX10.4u.sdk/usr/lib/crt1.o
+configure:2539: gcc-4.2 -O2 -I/Developer/SDKs/MacOSX10.5.sdk/usr/include -I/Developer/SDKs/MacOSX10.5.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64 -O2 -I/Developer/SDKs/MacOSX10.5.sdk/usr/include -I/Developer/SDKs/MacOSX10.5.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64 -isysroot  -Wl,-syslibroot,/Developer/SDKs/MacOSX10.5.sdk -arch x86_64 conftest.c  >&5
 configure:2543: $? = 0
 configure:2581: result: a.out
 configure:2600: checking whether the C compiler works
@@ -84,475 +83,29 @@ configure:2633: result: yes
 configure:2640: checking whether we are cross compiling
 configure:2642: result: no
 configure:2645: checking for suffix of executables
-configure:2652: gcc -o conftest -O2 -I/Developer/SDKs/MacOSX10.4u.sdk/usr/include -I/Developer/SDKs/MacOSX10.4u.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc -O2 -I/Developer/SDKs/MacOSX10.4u.sdk/usr/include -I/Developer/SDKs/MacOSX10.4u.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc -isysroot  -Wl,-syslibroot,/Developer/SDKs/MacOSX10.4u.sdk -arch ppc conftest.c  >&5
-ld: warning: object file compiled with -mlong-branch which is no longer needed. To remove this warning, recompile without -mlong-branch: /Developer/SDKs/MacOSX10.4u.sdk/usr/lib/crt1.o
+configure:2652: gcc-4.2 -o conftest -O2 -I/Developer/SDKs/MacOSX10.5.sdk/usr/include -I/Developer/SDKs/MacOSX10.5.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64 -O2 -I/Developer/SDKs/MacOSX10.5.sdk/usr/include -I/Developer/SDKs/MacOSX10.5.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64 -isysroot  -Wl,-syslibroot,/Developer/SDKs/MacOSX10.5.sdk -arch x86_64 conftest.c  >&5
 configure:2656: $? = 0
 configure:2682: result: 
 configure:2688: checking for suffix of object files
-configure:2714: gcc -c -O2 -I/Developer/SDKs/MacOSX10.4u.sdk/usr/include -I/Developer/SDKs/MacOSX10.4u.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc -O2 -I/Developer/SDKs/MacOSX10.4u.sdk/usr/include -I/Developer/SDKs/MacOSX10.4u.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc conftest.c >&5
+configure:2714: gcc-4.2 -c -O2 -I/Developer/SDKs/MacOSX10.5.sdk/usr/include -I/Developer/SDKs/MacOSX10.5.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64 -O2 -I/Developer/SDKs/MacOSX10.5.sdk/usr/include -I/Developer/SDKs/MacOSX10.5.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64 conftest.c >&5
 configure:2718: $? = 0
 configure:2743: result: o
 configure:2747: checking whether we are using the GNU C compiler
-configure:2776: gcc -c -O2 -I/Developer/SDKs/MacOSX10.4u.sdk/usr/include -I/Developer/SDKs/MacOSX10.4u.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc -O2 -I/Developer/SDKs/MacOSX10.4u.sdk/usr/include -I/Developer/SDKs/MacOSX10.4u.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc conftest.c >&5
+configure:2776: gcc-4.2 -c -O2 -I/Developer/SDKs/MacOSX10.5.sdk/usr/include -I/Developer/SDKs/MacOSX10.5.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64 -O2 -I/Developer/SDKs/MacOSX10.5.sdk/usr/include -I/Developer/SDKs/MacOSX10.5.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64 conftest.c >&5
 configure:2783: $? = 0
 configure:2800: result: yes
-configure:2809: checking whether gcc accepts -g
-configure:2839: gcc -c -g -O2 -I/Developer/SDKs/MacOSX10.4u.sdk/usr/include -I/Developer/SDKs/MacOSX10.4u.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc conftest.c >&5
+configure:2809: checking whether gcc-4.2 accepts -g
+configure:2839: gcc-4.2 -c -g -O2 -I/Developer/SDKs/MacOSX10.5.sdk/usr/include -I/Developer/SDKs/MacOSX10.5.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64 conftest.c >&5
 configure:2846: $? = 0
 configure:2947: result: yes
-configure:2964: checking for gcc option to accept ISO C89
-configure:3038: gcc  -c -O2 -I/Developer/SDKs/MacOSX10.4u.sdk/usr/include -I/Developer/SDKs/MacOSX10.4u.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc -O2 -I/Developer/SDKs/MacOSX10.4u.sdk/usr/include -I/Developer/SDKs/MacOSX10.4u.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc conftest.c >&5
-In file included from conftest.c:8:
-/Developer/SDKs/MacOSX10.4u.sdk/usr/include/stdarg.h:4:25: error: stdarg.h: No such file or directory
-conftest.c: In function 'f':
-conftest.c:26: error: expected expression before 'int'
-configure:3045: $? = 1
-configure: failed program was:
-| /* confdefs.h.  */
-| #define PACKAGE_NAME "FreeType"
-| #define PACKAGE_TARNAME "freetype"
-| #define PACKAGE_VERSION "2.3.9"
-| #define PACKAGE_STRING "FreeType 2.3.9"
-| #define PACKAGE_BUGREPORT "freetype@nongnu.org"
-| /* end confdefs.h.  */
-| #include <stdarg.h>
-| #include <stdio.h>
-| #include <sys/types.h>
-| #include <sys/stat.h>
-| /* Most of the following tests are stolen from RCS 5.7's src/conf.sh.  */
-| struct buf { int x; };
-| FILE * (*rcsopen) (struct buf *, struct stat *, int);
-| static char *e (p, i)
-|      char **p;
-|      int i;
-| {
-|   return p[i];
-| }
-| static char *f (char * (*g) (char **, int), char **p, ...)
-| {
-|   char *s;
-|   va_list v;
-|   va_start (v,p);
-|   s = g (p, va_arg (v,int));
-|   va_end (v);
-|   return s;
-| }
-| 
-| /* OSF 4.0 Compaq cc is some sort of almost-ANSI by default.  It has
-|    function prototypes and stuff, but not '\xHH' hex character constants.
-|    These don't provoke an error unfortunately, instead are silently treated
-|    as 'x'.  The following induces an error, until -std is added to get
-|    proper ANSI mode.  Curiously '\x00'!='x' always comes out true, for an
-|    array size at least.  It's necessary to write '\x00'==0 to get something
-|    that's true only with -std.  */
-| int osf4_cc_array ['\x00' == 0 ? 1 : -1];
-| 
-| /* IBM C 6 for AIX is almost-ANSI by default, but it replaces macro parameters
-|    inside strings and character constants.  */
-| #define FOO(x) 'x'
-| int xlc6_cc_array[FOO(a) == 'x' ? 1 : -1];
-| 
-| int test (int i, double x);
-| struct s1 {int (*f) (int a);};
-| struct s2 {int (*f) (double a);};
-| int pairnames (int, char **, FILE *(*)(struct buf *, struct stat *, int), int, int);
-| int argc;
-| char **argv;
-| int
-| main ()
-| {
-| return f (e, argv, 0) != argv[0]  ||  f (e, argv, 1) != argv[1];
-|   ;
-|   return 0;
-| }
-configure:3038: gcc -qlanglvl=extc89 -c -O2 -I/Developer/SDKs/MacOSX10.4u.sdk/usr/include -I/Developer/SDKs/MacOSX10.4u.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc -O2 -I/Developer/SDKs/MacOSX10.4u.sdk/usr/include -I/Developer/SDKs/MacOSX10.4u.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc conftest.c >&5
-In file included from conftest.c:8:
-/Developer/SDKs/MacOSX10.4u.sdk/usr/include/stdarg.h:4:25: error: stdarg.h: No such file or directory
-conftest.c: In function 'f':
-conftest.c:26: error: expected expression before 'int'
-configure:3045: $? = 1
-configure: failed program was:
-| /* confdefs.h.  */
-| #define PACKAGE_NAME "FreeType"
-| #define PACKAGE_TARNAME "freetype"
-| #define PACKAGE_VERSION "2.3.9"
-| #define PACKAGE_STRING "FreeType 2.3.9"
-| #define PACKAGE_BUGREPORT "freetype@nongnu.org"
-| /* end confdefs.h.  */
-| #include <stdarg.h>
-| #include <stdio.h>
-| #include <sys/types.h>
-| #include <sys/stat.h>
-| /* Most of the following tests are stolen from RCS 5.7's src/conf.sh.  */
-| struct buf { int x; };
-| FILE * (*rcsopen) (struct buf *, struct stat *, int);
-| static char *e (p, i)
-|      char **p;
-|      int i;
-| {
-|   return p[i];
-| }
-| static char *f (char * (*g) (char **, int), char **p, ...)
-| {
-|   char *s;
-|   va_list v;
-|   va_start (v,p);
-|   s = g (p, va_arg (v,int));
-|   va_end (v);
-|   return s;
-| }
-| 
-| /* OSF 4.0 Compaq cc is some sort of almost-ANSI by default.  It has
-|    function prototypes and stuff, but not '\xHH' hex character constants.
-|    These don't provoke an error unfortunately, instead are silently treated
-|    as 'x'.  The following induces an error, until -std is added to get
-|    proper ANSI mode.  Curiously '\x00'!='x' always comes out true, for an
-|    array size at least.  It's necessary to write '\x00'==0 to get something
-|    that's true only with -std.  */
-| int osf4_cc_array ['\x00' == 0 ? 1 : -1];
-| 
-| /* IBM C 6 for AIX is almost-ANSI by default, but it replaces macro parameters
-|    inside strings and character constants.  */
-| #define FOO(x) 'x'
-| int xlc6_cc_array[FOO(a) == 'x' ? 1 : -1];
-| 
-| int test (int i, double x);
-| struct s1 {int (*f) (int a);};
-| struct s2 {int (*f) (double a);};
-| int pairnames (int, char **, FILE *(*)(struct buf *, struct stat *, int), int, int);
-| int argc;
-| char **argv;
-| int
-| main ()
-| {
-| return f (e, argv, 0) != argv[0]  ||  f (e, argv, 1) != argv[1];
-|   ;
-|   return 0;
-| }
-configure:3038: gcc -qlanglvl=ansi -c -O2 -I/Developer/SDKs/MacOSX10.4u.sdk/usr/include -I/Developer/SDKs/MacOSX10.4u.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc -O2 -I/Developer/SDKs/MacOSX10.4u.sdk/usr/include -I/Developer/SDKs/MacOSX10.4u.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc conftest.c >&5
-In file included from conftest.c:8:
-/Developer/SDKs/MacOSX10.4u.sdk/usr/include/stdarg.h:4:25: error: stdarg.h: No such file or directory
-conftest.c: In function 'f':
-conftest.c:26: error: expected expression before 'int'
-configure:3045: $? = 1
-configure: failed program was:
-| /* confdefs.h.  */
-| #define PACKAGE_NAME "FreeType"
-| #define PACKAGE_TARNAME "freetype"
-| #define PACKAGE_VERSION "2.3.9"
-| #define PACKAGE_STRING "FreeType 2.3.9"
-| #define PACKAGE_BUGREPORT "freetype@nongnu.org"
-| /* end confdefs.h.  */
-| #include <stdarg.h>
-| #include <stdio.h>
-| #include <sys/types.h>
-| #include <sys/stat.h>
-| /* Most of the following tests are stolen from RCS 5.7's src/conf.sh.  */
-| struct buf { int x; };
-| FILE * (*rcsopen) (struct buf *, struct stat *, int);
-| static char *e (p, i)
-|      char **p;
-|      int i;
-| {
-|   return p[i];
-| }
-| static char *f (char * (*g) (char **, int), char **p, ...)
-| {
-|   char *s;
-|   va_list v;
-|   va_start (v,p);
-|   s = g (p, va_arg (v,int));
-|   va_end (v);
-|   return s;
-| }
-| 
-| /* OSF 4.0 Compaq cc is some sort of almost-ANSI by default.  It has
-|    function prototypes and stuff, but not '\xHH' hex character constants.
-|    These don't provoke an error unfortunately, instead are silently treated
-|    as 'x'.  The following induces an error, until -std is added to get
-|    proper ANSI mode.  Curiously '\x00'!='x' always comes out true, for an
-|    array size at least.  It's necessary to write '\x00'==0 to get something
-|    that's true only with -std.  */
-| int osf4_cc_array ['\x00' == 0 ? 1 : -1];
-| 
-| /* IBM C 6 for AIX is almost-ANSI by default, but it replaces macro parameters
-|    inside strings and character constants.  */
-| #define FOO(x) 'x'
-| int xlc6_cc_array[FOO(a) == 'x' ? 1 : -1];
-| 
-| int test (int i, double x);
-| struct s1 {int (*f) (int a);};
-| struct s2 {int (*f) (double a);};
-| int pairnames (int, char **, FILE *(*)(struct buf *, struct stat *, int), int, int);
-| int argc;
-| char **argv;
-| int
-| main ()
-| {
-| return f (e, argv, 0) != argv[0]  ||  f (e, argv, 1) != argv[1];
-|   ;
-|   return 0;
-| }
-configure:3038: gcc -std -c -O2 -I/Developer/SDKs/MacOSX10.4u.sdk/usr/include -I/Developer/SDKs/MacOSX10.4u.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc -O2 -I/Developer/SDKs/MacOSX10.4u.sdk/usr/include -I/Developer/SDKs/MacOSX10.4u.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc conftest.c >&5
-cc1: error: unrecognized command line option "-std"
-configure:3045: $? = 1
-configure: failed program was:
-| /* confdefs.h.  */
-| #define PACKAGE_NAME "FreeType"
-| #define PACKAGE_TARNAME "freetype"
-| #define PACKAGE_VERSION "2.3.9"
-| #define PACKAGE_STRING "FreeType 2.3.9"
-| #define PACKAGE_BUGREPORT "freetype@nongnu.org"
-| /* end confdefs.h.  */
-| #include <stdarg.h>
-| #include <stdio.h>
-| #include <sys/types.h>
-| #include <sys/stat.h>
-| /* Most of the following tests are stolen from RCS 5.7's src/conf.sh.  */
-| struct buf { int x; };
-| FILE * (*rcsopen) (struct buf *, struct stat *, int);
-| static char *e (p, i)
-|      char **p;
-|      int i;
-| {
-|   return p[i];
-| }
-| static char *f (char * (*g) (char **, int), char **p, ...)
-| {
-|   char *s;
-|   va_list v;
-|   va_start (v,p);
-|   s = g (p, va_arg (v,int));
-|   va_end (v);
-|   return s;
-| }
-| 
-| /* OSF 4.0 Compaq cc is some sort of almost-ANSI by default.  It has
-|    function prototypes and stuff, but not '\xHH' hex character constants.
-|    These don't provoke an error unfortunately, instead are silently treated
-|    as 'x'.  The following induces an error, until -std is added to get
-|    proper ANSI mode.  Curiously '\x00'!='x' always comes out true, for an
-|    array size at least.  It's necessary to write '\x00'==0 to get something
-|    that's true only with -std.  */
-| int osf4_cc_array ['\x00' == 0 ? 1 : -1];
-| 
-| /* IBM C 6 for AIX is almost-ANSI by default, but it replaces macro parameters
-|    inside strings and character constants.  */
-| #define FOO(x) 'x'
-| int xlc6_cc_array[FOO(a) == 'x' ? 1 : -1];
-| 
-| int test (int i, double x);
-| struct s1 {int (*f) (int a);};
-| struct s2 {int (*f) (double a);};
-| int pairnames (int, char **, FILE *(*)(struct buf *, struct stat *, int), int, int);
-| int argc;
-| char **argv;
-| int
-| main ()
-| {
-| return f (e, argv, 0) != argv[0]  ||  f (e, argv, 1) != argv[1];
-|   ;
-|   return 0;
-| }
-configure:3038: gcc -Ae -c -O2 -I/Developer/SDKs/MacOSX10.4u.sdk/usr/include -I/Developer/SDKs/MacOSX10.4u.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc -O2 -I/Developer/SDKs/MacOSX10.4u.sdk/usr/include -I/Developer/SDKs/MacOSX10.4u.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc conftest.c >&5
-<command-line>: error: missing '(' after predicate
-In file included from conftest.c:8:
-/Developer/SDKs/MacOSX10.4u.sdk/usr/include/stdarg.h:4:25: error: stdarg.h: No such file or directory
-conftest.c: In function 'f':
-conftest.c:26: error: expected expression before 'int'
-configure:3045: $? = 1
-configure: failed program was:
-| /* confdefs.h.  */
-| #define PACKAGE_NAME "FreeType"
-| #define PACKAGE_TARNAME "freetype"
-| #define PACKAGE_VERSION "2.3.9"
-| #define PACKAGE_STRING "FreeType 2.3.9"
-| #define PACKAGE_BUGREPORT "freetype@nongnu.org"
-| /* end confdefs.h.  */
-| #include <stdarg.h>
-| #include <stdio.h>
-| #include <sys/types.h>
-| #include <sys/stat.h>
-| /* Most of the following tests are stolen from RCS 5.7's src/conf.sh.  */
-| struct buf { int x; };
-| FILE * (*rcsopen) (struct buf *, struct stat *, int);
-| static char *e (p, i)
-|      char **p;
-|      int i;
-| {
-|   return p[i];
-| }
-| static char *f (char * (*g) (char **, int), char **p, ...)
-| {
-|   char *s;
-|   va_list v;
-|   va_start (v,p);
-|   s = g (p, va_arg (v,int));
-|   va_end (v);
-|   return s;
-| }
-| 
-| /* OSF 4.0 Compaq cc is some sort of almost-ANSI by default.  It has
-|    function prototypes and stuff, but not '\xHH' hex character constants.
-|    These don't provoke an error unfortunately, instead are silently treated
-|    as 'x'.  The following induces an error, until -std is added to get
-|    proper ANSI mode.  Curiously '\x00'!='x' always comes out true, for an
-|    array size at least.  It's necessary to write '\x00'==0 to get something
-|    that's true only with -std.  */
-| int osf4_cc_array ['\x00' == 0 ? 1 : -1];
-| 
-| /* IBM C 6 for AIX is almost-ANSI by default, but it replaces macro parameters
-|    inside strings and character constants.  */
-| #define FOO(x) 'x'
-| int xlc6_cc_array[FOO(a) == 'x' ? 1 : -1];
-| 
-| int test (int i, double x);
-| struct s1 {int (*f) (int a);};
-| struct s2 {int (*f) (double a);};
-| int pairnames (int, char **, FILE *(*)(struct buf *, struct stat *, int), int, int);
-| int argc;
-| char **argv;
-| int
-| main ()
-| {
-| return f (e, argv, 0) != argv[0]  ||  f (e, argv, 1) != argv[1];
-|   ;
-|   return 0;
-| }
-configure:3038: gcc -Aa -D_HPUX_SOURCE -c -O2 -I/Developer/SDKs/MacOSX10.4u.sdk/usr/include -I/Developer/SDKs/MacOSX10.4u.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc -O2 -I/Developer/SDKs/MacOSX10.4u.sdk/usr/include -I/Developer/SDKs/MacOSX10.4u.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc conftest.c >&5
-<command-line>: error: missing '(' after predicate
-In file included from conftest.c:8:
-/Developer/SDKs/MacOSX10.4u.sdk/usr/include/stdarg.h:4:25: error: stdarg.h: No such file or directory
-conftest.c: In function 'f':
-conftest.c:26: error: expected expression before 'int'
-configure:3045: $? = 1
-configure: failed program was:
-| /* confdefs.h.  */
-| #define PACKAGE_NAME "FreeType"
-| #define PACKAGE_TARNAME "freetype"
-| #define PACKAGE_VERSION "2.3.9"
-| #define PACKAGE_STRING "FreeType 2.3.9"
-| #define PACKAGE_BUGREPORT "freetype@nongnu.org"
-| /* end confdefs.h.  */
-| #include <stdarg.h>
-| #include <stdio.h>
-| #include <sys/types.h>
-| #include <sys/stat.h>
-| /* Most of the following tests are stolen from RCS 5.7's src/conf.sh.  */
-| struct buf { int x; };
-| FILE * (*rcsopen) (struct buf *, struct stat *, int);
-| static char *e (p, i)
-|      char **p;
-|      int i;
-| {
-|   return p[i];
-| }
-| static char *f (char * (*g) (char **, int), char **p, ...)
-| {
-|   char *s;
-|   va_list v;
-|   va_start (v,p);
-|   s = g (p, va_arg (v,int));
-|   va_end (v);
-|   return s;
-| }
-| 
-| /* OSF 4.0 Compaq cc is some sort of almost-ANSI by default.  It has
-|    function prototypes and stuff, but not '\xHH' hex character constants.
-|    These don't provoke an error unfortunately, instead are silently treated
-|    as 'x'.  The following induces an error, until -std is added to get
-|    proper ANSI mode.  Curiously '\x00'!='x' always comes out true, for an
-|    array size at least.  It's necessary to write '\x00'==0 to get something
-|    that's true only with -std.  */
-| int osf4_cc_array ['\x00' == 0 ? 1 : -1];
-| 
-| /* IBM C 6 for AIX is almost-ANSI by default, but it replaces macro parameters
-|    inside strings and character constants.  */
-| #define FOO(x) 'x'
-| int xlc6_cc_array[FOO(a) == 'x' ? 1 : -1];
-| 
-| int test (int i, double x);
-| struct s1 {int (*f) (int a);};
-| struct s2 {int (*f) (double a);};
-| int pairnames (int, char **, FILE *(*)(struct buf *, struct stat *, int), int, int);
-| int argc;
-| char **argv;
-| int
-| main ()
-| {
-| return f (e, argv, 0) != argv[0]  ||  f (e, argv, 1) != argv[1];
-|   ;
-|   return 0;
-| }
-configure:3038: gcc -Xc -D__EXTENSIONS__ -c -O2 -I/Developer/SDKs/MacOSX10.4u.sdk/usr/include -I/Developer/SDKs/MacOSX10.4u.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc -O2 -I/Developer/SDKs/MacOSX10.4u.sdk/usr/include -I/Developer/SDKs/MacOSX10.4u.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc conftest.c >&5
-In file included from conftest.c:8:
-/Developer/SDKs/MacOSX10.4u.sdk/usr/include/stdarg.h:4:25: error: stdarg.h: No such file or directory
-conftest.c: In function 'f':
-conftest.c:26: error: expected expression before 'int'
-configure:3045: $? = 1
-configure: failed program was:
-| /* confdefs.h.  */
-| #define PACKAGE_NAME "FreeType"
-| #define PACKAGE_TARNAME "freetype"
-| #define PACKAGE_VERSION "2.3.9"
-| #define PACKAGE_STRING "FreeType 2.3.9"
-| #define PACKAGE_BUGREPORT "freetype@nongnu.org"
-| /* end confdefs.h.  */
-| #include <stdarg.h>
-| #include <stdio.h>
-| #include <sys/types.h>
-| #include <sys/stat.h>
-| /* Most of the following tests are stolen from RCS 5.7's src/conf.sh.  */
-| struct buf { int x; };
-| FILE * (*rcsopen) (struct buf *, struct stat *, int);
-| static char *e (p, i)
-|      char **p;
-|      int i;
-| {
-|   return p[i];
-| }
-| static char *f (char * (*g) (char **, int), char **p, ...)
-| {
-|   char *s;
-|   va_list v;
-|   va_start (v,p);
-|   s = g (p, va_arg (v,int));
-|   va_end (v);
-|   return s;
-| }
-| 
-| /* OSF 4.0 Compaq cc is some sort of almost-ANSI by default.  It has
-|    function prototypes and stuff, but not '\xHH' hex character constants.
-|    These don't provoke an error unfortunately, instead are silently treated
-|    as 'x'.  The following induces an error, until -std is added to get
-|    proper ANSI mode.  Curiously '\x00'!='x' always comes out true, for an
-|    array size at least.  It's necessary to write '\x00'==0 to get something
-|    that's true only with -std.  */
-| int osf4_cc_array ['\x00' == 0 ? 1 : -1];
-| 
-| /* IBM C 6 for AIX is almost-ANSI by default, but it replaces macro parameters
-|    inside strings and character constants.  */
-| #define FOO(x) 'x'
-| int xlc6_cc_array[FOO(a) == 'x' ? 1 : -1];
-| 
-| int test (int i, double x);
-| struct s1 {int (*f) (int a);};
-| struct s2 {int (*f) (double a);};
-| int pairnames (int, char **, FILE *(*)(struct buf *, struct stat *, int), int, int);
-| int argc;
-| char **argv;
-| int
-| main ()
-| {
-| return f (e, argv, 0) != argv[0]  ||  f (e, argv, 1) != argv[1];
-|   ;
-|   return 0;
-| }
-configure:3071: result: unsupported
+configure:2964: checking for gcc-4.2 option to accept ISO C89
+configure:3038: gcc-4.2  -c -O2 -I/Developer/SDKs/MacOSX10.5.sdk/usr/include -I/Developer/SDKs/MacOSX10.5.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64 -O2 -I/Developer/SDKs/MacOSX10.5.sdk/usr/include -I/Developer/SDKs/MacOSX10.5.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64 conftest.c >&5
+configure:3045: $? = 0
+configure:3068: result: none needed
 configure:3091: checking how to run the C preprocessor
-configure:3131: gcc -E -O2 -I/Developer/SDKs/MacOSX10.4u.sdk/usr/include -I/Developer/SDKs/MacOSX10.4u.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc conftest.c
+configure:3131: gcc-4.2 -E -O2 -I/Developer/SDKs/MacOSX10.5.sdk/usr/include -I/Developer/SDKs/MacOSX10.5.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64 conftest.c
 configure:3138: $? = 0
-configure:3169: gcc -E -O2 -I/Developer/SDKs/MacOSX10.4u.sdk/usr/include -I/Developer/SDKs/MacOSX10.4u.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc conftest.c
+configure:3169: gcc-4.2 -E -O2 -I/Developer/SDKs/MacOSX10.5.sdk/usr/include -I/Developer/SDKs/MacOSX10.5.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64 conftest.c
 conftest.c:8:28: error: ac_nonexistent.h: No such file or directory
 configure:3176: $? = 1
 configure: failed program was:
@@ -564,10 +117,10 @@ configure: failed program was:
 | #define PACKAGE_BUGREPORT "freetype@nongnu.org"
 | /* end confdefs.h.  */
 | #include <ac_nonexistent.h>
-configure:3209: result: gcc -E
-configure:3238: gcc -E -O2 -I/Developer/SDKs/MacOSX10.4u.sdk/usr/include -I/Developer/SDKs/MacOSX10.4u.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc conftest.c
+configure:3209: result: gcc-4.2 -E
+configure:3238: gcc-4.2 -E -O2 -I/Developer/SDKs/MacOSX10.5.sdk/usr/include -I/Developer/SDKs/MacOSX10.5.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64 conftest.c
 configure:3245: $? = 0
-configure:3276: gcc -E -O2 -I/Developer/SDKs/MacOSX10.4u.sdk/usr/include -I/Developer/SDKs/MacOSX10.4u.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc conftest.c
+configure:3276: gcc-4.2 -E -O2 -I/Developer/SDKs/MacOSX10.5.sdk/usr/include -I/Developer/SDKs/MacOSX10.5.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64 conftest.c
 conftest.c:8:28: error: ac_nonexistent.h: No such file or directory
 configure:3283: $? = 1
 configure: failed program was:
@@ -592,75 +145,55 @@ configure:3760: result: /usr/bin/grep
 configure:3765: checking for egrep
 configure:3829: result: /usr/bin/grep -E
 configure:3834: checking for ANSI C header files
-configure:3864: gcc -c -O2 -I/Developer/SDKs/MacOSX10.4u.sdk/usr/include -I/Developer/SDKs/MacOSX10.4u.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc -O2 -I/Developer/SDKs/MacOSX10.4u.sdk/usr/include -I/Developer/SDKs/MacOSX10.4u.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc conftest.c >&5
-In file included from conftest.c:9:
-/Developer/SDKs/MacOSX10.4u.sdk/usr/include/stdarg.h:4:25: error: stdarg.h: No such file or directory
-In file included from conftest.c:11:
-/Developer/SDKs/MacOSX10.4u.sdk/usr/include/float.h:8:24: error: float.h: No such file or directory
-configure:3871: $? = 1
-configure: failed program was:
-| /* confdefs.h.  */
-| #define PACKAGE_NAME "FreeType"
-| #define PACKAGE_TARNAME "freetype"
-| #define PACKAGE_VERSION "2.3.9"
-| #define PACKAGE_STRING "FreeType 2.3.9"
-| #define PACKAGE_BUGREPORT "freetype@nongnu.org"
-| /* end confdefs.h.  */
-| #include <stdlib.h>
-| #include <stdarg.h>
-| #include <string.h>
-| #include <float.h>
-| 
-| int
-| main ()
-| {
-| 
-|   ;
-|   return 0;
-| }
-configure:4002: result: no
+configure:3864: gcc-4.2 -c -O2 -I/Developer/SDKs/MacOSX10.5.sdk/usr/include -I/Developer/SDKs/MacOSX10.5.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64 -O2 -I/Developer/SDKs/MacOSX10.5.sdk/usr/include -I/Developer/SDKs/MacOSX10.5.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64 conftest.c >&5
+configure:3871: $? = 0
+configure:3970: gcc-4.2 -o conftest -O2 -I/Developer/SDKs/MacOSX10.5.sdk/usr/include -I/Developer/SDKs/MacOSX10.5.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64 -O2 -I/Developer/SDKs/MacOSX10.5.sdk/usr/include -I/Developer/SDKs/MacOSX10.5.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64 -isysroot  -Wl,-syslibroot,/Developer/SDKs/MacOSX10.5.sdk -arch x86_64 conftest.c  >&5
+configure:3974: $? = 0
+configure:3980: ./conftest
+configure:3984: $? = 0
+configure:4002: result: yes
 configure:4026: checking for sys/types.h
-configure:4047: gcc -c -O2 -I/Developer/SDKs/MacOSX10.4u.sdk/usr/include -I/Developer/SDKs/MacOSX10.4u.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc -O2 -I/Developer/SDKs/MacOSX10.4u.sdk/usr/include -I/Developer/SDKs/MacOSX10.4u.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc conftest.c >&5
+configure:4047: gcc-4.2 -c -O2 -I/Developer/SDKs/MacOSX10.5.sdk/usr/include -I/Developer/SDKs/MacOSX10.5.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64 -O2 -I/Developer/SDKs/MacOSX10.5.sdk/usr/include -I/Developer/SDKs/MacOSX10.5.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64 conftest.c >&5
 configure:4054: $? = 0
 configure:4071: result: yes
 configure:4026: checking for sys/stat.h
-configure:4047: gcc -c -O2 -I/Developer/SDKs/MacOSX10.4u.sdk/usr/include -I/Developer/SDKs/MacOSX10.4u.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc -O2 -I/Developer/SDKs/MacOSX10.4u.sdk/usr/include -I/Developer/SDKs/MacOSX10.4u.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc conftest.c >&5
+configure:4047: gcc-4.2 -c -O2 -I/Developer/SDKs/MacOSX10.5.sdk/usr/include -I/Developer/SDKs/MacOSX10.5.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64 -O2 -I/Developer/SDKs/MacOSX10.5.sdk/usr/include -I/Developer/SDKs/MacOSX10.5.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64 conftest.c >&5
 configure:4054: $? = 0
 configure:4071: result: yes
 configure:4026: checking for stdlib.h
-configure:4047: gcc -c -O2 -I/Developer/SDKs/MacOSX10.4u.sdk/usr/include -I/Developer/SDKs/MacOSX10.4u.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc -O2 -I/Developer/SDKs/MacOSX10.4u.sdk/usr/include -I/Developer/SDKs/MacOSX10.4u.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc conftest.c >&5
+configure:4047: gcc-4.2 -c -O2 -I/Developer/SDKs/MacOSX10.5.sdk/usr/include -I/Developer/SDKs/MacOSX10.5.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64 -O2 -I/Developer/SDKs/MacOSX10.5.sdk/usr/include -I/Developer/SDKs/MacOSX10.5.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64 conftest.c >&5
 configure:4054: $? = 0
 configure:4071: result: yes
 configure:4026: checking for string.h
-configure:4047: gcc -c -O2 -I/Developer/SDKs/MacOSX10.4u.sdk/usr/include -I/Developer/SDKs/MacOSX10.4u.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc -O2 -I/Developer/SDKs/MacOSX10.4u.sdk/usr/include -I/Developer/SDKs/MacOSX10.4u.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc conftest.c >&5
+configure:4047: gcc-4.2 -c -O2 -I/Developer/SDKs/MacOSX10.5.sdk/usr/include -I/Developer/SDKs/MacOSX10.5.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64 -O2 -I/Developer/SDKs/MacOSX10.5.sdk/usr/include -I/Developer/SDKs/MacOSX10.5.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64 conftest.c >&5
 configure:4054: $? = 0
 configure:4071: result: yes
 configure:4026: checking for memory.h
-configure:4047: gcc -c -O2 -I/Developer/SDKs/MacOSX10.4u.sdk/usr/include -I/Developer/SDKs/MacOSX10.4u.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc -O2 -I/Developer/SDKs/MacOSX10.4u.sdk/usr/include -I/Developer/SDKs/MacOSX10.4u.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc conftest.c >&5
+configure:4047: gcc-4.2 -c -O2 -I/Developer/SDKs/MacOSX10.5.sdk/usr/include -I/Developer/SDKs/MacOSX10.5.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64 -O2 -I/Developer/SDKs/MacOSX10.5.sdk/usr/include -I/Developer/SDKs/MacOSX10.5.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64 conftest.c >&5
 configure:4054: $? = 0
 configure:4071: result: yes
 configure:4026: checking for strings.h
-configure:4047: gcc -c -O2 -I/Developer/SDKs/MacOSX10.4u.sdk/usr/include -I/Developer/SDKs/MacOSX10.4u.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc -O2 -I/Developer/SDKs/MacOSX10.4u.sdk/usr/include -I/Developer/SDKs/MacOSX10.4u.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc conftest.c >&5
+configure:4047: gcc-4.2 -c -O2 -I/Developer/SDKs/MacOSX10.5.sdk/usr/include -I/Developer/SDKs/MacOSX10.5.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64 -O2 -I/Developer/SDKs/MacOSX10.5.sdk/usr/include -I/Developer/SDKs/MacOSX10.5.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64 conftest.c >&5
 configure:4054: $? = 0
 configure:4071: result: yes
 configure:4026: checking for inttypes.h
-configure:4047: gcc -c -O2 -I/Developer/SDKs/MacOSX10.4u.sdk/usr/include -I/Developer/SDKs/MacOSX10.4u.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc -O2 -I/Developer/SDKs/MacOSX10.4u.sdk/usr/include -I/Developer/SDKs/MacOSX10.4u.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc conftest.c >&5
+configure:4047: gcc-4.2 -c -O2 -I/Developer/SDKs/MacOSX10.5.sdk/usr/include -I/Developer/SDKs/MacOSX10.5.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64 -O2 -I/Developer/SDKs/MacOSX10.5.sdk/usr/include -I/Developer/SDKs/MacOSX10.5.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64 conftest.c >&5
 configure:4054: $? = 0
 configure:4071: result: yes
 configure:4026: checking for stdint.h
-configure:4047: gcc -c -O2 -I/Developer/SDKs/MacOSX10.4u.sdk/usr/include -I/Developer/SDKs/MacOSX10.4u.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc -O2 -I/Developer/SDKs/MacOSX10.4u.sdk/usr/include -I/Developer/SDKs/MacOSX10.4u.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc conftest.c >&5
+configure:4047: gcc-4.2 -c -O2 -I/Developer/SDKs/MacOSX10.5.sdk/usr/include -I/Developer/SDKs/MacOSX10.5.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64 -O2 -I/Developer/SDKs/MacOSX10.5.sdk/usr/include -I/Developer/SDKs/MacOSX10.5.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64 conftest.c >&5
 configure:4054: $? = 0
 configure:4071: result: yes
 configure:4026: checking for unistd.h
-configure:4047: gcc -c -O2 -I/Developer/SDKs/MacOSX10.4u.sdk/usr/include -I/Developer/SDKs/MacOSX10.4u.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc -O2 -I/Developer/SDKs/MacOSX10.4u.sdk/usr/include -I/Developer/SDKs/MacOSX10.4u.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc conftest.c >&5
+configure:4047: gcc-4.2 -c -O2 -I/Developer/SDKs/MacOSX10.5.sdk/usr/include -I/Developer/SDKs/MacOSX10.5.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64 -O2 -I/Developer/SDKs/MacOSX10.5.sdk/usr/include -I/Developer/SDKs/MacOSX10.5.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64 conftest.c >&5
 configure:4054: $? = 0
 configure:4071: result: yes
 configure:4102: checking fcntl.h usability
-configure:4119: gcc -c -O2 -I/Developer/SDKs/MacOSX10.4u.sdk/usr/include -I/Developer/SDKs/MacOSX10.4u.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc -O2 -I/Developer/SDKs/MacOSX10.4u.sdk/usr/include -I/Developer/SDKs/MacOSX10.4u.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc conftest.c >&5
+configure:4119: gcc-4.2 -c -O2 -I/Developer/SDKs/MacOSX10.5.sdk/usr/include -I/Developer/SDKs/MacOSX10.5.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64 -O2 -I/Developer/SDKs/MacOSX10.5.sdk/usr/include -I/Developer/SDKs/MacOSX10.5.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64 conftest.c >&5
 configure:4126: $? = 0
 configure:4140: result: yes
 configure:4144: checking fcntl.h presence
-configure:4159: gcc -E -O2 -I/Developer/SDKs/MacOSX10.4u.sdk/usr/include -I/Developer/SDKs/MacOSX10.4u.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc conftest.c
+configure:4159: gcc-4.2 -E -O2 -I/Developer/SDKs/MacOSX10.5.sdk/usr/include -I/Developer/SDKs/MacOSX10.5.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64 conftest.c
 configure:4166: $? = 0
 configure:4180: result: yes
 configure:4213: checking for fcntl.h
@@ -668,23 +201,21 @@ configure:4222: result: yes
 configure:4091: checking for unistd.h
 configure:4098: result: yes
 configure:4241: checking for an ANSI C-conforming const
-configure:4316: gcc -c -O2 -I/Developer/SDKs/MacOSX10.4u.sdk/usr/include -I/Developer/SDKs/MacOSX10.4u.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc -O2 -I/Developer/SDKs/MacOSX10.4u.sdk/usr/include -I/Developer/SDKs/MacOSX10.4u.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc conftest.c >&5
+configure:4316: gcc-4.2 -c -O2 -I/Developer/SDKs/MacOSX10.5.sdk/usr/include -I/Developer/SDKs/MacOSX10.5.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64 -O2 -I/Developer/SDKs/MacOSX10.5.sdk/usr/include -I/Developer/SDKs/MacOSX10.5.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64 conftest.c >&5
 configure:4323: $? = 0
 configure:4338: result: yes
 configure:4352: checking size of int
-configure:4657: gcc -o conftest -O2 -I/Developer/SDKs/MacOSX10.4u.sdk/usr/include -I/Developer/SDKs/MacOSX10.4u.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc -O2 -I/Developer/SDKs/MacOSX10.4u.sdk/usr/include -I/Developer/SDKs/MacOSX10.4u.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc -isysroot  -Wl,-syslibroot,/Developer/SDKs/MacOSX10.4u.sdk -arch ppc conftest.c  >&5
-ld: warning: object file compiled with -mlong-branch which is no longer needed. To remove this warning, recompile without -mlong-branch: /Developer/SDKs/MacOSX10.4u.sdk/usr/lib/crt1.o
+configure:4657: gcc-4.2 -o conftest -O2 -I/Developer/SDKs/MacOSX10.5.sdk/usr/include -I/Developer/SDKs/MacOSX10.5.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64 -O2 -I/Developer/SDKs/MacOSX10.5.sdk/usr/include -I/Developer/SDKs/MacOSX10.5.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64 -isysroot  -Wl,-syslibroot,/Developer/SDKs/MacOSX10.5.sdk -arch x86_64 conftest.c  >&5
 configure:4661: $? = 0
 configure:4667: ./conftest
 configure:4671: $? = 0
 configure:4697: result: 4
 configure:4711: checking size of long
-configure:5016: gcc -o conftest -O2 -I/Developer/SDKs/MacOSX10.4u.sdk/usr/include -I/Developer/SDKs/MacOSX10.4u.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc -O2 -I/Developer/SDKs/MacOSX10.4u.sdk/usr/include -I/Developer/SDKs/MacOSX10.4u.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc -isysroot  -Wl,-syslibroot,/Developer/SDKs/MacOSX10.4u.sdk -arch ppc conftest.c  >&5
-ld: warning: object file compiled with -mlong-branch which is no longer needed. To remove this warning, recompile without -mlong-branch: /Developer/SDKs/MacOSX10.4u.sdk/usr/lib/crt1.o
+configure:5016: gcc-4.2 -o conftest -O2 -I/Developer/SDKs/MacOSX10.5.sdk/usr/include -I/Developer/SDKs/MacOSX10.5.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64 -O2 -I/Developer/SDKs/MacOSX10.5.sdk/usr/include -I/Developer/SDKs/MacOSX10.5.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64 -isysroot  -Wl,-syslibroot,/Developer/SDKs/MacOSX10.5.sdk -arch x86_64 conftest.c  >&5
 configure:5020: $? = 0
 configure:5026: ./conftest
 configure:5030: $? = 0
-configure:5056: result: 4
+configure:5056: result: 8
 configure:5070: checking cpp computation of bit length in ftconfig.in works
 configure:5121: result: yes
 configure:5152: checking for stdlib.h
@@ -692,48 +223,43 @@ configure:5159: result: yes
 configure:5152: checking for unistd.h
 configure:5159: result: yes
 configure:5302: checking for getpagesize
-configure:5358: gcc -o conftest -O2 -I/Developer/SDKs/MacOSX10.4u.sdk/usr/include -I/Developer/SDKs/MacOSX10.4u.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc -O2 -I/Developer/SDKs/MacOSX10.4u.sdk/usr/include -I/Developer/SDKs/MacOSX10.4u.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc -isysroot  -Wl,-syslibroot,/Developer/SDKs/MacOSX10.4u.sdk -arch ppc conftest.c  >&5
-ld: warning: object file compiled with -mlong-branch which is no longer needed. To remove this warning, recompile without -mlong-branch: /Developer/SDKs/MacOSX10.4u.sdk/usr/lib/crt1.o
+configure:5358: gcc-4.2 -o conftest -O2 -I/Developer/SDKs/MacOSX10.5.sdk/usr/include -I/Developer/SDKs/MacOSX10.5.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64 -O2 -I/Developer/SDKs/MacOSX10.5.sdk/usr/include -I/Developer/SDKs/MacOSX10.5.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64 -isysroot  -Wl,-syslibroot,/Developer/SDKs/MacOSX10.5.sdk -arch x86_64 conftest.c  >&5
 configure:5365: $? = 0
 configure:5387: result: yes
 configure:5399: checking for working mmap
-configure:5546: gcc -o conftest -O2 -I/Developer/SDKs/MacOSX10.4u.sdk/usr/include -I/Developer/SDKs/MacOSX10.4u.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc -O2 -I/Developer/SDKs/MacOSX10.4u.sdk/usr/include -I/Developer/SDKs/MacOSX10.4u.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc -isysroot  -Wl,-syslibroot,/Developer/SDKs/MacOSX10.4u.sdk -arch ppc conftest.c  >&5
-ld: warning: object file compiled with -mlong-branch which is no longer needed. To remove this warning, recompile without -mlong-branch: /Developer/SDKs/MacOSX10.4u.sdk/usr/lib/crt1.o
+configure:5546: gcc-4.2 -o conftest -O2 -I/Developer/SDKs/MacOSX10.5.sdk/usr/include -I/Developer/SDKs/MacOSX10.5.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64 -O2 -I/Developer/SDKs/MacOSX10.5.sdk/usr/include -I/Developer/SDKs/MacOSX10.5.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64 -isysroot  -Wl,-syslibroot,/Developer/SDKs/MacOSX10.5.sdk -arch x86_64 conftest.c  >&5
 configure:5550: $? = 0
 configure:5556: ./conftest
 configure:5560: $? = 0
 configure:5577: result: yes
 configure:5593: checking whether munmap is declared
-configure:5630: gcc -c -O2 -I/Developer/SDKs/MacOSX10.4u.sdk/usr/include -I/Developer/SDKs/MacOSX10.4u.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc -O2 -I/Developer/SDKs/MacOSX10.4u.sdk/usr/include -I/Developer/SDKs/MacOSX10.4u.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc conftest.c >&5
+configure:5630: gcc-4.2 -c -O2 -I/Developer/SDKs/MacOSX10.5.sdk/usr/include -I/Developer/SDKs/MacOSX10.5.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64 -O2 -I/Developer/SDKs/MacOSX10.5.sdk/usr/include -I/Developer/SDKs/MacOSX10.5.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64 conftest.c >&5
 configure:5637: $? = 0
 configure:5652: result: yes
 configure:5671: checking for munmap's first parameter type
-configure:5695: gcc -c -O2 -I/Developer/SDKs/MacOSX10.4u.sdk/usr/include -I/Developer/SDKs/MacOSX10.4u.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc -O2 -I/Developer/SDKs/MacOSX10.4u.sdk/usr/include -I/Developer/SDKs/MacOSX10.4u.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc conftest.c >&5
+configure:5695: gcc-4.2 -c -O2 -I/Developer/SDKs/MacOSX10.5.sdk/usr/include -I/Developer/SDKs/MacOSX10.5.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64 -O2 -I/Developer/SDKs/MacOSX10.5.sdk/usr/include -I/Developer/SDKs/MacOSX10.5.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64 conftest.c >&5
 configure:5702: $? = 0
 configure:5707: result: void *
 configure:5732: checking for memcpy
-configure:5788: gcc -o conftest -O2 -I/Developer/SDKs/MacOSX10.4u.sdk/usr/include -I/Developer/SDKs/MacOSX10.4u.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc -O2 -I/Developer/SDKs/MacOSX10.4u.sdk/usr/include -I/Developer/SDKs/MacOSX10.4u.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc -isysroot  -Wl,-syslibroot,/Developer/SDKs/MacOSX10.4u.sdk -arch ppc conftest.c  >&5
-conftest.c:50: warning: conflicting types for built-in function 'memcpy'
-ld: warning: object file compiled with -mlong-branch which is no longer needed. To remove this warning, recompile without -mlong-branch: /Developer/SDKs/MacOSX10.4u.sdk/usr/lib/crt1.o
+configure:5788: gcc-4.2 -o conftest -O2 -I/Developer/SDKs/MacOSX10.5.sdk/usr/include -I/Developer/SDKs/MacOSX10.5.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64 -O2 -I/Developer/SDKs/MacOSX10.5.sdk/usr/include -I/Developer/SDKs/MacOSX10.5.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64 -isysroot  -Wl,-syslibroot,/Developer/SDKs/MacOSX10.5.sdk -arch x86_64 conftest.c  >&5
+conftest.c:51: warning: conflicting types for built-in function 'memcpy'
 configure:5795: $? = 0
 configure:5817: result: yes
 configure:5732: checking for memmove
-configure:5788: gcc -o conftest -O2 -I/Developer/SDKs/MacOSX10.4u.sdk/usr/include -I/Developer/SDKs/MacOSX10.4u.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc -O2 -I/Developer/SDKs/MacOSX10.4u.sdk/usr/include -I/Developer/SDKs/MacOSX10.4u.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc -isysroot  -Wl,-syslibroot,/Developer/SDKs/MacOSX10.4u.sdk -arch ppc conftest.c  >&5
-conftest.c:51: warning: conflicting types for built-in function 'memmove'
-ld: warning: object file compiled with -mlong-branch which is no longer needed. To remove this warning, recompile without -mlong-branch: /Developer/SDKs/MacOSX10.4u.sdk/usr/lib/crt1.o
+configure:5788: gcc-4.2 -o conftest -O2 -I/Developer/SDKs/MacOSX10.5.sdk/usr/include -I/Developer/SDKs/MacOSX10.5.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64 -O2 -I/Developer/SDKs/MacOSX10.5.sdk/usr/include -I/Developer/SDKs/MacOSX10.5.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64 -isysroot  -Wl,-syslibroot,/Developer/SDKs/MacOSX10.5.sdk -arch x86_64 conftest.c  >&5
+conftest.c:52: warning: conflicting types for built-in function 'memmove'
 configure:5795: $? = 0
 configure:5817: result: yes
 configure:5841: checking for gzsetparams in -lz
-configure:5876: gcc -o conftest -O2 -I/Developer/SDKs/MacOSX10.4u.sdk/usr/include -I/Developer/SDKs/MacOSX10.4u.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc -O2 -I/Developer/SDKs/MacOSX10.4u.sdk/usr/include -I/Developer/SDKs/MacOSX10.4u.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc -isysroot  -Wl,-syslibroot,/Developer/SDKs/MacOSX10.4u.sdk -arch ppc conftest.c -lz   >&5
-ld: warning: object file compiled with -mlong-branch which is no longer needed. To remove this warning, recompile without -mlong-branch: /Developer/SDKs/MacOSX10.4u.sdk/usr/lib/crt1.o
+configure:5876: gcc-4.2 -o conftest -O2 -I/Developer/SDKs/MacOSX10.5.sdk/usr/include -I/Developer/SDKs/MacOSX10.5.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64 -O2 -I/Developer/SDKs/MacOSX10.5.sdk/usr/include -I/Developer/SDKs/MacOSX10.5.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64 -isysroot  -Wl,-syslibroot,/Developer/SDKs/MacOSX10.5.sdk -arch x86_64 conftest.c -lz   >&5
 configure:5883: $? = 0
 configure:5904: result: yes
 configure:5917: checking zlib.h usability
-configure:5934: gcc -c -O2 -I/Developer/SDKs/MacOSX10.4u.sdk/usr/include -I/Developer/SDKs/MacOSX10.4u.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc -O2 -I/Developer/SDKs/MacOSX10.4u.sdk/usr/include -I/Developer/SDKs/MacOSX10.4u.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc conftest.c >&5
+configure:5934: gcc-4.2 -c -O2 -I/Developer/SDKs/MacOSX10.5.sdk/usr/include -I/Developer/SDKs/MacOSX10.5.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64 -O2 -I/Developer/SDKs/MacOSX10.5.sdk/usr/include -I/Developer/SDKs/MacOSX10.5.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64 conftest.c >&5
 configure:5941: $? = 0
 configure:5955: result: yes
 configure:5959: checking zlib.h presence
-configure:5974: gcc -E -O2 -I/Developer/SDKs/MacOSX10.4u.sdk/usr/include -I/Developer/SDKs/MacOSX10.4u.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc conftest.c
+configure:5974: gcc-4.2 -E -O2 -I/Developer/SDKs/MacOSX10.5.sdk/usr/include -I/Developer/SDKs/MacOSX10.5.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64 conftest.c
 configure:5981: $? = 0
 configure:5995: result: yes
 configure:6028: checking for zlib.h
@@ -746,17 +272,17 @@ configure:6873: checking for a sed that does not truncate output
 configure:6939: result: /usr/bin/sed
 configure:6957: checking for fgrep
 configure:7021: result: /usr/bin/grep -F
-configure:7056: checking for ld used by gcc
+configure:7056: checking for ld used by gcc-4.2
 configure:7123: result: /usr/libexec/gcc/i686-apple-darwin10/4.2.1/ld
 configure:7132: checking if the linker (/usr/libexec/gcc/i686-apple-darwin10/4.2.1/ld) is GNU ld
 configure:7147: result: no
 configure:7159: checking for BSD- or MS-compatible name lister (nm)
 configure:7208: result: /usr/bin/nm
 configure:7326: checking the name lister (/usr/bin/nm) interface
-configure:7333: gcc -c -O2 -I/Developer/SDKs/MacOSX10.4u.sdk/usr/include -I/Developer/SDKs/MacOSX10.4u.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc -DFT_CONFIG_OPTION_SYSTEM_ZLIB -DDARWIN_NO_CARBON -O2 -I/Developer/SDKs/MacOSX10.4u.sdk/usr/include -I/Developer/SDKs/MacOSX10.4u.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc conftest.c >&5
+configure:7333: gcc-4.2 -c -O2 -I/Developer/SDKs/MacOSX10.5.sdk/usr/include -I/Developer/SDKs/MacOSX10.5.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64 -DFT_CONFIG_OPTION_SYSTEM_ZLIB -DDARWIN_NO_CARBON -O2 -I/Developer/SDKs/MacOSX10.5.sdk/usr/include -I/Developer/SDKs/MacOSX10.5.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64 conftest.c >&5
 configure:7336: /usr/bin/nm "conftest.o"
 configure:7339: output
-00000000 D _some_variable
+0000000000000000 D _some_variable
 configure:7346: result: BSD nm
 configure:7349: checking whether ln -s works
 configure:7353: result: yes
@@ -781,18 +307,17 @@ configure:8073: result: strip
 configure:8145: checking for ranlib
 configure:8161: found /usr/bin/ranlib
 configure:8172: result: ranlib
-configure:8262: checking command to parse /usr/bin/nm output from gcc object
-configure:8380: gcc -c -O2 -I/Developer/SDKs/MacOSX10.4u.sdk/usr/include -I/Developer/SDKs/MacOSX10.4u.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc -DFT_CONFIG_OPTION_SYSTEM_ZLIB -DDARWIN_NO_CARBON -O2 -I/Developer/SDKs/MacOSX10.4u.sdk/usr/include -I/Developer/SDKs/MacOSX10.4u.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc conftest.c >&5
+configure:8262: checking command to parse /usr/bin/nm output from gcc-4.2 object
+configure:8380: gcc-4.2 -c -O2 -I/Developer/SDKs/MacOSX10.5.sdk/usr/include -I/Developer/SDKs/MacOSX10.5.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64 -DFT_CONFIG_OPTION_SYSTEM_ZLIB -DDARWIN_NO_CARBON -O2 -I/Developer/SDKs/MacOSX10.5.sdk/usr/include -I/Developer/SDKs/MacOSX10.5.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64 conftest.c >&5
 configure:8383: $? = 0
 configure:8387: /usr/bin/nm conftest.o \| sed -n -e 's/^.*[	 ]\([BCDEGRST][BCDEGRST]*\)[	 ][	 ]*\([_A-Za-z][_A-Za-z0-9]*\)$/\1 \2 \2/p' \> conftest.nm
 configure:8390: $? = 0
 cannot find nm_test_var in conftest.nm
-configure:8380: gcc -c -O2 -I/Developer/SDKs/MacOSX10.4u.sdk/usr/include -I/Developer/SDKs/MacOSX10.4u.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc -DFT_CONFIG_OPTION_SYSTEM_ZLIB -DDARWIN_NO_CARBON -O2 -I/Developer/SDKs/MacOSX10.4u.sdk/usr/include -I/Developer/SDKs/MacOSX10.4u.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc conftest.c >&5
+configure:8380: gcc-4.2 -c -O2 -I/Developer/SDKs/MacOSX10.5.sdk/usr/include -I/Developer/SDKs/MacOSX10.5.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64 -DFT_CONFIG_OPTION_SYSTEM_ZLIB -DDARWIN_NO_CARBON -O2 -I/Developer/SDKs/MacOSX10.5.sdk/usr/include -I/Developer/SDKs/MacOSX10.5.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64 conftest.c >&5
 configure:8383: $? = 0
 configure:8387: /usr/bin/nm conftest.o \| sed -n -e 's/^.*[	 ]\([BCDEGRST][BCDEGRST]*\)[	 ][	 ]*_\([_A-Za-z][_A-Za-z0-9]*\)$/\1 _\2 \2/p' \> conftest.nm
 configure:8390: $? = 0
-configure:8444: gcc -o conftest -O2 -I/Developer/SDKs/MacOSX10.4u.sdk/usr/include -I/Developer/SDKs/MacOSX10.4u.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc -DFT_CONFIG_OPTION_SYSTEM_ZLIB -DDARWIN_NO_CARBON -O2 -I/Developer/SDKs/MacOSX10.4u.sdk/usr/include -I/Developer/SDKs/MacOSX10.4u.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc -isysroot  -Wl,-syslibroot,/Developer/SDKs/MacOSX10.4u.sdk -arch ppc -lz conftest.c conftstm.o >&5
-ld: warning: object file compiled with -mlong-branch which is no longer needed. To remove this warning, recompile without -mlong-branch: /Developer/SDKs/MacOSX10.4u.sdk/usr/lib/crt1.o
+configure:8444: gcc-4.2 -o conftest -O2 -I/Developer/SDKs/MacOSX10.5.sdk/usr/include -I/Developer/SDKs/MacOSX10.5.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64 -DFT_CONFIG_OPTION_SYSTEM_ZLIB -DDARWIN_NO_CARBON -O2 -I/Developer/SDKs/MacOSX10.5.sdk/usr/include -I/Developer/SDKs/MacOSX10.5.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64 -isysroot  -Wl,-syslibroot,/Developer/SDKs/MacOSX10.5.sdk -arch x86_64 -lz conftest.c conftstm.o >&5
 configure:8447: $? = 0
 configure:8485: result: ok
 configure:8778: checking for dsymutil
@@ -810,39 +335,38 @@ configure:9081: result: otool
 configure:9146: checking for otool64
 configure:9176: result: no
 configure:9221: checking for -single_module linker flag
-gcc -O2 -I/Developer/SDKs/MacOSX10.4u.sdk/usr/include -I/Developer/SDKs/MacOSX10.4u.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc -DFT_CONFIG_OPTION_SYSTEM_ZLIB -DDARWIN_NO_CARBON -isysroot  -Wl,-syslibroot,/Developer/SDKs/MacOSX10.4u.sdk -arch ppc -lz -o libconftest.dylib -dynamiclib -Wl,-single_module conftest.c
+gcc-4.2 -O2 -I/Developer/SDKs/MacOSX10.5.sdk/usr/include -I/Developer/SDKs/MacOSX10.5.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64 -DFT_CONFIG_OPTION_SYSTEM_ZLIB -DDARWIN_NO_CARBON -isysroot  -Wl,-syslibroot,/Developer/SDKs/MacOSX10.5.sdk -arch x86_64 -lz -o libconftest.dylib -dynamiclib -Wl,-single_module conftest.c
 configure:9248: result: yes
 configure:9250: checking for -exported_symbols_list linker flag
-configure:9280: gcc -o conftest -O2 -I/Developer/SDKs/MacOSX10.4u.sdk/usr/include -I/Developer/SDKs/MacOSX10.4u.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc -DFT_CONFIG_OPTION_SYSTEM_ZLIB -DDARWIN_NO_CARBON -O2 -I/Developer/SDKs/MacOSX10.4u.sdk/usr/include -I/Developer/SDKs/MacOSX10.4u.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc -isysroot  -Wl,-syslibroot,/Developer/SDKs/MacOSX10.4u.sdk -arch ppc -lz -Wl,-exported_symbols_list,conftest.sym conftest.c  >&5
-ld: warning: object file compiled with -mlong-branch which is no longer needed. To remove this warning, recompile without -mlong-branch: /Developer/SDKs/MacOSX10.4u.sdk/usr/lib/crt1.o
+configure:9280: gcc-4.2 -o conftest -O2 -I/Developer/SDKs/MacOSX10.5.sdk/usr/include -I/Developer/SDKs/MacOSX10.5.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64 -DFT_CONFIG_OPTION_SYSTEM_ZLIB -DDARWIN_NO_CARBON -O2 -I/Developer/SDKs/MacOSX10.5.sdk/usr/include -I/Developer/SDKs/MacOSX10.5.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64 -isysroot  -Wl,-syslibroot,/Developer/SDKs/MacOSX10.5.sdk -arch x86_64 -lz -Wl,-exported_symbols_list,conftest.sym conftest.c  >&5
 configure:9287: $? = 0
 configure:9309: result: yes
 configure:9350: checking for dlfcn.h
-configure:9371: gcc -c -O2 -I/Developer/SDKs/MacOSX10.4u.sdk/usr/include -I/Developer/SDKs/MacOSX10.4u.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc -DFT_CONFIG_OPTION_SYSTEM_ZLIB -DDARWIN_NO_CARBON -O2 -I/Developer/SDKs/MacOSX10.4u.sdk/usr/include -I/Developer/SDKs/MacOSX10.4u.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc conftest.c >&5
+configure:9371: gcc-4.2 -c -O2 -I/Developer/SDKs/MacOSX10.5.sdk/usr/include -I/Developer/SDKs/MacOSX10.5.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64 -DFT_CONFIG_OPTION_SYSTEM_ZLIB -DDARWIN_NO_CARBON -O2 -I/Developer/SDKs/MacOSX10.5.sdk/usr/include -I/Developer/SDKs/MacOSX10.5.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64 conftest.c >&5
 configure:9378: $? = 0
 configure:9395: result: yes
 configure:9879: checking for objdir
 configure:9894: result: .libs
-configure:10186: checking if gcc supports -fno-rtti -fno-exceptions
-configure:10204: gcc -c -O2 -I/Developer/SDKs/MacOSX10.4u.sdk/usr/include -I/Developer/SDKs/MacOSX10.4u.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc -DFT_CONFIG_OPTION_SYSTEM_ZLIB -DDARWIN_NO_CARBON -O2 -I/Developer/SDKs/MacOSX10.4u.sdk/usr/include -I/Developer/SDKs/MacOSX10.4u.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc -fno-rtti -fno-exceptions conftest.c >&5
+configure:10186: checking if gcc-4.2 supports -fno-rtti -fno-exceptions
+configure:10204: gcc-4.2 -c -O2 -I/Developer/SDKs/MacOSX10.5.sdk/usr/include -I/Developer/SDKs/MacOSX10.5.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64 -DFT_CONFIG_OPTION_SYSTEM_ZLIB -DDARWIN_NO_CARBON -O2 -I/Developer/SDKs/MacOSX10.5.sdk/usr/include -I/Developer/SDKs/MacOSX10.5.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64 -fno-rtti -fno-exceptions conftest.c >&5
 cc1: warning: command line option "-fno-rtti" is valid for C++/ObjC++ but not for C
 configure:10208: $? = 0
 configure:10221: result: no
-configure:10241: checking for gcc option to produce PIC
+configure:10241: checking for gcc-4.2 option to produce PIC
 configure:10513: result: -fno-common -DPIC
-configure:10525: checking if gcc PIC flag -fno-common -DPIC works
-configure:10543: gcc -c -O2 -I/Developer/SDKs/MacOSX10.4u.sdk/usr/include -I/Developer/SDKs/MacOSX10.4u.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc -DFT_CONFIG_OPTION_SYSTEM_ZLIB -DDARWIN_NO_CARBON -O2 -I/Developer/SDKs/MacOSX10.4u.sdk/usr/include -I/Developer/SDKs/MacOSX10.4u.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc -fno-common -DPIC -DPIC conftest.c >&5
+configure:10525: checking if gcc-4.2 PIC flag -fno-common -DPIC works
+configure:10543: gcc-4.2 -c -O2 -I/Developer/SDKs/MacOSX10.5.sdk/usr/include -I/Developer/SDKs/MacOSX10.5.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64 -DFT_CONFIG_OPTION_SYSTEM_ZLIB -DDARWIN_NO_CARBON -O2 -I/Developer/SDKs/MacOSX10.5.sdk/usr/include -I/Developer/SDKs/MacOSX10.5.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64 -fno-common -DPIC -DPIC conftest.c >&5
 configure:10547: $? = 0
 configure:10560: result: yes
-configure:10584: checking if gcc static flag -static works
+configure:10584: checking if gcc-4.2 static flag -static works
 configure:10612: result: no
-configure:10627: checking if gcc supports -c -o file.o
-configure:10648: gcc -c -O2 -I/Developer/SDKs/MacOSX10.4u.sdk/usr/include -I/Developer/SDKs/MacOSX10.4u.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc -DFT_CONFIG_OPTION_SYSTEM_ZLIB -DDARWIN_NO_CARBON -O2 -I/Developer/SDKs/MacOSX10.4u.sdk/usr/include -I/Developer/SDKs/MacOSX10.4u.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc -o out/conftest2.o conftest.c >&5
+configure:10627: checking if gcc-4.2 supports -c -o file.o
+configure:10648: gcc-4.2 -c -O2 -I/Developer/SDKs/MacOSX10.5.sdk/usr/include -I/Developer/SDKs/MacOSX10.5.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64 -DFT_CONFIG_OPTION_SYSTEM_ZLIB -DDARWIN_NO_CARBON -O2 -I/Developer/SDKs/MacOSX10.5.sdk/usr/include -I/Developer/SDKs/MacOSX10.5.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64 -o out/conftest2.o conftest.c >&5
 configure:10652: $? = 0
 configure:10674: result: yes
-configure:10682: checking if gcc supports -c -o file.o
+configure:10682: checking if gcc-4.2 supports -c -o file.o
 configure:10729: result: yes
-configure:10762: checking whether the gcc linker (/usr/libexec/gcc/i686-apple-darwin10/4.2.1/ld) supports shared libraries
+configure:10762: checking whether the gcc-4.2 linker (/usr/libexec/gcc/i686-apple-darwin10/4.2.1/ld) supports shared libraries
 configure:11836: result: yes
 configure:12075: checking dynamic linker characteristics
 configure:12758: result: darwin10.5.0 dyld
@@ -873,12 +397,12 @@ generated by GNU Autoconf 2.63.  Invocation command line was
 
 on Carl-Christensens-MacBook-Pro.local
 
-config.status:980: creating unix-cc.mk
-config.status:980: creating unix-def.mk
-config.status:980: creating freetype-config
-config.status:980: creating freetype2.pc
-config.status:980: creating ftconfig.h
-config.status:1214: executing libtool commands
+config.status:981: creating unix-cc.mk
+config.status:981: creating unix-def.mk
+config.status:981: creating freetype-config
+config.status:981: creating freetype2.pc
+config.status:981: creating ftconfig.h
+config.status:1215: executing libtool commands
 
 ## ---------------- ##
 ## Cache variables. ##
@@ -888,15 +412,15 @@ ac_cv_build=i386-apple-darwin10.5.0
 ac_cv_c_compiler_gnu=yes
 ac_cv_c_const=yes
 ac_cv_env_CC_set=set
-ac_cv_env_CC_value=gcc
+ac_cv_env_CC_value=gcc-4.2
 ac_cv_env_CFLAGS_set=set
-ac_cv_env_CFLAGS_value='-O2 -I/Developer/SDKs/MacOSX10.4u.sdk/usr/include -I/Developer/SDKs/MacOSX10.4u.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc'
+ac_cv_env_CFLAGS_value='-O2 -I/Developer/SDKs/MacOSX10.5.sdk/usr/include -I/Developer/SDKs/MacOSX10.5.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64'
 ac_cv_env_CPPFLAGS_set=set
-ac_cv_env_CPPFLAGS_value='-O2 -I/Developer/SDKs/MacOSX10.4u.sdk/usr/include -I/Developer/SDKs/MacOSX10.4u.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc'
+ac_cv_env_CPPFLAGS_value='-O2 -I/Developer/SDKs/MacOSX10.5.sdk/usr/include -I/Developer/SDKs/MacOSX10.5.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64'
 ac_cv_env_CPP_set=
 ac_cv_env_CPP_value=
 ac_cv_env_LDFLAGS_set=set
-ac_cv_env_LDFLAGS_value='-isysroot  -Wl,-syslibroot,/Developer/SDKs/MacOSX10.4u.sdk -arch ppc'
+ac_cv_env_LDFLAGS_value='-isysroot  -Wl,-syslibroot,/Developer/SDKs/MacOSX10.5.sdk -arch x86_64'
 ac_cv_env_LIBS_set=
 ac_cv_env_LIBS_value=
 ac_cv_env_build_alias_set=
@@ -914,7 +438,7 @@ ac_cv_header_dlfcn_h=yes
 ac_cv_header_fcntl_h=yes
 ac_cv_header_inttypes_h=yes
 ac_cv_header_memory_h=yes
-ac_cv_header_stdc=no
+ac_cv_header_stdc=yes
 ac_cv_header_stdint_h=yes
 ac_cv_header_stdlib_h=yes
 ac_cv_header_string_h=yes
@@ -931,21 +455,21 @@ ac_cv_path_FGREP='/usr/bin/grep -F'
 ac_cv_path_GREP=/usr/bin/grep
 ac_cv_path_SED=/usr/bin/sed
 ac_cv_path_install='/usr/bin/install -c'
-ac_cv_prog_CPP='gcc -E'
+ac_cv_prog_CPP='gcc-4.2 -E'
 ac_cv_prog_RMDIR=rmdir
 ac_cv_prog_RMF='rm -f'
 ac_cv_prog_ac_ct_AR=ar
-ac_cv_prog_ac_ct_CC=gcc
+ac_cv_prog_ac_ct_CC=gcc-4.2
 ac_cv_prog_ac_ct_DSYMUTIL=dsymutil
 ac_cv_prog_ac_ct_LIPO=lipo
 ac_cv_prog_ac_ct_NMEDIT=nmedit
 ac_cv_prog_ac_ct_OTOOL=otool
 ac_cv_prog_ac_ct_RANLIB=ranlib
 ac_cv_prog_ac_ct_STRIP=strip
-ac_cv_prog_cc_c89=no
+ac_cv_prog_cc_c89=
 ac_cv_prog_cc_g=yes
 ac_cv_sizeof_int=4
-ac_cv_sizeof_long=4
+ac_cv_sizeof_long=8
 lt_cv_apple_cc_single_mod=yes
 lt_cv_deplibs_check_method=pass_all
 lt_cv_file_magic_cmd='$MAGIC_CMD'
@@ -973,11 +497,11 @@ lt_cv_sys_max_cmd_len=196608
 
 AR='ar'
 AS='as'
-CC='gcc'
-CC_BUILD='gcc'
-CFLAGS='-O2 -I/Developer/SDKs/MacOSX10.4u.sdk/usr/include -I/Developer/SDKs/MacOSX10.4u.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc -DFT_CONFIG_OPTION_SYSTEM_ZLIB -DDARWIN_NO_CARBON'
-CPP='gcc -E'
-CPPFLAGS='-O2 -I/Developer/SDKs/MacOSX10.4u.sdk/usr/include -I/Developer/SDKs/MacOSX10.4u.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc'
+CC='gcc-4.2'
+CC_BUILD='gcc-4.2'
+CFLAGS='-O2 -I/Developer/SDKs/MacOSX10.5.sdk/usr/include -I/Developer/SDKs/MacOSX10.5.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64 -DFT_CONFIG_OPTION_SYSTEM_ZLIB -DDARWIN_NO_CARBON'
+CPP='gcc-4.2 -E'
+CPPFLAGS='-O2 -I/Developer/SDKs/MacOSX10.5.sdk/usr/include -I/Developer/SDKs/MacOSX10.5.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64'
 DEFS='-DHAVE_CONFIG_H'
 DLLTOOL='dlltool'
 DSYMUTIL='dsymutil'
@@ -996,7 +520,7 @@ INSTALL_DATA='${INSTALL} -m 644'
 INSTALL_PROGRAM='${INSTALL}'
 INSTALL_SCRIPT='${INSTALL}'
 LD='/usr/libexec/gcc/i686-apple-darwin10/4.2.1/ld'
-LDFLAGS='-isysroot  -Wl,-syslibroot,/Developer/SDKs/MacOSX10.4u.sdk -arch ppc -lz'
+LDFLAGS='-isysroot  -Wl,-syslibroot,/Developer/SDKs/MacOSX10.5.sdk -arch x86_64 -lz'
 LIBOBJS=''
 LIBS=''
 LIBTOOL='$(SHELL) $(top_builddir)/libtool'
@@ -1023,9 +547,9 @@ SED='/usr/bin/sed'
 SHELL='/bin/sh'
 STRIP='strip'
 SYSTEM_ZLIB='yes'
-XX_ANSIFLAGS='-pedantic -ansi'
-XX_CFLAGS='-Wall'
-ac_ct_CC='gcc'
+XX_ANSIFLAGS=''
+XX_CFLAGS=''
+ac_ct_CC='gcc-4.2'
 ac_ct_DUMPBIN=''
 bindir='${exec_prefix}/bin'
 build='i386-apple-darwin10.5.0'
@@ -1077,6 +601,7 @@ wl='-Wl,'
 #define PACKAGE_VERSION "2.3.9"
 #define PACKAGE_STRING "FreeType 2.3.9"
 #define PACKAGE_BUGREPORT "freetype@nongnu.org"
+#define STDC_HEADERS 1
 #define HAVE_SYS_TYPES_H 1
 #define HAVE_SYS_STAT_H 1
 #define HAVE_STDLIB_H 1
@@ -1089,7 +614,7 @@ wl='-Wl,'
 #define HAVE_FCNTL_H 1
 #define HAVE_UNISTD_H 1
 #define SIZEOF_INT 4
-#define SIZEOF_LONG 4
+#define SIZEOF_LONG 8
 #define HAVE_STDLIB_H 1
 #define HAVE_UNISTD_H 1
 #define HAVE_GETPAGESIZE 1

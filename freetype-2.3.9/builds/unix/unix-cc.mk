@@ -12,7 +12,7 @@
 # fully.
 
 
-CC           := gcc
+CC           := gcc-4.2
 COMPILER_SEP := $(SEP)
 
 LIBTOOL ?= $(BUILD_DIR)/libtool
@@ -77,12 +77,12 @@ T := -o$(space)
 #
 #   We use our own FreeType configuration file.
 #
-CPPFLAGS := -O2 -I/Developer/SDKs/MacOSX10.4u.sdk/usr/include -I/Developer/SDKs/MacOSX10.4u.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc
-CFLAGS   := -c -Wall -O2 -I/Developer/SDKs/MacOSX10.4u.sdk/usr/include -I/Developer/SDKs/MacOSX10.4u.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc -DFT_CONFIG_OPTION_SYSTEM_ZLIB -DDARWIN_NO_CARBON -DFT_CONFIG_CONFIG_H="<ftconfig.h>"
+CPPFLAGS := -O2 -I/Developer/SDKs/MacOSX10.5.sdk/usr/include -I/Developer/SDKs/MacOSX10.5.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64
+CFLAGS   := -c  -O2 -I/Developer/SDKs/MacOSX10.5.sdk/usr/include -I/Developer/SDKs/MacOSX10.5.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64 -DFT_CONFIG_OPTION_SYSTEM_ZLIB -DDARWIN_NO_CARBON -DFT_CONFIG_CONFIG_H="<ftconfig.h>"
 
 # ANSIFLAGS: Put there the flags used to make your compiler ANSI-compliant.
 #
-ANSIFLAGS := -pedantic -ansi
+ANSIFLAGS := 
 
 # C compiler to use -- we use libtool!
 #
@@ -92,12 +92,12 @@ CC    := $(LIBTOOL) --mode=compile $(CCraw)
 
 # Linker flags.
 #
-LDFLAGS := -isysroot  -Wl,-syslibroot,/Developer/SDKs/MacOSX10.4u.sdk -arch ppc -lz
+LDFLAGS := -isysroot  -Wl,-syslibroot,/Developer/SDKs/MacOSX10.5.sdk -arch x86_64 -lz
 
 
 # export symbols
 #
-CCraw_build  := gcc	# native CC of building system
+CCraw_build  := gcc-4.2	# native CC of building system
 E_BUILD      := 	# extension for exexutable on building system
 EXPORTS_LIST := $(OBJ_DIR)/ftexport.sym
 CCexe        := $(CCraw_build)	# used to compile `apinames' only
