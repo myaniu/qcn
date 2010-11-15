@@ -1084,7 +1084,7 @@ void draw_plots_3d()
 */
 
     init_lights();
-    scale_screen(g_width, g_height);
+    scale_screen(g_width, g_height);  // boinc api/gutil function to get good aspect ratio
 
     rgx.draw((float*) aryg[E_DX], PLOT_ARRAY_SIZE, false);
     rgy.draw((float*) aryg[E_DY], PLOT_ARRAY_SIZE, false);
@@ -1752,12 +1752,12 @@ void Render(int xs, int ys, double time_of_day)
 
     switch (g_eView) {
        case VIEW_PLOT_2D:
-				//
-		   if (qcn_2dplot::IsWhite())  // white background for qcnlive
-				glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
-			else   // black background for screensaver
-				glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-
+	  if (qcn_2dplot::IsWhite()) { // white background for qcnlive
+	    glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
+	    //glClearColor(0.0f, 0.33984375f, 0.62109375f, 1.0f); // blue for splash screen
+	  } else {  // black background for screensaver
+	    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+          }
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 			glEnable (GL_LINE_SMOOTH);
 			glEnable (GL_BLEND);
@@ -1767,10 +1767,9 @@ void Render(int xs, int ys, double time_of_day)
 		  qcn_2dplot::draw_plot();
 		  draw_triggers();
 		  qcn_2dplot::draw_text();
-                  // qcn_2dplot::draw_scrollbar();
           break;
        case VIEW_PLOT_3D:
-	      glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	  glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
           draw_logo();
           draw_plots_3d();

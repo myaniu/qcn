@@ -86,11 +86,12 @@ void draw_text()
 	   }
 	}
 
+/*
 #ifdef _DEBUG
 	sprintf(strTime, "sampsize=%ld", sm->lSampleSize);
     txf_render_string_qcn(qcn_graphics::cfTextAlpha, .3f, cfAxesLabel[g_iShowSig][0], 0.0f, MSG_SIZE_SMALL, red, TXF_HELVETICA, (char*) strTime);
 #endif
-	
+*/	
 
 #ifdef _DEBUG_QCNLIVE
 	sprintf(strTime, "%+6.3f %+6.3f", qcn_graphics::g_fmin[0], qcn_graphics::g_fmax[0]);
@@ -290,7 +291,6 @@ void draw_plot()
 
     init_camera(viewpoint_distance[g_eView], 45.0f);
     init_lights();
-    scale_screen(g_width, g_height);
 
     // should just be simple draw each graph in 2D using the info in dx/dy/dz/ds?
     
@@ -302,6 +302,7 @@ void draw_plot()
 	glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glHint (GL_LINE_SMOOTH_HINT, GL_NICEST);
 	
+    scale_screen(g_width, g_height);  // boinc api/gutil function to get good aspect ratio
 	const int iMaxArray = g_iShowSig ? E_DS : E_DZ;  // don't bother plotting E_DS if they aren't showing sig
 
     for (int ee = E_DX; ee <= iMaxArray; ee++)  {
@@ -316,6 +317,7 @@ void draw_plot()
 		 // draw 2 above & 2 below and one in the middle
 		const float yfactor = g_iShowSig ? 2.50f : 3.333f, xfactor = 0.00f, yfudge = g_iShowSig ? 7.5f : 10.0f;  // note that depending on how many regions x/y/z/s showing, the fudge factor changes!
 		 for (int j = -2; j <= 3; j++) {
+//#ifndef _DEBUG  // to suppress lines
 			 glLineWidth(1);
 
 			 glColor4fv(grey);
@@ -333,7 +335,7 @@ void draw_plot()
 			 }
 
 			 glEnd();
-
+//#endif
 
 			// need to have the "later" lines override the "earlier" lines (i.e. plot data replaces axes lines)
 			//glBlendFunc (GL_DST_ALPHA, GL_SRC_ALPHA);
@@ -392,17 +394,18 @@ void draw_plot()
 		} // colored pointer
 	}
 
+//#ifndef _DEBUG  // suppress line/box drawing
 	const float fExt = 7.05f;
 	const float fFudge = 0.02f;
-		
 	draw_plot_boxes(xmin, xmax, ymin, ymax, fExt, fFudge);
 	draw_tick_marks();
-
-	 glColor4fv((GLfloat*) grey);
-	 glRectf(xmin, yax_2d[g_iShowSig][E_DX], xmax+fExt, ymin);  // bottom rectangle (timer ticks)
-
-	 //right side rectangular region
-	 glRectf(xmax, ymax, xmax+fExt, yax_2d[g_iShowSig][E_DX]);
+	glColor4fv((GLfloat*) grey);
+	glRectf(xmin, yax_2d[g_iShowSig][E_DX], xmax+fExt, ymin);  // bottom rectangle (timer ticks)
+	
+	//right side rectangular region
+	glRectf(xmax, ymax, xmax+fExt, yax_2d[g_iShowSig][E_DX]);
+//#endif
+	
 		 
 //    glPopMatrix();    
 		

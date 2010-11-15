@@ -127,7 +127,7 @@ bool MyApp::MainInit()
 	processEvents(); // give the app time to process mouse events since we're before the event loop
 
     // start init QCN/BOINC stuff -- this gets the latest quake data and creates a boinc-style init_data.xml file
-	if (m_psplash) m_psplash->showMessage(tr("Retrieving latest earthquakes..."), Qt::AlignRight | Qt::AlignBottom, Qt::red);
+	if (m_psplash) m_psplash->showMessage(tr("Retrieving latest earthquakes..."), Qt::AlignRight | Qt::AlignBottom, Qt::black);
 	
 	CreateBOINCInitFile();
 
@@ -137,7 +137,7 @@ bool MyApp::MainInit()
     qcn_main::parseArgs(0, NULL); // parse args has to be done early in startup, right after the first ResetCounter usually
 
 	processEvents(); // give the app time to process mouse events since we're before the event loop
-	if (m_psplash) m_psplash->showMessage(tr("Getting initial settings..."), Qt::AlignRight | Qt::AlignBottom, Qt::red);
+	if (m_psplash) m_psplash->showMessage(tr("Getting initial settings..."), Qt::AlignRight | Qt::AlignBottom, Qt::black);
     get_qcnlive_prefs();  // this sets the m_rect among other things
 
     return StartMainThread();  
@@ -336,9 +336,9 @@ bool MyApp::Init()
 	}
 	if (m_psplash) {
 		m_psplash->show();
-		m_psplash->showMessage(tr("Starting up..."), Qt::AlignRight | Qt::AlignBottom, Qt::red);
+		m_psplash->showMessage(tr("Starting up..."), Qt::AlignRight | Qt::AlignBottom, Qt::black);
 	}
-		
+	
     // note that since we're all in one process (yet with multiple threads, we can just build our shmem struct on the heap with new
 	// it will get deleted in MyApp::Exit, so we don't need the boinc call below (which I think never destroys the shared mem segment!)
     //	sm = (CQCNShMem*) boinc_graphics_make_shmem(QCNGUI_SHMEM, sizeof(CQCNShMem));
@@ -375,7 +375,7 @@ bool MyApp::Init()
     m_timer->start(1800000L);  // in milliseconds, so a half hour is a lot!
 	
 	processEvents(); // give the app time to process mouse events since we're before the event loop
-	if (m_psplash) m_psplash->showMessage(tr("Preparing graphics engine..."), Qt::AlignRight | Qt::AlignBottom, Qt::red);
+	if (m_psplash) m_psplash->showMessage(tr("Preparing graphics engine..."), Qt::AlignRight | Qt::AlignBottom, Qt::black);
 	m_frame = new MyFrame(this);  // construct the window frame
 	if (m_frame) {
 		m_frame->Init();

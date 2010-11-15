@@ -757,7 +757,7 @@ bool ScreenshotJPG(const unsigned int iWidth, const unsigned int iHeight, const 
                cinfo.in_color_space = JCS_RGB; // type of image
        
                jpeg_set_defaults(&cinfo);
-               jpeg_set_quality(&cinfo, iQuality, TRUE);
+               jpeg_set_quality(&cinfo, iQuality, FALSE);
                jpeg_start_compress(&cinfo, TRUE);
        
                // OpenGL writes from bottom to top.
