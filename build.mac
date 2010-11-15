@@ -1,6 +1,14 @@
 # note this file is needed as libraries such as ntpd, zlib, jpeg etc do not have XCode projects, but use the Linux-style autoconf/automake
 #!/bin/bash
 if (test "$1" = "all" || test "$2" = "all") then
+export CXX=
+export CC=
+export MARCH=
+export SDKROOT=
+export LDFLAGS=
+export CPPFLAGS=
+export CFLAGS=
+export CXXFLAGS=
 cd ntp-4.2.4p7
 chmod uog+rx build.mac
 ./build.mac
@@ -13,7 +21,21 @@ chmod uog+rx build.mac
 cd ../curl
 chmod uog+rx build.mac
 ./build.mac
+cd freetype-2.3.9
+chmod uog+rx build.mac
+./build.mac
+cd ../ftgl
+chmod uog+rx build.mac
+./build.mac
 cd ../
+export CXX=
+export CC=
+export MARCH=
+export SDKROOT=
+export LDFLAGS=
+export CPPFLAGS=
+export CFLAGS=
+export CXXFLAGS=
 unzip -o boinc_zip_xcode.zip -d ../boinc/zip/
 cd ../boinc/mac_build
 #NB - not using boinc libs, just use files directly
