@@ -7,6 +7,13 @@
 namespace TTFont {
 
 FTFont* g_font[NUM_FONT];
+int g_iFont = -1;
+static const char g_cstrFont[NUM_FONT][8]       = {
+	"simt",
+};
+
+static GLfloat g_transColor[3] = { 255, 0, 255 };  // this should be magenta - red = 255, green = 0, blue = 255
+	
 
 // load fonts. call once.
 //
