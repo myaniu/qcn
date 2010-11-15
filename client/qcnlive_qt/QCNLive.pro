@@ -43,7 +43,7 @@ INCLUDEPATH += \
         $$BASEDIRQCN \
         $$BASEDIRQCN/jpeg-6b \
         $$BASEDIRQCN/zlib-1.2.5 \
-        $$BASEDIRQCN/curl-7.21.0/include \
+        $$BASEDIRQCN/curl-7.19.5/include \
         $$BASEDIRQCN/ftgl-2.1.3 \
         $$BASEDIRQCN/freetype-2.3.9 \
         $$MAINDIR \
