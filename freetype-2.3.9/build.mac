@@ -4,7 +4,7 @@
 rm -rf lib
 rm -rf objs
 rm -f configure
-rm -f ../mac_build/libfreetype-universal.a
+rm -f ../client/mac_build/libfreetype-universal.a
 mkdir lib
 mkdir objs
 chmod uog+rx autogen.sh
@@ -14,9 +14,9 @@ cp builds/unix/configure.save builds/unix/configure
 chmod uog+rx builds/unix/configure
 export LIBTOOLIZE=/usr/local/bin/libtoolize
 
-export CC=gcc
-export CXX=g++
 export MARCH=ppc
+export CXX=g++-4.0
+export CC=gcc-4.0
 export MACOSX_DEPLOYMENT_TARGET=10.4
 export SDKROOT="/Developer/SDKs/MacOSX10.4u.sdk"
 export LDFLAGS="-isysroot $DEVKID -Wl,-syslibroot,$SDKROOT -arch $MARCH"
@@ -30,6 +30,8 @@ make
 mv objs/.libs/libfreetype.a lib/libfreetype_ppc.a
 
 export MARCH=i386
+export CXX=g++-4.0
+export CC=gcc-4.0
 export MACOSX_DEPLOYMENT_TARGET=10.4
 export SDKROOT="/Developer/SDKs/MacOSX10.4u.sdk"
 export LDFLAGS="-isysroot $DEVKID -Wl,-syslibroot,$SDKROOT -arch $MARCH"
@@ -42,18 +44,18 @@ make clean
 make
 mv objs/.libs/libfreetype.a lib/libfreetype_i386.a
 
-#export MARCH=x86_64
-#export MACOSX_DEPLOYMENT_TARGET=10.5
-#export SDKROOT="/Developer/SDKs/MacOSX10.5.sdk"
-#export LDFLAGS="-isysroot $DEVKID -Wl,-syslibroot,$SDKROOT -arch $MARCH"
-#export CPPFLAGS="-O2 -I$SDKROOT/usr/include -I$SDKROOT/usr/local/include -isysroot $SDKROOT -arch $MARCH"
-#export CFLAGS="-O2 -I$SDKROOT/usr/include -I$SDKROOT/usr/local/include -isysroot $SDKROOT -arch $MARCH"
-#export CXXFLAGS="-O2 -I$SDKROOT/usr/include -I$SDKROOT/usr/local/include -isysroot $SDKROOT -arch $MARCH"
-#./autogen.sh
-#./configure --enable-shared=no --enable-static=yes
-#make clean
-#make
-#mv objs/.libs/libfreetype.a lib/libfreetype_x86_64.a
-#lipo -arch ppc lib/libfreetype_ppc.a -arch i386 lib/libfreetype_i386.a -arch x86_64 lib/libfreetype_x86_64.a -create -output ../client/mac_build/libfreetype-universal.a
-lipo -arch ppc lib/libfreetype_ppc.a -arch i386 lib/libfreetype_i386.a -create -output ../client/mac_build/libfreetype-universal.a
-rm -rf lib ; make clean
+export MARCH=x86_64
+export CXX=g++-4.2
+export CC=gcc-4.2
+export MACOSX_DEPLOYMENT_TARGET=10.5
+export SDKROOT="/Developer/SDKs/MacOSX10.5.sdk"
+export LDFLAGS="-isysroot $DEVKID -Wl,-syslibroot,$SDKROOT -arch $MARCH"
+export CPPFLAGS="-O2 -I$SDKROOT/usr/include -I$SDKROOT/usr/local/include -isysroot $SDKROOT -arch $MARCH"
+export CFLAGS="-O2 -I$SDKROOT/usr/include -I$SDKROOT/usr/local/include -isysroot $SDKROOT -arch $MARCH"
+export CXXFLAGS="-O2 -I$SDKROOT/usr/include -I$SDKROOT/usr/local/include -isysroot $SDKROOT -arch $MARCH"
+./autogen.sh
+./configure --enable-shared=no --enable-static=yes
+make clean
+make
+mv objs/.libs/libfreetype.a lib/libfreetype_x86_64.a
+lipo -arch ppc lib/libfreetype_ppc.a -arch i386 lib/libfreetype_i386.a -arch x86_64 lib/libfreetype_x86_64.a -create -output ../client/mac_build/libfreetype-universal.a

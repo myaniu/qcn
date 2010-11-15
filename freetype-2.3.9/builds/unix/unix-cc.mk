@@ -77,8 +77,8 @@ T := -o$(space)
 #
 #   We use our own FreeType configuration file.
 #
-CPPFLAGS := -O2 -I/Developer/SDKs/MacOSX10.4u.sdk/usr/include -I/Developer/SDKs/MacOSX10.4u.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch i386
-CFLAGS   := -c -Wall -O2 -I/Developer/SDKs/MacOSX10.4u.sdk/usr/include -I/Developer/SDKs/MacOSX10.4u.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch i386 -DFT_CONFIG_OPTION_SYSTEM_ZLIB -DDARWIN_NO_CARBON -DFT_CONFIG_CONFIG_H="<ftconfig.h>"
+CPPFLAGS := -O2 -I/Developer/SDKs/MacOSX10.4u.sdk/usr/include -I/Developer/SDKs/MacOSX10.4u.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc
+CFLAGS   := -c -Wall -O2 -I/Developer/SDKs/MacOSX10.4u.sdk/usr/include -I/Developer/SDKs/MacOSX10.4u.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc -DFT_CONFIG_OPTION_SYSTEM_ZLIB -DDARWIN_NO_CARBON -DFT_CONFIG_CONFIG_H="<ftconfig.h>"
 
 # ANSIFLAGS: Put there the flags used to make your compiler ANSI-compliant.
 #
@@ -92,7 +92,7 @@ CC    := $(LIBTOOL) --mode=compile $(CCraw)
 
 # Linker flags.
 #
-LDFLAGS := -isysroot  -Wl,-syslibroot,/Developer/SDKs/MacOSX10.4u.sdk -arch i386 -lz
+LDFLAGS := -isysroot  -Wl,-syslibroot,/Developer/SDKs/MacOSX10.4u.sdk -arch ppc -lz
 
 
 # export symbols
