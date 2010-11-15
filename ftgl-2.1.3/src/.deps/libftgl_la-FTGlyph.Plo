@@ -5,42 +5,47 @@ libftgl_la-FTGlyph.lo libftgl_la-FTGlyph.o: FTGlyph/FTGlyph.cpp \
   ../../freetype-2.3.9/include/freetype/config/ftconfig.h \
   ../../freetype-2.3.9/include/freetype/config/ftoption.h \
   ../../freetype-2.3.9/include/freetype/config/ftstdlib.h \
-  /Developer/SDKs/MacOSX10.4u.sdk/usr/lib/gcc/i686-apple-darwin9/4.0.1/include/stddef.h \
-  /Developer/SDKs/MacOSX10.4u.sdk/usr/lib/gcc/i686-apple-darwin9/4.0.1/include/limits.h \
-  /Developer/SDKs/MacOSX10.4u.sdk/usr/lib/gcc/i686-apple-darwin9/4.0.1/include/syslimits.h \
-  /Developer/SDKs/MacOSX10.4u.sdk/usr/include/limits.h \
-  /Developer/SDKs/MacOSX10.4u.sdk/usr/include/machine/limits.h \
-  /Developer/SDKs/MacOSX10.4u.sdk/usr/include/i386/limits.h \
-  /Developer/SDKs/MacOSX10.4u.sdk/usr/include/i386/_limits.h \
-  /Developer/SDKs/MacOSX10.4u.sdk/usr/include/sys/syslimits.h \
-  /Developer/SDKs/MacOSX10.4u.sdk/usr/include/string.h \
-  /Developer/SDKs/MacOSX10.4u.sdk/usr/include/_types.h \
-  /Developer/SDKs/MacOSX10.4u.sdk/usr/include/sys/_types.h \
-  /Developer/SDKs/MacOSX10.4u.sdk/usr/include/sys/cdefs.h \
-  /Developer/SDKs/MacOSX10.4u.sdk/usr/include/machine/_types.h \
-  /Developer/SDKs/MacOSX10.4u.sdk/usr/include/i386/_types.h \
-  /Developer/SDKs/MacOSX10.4u.sdk/usr/include/stdio.h \
-  /Developer/SDKs/MacOSX10.4u.sdk/usr/include/stdlib.h \
-  /Developer/SDKs/MacOSX10.4u.sdk/usr/include/sys/wait.h \
-  /Developer/SDKs/MacOSX10.4u.sdk/usr/include/sys/signal.h \
-  /Developer/SDKs/MacOSX10.4u.sdk/usr/include/sys/appleapiopts.h \
-  /Developer/SDKs/MacOSX10.4u.sdk/usr/include/machine/signal.h \
-  /Developer/SDKs/MacOSX10.4u.sdk/usr/include/i386/signal.h \
-  /Developer/SDKs/MacOSX10.4u.sdk/usr/include/sys/resource.h \
-  /Developer/SDKs/MacOSX10.4u.sdk/usr/include/machine/endian.h \
-  /Developer/SDKs/MacOSX10.4u.sdk/usr/include/i386/endian.h \
-  /Developer/SDKs/MacOSX10.4u.sdk/usr/include/sys/_endian.h \
-  /Developer/SDKs/MacOSX10.4u.sdk/usr/lib/gcc/i686-apple-darwin9/4.0.1/include/stdint.h \
-  /Developer/SDKs/MacOSX10.4u.sdk/usr/include/libkern/OSByteOrder.h \
-  /Developer/SDKs/MacOSX10.4u.sdk/usr/include/libkern/i386/OSByteOrder.h \
-  /Developer/SDKs/MacOSX10.4u.sdk/usr/include/alloca.h \
-  /Developer/SDKs/MacOSX10.4u.sdk/usr/include/machine/types.h \
-  /Developer/SDKs/MacOSX10.4u.sdk/usr/include/i386/types.h \
-  /Developer/SDKs/MacOSX10.4u.sdk/usr/include/setjmp.h \
-  /Developer/SDKs/MacOSX10.4u.sdk/usr/include/machine/setjmp.h \
-  /Developer/SDKs/MacOSX10.4u.sdk/usr/include/i386/setjmp.h \
-  /Developer/SDKs/MacOSX10.4u.sdk/usr/lib/gcc/i686-apple-darwin9/4.0.1/include/stdarg.h \
-  /Developer/SDKs/MacOSX10.4u.sdk/usr/include/AvailabilityMacros.h \
+  /Developer/SDKs/MacOSX10.5.sdk/usr/lib/gcc/i686-apple-darwin10/4.2.1/include/stddef.h \
+  /Developer/SDKs/MacOSX10.5.sdk/usr/lib/gcc/i686-apple-darwin10/4.2.1/include/limits.h \
+  /Developer/SDKs/MacOSX10.5.sdk/usr/lib/gcc/i686-apple-darwin10/4.2.1/include/syslimits.h \
+  /Developer/SDKs/MacOSX10.5.sdk/usr/include/limits.h \
+  /Developer/SDKs/MacOSX10.5.sdk/usr/include/sys/cdefs.h \
+  /Developer/SDKs/MacOSX10.5.sdk/usr/include/machine/limits.h \
+  /Developer/SDKs/MacOSX10.5.sdk/usr/include/i386/limits.h \
+  /Developer/SDKs/MacOSX10.5.sdk/usr/include/i386/_limits.h \
+  /Developer/SDKs/MacOSX10.5.sdk/usr/include/sys/syslimits.h \
+  /Developer/SDKs/MacOSX10.5.sdk/usr/include/string.h \
+  /Developer/SDKs/MacOSX10.5.sdk/usr/include/_types.h \
+  /Developer/SDKs/MacOSX10.5.sdk/usr/include/sys/_types.h \
+  /Developer/SDKs/MacOSX10.5.sdk/usr/include/machine/_types.h \
+  /Developer/SDKs/MacOSX10.5.sdk/usr/include/i386/_types.h \
+  /Developer/SDKs/MacOSX10.5.sdk/usr/include/stdio.h \
+  /Developer/SDKs/MacOSX10.5.sdk/usr/include/stdlib.h \
+  /Developer/SDKs/MacOSX10.5.sdk/usr/include/available.h \
+  /Developer/SDKs/MacOSX10.5.sdk/usr/include/sys/wait.h \
+  /Developer/SDKs/MacOSX10.5.sdk/usr/include/sys/signal.h \
+  /Developer/SDKs/MacOSX10.5.sdk/usr/include/sys/appleapiopts.h \
+  /Developer/SDKs/MacOSX10.5.sdk/usr/include/machine/signal.h \
+  /Developer/SDKs/MacOSX10.5.sdk/usr/include/i386/signal.h \
+  /Developer/SDKs/MacOSX10.5.sdk/usr/include/i386/_structs.h \
+  /Developer/SDKs/MacOSX10.5.sdk/usr/include/sys/_structs.h \
+  /Developer/SDKs/MacOSX10.5.sdk/usr/include/machine/_structs.h \
+  /Developer/SDKs/MacOSX10.5.sdk/usr/include/mach/i386/_structs.h \
+  /Developer/SDKs/MacOSX10.5.sdk/usr/include/sys/resource.h \
+  /Developer/SDKs/MacOSX10.5.sdk/usr/include/machine/endian.h \
+  /Developer/SDKs/MacOSX10.5.sdk/usr/include/i386/endian.h \
+  /Developer/SDKs/MacOSX10.5.sdk/usr/include/sys/_endian.h \
+  /Developer/SDKs/MacOSX10.5.sdk/usr/include/libkern/_OSByteOrder.h \
+  /Developer/SDKs/MacOSX10.5.sdk/usr/include/libkern/i386/_OSByteOrder.h \
+  /Developer/SDKs/MacOSX10.5.sdk/usr/include/alloca.h \
+  /Developer/SDKs/MacOSX10.5.sdk/usr/include/machine/types.h \
+  /Developer/SDKs/MacOSX10.5.sdk/usr/include/i386/types.h \
+  /Developer/SDKs/MacOSX10.5.sdk/usr/include/i386/_types.h \
+  /Developer/SDKs/MacOSX10.5.sdk/usr/include/setjmp.h \
+  /Developer/SDKs/MacOSX10.5.sdk/usr/include/machine/setjmp.h \
+  /Developer/SDKs/MacOSX10.5.sdk/usr/include/i386/setjmp.h \
+  /Developer/SDKs/MacOSX10.5.sdk/usr/lib/gcc/i686-apple-darwin10/4.2.1/include/stdarg.h \
+  /Developer/SDKs/MacOSX10.5.sdk/usr/include/AvailabilityMacros.h \
   ../../freetype-2.3.9/include/freetype/fterrors.h \
   ../../freetype-2.3.9/include/freetype/ftmoderr.h \
   ../../freetype-2.3.9/include/freetype/fterrdef.h \
@@ -56,9 +61,9 @@ libftgl_la-FTGlyph.lo libftgl_la-FTGlyph.o: FTGlyph/FTGlyph.cpp \
   FTGL/FTGLExtrdFont.h FTGL/FTGLOutlineFont.h FTGL/FTGLPixmapFont.h \
   FTGL/FTGLPolygonFont.h FTGL/FTGLTextureFont.h FTGL/FTLayout.h \
   FTGL/FTSimpleLayout.h FTInternals.h FTGL/ftgl.h \
-  /Developer/SDKs/MacOSX10.4u.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl.h \
-  /Developer/SDKs/MacOSX10.4u.sdk/System/Library/Frameworks/OpenGL.framework/Headers/glext.h \
-  /Developer/SDKs/MacOSX10.4u.sdk/System/Library/Frameworks/OpenGL.framework/Headers/glu.h \
+  /Developer/SDKs/MacOSX10.5.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl.h \
+  /Developer/SDKs/MacOSX10.5.sdk/System/Library/Frameworks/OpenGL.framework/Headers/glext.h \
+  /Developer/SDKs/MacOSX10.5.sdk/System/Library/Frameworks/OpenGL.framework/Headers/glu.h \
   FTGlyph/FTGlyphImpl.h
 
 ../config.h:
@@ -77,77 +82,87 @@ FTGL/ftgl.h:
 
 ../../freetype-2.3.9/include/freetype/config/ftstdlib.h:
 
-/Developer/SDKs/MacOSX10.4u.sdk/usr/lib/gcc/i686-apple-darwin9/4.0.1/include/stddef.h:
+/Developer/SDKs/MacOSX10.5.sdk/usr/lib/gcc/i686-apple-darwin10/4.2.1/include/stddef.h:
 
-/Developer/SDKs/MacOSX10.4u.sdk/usr/lib/gcc/i686-apple-darwin9/4.0.1/include/limits.h:
+/Developer/SDKs/MacOSX10.5.sdk/usr/lib/gcc/i686-apple-darwin10/4.2.1/include/limits.h:
 
-/Developer/SDKs/MacOSX10.4u.sdk/usr/lib/gcc/i686-apple-darwin9/4.0.1/include/syslimits.h:
+/Developer/SDKs/MacOSX10.5.sdk/usr/lib/gcc/i686-apple-darwin10/4.2.1/include/syslimits.h:
 
-/Developer/SDKs/MacOSX10.4u.sdk/usr/include/limits.h:
+/Developer/SDKs/MacOSX10.5.sdk/usr/include/limits.h:
 
-/Developer/SDKs/MacOSX10.4u.sdk/usr/include/machine/limits.h:
+/Developer/SDKs/MacOSX10.5.sdk/usr/include/sys/cdefs.h:
 
-/Developer/SDKs/MacOSX10.4u.sdk/usr/include/i386/limits.h:
+/Developer/SDKs/MacOSX10.5.sdk/usr/include/machine/limits.h:
 
-/Developer/SDKs/MacOSX10.4u.sdk/usr/include/i386/_limits.h:
+/Developer/SDKs/MacOSX10.5.sdk/usr/include/i386/limits.h:
 
-/Developer/SDKs/MacOSX10.4u.sdk/usr/include/sys/syslimits.h:
+/Developer/SDKs/MacOSX10.5.sdk/usr/include/i386/_limits.h:
 
-/Developer/SDKs/MacOSX10.4u.sdk/usr/include/string.h:
+/Developer/SDKs/MacOSX10.5.sdk/usr/include/sys/syslimits.h:
 
-/Developer/SDKs/MacOSX10.4u.sdk/usr/include/_types.h:
+/Developer/SDKs/MacOSX10.5.sdk/usr/include/string.h:
 
-/Developer/SDKs/MacOSX10.4u.sdk/usr/include/sys/_types.h:
+/Developer/SDKs/MacOSX10.5.sdk/usr/include/_types.h:
 
-/Developer/SDKs/MacOSX10.4u.sdk/usr/include/sys/cdefs.h:
+/Developer/SDKs/MacOSX10.5.sdk/usr/include/sys/_types.h:
 
-/Developer/SDKs/MacOSX10.4u.sdk/usr/include/machine/_types.h:
+/Developer/SDKs/MacOSX10.5.sdk/usr/include/machine/_types.h:
 
-/Developer/SDKs/MacOSX10.4u.sdk/usr/include/i386/_types.h:
+/Developer/SDKs/MacOSX10.5.sdk/usr/include/i386/_types.h:
 
-/Developer/SDKs/MacOSX10.4u.sdk/usr/include/stdio.h:
+/Developer/SDKs/MacOSX10.5.sdk/usr/include/stdio.h:
 
-/Developer/SDKs/MacOSX10.4u.sdk/usr/include/stdlib.h:
+/Developer/SDKs/MacOSX10.5.sdk/usr/include/stdlib.h:
 
-/Developer/SDKs/MacOSX10.4u.sdk/usr/include/sys/wait.h:
+/Developer/SDKs/MacOSX10.5.sdk/usr/include/available.h:
 
-/Developer/SDKs/MacOSX10.4u.sdk/usr/include/sys/signal.h:
+/Developer/SDKs/MacOSX10.5.sdk/usr/include/sys/wait.h:
 
-/Developer/SDKs/MacOSX10.4u.sdk/usr/include/sys/appleapiopts.h:
+/Developer/SDKs/MacOSX10.5.sdk/usr/include/sys/signal.h:
 
-/Developer/SDKs/MacOSX10.4u.sdk/usr/include/machine/signal.h:
+/Developer/SDKs/MacOSX10.5.sdk/usr/include/sys/appleapiopts.h:
 
-/Developer/SDKs/MacOSX10.4u.sdk/usr/include/i386/signal.h:
+/Developer/SDKs/MacOSX10.5.sdk/usr/include/machine/signal.h:
 
-/Developer/SDKs/MacOSX10.4u.sdk/usr/include/sys/resource.h:
+/Developer/SDKs/MacOSX10.5.sdk/usr/include/i386/signal.h:
 
-/Developer/SDKs/MacOSX10.4u.sdk/usr/include/machine/endian.h:
+/Developer/SDKs/MacOSX10.5.sdk/usr/include/i386/_structs.h:
 
-/Developer/SDKs/MacOSX10.4u.sdk/usr/include/i386/endian.h:
+/Developer/SDKs/MacOSX10.5.sdk/usr/include/sys/_structs.h:
 
-/Developer/SDKs/MacOSX10.4u.sdk/usr/include/sys/_endian.h:
+/Developer/SDKs/MacOSX10.5.sdk/usr/include/machine/_structs.h:
 
-/Developer/SDKs/MacOSX10.4u.sdk/usr/lib/gcc/i686-apple-darwin9/4.0.1/include/stdint.h:
+/Developer/SDKs/MacOSX10.5.sdk/usr/include/mach/i386/_structs.h:
 
-/Developer/SDKs/MacOSX10.4u.sdk/usr/include/libkern/OSByteOrder.h:
+/Developer/SDKs/MacOSX10.5.sdk/usr/include/sys/resource.h:
 
-/Developer/SDKs/MacOSX10.4u.sdk/usr/include/libkern/i386/OSByteOrder.h:
+/Developer/SDKs/MacOSX10.5.sdk/usr/include/machine/endian.h:
 
-/Developer/SDKs/MacOSX10.4u.sdk/usr/include/alloca.h:
+/Developer/SDKs/MacOSX10.5.sdk/usr/include/i386/endian.h:
 
-/Developer/SDKs/MacOSX10.4u.sdk/usr/include/machine/types.h:
+/Developer/SDKs/MacOSX10.5.sdk/usr/include/sys/_endian.h:
 
-/Developer/SDKs/MacOSX10.4u.sdk/usr/include/i386/types.h:
+/Developer/SDKs/MacOSX10.5.sdk/usr/include/libkern/_OSByteOrder.h:
 
-/Developer/SDKs/MacOSX10.4u.sdk/usr/include/setjmp.h:
+/Developer/SDKs/MacOSX10.5.sdk/usr/include/libkern/i386/_OSByteOrder.h:
 
-/Developer/SDKs/MacOSX10.4u.sdk/usr/include/machine/setjmp.h:
+/Developer/SDKs/MacOSX10.5.sdk/usr/include/alloca.h:
 
-/Developer/SDKs/MacOSX10.4u.sdk/usr/include/i386/setjmp.h:
+/Developer/SDKs/MacOSX10.5.sdk/usr/include/machine/types.h:
 
-/Developer/SDKs/MacOSX10.4u.sdk/usr/lib/gcc/i686-apple-darwin9/4.0.1/include/stdarg.h:
+/Developer/SDKs/MacOSX10.5.sdk/usr/include/i386/types.h:
 
-/Developer/SDKs/MacOSX10.4u.sdk/usr/include/AvailabilityMacros.h:
+/Developer/SDKs/MacOSX10.5.sdk/usr/include/i386/_types.h:
+
+/Developer/SDKs/MacOSX10.5.sdk/usr/include/setjmp.h:
+
+/Developer/SDKs/MacOSX10.5.sdk/usr/include/machine/setjmp.h:
+
+/Developer/SDKs/MacOSX10.5.sdk/usr/include/i386/setjmp.h:
+
+/Developer/SDKs/MacOSX10.5.sdk/usr/lib/gcc/i686-apple-darwin10/4.2.1/include/stdarg.h:
+
+/Developer/SDKs/MacOSX10.5.sdk/usr/include/AvailabilityMacros.h:
 
 ../../freetype-2.3.9/include/freetype/fterrors.h:
 
@@ -211,10 +226,10 @@ FTInternals.h:
 
 FTGL/ftgl.h:
 
-/Developer/SDKs/MacOSX10.4u.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl.h:
+/Developer/SDKs/MacOSX10.5.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl.h:
 
-/Developer/SDKs/MacOSX10.4u.sdk/System/Library/Frameworks/OpenGL.framework/Headers/glext.h:
+/Developer/SDKs/MacOSX10.5.sdk/System/Library/Frameworks/OpenGL.framework/Headers/glext.h:
 
-/Developer/SDKs/MacOSX10.4u.sdk/System/Library/Frameworks/OpenGL.framework/Headers/glu.h:
+/Developer/SDKs/MacOSX10.5.sdk/System/Library/Frameworks/OpenGL.framework/Headers/glu.h:
 
 FTGlyph/FTGlyphImpl.h:
