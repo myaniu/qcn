@@ -605,6 +605,11 @@ AC_CONFIG_FILES([
                  client/graphics/Makefile
                  client/qcnlive/Makefile
                  client/qcnusb/Makefile
+                 jpeg-6b/Makefile
+                 zlib-1.2.5/Makefile
+                 curl-7.21.2/Makefile                 
+                 freetype-2.3.9/Makefile                 
+                 ftgl-2.1.3/Makefile                 
                  m4/Makefile
                  ])
 

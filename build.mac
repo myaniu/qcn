@@ -9,7 +9,7 @@ export LDFLAGS=
 export CPPFLAGS=
 export CFLAGS=
 export CXXFLAGS=
-# building ntp is really "special"
+# building ntpdate is really "special" and not just a lib...
 #cd ntp-4.2.4p7
 #chmod uog+rx build.mac
 #./build.mac
@@ -17,7 +17,7 @@ export CXXFLAGS=
 cd jpeg-6b
 chmod uog+rx build.mac
 ./build.mac
-cd ../zlib-1.2.3
+cd ../zlib-1.2.5
 chmod uog+rx build.mac
 ./build.mac
 cd ../curl-7.21.2
@@ -26,7 +26,7 @@ chmod uog+rx build.mac
 cd freetype-2.3.9
 chmod uog+rx build.mac
 ./build.mac
-cd ../ftgl-2.1.3
+cd ../ftgl-2.1.5
 chmod uog+rx build.mac
 ./build.mac
 cd ../
