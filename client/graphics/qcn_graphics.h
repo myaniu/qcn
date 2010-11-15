@@ -22,9 +22,8 @@
 #include "boinc_api.h"
 #include "graphics2.h"
 
-// CMC use the texfont directly, txf_util.h has weird alpha blending
-#include "texfont.h"
-//#include "txf_util.h"
+// using truetype font libs now (ttfont is in util/)
+#include "ttfont.h"
 
 #include "qcn_shmem.h"
 #include "qcn_util.h"
@@ -93,23 +92,6 @@ struct SQuake
 };
 
 class CEarth;
-
-void txf_load_fonts_qcn(char* dir);
-extern void txf_render_string_qcn(
-						   float alpha_value,
-						   // reference value to which incoming alpha values are compared.
-						   // 0 through to 1
-						   double x, double y, double z, // text position
-						   float fscale,                 // scale factor
-						   GLfloat * col,                // colour 
-						   int i,                        // font index see texfont.h 
-						   char * s,				  	  // string ptr
-						   float fRotAngle = 0.0f,        // optional rotation angle
-						   float fRotX = 0.0f,            // optional rotation vector for X
-						   float fRotY = 0.0f,            // optional rotation vector for Y
-						   float fRotZ = 1.0f             // optional rotation vector for Z
-						   );
-
 
 //#ifndef QCNLIVE
 // boinc stuff -- need to keep out of the namespace as boinc calls these exact named functions

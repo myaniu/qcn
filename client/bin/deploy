@@ -5,6 +5,9 @@ if (test "$1" = "" || test "$2" = "") then
    exit 1
 fi
 
+font1='init/hvt'
+font2='init/cbt'
+
 print_common_files ()
 {
 echo put init/Helvetica.txf >> qcnsftp.up

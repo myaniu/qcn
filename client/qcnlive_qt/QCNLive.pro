@@ -118,7 +118,6 @@ SRC_BOINC = $$BAPIDIR/boinc_api.cpp \
    $$BAPIDIR/graphics2_util.cpp \
    $$BAPIDIR/graphics2.cpp \
    $$BAPIDIR/gutil.cpp \
-   $$BAPIDIR/texfont.cpp \
    $$BAPIDIR/texture.cpp \
    $$BLIBDIR/parse.cpp \
    $$BLIBDIR/shmem.cpp \

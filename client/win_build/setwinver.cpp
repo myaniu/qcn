@@ -27,9 +27,9 @@ void printQCNFiles(FILE* fBatch)
         fprintf(fBatch, "cd qcn_%d.%02d_%s__nci.exe\n", g_version_major, g_version_minor, BOINC_WIN_SUFFIX);
         fprintf(fBatch, "put qcn_%d.%02d_%s__nci.exe\n", g_version_major, g_version_minor, BOINC_WIN_SUFFIX);
         fprintf(fBatch, "put graphics_app=qcn_graphics_%d.%02d_%s.exe\n", g_version_major, g_version_minor, BOINC_WIN_SUFFIX);
-        fprintf(fBatch, "put init/Helvetica.txf\n");
-        fprintf(fBatch, "put init/Courier-Bold.txf\n");
-        fprintf(fBatch, "put init/qcnlogo_big.jpg\n");
+        fprintf(fBatch, "put init/hvt\n");
+        fprintf(fBatch, "put init/cbt\n");
+        fprintf(fBatch, "put init/qcnlogo.jpg\n");
         fprintf(fBatch, "put init/earthday4096.jpg\n");
 //      fprintf(fBatch, "put init/earthmask.rgb\n");   // mask for multitexturing - but seems to crash some people bad!
         fprintf(fBatch, "put init/earthnight4096.jpg\n");
@@ -45,9 +45,9 @@ void printQCNFiles(FILE* fBatch)
         fprintf(fBatch, "cd qcn_%d.%02d_%s.exe\n", g_version_major, g_version_minor - 1, BOINC_WIN_SUFFIX);
         fprintf(fBatch, "put qcn_%d.%02d_%s.exe\n", g_version_major, g_version_minor - 1, BOINC_WIN_SUFFIX);
         fprintf(fBatch, "put graphics_app=qcn_graphics_%d.%02d_%s.exe\n", g_version_major, g_version_minor - 1, BOINC_WIN_SUFFIX);
-        fprintf(fBatch, "put init/Helvetica.txf\n");
-        fprintf(fBatch, "put init/Courier-Bold.txf\n");
-        fprintf(fBatch, "put init/qcnlogo_big.jpg\n");
+        fprintf(fBatch, "put init/hvt\n");
+        fprintf(fBatch, "put init/cbt\n");
+        fprintf(fBatch, "put init/qcnlogo.jpg\n");
         fprintf(fBatch, "put init/earthday4096.jpg\n");
 //      fprintf(fBatch, "put init/earthmask.rgb\n");   // mask for multitexturing - but seems to crash some people bad!
         fprintf(fBatch, "put init/earthnight4096.jpg\n");
@@ -155,9 +155,10 @@ const char cstrQCNLive[] = {"qcnlive-win.zip"};
 		"init/MotionNodeAccelAPI.dll",
 #endif
 		"init/qcnwin.ico",
-		"init/Helvetica.txf",
-		"init/Courier-Bold.txf",
+                "init/hvt",
+                "init/cbt",
 		"init/earthday4096.jpg",
+                "init/qcnlogo.jpg",
 		"init/splash.png",
 		"init/xyzaxes.jpg",
 		"init/xyzaxesbl.jpg",

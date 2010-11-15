@@ -63,7 +63,7 @@ void draw_text_sensor_axis(int iAxis)
 	float fIncrement = (g_fMaxAxesCurrent[iAxis] - g_fMinAxesCurrent[iAxis]) / 6.0f;
 	for (int i = 0; i <= 6; i++) {
 		sprintf(cbuf, "%+5.3f", g_fMinAxesCurrent[iAxis] + (fIncrement * (float) i) );
-	    txf_render_string_qcn(cfTransAlpha, cfVertLabel, cfBaseScale[g_iShowSig][iAxis] + cfAxesOffset[g_iShowSig][i], 0, MSG_SIZE_SMALL, g_bIsWhite ? black : grey_trans, TXF_COURIER_BOLD, cbuf);
+	    ttf_render_string(cfTransAlpha, cfVertLabel, cfBaseScale[g_iShowSig][iAxis] + cfAxesOffset[g_iShowSig][i], 0, MSG_SIZE_SMALL, g_bIsWhite ? black : grey_trans, TXF_COURIER_BOLD, cbuf);
 	}
 }
 
@@ -75,13 +75,13 @@ void draw_text()
 
    // now draw time text at the bottom
    char strTime[16];
-   //txf_render_string_qcn(qcn_graphics::cfTextAlpha, fWhere, Y_TRIGGER_LAST[0] - 3.0f, 0, 800, blue, TXF_HELVETICA, (char*) strTime);
+   //ttf_render_string(qcn_graphics::cfTextAlpha, fWhere, Y_TRIGGER_LAST[0] - 3.0f, 0, 800, blue, TXF_HELVETICA, (char*) strTime);
     for (int i = 0; i < g_iTimeCtr; i++) {
        if (lTimeLast[i] > 0.0f) { // there's a marker to place here
 	     float fWhere = (float) (lTimeLastOffset[i]) / (float) PLOT_ARRAY_SIZE;
 		 // note the immediate if below - if timer ticks are far apart don't bother showing seconds
 		 qcn_util::dtime_to_string(lTimeLast[i], (g_iTimerTick > 5 ? 'm' : 'h'), strTime);
-		 txf_render_string_qcn(qcn_graphics::cfTextAlpha, fWhere - (g_iTimerTick > 5 ? 0.038f : 0.042f), 0.030f, 0.0f, 
+		 ttf_render_string(qcn_graphics::cfTextAlpha, fWhere - (g_iTimerTick > 5 ? 0.038f : 0.042f), 0.030f, 0.0f, 
 			 MSG_SIZE_SMALL, g_bIsWhite ? light_blue : grey_trans, TXF_HELVETICA, (char*) strTime);
 	   }
 	}
@@ -89,31 +89,31 @@ void draw_text()
 /*
 #ifdef _DEBUG
 	sprintf(strTime, "sampsize=%ld", sm->lSampleSize);
-    txf_render_string_qcn(qcn_graphics::cfTextAlpha, .3f, cfAxesLabel[g_iShowSig][0], 0.0f, MSG_SIZE_SMALL, red, TXF_HELVETICA, (char*) strTime);
+    ttf_render_string(qcn_graphics::cfTextAlpha, .3f, cfAxesLabel[g_iShowSig][0], 0.0f, MSG_SIZE_SMALL, red, TXF_HELVETICA, (char*) strTime);
 #endif
 */	
 
 #ifdef _DEBUG_QCNLIVE
 	sprintf(strTime, "%+6.3f %+6.3f", qcn_graphics::g_fmin[0], qcn_graphics::g_fmax[0]);
-	txf_render_string_qcn(qcn_graphics::cfTextAlpha, .1f, cfAxesLabel[g_iShowSig][0], 0.0f, MSG_SIZE_SMALL, red, TXF_HELVETICA, (char*) strTime);
+	ttf_render_string(qcn_graphics::cfTextAlpha, .1f, cfAxesLabel[g_iShowSig][0], 0.0f, MSG_SIZE_SMALL, red, TXF_HELVETICA, (char*) strTime);
 	sprintf(strTime, "%+6.3f %+6.3f", qcn_graphics::g_fmin[1], qcn_graphics::g_fmax[1]);
-    txf_render_string_qcn(qcn_graphics::cfTextAlpha, .1f, cfAxesLabel[g_iShowSig][1], 0.0f, MSG_SIZE_SMALL, red, TXF_HELVETICA, (char*) strTime);
+    ttf_render_string(qcn_graphics::cfTextAlpha, .1f, cfAxesLabel[g_iShowSig][1], 0.0f, MSG_SIZE_SMALL, red, TXF_HELVETICA, (char*) strTime);
 	sprintf(strTime, "%+6.3f %+6.3f", qcn_graphics::g_fmin[2], qcn_graphics::g_fmax[2]);
-    txf_render_string_qcn(qcn_graphics::cfTextAlpha, .1f, cfAxesLabel[g_iShowSig][2], 0.0f, MSG_SIZE_SMALL, red, TXF_HELVETICA, (char*) strTime);
+    ttf_render_string(qcn_graphics::cfTextAlpha, .1f, cfAxesLabel[g_iShowSig][2], 0.0f, MSG_SIZE_SMALL, red, TXF_HELVETICA, (char*) strTime);
 	if (g_iShowSig) {
 	  sprintf(strTime, "%+6.3f %+6.3f", qcn_graphics::g_fmin[3], qcn_graphics::g_fmax[3]);
-      txf_render_string_qcn(qcn_graphics::cfTextAlpha, .1f, cfAxesLabel[g_iShowSig][3], 0.0f, MSG_SIZE_SMALL, red, TXF_HELVETICA, (char*) strTime);
+      ttf_render_string(qcn_graphics::cfTextAlpha, .1f, cfAxesLabel[g_iShowSig][3], 0.0f, MSG_SIZE_SMALL, red, TXF_HELVETICA, (char*) strTime);
 	}
 #endif
 
 	// labels for each axis
 
 	if (g_iShowSig) {
-		txf_render_string_qcn(cfTransAlpha, cfAxisLabel, cfAxesLabel[g_iShowSig][E_DS], 0, MSG_SIZE_NORMAL, red, TXF_HELVETICA, "Significance", 90.0f);
+		ttf_render_string(cfTransAlpha, cfAxisLabel, cfAxesLabel[g_iShowSig][E_DS], 0, MSG_SIZE_NORMAL, red, TXF_HELVETICA, "Significance", 90.0f);
 	}
-	txf_render_string_qcn(cfTransAlpha, cfAxisLabel, cfAxesLabel[g_iShowSig][E_DZ], 0, MSG_SIZE_NORMAL, blue, TXF_HELVETICA, "Z Axis", 90.0f);
-    txf_render_string_qcn(cfTransAlpha, cfAxisLabel, cfAxesLabel[g_iShowSig][E_DY], 0, MSG_SIZE_NORMAL, orange, TXF_HELVETICA, "Y Axis", 90.0f);
-    txf_render_string_qcn(cfTransAlpha, cfAxisLabel, cfAxesLabel[g_iShowSig][E_DX], 0, MSG_SIZE_NORMAL, green, TXF_HELVETICA, "X Axis", 90.0f);
+	ttf_render_string(cfTransAlpha, cfAxisLabel, cfAxesLabel[g_iShowSig][E_DZ], 0, MSG_SIZE_NORMAL, blue, TXF_HELVETICA, "Z Axis", 90.0f);
+    ttf_render_string(cfTransAlpha, cfAxisLabel, cfAxesLabel[g_iShowSig][E_DY], 0, MSG_SIZE_NORMAL, orange, TXF_HELVETICA, "Y Axis", 90.0f);
+    ttf_render_string(cfTransAlpha, cfAxisLabel, cfAxesLabel[g_iShowSig][E_DX], 0, MSG_SIZE_NORMAL, green, TXF_HELVETICA, "X Axis", 90.0f);
 
 	// labels for significance
 	if (g_iShowSig) {
@@ -130,25 +130,25 @@ void draw_text()
 	draw_text_sensor_axis(E_DX);
 
 	// units label (meters per second per second
-    txf_render_string_qcn(cfTransAlpha, cfVertLabel, cfMSSLabel, 0, MSG_SIZE_SMALL, g_bIsWhite ? black : grey_trans, TXF_COURIER_BOLD, " m/s/s");
+    ttf_render_string(cfTransAlpha, cfVertLabel, cfMSSLabel, 0, MSG_SIZE_SMALL, g_bIsWhite ? black : grey_trans, TXF_COURIER_BOLD, " m/s/s");
 
     // time label
 
 	switch(qcn_graphics::GetTimeWindowWidth()) {
 	case 10:
-			txf_render_string_qcn(qcn_graphics::g_alphaText, cfLabelTime[0], cfLabelTime[1], 0.0f, MSG_SIZE_SMALL, g_bIsWhite ? light_blue : grey_trans, TXF_HELVETICA, "Time (UTC) - 10 Second Window");
+			ttf_render_string(qcn_graphics::g_alphaText, cfLabelTime[0], cfLabelTime[1], 0.0f, MSG_SIZE_SMALL, g_bIsWhite ? light_blue : grey_trans, TXF_HELVETICA, "Time (UTC) - 10 Second Window");
 		break;
 	case 60:
-        txf_render_string_qcn(qcn_graphics::g_alphaText, cfLabelTime[0], cfLabelTime[1], 0.0f, MSG_SIZE_SMALL, g_bIsWhite ? light_blue : grey_trans, TXF_HELVETICA, "Time (UTC) - 1 Minute Window");
+        ttf_render_string(qcn_graphics::g_alphaText, cfLabelTime[0], cfLabelTime[1], 0.0f, MSG_SIZE_SMALL, g_bIsWhite ? light_blue : grey_trans, TXF_HELVETICA, "Time (UTC) - 1 Minute Window");
 		break;
 	case 600:
-        txf_render_string_qcn(qcn_graphics::g_alphaText, cfLabelTime[0], cfLabelTime[1], 0.0f, MSG_SIZE_SMALL, g_bIsWhite ? light_blue : grey_trans, TXF_HELVETICA, "Time (UTC) - 10 Minute Window");
+        ttf_render_string(qcn_graphics::g_alphaText, cfLabelTime[0], cfLabelTime[1], 0.0f, MSG_SIZE_SMALL, g_bIsWhite ? light_blue : grey_trans, TXF_HELVETICA, "Time (UTC) - 10 Minute Window");
 		break;
 	case 3600:
-        txf_render_string_qcn(qcn_graphics::g_alphaText, cfLabelTime[0], cfLabelTime[1], 0.0f, MSG_SIZE_SMALL, g_bIsWhite ? light_blue : grey_trans, TXF_HELVETICA, "Time (UTC) - 1 Hour Window");
+        ttf_render_string(qcn_graphics::g_alphaText, cfLabelTime[0], cfLabelTime[1], 0.0f, MSG_SIZE_SMALL, g_bIsWhite ? light_blue : grey_trans, TXF_HELVETICA, "Time (UTC) - 1 Hour Window");
 		break;
 	default:
-        txf_render_string_qcn(qcn_graphics::g_alphaText, cfLabelTime[0], cfLabelTime[1], 0.0f, MSG_SIZE_SMALL, g_bIsWhite ? light_blue : grey_trans, TXF_HELVETICA, "Time (UTC)");
+        ttf_render_string(qcn_graphics::g_alphaText, cfLabelTime[0], cfLabelTime[1], 0.0f, MSG_SIZE_SMALL, g_bIsWhite ? light_blue : grey_trans, TXF_HELVETICA, "Time (UTC)");
 	}
 
     draw_text_sensor();
@@ -156,13 +156,13 @@ void draw_text()
 	/*
 	char strdiff[32];
 	sprintf(strdiff, "%f", fDiff2D);
-	txf_render_string_qcn(qcn_graphics::g_alphaText, .2, .2, 0.0f, MSG_SIZE_SMALL, g_bIsWhite ? light_blue : grey_trans, TXF_HELVETICA, strdiff);
+	ttf_render_string(qcn_graphics::g_alphaText, .2, .2, 0.0f, MSG_SIZE_SMALL, g_bIsWhite ? light_blue : grey_trans, TXF_HELVETICA, strdiff);
 	*/
 
 /*
 	char bufout[64];
 	sprintf(bufout, "%.2f  %.2f  %.2f  %.2f", g_fAvg[0], g_fAvg[1], g_fAvg[2], g_fAvg[3]);
-	txf_render_string_qcn(qcn_graphics::g_alphaText, 0.04f, 0.1f, 0.0f, MSG_SIZE_SMALL, light_blue, TXF_HELVETICA, bufout);
+	ttf_render_string(qcn_graphics::g_alphaText, 0.04f, 0.1f, 0.0f, MSG_SIZE_SMALL, light_blue, TXF_HELVETICA, bufout);
 */
 
 	ortho_done();
