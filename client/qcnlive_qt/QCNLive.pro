@@ -44,8 +44,8 @@ INCLUDEPATH += \
         $$BASEDIRQCN/jpeg-6b \
         $$BASEDIRQCN/zlib-1.2.5 \
         $$BASEDIRQCN/curl-7.19.5/include \
-        $$BASEDIRQCN/ftgl-2.1.3 \
-        $$BASEDIRQCN/freetype-2.3.9 \
+        $$BASEDIRQCN/ftgl-2.1.3/include \
+        $$BASEDIRQCN/freetype-2.3.9/include \
         $$MAINDIR \
         $$SENSORDIR \
         $$UTILDIR \
