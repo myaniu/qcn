@@ -132,9 +132,9 @@ void CCube::RenderText()
         mode_unshaded();
         mode_ortho();
         sprintf(buf, "Press 'Q' to return to");
-        ttf_render_string(.1, 0, .32, 0, MSG_SIZE_NORMAL, yellow, 0, buf);
+        TTFont::ttf_render_string(.1, 0, .32, 0, MSG_SIZE_NORMAL, yellow, 0, buf);
         sprintf(buf, "seismic sensor view");
-        ttf_render_string(.1, 0, .30, 0, MSG_SIZE_NORMAL, yellow, 0, buf);
+        TTFont::ttf_render_string(.1, 0, .30, 0, MSG_SIZE_NORMAL, yellow, 0, buf);
         ortho_done();
    }
 #endif
@@ -142,13 +142,13 @@ void CCube::RenderText()
    // print a "legend"
    mode_unshaded();
    mode_ortho();
-   ttf_render_string(.1, 0, .25, 0, MSG_SIZE_NORMAL, blue, 0, "Blue is Z-axis");
-   ttf_render_string(.1, 0, .23, 0, MSG_SIZE_NORMAL, yellow, 0, "Yellow is Y-axis");
-   ttf_render_string(.1, 0, .21, 0, MSG_SIZE_NORMAL, green, 0, "Green is X-axis");
+   TTFont::ttf_render_string(.1, 0, .25, 0, MSG_SIZE_NORMAL, blue, 0, "Blue is Z-axis");
+   TTFont::ttf_render_string(.1, 0, .23, 0, MSG_SIZE_NORMAL, yellow, 0, "Yellow is Y-axis");
+   TTFont::ttf_render_string(.1, 0, .21, 0, MSG_SIZE_NORMAL, green, 0, "Green is X-axis");
 //Commented out by JL: Don't show these:
-/*   ttf_render_string(.1, 0, .27, 0, MSG_SIZE_NORMAL, red, 0, "Red is Significance");
-   ttf_render_string(.1, 0, .19, 0, MSG_SIZE_NORMAL, cyan, 0, "Cyan is Magnitude");
-   ttf_render_string(.1, 0, .17, 0, MSG_SIZE_NORMAL, magenta, 0, "Magenta is Variance");
+/*   TTFont::ttf_render_string(.1, 0, .27, 0, MSG_SIZE_NORMAL, red, 0, "Red is Significance");
+   TTFont::ttf_render_string(.1, 0, .19, 0, MSG_SIZE_NORMAL, cyan, 0, "Cyan is Magnitude");
+   TTFont::ttf_render_string(.1, 0, .17, 0, MSG_SIZE_NORMAL, magenta, 0, "Magenta is Variance");
    ortho_done();*/
 
    // NB: draw_text_user called automatically from qcn_graphics to show BOINC username, CPU time etc

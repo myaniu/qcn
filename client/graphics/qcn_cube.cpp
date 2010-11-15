@@ -152,21 +152,21 @@ void CCube::RenderText()
         mode_unshaded();
         mode_ortho();
         sprintf(buf, "Press 'Q' to return to");
-        ttf_render_string(qcn_graphics::cfTextAlpha, 0, .32, 0, MSG_SIZE_NORMAL, yellow, TTF_HELVETICA, buf);
+        TTFont::ttf_render_string(qcn_graphics::cfTextAlpha, 0, .32, 0, MSG_SIZE_NORMAL, yellow, TTF_HELVETICA, buf);
         sprintf(buf, "seismic sensor view");
-        ttf_render_string(qcn_graphics::cfTextAlpha, 0, .30, 0, MSG_SIZE_NORMAL, yellow, TTF_HELVETICA, buf);
+        TTFont::ttf_render_string(qcn_graphics::cfTextAlpha, 0, .30, 0, MSG_SIZE_NORMAL, yellow, TTF_HELVETICA, buf);
         ortho_done();
    }
 
    // print a "legend"
    mode_unshaded();
    mode_ortho();
-   ttf_render_string(qcn_graphics::cfTextAlpha, 0, .27, 0, MSG_SIZE_NORMAL, red, TTF_HELVETICA, "Red is Significance");
-   ttf_render_string(qcn_graphics::cfTextAlpha, 0, .25, 0, MSG_SIZE_NORMAL, blue, TTF_HELVETICA, "Blue is Z-axis");
-   ttf_render_string(qcn_graphics::cfTextAlpha, 0, .23, 0, MSG_SIZE_NORMAL, yellow, TTF_HELVETICA, "Yellow is Y-axis");
-   ttf_render_string(qcn_graphics::cfTextAlpha, 0, .21, 0, MSG_SIZE_NORMAL, green, TTF_HELVETICA, "Green is X-axis");
-   ttf_render_string(qcn_graphics::cfTextAlpha, 0, .19, 0, MSG_SIZE_NORMAL, cyan, TTF_HELVETICA, "Cyan is Magnitude");
-   ttf_render_string(qcn_graphics::cfTextAlpha, 0, .17, 0, MSG_SIZE_NORMAL, magenta, TTF_HELVETICA, "Magenta is Variance");
+   TTFont::ttf_render_string(qcn_graphics::cfTextAlpha, 0, .27, 0, MSG_SIZE_NORMAL, red, TTF_HELVETICA, "Red is Significance");
+   TTFont::ttf_render_string(qcn_graphics::cfTextAlpha, 0, .25, 0, MSG_SIZE_NORMAL, blue, TTF_HELVETICA, "Blue is Z-axis");
+   TTFont::ttf_render_string(qcn_graphics::cfTextAlpha, 0, .23, 0, MSG_SIZE_NORMAL, yellow, TTF_HELVETICA, "Yellow is Y-axis");
+   TTFont::ttf_render_string(qcn_graphics::cfTextAlpha, 0, .21, 0, MSG_SIZE_NORMAL, green, TTF_HELVETICA, "Green is X-axis");
+   TTFont::ttf_render_string(qcn_graphics::cfTextAlpha, 0, .19, 0, MSG_SIZE_NORMAL, cyan, TTF_HELVETICA, "Cyan is Magnitude");
+   TTFont::ttf_render_string(qcn_graphics::cfTextAlpha, 0, .17, 0, MSG_SIZE_NORMAL, magenta, TTF_HELVETICA, "Magenta is Variance");
    ortho_done();
  }
    // NB: draw_text_user called automatically from qcn_graphics to show BOINC username, CPU time etc
