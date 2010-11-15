@@ -2,6 +2,7 @@
 
 #include <QtGui>
 #include <QtOpenGL>
+#include <QTimer>
 
 #include <math.h>
 

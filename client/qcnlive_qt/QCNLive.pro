@@ -1,4 +1,5 @@
-BASEDIR = /Users/carlgt1/projects
+mac:BASEDIR = /Users/carlgt1/projects
+win32:BASEDIR = /projects
 
 BASEDIRBOINC = $$BASEDIR/boinc
 BASEDIRQCN = $$BASEDIR/qcn
@@ -25,6 +26,30 @@ mac:LIBS += -framework IOKit -framework Carbon \
    -L$$BASEDIRQCN/client/mac_build \
      -lboinc_zip -ljpeg-universal -lcurl-universal -lz-universal
 
+win32:LIBS += -L$$BASEDIRQCN/client/win_build \
+   wsock32.lib hid.lib setupapi.lib winmm.lib glu32.lib opengl32.lib \
+   comctl32.lib boinc_api.lib boinc_lib.lib boinc_zip.lib curllib.lib \
+   jpeglib32.lib zlib32.lib \
+   MotionNodeAccelAPI.lib
+
+win32:WINDEFINES = WIN32 _WIN32 _CRT_SECURE_NO_DEPRECATE
+win32:WININCLUDE = windows.h
+
+DEFINES += _USE_NTPDATE_EXEC_ QCNLIVE GRAPHICS_PROGRAM APP_GRAPHICS _ZLIB QCN _THREAD_SAFE CURL_STATICLIB _ZLIB $$WINDEF
+
+INCLUDEPATH += \
+        $$BASEDIRQCN \
+        $$BASEDIRQCN/jpeg-6b \
+        $$BASEDIRQCN/zlib \
+        $$BASEDIRQCN/curl/include \
+        $$MAINDIR \
+        $$SENSORDIR \
+        $$UTILDIR \
+        $$BASEDIRBOINC/lib \
+        $$BASEDIRBOINC/api \
+        $$BASEDIRBOINC/zip \
+        $$GRAPHICSDIR
+
 mac:ICON = $$BASEDIRQCN/doc/qcnmac.icns
 mac:QMAKE_INFO_PLIST = Info.plist.mac
 
@@ -35,7 +60,7 @@ mac:SRC_SENSOR = $$SENSORDIR/csensor_mac_laptop.cpp \
            $$SENSORDIR/csensor_mac_usb_jw24f14.cpp \
            $$SENSORDIR/csensor.cpp
 
-win:SRC_SENSOR = $$SENSORDIR/csensor_win_laptop_hp.cpp \
+win32:SRC_SENSOR = $$SENSORDIR/csensor_win_laptop_hp.cpp \
            $$SENSORDIR/csensor_win_laptop_thinkpad.cpp \
            $$SENSORDIR/csensor_win_usb_jw.cpp \
            $$SENSORDIR/csensor_win_usb_jw24f14.cpp \
@@ -76,6 +101,14 @@ SRC_GRAPHICS = $$GRAPHICSDIR/qcn_graphics.cpp \
       $$GRAPHICSDIR/coastline.cpp \
       $$GRAPHICSDIR/plate_boundary.cpp
 
+mac:MAC_SRC_BOINC = $$BLIBDIR/mac/mac_backtrace.cpp \
+   $$BLIBDIR/mac/QBacktrace.c \
+   $$BLIBDIR/mac/QCrashReport.c \
+   $$BLIBDIR/mac/QMachOImage.c \
+   $$BLIBDIR/mac/QMachOImageList.c \
+   $$BLIBDIR/mac/QSymbols.c \
+   $$BLIBDIR/mac/QTaskMemory.c
+
 SRC_BOINC = $$BAPIDIR/boinc_api.cpp \
    $$BAPIDIR/graphics2_util.cpp \
    $$BAPIDIR/graphics2.cpp \
@@ -95,41 +128,16 @@ SRC_BOINC = $$BAPIDIR/boinc_api.cpp \
    $$BLIBDIR/proxy_info.cpp \
    $$BLIBDIR/prefs.cpp \
    $$BLIBDIR/url.cpp \
-   $$BLIBDIR/coproc.cpp \
-   $$BLIBDIR/mac/mac_backtrace.cpp \
-   $$BLIBDIR/mac/QBacktrace.c \
-   $$BLIBDIR/mac/QCrashReport.c \
-   $$BLIBDIR/mac/QMachOImage.c \
-   $$BLIBDIR/mac/QMachOImageList.c \
-   $$BLIBDIR/mac/QSymbols.c \
-   $$BLIBDIR/mac/QTaskMemory.c
+   $$BLIBDIR/coproc.cpp $$MAC_SRC_BOINC
 
-mac:LIBS += -framework IOKit -framework Foundation
-
-DEFINES += _USE_NTPDATE_EXEC_ QCNLIVE GRAPHICS_PROGRAM APP_GRAPHICS _ZLIB QCN _THREAD_SAFE
-
-INCLUDEPATH += \
-        $$BASEDIRQCN \
-        $$BASEDIRQCN/jpeg-6b \
-        $$BASEDIRQCN/zlib \
-        $$BASEDIRQCN/curl \
-        $$MAINDIR \
-        $$SENSORDIR \
-        $$UTILDIR \
-        $$BASEDIRBOINC/lib \
-        $$BASEDIRBOINC/api \
-        $$BASEDIRBOINC/zip \
-        $$GRAPHICSDIR
-
-
-HEADERS       += qcnqt.h \
+HEADERS       += qcnqt.h $$WININCLUDE \
                 glwidget.h \
                 myframe.h \
                 dlgsettings.h \
                 qcnlive_define.h \
                 icons.h \
                 $$MAINDIR/main.h \
-                $$MAINDIR/define.h 
+                $$MAINDIR/define.h
 
 
 SOURCES       = glwidget.cpp \
