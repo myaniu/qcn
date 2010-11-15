@@ -33,7 +33,7 @@ static const float cfTransAlpha = 1.000f;
 static const float cfAxisLabel  = 1.061f;
 static const float cfVertLabel  = 0.988f;
 static const float cfMSSLabel   = 0.050f; // m/s/s label
-static const float cfLabelTime[2] = { cfVertLabel/2.0f - 0.1f, 0.00f};
+static const float cfLabelTime[2] = { cfVertLabel/2.0f - 0.05f, 0.00f};
 
 // 2d arrays for the points for drawing - 2d because first element is without the sig plot, 2nd element (array) is with the sig plot
 

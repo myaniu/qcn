@@ -413,10 +413,10 @@ struct FDSET_GROUP {
 #define NUM_PLATE_BOUNDARY      5706
 
 // OpenGL text draw sizes
-#define MSG_SIZE_BIG    1100
-#define MSG_SIZE_NORMAL 1300
-#define MSG_SIZE_MEDIUM 1500
-#define MSG_SIZE_SMALL  1900
+#define MSG_SIZE_BIG    1200
+#define MSG_SIZE_NORMAL 1400
+#define MSG_SIZE_MEDIUM 1600
+#define MSG_SIZE_SMALL  2000
 
 #define MAX_VXP 4
 enum e_drawtype { NATION = 0, PLATE, COUNTRY, COASTLINE };

@@ -972,23 +972,23 @@ void CEarth::RenderText()
        }
 
        sprintf(buf, "Magnitude: %5.1f", psqActive->magnitude);
-       TTFont::ttf_render_string(qcn_graphics::g_alphaText, 0, .23, 0, MSG_SIZE_NORMAL, pfcolor, TTF_HELVETICA, buf);
+       TTFont::ttf_render_string(qcn_graphics::g_alphaText, 0, .235, 0, MSG_SIZE_NORMAL, pfcolor, TTF_HELVETICA, buf);
 
        sprintf(buf, "Lat/Long: %8.3f, %8.3f", psqActive->latitude, psqActive->longitude);
-       TTFont::ttf_render_string(qcn_graphics::g_alphaText, 0, .21, 0, MSG_SIZE_NORMAL, pfcolor, TTF_HELVETICA, buf);
+       TTFont::ttf_render_string(qcn_graphics::g_alphaText, 0, .213, 0, MSG_SIZE_NORMAL, pfcolor, TTF_HELVETICA, buf);
 
        if (psqActive->depth_km <= 0.0)
           sprintf(buf, "Depth (km): Not Available");
        else
           sprintf(buf, "Depth (km): %6.2f", psqActive->depth_km);
-       TTFont::ttf_render_string(qcn_graphics::g_alphaText, 0, .19, 0, MSG_SIZE_NORMAL, pfcolor, TTF_HELVETICA, buf);
+       TTFont::ttf_render_string(qcn_graphics::g_alphaText, 0, .191, 0, MSG_SIZE_NORMAL, pfcolor, TTF_HELVETICA, buf);
 
        sprintf(buf, "Time (UTC): %04d/%02d/%02d %02d:%02d:%02d",
             psqActive->year, psqActive->month, psqActive->day,
               psqActive->hour, psqActive->minute, psqActive->second);
-       TTFont::ttf_render_string(qcn_graphics::g_alphaText, 0, .17, 0, MSG_SIZE_NORMAL, pfcolor, TTF_HELVETICA, buf);
+       TTFont::ttf_render_string(qcn_graphics::g_alphaText, 0, .169, 0, MSG_SIZE_NORMAL, pfcolor, TTF_HELVETICA, buf);
 
-       TTFont::ttf_render_string(qcn_graphics::g_alphaText, 0, .15, 0, MSG_SIZE_NORMAL, pfcolor, TTF_HELVETICA, (char*) psqActive->strDesc.c_str());
+       TTFont::ttf_render_string(qcn_graphics::g_alphaText, 0, .147, 0, MSG_SIZE_NORMAL, pfcolor, TTF_HELVETICA, (char*) psqActive->strDesc.c_str());
    }
 
    // draw mouse position info
@@ -1009,7 +1009,7 @@ void CEarth::RenderText()
    if (!qcn_graphics::g_bFullScreen) {
      TTFont::ttf_render_string(qcn_graphics::g_alphaText, 0, .470, 0, MSG_SIZE_SMALL, yellow, TTF_HELVETICA, (char*) "Left Mouse & Drag to Rotate");
      TTFont::ttf_render_string(qcn_graphics::g_alphaText, 0, .450, 0, MSG_SIZE_SMALL, yellow, TTF_HELVETICA, (char*) "Ctrl+Left or Rt Mouse & Drag to Zoom");
-     TTFont::ttf_render_string(qcn_graphics::g_alphaText, 0, .430, 0, MSG_SIZE_SMALL, yellow, TTF_HELVETICA, (char*) "Mouse on (Red) Quake to Select");
+     TTFont::ttf_render_string(qcn_graphics::g_alphaText, 0, .430, 0, MSG_SIZE_SMALL, yellow, TTF_HELVETICA, (char*) "Click on Quake to Select");
    }
 
 #ifndef QCNLIVE

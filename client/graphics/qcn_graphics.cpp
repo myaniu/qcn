@@ -591,13 +591,13 @@ void draw_text_user()
 #ifdef QCNLIVE
    if (strlen((const char*) sm->strMyStation)>0) {
       sprintf(buf, "Station: %s", (const char*) sm->strMyStation);
-      TTFont::ttf_render_string(g_alphaText, 0, .12, 0, MSG_SIZE_BIG, green, TTF_HELVETICA, buf);
+      TTFont::ttf_render_string(g_alphaText, 0, .118, 0, MSG_SIZE_NORMAL, green, TTF_HELVETICA, buf);
    }
 
    if (sm && earth.IsShown() && sm->dMyLatitude != NO_LAT && sm->dMyLongitude != NO_LNG
 	    && sm->dMyLatitude != 0.0f && sm->dMyLongitude != 0.0f) {
        sprintf(buf, "Location: %.4f, %.4f", sm->dMyLatitude, sm->dMyLongitude);
-       TTFont::ttf_render_string(g_alphaText, 0, .09, 0, MSG_SIZE_BIG, green, TTF_HELVETICA, buf);
+       TTFont::ttf_render_string(g_alphaText, 0, .096, 0, MSG_SIZE_NORMAL, green, TTF_HELVETICA, buf);
    }
 
    if (sm) {
