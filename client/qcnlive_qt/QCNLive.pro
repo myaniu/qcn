@@ -41,8 +41,10 @@ DEFINES += _USE_NTPDATE_EXEC_ QCNLIVE GRAPHICS_PROGRAM APP_GRAPHICS _ZLIB QCN _T
 INCLUDEPATH += \
         $$BASEDIRQCN \
         $$BASEDIRQCN/jpeg-6b \
-        $$BASEDIRQCN/zlib \
-        $$BASEDIRQCN/curl/include \
+        $$BASEDIRQCN/zlib-1.2.5 \
+        $$BASEDIRQCN/curl-7.21.2/include \
+        $$BASEDIRQCN/ftgl-2.1.3 \
+        $$BASEDIRQCN/freetype-2.3.9 \
         $$MAINDIR \
         $$SENSORDIR \
         $$UTILDIR \
