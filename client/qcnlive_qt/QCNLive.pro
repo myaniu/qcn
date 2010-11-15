@@ -41,20 +41,19 @@ DEFINES += _USE_NTPDATE_EXEC_ QCNLIVE GRAPHICS_PROGRAM APP_GRAPHICS _ZLIB QCN _T
 # setup proper order of include paths
 OLDINCLUDEPATH = $$INCLUDEPATH
 INCLUDEPATH = \
+        $$BASEDIRQCN \
         $$BASEDIRQCN/jpeg-6b \
         $$BASEDIRQCN/zlib-1.2.5 \
         $$BASEDIRQCN/curl-7.21.2/include \
         $$BASEDIRQCN/ftgl-2.1.3 \
         $$BASEDIRQCN/freetype-2.3.9 \
-        $$BASEDIRQCN \
         $$MAINDIR \
         $$SENSORDIR \
         $$UTILDIR \
         $$BASEDIRBOINC/lib \
         $$BASEDIRBOINC/api \
         $$BASEDIRBOINC/zip \
-        $$GRAPHICSDIR \
-        $$OLDINCLUDEPATH
+        $$GRAPHICSDIR 
 
 mac:ICON = $$BASEDIRQCN/doc/qcnmac.icns
 mac:QMAKE_INFO_PLIST = Info.plist.mac

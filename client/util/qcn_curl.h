@@ -3,8 +3,9 @@
 
 #include "define.h"
 #include "str_util.h"  // from boinc, for strlcat()
-#include <curl/curl.h>
-
+//#include "curl/curl.h"
+// have to force path due to conflicts of curl being in /usr/include etc
+#include "../../curl-7.21.2/include/curl/curl.h"
 namespace qcn_curl {
 
 extern const long BYTESIZE_CURL;   // max length to write a curl reply is our qcn_shmem.h (really define.h) MAX_PROJPREFS (132KB)
