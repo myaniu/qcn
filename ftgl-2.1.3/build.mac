@@ -7,9 +7,9 @@ mkdir lib
 chmod uog+rx configure
 export LIBTOOLIZE=/usr/local/bin/libtoolize
 
-export CXX=g++
-export CC=gcc
 export MARCH=ppc
+export CXX=g++-4.0
+export CC=gcc-4.0
 export MACOSX_DEPLOYMENT_TARGET=10.4
 export SDKROOT="/Developer/SDKs/MacOSX10.4u.sdk"
 export LDFLAGS="-isysroot $SDKROOT -Wl,-syslibroot,$SDKROOT -arch $MARCH"
@@ -22,6 +22,8 @@ make
 mv src/.libs/libftgl.a lib/libftgl_ppc.a
 
 export MARCH=i386
+export CXX=g++-4.0
+export CC=gcc-4.0
 export MACOSX_DEPLOYMENT_TARGET=10.4
 export SDKROOT="/Developer/SDKs/MacOSX10.4u.sdk"
 export LDFLAGS="-isysroot $SDKROOT -Wl,-syslibroot,$SDKROOT -arch $MARCH"
@@ -33,17 +35,18 @@ make clean
 make
 mv src/.libs/libftgl.a lib/libftgl_i386.a
 
-#export MARCH=x86_64
-#export MACOSX_DEPLOYMENT_TARGET=10.5
-#export SDKROOT="/Developer/SDKs/MacOSX10.5.sdk"
-#export LDFLAGS="-isysroot $SDKROOT -Wl,-syslibroot,$SDKROOT -arch $MARCH"
-#export CPPFLAGS="-O2 -I../../freetype-2.3.9/include -I$SDKROOT/usr/include -I$SDKROOT/usr/local/include -isysroot $SDKROOT -arch $MARCH"
-#export CFLAGS="-O2 -I../../freetype-2.3.9/include -I$SDKROOT/usr/include -I$SDKROOT/usr/local/include -isysroot $SDKROOT -arch $MARCH"
-#export CXXFLAGS="-O2 -I../../freetype-2.3.9/include -I$SDKROOT/usr/include -I$SDKROOT/usr/local/include -isysroot $SDKROOT -arch $MARCH"
-#./configure --enable-shared=no --enable-static=yes
-#make clean
-#make
-#mv src/.libs/libftgl.a lib/libftgl_x86_64.a
-#lipo -arch ppc lib/libftgl_ppc.a -arch i386 lib/libftgl_i386.a -arch x86_64 lib/libftgl_x86_64.a -create -output ../client/mac_build/libftgl-universal.a
-lipo -arch ppc lib/libftgl_ppc.a -arch i386 lib/libftgl_i386.a -create -output ../client/mac_build/libftgl-universal.a
+export MARCH=x86_64
+export CXX=g++-4.2
+export CC=gcc-4.2
+export MACOSX_DEPLOYMENT_TARGET=10.5
+export SDKROOT="/Developer/SDKs/MacOSX10.5.sdk"
+export LDFLAGS="-isysroot $SDKROOT -Wl,-syslibroot,$SDKROOT -arch $MARCH"
+export CPPFLAGS="-O2 -I../../freetype-2.3.9/include -I$SDKROOT/usr/include -I$SDKROOT/usr/local/include -isysroot $SDKROOT -arch $MARCH"
+export CFLAGS="-O2 -I../../freetype-2.3.9/include -I$SDKROOT/usr/include -I$SDKROOT/usr/local/include -isysroot $SDKROOT -arch $MARCH"
+export CXXFLAGS="-O2 -I../../freetype-2.3.9/include -I$SDKROOT/usr/include -I$SDKROOT/usr/local/include -isysroot $SDKROOT -arch $MARCH"
+./configure --enable-shared=no --enable-static=yes
+make clean
+make
+mv src/.libs/libftgl.a lib/libftgl_x86_64.a
+lipo -arch ppc lib/libftgl_ppc.a -arch i386 lib/libftgl_i386.a -arch x86_64 lib/libftgl_x86_64.a -create -output ../client/mac_build/libftgl-universal.a
 rm -rf src/.libs ; rm -rf lib; make clean
