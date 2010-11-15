@@ -6,7 +6,13 @@
 #define QCNGUI_XML_PREFS_FILE  "qcnliveprefs.xml"
 //#define QCNGUI_XML_GRAPHICS_PREFS_FILE  "graphicsprefs.xml"
 
+// Win or Mac icon
+#ifdef _WIN32
+#define FILENAME_LOGO   "qcnwin.ico"
+#else
 #define FILENAME_LOGO   "qcnlogo_big.png"
+#endif
+
 #define FILENAME_SPLASH "splash.png"
 
 #define SET_COMPANY "edu.stanford.qcn"

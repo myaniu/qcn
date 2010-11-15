@@ -7,8 +7,6 @@
 #include "glwidget.h"
 #include "qcnqt.h"
 
-#include "icons.h"
-
 // main program for Qt window
 int main(int argc, char *argv[])
 {
@@ -65,8 +63,8 @@ void MyApp::SetPath(const char* strArgv)
 	
     strlcat(strPath, QCNGUI_INIT_DIR, _MAX_PATH);
     _chdir(strPath); // first off, move to the init directory, this is where the boinc startup stuff is etc
-	
-	// set icon
+
+      // set icon - FILENAME_LOGO is set in qcnlive_define.h for the appropriate Mac/Win version
 	if (boinc_file_exists(FILENAME_LOGO)) 
 		setWindowIcon(QIcon(FILENAME_LOGO));
 	
@@ -362,14 +360,6 @@ bool MyApp::Init()
     m_rect.setWidth(MY_RECT_DEFAULT_WIDTH);
     m_rect.setHeight(MY_RECT_DEFAULT_HEIGHT);
 	*/
-
-/*  CMC win icons
-#ifdef _WIN32   // load the icons in init/qcnwin.ico, not we're in init/ dir by now
-	if (boinc_file_exists("qcnwin.ico")) {
-        frame->SetIcon(wxIcon("qcnwin.ico", wxBITMAP_TYPE_ICO));
-	}
-#endif
-*/
 
     if (!MainInit()) return false;  // this does a lot of init stuff such as get the latest quake list via curl etc
 	
