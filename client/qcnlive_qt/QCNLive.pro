@@ -24,7 +24,8 @@ mac:CXX = g++-4.0
 
 mac:LIBS += -framework IOKit -framework Carbon \
    -L$$BASEDIRQCN/client/mac_build \
-     -lboinc_zip -ljpeg-universal -lcurl-universal -lz-universal -lfreetype-universal -lftgl-universal
+     -lboinc_zip -ljpeg-universal -lcurl-universal \
+     -lz-universal -lfreetype-universal -lftgl-universal
 
 win32:LIBS += -L$$BASEDIRQCN/client/win_build \
    wsock32.lib hid.lib setupapi.lib winmm.lib glu32.lib opengl32.lib \
@@ -91,6 +92,7 @@ SRC_UTIL = $$UTILDIR/cserialize.cpp \
            $$UTILDIR/qcn_util.cpp \
            $$UTILDIR/qcn_signal.cpp \
            $$UTILDIR/qcn_curl.cpp \
+           $$UTILDIR/ttfont.cpp \
            $$UTILDIR/gzstream.cpp
 
 SRC_GRAPHICS = $$GRAPHICSDIR/qcn_graphics.cpp \
