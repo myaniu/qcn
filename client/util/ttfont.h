@@ -4,8 +4,6 @@
 #include "qcn_graphics.h"
 #include <FTGL/ftgl.h>
 
-#define NUM_FONT 2
-
 namespace TTFont {
         extern FTFont* g_font[NUM_FONT];
         extern int g_iFont;
