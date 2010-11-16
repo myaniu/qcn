@@ -43,7 +43,7 @@ if ( test "`uname -s`" = "Darwin" ) then
   suffixi='i686-apple-darwin'
   suffixs='x86_64-apple-darwin'
     rm -f qcnlive-mac.zip
-    #cp ../../doc/qcnmac.icns QCNLive.app/Contents/
+    cp ../../doc/qcnmac.icns QCNLive.app/Contents/
     zip -r qcnlive-mac.zip QCNLive.app \
        init/$ntpdv $uplstring \
        init/libMotionNodeAccelAPI.dylib \
