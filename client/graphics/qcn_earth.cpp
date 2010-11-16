@@ -964,65 +964,59 @@ void CEarth::RenderText()
        }
 
        sprintf(buf, "Selected Earthquake # %d of %d:", psqActive->num, (int) qcn_graphics::vsq.size());
-       TTFont::ttf_render_string(qcn_graphics::g_alphaText, 0, .27, 0, MSG_SIZE_NORMAL, yellow, TTF_HELVETICA, buf);
+       TTFont::ttf_render_string(qcn_graphics::g_alphaText, 0, .30, 0, MSG_SIZE_NORMAL, yellow, TTF_ARIAL, buf);
 
        if (vpsqc.size()>1) {
          sprintf(buf, "(%d Quakes in this Area, Click to Cycle)", (int) vpsqc.size());
-         TTFont::ttf_render_string(qcn_graphics::g_alphaText, 0, .255, 0, MSG_SIZE_SMALL, yellow, TTF_HELVETICA, buf);
+         TTFont::ttf_render_string(qcn_graphics::g_alphaText, 0, .282, 0, MSG_SIZE_SMALL, yellow, TTF_ARIAL, buf);
        }
 
        sprintf(buf, "Magnitude: %5.1f", psqActive->magnitude);
-       TTFont::ttf_render_string(qcn_graphics::g_alphaText, 0, .235, 0, MSG_SIZE_NORMAL, pfcolor, TTF_HELVETICA, buf);
+       TTFont::ttf_render_string(qcn_graphics::g_alphaText, 0, .255, 0, MSG_SIZE_NORMAL, pfcolor, TTF_ARIAL, buf);
 
        sprintf(buf, "Lat/Long: %8.3f, %8.3f", psqActive->latitude, psqActive->longitude);
-       TTFont::ttf_render_string(qcn_graphics::g_alphaText, 0, .213, 0, MSG_SIZE_NORMAL, pfcolor, TTF_HELVETICA, buf);
+       TTFont::ttf_render_string(qcn_graphics::g_alphaText, 0, .230, 0, MSG_SIZE_NORMAL, pfcolor, TTF_ARIAL, buf);
 
        if (psqActive->depth_km <= 0.0)
           sprintf(buf, "Depth (km): Not Available");
        else
           sprintf(buf, "Depth (km): %6.2f", psqActive->depth_km);
-       TTFont::ttf_render_string(qcn_graphics::g_alphaText, 0, .191, 0, MSG_SIZE_NORMAL, pfcolor, TTF_HELVETICA, buf);
+       TTFont::ttf_render_string(qcn_graphics::g_alphaText, 0, .205, 0, MSG_SIZE_NORMAL, pfcolor, TTF_ARIAL, buf);
 
        sprintf(buf, "Time (UTC): %04d/%02d/%02d %02d:%02d:%02d",
             psqActive->year, psqActive->month, psqActive->day,
               psqActive->hour, psqActive->minute, psqActive->second);
-       TTFont::ttf_render_string(qcn_graphics::g_alphaText, 0, .169, 0, MSG_SIZE_NORMAL, pfcolor, TTF_HELVETICA, buf);
+       TTFont::ttf_render_string(qcn_graphics::g_alphaText, 0, .180, 0, MSG_SIZE_NORMAL, pfcolor, TTF_ARIAL, buf);
 
-       TTFont::ttf_render_string(qcn_graphics::g_alphaText, 0, .147, 0, MSG_SIZE_NORMAL, pfcolor, TTF_HELVETICA, (char*) psqActive->strDesc.c_str());
+       TTFont::ttf_render_string(qcn_graphics::g_alphaText, 0, .155, 0, MSG_SIZE_NORMAL, pfcolor, TTF_ARIAL, (const char*) psqActive->strDesc.c_str());
    }
 
    // draw mouse position info
    //sprintf(buf, "mouse %d,%d  %d,%d,%d", mouseX, mouseY, mousePX, mousePY, mousePZ);
    //sprintf(buf, "glptr %d %d", glptr[0], glptr[1]);
-   //TTFont::ttf_render_string(qcn_graphics::g_alphaText, 0, .50, 0, MSG_SIZE_NORMAL, red, TTF_HELVETICA, buf);
-
-#ifndef QCNLIVE
-   if (!qcn_graphics::g_bFullScreen) {
-     // left of window informative text
-     sprintf(buf, "Press 'Q' to return to");
-     TTFont::ttf_render_string(qcn_graphics::g_alphaText, 0, .34, 0, MSG_SIZE_NORMAL, yellow, TTF_HELVETICA, buf);
-     sprintf(buf, "seismic sensor view");
-     TTFont::ttf_render_string(qcn_graphics::g_alphaText, 0, .32, 0, MSG_SIZE_NORMAL, yellow, TTF_HELVETICA, buf);
-   }
-#endif
+   //TTFont::ttf_render_string(qcn_graphics::g_alphaText, 0, .50, 0, MSG_SIZE_NORMAL, red, TTF_ARIAL, buf);
 
    if (!qcn_graphics::g_bFullScreen) {
-     TTFont::ttf_render_string(qcn_graphics::g_alphaText, 0, .470, 0, MSG_SIZE_SMALL, yellow, TTF_HELVETICA, (char*) "Left Mouse & Drag to Rotate");
-     TTFont::ttf_render_string(qcn_graphics::g_alphaText, 0, .450, 0, MSG_SIZE_SMALL, yellow, TTF_HELVETICA, (char*) "Ctrl+Left or Rt Mouse & Drag to Zoom");
-     TTFont::ttf_render_string(qcn_graphics::g_alphaText, 0, .430, 0, MSG_SIZE_SMALL, yellow, TTF_HELVETICA, (char*) "Click on Quake to Select");
+     TTFont::ttf_render_string(qcn_graphics::g_alphaText, 0, .470, 0, MSG_SIZE_SMALL, yellow, TTF_ARIAL, (const char*) "Left Mouse & Drag to Rotate");
+     TTFont::ttf_render_string(qcn_graphics::g_alphaText, 0, .450, 0, MSG_SIZE_SMALL, yellow, TTF_ARIAL, (const char*) "Ctrl+Left or Rt Mouse & Drag to Zoom");
+     TTFont::ttf_render_string(qcn_graphics::g_alphaText, 0, .430, 0, MSG_SIZE_SMALL, yellow, TTF_ARIAL, (const char*) "Click on Quake to Select");
    }
 
 #ifndef QCNLIVE
+	//!defined(QCNLIVE) || defined(_DEBUG)
    if (!qcn_graphics::g_bFullScreen) {
-     TTFont::ttf_render_string(qcn_graphics::g_alphaText, 0, .410, 0, MSG_SIZE_SMALL, yellow, TTF_HELVETICA, (char*) "Shift+Mouse for USGS Website Data");
-     TTFont::ttf_render_string(qcn_graphics::g_alphaText, 0, .390, 0, MSG_SIZE_SMALL, yellow, TTF_HELVETICA, (char*) "Press 'A' to toggle auto-rotation");
-     TTFont::ttf_render_string(qcn_graphics::g_alphaText, 0, .370, 0, MSG_SIZE_SMALL, yellow, TTF_HELVETICA, (char*) "Press 'E' to toggle earth map image");
+     TTFont::ttf_render_string(qcn_graphics::g_alphaText, 0, .410, 0, MSG_SIZE_SMALL, yellow, TTF_ARIAL, (const char*) "Shift+Mouse for USGS Website Data");
+     TTFont::ttf_render_string(qcn_graphics::g_alphaText, 0, .390, 0, MSG_SIZE_SMALL, yellow, TTF_ARIAL, (const char*) "Press 'A' to toggle auto-rotation");
+     TTFont::ttf_render_string(qcn_graphics::g_alphaText, 0, .370, 0, MSG_SIZE_SMALL, yellow, TTF_ARIAL, (const char*) "Press 'E' to toggle earth map image");
+	 // left of window informative text
+	 TTFont::ttf_render_string(qcn_graphics::g_alphaText, 0, .350, 0, MSG_SIZE_SMALL, yellow, TTF_ARIAL, "Press 'Q' for sensor view");
    }
 #endif
 
+	
 #ifdef _DEBUG
    if (strDebug[0]!=0x00) {
-       TTFont::ttf_render_string(qcn_graphics::cfTextAlpha, 0, .7, 0, MSG_SIZE_NORMAL, red, TTF_HELVETICA, strDebug);
+       TTFont::ttf_render_string(qcn_graphics::cfTextAlpha, 0, .7, 0, MSG_SIZE_NORMAL, red, TTF_ARIAL, strDebug);
    }
 #endif
 

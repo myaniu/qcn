@@ -318,6 +318,14 @@ void MyFrame::createActions()
 	m_actionOptionSensorScaled->setCheckable(true);
 	connect(m_actionOptionSensorScaled, SIGNAL(triggered()), this, SLOT(actionOptionSensor()));
 	
+	QAction* m_actionOptionSensorSignificance;
+	m_actionOptionSensorSignificance = new QAction(tr("Show Significance Values"), this);
+	m_actionOptionSensorSignificance->setToolTip(tr("Show the computed significance values"));
+	m_actionOptionSensorSignificance->setIcon(QIcon(icon_sig_xpm));
+	m_actionOptionSensorSignificance->setCheckable(true);
+	connect(m_actionOptionSensorSignificance, SIGNAL(triggered()), this, SLOT(actionOptionSensor()));
+	
+	
 
 	// Option action for all (Screenshot / Logo)
 	m_actionOptionScreenshot = new QAction(tr("Screenshot"), this);
@@ -726,6 +734,12 @@ void MyFrame::actionOptionSensor()
 	else if (pAction == m_actionOptionSensorVerticalZoomAuto) {
 		qcn_2dplot::SensorDataZoomAuto();
 	}
+	else if (pAction == m_actionOptionSensorSignificance) { // toggle significance plot
+		if (IsSigPlot()) ShowSigPlot(false);
+		else ShowSigPlot(true);
+	}
+	
+			
 
     SetToggleSensor((bool)(qcn_graphics::g_eView == VIEW_PLOT_3D));
 }

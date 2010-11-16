@@ -542,17 +542,17 @@ void draw_text_sensor()
 
     if (sm) {
         if (!sm->bSensorFound) {
-            TTFont::ttf_render_string(g_alphaText, 0.003, 0.01,0, isize, red, TTF_HELVETICA, (char*) "Demo Mode - Sensor Not Found");
+            TTFont::ttf_render_string(g_alphaText, 0.003, 0.01,0, isize, red, TTF_ARIAL, (const char*) "Demo Mode - Sensor Not Found");
         } else if (sm->lOffset >=0 && sm->lOffset < sm->iWindow ) {  // we're in our calibration window
             sprintf(buf, "%s sensor calibration in progress (Reset %d)", sm->strSensor, sm->iNumReset);
-            TTFont::ttf_render_string(g_alphaText, 0.003, 0.01, 0, isize, red, TTF_HELVETICA, buf);
+            TTFont::ttf_render_string(g_alphaText, 0.003, 0.01, 0, isize, red, TTF_ARIAL, buf);
         } else if (sm->strSensor[0] != 0x00) {
             sprintf(buf, "Using %s Accelerometer (Reset %d)", sm->strSensor, sm->iNumReset);
-            TTFont::ttf_render_string(g_alphaText, 0.003, 0.01, 0, isize, red, TTF_HELVETICA, buf);
+            TTFont::ttf_render_string(g_alphaText, 0.003, 0.01, 0, isize, red, TTF_ARIAL, buf);
         } else if (dtime()-sm->update_time > 5) {
-            TTFont::ttf_render_string(g_alphaText, 0.003, 0.01, 0, isize, red, TTF_HELVETICA, (char*) "QCN Not Running");
+            TTFont::ttf_render_string(g_alphaText, 0.003, 0.01, 0, isize, red, TTF_ARIAL, (const char*) "QCN Not Running");
         } else if (sm->statusBOINC.suspended) {
-            TTFont::ttf_render_string(g_alphaText, 0.003, 0.01, 0, isize, red, TTF_HELVETICA, (char*) "QCN Suspended");
+            TTFont::ttf_render_string(g_alphaText, 0.003, 0.01, 0, isize, red, TTF_ARIAL, (const char*) "QCN Suspended");
 		}
     } 
 
@@ -560,7 +560,7 @@ void draw_text_sensor()
       // if we wrote a JPG file, display a message for a little bit (200 frame refreshes ~ 7 seconds)
       if (++g_iJPG < 200 && g_strJPG[0] != 0x00) { // we have written a JPG file
         sprintf(buf, "Screenshot saved to: %s", g_strJPG);
-        TTFont::ttf_render_string(g_alphaText, 0.003, 0.028, 0, MSG_SIZE_SMALL, orange, TTF_HELVETICA, buf);
+        TTFont::ttf_render_string(g_alphaText, 0.003, 0.028, 0, MSG_SIZE_SMALL, orange, TTF_ARIAL, buf);
       }
 #endif
 
@@ -577,27 +577,27 @@ void draw_text_user()
    mode_ortho();
 
     if (!sm) {
-       TTFont::ttf_render_string(g_alphaText, 0, 0, 0, 800, red, TTF_HELVETICA, (char*) "No shared memory, QCN not running?");
+       TTFont::ttf_render_string(g_alphaText, 0, 0, 0, 800, red, TTF_ARIAL, (const char*) "No shared memory, QCN not running?");
 	   delete [] buf;
        return;
     }
 
 /*
     sprintf(buf, "mouse x=%d  y=%d", mouseSX, mouseSY);
-    TTFont::ttf_render_string(cf, 0, .04, 0, MSG_SIZE_NORMAL, red, TTF_HELVETICA, buf);
+    TTFont::ttf_render_string(cf, 0, .04, 0, MSG_SIZE_NORMAL, red, TTF_ARIAL, buf);
 */
 
     // user info
 #ifdef QCNLIVE
    if (strlen((const char*) sm->strMyStation)>0) {
       sprintf(buf, "Station: %s", (const char*) sm->strMyStation);
-      TTFont::ttf_render_string(g_alphaText, 0, .118, 0, MSG_SIZE_NORMAL, green, TTF_HELVETICA, buf);
+      TTFont::ttf_render_string(g_alphaText, 0, .118, 0, MSG_SIZE_NORMAL, green, TTF_ARIAL, buf);
    }
 
    if (sm && earth.IsShown() && sm->dMyLatitude != NO_LAT && sm->dMyLongitude != NO_LNG
 	    && sm->dMyLatitude != 0.0f && sm->dMyLongitude != 0.0f) {
        sprintf(buf, "Location: %.4f, %.4f", sm->dMyLatitude, sm->dMyLongitude);
-       TTFont::ttf_render_string(g_alphaText, 0, .096, 0, MSG_SIZE_NORMAL, green, TTF_HELVETICA, buf);
+       TTFont::ttf_render_string(g_alphaText, 0, .094, 0, MSG_SIZE_NORMAL, green, TTF_ARIAL, buf);
    }
 
    if (sm) {
@@ -605,47 +605,47 @@ void draw_text_user()
       qcn_util::FormatElapsedTime((const double&) sm->clock_time, strTime, 32);
 
       sprintf(buf, "Run Time: %s", strTime);
-      TTFont::ttf_render_string(g_alphaText, 0, 0.06, 0, MSG_SIZE_NORMAL, white, TTF_HELVETICA, buf);
+      TTFont::ttf_render_string(g_alphaText, 0, 0.06, 0, MSG_SIZE_NORMAL, white, TTF_ARIAL, buf);
 
 /*
 	   sprintf(buf, "g_alphaText: %f", g_alphaText);
-	   TTFont::ttf_render_string(g_alphaLogo, 0, 0.06, 0, MSG_SIZE_NORMAL, white, TTF_HELVETICA, buf);
+	   TTFont::ttf_render_string(g_alphaLogo, 0, 0.06, 0, MSG_SIZE_NORMAL, white, TTF_ARIAL, buf);
 */
       qcn_util::FormatElapsedTime((const double&) sm->cpu_time, strTime, 32);
       sprintf(buf, "CPU Time: %s", strTime);
-      TTFont::ttf_render_string(g_alphaText, 0, 0.04, 0, MSG_SIZE_NORMAL, white, TTF_HELVETICA, buf);
+      TTFont::ttf_render_string(g_alphaText, 0, 0.04, 0, MSG_SIZE_NORMAL, white, TTF_ARIAL, buf);
     }
 #else
     if (sm) {
-		TTFont::ttf_render_string(g_alphaText, 0, .125, 0, MSG_SIZE_NORMAL, white, TTF_HELVETICA, (char*) sm->dataBOINC.user_name);
-      //TTFont::ttf_render_string(g_alphaText, 0, 0.10, 0, MSG_SIZE_NORMAL, white, TTF_HELVETICA, (char*) sm->dataBOINC.team_name);
+	  TTFont::ttf_render_string(g_alphaText, 0, .130, 0, MSG_SIZE_NORMAL, white, TTF_ARIAL, (const char*) sm->dataBOINC.user_name);
+      //TTFont::ttf_render_string(g_alphaText, 0, 0.10, 0, MSG_SIZE_NORMAL, white, TTF_ARIAL, (const char*) sm->dataBOINC.team_name);
 
-      sprintf(buf, "WU #: %s", sm->dataBOINC.wu_name);
-      TTFont::ttf_render_string(g_alphaText, 0, 0.105, 0, MSG_SIZE_NORMAL, white, 0, buf);
+      sprintf(buf, "Workunit: %s", sm->dataBOINC.wu_name);
+      TTFont::ttf_render_string(g_alphaText, 0, 0.110, 0, MSG_SIZE_NORMAL, white, 0, buf);
 
       char strTime[32];
       qcn_util::FormatElapsedTime((const double&) sm->clock_time, strTime, 32);
       sprintf(buf, "Run Time: %s", strTime);
-      TTFont::ttf_render_string(g_alphaText, 0, 0.085, 0, MSG_SIZE_NORMAL, white, TTF_HELVETICA, buf);
+      TTFont::ttf_render_string(g_alphaText, 0, 0.090, 0, MSG_SIZE_NORMAL, white, TTF_ARIAL, buf);
 
       qcn_util::FormatElapsedTime((const double&) sm->cpu_time, strTime, 32);
       sprintf(buf, "CPU Time: %s", strTime);
-      TTFont::ttf_render_string(g_alphaText, 0, 0.065, 0, MSG_SIZE_NORMAL, white, TTF_HELVETICA, buf);
+      TTFont::ttf_render_string(g_alphaText, 0, 0.070, 0, MSG_SIZE_NORMAL, white, TTF_ARIAL, buf);
 
       sprintf(buf, "%.2f Percent Complete", 100.0f * sm->fraction_done);
-      TTFont::ttf_render_string(g_alphaText, 0, 0.045, 0, MSG_SIZE_NORMAL, white, TTF_HELVETICA, buf);
+      TTFont::ttf_render_string(g_alphaText, 0, 0.050, 0, MSG_SIZE_NORMAL, white, TTF_ARIAL, buf);
 
       if (sm && earth.IsShown() && sm->dMyLatitude != NO_LAT && sm->dMyLongitude != NO_LNG
   	    && sm->dMyLatitude != 0.0f && sm->dMyLongitude != 0.0f) {
          sprintf(buf, "Home Map Location: %.3f, %.3f", sm->dMyLatitude, sm->dMyLongitude);
-         TTFont::ttf_render_string(g_alphaText, 0, .025, 0, MSG_SIZE_NORMAL, green, TTF_HELVETICA, buf);
+         TTFont::ttf_render_string(g_alphaText, 0, .030, 0, MSG_SIZE_NORMAL, green, TTF_ARIAL, buf);
       }
     }
 #endif
 
 #ifdef KEYVIEW
     sprintf(buf, "keys:  dn=%d  dnalt=%d  up=%d upalt=%d", key_press, key_press_alt, key_up, key_up_alt);
-    TTFont::ttf_render_string(g_alphaText, 0, 0, 0, 800, red, TTF_HELVETICA, buf);
+    TTFont::ttf_render_string(g_alphaText, 0, 0, 0, 800, red, TTF_ARIAL, buf);
 #endif
 
     draw_text_sensor(); // sensor specific messages
@@ -677,26 +677,26 @@ void draw_text_plot()
     if (!g_bFullScreen) {
  	if (g_bSnapshot)  {
 		sprintf(buf, "Press 'S' for live view"); 
-		TTFont::ttf_render_string(g_alphaText, 0, .4, 0, MSG_SIZE_NORMAL, yellow, TTF_HELVETICA, buf);
+		TTFont::ttf_render_string(g_alphaText, 0, .4, 0, MSG_SIZE_NORMAL, yellow, TTF_ARIAL, buf);
 		sprintf(buf, "Use '<' & '>' keys to pan");
-		TTFont::ttf_render_string(g_alphaText, 0, .38, 0, MSG_SIZE_NORMAL, yellow, TTF_HELVETICA, buf);
+		TTFont::ttf_render_string(g_alphaText, 0, .38, 0, MSG_SIZE_NORMAL, yellow, TTF_ARIAL, buf);
 	}
 	else {
 		sprintf(buf, "Press 'S' for snapshot view"); 
-		TTFont::ttf_render_string(g_alphaText, 0, .4, 0, MSG_SIZE_NORMAL, yellow, TTF_HELVETICA, buf);
+		TTFont::ttf_render_string(g_alphaText, 0, .4, 0, MSG_SIZE_NORMAL, yellow, TTF_ARIAL, buf);
 	}
 
 	//sprintf(buf, "Press 'C' for bouncy cube"); 
-	//TTFont::ttf_render_string(cf, 0, .34, 0, MSG_SIZE_NORMAL, yellow, TTF_HELVETICA, buf);
+	//TTFont::ttf_render_string(cf, 0, .34, 0, MSG_SIZE_NORMAL, yellow, TTF_ARIAL, buf);
        
 	sprintf(buf, "Press 'Q' for world earthquake map"); 
-	TTFont::ttf_render_string(g_alphaText, 0, .34, 0, MSG_SIZE_NORMAL, yellow, TTF_HELVETICA, buf);
+	TTFont::ttf_render_string(g_alphaText, 0, .34, 0, MSG_SIZE_NORMAL, yellow, TTF_ARIAL, buf);
        
 	sprintf(buf, "Press 'L' to toggle 2D/3D Plot"); 
-	TTFont::ttf_render_string(g_alphaText, 0, .32, 0, MSG_SIZE_NORMAL, yellow, TTF_HELVETICA, buf);
+	TTFont::ttf_render_string(g_alphaText, 0, .32, 0, MSG_SIZE_NORMAL, yellow, TTF_ARIAL, buf);
        
 	sprintf(buf, "Press +/- to change time window");
-	TTFont::ttf_render_string(g_alphaText, 0, .30, 0, MSG_SIZE_NORMAL, yellow, TTF_HELVETICA, buf);
+	TTFont::ttf_render_string(g_alphaText, 0, .30, 0, MSG_SIZE_NORMAL, yellow, TTF_ARIAL, buf);
    }
 #endif
 
@@ -704,55 +704,55 @@ void draw_text_plot()
 
 	// graph labels
 	sprintf(buf, "Significance");
-	TTFont::ttf_render_string(qcn_graphics::g_alphaText, TEXT_PLOT_LEFT_AXES, fTop[E_DS], 0, MSG_SIZE_MEDIUM, colorsPlot[E_DS], TTF_HELVETICA, buf);
+	TTFont::ttf_render_string(qcn_graphics::g_alphaText, TEXT_PLOT_LEFT_AXES, fTop[E_DS], 0, MSG_SIZE_MEDIUM, colorsPlot[E_DS], TTF_ARIAL, buf);
         if (sm && g_fmax[E_DS] != SAC_NULL_FLOAT && g_fmin[E_DS] != SAC_NULL_FLOAT) {
            sprintf(buf, " max=%+6.3f", g_fmax[E_DS]);
-           TTFont::ttf_render_string(qcn_graphics::g_alphaText, TEXT_PLOT_LEFT_AXES, fTop[E_DS] - 0.02, 0, MSG_SIZE_SMALL, colorsPlot[E_DS], TTF_HELVETICA, buf);
+           TTFont::ttf_render_string(qcn_graphics::g_alphaText, TEXT_PLOT_LEFT_AXES, fTop[E_DS] - 0.02, 0, MSG_SIZE_SMALL, colorsPlot[E_DS], TTF_ARIAL, buf);
            sprintf(buf, " min=%+6.3f", g_fmin[E_DS]);
-           TTFont::ttf_render_string(qcn_graphics::g_alphaText, TEXT_PLOT_LEFT_AXES, fTop[E_DS] - 0.04, 0, MSG_SIZE_SMALL, colorsPlot[E_DS], TTF_HELVETICA, buf);
+           TTFont::ttf_render_string(qcn_graphics::g_alphaText, TEXT_PLOT_LEFT_AXES, fTop[E_DS] - 0.04, 0, MSG_SIZE_SMALL, colorsPlot[E_DS], TTF_ARIAL, buf);
         }
 
 	sprintf(buf, "Z-amp");
-	TTFont::ttf_render_string(qcn_graphics::g_alphaText, TEXT_PLOT_LEFT_AXES, fTop[E_DZ], 0, MSG_SIZE_MEDIUM, colorsPlot[E_DZ], TTF_HELVETICA, buf);
+	TTFont::ttf_render_string(qcn_graphics::g_alphaText, TEXT_PLOT_LEFT_AXES, fTop[E_DZ], 0, MSG_SIZE_MEDIUM, colorsPlot[E_DZ], TTF_ARIAL, buf);
         if (sm && g_fmax[E_DZ] != SAC_NULL_FLOAT && g_fmin[E_DZ] != SAC_NULL_FLOAT) {
            sprintf(buf, " max=%+6.3f", g_fmax[E_DZ]);
-           TTFont::ttf_render_string(qcn_graphics::g_alphaText, TEXT_PLOT_LEFT_AXES, fTop[E_DZ] - 0.02, 0, MSG_SIZE_SMALL, colorsPlot[E_DZ], TTF_HELVETICA, buf);
+           TTFont::ttf_render_string(qcn_graphics::g_alphaText, TEXT_PLOT_LEFT_AXES, fTop[E_DZ] - 0.02, 0, MSG_SIZE_SMALL, colorsPlot[E_DZ], TTF_ARIAL, buf);
            sprintf(buf, " min=%+6.3f", g_fmin[E_DZ]);
-           TTFont::ttf_render_string(qcn_graphics::g_alphaText, TEXT_PLOT_LEFT_AXES, fTop[E_DZ] - 0.04, 0, MSG_SIZE_SMALL, colorsPlot[E_DZ], TTF_HELVETICA, buf);
+           TTFont::ttf_render_string(qcn_graphics::g_alphaText, TEXT_PLOT_LEFT_AXES, fTop[E_DZ] - 0.04, 0, MSG_SIZE_SMALL, colorsPlot[E_DZ], TTF_ARIAL, buf);
         }
 
 	sprintf(buf, "Y-amp");
-	TTFont::ttf_render_string(qcn_graphics::g_alphaText, TEXT_PLOT_LEFT_AXES, fTop[E_DY], 0, MSG_SIZE_MEDIUM, colorsPlot[E_DY], TTF_HELVETICA, buf);
+	TTFont::ttf_render_string(qcn_graphics::g_alphaText, TEXT_PLOT_LEFT_AXES, fTop[E_DY], 0, MSG_SIZE_MEDIUM, colorsPlot[E_DY], TTF_ARIAL, buf);
         if (sm && g_fmax[E_DY] != SAC_NULL_FLOAT && g_fmin[E_DY] != SAC_NULL_FLOAT) {
            sprintf(buf, " max=%+6.3f", g_fmax[E_DY]);
-           TTFont::ttf_render_string(qcn_graphics::g_alphaText, TEXT_PLOT_LEFT_AXES, fTop[E_DY] - 0.02, 0, MSG_SIZE_SMALL, colorsPlot[E_DY], TTF_HELVETICA, buf);
+           TTFont::ttf_render_string(qcn_graphics::g_alphaText, TEXT_PLOT_LEFT_AXES, fTop[E_DY] - 0.02, 0, MSG_SIZE_SMALL, colorsPlot[E_DY], TTF_ARIAL, buf);
            sprintf(buf, " min=%+6.3f", g_fmin[E_DY]);
-           TTFont::ttf_render_string(qcn_graphics::g_alphaText, TEXT_PLOT_LEFT_AXES, fTop[E_DY] - 0.04, 0, MSG_SIZE_SMALL, colorsPlot[E_DY], TTF_HELVETICA, buf);
+           TTFont::ttf_render_string(qcn_graphics::g_alphaText, TEXT_PLOT_LEFT_AXES, fTop[E_DY] - 0.04, 0, MSG_SIZE_SMALL, colorsPlot[E_DY], TTF_ARIAL, buf);
         }
 
 	sprintf(buf, "X-amp");
-	TTFont::ttf_render_string(qcn_graphics::g_alphaText, TEXT_PLOT_LEFT_AXES, fTop[E_DX], 0, MSG_SIZE_MEDIUM, colorsPlot[E_DX], TTF_HELVETICA, buf);
+	TTFont::ttf_render_string(qcn_graphics::g_alphaText, TEXT_PLOT_LEFT_AXES, fTop[E_DX], 0, MSG_SIZE_MEDIUM, colorsPlot[E_DX], TTF_ARIAL, buf);
         if (sm && g_fmax[E_DX] != SAC_NULL_FLOAT && g_fmin[E_DX] != SAC_NULL_FLOAT) {
            sprintf(buf, " max=%+6.3f", g_fmax[E_DX]);
-           TTFont::ttf_render_string(qcn_graphics::g_alphaText, TEXT_PLOT_LEFT_AXES, fTop[E_DX] - 0.02, 0, MSG_SIZE_SMALL, colorsPlot[E_DX], TTF_HELVETICA, buf);
+           TTFont::ttf_render_string(qcn_graphics::g_alphaText, TEXT_PLOT_LEFT_AXES, fTop[E_DX] - 0.02, 0, MSG_SIZE_SMALL, colorsPlot[E_DX], TTF_ARIAL, buf);
            sprintf(buf, " min=%+6.3f", g_fmin[E_DX]);
-           TTFont::ttf_render_string(qcn_graphics::g_alphaText, TEXT_PLOT_LEFT_AXES, fTop[E_DX] - 0.04, 0, MSG_SIZE_SMALL, colorsPlot[E_DX], TTF_HELVETICA, buf);
+           TTFont::ttf_render_string(qcn_graphics::g_alphaText, TEXT_PLOT_LEFT_AXES, fTop[E_DX] - 0.04, 0, MSG_SIZE_SMALL, colorsPlot[E_DX], TTF_ARIAL, buf);
         }
 
    if (g_eView == VIEW_PLOT_2D) {
 /*
       switch (key_winsize) {
         case 0:
-          TTFont::ttf_render_string.1, 0, 0.18, 0, MSG_SIZE_SMALL, white, 0, (char*) "Small Tick Mark = 1 Second");
-          TTFont::ttf_render_string.1, 0, 0.16, 0, MSG_SIZE_SMALL, white, 0, (char*) "Large Tick Mark = 10 Seconds");
+          TTFont::ttf_render_string.1, 0, 0.18, 0, MSG_SIZE_SMALL, white, 0, (const char*) "Small Tick Mark = 1 Second");
+          TTFont::ttf_render_string.1, 0, 0.16, 0, MSG_SIZE_SMALL, white, 0, (const char*) "Large Tick Mark = 10 Seconds");
           break;
         case 1:
-          TTFont::ttf_render_string.1, 0, 0.18, 0, MSG_SIZE_SMALL, white, 0, (char*) "Small Tick Mark = 10 Seconds");
-          TTFont::ttf_render_string.1, 0, 0.16, 0, MSG_SIZE_SMALL, white, 0, (char*) "Large Tick Mark = 1 Minute");
+          TTFont::ttf_render_string.1, 0, 0.18, 0, MSG_SIZE_SMALL, white, 0, (const char*) "Small Tick Mark = 10 Seconds");
+          TTFont::ttf_render_string.1, 0, 0.16, 0, MSG_SIZE_SMALL, white, 0, (const char*) "Large Tick Mark = 1 Minute");
           break;
         case 2:
-          TTFont::ttf_render_string.1, 0, 0.18, 0, MSG_SIZE_SMALL, white, 0, (char*) "Small Tick Mark = 1 Minute");
-          TTFont::ttf_render_string.1, 0, 0.16, 0, MSG_SIZE_SMALL, white, 0, (char*) "Large Tick Mark = 10 Minutes");
+          TTFont::ttf_render_string.1, 0, 0.18, 0, MSG_SIZE_SMALL, white, 0, (const char*) "Small Tick Mark = 1 Minute");
+          TTFont::ttf_render_string.1, 0, 0.16, 0, MSG_SIZE_SMALL, white, 0, (const char*) "Large Tick Mark = 10 Minutes");
           break;
 	  }
 */
@@ -763,16 +763,16 @@ void draw_text_plot()
      	memset(strt, 0x00, sizeof(char) * 64);
 	    qcn_util::dtime_to_string((const double) dtw[0], 'h', strt[0]);
 	    qcn_util::dtime_to_string((const double) dtw[1], 'h', strt[1]);
-        TTFont::ttf_render_string(cfTextAlpha, 0, 0.20, 0, 1500, white, TTF_HELVETICA, (char*) "Time In Hour UTC");
+        TTFont::ttf_render_string(cfTextAlpha, 0, 0.20, 0, 1500, white, TTF_ARIAL, (const char*) "Time In Hour UTC");
     }
 	
     for (int jj = 0; jj < 4; jj++)  {
       if (g_bSnapshot) {  //snapshot time
-     	  TTFont::ttf_render_string(cfTextAlpha, TEXT_PLOT_LEFT_AXES + 0.715f, fTop[jj] - 0.03, 0, MSG_SIZE_SMALL, white_trans, TTF_HELVETICA, strt[1]);		
-       	  TTFont::ttf_render_string(cfTextAlpha, TEXT_PLOT_LEFT_AXES + 0.070f, fTop[jj] - 0.03, 0, MSG_SIZE_SMALL, white_trans, TTF_HELVETICA, strt[0]);
+     	  TTFont::ttf_render_string(cfTextAlpha, TEXT_PLOT_LEFT_AXES + 0.715f, fTop[jj] - 0.03, 0, MSG_SIZE_SMALL, white_trans, TTF_ARIAL, strt[1]);		
+       	  TTFont::ttf_render_string(cfTextAlpha, TEXT_PLOT_LEFT_AXES + 0.070f, fTop[jj] - 0.03, 0, MSG_SIZE_SMALL, white_trans, TTF_ARIAL, strt[0]);
       }
 	  else { // current time
-     	  TTFont::ttf_render_string(qcn_graphics::g_alphaText, TEXT_PLOT_LEFT_AXES + 0.735f, fTop[jj] - 0.03, 0, MSG_SIZE_SMALL, white_trans, TTF_HELVETICA, (char*) "Now");		
+     	  TTFont::ttf_render_string(qcn_graphics::g_alphaText, TEXT_PLOT_LEFT_AXES + 0.735f, fTop[jj] - 0.03, 0, MSG_SIZE_SMALL, white_trans, TTF_ARIAL, (const char*) "Now");		
 		  switch(key_winsize) {
 		      case 0:
 			     sprintf(buf, "10 seconds ago");
@@ -787,7 +787,7 @@ void draw_text_plot()
 			     sprintf(buf, "1 hour ago");
 			     break;
 		  }
-       	  TTFont::ttf_render_string(qcn_graphics::g_alphaText, TEXT_PLOT_LEFT_AXES + 0.090f, fTop[jj] - 0.03, 0, MSG_SIZE_SMALL, white_trans	, TTF_HELVETICA, buf);
+       	  TTFont::ttf_render_string(qcn_graphics::g_alphaText, TEXT_PLOT_LEFT_AXES + 0.090f, fTop[jj] - 0.03, 0, MSG_SIZE_SMALL, white_trans	, TTF_ARIAL, buf);
 	  }
 	}
     ortho_done();
@@ -1092,16 +1092,16 @@ void draw_plots_3d()
     // graph labels
     char buf[8];
     sprintf(buf, "Significance");
-    TTFont::ttf_render_string(qcn_graphics::g_alphaText, -10.0, -32.0, 0, 1500, colorsPlot[E_DS], TTF_HELVETICA, buf);
+    TTFont::ttf_render_string(qcn_graphics::g_alphaText, -10.0, -32.0, 0, 1500, colorsPlot[E_DS], TTF_ARIAL, buf);
 
     sprintf(buf, "Z-amp");
-    TTFont::ttf_render_string(qcn_graphics::g_alphaText, -10.0, -28.0, 0, 1500, colorsPlot[E_DZ], TTF_HELVETICA, buf);
+    TTFont::ttf_render_string(qcn_graphics::g_alphaText, -10.0, -28.0, 0, 1500, colorsPlot[E_DZ], TTF_ARIAL, buf);
 
     sprintf(buf, "Y-amp");
-    TTFont::ttf_render_string(qcn_graphics::g_alphaText, -10.0, -24.0, 0, 1500, colorsPlot[E_DY], TTF_HELVETICA, buf);
+    TTFont::ttf_render_string(qcn_graphics::g_alphaText, -10.0, -24.0, 0, 1500, colorsPlot[E_DY], TTF_ARIAL, buf);
 
     sprintf(buf, "X-amp");
-    TTFont::ttf_render_string(qcn_graphics::g_alphaText, -10.0, -21.0, 0, 1500, colorsPlot[E_DX], TTF_HELVETICA, buf);
+    TTFont::ttf_render_string(qcn_graphics::g_alphaText, -10.0, -21.0, 0, 1500, colorsPlot[E_DX], TTF_ARIAL, buf);
     */
 }
 

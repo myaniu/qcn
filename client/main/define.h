@@ -74,8 +74,8 @@ typedef vector<string> ZipFileList;
 #ifdef GRAPHICS_PROGRAM
 #include "boinc_gl.h"
 #include "texfont.h"
-#define TTF_HELVETICA     0
-#define TTF_COURIER_BOLD  1
+#define TTF_ARIAL         0
+#define TTF_MONOSPACE     1
 #define NUM_FONT          2
 #endif
 

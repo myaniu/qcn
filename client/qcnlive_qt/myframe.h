@@ -88,6 +88,7 @@ private:
 	QAction* m_actionOptionSensorForward;
 	QAction* m_actionOptionSensorAbsolute;
 	QAction* m_actionOptionSensorScaled;
+	QAction* m_actionOptionSensorSignificance;
 	//QAction* m_actionOptionSensorScrollbar;
 
 	
