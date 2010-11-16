@@ -1,5 +1,5 @@
 mac:BASEDIR = /Users/carlgt1/projects
-win32:BASEDIR = /projects
+win32:BASEDIR = c:/projects
 
 BASEDIRBOINC = $$BASEDIR/boinc
 BASEDIRQCN = $$BASEDIR/qcn
@@ -13,10 +13,10 @@ BAPIDIR = $$BASEDIRBOINC/api
 BLIBDIR = $$BASEDIRBOINC/lib
 
 CFLAGS = -Wno-deprecated
-QMAKE_CFLAGS_DEBUG = $$CFLAGS -D_DEBUG -g -O0
-QMAKE_CFLAGS_RELEASE = $$CFLAGS -O2
-QMAKE_CXXFLAGS_DEBUG = $$QMAKE_CFLAGS_DEBUG
-QMAKE_CXXFLAGS_RELEASE = $$QMAKE_CFLAGS_RELEASE
+QMAKE_CFLAGS_DEBUG += $$CFLAGS -D_DEBUG -g -O0
+QMAKE_CFLAGS_RELEASE += $$CFLAGS -O2
+QMAKE_CXXFLAGS_DEBUG += $$QMAKE_CFLAGS_DEBUG
+QMAKE_CXXFLAGS_RELEASE += $$QMAKE_CFLAGS_RELEASE
 
 # Mac specific settings
 mac:CPP = gcc-4.0
@@ -158,8 +158,8 @@ SOURCES       = glwidget.cpp \
 
 mac:QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.4
 mac:QMAKE_MAC_SDK=/Developer/SDKs/MacOSX10.4u.sdk
-mac:CONFIG+=x86 ppc
-QT           += opengl
+mac:CONFIG += g++-4.0 x86 ppc app_bundle debug release
+QT         += opengl
 
 
 # install
