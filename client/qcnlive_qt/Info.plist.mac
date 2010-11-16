@@ -2,7 +2,7 @@
 <!DOCTYPE plist SYSTEM "file://localhost/System/Library/DTDs/PropertyList.dtd">
 <plist version="0.9">
 <dict>
-	<key>CFBundleIconFile</key>
+	<key>CFBundleTypeIconFile</key>
 	<string>qcnmac.icns</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
