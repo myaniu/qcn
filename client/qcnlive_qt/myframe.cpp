@@ -735,8 +735,8 @@ void MyFrame::actionOptionSensor()
 		qcn_2dplot::SensorDataZoomAuto();
 	}
 	else if (pAction == m_actionOptionSensorSignificance) { // toggle significance plot
-		if (IsSigPlot()) ShowSigPlot(false);
-		else ShowSigPlot(true);
+		if (qcn_2dplot::IsSigPlot()) qcn_2dplot::ShowSigPlot(false);
+		else qcn_2dplot::ShowSigPlot(true);
 	}
 	
 			
@@ -800,6 +800,7 @@ void MyFrame::RemoveCurrentTools()
 			m_toolBarOption->removeAction(m_actionOptionSensorForward);
 			m_toolBarOption->removeAction(m_actionOptionSensorAbsolute);
 			m_toolBarOption->removeAction(m_actionOptionSensorScaled);
+			m_toolBarOption->removeAction(m_actionOptionSensorSignificance);
 			break;
 		case VIEW_PLOT_3D:
 			m_toolBarOption->removeAction(m_actionOptionSensorHorizontalZoomIn);
@@ -998,7 +999,12 @@ void MyFrame::ToolBarSensor2D()
 	
 	m_toolBarOption->addAction(m_actionOptionSensorScaled);
 	m_menuOptions->addAction(m_actionOptionSensorScaled);
+
+	AddToolBarSeparator(); // use our function to keep track of separators so they can be easily removed
 	
+	m_toolBarOption->addAction(m_actionOptionSensorSignificance);
+	m_menuOptions->addAction(m_actionOptionSensorSignificance);
+
     AddScreenshotItem();
 	
     SetToggleSensor(false);  // put this after realize() because we may enable/disable tools
