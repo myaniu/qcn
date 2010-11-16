@@ -74,7 +74,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\..\..\win_build\Build\$(PlatformName)\$(ConfigurationName)\freetype239.lib"
+				OutputFile="..\..\..\..\client\win_build\freetype.lib"
 				SuppressStartupBanner="true"
 			/>
 			<Tool
@@ -486,7 +486,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\..\..\win_build\Build\$(PlatformName)\$(ConfigurationName)\freetype239.lib"
+				OutputFile="..\..\..\..\client\win_build\freetyped.lib"
 				SuppressStartupBanner="true"
 			/>
 			<Tool

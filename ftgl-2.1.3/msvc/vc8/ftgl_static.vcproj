@@ -2,7 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="ftgl_static"
+	Name="ftgl"
 	ProjectGUID="{1D758EEA-59C3-46E4-BEF5-16DCCA8C0B21}"
 	RootNamespace="ftgl_static"
 	Keyword="Win32Proj"
@@ -65,7 +65,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\..\win_build\Build\$(PlatformName)\$(ConfigurationName)\ftgl_static.lib"
+				OutputFile="..\..\..\client\win_build\ftgld.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -192,7 +192,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\..\win_build\Build\$(PlatformName)\$(ConfigurationName)\ftgl_static.lib"
+				OutputFile="..\..\..\client\win_build\ftgl.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"

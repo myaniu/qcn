@@ -58,6 +58,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
+				OutputFile="../../client/win_build/zlibd.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
