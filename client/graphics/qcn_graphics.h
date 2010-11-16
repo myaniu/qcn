@@ -139,6 +139,7 @@ extern FADER g_faderLogo;
 extern vector<SQuake> vsq; // a vector of earthquake data struct
 extern bool g_bFullScreen;
 extern int g_width, g_height;
+extern float g_aspect; // aspect ratio
 extern CEarth earth;
 extern bool g_bFader;
 

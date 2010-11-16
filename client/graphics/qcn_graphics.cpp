@@ -201,6 +201,7 @@ FADER g_faderLogo(5,15,5,2,g_alphaLogo);  // grow, on, fade, off, alpha max
 //FADER g_faderText(5,5,5,2,g_alphaText);
 		
 int g_width, g_height;      // window dimensions
+float g_aspect = 1.0f;
 
 void Cleanup()
 {
@@ -486,7 +487,31 @@ void draw_logo(bool bExtraOnly)
 {
 	mode_unshaded();
 	mode_ortho();
-
+	/*
+	GLdouble diam = g_height > g_width ? g_height : g_width;
+	GLdouble zNear = 1.0;
+	GLdouble zFar = zNear + diam;
+	GLdouble left;
+	GLdouble right;
+	GLdouble bottom;
+	GLdouble top;
+	
+	if ( g_aspect < 1.0 ) { // window taller than wide
+		bottom /= g_aspect;
+		top /= g_aspect;
+	} else {
+		left *= g_aspect;
+		right *= g_aspect;
+	}
+	
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	glOrtho(left, right, bottom, top, zNear, zFar);
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	*/
+																								  
+																																											
     if (!bExtraOnly && logo.id) {
 
         float pos[3] = {0.0, .5, 0};
@@ -1803,6 +1828,7 @@ void Resize(int w, int h)
 {
     g_width = w;
     g_height = h;
+    g_aspect = (float) g_width / (float) g_height;
 
     glViewport(0, 0, w, h);
     if (earth.IsShown()) {

@@ -37,7 +37,7 @@ static const float cfLabelTime[2] = { cfVertLabel/2.0f - 0.1f, 0.005f};
 // 2d arrays for the points for drawing - 2d because first element is without the sig plot, 2nd element (array) is with the sig plot
 
 // the Y/height in 2d view to draw the axis label (i.e. X-Axis, Y-Axis etc)
-static const float cfAxesLabelX       = 1.052f;
+static const float cfAxesLabelX       = 1.051f;
 static const float cfAxesLabelY[2][4] = { { 0.140f, .360f, .590f, .790f }, { 0.124f, .284f, .444f, .584f } };
 
 // the base height for each E_DS/X/Y/Z level i.e. for text labels
