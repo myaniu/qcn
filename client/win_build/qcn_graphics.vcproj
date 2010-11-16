@@ -44,8 +44,8 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				WholeProgramOptimization="false"
-				AdditionalIncludeDirectories="../../zlib;../../;../main;../sensor;../util;../../../boinc/lib;../../../boinc/api;&quot;../../jpeg-6b&quot;;&quot;../../freetype-2.3.9/include&quot;;../../../boinc/zip;&quot;../../ftgl-2.1.3/include&quot;"
-				PreprocessorDefinitions="QCNGRAPHICS;_WIN32;WIN32;_DEBUG;_ZLIB;_CRT_SECURE_NO_DEPRECATE;GRAPHICS_PROGRAM"
+				AdditionalIncludeDirectories="../../zlib-1.2.5;../../;../main;../graphics,../sensor;../util;../../../boinc/lib;../../../boinc/api;&quot;../../jpeg-6b&quot;;&quot;../../freetype-2.3.9/include&quot;;../../../boinc/zip;&quot;../../ftgl-2.1.3/include&quot;"
+				PreprocessorDefinitions="QCNGRAPHICS;FTGL_LIBRARY_STATIC;_WIN32;WIN32;_DEBUG;_ZLIB;_CRT_SECURE_NO_DEPRECATE;GRAPHICS_PROGRAM"
 				ExceptionHandling="1"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
@@ -65,7 +65,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="jpeglibd.lib boinc_libd.lib boinc_apid.lib zlib32d.lib boinc_zipd.lib opengl32.lib glu32.lib"
+				AdditionalDependencies="jpeglibd.lib boinc_libd.lib boinc_apid.lib zlibd.lib boinc_zipd.lib opengl32.lib glu32.lib freetyped.lib ftgld.lib"
 				OutputFile="../test/projects/qcn.edu_qcn/qcn_graphicsd.exe"
 				Version=""
 				LinkIncremental="2"
@@ -218,8 +218,8 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="../../zlib;../../;../main;../sensor;../util;../../../boinc/lib;../../../boinc/api;&quot;../../jpeg-6b&quot;;&quot;../../freetype-2.3.9/include&quot;;../../../boinc/zip;&quot;../../ftgl-2.1.3/include&quot;"
-				PreprocessorDefinitions="QCNGRAPHICS;_WIN32;NDEBUG;_ZLIB;_CRT_SECURE_NO_DEPRECATE;GRAPHICS_PROGRAM"
+				AdditionalIncludeDirectories="../../zlib-1.2.5;../../;../main;../graphics,../sensor;../util;../../../boinc/lib;../../../boinc/api;&quot;../../jpeg-6b&quot;;&quot;../../freetype-2.3.9/include&quot;;../../../boinc/zip;&quot;../../ftgl-2.1.3/include&quot;"
+				PreprocessorDefinitions="QCNGRAPHICS;FTGL_LIBRARY_STATIC;_WIN32;NDEBUG;_ZLIB;_CRT_SECURE_NO_DEPRECATE;GRAPHICS_PROGRAM"
 				RuntimeLibrary="0"
 				ForcedIncludeFiles="windows.h"
 			/>
@@ -234,11 +234,11 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="opengl32.lib glu32.lib jpeglib32.lib boinc_lib.lib boinc_api.lib zlib32.lib boinc_zip.lib"
+				AdditionalDependencies="opengl32.lib glu32.lib jpeglib32.lib boinc_lib.lib boinc_api.lib zlib.lib boinc_zip.lib freetype.lib ftgl.lib"
 				OutputFile="../bin/graphics_app=qcn_graphics.exe"
 				Version=""
 				LinkIncremental="1"
-				AdditionalLibraryDirectories=""
+				AdditionalLibraryDirectories="../"
 				SubSystem="2"
 				StackReserveSize="33554432"
 				RandomizedBaseAddress="1"
@@ -408,6 +408,10 @@
 				</File>
 				<File
 					RelativePath="..\util\qcn_util.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\util\ttfont.cpp"
 					>
 				</File>
 			</Filter>
