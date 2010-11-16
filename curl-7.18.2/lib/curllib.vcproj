@@ -81,6 +81,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
+				OutputFile="../../client/win_build/curllib.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -244,6 +245,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
+				OutputFile="../../client/win_build/curllibd.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
