@@ -800,9 +800,7 @@
 				OTHER_CFLAGS = (
 					"-pipe",
 					"-Wno-deprecated",
-					"-D_DEBUG",
-					"-g",
-					"-O0",
+					"-O2",
 					"-Wall",
 					"-W",
 					"-D_USE_NTPDATE_EXEC_",
@@ -822,9 +820,7 @@
 				OTHER_CPLUSPLUSFLAGS = (
 					"-pipe",
 					"-Wno-deprecated",
-					"-D_DEBUG",
-					"-g",
-					"-O0",
+					"-O2",
 					"-Wall",
 					"-W",
 					"-D_USE_NTPDATE_EXEC_",

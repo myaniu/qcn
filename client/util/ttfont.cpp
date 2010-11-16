@@ -6,20 +6,20 @@
 
 namespace TTFont {
 
-FTFont* g_font[NUM_FONT];
+FTFont* g_font[NUM_FONT] = {NULL, NULL};
 int g_iFont = -1;
 	
-// fonts are helvetic and courier-bold
-static const char g_cstrFont[NUM_FONT][9]       = {
-	"hvt", "cbt"
-};
+// fonts are arial & monotype (supposed to be helvetica & courier bold)
+static const char g_cstrFont[NUM_FONT][9] = {"hvt", "cbt"};
 
 static GLfloat g_transColor[3] = { 255, 0, 255 };  // this should be magenta - red = 255, green = 0, blue = 255
-	
 
 // load fonts. call once.
 //
 void ttf_load_fonts(const char* dir) {
+	static bool bInit = false; // flag so we don't call again, otherwise we'll have memory leaks each subsequent call to new FTTextureFont etc
+	if (bInit) return; // we've already been here
+	bInit = true; // we're in now!
         memset(g_font, 0x00, sizeof(FTFont*) * NUM_FONT); // initialize to null's for error checking later]
         char vpath[_MAX_PATH];
         g_iFont = -1;
@@ -58,23 +58,23 @@ void ttf_load_fonts(const char* dir) {
 
 
 void ttf_render_string(
-                                  const double& alpha_value,
-                                  // reference value to which incoming alpha values are compared.
-                                  // 0 through to 1
-                                  const double& x,
-                                  const double& y,
-                                  const double& z, // text position
-                                  const float& fscale,                 // scale factor
-                                  const GLfloat* col,                // colour 4vf
-                                  const int& iFont,                        // font index
-                                  const char* s,                                          // string ptr
-                                  const float& fRotAngle,        // optional rotation angle
-                                  const float& fRotX,            // optional rotation vector for X
-                                  const float& fRotY,            // optional rotation vector for Y
-                                  const float& fRotZ,            // optional rotation vector for Z
-                                  const float& fRadius           // circular radius to draw along
-                                  )
-        {
+	const double& alpha_value,
+	// reference value to which incoming alpha values are compared.
+	// 0 through to 1
+	const double& x,
+	const double& y,
+	const double& z, // text position
+	const float& fscale,                 // scale factor
+	const GLfloat* col,                // colour 4vf
+	const int& iFont,                        // font index
+	const char* s,                                          // string ptr
+	const float& fRotAngle,        // optional rotation angle
+	const float& fRotX,            // optional rotation vector for X
+	const float& fRotY,            // optional rotation vector for Y
+	const float& fRotZ,            // optional rotation vector for Z
+	const float& fRadius           // circular radius to draw along
+)
+{
         // http://ftgl.sourceforge.net/docs/html/
 
                 if(iFont < 0 || iFont > NUM_FONT || !g_font[iFont]) return;  //invalid font
@@ -84,9 +84,9 @@ void ttf_render_string(
                 GLfloat color[4];
                 memcpy(color, col, sizeof(GLfloat) * 4);
                 color[3] = (GLfloat) alpha_value;  // force the alpha value passed in
-                        glColor4fv(color);
+				glColor4fv(color);
 
-                        glPushMatrix();
+				glPushMatrix();
 
                     glTranslated(x, y, z);
                     glScaled(1.0f / fscale, 1.0f / fscale, 1.0f / fscale);
