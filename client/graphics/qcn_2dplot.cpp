@@ -30,7 +30,6 @@ static float g_fMaxAxesCurrent[4]  = { g_fScaleAxes[0], g_fScaleAxes[0], g_fScal
 static float g_fMinAxesCurrent[4]  = { -g_fScaleAxes[0], -g_fScaleAxes[0], -g_fScaleAxes[0], -g_fScaleAxes[0] };  // save each scale level for autoscaling, so it's not jumping all around
 	
 static const float cfTransAlpha = 1.000f;
-static const float cfAxisLabel  = 1.061f;
 static const float cfVertLabel  = 0.988f;
 static const float cfMSSLabel   = 0.051f; // m/s/s label
 static const float cfLabelTime[2] = { cfVertLabel/2.0f - 0.1f, 0.005f};
@@ -38,13 +37,14 @@ static const float cfLabelTime[2] = { cfVertLabel/2.0f - 0.1f, 0.005f};
 // 2d arrays for the points for drawing - 2d because first element is without the sig plot, 2nd element (array) is with the sig plot
 
 // the Y/height in 2d view to draw the axis label (i.e. X-Axis, Y-Axis etc)
-static const float cfAxesLabel[2][4] = { { 0.140f, .360f, .590f, .790f }, { 0.124f, .284f, .444f, .584f } };
+static const float cfAxesLabelX       = 1.052f;
+static const float cfAxesLabelY[2][4] = { { 0.140f, .360f, .590f, .790f }, { 0.124f, .284f, .444f, .584f } };
 
-// the base height for each E_DS/X/Y/Z level
-static const float cfBaseScale[2][4] = { { .071f, .290f, .510f, .792f }, { 0.070f, .234f, .399f, .564f } };
+// the base height for each E_DS/X/Y/Z level i.e. for text labels
+static const float cfBaseScale[2][4] = { { .072f, .291f, .511f, .793f }, { 0.071f, .235f, .400f, .565f } };
 
 // the offsets to draw each horizontal axis text value within an E_DX/Y/Z/S region
-static const float cfAxesOffset[2][7] = { { .0f, .028f, .065f, .103f, .139f, .175f, .201f }, { .0f, .021f, .049f, .077f, .104f, .131f, .151f } };
+static const float cfAxesOffsetY[2][7] = { { .0f, .028f, .065f, .103f, .139f, .175f, .201f }, { .0f, .021f, .049f, .077f, .104f, .131f, .151f } };
 
 void ShowSigPlot(bool bShow)
 {
@@ -61,9 +61,10 @@ void draw_text_sensor_axis(int iAxis)
 	char cbuf[10];
 	if (g_fMaxAxesCurrent[iAxis] == SAC_NULL_FLOAT || g_fMinAxesCurrent[iAxis] == -1.0f * SAC_NULL_FLOAT) return;
 	float fIncrement = (g_fMaxAxesCurrent[iAxis] - g_fMinAxesCurrent[iAxis]) / 6.0f;
+	float fFudge = (iAxis == E_DS) ? .005 : 0.00; // bump up sig axis
 	for (int i = 0; i <= 6; i++) {
 		sprintf(cbuf, "%+5.3f", g_fMinAxesCurrent[iAxis] + (fIncrement * (float) i) );
-	    TTFont::ttf_render_string(cfTransAlpha, cfVertLabel, cfBaseScale[g_iShowSig][iAxis] + cfAxesOffset[g_iShowSig][i], 0, MSG_SIZE_SMALL, g_bIsWhite ? black : grey_trans, TTF_MONOSPACE, cbuf);
+	    TTFont::ttf_render_string(cfTransAlpha, cfVertLabel, cfBaseScale[g_iShowSig][iAxis] + cfAxesOffsetY[g_iShowSig][i] + fFudge, 0, MSG_SIZE_TINY, g_bIsWhite ? black : grey_trans, TTF_MONOSPACE, cbuf);
 	}
 }
 
@@ -81,7 +82,7 @@ void draw_text()
 	     float fWhere = (float) (lTimeLastOffset[i]) / (float) PLOT_ARRAY_SIZE;
 		 // note the immediate if below - if timer ticks are far apart don't bother showing seconds
 		 qcn_util::dtime_to_string(lTimeLast[i], (g_iTimerTick > 5 ? 'm' : 'h'), strTime);
-		 TTFont::ttf_render_string(qcn_graphics::cfTextAlpha, fWhere - (g_iTimerTick > 5 ? 0.038f : 0.042f), 0.030f, 0.0f, 
+		 TTFont::ttf_render_string(qcn_graphics::cfTextAlpha, fWhere - (g_iTimerTick > 5 ? 0.038f : 0.042f), 0.036f, 0.0f, 
 			 MSG_SIZE_SMALL, g_bIsWhite ? light_blue : grey_trans, TTF_ARIAL, (const char*) strTime);
 	   }
 	}
@@ -89,31 +90,31 @@ void draw_text()
 /*
 #ifdef _DEBUG
 	sprintf(strTime, "sampsize=%ld", sm->lSampleSize);
-    TTFont::ttf_render_string(qcn_graphics::cfTextAlpha, .3f, cfAxesLabel[g_iShowSig][0], 0.0f, MSG_SIZE_SMALL, red, TTF_ARIAL, (const char*) strTime);
+    TTFont::ttf_render_string(qcn_graphics::cfTextAlpha, .3f, cfAxesLabelY[g_iShowSig][0], 0.0f, MSG_SIZE_SMALL, red, TTF_ARIAL, (const char*) strTime);
 #endif
 */	
 
 #ifdef _DEBUG_QCNLIVE
 	sprintf(strTime, "%+6.3f %+6.3f", qcn_graphics::g_fmin[0], qcn_graphics::g_fmax[0]);
-	TTFont::ttf_render_string(qcn_graphics::cfTextAlpha, .1f, cfAxesLabel[g_iShowSig][0], 0.0f, MSG_SIZE_SMALL, red, TTF_ARIAL, (const char*) strTime);
+	TTFont::ttf_render_string(qcn_graphics::cfTextAlpha, .1f, cfAxesLabelY[g_iShowSig][0], 0.0f, MSG_SIZE_SMALL, red, TTF_ARIAL, (const char*) strTime);
 	sprintf(strTime, "%+6.3f %+6.3f", qcn_graphics::g_fmin[1], qcn_graphics::g_fmax[1]);
-    TTFont::ttf_render_string(qcn_graphics::cfTextAlpha, .1f, cfAxesLabel[g_iShowSig][1], 0.0f, MSG_SIZE_SMALL, red, TTF_ARIAL, (const char*) strTime);
+    TTFont::ttf_render_string(qcn_graphics::cfTextAlpha, .1f, cfAxesLabelY[g_iShowSig][1], 0.0f, MSG_SIZE_SMALL, red, TTF_ARIAL, (const char*) strTime);
 	sprintf(strTime, "%+6.3f %+6.3f", qcn_graphics::g_fmin[2], qcn_graphics::g_fmax[2]);
-    TTFont::ttf_render_string(qcn_graphics::cfTextAlpha, .1f, cfAxesLabel[g_iShowSig][2], 0.0f, MSG_SIZE_SMALL, red, TTF_ARIAL, (const char*) strTime);
+    TTFont::ttf_render_string(qcn_graphics::cfTextAlpha, .1f, cfAxesLabelY[g_iShowSig][2], 0.0f, MSG_SIZE_SMALL, red, TTF_ARIAL, (const char*) strTime);
 	if (g_iShowSig) {
 	  sprintf(strTime, "%+6.3f %+6.3f", qcn_graphics::g_fmin[3], qcn_graphics::g_fmax[3]);
-      TTFont::ttf_render_string(qcn_graphics::cfTextAlpha, .1f, cfAxesLabel[g_iShowSig][3], 0.0f, MSG_SIZE_SMALL, red, TTF_ARIAL, (const char*) strTime);
+      TTFont::ttf_render_string(qcn_graphics::cfTextAlpha, .1f, cfAxesLabelY[g_iShowSig][3], 0.0f, MSG_SIZE_SMALL, red, TTF_ARIAL, (const char*) strTime);
 	}
 #endif
 
 	// labels for each axis
 
 	if (g_iShowSig) {
-		TTFont::ttf_render_string(cfTransAlpha, cfAxisLabel, cfAxesLabel[g_iShowSig][E_DS], 0, MSG_SIZE_NORMAL, red, TTF_ARIAL, "Significance", 90.0f);
+		TTFont::ttf_render_string(cfTransAlpha, cfAxesLabelX, cfAxesLabelY[g_iShowSig][E_DS], 0, MSG_SIZE_NORMAL, red, TTF_ARIAL, "Significance", 90.0f);
 	}
-	TTFont::ttf_render_string(cfTransAlpha, cfAxisLabel, cfAxesLabel[g_iShowSig][E_DZ], 0, MSG_SIZE_NORMAL, blue, TTF_ARIAL, "Z Axis", 90.0f);
-    TTFont::ttf_render_string(cfTransAlpha, cfAxisLabel, cfAxesLabel[g_iShowSig][E_DY], 0, MSG_SIZE_NORMAL, orange, TTF_ARIAL, "Y Axis", 90.0f);
-    TTFont::ttf_render_string(cfTransAlpha, cfAxisLabel, cfAxesLabel[g_iShowSig][E_DX], 0, MSG_SIZE_NORMAL, green, TTF_ARIAL, "X Axis", 90.0f);
+	TTFont::ttf_render_string(cfTransAlpha, cfAxesLabelX, cfAxesLabelY[g_iShowSig][E_DZ], 0, MSG_SIZE_NORMAL, blue, TTF_ARIAL, "Z Axis", 90.0f);
+    TTFont::ttf_render_string(cfTransAlpha, cfAxesLabelX, cfAxesLabelY[g_iShowSig][E_DY], 0, MSG_SIZE_NORMAL, orange, TTF_ARIAL, "Y Axis", 90.0f);
+    TTFont::ttf_render_string(cfTransAlpha, cfAxesLabelX, cfAxesLabelY[g_iShowSig][E_DX], 0, MSG_SIZE_NORMAL, green, TTF_ARIAL, "X Axis", 90.0f);
 
 	// labels for significance
 	if (g_iShowSig) {
@@ -217,7 +218,7 @@ void draw_plot_boxes(const float& xmin, const float& xmax, const float& ymin, co
 	
 void draw_tick_marks()
 {  // draw vertical blue lines every 1/10/60/600 seconds depending on view size
-	  // note the labels underneath are drawn in draw_text_plot_qcnlive
+	  // note the labels underneath are drawn in draw_text_plot
     // show the time markers, if any
     glPushMatrix();
     for (int i = 0; i < g_iTimeCtr; i++) {

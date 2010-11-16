@@ -318,7 +318,6 @@ void MyFrame::createActions()
 	m_actionOptionSensorScaled->setCheckable(true);
 	connect(m_actionOptionSensorScaled, SIGNAL(triggered()), this, SLOT(actionOptionSensor()));
 	
-	QAction* m_actionOptionSensorSignificance;
 	m_actionOptionSensorSignificance = new QAction(tr("Show Significance Values"), this);
 	m_actionOptionSensorSignificance->setToolTip(tr("Show the computed significance values"));
 	m_actionOptionSensorSignificance->setIcon(QIcon(icon_sig_xpm));

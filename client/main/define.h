@@ -417,6 +417,7 @@ struct FDSET_GROUP {
 #define MSG_SIZE_NORMAL 1400
 #define MSG_SIZE_MEDIUM 1600
 #define MSG_SIZE_SMALL  2000
+#define MSG_SIZE_TINY   2400
 
 #define MAX_VXP 4
 enum e_drawtype { NATION = 0, PLATE, COUNTRY, COASTLINE };
