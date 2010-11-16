@@ -3778,7 +3778,7 @@ static char *icon_spin_xpm[] = {
 "PXPXPXPXPXPXPXPXPXPXPXPXPXPXPXPXPXPXPXPXPXPXPXPXPXPXPXPXPXPXPXPX"
 };
 /* XPM */
-static char *icon_stop_xpm[] = {
+static char *xpm_icon_stop__[] = {
 /* columns rows colors chars-per-pixel */
 "32 32 39 1",
 "  c black",
