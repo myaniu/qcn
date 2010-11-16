@@ -13,10 +13,10 @@ BAPIDIR = $$BASEDIRBOINC/api
 BLIBDIR = $$BASEDIRBOINC/lib
 
 CFLAGS = -Wno-deprecated
-QMAKE_CFLAGS_DEBUG += $$CFLAGS -D_DEBUG -g -O0
-QMAKE_CFLAGS_RELEASE += $$CFLAGS -O2
-QMAKE_CXXFLAGS_DEBUG += $$QMAKE_CFLAGS_DEBUG
-QMAKE_CXXFLAGS_RELEASE += $$QMAKE_CFLAGS_RELEASE
+#QMAKE_CFLAGS_DEBUG += $$CFLAGS -D_DEBUG -D_DEBUG_QCNLIVE -g -O0
+#QMAKE_CFLAGS_RELEASE += $$CFLAGS -O2
+#QMAKE_CXXFLAGS_DEBUG += $$QMAKE_CFLAGS_DEBUG
+#QMAKE_CXXFLAGS_RELEASE += $$QMAKE_CFLAGS_RELEASE
 
 # Mac specific settings
 mac:CPP = gcc-4.0
@@ -158,7 +158,14 @@ SOURCES       = glwidget.cpp \
 
 mac:QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.4
 mac:QMAKE_MAC_SDK=/Developer/SDKs/MacOSX10.4u.sdk
-mac:CONFIG += g++-4.0 x86 ppc app_bundle debug release
+mac:CONFIG += x86 ppc app_bundle
+#mac:CONFIG += x86 ppc app_bundle debug_and_release
+#mac:CONFIG(debug) {
+#  DEFINES += _DEBUG _DEBUG_QCNLIVE -g -O0
+#}
+#mac:CONFIG(release) {
+#  DEFINES += -O2
+#}
 QT         += opengl
 
 
