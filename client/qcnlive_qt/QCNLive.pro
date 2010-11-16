@@ -55,6 +55,7 @@ INCLUDEPATH += \
         $$GRAPHICSDIR 
 
 mac:ICON = $$BASEDIRQCN/doc/qcnmac.icns
+mac:RC_FILE = $$BASEDIRQCN/doc/qcnmac.icns
 mac:QMAKE_INFO_PLIST = Info.plist.mac
 
 mac:SRC_SENSOR = $$SENSORDIR/csensor_mac_laptop.cpp \
