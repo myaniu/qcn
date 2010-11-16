@@ -1099,7 +1099,7 @@ bool boinc_filelist(const std::string directory,
                         // NB: first get stat to make sure it really is a file
                         strFullPath = strUserDir + strFile;
                         // only add if the file really exists (i.e. not a directory)
-                        if (is_file(strFullPath.c_str())) {
+                        if (boinc_file_exists(strFullPath.c_str())) {
                                 pList->push_back(strFullPath);
                         }
                 }

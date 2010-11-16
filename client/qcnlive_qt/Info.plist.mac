@@ -1,18 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist SYSTEM "file://localhost/System/Library/DTDs/PropertyList.dtd">
-<plist version="0.9">
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
 <dict>
-	<key>CFBundleTypeIconFile</key>
-	<string>qcnmac.icns</string>
-	<key>CFBundlePackageType</key>
-	<string>APPL</string>
-    <key>CFBundleGetInfoString</key>
-	<string>Created by Qt/QMake and Carl Christensen</string>
-	<key>CFBundleSignature</key>
-	<string>QCNL</string>
-	<key>CFBundleExecutable</key>
-	<string>QCNLive</string>
-	<key>CFBundleIdentifier</key>
-	<string>edu.stanford.qcn.QCNLive</string>
+        <key>CFBundleDevelopmentRegion</key>
+        <string>English</string>
+        <key>CFBundleExecutable</key>
+        <string>QCNLive</string>
+        <key>CFBundleIconFile</key>
+        <string>qcnmac.icns</string>
+        <key>CFBundleIdentifier</key>
+        <string>edu.stanford.qcn.QCNLive</string>
+        <key>CFBundleInfoDictionaryVersion</key>
+        <string>6.0</string>
+        <key>CFBundlePackageType</key>
+        <string>APPL</string>
+        <key>CFBundleSignature</key>
+        <string>CMC1</string>
+        <key>CFBundleVersion</key>
+        <string>6.10</string>
+        <key>NSPrincipalClass</key>
+        <string>CarbonApp</string>
 </dict>
 </plist>

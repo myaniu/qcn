@@ -27,6 +27,12 @@
 		43E276901146C38F00D80E16 /* csensor_mac_usb_jw24f14.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43E2768F1146C38F00D80E16 /* csensor_mac_usb_jw24f14.cpp */; };
 		43E276911146C38F00D80E16 /* csensor_mac_usb_jw24f14.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43E2768F1146C38F00D80E16 /* csensor_mac_usb_jw24f14.cpp */; };
 		43E276931146C38F00D80E16 /* csensor_mac_usb_jw24f14.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43E2768F1146C38F00D80E16 /* csensor_mac_usb_jw24f14.cpp */; };
+		43E45A82129241E800D7ACEB /* libfreetype-universal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 43E45A80129241E800D7ACEB /* libfreetype-universal.a */; };
+		43E45A83129241E800D7ACEB /* libftgl-universal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 43E45A81129241E800D7ACEB /* libftgl-universal.a */; };
+		43E45A84129241E800D7ACEB /* libfreetype-universal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 43E45A80129241E800D7ACEB /* libfreetype-universal.a */; };
+		43E45A85129241E800D7ACEB /* libftgl-universal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 43E45A81129241E800D7ACEB /* libftgl-universal.a */; };
+		43E45A9B1292428E00D7ACEB /* ttfont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43E45A9A1292428E00D7ACEB /* ttfont.cpp */; };
+		43E45A9C1292428E00D7ACEB /* ttfont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43E45A9A1292428E00D7ACEB /* ttfont.cpp */; };
 		E300B1A40FF2CF0E00E54D79 /* libboinc_zip.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E33EF7BD0FF1DF7400CD5708 /* libboinc_zip.a */; };
 		E300B1A50FF2CF0E00E54D79 /* libjpeg-universal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E33EF7BE0FF1DF7400CD5708 /* libjpeg-universal.a */; };
 		E300B1A60FF2CF0E00E54D79 /* libz-universal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E33EF7BF0FF1DF7400CD5708 /* libz-universal.a */; };
@@ -242,6 +248,10 @@
 		43E17E8910A47F2600EFA3A7 /* url.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = url.cpp; path = ../../../boinc/lib/url.cpp; sourceTree = SOURCE_ROOT; };
 		43E2768B1146C32E00D80E16 /* csensor_mac_usb_jw24f14.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = csensor_mac_usb_jw24f14.h; path = ../sensor/csensor_mac_usb_jw24f14.h; sourceTree = SOURCE_ROOT; };
 		43E2768F1146C38F00D80E16 /* csensor_mac_usb_jw24f14.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = csensor_mac_usb_jw24f14.cpp; path = ../sensor/csensor_mac_usb_jw24f14.cpp; sourceTree = SOURCE_ROOT; };
+		43E45A80129241E800D7ACEB /* libfreetype-universal.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libfreetype-universal.a"; sourceTree = "<group>"; };
+		43E45A81129241E800D7ACEB /* libftgl-universal.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libftgl-universal.a"; sourceTree = "<group>"; };
+		43E45A9A1292428E00D7ACEB /* ttfont.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ttfont.cpp; path = ../util/ttfont.cpp; sourceTree = SOURCE_ROOT; };
+		43E45A9D129242A100D7ACEB /* ttfont.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ttfont.h; path = ../util/ttfont.h; sourceTree = SOURCE_ROOT; };
 		43FF03021275F3580014B021 /* csensor_usb_motionnodeaccel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = csensor_usb_motionnodeaccel.h; path = ../sensor/csensor_usb_motionnodeaccel.h; sourceTree = SOURCE_ROOT; };
 		E3064B950F8FE8A60028A349 /* qcn_2dplot.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = qcn_2dplot.cpp; path = ../graphics/qcn_2dplot.cpp; sourceTree = SOURCE_ROOT; };
 		E3064B970F8FE8C10028A349 /* qcn_2dplot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = qcn_2dplot.h; path = ../graphics/qcn_2dplot.h; sourceTree = SOURCE_ROOT; };
@@ -389,6 +399,8 @@
 				E300B1A50FF2CF0E00E54D79 /* libjpeg-universal.a in Frameworks */,
 				E300B1A60FF2CF0E00E54D79 /* libz-universal.a in Frameworks */,
 				43AC1A0810A0C85600F84A0D /* libcurl-universal.a in Frameworks */,
+				43E45A82129241E800D7ACEB /* libfreetype-universal.a in Frameworks */,
+				43E45A83129241E800D7ACEB /* libftgl-universal.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -409,6 +421,8 @@
 				E33EF7C60FF1DF7500CD5708 /* libboinc_zip.a in Frameworks */,
 				E33EF7C70FF1DF7500CD5708 /* libjpeg-universal.a in Frameworks */,
 				E33EF7C80FF1DF7500CD5708 /* libz-universal.a in Frameworks */,
+				43E45A84129241E800D7ACEB /* libfreetype-universal.a in Frameworks */,
+				43E45A85129241E800D7ACEB /* libftgl-universal.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -446,6 +460,8 @@
 		E3A499DB0D64E60400E51CDF = {
 			isa = PBXGroup;
 			children = (
+				43E45A80129241E800D7ACEB /* libfreetype-universal.a */,
+				43E45A81129241E800D7ACEB /* libftgl-universal.a */,
 				E3222D780FF2E3D500B25EB2 /* qcnmac.icns */,
 				E33EF7BD0FF1DF7400CD5708 /* libboinc_zip.a */,
 				43AC1A0710A0C85600F84A0D /* libcurl-universal.a */,
@@ -497,6 +513,7 @@
 		E3C0E7A30D64E9BE0099B905 /* util */ = {
 			isa = PBXGroup;
 			children = (
+				43E45A9A1292428E00D7ACEB /* ttfont.cpp */,
 				E3C0E7B40D64E9BE0099B905 /* cserialize.cpp */,
 				E3D35C130FF179E900E64121 /* qcn_signal.cpp */,
 				E3C0E7A60D64E9BE0099B905 /* qcn_gzip.cpp */,
@@ -589,6 +606,7 @@
 		E3C0E7E30D64E9E00099B905 /* util */ = {
 			isa = PBXGroup;
 			children = (
+				43E45A9D129242A100D7ACEB /* ttfont.h */,
 				E3D49FE80D6F74B70088DE83 /* qcn_curl.h */,
 				E3C0E7E40D64E9E00099B905 /* checkboincstatus.h */,
 				E3C0E7E50D64E9E00099B905 /* execproc.h */,
@@ -992,6 +1010,7 @@
 				43304A9810FF7D9000A823FE /* qcn_thread_sensor_loop.cpp in Sources */,
 				43D5F1801104EA450045EF34 /* coproc.cpp in Sources */,
 				43E276901146C38F00D80E16 /* csensor_mac_usb_jw24f14.cpp in Sources */,
+				43E45A9B1292428E00D7ACEB /* ttfont.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1096,6 +1115,7 @@
 				E3C967480FF1A1DD00F20324 /* texfont.cpp in Sources */,
 				E3C967470FF1A1DD00F20324 /* gutil_text.cpp in Sources */,
 				43E17E8C10A47F2600EFA3A7 /* url.cpp in Sources */,
+				43E45A9C1292428E00D7ACEB /* ttfont.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1258,6 +1278,9 @@
 				HEADER_SEARCH_PATHS = (
 					../../,
 					"../../jpeg-6b",
+					"../../freetype-2.3.9/include",
+					"../../ftgl-2.1.3/include",
+					"../../curl-7.18.2",
 					../../../boinc/api,
 					../../../boinc/lib,
 					../util,
@@ -1337,6 +1360,9 @@
 				HEADER_SEARCH_PATHS = (
 					../../,
 					"../../jpeg-6b",
+					"../../freetype-2.3.9/include",
+					"../../ftgl-2.1.3/include",
+					"../../curl-7.18.2",
 					../../../boinc/api,
 					../../../boinc/lib,
 					../util,
@@ -1590,6 +1616,8 @@
 					../graphics,
 					../qcnusb,
 					"../../jpeg-6b",
+					"../../freetype-2.3.9/include",
+					"../../ftgl-2.1.3/include",
 					../../../boinc/lib,
 					../../../boinc/lib/mac,
 					../../../boinc/api,
@@ -1597,7 +1625,10 @@
 				);
 				INFOPLIST_FILE = "qcn_graphics-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
-				LIBRARY_SEARCH_PATHS = "";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
 				"MACOSX_DEPLOYMENT_TARGET[arch=ppc]" = 10.3;
 				"MACOSX_DEPLOYMENT_TARGET[arch=x86_64]" = 10.5;
 				OTHER_CFLAGS = (
@@ -1656,6 +1687,8 @@
 					../graphics,
 					../qcnusb,
 					"../../jpeg-6b",
+					"../../freetype-2.3.9/include",
+					"../../ftgl-2.1.3/include",
 					../../../boinc/lib,
 					../../../boinc/lib/mac,
 					../../../boinc/api,
@@ -1663,7 +1696,10 @@
 				);
 				INFOPLIST_FILE = "qcn_graphics-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
-				LIBRARY_SEARCH_PATHS = "";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
 				"MACOSX_DEPLOYMENT_TARGET[arch=ppc]" = 10.3;
 				"MACOSX_DEPLOYMENT_TARGET[arch=x86_64]" = 10.5;
 				OTHER_CFLAGS = (

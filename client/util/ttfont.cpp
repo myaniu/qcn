@@ -2,6 +2,7 @@
 
 // FTGL OpenGL TrueType/FreeType font rendering
 #include "ttfont.h"
+#include "filesys.h"  // from boinc for file_exists
 
 
 namespace TTFont {
@@ -25,7 +26,7 @@ void ttf_load_fonts(const char* dir) {
         g_iFont = -1;
         for (int i=0 ; i < NUM_FONT; i++){
            sprintf(vpath, "%s/%s", dir, g_cstrFont[i]);
-           if (is_file(vpath)) {
+           if (boinc_file_exists(vpath)) {
                    //g_font[i] = new FTBitmapFont(vpath);
                    //g_font[i] = new FTPixmapFont(vpath);
                    //g_font[i] = new FTPolygonFont(vpath);
