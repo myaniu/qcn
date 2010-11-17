@@ -45,6 +45,7 @@ GLfloat light_blue[4] = {0., 0., .5f, .5f};
 static double g_dtOrig = g_DT;
 
 static long awinsize[MAX_KEY_WINSIZE+1]; 
+static const double awinsize_seconds[MAX_KEY_WINSIZE+1] = {10.0, 60.0, 600.0, 3600.0};
 static int key_winsize = 0; // points to an element of the above array to get the winsize i.e. 0=10 sec , 1=60 sec , 2= 10 min, 3 = hour
 static int key_press = 0;
 static int key_press_alt = 0;
@@ -769,6 +770,7 @@ void draw_text_plot()
 
 
 	char strt[2][32];
+	dtw[0] = dtw[1] - awinsize_seconds[key_winsize];
 	if (g_bSnapshot) {
      	memset(strt, 0x00, sizeof(char) * 64);
 	    qcn_util::dtime_to_string((const double) dtw[0], 'h', strt[0]);
@@ -782,23 +784,23 @@ void draw_text_plot()
        	  TTFont::ttf_render_string(cfTextAlpha, TEXT_PLOT_LEFT_AXES + 0.070f, fTop[jj] - 0.03, 0, MSG_SIZE_SMALL, white_trans, TTF_ARIAL, strt[0]);
       }
 	  else { // current time
-     	  TTFont::ttf_render_string(qcn_graphics::g_alphaText, TEXT_PLOT_LEFT_AXES + 0.735f, fTop[jj] - 0.03, 0, MSG_SIZE_SMALL, white_trans, TTF_ARIAL, (const char*) "Now");		
+     	  TTFont::ttf_render_string(qcn_graphics::g_alphaText, TEXT_PLOT_LEFT_AXES + 0.735f, fTop[jj] - 0.03, 0, MSG_SIZE_SMALL, white_trans, TTF_ARIAL, (const char*) "Now");	
 		  switch(key_winsize) {
-		      case 0:
-			     sprintf(buf, "10 seconds ago");
-			     break;
-		      case 1:
-			     sprintf(buf, "1 minute ago");
-			     break;
-		      case 2:
-			     sprintf(buf, "10 minutes ago");
-			     break;
-		      case 3:
-			     sprintf(buf, "1 hour ago");
-			     break;
-		  }
-       	  TTFont::ttf_render_string(qcn_graphics::g_alphaText, TEXT_PLOT_LEFT_AXES + 0.090f, fTop[jj] - 0.03, 0, MSG_SIZE_SMALL, white_trans	, TTF_ARIAL, buf);
-	  }
+			  case 0:
+				  sprintf(buf, "10 seconds ago");
+				  break;
+			  case 1:
+				  sprintf(buf, "1 minute ago");
+				  break;
+			  case 2:
+				  sprintf(buf, "10 minutes ago");
+				  break;
+			  case 3:
+				  sprintf(buf, "1 hour ago");
+				  break;
+		  }		  
+		  TTFont::ttf_render_string(qcn_graphics::g_alphaText, TEXT_PLOT_LEFT_AXES + 0.090f, fTop[jj] - 0.03, 0, MSG_SIZE_SMALL, white_trans, TTF_ARIAL, buf);
+	   }
 	}
     ortho_done();
 }
@@ -829,10 +831,9 @@ bool setupPlotMemory(const long lOffset)
 			sm->dt = g_DT;
 			g_dtOrig = g_DT; // this probably can't happen but just in case, so no change of divide by 0
 		}
-		awinsize[0] = (long) ceil(10.0/sm->dt);    // 10 seconds / dt // 500 pts @ 50Hz, but only 100 at 10Hz or 50 at 5Hz which is possible
-		awinsize[1] = (long) ceil(60.0/sm->dt);    // 1 minute = 60 seconds / dt // 3000 pts or 600 at 10Hz or 300 at 5Hz
-		awinsize[2] = (long) ceil(600.0/sm->dt);   // 10 minutes = 60 seconds / dt // 30000 pts
-		awinsize[3] = (long) ceil(3600.0/sm->dt);  // 1 minute = 60 seconds / dt // 180000 pts
+		for (int i = 0; i < MAX_KEY_WINSIZE + 1; i++) {
+			awinsize[i] = (long) ceil(awinsize_seconds[i]/sm->dt);    // 10 seconds / dt // 500 pts @ 50Hz, but only 100 at 10Hz or 50 at 5Hz which is possible
+		}
 	}	
 	
 	iRebin = awinsize[key_winsize] / PLOT_ARRAY_SIZE;  // this size of our bin, i.e. how many avgs of points for each plot on the screen
@@ -892,7 +893,7 @@ bool setupPlotMemory(const long lOffset)
 
     for (ii = 0; ii < 4; ii++) {
 	  g_fAvg[ii] = 0.0f;
-      memset(af[ii], 0x00, sizeof(float) * awinsize[key_winsize]);
+      memset(af[ii], SAC_NULL_FLOAT, sizeof(float) * awinsize[key_winsize]);
       memset((void*) aryg[ii], SAC_NULL_FLOAT, sizeof(float) * PLOT_ARRAY_SIZE);
     }
 
@@ -906,11 +907,10 @@ bool setupPlotMemory(const long lOffset)
     if (lOff > 0)  {  // all points exist in our window, so we can just go into lOffset - winsize and copy/scale from there
 	  g_bViewHasStart = (bool) (sm->x0[lOff] == SAC_NULL_FLOAT || sm->t0[lOff] == 0.0);  // the current view does not have the start point, can rewind		
 
-      dtw[0] = sm->t0[lOff];  // this will be the timestamp for the beginning of the window, i.e. "awinsize[key_winsize] ticks ago"
-
       for (ii = 0; ii < awinsize[key_winsize]; ii++) { 
+		getLastTrigger(lOff, ii, iRebin, (const bool) (ii==0));  // we may need to see if this trigger lies within a "rebin" range for aryg
 		if (sm->t0[lOff] >= sm->t0start) {
-			getLastTrigger(lOff, ii, iRebin, (const bool) (ii==0));  // we may need to see if this trigger lies within a "rebin" range for aryg
+			dtw[0] = sm->t0[lOff];  // this will be the timestamp for the beginning of the window, i.e. "awinsize[key_winsize] ticks ago"
 #ifdef QCNLIVE   // use the bScaled value, defaults to normal 2D/absolute & 3D/scaled, but user can change
 			if (! bScaled) {
 #else   // 2D is always absolute, 3D is scaled
@@ -934,7 +934,6 @@ bool setupPlotMemory(const long lOffset)
       long lStart = MAXI + lOff + 1;   // start here, wrap around to 1+(awinsize-lStart) (skip 0 as that's baseline?)
       if (lStart >= MAXI || lStart < 1) lStart = 1;
 	  g_bViewHasStart = (bool) (sm->x0[lStart-1] == SAC_NULL_FLOAT || sm->t0[lStart-1] == 0.0);  // the current view does not have the start point, can rewind		
-      dtw[0] = sm->t0[lStart+1];  // this will be the timestamp for the beginning of the window, i.e. "awinsize[key_winsize] ticks ago"
 
       // Note that if the array (MAXI) is close to an hour, there's problems with overlapping points
       // i.e. the "live sensor" lOffset can get ahead of the graphics and start writing over times etc!
@@ -943,8 +942,9 @@ bool setupPlotMemory(const long lOffset)
       //fflush(stdout);
 
       for (ii = 0; ii < awinsize[key_winsize]; ii++) {
+		getLastTrigger(lStart, ii, iRebin, (const bool) (ii==0));  // we may need to see if this trigger lies within a "rebin" range for aryg
 		if (sm->t0[lStart] >= sm->t0start) {
-			getLastTrigger(lStart, ii, iRebin, (const bool) (ii==0));  // we may need to see if this trigger lies within a "rebin" range for aryg
+			dtw[0] = sm->t0[lStart];  // this will be the timestamp for the beginning of the window, i.e. "awinsize[key_winsize] ticks ago"
 #ifdef QCNLIVE   // use the bScaled value, defaults to normal 2D/absolute & 3D/scaled, but user can change
 			if (! bScaled) {
 #else   // 2D is always absolute, 3D is scaled
@@ -1006,7 +1006,7 @@ bool setupPlotMemory(const long lOffset)
 		  */
 		  aryg[kk][ii] = fLocalMax[kk];
 		  if (fLocalMax[kk] == SAC_NULL_FLOAT) {
-			 fLocalMax[kk] = 0.0f; // force to 0 if no max found, this will prevent drawing crazy autoscale ranges etc
+			 fLocalMax[kk] = 0.0f; // force to 0 if no max found, this wixll prevent drawing crazy autoscale ranges etc
 			 if (g_eView == VIEW_PLOT_3D) { // if null on the 3d, force to 0, since we just pass the aryg array in and it will try to draw SAC_NULL (-12345)
 			     aryg[kk][ii] = 0.0f;
 			 }
@@ -1289,7 +1289,7 @@ const long TimeWindowPercent(int iPct)
 		// go a percentage of our array bounds
 		int iTestMax = MAXI-1;
 		int iMinSec = ceil(5.0f/sm->dt);
-		float fTestOff = (float)(sm->lOffset - 1);  // don't use lOffset as it may be getting written now, 2 back is safe
+		float fTestOff = (float)(sm->lOffset);  // don't use lOffset as it may be getting written now, 2 back is safe
 		const float fPct = (float) iPct / 100.0f;
 		if (sm->x0[iTestMax] == SAC_NULL_FLOAT || sm->t0[iTestMax] == 0) { // we haven't wrapped yet so just use lOffset = 1 as the start
 			g_lSnapshotPoint = (long) ( fPct * fTestOff );
@@ -1324,7 +1324,7 @@ const long TimeWindowStop()
      g_bSnapshot = true;
 	 if (sm && g_bSnapshot) {
 	     g_lSnapshotTimeBackSeconds = 0L;
-         g_lSnapshotPoint = sm->lOffset-2;  // -2 gives us some clearance we're not reading from end of array which sensor is writing
+         g_lSnapshotPoint = sm->lOffset;  // -2 gives us some clearance we're not reading from end of array which sensor is writing
          g_lSnapshotPointOriginal = g_lSnapshotPoint; // save the original point so we can see back into the array
          if (earth.IsShown()) {
              // if in earth mode, send it back to regular seismic view, non-snapshot
@@ -1530,11 +1530,9 @@ void Init()
     // setup the window widths depending on sm->dt
     // note sm->dt could possibly be 0, if so use the DT constant (.02)
     float fdt = (sm && sm->dt) ? sm->dt : g_dtOrig;
-	// CMC - this won't get updated if dt changes i..e to do a slow computer crashing a lot etc
-    awinsize[0] = (long) ceil(10.0/ fdt);    // 1 minute = 60 seconds / dt // 3000 pts
-    awinsize[1] = (long) ceil(60.0/ fdt);    // 1 minute = 60 seconds / dt // 3000 pts
-    awinsize[2] = (long) ceil(600.0/fdt);   // 10 minutes = 60 seconds / dt // 30000 pts
-    awinsize[3] = (long) ceil(3600.0/fdt);  // 1 minute = 60 seconds / dt // 180000 pts
+	for (int i = 0; i < MAX_KEY_WINSIZE + 1; i++) {
+		awinsize[i] = (long) ceil(awinsize_seconds[i]/fdt);    // 10 seconds / dt // 500 pts @ 50Hz, but only 100 at 10Hz or 50 at 5Hz which is possible
+	}
 
     // enable hidden-surface-removal
     glDepthFunc(GL_LEQUAL);
@@ -1710,7 +1708,7 @@ void Render(int xs, int ys, double time_of_day)
 #else
 	if (!earth.IsShown()) { // if not qcnlive anythign but the earth view should recalc (i.e. the cube is spinning with data
 #endif
-           setupPlotMemory(g_bSnapshot ? g_lSnapshotPoint : (sm->lOffset-2));  // note we use the next-to-last live point as current point may be being written
+           setupPlotMemory(g_bSnapshot ? g_lSnapshotPoint : sm->lOffset);  // note we use the next-to-last live point as current point may be being written
     }
 
     // from here on is the plots or earth or cube scene
@@ -1913,7 +1911,7 @@ void KeyDown(int k1, int k2)
                 case 'S':  // hit S so toggle static display
                         g_bSnapshot = !g_bSnapshot;
                         if (sm && g_bSnapshot) {
-                           g_lSnapshotPoint = sm->lOffset-2;  // -2 gives us some clearance we're not reading from end of array which sensor is writing
+                           g_lSnapshotPoint = sm->lOffset;  // -2 gives us some clearance we're not reading from end of array which sensor is writing
                            g_bSnapshotArrayProcessed = false;
                            if (earth.IsShown()) {
                                   // if in earth mode, send it back to regular seismic view, non-snapshot
