@@ -127,6 +127,9 @@ public:
 	bool Init();
 	void EarthRotate(bool bAuto = true);
 	void ToggleStartStop(bool bStart);
+
+        int getTimeSliderValue();
+        void setTimeSliderValue(const int iPos);
 	
 private slots:
 	void fileDialogSettings();

@@ -61,7 +61,7 @@ void draw_text_sensor_axis(int iAxis)
 	char cbuf[10];
 	if (g_fMaxAxesCurrent[iAxis] == SAC_NULL_FLOAT || g_fMinAxesCurrent[iAxis] == -1.0f * SAC_NULL_FLOAT) return;
 	float fIncrement = (g_fMaxAxesCurrent[iAxis] - g_fMinAxesCurrent[iAxis]) / 6.0f;
-	float fFudge = (iAxis == E_DS) ? .005 : 0.00; // bump up sig axis
+	float fFudge = 0.0; //(iAxis == E_DS) ? .005 : 0.00; // bump up sig axis
 	for (int i = 0; i <= 6; i++) {
 		sprintf(cbuf, "%+5.3f", g_fMinAxesCurrent[iAxis] + (fIncrement * (float) i) );
 	    TTFont::ttf_render_string(cfTransAlpha, cfVertLabel, cfBaseScale[g_iShowSig][iAxis] + cfAxesOffsetY[g_iShowSig][i] + fFudge, 0, MSG_SIZE_TINY, g_bIsWhite ? black : grey_trans, TTF_MONOSPACE, cbuf);
@@ -72,7 +72,7 @@ void draw_text()
 {
    // draw text on top
    mode_unshaded();
-   mode_ortho();
+	qcn_graphics::mode_ortho_qcn();
 
    // now draw time text at the bottom
    char strTime[16];
@@ -251,14 +251,17 @@ void draw_tick_marks()
 
 bool CalcYPlot(const float& fVal, const float& fAvg, const int& ee, float&  myY)
 {
-	const float fHeight = (g_iShowSig ? 15.0f : 20.0f) + (ee == E_DS ? 0.5f : 0.0f);   // height changes based on how many values plotting, if if showing sig pad .5
+	//const float fHeight = (g_iShowSig ? 15.0f : 20.0f) + (ee == E_DS ? 0.5f : 0.0f);   // height changes based on how many values plotting, if if showing sig pad .5
+	const float fHeight = (g_iShowSig ? 15.0f : 20.0f);   // height changes based on how many values plotting, if if showing sig pad .5
 	
-    myY = yax_2d[g_iShowSig][ee] + (ee == E_DS ? 0.5f : 0.0f) 
+    myY = yax_2d[g_iShowSig][ee]
 	     + ( fHeight * ( (fVal - g_fMinAxesCurrent[ee])
-                                   / (g_fMaxAxesCurrent[ee] - g_fMinAxesCurrent[ee] ) )  );
+                                   / (g_fMaxAxesCurrent[ee] - g_fMinAxesCurrent[ee] ) )  )
+	     // + (ee == E_DS ? 0.5f : 0.0f) 
+	   ;
 
     //if (fdata[i] != 0.0f) { // suppress 0 values and check data ranges fit
-    if ( fVal == SAC_NULL_FLOAT ) { // invalid, suppress
+    if ( fVal == SAC_NULL_FLOAT || (fVal == 0. && ee == E_DS)) { // invalid, suppress
        myY = SAC_NULL_FLOAT;
        return false;
     }
@@ -305,7 +308,7 @@ void draw_plot()
 	glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glHint (GL_LINE_SMOOTH_HINT, GL_NICEST);
 	
-    scale_screen(g_width, g_height);  // boinc api/gutil function to get good aspect ratio
+	qcn_graphics::scale_screen_qcn(g_width, g_height);  // boinc api/gutil function to get good aspect ratio
 	const int iMaxArray = g_iShowSig ? E_DS : E_DZ;  // don't bother plotting E_DS if they aren't showing sig
 
     for (int ee = E_DX; ee <= iMaxArray; ee++)  {
@@ -326,16 +329,18 @@ void draw_plot()
 			 glColor4fv(grey);
 			 glBegin(GL_LINES);
 
+/*
 			 if (ee == E_DS) {
 				 glVertex2f(xax_2d[0], yax_2d[g_iShowSig][ee] + .5f + (yfactor * (float) (j+2)));
 				 glVertex2f(xax_2d[1] + xfactor, yax_2d[g_iShowSig][ee] + .5f + (yfactor * (float) (j+2)));
 			 }
 			 else { 
+*/
 				 if (j<3) { // only sig E_DS get's the j=3 line
 					 glVertex2f(xax_2d[0], yax_2d[g_iShowSig][ee] + yfudge + (yfactor * (float) j));
 					 glVertex2f(xax_2d[1] + xfactor, yax_2d[g_iShowSig][ee] + yfudge + (yfactor * (float) j));
 				 }
-			 }
+//			 }
 
 			 glEnd();
 //#endif
@@ -399,7 +404,7 @@ void draw_plot()
 
 //#ifndef _DEBUG  // suppress line/box drawing
 	const float fExt = 7.05f;
-	const float fFudge = 0.02f;
+	const float fFudge = 0.00f;
 	draw_plot_boxes(xmin, xmax, ymin, ymax, fExt, fFudge);
 	draw_tick_marks();
 	glColor4fv((GLfloat*) grey);

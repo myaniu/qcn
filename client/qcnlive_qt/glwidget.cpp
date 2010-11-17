@@ -127,7 +127,7 @@ void GLWidget::mousePressEvent(QMouseEvent *event)
 			m_pframe->EarthRotate(false);
 			break;
 		case VIEW_PLOT_2D:
-			m_pframe->ToggleStartStop(false);
+			//m_pframe->ToggleStartStop(false);
 			break;
 		case VIEW_PLOT_3D:
 		case VIEW_EARTH_COMBINED:
@@ -144,14 +144,22 @@ void GLWidget::mousePressEvent(QMouseEvent *event)
 
 void GLWidget::mouseMoveEvent(QMouseEvent *event)
 {
-   //int dx = event->x() - m_lastPos.x();
+   int dx = event->x() - m_lastPos.x();
    //int dy = event->y() - m_lastPos.y();
-   //m_lastPos = event->pos();
-   qcn_graphics::MouseMove(event->x(), event->y(), 
-	  m_mouseDown[GLUT_LEFT_BUTTON]  ? 1 : 0, 
-	  m_mouseDown[GLUT_MIDDLE_BUTTON]  ? 1 : 0, 
-	  m_mouseDown[GLUT_RIGHT_BUTTON]  ? 1 : 0
-	);
+   m_lastPos = event->pos();
+	if (qcn_graphics::g_eView == VIEW_PLOT_2D) { // set the slider as a dx
+		int iVal = m_pframe->getTimeSliderValue() + dx;
+		if (iVal > 100) iVal = 100;
+		else if (iVal < 0) iVal = 0;
+		m_pframe->setTimeSliderValue(iVal);
+	}
+	else {
+		qcn_graphics::MouseMove(event->x(), event->y(), 
+			m_mouseDown[GLUT_LEFT_BUTTON]    ? 1 : 0, 
+			m_mouseDown[GLUT_MIDDLE_BUTTON]  ? 1 : 0, 
+			m_mouseDown[GLUT_RIGHT_BUTTON]   ? 1 : 0
+		);
+	}
 }
 
 void GLWidget::animate()

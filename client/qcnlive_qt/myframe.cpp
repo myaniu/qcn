@@ -18,10 +18,15 @@
 
 /* canonical list of all icons used for toolbar in qcn/client/qcnlive_qt/icons directory:
 
- icon_absolute.xpm
- icon_camera.xpm
- icon_cube.xpm
+ // view
  icon_earth.xpm
+ icon_twod.xpm
+ icon_threed.xpm
+ icon_cube.xpm
+
+ 
+ // options
+ icon_absolute.xpm
  icon_ff.xpm
  icon_horiz_zoom_in.xpm
  icon_horiz_zoom_out.xpm
@@ -36,13 +41,14 @@
  icon_spin.xpm
  icon_stop.xpm
  icon_sun.xpm
- icon_threed.xpm
- icon_twod.xpm
  icon_usgs.xpm
  icon_vert_zoom_auto.xpm
  icon_vert_zoom_in.xpm
  icon_vert_zoom_out.xpm
- 
+
+ icon_sig.xpm
+ icon_camera.xpm
+
 
 */
 
@@ -127,10 +133,9 @@ bool MyFrame::Init()
     m_glWidgetArea->setMinimumSize(50, 50);
 	
 	// time slider for sensor views
-    QSlider* createSlider(const char *changedSignal, const char *setterSlot);
     m_sliderTime = new QSlider(Qt::Horizontal);
     m_sliderTime->setRange(0, 100);
-    m_sliderTime->setSingleStep(5);
+    m_sliderTime->setSingleStep(1);
     m_sliderTime->setPageStep(20);
     m_sliderTime->setTickInterval(10);
 	m_sliderTime->setValue(100);
@@ -155,6 +160,16 @@ bool MyFrame::Init()
 	restoreGeometry(settings.value("geometry").toByteArray());
 
 	return true;
+}
+
+int MyFrame::getTimeSliderValue()
+{
+	return m_sliderTime->value();
+}
+
+void MyFrame::setTimeSliderValue(const int iPos)
+{
+	m_sliderTime->setValue(iPos);
 }
 
 void MyFrame::slotTimePosition(int iPos)
@@ -532,7 +547,7 @@ void MyFrame::actionView()
 		// note only redraw sensor toolbar if not coming from a sensor view already
 		//if (qcn_graphics::g_eView != VIEW_PLOT_2D && cn_graphics::g_eView != VIEW_PLOT_3D) ToolBarSensor(evt.GetId());
 		ToolBarSensor2D();
-		m_sliderTime->setValue(100);
+		setTimeSliderValue(100);
 		m_sliderTime->show();
 		qcn_graphics::g_eView = VIEW_PLOT_2D;
 		bChanged = true;
@@ -542,7 +557,7 @@ void MyFrame::actionView()
 		// note only redraw sensor toolbar if not coming from a sensor view already
 		//if (qcn_graphics::g_eView != VIEW_PLOT_2D && cn_graphics::g_eView != VIEW_PLOT_3D) ToolBarSensor(evt.GetId());
 		ToolBarSensor3D();
-		m_sliderTime->setValue(100);
+		setTimeSliderValue(100);
 		m_sliderTime->show();
 		qcn_graphics::g_eView = VIEW_PLOT_3D;
 		bChanged = true;
@@ -704,6 +719,7 @@ void MyFrame::actionOptionSensor()
 		if (qcn_graphics::TimeWindowIsStopped()) {
 			m_iSensorAction = 0;
 			qcn_graphics::TimeWindowStart();
+			setTimeSliderValue(100);
 		}
 	}
 	else if (pAction == m_actionOptionSensorRecordStart || pAction == m_actionOptionSensorRecordStop) {

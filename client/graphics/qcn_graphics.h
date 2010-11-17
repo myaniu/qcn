@@ -131,6 +131,9 @@ extern void MouseButton(int x, int y, int which, int is_down);
 extern void KeyDown(int k1, int k2);
 extern void KeyUp(int k1, int k2);
 
+void mode_ortho_qcn();
+void scale_screen_qcn(int iw, int ih);
+
 extern double g_alphaLogo;
 extern double g_alphaText;
 extern FADER g_faderLogo;

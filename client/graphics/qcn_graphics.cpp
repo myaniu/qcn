@@ -247,11 +247,13 @@ vector<SQuake> vsq; // a vector of earthquake data struct (see qcn_graphics.h)
 
 const float xax[2] = { -15.0, 44.0 };
 const float yax[4] = { -25.0, -10.0, 8.0, 21.0 };
+	
 const float xax_2d[3] = { -47.0, 44.0, 49.0 };
 // note the last is the very top of sig, so it's 15 + .5 padding for the sig axis which is .5 above next line
 // also note 2d array as first element/array group is with no sig, second is to show sig
 // size of each height (y) is 20 for x/y/z plot and 15 for x/y/z/s plot
-const float yax_2d[2][5] = { { -28.5, -8.5, 11.5, 31.5, 32.0 }, { -28.5, -13.5, 1.5, 16.5, 32.0 } } ; 
+	// get rid of the .5 padding
+const float yax_2d[2][5] = { { -28.5, -8.5, 11.5, 31.5, 31.5 }, { -28.5, -13.5, 1.5, 16.5, 31.5 } } ; 
 
 const float Y_TRIGGER_LAST[2] = { -30.0, yax_2d[0][4] }; // the Y of the trigger & timer tick line
 
@@ -489,7 +491,8 @@ void init_lights()
 void draw_logo(bool bExtraOnly) 
 {
 	mode_unshaded();
-	mode_ortho();
+	mode_ortho_qcn();
+	
 	/*
 	GLdouble diam = g_height > g_width ? g_height : g_width;
 	GLdouble zNear = 1.0;
@@ -592,7 +595,7 @@ void draw_text_user()
 
    // draw text on top
    mode_unshaded();
-   mode_ortho();
+   mode_ortho_qcn();
 
     if (!sm) {
        TTFont::ttf_render_string(g_alphaText, 0, 0, 0, 800, red, TTF_ARIAL, (const char*) "No shared memory, QCN not running?");
@@ -678,7 +681,7 @@ void draw_text_plot()
 
    // draw text on top
    mode_unshaded();
-   mode_ortho();
+   mode_ortho_qcn();
 
    // the following uncommented out will let the text bounce around!
     //static float x=0, y=0;
@@ -757,24 +760,6 @@ void draw_text_plot()
            TTFont::ttf_render_string(qcn_graphics::g_alphaText, TEXT_PLOT_LEFT_AXES, fTop[E_DX] - 0.04, 0, MSG_SIZE_SMALL, colorsPlot[E_DX], TTF_ARIAL, buf);
         }
 
-   if (g_eView == VIEW_PLOT_2D) {
-/*
-      switch (key_winsize) {
-        case 0:
-          TTFont::ttf_render_string.1, 0, 0.18, 0, MSG_SIZE_SMALL, white, 0, (const char*) "Small Tick Mark = 1 Second");
-          TTFont::ttf_render_string.1, 0, 0.16, 0, MSG_SIZE_SMALL, white, 0, (const char*) "Large Tick Mark = 10 Seconds");
-          break;
-        case 1:
-          TTFont::ttf_render_string.1, 0, 0.18, 0, MSG_SIZE_SMALL, white, 0, (const char*) "Small Tick Mark = 10 Seconds");
-          TTFont::ttf_render_string.1, 0, 0.16, 0, MSG_SIZE_SMALL, white, 0, (const char*) "Large Tick Mark = 1 Minute");
-          break;
-        case 2:
-          TTFont::ttf_render_string.1, 0, 0.18, 0, MSG_SIZE_SMALL, white, 0, (const char*) "Small Tick Mark = 1 Minute");
-          TTFont::ttf_render_string.1, 0, 0.16, 0, MSG_SIZE_SMALL, white, 0, (const char*) "Large Tick Mark = 10 Minutes");
-          break;
-	  }
-*/
-	}
 
 	char strt[2][32];
 	if (g_bSnapshot) {
@@ -983,7 +968,7 @@ bool setupPlotMemory(const long lOffset)
 	for (kk = E_DX; kk <= E_DS; kk++) {
 		g_fAvg[kk] = 0.0f;
 		fAvgCtr = 0.0f;
-		for (ii = 0; ii < awinsize[key_winsize]/iRebin; ii++) {
+		for (ii = 0; ii < PLOT_ARRAY_SIZE; ii++) {
 			//fAvgCtr[kk]  = 0.0f;
 			//fAvg[kk]     = 0.0f;
 			fLocalMax[kk]     = SAC_NULL_FLOAT;
@@ -1014,9 +999,9 @@ bool setupPlotMemory(const long lOffset)
 		  aryg[kk][ii] = fLocalMax[kk];
 		  if (fLocalMax[kk] == SAC_NULL_FLOAT) {
 			 fLocalMax[kk] = 0.0f; // force to 0 if no max found, this will prevent drawing crazy autoscale ranges etc
-			if (g_eView == VIEW_PLOT_3D) { // if null on the 3d, force to 0, since we just pass the aryg array in and it will try to draw SAC_NULL (-12345)
-		          aryg[kk][ii] = 0.0f;
-			}
+			 if (g_eView == VIEW_PLOT_3D) { // if null on the 3d, force to 0, since we just pass the aryg array in and it will try to draw SAC_NULL (-12345)
+			     aryg[kk][ii] = 0.0f;
+			 }
 		  }
 
 			// note: setup a max min range per axis per rebin -- this doesn't really correspond to absolute max/min g_fmax/fmin values, but for display purposes
@@ -1086,28 +1071,13 @@ void draw_plots_3d()
 
     init_camera(viewpoint_distance[g_eView]);
     init_lights();
-    scale_screen(g_width, g_height);  // boinc api/gutil function to get good aspect ratio
+    scale_screen_qcn(g_width, g_height);  // boinc api/gutil function to get good aspect ratio
 
     rgx.draw((float*) aryg[E_DX], PLOT_ARRAY_SIZE, false);
     rgy.draw((float*) aryg[E_DY], PLOT_ARRAY_SIZE, false);
-    rgz.draw((float*) aryg[E_DZ], PLOT_ARRAY_SIZE, false);
+ 	rgz.draw((float*) aryg[E_DZ], PLOT_ARRAY_SIZE, false);
     rgs.draw((float*) aryg[E_DS], PLOT_ARRAY_SIZE, false);
 
-    /* TODO -- get plot labels in the 3d camera view/
-    // graph labels
-    char buf[8];
-    sprintf(buf, "Significance");
-    TTFont::ttf_render_string(qcn_graphics::g_alphaText, -10.0, -32.0, 0, 1500, colorsPlot[E_DS], TTF_ARIAL, buf);
-
-    sprintf(buf, "Z-amp");
-    TTFont::ttf_render_string(qcn_graphics::g_alphaText, -10.0, -28.0, 0, 1500, colorsPlot[E_DZ], TTF_ARIAL, buf);
-
-    sprintf(buf, "Y-amp");
-    TTFont::ttf_render_string(qcn_graphics::g_alphaText, -10.0, -24.0, 0, 1500, colorsPlot[E_DY], TTF_ARIAL, buf);
-
-    sprintf(buf, "X-amp");
-    TTFont::ttf_render_string(qcn_graphics::g_alphaText, -10.0, -21.0, 0, 1500, colorsPlot[E_DX], TTF_ARIAL, buf);
-    */
 }
 
 extern void ResetPlotArray()
@@ -1619,9 +1589,9 @@ void Init()
 // RIBBON GRAPH
 
     // setup ribbon graph stuff
-    float size[3] = {xax[1] - xax[0], 10.0, 5.0};
+	float size[3] = {xax[1] - xax[0], 10.0, 5.0};
     float pos[3];
-
+	
     pos[0] = xax[0];
     pos[1] = yax[E_DS];
     pos[2] = 0.0;
@@ -1770,8 +1740,12 @@ void Render(int xs, int ys, double time_of_day)
     }
 #endif
 
-    if (! earth.IsShown()) { // if we're in a "plot" view pass in either our snapshot point or current offset to setup graphics memory from sensor data
-           setupPlotMemory(g_bSnapshot ? g_lSnapshotPoint : (sm->lOffset-2));  // note we use the next-to-last live point as current point is being written
+#ifdef QCNLIVE
+    if (g_eView == VIEW_PLOT_2D || g_eView == VIEW_PLOT_3D) { // if we're in a "plot" view pass in either our snapshot point or current offset to setup graphics memory from sensor data
+#else
+	if (!earth.IsShown()) { // if not qcnlive anythign but the earth view should recalc (i.e. the cube is spinning with data
+#endif
+           setupPlotMemory(g_bSnapshot ? g_lSnapshotPoint : (sm->lOffset-2));  // note we use the next-to-last live point as current point may be being written
     }
 
     // from here on is the plots or earth or cube scene
@@ -1866,23 +1840,23 @@ void MouseMove(int x, int y, int left, int middle, int right)
     if (earth.IsShown()) {
       earth.MouseMotion(mouseSX, mouseSY, left, middle, right);
     }
-    else if (g_eView==VIEW_PLOT_2D) {
-		if (left || right) {
-			/* // disable this - it sucks
+    else if (g_eView==VIEW_PLOT_2D) { // this is handled by the slider in qcnlive
+		if (left || right) { 
 			fDiff2D = mouseSX-mouseX;  // if positive it's going right (back in time), negative it's going left (forward in time), scale 1 low, 10+ high
 			mouseX = mouseSX;
 			mouseY = mouseSY;
+#ifndef QCNLIVE
 			if (fDiff2D < 0.0f) TimeWindowForward();
 			else TimeWindowBack();
-			 */
+#endif
 		}
 		else {
 			mouse_down = false;
 		}
     }
-    //else if (g_eView==VIEW_CUBE) {
-    //  cube.MouseMotion(mouseSX, mouseSY, left, middle, right);
-    //}
+    else if (g_eView==VIEW_CUBE) {
+      cube.MouseMotion(mouseSX, mouseSY, left, middle, right);
+    }
     else if (g_eView == VIEW_PLOT_3D) { // just rotate stuff on 3d plots
       if (left) {
           pitch_angle[g_eView] += (mouseSY-mouseY)*.1;
@@ -2070,6 +2044,44 @@ void FaderOn()
 			}
 		}
 #endif
+
+void scale_screen_qcn(int iw, int ih)
+{
+	float aspect_ratio = 4.0f/3.0f;
+    float w=(float)iw, h=(float)ih;
+    float xs, ys;
+	if (h*aspect_ratio > w) {
+        xs = 1.0f;
+        ys = (w/aspect_ratio)/h;
+    } else {
+		xs = (h*aspect_ratio)/w;
+        ys = 1.0f;
+    }
+	glScalef(xs, ys*aspect_ratio, 1.0f);
+	
+}
+		
+void mode_ortho_qcn() 
+{ // try with no scale_screen as opposed to the boinc version so our graphics can "stretch" to the screen but not be out of place
+		glDisable(GL_DEPTH_TEST);
+		glMatrixMode(GL_PROJECTION);
+		glPushMatrix();
+		glLoadIdentity();
+		glOrtho(0, 1, 0, 1, 0, 1);
+		glMatrixMode(GL_MODELVIEW);
+		glPushMatrix();
+		glLoadIdentity();
+		gluLookAt(
+					  0.0, 0.0, 1.0,        // eye position
+					  0, 0, 0,              // where we're looking
+					  0.0, 1.0, 0.          // up is in positive Y direction
+					  );
+		int viewport[4];
+		get_viewport(viewport);
+		center_screen(viewport[2], viewport[3]);
+		scale_screen_qcn(viewport[2], viewport[3]);
+}
+
 		
 }  // namespace qcn_graphics
 

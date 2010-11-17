@@ -150,8 +150,8 @@ void CCube::RenderText()
    // left of window informative text
    if (!qcn_graphics::g_bFullScreen)  { // don't show the button press text in fullscreen/screensaver mode
         mode_unshaded();
-        mode_ortho();
-        sprintf(buf, "Press 'Q' to return to");
+	   qcn_graphics::mode_ortho_qcn();
+	   sprintf(buf, "Press 'Q' to return to");
         TTFont::ttf_render_string(qcn_graphics::cfTextAlpha, 0, .32, 0, MSG_SIZE_NORMAL, yellow, TTF_ARIAL, buf);
         sprintf(buf, "seismic sensor view");
         TTFont::ttf_render_string(qcn_graphics::cfTextAlpha, 0, .30, 0, MSG_SIZE_NORMAL, yellow, TTF_ARIAL, buf);
@@ -160,7 +160,7 @@ void CCube::RenderText()
 
    // print a "legend"
    mode_unshaded();
-   mode_ortho();
+   qcn_graphics::mode_ortho_qcn();
    TTFont::ttf_render_string(qcn_graphics::cfTextAlpha, 0, .27, 0, MSG_SIZE_NORMAL, red, TTF_ARIAL, "Red is Significance");
    TTFont::ttf_render_string(qcn_graphics::cfTextAlpha, 0, .25, 0, MSG_SIZE_NORMAL, blue, TTF_ARIAL, "Blue is Z-axis");
    TTFont::ttf_render_string(qcn_graphics::cfTextAlpha, 0, .23, 0, MSG_SIZE_NORMAL, yellow, TTF_ARIAL, "Yellow is Y-axis");
@@ -283,17 +283,22 @@ void CCube::MouseMotion(int x, int y, int left, int middle, int right)
 	// store new mouse position
 	mouseX = x;
 	mouseY = y;
+	
+	//mouseLeftButtonDown = left;
+	//mouseRightButtonDown = right;
 
-	if (mouseLeftButtonDown) {
+	if (left) {
 			// rotate
-			rot.x += deltX*0.25f/scaleAll;
-			rot.y += deltY*0.25f/scaleAll;
+			rot.x = x; //+= deltX; //*0.25f/scaleAll;
+ 		    //if (rot.x > 50) rot.x = -50;
+			rot.y = y; // += (deltY*10); //*0.25f/scaleAll;
+			//if (rot.y > 1000) rot.y = -1000;
 
 			// save values for auto rotation
-			autoRotX = deltX*0.25f;
-			autoRotY = deltY*0.25f;
+			//autoRotX = deltX*0.25f;
+			//autoRotY = deltY*0.25f;
 	} 
-        else if (mouseRightButtonDown)  { //zoom
+        else if (right)  { //zoom
 			// scale
 			float addition;
 			addition = ((deltX+deltY) / 200.f);

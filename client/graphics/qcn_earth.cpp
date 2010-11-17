@@ -938,8 +938,8 @@ void CEarth::RenderText()
 
    // draw text on top
    mode_unshaded();
-   mode_ortho();
-
+   qcn_graphics::mode_ortho_qcn();
+	
    char buf[256];
 
    // the following uncommented out will let the text bounce around!
