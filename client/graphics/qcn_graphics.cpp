@@ -1342,19 +1342,29 @@ long TimeWindowPercent(int iPct)
 	if (g_bSnapshot) {  // note we can't go further forward than our sm->lOffset!
 		// go a percentage of our array bounds
 		int iTestMax = MAXI-1;
-		int iOneSec = ceil(1.0f/sm->dt);
-		float fTestOff = (float)(sm->lOffset - 2);  // don't use lOffset as it may be getting written now, 2 back is safe
+		int iMinSec = ceil(5.0f/sm->dt);
+		float fTestOff = (float)(sm->lOffset - 1);  // don't use lOffset as it may be getting written now, 2 back is safe
 		const float fPct = (float) iPct / 100.0f;
 		if (sm->x0[iTestMax] == SAC_NULL_FLOAT || sm->t0[iTestMax] == 0) { // we haven't wrapped yet so just use lOffset = 1 as the start
 			g_lSnapshotPoint = (long) ( fPct * fTestOff );
-			if (g_lSnapshotPoint < iOneSec) g_lSnapshotPoint = iOneSec; // keep at least a second on the screen
+			if (g_lSnapshotPoint < iMinSec && iMinSec < fTestOff) {
+				g_lSnapshotPoint = iMinSec; // keep at least a second on the screen
+				g_bViewHasStart = true;
+			}
 		}
 		else { // we've wrapped around so have to factor in the next MAXI-lOffset points
 			long lOff = (long)((float) iTestMax * (1.0f - fPct)); // this is how many points back we have to go in our possible array
 			g_lSnapshotPoint = fTestOff - lOff; // our tentative point is the 
 			if (g_lSnapshotPoint < 0)  // our percentage point is part of the "wrap"
 				g_lSnapshotPoint += MAXI; // this should be the pct point of the wrapped array
+			if (g_lSnapshotPoint > sm->lOffset && g_lSnapshotPoint < (sm->lOffset + 10)) {
+				// wrapped around but effectively at the start
+				g_bViewHasStart = true;
+                g_lSnapshotPoint += awinsize[key_winsize];
+			}
 		}
+
+		// one final check, don't allow the snapshot point to be 
 		g_lSnapshotPointOriginal = g_lSnapshotPoint; // save the original point so we can see back into the array		
         bResetArray = true;
         g_bSnapshotArrayProcessed = false;
