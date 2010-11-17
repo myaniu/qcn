@@ -47,7 +47,7 @@ extern int sacio
 (
   const int32_t n1, 
   const int32_t n2, 
-  struct STriggerInfo* ti,
+  struct STriggerInfo& ti,
   const char* strSensorType
 );
 

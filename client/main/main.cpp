@@ -671,7 +671,7 @@ void checkContinualUpload(bool bForce)
 {
    if (!g_bContinual) return; // quit if not continual upload!
     // check for more than 5 files in g_strPathContinual and if so upload then delete them
-        // now make sure the zip file is stored in sm->strPathTrigger + ti->strFile
+        // now make sure the zip file is stored in sm->strPathTrigger + ti.strFile
         int iSlot = (int) sm->iNumUpload;
         ZipFileList zfl;
         long lCurTime = QCN_ROUND(dtime() + qcn_main::g_dTimeOffset);
@@ -724,16 +724,18 @@ void checkContinualUpload(bool bForce)
         qcn_util::sendIntermediateUpload(strLogical, strResolve);  // the logical name gets resolved by boinc_upload_file into full path zip file 
 
         // delete original files
-        for (int i = 0; i < zfl.size(); i++) {
-           boinc_delete_file(zfl[i].c_str());  // don't need the original zip, since it's in the strResolve zip name
+	    ZipFileList::iterator izfl = zfl.begin();
+		while (izfl != zfl.end()) {
+           boinc_delete_file(izfl->c_str());  // don't need the original zip, since it's in the strResolve zip name
+		   izfl++;
         }
         boinc_end_critical_section();
 
 }
 
-bool CheckTriggerFile(struct STriggerInfo* ti, bool bForce)
+bool CheckTriggerFile(struct STriggerInfo& ti, bool bForce)
 {  
-    if (!ti->lOffsetEnd) return true;   // we're not in a trigger, just return true so this element gets deleted
+    if (!ti.lOffsetEnd) return true;   // we're not in a trigger, just return true so this element gets deleted
 	
 	const int g_TenSecCount = (int) (10.0/sm->dt);  // reference number of points for 10 seconds
 
@@ -742,13 +744,13 @@ bool CheckTriggerFile(struct STriggerInfo* ti, bool bForce)
     // enum e_trigger { TRIGGER_UNSET, TRIGGER_IMMEDIATE, TRIGGER_10SEC, TRIGGER_20SEC, TRIGGER_30SEC, TRIGGER_1MIN, TRIGGER_2MIN, TRIGGER_DEMO };
 
     // default n1 is a minute ago
-    n1 = ti->lOffsetEnd - (6 * g_TenSecCount); // one minute ago
+    n1 = ti.lOffsetEnd - (6 * g_TenSecCount); // one minute ago
 
-    switch(ti->iLevel)
+    switch(ti.iLevel)
     { // set the window based on our trigger level
        case TRIGGER_DEMO:     // read-only mode write out file every 10 minutes
-          n1 = ti->lOffsetStart;  // start
-          n2 = ti->lOffsetEnd;  // start
+          n1 = ti.lOffsetStart;  // start
+          n2 = ti.lOffsetEnd;  // start
           break;
        case TRIGGER_IMMEDIATE:    // immediately write out past minute and sm->lTriggerFile (or lOffset if greater)
           n1 = lSM - (6 * g_TenSecCount);  // one minute ago
@@ -756,20 +758,20 @@ bool CheckTriggerFile(struct STriggerInfo* ti, bool bForce)
           break;
 /*
 		case TRIGGER_10SEC:
-          n2 = ti->lOffsetEnd + g_TenSecCount;
+          n2 = ti.lOffsetEnd + g_TenSecCount;
           break;
        case TRIGGER_20SEC:
-          n2 = ti->lOffsetEnd + (2 * g_TenSecCount);
+          n2 = ti.lOffsetEnd + (2 * g_TenSecCount);
           break;
        case TRIGGER_30SEC:
-          n2 = ti->lOffsetEnd + (3 * g_TenSecCount);
+          n2 = ti.lOffsetEnd + (3 * g_TenSecCount);
           break;
 */
        case TRIGGER_1MIN:
-          n2 = ti->lOffsetEnd + (6 * g_TenSecCount);
+          n2 = ti.lOffsetEnd + (6 * g_TenSecCount);
           break;
        case TRIGGER_2MIN:
-          n2 = ti->lOffsetEnd + (12 * g_TenSecCount);
+          n2 = ti.lOffsetEnd + (12 * g_TenSecCount);
           break;
        default: 
           return true; // delete this trigger, has an invalid level
@@ -799,14 +801,14 @@ bool CheckTriggerFile(struct STriggerInfo* ti, bool bForce)
     // exit if we are in a trigger but not past our n2 write time -- note the wrapping at the end of the array though!
     // if not wrapping (n2orig = 0) and n2 is greater than our lOffset/lSM then we have not exceeded the write point
     // if wrapping (n2orig > 0) and current point is greater than our trigger offset, OR current point less than our n2, we have not exceeded the write point
-    if (ti->bReal && !bForce && ( (!n2orig && lSM < n2) || (n2orig && (lSM > ti->lOffsetEnd || lSM < n2)))  ) {
+    if (ti.bReal && !bForce && ( (!n2orig && lSM < n2) || (n2orig && (lSM > ti.lOffsetEnd || lSM < n2)))  ) {
          return false; 
     }
 
     // we reach here if past our window for this file
     // check if trigger was made in interactive mode, if so bypass file creation
     // but always allow demo-mode triggers to get written (i.e. 10-minute dumps)
-    if (!ti->bInteractive || ti->bReal) {
+    if (!ti.bInteractive || ti.bReal) {
        char strTypeSensor[8];
        memset(strTypeSensor, 0x00, sizeof(char) * 8);
        if (g_psms) strncpy(strTypeSensor, g_psms->getTypeStrShort(), sizeof(strTypeSensor));
@@ -815,20 +817,24 @@ bool CheckTriggerFile(struct STriggerInfo* ti, bool bForce)
 
     // don't forget to reset level if it's > TRIGGER_2MIN
     // note we're faking that this trigger is all done, since demo mode we just write out every minute and TRIGGER_DEMO is > TRIGGER_ALL
-    ti->iLevel++; // bump up trigger level
+    ti.iLevel++; // bump up trigger level
 
-    return (bool) (ti->iLevel > TRIGGER_2MIN);  // return true means it will delete this iterator
+    return (bool) (ti.iLevel > TRIGGER_2MIN);  // return true means it will delete this iterator
 }
 
 // send a trickle when a trigger is hit, if bFollowUp==true it's a followup trigger with supplemental info
-bool CheckTriggerTrickle(struct STriggerInfo* ti)
+bool CheckTriggerTrickle(struct STriggerInfo& ti)
 {
 	// note - check for a followup trig required, if trig was already sent, and we're 5 seconds after it was sent, with no bFollowUp
-	bool bFollowUp = ti->bSent && !ti->bSentFollowUp && (ti->lOffsetEnd + ceil(4.0 / sm->dt)) < sm->lOffset;
-    if (!bFollowUp && (!ti->lOffsetEnd || ti->bSent || !ti->bReal || ti->bInteractive)) {
+	bool bFollowUp = ti.bSent && !ti.bSentFollowUp && (ti.lOffsetEnd + ceil(4.0 / sm->dt)) < sm->lOffset;
+    if (!bFollowUp && (!ti.lOffsetEnd || ti.bSent || !ti.bReal || ti.bInteractive)) {
        return true;  // if no offset and/or already sent or a demo mode trickle (i.e. per-minute trigger) or interactive mode, can just return
     }
 
+#ifdef QCNLIVE
+	if (bFollowUp) return true;  //no need for followup triggers in qcnlive
+#endif
+	
     boinc_begin_critical_section();
     // mark this trigger as sent
     sm->setTriggerLock();
@@ -840,16 +846,16 @@ bool CheckTriggerTrickle(struct STriggerInfo* ti)
     char *strFollowUp = new char[512];
     memset(strFollowUp, 0x00, sizeof(char) * 512);
 
-    double dTriggerTime = sm->t0[ti->lOffsetEnd] + g_dTimeOffset; // this is the adjusted time of the trigger, i.e. should match server time
+    double dTriggerTime = sm->t0[ti.lOffsetEnd] + g_dTimeOffset; // this is the adjusted time of the trigger, i.e. should match server time
 
     // get xy & z components to send for the past 1 second i.e. to get max before trigger
     float fmax_xy[4], fmax_z[4];
 	memset(fmax_xy, 0x00, sizeof(float) * 4);
 	memset(fmax_z, 0x00, sizeof(float) * 4);
 
-	qcn_util::get_fmax_components(ti->lOffsetEnd, fmax_xy, fmax_z, bFollowUp);
-	ti->bSent = true;
-	ti->bSentFollowUp = bFollowUp;
+	qcn_util::get_fmax_components(ti.lOffsetEnd, fmax_xy, fmax_z, bFollowUp);
+	ti.bSent = true;
+	ti.bSentFollowUp = bFollowUp;
 
    
 	// Trigger field tags:
@@ -920,9 +926,9 @@ bool CheckTriggerTrickle(struct STriggerInfo* ti)
        qcn_util::os_type_str(),
        sm->eSensor,
        dTriggerTime,
-       sm->fsig[ti->lOffsetEnd],
-       sm->fmag[ti->lOffsetEnd],
-       ti->strFile,
+       sm->fsig[ti.lOffsetEnd],
+       sm->fmag[ti.lOffsetEnd],
+       ti.strFile,
        sm->iNumReset,
        sm->dt,
        strFollowUp,
@@ -932,12 +938,13 @@ bool CheckTriggerTrickle(struct STriggerInfo* ti)
           XML_CPU_TIME, sm->cpu_time, XML_CPU_TIME
     );
 
-    trickleup::qcnTrickleUp(strTrigger, ti->iVariety, (const char*) sm->dataBOINC.wu_name);  // send a trigger for this trickle
+    trickleup::qcnTrickleUp(strTrigger, ti.iVariety, (const char*) sm->dataBOINC.wu_name);  // send a trigger for this trickle
 
-    // filename already set in ti->strFile
-    fprintf(stdout, "Trigger detected at offset %ld  time %f  write at %ld - zip file %s\n", 
-       ti->lOffsetEnd, sm->t0[ti->lOffsetEnd], (long) sm->itm, ti->strFile);
-    fflush(stdout); 
+    // filename already set in ti.strFile
+	if (!bFollowup) { // just print out a line for the original trigger
+		fprintf(stdout, "%f  Trigger detected at offset %ld  time %f  write at %ld - zip file %s\n", 
+			g_dTimeCurrent, ti.lOffsetEnd, sm->t0[ti.lOffsetEnd], (long) sm->itm, ti.strFile);
+	}
 
     delete [] strTrigger;
 	delete [] strFollowUp;
@@ -956,42 +963,40 @@ bool CheckTriggers(bool bForce)
 #endif
         int iRemove = 0;
         if (!g_vectTrigger.empty()) { // there are triggers to monitor, go through the vector
-		   for (unsigned int i = 0; i < g_vectTrigger.size(); i++) {
-		     STriggerInfo& ti = g_vectTrigger.at(i);
-             if (ti.lOffsetEnd) { // there's a non-zero lOffset, so better check for trickle or file I/O
+			// use an iterator
+		   vector<struct STriggerInfo>::iterator ist = g_vectTrigger.begin();
+			while (ist != g_vectTrigger.end() ) {
+	         if (ist->lOffsetEnd) { // there's a non-zero lOffset, so better check for trickle or file I/O
                 //if (!bForce) CheckTriggerTrickle(&ti); // note too late for a trigger if bForce is on, but maybe not for file I/O below
-				CheckTriggerTrickle(&ti); // maybe not too late for a trigger if bForce is on
-                if (CheckTriggerFile(&ti, bForce)) {  // check that it's time for trigger file I/O after this trickledd
+				CheckTriggerTrickle(*ist); // maybe not too late for a trigger if bForce is on
+                if (CheckTriggerFile(*ist, bForce)) {  // check that it's time for trigger file I/O after this trickledd
                     // erase this one if returns true, i.e. we're done all I/O
-					ti.bRemove = true;
+					ist->bRemove = true;
+					sm->setTriggerLock();
+					ist = g_vectTrigger.erase(ist); 
+					sm->releaseTriggerLock();					
 					iRemove++;
+#ifdef _DEBUG
+					fprintf(stdout, "DEBUG:  Removed Old Trigger, %d remain\n", (int) g_vectTrigger.size());
+#endif
                 }
+				else { // increment iterator
+					ist++;
+				}
              }
              else { // lOffset is 0 i.e. non-existent since can never trigger on 0 (initial baseline point)
                 // if there's no lOffset, we can just get rid of this element
                 // this should never happen if CheckTrigger* logic is working!
-                 ti.bRemove = true;
+                 ist->bRemove = true;
+				 sm->setTriggerLock();
+				 ist = g_vectTrigger.erase(ist); 
+				 sm->releaseTriggerLock();
 				 iRemove++;
+#ifdef _DEBUG
+				 fprintf(stdout, "DEBUG:  Removed Old Trigger, %d remain\n", (int) g_vectTrigger.size());
+#endif
 			 }
            }
-
-		   if (iRemove) { // we need to delete some old triggers
-			   vector<STriggerInfo>::iterator itTrigger = g_vectTrigger.begin();
-			   while (itTrigger != g_vectTrigger.end()) {
-				   if (itTrigger->bRemove) {
-						sm->setTriggerLock();
-						itTrigger = g_vectTrigger.erase(itTrigger); 
-						sm->releaseTriggerLock();
-#ifdef _DEBUG
-			fprintf(stdout, "DEBUG:  Removed Old Trigger, %d remain\n", (int) g_vectTrigger.size());
-#endif
-				   }
-				   else {
-					   itTrigger++;
-				   }
-			   }
-		   }
-
 		}
         return true;
 }

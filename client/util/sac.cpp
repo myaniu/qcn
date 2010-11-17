@@ -174,7 +174,7 @@ extern int sacio
 (
   const int32_t n1, 
   const int32_t n2, 
-  struct STriggerInfo* ti,
+  struct STriggerInfo& ti,
   const char* strSensorType 
 )
 {
@@ -207,7 +207,7 @@ extern int sacio
 
 /*
     fprintf(stdout, "Writing %s trigger file from t0[%d]=%ld to t0[%d]=%ld (%ld seconds  npts=%ld)\n", 
-		ti->strFile, n1, QCN_ROUND(sm->t0[n1]), n2, QCN_ROUND(sm->t0[n2]), QCN_ROUND(sm->t0[n2] - sm->t0[n1]), npts );
+		ti.strFile, n1, QCN_ROUND(sm->t0[n1]), n2, QCN_ROUND(sm->t0[n2]), QCN_ROUND(sm->t0[n2] - sm->t0[n1]), npts );
 	fflush(stdout); 
 */
 	
@@ -275,7 +275,7 @@ extern int sacio
 		fTemp = s[j];
 		float_swap((QCN_CBYTE*) &fTemp, s[j]);
 		
-		if (ti->bReal && lOff == ti->lOffsetEnd) {
+		if (ti.bReal && lOff == ti.lOffsetEnd) {
 			fTimeTrigger = t[j]; 
 		}
 		
@@ -332,7 +332,7 @@ extern int sacio
 	 long_swap((QCN_CBYTE*) &lTemp, sacdata.l[esl_leven]);   // actually we are going to force even spaced .02s (50Hz) timings
 	
     // event origin time -- trigger time I guess?  in seconds relative to ref time; was set in the above loop and clock adjusted
-    if (ti->bReal && fTimeTrigger > -1.0f)  { // NB: if it's a demo trigger, don't mark trigger point
+    if (ti.bReal && fTimeTrigger > -1.0f)  { // NB: if it's a demo trigger, don't mark trigger point
 	   sacdata.f[esf_o] = fTimeTrigger;  // note already byte-swapped above i.e. all t, s, x, y, z were processed
        strcpy(sacdata.s[ess_ko], "Trigger");
     }
@@ -349,7 +349,7 @@ extern int sacio
     strncpy(sacdata.s[ess_kinst], strSensorType, 7);
 
     strcpy(sacdata.s[ess_kuser0],  qcn_main::g_dTimeSync > 0.0f ? "TSYNC" : "NOTSYNC");   // flag that time was synchronized to server or not
-    sprintf(sacdata.s[ess_kevnm], "%07d", ti->iWUEvent);   // number of event
+    sprintf(sacdata.s[ess_kevnm], "%07d", ti.iWUEvent);   // number of event
 
 #ifdef QCNLIVE
     // if they entered a station ID then use it
@@ -392,7 +392,7 @@ extern int sacio
     long_swap((QCN_CBYTE*) &lTemp, sacdata.l[esl_nzmsec]); // header start millisecond
 
     ZipFileList zfl;
-	const char* strZipPath = (const char*) ((ti->bContinual && strlen(qcn_main::g_strPathContinual)>2) ? qcn_main::g_strPathContinual : qcn_main::g_strPathTrigger);
+	const char* strZipPath = (const char*) ((ti.bContinual && strlen(qcn_main::g_strPathContinual)>2) ? qcn_main::g_strPathContinual : qcn_main::g_strPathTrigger);
 	string strZip(strZipPath);  // note it DOES NOT HAVE appropriate \ or / at the end
     double dTimeNow;
     dTimeNow = dtime();
@@ -401,15 +401,15 @@ extern int sacio
     sprintf(sacdata.s[ess_kdatrd], "%02d%02d%02d", ptm->tm_year-100, ptm->tm_mon+1, ptm->tm_mday);
  
     // now print filenames which is workunit name, time, & number of trigger, then send to wsac0
-    ifname = (int32_t) strlen((const char*) ti->strFile) - 4; // this is where the zip will be
+    ifname = (int32_t) strlen((const char*) ti.strFile) - 4; // this is where the zip will be
     memset(fname, 0x00, _MAX_PATH);
     sprintf(fname, "%s%c", strZipPath, qcn_util::cPathSeparator());
-    strncat(fname, (const char*) ti->strFile, ifname);
+    strncat(fname, (const char*) ti.strFile, ifname);
 	
 	if (sm->bMyOutputSAC) { // SAC output
 			strlcat(fname, ".?.sac", _MAX_PATH);
 
-		//fprintf(stdout, "DEBUG: strFile = [%s]\n", ti->strFile);
+		//fprintf(stdout, "DEBUG: strFile = [%s]\n", ti.strFile);
 		//fprintf(stdout, "DEBUG: fnamebf = [%s]\n", fname);
 
 			ifname = (int32_t) strlen(fname) - 5;
@@ -495,9 +495,9 @@ extern int sacio
 			wsac0(fname, t, z, nerr, npts, &sacdata);
 
 			if (zfl.size()>0) {
-			   // now make sure the zip file is stored in strZipPath + ti->strFile
+			   // now make sure the zip file is stored in strZipPath + ti.strFile
 			   strZip += qcn_util::cPathSeparator();
-			   strZip += (const char*) ti->strFile;
+			   strZip += (const char*) ti.strFile;
 			   boinc_delete_file(strZip.c_str());  // we may be overwriting, delete first
 
 		#ifdef ZIPARCHIVE
@@ -580,7 +580,7 @@ extern int sacio
 #ifdef QCNLIVE  // write a message to be picked up on the display
 	char* strTmp = new char[512];
 	memset(strTmp, 0x00, sizeof(char) * 512);
-	sprintf(strTmp, "%s file written to %s",  (ti->bReal ? "Trigger" : "Recorded"), (sm->bMyOutputSAC ? strZip.c_str() : fname));
+	sprintf(strTmp, "%s file written to %s",  (ti.bReal ? "Trigger" : "Recorded"), (sm->bMyOutputSAC ? strZip.c_str() : fname));
 	strncpy(sm->strDisplay, strTmp, _MAX_PATH);
 	delete [] strTmp;
 #endif

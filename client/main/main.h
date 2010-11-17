@@ -147,8 +147,8 @@ extern void doMainQuit(const bool& bFinish = false, const e_retcode& errcode = E
 
 #ifndef QCN_USB
 bool CheckTriggers(bool bForce);
-bool CheckTriggerFile(struct STriggerInfo* ti, bool bForce);      // write the trickle file for the latest trigger
-bool CheckTriggerTrickle(struct STriggerInfo* ti);   // send a trickle when a trigger is hit
+bool CheckTriggerFile(struct STriggerInfo& ti, bool bForce);      // write the trickle file for the latest trigger
+bool CheckTriggerTrickle(struct STriggerInfo& ti);   // send a trickle when a trigger is hit
 #endif
 
 int do_checkpoint(MFILE& mf, int nchars);
