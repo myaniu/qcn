@@ -944,6 +944,7 @@ bool CheckTriggerTrickle(struct STriggerInfo& ti)
 	if (!bFollowUp) { // just print out a line for the original trigger
 		fprintf(stdout, "%f  Trigger detected at offset %ld  time %f  write at %ld - zip file %s\n", 
 			g_dTimeCurrent, ti.lOffsetEnd, sm->t0[ti.lOffsetEnd], (long) sm->itm, ti.strFile);
+		fflush(stdout); 
 	}
 
     delete [] strTrigger;

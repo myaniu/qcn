@@ -897,7 +897,7 @@ bool setupPlotMemory(const long lOffset)
     g_iTimeCtr = 0;
 	
     if (lOff > 0)  {  // all points exist in our window, so we can just go into lOffset - winsize and copy/scale from there
-	  g_bViewHasStart = (bool) (sm->x0[lOff] == SAC_NULL_FLOAT);  // the current view does not have the start point, can rewind		
+	  g_bViewHasStart = (bool) (sm->x0[lOff] == SAC_NULL_FLOAT || sm->t0[lOff] == 0.0);  // the current view does not have the start point, can rewind		
 
       dtw[0] = sm->t0[lOff];  // this will be the timestamp for the beginning of the window, i.e. "awinsize[key_winsize] ticks ago"
 
@@ -923,11 +923,10 @@ bool setupPlotMemory(const long lOffset)
       }
     }
     else { // we are wrapping around the array, lOff <= 0
-	  g_bViewHasStart = true;  // the current view has the start point - don't allow rewind
       long lStart = MAXI + lOff + 1;   // start here, wrap around to 1+(awinsize-lStart) (skip 0 as that's baseline?)
       if (lStart >= MAXI || lStart < 1) lStart = 1;
-	  g_bViewHasStart = (bool) (sm->x0[lStart] == SAC_NULL_FLOAT);  // the current view does not have the start point, can rewind		
-      dtw[0] = sm->t0[lStart];  // this will be the timestamp for the beginning of the window, i.e. "awinsize[key_winsize] ticks ago"
+	  g_bViewHasStart = (bool) (sm->x0[lStart-1] == SAC_NULL_FLOAT || sm->t0[lStart-1] == 0.0);  // the current view does not have the start point, can rewind		
+      dtw[0] = sm->t0[lStart+1];  // this will be the timestamp for the beginning of the window, i.e. "awinsize[key_winsize] ticks ago"
 
       // Note that if the array (MAXI) is close to an hour, there's problems with overlapping points
       // i.e. the "live sensor" lOffset can get ahead of the graphics and start writing over times etc!
@@ -1332,6 +1331,11 @@ const long TimeWindowForward()
 		
 long TimeWindowPercent(int iPct)
 {
+	static int iLastPct = 0;
+	if (iPct < iLastPct && g_bViewHasStart) { //we're going backwards but already at the start so just return
+		return g_lSnapshotPoint;
+	}
+	iLastPct = iPct;
     if (!g_bSnapshot) TimeWindowStop();  // stop the live data stream and set bSnapshot to true
 	if (g_bSnapshot) {  // note we can't go further forward than our sm->lOffset!
 		// go a percentage of our array bounds
@@ -1344,9 +1348,8 @@ long TimeWindowPercent(int iPct)
 		else { // we've wrapped around so have to factor in the next MAXI-lOffset points
 			long lOff = (long)((float) iTestMax * (1.0f - fPct)); // this is how many points back we have to go in our possible array
 			g_lSnapshotPoint = fTestOff - lOff; // our tentative point is the 
-			if (g_lSnapshotPoint < 1) { // our percentage point is part of the "wrap"
+			if (g_lSnapshotPoint < 0)  // our percentage point is part of the "wrap"
 				g_lSnapshotPoint += MAXI; // this should be the pct point of the wrapped array
-			}
 		}
         bResetArray = true;
         g_bSnapshotArrayProcessed = false;
