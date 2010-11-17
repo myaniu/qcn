@@ -150,7 +150,7 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
 	if (qcn_graphics::g_eView == VIEW_PLOT_2D) { // set the slider as a dx
 		int iVal = m_pframe->getTimeSliderValue() + dx;
 		if (iVal > 100) iVal = 100;
-		else if (iVal < 0) iVal = 0;
+		else if (iVal < 1) iVal = 0;
 		m_pframe->setTimeSliderValue(iVal);
 	}
 	else {
