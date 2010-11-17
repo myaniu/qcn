@@ -131,6 +131,8 @@ extern void MouseButton(int x, int y, int which, int is_down);
 extern void KeyDown(int k1, int k2);
 extern void KeyUp(int k1, int k2);
 
+extern void setTimePercent(const int iPct);
+
 void mode_ortho_qcn();
 void scale_screen_qcn(int iw, int ih);
 
@@ -221,7 +223,7 @@ extern const int   SetTimeWindowWidth(bool bUp = true);
 extern const long  TimeWindowBack();
 extern const long  TimeWindowStop();
 extern const long  TimeWindowStart();
-extern long TimeWindowPercent(int iPct);
+extern const long TimeWindowPercent(int iPct);
 extern const long  TimeWindowForward();
 extern const bool TimeWindowIsStopped();
 extern void SetScaled(bool scaleit);

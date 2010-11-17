@@ -58,6 +58,8 @@ static long g_lSnapshotTimeBackSeconds = 0L;  // the minutes back in time we've 
 static bool g_bSnapshot = false;
 static bool g_bSnapshotArrayProcessed = false;
 
+static int g_iTimePercent = 100;
+
 FADER::FADER(double g, double n, double f, double o, double ma) {
 	maxalpha = ma;
 	grow = g;
@@ -204,6 +206,11 @@ FADER g_faderLogo(5,15,5,2,g_alphaLogo);  // grow, on, fade, off, alpha max
 		
 int g_width, g_height;      // window dimensions
 float g_aspect = 1.0f;
+
+extern void setTimePercent(const int iPct)
+{
+   g_iTimePercent = iPct;
+}
 
 void Cleanup()
 {
@@ -902,23 +909,24 @@ bool setupPlotMemory(const long lOffset)
       dtw[0] = sm->t0[lOff];  // this will be the timestamp for the beginning of the window, i.e. "awinsize[key_winsize] ticks ago"
 
       for (ii = 0; ii < awinsize[key_winsize]; ii++) { 
-        getLastTrigger(lOff, ii, iRebin, (const bool) (ii==0));  // we may need to see if this trigger lies within a "rebin" range for aryg
+		if (sm->t0[lOff] >= sm->t0start) {
+			getLastTrigger(lOff, ii, iRebin, (const bool) (ii==0));  // we may need to see if this trigger lies within a "rebin" range for aryg
 #ifdef QCNLIVE   // use the bScaled value, defaults to normal 2D/absolute & 3D/scaled, but user can change
-        if (! bScaled) {
+			if (! bScaled) {
 #else   // 2D is always absolute, 3D is scaled
-        if (g_eView == VIEW_PLOT_2D || g_eView == VIEW_CUBE) {
+			if (g_eView == VIEW_PLOT_2D || g_eView == VIEW_CUBE) {
 #endif
-          af[E_DX][ii] = sm->x0[lOff]; 
-          af[E_DY][ii] = sm->y0[lOff]; 
-          af[E_DZ][ii] = sm->z0[lOff]; 
-        }
-        else {
-          af[E_DX][ii] = sm->x0[lOff] - sm->xa[lOff];   
-          af[E_DY][ii] = sm->y0[lOff] - sm->ya[lOff];  
-		  af[E_DZ][ii] = sm->z0[lOff] - sm->za[lOff];
-        }
-        af[E_DS][ii] = sm->fsig[lOff];
-
+					af[E_DX][ii] = sm->x0[lOff]; 
+					af[E_DY][ii] = sm->y0[lOff]; 
+					af[E_DZ][ii] = sm->z0[lOff]; 
+			}
+			else {
+					af[E_DX][ii] = sm->x0[lOff] - sm->xa[lOff];   
+					af[E_DY][ii] = sm->y0[lOff] - sm->ya[lOff];  
+					af[E_DZ][ii] = sm->z0[lOff] - sm->za[lOff];
+			}
+			af[E_DS][ii] = sm->fsig[lOff];
+		}  // t0start check
         lOff++;
       }
     }
@@ -935,24 +943,25 @@ bool setupPlotMemory(const long lOffset)
       //fflush(stdout);
 
       for (ii = 0; ii < awinsize[key_winsize]; ii++) {
-        getLastTrigger(lStart, ii, iRebin, (const bool) (ii==0));  // we may need to see if this trigger lies within a "rebin" range for aryg
+		if (sm->t0[lStart] >= sm->t0start) {
+			getLastTrigger(lStart, ii, iRebin, (const bool) (ii==0));  // we may need to see if this trigger lies within a "rebin" range for aryg
 #ifdef QCNLIVE   // use the bScaled value, defaults to normal 2D/absolute & 3D/scaled, but user can change
-        if (! bScaled) {
+			if (! bScaled) {
 #else   // 2D is always absolute, 3D is scaled
-        if (g_eView == VIEW_PLOT_2D || g_eView == VIEW_CUBE) {
+			if (g_eView == VIEW_PLOT_2D || g_eView == VIEW_CUBE) {
 #endif
-            af[E_DX][ii] = sm->x0[lStart]; 
-            af[E_DY][ii] = sm->y0[lStart];
-            af[E_DZ][ii] = sm->z0[lStart]; 
-        }
-        else {
-          // now we can scale each axis according to fmin = 0 and fmax = 1
-			af[E_DX][ii] = (sm->xa[lStart] != SAC_NULL_FLOAT) ? sm->x0[lStart] - sm->xa[lStart] : SAC_NULL_FLOAT;  
-			af[E_DY][ii] = (sm->ya[lStart] != SAC_NULL_FLOAT) ? sm->y0[lStart] - sm->ya[lStart] : SAC_NULL_FLOAT;  
-			af[E_DZ][ii] = (sm->za[lStart] != SAC_NULL_FLOAT) ? sm->z0[lStart] - sm->za[lStart] : SAC_NULL_FLOAT;  
-        }
-        af[E_DS][ii] = sm->fsig[lStart];
-
+				af[E_DX][ii] = sm->x0[lStart]; 
+				af[E_DY][ii] = sm->y0[lStart];
+				af[E_DZ][ii] = sm->z0[lStart]; 
+			}
+			else {
+				// now we can scale each axis according to fmin = 0 and fmax = 1
+				af[E_DX][ii] = (sm->xa[lStart] != SAC_NULL_FLOAT) ? sm->x0[lStart] - sm->xa[lStart] : SAC_NULL_FLOAT;  
+				af[E_DY][ii] = (sm->ya[lStart] != SAC_NULL_FLOAT) ? sm->y0[lStart] - sm->ya[lStart] : SAC_NULL_FLOAT;  
+				af[E_DZ][ii] = (sm->za[lStart] != SAC_NULL_FLOAT) ? sm->z0[lStart] - sm->za[lStart] : SAC_NULL_FLOAT;  
+			}
+			af[E_DS][ii] = sm->fsig[lStart];
+		} // t0start check
         if (++lStart >= MAXI || lStart < 1) lStart = 1;  // check for wrapping
       }
     }
@@ -1257,85 +1266,22 @@ const int SetTimeWindowWidth(bool bUp)
 
 const long TimeWindowBack()
 {
-	if (g_bViewHasStart || g_lSnapshotTimeBackSeconds == TIME_BACK_SECONDS_MAX) return TIME_BACK_SECONDS_MAX; // we've already gone back an hour, don't go back any more as the array may be wrapping!
-
-    if (!g_bSnapshot) TimeWindowStop();
-	if (g_eView == VIEW_PLOT_2D && fDiff2D > 0.0f) {
-		// if positive it's going right (back in time), negative it's going left (forward in time), scale 1 low, 10+ high
-		g_lSnapshotTimeBackSeconds += fDiff2D;   // note iInterval will be positive as mouse is going back in time (right)
-		g_lSnapshotPoint -= fDiff2D;
-	}
-    else {
-       switch(key_winsize) {
-          case 0:
-		     g_lSnapshotTimeBackSeconds += 10; break;
-          case 1:
-		     g_lSnapshotTimeBackSeconds += 60; break;
-          case 2:
-		     g_lSnapshotTimeBackSeconds += 600; break;
-//          case 3:
-//		     g_lSnapshotTimeBackSeconds += 3600; break;
-	   }
-		g_lSnapshotPoint -= awinsize[key_winsize];
-	}
-	if (g_lSnapshotPoint < 0) g_lSnapshotPoint += MAXI;
-    if (key_winsize == 3) { // if on hour view only ever just show the first hour
-	       g_lSnapshotPoint = 1;
-	}
-	else {
-	     if (g_lSnapshotTimeBackSeconds > TIME_BACK_SECONDS_MAX)  {
-	       // go to one hour previous (approximately due to timing/rounding errors that may have occurred)
-		   g_lSnapshotPoint = g_lSnapshotPointOriginal - awinsize[3]; // (3600.0f/sm->dt);  // e.g. 3600/.02 = 180000 points
-		   if (g_lSnapshotPoint < 0) g_lSnapshotPoint += MAXI;
-	       g_lSnapshotTimeBackSeconds = TIME_BACK_SECONDS_MAX;
-	     }
-	}
-	bResetArray = true;
-	g_bSnapshotArrayProcessed = false;
-	return g_lSnapshotPoint;
+	return TimeWindowPercent(g_iTimePercent - 10); // use pct to go forward or back
 }
 
 const long TimeWindowForward()
 {
-	// set the window so the right side is at iPct % of the data we have (time)
-    if (!g_bSnapshot) TimeWindowStop();  // stop the live data stream and set bSnapshot to true
-	if (g_bSnapshot) {  // note we can't go further forward than our sm->lOffset!
-		if (g_eView == VIEW_PLOT_2D && fDiff2D < 0.0f) {
-			g_lSnapshotTimeBackSeconds += fDiff2D;   // note iInterval will be negative as mouse is going forward (left)
-			g_lSnapshotPoint -= fDiff2D;
-		}
-		else {
-			switch(key_winsize) {
-				case 0:
-					g_lSnapshotTimeBackSeconds -= 10; break;
-				case 1:
-					g_lSnapshotTimeBackSeconds -= 60; break;
-				case 2:
-					g_lSnapshotTimeBackSeconds -= 600; break;
-					//          case 3:
-					//		     g_lSnapshotTimeBackSeconds -= 3600; break;
-			}
-			g_lSnapshotPoint += awinsize[key_winsize];
-		}
-		
-		if (sm && g_lSnapshotPoint > sm->lOffset) {
-			g_lSnapshotPoint = sm->lOffset-2;  // at the end!
-			g_lSnapshotPointOriginal = g_lSnapshotPoint;
-			g_lSnapshotTimeBackSeconds = 0L;
-		}
-		bResetArray = true;
-		g_bSnapshotArrayProcessed = false;
-    }
-	return g_lSnapshotPoint;	
+	return TimeWindowPercent(g_iTimePercent + 10); // use pct to go forward or back
 }
 		
-long TimeWindowPercent(int iPct)
+const long TimeWindowPercent(int iPct)
 {
 	static int iLastPct = 0;
-	if (iPct < 0) iPct = 1;
+	if (iPct < 0) iPct = 0;
 	else if (iPct > 100) iPct = 100;
-	if (iPct < iLastPct && g_bViewHasStart) { //we're going backwards but already at the start so just return
-		return g_lSnapshotPoint;
+	g_iTimePercent = iPct;
+	if (iPct <= iLastPct && g_bViewHasStart) { //we're going backwards but already at the start so just return
+		return g_iTimePercent; //g_lSnapshotPoint;
 	}
 	iLastPct = iPct;
     if (!g_bSnapshot) TimeWindowStop();  // stop the live data stream and set bSnapshot to true
@@ -1357,10 +1303,11 @@ long TimeWindowPercent(int iPct)
 			g_lSnapshotPoint = fTestOff - lOff; // our tentative point is the 
 			if (g_lSnapshotPoint < 0)  // our percentage point is part of the "wrap"
 				g_lSnapshotPoint += MAXI; // this should be the pct point of the wrapped array
-			if (g_lSnapshotPoint > sm->lOffset && g_lSnapshotPoint < (sm->lOffset + 10)) {
+			if (g_lSnapshotPoint >= sm->lOffset && g_lSnapshotPoint < (sm->lOffset + awinsize[key_winsize])) {
 				// wrapped around but effectively at the start
 				g_bViewHasStart = true;
-                g_lSnapshotPoint += awinsize[key_winsize];
+                g_lSnapshotPoint = sm->lOffset + awinsize[key_winsize];
+				if (g_lSnapshotPoint >= MAXI) g_lSnapshotPoint = 1;
 			}
 		}
 
@@ -1369,7 +1316,7 @@ long TimeWindowPercent(int iPct)
         bResetArray = true;
         g_bSnapshotArrayProcessed = false;
     }
-	return g_lSnapshotPoint;
+    return g_iTimePercent; //g_lSnapshotPoint;
 }
 
 const long TimeWindowStop()

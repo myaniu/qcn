@@ -138,7 +138,7 @@ bool MyFrame::Init()
     m_sliderTime->setSingleStep(1);
     m_sliderTime->setPageStep(20);
     m_sliderTime->setTickInterval(10);
-	m_sliderTime->setValue(100);
+	setTimeSliderValue(100);
     m_sliderTime->setTickPosition(QSlider::TicksRight);
 	// connect the slider value changed signal to SetTimePosition
     connect(m_sliderTime, SIGNAL(valueChanged(int)), this, SLOT(slotTimePosition(int)));
@@ -169,12 +169,8 @@ int MyFrame::getTimeSliderValue()
 
 void MyFrame::setTimeSliderValue(const int iPos)
 {
+	qcn_graphics::setTimePercent(iPos);
 	m_sliderTime->setValue(iPos);
-}
-
-void MyFrame::slotTimePosition(int iPos)
-{
-	emit signalTimePosition(iPos);
 	if (iPos == 100) {
 		ToggleStartStop(true); // toggled start if near 100
 	}
@@ -182,7 +178,12 @@ void MyFrame::slotTimePosition(int iPos)
 		ToggleStartStop(false); 
 		qcn_graphics::TimeWindowPercent(iPos); 
 	}
+}
 
+void MyFrame::slotTimePosition(int iPos)
+{
+	emit signalTimePosition(iPos);
+	setTimeSliderValue(iPos);
 }
 
 void MyFrame::createActions()
@@ -707,7 +708,7 @@ void MyFrame::actionOptionSensor()
 			m_iSensorAction = 1;
 			qcn_graphics::TimeWindowStop(); 
 		}
-		qcn_graphics::TimeWindowBack(); 
+		setTimeSliderValue(qcn_graphics::TimeWindowBack());
 	}
 	else if (pAction == m_actionOptionSensorPause) {
 		if (! qcn_graphics::TimeWindowIsStopped()) {
@@ -745,7 +746,7 @@ void MyFrame::actionOptionSensor()
 			m_iSensorAction = 1;
 			qcn_graphics::TimeWindowStop(); 
 		}
-		qcn_graphics::TimeWindowForward(); 
+		setTimeSliderValue(qcn_graphics::TimeWindowForward());
 	}
 	else if (pAction == m_actionOptionSensorAbsolute || pAction == m_actionOptionSensorScaled) {
 		if (qcn_graphics::g_eView == VIEW_PLOT_2D) {
@@ -757,9 +758,11 @@ void MyFrame::actionOptionSensor()
 	}
 	else if (pAction == m_actionOptionSensorHorizontalZoomOut) {
 		qcn_graphics::SetTimeWindowWidth(true);
+		setTimeSliderValue(100);
 	}
 	else if (pAction == m_actionOptionSensorHorizontalZoomIn) {
 		qcn_graphics::SetTimeWindowWidth(false);
+		setTimeSliderValue(100);
 	}
 	else if (pAction == m_actionOptionSensorVerticalZoomOut) {
 		qcn_2dplot::SensorDataZoomOut();

@@ -115,7 +115,7 @@ private:
     long m_iSensorAction;
 	bool m_bSensorAbsolute2D;
 	bool m_bSensorAbsolute3D;
-	
+
 	QToolBar* m_ptbBase;
 	
 	//std::vector<QAction*> m_vqaSeparator; // a vector of separators so we can remove them as needed i.e. when redrawing toolbars

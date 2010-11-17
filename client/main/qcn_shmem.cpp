@@ -70,6 +70,11 @@ void CQCNShMem::resetSampleClock()
 {
     t0active = dtime(); // use the function in boinc/lib
     t0start = t0active; // save the start time of the session
+/*
+ #ifdef _DEBUG_QCNLIVE
+	t0start = t0active - ((float)MAXI * g_DT);
+#endif
+*/
     t0check = t0active + dt;
     //sm->resetMinMax();
 }
@@ -84,6 +89,23 @@ void CQCNShMem::clear(bool bAll)
 		for (int i = 0; i < MAXI; i++) {
 			x0[i] = y0[i] = z0[i] = fsig[i] = xa[i] = ya[i] = za[i] = SAC_NULL_FLOAT;
 		}
+
+/* 
+#ifdef _DEBUG_QCNLIVE
+		// fill up the array with fake data to test
+		double dTimeStart = dtime() - ((float)MAXI * g_DT);
+		for (int i = 0; i < MAXI; i++) {
+			x0[i] = ((float) rand() / (float) RAND_MAX) * 1.8f;
+			y0[i] = ((float) rand() / (float) RAND_MAX) * .8f;
+			z0[i] = ((float) rand() / (float) RAND_MAX) * 2.8f;
+			xa[i] = ((float) rand() / (float) RAND_MAX) * 1.8f;
+			ya[i] = ((float) rand() / (float) RAND_MAX) * .8f;
+			za[i] = ((float) rand() / (float) RAND_MAX) * 2.8f;
+			t0[i] = dTimeStart;
+			dTimeStart += g_DT;
+		}		
+#endif
+ */
 
         // start with some values that really shouldn't be 0 ever
 		//iTriggerLastElement = -1;
