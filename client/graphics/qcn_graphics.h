@@ -218,6 +218,7 @@ extern const int   SetTimeWindowWidth(bool bUp = true);
 extern const long  TimeWindowBack();
 extern const long  TimeWindowStop();
 extern const long  TimeWindowStart();
+extern long TimeWindowPercent(int iPct);
 extern const long  TimeWindowForward();
 extern const bool TimeWindowIsStopped();
 extern void SetScaled(bool scaleit);

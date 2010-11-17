@@ -131,7 +131,6 @@ public:
 private slots:
 	void fileDialogSettings();
 	void fileMakeEarthquake();
-
 	void actionView();
 	
 	void actionOptionEarth();
@@ -139,8 +138,13 @@ private slots:
 	void actionOptionScreenshot();
 	void actionOptionLogo();
 
-    void actionHelp();
+        void actionHelp();
+
+        void slotTimePosition(int iPos);  // time slider slot
 			
+signals:
+        void signalTimePosition(int iPos); // time slider signal
+    
 private:
 	// inherited events
     void closeEvent(QCloseEvent* pqc);
@@ -151,7 +155,7 @@ private:
     void createActions();
     void createMenus();
 	void createToolbar();
-    
+
 	//void setPixmap(const QPixmap &pixmap);
     QSize getSize();
 

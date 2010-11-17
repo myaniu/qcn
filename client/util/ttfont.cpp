@@ -21,6 +21,7 @@ void ttf_load_fonts(const char* dir) {
 	static bool bInit = false; // flag so we don't call again, otherwise we'll have memory leaks each subsequent call to new FTTextureFont etc
 	if (bInit) return; // we've already been here
 	bInit = true; // we're in now!
+	ttf_cleanup();
         memset(g_font, 0x00, sizeof(FTFont*) * NUM_FONT); // initialize to null's for error checking later]
         char vpath[_MAX_PATH];
         g_iFont = -1;
@@ -55,6 +56,17 @@ void ttf_load_fonts(const char* dir) {
 #endif
            }
     }  
+}
+
+// remove our objects?
+void ttf_cleanup()
+{
+	for (int i = 0; i < NUM_FONT; i++) {
+		if (g_font[i]) {
+			delete g_font[i];
+			g_font[i] = NULL;
+		}
+	}
 }
 
 

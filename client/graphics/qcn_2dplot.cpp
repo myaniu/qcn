@@ -94,7 +94,8 @@ void draw_text()
 #endif
 */	
 
-#ifdef _DEBUG_QCNLIVE
+/*
+ #ifdef _DEBUG_QCNLIVE
 	sprintf(strTime, "%+6.3f %+6.3f", qcn_graphics::g_fmin[0], qcn_graphics::g_fmax[0]);
 	TTFont::ttf_render_string(qcn_graphics::cfTextAlpha, .1f, cfAxesLabelY[g_iShowSig][0], 0.0f, MSG_SIZE_SMALL, red, TTF_ARIAL, (const char*) strTime);
 	sprintf(strTime, "%+6.3f %+6.3f", qcn_graphics::g_fmin[1], qcn_graphics::g_fmax[1]);
@@ -106,6 +107,7 @@ void draw_text()
       TTFont::ttf_render_string(qcn_graphics::cfTextAlpha, .1f, cfAxesLabelY[g_iShowSig][3], 0.0f, MSG_SIZE_SMALL, red, TTF_ARIAL, (const char*) strTime);
 	}
 #endif
+ */
 
 	// labels for each axis
 

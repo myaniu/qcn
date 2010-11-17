@@ -42,6 +42,8 @@ GLfloat white_trans[4] = {1., 1., 1., 0.50f};
 GLfloat light_blue[4] = {0., 0., .5f, .5f};
 
 // an hour seems to be the max to vis without much delay
+static double g_dtOrig = g_DT;
+
 static long awinsize[MAX_KEY_WINSIZE+1]; 
 static int key_winsize = 0; // points to an element of the above array to get the winsize i.e. 0=10 sec , 1=60 sec , 2= 10 min, 3 = hour
 static int key_press = 0;
@@ -215,6 +217,7 @@ void Cleanup()
 	}
    earth.Cleanup();
    vsq.clear();
+   TTFont::ttf_cleanup(); // cleanup fonts
    bInHere = true;
 }
 
@@ -515,18 +518,8 @@ void draw_logo(bool bExtraOnly)
     if (!bExtraOnly && logo.id) {
 
         float pos[3] = {0.0, .5, 0};
-/* CMC note -- the shake/jiggle sucks, don't bother
-        if (bFullScreen && sm && (g_eView == VIEW_PLOT_3D || g_eView == VIEW_PLOT_2D)) { // shake on normal view
-          float size[3] = { .21-(.01*aryg[E_DX][PLOT_ARRAY_SIZE-1]), 
-                            .21-(.01*aryg[E_DY][PLOT_ARRAY_SIZE-1]), 
-                                (.01*aryg[E_DZ][PLOT_ARRAY_SIZE-1]) };
-          logo.draw(pos, size, ALIGN_CENTER, ALIGN_CENTER);
-        }
-        else {
-*/
           float size[3] = {.21, .21, 0};
           logo.draw(pos, size, ALIGN_CENTER, ALIGN_CENTER, g_alphaLogo);
-//      }
     }
 
     if (txAdd.id) {
@@ -836,22 +829,21 @@ bool setupPlotMemory(const long lOffset)
     long ii, jj, kk;
     //float fAvg[4], fAvgCtr[4];
     float fLocalMax[4];
-    switch(key_winsize) {
-      case 0: // 10 seconds = 500 pts, if PLOT_ARRAY_SIZE=500 we avg 1 points to 1
-         iRebin = (int) ceil(10.0 / sm->dt) / PLOT_ARRAY_SIZE;  // for dt=.02, 3000 points,  for dt=.1, 600 pts, div by 500 iRebin = 6 or 1
-         break;
-      case 1: // 1 minute = 3000 pts, if PLOT_ARRAY_SIZE=500 we avg 6 points to 1
-         iRebin = (int) ceil(60.0 / sm->dt) / PLOT_ARRAY_SIZE;  // for dt=.02, 3000 points,  for dt=.1, 600 pts, div by 500 iRebin = 6 or 1
-         break;
-      case 2: // 10 minutes = 30000 pts
-         iRebin = (int) ceil(600.0 / sm->dt) / PLOT_ARRAY_SIZE; // for dt=.02, 30000 points,  for dt=.1, 6000 pts, iRebin = 60 or 12
-        break;
-      case 3: // 1 hour = 180000 pts 
-         iRebin = (int) ceil(3600.0 / sm->dt) / PLOT_ARRAY_SIZE; // for dt=.02, 180000 points,  for dt=.1, 36000 pts, iRebin = 360 or 72
-         break;
-      default:  iRebin = 10; // should never get here!
-    }
-
+	
+	if (g_dtOrig != sm->dt) { // problem -- dt must have changed
+		// need to recalculate awinsize
+		g_dtOrig = sm->dt; // set new dt
+		if (sm->dt == 0. || g_dtOrig == 0.) {
+			sm->dt = g_DT;
+			g_dtOrig = g_DT; // this probably can't happen but just in case, so no change of divide by 0
+		}
+		awinsize[0] = (long) ceil(10.0/sm->dt);    // 10 seconds / dt // 500 pts @ 50Hz, but only 100 at 10Hz or 50 at 5Hz which is possible
+		awinsize[1] = (long) ceil(60.0/sm->dt);    // 1 minute = 60 seconds / dt // 3000 pts or 600 at 10Hz or 300 at 5Hz
+		awinsize[2] = (long) ceil(600.0/sm->dt);   // 10 minutes = 60 seconds / dt // 30000 pts
+		awinsize[3] = (long) ceil(3600.0/sm->dt);  // 1 minute = 60 seconds / dt // 180000 pts
+	}	
+	
+	iRebin = awinsize[key_winsize] / PLOT_ARRAY_SIZE;  // this size of our bin, i.e. how many avgs of points for each plot on the screen
 	if (iRebin < 1) {
 	  // shouldn't happen but just in case
 	  bInHere = false;
@@ -1093,18 +1085,6 @@ void draw_plots_3d()
     // use jiggle array to move around graph in x/y/z depending on values
 
     init_camera(viewpoint_distance[g_eView]);
-
-/* CMC note -- the shake/jiggle sucks, don't bother
-    if (g_bFullScreen && sm->lOffset > (60.0f/sm->dt)) { // probably just do this in screensaver mode after first minute?
-      jiggle[E_DX] = aryg[E_DX][PLOT_ARRAY_SIZE-1];
-      jiggle[E_DY] = aryg[E_DY][PLOT_ARRAY_SIZE-1];
-      jiggle[E_DZ] = aryg[E_DZ][PLOT_ARRAY_SIZE-1];
-      glRotated(jiggle[E_DX], 1., 0., 0.);
-      glRotated(jiggle[E_DY], 0., 1., 0.);
-      glRotated(jiggle[E_DZ], 0., 0., 1.);
-    }
-*/
-
     init_lights();
     scale_screen(g_width, g_height);  // boinc api/gutil function to get good aspect ratio
 
@@ -1348,6 +1328,7 @@ const long TimeWindowBack()
 
 const long TimeWindowForward()
 {
+	// set the window so the right side is at iPct % of the data we have (time)
     if (!g_bSnapshot) TimeWindowStop();  // stop the live data stream and set bSnapshot to true
 	if (g_bSnapshot) {  // note we can't go further forward than our sm->lOffset!
 		if (g_eView == VIEW_PLOT_2D && fDiff2D < 0.0f) {
@@ -1367,14 +1348,38 @@ const long TimeWindowForward()
 			}
 			g_lSnapshotPoint += awinsize[key_winsize];
 		}
-	   
-       if (sm && g_lSnapshotPoint > sm->lOffset) {
-	      g_lSnapshotPoint = sm->lOffset-2;  // at the end!
-		  g_lSnapshotPointOriginal = g_lSnapshotPoint;
-		  g_lSnapshotTimeBackSeconds = 0L;
-	   }
-       bResetArray = true;
-       g_bSnapshotArrayProcessed = false;
+		
+		if (sm && g_lSnapshotPoint > sm->lOffset) {
+			g_lSnapshotPoint = sm->lOffset-2;  // at the end!
+			g_lSnapshotPointOriginal = g_lSnapshotPoint;
+			g_lSnapshotTimeBackSeconds = 0L;
+		}
+		bResetArray = true;
+		g_bSnapshotArrayProcessed = false;
+    }
+	return g_lSnapshotPoint;	
+}
+		
+long TimeWindowPercent(int iPct)
+{
+    if (!g_bSnapshot) TimeWindowStop();  // stop the live data stream and set bSnapshot to true
+	if (g_bSnapshot) {  // note we can't go further forward than our sm->lOffset!
+		// go a percentage of our array bounds
+		int iTestMax = MAXI-1;
+		float fTestOff = (float)(sm->lOffset - 2);  // don't use lOffset as it may be getting written now, 2 back is safe
+		const float fPct = (float) iPct / 100.0f;
+		if (sm->x0[iTestMax] == SAC_NULL_FLOAT || sm->t0[iTestMax] == 0) { // we haven't wrapped yet so just use lOffset = 1 as the start
+			g_lSnapshotPoint = (long) ( fPct * fTestOff );
+		}
+		else { // we've wrapped around so have to factor in the next MAXI-lOffset points
+			long lOff = (long)((float) iTestMax * (1.0f - fPct)); // this is how many points back we have to go in our possible array
+			g_lSnapshotPoint = fTestOff - lOff; // our tentative point is the 
+			if (g_lSnapshotPoint < 1) { // our percentage point is part of the "wrap"
+				g_lSnapshotPoint += MAXI; // this should be the pct point of the wrapped array
+			}
+		}
+        bResetArray = true;
+        g_bSnapshotArrayProcessed = false;
     }
 	return g_lSnapshotPoint;
 }
@@ -1486,16 +1491,16 @@ void parse_project_prefs()
         g_eView = (e_view) iFullScreenView;
      }
      else {
-#ifdef _DEBUG
-         g_eView = earth.ViewCombined();
-#else
+//#ifdef _DEBUG
+//         g_eView = earth.ViewCombined();
+//#else
 	   if (sm && sm->bSensorFound) {
 		  g_eView = VIEW_PLOT_3D;
 	   }
 	   else {
 		  g_eView = earth.ViewCombined();
 	   }
-#endif  // debug view
+//#endif  // debug view
      }
 #endif  // not qcnlive
 }
@@ -1589,11 +1594,12 @@ void Init()
 
     // setup the window widths depending on sm->dt
     // note sm->dt could possibly be 0, if so use the DT constant (.02)
-    float fdt = (sm && sm->dt) ? sm->dt : g_DT;
-    awinsize[0] = (long) (10.0/ fdt);    // 1 minute = 60 seconds / dt // 3000 pts
-    awinsize[1] = (long) (60.0/ fdt);    // 1 minute = 60 seconds / dt // 3000 pts
-    awinsize[2] = (long) (600.0/fdt);   // 10 minutes = 60 seconds / dt // 30000 pts
-    awinsize[3] = (long) (3600.0/fdt);  // 1 minute = 60 seconds / dt // 180000 pts
+    float fdt = (sm && sm->dt) ? sm->dt : g_dtOrig;
+	// CMC - this won't get updated if dt changes i..e to do a slow computer crashing a lot etc
+    awinsize[0] = (long) ceil(10.0/ fdt);    // 1 minute = 60 seconds / dt // 3000 pts
+    awinsize[1] = (long) ceil(60.0/ fdt);    // 1 minute = 60 seconds / dt // 3000 pts
+    awinsize[2] = (long) ceil(600.0/fdt);   // 10 minutes = 60 seconds / dt // 30000 pts
+    awinsize[3] = (long) ceil(3600.0/fdt);  // 1 minute = 60 seconds / dt // 180000 pts
 
     // enable hidden-surface-removal
     glDepthFunc(GL_LEQUAL);
@@ -1862,11 +1868,13 @@ void MouseMove(int x, int y, int left, int middle, int right)
     }
     else if (g_eView==VIEW_PLOT_2D) {
 		if (left || right) {
+			/* // disable this - it sucks
 			fDiff2D = mouseSX-mouseX;  // if positive it's going right (back in time), negative it's going left (forward in time), scale 1 low, 10+ high
 			mouseX = mouseSX;
 			mouseY = mouseSY;
 			if (fDiff2D < 0.0f) TimeWindowForward();
 			else TimeWindowBack();
+			 */
 		}
 		else {
 			mouse_down = false;

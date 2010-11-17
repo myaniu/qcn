@@ -423,6 +423,8 @@ int MyApp::Exit()
 
     KillMainThread();
 	
+	qcn_graphics::Cleanup();
+	
 	if (sm) { // try to remove the global shared mem?  that would be nice...
 	   fprintf(stdout, "Freeing shared memory segment\n");
 	   delete sm;

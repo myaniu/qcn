@@ -28,6 +28,7 @@ namespace TTFont {
            const float& fRadius = 0.0f           // circular radius to draw along
          );
 
+         void ttf_cleanup();
 
        GLuint CreateRGBAlpha(const char* strFileName);
        GLuint CreateRGBTransparentTexture(const char* strFileName, float* transColor = NULL);   // default in prototype to transColor = NULL i.e. no "filter color" required

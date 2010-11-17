@@ -133,8 +133,13 @@ bool MyFrame::Init()
     m_sliderTime->setSingleStep(5);
     m_sliderTime->setPageStep(20);
     m_sliderTime->setTickInterval(10);
+	m_sliderTime->setValue(100);
     m_sliderTime->setTickPosition(QSlider::TicksRight);
-    connect(m_glWidget, SIGNAL(TimePositionChanged(const double&)), m_sliderTime, SLOT(setTimePosition(const double&)));
+	// connect the slider value changed signal to SetTimePosition
+    connect(m_sliderTime, SIGNAL(valueChanged(int)), this, SLOT(slotTimePosition(int)));
+	// connect the slider setvalue slot to the widget timePosChnged
+    connect(this, SIGNAL(signalTimePosition(int)), m_sliderTime, SLOT(setValue(int)));
+	m_sliderTime->hide();
 	
 	m_ptbBase = NULL; // no toolbar base yet
 	
@@ -142,10 +147,7 @@ bool MyFrame::Init()
     centralLayout->addWidget(m_glWidgetArea, 0, 0, 1, 2);
     centralLayout->addWidget(m_sliderTime, 1, 0, 1, 2);
     m_centralWidget->setLayout(centralLayout);
-	
-    m_sliderTime->setValue(100);
-	m_sliderTime->hide();
-		
+			
     setWindowTitle(tr("QCNLive"));
 	statusBar()->showMessage(tr("Ready"), 0);
 		
@@ -153,6 +155,19 @@ bool MyFrame::Init()
 	restoreGeometry(settings.value("geometry").toByteArray());
 
 	return true;
+}
+
+void MyFrame::slotTimePosition(int iPos)
+{
+	emit signalTimePosition(iPos);
+	if (iPos == 100) {
+		ToggleStartStop(true); // toggled start if near 100
+	}
+	else {
+		ToggleStartStop(false); 
+		qcn_graphics::TimeWindowPercent(iPos); 
+	}
+
 }
 
 void MyFrame::createActions()
@@ -517,6 +532,8 @@ void MyFrame::actionView()
 		// note only redraw sensor toolbar if not coming from a sensor view already
 		//if (qcn_graphics::g_eView != VIEW_PLOT_2D && cn_graphics::g_eView != VIEW_PLOT_3D) ToolBarSensor(evt.GetId());
 		ToolBarSensor2D();
+		m_sliderTime->setValue(100);
+		m_sliderTime->show();
 		qcn_graphics::g_eView = VIEW_PLOT_2D;
 		bChanged = true;
 	}
@@ -525,16 +542,20 @@ void MyFrame::actionView()
 		// note only redraw sensor toolbar if not coming from a sensor view already
 		//if (qcn_graphics::g_eView != VIEW_PLOT_2D && cn_graphics::g_eView != VIEW_PLOT_3D) ToolBarSensor(evt.GetId());
 		ToolBarSensor3D();
+		m_sliderTime->setValue(100);
+		m_sliderTime->show();
 		qcn_graphics::g_eView = VIEW_PLOT_3D;
 		bChanged = true;
 	}
 	else if (pAction == m_actionViewCube)
 	{
 		ToolBarCube();
+		m_sliderTime->hide();
 		qcn_graphics::g_eView = VIEW_CUBE;
 		bChanged = true;
 	}
 	else {
+		m_sliderTime->hide();
 		ToolBarEarth();
 		if (m_bEarthDay) {
 			qcn_graphics::g_eView = VIEW_EARTH_DAY;
