@@ -446,8 +446,6 @@ void ResetCounter(const e_where eWhere, const int iNumResetInitial)
 
        sm->clear();   // clear out shared mem unless we read it in a file above!  it saves important vars such as dt & iNumReset though
 
-       // reset potential upload info/ctrs
-       sm->iContinuousCounter = 0;
        //sm->bFlagUpload = false;
        //memset(sm->strFileUpload, 0x00, sizeof(char) * _MAX_PATH);
 
@@ -463,6 +461,9 @@ void ResetCounter(const e_where eWhere, const int iNumResetInitial)
        }
     }
     sm->lOffset = 0;              //  LOOP BACK THRU DATA SERIES
+    sm->lWrap = 0;       // reset our wrap counter
+    sm->t0startSession = 0.0; // reset session start time
+
     sm->iWindow = (int) (g_cfTimeWindow / (sm->dt > 0 ? sm->dt : g_DT));  // number of points in time window
 
     // this resets the t0check & t0active, call right before you start accessing the sensor for mean_xyz

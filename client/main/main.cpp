@@ -111,8 +111,6 @@ namespace qcn_main  {
 	const bool g_bQCNLive = false;
 #endif
 	
-  int  g_iContinuousCounter = 0; // counts how many times this run has been through
-
   char g_strPathTrigger[_MAX_PATH] = {""};  // this is the path to trigger, doesn't change after startup
   char g_strPathContinual[_MAX_PATH] = {""}; // path for continual stuff
 
@@ -395,7 +393,6 @@ int qcn_main(int argc, char **argv)
     // create time & sensor thread objects
     //sm->bFlagUpload = false;
     //memset(sm->strFileUpload, 0x00, sizeof(char) * _MAX_PATH);
-    sm->iContinuousCounter = 0;  // initialize sensor vars
     g_threadSensor = new CQCNThread(QCNThreadSensor);
     if (!g_threadSensor) {
        fprintf(stderr, "QCN exiting, can't create sensor thread\n");

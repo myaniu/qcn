@@ -181,7 +181,6 @@ extern int  volatile g_iQCNReturn; // qcn return code
   extern bool g_bContinual;
   extern bool g_bDemo;
   extern const bool g_bQCNLive;
-  extern int  g_iContinuousCounter; // counts how many times this run has been through
   extern bool g_bReadOnly;
 
   extern char g_strPathTrigger[_MAX_PATH];  // this is the path to trigger, doesn't change after startup

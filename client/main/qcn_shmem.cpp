@@ -69,13 +69,13 @@ float CQCNShMem::averageSamples()
 void CQCNShMem::resetSampleClock()
 {
     t0active = dtime(); // use the function in boinc/lib
+    if (t0startSession < 1.) t0startSession = t0active;
     t0start = t0active; // save the start time of the session
-/*
-#ifdef _DEBUG_QCNLIVE
-	t0start = t0active - ((float)MAXI * g_DT);
-#endif
-*/
     t0check = t0active + dt;
+#ifdef _DEBUG_QCNLIVE_WRAP
+	// fake start time i.e. session started an hour and a half ago
+	t0startSession = t0start - ((float)MAXI * g_DT);;
+#endif	
     //sm->resetMinMax();
 }
 
@@ -90,8 +90,7 @@ void CQCNShMem::clear(bool bAll)
 			x0[i] = y0[i] = z0[i] = fsig[i] = xa[i] = ya[i] = za[i] = SAC_NULL_FLOAT;
 		}
 
-		/*
-#ifdef _DEBUG_QCNLIVE
+#ifdef _DEBUG_QCNLIVE_WRAP
 		// fill up the array with fake data to test
 		double dTimeStart = dtime() - ((float)MAXI * g_DT);
 		for (int i = 0; i < MAXI; i++) {
@@ -105,7 +104,6 @@ void CQCNShMem::clear(bool bAll)
 			dTimeStart += g_DT;
 		}		
 #endif
-		 */
 
         // start with some values that really shouldn't be 0 ever
 		//iTriggerLastElement = -1;
@@ -125,7 +123,8 @@ void CQCNShMem::clear(bool bAll)
     pshmem->bTriggerLock = true;  // rudimentary locking
 
     pshmem->dt = dt; // this is the delta-time between point readings, currently .02 for the Mac sensor
-    pshmem->iContinuousCounter = iContinuousCounter; // keeps count of how many times (without reset) we've been through the array (i.e. 1.5 hours
+    pshmem->lWrap = lWrap; // keeps count of how many times (without reset) we've been through the array (i.e. 1.5 hours
+    pshmem->t0startSession  = t0startSession;  // save original start session time
     //strcpy(pshmem->strUploadLogical, strUploadLogical);  // path to the upload file
     //strcpy(pshmem->strUploadResolve, strUploadResolve);  // path to the upload file
     pshmem->iWindow = iWindow;

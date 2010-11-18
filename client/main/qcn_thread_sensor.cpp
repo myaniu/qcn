@@ -41,6 +41,7 @@ extern void* QCNThreadSensor(void*)
     // this is the function which does the monitoring, it is launched in a separate thread from the main() program
     sm->setTriggerLock();
     sm->lOffset = 0;
+	sm->lWrap = 0;
     sm->releaseTriggerLock();
 
     // seed random number generator
@@ -237,14 +238,12 @@ extern void* QCNThreadSensor(void*)
          memset(strTypeSensor, 0x00, sizeof(char) * 8);
          if (qcn_main::g_psms) strncpy(strTypeSensor, qcn_main::g_psms->getTypeStrShort(), 7);
 #endif
-
-         sm->iContinuousCounter++; // increment how many times we've been through the array without a reset
-
          // close the port first -- because if running as a service (Mac JoyWarrior) this will cause a timing lag/reset error
          // as the port is still monitoring, but the big file I/O below will cause this thread to suspend a few seconds
          sm->iNumReset = 0;  // let's reset our reset counter every wraparound (1 hour)
          iNumResetInitial = 0; // "local" reset counter
          sm->lOffset = 0;  // don't reset, that's only for drastic errors i.e. bad timing errors
+		 sm->lWrap++; // increment how many times we've been through the array without a reset
 
          // close the open port
          if (qcn_main::g_psms) {
@@ -261,9 +260,9 @@ extern void* QCNThreadSensor(void*)
          || esType == SENSOR_USB_MOTIONNODEACCEL)) { 
             // they're using a JW -- do a random test to see if we want to upload this array
             long lCurTime = QCN_ROUND(dtime() + qcn_main::g_dTimeOffset);
-            fprintf(stderr, "%ld - USB Sensor - End of array - reloop # %d\n", lCurTime, sm->iContinuousCounter);
+            fprintf(stderr, "%ld - USB Sensor - End of array - reloop # %d\n", lCurTime, sm->lWrap);
             if (sm->iNumUpload < 5 && rand() < (RAND_MAX/5)) { // 20% chance to do an upload
-                //if (sm->iNumUpload < 5 && (sm->iContinuousCounter == (1 + (rand() % 10)))) { 
+                //if (sm->iNumUpload < 5 && (sm->lWrap == (1 + (rand() % 10)))) { 
                  // this will get a number from 1 to 10 which should match our continuous counter
                  fprintf(stderr, "%ld - Random upload scheduled # %d\n", lCurTime, sm->iNumUpload);
                  uploadSACMem(lCurTime, strTypeSensor); 

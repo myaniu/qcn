@@ -145,6 +145,9 @@ void GLWidget::mousePressEvent(QMouseEvent *event)
 void GLWidget::mouseMoveEvent(QMouseEvent *event)
 {
    int dx = event->x() - m_lastPos.x();
+	const int iFactor = 10;
+	if (dx > iFactor) dx = iFactor;
+	else if (dx < -iFactor) dx = -iFactor;  // avoid huge jumps
    //int dy = event->y() - m_lastPos.y();
    m_lastPos = event->pos();
 	if (qcn_graphics::g_eView == VIEW_PLOT_2D) { // set the slider as a dx

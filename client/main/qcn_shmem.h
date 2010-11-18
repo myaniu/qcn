@@ -34,7 +34,6 @@ class CQCNShMem : public CSerialize
     // this section should not be reset on a clear as their values are good as long as QCN is running
     double dt; // this is the delta-time between point readings, currently .02 for the Mac sensor
 
-    int iContinuousCounter; // keeps count of how many times (without reset) we've been through the array (i.e. 1.5 hours
     //char strUploadLogical[_MAX_PATH_LOGICAL];
     //char strUploadResolve[_MAX_PATH];
 
@@ -126,8 +125,10 @@ class CQCNShMem : public CSerialize
     double t0active; // for use by the sensor polling, this value is the real system time (unadjusted from server time)
     double t0check;  // used to see what the timing error is from constant polling of sensor, it's start time + # of dt's/lOffsets
     double t0start;  // save the start time of the session for comparison of trickle rate (i.e. hosts that send too many triggers etc)
+    double t0startSession;  // the time the session started i.e. may have wrapped but this is the first t0start
 
     long lOffset; // current position/index into the arrays
+    long lWrap;   // counter for how many times we've wrapped in array (i.e. successful 1.5 hour passes)
 
     double dTimeError; // a percentage error between the real time and the t0 time 
     long lSampleSize; // the sample size for this reading at lOffset

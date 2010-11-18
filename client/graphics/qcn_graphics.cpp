@@ -328,6 +328,8 @@ void getProjectPrefs()
     bInHere = false;
 }
 
+// function to see if trigger lies on a point of interest we wish to plot
+// this function also sets up the labels for the time display at the bottom
 int getLastTrigger(const long lTriggerCheck, const int iWinSizeArray, const int iRebin, const bool bFirst)  // we may need to see if this trigger lies within a "rebin" range for aryg
 {  // this sets up the vertical views, i.e. trigger & time marker
   static long lStartTime = 0L;
@@ -368,14 +370,18 @@ int getLastTrigger(const long lTriggerCheck, const int iWinSizeArray, const int 
 	   */
 	   
 	   // use fmodf function to get tick mark boundary
-	   if (sm->t0[lTriggerCheck] >= ceil(sm->t0start) && fmodf(sm->t0[lTriggerCheck] - ceil(sm->t0start), (float) qcn_2dplot::GetTimerTick() ) < 0.1f) 
-		//  && lMod == 0L )
-		{
+	   if (sm->t0[lTriggerCheck] >= ceil(sm->t0startSession) && fmodf(sm->t0[lTriggerCheck] - ceil(sm->t0startSession), (float) qcn_2dplot::GetTimerTick() ) < 0.1f) 
+	   {
 		  //&& (sm->t0[lTriggerCheck] - (float((long) sm->t0[lTriggerCheck]))) < 0.30f ) { 
            // get the even increment of sm->t0 from t0start 
 		   //long lMult = (sm->t0[lTriggerCheck] - ceil(sm->t0start)) / g_TimerTick;
+		   // we want two points here - the previous tick mark (i.e. before data starts) then the next tick mark
+		   lCheckTime = sm->t0[lTriggerCheck] - qcn_2dplot::GetTimerTick();
+	       lTimeLast[g_iTimeCtr] = lCheckTime; // g_iTimeCtr is 0 now, then 1
+		   lTimeLastOffset[g_iTimeCtr] = (iWinSizeArray - ((float) qcn_2dplot::GetTimerTick() / sm->dt))/ iRebin;
+		   g_iTimeCtr++;
 		   lCheckTime = sm->t0[lTriggerCheck];
-	       lTimeLast[g_iTimeCtr] = lCheckTime;
+	       lTimeLast[g_iTimeCtr] = lCheckTime; // g_iTimeCtr incremented below
 		   lStartTime = lCheckTime;
 		   bProc = true;
 	   }
@@ -811,6 +817,17 @@ bool setupPlotMemory(const long lOffset)
     static long lLastDrawnOffset = -MAXI;
 	
     if (bInHere || !sm) return false;
+	
+#ifdef _DEBUG_QCNLIVE_WRAP
+	if (sm) {
+		// these settings should just show the current stuff
+		//sm->lWrap = 0; 
+		
+		// these settings should show the wrapped part & current part
+		//sm->t0start = sm->t0[0] + 7200;
+		sm->lWrap = 1; 
+	}
+#endif	
 
 	if (g_bSnapshot && !g_bSnapshotArrayProcessed) {
 	    lLastDrawnOffset = -MAXI;  // flag to force the regeneration of the aryg data array
@@ -906,11 +923,13 @@ bool setupPlotMemory(const long lOffset)
 	
     if (lOff > 0)  {  // all points exist in our window, so we can just go into lOffset - winsize and copy/scale from there
 	  g_bViewHasStart = (bool) (sm->x0[lOff] == SAC_NULL_FLOAT || sm->t0[lOff] == 0.0);  // the current view does not have the start point, can rewind		
-
+	  bool bStart = true;
       for (ii = 0; ii < awinsize[key_winsize]; ii++) { 
-		getLastTrigger(lOff, ii, iRebin, (const bool) (ii==0));  // we may need to see if this trigger lies within a "rebin" range for aryg
-		if (sm->t0[lOff] >= sm->t0start) {
+		if (sm->lWrap>0 || (sm->lWrap == 0 && sm->t0[lOff] >= sm->t0start)) { 
+			getLastTrigger(lOff, ii, iRebin, bStart);  // we may need to see if this trigger lies within a "rebin" range for aryg
+			// the point in question is needed if we wrapped around or it's in our current window
 			dtw[0] = sm->t0[lOff];  // this will be the timestamp for the beginning of the window, i.e. "awinsize[key_winsize] ticks ago"
+			bStart = false;
 #ifdef QCNLIVE   // use the bScaled value, defaults to normal 2D/absolute & 3D/scaled, but user can change
 			if (! bScaled) {
 #else   // 2D is always absolute, 3D is scaled
@@ -940,11 +959,13 @@ bool setupPlotMemory(const long lOffset)
       // so make the MAXI 2 hours or more to be safe
       //fprintf(stdout, "lOffset = %ld  lstart = %ld   dtw0 = %f\n", lOffset, lStart, dtw[0]);
       //fflush(stdout);
-
+	  bool bStart = true;
       for (ii = 0; ii < awinsize[key_winsize]; ii++) {
-		getLastTrigger(lStart, ii, iRebin, (const bool) (ii==0));  // we may need to see if this trigger lies within a "rebin" range for aryg
-		if (sm->t0[lStart] >= sm->t0start) {
+		if (sm->lWrap>0 || (sm->lWrap == 0 && sm->t0[lStart] >= sm->t0start)) {
+			getLastTrigger(lStart, ii, iRebin, bStart);  // we may need to see if this trigger lies within a "rebin" range for aryg
+			// the point in question is needed if we wrapped around or it's in our current window
 			dtw[0] = sm->t0[lStart];  // this will be the timestamp for the beginning of the window, i.e. "awinsize[key_winsize] ticks ago"
+			bStart = false;
 #ifdef QCNLIVE   // use the bScaled value, defaults to normal 2D/absolute & 3D/scaled, but user can change
 			if (! bScaled) {
 #else   // 2D is always absolute, 3D is scaled
@@ -1289,9 +1310,10 @@ const long TimeWindowPercent(int iPct)
 		// go a percentage of our array bounds
 		int iTestMax = MAXI-1;
 		int iMinSec = ceil(5.0f/sm->dt);
-		float fTestOff = (float)(sm->lOffset);  // don't use lOffset as it may be getting written now, 2 back is safe
+		float fTestOff = (float)(sm->lOffset-1);  // don't use lOffset as it may be getting written now, 1 back is safe
 		const float fPct = (float) iPct / 100.0f;
-		if (sm->x0[iTestMax] == SAC_NULL_FLOAT || sm->t0[iTestMax] == 0) { // we haven't wrapped yet so just use lOffset = 1 as the start
+		//if (sm->x0[iTestMax] == SAC_NULL_FLOAT || sm->t0[iTestMax] == 0) { // we haven't wrapped yet so just use lOffset = 1 as the start
+		if (sm->lWrap == 0) {
 			g_lSnapshotPoint = (long) ( fPct * fTestOff );
 			if (g_lSnapshotPoint < iMinSec && iMinSec < fTestOff) {
 				g_lSnapshotPoint = iMinSec; // keep at least a second on the screen
@@ -1324,7 +1346,7 @@ const long TimeWindowStop()
      g_bSnapshot = true;
 	 if (sm && g_bSnapshot) {
 	     g_lSnapshotTimeBackSeconds = 0L;
-         g_lSnapshotPoint = sm->lOffset;  // -2 gives us some clearance we're not reading from end of array which sensor is writing
+         g_lSnapshotPoint = sm->lOffset-1;  // -1 gives us some clearance we're not reading from end of array which sensor is writing
          g_lSnapshotPointOriginal = g_lSnapshotPoint; // save the original point so we can see back into the array
          if (earth.IsShown()) {
              // if in earth mode, send it back to regular seismic view, non-snapshot
@@ -1514,7 +1536,7 @@ void Init()
     static bool bFirstIn = false;
     if (bFirstIn || g_bInitGraphics) return; // return if already init
     bFirstIn = true;
-
+	
     char path[_MAX_PATH];
 	
 	// init textures
@@ -1708,7 +1730,7 @@ void Render(int xs, int ys, double time_of_day)
 #else
 	if (!earth.IsShown()) { // if not qcnlive anythign but the earth view should recalc (i.e. the cube is spinning with data
 #endif
-           setupPlotMemory(g_bSnapshot ? g_lSnapshotPoint : sm->lOffset);  // note we use the next-to-last live point as current point may be being written
+           setupPlotMemory(g_bSnapshot ? g_lSnapshotPoint : sm->lOffset-1);  // note we use the next-to-last live point as current point may be being written
     }
 
     // from here on is the plots or earth or cube scene
@@ -1911,7 +1933,7 @@ void KeyDown(int k1, int k2)
                 case 'S':  // hit S so toggle static display
                         g_bSnapshot = !g_bSnapshot;
                         if (sm && g_bSnapshot) {
-                           g_lSnapshotPoint = sm->lOffset;  // -2 gives us some clearance we're not reading from end of array which sensor is writing
+                           g_lSnapshotPoint = sm->lOffset-1;  // -1 gives us some clearance we're not reading from end of array which sensor is writing
                            g_bSnapshotArrayProcessed = false;
                            if (earth.IsShown()) {
                                   // if in earth mode, send it back to regular seismic view, non-snapshot

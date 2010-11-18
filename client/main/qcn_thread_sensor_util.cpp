@@ -561,7 +561,7 @@ void uploadSACMem(const long lCurTime, const char* strTypeSensor)
         memset(&sti, 0x00, sizeof(struct STriggerInfo));
         sti.lOffsetStart = 0L;
         sti.lOffsetEnd = MAXI;
-        sti.iWUEvent = sm->iContinuousCounter;
+        sti.iWUEvent = sm->lWrap;
         sti.iLevel = TRIGGER_ALL;
 
         qcn_util::set_trigger_file(sti.strFile,

@@ -68,6 +68,44 @@ void draw_text_sensor_axis(int iAxis)
 	}
 }
 
+bool canDrawTick(const float& fWhere, const bool bText)
+{
+	return (bool)(fWhere > (xax_2d[0] + (bText ? 0. : 2.)));
+}
+	
+void draw_tick_marks()
+{  // draw vertical blue lines every 1/10/60/600 seconds depending on view size
+		// note the labels underneath are drawn in draw_text_plot
+		// show the time markers, if any
+		glPushMatrix();
+		for (int i = 0; i < g_iTimeCtr; i++) {
+			if (lTimeLast[i] > 0.0f) { // there's a marker to place here
+				float fWhere;
+				if (g_eView == VIEW_PLOT_2D) {
+					fWhere = xax_2d[0] + ( ((float) (lTimeLastOffset[i]) / (float) PLOT_ARRAY_SIZE) * (xax_2d[1]-xax_2d[0]));
+				}
+				else  {
+					fWhere = xax[0] + ( ((float) (lTimeLastOffset[i]) / (float) PLOT_ARRAY_SIZE) * (xax[1]-xax[0]));
+				}
+				if (!canDrawTick(fWhere, false)) continue; // off the left edge
+				
+				//fprintf(stdout, "%d  dTriggerLastTime=%f  lTriggerLastOffset=%ld  fWhere=%f\n",
+				//    i, dTriggerLastTime[i], lTriggerLastOffset[i], fWhere);
+				//fflush(stdout);
+				glColor4fv((GLfloat*) g_bIsWhite ? light_blue : grey_trans);
+				glLineWidth(1);
+				//glLineStipple(4, 0xAAAA);
+				//glEnable(GL_LINE_STIPPLE);
+				glBegin(GL_LINE_STRIP);
+				glVertex2f(fWhere, Y_TRIGGER_LAST[0]);
+				glVertex2f(fWhere, Y_TRIGGER_LAST[1]);
+				glEnd();
+				//glDisable(GL_LINE_STIPPLE);
+			}
+		}
+		glPopMatrix();
+}
+	
 void draw_text() 
 {
    // draw text on top
@@ -80,6 +118,8 @@ void draw_text()
     for (int i = 0; i < g_iTimeCtr; i++) {
        if (lTimeLast[i] > 0.0f) { // there's a marker to place here
 	     float fWhere = (float) (lTimeLastOffset[i]) / (float) PLOT_ARRAY_SIZE;
+		if (!canDrawTick(fWhere, true)) continue; // off the left edge
+
 		 // note the immediate if below - if timer ticks are far apart don't bother showing seconds
 		 qcn_util::dtime_to_string(lTimeLast[i], (g_iTimerTick > 5 ? 'm' : 'h'), strTime);
 		 TTFont::ttf_render_string(qcn_graphics::cfTextAlpha, fWhere - (g_iTimerTick > 5 ? 0.038f : 0.042f), 0.036f, 0.0f, 
@@ -218,36 +258,6 @@ void draw_plot_boxes(const float& xmin, const float& xmax, const float& ymin, co
 		glEnd();
 }
 	
-void draw_tick_marks()
-{  // draw vertical blue lines every 1/10/60/600 seconds depending on view size
-	  // note the labels underneath are drawn in draw_text_plot
-    // show the time markers, if any
-    glPushMatrix();
-    for (int i = 0; i < g_iTimeCtr; i++) {
-       if (lTimeLast[i] > 0.0f) { // there's a marker to place here
-	     float fWhere;
-	     if (g_eView == VIEW_PLOT_2D) {
-            fWhere = xax_2d[0] + ( ((float) (lTimeLastOffset[i]) / (float) PLOT_ARRAY_SIZE) * (xax_2d[1]-xax_2d[0]));
-		 }
-		 else  {
-            fWhere = xax[0] + ( ((float) (lTimeLastOffset[i]) / (float) PLOT_ARRAY_SIZE) * (xax[1]-xax[0]));
-         }
-         //fprintf(stdout, "%d  dTriggerLastTime=%f  lTriggerLastOffset=%ld  fWhere=%f\n",
-         //    i, dTriggerLastTime[i], lTriggerLastOffset[i], fWhere);
-         //fflush(stdout);
-         glColor4fv((GLfloat*) g_bIsWhite ? light_blue : grey_trans);
-         glLineWidth(1);
-         //glLineStipple(4, 0xAAAA);
-         //glEnable(GL_LINE_STIPPLE);
-         glBegin(GL_LINE_STRIP);
-         glVertex2f(fWhere, Y_TRIGGER_LAST[0]);
-         glVertex2f(fWhere, Y_TRIGGER_LAST[1]);
-         glEnd();
-         //glDisable(GL_LINE_STIPPLE);
-	   }
-    }
-    glPopMatrix();
-}
 
 bool CalcYPlot(const float& fVal, const float& fAvg, const int& ee, float&  myY)
 {
