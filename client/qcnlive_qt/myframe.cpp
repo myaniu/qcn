@@ -693,7 +693,7 @@ void MyFrame::actionHelp()
 		QString strVer(tr("About QCNLive version "));
 		QString strMsg(tr("<b>QCNLive</b> is provided by the <BR> Quake-Catcher Network Project <BR><BR>http://qcn.stanford.edu<BR><BR>(c) 2010 Stanford University"));
 		strVer += QCN_VERSION_STRING;
-		QMessageBox::about(this, strVer, strMsg);
+		QMessageBox::about(this, strVer, strVer + "<BR><BR>" + strMsg);
 	}
 	else if (pAction == m_actionHelpAboutQt) {
 		QMessageBox::aboutQt(this, tr("QCNLive Is Built With Qt"));

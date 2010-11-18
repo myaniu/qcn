@@ -70,7 +70,7 @@ void draw_text_sensor_axis(int iAxis)
 
 bool canDrawTick(const float& fWhere, const bool bText)
 {
-	return (bool)(fWhere > (xax_2d[0] + (bText ? 0. : 2.)));
+	return (bool)(fWhere > (bText ? 0.02 : xax_2d[0] + 2.));
 }
 	
 void draw_tick_marks()
