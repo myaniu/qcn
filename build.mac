@@ -61,3 +61,5 @@ cd ../qcnlive_qt
 xcodebuild -project QCNLive.xcodeproj -configuration Release -target QCNLive clean build
 rm -rf ../bin/QCNLive.app
 cp -r build/Release/QCNLive.app ../bin/
+mkdir ../bin/QCNLive.app/Contents/Resource/
+cp ../../doc/qcnmac.icns ../bin/QCNLive.app/Contents/Resource/
