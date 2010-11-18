@@ -133,7 +133,7 @@ public:
 	
 private slots:
 	void fileDialogSettings();
-	void fileMakeEarthquake();
+	void fileMakeQuake();
 	void actionView();
 	
 	void actionOptionEarth();

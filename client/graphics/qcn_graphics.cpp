@@ -226,10 +226,19 @@ void Cleanup()
    earth.Cleanup();
    vsq.clear();
    TTFont::ttf_cleanup(); // cleanup fonts
+   if (g_strMakeQuake) delete [] g_strMakeQuake;
+   g_strMakeQuake = NULL;
    bInHere = true;
 }
 
 #ifdef QCNLIVE
+
+// make-a-quake vars
+bool g_bMakeQuake = false; // flag for quake
+int g_iMakeQuakeTime = 0; // int for countdown
+int g_iMakeQuakeCountdown = 0; // int for countdown
+char* g_strMakeQuake = NULL; // kid's name - mem handled by qcnlive
+
 // declare thread handles
 #ifdef _WIN32
     HANDLE thread_handle_graphics = NULL;

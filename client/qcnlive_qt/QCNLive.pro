@@ -139,6 +139,7 @@ HEADERS       += qcnqt.h $$WININCLUDE \
                 glwidget.h \
                 myframe.h \
                 dlgsettings.h \
+                dlgmakequake.h \
                 qcnlive_define.h \
                 icons.h \
                 $$MAINDIR/main.h \
@@ -149,6 +150,7 @@ SOURCES       = glwidget.cpp \
                 qcnqt.cpp \
                 myframe.cpp \
                 dlgsettings.cpp \
+                dlgmakequake.cpp \
                 $$SRC_MAIN \
                 $$SRC_UTIL \
                 $$SRC_SENSOR \

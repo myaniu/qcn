@@ -34,6 +34,9 @@
 #define XML_FLOOR      "elf"
 #define XML_CONTINUAL  "cnt"
 #define XML_SACFORMAT  "sac"
+#define XML_MAKEQUAKE_TIME "mqt"
+#define XML_MAKEQUAKE_COUNTDOWN "mqc"
+
 
 // URL for the earthquake xml listing
 #define QCNGUI_URL_QUAKE "http://qcn.stanford.edu/qcnalpha/download/qcn-quake.xml"

@@ -51,6 +51,7 @@ private:
 	QLabel* m_labelSensor;	
 	
 	QGridLayout* m_gridlayout;
+	
 	bool m_bSave; 
 
 	

@@ -44,6 +44,14 @@ CDialogSettings::~CDialogSettings()
 	// get rid of all our objects if they exist
     if (m_psms) delete m_psms;  
 
+	if (m_labelLatitude) delete m_labelLatitude;
+	if (m_labelLongitude) delete m_labelLongitude;
+	if (m_labelStation) delete m_labelStation;
+	if (m_labelElevationMeter) delete m_labelElevationMeter;
+	if (m_labelElevationFloor) delete m_labelElevationFloor;
+	if (m_labelSensor) delete m_labelSensor;	
+	if (m_gridlayout) delete m_gridlayout;
+
     if (m_textctrlLatitude) delete m_textctrlLatitude;
     if (m_textctrlLongitude) delete m_textctrlLongitude;
 	if (m_textctrlStation) delete m_textctrlStation;
@@ -62,14 +70,6 @@ CDialogSettings::~CDialogSettings()
 
 	if (m_groupMain) delete m_groupMain;
 	if (m_groupButton) delete m_groupButton;
-
-	if (m_labelLatitude) m_labelLatitude = NULL;
-	if (m_labelLongitude) m_labelLongitude = NULL;
-	if (m_labelStation) m_labelStation = NULL;
-	if (m_labelElevationMeter) m_labelElevationMeter = NULL;
-	if (m_labelElevationFloor) m_labelElevationFloor = NULL;
-	if (m_labelSensor) m_labelSensor = NULL;	
-	if (m_gridlayout) m_gridlayout = NULL;
 }
 
 void CDialogSettings::InitPointers()
@@ -165,8 +165,8 @@ void CDialogSettings::CreateControls()
     m_groupMain    = new QGroupBox(this);
 	m_groupButton = new QGroupBox(this);
 
-	m_buttonSave = new QPushButton(tr("Save"));
-	m_buttonCancel = new QPushButton(tr("Cancel"));
+	m_buttonSave = new QPushButton(tr("&Save"));
+	m_buttonCancel = new QPushButton(tr("&Cancel"));
 	
     connect(m_buttonSave, SIGNAL(clicked()), this, SLOT(onSave()));
     connect(m_buttonCancel, SIGNAL(clicked()), this, SLOT(close()));

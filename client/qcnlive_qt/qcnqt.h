@@ -43,6 +43,8 @@ class MyApp: public QApplication
     QRect m_rect;            // apps screen coordinates
     QSplashScreen* m_psplash;  // the apps splash screen
 	bool m_bInit;  // flag to see if we are initialized
+	int m_iMakeQuakeTime; // "shake" time 
+	int m_iMakeQuakeCountdown; // countdown time
 	
   private slots:
     void slotGetLatestQuakeList();
@@ -73,6 +75,12 @@ class MyApp: public QApplication
 	int getY() {return m_rect.y(); }
 	void setRect(const QRect& rect) {  m_rect = rect; }
 	const QRect& getRect() { return m_rect; }
+	
+	const int getMakeQuakeTime() { return m_iMakeQuakeTime; }
+	void setMakeQuakeTime(const int iTime) { m_iMakeQuakeTime = iTime; }
+	
+	const int getMakeQuakeCountdown() { return m_iMakeQuakeCountdown; }
+	void setMakeQuakeCountdown(const int iTime) { m_iMakeQuakeCountdown = iTime; }
 	
 };
 

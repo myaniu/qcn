@@ -153,6 +153,10 @@ extern e_view g_eView;  // default to 3d plots unless user prefs override below
   extern bool g_bThreadGraphics;
   extern bool g_bInitGraphics;
   // declare thread handles
+  extern bool g_bMakeQuake; // flag for quake
+  extern int g_iMakeQuakeTime; // int for shake time
+  extern int g_iMakeQuakeCountdown; // int for countdown
+  extern char* g_strMakeQuake; // kid's name - mem handled by qcnlive
 #ifdef _WIN32
    extern HANDLE thread_handle_graphics;
 #else

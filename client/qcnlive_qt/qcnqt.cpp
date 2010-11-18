@@ -268,6 +268,14 @@ bool MyApp::get_qcnlive_prefs()
     parse_int(strRead, strParse, iTmp);
 	sm->bMyOutputSAC = (bool)(iTmp > 0);
 
+    sprintf(strParse, "<%s>", XML_MAKEQUAKE_TIME);
+	if (!parse_int(strRead, strParse, m_iMakeQuakeTime) || m_iMakeQuakeTime < 1 || m_iMakeQuakeTime > 60)
+		m_iMakeQuakeTime = 10; // default time for make-quake countdown i.e. 10 seconds
+		
+    sprintf(strParse, "<%s>", XML_MAKEQUAKE_COUNTDOWN);
+	if (!parse_int(strRead, strParse, m_iMakeQuakeCountdown) || m_iMakeQuakeCountdown < 1 || m_iMakeQuakeCountdown > 60)
+		m_iMakeQuakeCountdown = 10; // default time for make-quake countdown i.e. 10 seconds
+	
     return true;
 }
 
@@ -293,6 +301,8 @@ bool MyApp::set_qcnlive_prefs()
    			    "<%s>%d</%s>\n"
 				"<%s>%d</%s>\n"
 				"<%s>%d</%s>\n"
+				"<%s>%d</%s>\n"
+				"<%s>%d</%s>\n"
                         ,
                     XML_X, m_rect.x(), XML_X,
                     XML_Y, m_rect.y(), XML_Y, 
@@ -305,7 +315,9 @@ bool MyApp::set_qcnlive_prefs()
                     XML_FLOOR, sm->iMyElevationFloor, XML_FLOOR,
 					XML_SENSOR, sm->iMySensor, XML_SENSOR,
 					XML_CONTINUAL, (sm->bMyContinual ? 1 : 0), XML_CONTINUAL,
-					XML_SACFORMAT, (sm->bMyOutputSAC ? 1 : 0), XML_SACFORMAT
+					XML_SACFORMAT, (sm->bMyOutputSAC ? 1 : 0), XML_SACFORMAT,
+			        XML_MAKEQUAKE_TIME, m_iMakeQuakeTime, XML_MAKEQUAKE_TIME,
+					XML_MAKEQUAKE_COUNTDOWN, m_iMakeQuakeCountdown, XML_MAKEQUAKE_COUNTDOWN	
     );
 
     fclose(fp);
@@ -330,6 +342,7 @@ void MyApp::SetRect(const QRect& rect)
 bool MyApp::Init()
 {
 	m_bInit = false;
+		
 	// do splash screen until the mainwin show	
     m_psplash = NULL; // init the splash screen
 	
@@ -340,10 +353,19 @@ bool MyApp::Init()
 		m_psplash = new QSplashScreen(QPixmap(FILENAME_SPLASH));
 
 	}
-	if (m_psplash) {
-		m_psplash->show();
-		m_psplash->showMessage(tr("Starting up..."), Qt::AlignRight | Qt::AlignBottom, Qt::black);
-	}
+
+	// we're hosed if can't make splash screen?
+	if (!m_psplash) return false;
+	
+	m_psplash->show();
+	m_psplash->showMessage(tr("Starting up..."), Qt::AlignRight | Qt::AlignBottom, Qt::black);
+	
+	// init make-quake stuff
+	m_iMakeQuakeTime = 10;
+	qcn_graphics::g_bMakeQuake = false;
+	qcn_graphics::g_iMakeQuakeTime = 0;
+	qcn_graphics::g_iMakeQuakeCountdown = 0;
+	qcn_graphics::g_strMakeQuake = NULL;
 	
     // note that since we're all in one process (yet with multiple threads, we can just build our shmem struct on the heap with new
 	// it will get deleted in MyApp::Exit, so we don't need the boinc call below (which I think never destroys the shared mem segment!)

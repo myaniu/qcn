@@ -13,6 +13,7 @@
 #include "icons.h"   // 32x32 icons made from "cat icons/*.xpm > icons.h"
 
 #include "dlgsettings.h"
+#include "dlgmakequake.h"
 #include "qcn_earth.h"
 #include "qcn_2dplot.h"
 
@@ -204,7 +205,7 @@ void MyFrame::createActions()
 	m_actionFileMakeQuake = new QAction(tr("&Make Earthquake"), this);
 	m_actionFileMakeQuake->setToolTip(tr("Make and Print Your Own Earthquake"));
 	m_actionFileMakeQuake->setShortcut(tr("Ctrl+M")); 
-	connect(m_actionFileMakeQuake, SIGNAL(triggered()), this, SLOT(fileMakeEarthquake()));
+	connect(m_actionFileMakeQuake, SIGNAL(triggered()), this, SLOT(fileMakeQuake()));
 	
 	// View actions
 	m_actionViewEarth = new QAction(tr("&Earthquakes"), this);
@@ -612,8 +613,21 @@ void MyFrame::actionOptionLogo()
 #endif
 }
 
-void MyFrame::fileMakeEarthquake()
+void MyFrame::fileMakeQuake()
 {
+	CDialogMakeQuake* pcmq = new CDialogMakeQuake(m_pMyApp->getMakeQuakeTime(), m_pMyApp->getMakeQuakeCountdown(), this, Qt::Dialog);
+	if (pcmq) {
+		pcmq->exec();
+	    if (pcmq->start()) { // data was validated and set in shared memory (sm)
+			m_pMyApp->setMakeQuakeTime(pcmq->getMakeQuakeTime());
+			m_pMyApp->setMakeQuakeCountdown(pcmq->getMakeQuakeCountdown());
+			qcn_graphics::g_iMakeQuakeTime = pcmq->getMakeQuakeTime();
+			qcn_graphics::g_iMakeQuakeCountdown = pcmq->getMakeQuakeCountdown();
+			pcmq->getUserString(&qcn_graphics::g_strMakeQuake);
+			qcn_graphics::g_bMakeQuake = true;
+		}
+	    delete pcmq;
+	}
 }
 
 void MyFrame::fileDialogSettings()
