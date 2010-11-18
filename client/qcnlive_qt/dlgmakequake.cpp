@@ -5,6 +5,8 @@ CDialogMakeQuake::CDialogMakeQuake(const int iTime, const int iCountdown, QWidge
 	setModal(true);  // make it an application level modal window
 	setWindowModality(Qt::ApplicationModal);
 	setWindowTitle(tr("Make Your Own Earthquake"));
+	setFixedSize(QSize(500,270)); // spin controls aren't showing up if I let Qt decide on size, at least on Mac
+	
 	m_bStart = false;
 	
 	m_iTime = iTime;
@@ -129,7 +131,8 @@ void CDialogMakeQuake::CreateControls()
 
     // control 1 - name
     m_labelName = new QLabel(tr("Name:"), this);
-    m_textctrlName = new QLineEdit(this);	
+    m_textctrlName = new QLineEdit(this);
+	m_textctrlName->setMaxLength(64);
 	m_textctrlName->setText(m_strName);
 
 	
@@ -187,14 +190,17 @@ void CDialogMakeQuake::CreateControls()
  
 void CDialogMakeQuake::onStart()
 {
-	QString strError;
-	m_bStart = false;
+	//QString strError;
+	m_bStart = true;
 	
+	m_iTime = m_spinctrlTime->value();
+	m_iCountdown = m_spinctrlCountdown->value();
+	m_strName = m_textctrlName->text();
 	
-	if (m_bStart) {
+	//if (m_bStart) {
 		close();
-	}
-	else { // must have an error
-		QMessageBox::warning(this, tr("Error in Values"), QString(tr("Please correct the following error(s):<BR><BR>")) + strError, QMessageBox::Ok);
-	}
+	//}
+	//else { // must have an error
+	//	QMessageBox::warning(this, tr("Error in Values"), QString(tr("Please correct the following error(s):<BR><BR>")) + strError, QMessageBox::Ok);
+	//}
 }

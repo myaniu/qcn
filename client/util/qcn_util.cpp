@@ -691,6 +691,7 @@ bool get_qcn_counter()
 
 bool set_qcn_counter()
 {
+	if (!sm) return false;
     // write out the trigger count
     // if trigger count is too high (>9999999), i.e. sac field only holds 7 chars, then reset
     if (sm->iNumTrigger > 9999999L) sm->iNumTrigger = 0L;

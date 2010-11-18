@@ -615,6 +615,14 @@ void MyFrame::actionOptionLogo()
 
 void MyFrame::fileMakeQuake()
 {
+	// if we're in a make-quake session and hit this menu, cancel
+	if (qcn_graphics::g_bMakeQuake) {
+		qcn_graphics::g_bMakeQuake = false;
+		qcn_graphics::g_iMakeQuakeTime = 0;
+		if (qcn_graphics::g_strMakeQuake) delete [] qcn_graphics::g_strMakeQuake;
+		qcn_graphics::g_strMakeQuake = NULL;
+	}
+	
 	CDialogMakeQuake* pcmq = new CDialogMakeQuake(m_pMyApp->getMakeQuakeTime(), m_pMyApp->getMakeQuakeCountdown(), this, Qt::Dialog);
 	if (pcmq) {
 		pcmq->exec();

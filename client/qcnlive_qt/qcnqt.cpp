@@ -280,7 +280,9 @@ bool MyApp::get_qcnlive_prefs()
 }
 
 bool MyApp::set_qcnlive_prefs()
-{
+{   
+	if (!sm) return false;
+	
     FILE *fp; 
 	if (strlen(sm->strMyStation)>0) strcpy(sm->dataBOINC.wu_name, sm->strMyStation); // copy station name to workunit name
     if ( (fp = fopen(QCNGUI_XML_PREFS_FILE, "w")) == NULL) {

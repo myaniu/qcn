@@ -154,7 +154,7 @@ void doMainQuit(const bool& bFinish, const e_retcode& errcode)
   static bool bDone = false;
   if (bDone) return; // already did this, so if we are in here, then atexit() is invoked, it won't go through a second time
   bDone = true;
-  sm->eStatus = errcode;
+  if (sm) sm->eStatus = errcode;
   g_iStop = TRUE; // global flag to stop
   g_bFinished = bFinish;
   g_iQCNReturn = (int)(errcode == ERR_FINISHED ? ERR_NONE : errcode);  // note a timeout (ERR_FINISHED) error is "normal" exit
@@ -178,7 +178,7 @@ void doMainQuit(const bool& bFinish, const e_retcode& errcode)
   }
    qcn_util::set_qcn_counter(); // write our settings to disk
    // free project prefs
-   if (sm->dataBOINC.project_preferences) {
+   if (sm && sm->dataBOINC.project_preferences) {
 	   free(sm->dataBOINC.project_preferences);
 	   sm->dataBOINC.project_preferences = NULL;
    }
