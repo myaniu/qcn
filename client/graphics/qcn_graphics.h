@@ -91,6 +91,21 @@ struct SQuake
       ~SQuake() { };
 };
 
+struct SMakeQuake
+{
+public:
+  bool bActive; // flag that we're active
+  double dStart; // start time
+  int iTime; // int for shake time
+  int iCountdown; // int for countdown
+  char strName[64];  // kid's name
+  QCN_BYTE* data; // the framebuffer data to print or save
+
+  void clear();
+  SMakeQuake() { clear(); }
+  ~SMakeQuake() { clear(); }
+};
+
 class CEarth;
 
 //#ifndef QCNLIVE
@@ -150,13 +165,10 @@ extern bool g_bFader;
 
 extern e_view g_eView;  // default to 3d plots unless user prefs override below
 #ifdef QCNLIVE
-  extern bool g_bThreadGraphics;
-  extern bool g_bInitGraphics;
-  // declare thread handles
-  extern bool g_bMakeQuake; // flag for quake
-  extern int g_iMakeQuakeTime; // int for shake time
-  extern int g_iMakeQuakeCountdown; // int for countdown
-  extern char* g_strMakeQuake; // kid's name - mem handled by qcnlive
+extern struct SMakeQuake g_MakeQuake;
+// declare thread handles
+extern bool g_bThreadGraphics;
+extern bool g_bInitGraphics;
 #ifdef _WIN32
    extern HANDLE thread_handle_graphics;
 #else

@@ -586,10 +586,6 @@ void MyFrame::actionView()
 	}
 
 	m_actionCurrent = pAction;
-	//qcn_graphics::FaderOn(); // refresh fader
-    //if (bChanged && m_actionCurrent) {
-	//	Toggle(m_actionCurrent, false, true);
-    //}
     qcn_graphics::ResetPlotArray();
 }
 
@@ -615,24 +611,28 @@ void MyFrame::actionOptionLogo()
 
 void MyFrame::fileMakeQuake()
 {
-	// if we're in a make-quake session and hit this menu, cancel
-	if (qcn_graphics::g_bMakeQuake) {
-		qcn_graphics::g_bMakeQuake = false;
-		qcn_graphics::g_iMakeQuakeTime = 0;
-		if (qcn_graphics::g_strMakeQuake) delete [] qcn_graphics::g_strMakeQuake;
-		qcn_graphics::g_strMakeQuake = NULL;
+	// if we're in a make-quake session and hit this menu, prompt to cancel
+	if (qcn_graphics::g_MakeQuake.bActive) {
+		if (QMessageBox::question(this, tr("Cancel Quake?"), tr("Cancel the current 'quake' and start a new session?"), 
+				QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes) == QMessageBox::Yes) {
+			qcn_graphics::g_MakeQuake.clear(); // clear this session and proceed to the dialog below
+		}
+		else {
+			return; // they don't want to quit
+		}
 	}
 	
 	CDialogMakeQuake* pcmq = new CDialogMakeQuake(m_pMyApp->getMakeQuakeTime(), m_pMyApp->getMakeQuakeCountdown(), this, Qt::Dialog);
 	if (pcmq) {
 		pcmq->exec();
 	    if (pcmq->start()) { // data was validated and set in shared memory (sm)
+			m_actionViewSensor2D->activate(QAction::Trigger);
 			m_pMyApp->setMakeQuakeTime(pcmq->getMakeQuakeTime());
 			m_pMyApp->setMakeQuakeCountdown(pcmq->getMakeQuakeCountdown());
-			qcn_graphics::g_iMakeQuakeTime = pcmq->getMakeQuakeTime();
-			qcn_graphics::g_iMakeQuakeCountdown = pcmq->getMakeQuakeCountdown();
-			pcmq->getUserString(&qcn_graphics::g_strMakeQuake);
-			qcn_graphics::g_bMakeQuake = true;
+			qcn_graphics::g_MakeQuake.iTime = pcmq->getMakeQuakeTime();
+			qcn_graphics::g_MakeQuake.iCountdown = pcmq->getMakeQuakeCountdown();
+			pcmq->getUserString(qcn_graphics::g_MakeQuake.strName);
+			qcn_graphics::g_MakeQuake.bActive = true; // this is a flag as well as mutex if we're in other threads, but graphics thread is not separate from qcnlive
 		}
 	    delete pcmq;
 	}

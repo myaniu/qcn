@@ -226,18 +226,32 @@ void Cleanup()
    earth.Cleanup();
    vsq.clear();
    TTFont::ttf_cleanup(); // cleanup fonts
-   if (g_strMakeQuake) delete [] g_strMakeQuake;
-   g_strMakeQuake = NULL;
+   g_MakeQuake.clear();
    bInHere = true;
 }
 
 #ifdef QCNLIVE
 
+	void SMakeQuake::clear() 
+	{ 
+		static bool bFirst = true;
+		if (!bFirst) { 
+			// check byte array is empty
+			if (data) {
+				delete [] data;
+			}
+		}
+		bActive = false;
+		dStart = 0.0;
+		iTime = 0;
+		iCountdown = 0;
+		memset(strName, 0x00, sizeof(char) * 64);
+		data = NULL;
+		bFirst = false;
+	}
+	
 // make-a-quake vars
-bool g_bMakeQuake = false; // flag for quake
-int g_iMakeQuakeTime = 0; // int for countdown
-int g_iMakeQuakeCountdown = 0; // int for countdown
-char* g_strMakeQuake = NULL; // kid's name - mem handled by qcnlive
+struct SMakeQuake g_MakeQuake;
 
 // declare thread handles
 #ifdef _WIN32
@@ -1763,6 +1777,9 @@ void Render(int xs, int ys, double time_of_day)
 		  qcn_2dplot::draw_plot();
 		  draw_triggers();
 		  qcn_2dplot::draw_text();
+#ifdef QCNLIVE  // check for "make quake" feature
+		  qcn_2dplot::draw_makequake_countdown(); // just an overlay for the countdown etc
+#endif
           break;
        case VIEW_PLOT_3D:
 	  glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
@@ -1795,6 +1812,10 @@ void Render(int xs, int ys, double time_of_day)
 
     glFinish();
 
+#ifdef QCNLIVE  // check for "make quake" feature
+	qcn_2dplot::draw_makequake_print(); // check for the print timer i.e. grab framebuffer here and send to printer, or just JPG?
+#endif
+		
     bInHere = false;
 }
 

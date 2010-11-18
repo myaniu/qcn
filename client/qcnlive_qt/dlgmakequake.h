@@ -46,7 +46,7 @@ public:
 	CDialogMakeQuake(const int iTime, const int iCountdown, QWidget* parent, Qt::WindowFlags f);
     ~CDialogMakeQuake();
 
-	void getUserString(char** pstrName);
+	void getUserString(char* strName);
 	const int getMakeQuakeTime() { return m_iTime; }
 	const int getMakeQuakeCountdown() { return m_iCountdown; }
 	bool start() { return m_bStart; }; 

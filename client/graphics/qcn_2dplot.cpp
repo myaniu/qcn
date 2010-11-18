@@ -477,4 +477,21 @@ void SensorDataZoomOut()
 	if (g_iScaleAxesOffset < g_iScaleAxesMax) g_iScaleAxesOffset++;
 }
 
+#ifdef QCNLIVE
+
+// just an overlay for the countdown etc
+void draw_makequake_countdown()
+{
+	if (!qcn_graphics::g_MakeQuake.bActive) return;
+}
+
+// check for the print timer i.e. grab framebuffer here and send to printer, or just JPG?
+void draw_makequake_print()
+{
+	if (!qcn_graphics::g_MakeQuake.bActive) return;
+}
+
+#endif  // QCNLive makequake stuff
+
+
 }  // end namespace qcn_2dplot

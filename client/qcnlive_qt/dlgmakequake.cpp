@@ -65,12 +65,10 @@ void CDialogMakeQuake::InitPointers()
 	m_gridlayout = NULL;
 }
 
-void CDialogMakeQuake::getUserString(char** strName)
-{ // note ptr-to-ptr
-	if (*strName) delete [] *strName;
-	*strName = new char[64];
-	memset(*strName, 0x00, sizeof(char) * 64);
-	strncpy(*strName, m_strName.toAscii(), 64);
+void CDialogMakeQuake::getUserString(char* strName)
+{ 
+	memset(strName, 0x00, sizeof(char) * 64);
+	strncpy(strName, m_strName.toAscii(), 64);
 }
 
 

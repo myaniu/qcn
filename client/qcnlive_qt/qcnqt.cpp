@@ -364,10 +364,7 @@ bool MyApp::Init()
 	
 	// init make-quake stuff
 	m_iMakeQuakeTime = 10;
-	qcn_graphics::g_bMakeQuake = false;
-	qcn_graphics::g_iMakeQuakeTime = 0;
-	qcn_graphics::g_iMakeQuakeCountdown = 0;
-	qcn_graphics::g_strMakeQuake = NULL;
+	qcn_graphics::g_MakeQuake.clear();
 	
     // note that since we're all in one process (yet with multiple threads, we can just build our shmem struct on the heap with new
 	// it will get deleted in MyApp::Exit, so we don't need the boinc call below (which I think never destroys the shared mem segment!)
