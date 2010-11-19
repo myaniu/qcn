@@ -439,8 +439,6 @@ enum e_drawtype { NATION = 0, PLATE, COUNTRY, COASTLINE };
 #define IMG_LOGO_EXTRA   "ad.jpg"
 #define IMG_LOGO_XYZAXES "xyzaxes.jpg"
 #define IMG_LOGO_XYZAXES_BLACK "xyzaxesbl.jpg"
-#define FONT_HELVETICA  "Helvetica_" QCN_VERSION_STRING ".txf"
-#define FONT_MONOSPACE  "Helvetica_" QCN_VERSION_STRING ".txf"
 
 #define PI 3.14159265f
 
