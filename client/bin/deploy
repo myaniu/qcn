@@ -14,9 +14,8 @@ echo put $font1 >> qcnsftp.up
 echo put $font2 >> qcnsftp.up
 echo put init/earthday4096.jpg >> qcnsftp.up
 echo put init/earthnight4096.jpg >> qcnsftp.up
-echo put init/qcnlogo.jpg >> qcnsftp.up
-echo put init/$1 >> qcnsftp.up
 echo put init/logo.jpg >> qcnsftp.up
+echo put init/$1 >> qcnsftp.up
 if ( test "`uname -s`" = "Darwin" ) then
    echo put init/libMotionNodeAccelAPI.dylib >> qcnsftp.up
 else
@@ -34,6 +33,7 @@ uplstring='$font1 \
          init/earthnight4096.jpg \
          init/xyzaxes.jpg \
          init/xyzaxesbl.jpg \
+         init/qcnlogo.png' \
          init/logo.jpg'
  ntpversion='ntpdate_4.2.4p7c_'
  ntpdv='ntpdate_4.2.4p7c_universal-apple-darwin'
