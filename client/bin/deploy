@@ -1,17 +1,18 @@
 #!/bin/bash
+
 if (test "$1" = "" || test "$2" = "") then
    echo "Usage:  ./deploy VERSION_NUMBER_NCI VERSION_NUMBER_REGULAR"
    echo "NCI should usually be .01 higher than regular version number"
    exit 1
 fi
 
-font1='init/hvt'
-font2='init/cbt'
+fonta='init/hvt'
+fontb='init/cbt'
 
 print_common_files ()
 {
-echo put $font1 >> qcnsftp.up
-echo put $font2 >> qcnsftp.up
+echo put $fonta >> qcnsftp.up
+echo put $fontb >> qcnsftp.up
 echo put init/earthday4096.jpg >> qcnsftp.up
 echo put init/earthnight4096.jpg >> qcnsftp.up
 echo put init/logo.jpg >> qcnsftp.up
@@ -26,9 +27,7 @@ fi
 
 # init/earthmask.rgb  # disable for now
 ncisuffix='__nci'
-uplstring='$font1 \
-         $font2 \
-         init/earthday4096.jpg \
+uplstring='init/earthday4096.jpg \
          init/splash.png \
          init/earthnight4096.jpg \
          init/xyzaxes.jpg \
@@ -43,7 +42,7 @@ if ( test "`uname -s`" = "Darwin" ) then
   suffixi='i686-apple-darwin'
   suffixs='x86_64-apple-darwin'
     rm -f qcnlive-mac.zip
-    zip -r qcnlive-mac.zip QCNLive.app \
+    zip -r qcnlive-mac.zip QCNLive.app $fonta $fontb \
        init/$ntpdv $uplstring \
        init/libMotionNodeAccelAPI.dylib \
          -x@exclude.lst
@@ -185,8 +184,8 @@ else
    cp graphics_app=qcn_graphics_$1_$suffix graphics_app=qcn_graphics_$2_$suffix
    rm -f qcnlive-linux.zip
 
-   zip -r qcnlive-linux.zip qcnlive $font1 $font2 init/earthmask.rgb init/earthday4096.jpg \
-         init/$ntpdv $uplstring \
+   zip -r qcnlive-linux.zip qcnlive $fonta $fontb init/earthmask.rgb init/earthday4096.jpg \
+         init/$ntpdv $fonta $fontb $uplstring \
          init/libMotionNodeAccelAPI.so \
             -x@exclude.lst
 

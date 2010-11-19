@@ -1661,10 +1661,11 @@ void Init()
     rgx.init(pos, size, colorsPlot[E_DX], colorsPlot[E_DX]);
 
     // load logo & fonts
-    TTFont::ttf_load_fonts((const char*) ".");
 #ifdef QCNLIVE
+    TTFont::ttf_load_fonts((const char*) ".");
     strcpy(path, IMG_LOGO);
 #else
+    TTFont::ttf_load_fonts((const char*) qcn_main::g_strPathProject);
     boinc_resolve_filename(IMG_LOGO, path, sizeof(path));
 #endif
 
