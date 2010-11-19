@@ -29,9 +29,7 @@ void printQCNFiles(FILE* fBatch)
         fprintf(fBatch, "put graphics_app=qcn_graphics_%d.%02d_%s.exe\n", g_version_major, g_version_minor, BOINC_WIN_SUFFIX);
         fprintf(fBatch, "put init/hvt\n");
         fprintf(fBatch, "put init/cbt\n");
-        fprintf(fBatch, "put init/qcnlogo.jpg\n");
         fprintf(fBatch, "put init/earthday4096.jpg\n");
-//      fprintf(fBatch, "put init/earthmask.rgb\n");   // mask for multitexturing - but seems to crash some people bad!
         fprintf(fBatch, "put init/earthnight4096.jpg\n");
         fprintf(fBatch, "put init/logo.jpg\n");
         fprintf(fBatch, "put init/%s_%s.exe\n", NTPDATE_EXEC_VERSION, BOINC_WIN_SUFFIX);
@@ -47,9 +45,7 @@ void printQCNFiles(FILE* fBatch)
         fprintf(fBatch, "put graphics_app=qcn_graphics_%d.%02d_%s.exe\n", g_version_major, g_version_minor - 1, BOINC_WIN_SUFFIX);
         fprintf(fBatch, "put init/hvt\n");
         fprintf(fBatch, "put init/cbt\n");
-        fprintf(fBatch, "put init/qcnlogo.jpg\n");
         fprintf(fBatch, "put init/earthday4096.jpg\n");
-//      fprintf(fBatch, "put init/earthmask.rgb\n");   // mask for multitexturing - but seems to crash some people bad!
         fprintf(fBatch, "put init/earthnight4096.jpg\n");
         fprintf(fBatch, "put init/logo.jpg\n");
         fprintf(fBatch, "put init/%s_%s.exe\n", NTPDATE_EXEC_VERSION, BOINC_WIN_SUFFIX);
