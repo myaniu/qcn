@@ -280,9 +280,9 @@ $(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
 	      exit 1;; \
 	  esac; \
 	done; \
-	echo ' cd $(top_srcdir) && $(AUTOMAKE) --foreign  ftgl-2.1.3/Makefile'; \
+	echo ' cd $(top_srcdir) && $(AUTOMAKE) --gnu  ftgl-2.1.3/Makefile'; \
 	cd $(top_srcdir) && \
-	  $(AUTOMAKE) --foreign  ftgl-2.1.3/Makefile
+	  $(AUTOMAKE) --gnu  ftgl-2.1.3/Makefile
 .PRECIOUS: Makefile
 Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	@case '$?' in \
