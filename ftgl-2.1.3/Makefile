@@ -132,7 +132,7 @@ INSTALL_SCRIPT = ${INSTALL}
 INSTALL_STRIP_PROGRAM = $(install_sh) -c -s
 LDFLAGS = 
 LD_EXPORT_DYNAMIC = 
-LIBBOINC_VERSION = 6:10
+LIBBOINC_VERSION = 6:12
 LIBEXT = a
 LIBOBJS = 
 LIBS =  -lz  -lpthread -lm -lgcc -lstdc++ -lgcc_eh -lc  
@@ -150,25 +150,25 @@ OBJEXT = o
 PACKAGE = qcn
 PACKAGE_BUGREPORT = 
 PACKAGE_NAME = QCN
-PACKAGE_STRING = QCN 6.10
+PACKAGE_STRING = QCN 6.12
 PACKAGE_TARNAME = qcn
-PACKAGE_VERSION = 6.10
+PACKAGE_VERSION = 6.12
 PATH_SEPARATOR = :
 PICFLAGS =  -fno-common -DPIC
 PTHREAD_CC = gcc
 PTHREAD_CFLAGS = -D_THREAD_SAFE 
 PTHREAD_LIBS = 
 QCN_MAJOR_VERSION = 6
-QCN_MINOR_VERSION = 10
+QCN_MINOR_VERSION = 12
 QCN_RELEASE = 
-QCN_VERSION_STRING = 6.10
+QCN_VERSION_STRING = 6.12
 RANLIB = ranlib
 SET_MAKE = 
 SHELL = /bin/sh
 STRIP = strip
 TOP_BUILD_DIR = /Users/carlgt1/projects/qcn
 TOP_SOURCE_DIR = /Users/carlgt1/projects/qcn
-VERSION = 6.10
+VERSION = 6.12
 WX_CFLAGS = 
 WX_CFLAGS_ONLY = 
 WX_CONFIG_PATH = /usr/bin/wx-config
@@ -280,9 +280,9 @@ $(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
 	      exit 1;; \
 	  esac; \
 	done; \
-	echo ' cd $(top_srcdir) && $(AUTOMAKE) --gnu  ftgl-2.1.3/Makefile'; \
+	echo ' cd $(top_srcdir) && $(AUTOMAKE) --foreign  ftgl-2.1.3/Makefile'; \
 	cd $(top_srcdir) && \
-	  $(AUTOMAKE) --gnu  ftgl-2.1.3/Makefile
+	  $(AUTOMAKE) --foreign  ftgl-2.1.3/Makefile
 .PRECIOUS: Makefile
 Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	@case '$?' in \
