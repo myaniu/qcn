@@ -155,6 +155,11 @@ const char cstrQCNLive[] = {"qcnlive-win.zip"};
 		"init/MotionNodeAccelAPI.dll",
 #endif
 		"init/qcnwin.ico",
+                "QtCore4.dll",
+                "QtGui4.dll",
+                "QtOpenGL4.dll",
+                "init/hvt",
+                "init/hvt",
                 "init/hvt",
                 "init/cbt",
 		"init/earthday4096.jpg",

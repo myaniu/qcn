@@ -23,7 +23,8 @@
 		3BBD6E3E630068B57C2CEC5B /* moc_glwidget.cpp in Build Sources */ = {isa = PBXBuildFile; fileRef = 24FC5F21B8D858EDB1CC09E6 /* moc_glwidget.cpp */; settings = {ATTRIBUTES = (); }; };
 		3C3F4C56CEAAC0EAA95ACCD6 /* csensor_usb_motionnodeaccel.cpp in Build Sources */ = {isa = PBXBuildFile; fileRef = F9750758D0EC92FB41209DD6 /* csensor_usb_motionnodeaccel.cpp */; settings = {ATTRIBUTES = (); }; };
 		414D2C668A894AAB7BA6F21C /* QCrashReport.c in Build Sources */ = {isa = PBXBuildFile; fileRef = 8F50D0D2DEE339BA2C19B349 /* QCrashReport.c */; settings = {ATTRIBUTES = (); }; };
-		434121B512957D5A00CBDC15 /* QCNLive.app in Project Copy */ = {isa = PBXBuildFile; fileRef = 434121B212957D5A00CBDC15 /* QCNLive.app */; };
+		439F36E41296E55B00DE788A /* QCNLive.app in Project Copy */ = {isa = PBXBuildFile; fileRef = 439F36E11296E55B00DE788A /* QCNLive.app */; };
+		439F37111296E6A000DE788A /* qcnmac.icns in Bundle Resources */ = {isa = PBXBuildFile; fileRef = 3411A051705CCB19DF1DA162 /* qcnmac.icns */; };
 		44C796EE39420FB81C48361D /* qcn_2dplot.cpp in Build Sources */ = {isa = PBXBuildFile; fileRef = 78EB6090A2080F8DAA0A8A2C /* qcn_2dplot.cpp */; settings = {ATTRIBUTES = (); }; };
 		44D702301DEA4D8C6CD7AFA0 /* miofile.cpp in Build Sources */ = {isa = PBXBuildFile; fileRef = 44CE251E39C7242C0BA10699 /* miofile.cpp */; settings = {ATTRIBUTES = (); }; };
 		450A0D11527AF164AEFE7377 /* QtOpenGL.framework in Frameworks & Libraries */ = {isa = PBXBuildFile; fileRef = C374004D45E01156F931B37D /* QtOpenGL.framework */; };
@@ -97,7 +98,7 @@
 			dstPath = /Users/carlgt1/projects/qcn/client/qcnlive_qt;
 			dstSubfolderSpec = 0;
 			files = (
-				434121B512957D5A00CBDC15 /* QCNLive.app in Project Copy */,
+				439F36E41296E55B00DE788A /* QCNLive.app in Project Copy */,
 			);
 			name = "Project Copy";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -130,7 +131,7 @@
 		3E2EC63BEE40C7A0CAF66700 /* coproc.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = coproc.cpp; path = ../../../boinc/lib/coproc.cpp; sourceTree = "<group>"; };
 		40A4D687C2287AC419FAC700 /* qcn_signal.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = qcn_signal.cpp; path = ../util/qcn_signal.cpp; sourceTree = "<group>"; };
 		431ABE98020F2F1D87903C3D /* graphics2_util.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = graphics2_util.cpp; path = ../../../boinc/api/graphics2_util.cpp; sourceTree = "<group>"; };
-		434121B212957D5A00CBDC15 /* QCNLive.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QCNLive.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		439F36E11296E55B00DE788A /* QCNLive.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QCNLive.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		44CE251E39C7242C0BA10699 /* miofile.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = miofile.cpp; path = ../../../boinc/lib/miofile.cpp; sourceTree = "<group>"; };
 		465FC9BCF3A49B220FDAECD4 /* QTaskMemory.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = QTaskMemory.c; path = ../../../boinc/lib/mac/QTaskMemory.c; sourceTree = "<group>"; };
 		4EC685AFA0EAE38FD064E89C /* mfile.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = mfile.cpp; path = ../../../boinc/lib/mfile.cpp; sourceTree = "<group>"; };
@@ -232,7 +233,7 @@
 				883D7615C4D2DE3FA1218F12 /* Headers */,
 				7CABE3C80E79AD2B307756D2 /* Sources [qmake] */,
 				ED1E82605DD74B483AF3C982 /* External Frameworks and Libraries */,
-				434121B312957D5A00CBDC15 /* Products */,
+				439F36E21296E55B00DE788A /* Products */,
 			);
 			name = QCNLive;
 			sourceTree = "<group>";
@@ -286,10 +287,10 @@
 			name = lib;
 			sourceTree = "<group>";
 		};
-		434121B312957D5A00CBDC15 /* Products */ = {
+		439F36E21296E55B00DE788A /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				434121B212957D5A00CBDC15 /* QCNLive.app */,
+				439F36E11296E55B00DE788A /* QCNLive.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -488,7 +489,7 @@
 /* Begin PBXNativeTarget section */
 		B1E56B9E0881E5027F4AEEAF /* QCNLive */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 434121CE12957D8600CBDC15 /* Build configuration list for PBXNativeTarget "QCNLive" */;
+			buildConfigurationList = 439F36FA1296E58300DE788A /* Build configuration list for PBXNativeTarget "QCNLive" */;
 			buildPhases = (
 				D7BA7D76DAB5DD13389D6332 /* Qt Qmake */,
 				A0A52A2ADF7A1E2A99738674 /* Qt Preprocessors */,
@@ -503,7 +504,7 @@
 			);
 			name = QCNLive;
 			productName = QCNLive;
-			productReference = 434121B212957D5A00CBDC15 /* QCNLive.app */;
+			productReference = 439F36E11296E55B00DE788A /* QCNLive.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -522,7 +523,7 @@
 				German,
 			);
 			mainGroup = 05596AB53D8D521C69802C27 /* QCNLive */;
-			productRefGroup = 434121B312957D5A00CBDC15 /* Products */;
+			productRefGroup = 439F36E21296E55B00DE788A /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -536,6 +537,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				439F37111296E6A000DE788A /* qcnmac.icns in Bundle Resources */,
 			);
 			name = "Bundle Resources";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -644,7 +646,7 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		434121B912957D5A00CBDC15 /* Debug */ = {
+		439F36E81296E55C00DE788A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = (
@@ -669,7 +671,7 @@
 					../../../qcn,
 					"../../jpeg-6b",
 					"../../zlib-1.2.5",
-					"/Users/carlgt1/projects/qcn/curl-7.19.5/include",
+					"../../curl-7.18.2/include",
 					"../../ftgl-2.1.3/include",
 					"../../freetype-2.3.9/include",
 					../main,
@@ -703,6 +705,7 @@
 					"-Wall",
 					"-W",
 					"-D_USE_NTPDATE_EXEC_",
+					"-DFTGL_LIBRARY_STATIC",
 					"-DQCNLIVE",
 					"-DGRAPHICS_PROGRAM",
 					"-DAPP_GRAPHICS",
@@ -724,6 +727,7 @@
 					"-Wall",
 					"-W",
 					"-D_USE_NTPDATE_EXEC_",
+					"-DFTGL_LIBRARY_STATIC",
 					"-DQCNLIVE",
 					"-DGRAPHICS_PROGRAM",
 					"-DAPP_GRAPHICS",
@@ -755,7 +759,7 @@
 			};
 			name = Debug;
 		};
-		434121BA12957D5A00CBDC15 /* Release */ = {
+		439F36E91296E55C00DE788A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = (
@@ -779,7 +783,7 @@
 					../../../qcn,
 					"../../jpeg-6b",
 					"../../zlib-1.2.5",
-					"/Users/carlgt1/projects/qcn/curl-7.19.5/include",
+					"../../curl-7.18.2/include",
 					"../../ftgl-2.1.3/include",
 					"../../freetype-2.3.9/include",
 					../main,
@@ -811,6 +815,7 @@
 					"-Wall",
 					"-W",
 					"-D_USE_NTPDATE_EXEC_",
+					"-DFTGL_LIBRARY_STATIC",
 					"-DQCNLIVE",
 					"-DGRAPHICS_PROGRAM",
 					"-DAPP_GRAPHICS",
@@ -830,6 +835,7 @@
 					"-Wall",
 					"-W",
 					"-D_USE_NTPDATE_EXEC_",
+					"-DFTGL_LIBRARY_STATIC",
 					"-DQCNLIVE",
 					"-DGRAPHICS_PROGRAM",
 					"-DAPP_GRAPHICS",
@@ -861,7 +867,7 @@
 			};
 			name = Release;
 		};
-		434121BB12957D5A00CBDC15 /* Default */ = {
+		439F36EA1296E55C00DE788A /* Default */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = (
@@ -883,7 +889,7 @@
 					../../../qcn,
 					"../../jpeg-6b",
 					"../../zlib-1.2.5",
-					"/Users/carlgt1/projects/qcn/curl-7.19.5/include",
+					"../../curl-7.18.2/include",
 					"../../ftgl-2.1.3/include",
 					"../../freetype-2.3.9/include",
 					../main,
@@ -915,6 +921,7 @@
 					"-Wall",
 					"-W",
 					"-D_USE_NTPDATE_EXEC_",
+					"-DFTGL_LIBRARY_STATIC",
 					"-DQCNLIVE",
 					"-DGRAPHICS_PROGRAM",
 					"-DAPP_GRAPHICS",
@@ -934,6 +941,7 @@
 					"-Wall",
 					"-W",
 					"-D_USE_NTPDATE_EXEC_",
+					"-DFTGL_LIBRARY_STATIC",
 					"-DQCNLIVE",
 					"-DGRAPHICS_PROGRAM",
 					"-DAPP_GRAPHICS",
@@ -996,12 +1004,12 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		434121CE12957D8600CBDC15 /* Build configuration list for PBXNativeTarget "QCNLive" */ = {
+		439F36FA1296E58300DE788A /* Build configuration list for PBXNativeTarget "QCNLive" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				434121B912957D5A00CBDC15 /* Debug */,
-				434121BA12957D5A00CBDC15 /* Release */,
-				434121BB12957D5A00CBDC15 /* Default */,
+				439F36E81296E55C00DE788A /* Debug */,
+				439F36E91296E55C00DE788A /* Release */,
+				439F36EA1296E55C00DE788A /* Default */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Default;
