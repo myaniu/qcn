@@ -236,6 +236,7 @@ extern void getProjectPrefs();
 extern const char* ScreenshotJPG();
 extern void ResetPlotArray();
 extern const int   GetTimeWindowWidth();
+extern const int   SetTimeWindowWidthInt(int iWidth = 10);
 extern const int   SetTimeWindowWidth(bool bUp = true);
 extern const long  TimeWindowBack();
 extern const long  TimeWindowStop();

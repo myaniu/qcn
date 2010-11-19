@@ -112,6 +112,11 @@ void draw_text()
    mode_unshaded();
 	qcn_graphics::mode_ortho_qcn();
 
+#ifdef QCNLIVE  // check for "make quake" feature
+	draw_makequake_message(); // draw any msg if we're doing the quake stuff
+#endif
+	
+	
    // now draw time text at the bottom
    char strTime[16];
    //TTFont::ttf_render_string(qcn_graphics::cfTextAlpha, fWhere, Y_TRIGGER_LAST[0] - 3.0f, 0, 800, blue, TTF_ARIAL, (const char*) strTime);
@@ -173,7 +178,7 @@ void draw_text()
 	draw_text_sensor_axis(E_DX);
 
 	// units label (meters per second per second
-    TTFont::ttf_render_string(cfTransAlpha, cfVertLabel, cfMSSLabel, 0, MSG_SIZE_SMALL, g_bIsWhite ? black : grey_trans, TTF_MONOSPACE, " m/s/s");
+    TTFont::ttf_render_string(cfTransAlpha, cfVertLabel, cfMSSLabel, 0, MSG_SIZE_SMALL, g_bIsWhite ? black : grey_trans, TTF_MONOSPACE, "m/s/s");
 
     // time label
 
@@ -207,7 +212,7 @@ void draw_text()
 	sprintf(bufout, "%.2f  %.2f  %.2f  %.2f", g_fAvg[0], g_fAvg[1], g_fAvg[2], g_fAvg[3]);
 	TTFont::ttf_render_string(qcn_graphics::g_alphaText, 0.04f, 0.1f, 0.0f, MSG_SIZE_SMALL, light_blue, TTF_ARIAL, bufout);
 */
-
+	
 	ortho_done();
 }
 
@@ -480,16 +485,53 @@ void SensorDataZoomOut()
 #ifdef QCNLIVE
 
 // just an overlay for the countdown etc
-void draw_makequake_countdown()
+void draw_makequake_message()
 {
+	static int iSize[2] = {0,0};
+	int iCheck[2] = {0,0};
 	if (!qcn_graphics::g_MakeQuake.bActive) return;
+
+	int iLen = strlen(g_MakeQuake.strName);
+	char strApos[3];
+	char strMsg[_MAX_PATH];
+	memset(strApos, 0x00, sizeof(char) * 3);
+	memset(strMsg, 0x00, sizeof(char) * _MAX_PATH);
+
+	// get the right suffix i.e. apostrophe if name ends in s else 's
+	if (iLen > 0 && g_MakeQuake.strName[iLen-1] == 's') strcpy(strApos, "'");
+	else strcpy(strApos, "'s");
+				
+	sprintf(strMsg, "%s%s Earthquake", g_MakeQuake.strName, strApos);
+
+	TTFont::ttf_render_string(1.0, -0.022, 0.10, 0, MSG_SIZE_BIG, black, TTF_ARIAL, strMsg, 90);
+
+	// draw countdown msg
+	if (qcn_graphics::g_MakeQuake.iCountdown > 0) {
+		if (iCheck[0] != qcn_graphics::g_MakeQuake.iCountdown) {
+			iSize[0] = 0;
+			iCheck[0] = qcn_graphics::g_MakeQuake.iCountdown;
+		}
+		TTFont::ttf_render_string(1.0, 0.0, 0.67, 0, MSG_SIZE_BIG / 4, red, TTF_ARIAL, "Countdown!");
+		sprintf(strApos, "%d", iCheck[0]);
+		if ( iSize[0] > 29 ) iSize[0] = 29;
+		TTFont::ttf_render_string(1.0, 0.3, 0.10, 0, (float) MSG_SIZE_BIG / (30 - iSize[0]++), red, TTF_ARIAL, strApos);
+		return; 
+	}
+	
+	// draw monitoring msg
+	if (qcn_graphics::g_MakeQuake.iTime > 0) {
+		if (iCheck[1] != qcn_graphics::g_MakeQuake.iTime) {
+			iSize[1] = 0;
+			iCheck[1] = qcn_graphics::g_MakeQuake.iTime;
+		}
+		sprintf(strMsg, "Monitoring.......%ds", iCheck[1]);
+		TTFont::ttf_render_string(1.0, 0.0, 0.67, 0, MSG_SIZE_BIG / 2, red, TTF_ARIAL, strMsg);
+		return; 
+	}
+	
+		
 }
 
-// check for the print timer i.e. grab framebuffer here and send to printer, or just JPG?
-void draw_makequake_print()
-{
-	if (!qcn_graphics::g_MakeQuake.bActive) return;
-}
 
 #endif  // QCNLive makequake stuff
 

@@ -21,8 +21,7 @@ namespace qcn_2dplot {
 	extern void draw_scrollbar();
 
 #ifdef QCNLIVE
-  extern void draw_makequake_countdown(); // just an overlay for the countdown etc
-  extern void draw_makequake_print(); // check for the print timer i.e. grab framebuffer here and send
+  extern void draw_makequake_message(); // just an overlay for the countdown etc
 #endif
 
 }  // end namespace

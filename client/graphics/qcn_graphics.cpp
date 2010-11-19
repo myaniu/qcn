@@ -1265,6 +1265,39 @@ const int GetTimeWindowWidth()
 	return g_iTimeWindowWidth;
 }
 
+const int SetTimeWindowWidthInt(int iWidth)
+{
+	if (iWidth == 10 || iWidth == 60 || iWidth == 600 || iWidth == 3600)
+	{
+		g_iTimeWindowWidth = iWidth; // iWidth is a valid value
+	}
+	else {
+		g_iTimeWindowWidth = 10; // default if no valid value set in
+	}
+	switch(g_iTimeWindowWidth) {
+		case 10:
+			key_winsize = 0;
+			qcn_2dplot::SetTimerTick(1);  // 1 second tick marks
+			break;
+		case 60:
+			key_winsize = 1;
+			qcn_2dplot::SetTimerTick(5);  // 5 second tick marks
+			break;
+		case 600:
+			key_winsize = 2;
+			qcn_2dplot::SetTimerTick(60);  // 1 minute tick marks
+			break;
+		case 3600:
+			key_winsize = 3;
+			qcn_2dplot::SetTimerTick(300);  // 5 minute tick marks
+			break;
+	}
+	bResetArray = true;
+	g_bSnapshotArrayProcessed = false;
+	return g_iTimeWindowWidth;
+}
+		
+
 const int SetTimeWindowWidth(bool bUp)
 {
 	if (bUp) { // increase window width
@@ -1780,9 +1813,6 @@ void Render(int xs, int ys, double time_of_day)
 		  qcn_2dplot::draw_plot();
 		  draw_triggers();
 		  qcn_2dplot::draw_text();
-#ifdef QCNLIVE  // check for "make quake" feature
-		  qcn_2dplot::draw_makequake_countdown(); // just an overlay for the countdown etc
-#endif
           break;
        case VIEW_PLOT_3D:
 	  glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
@@ -1815,10 +1845,6 @@ void Render(int xs, int ys, double time_of_day)
 
     glFinish();
 
-#ifdef QCNLIVE  // check for "make quake" feature
-	qcn_2dplot::draw_makequake_print(); // check for the print timer i.e. grab framebuffer here and send to printer, or just JPG?
-#endif
-		
     bInHere = false;
 }
 

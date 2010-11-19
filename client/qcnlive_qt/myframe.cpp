@@ -629,15 +629,26 @@ void MyFrame::fileMakeQuake()
 	if (pcmq) {
 		pcmq->exec();
 	    if (pcmq->start()) { // data was validated and set in shared memory (sm)
-			m_actionViewSensor2D->activate(QAction::Trigger);
 			m_pMyApp->setMakeQuakeTime(pcmq->getMakeQuakeTime());
 			m_pMyApp->setMakeQuakeCountdown(pcmq->getMakeQuakeCountdown());
 			qcn_graphics::g_MakeQuake.iTime = pcmq->getMakeQuakeTime();
 			qcn_graphics::g_MakeQuake.iCountdown = pcmq->getMakeQuakeCountdown();
 			pcmq->getUserString(qcn_graphics::g_MakeQuake.strName);
-			qcn_graphics::g_MakeQuake.bActive = true; // this is a flag as well as mutex if we're in other threads, but graphics thread is not separate from qcnlive
+
+			// setup proper view for 2d sensor, i.e. 10sec or 60 sec window width
+			m_actionViewSensor2D->activate(QAction::Trigger);
+			if (qcn_graphics::g_MakeQuake.iTime <= 10)
+				qcn_graphics::SetTimeWindowWidthInt(10);
+			else 
+				qcn_graphics::SetTimeWindowWidthInt(60);
+
+			setTimeSliderValue(100);
+			
+			SetToggleSensor(false);
+			
 			statusBar()->showMessage(tr("Monitoring for earthquakes..."));
 			m_pMyApp->startQuakeTimer(); // starts up quake timer
+			qcn_graphics::g_MakeQuake.bActive = true; // this is a flag as well as mutex if we're in other threads, but graphics thread is not separate from qcnlive
 		}
 	    delete pcmq;
 	}
@@ -807,9 +818,7 @@ void MyFrame::actionOptionSensor()
 		else qcn_2dplot::ShowSigPlot(true);
 	}
 	
-			
-
-    SetToggleSensor((bool)(qcn_graphics::g_eView == VIEW_PLOT_3D));
+	SetToggleSensor((bool)(qcn_graphics::g_eView == VIEW_PLOT_3D));
 }
 
 

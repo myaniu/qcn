@@ -432,18 +432,35 @@ void MyApp::slotGetLatestQuakeList()
 void MyApp::slotMakeQuake()
 {  // this gets triggered every second, so decrement countdown, then start after 10 seconds make a snapshot
 	// when done should probably issue a timer->stop?  hope you can do that from within a slot!
-	static int iCtr = 0;
-	if (++iCtr == 10) {
+
+	if (!qcn_graphics::g_MakeQuake.bActive) {
+		// odd if not active, stop timer & return
 		m_timerMakeQuake->stop();
-		processEvents();
-		const char* strSS = qcn_graphics::ScreenshotJPG();
-		char* statmsg = new char[_MAX_PATH];
-		sprintf(statmsg, "Quake for %s saved to %s", qcn_graphics::g_MakeQuake.strName, strSS);
-		m_frame->statusBar()->showMessage(tr(statmsg));
-		delete [] statmsg;
 		qcn_graphics::g_MakeQuake.clear(); // can reset/reuse
-		iCtr = 0;
 	}
+	
+	// a second has gone by, decrement countdown, or else
+	if (--qcn_graphics::g_MakeQuake.iCountdown > 0) return; // still in countdown
+
+	// if made it here we're monitoring, so decrement the iTime
+	if (--qcn_graphics::g_MakeQuake.iTime > 0) return; // still shakin'
+	
+	// if here we can take a screenshot
+	m_timerMakeQuake->stop();
+
+	processEvents();
+	usleep(1e5); // sleep .1 seconds, i.e. enough for the render to not have the countdown text
+	processEvents();
+	
+	const char* strSS = qcn_graphics::ScreenshotJPG();
+	char* statmsg = new char[_MAX_PATH];
+	sprintf(statmsg, "Quake for %s saved to %s", qcn_graphics::g_MakeQuake.strName, strSS);
+	delete [] statmsg;
+
+    // print or something? here
+	
+	m_frame->statusBar()->showMessage(tr(statmsg));
+	qcn_graphics::g_MakeQuake.clear(); // can reset/reuse
 }
 
 void MyApp::GetLatestQuakeList()

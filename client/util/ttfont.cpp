@@ -92,7 +92,7 @@ void ttf_render_string(
 
                 if(iFont < 0 || iFont > NUM_FONT || !g_font[iFont]) return;  //invalid font
 
-                        int renderMode = FTGL::FTGL_RENDER_FRONT; // | FTGL::FTGL_RENDER_BACK;
+				int renderMode = FTGL::FTGL_RENDER_FRONT; //ALL; //FRONT | FTGL::FTGL_RENDER_BACK;
 
                 GLfloat color[4];
                 memcpy(color, col, sizeof(GLfloat) * 4);
