@@ -1594,6 +1594,21 @@ inline void WinGetCoords(int& mx, int& my)
 #endif 
 */
 
+void LoadFonts()
+{
+	static bool bLoaded = false;
+	if (bLoaded) return;
+#ifdef QCNLIVE
+	TTFont::ttf_load_fonts((const char*) ".");
+	bLoaded = true;
+#else
+	if (sm && sm->dataBOINC.project_dir) {
+		TTFont::ttf_load_fonts((const char*) sm->dataBOINC.project_dir);
+		bLoaded = true;
+	}
+#endif
+}
+		
 void Init()
 {
     static bool bFirstIn = false;
@@ -1660,12 +1675,11 @@ void Init()
     pos[2] = 0.0;
     rgx.init(pos, size, colorsPlot[E_DX], colorsPlot[E_DX]);
 
+	LoadFonts();
     // load logo & fonts
 #ifdef QCNLIVE
-    TTFont::ttf_load_fonts((const char*) ".");
     strcpy(path, IMG_LOGO);
 #else
-    TTFont::ttf_load_fonts((const char*) qcn_main::g_strPathProject);
     boinc_resolve_filename(IMG_LOGO, path, sizeof(path));
 #endif
 
@@ -1734,8 +1748,10 @@ void Render(int xs, int ys, double time_of_day)
             iCounter = 0;
             fprintf(stderr, "No shared memory found, trying to attach...\n");  // this should only be required in qcndemo mode
             getSharedMemory();
-            if (sm) 
+		    if (sm) {
                sm->update_time = dtime();  // set update time so prefs will be read below 
+			   LoadFonts(); // check for font loading
+		    }
        }
     }
 
