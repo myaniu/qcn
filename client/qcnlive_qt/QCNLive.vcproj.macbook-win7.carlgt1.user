@@ -9,8 +9,8 @@
 			Name="Debug|Win32"
 			>
 			<DebugSettings
-				Command=""
-				WorkingDirectory=""
+				Command="$(TargetPath)"
+				WorkingDirectory="c:\projects\qcn\client\bin"
 				CommandArguments=""
 				Attach="false"
 				DebuggerType="3"
@@ -20,9 +20,9 @@
 				HttpUrl=""
 				PDBPath=""
 				SQLDebugging=""
-				Environment=""
+				Environment="PATH=$(QTDIR)\bin;&quot;$(QTDIR)\bin;$(PATH)"
 				EnvironmentMerge="true"
-				DebuggerFlavor=""
+				DebuggerFlavor="0"
 				MPIRunCommand=""
 				MPIRunArguments=""
 				MPIRunWorkingDirectory=""
@@ -37,7 +37,7 @@
 			Name="Release|Win32"
 			>
 			<DebugSettings
-				Command=""
+				Command="$(TargetPath)"
 				WorkingDirectory=""
 				CommandArguments=""
 				Attach="false"
@@ -48,7 +48,7 @@
 				HttpUrl=""
 				PDBPath=""
 				SQLDebugging=""
-				Environment=""
+				Environment="PATH=$(QTDIR)\bin;&quot;$(QTDIR)\bin;$(PATH)"
 				EnvironmentMerge="true"
 				DebuggerFlavor=""
 				MPIRunCommand=""
@@ -65,7 +65,7 @@
 			Name="Debug|x64"
 			>
 			<DebugSettings
-				Command=""
+				Command="$(TargetPath)"
 				WorkingDirectory=""
 				CommandArguments=""
 				Attach="false"
@@ -93,7 +93,7 @@
 			Name="Release|x64"
 			>
 			<DebugSettings
-				Command=""
+				Command="$(TargetPath)"
 				WorkingDirectory=""
 				CommandArguments=""
 				Attach="false"
