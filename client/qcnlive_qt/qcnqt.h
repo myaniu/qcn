@@ -38,7 +38,9 @@ class MyApp: public QApplication
   private:
 	Q_OBJECT
 
-	QTimer* m_timer;  // slow timer for getting quakes every half hour
+	QTimer* m_timerQuakeList;  // slow timer for getting quakes every half hour
+	QTimer* m_timerMakeQuake;  // a short run timer to handle the quake shake stuff
+	
 	MyFrame* m_frame;
     QRect m_rect;            // apps screen coordinates
     QSplashScreen* m_psplash;  // the apps splash screen
@@ -48,6 +50,7 @@ class MyApp: public QApplication
 	
   private slots:
     void slotGetLatestQuakeList();
+    void slotMakeQuake();
 
   public:
     MyApp(int& argc, char** argv);
@@ -81,6 +84,16 @@ class MyApp: public QApplication
 	
 	const int getMakeQuakeCountdown() { return m_iMakeQuakeCountdown; }
 	void setMakeQuakeCountdown(const int iTime) { m_iMakeQuakeCountdown = iTime; }
+	
+	void startQuakeTimer()
+	{
+		m_timerMakeQuake->start(1000L);  // in milliseconds, so check every second
+	}
+	
+	void stopQuakeTimer()
+	{
+		m_timerMakeQuake->stop();  // stops the timer
+	}
 	
 };
 

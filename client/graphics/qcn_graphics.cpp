@@ -232,23 +232,26 @@ void Cleanup()
 
 #ifdef QCNLIVE
 
-	void SMakeQuake::clear() 
-	{ 
-		static bool bFirst = true;
-		if (!bFirst) { 
-			// check byte array is empty
-			if (data) {
-				delete [] data;
-			}
+void SMakeQuake::clear() 
+{ 
+	/*
+	static bool bFirst = true;
+	if (!bFirst) { 
+		// check byte array is empty
+		if (data) {
+			// for example it's in the middle of a screenshot and they hit print
+			delete [] data;
 		}
-		bActive = false;
-		dStart = 0.0;
-		iTime = 0;
-		iCountdown = 0;
-		memset(strName, 0x00, sizeof(char) * 64);
-		data = NULL;
-		bFirst = false;
 	}
+	*/
+	bActive = false;
+	dStart = 0.0;
+	iTime = 0;
+	iCountdown = 0;
+	memset(strName, 0x00, sizeof(char) * 64);
+	//data = NULL;
+	//bFirst = false;
+}
 	
 // make-a-quake vars
 struct SMakeQuake g_MakeQuake;

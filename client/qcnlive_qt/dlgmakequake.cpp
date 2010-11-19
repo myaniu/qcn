@@ -68,7 +68,7 @@ void CDialogMakeQuake::InitPointers()
 void CDialogMakeQuake::getUserString(char* strName)
 { 
 	memset(strName, 0x00, sizeof(char) * 64);
-	strncpy(strName, m_strName.toAscii(), 64);
+	strncpy(strName, m_strName.toAscii(), 63);
 }
 
 
@@ -130,7 +130,7 @@ void CDialogMakeQuake::CreateControls()
     // control 1 - name
     m_labelName = new QLabel(tr("Name:"), this);
     m_textctrlName = new QLineEdit(this);
-	m_textctrlName->setMaxLength(64);
+	m_textctrlName->setMaxLength(63);
 	m_textctrlName->setText(m_strName);
 
 	

@@ -27,7 +27,7 @@ int main(int argc, char *argv[])
 
 MyApp::MyApp(int& argc, char** argv)  
   : QApplication(argc, argv), 
-    m_timer(NULL), m_frame(NULL)
+    m_timerQuakeList(NULL), m_timerMakeQuake(NULL), m_frame(NULL)
 {
 }
 
@@ -127,7 +127,7 @@ bool MyApp::MainInit()
 	
 	// freopen stdout to stdout.txt
 	if (!freopen("stdout.txt", "w", stdout)) {
-           fprintf(stderr, "Can't redirect stdout for qcnwx!\n");
+           fprintf(stderr, "Can't redirect stdout for qcnqt!\n");
 	}
 	
 	processEvents(); // give the app time to process mouse events since we're before the event loop
@@ -397,9 +397,14 @@ bool MyApp::Init()
     // CMC frame->SetupToolbars();
 
 	// setup & start the timer for getting the next earthquake list from the qcn server
-    m_timer = new QTimer(this);
-    connect(m_timer, SIGNAL(timeout()), this, SLOT(slotGetLatestQuakeList()));
-    m_timer->start(1800000L);  // in milliseconds, so a half hour is a lot!
+    m_timerQuakeList = new QTimer(this);
+    connect(m_timerQuakeList, SIGNAL(timeout()), this, SLOT(slotGetLatestQuakeList()));
+    m_timerQuakeList->start(1800000L);  // in milliseconds, so a half hour is a lot!  can start now
+	
+	// setup the timer for making quakes - it's actually triggered from a menu choice in MyFrame
+	// the MyFrame menu will start this timer ever second, which will call pMyApp->slotMakeQuake
+    m_timerMakeQuake = new QTimer(this);
+    connect(m_timerMakeQuake, SIGNAL(timeout()), this, SLOT(slotMakeQuake()));
 	
 	processEvents(); // give the app time to process mouse events since we're before the event loop
 	if (m_psplash) m_psplash->showMessage(tr("Preparing graphics engine..."), Qt::AlignRight | Qt::AlignBottom, Qt::black);
@@ -417,10 +422,28 @@ bool MyApp::Init()
     return m_bInit;
 } 
 
-// a private slot to launch the quakelist
+// a private slot to launch the quakelist every hour
 void MyApp::slotGetLatestQuakeList()
 {
 	GetLatestQuakeList();
+}
+
+// a private slot to monitor the "MakeQuake" stuff
+void MyApp::slotMakeQuake()
+{  // this gets triggered every second, so decrement countdown, then start after 10 seconds make a snapshot
+	// when done should probably issue a timer->stop?  hope you can do that from within a slot!
+	static int iCtr = 0;
+	if (++iCtr == 10) {
+		m_timerMakeQuake->stop();
+		processEvents();
+		const char* strSS = qcn_graphics::ScreenshotJPG();
+		char* statmsg = new char[_MAX_PATH];
+		sprintf(statmsg, "Quake for %s saved to %s", qcn_graphics::g_MakeQuake.strName, strSS);
+		m_frame->statusBar()->showMessage(tr(statmsg));
+		delete [] statmsg;
+		qcn_graphics::g_MakeQuake.clear(); // can reset/reuse
+		iCtr = 0;
+	}
 }
 
 void MyApp::GetLatestQuakeList()
@@ -438,10 +461,10 @@ void MyApp::GetLatestQuakeList()
 
 int MyApp::Exit()
 {
-	if (m_timer) {
-		m_timer->stop();
-		delete m_timer;
-		m_timer = NULL;
+	if (m_timerQuakeList) {
+		m_timerQuakeList->stop();
+		delete m_timerQuakeList;
+		m_timerQuakeList = NULL;
 	}
 	if (m_frame) {
 		delete m_frame; // necessary?
@@ -480,15 +503,15 @@ bool MyApp::KillMainThread()
 	
 	int iCtr = 0;
 	if (qcn_main::g_threadMain && qcn_main::g_threadMain->IsRunning())  { // the main thread is running, so kill it
-		fprintf(stdout, "qcnwx: stopping main monitoring thread\n");
-		while (qcn_main::g_threadMain->IsRunning() && iCtr < 3000) {
-			iCtr++;
+		fprintf(stdout, "qcnqt: stopping main monitoring thread\n");
+		while (qcn_main::g_threadMain->IsRunning() && ++iCtr <= 3000) {
+			processEvents();
 			usleep(1000);
 		}
-		fprintf(stdout, "qcnwx: main thread quit within %f seconds...\n", (float) iCtr * .001f);
+		fprintf(stdout, "qcnqt: main thread quit within %f seconds...\n", (float) iCtr * .001f);
 	}
 	else {
-		fprintf(stdout, "qcnwx: main thread stopped\n");
+		fprintf(stdout, "qcnqt: main thread stopped\n");
 	}
 	
 	if (qcn_main::g_threadMain) { // free main thread resources

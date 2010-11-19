@@ -592,6 +592,7 @@ void MyFrame::actionView()
 
 void MyFrame::actionOptionScreenshot()
 {
+	m_pMyApp->processEvents();
 	const char* strSS = qcn_graphics::ScreenshotJPG();
 	if (strSS && strSS[0] != 0x00) {
 		// we have a valid screenshot filename
@@ -615,7 +616,9 @@ void MyFrame::fileMakeQuake()
 	if (qcn_graphics::g_MakeQuake.bActive) {
 		if (QMessageBox::question(this, tr("Cancel Quake?"), tr("Cancel the current 'quake' and start a new session?"), 
 				QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes) == QMessageBox::Yes) {
+			m_pMyApp->stopQuakeTimer(); // stop quake timer
 			qcn_graphics::g_MakeQuake.clear(); // clear this session and proceed to the dialog below
+			statusBar()->showMessage(tr("Earthquake monitoring cancelled"), 5000);
 		}
 		else {
 			return; // they don't want to quit
@@ -633,6 +636,8 @@ void MyFrame::fileMakeQuake()
 			qcn_graphics::g_MakeQuake.iCountdown = pcmq->getMakeQuakeCountdown();
 			pcmq->getUserString(qcn_graphics::g_MakeQuake.strName);
 			qcn_graphics::g_MakeQuake.bActive = true; // this is a flag as well as mutex if we're in other threads, but graphics thread is not separate from qcnlive
+			statusBar()->showMessage(tr("Monitoring for earthquakes..."));
+			m_pMyApp->startQuakeTimer(); // starts up quake timer
 		}
 	    delete pcmq;
 	}
@@ -713,7 +718,7 @@ void MyFrame::actionHelp()
 		//MyAboutBox myabout(this);
 		//myabout.exec();	
 		QString strVer(tr("About QCNLive version "));
-		QString strMsg(tr("<b>QCNLive</b> is provided by the <BR> Quake-Catcher Network Project <BR><BR>http://qcn.stanford.edu<BR><BR>(c) 2010 Stanford University"));
+		QString strMsg(tr("<b>QCNLive</b> is provided by the <BR> Quake-Catcher Network Project <BR><BR><A HREF='http://qcn.stanford.edu'>http://qcn.stanford.edu</A><BR><BR>(c) 2010 Stanford University"));
 		strVer += QCN_VERSION_STRING;
 		QMessageBox::about(this, strVer, strVer + "<BR><BR>" + strMsg);
 	}

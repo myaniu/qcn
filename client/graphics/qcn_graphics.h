@@ -99,7 +99,8 @@ public:
   int iTime; // int for shake time
   int iCountdown; // int for countdown
   char strName[64];  // kid's name
-  QCN_BYTE* data; // the framebuffer data to print or save
+  //bool bLock; // mutex to lock the data pointer, if this is true don't delete
+  //QCN_BYTE* data; // the framebuffer data to print or save
 
   void clear();
   SMakeQuake() { clear(); }
