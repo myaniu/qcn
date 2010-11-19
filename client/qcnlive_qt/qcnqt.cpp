@@ -455,11 +455,12 @@ void MyApp::slotMakeQuake()
 	const char* strSS = qcn_graphics::ScreenshotJPG();
 	char* statmsg = new char[_MAX_PATH];
 	sprintf(statmsg, "Quake for %s saved to %s", qcn_graphics::g_MakeQuake.strName, strSS);
+	m_frame->statusBar()->showMessage(tr(statmsg));
 	delete [] statmsg;
 
     // print or something? here
 	
-	m_frame->statusBar()->showMessage(tr(statmsg));
+	
 	qcn_graphics::g_MakeQuake.clear(); // can reset/reuse
 }
 

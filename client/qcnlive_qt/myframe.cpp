@@ -641,14 +641,16 @@ void MyFrame::fileMakeQuake()
 				qcn_graphics::SetTimeWindowWidthInt(10);
 			else 
 				qcn_graphics::SetTimeWindowWidthInt(60);
+			// set to absolute
+			m_actionOptionSensorAbsolute->activate(QAction::Trigger); // set to absolute scale
 
 			setTimeSliderValue(100);
 			
 			SetToggleSensor(false);
 			
 			statusBar()->showMessage(tr("Monitoring for earthquakes..."));
-			m_pMyApp->startQuakeTimer(); // starts up quake timer
 			qcn_graphics::g_MakeQuake.bActive = true; // this is a flag as well as mutex if we're in other threads, but graphics thread is not separate from qcnlive
+			m_pMyApp->startQuakeTimer(); // starts up quake timer
 		}
 	    delete pcmq;
 	}
