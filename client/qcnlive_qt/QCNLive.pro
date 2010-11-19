@@ -33,8 +33,9 @@ win32:LIBS += -L$$BASEDIRQCN/client/win_build \
    jpeglib32.lib zlib32.lib \
    MotionNodeAccelAPI.lib
 
-win32:WINDEFINES = WIN32 _WIN32 _CRT_SECURE_NO_DEPRECATE
-win32:WININCLUDE = windows.h
+#win32:WININCLUDEPATH = c:\\Program Files (x86)\\Microsoft #Visual Studio 9.0\\VC\\ATLMFC\\INCLUDE;c:\\Program Files (x86)##\\Microsoft Visual Studio 9.0\\VC\\INCLUDE;C:\\Program Files#\\Microsoft SDKs\\Windows\\v6.0A\\include;
+#win32:WINDEFINES = WIN32 _WIN32 _CRT_SECURE_NO_DEPRECATE
+#win32:WININCLUDE = windows.h
 
 DEFINES += _USE_NTPDATE_EXEC_ QCNLIVE GRAPHICS_PROGRAM APP_GRAPHICS _ZLIB QCN _THREAD_SAFE CURL_STATICLIB _ZLIB $$WINDEF
 
@@ -52,6 +53,7 @@ INCLUDEPATH += \
         $$BASEDIRBOINC/lib \
         $$BASEDIRBOINC/api \
         $$BASEDIRBOINC/zip \
+        $$WININCLUDEPATH \
         $$GRAPHICSDIR 
 
 mac:ICON = $$BASEDIRQCN/doc/qcnmac.icns
