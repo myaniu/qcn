@@ -50,6 +50,10 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ftgl", "..\..\ftgl-2.1.3\msvc\vc8\ftgl_static.vcproj", "{1D758EEA-59C3-46E4-BEF5-16DCCA8C0B21}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "QCNLive", "..\qcnlive_qt\QCNLive.vcproj", "{ADDBDF68-592A-3C8D-991B-22AC92C33D8D}"
+	ProjectSection(ProjectDependencies) = postProject
+		{89F1CB05-73F7-4FDB-A99A-BF54A9BC6F26} = {89F1CB05-73F7-4FDB-A99A-BF54A9BC6F26}
+		{B9EEE711-0151-444D-84DC-6A4C18411038} = {B9EEE711-0151-444D-84DC-6A4C18411038}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
