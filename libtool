@@ -66,7 +66,7 @@ fast_install=needless
 
 # The host system.
 host_alias=
-host=i686-apple-darwin10.4.0
+host=i686-apple-darwin10.5.0
 
 # An echo program that does not interpret backslashes.
 echo="/bin/echo"
@@ -6787,7 +6787,7 @@ fast_install=needless
 
 # The host system.
 host_alias=
-host=i686-apple-darwin10.4.0
+host=i686-apple-darwin10.5.0
 
 # An echo program that does not interpret backslashes.
 echo="/bin/echo"
