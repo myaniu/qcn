@@ -249,7 +249,9 @@ void Cleanup()
    earth.Cleanup();
    vsq.clear();
    TTFont::ttf_cleanup(); // cleanup fonts
+#ifdef QCNLIVE
    g_MakeQuake.clear();
+#endif
    bInHere = true;
 }
 

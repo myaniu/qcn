@@ -48,7 +48,7 @@
 				PreprocessorDefinitions="QCNGRAPHICS;FTGL_LIBRARY_STATIC;_WIN32;WIN32;_DEBUG;_ZLIB;_CRT_SECURE_NO_DEPRECATE;GRAPHICS_PROGRAM"
 				ExceptionHandling="1"
 				BasicRuntimeChecks="3"
-				RuntimeLibrary="1"
+				RuntimeLibrary="3"
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="false"
 				DebugInformationFormat="4"
@@ -220,7 +220,7 @@
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="../../zlib-1.2.5;../../;../main;../graphics,../sensor;../util;../../../boinc/lib;../../../boinc/api;&quot;../../jpeg-6b&quot;;&quot;../../freetype-2.3.9/include&quot;;../../../boinc/zip;&quot;../../ftgl-2.1.3/include&quot;"
 				PreprocessorDefinitions="QCNGRAPHICS;FTGL_LIBRARY_STATIC;_WIN32;NDEBUG;_ZLIB;_CRT_SECURE_NO_DEPRECATE;GRAPHICS_PROGRAM"
-				RuntimeLibrary="0"
+				RuntimeLibrary="2"
 				ForcedIncludeFiles="windows.h"
 			/>
 			<Tool

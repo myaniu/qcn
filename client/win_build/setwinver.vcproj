@@ -45,7 +45,7 @@
 				Optimization="0"
 				AdditionalIncludeDirectories="../../;../../../boinc/lib;../main"
 				PreprocessorDefinitions="_WIN32;_DEBUG"
-				RuntimeLibrary="1"
+				RuntimeLibrary="3"
 				DebugInformationFormat="4"
 			/>
 			<Tool
@@ -191,7 +191,7 @@
 				Optimization="1"
 				AdditionalIncludeDirectories="../../;../../../boinc/lib;../main"
 				PreprocessorDefinitions="_WIN32;NDEBUG"
-				RuntimeLibrary="0"
+				RuntimeLibrary="2"
 				DebugInformationFormat="0"
 			/>
 			<Tool
