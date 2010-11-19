@@ -18,6 +18,9 @@
 #define SET_COMPANY "edu.stanford.qcn"
 #define SET_APP     "QCNLive"
 
+#define QT_WINDOW_SETTINGS_GEOMETRY "geometry"
+#define QT_WINDOW_SETTINGS_STATE    "winstate"
+
 #define MY_RECT_DEFAULT_POS_X    16
 #define MY_RECT_DEFAULT_POS_Y    24
 #define MY_RECT_DEFAULT_WIDTH   945

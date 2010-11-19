@@ -158,7 +158,17 @@ bool MyFrame::Init()
 	statusBar()->showMessage(tr("Ready"), 0);
 		
 	QSettings settings(SET_COMPANY, SET_APP);
-	restoreGeometry(settings.value("geometry").toByteArray());
+	if (settings.contains(QT_WINDOW_SETTINGS_GEOMETRY))  {
+		restoreGeometry(settings.value(QT_WINDOW_SETTINGS_GEOMETRY).toByteArray());
+	}
+	else { // use a default 640 x 480?
+		setGeometry(100, 100, 640, 480);
+	}
+	// windows state/toolbar layout etc
+	if (settings.contains(QT_WINDOW_SETTINGS_STATE))  {
+		restoreState(settings.value(QT_WINDOW_SETTINGS_STATE).toByteArray());
+	}
+	
 
 	return true;
 }
@@ -475,7 +485,8 @@ QSize MyFrame::getSize()
 void MyFrame::closeEvent(QCloseEvent* pqc)
 {
 	QSettings settings(SET_COMPANY, SET_APP);
-	settings.setValue("geometry", saveGeometry());
+	settings.setValue(QT_WINDOW_SETTINGS_GEOMETRY, saveGeometry());
+	settings.setValue(QT_WINDOW_SETTINGS_STATE, saveState());
 	QWidget::closeEvent(pqc);
 }
 
