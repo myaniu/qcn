@@ -141,31 +141,29 @@ const char cstrQCNLive[] = {"qcnlive-win.zip"};
 	memset(strCmd, 0x00, 1024);
 
 #ifdef _WIN64
-	sprintf_s(strCmd, 1024, "%s %s "
-		"%s %s %s %s %s %s %s %s %s %s%s%c%s%s %s", ZIPCMD, cstrQCNLive,
+	sprintf_s(strCmd, 1024, "%s %s %s "
+		"%s %s %s %s %s %s %s %s %s %s %s %s %s %s%s%c%s%s", ZIPCMD, cstrQCNLive,
 		"qcnlive.exe",
 #else
-	sprintf_s(strCmd, 1024, "%s %s "
-		"%s %s %s %s %s %s %s %s %s %s %s%s%c%s%s %s", ZIPCMD, cstrQCNLive,
+	sprintf_s(strCmd, 1024, "%s %s %s %s "
+		"%s %s %s %s %s %s %s %s %s %s %s %s %s %s%s%c%s%s", ZIPCMD, cstrQCNLive,
 		"qcnlive.exe",
 		"init/MotionNodeAccelAPI.dll",
 #endif
 		"init/qcnwin.ico",
-                "QtCore4.dll",
-                "QtGui4.dll",
-                "QtOpenGL4.dll",
-                "init/hvt",
-                "init/hvt",
-                "init/hvt",
-                "init/cbt",
+        "QtCore4.dll",
+        "QtGui4.dll",
+        "QtOpenGL4.dll",
+        "init/hvt",
+        "init/cbt",
 		"init/earthday4096.jpg",
-                "init/qcnlogo.jpg",
+        "init/qcnlogo.png",
 		"init/splash.png",
 		"init/xyzaxes.jpg",
 		"init/xyzaxesbl.jpg",
 		"init/logo.jpg",
-		"init/", NTPDATE_EXEC_VERSION, '_', BOINC_WIN_SUFFIX, ".exe",
-		"init/earthnight4096.jpg"
+		"init/earthnight4096.jpg",
+		"init/", NTPDATE_EXEC_VERSION, '_', BOINC_WIN_SUFFIX, ".exe"
 	);
 	fprintf(stdout, "Executing %s\n", strCmd);
 
