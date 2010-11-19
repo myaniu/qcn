@@ -64,12 +64,12 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="libcmtd.lib hid.lib setupapi.lib winmm.lib boinc_zipd.lib boinc_apid.lib zlib32d.lib boinc_libd.lib MotionNodeAccelAPI.lib"
+				AdditionalDependencies="msvcrtd.lib hid.lib setupapi.lib winmm.lib boinc_zipd.lib boinc_apid.lib zlibd.lib boinc_libd.lib MotionNodeAccelAPI.lib"
 				OutputFile="../test/projects/qcn.edu_qcn/qcnd.exe"
 				Version=""
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="../sensor/motionnodeaccel/"
-				IgnoreDefaultLibraryNames="msvcrtd.lib"
+				IgnoreDefaultLibraryNames="libcmtd.lib libcmt.lib"
 				DelayLoadDLLs="MotionNodeAccelAPI.dll"
 				GenerateDebugInformation="true"
 				SubSystem="1"
@@ -135,7 +135,7 @@
 				AdditionalIncludeDirectories="../../;../main;../util;../sensor;../../zlib;../../../boinc/zip;../../../boinc/lib;../../../boinc/api"
 				PreprocessorDefinitions="_WIN64;_USE_NTPDATE_EXEC_;_WIN32;WIN32;_DEBUG;_CRT_SECURE_NO_DEPRECATE;_ZLIB;APP_GRAPHICS"
 				BasicRuntimeChecks="3"
-				RuntimeLibrary="1"
+				RuntimeLibrary="3"
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="false"
 				DebugInformationFormat="3"
@@ -239,11 +239,12 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="hid.lib setupapi.lib winmm.lib boinc_lib.lib boinc_api.lib boinc_zip.lib MotionNodeAccelAPI.lib zlib32.lib"
+				AdditionalDependencies="msvcrt.lib hid.lib setupapi.lib winmm.lib boinc_lib.lib boinc_api.lib boinc_zip.lib MotionNodeAccelAPI.lib zlib.lib"
 				OutputFile="../bin/qcn.exe"
 				Version=""
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="../sensor/motionnodeaccel"
+				IgnoreDefaultLibraryNames="libcmt.lib"
 				DelayLoadDLLs="MotionNodeAccelAPI.dll"
 				SubSystem="2"
 				HeapReserveSize="0"
@@ -311,7 +312,7 @@
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="../../;../main;../sensor;../util;../../../boinc/lib;../../zlib;../../../boinc/api;../../../boinc/zip"
 				PreprocessorDefinitions="_WIN64;_USE_NTPDATE_EXEC_;_WIN32;NDEBUG;_WIN32;_CRT_SECURE_NO_DEPRECATE;_ZLIB;APP_GRAPHICS"
-				RuntimeLibrary="0"
+				RuntimeLibrary="2"
 				ForcedIncludeFiles="windows.h"
 			/>
 			<Tool
