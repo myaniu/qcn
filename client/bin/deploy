@@ -33,7 +33,7 @@ uplstring='$font1 \
          init/earthnight4096.jpg \
          init/xyzaxes.jpg \
          init/xyzaxesbl.jpg \
-         init/qcnlogo.png' \
+         init/qcnlogo.png \
          init/logo.jpg'
  ntpversion='ntpdate_4.2.4p7c_'
  ntpdv='ntpdate_4.2.4p7c_universal-apple-darwin'
