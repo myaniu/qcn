@@ -427,7 +427,6 @@ enum e_drawtype { NATION = 0, PLATE, COUNTRY, COASTLINE };
 #define IMG_EARTH_DAY   "earth_" QCN_VERSION_STRING ".jpg"
 #define IMG_EARTH_NIGHT "earth_night_" QCN_VERSION_STRING ".jpg"
 #define IMG_LOGO        "logo_" QCN_VERSION_STRING ".jpg"
-#define FONT_HELVETICA  "Helvetica_" QCN_VERSION_STRING ".txf"
 */
 
 // don't need version nums, but if change file should rename!
@@ -440,6 +439,8 @@ enum e_drawtype { NATION = 0, PLATE, COUNTRY, COASTLINE };
 #define IMG_LOGO_EXTRA   "ad.jpg"
 #define IMG_LOGO_XYZAXES "xyzaxes.jpg"
 #define IMG_LOGO_XYZAXES_BLACK "xyzaxesbl.jpg"
+#define FONT_HELVETICA  "Helvetica_" QCN_VERSION_STRING ".txf"
+#define FONT_MONOSPACE  "Helvetica_" QCN_VERSION_STRING ".txf"
 
 #define PI 3.14159265f
 
