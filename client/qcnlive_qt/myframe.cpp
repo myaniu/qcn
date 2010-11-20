@@ -525,6 +525,7 @@ void MyFrame::createToolbar()
 {	
 	m_toolBarView = new QToolBar(tr("View"), this);	
 	if (m_toolBarView) { // && m_dockWidgetView) {
+		m_toolBarView->setObjectName("QCN_TB_VIEW");
 		m_toolBarView->setIconSize(QSize(ICON_SIZE, ICON_SIZE));		
 		ToolBarView();
 		addToolBar(Qt::TopToolBarArea, m_toolBarView);
@@ -532,6 +533,7 @@ void MyFrame::createToolbar()
 	
 	m_toolBarOption = new QToolBar(tr("Options"), this);	
 	if (m_toolBarOption) {
+		m_toolBarOption->setObjectName("QCN_TB_OPTION");
 		m_toolBarOption->setIconSize(QSize(ICON_SIZE, ICON_SIZE));		
 		ToolBarEarth(true);
 		addToolBar(Qt::TopToolBarArea, m_toolBarOption);
