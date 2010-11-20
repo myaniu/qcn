@@ -746,7 +746,7 @@ void MyFrame::actionHelp()
 			"(i.e. use at your own risk),<BR>all rights reserved, by the "
 			"<BR> Quake-Catcher Network Project <BR><BR>"
 			"<A HREF='http://qcn.stanford.edu'>http://qcn.stanford.edu</A>"
-		    "<BR><BR>Stanford University School of Earth Sciences<BR><BR>"
+		    "<BR><BR>Stanford University<BR>School of Earth Sciences<BR><BR>"
 			"University of California at Riverside<BR>Department of Earth Sciences"
 			"<BR><BR>(c) 2010 Stanford University")
 		);
