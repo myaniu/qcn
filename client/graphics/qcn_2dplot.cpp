@@ -486,7 +486,12 @@ void SensorDataZoomOut()
 // just an overlay for the countdown etc
 void draw_makequake_message()
 {
-	if (!qcn_graphics::g_MakeQuake.bDisplay) return;
+	if (!qcn_graphics::g_MakeQuake.bActive) return;
+	if (!qcn_graphics::g_MakeQuake.bDisplay) {
+		// if it's active but bDisplay==false then flag that we received this message (i.e. just turned no display)
+		if (!qcn_graphics::g_MakeQuake.bReceived) qcn_graphics::g_MakeQuake.bReceived = true;
+		return;
+	}
 
 	static int iSize[2] = {0,0};
 	int iCheck[2] = {0,0};

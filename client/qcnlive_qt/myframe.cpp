@@ -660,6 +660,7 @@ void MyFrame::fileMakeQuake()
 			statusBar()->showMessage(tr("Monitoring for earthquakes..."));
 			qcn_graphics::g_MakeQuake.bActive = true; // this is a flag as well as mutex if we're in other threads, but graphics thread is not separate from qcnlive
 			qcn_graphics::g_MakeQuake.bDisplay = true; // don't for get the flag for the display -- so countdown/monitor msg won't show on our screenshot
+			qcn_graphics::g_MakeQuake.bReceived = false; // this gets set to true in qcn_graphics thread (qcn_2dplot.cpp) when bActive && !bDisplay
 			m_pMyApp->startQuakeTimer(); // starts up quake timer
 		}
 	    delete pcmq;

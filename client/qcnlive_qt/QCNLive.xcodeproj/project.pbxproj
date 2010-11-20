@@ -966,6 +966,7 @@
 				OTHER_REZFLAGS = "";
 				PREBINDING = NO;
 				PRODUCT_NAME = QCNLive;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = "";
 				YACCFLAGS = "-d";

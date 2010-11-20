@@ -365,6 +365,12 @@ bool MyApp::Init()
 	m_psplash->show();
 	m_psplash->showMessage(tr("Starting up..."), Qt::AlignRight | Qt::AlignBottom, Qt::black);
 	
+	
+	// first check makequake dir exists
+	if (!is_dir(DIR_MAKEQUAKE)) {
+		boinc_mkdir(DIR_MAKEQUAKE);
+	}
+	
 	// init make-quake stuff
 	m_iMakeQuakeTime = 10;
 	qcn_graphics::g_MakeQuake.clear();
@@ -436,10 +442,14 @@ void MyApp::slotMakeQuake()
 {  // this gets triggered every second, so decrement countdown, then start after 10 seconds make a snapshot
 	// when done should probably issue a timer->stop?  hope you can do that from within a slot!
 
-	if (!qcn_graphics::g_MakeQuake.bActive) {
+	static QPrintPreviewDialog* qppr = NULL;
+	static QPrinter* qpr = NULL;
+
+	if (!qcn_graphics::g_MakeQuake.bActive || qcn_graphics::g_eView != VIEW_PLOT_2D) { // quit if they changed view
 		// odd if not active, stop timer & return
 		m_timerMakeQuake->stop();
 		qcn_graphics::g_MakeQuake.clear(); // can reset/reuse
+		m_frame->statusBar()->showMessage(tr("Error in making quake - did you change the view from 2D Plot?"), 10000);
 	}
 	
 	// a second has gone by, decrement countdown, or else
@@ -448,30 +458,67 @@ void MyApp::slotMakeQuake()
 	// if made it here we're monitoring, so decrement the iTime
 	if (--qcn_graphics::g_MakeQuake.iTime > 0) return; // still shakin'
 	
-	// if here we can take a screenshot
+	// if here we can take a screenshot, so first stop this timer slot from firing again
 	m_timerMakeQuake->stop();
+	
+	// i.e. when bActive & !bDisplay received in qcn_graphics thread, set bReceived = true and wait here
+	int iCtr = 0;
 	qcn_graphics::g_MakeQuake.bDisplay = false; // turn it off so any screen messages for make-quake disappear
+	// when this is true our screen should not have countdown/montor msgs
+	while (!qcn_graphics::g_MakeQuake.bReceived && ++iCtr <= 2000) { // wait up to 2 seconds for message to get received by graphics thread
+		processEvents();
+		usleep(1000);
+	}
+
+	if (!qcn_graphics::g_MakeQuake.bReceived) { // hmm, never got the received message from graphics thread, they may have switched 2D plot view 
+		qcn_graphics::g_MakeQuake.clear(); // can reset/reuse
+		m_frame->statusBar()->showMessage(tr("Graphics error in making quake - please try again"), 10000);
+	}
+	
 	m_frame->statusBar()->showMessage(tr("Processing image..."));
 	
-	processEvents();
-	usleep(2e5); // sleep .2 seconds, i.e. enough for the render to not have the countdown text
-	processEvents();
+	m_strQuakeJPG = qcn_graphics::ScreenshotJPG(); // this actually gets the screen grab and returns the filename
+	if (m_strQuakeJPG.isEmpty() || !boinc_file_exists(m_strQuakeJPG.toAscii()))  { //error - must not have saved pic 
+		m_frame->statusBar()->showMessage(tr("Error in this session - sorry - please try later!"), 5000);
+		m_strQuakeJPG.clear();
+		goto done;
+	}
 	
-	QPrintPreviewDialog* qppr = NULL;
-	QPrinter* qpr = NULL;
-	QPixmap* qpjpg = NULL;
-	QPainter* paint = NULL;
-	QPrintDialog* printDialog = NULL;
+	// setup virtual printer device
+	qpr = new QPrinter(QPrinter::HighResolution);
+	if (!qpr) goto done; // error
+	qpr->setOutputFormat(QPrinter::PdfFormat);
+	qpr->setOrientation(QPrinter::Landscape);
+	qpr->setPaperSize(QPrinter::Letter);
+	
+	// now do a printpreview which will "paint" the PDF
+	qppr = new QPrintPreviewDialog(qpr, m_frame);
+	qppr->setWindowFlags(Qt::Window);
+	connect(qppr, SIGNAL(paintRequested(QPrinter *)), SLOT(slotPrintPreview(QPrinter *)));
+	qppr->exec(); // bring up the window and "paint"
+	
+done:
+	if (qppr) delete qppr;
+	if (qpr) delete qpr;
+	qpr = NULL;
+	qppr = NULL;
+	if (boinc_file_exists(m_strQuakeJPG.toAscii())) boinc_delete_file(m_strQuakeJPG.toAscii()); // get rid of original file if exists
+	m_strQuakeJPG.clear();
+	qcn_graphics::g_MakeQuake.clear(); // can reset/reuse now
+}
 
+void MyApp::slotPrintPreview(QPrinter* qpr)
+{
+	static QPixmap* qpjpg = NULL;
+	static QPainter* paint = NULL;
+	
+	if (!qpr) return;
+	
 	QString strName;
-	QString strOut, strJPG, strPDF, statmsg;
+	QString strOut, strPDF, statmsg;
 	
 	QRect rect;
 	QSize size;
-
-	const char *strDir = {"../makequake"};
-
-	strJPG = qcn_graphics::ScreenshotJPG(); // this actually gets the screen grab and returns the filename
 
 	// add 's or ' to end if name ends with s
 	int iLen = strlen(qcn_graphics::g_MakeQuake.strName);
@@ -485,88 +532,47 @@ void MyApp::slotMakeQuake()
 	strName = qcn_graphics::g_MakeQuake.strName;
 	strName += strApos;
 	strName += " Earthquake";
-
-
-	if (strJPG.isEmpty() || !boinc_file_exists(strJPG.toAscii()))  { //error - must not have saved pic 
-		statmsg = "Error in this session - sorry - please try later!";
-		m_frame->statusBar()->showMessage(statmsg, 5000);
-		goto done;
-	}
-	
+		
 	// setup for printing
-	//qpjpg = new QImage(strJPG);
-	qpjpg = new QPixmap(strJPG);
+	qpjpg = new QPixmap(m_strQuakeJPG);
 	if (!qpjpg || qpjpg->width() < 20) goto done; // our image didn't load
 	
-	//int iWidth = qpjpg->width();
-	//int iHeight = qpjpg->height();
-	
-	qpr = new QPrinter(QPrinter::HighResolution);
-	if (!qpr) goto done; // error
-	
-	qpr->setOutputFormat(QPrinter::PdfFormat);
-	
-	if (!is_dir(strDir)) {
-		boinc_mkdir(strDir);
-	}
 	
 	qcn_util::strAlNum(qcn_graphics::g_MakeQuake.strName);
-	strPDF.sprintf("%s/%s_%ld.pdf", strDir, qcn_graphics::g_MakeQuake.strName, (long) dtime());
+	strPDF.sprintf("%s/%s_%ld.pdf", DIR_MAKEQUAKE, qcn_graphics::g_MakeQuake.strName, (long) dtime());
 	
 	qpr->setOutputFileName(strPDF);
-	qpr->setOrientation(QPrinter::Landscape);
-	qpr->setPaperSize(QPrinter::Letter);
 		
-    //printDialog = new QPrintDialog(qpr, m_frame);
-	//printDialog->exec();
-	//if (!printDialog->exec()) {
-	//	m_frame->statusBar()->showMessage("Printing cancelled", 5000);
-	//	goto done;
-	//}
-
-	
 	paint = new QPainter(qpr);
-    if (!paint) goto done; // error a la paint->begin(qpr) below?
+    if (!paint) {
+		statmsg = tr("Print error - Do you have a printer or PDF support?");
+		m_frame->statusBar()->showMessage(statmsg);
+		goto done; // error a la paint->begin(qpr) below?
+	}
 	
 	rect = paint->viewport();
 	size = qpjpg->size();
-	//size.setHeight(size.height() + 80);	
 	size.scale(rect.size(), Qt::KeepAspectRatio);
     paint->setViewport(rect.x(), rect.y(), size.width(), size.height());
-	//rect = paint->viewport();
 	paint->setWindow(rect);
-
-	//statmsg.sprintf("Quake for %s saved to ", qcn_graphics::g_MakeQuake.strName);, strPic);
-	//m_frame->statusBar()->showMessage(tr(statmsg));
-
-	/*
-	// begin painting
-	if (!paint->begin(qpr)) { // error, can't begin painting on printer device!
-		statmsg = "Error with virtual printer device - sorry - please try later!  Filename=" + strPDF;
-		m_frame->statusBar()->showMessage(statmsg);
-		paint->end();
-		goto done;
-	}
-	 */
 	
+	int iOldY = rect.y();
+	rect.setY(iOldY + ((float) size.height() * .05));  // do some juggling around to ensure space at the top for the name
 	paint->drawPixmap(rect, *qpjpg);
-	paint->drawText(10, 10, strName);
+	rect.setY(iOldY);
+	paint->drawText(rect, Qt::AlignHCenter | Qt::AlignTop, strName);
 	paint->end();
 	
-	//qppr = new QPrintPreviewDialog(qpr); // , m_frame);
+	statmsg = "Quake PDF saved to " + strPDF;
+	m_frame->statusBar()->showMessage(statmsg);
 	
-	//qppr->exec();
 	
-	statmsg.sprintf("Quake for %s saved to ", qcn_graphics::g_MakeQuake.strName);
-	m_frame->statusBar()->showMessage(statmsg + strPDF);
-
 done:
-	if (qppr) delete qppr;
-	if (qpr) delete qpr;
 	if (qpjpg) delete qpjpg;
 	if (paint) delete paint;
-	if (printDialog) delete printDialog;
-	qcn_graphics::g_MakeQuake.clear(); // can reset/reuse
+	qpjpg = NULL;
+	paint = NULL;
+	
 }
 
 void MyApp::GetLatestQuakeList()

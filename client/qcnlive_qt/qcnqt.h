@@ -48,9 +48,12 @@ class MyApp: public QApplication
 	int m_iMakeQuakeTime; // "shake" time 
 	int m_iMakeQuakeCountdown; // countdown time
 	
+	QString m_strQuakeJPG;
+	
   private slots:
     void slotGetLatestQuakeList();
     void slotMakeQuake();
+	void slotPrintPreview(QPrinter* qpr);
 
   public:
     MyApp(int& argc, char** argv);

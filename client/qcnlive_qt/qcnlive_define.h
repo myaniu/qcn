@@ -18,6 +18,9 @@
 #define SET_COMPANY "edu.stanford.qcn"
 #define SET_APP     "QCNLive"
 
+#define DIR_MAKEQUAKE "../makequake"
+
+
 #define QT_WINDOW_SETTINGS_GEOMETRY "geometry"
 #define QT_WINDOW_SETTINGS_STATE    "winstate"
 
