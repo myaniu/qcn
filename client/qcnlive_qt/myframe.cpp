@@ -381,12 +381,12 @@ void MyFrame::createActions()
 		
 	
 	// Help actions
-    m_actionHelpAbout = new QAction(tr("&About"), this);
-	m_actionHelpAbout->setToolTip(tr("About QCNLive"));
+    m_actionHelpAbout = new QAction(tr("&About QCNLive"), this);
+	m_actionHelpAbout->setToolTip(tr("About the QCNLive"));
     connect(m_actionHelpAbout, SIGNAL(triggered()), this, SLOT(actionHelp()));
 
-    m_actionHelpAboutQt = new QAction(tr("About Qt"), this);
-	m_actionHelpAboutQt->setToolTip(tr("About Qt"));
+    m_actionHelpAboutQt = new QAction(tr("About &Qt"), this);
+	m_actionHelpAboutQt->setToolTip(tr("About the Qt library"));
     connect(m_actionHelpAboutQt, SIGNAL(triggered()), this, SLOT(actionHelp()));
 	
 	m_actionHelpManual = new QAction(tr("&Manual (PDF) for QCNLive"), this);
@@ -416,8 +416,6 @@ void MyFrame::createActions()
 	m_actionHelpWebGlossary = new QAction(tr("&Glossary"), this);
 	m_actionHelpWebGlossary->setToolTip(tr("Online Glossary"));
     connect(m_actionHelpWebGlossary, SIGNAL(triggered()), this, SLOT(actionHelp()));
-
-	
 }
 
 void MyFrame::createMenus()
@@ -443,11 +441,6 @@ void MyFrame::createMenus()
 
 	// Help
 	m_menuHelp = menuBar()->addMenu(tr("&Help"));
-	m_menuHelp->addAction(m_actionHelpAbout);
-	m_menuHelp->addAction(m_actionHelpAboutQt);
-#ifndef __APPLE_CC__
-	m_menuHelp->addSeparator();  // on Mac the Help/About goes on the left-most system menu, so don't need a separator
-#endif
 	m_menuHelp->addAction(m_actionHelpManual);
 	m_menuHelp->addAction(m_actionHelpWebQCN);
 	m_menuHelp->addAction(m_actionHelpWebQCNLive);
@@ -455,8 +448,11 @@ void MyFrame::createMenus()
 	m_menuHelp->addAction(m_actionHelpWebLessons);
 	m_menuHelp->addAction(m_actionHelpWebRequestSensor);
 	m_menuHelp->addAction(m_actionHelpWebGlossary);
-	
-		
+#ifndef __APPLE_CC__
+	m_menuHelp->addSeparator();  // on Mac the Help/About goes on the left-most system menu, so don't need a separator
+#endif
+	m_menuHelp->addAction(m_actionHelpAbout);
+	m_menuHelp->addAction(m_actionHelpAboutQt);	
 }
 
 QSize MyFrame::getSize()
@@ -743,9 +739,23 @@ void MyFrame::actionHelp()
 		//MyAboutBox myabout(this);
 		//myabout.exec();	
 		QString strVer(tr("About QCNLive version "));
-		QString strMsg(tr("<b>QCNLive</b> is provided by the <BR> Quake-Catcher Network Project <BR><BR><A HREF='http://qcn.stanford.edu'>http://qcn.stanford.edu</A><BR><BR>(c) 2010 Stanford University"));
+		QString strMsg(tr("<b>QCNLive</b> is provided free of charge, "
+			"<BR>no guarantees or warrantees or liabilities,<BR>"
+			"(i.e. use at your own risk),<BR>all rights reserved, by the "
+			"<BR> Quake-Catcher Network Project <BR><BR>"
+			"<A HREF='http://qcn.stanford.edu'>http://qcn.stanford.edu</A>"
+		    "<BR><BR>Stanford University School of Earth Sciences<BR><BR>"
+			"University of California at Riverside<BR>Department of Earth Sciences"
+			"<BR><BR>(c) 2010 Stanford University")
+		);
 		strVer += QCN_VERSION_STRING;
-		QMessageBox::about(this, strVer, strVer + "<BR><BR>" + strMsg);
+		QMessageBox::about(this, strVer, 
+#ifdef __APPLE_CC__  // title string on window is missing on Mac
+			strVer + "<BR><BR>" + strMsg
+#else   // title string on window is OK, so just need the regular message
+			strMsg
+#endif
+			);
 	}
 	else if (pAction == m_actionHelpAboutQt) {
 		QMessageBox::aboutQt(this, tr("QCNLive Is Built With Qt"));

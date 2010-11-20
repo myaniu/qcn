@@ -47,7 +47,7 @@
 				AdditionalIncludeDirectories="../../;../main;../sensor;../util;../../../boinc/lib;../../zlib-1.2.5;../../../boinc/api;../../../boinc/zip"
 				PreprocessorDefinitions="_USE_NTPDATE_EXEC_;_WIN32;WIN32;_DEBUG;_CRT_SECURE_NO_DEPRECATE;_ZLIB;APP_GRAPHICS"
 				BasicRuntimeChecks="3"
-				RuntimeLibrary="3"
+				RuntimeLibrary="1"
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="false"
 				DebugInformationFormat="4"
@@ -64,12 +64,13 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="msvcrtd.lib hid.lib setupapi.lib winmm.lib boinc_zipd.lib boinc_apid.lib zlibd.lib boinc_libd.lib MotionNodeAccelAPI.lib"
+				AdditionalOptions="/LTCG"
+				AdditionalDependencies="hid.lib setupapi.lib winmm.lib boinc_zipd.lib boinc_apid.lib zlibd.lib boinc_libd.lib MotionNodeAccelAPI.lib"
 				OutputFile="../test/projects/qcn.edu_qcn/qcnd.exe"
 				Version=""
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="../sensor/motionnodeaccel/"
-				IgnoreDefaultLibraryNames="libcmtd.lib libcmt.lib"
+				IgnoreDefaultLibraryNames="msvcrtd.lib"
 				DelayLoadDLLs="MotionNodeAccelAPI.dll"
 				GenerateDebugInformation="true"
 				SubSystem="1"
@@ -224,7 +225,7 @@
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="../../;../main;../sensor;../util;../../../boinc/lib;../../zlib-1.2.5;../../../boinc/api;../../../boinc/zip"
 				PreprocessorDefinitions="_USE_NTPDATE_EXEC_;_WIN32;NDEBUG;_WIN32;_CRT_SECURE_NO_DEPRECATE;_ZLIB;APP_GRAPHICS"
-				RuntimeLibrary="2"
+				RuntimeLibrary="0"
 				ForcedIncludeFiles="windows.h"
 			/>
 			<Tool
@@ -239,12 +240,13 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="msvcrt.lib hid.lib setupapi.lib winmm.lib boinc_lib.lib boinc_api.lib boinc_zip.lib MotionNodeAccelAPI.lib zlib.lib"
+				AdditionalOptions="/LTCG"
+				AdditionalDependencies="hid.lib setupapi.lib winmm.lib boinc_lib.lib boinc_api.lib boinc_zip.lib MotionNodeAccelAPI.lib zlib.lib"
 				OutputFile="../bin/qcn.exe"
 				Version=""
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="../sensor/motionnodeaccel"
-				IgnoreDefaultLibraryNames="libcmt.lib"
+				IgnoreDefaultLibraryNames="msvcrt.lib"
 				DelayLoadDLLs="MotionNodeAccelAPI.dll"
 				SubSystem="2"
 				HeapReserveSize="0"

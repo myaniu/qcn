@@ -29,7 +29,7 @@ mac:LIBS += -framework IOKit -framework Carbon \
 
 win32:LIBS += -L$$BASEDIRQCN/client/win_build, \
 c:/projects/qcn/client/win_build,../sensor/motionnodeaccel \
-msvcrt.lib glu32.lib opengl32.lib gdi32.lib user32.lib \
+glu32.lib opengl32.lib gdi32.lib user32.lib \
 qtmain.lib wsock32.lib hid.lib setupapi.lib winmm.lib \
 comctl32.lib boinc_zip.lib curllib.lib jpeglib.lib zlib.lib \
 MotionNodeAccelAPI.lib QtOpenGL4.lib QtGui4.lib QtCore4.lib \
