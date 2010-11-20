@@ -12,4 +12,5 @@ then
   $LCTL unload $PLIST
 fi
 rm -f $PLIST
-rm -f /tmp/qcn*
+rm -f /tmp/qcnusb.out
+rm -f /tmp/qcnusb.err
