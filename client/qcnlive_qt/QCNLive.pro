@@ -27,11 +27,13 @@ mac:LIBS += -framework IOKit -framework Carbon \
      -lboinc_zip -ljpeg-universal -lcurl-universal \
      -lz-universal -lfreetype-universal -lftgl-universal
 
-win32:LIBS += -L$$BASEDIRQCN/client/win_build \
-   wsock32.lib hid.lib setupapi.lib winmm.lib glu32.lib opengl32.lib \
-   comctl32.lib boinc_api.lib boinc_lib.lib boinc_zip.lib curllib.lib \
-   jpeglib32.lib zlib32.lib \
-   MotionNodeAccelAPI.lib
+win32:LIBS += -L$$BASEDIRQCN/client/win_build, \
+c:/projects/qcn/client/win_build,../sensor/motionnodeaccel \
+msvcrt.lib glu32.lib opengl32.lib gdi32.lib user32.lib \
+qtmain.lib wsock32.lib hid.lib setupapi.lib winmm.lib \
+comctl32.lib boinc_zip.lib curllib.lib jpeglib.lib zlib.lib \
+MotionNodeAccelAPI.lib QtOpenGL4.lib QtGui4.lib QtCore4.lib \
+ftgl.lib freetype.lib boinc_lib.lib boinc_api.lib
 
 #win32:WININCLUDEPATH = c:\\Program Files (x86)\\Microsoft #Visual Studio 9.0\\VC\\ATLMFC\\INCLUDE;c:\\Program Files (x86)##\\Microsoft Visual Studio 9.0\\VC\\INCLUDE;C:\\Program Files#\\Microsoft SDKs\\Windows\\v6.0A\\include;
 #win32:WINDEFINES = WIN32 _WIN32 _CRT_SECURE_NO_DEPRECATE
@@ -117,7 +119,7 @@ mac:MAC_SRC_BOINC = $$BLIBDIR/mac/mac_backtrace.cpp \
    $$BLIBDIR/mac/QSymbols.c \
    $$BLIBDIR/mac/QTaskMemory.c
 
-SRC_BOINC = $$BAPIDIR/boinc_api.cpp \
+mac:SRC_BOINC = $$BAPIDIR/boinc_api.cpp \
    $$BAPIDIR/graphics2_util.cpp \
    $$BAPIDIR/graphics2.cpp \
    $$BAPIDIR/gutil.cpp \
@@ -136,6 +138,9 @@ SRC_BOINC = $$BAPIDIR/boinc_api.cpp \
    $$BLIBDIR/prefs.cpp \
    $$BLIBDIR/url.cpp \
    $$BLIBDIR/coproc.cpp $$MAC_SRC_BOINC
+
+win:SRC_BOINC =
+linux:SRC_BOINC =
 
 HEADERS       += qcnqt.h $$WININCLUDE \
                 glwidget.h \
