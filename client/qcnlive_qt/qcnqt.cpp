@@ -165,6 +165,9 @@ bool MyApp::get_qcnlive_prefs()
     m_rect.setY(MY_RECT_DEFAULT_POS_Y);
     m_rect.setWidth(MY_RECT_DEFAULT_WIDTH);
     m_rect.setHeight(MY_RECT_DEFAULT_HEIGHT);
+	
+	m_iMakeQuakeTime = 10; // default time for make-quake countdown i.e. 10 seconds
+	m_iMakeQuakeCountdown = 10; 
 
     sm->dMyLatitude = NO_LAT;
     sm->dMyLongitude = NO_LNG; 
