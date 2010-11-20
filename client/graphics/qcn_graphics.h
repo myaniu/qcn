@@ -95,6 +95,7 @@ struct SMakeQuake
 {
 public:
   bool bActive; // flag that we're active
+  volatile bool bDisplay; // volatile as it's multithreaded, flag that we can show countdown display etc
   double dStart; // start time
   int iTime; // int for shake time
   int iCountdown; // int for countdown

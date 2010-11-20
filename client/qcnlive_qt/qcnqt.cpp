@@ -7,6 +7,9 @@
 #include "glwidget.h"
 #include "qcnqt.h"
 
+#include <QPrinter>
+#include <QPrintPreviewDialog>
+
 /* dependencies required for running:
 	QtOpenGL.framework/Versions/4/QtOpenGL (compatibility version 4.7.0, current version 4.7.0)
 	QtGui.framework/Versions/4/QtGui (compatibility version 4.7.0, current version 4.7.0)
@@ -447,20 +450,122 @@ void MyApp::slotMakeQuake()
 	
 	// if here we can take a screenshot
 	m_timerMakeQuake->stop();
-
+	qcn_graphics::g_MakeQuake.bDisplay = false; // turn it off so any screen messages for make-quake disappear
+	m_frame->statusBar()->showMessage(tr("Processing image..."));
+	
 	processEvents();
-	usleep(1e5); // sleep .1 seconds, i.e. enough for the render to not have the countdown text
+	usleep(2e5); // sleep .2 seconds, i.e. enough for the render to not have the countdown text
 	processEvents();
 	
-	const char* strSS = qcn_graphics::ScreenshotJPG();
-	char* statmsg = new char[_MAX_PATH];
-	sprintf(statmsg, "Quake for %s saved to %s", qcn_graphics::g_MakeQuake.strName, strSS);
-	m_frame->statusBar()->showMessage(tr(statmsg));
-	delete [] statmsg;
+	QPrintPreviewDialog* qppr = NULL;
+	QPrinter* qpr = NULL;
+	QPixmap* qpjpg = NULL;
+	QPainter* paint = NULL;
+	QPrintDialog* printDialog = NULL;
 
-    // print or something? here
+	QString strName;
+	QString strOut, strJPG, strPDF, statmsg;
 	
+	QRect rect;
+	QSize size;
+
+	const char *strDir = {"../makequake"};
+
+	strJPG = qcn_graphics::ScreenshotJPG(); // this actually gets the screen grab and returns the filename
+
+	// add 's or ' to end if name ends with s
+	int iLen = strlen(qcn_graphics::g_MakeQuake.strName);
+	char strApos[3];
+	memset(strApos, 0x00, sizeof(char) * 3);	
 	
+	// get the right suffix i.e. apostrophe if name ends in s else 's
+	if (iLen > 0 && qcn_graphics::g_MakeQuake.strName[iLen-1] == 's') strcpy(strApos, "'");
+	else strcpy(strApos, "'s");
+	
+	strName = qcn_graphics::g_MakeQuake.strName;
+	strName += strApos;
+	strName += " Earthquake";
+
+
+	if (strJPG.isEmpty() || !boinc_file_exists(strJPG.toAscii()))  { //error - must not have saved pic 
+		statmsg = "Error in this session - sorry - please try later!";
+		m_frame->statusBar()->showMessage(statmsg, 5000);
+		goto done;
+	}
+	
+	// setup for printing
+	//qpjpg = new QImage(strJPG);
+	qpjpg = new QPixmap(strJPG);
+	if (!qpjpg || qpjpg->width() < 20) goto done; // our image didn't load
+	
+	//int iWidth = qpjpg->width();
+	//int iHeight = qpjpg->height();
+	
+	qpr = new QPrinter(QPrinter::HighResolution);
+	if (!qpr) goto done; // error
+	
+	qpr->setOutputFormat(QPrinter::PdfFormat);
+	
+	if (!is_dir(strDir)) {
+		boinc_mkdir(strDir);
+	}
+	
+	qcn_util::strAlNum(qcn_graphics::g_MakeQuake.strName);
+	strPDF.sprintf("%s/%s_%ld.pdf", strDir, qcn_graphics::g_MakeQuake.strName, (long) dtime());
+	
+	qpr->setOutputFileName(strPDF);
+	qpr->setOrientation(QPrinter::Landscape);
+	qpr->setPaperSize(QPrinter::Letter);
+		
+    //printDialog = new QPrintDialog(qpr, m_frame);
+	//printDialog->exec();
+	//if (!printDialog->exec()) {
+	//	m_frame->statusBar()->showMessage("Printing cancelled", 5000);
+	//	goto done;
+	//}
+
+	
+	paint = new QPainter(qpr);
+    if (!paint) goto done; // error a la paint->begin(qpr) below?
+	
+	rect = paint->viewport();
+	size = qpjpg->size();
+	//size.setHeight(size.height() + 80);	
+	size.scale(rect.size(), Qt::KeepAspectRatio);
+    paint->setViewport(rect.x(), rect.y(), size.width(), size.height());
+	//rect = paint->viewport();
+	paint->setWindow(rect);
+
+	//statmsg.sprintf("Quake for %s saved to ", qcn_graphics::g_MakeQuake.strName);, strPic);
+	//m_frame->statusBar()->showMessage(tr(statmsg));
+
+	/*
+	// begin painting
+	if (!paint->begin(qpr)) { // error, can't begin painting on printer device!
+		statmsg = "Error with virtual printer device - sorry - please try later!  Filename=" + strPDF;
+		m_frame->statusBar()->showMessage(statmsg);
+		paint->end();
+		goto done;
+	}
+	 */
+	
+	paint->drawPixmap(rect, *qpjpg);
+	paint->drawText(10, 10, strName);
+	paint->end();
+	
+	//qppr = new QPrintPreviewDialog(qpr); // , m_frame);
+	
+	//qppr->exec();
+	
+	statmsg.sprintf("Quake for %s saved to ", qcn_graphics::g_MakeQuake.strName);
+	m_frame->statusBar()->showMessage(statmsg + strPDF);
+
+done:
+	if (qppr) delete qppr;
+	if (qpr) delete qpr;
+	if (qpjpg) delete qpjpg;
+	if (paint) delete paint;
+	if (printDialog) delete printDialog;
 	qcn_graphics::g_MakeQuake.clear(); // can reset/reuse
 }
 

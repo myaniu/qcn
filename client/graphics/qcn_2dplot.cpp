@@ -483,27 +483,16 @@ void SensorDataZoomOut()
 }
 
 #ifdef QCNLIVE
-
 // just an overlay for the countdown etc
 void draw_makequake_message()
 {
+	if (!qcn_graphics::g_MakeQuake.bDisplay) return;
+
 	static int iSize[2] = {0,0};
 	int iCheck[2] = {0,0};
-	if (!qcn_graphics::g_MakeQuake.bActive) return;
 
-	int iLen = strlen(g_MakeQuake.strName);
-	char strApos[3];
-	char strMsg[_MAX_PATH];
-	memset(strApos, 0x00, sizeof(char) * 3);
-	memset(strMsg, 0x00, sizeof(char) * _MAX_PATH);
-
-	// get the right suffix i.e. apostrophe if name ends in s else 's
-	if (iLen > 0 && g_MakeQuake.strName[iLen-1] == 's') strcpy(strApos, "'");
-	else strcpy(strApos, "'s");
-				
-	sprintf(strMsg, "%s%s Earthquake", g_MakeQuake.strName, strApos);
-
-	TTFont::ttf_render_string(1.0, -0.022, 0.10, 0, MSG_SIZE_BIG, black, TTF_ARIAL, strMsg, 90);
+	char strMsg[32];
+	memset(strMsg, 0x00, sizeof(char) * 32);
 
 	// draw countdown msg
 	if (qcn_graphics::g_MakeQuake.iCountdown > 0) {
@@ -512,27 +501,19 @@ void draw_makequake_message()
 			iCheck[0] = qcn_graphics::g_MakeQuake.iCountdown;
 		}
 		TTFont::ttf_render_string(1.0, 0.0, 0.67, 0, MSG_SIZE_BIG / 4, red, TTF_ARIAL, "Countdown!");
-		sprintf(strApos, "%d", iCheck[0]);
+		sprintf(strMsg, "%d", iCheck[0]);
 		if ( iSize[0] > 29 ) iSize[0] = 29;
-		TTFont::ttf_render_string(1.0, 0.3, 0.10, 0, (float) MSG_SIZE_BIG / (30 - iSize[0]++), red, TTF_ARIAL, strApos);
-		return; 
+		TTFont::ttf_render_string(1.0, 0.3, 0.10, 0, (float) MSG_SIZE_BIG / (30 - iSize[0]++), red, TTF_ARIAL, strMsg);
 	}
-	
-	// draw monitoring msg
-	if (qcn_graphics::g_MakeQuake.iTime > 0) {
+	else if (qcn_graphics::g_MakeQuake.iTime > 0) { // check to draw monitoring msg
 		if (iCheck[1] != qcn_graphics::g_MakeQuake.iTime) {
 			iSize[1] = 0;
 			iCheck[1] = qcn_graphics::g_MakeQuake.iTime;
 		}
 		sprintf(strMsg, "Monitoring.......%ds", iCheck[1]);
 		TTFont::ttf_render_string(1.0, 0.0, 0.67, 0, MSG_SIZE_BIG / 2, red, TTF_ARIAL, strMsg);
-		return; 
 	}
-	
-		
 }
-
-
 #endif  // QCNLive makequake stuff
 
 

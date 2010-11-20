@@ -117,6 +117,7 @@ void SMakeQuake::clear()
 	}
 	*/
 	bActive = false;
+	bDisplay = false;
 	dStart = 0.0;
 	iTime = 0;
 	iCountdown = 0;

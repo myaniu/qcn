@@ -645,7 +645,7 @@ void MyFrame::fileMakeQuake()
 			qcn_graphics::g_MakeQuake.iTime = pcmq->getMakeQuakeTime();
 			qcn_graphics::g_MakeQuake.iCountdown = pcmq->getMakeQuakeCountdown();
 			pcmq->getUserString(qcn_graphics::g_MakeQuake.strName);
-
+			
 			// setup proper view for 2d sensor, i.e. 10sec or 60 sec window width
 			m_actionViewSensor2D->activate(QAction::Trigger);
 			if (qcn_graphics::g_MakeQuake.iTime <= 10)
@@ -661,6 +661,7 @@ void MyFrame::fileMakeQuake()
 			
 			statusBar()->showMessage(tr("Monitoring for earthquakes..."));
 			qcn_graphics::g_MakeQuake.bActive = true; // this is a flag as well as mutex if we're in other threads, but graphics thread is not separate from qcnlive
+			qcn_graphics::g_MakeQuake.bDisplay = true; // don't for get the flag for the display -- so countdown/monitor msg won't show on our screenshot
 			m_pMyApp->startQuakeTimer(); // starts up quake timer
 		}
 	    delete pcmq;

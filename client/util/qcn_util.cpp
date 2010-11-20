@@ -60,6 +60,15 @@ const char* os_type_str()
   #endif
 #endif
 }
+	
+void strAlNum(char* strIn)
+{
+	char *p = strIn;
+	while (*p != 0x00) {
+		if (!isalnum((int) *p)) *p = '_';
+		p++;
+	}
+}
 
 bool launchURL(const char* strURL)
 {

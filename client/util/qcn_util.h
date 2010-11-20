@@ -42,6 +42,8 @@ float mod(float x1, float y1);
 bool ComputeMeanStdDevVarianceKnuth(const float* pfArray, const int iLen, const int iStart, const int iEnd, 
 	float* pfMean, float* pfStdDev, float* pfVariance, float* pfMin, float* pfMax, bool bIgnoreZero = false, bool bMinMaxOnly = false);
 
+void strAlNum(char* strIn);
+
 // useful functions just for the main program & qcnlive
 #ifndef QCN_USB
 void getBOINCInitData(const e_where eWhere);
