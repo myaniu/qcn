@@ -199,6 +199,11 @@ const char cstrQCNLive[] = {"qcnlive-win.zip"};
 	if (iRetVal) {
 	    fprintf(stdout, "Error with sftp!\n");
 	}
+
+        // get rid of exe files
+	strcpy(strCmd, "del /q *qcn*.exe");
+	iRetVal = system(strCmd);
+        
 	delete [] strCmd;
 
 	return iRetVal;
