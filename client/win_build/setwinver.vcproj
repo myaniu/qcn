@@ -490,7 +490,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="boinc_lib.lib"
-				OutputFile="../bin/$(ProjectName).exe"
+				OutputFile="../bin/$(ProjectName)l.exe"
 				GenerateDebugInformation="false"
 				SubSystem="1"
 				RandomizedBaseAddress="1"

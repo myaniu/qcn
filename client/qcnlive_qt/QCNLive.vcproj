@@ -495,7 +495,7 @@
 			<Tool
 				Name="VCPostBuildEventTool"
 				Description="deploy to webserver"
-				CommandLine="..\bin\setwinver.exe deploy-qcnlive"
+				CommandLine="..\bin\setwinverl.exe deploy-qcnlive"
 			/>
 		</Configuration>
 		<Configuration
