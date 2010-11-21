@@ -563,7 +563,17 @@ void MyApp::slotPrintPreview(QPrinter* qpr)
 	QRect rect;
 	QSize size;
 
-	int iLen = strlen(qcn_graphics::g_MakeQuake.strName);
+	// setup font
+	int iPoint = 24;
+	const int iLen = strlen(qcn_graphics::g_MakeQuake.strName);
+	if (iLen > 50) {
+		iPoint = 16;
+	}
+	else if (iLen > 20) {
+		iPoint = 20;        //handle long names/point size of font
+	}
+	QFont qf("Arial", iPoint, QFont::Bold | QFont::Black); // Arial 24px bold should be a nice big title?
+
 	// add 's or ' to end if name ends with s
 	char strApos[3];	
 	memset(strApos, 0x00, sizeof(char) * 3);	
@@ -598,6 +608,8 @@ void MyApp::slotPrintPreview(QPrinter* qpr)
 	rect.setHeight(rect.height() * .90);
 	paint->drawPixmap(rect, *qpjpg);
 	rect.setY(iOldY + ((float) rect.height() * .05));   // draw text not quite at the top edge
+	
+	paint->setFont(qf);
 	paint->drawText(rect, Qt::AlignHCenter | Qt::AlignTop, strTitle);
 	paint->end();
 	
