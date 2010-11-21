@@ -33,20 +33,19 @@ CDialogMakeQuake::~CDialogMakeQuake()
 	if (m_buttonCancel) delete m_buttonCancel;
 	if (m_comboPrinter) delete m_comboPrinter;
 
+	if (m_gridlayout) delete m_gridlayout;
+
 	if (m_layoutMain) delete m_layoutMain;
 	if (m_layoutSpin) delete m_layoutSpin;
 	if (m_layoutButton) delete m_layoutButton;
 	if (m_layoutPrinter) delete m_layoutPrinter;
 	
-	if (m_gridlayout) delete m_gridlayout;
-
 	if (m_groupName) delete m_groupName;
 	if (m_groupSpin) delete m_groupSpin;
 	if (m_groupButton) delete m_groupButton;
 	if (m_groupPrinter) delete m_groupPrinter;
 	
 	//if (m_dialogPrint) delete m_dialogPrint;
-	
 	InitPointers();
 
 }
@@ -54,8 +53,12 @@ CDialogMakeQuake::~CDialogMakeQuake()
 void CDialogMakeQuake::InitPointers()
 {
     m_strName.clear();
+	m_qlpi.clear();  // this crashes badly with a heap memory problem!
 
     // init ptrs to null to test for deletion later
+	m_labelName = NULL;
+	m_labelPrinter = NULL;
+	
     m_textctrlName = NULL; 
     m_spinctrlTime = NULL; 	
     m_spinctrlCountdown = NULL; 	
@@ -74,9 +77,6 @@ void CDialogMakeQuake::InitPointers()
 	m_groupButton = NULL;
 	m_groupPrinter = NULL;
 
-	m_labelName = NULL;
-	m_labelPrinter = NULL;
-	
 	m_gridlayout = NULL;
 	
 	//m_dialogPrint = NULL;
@@ -87,50 +87,6 @@ void CDialogMakeQuake::getUserString(char* strName)
 	memset(strName, 0x00, sizeof(char) * 64);
 	strncpy(strName, m_strName.toAscii(), 63);
 }
-
-
-/*
-bool CDialogMakeQuake::saveValues(QString& strError)
-{
-	strError.clear();
-	m_strLatitude = m_textctrlLatitude->text();
-    double dTest = atof((const char*) m_strLatitude.toAscii());
-    if (dTest >= -90.0f && dTest <= 90.0f) {
-        sm->dMyLatitude = dTest;
-	}
-	else {
-		strError += "Error in latitude<BR> - not between -90 and 90<BR><BR>"; 
-	}
-	
-	m_strLongitude = m_textctrlLongitude->text();
-    dTest = atof((const char*) m_strLongitude.toAscii());
-    if (dTest >= -180.0f && dTest <= 180.0f) {
-        sm->dMyLongitude = dTest;
-	}
-	else {
-		strError += "Error in longitude<BR> - not between -180 and 180<BR><BR>"; 
-	}
-
-	m_strStation = m_textctrlStation->text();
-    memset((char*) sm->strMyStation, 0x00, SIZEOF_STATION_STRING);
-    strlcpy((char*) sm->strMyStation, (const char*) m_strStation.toAscii(), SIZEOF_STATION_STRING);	
-
-	m_strElevationMeter = m_textctrlElevationMeter->text();
-    sm->dMyElevationMeter = atof((const char*) m_strElevationMeter.toAscii());
-    sm->iMyElevationFloor = m_spinctrlElevationFloor->value();  // spin controls are ints anyway!
-
-	QVariant qvChoice = m_comboSensor->itemData(m_comboSensor->currentIndex());
-	int iChoice = (qvChoice == QVariant::Invalid ? -1 : qvChoice.toInt());
-	if (iChoice >= MIN_SENSOR_USB && iChoice <= MAX_SENSOR_USB) sm->iMySensor = iChoice; // set if a valid choice
-	else sm->iMySensor = -1;
-	
-	if (m_radioCSV->isChecked()) sm->bMyOutputSAC = false;
-	else if (m_radioSAC->isChecked()) sm->bMyOutputSAC = true;
-	
-	return (bool) (strError.length() == 0);
-	
-}
- */
 
 void CDialogMakeQuake::CreateControls()
 {
@@ -185,6 +141,7 @@ void CDialogMakeQuake::CreateControls()
 
 	m_comboPrinter->addItem(PRINTER_PDF, 0);
 	if (m_strPrinter == PRINTER_PDF) iSel = 0;
+
 	if (m_qlpi.size() > 0) {
 		QList<QPrinterInfo>::iterator itP = m_qlpi.begin();
 		while (itP != m_qlpi.end()) {
@@ -206,7 +163,6 @@ void CDialogMakeQuake::CreateControls()
     m_gridlayout->addWidget(m_textctrlName, 0, 1);
 	m_groupName->setLayout(m_gridlayout);
 
-    //m_gridlayout->addWidget(m_labelTime, 1, 0);
 	m_layoutSpin = new QVBoxLayout(this);
     m_layoutSpin->addWidget(m_spinctrlCountdown, 1, Qt::AlignTop);
     m_layoutSpin->addWidget(m_spinctrlTime, 1, Qt::AlignBottom);
@@ -269,7 +225,7 @@ void CDialogMakeQuake::onStart()
 	m_strPrinter = m_comboPrinter->currentText();
 	if (iIndex <= 0) m_strPrinter = PRINTER_PDF;
 	else if (iIndex-1 < m_qlpi.size()) {
-		m_printerInfo = m_qlpi[iIndex-1];
+		m_printerInfo = m_qlpi.at(iIndex-1);
 	}
 	
 	//if (m_bStart) {

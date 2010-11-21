@@ -21,14 +21,16 @@ private:
 	bool m_bStart; 
 
 	// controls & layouts
-
+	// informative labels for the various controls
+	QLabel* m_labelName;
+	QLabel* m_labelPrinter;
+	
     QLineEdit* m_textctrlName; 
     QSpinBox* m_spinctrlTime;
     QSpinBox* m_spinctrlCountdown;
 
 	QPushButton* m_buttonStart;
 	QPushButton* m_buttonCancel;
-	
 	QComboBox* m_comboPrinter;
 	
 	QVBoxLayout* m_layoutMain;
@@ -40,10 +42,6 @@ private:
 	QGroupBox* m_groupSpin;
 	QGroupBox* m_groupButton;
 	QGroupBox* m_groupPrinter;
-	
-	// informative labels for the various controls
-	QLabel* m_labelName;
-	QLabel* m_labelPrinter;
 	
 	QGridLayout* m_gridlayout;	
 	

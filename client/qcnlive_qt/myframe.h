@@ -130,6 +130,8 @@ public:
 
         int getTimeSliderValue();
         void setTimeSliderValue(const int iPos);
+
+		void updateGLWidget();
 	
 private slots:
 	void fileDialogSettings();

@@ -173,6 +173,13 @@ bool MyFrame::Init()
 	return true;
 }
 
+void MyFrame::updateGLWidget()  // force a screen redraw, i.e. for the "Make-A-Quake" screenshot
+{
+	if (m_glWidget && qcn_graphics::g_bInitGraphics) {
+		m_glWidget->updateGL();
+	}
+}
+
 int MyFrame::getTimeSliderValue()
 {
 	return m_sliderTime->value();

@@ -70,6 +70,7 @@ CDialogSettings::~CDialogSettings()
 
 	if (m_groupMain) delete m_groupMain;
 	if (m_groupButton) delete m_groupButton;
+	InitPointers();
 }
 
 void CDialogSettings::InitPointers()

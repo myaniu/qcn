@@ -500,6 +500,7 @@ void MyApp::slotMakeQuake()
 		m_frame->statusBar()->showMessage(tr("Graphics error in making quake - please try again"), 10000);
 	}
 	
+	m_frame->updateGLWidget(); // force a screen refresh before the frame grab
 	m_frame->statusBar()->showMessage(tr("Processing image..."));
 	
 	m_strQuakeJPG = qcn_graphics::ScreenshotJPG(); // this actually gets the screen grab and returns the filename
@@ -508,7 +509,6 @@ void MyApp::slotMakeQuake()
 		m_strQuakeJPG.clear();
 		goto done;
 	}
-	
 	memset(strName, 0x00, sizeof(char) * 64);
 	strlcpy(strName, qcn_graphics::g_MakeQuake.strName, 63);
 	qcn_util::strAlNum(strName);

@@ -1,3 +1,5 @@
+// this deploys the programs to our QCN server (boinc apps as well as QCNLive)
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <windows.h>
@@ -13,7 +15,7 @@
 #define ZIPCMD "\"c:\\program files\\7-Zip\\7z.exe\" a"
 #define SFTPCMD "psftp -be -b"    // -be = don't stop batch on errors
 #define SFTPBATCH "qcnsftp.txt"
-int deploy_qcn();  // send exe's to QCN server
+int deploy_qcn(bool bQCNLive = false);  // send exe's to QCN server
 #endif
 
 const int g_version_major = QCN_MAJOR_VERSION;
@@ -67,7 +69,13 @@ int main(int argc, char** argv)
 		// send to the qcn server!
 		// this machine has to be setup to seamlessly (i.e. authorized_keys2 etc)
 		// ssh/sftp to carlgt1@qcn-web, so the VPN to Stanford must be on
-		return deploy_qcn();
+		return deploy_qcn(false);
+	}
+	if (argc == 2 && !strcmp(argv[1], "deploy-qcnlive")) {
+		// send to the qcn server!
+		// this machine has to be setup to seamlessly (i.e. authorized_keys2 etc)
+		// ssh/sftp to carlgt1@qcn-web, so the VPN to Stanford must be on
+		return deploy_qcn(true);
 	}
 #endif
 
@@ -75,10 +83,11 @@ int main(int argc, char** argv)
 		fprintf(stdout, "Usage: setwinver.exe PROGNAME_NO_EXE PROGDIR OUTDIR\n");
 		return 1;
 	}
-
+	bool bDeploy = false; // deploy if it's graphics i.e. the last exe built for BOINC QCN apps
 	char strIn[_MAX_PATH], strOut[2][_MAX_PATH];
 	sprintf_s(strIn, _MAX_PATH, "%s\\%s.exe", argv[2], argv[1]);
-        if (strstr(argv[1], "qcn_graphics")) {
+    if (strstr(argv[1], "qcn_graphics")) {
+		bDeploy = true;
 	   sprintf_s(strOut[0], _MAX_PATH, "%s\\%s_%d.%02d_%s.exe", argv[3], argv[1], g_version_major, g_version_minor, BOINC_WIN_SUFFIX); 
 	   sprintf_s(strOut[1], _MAX_PATH, "%s\\%s_%d.%02d_%s.exe", argv[3], argv[1], g_version_major, g_version_minor - 1, BOINC_WIN_SUFFIX); 
 	} else {
@@ -99,96 +108,110 @@ int main(int argc, char** argv)
 		fprintf(stdout, "Successfully renamed %s to %s!\n", strIn, strOut[0]);
                 boinc_copy(strOut[0], strOut[1]);
 	}
-	return 0;
+
+	// if graphics then we need to deploy the qcn apps to the server
+#ifndef _DEBUG
+	if (bDeploy) return deploy_qcn(false);
+	else 
+#endif
+		return 0;
 }
 
 #ifndef _DEBUG
-int deploy_qcn()
+int deploy_qcn(bool bQCNLive)
 {   
 	// send exe's to QCN server, just do system to putty etc
     // first create a file of commands similar to qcn/client/bin/deploy
     int iRetVal = 0;
 	FILE* fBatch = NULL;
-	char *strCmd = new char[_MAX_PATH];
-	memset(strCmd, 0x00, _MAX_PATH);
+	char* strCmd = new char[1024];
+	memset(strCmd, 0x00, 1024);
+
 	_getcwd(strCmd, _MAX_PATH);
+
 	// if not in "bin" move there
 	if (!strstr(strCmd, "\\bin")) {
 		_chdir("..\\bin");
 	}
-	delete [] strCmd;
 
 	// OK directory is bin
-
-	// can't use boinc_zip because it won't do the init subdir for qcnlive!
-	// so have the zip & unzip execs in c:\\windows32
-#ifdef _WIN64
-const char cstrQCNLive[] = {"qcnlive-win64.zip"};
-#else
-const char cstrQCNLive[] = {"qcnlive-win.zip"};
-#endif
-
-    boinc_delete_file(cstrQCNLive);
-
 	// create the batch file
 	boinc_delete_file(SFTPBATCH);
 	if (fopen_s(&fBatch, SFTPBATCH, "w") || !fBatch) {
+		delete [] strCmd;
 	    fprintf(stdout, "Could not create sftp batch file!\n");
 		return 1; // error!
 	}
+	
+	// check for qcnlive
+	if (bQCNLive) { // deploy separately as it requires a different built i.d. Multithreaded DLL
+		memset(strCmd, 0x00, 1024);
+	// can't use boinc_zip because it won't do the init subdir for qcnlive!
+	// so have the zip & unzip execs in c:\\windows32
+#ifdef _WIN64
+		const char cstrQCNLive[] = {"qcnlive-win64.zip"};
+#else
+		const char cstrQCNLive[] = {"qcnlive-win.zip"};
+#endif
 
-	strCmd = new char[1024];
-	memset(strCmd, 0x00, 1024);
+	    boinc_delete_file(cstrQCNLive);
+
 
 #ifdef _WIN64
-	sprintf_s(strCmd, 1024, "%s %s %s "
-		"%s %s %s %s %s %s %s %s %s %s %s %s %s %s%s%c%s%s", ZIPCMD, cstrQCNLive,
-		"qcnlive.exe",
+		sprintf_s(strCmd, 1024, "%s %s %s "
+			"%s %s %s %s %s %s %s %s %s %s %s %s %s %s%s%c%s%s", ZIPCMD, cstrQCNLive,
+			"qcnlive.exe",
 #else
-	sprintf_s(strCmd, 1024, "%s %s %s %s "
-		"%s %s %s %s %s %s %s %s %s %s %s %s %s %s%s%c%s%s", ZIPCMD, cstrQCNLive,
-		"qcnlive.exe",
-		"init/MotionNodeAccelAPI.dll",
+		sprintf_s(strCmd, 1024, "%s %s %s %s "
+			"%s %s %s %s %s %s %s %s %s %s %s %s %s %s%s%c%s%s", ZIPCMD, cstrQCNLive,
+			"qcnlive.exe",
+			"init/MotionNodeAccelAPI.dll",
 #endif
-		"init/qcnwin.ico",
-        "QtCore4.dll",
-        "QtGui4.dll",
-        "QtOpenGL4.dll",
-        "init/hvt",
-        "init/cbt",
-		"init/earthday4096.jpg",
-        "init/qcnlogo.png",
-		"init/splash.png",
-		"init/xyzaxes.jpg",
-		"init/xyzaxesbl.jpg",
-		"init/logo.jpg",
-		"init/earthnight4096.jpg",
-		"init/", NTPDATE_EXEC_VERSION, '_', BOINC_WIN_SUFFIX, ".exe"
-	);
-	fprintf(stdout, "Executing %s\n", strCmd);
+			"init/qcnwin.ico",
+		     "QtCore4.dll",
+		   "QtGui4.dll",
+		   "QtOpenGL4.dll",
+		   "init/hvt",
+		   "init/cbt",
+			"init/earthday4096.jpg",
+			  "init/qcnlogo.png",
+			"init/splash.png",
+			"init/xyzaxes.jpg",
+			"init/xyzaxesbl.jpg",
+			"init/logo.jpg",
+			"init/earthnight4096.jpg",
+			"init/", NTPDATE_EXEC_VERSION, '_', BOINC_WIN_SUFFIX, ".exe"
+		);
+		fprintf(stdout, "Executing %s\n", strCmd);
 
-	iRetVal = system(strCmd);
-	delete [] strCmd;
-	if (iRetVal) return iRetVal;
+		iRetVal = system(strCmd);
+		if (iRetVal) {
+			delete [] strCmd;
+			return iRetVal;
+		}
 
-    fprintf(stdout, "Created %s archive\n", cstrQCNLive);
+		 fprintf(stdout, "Created %s archive\n", cstrQCNLive);
 
-	fprintf(fBatch, "cd /var/www/boinc/sensor/download\n");
-	fprintf(fBatch, "put %s\n", cstrQCNLive);
+		fprintf(fBatch, "cd /var/www/boinc/sensor/download\n");
+		fprintf(fBatch, "put %s\n", cstrQCNLive);
 
+		fprintf(fBatch, "exit\n");
+		fclose(fBatch);
+	} // qcnlive
+	else { // regular apps
         // qcn / boinc apps
         // "normal" site
-	fprintf(fBatch, "cd /var/www/boinc/sensor/apps/qcnsensor\n");
+		fprintf(fBatch, "cd /var/www/boinc/sensor/apps/qcnsensor\n");
         printQCNFiles(fBatch);
 
         // "continual" site
-	fprintf(fBatch, "cd /var/www/boinc/continual/apps/qcncontinual\n");
+		fprintf(fBatch, "cd /var/www/boinc/continual/apps/qcncontinual\n");
         printQCNFiles(fBatch);
 
-	fprintf(fBatch, "exit\n");
-	fclose(fBatch);
+		fprintf(fBatch, "exit\n");
+		fclose(fBatch);
+	}
 
-	strCmd = new char[1024];
 	memset(strCmd, 0x00, 1024);
 
 	sprintf_s(strCmd, 1024, "%s %s carlgt1@qcn-web", SFTPCMD, SFTPBATCH);

@@ -1357,6 +1357,157 @@
 				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
+		<Configuration
+			Name="ReleaseDLL|Win32"
+			OutputDirectory="$(ConfigurationName)"
+			IntermediateDirectory="$(ConfigurationName)"
+			ConfigurationType="4"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
+			UseOfMFC="0"
+			ATLMinimizesCRunTimeLibraryUsage="false"
+			CharacterSet="2"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="2"
+				InlineFunctionExpansion="1"
+				AdditionalIncludeDirectories="..\..\..\include"
+				PreprocessorDefinitions="NDEBUG;WIN32;_WIN32;_LIB;_CRT_SECURE_NO_WARNINGS;FT2_BUILD_LIBRARY"
+				StringPooling="true"
+				RuntimeLibrary="2"
+				EnableFunctionLevelLinking="true"
+				DisableLanguageExtensions="true"
+				PrecompiledHeaderFile=".\..\..\..\objs\release/freetype.pch"
+				AssemblerListingLocation=".\..\..\..\objs\release/"
+				ObjectFile=".\..\..\..\objs\release/"
+				ProgramDataBaseFileName=".\..\..\..\objs\release/"
+				WarningLevel="4"
+				DebugInformationFormat="0"
+				CompileAs="0"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="NDEBUG"
+				Culture="1033"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLibrarianTool"
+				OutputFile="..\..\..\..\client\win_build\freetype.lib"
+				SuppressStartupBanner="true"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+		</Configuration>
+		<Configuration
+			Name="ReleaseDLL|x64"
+			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			ConfigurationType="4"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
+			UseOfMFC="0"
+			ATLMinimizesCRunTimeLibraryUsage="false"
+			CharacterSet="2"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				TargetEnvironment="3"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="2"
+				InlineFunctionExpansion="1"
+				AdditionalIncludeDirectories="..\..\..\include"
+				PreprocessorDefinitions="NDEBUG;WIN32;_LIB;_CRT_SECURE_NO_WARNINGS;FT2_BUILD_LIBRARY"
+				StringPooling="true"
+				RuntimeLibrary="2"
+				EnableFunctionLevelLinking="true"
+				DisableLanguageExtensions="true"
+				PrecompiledHeaderFile=".\..\..\..\objs\release/freetype.pch"
+				AssemblerListingLocation=".\..\..\..\objs\release/"
+				ObjectFile=".\..\..\..\objs\release/"
+				ProgramDataBaseFileName=".\..\..\..\objs\release/"
+				WarningLevel="4"
+				DebugInformationFormat="0"
+				CompileAs="0"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="NDEBUG"
+				Culture="1033"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLibrarianTool"
+				OutputFile="..\..\..\..\win_build\Build\$(PlatformName)\$(ConfigurationName)\freetype239.lib"
+				SuppressStartupBanner="true"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+		</Configuration>
 	</Configurations>
 	<References>
 	</References>
@@ -1507,6 +1658,26 @@
 						BasicRuntimeChecks="3"
 					/>
 				</FileConfiguration>
+				<FileConfiguration
+					Name="ReleaseDLL|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="ReleaseDLL|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\..\src\cff\cff.c"
@@ -1646,6 +1817,26 @@
 						BasicRuntimeChecks="3"
 					/>
 				</FileConfiguration>
+				<FileConfiguration
+					Name="ReleaseDLL|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="ReleaseDLL|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\..\src\base\ftbase.c"
@@ -1783,6 +1974,26 @@
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
 						BasicRuntimeChecks="3"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="ReleaseDLL|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="ReleaseDLL|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
 					/>
 				</FileConfiguration>
 			</File>
@@ -1926,6 +2137,26 @@
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
 						BasicRuntimeChecks="3"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="ReleaseDLL|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="ReleaseDLL|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
 					/>
 				</FileConfiguration>
 			</File>
@@ -2080,6 +2311,28 @@
 						DisableLanguageExtensions="false"
 					/>
 				</FileConfiguration>
+				<FileConfiguration
+					Name="ReleaseDLL|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						DisableLanguageExtensions="false"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="ReleaseDLL|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						DisableLanguageExtensions="false"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\..\src\base\ftfstype.c"
@@ -2227,6 +2480,26 @@
 						BasicRuntimeChecks="3"
 					/>
 				</FileConfiguration>
+				<FileConfiguration
+					Name="ReleaseDLL|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="ReleaseDLL|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\..\src\gzip\ftgzip.c"
@@ -2364,6 +2637,26 @@
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
 						BasicRuntimeChecks="3"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="ReleaseDLL|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="ReleaseDLL|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
 					/>
 				</FileConfiguration>
 			</File>
@@ -2505,6 +2798,26 @@
 						BasicRuntimeChecks="3"
 					/>
 				</FileConfiguration>
+				<FileConfiguration
+					Name="ReleaseDLL|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="ReleaseDLL|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\..\src\lzw\ftlzw.c"
@@ -2642,6 +2955,26 @@
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
 						BasicRuntimeChecks="3"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="ReleaseDLL|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="ReleaseDLL|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
 					/>
 				</FileConfiguration>
 			</File>
@@ -2787,6 +3120,26 @@
 						BasicRuntimeChecks="3"
 					/>
 				</FileConfiguration>
+				<FileConfiguration
+					Name="ReleaseDLL|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="ReleaseDLL|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\..\src\smooth\smooth.c"
@@ -2924,6 +3277,26 @@
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
 						BasicRuntimeChecks="3"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="ReleaseDLL|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="ReleaseDLL|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
 					/>
 				</FileConfiguration>
 			</File>
@@ -3070,6 +3443,26 @@
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							BasicRuntimeChecks="3"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="ReleaseDLL|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions=""
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="ReleaseDLL|x64"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions=""
 						/>
 					</FileConfiguration>
 				</File>
@@ -3227,6 +3620,26 @@
 							BasicRuntimeChecks="3"
 						/>
 					</FileConfiguration>
+					<FileConfiguration
+						Name="ReleaseDLL|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions=""
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="ReleaseDLL|x64"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions=""
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath="..\..\..\src\pfr\pfr.c"
@@ -3364,6 +3777,26 @@
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							BasicRuntimeChecks="3"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="ReleaseDLL|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions=""
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="ReleaseDLL|x64"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions=""
 						/>
 					</FileConfiguration>
 				</File>
@@ -3505,6 +3938,26 @@
 							BasicRuntimeChecks="3"
 						/>
 					</FileConfiguration>
+					<FileConfiguration
+						Name="ReleaseDLL|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions=""
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="ReleaseDLL|x64"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions=""
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath="..\..\..\src\pshinter\pshinter.c"
@@ -3642,6 +4095,26 @@
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							BasicRuntimeChecks="3"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="ReleaseDLL|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions=""
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="ReleaseDLL|x64"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions=""
 						/>
 					</FileConfiguration>
 				</File>
@@ -3783,6 +4256,26 @@
 							BasicRuntimeChecks="3"
 						/>
 					</FileConfiguration>
+					<FileConfiguration
+						Name="ReleaseDLL|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions=""
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="ReleaseDLL|x64"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions=""
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath="..\..\..\src\raster\raster.c"
@@ -3920,6 +4413,26 @@
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							BasicRuntimeChecks="3"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="ReleaseDLL|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions=""
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="ReleaseDLL|x64"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions=""
 						/>
 					</FileConfiguration>
 				</File>
@@ -4061,6 +4574,26 @@
 							BasicRuntimeChecks="3"
 						/>
 					</FileConfiguration>
+					<FileConfiguration
+						Name="ReleaseDLL|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions=""
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="ReleaseDLL|x64"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions=""
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath="..\..\..\src\truetype\truetype.c"
@@ -4198,6 +4731,26 @@
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							BasicRuntimeChecks="3"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="ReleaseDLL|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions=""
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="ReleaseDLL|x64"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions=""
 						/>
 					</FileConfiguration>
 				</File>
@@ -4339,6 +4892,26 @@
 							BasicRuntimeChecks="3"
 						/>
 					</FileConfiguration>
+					<FileConfiguration
+						Name="ReleaseDLL|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions=""
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="ReleaseDLL|x64"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions=""
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath="..\..\..\src\cid\type1cid.c"
@@ -4476,6 +5049,26 @@
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							BasicRuntimeChecks="3"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="ReleaseDLL|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions=""
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="ReleaseDLL|x64"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions=""
 						/>
 					</FileConfiguration>
 				</File>
@@ -4617,6 +5210,26 @@
 							BasicRuntimeChecks="3"
 						/>
 					</FileConfiguration>
+					<FileConfiguration
+						Name="ReleaseDLL|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions=""
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="ReleaseDLL|x64"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions=""
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath="..\..\..\src\winfonts\winfnt.c"
@@ -4754,6 +5367,26 @@
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							BasicRuntimeChecks="3"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="ReleaseDLL|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions=""
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="ReleaseDLL|x64"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions=""
 						/>
 					</FileConfiguration>
 				</File>
