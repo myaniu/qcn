@@ -21,12 +21,6 @@ if ( test "`uname -s`" = "Darwin" ) then
   cp config.h.mac config.h
   ./build.mac $2 $3
 else
-  cd ../boinc
-  make distclean
-  ./_autosetup
-  ./configure --enable-client-release --disable-client --disable-server --disable-manager --disable-fcgi
-  make clean && make
-  cd ../qcn
   make distclean
   cd zlib-1.2.5
   ./configure
@@ -35,7 +29,12 @@ else
   cd jpeg-6b
   ./configure
   make clean && make
-  cd ..
+  cd ../boinc
+  make distclean
+  ./_autosetup
+  ./configure --enable-client-release --disable-client --disable-server --disable-manager --disable-fcgi
+  make clean && make
+  cd ../qcn
   ./_autosetup
   ./configure --enable-client-release --disable-server
   make clean
