@@ -514,12 +514,13 @@ void MyApp::slotMakeQuake()
 	qcn_util::strAlNum(strName);
 	strPDF.sprintf("%s/%s_%ld.pdf", DIR_MAKEQUAKE, strName, (long) dtime());
 	
-	// setup virtual printer device
-	if (m_strMakeQuakePrinter == PRINTER_PDF) {// || !m_MakeQuakePrinter.isNull()) {
+	// setup virtual printer device if they want PDF output or the QPrinterInfo struct is null (invalid)
+	if (m_strMakeQuakePrinter == PRINTER_PDF || m_MakeQuakePrinter.isNull()) {
 		qpr = new QPrinter(QPrinter::HighResolution);
 		if (!qpr) goto done; // error
 		qpr->setOutputFileName(strPDF);
 		qpr->setOutputFormat(QPrinter::PdfFormat);
+		qpr->setPaperSize(QPrinter::Letter);
 	}
 	else { // they chose a real printer i.e. makequake must be valid
 		qpr = new QPrinter(m_MakeQuakePrinter, QPrinter::HighResolution);
@@ -529,12 +530,11 @@ void MyApp::slotMakeQuake()
 
 	// we always want landscape & letter size
 	qpr->setOrientation(QPrinter::Landscape);
-	qpr->setPaperSize(QPrinter::Letter);
 
 	// now do a printpreview which will "paint" the PDF
 	qppr = new QPrintPreviewDialog(qpr, m_frame);
 	qppr->setWindowFlags(Qt::Window);
-	connect(qppr, SIGNAL(paintRequested(QPrinter *)), SLOT(slotPrintPreview(QPrinter *)));
+	connect(qppr, SIGNAL(paintRequested(QPrinter*)), SLOT(slotPrintPreview(QPrinter*)));
 	qppr->exec(); // bring up the window and "paint"
 	
 	m_frame->statusBar()->showMessage("Finished!", 5000);
