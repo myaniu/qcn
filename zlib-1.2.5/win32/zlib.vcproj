@@ -313,7 +313,7 @@
 			<Tool
 				Name="VCLibrarianTool"
 				AdditionalOptions="/LTCG"
-				OutputFile="../../client/win_build/zlib.lib"
+				OutputFile="../../client/win_build/zlibl.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -438,7 +438,7 @@
 			<Tool
 				Name="VCLibrarianTool"
 				AdditionalOptions="/LTCG"
-				OutputFile="../../client/win_build/zlibd.lib"
+				OutputFile="../../client/win_build/zlibdl.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"

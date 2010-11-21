@@ -313,7 +313,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="boinc_api.lib"
+				OutputFile="boinc_apil.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -438,7 +438,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="boinc_apid.lib"
+				OutputFile="boinc_apidl.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"

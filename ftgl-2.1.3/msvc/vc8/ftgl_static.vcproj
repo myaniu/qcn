@@ -821,7 +821,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\..\client\win_build\ftgl.lib"
+				OutputFile="..\..\..\client\win_build\ftgll.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -948,7 +948,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\..\client\win_build\ftgld.lib"
+				OutputFile="..\..\..\client\win_build\ftgldl.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"

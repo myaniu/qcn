@@ -1413,7 +1413,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\..\..\client\win_build\freetype.lib"
+				OutputFile="..\..\..\..\client\win_build\freetypel.lib"
 				SuppressStartupBanner="true"
 			/>
 			<Tool
@@ -1562,7 +1562,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\..\..\client\win_build\freetyped.lib"
+				OutputFile="..\..\..\..\client\win_build\freetypedl.lib"
 				SuppressStartupBanner="true"
 			/>
 			<Tool
