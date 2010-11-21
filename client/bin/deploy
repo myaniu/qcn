@@ -14,7 +14,7 @@ fontb='init/cbt'
 
 print_common_files ()
 {
-$ntpexec=$1
+ntpexec=$1
 echo put $fonta >> qcnsftp.up
 echo put $fontb >> qcnsftp.up
 echo put init/earthday4096.jpg >> qcnsftp.up
