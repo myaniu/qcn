@@ -48,7 +48,7 @@ cd ../zip
 xcodebuild -project boinc_zip.xcodeproj -configuration Deployment -target boinc_zip clean build
 cp build/Release/libboinc_zip.a ../../qcn/client/mac_build/
 cd ../../qcn
-  if (test "$1" = "all" || test "$2" = "all" || test "$1" = "libs" || test "$2" = "libs") then
+  if (test "$1" = "libs" || test "$2" = "libs") then
     exit
   fi
 fi
