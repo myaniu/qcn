@@ -12,6 +12,10 @@ private:
 
 	//data
 	QString m_strName;
+	QString m_strPrinter;
+	QPrinterInfo m_printerInfo;
+	QList<QPrinterInfo> m_qlpi;
+	
 	int m_iTime;
 	int m_iCountdown;
 	bool m_bStart; 
@@ -25,31 +29,47 @@ private:
 	QPushButton* m_buttonStart;
 	QPushButton* m_buttonCancel;
 	
+	QComboBox* m_comboPrinter;
+	
 	QVBoxLayout* m_layoutMain;
 	QVBoxLayout* m_layoutSpin;
 	QHBoxLayout* m_layoutButton;
+	QHBoxLayout* m_layoutPrinter;
 	
 	QGroupBox* m_groupName;
 	QGroupBox* m_groupSpin;
 	QGroupBox* m_groupButton;
+	QGroupBox* m_groupPrinter;
 	
 	// informative labels for the various controls
 	QLabel* m_labelName;
+	QLabel* m_labelPrinter;
 	
 	QGridLayout* m_gridlayout;	
+	
+	//QPrintDialog* m_dialogPrint;
 
 	
 private slots:
 	void onStart();		
+	//void onPrinterSelect();
+	//void onPrinterAccepted();
 	
 public:
-	CDialogMakeQuake(const int iTime, const int iCountdown, QWidget* parent, Qt::WindowFlags f);
+	CDialogMakeQuake(const int iTime, const int iCountdown, const QString& strPrn, QWidget* parent, Qt::WindowFlags f);
     ~CDialogMakeQuake();
 
 	void getUserString(char* strName);
 	const int getMakeQuakeTime() { return m_iTime; }
 	const int getMakeQuakeCountdown() { return m_iCountdown; }
-	bool start() { return m_bStart; }; 
+	bool start() { return m_bStart; };
+	
+	const QPrinterInfo& getMakeQuakePrinterInfo() { return m_printerInfo; }
+	void setMakeQuakePrinterInfo(const QPrinterInfo& prn) { m_printerInfo = prn; }
+	
+	const QString& getMakeQuakePrinterString() { return m_strPrinter; }
+	void setMakeQuakePrinterString(const QString& prn) { m_strPrinter = prn; }
+	
 };
 
 #endif // _DLG_MAKEQUAKE_H_

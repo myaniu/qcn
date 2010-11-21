@@ -634,7 +634,9 @@ void MyFrame::fileMakeQuake()
 		}
 	}
 	
-	CDialogMakeQuake* pcmq = new CDialogMakeQuake(m_pMyApp->getMakeQuakeTime(), m_pMyApp->getMakeQuakeCountdown(), this, Qt::Dialog);
+	CDialogMakeQuake* pcmq = new CDialogMakeQuake(m_pMyApp->getMakeQuakeTime(), 
+		m_pMyApp->getMakeQuakeCountdown(), 
+		m_pMyApp->getMakeQuakePrinterString(), this, Qt::Dialog);
 	if (pcmq) {
 		pcmq->exec();
 	    if (pcmq->start()) { // data was validated and set in shared memory (sm)
@@ -642,6 +644,10 @@ void MyFrame::fileMakeQuake()
 			m_pMyApp->setMakeQuakeCountdown(pcmq->getMakeQuakeCountdown());
 			qcn_graphics::g_MakeQuake.iTime = pcmq->getMakeQuakeTime();
 			qcn_graphics::g_MakeQuake.iCountdown = pcmq->getMakeQuakeCountdown();
+			
+			m_pMyApp->setMakeQuakePrinterInfo(pcmq->getMakeQuakePrinterInfo());
+			m_pMyApp->setMakeQuakePrinterString(pcmq->getMakeQuakePrinterString());
+			
 			pcmq->getUserString(qcn_graphics::g_MakeQuake.strName);
 			
 			// setup proper view for 2d sensor, i.e. 10sec or 60 sec window width
@@ -658,10 +664,10 @@ void MyFrame::fileMakeQuake()
 			SetToggleSensor(false);
 			
 			statusBar()->showMessage(tr("Monitoring for earthquakes..."));
+			m_pMyApp->startQuakeTimer(); // starts up quake timer
 			qcn_graphics::g_MakeQuake.bActive = true; // this is a flag as well as mutex if we're in other threads, but graphics thread is not separate from qcnlive
 			qcn_graphics::g_MakeQuake.bDisplay = true; // don't for get the flag for the display -- so countdown/monitor msg won't show on our screenshot
 			qcn_graphics::g_MakeQuake.bReceived = false; // this gets set to true in qcn_graphics thread (qcn_2dplot.cpp) when bActive && !bDisplay
-			m_pMyApp->startQuakeTimer(); // starts up quake timer
 		}
 	    delete pcmq;
 	}

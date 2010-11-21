@@ -47,6 +47,8 @@ class MyApp: public QApplication
 	bool m_bInit;  // flag to see if we are initialized
 	int m_iMakeQuakeTime; // "shake" time 
 	int m_iMakeQuakeCountdown; // countdown time
+	QPrinterInfo m_MakeQuakePrinter;
+	QString m_strMakeQuakePrinter;
 	
 	QString m_strQuakeJPG;
 	
@@ -87,7 +89,13 @@ class MyApp: public QApplication
 	
 	const int getMakeQuakeCountdown() { return m_iMakeQuakeCountdown; }
 	void setMakeQuakeCountdown(const int iTime) { m_iMakeQuakeCountdown = iTime; }
-	
+
+	const QPrinterInfo& getMakeQuakePrinterInfo() { return m_MakeQuakePrinter; }
+	void setMakeQuakePrinterInfo(const QPrinterInfo& prn) { m_MakeQuakePrinter = prn; }
+
+	const QString& getMakeQuakePrinterString() { return m_strMakeQuakePrinter; }
+	void setMakeQuakePrinterString(const QString& prn) { m_strMakeQuakePrinter = prn; }
+
 	void startQuakeTimer()
 	{
 		m_timerMakeQuake->start(1000L);  // in milliseconds, so check every second

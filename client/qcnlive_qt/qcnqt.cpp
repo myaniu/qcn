@@ -30,7 +30,8 @@ int main(int argc, char *argv[])
 
 MyApp::MyApp(int& argc, char** argv)  
   : QApplication(argc, argv), 
-    m_timerQuakeList(NULL), m_timerMakeQuake(NULL), m_frame(NULL)
+    m_timerQuakeList(NULL), m_timerMakeQuake(NULL), m_frame(NULL), 
+     m_iMakeQuakeTime(10), m_iMakeQuakeCountdown(10), m_MakeQuakePrinter()
 {
 }
 
@@ -156,9 +157,9 @@ bool MyApp::get_qcnlive_prefs()
 {
     // read in the saved trigger count
     FILE *fp; 
-    char strRead[_MAX_PATH];
+    char* strRead = new char[1024];
 	
-    memset(strRead, 0x00, _MAX_PATH);
+    memset(strRead, 0x00, 1024 * sizeof(char));
 	
     // basic defaults
     m_rect.setX(MY_RECT_DEFAULT_POS_X);
@@ -168,10 +169,11 @@ bool MyApp::get_qcnlive_prefs()
 	
 	m_iMakeQuakeTime = 10; // default time for make-quake countdown i.e. 10 seconds
 	m_iMakeQuakeCountdown = 10; 
+	m_strMakeQuakePrinter = PRINTER_PDF;
 
     sm->dMyLatitude = NO_LAT;
     sm->dMyLongitude = NO_LNG; 
-    memset((char*) sm->strMyStation, 0x00, SIZEOF_STATION_STRING);;
+    memset((char*) sm->strMyStation, 0x00, SIZEOF_STATION_STRING);
 
     sm->dMyElevationMeter = 0.0f; 
     sm->iMyElevationFloor = 0; 
@@ -179,10 +181,14 @@ bool MyApp::get_qcnlive_prefs()
 	sm->bMyContinual = false;  // default to no continual recording (i.e. user has to start/stop recording via the button)
 	sm->bMyOutputSAC = false;  // default to csv text output i.e. not sac
 
-    if (!boinc_file_exists(QCNGUI_XML_PREFS_FILE)) return false; // don't bother if doesn't exist!
+    if (!boinc_file_exists(QCNGUI_XML_PREFS_FILE)) {
+		delete [] strRead;
+		return false; // don't bother if doesn't exist!
+	}
 
     if ( (fp = fopen(QCNGUI_XML_PREFS_FILE, "r")) == NULL) {
        fprintf(stdout, "Error opening file %s\n", QCNGUI_XML_PREFS_FILE);
+		delete [] strRead;
        return false;
     }
     fread(strRead, sizeof(char), _MAX_PATH, fp);
@@ -281,7 +287,20 @@ bool MyApp::get_qcnlive_prefs()
     sprintf(strParse, "<%s>", XML_MAKEQUAKE_COUNTDOWN);
 	if (!parse_int(strRead, strParse, m_iMakeQuakeCountdown) || m_iMakeQuakeCountdown < 1 || m_iMakeQuakeCountdown > 60)
 		m_iMakeQuakeCountdown = 10; // default time for make-quake countdown i.e. 10 seconds
-	
+
+	char* strPrn = new char[_MAX_PATH];
+	memset(strPrn, 0x00, sizeof(char) * _MAX_PATH);
+    sprintf(strParse, "<%s>", XML_MAKEQUAKE_PRINTER);
+	if (parse_str(strRead, strParse, strPrn, _MAX_PATH)) {
+		m_strMakeQuakePrinter = strPrn;
+	}
+	else {
+		m_strMakeQuakePrinter = PRINTER_PDF; // default time for make-quake countdown i.e. 10 seconds
+	}
+
+	delete [] strPrn;
+	delete [] strRead;
+
     return true;
 }
 
@@ -311,6 +330,7 @@ bool MyApp::set_qcnlive_prefs()
 				"<%s>%d</%s>\n"
 				"<%s>%d</%s>\n"
 				"<%s>%d</%s>\n"
+				"<%s>%s</%s>\n"
                         ,
                     XML_X, m_rect.x(), XML_X,
                     XML_Y, m_rect.y(), XML_Y, 
@@ -325,7 +345,8 @@ bool MyApp::set_qcnlive_prefs()
 					XML_CONTINUAL, (sm->bMyContinual ? 1 : 0), XML_CONTINUAL,
 					XML_SACFORMAT, (sm->bMyOutputSAC ? 1 : 0), XML_SACFORMAT,
 			        XML_MAKEQUAKE_TIME, m_iMakeQuakeTime, XML_MAKEQUAKE_TIME,
-					XML_MAKEQUAKE_COUNTDOWN, m_iMakeQuakeCountdown, XML_MAKEQUAKE_COUNTDOWN	
+					XML_MAKEQUAKE_COUNTDOWN, m_iMakeQuakeCountdown, XML_MAKEQUAKE_COUNTDOWN,
+					XML_MAKEQUAKE_PRINTER, (const char*) m_strMakeQuakePrinter.toAscii(), XML_MAKEQUAKE_PRINTER	
     );
 
     fclose(fp);
@@ -444,9 +465,10 @@ void MyApp::slotGetLatestQuakeList()
 void MyApp::slotMakeQuake()
 {  // this gets triggered every second, so decrement countdown, then start after 10 seconds make a snapshot
 	// when done should probably issue a timer->stop?  hope you can do that from within a slot!
-
 	static QPrintPreviewDialog* qppr = NULL;
 	static QPrinter* qpr = NULL;
+	static char strName[64];
+	static QString strPDF;
 
 	if (!qcn_graphics::g_MakeQuake.bActive || qcn_graphics::g_eView != VIEW_PLOT_2D) { // quit if they changed view
 		// odd if not active, stop timer & return
@@ -487,18 +509,36 @@ void MyApp::slotMakeQuake()
 		goto done;
 	}
 	
+	memset(strName, 0x00, sizeof(char) * 64);
+	strlcpy(strName, qcn_graphics::g_MakeQuake.strName, 63);
+	qcn_util::strAlNum(strName);
+	strPDF.sprintf("%s/%s_%ld.pdf", DIR_MAKEQUAKE, strName, (long) dtime());
+	
 	// setup virtual printer device
-	qpr = new QPrinter(QPrinter::HighResolution);
-	if (!qpr) goto done; // error
-	qpr->setOutputFormat(QPrinter::PdfFormat);
+	if (m_strMakeQuakePrinter == PRINTER_PDF) {// || !m_MakeQuakePrinter.isNull()) {
+		qpr = new QPrinter(QPrinter::HighResolution);
+		if (!qpr) goto done; // error
+		qpr->setOutputFileName(strPDF);
+		qpr->setOutputFormat(QPrinter::PdfFormat);
+	}
+	else { // they chose a real printer i.e. makequake must be valid
+		qpr = new QPrinter(m_MakeQuakePrinter, QPrinter::HighResolution);
+		if (!qpr) goto done; // error
+		qpr->setOutputFormat(QPrinter::NativeFormat);
+	}
+
+	// we always want landscape & letter size
 	qpr->setOrientation(QPrinter::Landscape);
 	qpr->setPaperSize(QPrinter::Letter);
-	
+
 	// now do a printpreview which will "paint" the PDF
 	qppr = new QPrintPreviewDialog(qpr, m_frame);
 	qppr->setWindowFlags(Qt::Window);
 	connect(qppr, SIGNAL(paintRequested(QPrinter *)), SLOT(slotPrintPreview(QPrinter *)));
 	qppr->exec(); // bring up the window and "paint"
+	
+	m_frame->statusBar()->showMessage("Finished!", 5000);
+
 	
 done:
 	if (qppr) delete qppr;
@@ -517,35 +557,29 @@ void MyApp::slotPrintPreview(QPrinter* qpr)
 	
 	if (!qpr) return;
 	
-	QString strName;
-	QString strOut, strPDF, statmsg;
+	QString strTitle;
+	QString strOut, statmsg;
 	
 	QRect rect;
 	QSize size;
 
-	// add 's or ' to end if name ends with s
 	int iLen = strlen(qcn_graphics::g_MakeQuake.strName);
-	char strApos[3];
+	// add 's or ' to end if name ends with s
+	char strApos[3];	
 	memset(strApos, 0x00, sizeof(char) * 3);	
 	
 	// get the right suffix i.e. apostrophe if name ends in s else 's
 	if (iLen > 0 && qcn_graphics::g_MakeQuake.strName[iLen-1] == 's') strcpy(strApos, "'");
 	else strcpy(strApos, "'s");
 	
-	strName = qcn_graphics::g_MakeQuake.strName;
-	strName += strApos;
-	strName += " Earthquake";
+	strTitle = qcn_graphics::g_MakeQuake.strName;
+	strTitle += strApos;
+	strTitle += " Earthquake";
 		
 	// setup for printing
 	qpjpg = new QPixmap(m_strQuakeJPG);
 	if (!qpjpg || qpjpg->width() < 20) goto done; // our image didn't load
-	
-	
-	qcn_util::strAlNum(qcn_graphics::g_MakeQuake.strName);
-	strPDF.sprintf("%s/%s_%ld.pdf", DIR_MAKEQUAKE, qcn_graphics::g_MakeQuake.strName, (long) dtime());
-	
-	qpr->setOutputFileName(strPDF);
-		
+			
 	paint = new QPainter(qpr);
     if (!paint) {
 		statmsg = tr("Print error - Do you have a printer or PDF support?");
@@ -563,11 +597,12 @@ void MyApp::slotPrintPreview(QPrinter* qpr)
 	rect.setY(iOldY + ((float) size.height() * .05));  // do some juggling around to ensure space at the top for the name
 	paint->drawPixmap(rect, *qpjpg);
 	rect.setY(iOldY);
-	paint->drawText(rect, Qt::AlignHCenter | Qt::AlignTop, strName);
+	paint->drawText(rect, Qt::AlignHCenter | Qt::AlignTop, strTitle);
 	paint->end();
 	
-	statmsg = "Quake PDF saved to " + strPDF;
-	m_frame->statusBar()->showMessage(statmsg);
+	//statmsg = "Quake PDF saved to " + strPDF;
+	//statmsg = "Quake PDF saved to " + strPDF;
+	//m_frame->statusBar()->showMessage(statmsg);
 	
 	
 done:
@@ -597,6 +632,11 @@ int MyApp::Exit()
 		m_timerQuakeList->stop();
 		delete m_timerQuakeList;
 		m_timerQuakeList = NULL;
+	}
+	if (m_timerMakeQuake) {
+		m_timerMakeQuake->stop();
+		delete m_timerMakeQuake;
+		m_timerMakeQuake = NULL;
 	}
 	if (m_frame) {
 		delete m_frame; // necessary?

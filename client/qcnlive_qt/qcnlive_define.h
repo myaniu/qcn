@@ -19,6 +19,7 @@
 #define SET_APP     "QCNLive"
 
 #define DIR_MAKEQUAKE "../makequake"
+#define PRINTER_PDF   "PDF File"
 
 
 #define QT_WINDOW_SETTINGS_GEOMETRY "geometry"
@@ -42,6 +43,7 @@
 #define XML_SACFORMAT  "sac"
 #define XML_MAKEQUAKE_TIME "mqt"
 #define XML_MAKEQUAKE_COUNTDOWN "mqc"
+#define XML_MAKEQUAKE_PRINTER "mqp"
 
 
 // URL for the earthquake xml listing
