@@ -9,7 +9,7 @@ dnl not sure exactly what the minimum version is (but 2.13 wont work)
 AC_PREREQ(2.57)
 
 dnl Set the BOINC version here.  You can also use the set-version script.
-AC_INIT(QCN, 6.16)
+AC_INIT(QCN, 6.18)
 LIBBOINC_VERSION=`echo ${PACKAGE_VERSION} | sed 's/\./:/g'`
 AC_SUBST([LIBBOINC_VERSION])
 
@@ -605,7 +605,8 @@ AC_CONFIG_FILES([
                  client/graphics/Makefile
                  client/qcnlive/Makefile
                  client/qcnusb/Makefile
-                 zlib-1.2.5/Makefile
+                 freetype-2.3.9/Makefile                 
+                 curl-7.18.2/Makefile
                  ftgl-2.1.3/Makefile                 
                  m4/Makefile
                  ])
