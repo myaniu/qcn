@@ -29,7 +29,8 @@ else
   cd jpeg-6b
   ./configure
   make clean && make
-  cd ../boinc
+  cd ../../boinc
+  #  Note - probably need to edit boinc/configure.ac & Makefile.am to add zip/Makefile and zip as a subdir
   make distclean
   ./_autosetup
   ./configure --enable-client-release --disable-client --disable-server --disable-manager --disable-fcgi
