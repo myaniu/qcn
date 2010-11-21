@@ -28,6 +28,15 @@ else
 fi
 }
 
+cleanup_files ()
+{
+rm -f qcnlive*.zip
+rm -f qcnusb*.zip
+rm -f *qcn*$vnci*
+rm -f *qcn*$vnon*
+}
+
+cleanup_files
 
 # init/earthmask.rgb  # disable for now
 ncisuffix='__nci'
@@ -45,6 +54,7 @@ if ( test "`uname -s`" = "Darwin" ) then
   suffixp='powerpc-apple-darwin'
   suffixi='i686-apple-darwin'
   suffixs='x86_64-apple-darwin'
+
     rm -f qcnlive-mac.zip
     zip -r qcnlive-mac.zip QCNLive.app $fonta $fontb \
        init/$ntpdv $uplstring \
@@ -55,8 +65,14 @@ if ( test "`uname -s`" = "Darwin" ) then
     /Developer/usr/bin/packagemaker --doc qcnusb.pmdoc --out ../../bin/qcnusb-mac.mpkg
     cd ../../bin/
     zip -r qcnusb-mac.zip qcnusb-mac.mpkg -x@exclude.lst
+
+
+echo $vnci
+echo $vnon
+
   lipo -extract i386 qcn.app/Contents/MacOS/qcn -output qcn_$vnci_$suffixi$ncisuffix
   lipo -extract i386 qcn.app/Contents/MacOS/qcn -output qcn_$vnon_$suffixi
+exit 2
   lipo -extract ppc qcn.app/Contents/MacOS/qcn -output qcn_$vnci_$suffixp$ncisuffix
   lipo -extract ppc qcn.app/Contents/MacOS/qcn -output qcn_$vnon_$suffixp
   lipo -extract x86_64 qcn.app/Contents/MacOS/qcn -output qcn_$vnci_$suffixs$ncisuffix
@@ -67,6 +83,8 @@ if ( test "`uname -s`" = "Darwin" ) then
   lipo -extract ppc qcn_graphics.app/Contents/MacOS/qcn_graphics -output graphics_app=qcn_graphics_$vnon_$suffixp
   lipo -extract x86_64 qcn_graphics.app/Contents/MacOS/qcn_graphics -output graphics_app=qcn_graphics_$vnci_$suffixs
   lipo -extract x86_64 qcn_graphics.app/Contents/MacOS/qcn_graphics -output graphics_app=qcn_graphics_$vnon_$suffixs
+
+exit 2
 
 appspathone=qcn_$vnci_$suffixi$ncisuffix
 appspathtwo=qcn_$vnon_$suffixi
@@ -237,3 +255,6 @@ else
 
   sftp -b qcnsftp.up carlgt1@qcn-web.stanford.edu
 fi
+
+cleanup_files
+
