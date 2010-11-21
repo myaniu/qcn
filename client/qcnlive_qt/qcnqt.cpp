@@ -500,7 +500,7 @@ void MyApp::slotMakeQuake()
 		m_frame->statusBar()->showMessage(tr("Graphics error in making quake - please try again"), 10000);
 	}
 	
-	m_frame->updateGLWidget(); // force a screen refresh before the frame grab
+	m_frame->updateGLWidget(); // force a screen refresh before the frame grab i.e. may be a lagging 'Monitoring...1s' message
 	m_frame->statusBar()->showMessage(tr("Processing image..."));
 	
 	m_strQuakeJPG = qcn_graphics::ScreenshotJPG(); // this actually gets the screen grab and returns the filename
@@ -594,9 +594,10 @@ void MyApp::slotPrintPreview(QPrinter* qpr)
 	paint->setWindow(rect);
 	
 	int iOldY = rect.y();
-	rect.setY(iOldY + ((float) size.height() * .05));  // do some juggling around to ensure space at the top for the name
+	rect.setY(iOldY + ((float) rect.height() * .1));  // do some juggling around to ensure space at the top for the name
+	rect.setHeight(rect.height() * .90);
 	paint->drawPixmap(rect, *qpjpg);
-	rect.setY(iOldY);
+	rect.setY(iOldY + ((float) rect.height() * .05));   // draw text not quite at the top edge
 	paint->drawText(rect, Qt::AlignHCenter | Qt::AlignTop, strTitle);
 	paint->end();
 	
