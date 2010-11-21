@@ -6,8 +6,8 @@ if (test "$1" = "") then
 fi
 
 # setup nci & non-nci version numbers for the BOINC app versions
-$vnci=$1
-$vnon=`eval "echo 'scale=2; $vnci-.01'|bc"`
+vnci=$1
+vnon=`eval "echo 'scale=2; $vnci-.01'|bc"`
 
 fonta='init/hvt'
 fontb='init/cbt'
