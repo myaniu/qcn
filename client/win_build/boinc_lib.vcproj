@@ -411,7 +411,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="../../../boinc;../../../boinc/lib"
-				PreprocessorDefinitions="WIN32;_WIN32;_DEBUG;_DLL;_CRT_SECURE_NO_DEPRECATE;_USE_32BIT_TIME_T"
+				PreprocessorDefinitions="WIN32;_WIN32;API;_DEBUG;_DLL;_CRT_SECURE_NO_DEPRECATE;_USE_32BIT_TIME_T"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				WarningLevel="3"
