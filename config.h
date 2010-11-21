@@ -21,7 +21,7 @@
 /* #undef DARWIN_10_3 */
 
 /* Define to the platform's shared library extension */
-#define DLLEXT ".so"
+#define DLLEXT ".dylib"
 
 /* Define to 1 if you have the `alloca' function. */
 /* #undef HAVE_ALLOCA */
@@ -61,7 +61,7 @@
 /* #undef HAVE_GETISAX */
 
 /* Define to 1 if you have the `getutent' function. */
-#define HAVE_GETUTENT 1
+/* #undef HAVE_GETUTENT */
 
 /* Define to 1 if you have the <glaux.h> header file. */
 /* #undef HAVE_GLAUX_H */
@@ -118,7 +118,7 @@
 /* #undef HAVE_LIBWSOCK32 */
 
 /* Define to 1 if you have the <malloc.h> header file. */
-#define HAVE_MALLOC_H 1
+/* #undef HAVE_MALLOC_H */
 
 /* Define to 1 if you have the <memory.h> header file. */
 #define HAVE_MEMORY_H 1
@@ -178,7 +178,7 @@
 #define HAVE_SETPRIORITY 1
 
 /* Define to 1 if you have the `setutent' function. */
-#define HAVE_SETUTENT 1
+/* #undef HAVE_SETUTENT */
 
 /* Define to 1 if you have the `sigaction' function. */
 #define HAVE_SIGACTION 1
@@ -226,12 +226,12 @@
 #define HAVE_STRING_H 1
 
 /* Define to 1 if you have the `strlcat' function. */
-/* #undef HAVE_STRLCAT */
+#define HAVE_STRLCAT 1
 
 /* Define to 1 if you have the `strlcpy' function. */
-/* #undef HAVE_STRLCPY */
+#define HAVE_STRLCPY 1
 
-/* Define to 1 if `struct tm' is a member of `tm_zone'. */
+/* Define to 1 if `tm_zone' is member of `struct tm'. */
 #define HAVE_STRUCT_TM_TM_ZONE 1
 
 /* Define to 1 if you have the <sys/auxv.h> header file. */
@@ -270,16 +270,16 @@
 #define HAVE_SYS_SOCKET_H 1
 
 /* Define to 1 if you have the <sys/statfs.h> header file. */
-#define HAVE_SYS_STATFS_H 1
+/* #undef HAVE_SYS_STATFS_H */
 
 /* Define to 1 if you have the <sys/statvfs.h> header file. */
-#define HAVE_SYS_STATVFS_H 1
+//#define HAVE_SYS_STATVFS_H 1
 
 /* Define to 1 if you have the <sys/stat.h> header file. */
 #define HAVE_SYS_STAT_H 1
 
 /* Define to 1 if you have the <sys/swap.h> header file. */
-#define HAVE_SYS_SWAP_H 1
+/* #undef HAVE_SYS_SWAP_H */
 
 /* Define to 1 if you have the <sys/sysctl.h> header file. */
 #define HAVE_SYS_SYSCTL_H 1
@@ -297,7 +297,7 @@
 #define HAVE_SYS_UTSNAME_H 1
 
 /* Define to 1 if you have the <sys/vmmeter.h> header file. */
-/* #undef HAVE_SYS_VMMETER_H */
+#define HAVE_SYS_VMMETER_H 1
 
 /* Define to 1 if you have the <sys/wait.h> header file. */
 #define HAVE_SYS_WAIT_H 1
@@ -332,17 +332,17 @@
 /* #undef HAVE__ALLOCA */
 
 /* Define to 1 if /proc/meminfo exists */
-#define HAVE__PROC_MEMINFO 1
+/* #undef HAVE__PROC_MEMINFO */
 
 /* Define to 1 if /proc/self/psinfo exists */
 /* #undef HAVE__PROC_SELF_PSINFO */
 
 /* Define to 1 if /proc/self/stat exists */
-#define HAVE__PROC_SELF_STAT 1
+/* #undef HAVE__PROC_SELF_STAT */
 
 /* Platform identification used to identify applications for this BOINC core
    client */
-#define HOSTTYPE "i686-pc-linux-gnu"
+#define HOSTTYPE "i686-apple-darwin"
 
 /* Alternate identification used to identify applications for this BOINC core
    client */
@@ -364,16 +364,13 @@
 #define PACKAGE_NAME "QCN"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "QCN 6.18"
+#define PACKAGE_STRING "QCN 4.86"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "qcn"
 
-/* Define to the home page for this package. */
-#define PACKAGE_URL ""
-
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "6.18"
+#define PACKAGE_VERSION "4.86"
 
 /* Define to the necessary symbol if this constant uses a non-standard name on
    your system. */
@@ -395,10 +392,10 @@
 /* #undef USE_WINSOCK */
 
 /* utmp file location */
-#define UTMP_LOCATION "/var/run/utmp"
+/* #undef UTMP_LOCATION */
 
 /* Version number of package */
-#define VERSION "6.18"
+#define VERSION "4.86"
 
 /* Define to prevent redefinition of INT32 in jconfig.h */
 /* #undef XMD_H */
@@ -407,7 +404,7 @@
 /* #undef X_DISPLAY_MISSING */
 
 /* Number of bits in a file offset, on hosts where this is settable. */
-#define _FILE_OFFSET_BITS 64
+/* #undef _FILE_OFFSET_BITS */
 
 /* Define for large files, on AIX-style hosts. */
 /* #undef _LARGE_FILES */
