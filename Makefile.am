@@ -23,7 +23,7 @@ API_SUBDIRS = ../boinc/api ../boinc/lib ../boinc/zip
 # ORDER MATTERS below.  One must build dependencies FIRST, then things
 # that depend on them later
 #SUBDIRS = main graphics
-SUBDIRS = freetype-2.3.9 ftgl-2.1.3 curl-7.18.2 ntp-4.2.4p7 zlib-1.2.5 client/main client/graphics client/qcnlive
+SUBDIRS = freetype-2.3.9 ftgl-2.1.3 curl-7.18.2 client/main client/graphics client/qcnlive
 if OS_DARWIN
    SUBDIRS += client/qcnusb
 else

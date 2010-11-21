@@ -16,19 +16,19 @@
 # To install in $HOME instead of /usr/local, use:
 #    make install prefix=$HOME
 
-CC=cc
+CC=gcc
 
-CFLAGS=-O
+CFLAGS=-O3 -D_LARGEFILE64_SOURCE=1
 #CFLAGS=-O -DMAX_WBITS=14 -DMAX_MEM_LEVEL=7
 #CFLAGS=-g -DDEBUG
 #CFLAGS=-O3 -Wall -Wwrite-strings -Wpointer-arith -Wconversion \
 #           -Wstrict-prototypes -Wmissing-prototypes
 
-SFLAGS=-O
-LDFLAGS=
+SFLAGS=-O3 -fPIC -D_LARGEFILE64_SOURCE=1
+LDFLAGS= -L. libz.a
 TEST_LDFLAGS=-L. libz.a
-LDSHARED=$(CC)
-CPP=$(CC) -E
+LDSHARED=gcc -shared -Wl,-soname,libz.so.1,--version-script,zlib.map
+CPP=gcc -E
 
 STATICLIB=libz.a
 SHAREDLIB=libz.so
@@ -44,12 +44,12 @@ TAR=tar
 SHELL=/bin/sh
 EXE=
 
-prefix = /usr/local
-exec_prefix = ${prefix}
-libdir = ${exec_prefix}/lib
-sharedlibdir = ${libdir}
-includedir = ${prefix}/include
-mandir = ${prefix}/share/man
+prefix =/usr/local
+exec_prefix =${prefix}
+libdir =${exec_prefix}/lib
+sharedlibdir =${libdir}
+includedir =${prefix}/include
+mandir =${prefix}/share/man
 man3dir = ${mandir}/man3
 pkgconfigdir = ${libdir}/pkgconfig
 
@@ -67,7 +67,7 @@ OBJS = $(OBJC) $(OBJA)
 
 PIC_OBJS = $(PIC_OBJC) $(PIC_OBJA)
 
-all: static shared
+all: static shared all64
 
 static: example$(EXE) minigzip$(EXE)
 
@@ -77,7 +77,7 @@ all64: example64$(EXE) minigzip64$(EXE)
 
 check: test
 
-test: all teststatic testshared
+test: all teststatic testshared test64
 
 teststatic: static
 	@if echo hello world | ./minigzip | ./minigzip -d && ./example; then \

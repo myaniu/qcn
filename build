@@ -28,6 +28,14 @@ else
   make clean && make
   cd ../qcn
   make distclean
+  cd zlib-1.2.5
+  ./configure
+  make clean && make
+  cd ..
+  cd jpeg-6b
+  ./configure
+  make clean && make
+  cd ..
   ./_autosetup
   ./configure --enable-client-release --disable-server
   make clean
