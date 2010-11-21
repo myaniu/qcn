@@ -44,7 +44,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="../../../boinc;../../../boinc/lib"
-				PreprocessorDefinitions="WIN32;_WIN32;_DEBUG;_LIB;_CRT_SECURE_NO_DEPRECATE;_USE_32BIT_TIME_T"
+				PreprocessorDefinitions="WIN32;_WIN32;_DEBUG;_LIB;API;_CRT_SECURE_NO_DEPRECATE;_USE_32BIT_TIME_T"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
 				WarningLevel="3"
@@ -171,7 +171,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="../../../boinc;../../../boinc/lib;../../../boinc/api;../../jpeglib;../../glut"
-				PreprocessorDefinitions="XMD_H;_WIN32;WIN32;NDEBUG;_LIB;_CRT_SECURE_NO_DEPRECATE;_USE_32BIT_TIME_T"
+				PreprocessorDefinitions="XMD_H;_WIN32;WIN32;NDEBUG;API;_LIB;_CRT_SECURE_NO_DEPRECATE;_USE_32BIT_TIME_T"
 				RuntimeLibrary="0"
 				DebugInformationFormat="0"
 				ForcedIncludeFiles="boinc_win.h"
@@ -291,7 +291,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="../../../boinc;../../../boinc/lib;../../../boinc/api;../../jpeglib;../../glut"
-				PreprocessorDefinitions="XMD_H;_WIN32;WIN32;NDEBUG;_LIB;_CRT_SECURE_NO_DEPRECATE;_USE_32BIT_TIME_T"
+				PreprocessorDefinitions="XMD_H;_WIN32;WIN32;NDEBUG;API;_LIB;_CRT_SECURE_NO_DEPRECATE;_USE_32BIT_TIME_T"
 				RuntimeLibrary="2"
 				DebugInformationFormat="0"
 				ForcedIncludeFiles="boinc_win.h"

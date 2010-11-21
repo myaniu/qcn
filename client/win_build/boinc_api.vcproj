@@ -21,9 +21,10 @@
 		<Configuration
 			Name="Debug|Win32"
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
-			IntermediateDirectory="$(SolutionDir)$(ConfigurationName)"
+			IntermediateDirectory="$(SolutionDir)$(ConfigurationName)$(ProjectName)"
 			ConfigurationType="4"
 			CharacterSet="0"
+			BuildLogFile="$(IntDir)\BuildLog$(ProjectName).htm"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -148,10 +149,11 @@
 		<Configuration
 			Name="Release|Win32"
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
-			IntermediateDirectory="$(SolutionDir)$(ConfigurationName)"
+			IntermediateDirectory="$(SolutionDir)$(ConfigurationName)$(ProjectName)"
 			ConfigurationType="4"
 			CharacterSet="0"
 			ManagedExtensions="0"
+			BuildLogFile="$(IntDir)\BuildLog$(ProjectName).htm"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -272,10 +274,11 @@
 		<Configuration
 			Name="ReleaseDLL|Win32"
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
-			IntermediateDirectory="$(SolutionDir)$(ConfigurationName)"
+			IntermediateDirectory="$(SolutionDir)$(ConfigurationName)$(ProjectName)"
 			ConfigurationType="4"
 			CharacterSet="0"
 			ManagedExtensions="0"
+			BuildLogFile="$(IntDir)\BuildLog$(ProjectName).htm"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -396,9 +399,10 @@
 		<Configuration
 			Name="DebugDLL|Win32"
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
-			IntermediateDirectory="$(SolutionDir)$(ConfigurationName)"
+			IntermediateDirectory="$(SolutionDir)$(ConfigurationName)$(ProjectName)"
 			ConfigurationType="4"
 			CharacterSet="0"
+			BuildLogFile="$(IntDir)\BuildLog$(ProjectName).htm"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
