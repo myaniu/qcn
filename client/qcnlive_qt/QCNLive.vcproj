@@ -2508,7 +2508,6 @@
 					</FileConfiguration>
 					<FileConfiguration
 						Name="ReleaseDLL|Win32"
-						ExcludedFromBuild="true"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
@@ -2575,7 +2574,6 @@
 					</FileConfiguration>
 					<FileConfiguration
 						Name="ReleaseDLL|Win32"
-						ExcludedFromBuild="true"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
@@ -2642,7 +2640,6 @@
 					</FileConfiguration>
 					<FileConfiguration
 						Name="ReleaseDLL|Win32"
-						ExcludedFromBuild="true"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
@@ -2709,7 +2706,6 @@
 					</FileConfiguration>
 					<FileConfiguration
 						Name="ReleaseDLL|Win32"
-						ExcludedFromBuild="true"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
@@ -2776,7 +2772,6 @@
 					</FileConfiguration>
 					<FileConfiguration
 						Name="ReleaseDLL|Win32"
-						ExcludedFromBuild="true"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
