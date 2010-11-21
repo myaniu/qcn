@@ -593,6 +593,200 @@
 				CommandLine="..\bin\setwinver.exe deploy"
 			/>
 		</Configuration>
+		<Configuration
+			Name="DebugDLL|Win32"
+			OutputDirectory="$(ConfigurationName)"
+			IntermediateDirectory="$(ConfigurationName)"
+			ConfigurationType="1"
+			UseOfMFC="0"
+			ATLMinimizesCRunTimeLibraryUsage="false"
+			CharacterSet="0"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				WarningLevel="0"
+				DefaultCharType="0"
+				EnableErrorChecks="1"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				AdditionalOptions="-Zm200 -w34100 -w34189"
+				Optimization="0"
+				AdditionalIncludeDirectories="$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtOpenGL;$(QTDIR)\include;.\..\..\..\qcn;.\..\..\jpeg-6b;.\..\..\zlib-1.2.5;.\..\..\curl-7.18.2\include;.\..\..\ftgl-2.1.3\include;.\..\..\freetype-2.3.9\include;.\..\main;.\..\sensor;.\..\util;.\..\..\..\boinc\lib;.\..\..\..\boinc\api;.\..\..\..\boinc\zip;.\..\graphics;$(QTDIR)\include\ActiveQt;.\debug;.\..\..\..\..\Qt\4.7.1\mkspecs\default;$(ConfigurationName)"
+				PreprocessorDefinitions="FTGL_LIBRARY_STATIC;_DEBUG;_WINDOWS;WIN32;QT_LARGEFILE_SUPPORT;_USE_NTPDATE_EXEC_;QCNLIVE;GRAPHICS_PROGRAM;APP_GRAPHICS;_ZLIB;QCN;_THREAD_SAFE;CURL_STATICLIB;QT_DLL;QT_OPENGL_LIB;QT_GUI_LIB;QT_CORE_LIB;QT_HAVE_MMX;QT_HAVE_3DNOW;QT_HAVE_SSE;QT_HAVE_MMXEXT;QT_HAVE_SSE2;QT_THREAD_SUPPORT"
+				GeneratePreprocessedFile="0"
+				ExceptionHandling="1"
+				RuntimeLibrary="3"
+				BufferSecurityCheck="true"
+				TreatWChar_tAsBuiltInType="true"
+				RuntimeTypeInfo="true"
+				AssemblerListingLocation="debug\"
+				ObjectFile="debug\"
+				ProgramDataBaseFileName=".\"
+				WarningLevel="3"
+				SuppressStartupBanner="true"
+				DebugInformationFormat="3"
+				ForcedIncludeFiles="windows.h"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,QT_LARGEFILE_SUPPORT,_USE_NTPDATE_EXEC_,QCNLIVE,GRAPHICS_PROGRAM,APP_GRAPHICS,_ZLIB,QCN,_THREAD_SAFE,CURL_STATICLIB,_ZLIB,QT_DLL,QT_OPENGL_LIB,QT_GUI_LIB,QT_CORE_LIB,QT_HAVE_MMX,QT_HAVE_3DNOW,QT_HAVE_SSE,QT_HAVE_MMXEXT,QT_HAVE_SSE2,QT_THREAD_SUPPORT,_DEBUG"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				IgnoreImportLibrary="false"
+				AdditionalOptions="/LTCG &quot;/MANIFESTDEPENDENCY:type=&apos;win32&apos; name=&apos;Microsoft.Windows.Common-Controls&apos; version=&apos;6.0.0.0&apos; publicKeyToken=&apos;6595b64144ccf1df&apos; language=&apos;*&apos; processorArchitecture=&apos;*&apos;&quot;"
+				AdditionalDependencies="glu32.lib opengl32.lib gdi32.lib user32.lib qtmaind.lib wsock32.lib hid.lib setupapi.lib winmm.lib comctl32.lib boinc_zipd.lib curllibd.lib jpeglibd.lib zlibd.lib MotionNodeAccelAPI.lib QtOpenGLd4.lib QtGuid4.lib QtCored4.lib ftgld.lib freetyped.lib boinc_libd.lib boinc_apid.lib"
+				OutputFile="..\bin\$(ProjectName)d.exe"
+				LinkIncremental="1"
+				SuppressStartupBanner="true"
+				AdditionalLibraryDirectories="$(QTDIR)\lib,c:/projects/qcn/client/win_build,../sensor/motionnodeaccel/"
+				IgnoreAllDefaultLibraries="false"
+				IgnoreDefaultLibraryNames="msvcrtd.lib "
+				DelayLoadDLLs="MotionNodeAccelAPI.dll"
+				GenerateDebugInformation="true"
+				ProgramDatabaseFile=""
+				SubSystem="2"
+				HeapReserveSize="0"
+				HeapCommitSize="0"
+				StackReserveSize="0"
+				StackCommitSize="0"
+				LinkTimeCodeGeneration="0"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+		</Configuration>
+		<Configuration
+			Name="DebugDLL|x64"
+			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			ConfigurationType="1"
+			UseOfMFC="0"
+			ATLMinimizesCRunTimeLibraryUsage="false"
+			CharacterSet="0"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				WarningLevel="0"
+				DefaultCharType="0"
+				TargetEnvironment="3"
+				EnableErrorChecks="1"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				AdditionalOptions="-Zm200 -w34100 -w34189"
+				Optimization="0"
+				AdditionalIncludeDirectories="$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtOpenGL;$(QTDIR)\include;.\..\..\..\qcn;.\..\..\jpeg-6b;.\..\..\zlib-1.2.5;.\..\..\curl-7.18.2\include;.\..\..\ftgl-2.1.3\include;.\..\..\freetype-2.3.9\include;.\..\main;.\..\sensor;.\..\util;.\..\..\..\boinc\lib;.\..\..\..\boinc\api;.\..\..\..\boinc\zip;.\..\graphics;$(QTDIR)\include\ActiveQt;.\debug;.\..\..\..\..\Qt\4.7.1\mkspecs\default;$(ConfigurationName)"
+				PreprocessorDefinitions="FTGL_LIBRARY_STATIC;_DEBUG;_WINDOWS;WIN32;QT_LARGEFILE_SUPPORT;_USE_NTPDATE_EXEC_;QCNLIVE;GRAPHICS_PROGRAM;APP_GRAPHICS;_ZLIB;QCN;_THREAD_SAFE;CURL_STATICLIB;QT_DLL;QT_OPENGL_LIB;QT_GUI_LIB;QT_CORE_LIB;QT_HAVE_MMX;QT_HAVE_3DNOW;QT_HAVE_SSE;QT_HAVE_MMXEXT;QT_HAVE_SSE2;QT_THREAD_SUPPORT"
+				GeneratePreprocessedFile="0"
+				ExceptionHandling="1"
+				RuntimeLibrary="3"
+				BufferSecurityCheck="true"
+				TreatWChar_tAsBuiltInType="true"
+				RuntimeTypeInfo="true"
+				AssemblerListingLocation="debug\"
+				ObjectFile="debug\"
+				ProgramDataBaseFileName=".\"
+				WarningLevel="3"
+				SuppressStartupBanner="true"
+				DebugInformationFormat="3"
+				ForcedIncludeFiles="windows.h"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,QT_LARGEFILE_SUPPORT,_USE_NTPDATE_EXEC_,QCNLIVE,GRAPHICS_PROGRAM,APP_GRAPHICS,_ZLIB,QCN,_THREAD_SAFE,CURL_STATICLIB,_ZLIB,QT_DLL,QT_OPENGL_LIB,QT_GUI_LIB,QT_CORE_LIB,QT_HAVE_MMX,QT_HAVE_3DNOW,QT_HAVE_SSE,QT_HAVE_MMXEXT,QT_HAVE_SSE2,QT_THREAD_SUPPORT,_DEBUG"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				IgnoreImportLibrary="true"
+				AdditionalOptions="&quot;/MANIFESTDEPENDENCY:type=&apos;win32&apos; name=&apos;Microsoft.Windows.Common-Controls&apos; version=&apos;6.0.0.0&apos; publicKeyToken=&apos;6595b64144ccf1df&apos; language=&apos;*&apos; processorArchitecture=&apos;*&apos;&quot;"
+				AdditionalDependencies="glu32.lib opengl32.lib gdi32.lib user32.lib qtmaind.lib wsock32.lib hid64.lib setupapi.lib winmm.lib comctl32.lib boinc_api.lib boinc_lib.lib boinc_zip.lib curllib.lib jpeglib32.lib zlib32.lib MotionNodeAccelAPI.lib QtOpenGLd4.lib QtGuid4.lib QtCored4.lib"
+				OutputFile="..\bin\$(ProjectName)d.exe"
+				SuppressStartupBanner="true"
+				AdditionalLibraryDirectories="$(QTDIR)\lib,c:/projects/qcn/client/win_build"
+				GenerateDebugInformation="true"
+				ProgramDatabaseFile=""
+				SubSystem="2"
+				LinkTimeCodeGeneration="0"
+				TargetMachine="17"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+		</Configuration>
 	</Configurations>
 	<References>
 	</References>
@@ -825,6 +1019,28 @@
 						Outputs=""
 					/>
 				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLL|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Performing Custom Build Step"
+						CommandLine=""
+						AdditionalDependencies=""
+						Outputs=""
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLL|x64"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Performing Custom Build Step"
+						CommandLine=""
+						AdditionalDependencies=""
+						Outputs=""
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="dlgmakequake.h"
@@ -891,6 +1107,28 @@
 						Name="VCCustomBuildTool"
 						Description="Moc&apos;ing $(InputFileName)..."
 						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;  &quot;$(InputPath)&quot; -o &quot;$(ConfigurationName)\moc_$(InputName).cpp&quot; &quot;-DFTGL_LIBRARY_STATIC &quot;-I$(ConfigurationName)\.&quot; &quot;-I$(QTDIR)\include&quot; &quot;-I$(QTDIR)\include\ActiveQt&quot; &quot;-I$(QTDIR)\include\QtCore&quot; &quot;-I$(QTDIR)\include\QtGui&quot; &quot;-I$(QTDIR)\include\QtOpenGL&quot; &quot;-I.\..\..\..\..\Qt\4.7.1\mkspecs\default&quot; &quot;-I.\..\..\..\boinc\api&quot; &quot;-I.\..\..\..\boinc\lib&quot; &quot;-I.\..\..\..\boinc\zip&quot; &quot;-I.\..\..\..\qcn&quot; &quot;-I.\..\..\curl-7.18.2\include&quot; &quot;-I.\..\..\freetype-2.3.9\include&quot; &quot;-I.\..\..\ftgl-2.1.3\include&quot; &quot;-I.\..\..\jpeg-6b&quot; &quot;-I.\..\..\zlib-1.2.5&quot; &quot;-I.\..\graphics&quot; &quot;-I.\..\main&quot; &quot;-I.\..\sensor&quot; &quot;-I.\..\util&quot; &quot;-I.\release&quot; -D_THREAD_SAFE -D_USE_NTPDATE_EXEC_ -D_WINDOWS -D_ZLIB -DAPP_GRAPHICS -DCURL_STATICLIB -DGRAPHICS_PROGRAM -DNDEBUG -DQCN -DQCNLIVE -DQT_CORE_LIB -DQT_DLL -DQT_GUI_LIB -DQT_HAVE_3DNOW -DQT_HAVE_MMX -DQT_HAVE_MMXEXT -DQT_HAVE_SSE -DQT_HAVE_SSE2 -DQT_LARGEFILE_SUPPORT -DQT_NO_DEBUG -DQT_OPENGL_LIB -DQT_THREAD_SUPPORT -DWIN32 QT_NO_DEBUG&quot;&#x0D;&#x0A;"
+						AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;;$(InputPath)"
+						Outputs="&quot;$(ConfigurationName)\moc_$(InputName).cpp&quot;"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLL|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Moc&apos;ing $(InputFileName)..."
+						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;  &quot;$(InputPath)&quot; -o &quot;$(ConfigurationName)\moc_$(InputName).cpp&quot; &quot;-I$(ConfigurationName)\.&quot; &quot;-I$(QTDIR)\include&quot; &quot;-I$(QTDIR)\include\ActiveQt&quot; &quot;-I$(QTDIR)\include\QtCore&quot; &quot;-I$(QTDIR)\include\QtGui&quot; &quot;-I$(QTDIR)\include\QtOpenGL&quot; &quot;-I.\..\..\..\..\Qt\4.7.1\mkspecs\default&quot; &quot;-I.\..\..\..\boinc\api&quot; &quot;-I.\..\..\..\boinc\lib&quot; &quot;-I.\..\..\..\boinc\zip&quot; &quot;-I.\..\..\..\qcn&quot; &quot;-I.\..\..\curl-7.18.2\include&quot; &quot;-I.\..\..\freetype-2.3.9\include&quot; &quot;-I.\..\..\ftgl-2.1.3\include&quot; &quot;-I.\..\..\jpeg-6b&quot; &quot;-I.\..\..\zlib-1.2.5&quot; &quot;-I.\..\graphics&quot; &quot;-I.\..\main&quot; &quot;-I.\..\sensor&quot; &quot;-I.\..\util&quot; &quot;-I.\debug&quot; -D_DEBUG -D_THREAD_SAFE -D_USE_NTPDATE_EXEC_ -D_WINDOWS -D_ZLIB -DAPP_GRAPHICS -DCURL_STATICLIB -DFTGL_LIBRARY_STATIC -DGRAPHICS_PROGRAM -DQCN -DQCNLIVE -DQT_CORE_LIB -DQT_DLL -DQT_GUI_LIB -DQT_HAVE_3DNOW -DQT_HAVE_MMX -DQT_HAVE_MMXEXT -DQT_HAVE_SSE -DQT_HAVE_SSE2 -DQT_LARGEFILE_SUPPORT -DQT_OPENGL_LIB -DQT_THREAD_SUPPORT -DWIN32&#x0D;&#x0A;"
+						AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;;$(InputPath)"
+						Outputs="&quot;$(ConfigurationName)\moc_$(InputName).cpp&quot;"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLL|x64"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Moc&apos;ing $(InputFileName)..."
+						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;  &quot;$(InputPath)&quot; -o &quot;$(ConfigurationName)\moc_$(InputName).cpp&quot; &quot;-I$(ConfigurationName)\.&quot; &quot;-I$(QTDIR)\include&quot; &quot;-I$(QTDIR)\include\ActiveQt&quot; &quot;-I$(QTDIR)\include\QtCore&quot; &quot;-I$(QTDIR)\include\QtGui&quot; &quot;-I$(QTDIR)\include\QtOpenGL&quot; &quot;-I.\..\..\..\..\Qt\4.7.1\mkspecs\default&quot; &quot;-I.\..\..\..\boinc\api&quot; &quot;-I.\..\..\..\boinc\lib&quot; &quot;-I.\..\..\..\boinc\zip&quot; &quot;-I.\..\..\..\qcn&quot; &quot;-I.\..\..\curl-7.18.2\include&quot; &quot;-I.\..\..\freetype-2.3.9\include&quot; &quot;-I.\..\..\ftgl-2.1.3\include&quot; &quot;-I.\..\..\jpeg-6b&quot; &quot;-I.\..\..\zlib-1.2.5&quot; &quot;-I.\..\graphics&quot; &quot;-I.\..\main&quot; &quot;-I.\..\sensor&quot; &quot;-I.\..\util&quot; &quot;-I.\debug&quot; -D_DEBUG -D_THREAD_SAFE -D_USE_NTPDATE_EXEC_ -D_WINDOWS -D_ZLIB -DAPP_GRAPHICS -DCURL_STATICLIB -DFTGL_LIBRARY_STATIC -DGRAPHICS_PROGRAM -DQCN -DQCNLIVE -DQT_CORE_LIB -DQT_DLL -DQT_GUI_LIB -DQT_HAVE_3DNOW -DQT_HAVE_MMX -DQT_HAVE_MMXEXT -DQT_HAVE_SSE -DQT_HAVE_SSE2 -DQT_LARGEFILE_SUPPORT -DQT_OPENGL_LIB -DQT_THREAD_SUPPORT -DWIN32&#x0D;&#x0A;"
 						AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;;$(InputPath)"
 						Outputs="&quot;$(ConfigurationName)\moc_$(InputName).cpp&quot;"
 					/>
@@ -965,6 +1203,28 @@
 						Outputs="&quot;$(ConfigurationName)\moc_$(InputName).cpp&quot;"
 					/>
 				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLL|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Moc&apos;ing $(InputFileName)..."
+						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;  &quot;$(InputPath)&quot; -o &quot;$(ConfigurationName)\moc_$(InputName).cpp&quot; &quot;-I$(ConfigurationName)\.&quot; &quot;-I$(QTDIR)\include&quot; &quot;-I$(QTDIR)\include\ActiveQt&quot; &quot;-I$(QTDIR)\include\QtCore&quot; &quot;-I$(QTDIR)\include\QtGui&quot; &quot;-I$(QTDIR)\include\QtOpenGL&quot; &quot;-I.\..\..\..\..\Qt\4.7.1\mkspecs\default&quot; &quot;-I.\..\..\..\boinc\api&quot; &quot;-I.\..\..\..\boinc\lib&quot; &quot;-I.\..\..\..\boinc\zip&quot; &quot;-I.\..\..\..\qcn&quot; &quot;-I.\..\..\curl-7.18.2\include&quot; &quot;-I.\..\..\freetype-2.3.9\include&quot; &quot;-I.\..\..\ftgl-2.1.3\include&quot; &quot;-I.\..\..\jpeg-6b&quot; &quot;-I.\..\..\zlib-1.2.5&quot; &quot;-I.\..\graphics&quot; &quot;-I.\..\main&quot; &quot;-I.\..\sensor&quot; &quot;-I.\..\util&quot; &quot;-I.\debug&quot; -D_DEBUG -D_THREAD_SAFE -D_USE_NTPDATE_EXEC_ -D_WINDOWS -D_ZLIB -DAPP_GRAPHICS -DCURL_STATICLIB -DFTGL_LIBRARY_STATIC -DGRAPHICS_PROGRAM -DQCN -DQCNLIVE -DQT_CORE_LIB -DQT_DLL -DQT_GUI_LIB -DQT_HAVE_3DNOW -DQT_HAVE_MMX -DQT_HAVE_MMXEXT -DQT_HAVE_SSE -DQT_HAVE_SSE2 -DQT_LARGEFILE_SUPPORT -DQT_OPENGL_LIB -DQT_THREAD_SUPPORT -DWIN32&#x0D;&#x0A;"
+						AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;;$(InputPath)"
+						Outputs="&quot;$(ConfigurationName)\moc_$(InputName).cpp&quot;"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLL|x64"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Moc&apos;ing $(InputFileName)..."
+						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;  &quot;$(InputPath)&quot; -o &quot;$(ConfigurationName)\moc_$(InputName).cpp&quot; &quot;-I$(ConfigurationName)\.&quot; &quot;-I$(QTDIR)\include&quot; &quot;-I$(QTDIR)\include\ActiveQt&quot; &quot;-I$(QTDIR)\include\QtCore&quot; &quot;-I$(QTDIR)\include\QtGui&quot; &quot;-I$(QTDIR)\include\QtOpenGL&quot; &quot;-I.\..\..\..\..\Qt\4.7.1\mkspecs\default&quot; &quot;-I.\..\..\..\boinc\api&quot; &quot;-I.\..\..\..\boinc\lib&quot; &quot;-I.\..\..\..\boinc\zip&quot; &quot;-I.\..\..\..\qcn&quot; &quot;-I.\..\..\curl-7.18.2\include&quot; &quot;-I.\..\..\freetype-2.3.9\include&quot; &quot;-I.\..\..\ftgl-2.1.3\include&quot; &quot;-I.\..\..\jpeg-6b&quot; &quot;-I.\..\..\zlib-1.2.5&quot; &quot;-I.\..\graphics&quot; &quot;-I.\..\main&quot; &quot;-I.\..\sensor&quot; &quot;-I.\..\util&quot; &quot;-I.\debug&quot; -D_DEBUG -D_THREAD_SAFE -D_USE_NTPDATE_EXEC_ -D_WINDOWS -D_ZLIB -DAPP_GRAPHICS -DCURL_STATICLIB -DFTGL_LIBRARY_STATIC -DGRAPHICS_PROGRAM -DQCN -DQCNLIVE -DQT_CORE_LIB -DQT_DLL -DQT_GUI_LIB -DQT_HAVE_3DNOW -DQT_HAVE_MMX -DQT_HAVE_MMXEXT -DQT_HAVE_SSE -DQT_HAVE_SSE2 -DQT_LARGEFILE_SUPPORT -DQT_OPENGL_LIB -DQT_THREAD_SUPPORT -DWIN32&#x0D;&#x0A;"
+						AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;;$(InputPath)"
+						Outputs="&quot;$(ConfigurationName)\moc_$(InputName).cpp&quot;"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="glwidget.h"
@@ -1035,6 +1295,28 @@
 						Outputs="&quot;$(ConfigurationName)\moc_$(InputName).cpp&quot;"
 					/>
 				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLL|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Moc&apos;ing $(InputFileName)..."
+						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;  &quot;$(InputPath)&quot; -o &quot;$(ConfigurationName)\moc_$(InputName).cpp&quot; &quot;-I$(ConfigurationName)\.&quot; &quot;-I$(QTDIR)\include&quot; &quot;-I$(QTDIR)\include\ActiveQt&quot; &quot;-I$(QTDIR)\include\QtCore&quot; &quot;-I$(QTDIR)\include\QtGui&quot; &quot;-I$(QTDIR)\include\QtOpenGL&quot; &quot;-I.\..\..\..\..\Qt\4.7.1\mkspecs\default&quot; &quot;-I.\..\..\..\boinc\api&quot; &quot;-I.\..\..\..\boinc\lib&quot; &quot;-I.\..\..\..\boinc\zip&quot; &quot;-I.\..\..\..\qcn&quot; &quot;-I.\..\..\curl-7.18.2\include&quot; &quot;-I.\..\..\freetype-2.3.9\include&quot; &quot;-I.\..\..\ftgl-2.1.3\include&quot; &quot;-I.\..\..\jpeg-6b&quot; &quot;-I.\..\..\zlib-1.2.5&quot; &quot;-I.\..\graphics&quot; &quot;-I.\..\main&quot; &quot;-I.\..\sensor&quot; &quot;-I.\..\util&quot; &quot;-I.\debug&quot; -D_DEBUG -D_THREAD_SAFE -D_USE_NTPDATE_EXEC_ -D_WINDOWS -D_ZLIB -DAPP_GRAPHICS -DCURL_STATICLIB -DFTGL_LIBRARY_STATIC -DGRAPHICS_PROGRAM -DQCN -DQCNLIVE -DQT_CORE_LIB -DQT_DLL -DQT_GUI_LIB -DQT_HAVE_3DNOW -DQT_HAVE_MMX -DQT_HAVE_MMXEXT -DQT_HAVE_SSE -DQT_HAVE_SSE2 -DQT_LARGEFILE_SUPPORT -DQT_OPENGL_LIB -DQT_THREAD_SUPPORT -DWIN32&#x0D;&#x0A;"
+						AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;;$(InputPath)"
+						Outputs="&quot;$(ConfigurationName)\moc_$(InputName).cpp&quot;"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLL|x64"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Moc&apos;ing $(InputFileName)..."
+						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;  &quot;$(InputPath)&quot; -o &quot;$(ConfigurationName)\moc_$(InputName).cpp&quot; &quot;-I$(ConfigurationName)\.&quot; &quot;-I$(QTDIR)\include&quot; &quot;-I$(QTDIR)\include\ActiveQt&quot; &quot;-I$(QTDIR)\include\QtCore&quot; &quot;-I$(QTDIR)\include\QtGui&quot; &quot;-I$(QTDIR)\include\QtOpenGL&quot; &quot;-I.\..\..\..\..\Qt\4.7.1\mkspecs\default&quot; &quot;-I.\..\..\..\boinc\api&quot; &quot;-I.\..\..\..\boinc\lib&quot; &quot;-I.\..\..\..\boinc\zip&quot; &quot;-I.\..\..\..\qcn&quot; &quot;-I.\..\..\curl-7.18.2\include&quot; &quot;-I.\..\..\freetype-2.3.9\include&quot; &quot;-I.\..\..\ftgl-2.1.3\include&quot; &quot;-I.\..\..\jpeg-6b&quot; &quot;-I.\..\..\zlib-1.2.5&quot; &quot;-I.\..\graphics&quot; &quot;-I.\..\main&quot; &quot;-I.\..\sensor&quot; &quot;-I.\..\util&quot; &quot;-I.\debug&quot; -D_DEBUG -D_THREAD_SAFE -D_USE_NTPDATE_EXEC_ -D_WINDOWS -D_ZLIB -DAPP_GRAPHICS -DCURL_STATICLIB -DFTGL_LIBRARY_STATIC -DGRAPHICS_PROGRAM -DQCN -DQCNLIVE -DQT_CORE_LIB -DQT_DLL -DQT_GUI_LIB -DQT_HAVE_3DNOW -DQT_HAVE_MMX -DQT_HAVE_MMXEXT -DQT_HAVE_SSE -DQT_HAVE_SSE2 -DQT_LARGEFILE_SUPPORT -DQT_OPENGL_LIB -DQT_THREAD_SUPPORT -DWIN32&#x0D;&#x0A;"
+						AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;;$(InputPath)"
+						Outputs="&quot;$(ConfigurationName)\moc_$(InputName).cpp&quot;"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="icons.h"
@@ -1096,6 +1378,28 @@
 				</FileConfiguration>
 				<FileConfiguration
 					Name="ReleaseDLL|x64"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Performing Custom Build Step"
+						CommandLine=""
+						AdditionalDependencies=""
+						Outputs=""
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLL|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Performing Custom Build Step"
+						CommandLine=""
+						AdditionalDependencies=""
+						Outputs=""
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLL|x64"
 					>
 					<Tool
 						Name="VCCustomBuildTool"
@@ -1175,6 +1479,28 @@
 						Outputs=""
 					/>
 				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLL|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Performing Custom Build Step"
+						CommandLine=""
+						AdditionalDependencies=""
+						Outputs=""
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLL|x64"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Performing Custom Build Step"
+						CommandLine=""
+						AdditionalDependencies=""
+						Outputs=""
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="myframe.h"
@@ -1245,6 +1571,28 @@
 						Outputs="&quot;$(ConfigurationName)\moc_$(InputName).cpp&quot;"
 					/>
 				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLL|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Moc&apos;ing $(InputFileName)..."
+						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;  &quot;$(InputPath)&quot; -o &quot;$(ConfigurationName)\moc_$(InputName).cpp&quot; &quot;-I$(ConfigurationName)\.&quot; &quot;-I$(QTDIR)\include&quot; &quot;-I$(QTDIR)\include\ActiveQt&quot; &quot;-I$(QTDIR)\include\QtCore&quot; &quot;-I$(QTDIR)\include\QtGui&quot; &quot;-I$(QTDIR)\include\QtOpenGL&quot; &quot;-I.\..\..\..\..\Qt\4.7.1\mkspecs\default&quot; &quot;-I.\..\..\..\boinc\api&quot; &quot;-I.\..\..\..\boinc\lib&quot; &quot;-I.\..\..\..\boinc\zip&quot; &quot;-I.\..\..\..\qcn&quot; &quot;-I.\..\..\curl-7.18.2\include&quot; &quot;-I.\..\..\freetype-2.3.9\include&quot; &quot;-I.\..\..\ftgl-2.1.3\include&quot; &quot;-I.\..\..\jpeg-6b&quot; &quot;-I.\..\..\zlib-1.2.5&quot; &quot;-I.\..\graphics&quot; &quot;-I.\..\main&quot; &quot;-I.\..\sensor&quot; &quot;-I.\..\util&quot; &quot;-I.\debug&quot; -D_DEBUG -D_THREAD_SAFE -D_USE_NTPDATE_EXEC_ -D_WINDOWS -D_ZLIB -DAPP_GRAPHICS -DCURL_STATICLIB -DFTGL_LIBRARY_STATIC -DGRAPHICS_PROGRAM -DQCN -DQCNLIVE -DQT_CORE_LIB -DQT_DLL -DQT_GUI_LIB -DQT_HAVE_3DNOW -DQT_HAVE_MMX -DQT_HAVE_MMXEXT -DQT_HAVE_SSE -DQT_HAVE_SSE2 -DQT_LARGEFILE_SUPPORT -DQT_OPENGL_LIB -DQT_THREAD_SUPPORT -DWIN32&#x0D;&#x0A;"
+						AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;;$(InputPath)"
+						Outputs="&quot;$(ConfigurationName)\moc_$(InputName).cpp&quot;"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLL|x64"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Moc&apos;ing $(InputFileName)..."
+						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;  &quot;$(InputPath)&quot; -o &quot;$(ConfigurationName)\moc_$(InputName).cpp&quot; &quot;-I$(ConfigurationName)\.&quot; &quot;-I$(QTDIR)\include&quot; &quot;-I$(QTDIR)\include\ActiveQt&quot; &quot;-I$(QTDIR)\include\QtCore&quot; &quot;-I$(QTDIR)\include\QtGui&quot; &quot;-I$(QTDIR)\include\QtOpenGL&quot; &quot;-I.\..\..\..\..\Qt\4.7.1\mkspecs\default&quot; &quot;-I.\..\..\..\boinc\api&quot; &quot;-I.\..\..\..\boinc\lib&quot; &quot;-I.\..\..\..\boinc\zip&quot; &quot;-I.\..\..\..\qcn&quot; &quot;-I.\..\..\curl-7.18.2\include&quot; &quot;-I.\..\..\freetype-2.3.9\include&quot; &quot;-I.\..\..\ftgl-2.1.3\include&quot; &quot;-I.\..\..\jpeg-6b&quot; &quot;-I.\..\..\zlib-1.2.5&quot; &quot;-I.\..\graphics&quot; &quot;-I.\..\main&quot; &quot;-I.\..\sensor&quot; &quot;-I.\..\util&quot; &quot;-I.\debug&quot; -D_DEBUG -D_THREAD_SAFE -D_USE_NTPDATE_EXEC_ -D_WINDOWS -D_ZLIB -DAPP_GRAPHICS -DCURL_STATICLIB -DFTGL_LIBRARY_STATIC -DGRAPHICS_PROGRAM -DQCN -DQCNLIVE -DQT_CORE_LIB -DQT_DLL -DQT_GUI_LIB -DQT_HAVE_3DNOW -DQT_HAVE_MMX -DQT_HAVE_MMXEXT -DQT_HAVE_SSE -DQT_HAVE_SSE2 -DQT_LARGEFILE_SUPPORT -DQT_OPENGL_LIB -DQT_THREAD_SUPPORT -DWIN32&#x0D;&#x0A;"
+						AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;;$(InputPath)"
+						Outputs="&quot;$(ConfigurationName)\moc_$(InputName).cpp&quot;"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="qcnlive_define.h"
@@ -1306,6 +1654,28 @@
 				</FileConfiguration>
 				<FileConfiguration
 					Name="ReleaseDLL|x64"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Performing Custom Build Step"
+						CommandLine=""
+						AdditionalDependencies=""
+						Outputs=""
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLL|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Performing Custom Build Step"
+						CommandLine=""
+						AdditionalDependencies=""
+						Outputs=""
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLL|x64"
 					>
 					<Tool
 						Name="VCCustomBuildTool"
@@ -1385,6 +1755,28 @@
 						Outputs="&quot;$(ConfigurationName)\moc_$(InputName).cpp&quot;"
 					/>
 				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLL|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Moc&apos;ing $(InputFileName)..."
+						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;  &quot;$(InputPath)&quot; -o &quot;$(ConfigurationName)\moc_$(InputName).cpp&quot; &quot;-I$(ConfigurationName)\.&quot; &quot;-I$(QTDIR)\include&quot; &quot;-I$(QTDIR)\include\ActiveQt&quot; &quot;-I$(QTDIR)\include\QtCore&quot; &quot;-I$(QTDIR)\include\QtGui&quot; &quot;-I$(QTDIR)\include\QtOpenGL&quot; &quot;-I.\..\..\..\..\Qt\4.7.1\mkspecs\default&quot; &quot;-I.\..\..\..\boinc\api&quot; &quot;-I.\..\..\..\boinc\lib&quot; &quot;-I.\..\..\..\boinc\zip&quot; &quot;-I.\..\..\..\qcn&quot; &quot;-I.\..\..\curl-7.18.2\include&quot; &quot;-I.\..\..\freetype-2.3.9\include&quot; &quot;-I.\..\..\ftgl-2.1.3\include&quot; &quot;-I.\..\..\jpeg-6b&quot; &quot;-I.\..\..\zlib-1.2.5&quot; &quot;-I.\..\graphics&quot; &quot;-I.\..\main&quot; &quot;-I.\..\sensor&quot; &quot;-I.\..\util&quot; &quot;-I.\debug&quot; -D_DEBUG -D_THREAD_SAFE -D_USE_NTPDATE_EXEC_ -D_WINDOWS -D_ZLIB -DAPP_GRAPHICS -DCURL_STATICLIB -DFTGL_LIBRARY_STATIC -DGRAPHICS_PROGRAM -DQCN -DQCNLIVE -DQT_CORE_LIB -DQT_DLL -DQT_GUI_LIB -DQT_HAVE_3DNOW -DQT_HAVE_MMX -DQT_HAVE_MMXEXT -DQT_HAVE_SSE -DQT_HAVE_SSE2 -DQT_LARGEFILE_SUPPORT -DQT_OPENGL_LIB -DQT_THREAD_SUPPORT -DWIN32&#x0D;&#x0A;"
+						AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;;$(InputPath)"
+						Outputs="&quot;$(ConfigurationName)\moc_$(InputName).cpp&quot;"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLL|x64"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Moc&apos;ing $(InputFileName)..."
+						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;  &quot;$(InputPath)&quot; -o &quot;$(ConfigurationName)\moc_$(InputName).cpp&quot; &quot;-I$(ConfigurationName)\.&quot; &quot;-I$(QTDIR)\include&quot; &quot;-I$(QTDIR)\include\ActiveQt&quot; &quot;-I$(QTDIR)\include\QtCore&quot; &quot;-I$(QTDIR)\include\QtGui&quot; &quot;-I$(QTDIR)\include\QtOpenGL&quot; &quot;-I.\..\..\..\..\Qt\4.7.1\mkspecs\default&quot; &quot;-I.\..\..\..\boinc\api&quot; &quot;-I.\..\..\..\boinc\lib&quot; &quot;-I.\..\..\..\boinc\zip&quot; &quot;-I.\..\..\..\qcn&quot; &quot;-I.\..\..\curl-7.18.2\include&quot; &quot;-I.\..\..\freetype-2.3.9\include&quot; &quot;-I.\..\..\ftgl-2.1.3\include&quot; &quot;-I.\..\..\jpeg-6b&quot; &quot;-I.\..\..\zlib-1.2.5&quot; &quot;-I.\..\graphics&quot; &quot;-I.\..\main&quot; &quot;-I.\..\sensor&quot; &quot;-I.\..\util&quot; &quot;-I.\debug&quot; -D_DEBUG -D_THREAD_SAFE -D_USE_NTPDATE_EXEC_ -D_WINDOWS -D_ZLIB -DAPP_GRAPHICS -DCURL_STATICLIB -DFTGL_LIBRARY_STATIC -DGRAPHICS_PROGRAM -DQCN -DQCNLIVE -DQT_CORE_LIB -DQT_DLL -DQT_GUI_LIB -DQT_HAVE_3DNOW -DQT_HAVE_MMX -DQT_HAVE_MMXEXT -DQT_HAVE_SSE -DQT_HAVE_SSE2 -DQT_LARGEFILE_SUPPORT -DQT_OPENGL_LIB -DQT_THREAD_SUPPORT -DWIN32&#x0D;&#x0A;"
+						AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;;$(InputPath)"
+						Outputs="&quot;$(ConfigurationName)\moc_$(InputName).cpp&quot;"
+					/>
+				</FileConfiguration>
 			</File>
 		</Filter>
 		<Filter
@@ -1447,6 +1839,21 @@
 							Name="VCCLCompilerTool"
 						/>
 					</FileConfiguration>
+					<FileConfiguration
+						Name="DebugDLL|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="DebugDLL|x64"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath=".\Debug\moc_dlgsettings.cpp"
@@ -1493,6 +1900,21 @@
 					<FileConfiguration
 						Name="ReleaseDLL|x64"
 						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="DebugDLL|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="DebugDLL|x64"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
@@ -1549,6 +1971,21 @@
 							Name="VCCLCompilerTool"
 						/>
 					</FileConfiguration>
+					<FileConfiguration
+						Name="DebugDLL|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="DebugDLL|x64"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath=".\Debug\moc_myframe.cpp"
@@ -1600,6 +2037,21 @@
 							Name="VCCLCompilerTool"
 						/>
 					</FileConfiguration>
+					<FileConfiguration
+						Name="DebugDLL|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="DebugDLL|x64"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath=".\Debug\moc_qcnqt.cpp"
@@ -1646,6 +2098,21 @@
 					<FileConfiguration
 						Name="ReleaseDLL|x64"
 						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="DebugDLL|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="DebugDLL|x64"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
@@ -1708,6 +2175,22 @@
 							Name="VCCLCompilerTool"
 						/>
 					</FileConfiguration>
+					<FileConfiguration
+						Name="DebugDLL|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="DebugDLL|x64"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath=".\Release\moc_dlgsettings.cpp"
@@ -1753,6 +2236,22 @@
 					</FileConfiguration>
 					<FileConfiguration
 						Name="ReleaseDLL|x64"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="DebugDLL|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="DebugDLL|x64"
 						ExcludedFromBuild="true"
 						>
 						<Tool
@@ -1810,6 +2309,22 @@
 							Name="VCCLCompilerTool"
 						/>
 					</FileConfiguration>
+					<FileConfiguration
+						Name="DebugDLL|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="DebugDLL|x64"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath=".\Release\moc_myframe.cpp"
@@ -1861,6 +2376,22 @@
 							Name="VCCLCompilerTool"
 						/>
 					</FileConfiguration>
+					<FileConfiguration
+						Name="DebugDLL|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="DebugDLL|x64"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath=".\Release\moc_qcnqt.cpp"
@@ -1906,6 +2437,22 @@
 					</FileConfiguration>
 					<FileConfiguration
 						Name="ReleaseDLL|x64"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="DebugDLL|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="DebugDLL|x64"
 						ExcludedFromBuild="true"
 						>
 						<Tool
@@ -1968,6 +2515,22 @@
 							Name="VCCLCompilerTool"
 						/>
 					</FileConfiguration>
+					<FileConfiguration
+						Name="DebugDLL|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="DebugDLL|x64"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath=".\ReleaseDLL\moc_dlgsettings.cpp"
@@ -2013,6 +2576,22 @@
 					</FileConfiguration>
 					<FileConfiguration
 						Name="ReleaseDLL|x64"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="DebugDLL|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="DebugDLL|x64"
+						ExcludedFromBuild="true"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
@@ -2068,6 +2647,22 @@
 							Name="VCCLCompilerTool"
 						/>
 					</FileConfiguration>
+					<FileConfiguration
+						Name="DebugDLL|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="DebugDLL|x64"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath=".\ReleaseDLL\moc_myframe.cpp"
@@ -2118,6 +2713,22 @@
 							Name="VCCLCompilerTool"
 						/>
 					</FileConfiguration>
+					<FileConfiguration
+						Name="DebugDLL|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="DebugDLL|x64"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath=".\ReleaseDLL\moc_qcnqt.cpp"
@@ -2163,6 +2774,22 @@
 					</FileConfiguration>
 					<FileConfiguration
 						Name="ReleaseDLL|x64"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="DebugDLL|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="DebugDLL|x64"
+						ExcludedFromBuild="true"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
