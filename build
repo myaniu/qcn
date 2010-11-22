@@ -3,7 +3,6 @@ if ( test "$1" = "") then
    echo "Usage:  ./build VERSION_NUMBER [all|libs]"
    exit 1
 fi
-./set-version $1
 if (test "$2" = "all" || test "$3" = "all") then
    ./getboinc
 else
@@ -15,6 +14,7 @@ fi
 if ( test "`uname -s`" = "Darwin" ) then
   cp config.h.mac config.h
   cp configure.ac.mac configure.ac
+  ./set-version $1
   chmod uog+rx build.mac
   ./_autosetup
   ./configure --disable-client --disable-server --disable-manager --disable-fcgi
@@ -23,6 +23,7 @@ if ( test "`uname -s`" = "Darwin" ) then
 else
   # Linux - using Ubunto 9.10 now
   cp configure.ac.linux configure.ac
+  ./set-version $1
   cd zlib-1.2.5
   ./configure --enable-shared=no --enable-static=yes
   make clean && make
