@@ -12,7 +12,8 @@ vnon=`eval "echo 'scale=2; $vnci-.01'|bc"`
 fonta='init/hvt'
 fontb='init/cbt'
 
-print_common_files ()
+#qcn/boinc files required
+print_common_boinc_files ()
 {
 ntpexec=$1
 echo put $fonta >> qcnsftp.up
@@ -102,42 +103,42 @@ echo -mkdir $appspathone >> qcnsftp.up
 echo chdir $appspathone >> qcnsftp.up
 echo put qcn_${vnci}_$suffixi$ncisuffix >> qcnsftp.up
 echo put graphics_app=qcn_graphics_${vnci}_$suffixi >> qcnsftp.up
-print_common_files $ntpdv
+print_common_boinc_files $ntpdv
 
 echo chdir $pathpre >> qcnsftp.up
 echo -mkdir $appspathtwo >> qcnsftp.up
 echo chdir $appspathtwo >> qcnsftp.up
 echo put qcn_${vnon}_$suffixi >> qcnsftp.up
 echo put graphics_app=qcn_graphics_${vnon}_$suffixi >> qcnsftp.up
-print_common_files $ntpdv
+print_common_boinc_files $ntpdv
 
 echo chdir $pathpre >> qcnsftp.up
 echo -mkdir $appspaththree >> qcnsftp.up
 echo chdir $appspaththree >> qcnsftp.up
 echo put qcn_${vnci}_$suffixp$ncisuffix >> qcnsftp.up
 echo put graphics_app=qcn_graphics_${vnci}_$suffixp >> qcnsftp.up
-print_common_files $ntpdv
+print_common_boinc_files $ntpdv
 
 echo chdir $pathpre >> qcnsftp.up
 echo -mkdir $appspathfour >> qcnsftp.up
 echo chdir $appspathfour >> qcnsftp.up
 echo put qcn_${vnon}_$suffixp >> qcnsftp.up
 echo put graphics_app=qcn_graphics_${vnon}_$suffixp >> qcnsftp.up
-print_common_files $ntpdv
+print_common_boinc_files $ntpdv
 
 echo chdir $pathpre >> qcnsftp.up
 echo -mkdir $appspathfive >> qcnsftp.up
 echo chdir $appspathfive >> qcnsftp.up
 echo put qcn_${vnci}_$suffixs$ncisuffix >> qcnsftp.up
 echo put graphics_app=qcn_graphics_${vnci}_$suffixs >> qcnsftp.up
-print_common_files $ntpdv
+print_common_boinc_files $ntpdv
 
 echo chdir $pathpre >> qcnsftp.up
 echo -mkdir $appspathsix >> qcnsftp.up
 echo chdir $appspathsix >> qcnsftp.up
 echo put qcn_${vnon}_$suffixs >> qcnsftp.up
 echo put graphics_app=qcn_graphics_${vnon}_$suffixs >> qcnsftp.up
-print_common_files $ntpdv
+print_common_boinc_files $ntpdv
 
 #continual QCN/BOINC
 echo chdir $pathprecont >> qcnsftp.up
@@ -145,42 +146,42 @@ echo -mkdir $appspathone >> qcnsftp.up
 echo chdir $appspathone >> qcnsftp.up
 echo put qcn_${vnci}_$suffixi$ncisuffix >> qcnsftp.up
 echo put graphics_app=qcn_graphics_${vnci}_$suffixi >> qcnsftp.up
-print_common_files $ntpdv
+print_common_boinc_files $ntpdv
 
 echo chdir $pathprecont >> qcnsftp.up
 echo -mkdir $appspathtwo >> qcnsftp.up
 echo chdir $appspathtwo >> qcnsftp.up
 echo put qcn_${vnon}_$suffixi >> qcnsftp.up
 echo put graphics_app=qcn_graphics_${vnon}_$suffixi >> qcnsftp.up
-print_common_files $ntpdv
+print_common_boinc_files $ntpdv
 
 echo chdir $pathprecont >> qcnsftp.up
 echo -mkdir $appspaththree >> qcnsftp.up
 echo chdir $appspaththree >> qcnsftp.up
 echo put qcn_${vnci}_$suffixp$ncisuffix >> qcnsftp.up
 echo put graphics_app=qcn_graphics_${vnci}_$suffixp >> qcnsftp.up
-print_common_files $ntpdv
+print_common_boinc_files $ntpdv
 
 echo chdir $pathprecont >> qcnsftp.up
 echo -mkdir $appspathfour >> qcnsftp.up
 echo chdir $appspathfour >> qcnsftp.up
 echo put qcn_${vnon}_$suffixp >> qcnsftp.up
 echo put graphics_app=qcn_graphics_${vnon}_$suffixp >> qcnsftp.up
-print_common_files $ntpdv
+print_common_boinc_files $ntpdv
 
 echo chdir $pathprecont >> qcnsftp.up
 echo -mkdir $appspathfive >> qcnsftp.up
 echo chdir $appspathfive >> qcnsftp.up
 echo put qcn_${vnci}_$suffixs$ncisuffix >> qcnsftp.up
 echo put graphics_app=qcn_graphics_${vnci}_$suffixs >> qcnsftp.up
-print_common_files $ntpdv
+print_common_boinc_files $ntpdv
 
 echo chdir $pathprecont >> qcnsftp.up
 echo -mkdir $appspathsix >> qcnsftp.up
 echo chdir $appspathsix >> qcnsftp.up
 echo put qcn_${vnon}_$suffixs >> qcnsftp.up
 echo put graphics_app=qcn_graphics_${vnon}_$suffixs >> qcnsftp.up
-print_common_files $ntpdv
+print_common_boinc_files $ntpdv
 
 
 echo exit >> qcnsftp.up
@@ -202,10 +203,13 @@ else
    cp graphics_app=qcn_graphics_${vnci}_$suffix graphics_app=qcn_graphics_${vnon}_$suffix
    rm -f qcnlive-linux.zip
 
+   qtlibs='init/libQtCore.so.4 init/libQtGui.so.4 init/libQtOpenGL.so.4'
+
    zip -r qcnlive-linux.zip QCNLive \
          init/earthnight2048.jpg init/earthday2048.jpg \
          init/$ntpdv $zipuplstring \
          init/libMotionNodeAccelAPI.so \
+          $qtlibs \
             -x@exclude.lst
 
   pathpre='/var/www/boinc/sensor/apps/qcnsensor'
@@ -224,14 +228,14 @@ else
   echo chdir $appspathone >> qcnsftp.up
   echo put $appspathone >> qcnsftp.up
   echo put graphics_app=qcn_graphics_${vnci}_$suffix >> qcnsftp.up
-  print_common_files $ntpdv
+  print_common_boinc_files $ntpdv
 
   echo chdir ../ >> qcnsftp.up
   echo -mkdir $appspathtwo >> qcnsftp.up
   echo chdir $appspathtwo >> qcnsftp.up
   echo put $appspathtwo >> qcnsftp.up
   echo put graphics_app=qcn_graphics_${vnon}_$suffix >> qcnsftp.up
-  print_common_files $ntpdv
+  print_common_boinc_files $ntpdv
 
   #continual QCN/BOINC
   echo chdir $pathprecont >> qcnsftp.up
@@ -239,14 +243,14 @@ else
   echo chdir $appspathone >> qcnsftp.up
   echo put $appspathone >> qcnsftp.up
   echo put graphics_app=qcn_graphics_${vnci}_$suffix >> qcnsftp.up
-  print_common_files $ntpdv
+  print_common_boinc_files $ntpdv
 
   echo chdir ../ >> qcnsftp.up
   echo -mkdir $appspathtwo >> qcnsftp.up
   echo chdir $appspathtwo >> qcnsftp.up
   echo put $appspathtwo >> qcnsftp.up
   echo put graphics_app=qcn_graphics_${vnon}_$suffix >> qcnsftp.up
-  print_common_files $ntpdv
+  print_common_boinc_files $ntpdv
 
   echo exit >> qcnsftp.up
 
