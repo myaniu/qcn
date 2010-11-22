@@ -9,15 +9,12 @@ fi
 vnci=$1
 vnon=`eval "echo 'scale=2; $vnci-.01'|bc"`
 
-fonta='init/hvt'
-fontb='init/cbt'
-
 #qcn/boinc files required
 print_common_boinc_files ()
 {
 ntpexec=$1
-echo put $fonta >> qcnsftp.up
-echo put $fontb >> qcnsftp.up
+echo put init/hvt >> qcnsftp.up
+echo put init/cbt >> qcnsftp.up
 echo put init/logo.jpg >> qcnsftp.up
 echo put init/$ntpexec >> qcnsftp.up
 echo put init/xyzaxes.jpg >> qcnsftp.up
@@ -45,7 +42,7 @@ rm -rf QCNLive*
 
 # init/earthmask.rgb  # disable for now
 ncisuffix='__nci'
-zipuplstring='$fonta $fontb init/splash.png \
+zipuplstring='init/hvt init/cbt init/splash.png \
          init/xyzaxes.jpg \
          init/xyzaxesbl.jpg \
          init/qcnlogo.png \
