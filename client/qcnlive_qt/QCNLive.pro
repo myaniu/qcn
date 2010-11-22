@@ -30,8 +30,9 @@ mac:LIBS += -framework IOKit -framework Carbon \
      -lz-universal -lfreetype-universal -lftgl-universal
 
 unix:LIBS += -L$$BASEDIRQCN/client/linux_build \
-   -lcurl -lftgl -lfreetype -ljpeg \
-    -lboinc_graphics2 -lboinc_zip -lboinc -lboinc_api 
+   -lcurl -lftgl -lfreetype \
+    -lboinc_graphics2 -lboinc_zip -lboinc_api -lboinc \
+    -ljpeg
 
 win32:LIBS += -L$$BASEDIRQCN/client/win_build, \
 c:/projects/qcn/client/win_build,../sensor/motionnodeaccel \
