@@ -14,4 +14,7 @@ sudo apt-get install g++-4.1
 sudo apt-get install linux-headers-2.6.26-2-686
 sudo apt-get install openssl
 sudo apt-get install libssl-dev
+sudo apt-get install libtool
+sudo apt-get install libglut
+sudo ln -s /usr/bin/libtoolize /usr/local/bin/libtoolize
 
