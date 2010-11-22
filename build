@@ -80,7 +80,7 @@ else
   ./configure --enable-client-release --disable-server
   make clean
   make
-  cp client/qcnlive_qt/QCNLive client/bin/
+  mv client/qcnlive_qt/QCNLive client/bin/
 fi
 cd client/bin
 ./deploy $1 $2 $3
