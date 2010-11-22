@@ -41,15 +41,12 @@ ICON = $$BASEDIRQCN/doc/qcnmac.icns
 RC_FILE = $$BASEDIRQCN/doc/qcnmac.icns
 QMAKE_INFO_PLIST = Info.plist.mac
 }
-else unix {
-LIBS += -Wl,-rpath,./init/ --stack=16777216 \
+unix:LIBS += -Wl,-rpath,./init/ --stack=16777216 \
   -L$$BASEDIRQCN/client/linux_build \
    -lcurl -lftgl -lfreetype \
     -lboinc_graphics2 -lboinc_zip -lboinc_api -lboinc \
     -ljpeg
-}
-else win32 {
-LIBS += -L$$BASEDIRQCN/client/win_build, \
+win32:LIBS += -L$$BASEDIRQCN/client/win_build, \
 c:/projects/qcn/client/win_build,../sensor/motionnodeaccel \
 glu32.lib opengl32.lib gdi32.lib user32.lib \
 qtmain.lib wsock32.lib hid.lib setupapi.lib winmm.lib \
@@ -59,7 +56,6 @@ ftgl.lib freetype.lib boinc_lib.lib boinc_api.lib
 #win32:WININCLUDEPATH = $$quote(c:/Program Files (x86)/Microsoft Visual Studio 9.0/VC/ATLMFC/INCLUDE;c:/Program Files (x86)/Microsoft Visual Studio 9.0/VC/INCLUDE;C:/Program Files/Microsoft SDKs/Windows/v6.0A/include)
 #win32:WINDEFINES = WIN32 _WIN32 _CRT_SECURE_NO_DEPRECATE
 #win32:WININCLUDE = windows.h
-}
 
 DEFINES += _USE_NTPDATE_EXEC_ FTGL_LIBRARY_STATIC QCNLIVE GRAPHICS_PROGRAM APP_GRAPHICS _ZLIB QCN _THREAD_SAFE CURL_STATICLIB _ZLIB $$WINDEF
 
@@ -68,13 +64,12 @@ INCLUDEPATH += \
         $$BASEDIRQCN \
         $$BASEDIRQCN/jpeg-6b \
         $$BASEDIRQCN/zlib-1.2.5 \
-        $$BASEDIRQCN/curl-7.18.2/include \
+        $$CURLDIR \
         $$BASEDIRQCN/ftgl-2.1.3/include \
         $$BASEDIRQCN/freetype-2.3.9/include \
         $$MAINDIR \
         $$SENSORDIR \
         $$UTILDIR \
-        $$CURLDIR \
         $$BASEDIRBOINC/lib \
         $$BASEDIRBOINC/api \
         $$BASEDIRBOINC/zip \
