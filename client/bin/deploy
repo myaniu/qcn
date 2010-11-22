@@ -199,7 +199,7 @@ else
    cp graphics_app=qcn_graphics_${vnci}_$suffix graphics_app=qcn_graphics_${vnon}_$suffix
    rm -f qcnlive-linux.zip
 
-   zip -r qcnlive-linux.zip qcnlive $fonta $fontb init/earthmask.rgb init/earthday4096.jpg \
+   zip -r qcnlive-linux.zip QCNLive $fonta $fontb init/earthmask.rgb init/earthday4096.jpg \
          init/$ntpdv $fonta $fontb $uplstring \
          init/libMotionNodeAccelAPI.so \
             -x@exclude.lst
