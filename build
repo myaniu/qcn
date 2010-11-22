@@ -49,7 +49,7 @@ else
   export CPPFLAGS=-I$PWD/../freetype-2.3.9/include
   export CXXFLAGS=-I$PWD/../freetype-2.3.9/include
   cd ../ftgl-2.1.3
-  ./configure --enable-shared=no --enable-static=yes --includedir=../freetype-2.3.9/include
+  ./configure --enable-shared=no --enable-static=yes
   make clean && make
   cp src/.libs/libftgl.a ../client/linux_build/
   export CFLAGS=
