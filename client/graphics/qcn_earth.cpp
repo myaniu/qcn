@@ -201,6 +201,15 @@ void CEarth::LoadEarthTexture()
 #else
             boinc_resolve_filename(pstrEarth[i], strImg, sizeof(char)*_MAX_PATH);
 #endif
+            if (!boinc_file_exists(strImg)) {
+                fprintf(stderr, "Graphics file %s does not exist\n", strImg);
+                continue;
+            }
+#ifdef _DEBUG
+            else {
+                fprintf(stdout, "Graphics file %s loading...\n", strImg);
+            }
+#endif
             if (i<2) { // first two earth views are JPG textures, not RGB alpha map which is handled below
                 texture[i].CreateTextureJPG(strImg);
             }
@@ -212,6 +221,11 @@ void CEarth::LoadEarthTexture()
                 fprintf(stderr, "Could not load %s image file\n", strImg);
                 bHaveMultitexture = false;
             }
+#ifdef _DEBUG
+            else {
+                fprintf(stdout, "Loaded OpenGL Texture from %s\n", strImg);
+            }
+#endif
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -566,15 +580,15 @@ void CEarth::DrawEarth()
         mode_shaded(white);
         glColor4f(1.0,1.0,1.0, 0.0);
 
+        glEnable(GL_DEPTH_TEST);  // enable depth test so "back" of earth doesn't appear etc
+        glDepthFunc(GL_LESS);   
+
         // draw from mapping & vertices
         //glDisable(GL_LIGHTING);
         //glDisable(GL_LIGHT0);
         if (drawTexture) { 
 #ifdef _EARTH_COMBINE_
            if (qcn_graphics::g_eView == VIEW_EARTH_COMBINED && bHaveMultitexture)  { // two-pass, using the mask on each image to get the day/night
-               glEnable(GL_DEPTH_TEST);  // enable depth test
-               glDepthFunc(GL_LESS);   
-
                // first output the mask, which is an RGB of alpha values (white & black) turned into an alpha map to 
                // block/allow subsequent textures
 
@@ -608,7 +622,6 @@ void CEarth::DrawEarth()
 
                glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE1_RGB_ARB, GL_TEXTURE);
                glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND1_RGB_ARB, GL_SRC_COLOR);
-//CMC
 
                glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE2_RGB_ARB, GL_PREVIOUS_ARB);
                glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND2_RGB_ARB, GL_DST_COLOR);
@@ -633,13 +646,11 @@ void CEarth::DrawEarth()
            }
            else {
 #endif // _EARTH_COMBINE_
-               glEnable(GL_TEXTURE_2D);
-               glEnable(GL_DEPTH_TEST);  // enable depth test
-               glDepthFunc(GL_LESS);   
-               glDisable(GL_BLEND);
+   glEnable(GL_TEXTURE_2D);
+   glDisable(GL_BLEND);
                BindEarthTexture();  // this will get the day or night earth view texture
                MapEarthTexture();
-               glDisable(GL_TEXTURE_2D);
+   glDisable(GL_TEXTURE_2D);
 #ifdef _EARTH_COMBINE_
            }  // if drawcombined or draw normal
 #endif // _EARTH_COMBINE_
@@ -780,8 +791,10 @@ void CEarth::DrawEarth()
              if (dBlinker>10.0f) dBlinker = 1.0f;  // need to reset, getting too big
         }
 
+        glDisable(GL_DEPTH_TEST);  // end depth test
+
         bMouseProcessed = true; // set flag that we processed the last mouse click
-        glPopMatrix();
+        glPopMatrix(); // earthquake drawing
 
         glPopMatrix(); // rotation matrix
         glPopMatrix(); // light matrix
@@ -1216,7 +1229,8 @@ void CEarth::Keyboard(unsigned char key, int x, int y)
 
 void CEarth::MapEarthTexture(bool bMulti)
 { // draws the earth sphere and maps the texture currently bound to it (which can be a multi texture if bMulti = true)
-    glPushMatrix();
+
+  // at this point gl-mode is texture & texture is bound
     for ( int x = 0; x < EARTH_LON_RES; x++ ) {
         glBegin(GL_QUAD_STRIP);
         for ( int y = 0; y < EARTH_LAT_RES; y++ ) {
@@ -1278,7 +1292,6 @@ void CEarth::MapEarthTexture(bool bMulti)
          }
          glEnd();
     }
-    glPopMatrix();
 }
 
 void CEarth::BindEarthTexture(int iSelect)
