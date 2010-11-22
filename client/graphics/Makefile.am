@@ -19,11 +19,11 @@ if OS_DARWIN
 else
    # LIBS += -L/usr/local/lib -lGL -lGLU -lglut
    # LIBS += /usr/local/lib/libGL.a /usr/local/lib/libGLU.a /usr/local/lib/libglut.a
-   MYLDADD = -L/usr/local/lib -lGL -lGLU -lglut
+   MYLDADD = -lftgl -lfreetype -ljpeg -lGL -lGLU -lglut
    STACKSIZE = --stack=2000000
 endif
 
-LIBS += @CLIENTLIBS@ $(BOINC_LIB) $(LIBDIR)/libjpeg.a
+LIBS += @CLIENTLIBS@ $(BOINC_LIB)
 
 bin_PROGRAMS = qcn_graphics
       
@@ -39,13 +39,13 @@ qcn_graphics_SOURCES = \
       $(GRAPHICSDIR)/nation_boundary.cpp \
       $(GRAPHICSDIR)/coastline.cpp \
       $(GRAPHICSDIR)/plate_boundary.cpp \
-      $(UTILDIR)/qcn_util.cpp 
+      $(UTILDIR)/qcn_util.cpp \
+      $(UTILDIR)/ttfont.cpp 
 
 qcn_graphics_DEPENDENCIES =
 qcn_graphics_CFLAGS = -DQCNGRAPHICS -DGRAPHICS_PROGRAM $(AM_CPPFLAGS) $(PTHREAD_CFLAGS)
 qcn_graphics_CPPFLAGS = -DQCNGRAPHICS -DGRAPHICS_PROGRAM $(AM_CPPFLAGS) $(PTHREAD_CFLAGS)
-qcn_graphics_LDFLAGS = $(LIBS) $(AM_LDFLAGS) $(STACKSIZE) $(PTHREAD_LIBS)
-qcn_graphics_LDADD = $(MYLDADD)
+qcn_graphics_LDFLAGS = $(LIBS) $(AM_LDFLAGS) $(STACKSIZE) $(PTHREAD_LIBS) $(MYLDADD)
 
 .PHONY: moveover
 
