@@ -23,23 +23,37 @@ if ( test "`uname -s`" = "Darwin" ) then
 else
   cp configure.ac.linux configure.ac
   cd zlib-1.2.5
-  ./configure
+  ./configure --enable-shared=no --enable-static=yes
   make clean && make
   cp libz.a ../client/linux_build/
+
+  # make sure there's a /usr/local/bin/libtool for jpeg-6b
   cd ../jpeg-6b
-  ./configure
+  ./configure --enable-static
   make clean && make
-  cp libjpeg.a ../client/linux_build/
+  cp .libs/libjpeg.a ../client/linux_build/
+
   cd ../curl-7.18.2
-  ./configure
+  ./configure --enable-shared=no --enable-static=yes
+  make clean && make
   cp lib/.libs/libcurl.a ../client/linux_build/
-  make clean && make
-  cd ../ftgl-2.1.3
-  ./configure
-  make clean && make
+
   cd ../freetype-2.3.9
-  ./configure
+  ./configure --enable-shared=no --enable-static=yes
   make clean && make
+  cp objs/.libs/libfreetype.a ../client/linux_build/
+
+  export CFLAGS=-I$PWD/../freetype-2.3.9/include
+  export CPPFLAGS=-I$PWD/../freetype-2.3.9/include
+  export CXXFLAGS=-I$PWD/../freetype-2.3.9/include
+  cd ../ftgl-2.1.3
+  ./configure --enable-shared=no --enable-static=yes --includedir=../freetype-2.3.9/include
+  make clean && make
+  cp src/.libs/libftgl.a ../client/linux_build/
+  export CFLAGS=
+  export CPPFLAGS=
+  export CXXFLAGS=
+
   #  Note - probably need to edit boinc/configure.ac & Makefile.am to add zip/Makefile and zip as a subdir
   #  check qcn/boinc_configure.ac and qcn/boinc_Makefile.am, but basically:
   #  i.e. in Makefile.am should read:
@@ -54,6 +68,11 @@ else
   ./_autosetup
   ./configure --disable-client --disable-server --enable-libraries
   make clean && make
+  cp zip/libboinc_zip.a ../qcn/client/linux_build/
+  cp lib/libboinc.a ../qcn/client/linux_build/
+  cp api/libboinc_api.a ../qcn/client/linux_build/
+  cp api/libboinc_graphics2.a ../qcn/client/linux_build/
+
   cd ../qcn
   ./_autosetup
   ./configure --enable-client-release --disable-server
