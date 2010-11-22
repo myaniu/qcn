@@ -1,6 +1,6 @@
 #!/bin/sh
 if ( test "$1" = "") then
-   echo "Usage:  ./build VERSION_NUMBER [all]"
+   echo "Usage:  ./build VERSION_NUMBER [all|libs]"
    exit 1
 fi
 ./set-version $1
