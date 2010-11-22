@@ -542,8 +542,6 @@ void CEarth::DrawQuake(vector<SQuake>::iterator psq)
 
 void CEarth::DrawEarth()
 {
-        static double dBlinker = 1.0;  // used for home location "blinking"
-
         // the glClear is done in the qcn_graphics.cpp file
 	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -561,6 +559,8 @@ void CEarth::DrawEarth()
 
         glTranslatef(-.50, 0.0, 0.0);
 
+        static double dBlinker = 1.0;  // used for home location "blinking"
+
         glPushMatrix(); // rotation matrix
 
         if (!bProjection) {
@@ -575,6 +575,7 @@ void CEarth::DrawEarth()
 
            if (qcn_graphics::g_eView == VIEW_EARTH_DAY && bShowSunLight) GetSunLightSource();
         }
+
 
         // render_texture
         mode_shaded(white);
@@ -692,14 +693,12 @@ void CEarth::DrawEarth()
         if (bProjection) { // maybe do a 2d projection someday?
           Earth_2D();
         }
-        else {
-          Earth_3D();
-        }
 
         // draw earthquake hotspots!
         vector<SQuake>::iterator it;
         vector<SQuake*>::iterator itp;
-        glPushMatrix();
+
+        glPushMatrix(); // earthquake matrix
         mode_unshaded();
         bool bHaveActive = false; // reset the active earthquake flag, so only one active eq is drawn yellow
 
@@ -1229,7 +1228,6 @@ void CEarth::Keyboard(unsigned char key, int x, int y)
 
 void CEarth::MapEarthTexture(bool bMulti)
 { // draws the earth sphere and maps the texture currently bound to it (which can be a multi texture if bMulti = true)
-
   // at this point gl-mode is texture & texture is bound
     for ( int x = 0; x < EARTH_LON_RES; x++ ) {
         glBegin(GL_QUAD_STRIP);
