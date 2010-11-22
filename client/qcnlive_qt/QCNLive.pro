@@ -30,7 +30,7 @@ mac:LIBS += -framework IOKit -framework Carbon \
      -lz-universal -lfreetype-universal -lftgl-universal
 
 unix:LIBS += -L$$BASEDIRQCN/client/linux_build \
-   -lftgl -lfreetype -ljpeg \
+   -lcurl -lftgl -lfreetype -ljpeg \
     -lboinc_graphics2 -lboinc_zip -lboinc -lboinc_api 
 
 win32:LIBS += -L$$BASEDIRQCN/client/win_build, \
