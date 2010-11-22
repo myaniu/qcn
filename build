@@ -12,8 +12,8 @@ else
    cd qcn
 fi
 if ( test "`uname -s`" = "Darwin" ) then
-  cp config.h.mac config.h
   cp configure.ac.mac configure.ac
+  cp config.h.mac config.h
   ./set-version $1
   chmod uog+rx build.mac
   ./_autosetup
