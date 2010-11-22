@@ -23,6 +23,7 @@ if ( test "`uname -s`" = "Darwin" ) then
 else
   # Linux - using Ubunto 9.10 now
   cp configure.ac.linux configure.ac
+ if (test "$2" = "all" || test "$3" = "all" || test "$2" = "libs" || test "$3" = "libs") then
   ./set-version $1
   cd zlib-1.2.5
   ./configure --enable-shared=no --enable-static=yes
@@ -74,8 +75,8 @@ else
   cp lib/libboinc.a ../qcn/client/linux_build/
   cp api/libboinc_api.a ../qcn/client/linux_build/
   cp api/libboinc_graphics2.a ../qcn/client/linux_build/
-
   cd ../qcn
+ fi
   ./_autosetup
   ./configure --enable-client-release --disable-server
   make clean
