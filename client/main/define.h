@@ -430,8 +430,17 @@ enum e_drawtype { NATION = 0, PLATE, COUNTRY, COASTLINE };
 */
 
 // don't need version nums, but if change file should rename!
-#define IMG_EARTH_DAY         "earthday4096.jpg"
-#define IMG_EARTH_NIGHT       "earthnight4096.jpg"
+#if defined(_WIN32) || defined(__APPLE_CC__)
+#  define IMG_EARTH_DAY         "earthday4096.jpg"
+#  define IMG_EARTH_NIGHT       "earthnight4096.jpg"
+#else
+//   Linux gets smaller pics as can't figure out why the jpeg doesn't show on Linux OpenGL
+//   other than a smaller pic works!  It's not stack size as I've set it up high and still 
+//   does not display on Linux
+#  define IMG_EARTH_DAY         "earthday2048.jpg"
+#  define IMG_EARTH_NIGHT       "earthnight2048.jpg"
+#endif
+
 #define IMG_EARTH_MASK        "earthmask.rgb"
 #define TEXTURE_X 4096
 #define TEXTURE_Y 2048

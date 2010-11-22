@@ -17,13 +17,17 @@ print_common_files ()
 ntpexec=$1
 echo put $fonta >> qcnsftp.up
 echo put $fontb >> qcnsftp.up
-echo put init/earthday4096.jpg >> qcnsftp.up
-echo put init/earthnight4096.jpg >> qcnsftp.up
 echo put init/logo.jpg >> qcnsftp.up
 echo put init/$ntpexec >> qcnsftp.up
+
+# note Linux gets smaller pics
 if ( test "`uname -s`" = "Darwin" ) then
+   echo put init/earthday4096.jpg >> qcnsftp.up
+   echo put init/earthnight4096.jpg >> qcnsftp.up
    echo put init/libMotionNodeAccelAPI.dylib >> qcnsftp.up
 else
+   echo put init/earthday2048.jpg >> qcnsftp.up
+   echo put init/earthnight2048.jpg >> qcnsftp.up
    echo put init/libMotionNodeAccelAPI.so >> qcnsftp.up
 fi
 }
@@ -39,9 +43,7 @@ rm -rf QCNLive*
 
 # init/earthmask.rgb  # disable for now
 ncisuffix='__nci'
-uplstring='init/earthday4096.jpg \
-         init/splash.png \
-         init/earthnight4096.jpg \
+uplstring='init/splash.png \
          init/xyzaxes.jpg \
          init/xyzaxesbl.jpg \
          init/qcnlogo.png \
@@ -56,6 +58,7 @@ if ( test "`uname -s`" = "Darwin" ) then
 
     rm -f qcnlive-mac.zip
     zip -r qcnlive-mac.zip QCNLive.app $fonta $fontb \
+       init/earthnight4096.jpg init/earthday4096.jpg \
        init/$ntpdv $uplstring \
        init/libMotionNodeAccelAPI.dylib \
          -x@exclude.lst
@@ -198,7 +201,8 @@ else
    cp graphics_app=qcn_graphics_${vnci}_$suffix graphics_app=qcn_graphics_${vnon}_$suffix
    rm -f qcnlive-linux.zip
 
-   zip -r qcnlive-linux.zip QCNLive $fonta $fontb init/earthmask.rgb init/earthday4096.jpg \
+   zip -r qcnlive-linux.zip QCNLive $fonta $fontb \
+         init/earthnight2048.jpg init/earthday2048.jpg \
          init/$ntpdv $fonta $fontb $uplstring \
          init/libMotionNodeAccelAPI.so \
             -x@exclude.lst
