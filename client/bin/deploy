@@ -34,9 +34,8 @@ rm -f qcnlive*.zip
 rm -f qcnusb*.zip
 rm -f *qcn*${vnci}*
 rm -f *qcn*${vnon}*
+rm -rf QCNLive*
 }
-
-cleanup_files
 
 # init/earthmask.rgb  # disable for now
 ncisuffix='__nci'
