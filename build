@@ -31,6 +31,7 @@ else
   make clean && make
   cd ../../boinc
   #  Note - probably need to edit boinc/configure.ac & Makefile.am to add zip/Makefile and zip as a subdir
+  #  check qcn/boinc_configure.ac and qcn/boinc_Makefile.am, but basically:
   #  i.e. in Makefile.am should read:
   #    if ENABLE_LIBRARIES
   #       API_SUBDIRS = api lib zip zip/zip zip/unzip
