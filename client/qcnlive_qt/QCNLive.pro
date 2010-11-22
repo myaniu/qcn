@@ -1,6 +1,6 @@
+unix:BASEDIR = /home/carlgt1/projects
 mac:BASEDIR = /Users/carlgt1/projects
 win32:BASEDIR = c:/projects
-linux:BASEDIR = /home/carlgt1/projects
 
 BASEDIRBOINC = $$BASEDIR/boinc
 BASEDIRQCN = $$BASEDIR/qcn
@@ -28,7 +28,7 @@ mac:LIBS += -framework IOKit -framework Carbon \
      -lboinc_zip -ljpeg-universal -lcurl-universal \
      -lz-universal -lfreetype-universal -lftgl-universal
 
-linux:LIBS += -L$$BASEDIRQCN/client/linux_build \
+unix:LIBS += -L$$BASEDIRQCN/client/linux_build \
    -lftgl -lfreetype -ljpeg \
     -lboinc_graphics2 -lboinc_zip -lboinc -lboinc_api 
 
@@ -82,7 +82,7 @@ win32:SRC_SENSOR = $$SENSORDIR/csensor_win_laptop_hp.cpp \
            $$SENSORDIR/csensor_win_usb_onavi01.cpp \
            $$SENSORDIR/csensor.cpp
 
-linux:SRC_SENSOR = \
+unix:SRC_SENSOR = \
            $$SENSORDIR/csensor_linux_usb_jw.cpp \
            $$SENSORDIR/csensor_linux_usb_jw24f14.cpp \
            $$SENSORDIR/csensor_usb_motionnodeaccel.cpp \
@@ -145,7 +145,7 @@ mac:SRC_BOINC = $$BAPIDIR/boinc_api.cpp \
    $$BLIBDIR/coproc.cpp $$MAC_SRC_BOINC
 
 win:SRC_BOINC =
-linux:SRC_BOINC =
+unix:SRC_BOINC =
 
 HEADERS       += qcnqt.h $$WININCLUDE \
                 glwidget.h \
