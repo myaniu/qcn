@@ -18,7 +18,7 @@ CURL_DIR=$(top_builddir)/curl-7.18.2
 #   BOINC_LIB_DIR = $(BOINC_BASEDIR)/mac_build/build/Deployment
 #   BOINC_LIB = -L$(BOINC_LIB_DIR) -lboinc -lboinc_api -lboinc_graphics2 -L$(BOINC_BASEDIR)/zip/build/Release -lboinc_zip
 #else
-   #BOINC_LIB = $(BOINC_DIR)/api/libboinc_api.a $(BOINC_DIR)/api/libboinc_graphics2.a $(BOINC_DIR)/lib/libboinc.a $(BOINC_DIR)/zip/libboinc_zip.a
+#   BOINC_LIB = $(BOINC_DIR)/api/libboinc_api.a $(BOINC_DIR)/api/libboinc_graphics2.a $(BOINC_DIR)/lib/libboinc.a $(BOINC_DIR)/zip/libboinc_zip.a
    BOINC_LIB = $(LIBDIR)/libboinc_api.a $(LIBDIR)/libboinc_graphics2.a $(LIBDIR)/libboinc.a $(LIBDIR)/libboinc_zip.a
 #endif
 
