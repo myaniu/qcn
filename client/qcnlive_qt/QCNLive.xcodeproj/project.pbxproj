@@ -688,7 +688,7 @@
 					/System/Library/Frameworks/CarbonCore.framework/Headers,
 					"/usr/local/Qt4.7/mkspecs/macx-xcode",
 				);
-				INFOPLIST_FILE = Info.plist;
+				INFOPLIST_FILE = Info.plist.mac;
 				LEXFLAGS = "";
 				LIBRARY_SEARCH_PATHS = (
 					/Library/Frameworks,
@@ -800,7 +800,7 @@
 					/System/Library/Frameworks/CarbonCore.framework/Headers,
 					"/usr/local/Qt4.7/mkspecs/macx-xcode",
 				);
-				INFOPLIST_FILE = Info.plist;
+				INFOPLIST_FILE = Info.plist.mac;
 				LEXFLAGS = "";
 				LIBRARY_SEARCH_PATHS = (
 					/Library/Frameworks,
