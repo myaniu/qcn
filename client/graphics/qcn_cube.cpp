@@ -20,8 +20,8 @@ CCube::CCube()
        fMean[0] = fMean[1] = fMean[2] = fMean[3] = 0.0f;
        fM2[0] = fM2[1] = fM2[2] = fM2[3] = 0.0f;
        fDelta[0] = fDelta[1] = fDelta[2] = fDelta[3] = 0.0f;
-	   fMin[0] = fMin[1] = fMin[2] = fMin[3] = fMin[4] = 0.0f;
-	   fMax[0] = fMax[1] = fMax[2] = fMax[3] = fMax[4] = 0.0f;
+       fMin[0] = fMin[1] = fMin[2] = fMin[3] = 0.0f;
+       fMax[0] = fMax[1] = fMax[2] = fMax[3] = 0.0f;
        fVariance[0] = fVariance[1] = fVariance[2] = fVariance[3] = 0.0f;
        fStdDev[0] = fStdDev[1] = fStdDev[2] = fStdDev[3] = 0.0f;
 

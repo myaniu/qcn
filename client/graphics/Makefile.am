@@ -23,7 +23,7 @@ else
    STACKSIZE = --stack=2000000
 endif
 
-LIBS += @CLIENTLIBS@ $(BOINC_LIB) /usr/local/lib/libjpeg.a
+LIBS += @CLIENTLIBS@ $(BOINC_LIB) $(LIBDIR)/libjpeg.a
 
 bin_PROGRAMS = qcn_graphics
       
