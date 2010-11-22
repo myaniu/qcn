@@ -23,6 +23,8 @@
 #include "coastline.h"
 #include "plate_boundary.h"
 
+#include "filesys.h"   // for boinc_file_exists fn
+
 // setup OpenGL 1.3 extensions - required for multitexturing
 #ifdef _EARTH_COMBINE_
 #ifdef _WIN32
