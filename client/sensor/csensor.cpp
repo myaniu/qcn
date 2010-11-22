@@ -153,7 +153,7 @@ void CSensor::closePort()
     fprintf(stdout, "Closing port...\n");
 }
 
-const e_sensor CSensor::getTypeEnum()
+e_sensor CSensor::getTypeEnum()
 {
    return m_iType;
 }

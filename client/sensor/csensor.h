@@ -98,7 +98,7 @@ private:
 	
      // public virtual functions implemented in CSensor but can be overridden
      virtual void closePort(); // closes the port if open
-     virtual const e_sensor getTypeEnum(); // return the iType member variable
+     virtual e_sensor getTypeEnum(); // return the iType member variable
 
      virtual bool mean_xyz();   // mean sensor data, implemented here but can be overridden
 	

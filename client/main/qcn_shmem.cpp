@@ -189,7 +189,7 @@ void CQCNShMem::testMinMax(const float fVal, const e_maxmin eType)
 }
 */
 
-const double CQCNShMem::TimeError()
+double CQCNShMem::TimeError()
 {
   return  ((t0active-t0check) / dt) * 100.0f;  // timing error relative to the (usually) 0.02 second dt window
 }

@@ -1266,12 +1266,12 @@ void parse_quake_info(char* strQuake, int ctr, e_quake eType)
 }
 
 
-const int GetTimeWindowWidth()
+int GetTimeWindowWidth()
 {
 	return g_iTimeWindowWidth;
 }
 
-const int SetTimeWindowWidthInt(int iWidth)
+int SetTimeWindowWidthInt(int iWidth)
 {
 	if (iWidth == 10 || iWidth == 60 || iWidth == 600 || iWidth == 3600)
 	{
@@ -1304,7 +1304,7 @@ const int SetTimeWindowWidthInt(int iWidth)
 }
 		
 
-const int SetTimeWindowWidth(bool bUp)
+int SetTimeWindowWidth(bool bUp)
 {
 	if (bUp) { // increase window width
 		switch(g_iTimeWindowWidth) {
@@ -1350,17 +1350,17 @@ const int SetTimeWindowWidth(bool bUp)
 	return g_iTimeWindowWidth;
 }
 
-const long TimeWindowBack()
+long TimeWindowBack()
 {
 	return TimeWindowPercent(g_iTimePercent - 10); // use pct to go forward or back
 }
 
-const long TimeWindowForward()
+long TimeWindowForward()
 {
 	return TimeWindowPercent(g_iTimePercent + 10); // use pct to go forward or back
 }
 		
-const long TimeWindowPercent(int iPct)
+long TimeWindowPercent(int iPct)
 {
 	static int iLastPct = 0;
 	if (iPct < 0) iPct = 0;
@@ -1406,7 +1406,7 @@ const long TimeWindowPercent(int iPct)
     return g_iTimePercent; //g_lSnapshotPoint;
 }
 
-const long TimeWindowStop()
+long TimeWindowStop()
 {
      g_bSnapshot = true;
 	 if (sm && g_bSnapshot) {
@@ -1423,7 +1423,7 @@ const long TimeWindowStop()
 	 return g_lSnapshotPoint;
 }
 
-const long TimeWindowStart()
+long TimeWindowStart()
 {
      g_bSnapshot = false;
      g_bSnapshotArrayProcessed = false;
@@ -1433,12 +1433,12 @@ const long TimeWindowStart()
 	 return 0L;
 }
 
-const bool TimeWindowIsStopped()
+bool TimeWindowIsStopped()
 {
     return g_bSnapshot;
 }
 
-const bool IsScaled()
+bool IsScaled()
 {
     return bScaled;
 }

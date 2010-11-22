@@ -25,7 +25,7 @@ class CQCNShMem : public CSerialize
     void clear(bool bAll = false);
     //void resetMinMax();
     //void testMinMax(const float fVal, const e_maxmin eType);
-    const double TimeError();
+    double TimeError();
     float averageSamples();
     float averageDT();
 
