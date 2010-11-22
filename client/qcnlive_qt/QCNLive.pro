@@ -2,6 +2,11 @@ unix:BASEDIR = /home/carlgt1/projects
 macx:BASEDIR = /Users/carlgt1/projects
 win32:BASEDIR = c:/projects
 
+# annoyingly Mac Qt seems to think it's Unix too!
+# so use this logical to bypass as can't rely on unix {} conditional
+IS_MAC=
+mac:IS_MAC=1
+
 BASEDIRBOINC = $$BASEDIR/boinc
 BASEDIRQCN = $$BASEDIR/qcn
 
@@ -41,21 +46,24 @@ ICON = $$BASEDIRQCN/doc/qcnmac.icns
 RC_FILE = $$BASEDIRQCN/doc/qcnmac.icns
 QMAKE_INFO_PLIST = Info.plist.mac
 }
-unix:LIBS += -Wl,-rpath,./init/ --stack=16777216 \
+unix {
+ isEmpty(IS_MAC) {
+ LIBS += -Wl,-rpath,./init/ --stack=16777216 \
   -L$$BASEDIRQCN/client/linux_build \
    -lcurl -lftgl -lfreetype \
     -lboinc_graphics2 -lboinc_zip -lboinc_api -lboinc \
     -ljpeg
-win32:LIBS += -L$$BASEDIRQCN/client/win_build, \
+ }
+}
+win32 {
+ LIBS += -L$$BASEDIRQCN/client/win_build, \
 c:/projects/qcn/client/win_build,../sensor/motionnodeaccel \
 glu32.lib opengl32.lib gdi32.lib user32.lib \
 qtmain.lib wsock32.lib hid.lib setupapi.lib winmm.lib \
 comctl32.lib boinc_zip.lib curllib.lib jpeglib.lib zlib.lib \
 MotionNodeAccelAPI.lib QtOpenGL4.lib QtGui4.lib QtCore4.lib \
 ftgl.lib freetype.lib boinc_lib.lib boinc_api.lib
-#win32:WININCLUDEPATH = $$quote(c:/Program Files (x86)/Microsoft Visual Studio 9.0/VC/ATLMFC/INCLUDE;c:/Program Files (x86)/Microsoft Visual Studio 9.0/VC/INCLUDE;C:/Program Files/Microsoft SDKs/Windows/v6.0A/include)
-#win32:WINDEFINES = WIN32 _WIN32 _CRT_SECURE_NO_DEPRECATE
-#win32:WININCLUDE = windows.h
+}
 
 DEFINES += _USE_NTPDATE_EXEC_ FTGL_LIBRARY_STATIC QCNLIVE GRAPHICS_PROGRAM APP_GRAPHICS _ZLIB QCN _THREAD_SAFE CURL_STATICLIB _ZLIB $$WINDEF
 
@@ -88,14 +96,6 @@ SRC_SENSOR = $$SENSORDIR/csensor_win_laptop_hp.cpp \
            $$SENSORDIR/csensor.cpp
 }
 
-unix {
-SRC_SENSOR = \
-           $$SENSORDIR/csensor_linux_usb_jw.cpp \
-           $$SENSORDIR/csensor_linux_usb_jw24f14.cpp \
-           $$SENSORDIR/csensor_usb_motionnodeaccel.cpp \
-           $$SENSORDIR/csensor.cpp
-}
-
 macx{
 SRC_SENSOR = $$SENSORDIR/csensor_mac_laptop.cpp \
            $$SENSORDIR/csensor_usb_motionnodeaccel.cpp \
@@ -103,6 +103,16 @@ SRC_SENSOR = $$SENSORDIR/csensor_mac_laptop.cpp \
            $$SENSORDIR/csensor_mac_usb_jw.cpp \
            $$SENSORDIR/csensor_mac_usb_jw24f14.cpp \
            $$SENSORDIR/csensor.cpp
+}
+
+unix {
+ isEmpty(IS_MAC) {
+   SRC_SENSOR = \
+           $$SENSORDIR/csensor_linux_usb_jw.cpp \
+           $$SENSORDIR/csensor_linux_usb_jw24f14.cpp \
+           $$SENSORDIR/csensor_usb_motionnodeaccel.cpp \
+           $$SENSORDIR/csensor.cpp
+ }
 }
 
 SRC_MAIN =  $$MAINDIR/qcn_shmem.cpp \
@@ -168,5 +178,4 @@ target.path = $$BINDIR
 sources.files = $$SOURCES $$HEADERS $$RESOURCES $$FORMS QCNLive.pro
 sources.path = $$BINDIR
 INSTALLS += target sources
-
 
