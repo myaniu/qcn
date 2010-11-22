@@ -1,12 +1,12 @@
 dnl -*- autoconf -*-
 
-dnl $Id: configure.ac 20500 2010-02-10 19:05:11Z romw $
+dnl $Id: configure.ac 22465 2010-10-07 15:34:07Z romw $
 
 dnl not sure exactly what the minimum version is (but 2.13 wont work)
 AC_PREREQ(2.58)
 
 dnl Set the BOINC version here.  You can also use the set-version script.
-AC_INIT(BOINC, 6.11.1)
+AC_INIT(BOINC, 6.13.0)
 AC_CONFIG_MACRO_DIR([m4])
 LIBBOINC_VERSION=`echo ${PACKAGE_VERSION} | sed 's/\./:/g'`
 AC_SUBST([LIBBOINC_VERSION])
@@ -19,8 +19,8 @@ AM_INIT_AUTOMAKE(dist-zip)
 
 AC_CONFIG_SRCDIR(lib/shmem.cpp)
 
-AC_REVISION([$Revision: 20500 $]) 
-REV=`echo '$Revision: 20500 $' | awk "{print $2}"`
+AC_REVISION([$Revision: 22465 $]) 
+REV=`echo '$Revision: 22465 $' | awk "{print $2}"`
 RDATE=`date '+%Y.%m.%d'`
 if test -d .svn ; then
   REV=`svn info | grep Revision | awk '{print $2}'`
@@ -562,6 +562,10 @@ AH_TOP([
 ])
 AH_BOTTOM([
 
+#ifndef HAVE_RES_INIT
+#define res_init() (0)
+#endif
+
 /* end double-inclusion protection for config.h */
 #endif /* #ifndef BOINC_CONFIG_H */
 ])
@@ -573,7 +577,7 @@ AC_HEADER_STDC
 AC_HEADER_SYS_WAIT
 AC_HEADER_TIME
 AC_TYPE_SIGNAL
-AC_CHECK_HEADERS(windows.h sys/types.h sys/un.h arpa/inet.h dirent.h grp.h fcntl.h inttypes.h stdint.h malloc.h alloca.h memory.h netdb.h netinet/in.h netinet/tcp.h netinet/ether.h net/if.h net/if_arp.h signal.h strings.h sys/auxv.h sys/file.h sys/fcntl.h sys/ipc.h sys/ioctl.h sys/mount.h sys/msg.h sys/param.h sys/resource.h sys/select.h sys/shm.h sys/sockio.h sys/socket.h sys/stat.h sys/statvfs.h sys/statfs.h sys/swap.h sys/sysctl.h sys/systeminfo.h sys/time.h sys/types.h sys/utsname.h sys/vmmeter.h sys/wait.h unistd.h utmp.h errno.h procfs.h ieeefp.h setjmp.h)
+AC_CHECK_HEADERS(windows.h sys/types.h sys/un.h arpa/inet.h dirent.h grp.h fcntl.h inttypes.h stdint.h malloc.h alloca.h memory.h netdb.h netinet/in.h netinet/tcp.h netinet/ether.h net/if.h net/if_arp.h signal.h strings.h sys/auxv.h sys/file.h sys/fcntl.h sys/ipc.h sys/ioctl.h sys/mount.h sys/msg.h sys/param.h sys/resource.h sys/select.h sys/shm.h sys/sockio.h sys/socket.h sys/stat.h sys/statvfs.h sys/statfs.h sys/swap.h sys/sysctl.h sys/systeminfo.h sys/time.h sys/types.h sys/utsname.h sys/vmmeter.h sys/wait.h unistd.h utmp.h errno.h procfs.h ieeefp.h setjmp.h resolv.h)
 AC_CHECK_HEADERS(netinet/if_ether.h,[],[],[[
 #ifdef HAVE_SYS_TYPES_H
 #include <sys/types.h>
@@ -644,7 +648,7 @@ AC_FUNC_ALLOCA
 if test "${ac_cv_func_alloca_works}" = "yes" ; then
   ac_cv_func_alloca="yes"
 fi
-AC_CHECK_FUNCS(alloca _alloca __builtin_alloca ether_ntoa setpriority sched_setscheduler strlcpy strlcat strcasestr sigaction getutent setutent getisax strdup strdupa daemon stat64 putenv setenv unsetenv)
+AC_CHECK_FUNCS(alloca _alloca __builtin_alloca ether_ntoa setpriority sched_setscheduler strlcpy strlcat strcasestr strcasecmp sigaction getutent setutent getisax strdup strdupa daemon stat64 putenv setenv unsetenv res_init)
 
 dnl Checks for typedefs, structures, and compiler characteristics.
 AC_C_CONST
@@ -699,7 +703,13 @@ if test "${enable_manager}" = yes ; then
   AM_PATH_SQLITE3
 fi
 
-dnl --------------------------------------------------------------------------------
+dnl ---------- XCB --------------------------------------------------------
+if test "${enable_manager}" = yes; then
+    PKG_CHECK_MODULES(XCB,xcb,have_Xcb="yes",echo "WARNING: Xcb not found, x11_screensaver will not be built")
+    PKG_CHECK_MODULES(XCBATOM,xcb-atom,have_Xcbatom="yes",echo "WARNING: Xcb-atom not found, x11_screensaver will not be built")
+fi
+AM_CONDITIONAL(BUILD_X11_SCREENSAVER, [ test "$have_Xcb" = yes -a "$have_Xcbatom" = yes ]) 
+dnl -----------------------------------------------------------------------
 
 dnl Heres another way to set up host-specific stuff
 AM_CONDITIONAL(OS_DARWIN, [echo $host_os | grep '^darwin' > /dev/null])
@@ -769,6 +779,20 @@ fi
 fi
 SAH_CHECK_LIB([wsock32],[fopen],[
     AC_DEFINE([HAVE_LIBWSOCK32],[1],[Define to 1 if you have the wsock32 library])
+    CLIENTLIBS="${sah_lib_last} ${CLIENTLIBS}"])
+   echo DEBUG: CLIENTLIBS=${CLIENTLIBS} >&5
+
+svlibs=$LIBS
+if test "${ac_cv_func_res_init}" != "yes" ; then 
+  AC_CHECK_LIB([resolv],[res_init],[
+    ac_cv_func_res_init="yes"
+    AC_CHECK_FUNCS([res_init])
+  ])
+fi
+LIBS=$svlibs
+
+SAH_CHECK_LIB([resolv],[res_query],[
+    AC_DEFINE([HAVE_RESOLV],[1],[Define to 1 if you have the resolv library])
     CLIENTLIBS="${sah_lib_last} ${CLIENTLIBS}"])
    echo DEBUG: CLIENTLIBS=${CLIENTLIBS} >&5
 
@@ -861,8 +885,12 @@ AC_CONFIG_FILES([
                  version.h
                  api/Makefile
                  apps/Makefile
+                 zip/Makefile
+                 zip/zip/Makefile
+                 zip/unzip/Makefile
                  clientgui/Makefile
                  clientgui/res/Makefile
+                 clientscr/Makefile
                  client/Makefile
                  client/win/boinc_path_config.py:py/boinc_path_config.py.in
                  client/scripts/Makefile
@@ -899,9 +927,6 @@ AC_CONFIG_FILES([
                  tools/boinc_path_config.py:py/boinc_path_config.py.in
                  tools/Makefile
                  m4/Makefile
-                 zip/Makefile
-                 zip/zip/Makefile
-                 zip/unzip/Makefile
 		])
 
 
