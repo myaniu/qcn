@@ -23,7 +23,7 @@
 #include "coastline.h"
 #include "plate_boundary.h"
 
-//#include "filesys.h"   // for boinc_file_exists fn
+#include "filesys.h"   // for boinc_file_exists fn
 
 // setup OpenGL 1.3 extensions - required for multitexturing
 #ifdef _EARTH_COMBINE_
@@ -205,7 +205,6 @@ void CEarth::LoadEarthTexture()
 #else
             boinc_resolve_filename(pstrEarth[i], strImg, sizeof(char)*_MAX_PATH);
 #endif
-/*
             if (!boinc_file_exists(strImg)) {
                 fprintf(stderr, "Graphics file %s does not exist\n", strImg);
                 continue;
@@ -215,7 +214,6 @@ void CEarth::LoadEarthTexture()
                 fprintf(stdout, "Graphics file %s loading...\n", strImg);
             }
 #endif
-*/
             if (i<2) { // first two earth views are JPG textures, not RGB alpha map which is handled below
                 texture[i].CreateTextureJPG(strImg);
             }
