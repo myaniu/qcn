@@ -19,7 +19,8 @@ echo put $fonta >> qcnsftp.up
 echo put $fontb >> qcnsftp.up
 echo put init/logo.jpg >> qcnsftp.up
 echo put init/$ntpexec >> qcnsftp.up
-
+echo put init/xyzaxes.jpg >> qcnsftp.up
+echo put init/xyzaxesbl.jpg >> qcnsftp.up
 # note Linux gets smaller pics
 if ( test "`uname -s`" = "Darwin" ) then
    echo put init/earthday4096.jpg >> qcnsftp.up
@@ -43,7 +44,7 @@ rm -rf QCNLive*
 
 # init/earthmask.rgb  # disable for now
 ncisuffix='__nci'
-uplstring='init/splash.png \
+zipuplstring='$fonta $fontb init/splash.png \
          init/xyzaxes.jpg \
          init/xyzaxesbl.jpg \
          init/qcnlogo.png \
@@ -57,9 +58,9 @@ if ( test "`uname -s`" = "Darwin" ) then
   suffixs='x86_64-apple-darwin'
 
     rm -f qcnlive-mac.zip
-    zip -r qcnlive-mac.zip QCNLive.app $fonta $fontb \
+    zip -r qcnlive-mac.zip QCNLive.app \
        init/earthnight4096.jpg init/earthday4096.jpg \
-       init/$ntpdv $uplstring \
+       init/$ntpdv $zipuplstring \
        init/libMotionNodeAccelAPI.dylib \
          -x@exclude.lst
     cp qcnusb.app/Contents/MacOS/qcnusb ../qcnusb/install
@@ -201,9 +202,9 @@ else
    cp graphics_app=qcn_graphics_${vnci}_$suffix graphics_app=qcn_graphics_${vnon}_$suffix
    rm -f qcnlive-linux.zip
 
-   zip -r qcnlive-linux.zip QCNLive $fonta $fontb \
+   zip -r qcnlive-linux.zip QCNLive \
          init/earthnight2048.jpg init/earthday2048.jpg \
-         init/$ntpdv $fonta $fontb $uplstring \
+         init/$ntpdv $zipuplstring \
          init/libMotionNodeAccelAPI.so \
             -x@exclude.lst
 

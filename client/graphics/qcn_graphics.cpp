@@ -585,14 +585,14 @@ void draw_logo(bool bExtraOnly)
 	if (g_eView == VIEW_PLOT_2D || g_eView == VIEW_PLOT_3D || g_eView == VIEW_CUBE) {
 		float pos[3] =  {1.00, 0.0, 0};
 		float size[3] = {.05, .05, 0};
-		if (g_eView == VIEW_PLOT_2D && txXYZAxes.id) {
+		if (g_eView == VIEW_PLOT_2D && qcn_2dplot::IsWhite() && txXYZAxes.id) {
 			txXYZAxes.draw(pos, size, ALIGN_CENTER, ALIGN_CENTER, g_alphaLogo);
 		}
-		else if ((g_eView == VIEW_PLOT_3D || g_eView == VIEW_CUBE) && txXYZAxesBlack.id) {
+		else if ((g_eView == VIEW_PLOT_3D || g_eView == VIEW_CUBE 
+                  || (g_eView == VIEW_PLOT_2D && !qcn_2dplot::IsWhite())) && txXYZAxesBlack.id) {
 			txXYZAxesBlack.draw(pos, size, ALIGN_CENTER, ALIGN_CENTER, g_alphaLogo);
 		}
 	}
-
 	ortho_done();
 }
 
