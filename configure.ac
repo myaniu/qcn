@@ -603,7 +603,6 @@ AC_CONFIG_FILES([
                  Makefile
                  client/main/Makefile
                  client/graphics/Makefile
-                 client/qcnlive_qt/Makefile
                  client/qcnusb/Makefile
                  m4/Makefile
                  ])
