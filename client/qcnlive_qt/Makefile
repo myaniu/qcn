@@ -16,7 +16,7 @@ CXXFLAGS      = -pipe -g -O0 -Wall -W -D_REENTRANT $(DEFINES)
 INCPATH       = -I/opt/qtsdk-2010.05/qt/mkspecs/linux-g++ -I. -I/opt/qtsdk-2010.05/qt/include/QtCore -I/opt/qtsdk-2010.05/qt/include/QtGui -I/opt/qtsdk-2010.05/qt/include/QtOpenGL -I/opt/qtsdk-2010.05/qt/include -I../../../qcn -I../../jpeg-6b -I../../zlib-1.2.5 -I../../curl-7.18.2/include -I../../ftgl-2.1.3/include -I../../freetype-2.3.9/include -I../main -I../sensor -I../util -I../../curl-7.18.2/include -I../../../boinc/lib -I../../../boinc/api -I../../../boinc/zip -I../graphics -I/usr/X11R6/include -I.
 LINK          = g++
 LFLAGS        = -Wl,-O1 -Wl,-rpath,/opt/qtsdk-2010.05/qt/lib
-LIBS          = $(SUBLIBS)  -L/opt/qtsdk-2010.05/qt/lib -L/usr/X11R6/lib -L/home/carlgt1/projects/qcn/client/linux_build -lcurl -lftgl -lfreetype -lboinc_graphics2 -lboinc_zip -lboinc_api -lboinc -ljpeg -lQtOpenGL -L/opt/qtsdk-2010.05/qt/lib -L/usr/X11R6/lib -lQtGui -lQtCore -lGLU -lGL -lpthread 
+LIBS          = $(SUBLIBS) --stack=4000000 -L/opt/qtsdk-2010.05/qt/lib -L/usr/X11R6/lib -L/home/carlgt1/projects/qcn/client/linux_build -lcurl -lftgl -lfreetype -lboinc_graphics2 -lboinc_zip -lboinc_api -lboinc -ljpeg -lQtOpenGL -L/opt/qtsdk-2010.05/qt/lib -L/usr/X11R6/lib -lQtGui -lQtCore -lGLU -lGL -lpthread 
 AR            = ar cqs
 RANLIB        = 
 QMAKE         = /opt/qtsdk-2010.05/qt/bin/qmake

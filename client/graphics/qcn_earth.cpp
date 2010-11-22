@@ -95,6 +95,8 @@ CEarth::CEarth()
        #ifdef _DEBUG
           memset(strDebug, 0x00, sizeof(char)*_MAX_PATH);
        #endif
+
+       memset(texture, 0x00, 3 * sizeof(TEXTURE_DESC));
 }
 
 void CEarth::Cleanup()
@@ -226,11 +228,13 @@ void CEarth::LoadEarthTexture()
                 fprintf(stdout, "Loaded OpenGL Texture from %s\n", strImg);
             }
 #endif
+
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
             glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+
     }
 }
 
@@ -647,11 +651,12 @@ void CEarth::DrawEarth()
            }
            else {
 #endif // _EARTH_COMBINE_
-   glEnable(GL_TEXTURE_2D);
-   glDisable(GL_BLEND);
+
+               glEnable(GL_TEXTURE_2D);
+               glDisable(GL_BLEND);
                BindEarthTexture();  // this will get the day or night earth view texture
                MapEarthTexture();
-   glDisable(GL_TEXTURE_2D);
+               glDisable(GL_TEXTURE_2D);
 #ifdef _EARTH_COMBINE_
            }  // if drawcombined or draw normal
 #endif // _EARTH_COMBINE_

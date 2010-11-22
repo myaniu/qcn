@@ -29,7 +29,7 @@ mac:LIBS += -framework IOKit -framework Carbon \
      -lboinc_zip -ljpeg-universal -lcurl-universal \
      -lz-universal -lfreetype-universal -lftgl-universal
 
-unix:LIBS += -L$$BASEDIRQCN/client/linux_build \
+unix:LIBS += --stack=2000000 -L$$BASEDIRQCN/client/linux_build \
    -lcurl -lftgl -lfreetype \
     -lboinc_graphics2 -lboinc_zip -lboinc_api -lboinc \
     -ljpeg
