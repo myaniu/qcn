@@ -33,6 +33,8 @@ void printQCNFiles(FILE* fBatch)
         fprintf(fBatch, "put init/cbt\n");
         fprintf(fBatch, "put init/earthday4096.jpg\n");
         fprintf(fBatch, "put init/earthnight4096.jpg\n");
+        fprintf(fBatch, "put init/xyzaxes.jpg\n");
+        fprintf(fBatch, "put init/xyzaxesbl.jpg\n");
         fprintf(fBatch, "put init/logo.jpg\n");
         fprintf(fBatch, "put init/%s_%s.exe\n", NTPDATE_EXEC_VERSION, BOINC_WIN_SUFFIX);
 #ifndef _WIN64
@@ -49,6 +51,8 @@ void printQCNFiles(FILE* fBatch)
         fprintf(fBatch, "put init/cbt\n");
         fprintf(fBatch, "put init/earthday4096.jpg\n");
         fprintf(fBatch, "put init/earthnight4096.jpg\n");
+        fprintf(fBatch, "put init/xyzaxes.jpg\n");
+        fprintf(fBatch, "put init/xyzaxesbl.jpg\n");
         fprintf(fBatch, "put init/logo.jpg\n");
         fprintf(fBatch, "put init/%s_%s.exe\n", NTPDATE_EXEC_VERSION, BOINC_WIN_SUFFIX);
 #ifndef _WIN64
@@ -159,14 +163,15 @@ int deploy_qcn(bool bQCNLive)
 
 #ifdef _WIN64
 		sprintf_s(strCmd, 1024, "%s %s %s "
-			"%s %s %s %s %s %s %s %s %s %s %s %s %s %s%s%c%s%s", ZIPCMD, cstrQCNLive,
+			"%s %s %s %s %s %s %s %s %s %s %s %s %s %s %s%s%c%s%s", ZIPCMD, cstrQCNLive,
 			"qcnlive.exe",
 #else
 		sprintf_s(strCmd, 1024, "%s %s %s %s "
-			"%s %s %s %s %s %s %s %s %s %s %s %s %s %s%s%c%s%s", ZIPCMD, cstrQCNLive,
+			"%s %s %s %s %s %s %s %s %s %s %s %s %s %s %s%s%c%s%s", ZIPCMD, cstrQCNLive,
 			"qcnlive.exe",
 			"init/MotionNodeAccelAPI.dll",
 #endif
+			"readme-win.txt",
 			"init/qcnwin.ico",
 		     "QtCore4.dll",
 		   "QtGui4.dll",
