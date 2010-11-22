@@ -21,6 +21,7 @@ if ( test "`uname -s`" = "Darwin" ) then
   cp config.h.mac config.h
   ./build.mac $2 $3
 else
+  # Linux - using Ubunto 9.10 now
   cp configure.ac.linux configure.ac
   cd zlib-1.2.5
   ./configure --enable-shared=no --enable-static=yes
