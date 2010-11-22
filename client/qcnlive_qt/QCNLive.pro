@@ -33,7 +33,8 @@ QMAKE_INFO_PLIST = "Info.plist.mac"
 
 LIBS += -framework IOKit -framework Carbon \
    -L$$BASEDIRQCN/client/mac_build \
-     -lboinc_zip -ljpeg-universal -lcurl-universal \
+     -lboinc_api -lboinc -lboinc_zip -lboinc_graphics2 \
+    -ljpeg-universal -lcurl-universal \
      -lz-universal -lfreetype-universal -lftgl-universal
 
 ICON = $$BASEDIRQCN/doc/qcnmac.icns
@@ -137,45 +138,6 @@ SRC_GRAPHICS = $$GRAPHICSDIR/qcn_graphics.cpp \
       $$GRAPHICSDIR/coastline.cpp \
       $$GRAPHICSDIR/plate_boundary.cpp
 
-# Mac includes the boinc files directly rather than building a lib
-macx {
-MAC_SRC_BOINC = $$BLIBDIR/mac/mac_backtrace.cpp \
-   $$BLIBDIR/mac/QBacktrace.c \
-   $$BLIBDIR/mac/QCrashReport.c \
-   $$BLIBDIR/mac/QMachOImage.c \
-   $$BLIBDIR/mac/QMachOImageList.c \
-   $$BLIBDIR/mac/QSymbols.c \
-   $$BLIBDIR/mac/QTaskMemory.c
-
-SRC_BOINC = $$BAPIDIR/boinc_api.cpp \
-   $$BAPIDIR/graphics2_util.cpp \
-   $$BAPIDIR/graphics2.cpp \
-   $$BAPIDIR/gutil.cpp \
-   $$BAPIDIR/texture.cpp \
-   $$BLIBDIR/parse.cpp \
-   $$BLIBDIR/shmem.cpp \
-   $$BLIBDIR/str_util.cpp \
-   $$BLIBDIR/util.cpp \
-   $$BLIBDIR/diagnostics.cpp \
-   $$BLIBDIR/filesys.cpp \
-   $$BLIBDIR/mfile.cpp \
-   $$BLIBDIR/miofile.cpp \
-   $$BLIBDIR/app_ipc.cpp \
-   $$BLIBDIR/hostinfo.cpp \
-   $$BLIBDIR/proxy_info.cpp \
-   $$BLIBDIR/prefs.cpp \
-   $$BLIBDIR/url.cpp \
-   $$BLIBDIR/coproc.cpp $$MAC_SRC_BOINC
-}
-
-win32 {
-SRC_BOINC =
-}
-
-unix {
-SRC_BOINC =
-}
-
 HEADERS       += qcnqt.h $$WININCLUDE \
                 glwidget.h \
                 myframe.h \
@@ -195,8 +157,7 @@ SOURCES       = glwidget.cpp \
                 $$SRC_MAIN \
                 $$SRC_UTIL \
                 $$SRC_SENSOR \
-                $$SRC_GRAPHICS \
-                $$SRC_BOINC
+                $$SRC_GRAPHICS 
 
 macx {
 CONFIG += x86 ppc app_bundle

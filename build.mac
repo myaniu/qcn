@@ -40,13 +40,13 @@ export CFLAGS=
 export CXXFLAGS=
 unzip -o boinc_zip_xcode.zip -d ../boinc/zip/
 cd ../boinc/mac_build
-#NB - not using boinc libs, just use files directly
-#xcodebuild -project boinc.xcodeproj -configuration Deployment -target libboinc clean build
-#xcodebuild USER_HEADER_SEARCH_PATHS='../lib ../../qcn/jpeg-6b' -project boinc.xcodeproj -configuration Deployment -target api_libboinc clean build
-#xcodebuild USER_HEADER_SEARCH_PATHS='../lib ../../qcn/jpeg-6b' -project boinc.xcodeproj -configuration Deployment -target gfx2libboinc clean build
+xcodebuild -project boinc.xcodeproj -configuration Deployment -target libboinc clean build
+xcodebuild USER_HEADER_SEARCH_PATHS='../lib ../../qcn/jpeg-6b /usr/X11R6/include' -project boinc.xcodeproj -configuration Deployment -target api_libboinc clean build
+xcodebuild USER_HEADER_SEARCH_PATHS='../lib ../../qcn/jpeg-6b /usr/X11R6/include' -project boinc.xcodeproj -configuration Deployment -target gfx2libboinc clean build
+mv build/Deployment/*.a ../../qcn/client/mac_build/
 cd ../zip
 xcodebuild -project boinc_zip.xcodeproj -configuration Deployment -target boinc_zip clean build
-cp build/Release/libboinc_zip.a ../../qcn/client/mac_build/
+mv build/Release/libboinc_zip.a ../../qcn/client/mac_build/
 cd ../../qcn
   if (test "$1" = "libs" || test "$2" = "libs") then
     exit
