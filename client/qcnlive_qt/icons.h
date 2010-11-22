@@ -1,5 +1,8 @@
+#ifndef _ICONS_H_
+#define _ICONS_H_
+// need a pragma for the 'deprecated conversion from string constant to 'char*' warning
 /* XPM */
-static char * icon_absolute_xpm[] = {
+static char* icon_absolute_xpm[] = {
 "32 32 118 2",
 "  	c None",
 ". 	c #DCDCDC",
@@ -5554,3 +5557,5 @@ static char * icon_vert_zoom_out_xpm[] = {
 "  ~@{@. . . . . . . . . . . . . . . . . . . . . . . . . . {@~@  ",
 "    ~@$ { { { { { { { { { { { { { { { { { { { { { { { { $ ~@    ",
 "                                                                "};
+
+#endif

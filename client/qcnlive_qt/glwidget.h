@@ -39,7 +39,7 @@ public:
 
     int getWidth() const { return m_width; }
     int getHeight() const { return m_height; }
-	const int whichGLUTButton(const QMouseEvent* event, const bool bDown);
+    int whichGLUTButton(const QMouseEvent* event, const bool bDown);
 	
 public slots:
     void setTimePosition(const double& dValue);

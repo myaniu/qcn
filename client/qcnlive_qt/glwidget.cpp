@@ -84,7 +84,7 @@ void GLWidget::mouseDoubleClickEvent(QMouseEvent *event)
 }
 */
 
-const int GLWidget::whichGLUTButton(const QMouseEvent* event, const bool bDown)
+int GLWidget::whichGLUTButton(const QMouseEvent* event, const bool bDown)
 {
 	int which = GLUT_NO_BUTTON;
 	switch(event->button()) {

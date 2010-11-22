@@ -58,8 +58,8 @@ public:
     ~CDialogMakeQuake();
 
 	void getUserString(char* strName);
-	const int getMakeQuakeTime() { return m_iTime; }
-	const int getMakeQuakeCountdown() { return m_iCountdown; }
+        int getMakeQuakeTime() const { return m_iTime; }
+        int getMakeQuakeCountdown() const { return m_iCountdown; }
 	bool start() { return m_bStart; };
 	
 	const QPrinterInfo& getMakeQuakePrinterInfo() { return m_printerInfo; }

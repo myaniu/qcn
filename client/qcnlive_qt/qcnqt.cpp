@@ -559,7 +559,7 @@ void MyApp::slotPrintPreview(QPrinter* qpr)
 	
 	QString strTitle;
 	QString strOut, statmsg;
-	
+        int iOldY;
 	QRect rect;
 	QSize size;
 
@@ -600,10 +600,10 @@ void MyApp::slotPrintPreview(QPrinter* qpr)
 	rect = paint->viewport();
 	size = qpjpg->size();
 	size.scale(rect.size(), Qt::KeepAspectRatio);
-    paint->setViewport(rect.x(), rect.y(), size.width(), size.height());
+        paint->setViewport(rect.x(), rect.y(), size.width(), size.height());
 	paint->setWindow(rect);
 	
-	int iOldY = rect.y();
+        iOldY = rect.y();
 	rect.setY(iOldY + ((float) rect.height() * .1));  // do some juggling around to ensure space at the top for the name
 	rect.setHeight(rect.height() * .90);
 	paint->drawPixmap(rect, *qpjpg);

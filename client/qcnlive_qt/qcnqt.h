@@ -82,12 +82,12 @@ class MyApp: public QApplication
 	int getX() {return m_rect.x(); }
 	int getY() {return m_rect.y(); }
 	void setRect(const QRect& rect) {  m_rect = rect; }
-	const QRect& getRect() { return m_rect; }
+        const QRect& getRect() { return m_rect; }
 	
-	const int getMakeQuakeTime() { return m_iMakeQuakeTime; }
+        int getMakeQuakeTime() { return m_iMakeQuakeTime; }
 	void setMakeQuakeTime(const int iTime) { m_iMakeQuakeTime = iTime; }
 	
-	const int getMakeQuakeCountdown() { return m_iMakeQuakeCountdown; }
+        int getMakeQuakeCountdown() { return m_iMakeQuakeCountdown; }
 	void setMakeQuakeCountdown(const int iTime) { m_iMakeQuakeCountdown = iTime; }
 
 	const QPrinterInfo& getMakeQuakePrinterInfo() { return m_MakeQuakePrinter; }
