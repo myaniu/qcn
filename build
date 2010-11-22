@@ -25,11 +25,14 @@ else
   cd zlib-1.2.5
   ./configure
   make clean && make
+  cp libz.a ../client/linux_build/
   cd ../jpeg-6b
   ./configure
   make clean && make
+  cp libjpeg.a ../client/linux_build/
   cd ../curl-7.18.2
   ./configure
+  cp lib/.libs/libcurl.a ../client/linux_build/
   make clean && make
   cd ../ftgl-2.1.3
   ./configure
