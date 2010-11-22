@@ -1,5 +1,6 @@
 mac:BASEDIR = /Users/carlgt1/projects
 win32:BASEDIR = c:/projects
+linux:BASEDIR = /home/carlgt1/projects
 
 BASEDIRBOINC = $$BASEDIR/boinc
 BASEDIRQCN = $$BASEDIR/qcn
@@ -26,6 +27,10 @@ mac:LIBS += -framework IOKit -framework Carbon \
    -L$$BASEDIRQCN/client/mac_build \
      -lboinc_zip -ljpeg-universal -lcurl-universal \
      -lz-universal -lfreetype-universal -lftgl-universal
+
+linux:LIBS += -L$$BASEDIRQCN/client/linux_build \
+   -lftgl -lfreetype -ljpeg \
+    -lboinc_graphics2 -lboinc_zip -lboinc -lboinc_api 
 
 win32:LIBS += -L$$BASEDIRQCN/client/win_build, \
 c:/projects/qcn/client/win_build,../sensor/motionnodeaccel \
