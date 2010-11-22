@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		432925DA1132D60500A30C6E /* coproc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43D5F17F1104EA450045EF34 /* coproc.cpp */; };
-		432925F51132D8F000A30C6E /* coproc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43D5F17F1104EA450045EF34 /* coproc.cpp */; };
 		43304A7410FF76BB00A823FE /* qcn_thread_sensor_util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43304A7310FF76BB00A823FE /* qcn_thread_sensor_util.cpp */; };
 		43304A7510FF76BB00A823FE /* qcn_thread_sensor_util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43304A7310FF76BB00A823FE /* qcn_thread_sensor_util.cpp */; };
 		43304A7610FF76BB00A823FE /* qcn_thread_sensor_util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43304A7310FF76BB00A823FE /* qcn_thread_sensor_util.cpp */; };
@@ -18,12 +16,6 @@
 		439FF8D010BD8DCF00DEFD8E /* csensor_mac_usb_onavi01.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 439FF8CF10BD8DCF00DEFD8E /* csensor_mac_usb_onavi01.cpp */; };
 		439FF8D110BD8DCF00DEFD8E /* csensor_mac_usb_onavi01.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 439FF8CF10BD8DCF00DEFD8E /* csensor_mac_usb_onavi01.cpp */; };
 		43AC1A0810A0C85600F84A0D /* libcurl-universal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 43AC1A0710A0C85600F84A0D /* libcurl-universal.a */; };
-		43D5F1801104EA450045EF34 /* coproc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43D5F17F1104EA450045EF34 /* coproc.cpp */; };
-		43D5F1811104EA450045EF34 /* coproc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43D5F17F1104EA450045EF34 /* coproc.cpp */; };
-		43E17E8A10A47F2600EFA3A7 /* url.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43E17E8910A47F2600EFA3A7 /* url.cpp */; };
-		43E17E8B10A47F2600EFA3A7 /* url.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43E17E8910A47F2600EFA3A7 /* url.cpp */; };
-		43E17E8C10A47F2600EFA3A7 /* url.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43E17E8910A47F2600EFA3A7 /* url.cpp */; };
-		43E17E8D10A47F2600EFA3A7 /* url.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43E17E8910A47F2600EFA3A7 /* url.cpp */; };
 		43E276901146C38F00D80E16 /* csensor_mac_usb_jw24f14.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43E2768F1146C38F00D80E16 /* csensor_mac_usb_jw24f14.cpp */; };
 		43E276911146C38F00D80E16 /* csensor_mac_usb_jw24f14.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43E2768F1146C38F00D80E16 /* csensor_mac_usb_jw24f14.cpp */; };
 		43E276931146C38F00D80E16 /* csensor_mac_usb_jw24f14.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43E2768F1146C38F00D80E16 /* csensor_mac_usb_jw24f14.cpp */; };
@@ -33,6 +25,18 @@
 		43E45A85129241E800D7ACEB /* libftgl-universal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 43E45A81129241E800D7ACEB /* libftgl-universal.a */; };
 		43E45A9B1292428E00D7ACEB /* ttfont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43E45A9A1292428E00D7ACEB /* ttfont.cpp */; };
 		43E45A9C1292428E00D7ACEB /* ttfont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43E45A9A1292428E00D7ACEB /* ttfont.cpp */; };
+		43E9296D129B24EF001F3626 /* libboinc_api.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 43E9296A129B24EF001F3626 /* libboinc_api.a */; };
+		43E9296E129B24EF001F3626 /* libboinc_graphics2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 43E9296B129B24EF001F3626 /* libboinc_graphics2.a */; };
+		43E9296F129B24EF001F3626 /* libboinc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 43E9296C129B24EF001F3626 /* libboinc.a */; };
+		43E92970129B24EF001F3626 /* libboinc_api.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 43E9296A129B24EF001F3626 /* libboinc_api.a */; };
+		43E92971129B24EF001F3626 /* libboinc_graphics2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 43E9296B129B24EF001F3626 /* libboinc_graphics2.a */; };
+		43E92972129B24EF001F3626 /* libboinc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 43E9296C129B24EF001F3626 /* libboinc.a */; };
+		43E92973129B24EF001F3626 /* libboinc_api.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 43E9296A129B24EF001F3626 /* libboinc_api.a */; };
+		43E92974129B24EF001F3626 /* libboinc_graphics2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 43E9296B129B24EF001F3626 /* libboinc_graphics2.a */; };
+		43E92975129B24EF001F3626 /* libboinc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 43E9296C129B24EF001F3626 /* libboinc.a */; };
+		43E92976129B24EF001F3626 /* libboinc_api.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 43E9296A129B24EF001F3626 /* libboinc_api.a */; };
+		43E92977129B24EF001F3626 /* libboinc_graphics2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 43E9296B129B24EF001F3626 /* libboinc_graphics2.a */; };
+		43E92978129B24EF001F3626 /* libboinc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 43E9296C129B24EF001F3626 /* libboinc.a */; };
 		E300B1A40FF2CF0E00E54D79 /* libboinc_zip.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E33EF7BD0FF1DF7400CD5708 /* libboinc_zip.a */; };
 		E300B1A50FF2CF0E00E54D79 /* libjpeg-universal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E33EF7BE0FF1DF7400CD5708 /* libjpeg-universal.a */; };
 		E300B1A60FF2CF0E00E54D79 /* libz-universal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E33EF7BF0FF1DF7400CD5708 /* libz-universal.a */; };
@@ -46,14 +50,7 @@
 		E33EF7C90FF1DF7500CD5708 /* libboinc_zip.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E33EF7BD0FF1DF7400CD5708 /* libboinc_zip.a */; };
 		E33EF7CA0FF1DF7500CD5708 /* libjpeg-universal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E33EF7BE0FF1DF7400CD5708 /* libjpeg-universal.a */; };
 		E33EF7CB0FF1DF7500CD5708 /* libz-universal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E33EF7BF0FF1DF7400CD5708 /* libz-universal.a */; };
-		E34E9CA00FF2BDCE004998DB /* graphics2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C967180FF1A1DD00F20324 /* graphics2.cpp */; };
-		E34E9CA40FF2BE29004998DB /* texture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C967270FF1A1DD00F20324 /* texture.cpp */; };
-		E34E9CD20FF2C14D004998DB /* texture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C967270FF1A1DD00F20324 /* texture.cpp */; };
 		E34E9CDE0FF2C236004998DB /* qcn_curl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3D49FE90D6F74C70088DE83 /* qcn_curl.cpp */; };
-		E34E9CE30FF2C25A004998DB /* gutil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C967230FF1A1DD00F20324 /* gutil.cpp */; };
-		E34E9CE40FF2C25A004998DB /* texfont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C967250FF1A1DD00F20324 /* texfont.cpp */; };
-		E388F83D0FF1B85E00D948DE /* graphics2_util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C9671B0FF1A1DD00F20324 /* graphics2_util.cpp */; };
-		E388F84E0FF1B9A900D948DE /* graphics2_util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C9671B0FF1A1DD00F20324 /* graphics2_util.cpp */; };
 		E388F8500FF1B9A900D948DE /* qcn_shmem_usb.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3D35C190FF17AB200E64121 /* qcn_shmem_usb.cpp */; };
 		E388F8510FF1B9A900D948DE /* qcn_signal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3D35C130FF179E900E64121 /* qcn_signal.cpp */; };
 		E388F8540FF1B9A900D948DE /* gzstream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C0E7A50D64E9BE0099B905 /* gzstream.cpp */; };
@@ -62,82 +59,14 @@
 		E388F85D0FF1B9A900D948DE /* csensor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E30F9E9C0DEC6D4C0000FACE /* csensor.cpp */; };
 		E388F85E0FF1B9A900D948DE /* qcn_shmem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C0E7AF0D64E9BE0099B905 /* qcn_shmem.cpp */; };
 		E388F8620FF1B9A900D948DE /* cserialize.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C0E7B40D64E9BE0099B905 /* cserialize.cpp */; };
-		E388F8630FF1B9A900D948DE /* boinc_api.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C967150FF1A1DD00F20324 /* boinc_api.cpp */; };
-		E388F8640FF1B9A900D948DE /* parse.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C9674C0FF1A22200F20324 /* parse.cpp */; };
-		E388F8660FF1B9A900D948DE /* str_util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C967500FF1A22200F20324 /* str_util.cpp */; };
-		E388F8670FF1B9A900D948DE /* util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C967520FF1A22200F20324 /* util.cpp */; };
-		E388F8680FF1B9A900D948DE /* mac_backtrace.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C967760FF1A40200F20324 /* mac_backtrace.cpp */; };
-		E388F8690FF1B9A900D948DE /* diagnostics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C967800FF1A4C600F20324 /* diagnostics.cpp */; };
-		E388F86A0FF1B9A900D948DE /* filesys.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C967810FF1A4C600F20324 /* filesys.cpp */; };
-		E388F86B0FF1B9A900D948DE /* mfile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C967820FF1A4C600F20324 /* mfile.cpp */; };
-		E388F86C0FF1B9A900D948DE /* miofile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C967830FF1A4C600F20324 /* miofile.cpp */; };
-		E388F86D0FF1B9A900D948DE /* app_ipc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C967B90FF1A54900F20324 /* app_ipc.cpp */; };
-		E388F86E0FF1B9A900D948DE /* hostinfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C967EC0FF1A73B00F20324 /* hostinfo.cpp */; };
-		E388F86F0FF1B9A900D948DE /* proxy_info.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C967F90FF1A76900F20324 /* proxy_info.cpp */; };
-		E388F8700FF1B9A900D948DE /* prefs.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C968040FF1A79900F20324 /* prefs.cpp */; };
-		E388F8710FF1B9A900D948DE /* QBacktrace.c in Sources */ = {isa = PBXBuildFile; fileRef = E3C9680F0FF1A80100F20324 /* QBacktrace.c */; };
-		E388F8720FF1B9A900D948DE /* QCrashReport.c in Sources */ = {isa = PBXBuildFile; fileRef = E3C968100FF1A80100F20324 /* QCrashReport.c */; };
-		E388F8730FF1B9A900D948DE /* QMachOImage.c in Sources */ = {isa = PBXBuildFile; fileRef = E3C968110FF1A80100F20324 /* QMachOImage.c */; };
-		E388F8740FF1B9A900D948DE /* QMachOImageList.c in Sources */ = {isa = PBXBuildFile; fileRef = E3C968120FF1A80100F20324 /* QMachOImageList.c */; };
-		E388F8750FF1B9A900D948DE /* QSymbols.c in Sources */ = {isa = PBXBuildFile; fileRef = E3C968130FF1A80100F20324 /* QSymbols.c */; };
-		E388F8760FF1B9A900D948DE /* QTaskMemory.c in Sources */ = {isa = PBXBuildFile; fileRef = E3C968140FF1A80100F20324 /* QTaskMemory.c */; };
 		E388F8780FF1B9CD00D948DE /* qcnusb.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E388F8770FF1B9CD00D948DE /* qcnusb.cpp */; };
-		E388F8F20FF1BD8500D948DE /* shmem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C9674D0FF1A22200F20324 /* shmem.cpp */; };
 		E3C9663F0FF19BE300F20324 /* csensor_usb_motionnodeaccel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E30AB1140EBB776D00DABFEF /* csensor_usb_motionnodeaccel.cpp */; };
 		E3C966680FF19F2C00F20324 /* qcn_util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C0E7AD0D64E9BE0099B905 /* qcn_util.cpp */; };
 		E3C9666B0FF19F3E00F20324 /* qcn_shmem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C0E7AF0D64E9BE0099B905 /* qcn_shmem.cpp */; };
 		E3C9666E0FF19F5400F20324 /* cserialize.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C0E7B40D64E9BE0099B905 /* cserialize.cpp */; };
 		E3C966710FF19F6700F20324 /* gzstream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C0E7A50D64E9BE0099B905 /* gzstream.cpp */; };
 		E3C966740FF19F8400F20324 /* qcn_gzip.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C0E7A60D64E9BE0099B905 /* qcn_gzip.cpp */; };
-		E3C9672D0FF1A1DD00F20324 /* boinc_api.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C967150FF1A1DD00F20324 /* boinc_api.cpp */; };
-		E3C9673D0FF1A1DD00F20324 /* boinc_api.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C967150FF1A1DD00F20324 /* boinc_api.cpp */; };
-		E3C967460FF1A1DD00F20324 /* gutil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C967230FF1A1DD00F20324 /* gutil.cpp */; };
-		E3C967470FF1A1DD00F20324 /* gutil_text.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C967240FF1A1DD00F20324 /* gutil_text.cpp */; };
-		E3C967480FF1A1DD00F20324 /* texfont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C967250FF1A1DD00F20324 /* texfont.cpp */; };
-		E3C967540FF1A22200F20324 /* parse.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C9674C0FF1A22200F20324 /* parse.cpp */; };
-		E3C967550FF1A22200F20324 /* shmem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C9674D0FF1A22200F20324 /* shmem.cpp */; };
-		E3C967560FF1A22200F20324 /* str_util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C967500FF1A22200F20324 /* str_util.cpp */; };
-		E3C967570FF1A22200F20324 /* util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C967520FF1A22200F20324 /* util.cpp */; };
-		E3C967580FF1A22200F20324 /* parse.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C9674C0FF1A22200F20324 /* parse.cpp */; };
-		E3C967590FF1A22200F20324 /* shmem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C9674D0FF1A22200F20324 /* shmem.cpp */; };
-		E3C9675A0FF1A22200F20324 /* str_util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C967500FF1A22200F20324 /* str_util.cpp */; };
-		E3C9675B0FF1A22200F20324 /* util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C967520FF1A22200F20324 /* util.cpp */; };
-		E3C967770FF1A40200F20324 /* mac_backtrace.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C967760FF1A40200F20324 /* mac_backtrace.cpp */; };
-		E3C967780FF1A40200F20324 /* mac_backtrace.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C967760FF1A40200F20324 /* mac_backtrace.cpp */; };
-		E3C967840FF1A4C600F20324 /* diagnostics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C967800FF1A4C600F20324 /* diagnostics.cpp */; };
-		E3C967850FF1A4C600F20324 /* filesys.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C967810FF1A4C600F20324 /* filesys.cpp */; };
-		E3C967860FF1A4C600F20324 /* mfile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C967820FF1A4C600F20324 /* mfile.cpp */; };
-		E3C967870FF1A4C600F20324 /* miofile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C967830FF1A4C600F20324 /* miofile.cpp */; };
-		E3C967880FF1A4C600F20324 /* diagnostics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C967800FF1A4C600F20324 /* diagnostics.cpp */; };
-		E3C967890FF1A4C600F20324 /* filesys.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C967810FF1A4C600F20324 /* filesys.cpp */; };
-		E3C9678A0FF1A4C600F20324 /* mfile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C967820FF1A4C600F20324 /* mfile.cpp */; };
-		E3C9678B0FF1A4C600F20324 /* miofile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C967830FF1A4C600F20324 /* miofile.cpp */; };
-		E3C9678E0FF1A4F900F20324 /* graphics2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C967180FF1A1DD00F20324 /* graphics2.cpp */; };
-		E3C967900FF1A4F900F20324 /* graphics2_util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C9671B0FF1A1DD00F20324 /* graphics2_util.cpp */; };
-		E3C967BA0FF1A54900F20324 /* app_ipc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C967B90FF1A54900F20324 /* app_ipc.cpp */; };
-		E3C967BB0FF1A54900F20324 /* app_ipc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C967B90FF1A54900F20324 /* app_ipc.cpp */; };
-		E3C967C20FF1A5B300F20324 /* macglutfix.m in Sources */ = {isa = PBXBuildFile; fileRef = E3C967BE0FF1A5B300F20324 /* macglutfix.m */; };
-		E3C967CA0FF1A5FD00F20324 /* graphics2_unix.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C9671A0FF1A1DD00F20324 /* graphics2_unix.cpp */; };
-		E3C967ED0FF1A73B00F20324 /* hostinfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C967EC0FF1A73B00F20324 /* hostinfo.cpp */; };
-		E3C967EE0FF1A73B00F20324 /* hostinfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C967EC0FF1A73B00F20324 /* hostinfo.cpp */; };
-		E3C967FA0FF1A76900F20324 /* proxy_info.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C967F90FF1A76900F20324 /* proxy_info.cpp */; };
-		E3C967FB0FF1A76900F20324 /* proxy_info.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C967F90FF1A76900F20324 /* proxy_info.cpp */; };
-		E3C968050FF1A79900F20324 /* prefs.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C968040FF1A79900F20324 /* prefs.cpp */; };
-		E3C968060FF1A79900F20324 /* prefs.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C968040FF1A79900F20324 /* prefs.cpp */; };
-		E3C968150FF1A80100F20324 /* QBacktrace.c in Sources */ = {isa = PBXBuildFile; fileRef = E3C9680F0FF1A80100F20324 /* QBacktrace.c */; };
-		E3C968160FF1A80100F20324 /* QCrashReport.c in Sources */ = {isa = PBXBuildFile; fileRef = E3C968100FF1A80100F20324 /* QCrashReport.c */; };
-		E3C968170FF1A80100F20324 /* QMachOImage.c in Sources */ = {isa = PBXBuildFile; fileRef = E3C968110FF1A80100F20324 /* QMachOImage.c */; };
-		E3C968180FF1A80100F20324 /* QMachOImageList.c in Sources */ = {isa = PBXBuildFile; fileRef = E3C968120FF1A80100F20324 /* QMachOImageList.c */; };
-		E3C968190FF1A80100F20324 /* QSymbols.c in Sources */ = {isa = PBXBuildFile; fileRef = E3C968130FF1A80100F20324 /* QSymbols.c */; };
-		E3C9681A0FF1A80100F20324 /* QTaskMemory.c in Sources */ = {isa = PBXBuildFile; fileRef = E3C968140FF1A80100F20324 /* QTaskMemory.c */; };
-		E3C9681B0FF1A80100F20324 /* QBacktrace.c in Sources */ = {isa = PBXBuildFile; fileRef = E3C9680F0FF1A80100F20324 /* QBacktrace.c */; };
-		E3C9681C0FF1A80100F20324 /* QCrashReport.c in Sources */ = {isa = PBXBuildFile; fileRef = E3C968100FF1A80100F20324 /* QCrashReport.c */; };
-		E3C9681D0FF1A80100F20324 /* QMachOImage.c in Sources */ = {isa = PBXBuildFile; fileRef = E3C968110FF1A80100F20324 /* QMachOImage.c */; };
-		E3C9681E0FF1A80100F20324 /* QMachOImageList.c in Sources */ = {isa = PBXBuildFile; fileRef = E3C968120FF1A80100F20324 /* QMachOImageList.c */; };
-		E3C9681F0FF1A80100F20324 /* QSymbols.c in Sources */ = {isa = PBXBuildFile; fileRef = E3C968130FF1A80100F20324 /* QSymbols.c */; };
-		E3C968200FF1A80100F20324 /* QTaskMemory.c in Sources */ = {isa = PBXBuildFile; fileRef = E3C968140FF1A80100F20324 /* QTaskMemory.c */; };
 		E3C968440FF1ABCA00F20324 /* qcn_signal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3D35C130FF179E900E64121 /* qcn_signal.cpp */; };
-		E3CD099C0FF2ACE20043EE7E /* graphics2_util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C9671B0FF1A1DD00F20324 /* graphics2_util.cpp */; };
 		E3CD099D0FF2ACE20043EE7E /* csensor_usb_motionnodeaccel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E30AB1140EBB776D00DABFEF /* csensor_usb_motionnodeaccel.cpp */; };
 		E3CD099E0FF2ACE20043EE7E /* qcn_shmem_usb.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3D35C190FF17AB200E64121 /* qcn_shmem_usb.cpp */; };
 		E3CD099F0FF2ACE20043EE7E /* qcn_signal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3D35C130FF179E900E64121 /* qcn_signal.cpp */; };
@@ -158,26 +87,6 @@
 		E3CD09AE0FF2ACE20043EE7E /* qcn_thread_time.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C0E7B10D64E9BE0099B905 /* qcn_thread_time.cpp */; };
 		E3CD09AF0FF2ACE20043EE7E /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C0E7B30D64E9BE0099B905 /* main.cpp */; };
 		E3CD09B00FF2ACE20043EE7E /* cserialize.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C0E7B40D64E9BE0099B905 /* cserialize.cpp */; };
-		E3CD09B10FF2ACE20043EE7E /* boinc_api.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C967150FF1A1DD00F20324 /* boinc_api.cpp */; };
-		E3CD09B20FF2ACE20043EE7E /* parse.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C9674C0FF1A22200F20324 /* parse.cpp */; };
-		E3CD09B30FF2ACE20043EE7E /* shmem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C9674D0FF1A22200F20324 /* shmem.cpp */; };
-		E3CD09B40FF2ACE20043EE7E /* str_util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C967500FF1A22200F20324 /* str_util.cpp */; };
-		E3CD09B50FF2ACE20043EE7E /* util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C967520FF1A22200F20324 /* util.cpp */; };
-		E3CD09B60FF2ACE20043EE7E /* mac_backtrace.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C967760FF1A40200F20324 /* mac_backtrace.cpp */; };
-		E3CD09B70FF2ACE20043EE7E /* diagnostics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C967800FF1A4C600F20324 /* diagnostics.cpp */; };
-		E3CD09B80FF2ACE20043EE7E /* filesys.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C967810FF1A4C600F20324 /* filesys.cpp */; };
-		E3CD09B90FF2ACE20043EE7E /* mfile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C967820FF1A4C600F20324 /* mfile.cpp */; };
-		E3CD09BA0FF2ACE20043EE7E /* miofile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C967830FF1A4C600F20324 /* miofile.cpp */; };
-		E3CD09BB0FF2ACE20043EE7E /* app_ipc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C967B90FF1A54900F20324 /* app_ipc.cpp */; };
-		E3CD09BC0FF2ACE20043EE7E /* hostinfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C967EC0FF1A73B00F20324 /* hostinfo.cpp */; };
-		E3CD09BD0FF2ACE20043EE7E /* proxy_info.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C967F90FF1A76900F20324 /* proxy_info.cpp */; };
-		E3CD09BE0FF2ACE20043EE7E /* prefs.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3C968040FF1A79900F20324 /* prefs.cpp */; };
-		E3CD09BF0FF2ACE20043EE7E /* QBacktrace.c in Sources */ = {isa = PBXBuildFile; fileRef = E3C9680F0FF1A80100F20324 /* QBacktrace.c */; };
-		E3CD09C00FF2ACE20043EE7E /* QCrashReport.c in Sources */ = {isa = PBXBuildFile; fileRef = E3C968100FF1A80100F20324 /* QCrashReport.c */; };
-		E3CD09C10FF2ACE20043EE7E /* QMachOImage.c in Sources */ = {isa = PBXBuildFile; fileRef = E3C968110FF1A80100F20324 /* QMachOImage.c */; };
-		E3CD09C20FF2ACE20043EE7E /* QMachOImageList.c in Sources */ = {isa = PBXBuildFile; fileRef = E3C968120FF1A80100F20324 /* QMachOImageList.c */; };
-		E3CD09C30FF2ACE20043EE7E /* QSymbols.c in Sources */ = {isa = PBXBuildFile; fileRef = E3C968130FF1A80100F20324 /* QSymbols.c */; };
-		E3CD09C40FF2ACE20043EE7E /* QTaskMemory.c in Sources */ = {isa = PBXBuildFile; fileRef = E3C968140FF1A80100F20324 /* QTaskMemory.c */; };
 		E3CD09D00FF2AD370043EE7E /* dlgsettings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3CD09C60FF2AD370043EE7E /* dlgsettings.cpp */; };
 		E3CD09D10FF2AD370043EE7E /* myframe.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3CD09C90FF2AD370043EE7E /* myframe.cpp */; };
 		E3CD09D20FF2AD370043EE7E /* myglpane.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3CD09CB0FF2AD370043EE7E /* myglpane.cpp */; };
@@ -244,14 +153,15 @@
 		439FF8AF10BD8C7A00DEFD8E /* csensor_mac_usb_onavi01.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = csensor_mac_usb_onavi01.h; path = ../sensor/csensor_mac_usb_onavi01.h; sourceTree = SOURCE_ROOT; };
 		439FF8CF10BD8DCF00DEFD8E /* csensor_mac_usb_onavi01.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = csensor_mac_usb_onavi01.cpp; path = ../sensor/csensor_mac_usb_onavi01.cpp; sourceTree = SOURCE_ROOT; };
 		43AC1A0710A0C85600F84A0D /* libcurl-universal.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libcurl-universal.a"; sourceTree = "<group>"; };
-		43D5F17F1104EA450045EF34 /* coproc.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = coproc.cpp; path = ../../../boinc/lib/coproc.cpp; sourceTree = SOURCE_ROOT; };
-		43E17E8910A47F2600EFA3A7 /* url.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = url.cpp; path = ../../../boinc/lib/url.cpp; sourceTree = SOURCE_ROOT; };
 		43E2768B1146C32E00D80E16 /* csensor_mac_usb_jw24f14.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = csensor_mac_usb_jw24f14.h; path = ../sensor/csensor_mac_usb_jw24f14.h; sourceTree = SOURCE_ROOT; };
 		43E2768F1146C38F00D80E16 /* csensor_mac_usb_jw24f14.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = csensor_mac_usb_jw24f14.cpp; path = ../sensor/csensor_mac_usb_jw24f14.cpp; sourceTree = SOURCE_ROOT; };
 		43E45A80129241E800D7ACEB /* libfreetype-universal.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libfreetype-universal.a"; sourceTree = "<group>"; };
 		43E45A81129241E800D7ACEB /* libftgl-universal.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libftgl-universal.a"; sourceTree = "<group>"; };
 		43E45A9A1292428E00D7ACEB /* ttfont.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ttfont.cpp; path = ../util/ttfont.cpp; sourceTree = SOURCE_ROOT; };
 		43E45A9D129242A100D7ACEB /* ttfont.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ttfont.h; path = ../util/ttfont.h; sourceTree = SOURCE_ROOT; };
+		43E9296A129B24EF001F3626 /* libboinc_api.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libboinc_api.a; sourceTree = "<group>"; };
+		43E9296B129B24EF001F3626 /* libboinc_graphics2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libboinc_graphics2.a; sourceTree = "<group>"; };
+		43E9296C129B24EF001F3626 /* libboinc.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libboinc.a; sourceTree = "<group>"; };
 		43FF03021275F3580014B021 /* csensor_usb_motionnodeaccel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = csensor_usb_motionnodeaccel.h; path = ../sensor/csensor_usb_motionnodeaccel.h; sourceTree = SOURCE_ROOT; };
 		E3064B950F8FE8A60028A349 /* qcn_2dplot.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = qcn_2dplot.cpp; path = ../graphics/qcn_2dplot.cpp; sourceTree = SOURCE_ROOT; };
 		E3064B970F8FE8C10028A349 /* qcn_2dplot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = qcn_2dplot.h; path = ../graphics/qcn_2dplot.h; sourceTree = SOURCE_ROOT; };
@@ -320,53 +230,6 @@
 		E3C0E7FC0D64E9E00099B905 /* parse.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = parse.h; path = ../../../boinc/lib/parse.h; sourceTree = SOURCE_ROOT; };
 		E3C0E7FD0D64E9E00099B905 /* config.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = config.h; path = ../../config.h; sourceTree = SOURCE_ROOT; };
 		E3C0E7FE0D64E9E00099B905 /* version.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = version.h; path = ../../version.h; sourceTree = SOURCE_ROOT; };
-		E3C967140FF1A1DD00F20324 /* bmplib.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = bmplib.cpp; path = ../../../boinc/api/bmplib.cpp; sourceTree = SOURCE_ROOT; };
-		E3C967150FF1A1DD00F20324 /* boinc_api.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = boinc_api.cpp; path = ../../../boinc/api/boinc_api.cpp; sourceTree = SOURCE_ROOT; };
-		E3C967160FF1A1DD00F20324 /* boinc_gl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = boinc_gl.h; path = ../../../boinc/api/boinc_gl.h; sourceTree = SOURCE_ROOT; };
-		E3C967170FF1A1DD00F20324 /* boinc_glut.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = boinc_glut.h; path = ../../../boinc/api/boinc_glut.h; sourceTree = SOURCE_ROOT; };
-		E3C967180FF1A1DD00F20324 /* graphics2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = graphics2.cpp; path = ../../../boinc/api/graphics2.cpp; sourceTree = SOURCE_ROOT; };
-		E3C967190FF1A1DD00F20324 /* graphics2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = graphics2.h; path = ../../../boinc/api/graphics2.h; sourceTree = SOURCE_ROOT; };
-		E3C9671A0FF1A1DD00F20324 /* graphics2_unix.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = graphics2_unix.cpp; path = ../../../boinc/api/graphics2_unix.cpp; sourceTree = SOURCE_ROOT; };
-		E3C9671B0FF1A1DD00F20324 /* graphics2_util.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = graphics2_util.cpp; path = ../../../boinc/api/graphics2_util.cpp; sourceTree = SOURCE_ROOT; };
-		E3C9671C0FF1A1DD00F20324 /* graphics_api.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = graphics_api.cpp; path = ../../../boinc/api/graphics_api.cpp; sourceTree = SOURCE_ROOT; };
-		E3C9671D0FF1A1DD00F20324 /* graphics_api.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = graphics_api.h; path = ../../../boinc/api/graphics_api.h; sourceTree = SOURCE_ROOT; };
-		E3C9671E0FF1A1DD00F20324 /* graphics_data.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = graphics_data.cpp; path = ../../../boinc/api/graphics_data.cpp; sourceTree = SOURCE_ROOT; };
-		E3C9671F0FF1A1DD00F20324 /* graphics_impl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = graphics_impl.cpp; path = ../../../boinc/api/graphics_impl.cpp; sourceTree = SOURCE_ROOT; };
-		E3C967200FF1A1DD00F20324 /* graphics_impl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = graphics_impl.h; path = ../../../boinc/api/graphics_impl.h; sourceTree = SOURCE_ROOT; };
-		E3C967210FF1A1DD00F20324 /* graphics_impl_lib.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = graphics_impl_lib.cpp; path = ../../../boinc/api/graphics_impl_lib.cpp; sourceTree = SOURCE_ROOT; };
-		E3C967220FF1A1DD00F20324 /* graphics_lib.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = graphics_lib.cpp; path = ../../../boinc/api/graphics_lib.cpp; sourceTree = SOURCE_ROOT; };
-		E3C967230FF1A1DD00F20324 /* gutil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = gutil.cpp; path = ../../../boinc/api/gutil.cpp; sourceTree = SOURCE_ROOT; };
-		E3C967240FF1A1DD00F20324 /* gutil_text.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = gutil_text.cpp; path = ../../../boinc/api/gutil_text.cpp; sourceTree = SOURCE_ROOT; };
-		E3C967250FF1A1DD00F20324 /* texfont.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = texfont.cpp; path = ../../../boinc/api/texfont.cpp; sourceTree = SOURCE_ROOT; };
-		E3C967260FF1A1DD00F20324 /* texfont.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = texfont.h; path = ../../../boinc/api/texfont.h; sourceTree = SOURCE_ROOT; };
-		E3C967270FF1A1DD00F20324 /* texture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = texture.cpp; path = ../../../boinc/api/texture.cpp; sourceTree = SOURCE_ROOT; };
-		E3C967280FF1A1DD00F20324 /* texture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = texture.h; path = ../../../boinc/api/texture.h; sourceTree = SOURCE_ROOT; };
-		E3C967290FF1A1DD00F20324 /* tgalib.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = tgalib.cpp; path = ../../../boinc/api/tgalib.cpp; sourceTree = SOURCE_ROOT; };
-		E3C9674C0FF1A22200F20324 /* parse.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = parse.cpp; path = ../../../boinc/lib/parse.cpp; sourceTree = SOURCE_ROOT; };
-		E3C9674D0FF1A22200F20324 /* shmem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = shmem.cpp; path = ../../../boinc/lib/shmem.cpp; sourceTree = SOURCE_ROOT; };
-		E3C9674E0FF1A22200F20324 /* shmem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = shmem.h; path = ../../../boinc/lib/shmem.h; sourceTree = SOURCE_ROOT; };
-		E3C9674F0FF1A22200F20324 /* str_replace.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = str_replace.h; path = ../../../boinc/lib/str_replace.h; sourceTree = SOURCE_ROOT; };
-		E3C967500FF1A22200F20324 /* str_util.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = str_util.cpp; path = ../../../boinc/lib/str_util.cpp; sourceTree = SOURCE_ROOT; };
-		E3C967510FF1A22200F20324 /* str_util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = str_util.h; path = ../../../boinc/lib/str_util.h; sourceTree = SOURCE_ROOT; };
-		E3C967520FF1A22200F20324 /* util.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = util.cpp; path = ../../../boinc/lib/util.cpp; sourceTree = SOURCE_ROOT; };
-		E3C967530FF1A22200F20324 /* util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = util.h; path = ../../../boinc/lib/util.h; sourceTree = SOURCE_ROOT; };
-		E3C967760FF1A40200F20324 /* mac_backtrace.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mac_backtrace.cpp; path = ../../../boinc/lib/mac/mac_backtrace.cpp; sourceTree = SOURCE_ROOT; };
-		E3C967800FF1A4C600F20324 /* diagnostics.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = diagnostics.cpp; path = ../../../boinc/lib/diagnostics.cpp; sourceTree = SOURCE_ROOT; };
-		E3C967810FF1A4C600F20324 /* filesys.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = filesys.cpp; path = ../../../boinc/lib/filesys.cpp; sourceTree = SOURCE_ROOT; };
-		E3C967820FF1A4C600F20324 /* mfile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mfile.cpp; path = ../../../boinc/lib/mfile.cpp; sourceTree = SOURCE_ROOT; };
-		E3C967830FF1A4C600F20324 /* miofile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = miofile.cpp; path = ../../../boinc/lib/miofile.cpp; sourceTree = SOURCE_ROOT; };
-		E3C967B90FF1A54900F20324 /* app_ipc.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = app_ipc.cpp; path = ../../../boinc/lib/app_ipc.cpp; sourceTree = SOURCE_ROOT; };
-		E3C967BE0FF1A5B300F20324 /* macglutfix.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = macglutfix.m; path = ../../../boinc/api/macglutfix.m; sourceTree = SOURCE_ROOT; };
-		E3C967BF0FF1A5B300F20324 /* x_opengl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = x_opengl.cpp; path = ../../../boinc/api/x_opengl.cpp; sourceTree = SOURCE_ROOT; };
-		E3C967EC0FF1A73B00F20324 /* hostinfo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = hostinfo.cpp; path = ../../../boinc/lib/hostinfo.cpp; sourceTree = SOURCE_ROOT; };
-		E3C967F90FF1A76900F20324 /* proxy_info.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = proxy_info.cpp; path = ../../../boinc/lib/proxy_info.cpp; sourceTree = SOURCE_ROOT; };
-		E3C968040FF1A79900F20324 /* prefs.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = prefs.cpp; path = ../../../boinc/lib/prefs.cpp; sourceTree = SOURCE_ROOT; };
-		E3C9680F0FF1A80100F20324 /* QBacktrace.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = QBacktrace.c; path = ../../../boinc/lib/mac/QBacktrace.c; sourceTree = SOURCE_ROOT; };
-		E3C968100FF1A80100F20324 /* QCrashReport.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = QCrashReport.c; path = ../../../boinc/lib/mac/QCrashReport.c; sourceTree = SOURCE_ROOT; };
-		E3C968110FF1A80100F20324 /* QMachOImage.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = QMachOImage.c; path = ../../../boinc/lib/mac/QMachOImage.c; sourceTree = SOURCE_ROOT; };
-		E3C968120FF1A80100F20324 /* QMachOImageList.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = QMachOImageList.c; path = ../../../boinc/lib/mac/QMachOImageList.c; sourceTree = SOURCE_ROOT; };
-		E3C968130FF1A80100F20324 /* QSymbols.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = QSymbols.c; path = ../../../boinc/lib/mac/QSymbols.c; sourceTree = SOURCE_ROOT; };
-		E3C968140FF1A80100F20324 /* QTaskMemory.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = QTaskMemory.c; path = ../../../boinc/lib/mac/QTaskMemory.c; sourceTree = SOURCE_ROOT; };
 		E3CD09C60FF2AD370043EE7E /* dlgsettings.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = dlgsettings.cpp; path = ../qcnlive/dlgsettings.cpp; sourceTree = SOURCE_ROOT; };
 		E3CD09C90FF2AD370043EE7E /* myframe.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = myframe.cpp; path = ../qcnlive/myframe.cpp; sourceTree = SOURCE_ROOT; };
 		E3CD09CB0FF2AD370043EE7E /* myglpane.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = myglpane.cpp; path = ../qcnlive/myglpane.cpp; sourceTree = SOURCE_ROOT; };
@@ -388,6 +251,9 @@
 				E33EF7C00FF1DF7400CD5708 /* libboinc_zip.a in Frameworks */,
 				E33EF7C10FF1DF7400CD5708 /* libjpeg-universal.a in Frameworks */,
 				E33EF7C20FF1DF7400CD5708 /* libz-universal.a in Frameworks */,
+				43E92973129B24EF001F3626 /* libboinc_api.a in Frameworks */,
+				43E92974129B24EF001F3626 /* libboinc_graphics2.a in Frameworks */,
+				43E92975129B24EF001F3626 /* libboinc.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -401,6 +267,9 @@
 				43AC1A0810A0C85600F84A0D /* libcurl-universal.a in Frameworks */,
 				43E45A82129241E800D7ACEB /* libfreetype-universal.a in Frameworks */,
 				43E45A83129241E800D7ACEB /* libftgl-universal.a in Frameworks */,
+				43E92976129B24EF001F3626 /* libboinc_api.a in Frameworks */,
+				43E92977129B24EF001F3626 /* libboinc_graphics2.a in Frameworks */,
+				43E92978129B24EF001F3626 /* libboinc.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -411,6 +280,9 @@
 				E33EF7C90FF1DF7500CD5708 /* libboinc_zip.a in Frameworks */,
 				E33EF7CA0FF1DF7500CD5708 /* libjpeg-universal.a in Frameworks */,
 				E33EF7CB0FF1DF7500CD5708 /* libz-universal.a in Frameworks */,
+				43E9296D129B24EF001F3626 /* libboinc_api.a in Frameworks */,
+				43E9296E129B24EF001F3626 /* libboinc_graphics2.a in Frameworks */,
+				43E9296F129B24EF001F3626 /* libboinc.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -423,6 +295,9 @@
 				E33EF7C80FF1DF7500CD5708 /* libz-universal.a in Frameworks */,
 				43E45A84129241E800D7ACEB /* libfreetype-universal.a in Frameworks */,
 				43E45A85129241E800D7ACEB /* libftgl-universal.a in Frameworks */,
+				43E92970129B24EF001F3626 /* libboinc_api.a in Frameworks */,
+				43E92971129B24EF001F3626 /* libboinc_graphics2.a in Frameworks */,
+				43E92972129B24EF001F3626 /* libboinc.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -460,6 +335,9 @@
 		E3A499DB0D64E60400E51CDF = {
 			isa = PBXGroup;
 			children = (
+				43E9296A129B24EF001F3626 /* libboinc_api.a */,
+				43E9296B129B24EF001F3626 /* libboinc_graphics2.a */,
+				43E9296C129B24EF001F3626 /* libboinc.a */,
 				43E45A80129241E800D7ACEB /* libfreetype-universal.a */,
 				43E45A81129241E800D7ACEB /* libftgl-universal.a */,
 				E3222D780FF2E3D500B25EB2 /* qcnmac.icns */,
@@ -504,7 +382,6 @@
 				E3CD09C50FF2AD000043EE7E /* qcnlive */,
 				E3D35C120FF179B200E64121 /* sensor */,
 				E3C0E7A30D64E9BE0099B905 /* util */,
-				E3C967100FF1A18C00F20324 /* .. */,
 				E3D35C180FF17A9D00E64121 /* qcnusb */,
 			);
 			name = ..;
@@ -678,86 +555,6 @@
 			name = lib;
 			sourceTree = "<group>";
 		};
-		E3C967100FF1A18C00F20324 /* .. */ = {
-			isa = PBXGroup;
-			children = (
-				E3C967110FF1A19400F20324 /* boinc */,
-			);
-			name = ..;
-			sourceTree = "<group>";
-		};
-		E3C967110FF1A19400F20324 /* boinc */ = {
-			isa = PBXGroup;
-			children = (
-				E3C967130FF1A19D00F20324 /* api */,
-				E3C967120FF1A19900F20324 /* lib */,
-			);
-			name = boinc;
-			sourceTree = "<group>";
-		};
-		E3C967120FF1A19900F20324 /* lib */ = {
-			isa = PBXGroup;
-			children = (
-				43D5F17F1104EA450045EF34 /* coproc.cpp */,
-				43E17E8910A47F2600EFA3A7 /* url.cpp */,
-				E3C9680F0FF1A80100F20324 /* QBacktrace.c */,
-				E3C968100FF1A80100F20324 /* QCrashReport.c */,
-				E3C968110FF1A80100F20324 /* QMachOImage.c */,
-				E3C968120FF1A80100F20324 /* QMachOImageList.c */,
-				E3C968130FF1A80100F20324 /* QSymbols.c */,
-				E3C968140FF1A80100F20324 /* QTaskMemory.c */,
-				E3C968040FF1A79900F20324 /* prefs.cpp */,
-				E3C967F90FF1A76900F20324 /* proxy_info.cpp */,
-				E3C967EC0FF1A73B00F20324 /* hostinfo.cpp */,
-				E3C967B90FF1A54900F20324 /* app_ipc.cpp */,
-				E3C967800FF1A4C600F20324 /* diagnostics.cpp */,
-				E3C967810FF1A4C600F20324 /* filesys.cpp */,
-				E3C967820FF1A4C600F20324 /* mfile.cpp */,
-				E3C967830FF1A4C600F20324 /* miofile.cpp */,
-				E3C967760FF1A40200F20324 /* mac_backtrace.cpp */,
-				E3C9674C0FF1A22200F20324 /* parse.cpp */,
-				E3C9674D0FF1A22200F20324 /* shmem.cpp */,
-				E3C9674E0FF1A22200F20324 /* shmem.h */,
-				E3C9674F0FF1A22200F20324 /* str_replace.h */,
-				E3C967500FF1A22200F20324 /* str_util.cpp */,
-				E3C967510FF1A22200F20324 /* str_util.h */,
-				E3C967520FF1A22200F20324 /* util.cpp */,
-				E3C967530FF1A22200F20324 /* util.h */,
-			);
-			name = lib;
-			sourceTree = "<group>";
-		};
-		E3C967130FF1A19D00F20324 /* api */ = {
-			isa = PBXGroup;
-			children = (
-				E3C967BE0FF1A5B300F20324 /* macglutfix.m */,
-				E3C967BF0FF1A5B300F20324 /* x_opengl.cpp */,
-				E3C967140FF1A1DD00F20324 /* bmplib.cpp */,
-				E3C967150FF1A1DD00F20324 /* boinc_api.cpp */,
-				E3C967160FF1A1DD00F20324 /* boinc_gl.h */,
-				E3C967170FF1A1DD00F20324 /* boinc_glut.h */,
-				E3C967180FF1A1DD00F20324 /* graphics2.cpp */,
-				E3C967190FF1A1DD00F20324 /* graphics2.h */,
-				E3C9671A0FF1A1DD00F20324 /* graphics2_unix.cpp */,
-				E3C9671B0FF1A1DD00F20324 /* graphics2_util.cpp */,
-				E3C9671C0FF1A1DD00F20324 /* graphics_api.cpp */,
-				E3C9671D0FF1A1DD00F20324 /* graphics_api.h */,
-				E3C9671E0FF1A1DD00F20324 /* graphics_data.cpp */,
-				E3C9671F0FF1A1DD00F20324 /* graphics_impl.cpp */,
-				E3C967200FF1A1DD00F20324 /* graphics_impl.h */,
-				E3C967210FF1A1DD00F20324 /* graphics_impl_lib.cpp */,
-				E3C967220FF1A1DD00F20324 /* graphics_lib.cpp */,
-				E3C967230FF1A1DD00F20324 /* gutil.cpp */,
-				E3C967240FF1A1DD00F20324 /* gutil_text.cpp */,
-				E3C967250FF1A1DD00F20324 /* texfont.cpp */,
-				E3C967260FF1A1DD00F20324 /* texfont.h */,
-				E3C967270FF1A1DD00F20324 /* texture.cpp */,
-				E3C967280FF1A1DD00F20324 /* texture.h */,
-				E3C967290FF1A1DD00F20324 /* tgalib.cpp */,
-			);
-			name = api;
-			sourceTree = "<group>";
-		};
 		E3CD09C50FF2AD000043EE7E /* qcnlive */ = {
 			isa = PBXGroup;
 			children = (
@@ -905,7 +702,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				432925F51132D8F000A30C6E /* coproc.cpp in Sources */,
 				E388F8780FF1B9CD00D948DE /* qcnusb.cpp in Sources */,
 				E388F8500FF1B9A900D948DE /* qcn_shmem_usb.cpp in Sources */,
 				E388F85E0FF1B9A900D948DE /* qcn_shmem.cpp in Sources */,
@@ -913,28 +709,6 @@
 				E388F8540FF1B9A900D948DE /* gzstream.cpp in Sources */,
 				E388F8570FF1B9A900D948DE /* qcn_util.cpp in Sources */,
 				E388F8620FF1B9A900D948DE /* cserialize.cpp in Sources */,
-				E388F8630FF1B9A900D948DE /* boinc_api.cpp in Sources */,
-				E388F8640FF1B9A900D948DE /* parse.cpp in Sources */,
-				E388F8660FF1B9A900D948DE /* str_util.cpp in Sources */,
-				E388F8670FF1B9A900D948DE /* util.cpp in Sources */,
-				E388F8680FF1B9A900D948DE /* mac_backtrace.cpp in Sources */,
-				E388F8690FF1B9A900D948DE /* diagnostics.cpp in Sources */,
-				E388F86A0FF1B9A900D948DE /* filesys.cpp in Sources */,
-				E388F86B0FF1B9A900D948DE /* mfile.cpp in Sources */,
-				E388F86C0FF1B9A900D948DE /* miofile.cpp in Sources */,
-				E388F86D0FF1B9A900D948DE /* app_ipc.cpp in Sources */,
-				E388F86E0FF1B9A900D948DE /* hostinfo.cpp in Sources */,
-				E388F86F0FF1B9A900D948DE /* proxy_info.cpp in Sources */,
-				E388F8F20FF1BD8500D948DE /* shmem.cpp in Sources */,
-				E388F84E0FF1B9A900D948DE /* graphics2_util.cpp in Sources */,
-				E388F8700FF1B9A900D948DE /* prefs.cpp in Sources */,
-				E388F8710FF1B9A900D948DE /* QBacktrace.c in Sources */,
-				E388F8720FF1B9A900D948DE /* QCrashReport.c in Sources */,
-				E388F8730FF1B9A900D948DE /* QMachOImage.c in Sources */,
-				E388F8740FF1B9A900D948DE /* QMachOImageList.c in Sources */,
-				E388F8750FF1B9A900D948DE /* QSymbols.c in Sources */,
-				E388F8760FF1B9A900D948DE /* QTaskMemory.c in Sources */,
-				43E17E8B10A47F2600EFA3A7 /* url.cpp in Sources */,
 				E388F85D0FF1B9A900D948DE /* csensor.cpp in Sources */,
 				E388F85C0FF1B9A900D948DE /* csensor_mac_usb_jw.cpp in Sources */,
 				43304A7610FF76BB00A823FE /* qcn_thread_sensor_util.cpp in Sources */,
@@ -979,36 +753,9 @@
 				E3CD09A60FF2ACE20043EE7E /* trickleup.cpp in Sources */,
 				E3CD09A70FF2ACE20043EE7E /* trickledown.cpp in Sources */,
 				E3CD09A80FF2ACE20043EE7E /* execproc.cpp in Sources */,
-				E3CD09B10FF2ACE20043EE7E /* boinc_api.cpp in Sources */,
-				E3CD09B20FF2ACE20043EE7E /* parse.cpp in Sources */,
-				E3CD09B30FF2ACE20043EE7E /* shmem.cpp in Sources */,
-				E3CD09B40FF2ACE20043EE7E /* str_util.cpp in Sources */,
-				E3CD099C0FF2ACE20043EE7E /* graphics2_util.cpp in Sources */,
-				E34E9CA00FF2BDCE004998DB /* graphics2.cpp in Sources */,
-				E3CD09B50FF2ACE20043EE7E /* util.cpp in Sources */,
-				E34E9CE30FF2C25A004998DB /* gutil.cpp in Sources */,
-				E34E9CE40FF2C25A004998DB /* texfont.cpp in Sources */,
-				E34E9CA40FF2BE29004998DB /* texture.cpp in Sources */,
-				E3CD09B70FF2ACE20043EE7E /* diagnostics.cpp in Sources */,
-				E3CD09B80FF2ACE20043EE7E /* filesys.cpp in Sources */,
-				E3CD09B90FF2ACE20043EE7E /* mfile.cpp in Sources */,
-				E3CD09BA0FF2ACE20043EE7E /* miofile.cpp in Sources */,
-				E3CD09BB0FF2ACE20043EE7E /* app_ipc.cpp in Sources */,
-				E3CD09BC0FF2ACE20043EE7E /* hostinfo.cpp in Sources */,
-				E3CD09BD0FF2ACE20043EE7E /* proxy_info.cpp in Sources */,
-				E3CD09BE0FF2ACE20043EE7E /* prefs.cpp in Sources */,
-				E3CD09B60FF2ACE20043EE7E /* mac_backtrace.cpp in Sources */,
-				E3CD09BF0FF2ACE20043EE7E /* QBacktrace.c in Sources */,
-				E3CD09C00FF2ACE20043EE7E /* QCrashReport.c in Sources */,
-				E3CD09C10FF2ACE20043EE7E /* QMachOImage.c in Sources */,
-				E3CD09C20FF2ACE20043EE7E /* QMachOImageList.c in Sources */,
-				E3CD09C30FF2ACE20043EE7E /* QSymbols.c in Sources */,
-				E3CD09C40FF2ACE20043EE7E /* QTaskMemory.c in Sources */,
-				43E17E8A10A47F2600EFA3A7 /* url.cpp in Sources */,
 				439FF8D010BD8DCF00DEFD8E /* csensor_mac_usb_onavi01.cpp in Sources */,
 				43304A7410FF76BB00A823FE /* qcn_thread_sensor_util.cpp in Sources */,
 				43304A9810FF7D9000A823FE /* qcn_thread_sensor_loop.cpp in Sources */,
-				43D5F1801104EA450045EF34 /* coproc.cpp in Sources */,
 				43E276901146C38F00D80E16 /* csensor_mac_usb_jw24f14.cpp in Sources */,
 				43E45A9B1292428E00D7ACEB /* ttfont.cpp in Sources */,
 			);
@@ -1038,32 +785,9 @@
 				E3D35BED0FF177BD00E64121 /* trickleup.cpp in Sources */,
 				E3D35BEE0FF177BD00E64121 /* trickledown.cpp in Sources */,
 				E3D35BEF0FF177BD00E64121 /* execproc.cpp in Sources */,
-				E3C9672D0FF1A1DD00F20324 /* boinc_api.cpp in Sources */,
-				E3C967540FF1A22200F20324 /* parse.cpp in Sources */,
-				E388F83D0FF1B85E00D948DE /* graphics2_util.cpp in Sources */,
-				E3C967550FF1A22200F20324 /* shmem.cpp in Sources */,
-				E3C967560FF1A22200F20324 /* str_util.cpp in Sources */,
-				E3C967570FF1A22200F20324 /* util.cpp in Sources */,
-				E3C967770FF1A40200F20324 /* mac_backtrace.cpp in Sources */,
-				E3C967840FF1A4C600F20324 /* diagnostics.cpp in Sources */,
-				E3C967850FF1A4C600F20324 /* filesys.cpp in Sources */,
-				E3C967860FF1A4C600F20324 /* mfile.cpp in Sources */,
-				E3C967870FF1A4C600F20324 /* miofile.cpp in Sources */,
-				E3C967BA0FF1A54900F20324 /* app_ipc.cpp in Sources */,
-				E3C967ED0FF1A73B00F20324 /* hostinfo.cpp in Sources */,
-				E3C967FA0FF1A76900F20324 /* proxy_info.cpp in Sources */,
-				E3C968050FF1A79900F20324 /* prefs.cpp in Sources */,
-				E3C968150FF1A80100F20324 /* QBacktrace.c in Sources */,
-				E3C968160FF1A80100F20324 /* QCrashReport.c in Sources */,
-				E3C968170FF1A80100F20324 /* QMachOImage.c in Sources */,
-				E3C968180FF1A80100F20324 /* QMachOImageList.c in Sources */,
-				E3C968190FF1A80100F20324 /* QSymbols.c in Sources */,
-				E3C9681A0FF1A80100F20324 /* QTaskMemory.c in Sources */,
-				43E17E8D10A47F2600EFA3A7 /* url.cpp in Sources */,
 				439FF8D110BD8DCF00DEFD8E /* csensor_mac_usb_onavi01.cpp in Sources */,
 				43304A7510FF76BB00A823FE /* qcn_thread_sensor_util.cpp in Sources */,
 				43304A9910FF7D9000A823FE /* qcn_thread_sensor_loop.cpp in Sources */,
-				43D5F1811104EA450045EF34 /* coproc.cpp in Sources */,
 				43E276911146C38F00D80E16 /* csensor_mac_usb_jw24f14.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1072,7 +796,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				432925DA1132D60500A30C6E /* coproc.cpp in Sources */,
 				E3D35BF10FF177FD00E64121 /* qcn_graphics.cpp in Sources */,
 				E3D35BF00FF177FD00E64121 /* qcn_2dplot.cpp in Sources */,
 				E3D35BF20FF177FD00E64121 /* qcn_earth.cpp in Sources */,
@@ -1086,35 +809,6 @@
 				E3C966710FF19F6700F20324 /* gzstream.cpp in Sources */,
 				E3C968440FF1ABCA00F20324 /* qcn_signal.cpp in Sources */,
 				E3C966680FF19F2C00F20324 /* qcn_util.cpp in Sources */,
-				E34E9CD20FF2C14D004998DB /* texture.cpp in Sources */,
-				E3C967460FF1A1DD00F20324 /* gutil.cpp in Sources */,
-				E3C9681B0FF1A80100F20324 /* QBacktrace.c in Sources */,
-				E3C9681C0FF1A80100F20324 /* QCrashReport.c in Sources */,
-				E3C9681D0FF1A80100F20324 /* QMachOImage.c in Sources */,
-				E3C9681E0FF1A80100F20324 /* QMachOImageList.c in Sources */,
-				E3C9681F0FF1A80100F20324 /* QSymbols.c in Sources */,
-				E3C968200FF1A80100F20324 /* QTaskMemory.c in Sources */,
-				E3C968060FF1A79900F20324 /* prefs.cpp in Sources */,
-				E3C967FB0FF1A76900F20324 /* proxy_info.cpp in Sources */,
-				E3C967EE0FF1A73B00F20324 /* hostinfo.cpp in Sources */,
-				E3C967CA0FF1A5FD00F20324 /* graphics2_unix.cpp in Sources */,
-				E3C967C20FF1A5B300F20324 /* macglutfix.m in Sources */,
-				E3C967BB0FF1A54900F20324 /* app_ipc.cpp in Sources */,
-				E3C9678E0FF1A4F900F20324 /* graphics2.cpp in Sources */,
-				E3C967900FF1A4F900F20324 /* graphics2_util.cpp in Sources */,
-				E3C967880FF1A4C600F20324 /* diagnostics.cpp in Sources */,
-				E3C967890FF1A4C600F20324 /* filesys.cpp in Sources */,
-				E3C9678A0FF1A4C600F20324 /* mfile.cpp in Sources */,
-				E3C9678B0FF1A4C600F20324 /* miofile.cpp in Sources */,
-				E3C9673D0FF1A1DD00F20324 /* boinc_api.cpp in Sources */,
-				E3C9675B0FF1A22200F20324 /* util.cpp in Sources */,
-				E3C9675A0FF1A22200F20324 /* str_util.cpp in Sources */,
-				E3C967590FF1A22200F20324 /* shmem.cpp in Sources */,
-				E3C967580FF1A22200F20324 /* parse.cpp in Sources */,
-				E3C967780FF1A40200F20324 /* mac_backtrace.cpp in Sources */,
-				E3C967480FF1A1DD00F20324 /* texfont.cpp in Sources */,
-				E3C967470FF1A1DD00F20324 /* gutil_text.cpp in Sources */,
-				43E17E8C10A47F2600EFA3A7 /* url.cpp in Sources */,
 				43E45A9C1292428E00D7ACEB /* ttfont.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
