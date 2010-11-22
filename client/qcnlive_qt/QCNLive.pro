@@ -1,5 +1,5 @@
 unix:BASEDIR = /home/carlgt1/projects
-mac:BASEDIR = /Users/carlgt1/projects
+macx:BASEDIR = /Users/carlgt1/projects
 win32:BASEDIR = c:/projects
 
 BASEDIRBOINC = $$BASEDIR/boinc
@@ -21,31 +21,44 @@ CFLAGS = -Wall -Wno-deprecated
 #QMAKE_CXXFLAGS_RELEASE += $$QMAKE_CFLAGS_RELEASE
 
 # Mac specific settings
-mac:CPP = gcc-4.0
-mac:CXX = g++-4.0
+macx {
+GCC_VERSION="GCC 4.0"
+QMAKE_CC = gcc-4.0
+QMAKE_CXX = g++-4.0
+QMAKE_MACOSX_DEPLOYMENT_TARGET=10.4
+QMAKE_MAC_SDK=/Developer/SDKs/MacOSX10.4u.sdk
 
-mac:LIBS += -framework IOKit -framework Carbon \
+# my own specific plist not the qmake generated one
+QMAKE_INFO_PLIST = "Info.plist.mac"
+
+LIBS += -framework IOKit -framework Carbon \
    -L$$BASEDIRQCN/client/mac_build \
      -lboinc_zip -ljpeg-universal -lcurl-universal \
      -lz-universal -lfreetype-universal -lftgl-universal
 
-unix:LIBS += -Wl,-rpath,./init/ --stack=16777216 \
+ICON = $$BASEDIRQCN/doc/qcnmac.icns
+RC_FILE = $$BASEDIRQCN/doc/qcnmac.icns
+QMAKE_INFO_PLIST = Info.plist.mac
+}
+else unix {
+LIBS += -Wl,-rpath,./init/ --stack=16777216 \
   -L$$BASEDIRQCN/client/linux_build \
    -lcurl -lftgl -lfreetype \
     -lboinc_graphics2 -lboinc_zip -lboinc_api -lboinc \
     -ljpeg
-
-win32:LIBS += -L$$BASEDIRQCN/client/win_build, \
+}
+else win32 {
+LIBS += -L$$BASEDIRQCN/client/win_build, \
 c:/projects/qcn/client/win_build,../sensor/motionnodeaccel \
 glu32.lib opengl32.lib gdi32.lib user32.lib \
 qtmain.lib wsock32.lib hid.lib setupapi.lib winmm.lib \
 comctl32.lib boinc_zip.lib curllib.lib jpeglib.lib zlib.lib \
 MotionNodeAccelAPI.lib QtOpenGL4.lib QtGui4.lib QtCore4.lib \
 ftgl.lib freetype.lib boinc_lib.lib boinc_api.lib
-
-#win32:WININCLUDEPATH = c:\\Program Files (x86)\\Microsoft #Visual Studio 9.0\\VC\\ATLMFC\\INCLUDE;c:\\Program Files (x86)##\\Microsoft Visual Studio 9.0\\VC\\INCLUDE;C:\\Program Files#\\Microsoft SDKs\\Windows\\v6.0A\\include;
+#win32:WININCLUDEPATH = $$quote(c:/Program Files (x86)/Microsoft Visual Studio 9.0/VC/ATLMFC/INCLUDE;c:/Program Files (x86)/Microsoft Visual Studio 9.0/VC/INCLUDE;C:/Program Files/Microsoft SDKs/Windows/v6.0A/include)
 #win32:WINDEFINES = WIN32 _WIN32 _CRT_SECURE_NO_DEPRECATE
 #win32:WININCLUDE = windows.h
+}
 
 DEFINES += _USE_NTPDATE_EXEC_ FTGL_LIBRARY_STATIC QCNLIVE GRAPHICS_PROGRAM APP_GRAPHICS _ZLIB QCN _THREAD_SAFE CURL_STATICLIB _ZLIB $$WINDEF
 
@@ -67,30 +80,34 @@ INCLUDEPATH += \
         $$WININCLUDEPATH \
         $$GRAPHICSDIR 
 
-mac:ICON = $$BASEDIRQCN/doc/qcnmac.icns
-mac:RC_FILE = $$BASEDIRQCN/doc/qcnmac.icns
-mac:QMAKE_INFO_PLIST = Info.plist.mac
 
-mac:SRC_SENSOR = $$SENSORDIR/csensor_mac_laptop.cpp \
-           $$SENSORDIR/csensor_usb_motionnodeaccel.cpp \
-           $$SENSORDIR/csensor_mac_usb_onavi01.cpp \
-           $$SENSORDIR/csensor_mac_usb_jw.cpp \
-           $$SENSORDIR/csensor_mac_usb_jw24f14.cpp \
-           $$SENSORDIR/csensor.cpp
-
-win32:SRC_SENSOR = $$SENSORDIR/csensor_win_laptop_hp.cpp \
+# setup the different sensors required per platform
+win32 {
+SRC_SENSOR = $$SENSORDIR/csensor_win_laptop_hp.cpp \
            $$SENSORDIR/csensor_win_laptop_thinkpad.cpp \
            $$SENSORDIR/csensor_win_usb_jw.cpp \
            $$SENSORDIR/csensor_win_usb_jw24f14.cpp \
            $$SENSORDIR/csensor_usb_motionnodeaccel.cpp \
            $$SENSORDIR/csensor_win_usb_onavi01.cpp \
            $$SENSORDIR/csensor.cpp
+}
 
-unix:SRC_SENSOR = \
+unix {
+SRC_SENSOR = \
            $$SENSORDIR/csensor_linux_usb_jw.cpp \
            $$SENSORDIR/csensor_linux_usb_jw24f14.cpp \
            $$SENSORDIR/csensor_usb_motionnodeaccel.cpp \
            $$SENSORDIR/csensor.cpp
+}
+
+macx{
+SRC_SENSOR = $$SENSORDIR/csensor_mac_laptop.cpp \
+           $$SENSORDIR/csensor_usb_motionnodeaccel.cpp \
+           $$SENSORDIR/csensor_mac_usb_onavi01.cpp \
+           $$SENSORDIR/csensor_mac_usb_jw.cpp \
+           $$SENSORDIR/csensor_mac_usb_jw24f14.cpp \
+           $$SENSORDIR/csensor.cpp
+}
 
 SRC_MAIN =  $$MAINDIR/qcn_shmem.cpp \
            $$MAINDIR/qcn_thread_sensor.cpp \
@@ -120,7 +137,9 @@ SRC_GRAPHICS = $$GRAPHICSDIR/qcn_graphics.cpp \
       $$GRAPHICSDIR/coastline.cpp \
       $$GRAPHICSDIR/plate_boundary.cpp
 
-mac:MAC_SRC_BOINC = $$BLIBDIR/mac/mac_backtrace.cpp \
+# Mac includes the boinc files directly rather than building a lib
+macx {
+MAC_SRC_BOINC = $$BLIBDIR/mac/mac_backtrace.cpp \
    $$BLIBDIR/mac/QBacktrace.c \
    $$BLIBDIR/mac/QCrashReport.c \
    $$BLIBDIR/mac/QMachOImage.c \
@@ -128,7 +147,7 @@ mac:MAC_SRC_BOINC = $$BLIBDIR/mac/mac_backtrace.cpp \
    $$BLIBDIR/mac/QSymbols.c \
    $$BLIBDIR/mac/QTaskMemory.c
 
-mac:SRC_BOINC = $$BAPIDIR/boinc_api.cpp \
+SRC_BOINC = $$BAPIDIR/boinc_api.cpp \
    $$BAPIDIR/graphics2_util.cpp \
    $$BAPIDIR/graphics2.cpp \
    $$BAPIDIR/gutil.cpp \
@@ -147,9 +166,15 @@ mac:SRC_BOINC = $$BAPIDIR/boinc_api.cpp \
    $$BLIBDIR/prefs.cpp \
    $$BLIBDIR/url.cpp \
    $$BLIBDIR/coproc.cpp $$MAC_SRC_BOINC
+}
 
-win:SRC_BOINC =
-unix:SRC_BOINC =
+win32 {
+SRC_BOINC =
+}
+
+unix {
+SRC_BOINC =
+}
 
 HEADERS       += qcnqt.h $$WININCLUDE \
                 glwidget.h \
@@ -173,17 +198,12 @@ SOURCES       = glwidget.cpp \
                 $$SRC_GRAPHICS \
                 $$SRC_BOINC
 
-
-mac:QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.4
-mac:QMAKE_MAC_SDK=/Developer/SDKs/MacOSX10.4u.sdk
-mac:CONFIG += x86 ppc app_bundle
-#mac:CONFIG += x86 ppc app_bundle debug_and_release
-#mac:CONFIG(debug) {
-#  DEFINES += _DEBUG _DEBUG_QCNLIVE -g -O0
-#}
-#mac:CONFIG(release) {
-#  DEFINES += -O2
-#}
+macx {
+CONFIG += x86 ppc app_bundle
+}
+else {
+CONFIG += x86 app_bundle
+}
 QT         += opengl
 
 

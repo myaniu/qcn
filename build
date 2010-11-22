@@ -79,7 +79,6 @@ else
  fi
   ./_autosetup
   ./configure --enable-client-release --disable-server
-  make clean
   make
   mv client/qcnlive_qt/QCNLive client/bin/
 fi
