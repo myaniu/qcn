@@ -16,14 +16,12 @@ if ( test "`uname -s`" = "Darwin" ) then
   cp config.h.mac config.h
   cp configure.ac.mac configure.ac
   chmod uog+rx build.mac
-  make distclean
   ./_autosetup
   ./configure --disable-client --disable-server --disable-manager --disable-fcgi
   cp config.h.mac config.h
   ./build.mac $2 $3
 else
   cp configure.ac.linux configure.ac
-  make distclean
   cd zlib-1.2.5
   ./configure
   make clean && make
@@ -33,9 +31,8 @@ else
   make clean && make
   cd ../../boinc
   #  Note - probably need to edit boinc/configure.ac & Makefile.am to add zip/Makefile and zip as a subdir
-  make distclean
   ./_autosetup
-  ./configure --enable-client-release --disable-client --disable-server --disable-manager --disable-fcgi
+  ./configure --disable-client --disable-server --enable-libraries
   make clean && make
   cd ../qcn
   ./_autosetup
