@@ -246,7 +246,7 @@ else
 
   echo exit >> qcnsftp.up
 
-  sftp -b qcnsftp.up carlgt1@qcn-web.stanford.edu
+  sftp -b qcnsftp.up carlgt1@qcn-web
 fi
 
 cleanup_files
