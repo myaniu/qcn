@@ -16,5 +16,6 @@ sudo apt-get install openssl
 sudo apt-get install libssl-dev
 sudo apt-get install libtool
 sudo apt-get install libglut
+sudo apt-get install libglut-dev
 sudo ln -s /usr/bin/libtoolize /usr/local/bin/libtoolize
 
