@@ -28,7 +28,15 @@ else
   cd ../jpeg-6b
   ./configure
   make clean && make
-  cd ../../boinc
+  cd ../curl-7.18.2
+  ./configure
+  make clean && make
+  cd ../ftgl-2.1.3
+  ./configure
+  make clean && make
+  cd ../freetype-2.3.9
+  ./configure
+  make clean && make
   #  Note - probably need to edit boinc/configure.ac & Makefile.am to add zip/Makefile and zip as a subdir
   #  check qcn/boinc_configure.ac and qcn/boinc_Makefile.am, but basically:
   #  i.e. in Makefile.am should read:
@@ -39,6 +47,7 @@ else
   #               zip/Makefile
   #               zip/zip/Makefile
   #               zip/unzip/Makefile
+  cd ../../boinc
   ./_autosetup
   ./configure --disable-client --disable-server --enable-libraries
   make clean && make
