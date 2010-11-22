@@ -18,5 +18,6 @@ sudo apt-get install libtool
 sudo apt-get install libglut
 sudo apt-get install libglut-dev
 sudo ln -s /usr/bin/libtoolize /usr/local/bin/libtoolize
+sudo ln -s /usr/bin/libtool /usr/local/bin/libtool
 sudo cp ../../jpeg-6b/*.h /usr/include/
 
