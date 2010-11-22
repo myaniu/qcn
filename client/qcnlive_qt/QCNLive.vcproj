@@ -1782,6 +1782,10 @@
 					/>
 				</FileConfiguration>
 			</File>
+			<File
+				RelativePath="..\qcnlive\resource.h"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Generated Files"
@@ -2917,6 +2921,10 @@
 				</File>
 			</Filter>
 		</Filter>
+		<File
+			RelativePath="..\bin\init\icon2.ico"
+			>
+		</File>
 		<File
 			RelativePath="..\qcnlive\qcnlive.rc"
 			>
