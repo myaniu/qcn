@@ -569,6 +569,8 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				OTHER_CFLAGS = (
+					"-D_DEBUG",
+					"-D_DEBUG_QCNLIVE",
 					"-pipe",
 					"-g",
 					"-Wall",
@@ -589,6 +591,8 @@
 					"-DQT_SHARED",
 				);
 				OTHER_CPLUSPLUSFLAGS = (
+					"-D_DEBUG",
+					"-D_DEBUG_QCNLIVE",
 					"-pipe",
 					"-g",
 					"-Wall",
