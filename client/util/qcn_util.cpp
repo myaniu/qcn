@@ -101,7 +101,14 @@ bool launchURL(const char* strURL)
        fprintf(stderr, "Could not launch Mac browser and url %s\n", strURL);
    }
 #else
-   // Linux browser ommand
+   // Linux browser command
+   string strTmp = "xgd-open " + string(strURL);
+   try {
+      system(strTmp.c_str());
+   }
+   catch(...) {
+       fprintf(stderr, "Could not launch Linux browser and url %s\n", strURL);
+   }
 #endif
 #endif
 	
