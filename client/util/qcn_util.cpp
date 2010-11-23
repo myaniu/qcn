@@ -102,7 +102,7 @@ bool launchURL(const char* strURL)
    }
 #else
    // Linux browser command
-   string strTmp = "xgd-open " + string(strURL);
+   string strTmp = "xdg-open " + string(strURL);
    try {
       system(strTmp.c_str());
    }
