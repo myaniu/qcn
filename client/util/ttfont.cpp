@@ -1,6 +1,8 @@
 // utility functions for TrueType font OpenGL graphics
 
 // FTGL OpenGL TrueType/FreeType font rendering
+// you will need to build & link against freetype2 and ftgl
+
 #include "ttfont.h"
 #include "filesys.h"  // from boinc for file_exists
 
