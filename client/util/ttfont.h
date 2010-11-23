@@ -8,7 +8,7 @@ namespace TTFont {
         extern FTFont* g_font[NUM_FONT];
         extern int g_iFont;
 
-        extern void ttf_load_fonts(const char* dir = NULL);
+        extern void ttf_load_fonts(const char* dir = NULL, const char* strScaleFont = NULL, const int& iScaleFont =30);
 
         extern void ttf_render_string(
            const double& alpha_value,

@@ -13,13 +13,17 @@ FTFont* g_font[NUM_FONT] = {NULL, NULL};
 int g_iFont = -1;
 	
 // fonts are arial & monotype (supposed to be helvetica & courier bold)
-static const char g_cstrFont[NUM_FONT][9] = {"hvt", "cbt"};
-
+#ifdef QCNLIVE   // gets an extra big font for countdown msgs
+	static const char g_cstrFont[NUM_FONT][9] = {"hvt", "cbt", "hvtb"};
+#else
+	static const char g_cstrFont[NUM_FONT][9] = {"hvt", "cbt"};
+#endif
+	
 static GLfloat g_transColor[3] = { 255, 0, 255 };  // this should be magenta - red = 255, green = 0, blue = 255
 
 // load fonts. call once.
-//
-void ttf_load_fonts(const char* dir) {
+// pass in the font directory, and any special-scaling font name & size (i.e. I want a huge typeface for hvtb so pass in "hvtb", 3000
+void ttf_load_fonts(const char* dir, const char* strScaleFont, const int& iScaleFont) {
 	static bool bInit = false; // flag so we don't call again, otherwise we'll have memory leaks each subsequent call to new FTTextureFont etc
 	if (bInit) return; // we've already been here
 	bInit = true; // we're in now!
@@ -38,8 +42,9 @@ void ttf_load_fonts(const char* dir) {
 #ifdef _DEBUG
                fprintf(stderr, "Successfully loaded '%s'...\n", vpath);
 #endif
-
-                         if(!g_font[i]->FaceSize(30))
+					  int iScale = 30;
+					  if (strScaleFont && !strcmp(strScaleFont, g_cstrFont[i])) iScale = iScaleFont;
+                         if(!g_font[i]->FaceSize(iScale))
                          {
                                  fprintf(stderr, "Failed to set size");
                          }

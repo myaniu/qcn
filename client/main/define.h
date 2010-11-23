@@ -74,9 +74,14 @@ typedef vector<string> ZipFileList;
 #ifdef GRAPHICS_PROGRAM
 #include "boinc_gl.h"
 #include "texfont.h"
-#define TTF_ARIAL         0
-#define TTF_MONOSPACE     1
-#define NUM_FONT          2
+#ifdef QCNLIVE
+#  define NUM_FONT          3
+#else
+#  define NUM_FONT          2
+#endif // QCNLIVE fonts
+#  define TTF_ARIAL         0
+#  define TTF_MONOSPACE     1
+#  define TTF_ARIAL_HUGE    2
 #endif
 
 #define KEY_SHIFT 16

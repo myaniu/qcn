@@ -1601,7 +1601,7 @@ void LoadFonts()
 	static bool bLoaded = false;
 	if (bLoaded) return;
 #ifdef QCNLIVE
-	TTFont::ttf_load_fonts((const char*) ".");
+	TTFont::ttf_load_fonts((const char*) ".", "hvtb", 300);
 	bLoaded = true;
 #else
 	if (sm && sm->dataBOINC.project_dir) {
