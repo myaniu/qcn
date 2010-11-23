@@ -2,7 +2,7 @@
 #define _ICONS_H_
 // need a pragma for the 'deprecated conversion from string constant to 'char*' warning
 /* XPM */
-static char* icon_absolute_xpm[] = {
+static const char* icon_absolute_xpm[] = {
 "32 32 118 2",
 "  	c None",
 ". 	c #DCDCDC",
@@ -155,7 +155,7 @@ static char* icon_absolute_xpm[] = {
 "    :.                                                    :.    ",
 "                                                                "};
 /* XPM */
-static char *icon_camera_xpm[] = {
+static const char*icon_camera_xpm[] = {
 /* columns rows colors chars-per-pixel */
 "32 32 183 2",
 "   c #006400630071",
@@ -376,7 +376,7 @@ static char *icon_camera_xpm[] = {
 "}.}.}.}.}.}.}.}.}.}.}.}.}.}.}.}.}.}.}.}.}.}.}.}.}.}.}.}.}.}.}.}."
 };
 /* XPM */
-static char * icon_cube_xpm[] = {
+static const char* icon_cube_xpm[] = {
 "32 32 266 2",
 "  	c None",
 ". 	c #061786",
@@ -677,7 +677,7 @@ static char * icon_cube_xpm[] = {
 "        w+x+y+z+A+B+B+B+B+B+B+B+B+B+B+B+C+D+D+E+E+D+F+G+H+      ",
 "        I+J+K+L+M+N+N+N+N+N+N+N+N+N+N+N+O+O+O+O+O+O+O+P+Q+      "};
 /* XPM */
-static char * icon_earth_xpm[] = {
+static const char* icon_earth_xpm[] = {
 "32 32 360 2",
 "  	c None",
 ". 	c #AFCB51",
@@ -1072,7 +1072,7 @@ static char * icon_earth_xpm[] = {
 "                  u Y.` ` ` ` z@p.p.M@u N@B+n                   ",
 "                      O@P@u Q@M@p.R@k.J.S@                      "};
 /* XPM */
-static char *icon_ff_xpm[] = {
+static const char*icon_ff_xpm[] = {
 /* columns rows colors chars-per-pixel */
 "32 32 61 1",
 "  c #000200020002",
@@ -1171,7 +1171,7 @@ static char *icon_ff_xpm[] = {
 "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
 };
 /* XPM */
-static char * icon_horiz_zoom_in_xpm[] = {
+static const char* icon_horiz_zoom_in_xpm[] = {
 "32 32 295 2",
 "  	c None",
 ". 	c #FFFFFF",
@@ -1501,7 +1501,7 @@ static char * icon_horiz_zoom_in_xpm[] = {
 "    ~@$ ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) $ ~@    ",
 "                                                                "};
 /* XPM */
-static char * icon_horiz_zoom_out_xpm[] = {
+static const char* icon_horiz_zoom_out_xpm[] = {
 "32 32 294 2",
 "  	c None",
 ". 	c #FFFFFF",
@@ -1830,7 +1830,7 @@ static char * icon_horiz_zoom_out_xpm[] = {
 "    !@$ ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) $ !@    ",
 "                                                                "};
 /* XPM */
-static char *icon_moon_xpm[] = {
+static const char*icon_moon_xpm[] = {
 /* columns rows colors chars-per-pixel */
 "32 32 78 1",
 "  c #007E007F0076",
@@ -1946,7 +1946,7 @@ static char *icon_moon_xpm[] = {
 "QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ"
 };
 /* XPM */
-static char *icon_nospin_xpm[] = {
+static const char*icon_nospin_xpm[] = {
 /* columns rows colors chars-per-pixel */
 "64 64 128 2",
 "   c black",
@@ -2144,7 +2144,7 @@ static char *icon_nospin_xpm[] = {
 "u.u.u.u.u.u.u.u.u.u.u.u.u.u.u.u.u.u.u.u.u.u.u.u.u.u.u.u.u.u.u.u.u.u.u.u.u.u.u.u.u.u.u.u.u.u.u.u.u.u.u.u.u.u.u.u.u.u.u.u.u.u.u.u."
 };
 /* XPM */
-static char *icon_pause_xpm[] = {
+static const char*icon_pause_xpm[] = {
 /* columns rows colors chars-per-pixel */
 "32 32 39 1",
 "  c black",
@@ -2221,7 +2221,7 @@ static char *icon_pause_xpm[] = {
 "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
 };
 /* XPM */
-static char *icon_play_xpm[] = {
+static const char*icon_play_xpm[] = {
 /* columns rows colors chars-per-pixel */
 "32 32 51 1",
 "  c #000100010001",
@@ -2310,7 +2310,7 @@ static char *icon_play_xpm[] = {
 "vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv"
 };
 /* XPM */
-static char * icon_quakelist_xpm[] = {
+static const char* icon_quakelist_xpm[] = {
 "32 32 158 2",
 "  	c None",
 ". 	c #DCDCDC",
@@ -2503,7 +2503,7 @@ static char * icon_quakelist_xpm[] = {
 "    t.                                                    t.    ",
 "                                                                "};
 /* XPM */
-static char *icon_record_xpm[] = {
+static const char*icon_record_xpm[] = {
 /* columns rows colors chars-per-pixel */
 "32 32 95 2",
 "   c #000000010001",
@@ -2636,7 +2636,7 @@ static char *icon_record_xpm[] = {
 "X.X.X.X.X.X.X.X.X.X.X.X.X.X.X.X.X.X.X.X.X.X.X.X.X.X.X.X.X.X.X.X."
 };
 /* XPM */
-static char *icon_rw_xpm[] = {
+static const char*icon_rw_xpm[] = {
 /* columns rows colors chars-per-pixel */
 "32 32 61 1",
 "  c #000200020002",
@@ -2735,7 +2735,7 @@ static char *icon_rw_xpm[] = {
 "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
 };
 /* XPM */
-static char * icon_scaled_xpm[] = {
+static const char* icon_scaled_xpm[] = {
 "32 32 112 2",
 "  	c None",
 ". 	c #DCDCDC",
@@ -2882,7 +2882,7 @@ static char * icon_scaled_xpm[] = {
 "    {.                                                    {.    ",
 "                                                                "};
 /* XPM */
-static char * icon_sig_xpm[] = {
+static const char* icon_sig_xpm[] = {
 "32 32 109 2",
 "  	c None",
 ". 	c #DCDCDC",
@@ -3026,7 +3026,7 @@ static char * icon_sig_xpm[] = {
 "    ).                                                    ).    ",
 "                                                                "};
 /* XPM */
-static char *icon_spin_xpm[] = {
+static const char*icon_spin_xpm[] = {
 /* columns rows colors chars-per-pixel */
 "32 32 254 2",
 "   c #000100010001",
@@ -3318,7 +3318,7 @@ static char *icon_spin_xpm[] = {
 "PXPXPXPXPXPXPXPXPXPXPXPXPXPXPXPXPXPXPXPXPXPXPXPXPXPXPXPXPXPXPXPX"
 };
 /* XPM */
-static char *icon_stop_xpm[] = {
+static const char*icon_stop_xpm[] = {
 /* columns rows colors chars-per-pixel */
 "32 32 39 1",
 "  c black",
@@ -3395,7 +3395,7 @@ static char *icon_stop_xpm[] = {
 "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
 };
 /* XPM */
-static char *icon_sun_xpm[] = {
+static const char*icon_sun_xpm[] = {
 /* columns rows colors chars-per-pixel */
 "32 32 174 2",
 "   c #008300770042",
@@ -3607,7 +3607,7 @@ static char *icon_sun_xpm[] = {
 "/./././././././././././././././././././././././././././././././."
 };
 /* XPM */
-static char * icon_threed_xpm[] = {
+static const char* icon_threed_xpm[] = {
 "32 32 580 2",
 "  	c None",
 ". 	c #B5B52F",
@@ -4222,7 +4222,7 @@ static char * icon_threed_xpm[] = {
 "    `$ %.%+%@%#%  $%%%&%    *%    =%    -%;%    U$V$  >%,%      ",
 "    '%)%  !%~%{%  ]%^%/%          =%    (%_%    :%<%  [%}%      "};
 /* XPM */
-static char * icon_twod_xpm[] = {
+static const char* icon_twod_xpm[] = {
 "32 32 142 2",
 "  	c None",
 ". 	c #9A9ABA",
@@ -4399,7 +4399,7 @@ static char * icon_twod_xpm[] = {
 ". +                                                             ",
 ". +                                                             "};
 /* XPM */
-static char *icon_usgs_xpm[] = {
+static const char*icon_usgs_xpm[] = {
 /* columns rows colors chars-per-pixel */
 "32 32 111 2",
 "   c #0C4328E30C24",
@@ -4548,7 +4548,7 @@ static char *icon_usgs_xpm[] = {
 "<.<.<.<.<.<.<.<.<.<.<.<.<.<.<.<.<.<.<.<.<.<.<.<.<.<.<.<.<.<.<.<."
 };
 /* XPM */
-static char * icon_vert_zoom_auto_xpm[] = {
+static const char* icon_vert_zoom_auto_xpm[] = {
 "32 32 316 2",
 "  	c None",
 ". 	c #FFFFFF",
@@ -4899,7 +4899,7 @@ static char * icon_vert_zoom_auto_xpm[] = {
 "    0@$ ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) $ 0@    ",
 "                                                                "};
 /* XPM */
-static char * icon_vert_zoom_in_xpm[] = {
+static const char* icon_vert_zoom_in_xpm[] = {
 "32 32 294 2",
 "  	c None",
 ". 	c #FFFFFF",
@@ -5228,7 +5228,7 @@ static char * icon_vert_zoom_in_xpm[] = {
 "    !@$ { { { { { { { { { { { { { { { { { { { { { { { { $ !@    ",
 "                                                                "};
 /* XPM */
-static char * icon_vert_zoom_out_xpm[] = {
+static const char* icon_vert_zoom_out_xpm[] = {
 "32 32 295 2",
 "  	c None",
 ". 	c #FFFFFF",
