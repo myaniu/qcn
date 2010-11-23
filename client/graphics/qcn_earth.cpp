@@ -193,9 +193,9 @@ void CEarth::LoadEarthTexture()
 {
    char strImg[_MAX_PATH];
 #ifdef _EARTH_COMBINE_
-    char* pstrEarth[iMaxTextures] = { IMG_EARTH_DAY, IMG_EARTH_NIGHT, IMG_EARTH_MASK };
+    const char* pstrEarth[iMaxTextures] = { IMG_EARTH_DAY, IMG_EARTH_NIGHT, IMG_EARTH_MASK };
 #else
-    char* pstrEarth[iMaxTextures] = { IMG_EARTH_DAY, IMG_EARTH_NIGHT };
+    const char* pstrEarth[iMaxTextures] = { IMG_EARTH_DAY, IMG_EARTH_NIGHT };
 #endif
 
     // common texture settings

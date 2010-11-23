@@ -309,7 +309,7 @@ int qcn_main(int argc, char **argv)
 #endif
 
     // make our trigger zip data dir if it doesn't exist
-    if (g_strPathTrigger && ! boinc_file_exists((const char*) g_strPathTrigger) ) {
+    if (strlen(g_strPathTrigger)>1 && ! boinc_file_exists((const char*) g_strPathTrigger) ) {
        // now open dir to see if exists
        if (boinc_mkdir((const char*) g_strPathTrigger)) {
           // OK, now it's a fatal error
@@ -325,7 +325,7 @@ int qcn_main(int argc, char **argv)
      strcpy(g_strPathContinual, "../../data_continual");
    }
 #endif
-		if (g_strPathContinual && ! boinc_file_exists((const char*) g_strPathContinual) ) {
+		if (strlen(g_strPathContinual)>1 && ! boinc_file_exists((const char*) g_strPathContinual) ) {
 		   // now open dir to see if exists
 		   if (boinc_mkdir((const char*) g_strPathContinual)) {
 			  // OK, now it's a fatal error
