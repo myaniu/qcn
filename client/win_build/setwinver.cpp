@@ -163,11 +163,11 @@ int deploy_qcn(bool bQCNLive)
 
 #ifdef _WIN64
 		sprintf_s(strCmd, 1024, "%s %s %s "
-			"%s %s %s %s %s %s %s %s %s %s %s %s %s %s %s%s%c%s%s", ZIPCMD, cstrQCNLive,
+			"%s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s%s%c%s%s", ZIPCMD, cstrQCNLive,
 			"qcnlive.exe",
 #else
 		sprintf_s(strCmd, 1024, "%s %s %s %s "
-			"%s %s %s %s %s %s %s %s %s %s %s %s %s %s %s%s%c%s%s", ZIPCMD, cstrQCNLive,
+			"%s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s%s%c%s%s", ZIPCMD, cstrQCNLive,
 			"qcnlive.exe",
 			"init/MotionNodeAccelAPI.dll",
 #endif
