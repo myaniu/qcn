@@ -177,6 +177,7 @@ int deploy_qcn(bool bQCNLive)
 		   "QtGui4.dll",
 		   "QtOpenGL4.dll",
 		   "init/hvt",
+		   "init/hvtb",
 		   "init/cbt",
 			"init/earthday4096.jpg",
 			  "init/qcnlogo.png",
