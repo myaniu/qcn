@@ -15,6 +15,7 @@
 # CMC note -- need to install 3rd party MySQLdb libraries for python
 import traceback, sys, os, time, tempfile, string, MySQLdb, shutil, zipfile
 from datetime import datetime
+from qcnutil import getSACMetadata
 
 # trigger file download URL base
 URL_DOWNLOAD_BASE = "http://qcn-upl.stanford.edu/trigger/"
@@ -38,6 +39,13 @@ DBNAME = "qcnalpha"
 DBHOST = "db-private"
 DBUSER = "qcn"
 DBPASSWD = ""
+
+QUERY = "SELECT t.id,t.hostid,t.latitude,t.longitude,t.levelvalue,t.levelid,t.file, " +\
+            "t.qcn_quakeid, q.time_utc quake_time, q.depth_km quake_depth_km, " +\
+            "q.latitude quake_lat, q.longitude quake_lon, q.magnitude quake_mag " +\
+              "FROM " + DBNAME + ".qcn_trigger t " +\
+              "LEFT OUTER JOIN qcnalpha.qcn_quake q ON q.id = t.qcn_quakeid " +\
+              "WHERE t.received_file=100 AND t.id="
 
 # delete old invalid zip files > 14 days old, they'll never get uploaded or fixed
 def delFilesPath(path):
@@ -187,7 +195,7 @@ def updateTriggerFile(filename, dbconn):
          # for each "unprocessed" quake, set matches in trigger table
          print "Requesting files for host # " + str(rowTrig[0])
          cTrig = dbconn.cursor()
-         cTrig.execute("select concat('<sendme>',t.file,'</sendme>\n') from qcn_trigger t " +\
+         cTrig.execute("SELECT concat('<sendme>',t.file,'</sendme>\n') from qcn_trigger t " +\
             "where hostid=" + str(rowTrig[0]) + " and t.qcn_quakeid>0 " +\
             "and (time_filereq is null or time_filereq=0)" )
 
@@ -205,12 +213,12 @@ def updateTriggerFile(filename, dbconn):
          if len(strSendMe) > 0:
              cTrig.execute("insert into msg_to_host " +\
                 "(create_time,hostid,variety,handled,xml) " +\
-                "select unix_timestamp(), " + str(rowTrig[0]) + ", 'filelist', 0, " +\
+                "SELECT unix_timestamp(), " + str(rowTrig[0]) + ", 'filelist', 0, " +\
                 "concat('<trickle_down>\n<result_name>', r.name, '</result_name>\n<filelist>\n" +\
                 strSendMe + "</filelist>\n</trickle_down>\n') " +\
                 "from result r " +\
                 "where r.hostid=" + str(rowTrig[0])  +\
-                "  and r.sent_time=(select max(rr.sent_time) from result rr where rr.hostid=r.hostid) " )
+                "  and r.sent_time=(SELECT max(rr.sent_time) from result rr where rr.hostid=r.hostid) " )
 
          cTrig.execute("update qcn_trigger set time_filereq=unix_timestamp() " +\
                        "where hostid=" + str(rowTrig[0]) +\
