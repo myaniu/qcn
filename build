@@ -68,7 +68,8 @@ else
   #               zip/zip/Makefile
   #               zip/unzip/Makefile
   cd ../../boinc
- fi
+ fi   # end of library or 'all' build
+  # always build the latest boinc libs
   cd ../boinc
   ./_autosetup
   ./configure --disable-client --disable-server --enable-libraries
