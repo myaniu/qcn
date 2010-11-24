@@ -21,9 +21,6 @@ if ( test "`uname -s`" = "Darwin" ) then
   cp config.h.mac config.h
   ./build.mac $2 $3
 else
-  # Linux - using Ubunto 9.10 now
-  cp configure.ac.linux configure.ac
-  ./set-version $1
  if (test "$2" = "all" || test "$3" = "all" || test "$2" = "libs" || test "$3" = "libs") then
   cd zlib-1.2.5
   ./configure --enable-shared=no --enable-static=yes
@@ -79,9 +76,11 @@ else
   cp api/libboinc_api.a ../qcn/client/linux_build/
   cp api/libboinc_graphics2.a ../qcn/client/linux_build/
   cd ../qcn
+  cp configure.ac.linux configure.ac
+  ./set-version $1
   ./_autosetup
   ./configure --enable-client-release --disable-server
-  make
+  make clean && make
   mv client/qcnlive_qt/QCNLive client/bin/
 fi
 cd client/bin
