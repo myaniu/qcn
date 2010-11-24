@@ -42,7 +42,7 @@ rm -rf QCNLive*
 
 # init/earthmask.rgb  # disable for now
 ncisuffix='__nci'
-zipuplstring='init/hvt init/cbt init/splash.png \
+zipuplstring='init/hvt init/cbt init/hvtb init/splash.png \
          init/xyzaxes.jpg \
          init/xyzaxesbl.jpg \
          init/qcnlogo.png \
