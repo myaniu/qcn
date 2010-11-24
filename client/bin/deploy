@@ -199,6 +199,7 @@ else
 
    cp graphics_app=qcn_graphics_${vnci}_$suffix graphics_app=qcn_graphics_${vnon}_$suffix
    rm -f qcnlive-linux.zip
+   rm -f qcnlive-linux-exec.zip
 
    qtlibs='init/libQtCore.so.4 init/libQtGui.so.4 init/libQtOpenGL.so.4'
 
@@ -209,6 +210,8 @@ else
           $qtlibs \
             -x@exclude.lst
 
+   zip qcnlive-linux-exec.zip QCNLive
+
   pathpre='/var/www/boinc/sensor/apps/qcnsensor'
   pathprecont='/var/www/boinc/continual/apps/qcncontinual'
 
@@ -217,6 +220,7 @@ else
   # copy qcnlive to download dir
     echo chdir /var/www/boinc/sensor/download >> qcnsftp.up
     echo put qcnlive-linux.zip >> qcnsftp.up
+    echo put qcnlive-linux-exec.zip >> qcnsftp.up
 
   #regular QCN/BOINC
   # now copy apps up
