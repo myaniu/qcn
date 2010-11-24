@@ -23,8 +23,8 @@ if ( test "`uname -s`" = "Darwin" ) then
 else
   # Linux - using Ubunto 9.10 now
   cp configure.ac.linux configure.ac
- if (test "$2" = "all" || test "$3" = "all" || test "$2" = "libs" || test "$3" = "libs") then
   ./set-version $1
+ if (test "$2" = "all" || test "$3" = "all" || test "$2" = "libs" || test "$3" = "libs") then
   cd zlib-1.2.5
   ./configure --enable-shared=no --enable-static=yes
   make clean && make
