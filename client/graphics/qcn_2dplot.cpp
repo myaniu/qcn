@@ -509,8 +509,9 @@ void draw_makequake_message()
 		TTFont::ttf_render_string(1.0, 0.0, 0.63, 0, MSG_SIZE_BIG*2, red, TTF_ARIAL_HUGE, "Countdown!");
 		sprintf(strMsg, "%d", iCheck[0]);
 		if ( ++iSize[0] > 29 ) iSize[0] = 29;
-		//TTFont::ttf_render_string(1.0, 0.3, 0.10, 0, (float) MSG_SIZE_BIG * (.05f * (30.0f - (float)iSize[0])), red, TTF_ARIAL_HUGE, strMsg);
-		TTFont::ttf_render_string(1.0, 0.3, 0.10, 0, (float)MSG_SIZE_BIG*.4f, red, TTF_ARIAL_HUGE, strMsg);
+		TTFont::ttf_render_string(1.0, 0.3, 0.10, 0, 
+				(float) MSG_SIZE_BIG * (.35f * (iSize[0] < 10 ? 1.0f : (.05f * (10.0f + (float)iSize[0] * 2.0f)))), red, TTF_ARIAL_HUGE, strMsg);
+		//TTFont::ttf_render_string(1.0, 0.3, 0.10, 0, (float)MSG_SIZE_BIG*.4f, red, TTF_ARIAL_HUGE, strMsg);
 	}
 	else if (qcn_graphics::g_MakeQuake.iTime > 0) { // check to draw monitoring msg
 		if (iCheck[1] != qcn_graphics::g_MakeQuake.iTime) {
