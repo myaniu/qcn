@@ -1,14 +1,39 @@
 <?php
 
 require_once("../inc/util_ops.inc");
+require_once("../inc/util.inc");
 require_once("../inc/db_ops.inc");
 
-$aryReqTrig = $_POST["cb_reqfile"];
-$aryDLTrig = $_POST["cb_dlfile"];
-$numReqTrig = count($aryReqTrig);
-$numDLTrig = count($aryDLTrig);
+// _a_ == archive record  _r_ == regular trigger record
+$aryDLTrigA = $_POST["cb_a_dlfile"];
+$aryDLTrigR = $_POST["cb_r_dlfile"];
+$numDLTrigA = count($aryDLTrigA);
+$numDLTrigR = count($aryDLTrigR);
 
-$DB = "sensor_download";
+$aryReqTrigA = $_POST["cb_a_reqfile"];
+$aryReqTrigR = $_POST["cb_r_reqfile"];
+$numReqTrigA = count($aryReqTrigA);
+$numReqTrigR = count($aryReqTrigR);
+$db_name = $_POST["db_name"];
+$bUseArchive = $_POST["cbUseArchive"];
+
+/*
+echo "triga:";
+print_r($aryDLTrigA);
+echo "<BR><BR>trigr:";
+print_r($aryDLTrigR);
+*/
+
+if ($db_name == "qcnalpha") {
+  $DB = "sensor_download";
+}
+else if ($db_name == "continual") {
+  $DB = "continual_download";
+}
+else {
+   print "Error - invalid database - cannot continue - please go back and try your query again";
+}
+
 $URL_UPL_BASE = "http://qcn-upl.stanford.edu/trigger/job/u";
 
 db_init();
@@ -25,51 +50,71 @@ echo "<html><head>
 </head><body " . BODY_COLOR . ">\n";
   echo TABLE . "<tr " . TITLE_COLOR . "><td>" . TITLE_FONT . "<font size=\"6\"><b><a href=\"index.php\">".PROJECT.":</a>  QCN Trigger File Request </b></font></td></tr></table>\n";
 
-   $insertid = 0;
-if ($numDLTrig == 0 || !$aryDLTrig || !is_array($aryDLTrig)) {
-    echo "<H3>No Triggers Chosen!</H3><BR><BR>";
-}
-else {
-    $triglist = "(";
-    for ($i = 0; $i < $numDLTrig; $i++) {
-      $triglist .= $aryDLTrig[$i];
-      if ($i < $numDLTrig-1) $triglist .= ",\n";
-    }
-    $triglist .= ")";
-
-    $query = "INSERT INTO " . $DB . ".job (userid,create_time,list_triggerid) VALUES ("
-       . "$user->id, unix_timestamp(), '$triglist')";
-
-    $loopctr = 0; 
-    $result = mysql_query($query);
-    $insertid = mysql_insert_id();
-}
-
-  if ($insertid) {
-    $myurl = $URL_UPL_BASE . $user->id . "_j" . $insertid . ".zip";
-    echo "<BR><BR><H3>$numDLTrig trigger download file requests processed!</H3><BR><BR>";
-    echo "<BR><BR>An email will be sent to $user->email_addr when this job is processed with the download link/URL:<BR><BR>"
-       . "<A HREF=\"" . $myurl . "\">" . $myurl . "</A><BR><BR>";
-  }
-
-
-// now do upload requests
-
+procBatchDownloadRequest();
+procTriggerUploadRequest();
 
 echo "<H3>Hit the 'Back' key on your browser to return to the previous page</H3>";
 
 page_tail();
 
-?>
+// finished
 
 
 
-require_once("../inc/util.inc");
-require_once("../inc/db.inc");
+function procBatchDownloadRequest()
+{
+  global $user, $aryDLTrigA, $aryDLTrigR, $numDLTrigA, $numDLTrigR, $DB, $URL_UPL_BASE;
 
-db_init();
+  $insertid = 0;
+  if (($numDLTrigA == 0 && $numDLTrigR == 0) || (!$aryDLTrigA && !$aryDLTrigR) || (!is_array($aryDLTrigA) && !is_array($aryDLTrigR))) {
+    echo "<H3>No Triggers Chosen For Downloading!</H3><BR><BR>";
+    return;
+  }
 
-qcn_admin_user_auth();
+  // archive triggers
+    $triglistA = "(";
+    for ($i = 0; $i < $numDLTrigA; $i++) {
+      $triglistA .= $aryDLTrigA[$i];
+      if ($i < $numDLTrigA-1) $triglistA .= ",\n";
+    }
+    $triglistA .= ")";
+
+    // regular triggers
+    $triglistR = "(";
+    for ($i = 0; $i < $numDLTrigR; $i++) {
+      $triglistR .= $aryDLTrigR[$i];
+      if ($i < $numDLTrigR-1) $triglistR .= ",\n";
+    }
+    $triglistR .= ")";
+
+    // archive trigger download
+    // not yet implemented
+
+    // regular trigger download
+    $query = "INSERT INTO " . $DB . ".job (userid,create_time,list_triggerid) VALUES ("
+       . $user->id . ", unix_timestamp(), '" . $triglistR . "')";
+
+    $loopctr = 0;
+    $result = mysql_query($query);
+
+    if (!$result) {
+       echo "Database error - try again later -- errmsg=" . mysql_error(); 
+       return;
+    }
+
+    $insertid = mysql_insert_id();
+
+    if ($insertid) {
+      $myurl = $URL_UPL_BASE . $user->id . "_j" . $insertid . ".zip";
+      echo "<BR><BR><H3>" . $numDLTrigR . " trigger download file requests processed!</H3><BR><BR>";
+      echo "<BR><BR>An email will be sent to $user->email_addr when this job is processed with the download link/URL:<BR><BR>"
+         . "<A HREF=\"" . $myurl . "\">" . $myurl . "</A><BR><BR>";
+     }
+     else {
+       echo "Database error on insert_id - try again later -- errmsg=" . mysql_error(); 
+       return;
+     }
+}
 
 function SendTriggerFileRequest($strSend, $testhost, $listTrigger)
 {
@@ -112,34 +157,25 @@ and r.sent_time=(select max(rr.sent_time) from result rr where rr.hostid=" . $te
        else {
              echo "Error #1 (mult insert) for Host " . $testhost . " - Triggers " . $proctriglist . "<BR>Try again later.<BR><BR>";
        }
-
 }
 // end function
 
-require_once("../inc/util_ops.inc");
-require_once("../inc/db_ops.inc");
+function procTriggerUploadRequest() 
+{
+   global $user, $aryReqTrigA, $aryReqTrigR, $numReqTrigA, $numReqTrigR, $DB, $URL_UPLOAD_BASE;
 
-$aryTrig = $_GET["cb_reqfile"];
-$numTrig = count($aryTrig);
+   $q = new SqlQueryString();
 
-$q = new SqlQueryString();
-
-//admin_page_head("QCN Trigger Listing");
-echo "<html><head>
-  <title>QCN Trigger File Request</title>
-</head><body " . BODY_COLOR . ">\n";
-  echo TABLE . "<tr " . TITLE_COLOR . "><td>" . TITLE_FONT . "<font size=\"6\"><b><a href=\"index.php\">".PROJECT.":</a>  QCN Trigger File Request </b></font></td></tr></table>\n";
-
-if ($numTrig == 0 || !$aryTrig || !is_array($aryTrig)) {
-    echo "<H3>No Triggers Chosen!</H3><BR><BR>";
-}
-else {
+   if ($numReqTrigR == 0 || !$aryReqTrigR || !is_array($aryReqTrigR)) {
+      echo "<H3>No Triggers Chosen For Upload Requests!</H3><BR><BR>";
+      return;
+    }
     echo "<H3>Processing request, please wait...</H3><BR><BR>";
 
     $triglist = "(";
-    for ($i = 0; $i < $numTrig; $i++) {
-      $triglist .= $aryTrig[$i];
-      if ($i < $numTrig-1) $triglist .= ",\n";
+    for ($i = 0; $i < $numReqTrigR; $i++) {
+      $triglist .= $aryReqTrigR[$i];
+      if ($i < $numReqTrigR - 1) $triglist .= ",\n";
     }
     $triglist .= ")";
 
@@ -155,7 +191,6 @@ else {
     $listTrigger = "";
     while ($res = mysql_fetch_object($result)) {
 //echo "Loop # " . $loopctr++ . "<BR>";
- 
        if ($testhost == $res->hostid) {
            if ($res->file) {
                $strSend .= "<sendme>" . $res->file . "</sendme>\n";
@@ -183,12 +218,7 @@ else {
     if ($strSend) {
        SendTriggerFileRequest($strSend, $testhost, $listTrigger);
     }
+    echo "<BR><BR>" . $numRecTrigR . " requests processed!<BR><BR>";
 }
-
-    echo "<BR><BR>$numTrig requests processed!<BR><BR>";
-
-echo "<H3>Hit the 'Back' key on your browser to return to the previous page</H3>";
-
-admin_page_tail();
 
 ?>

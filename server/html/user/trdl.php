@@ -124,7 +124,7 @@ $bVarietyContinual = get_str("cbVarietyContinual", true);
 if ($bVarietyNormal == "" && $bVarietyPing == "" && $bVarietyContinual == "") {
    $bVarietyNormal = "0"; // at least show normal trigs
    if ($db_name == "continual") {
-     $bVarietyContinual = "2"; // at least show normal trigs
+     $bVarietyContinual = "2"; // also show continual trigs
    }
 }
 
@@ -448,6 +448,7 @@ if ($bUseTime && $unixtimeStart && $unixtimeEnd) {
 }
 
 echo "<input type=\"hidden\" id=\"cbUseArchive\" name=\"cbUseArchive\" value=\"" . ($bUseArchive ? "1" : "") . "\"> ";
+echo "<input type=\"hidden\" id=\"db_name\" name=\"db_name\" value=\"" . $db_name . "\"> ";
 
 $sortString = "trigger_time DESC";
 switch($sortOrder)
@@ -633,10 +634,12 @@ if ($bUseCSV) {
 }
 
 
+$bResultShow = false;
 $result = mysql_query($main_query);
 if ($result) {
+   $bResultShow = true;
     echo "(<font=small>'Request Files' = send msg to host to upload files to QCN,   'Batch Download' = request download existing file)</font> <BR><BR>";
-    echo "<form name=\"formDetail\" method=\"get\" action=trdlreq.php >";
+    echo "<form name=\"formDetail\" method=\"post\" action=trdlreq.php >";
     start_table();
     if (!$bUseCSV && !$ftmp) qcn_trigger_header();
     while ($res = mysql_fetch_object($result)) {
@@ -656,15 +659,17 @@ if ($result) {
 if ($bUseCSV && $ftmp) {
   echo "<BR><BR><A HREF=\"" . $fileTemp . "\">Download CSV/Text File Here (File Size " . sprintf("%7.2f", (filesize($fileTemp) / 1e6)) . " MB)</A> (you may want to right-click to save locally)<BR><BR>";
 }
-else {
+else if ($bResultShow) {
+ echo "<input type=\"hidden\" id=\"cbUseArchive\" name=\"cbUseArchive\" value=\"" . ($bUseArchive ? "1" : "") . "\"> ";
+ echo "<input type=\"hidden\" id=\"db_name\" name=\"db_name\" value=\"" . $db_name . "\"> ";
  echo "
-  <input type=\"submit\" value=\"Submit File Requests\" name=\"btnFileReq\" id=\"btnFileReq\" />
-  <input type=\"button\" value=\"Check All File Requests\" onclick=\"SetAllCheckBoxes('formDetail', 'cb_reqfile[]', true);\" >
-  <input type=\"button\" value=\"Uncheck All File Requests\" onclick=\"SetAllCheckBoxes('formDetail', 'cb_reqfile[]', false);\" >
+  <input type=\"button\" value=\"Check All File Requests\" onclick=\"SetAllCheckBoxes('formDetail', 'cb_a_reqfile[]', true); SetAllCheckBoxes('formDetail', 'cb_r_reqfile[]', true);\" >
+  <input type=\"button\" value=\"Uncheck All File Requests\" onclick=\"SetAllCheckBoxes('formDetail', 'cb_a_reqfile[]', false); SetAllCheckBoxes('formDetail', 'cb_r_reqfile[]', false);\" >
   <BR><BR>
-   <input type=\"submit\" value=\"Submit Batch Download Requests\" name=\"btnBatch\" id=\"btnBatch\" />
-  <input type=\"button\" value=\"Check All Download Requests\" onclick=\"SetAllCheckBoxes('formDetail', 'cb_dlfile[]', true);\" >
-  <input type=\"button\" value=\"Uncheck All Download Requests\" onclick=\"SetAllCheckBoxes('formDetail', 'cb_dlfile[]', false);\" >
+  <input type=\"button\" value=\"Check All Download Requests\" onclick=\"SetAllCheckBoxes('formDetail', 'cb_a_dlfile[]', true); SetAllCheckBoxes('formDetail', 'cb_r_dlfile[]', true);\" >
+  <input type=\"button\" value=\"Uncheck All Download Requests\" onclick=\"SetAllCheckBoxes('formDetail', 'cb_a_dlfile[]', false); SetAllCheckBoxes('formDetail', 'cb_r_dlfile[]', false);\" >
+  <BR><BR>
+  <input type=\"submit\" value=\"Submit All Requests\" />
   </form>";
 
 
@@ -775,13 +780,13 @@ function qcn_trigger_header() {
 function qcn_trigger_detail($res) 
 {
     $sensor_type = $res->sensor_description;
-    $aid = $res->is_archive . $res->triggerid; // concat archive flag with trigger id, i.e. [0|1] + id
+    $archpre = $res->is_archive ? "a" : "r"; // prefix to signify if it's an archive record or not
     echo "
         <tr>
-        <td><input type=\"checkbox\" name=\"cb_reqfile[]\" id=\"cb_reqfile[]\" value=\"$aid\"" . 
+        <td><input type=\"checkbox\" name=\"cb_" . $archpre . "_reqfile[]\" id=\"cb_" . $archpre . "_reqfile[]\" value=\"$res->triggerid\"" . 
        ($res->varietyid!=0 || $res->received_file == 100 || $res->trigger_timereq>0 || $res->trigger_time < $timeArchive ? " disabled " : " " ) . 
        "></td>
-        <td><input type=\"checkbox\" name=\"cb_dlfile[]\" id=\"cb_dlfile[]\" value=\"$aid\"" . 
+        <td><input type=\"checkbox\" name=\"cb_" . $archpre . "_dlfile[]\" id=\"cb_" . $archpre . "_dlfile[]\" value=\"$res->triggerid\"" . 
        ($res->varietyid!=0 || $res->received_file != 100 ? " disabled " : " " ) . 
        "></td>
         <td>$res->triggerid</td>

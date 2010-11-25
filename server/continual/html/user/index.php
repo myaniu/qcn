@@ -78,11 +78,9 @@ function show_nav() {
      echo "
         <h2>".tra("Extra Links")."</h2>
         <ul>
-        <li><a href=\"trig.php\">".tra("Search Triggers")."</a>
-        <li><a href=\"trig.php?cbUseLat=1&cbUseTime=1&LatMin=-39&LatMax=-30&LonMin=-76&LonMax=-69\">".tra("Search Triggers (Chile RAMP Area)")."</a>
-        <li><a href=\"dl.php\">".tra("Download Trigger Data")."</a>
-        <li><a href=\"dl.php?cbUseLat=1&cbUseTime=1&LatMin=-39&LatMax=-30&LonMin=-76&LonMax=-69\">".tra("Download Trigger Data (Chile RAMP Area)")."</a>
-        <li><a href=\"dl.php?cbUseLat=1&cbUseTime=1&LatMin=-47&LatMax=-35&LonMin=165&LonMax=178\">".tra("Download Trigger Data (New Zealand RAMP Area)")."</a>
+        <li><a href=\"trdl.php\">".tra("Trigger Search/Upload/Download Page")."</a>
+        <li><a href=\"trdl.php?cbUseLat=1&cbUseTime=1&LatMin=-39&LatMax=-30&LonMin=-76&LonMax=-69\">".tra("Search Trigger Data (Chile RAMP Area)")."</a>
+        <li><a href=\"trdl.php?cbUseLat=1&cbUseTime=1&LatMin=-47&LatMax=-35&LonMin=165&LonMax=178\">".tra("SearchTrigger Data (New Zealand RAMP Area)")."</a>
         ";
 
 /*

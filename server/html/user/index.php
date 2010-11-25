@@ -67,8 +67,7 @@ function show_nav() {
        echo "
         <h2>".tra("Extra Links")."</h2>
         <ul>
-        <li><a href=\"trig.php\">".tra("Search Triggers")."</a>
-        <li><a href=\"dl.php\">".tra("Download Trigger Data")."</a>
+        <li><a href=\"trdl.php\">".tra("Trigger Search/Upload/Download Page")."</a>
         <li><a href=\"ramp.php\">".tra("View RAMP Signups")."</a>
         <li><a href=\"http://qcn.stanford.edu/sensor_ops/todo\">".tra("To-Do List")."</a>";
 
