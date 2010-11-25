@@ -71,6 +71,7 @@ def SetRunType():
   global DBNAME
   global DBNAME_JOB
   global typeRunning
+  global DBNAME, DBNAME_ARCHIVE
   icnt = 0
   typeRunning = ""
   for arg in sys.argv:
@@ -101,18 +102,19 @@ def SetRunType():
   UNZIP_CMD = "/usr/bin/unzip -o -d " + UPLOAD_WEB_DIR + " "
 
 def procDownloadRequest(dbconn, outfilename, url, jobid, userid, trigidlist):
+ global DBNAME, DBNAME_ARCHIVE
  tmpdir = tempfile.mkdtemp()
  myCursor = dbconn.cursor()
- # need to join with archive table if qcnalpha/sensor project
+ # need to join with archive table 
  query = "SELECT t.id,t.hostid,t.latitude,t.longitude,t.levelvalue,t.levelid,t.file, " +\
             "t.qcn_quakeid, q.time_utc quake_time, q.depth_km quake_depth_km, " +\
-            "q.latitude quake_lat, q.longitude quake_lon, q.magnitude quake_mag " +\
+            "q.latitude quake_lat, q.longitude quake_lon, q.magnitude quake_mag, 0 is_archive " +\
               "FROM " + DBNAME + ".qcn_trigger t " +\
               "LEFT OUTER JOIN qcnalpha.qcn_quake q ON q.id = t.qcn_quakeid " +\
               "WHERE t.received_file=100 AND t.id IN " + trigidlist + " UNION " +\
         "SELECT t.id,t.hostid,t.latitude,t.longitude,t.levelvalue,t.levelid,t.file, " +\
             "t.qcn_quakeid, q.time_utc quake_time, q.depth_km quake_depth_km, " +\
-            "q.latitude quake_lat, q.longitude quake_lon, q.magnitude quake_mag " +\
+            "q.latitude quake_lat, q.longitude quake_lon, q.magnitude quake_mag, 1 is_archive " +\
               "FROM " + DBNAME_ARCHIVE + ".qcn_trigger t " +\
               "LEFT OUTER JOIN qcnalpha.qcn_quake q ON q.id = t.qcn_quakeid " +\
               "WHERE t.received_file=100 AND t.id IN " + trigidlist
@@ -139,6 +141,9 @@ def procDownloadRequest(dbconn, outfilename, url, jobid, userid, trigidlist):
    curdir = os.getcwd()   # save current directory and go to the temp dir (so paths aren't stored in zip's)
    os.chdir(tmpdir)
    for rec in result:
+      if rec[13] == 1:
+         continue    # it's an archive record which we aren't handling yet
+
       errlevel = 2
       #print "    ", rec[0] , "  ", rec[1], "  ", rec[2], "  ", rec[3], "  ", rec[4], "  ", rec[5], "  ", rec[6]
 
