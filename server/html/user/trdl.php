@@ -15,7 +15,7 @@ qcn_admin_user_auth($user, true);
 
 // archive cutoff time is two months prior to the first of the current month
 //$queryArchiveTime = "SELECT unix_timestamp( concat(year(now()), '/', month(now()), '/01 00:00:00') ) - (60 * 24 * 3600) archive_time";
-$unixtimeArchive = mktime(0, 0, 0, date("n"), 1, date("Y") - (60*24*3600)); 
+$unixtimeArchive = mktime(0, 0, 0, date("n"), 1, date("Y")) - (60*24*3600); 
 
     $config = get_config();
         $user = parse_config($config, "<db_user>");
@@ -442,10 +442,12 @@ $unixtimeEnd   = mktime($timeHourEnd,   $timeMinuteEnd,   0, substr($dateEnd  , 
     
 $bUseArchive = "";
 if ($bUseTime && $unixtimeStart && $unixtimeEnd) {
-   $bUseArchive = ($dateStart < $unixtimeArchive || $dateEnd < $unixtimeArchive);
+   $bUseArchive = ($unixtimeStart < $unixtimeArchive || $unixtimeEnd < $unixtimeArchive);
    $whereString .= " AND t.time_trigger BETWEEN $unixtimeStart AND $unixtimeEnd ";
     //echo "<BR>HAHA<BR>" . $dateStart . "<BR>" . $unixtimeStart . "<BR><BR>" . $dateEnd . "<BR>" . $unixtimeEnd . "<BR><BR>";
 }
+
+//print $unixtimeStart . "<BR>" . $unixtimeEnd . "<BR>" . $unixtimeArchive;
 
 echo "<input type=\"hidden\" id=\"cbUseArchive\" name=\"cbUseArchive\" value=\"" . ($bUseArchive ? "1" : "") . "\"> ";
 echo "<input type=\"hidden\" id=\"db_name\" name=\"db_name\" value=\"" . $db_name . "\"> ";
