@@ -26,15 +26,16 @@ print_r($aryDLTrigR);
 
 if ($db_name == "qcnalpha") {
   $DB = "sensor_download";
+  $URL_UPL_BASE = "http://qcn-upl.stanford.edu/trigger/job/u";
 }
 else if ($db_name == "continual") {
   $DB = "continual_download";
+  $URL_UPL_BASE = "http://qcn-upl.stanford.edu/trigger/continual/job/u";
 }
 else {
    print "Error - invalid database - cannot continue - please go back and try your query again";
 }
 
-$URL_UPL_BASE = "http://qcn-upl.stanford.edu/trigger/job/u";
 
 db_init();
 
@@ -63,7 +64,7 @@ page_tail();
 
 function procBatchDownloadRequest()
 {
-  global $user, $aryDLTrigA, $aryDLTrigR, $numDLTrigA, $numDLTrigR, $DB, $URL_UPL_BASE;
+  global $db_name, $user, $aryDLTrigA, $aryDLTrigR, $numDLTrigA, $numDLTrigR, $DB, $URL_UPL_BASE;
 
   $insertid = 0;
   if (($numDLTrigA == 0 && $numDLTrigR == 0) || (!$aryDLTrigA && !$aryDLTrigR) || (!is_array($aryDLTrigA) && !is_array($aryDLTrigR))) {
@@ -106,7 +107,7 @@ function procBatchDownloadRequest()
 
     if ($insertid) {
       $myurl = $URL_UPL_BASE . $user->id . "_j" . $insertid . ".zip";
-      echo "<BR><BR><H3>" . $numDLTrigR . " trigger download file requests processed!</H3><BR><BR>";
+      echo "<BR><BR><H3>" . $numDLTrigR . " trigger download file requests processed for database '" . $db_name . "'!</H3><BR><BR>";
       echo "<BR><BR>An email will be sent to $user->email_addr when this job is processed with the download link/URL:<BR><BR>"
          . "<A HREF=\"" . $myurl . "\">" . $myurl . "</A><BR><BR>";
      }
@@ -148,7 +149,7 @@ and r.sent_time=(select max(rr.sent_time) from result rr where rr.hostid=" . $te
           $result = mysql_query("update qcn_trigger set time_filereq=unix_timestamp() where hostid=" 
                . $testhost . " and id in (" . $proctriglist . ")");
           if ($result) {
-             echo "Request successfully sent for Host " . $testhost . " - Triggers " . $proctriglist . "<BR>";
+             echo "Upload request successfully sent for Host " . $testhost . " - Triggers " . $proctriglist . "<BR>";
           }
           else {
              echo "Error #2 (trig filerq time) for Host " . $testhost . " - Triggers " . $proctriglist . "<BR>Try again later.<BR><BR>";
@@ -162,7 +163,7 @@ and r.sent_time=(select max(rr.sent_time) from result rr where rr.hostid=" . $te
 
 function procTriggerUploadRequest() 
 {
-   global $user, $aryReqTrigA, $aryReqTrigR, $numReqTrigA, $numReqTrigR, $DB, $URL_UPLOAD_BASE;
+   global $db_name, $user, $aryReqTrigA, $aryReqTrigR, $numReqTrigA, $numReqTrigR, $DB, $URL_UPLOAD_BASE;
 
    $q = new SqlQueryString();
 
@@ -218,7 +219,7 @@ function procTriggerUploadRequest()
     if ($strSend) {
        SendTriggerFileRequest($strSend, $testhost, $listTrigger);
     }
-    echo "<BR><BR>" . $numRecTrigR . " requests processed!<BR><BR>";
+    echo "<BR><BR><H3>" . $numReqTrigR . " requests processed!</H3><BR><BR>";
 }
 
 ?>

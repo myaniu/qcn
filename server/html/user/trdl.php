@@ -787,7 +787,7 @@ function qcn_trigger_detail($res)
        ($res->varietyid!=0 || $res->received_file == 100 || $res->trigger_timereq>0 || $res->trigger_time < $timeArchive ? " disabled " : " " ) . 
        "></td>
         <td><input type=\"checkbox\" name=\"cb_" . $archpre . "_dlfile[]\" id=\"cb_" . $archpre . "_dlfile[]\" value=\"$res->triggerid\"" . 
-       ($res->varietyid!=0 || $res->received_file != 100 ? " disabled " : " " ) . 
+       ($res->received_file != 100 ? " disabled " : " " ) . 
        "></td>
         <td>$res->triggerid</td>
         <td><a href=\"show_host_detail.php?hostid=$res->hostid\">" . host_name_by_id($res->hostid) . "</a></td>

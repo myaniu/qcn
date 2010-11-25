@@ -797,6 +797,27 @@ function db_init($try_replica=false) {
     return 0;
 }
 
+// Functions to sanitize GET and POST args
+
+// "next_url" arguments (must be local, not full URLs)
+//
+function sanitize_local_url($x) {
+    if (strstr($x, "/")) return "";
+    if (strstr($x, "<")) return "";
+    if (strstr($x, "\"")) return "";
+    return $x;
+}
+
+// strip HTML tags
+//
+function sanitize_tags($x) {
+    if (function_exists('filter_var')) {
+        return filter_var($x, FILTER_SANITIZE_STRING);
+    } else {
+        return strip_tags($x);
+    }
+}
+
 $cvs_version_tracker[]="\$Id: util.inc 16127 2008-10-04 14:24:56Z jbk $";  //Generated automatically - do not edit
 
 ?>
