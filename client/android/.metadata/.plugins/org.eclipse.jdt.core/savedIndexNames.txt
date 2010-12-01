@@ -1,0 +1,2 @@
+INDEX VERSION 1.126+/Users/carlgt1/projects/qcn/client/android/.metadata/.plugins/org.eclipse.jdt.core
+3577885543.index
