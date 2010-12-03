@@ -147,102 +147,6 @@ CFMutableArrayRef CSensorMacUSBJW24F14::DiscoverHIDInterfaces(int vendorID, int 
 	return result;
 }
 
-
-IOReturn CSensorMacUSBJW24F14::DisableCommandMode (IOHIDDeviceInterface122** hidInterface)
-{
-        UInt8 writeBuffer[8];
-        IOReturn ioReturnValue;
-
-        memset(writeBuffer, 0x00, sizeof (writeBuffer));
-        writeBuffer[0] = 0x00;
-
-        ioReturnValue = (*hidInterface)->setReport (hidInterface, kIOHIDReportTypeOutput, 0, writeBuffer, sizeof(writeBuffer), 0, NULL, NULL, NULL);
-        if (ioReturnValue != kIOReturnSuccess)  {
-           fprintf(stderr, "DisableCommandMode: Could not write setReport on hid device interface\n");
-        }
-        return ioReturnValue;
-}
-
-
-IOReturn CSensorMacUSBJW24F14::EnableCommandMode (IOHIDDeviceInterface122** hidInterface)
-{
-
-	UInt8	writeBuffer[8];
-	IOReturn ioReturnValue;
-	
-	// enable Command mode
-	bzero (writeBuffer, sizeof (writeBuffer));
-	writeBuffer[0] = 0x80;
-	
-	ioReturnValue = (*hidInterface)->setReport (hidInterface, kIOHIDReportTypeOutput, 0, writeBuffer, sizeof(writeBuffer), 0, NULL, NULL, NULL);
-        //if (ioReturnValue != kIOReturnSuccess) {
-        //    fprintf(stderr, "EnableCommandMode: Could not write setReport on hid device interface\n");
-        //} 
-	return ioReturnValue;
-
-}
-
-IOReturn CSensorMacUSBJW24F14::ReadByteFromAddress (IOHIDDeviceInterface122** hidInterface, const UInt8 inAddress, UInt8 *result) // , bool bJoystick)
-{
-
-	UInt8	 readBuffer[8];
-	UInt8	 writeBuffer[8];
-	IOReturn ioReturnValue;
-	UInt32   readDataSize;    // for 10.4
-	// uint32_t readDataSize; // for 10.5+
-
-	*result = 0x00;
-	
-	// open the interface
-	//ioReturnValue = (*hidInterface)->open(hidInterface, kIOHIDOptionsTypeSeizeDevice);
-	ioReturnValue = (*hidInterface)->open(hidInterface, kIOHIDOptionsTypeNone);
-        if (ioReturnValue != kIOReturnSuccess) {
-               fprintf(stderr, "ReadByteFromAddress: couldn't open interface 0x%x - err 0x%x\n",
-                            (unsigned long) hidInterface, (unsigned long) ioReturnValue);
-		return ioReturnValue;
-	}
-	
-	if (kIOReturnSuccess != ( ioReturnValue = EnableCommandMode (hidInterface))) {
-	   (*hidInterface)->close(hidInterface);
-	    return ioReturnValue;
-        }
-	
-	// enable command mode
-	bzero (writeBuffer, sizeof (writeBuffer));
-	writeBuffer[0] = 0x82;
-	writeBuffer[1] = 0x80 | inAddress;
-	
-	ioReturnValue = (*hidInterface)->setReport (hidInterface, kIOHIDReportTypeOutput, 0, writeBuffer, sizeof(writeBuffer), 0, NULL, NULL, NULL);
-        if (ioReturnValue != kIOReturnSuccess) {
-           fprintf(stderr, "ReadByteFromAddress: Could not write setReport on hid device interface\n");
-	   (*hidInterface)->close(hidInterface);
-           return ioReturnValue;
-        }  
-	// read something from interface
-	readDataSize = 8;
-	ioReturnValue = (*hidInterface)->getReport (hidInterface, kIOHIDReportTypeInput,
-		0, readBuffer, &readDataSize, 0, NULL, NULL, NULL);
-        if (ioReturnValue != kIOReturnSuccess) {
-           fprintf(stderr, "ReadByteFromAddress: Could not call getReport on hid device interface\n");
-	   (*hidInterface)->close(hidInterface);
-           return ioReturnValue;
-	}
-	*result = readBuffer[2] ;
-	
-	// disable command mode
-	if (kIOReturnSuccess != ( ioReturnValue = DisableCommandMode (hidInterface))) {
-	   (*hidInterface)->close(hidInterface);
-           return ioReturnValue;
-        }
-	
-	// close the interface
-	ioReturnValue = (*hidInterface)->close(hidInterface);
-
-	return ioReturnValue;
-
-}
-
-
 CSensorMacUSBJW24F14::CSensorMacUSBJW24F14()
   : CSensor()
 {
@@ -304,139 +208,6 @@ void CSensorMacUSBJW24F14::closeHandles()
       m_USBDevHandle[1] = NULL;
       m_maDeviceRef = NULL;
 }
-
-bool CSensorMacUSBJW24F14::ReadData(IOHIDDeviceInterface122** hidInterface, const UInt8 addr, UInt8* cTemp, const char* strCallProc)
-{
-   *cTemp = 0x00;
-   IOReturn ioReturnValue = ReadByteFromAddress(hidInterface, addr, cTemp);
-   if (ioReturnValue != kIOReturnSuccess) {
-       fprintf(stderr, "CSensorMacUSBJW24F14::ReadData():: couldn't open interface 0x%x - ioRetVal=0x%x  (sys=0x%x subsys=0x%x code=0x%x) - proc %s\n", 
-         (unsigned long) hidInterface, (unsigned long) ioReturnValue, 
-         err_get_system(ioReturnValue), err_get_sub(ioReturnValue), err_get_code(ioReturnValue),
-         strCallProc ? strCallProc : "Unknown Proc");
-       if (ioReturnValue == kIOReturnNotPrivileged) {
-          fprintf(stderr, "CSensorMacUSBJW24F14::ReadData():: privilege violation 0x%x\n", (unsigned int) ioReturnValue);
-       }
-       return false;
-   }
-   return true;
-}
-
-bool CSensorMacUSBJW24F14::WriteData(IOHIDDeviceInterface122** hidInterface, const UInt8 cmd, const UInt8 addr, const UInt8 data, const char* strCallProc)
-{
-    UInt8	writeBuffer[8];
-    IOReturn    ioReturnValue;
-		
-    // open the interface
-    //ioReturnValue = (*hidInterface)->open(hidInterface, kIOHIDOptionsTypeSeizeDevice);
-    ioReturnValue = (*hidInterface)->open(hidInterface, kIOHIDOptionsTypeNone);
-
-    if (ioReturnValue != kIOReturnSuccess) {
-		fprintf(stderr, "CSensorMacUSBJW24F14::WriteData():: couldn't open interface 0x%x - err 0x%x %s\n", 
-                    (unsigned long) hidInterface, (unsigned long) ioReturnValue, strCallProc ? strCallProc : "Unknown Proc");
-                (*hidInterface)->close(hidInterface);
-		return false;
-    }
-
-    if (kIOReturnSuccess != ( ioReturnValue = EnableCommandMode (hidInterface))) {
-                (*hidInterface)->close(hidInterface);
-		return false; 
-    }
-	
-    // write data
-    memset(writeBuffer, 0x00, sizeof (writeBuffer));
-    writeBuffer[0] = cmd;
-    writeBuffer[1] = addr;
-    writeBuffer[2] = data;
-
-    ioReturnValue = (*hidInterface)->setReport (hidInterface, kIOHIDReportTypeOutput, 0, writeBuffer, sizeof(writeBuffer), 0, NULL, NULL, NULL);
-    if (ioReturnValue != kIOReturnSuccess) {
-       	   fprintf(stderr, "csensor_mac_ubs_jw.cpp:WriteData():: Could not write setReport on hid device interface retvalue=%d cmd=%d addr=%d data=%d\n", 
-             ioReturnValue, cmd, addr, data);
-           (*hidInterface)->close (hidInterface);
-		return false;
-    }  
-	
-    // disable command mode
-    if (kIOReturnSuccess != ( ioReturnValue = DisableCommandMode(hidInterface))) {
-                (*hidInterface)->close(hidInterface);
-		return false;
-    }
-	
-    // close the interface
-    ioReturnValue = (*hidInterface)->close(hidInterface);
-	
-    return (ioReturnValue == kIOReturnSuccess);
-}
-
-/*
-// for Apple HID Utilities -- walk the linked list of elements for a given USB device
-void CSensorMacUSBJW24F14::printElement(const int level, const pRecElement pelem)
-{
-           fprintf(stdout, "%sCookie=0x%x  Min=%ld  Max=%ld  Size=%ld  UsagePg=%ld  Usage=%ld  Name=%s\n",
-               level == 1 ? "      " : level == 2 ? "           " : "                ",
-               (unsigned int) pelem->cookie,
-               pelem->min,
-               pelem->max,
-               pelem->size,
-               pelem->usagePage,
-               pelem->usage,
-               pelem->name
-            );
-}
-
-bool CSensorMacUSBJW24F14::walkElement(const int level, const pRecElement pretmp)
-{
-     if (pretmp) {
-        printElement(level, pretmp);
-
-        if (m_bFoundJW)  {  // we're in the JW24F14 element we want? 
-           switch ((int) pretmp->cookie)
-           {
-              case 0xb: 
-              case 0xc: 
-              case 0xd: 
-                 m_prelJW24F14[(int) pretmp->cookie - 0xb] = pretmp;
-                 // fprintf(stdout, "Found Cookie 0x%x\n", (int) pretmp->cookie);
-           }
-        }
-
-        // walk the children, when null go to the siblings then their children
-        walkElement(level+1, pretmp->pChild);
-        walkElement(level, pretmp->pSibling);
-
-        return true;
-     }
-     else {
-        return false;
-     }
-}
-
-*/
-
-
-/*
-// note this isn't part of CSensorMacUSBJW24F14::
-void global_JoyWarriorAddedOrRemoved(void *refCon, io_iterator_t iterator)
-{
-    io_service_t            usbDevice;
-    while ((usbDevice = IOIteratorNext(iterator)))
-    {
-        fprintf(stdout, "USB device added or removed\n");
-        IOObjectRelease(usbDevice);
-    }
-    global_updateDeviceState();
-}
-
-void global_updateDeviceState()
-{
-    // delay so there is a timing error to force redetection
-    fprintf(stdout, "JoyWarrior USB accelerometer removal detected!\n");
-    fflush(stdout);
-    boinc_sleep(2.5f);
-
-}
-*/
 
 bool CSensorMacUSBJW24F14::openDevHandle()
 {
@@ -613,6 +384,8 @@ bool CSensorMacUSBJW24F14::detect()
    } 
 
 	getHIDCookies(m_USBDevHandle[0], &m_cookies);
+	
+	m_USBDevHandle[0]
 
     // open port for read_xyz sequential reads...
     //(*m_USBDevHandle[0])->open(m_USBDevHandle[0], kIOHIDOptionsTypeSeizeDevice);
@@ -900,30 +673,333 @@ bool CSensorMacUSBJW24F14::getHIDCookies(IOHIDDeviceInterface122** handle, cooki
 	return true;
 }
 
+/* bandwidth & comp
+ 
+ // Read Bandwidth & Compensation
+ JWReadByteFromAddress24F14 (interface, 0x20, &temp);
+ usleep(50000);
+ [deviceBandwidthField selectItemAtIndex:(temp & 0xF0) >> 4];
+ [deviceCompensationField selectItemAtIndex:(temp & 0x0F)];
+ 
+ // Read Range
+ JWReadByteFromAddress24F14 (interface, 0x35, &temp);
+ usleep(50000);
+ temp &= 0x0E;
+ [deviceRangeField selectItemAtIndex:(temp >> 1)];
+ 
+*/
 
-
-/*
-// Calculate a 10 bit value with MSB and LSB
-short CSensorMacUSBJW24F14::CalcMsbLsb(unsigned char lsb, unsigned char msb)
+void CSensorMacUSBJW24F14::QCNReadSensor(IOHIDDeviceInterface122** interface, int& iRange, int& iBandwidth)
 {
-	short erg;
-	short LSB, MSB, EXEC;
-
-	EXEC = (msb & 0x80) << 8;
-	EXEC = EXEC & 0x8000;
-
-	// Calculate negative value
-	if(EXEC & 0x8000)
-		EXEC = EXEC | 0x7C00;
-
-	MSB = msb << 2;
-	MSB = MSB & 0x03FC;
-	LSB = (lsb & 0xC0) >> 6;
-	LSB = LSB & 0x0003;
-
-	erg = MSB | LSB | EXEC;
-
-	return erg;
+	// Read
+	
+	// Get values from sensor
+	UInt8 temp;
+	JWEnableCommandMode24F14 (interface);
+	
+	// Open 
+	JWReadByteFromAddress24F14 (interface, 0x0D, &temp);
+	usleep(50000);
+	temp &= 0xEF;
+	temp |= 0x10;
+	JWWriteByteToAddress24F14 (interface, 0x0D, temp);
+	usleep(50000);
+	
+	// Read Bandwidth & Compensation
+	JWReadByteFromAddress24F14 (interface, 0x20, &temp);
+	usleep(50000);
+	[deviceBandwidthField selectItemAtIndex:(temp & 0xF0) >> 4];
+	[deviceCompensationField selectItemAtIndex:(temp & 0x0F)];
+	
+	// Read Range
+	JWReadByteFromAddress24F14 (interface, 0x35, &temp);
+	usleep(50000);
+	temp &= 0x0E;
+	[deviceRangeField selectItemAtIndex:(temp >> 1)];
+	
+	// Read customer specific byte 1
+	JWReadByteFromAddress24F14 (interface, 0x2c, &temp);
+	usleep(50000);
+	[customerSpecificByte1Field setStringValue:[NSString stringWithFormat:@"%x", temp] ];
+	
+	// Read customer specific byte 2
+	JWReadByteFromAddress24F14 (interface, 0x2d, &temp);
+	usleep(50000);
+	[customerSpecificByte2Field setStringValue:[NSString stringWithFormat:@"%x", temp] ];
+	
+	// Close Image
+	JWReadByteFromAddress24F14 (interface, 0x0D, &temp);
+	usleep(50000);
+	temp &= 0xEF;
+	JWWriteByteToAddress24F14 (interface, 0x0D, temp);
+	usleep(50000);
+	
+	JWDisableCommandMode24F14(interface);
 }
 
-*/
+
+
+void CSensorMacUSBJW24F14::QCNWriteSensor(IOHIDDeviceInterface122** interface, int& iRange, int& iBandwidth)
+{
+	// Write
+	
+	UInt8 temp = 0x00;
+	int range			= 2;   // 2g range, 0=1, 1=1.5, 2=2, 3=3, 4=4, 5=8, 6=16
+	int bandwidth		= 3;   // 75Hz,  0=10, 1=20, 2=40, 3=75, 4=150, 5=300, 6=600, 7=1200
+	int compensation	= 8;   // 0% comp,  7=-.5%, 8=0, 9=+.5% etc
+	
+    JWEnableCommandMode24F14 (interface);
+    
+	// Open 
+	JWReadByteFromAddress24F14 (interface, 0x0D, &temp);
+	usleep(50000);
+	temp &= 0xEF;
+	temp |= 0x10;
+	JWWriteByteToAddress24F14 (interface, 0x0D, temp);
+	usleep(50000);
+	
+	// Write Bandwidth & Compensation
+	JWReadByteFromAddress24F14 (interface, 0x20, &temp);
+	usleep(50000);
+	temp &= 0x00;
+	temp |= (bandwidth<<4);
+	temp |= compensation;
+	JWWriteByteToAddress24F14 (interface, 0x20, temp);
+	usleep(50000);
+	
+	// Write Range
+	JWReadByteFromAddress24F14 (interface, 0x35, &temp);
+	usleep(50000);
+	temp &= 0xF1;
+	temp |= (range<<1);
+	JWWriteByteToAddress24F14 (interface, 0x35, temp);
+	usleep(50000);
+	
+	// Write customer specific byte 1
+    theScanner = [NSScanner scannerWithString:[customerSpecificByte1Field stringValue]]; 
+    int value;
+    [theScanner scanHexInt:(unsigned int*)&value];
+    temp = value;
+	JWWriteByteToAddress24F14 (interface, 0x2c, value);
+	usleep(50000);
+	
+	// Write customer specific byte 2
+    theScanner = [NSScanner scannerWithString:[customerSpecificByte2Field stringValue]]; 
+    [theScanner scanHexInt:(unsigned int*)&value];
+    temp = value;
+	JWWriteByteToAddress24F14 (interface, 0x2d, temp);
+	usleep(50000);
+	
+	// Are we going to save to EEPROM or Image only?
+	if ( [saveImageOrEEPROMField indexOfSelectedItem] == 0 )
+	{
+		// Close Image
+		JWReadByteFromAddress24F14 (interface, 0x0D, &temp);
+		usleep(50000);
+		temp &= 0xEF;
+		JWWriteByteToAddress24F14 (interface, 0x0D, temp);
+		usleep(50000);
+	}
+	else {
+		// Save changes to EEPROM by touching the registers we want to change
+		JWWriteByteToAddress24F14 (interface, 0x40 & 0xFE, 0);
+		usleep(50000);
+		JWWriteByteToAddress24F14 (interface, 0x55 & 0xFE, 0);
+		usleep(50000);
+		
+		// Soft-reset (save EEPROM-state)
+		JWWriteByteToAddress24F14 (interface, 0x10, 0xB6);
+		usleep(50000);
+	}
+    
+    JWDisableCommandMode24F14 (interface);
+	
+}
+
+
+int CSensorMacUSBJW24F14::JWDisableCommandMode24F14 (IOHIDDeviceInterface122 **hidInterface)
+{
+	UInt8	writeBuffer[8];
+	int     ioReturnValue;
+	
+    // open the interface
+	ioReturnValue = (*hidInterface)->open (hidInterface, 0);
+    if (ioReturnValue != kIOReturnSuccess)
+	{
+		CFShow (CFSTR ("couldn't open interface"));
+		return ioReturnValue;
+	}
+    
+	bzero (writeBuffer, sizeof (writeBuffer));
+	writeBuffer[0] = 0x00;
+    
+	ioReturnValue = (*hidInterface)->setReport (hidInterface, kIOHIDReportTypeOutput, 0, writeBuffer, sizeof(writeBuffer), 50, NULL, NULL, NULL);
+    if (ioReturnValue != kIOReturnSuccess)
+    {
+       	CFShow (CFSTR ("Could not write setReport on hid device interface"));
+    }
+    
+    ioReturnValue = (*hidInterface)->close (hidInterface);
+    
+	return ioReturnValue;
+}
+
+
+int CSensorMacUSBJW24F14::JWEnableCommandMode24F14 (IOHIDDeviceInterface122 **hidInterface)
+{
+	UInt8	writeBuffer[8];
+	int     ioReturnValue;
+	
+    // open the interface
+	ioReturnValue = (*hidInterface)->open (hidInterface, 0);
+    if (ioReturnValue != kIOReturnSuccess)
+	{
+		CFShow (CFSTR ("couldn't open interface"));
+		return ioReturnValue;
+	}
+    
+	// enable Command mode
+	bzero (writeBuffer, sizeof (writeBuffer));
+	writeBuffer[0] = 0x80;
+    
+	
+	ioReturnValue = (*hidInterface)->setReport (hidInterface, kIOHIDReportTypeOutput, 0, writeBuffer, sizeof(writeBuffer), 50, NULL, NULL, NULL);
+    if (ioReturnValue != kIOReturnSuccess)
+    {
+       	CFShow (CFSTR ("Could not write setReport on hid device interface"));
+    } 
+    
+    ioReturnValue = (*hidInterface)->close (hidInterface);
+    
+	return ioReturnValue;
+	
+}
+
+int CSensorMacUSBJW24F14::JWReadByteFromAddress24F14 (IOHIDDeviceInterface122 **hidInterface, UInt8 inAddress, UInt8 *result)
+{
+	UInt8	readBuffer[8];
+	UInt8	writeBuffer[8];
+	int     ioReturnValue;
+	uint32_t		readDataSize;
+	
+	*result = 0;
+	
+	// open the interface
+	ioReturnValue = (*hidInterface)->open (hidInterface, 0);
+    if (ioReturnValue != kIOReturnSuccess)
+	{
+		CFShow (CFSTR ("couldn't open interface"));
+		return ioReturnValue;
+	}
+	
+	//if (kIOReturnSuccess != ( ioReturnValue = JWEnableCommandMode24F14 (hidInterface)))
+	//	return ioReturnValue;
+	
+	// enable command mode
+	bzero (writeBuffer, sizeof (writeBuffer));
+	writeBuffer[0] = 0x82;
+	writeBuffer[1] = 0x80 | inAddress;
+	
+	ioReturnValue = (*hidInterface)->setReport (hidInterface, kIOHIDReportTypeOutput, 0, writeBuffer, sizeof(writeBuffer), 50, NULL, NULL, NULL);
+    if (ioReturnValue != kIOReturnSuccess)
+    {
+       	CFShow (CFSTR ("Could not write setReport on hid device interface"));
+        return ioReturnValue;
+    }  
+	// read something from interface
+	readDataSize = 8;
+	ioReturnValue = (*hidInterface)->getReport (hidInterface, kIOHIDReportTypeInput,
+												0, readBuffer, &readDataSize, 100, NULL, NULL, NULL);
+    if (ioReturnValue != kIOReturnSuccess)
+    {
+        CFShow (CFSTR ("Could not call getReport on hid device interface"));
+        return ioReturnValue;
+	}
+	*result = readBuffer[2] ;
+	
+	// disable command mode
+	//if (kIOReturnSuccess != ( ioReturnValue = JWDisableCommandMode24F14 (hidInterface)))
+	//	return ioReturnValue;
+	
+	// close the interface
+	ioReturnValue = (*hidInterface)->close (hidInterface);
+	return ioReturnValue;
+}
+
+int CSensorMacUSBJW24F14::JWWriteByteToAddress24F14 (IOHIDDeviceInterface122 **hidInterface, UInt8 inAddress, UInt8 inData)
+{
+	UInt8	writeBuffer[8];
+	int     ioReturnValue;
+	
+	// open the interface
+	ioReturnValue = (*hidInterface)->open (hidInterface, 0);
+    if (ioReturnValue != kIOReturnSuccess)
+	{
+		CFShow (CFSTR ("couldn't open interface"));
+		return ioReturnValue;
+	}
+	//if (kIOReturnSuccess != ( ioReturnValue = JWEnableCommandMode24F14 (hidInterface)))
+	//	return ioReturnValue;
+	
+	// write data
+	bzero (writeBuffer, sizeof (writeBuffer));
+	writeBuffer[0] = 0x82;
+	writeBuffer[1] = inAddress;
+	writeBuffer[2] = inData;
+	
+	ioReturnValue = (*hidInterface)->setReport (hidInterface, kIOHIDReportTypeOutput, 0, writeBuffer, sizeof(writeBuffer), 50, NULL, NULL, NULL);
+    if (ioReturnValue != kIOReturnSuccess)
+    {
+       	CFShow (CFSTR ("Could not write setReport on hid device interface"));
+        return ioReturnValue;
+    }  
+	
+	// disable command mode
+	//if (kIOReturnSuccess != ( ioReturnValue = JWDisableCommandMode24F14 (hidInterface)))
+	//	return ioReturnValue;
+	
+	// close the interface
+	ioReturnValue = (*hidInterface)->close (hidInterface);
+	return ioReturnValue;
+}
+
+
+SInt16 CSensorMacUSBJW24F14::JWMergeAxisBytes24F14 (UInt8 inLSB, UInt8 inMSB)
+{
+	SInt16 result;
+	SInt16 msb;
+	SInt16 lsb;
+	
+	result = (inMSB & 0x80) << 8;  // move first bit of msb 8 bits to left
+	
+	if (result & 0x8000) // if first byte of result is set after the shift (e.g. its negative)
+		result = result | 0x7C00; // enable bits 14 to 10 
+	
+	msb = inMSB << 2; // shift MSB two bytes to left ot make room for LSB data
+	
+	lsb = (inLSB & 0xC0) >> 6; // shift upper two bits of LSB to lower to bits
+	
+	return msb | lsb | result; // merge everything together
+}
+
+SInt16 CSensorMacUSBJW24F14::JWMergeOffsetBytes24F14 (UInt8 inLSB, UInt8 inMSB)
+{
+	SInt16 msb;
+	SInt16 lsb;
+	
+	msb = inMSB << 2; // shift MSB two bytes to left ot make room for LSB data
+	
+	lsb = (inLSB & 0xC0) >> 6; // shift upper two bits of LSB to lower to bits
+	
+	return msb | lsb ; // merge everything together
+}
+
+
+void CSensorMacUSBJW24F14::JWDiffMsbLsb24F14 (UInt16 value, UInt8 *outLSB, UInt8 *outMSB)
+{
+	
+	*outLSB = ((value & 0x003) << 6) & 0xC0;
+	*outMSB = ((value & 0x3FC) >> 2) & 0xFF;
+	
+}
+

@@ -381,27 +381,3 @@ void CSensorWinUSBJW24F14::SetQCNState()
 */
 }
 
-/*
-// Calculate a 10 bit value with MSB and LSB
-short CSensorWinUSBJW24F14::CalcMsbLsb(unsigned char lsb, unsigned char msb)
-{
-	short erg;
-	short LSB, MSB, EXEC;
-
-	EXEC = (msb & 0x80) << 8;
-	EXEC = EXEC & 0x8000;
-
-	// Calculate negative value
-	if(EXEC & 0x8000)
-		EXEC = EXEC | 0x7C00;
-
-	MSB = msb << 2;
-	MSB = MSB & 0x03FC;
-	LSB = (lsb & 0xC0) >> 6;
-	LSB = LSB & 0x0003;
-
-	erg = MSB | LSB | EXEC;
-
-	return erg;
-}
-*/

@@ -39,30 +39,35 @@ class CSensorMacUSBJW24F14  : public CSensor
 
       bool m_bDevHandleOpen;     // boolean to denote if the DevHandle is open
 
-/*
-      void printElement(const int level, const pRecElement pelem);
-      bool walkElement(const int level, const pRecElement pretmp);
-*/
-
       CFMutableDictionaryRef SetUpHIDMatchingDictionary (int inVendorID, int inDeviceID);
       io_iterator_t FindHIDDevices (const mach_port_t masterPort, int inVendorID, int inDeviceID);
       IOHIDDeviceInterface122** CreateHIDDeviceInterface (io_object_t hidDevice);
       CFMutableArrayRef DiscoverHIDInterfaces (int vendorID, int deviceID);
-	  bool getHIDCookies(IOHIDDeviceInterface122** handle, cookie_struct_t cookies);
-
-      IOReturn DisableCommandMode(IOHIDDeviceInterface122** hidInterface);
-      IOReturn EnableCommandMode (IOHIDDeviceInterface122** hidInterface);
-      IOReturn ReadByteFromAddress(IOHIDDeviceInterface122** hidInterface, const UInt8 inAddress, UInt8 *result); //, bool bJoystick = false);
+      bool getHIDCookies(IOHIDDeviceInterface122** handle, cookie_struct_t cookies);
 
       bool SetQCNState();
 	
-      bool ReadData(IOHIDDeviceInterface122** hidInterface, const UInt8 addr, UInt8* cTemp, const char* strCallProc = NULL);
-      bool WriteData(IOHIDDeviceInterface122** hidInterface, const UInt8 cmd, const UInt8 addr, const UInt8 data, const char* strCallProc = NULL);
-
       bool openDevHandle();    // open the DevHandle for "joystick" access via HID
       bool closeDevHandle();   // close the handle
 
       void closeHandles();
+
+	// utility functions ported from codemercs
+	int JWDisableCommandMode24F14 (IOHIDDeviceInterface122 **hidInterface);
+	int JWEnableCommandMode24F14 (IOHIDDeviceInterface122 **hidInterface);
+	
+	int JWReadByteFromAddress24F14 (IOHIDDeviceInterface122 **hidInterface, UInt8 inAddress, UInt8 *result);
+	int JWWriteByteToAddress24F14 (IOHIDDeviceInterface122 **hidInterface, UInt8 inAddress, UInt8 inData);
+	
+	SInt16 JWMergeAxisBytes24F14 (UInt8 inLSB, UInt8 inMSB);
+	SInt16 JWMergeOffsetBytes24F14 (UInt8 inLSB, UInt8 inMSB);
+	
+	void JWDiffMsbLsb24F14 (UInt16 value, UInt8 *inLSB, UInt8 *inMSB);
+
+
+      void QCNReadSensor(IOHIDDeviceInterface122** interface, int& iRange, int& iBandwidth);
+      void QCNWriteSensor(IOHIDDeviceInterface122** interface, int& iRange, int& iBandwidth);
+	
 
    public:
       CSensorMacUSBJW24F14();
