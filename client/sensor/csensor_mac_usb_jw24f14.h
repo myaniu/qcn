@@ -65,8 +65,8 @@ class CSensorMacUSBJW24F14  : public CSensor
 	void JWDiffMsbLsb24F14 (UInt16 value, UInt8 *inLSB, UInt8 *inMSB);
 
 
-      void QCNReadSensor(IOHIDDeviceInterface122** interface, int& iRange, int& iBandwidth);
-      void QCNWriteSensor(IOHIDDeviceInterface122** interface, int& iRange, int& iBandwidth);
+      bool QCNReadSensor(IOHIDDeviceInterface122** interface, int& iRange, int& iBandwidth);
+      bool QCNWriteSensor(IOHIDDeviceInterface122** interface, const int& iRange, const int& iBandwidth);
 	
 
    public:

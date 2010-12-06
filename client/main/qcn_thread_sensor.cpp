@@ -33,10 +33,6 @@ extern void* QCNThreadSensor(void*)
 
   initDemoCounters();
 
-#ifdef _DEBUG
-	sm->bSensorFound = getSensor(&qcn_main::g_psms);
-	goto done;
-#endif
 	
 //#ifdef __APPLE_CC__
   //fprintf(stdout, "Initializing Objective-C library...\n");
