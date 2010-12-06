@@ -852,7 +852,6 @@ int CSensorMacUSBJW24F14::JWDisableCommandMode24F14 (IOHIDDeviceInterface122 **h
 	ioReturnValue = (*hidInterface)->open (hidInterface, 0);
     if (ioReturnValue != kIOReturnSuccess)
 	{
-		CFShow (CFSTR ("couldn't open interface"));
 		return ioReturnValue;
 	}
     
@@ -862,7 +861,7 @@ int CSensorMacUSBJW24F14::JWDisableCommandMode24F14 (IOHIDDeviceInterface122 **h
 	ioReturnValue = (*hidInterface)->setReport (hidInterface, kIOHIDReportTypeOutput, 0, writeBuffer, sizeof(writeBuffer), 50, NULL, NULL, NULL);
     if (ioReturnValue != kIOReturnSuccess)
     {
-       	CFShow (CFSTR ("Could not write setReport on hid device interface"));
+       	fprintf(stderr, "jw24f14::DisableCommand-- Could not write setReport on hid device interface");
     }
     
     ioReturnValue = (*hidInterface)->close (hidInterface);
@@ -880,7 +879,7 @@ int CSensorMacUSBJW24F14::JWEnableCommandMode24F14 (IOHIDDeviceInterface122 **hi
 	ioReturnValue = (*hidInterface)->open (hidInterface, 0);
     if (ioReturnValue != kIOReturnSuccess)
 	{
-		CFShow (CFSTR ("couldn't open interface"));
+		fprintf(stderr, "jw24f14::enablecommand  couldn't open interface");
 		return ioReturnValue;
 	}
     
@@ -892,7 +891,7 @@ int CSensorMacUSBJW24F14::JWEnableCommandMode24F14 (IOHIDDeviceInterface122 **hi
 	ioReturnValue = (*hidInterface)->setReport (hidInterface, kIOHIDReportTypeOutput, 0, writeBuffer, sizeof(writeBuffer), 50, NULL, NULL, NULL);
     if (ioReturnValue != kIOReturnSuccess)
     {
-       	CFShow (CFSTR ("Could not write setReport on hid device interface"));
+       	fprintf(stderr, "jw24f14::enable command Could not write setReport on hid device interface");
     } 
     
     ioReturnValue = (*hidInterface)->close (hidInterface);
@@ -915,7 +914,7 @@ int CSensorMacUSBJW24F14::JWReadByteFromAddress24F14 (IOHIDDeviceInterface122 **
 	ioReturnValue = (*hidInterface)->open (hidInterface, 0);
     if (ioReturnValue != kIOReturnSuccess)
 	{
-		CFShow (CFSTR ("couldn't open interface"));
+		fprintf(stderr, "jw24f14:ReadByte couldn't open interface");
 		return ioReturnValue;
 	}
 	
@@ -930,7 +929,7 @@ int CSensorMacUSBJW24F14::JWReadByteFromAddress24F14 (IOHIDDeviceInterface122 **
 	ioReturnValue = (*hidInterface)->setReport (hidInterface, kIOHIDReportTypeOutput, 0, writeBuffer, sizeof(writeBuffer), 50, NULL, NULL, NULL);
     if (ioReturnValue != kIOReturnSuccess)
     {
-       	CFShow (CFSTR ("Could not write setReport on hid device interface"));
+		fprintf(stderr, "jw24f14:ReadByte couldn't write setReport in interface");
         return ioReturnValue;
     }  
 	// read something from interface
@@ -939,7 +938,7 @@ int CSensorMacUSBJW24F14::JWReadByteFromAddress24F14 (IOHIDDeviceInterface122 **
 												0, readBuffer, &readDataSize, 100, NULL, NULL, NULL);
     if (ioReturnValue != kIOReturnSuccess)
     {
-        CFShow (CFSTR ("Could not call getReport on hid device interface"));
+		fprintf(stderr, "jw24f14:ReadByte couldn't call setReport in interface");
         return ioReturnValue;
 	}
 	*result = readBuffer[2] ;
@@ -962,7 +961,7 @@ int CSensorMacUSBJW24F14::JWWriteByteToAddress24F14 (IOHIDDeviceInterface122 **h
 	ioReturnValue = (*hidInterface)->open (hidInterface, 0);
     if (ioReturnValue != kIOReturnSuccess)
 	{
-		CFShow (CFSTR ("couldn't open interface"));
+		fprintf(stderr, "jw24f14:WriteByte couldn't open interface");
 		return ioReturnValue;
 	}
 	//if (kIOReturnSuccess != ( ioReturnValue = JWEnableCommandMode24F14 (hidInterface)))
@@ -977,7 +976,7 @@ int CSensorMacUSBJW24F14::JWWriteByteToAddress24F14 (IOHIDDeviceInterface122 **h
 	ioReturnValue = (*hidInterface)->setReport (hidInterface, kIOHIDReportTypeOutput, 0, writeBuffer, sizeof(writeBuffer), 50, NULL, NULL, NULL);
     if (ioReturnValue != kIOReturnSuccess)
     {
-       	CFShow (CFSTR ("Could not write setReport on hid device interface"));
+		fprintf(stderr, "jw24f14:WriteByte couldn't write setReport interface");
         return ioReturnValue;
     }  
 	
