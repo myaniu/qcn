@@ -384,9 +384,14 @@ bool CSensorMacUSBJW24F14::detect()
    } 
 
 	getHIDCookies(m_USBDevHandle[0], &m_cookies);
-	
-	m_USBDevHandle[0]
 
+	int iRange = 0, iBandwidth = 0;
+	QCNReadSensor(m_USBDevHandle[0], iRange, iBandwidth);
+
+	if (iRange != 0 || iBandwidth != 0) {
+		QCNWriteSensor(m_USBDevHandle[0], iRange, iBandwidth);
+	}
+	
     // open port for read_xyz sequential reads...
     //(*m_USBDevHandle[0])->open(m_USBDevHandle[0], kIOHIDOptionsTypeSeizeDevice);
     //(*m_USBDevHandle[0])->open(m_USBDevHandle[0], kIOHIDOptionsTypeNone);
@@ -694,7 +699,7 @@ void CSensorMacUSBJW24F14::QCNReadSensor(IOHIDDeviceInterface122** interface, in
 	// Read
 	
 	// Get values from sensor
-	UInt8 temp;
+	UInt8 temp, iComp;
 	JWEnableCommandMode24F14 (interface);
 	
 	// Open 
@@ -708,17 +713,19 @@ void CSensorMacUSBJW24F14::QCNReadSensor(IOHIDDeviceInterface122** interface, in
 	// Read Bandwidth & Compensation
 	JWReadByteFromAddress24F14 (interface, 0x20, &temp);
 	usleep(50000);
-	[deviceBandwidthField selectItemAtIndex:(temp & 0xF0) >> 4];
-	[deviceCompensationField selectItemAtIndex:(temp & 0x0F)];
+	iBandwidth = (temp & 0xF0) >> 4;
+	iComp = temp & 0x0F;
 	
 	// Read Range
 	JWReadByteFromAddress24F14 (interface, 0x35, &temp);
 	usleep(50000);
 	temp &= 0x0E;
-	[deviceRangeField selectItemAtIndex:(temp >> 1)];
+	iRange = temp >> 1;
+	
+	/*
 	
 	// Read customer specific byte 1
-	JWReadByteFromAddress24F14 (interface, 0x2c, &temp);
+	JWReadByteFromAddress24F14 (interface, 0x2c, &temp)
 	usleep(50000);
 	[customerSpecificByte1Field setStringValue:[NSString stringWithFormat:@"%x", temp] ];
 	
@@ -726,6 +733,7 @@ void CSensorMacUSBJW24F14::QCNReadSensor(IOHIDDeviceInterface122** interface, in
 	JWReadByteFromAddress24F14 (interface, 0x2d, &temp);
 	usleep(50000);
 	[customerSpecificByte2Field setStringValue:[NSString stringWithFormat:@"%x", temp] ];
+	*/
 	
 	// Close Image
 	JWReadByteFromAddress24F14 (interface, 0x0D, &temp);
@@ -775,6 +783,7 @@ void CSensorMacUSBJW24F14::QCNWriteSensor(IOHIDDeviceInterface122** interface, i
 	JWWriteByteToAddress24F14 (interface, 0x35, temp);
 	usleep(50000);
 	
+	/*
 	// Write customer specific byte 1
     theScanner = [NSScanner scannerWithString:[customerSpecificByte1Field stringValue]]; 
     int value;
@@ -789,18 +798,19 @@ void CSensorMacUSBJW24F14::QCNWriteSensor(IOHIDDeviceInterface122** interface, i
     temp = value;
 	JWWriteByteToAddress24F14 (interface, 0x2d, temp);
 	usleep(50000);
+	*/
 	
 	// Are we going to save to EEPROM or Image only?
-	if ( [saveImageOrEEPROMField indexOfSelectedItem] == 0 )
-	{
+	//if ( [saveImageOrEEPROMField indexOfSelectedItem] == 0 )
+	//{
 		// Close Image
 		JWReadByteFromAddress24F14 (interface, 0x0D, &temp);
 		usleep(50000);
 		temp &= 0xEF;
 		JWWriteByteToAddress24F14 (interface, 0x0D, temp);
 		usleep(50000);
-	}
-	else {
+	//}
+	//else {
 		// Save changes to EEPROM by touching the registers we want to change
 		JWWriteByteToAddress24F14 (interface, 0x40 & 0xFE, 0);
 		usleep(50000);
@@ -810,7 +820,7 @@ void CSensorMacUSBJW24F14::QCNWriteSensor(IOHIDDeviceInterface122** interface, i
 		// Soft-reset (save EEPROM-state)
 		JWWriteByteToAddress24F14 (interface, 0x10, 0xB6);
 		usleep(50000);
-	}
+	//}
     
     JWDisableCommandMode24F14 (interface);
 	
@@ -880,7 +890,8 @@ int CSensorMacUSBJW24F14::JWReadByteFromAddress24F14 (IOHIDDeviceInterface122 **
 	UInt8	readBuffer[8];
 	UInt8	writeBuffer[8];
 	int     ioReturnValue;
-	uint32_t		readDataSize;
+	//uint32_t		readDataSize;
+	UInt32	readDataSize;
 	
 	*result = 0;
 	
