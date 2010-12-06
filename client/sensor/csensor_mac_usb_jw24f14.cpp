@@ -750,6 +750,7 @@ bool CSensorMacUSBJW24F14::QCNWriteSensor(IOHIDDeviceInterface122** interface, c
 		usleep(50000);
 	//}
 	//else {
+	/* CMC - don't save to EEPROM as there are only a fixed # of times this can be done ~1000
 		// Save changes to EEPROM by touching the registers we want to change
 		JWWriteByteToAddress24F14 (interface, 0x40 & 0xFE, 0);
 		usleep(50000);
@@ -759,6 +760,7 @@ bool CSensorMacUSBJW24F14::QCNWriteSensor(IOHIDDeviceInterface122** interface, c
 		// Soft-reset (save EEPROM-state)
 		JWWriteByteToAddress24F14 (interface, 0x10, 0xB6);
 		usleep(50000);
+	*/
 	//}
     
     JWDisableCommandMode24F14 (interface);
