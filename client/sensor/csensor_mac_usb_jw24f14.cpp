@@ -240,74 +240,7 @@ bool CSensorMacUSBJW24F14::closeDevHandle()
 }
 
 inline bool CSensorMacUSBJW24F14::read_xyz(float& x1, float& y1, float& z1)
-{  
-	/*
-	// read LSB first (the order below will suffice)	
-    const unsigned int ciNum = 9;
-	UInt8 mReg[ciNum];
-	memset(mReg, 0x00, sizeof(UInt8) * ciNum);
-	for (unsigned int i = 0; i < ciNum; i++) {
-		if (! ReadData(m_USBDevHandle[1], 0x00 + i, &mReg[i], "SetQCNState:R1")) {  // get current settings of device
-			fprintf(stdout, "  * Could not read from JoyWarrior USB (SetQCNState:R1), exiting...\n");
-			return false;
-		}
-	}
-	 */
-	/* 14 bits data e.g.
-           	-2g == 10 0000 0000 0000
-      -1.99975g == 10 0000 0000 0001
-	  -0.00025g == 11 1111 1111 1111
-	         0g == 00 0000 0000 0000
-	  +0.00025g == 00 0000 0000 0001
-	  +1.99950g == 01 1111 1111 1110
-	  +1.99975g == 01 1111 1111 1111
-	fprintf(stdout, "%x %x %x %x %x %x %x %x %x\n", 
-			mReg[0],
-			mReg[1],
-			mReg[2],
-			mReg[3],
-			mReg[4],
-			mReg[5],
-			mReg[6],
-			mReg[7],
-			mReg[8]);
-
-	
-	 //                           0         1        2          3         4          5          6          7         8
-	 // read values: from 0-8: chip id, version, acc_x_lsb, acc_x_msb, acc_y_lsb, acc_y_msb, acc_z_lsb, acc_z_msb, temp
-	 
-	 x1 = (float) mReg[3] / 128.0f;
-	 y1 = (float) mReg[5] / 128.0f;
-	 z1 = (float) mReg[7] / 128.0f;
-	 
-	*/
-	 
-	/*
-        // CMC note -- this is the preferred way from codemercs.com but too slow for QCN -- have to use HID Joystick access
-        UInt8 rawData[6];
-        memset(rawData, 0x00, sizeof(UInt8) * 6);
-
-        // open for direct joystick access (faster than using interface 1 which is via the accel chip controller)
-	for (int i = 0; i < 6; i++)
-        {
-	    ReadByteFromAddress (m_USBDevHandle[0], 0x02 + i, &rawData[i]);
-	}
-	//x1 = CalcMsbLsb(rawData[0], rawData[1]);
-        //y1 = CalcMsbLsb(rawData[2], rawData[3]);
-        //z1 = CalcMsbLsb(rawData[4], rawData[5]);
-		
-		fprintf(stdout, "x=%f  y=%f  z=%f\n", x1, y1, z1);
-        //	fflush(stdout);
-
-        long lVal[3];
-        for (int i = 0; i < 3; i++) { 
-              lVal[i] = 512.0f * rand();
-             // read each value from the cookie element in the USB device 
-             //   - these were set in detect() by walking the linked list of the device
-          //  lVal[i] = ::HIDGetElementValue(m_prdJW24F14, m_prelJW24F14[i]);
-        }
-	*/
-	
+{  	
     //static int iTestCtr = 0;  // static so we can detect every few seconds if USB stick is still plugged in
     IOReturn result = kIOReturnSuccess;
     IOHIDEventStruct hidEvent;
@@ -316,13 +249,6 @@ inline bool CSensorMacUSBJW24F14::read_xyz(float& x1, float& y1, float& z1)
 #ifndef QCN_USB
     if (qcn_main::g_iStop) return false;
 #endif
-	
-    /*
-	 if (iTestCtr++ == 500) { // if DT=.02 this checks every 10 seconds that the JW is still plugged into USB port
-	 iTestCtr = 0;  // reset counter
-	 closeDevHandle();  // actually this doesn't seem to be working, probably need to close & re-detect?
-	 }
-	 */
 	
     // major error if dev handle isn't open or can't be opened & read_xyz being called!
     if (!m_bDevHandleOpen && !openDevHandle()) { // this opens once at the start of reading to save CPU time (8%!)
@@ -703,8 +629,7 @@ bool CSensorMacUSBJW24F14::getHIDCookies(IOHIDDeviceInterface122** handle, cooki
 
 bool CSensorMacUSBJW24F14::QCNReadSensor(IOHIDDeviceInterface122** interface, int& iRange, int& iBandwidth)
 {
-	// Read
-	
+	// Read	
 	// Get values from sensor
 	UInt8 temp; //, iComp;
 	if (JWEnableCommandMode24F14(interface) != kIOReturnSuccess) return false;
