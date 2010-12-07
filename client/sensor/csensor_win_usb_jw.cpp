@@ -300,21 +300,21 @@ unsigned char CSensorWinUSBJW::ReadData(HANDLE handle, unsigned char addr)
 	HidD_FlushQueue(handle);
 	newAddr = 0x80 | addr;
 
-	memset(&WriteBuffer, 0, m_USBCapabilities.OutputReportByteLength+1);
+	memset(WriteBuffer, 0, m_USBCapabilities.OutputReportByteLength+1);
 
 	/*Enable command-mode from Jw*/
 	WriteBuffer[0] = 0x00; //ReportID
 	WriteBuffer[1] = 0x82; //CMD-Mode
 	WriteBuffer[2] = newAddr; //CMD + Addr
 
-	Result = WriteFile(handle, &WriteBuffer, m_USBCapabilities.OutputReportByteLength, (LPDWORD) &BytesWritten, NULL);
+	Result = WriteFile(handle, WriteBuffer, m_USBCapabilities.OutputReportByteLength, (LPDWORD) &BytesWritten, NULL);
 
 	if(Result != NULL)
 	{
-		memset(&ReadBuffer, 0, m_USBCapabilities.InputReportByteLength+1);
+		memset(ReadBuffer, 0, m_USBCapabilities.InputReportByteLength+1);
 		ReadBuffer[0] = 0x00;
 	
-		ReadFile(handle, &ReadBuffer, m_USBCapabilities.InputReportByteLength, (LPDWORD) &NumberOfBytesRead, NULL);
+		ReadFile(handle, ReadBuffer, m_USBCapabilities.InputReportByteLength, (LPDWORD) &NumberOfBytesRead, NULL);
 		return ReadBuffer[3];
 	}
 	else
@@ -331,25 +331,53 @@ bool CSensorWinUSBJW::WriteData(HANDLE handle, unsigned char cmd, unsigned char 
 	long			BytesWritten = 0;
 	long			NumberOfBytesRead = 0;
 
-	memset(&WriteBuffer, 0, m_USBCapabilities.OutputReportByteLength+1);
+	memset(WriteBuffer, 0, m_USBCapabilities.OutputReportByteLength+1);
 
 	WriteBuffer[0] = 0x00;
 	WriteBuffer[1] = cmd;
 	WriteBuffer[2] = addr;
 	WriteBuffer[3] = data;
 
-	Result = WriteFile(handle, &WriteBuffer, m_USBCapabilities.OutputReportByteLength, (LPDWORD) &BytesWritten, NULL);
+	Result = WriteFile(handle, WriteBuffer, m_USBCapabilities.OutputReportByteLength, (LPDWORD) &BytesWritten, NULL);
 
 	if(Result != NULL)
 	{
 		return true;
-		memset(&ReadBuffer, 0, m_USBCapabilities.InputReportByteLength+1);
+		memset(ReadBuffer, 0, m_USBCapabilities.InputReportByteLength+1);
 		ReadBuffer[0] = 0x00;
 	
-		ReadFile(handle, &ReadBuffer, m_USBCapabilities.InputReportByteLength, (LPDWORD) &NumberOfBytesRead, NULL);
+		ReadFile(handle, ReadBuffer, m_USBCapabilities.InputReportByteLength, (LPDWORD) &NumberOfBytesRead, NULL);
 	}
-	else
+	else {
+#ifdef _DEBUG
+	DWORD dw = GetLastError();
+    LPVOID lpMsgBuf;
+    LPVOID lpDisplayBuf;
+    FormatMessage(
+        FORMAT_MESSAGE_ALLOCATE_BUFFER | 
+        FORMAT_MESSAGE_FROM_SYSTEM |
+        FORMAT_MESSAGE_IGNORE_INSERTS,
+        NULL,
+        dw,
+        MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
+        (LPTSTR) &lpMsgBuf,
+        0, NULL );
+
+    // Display the error message and exit the process
+
+    lpDisplayBuf = (LPVOID)LocalAlloc(LMEM_ZEROINIT, 
+        (lstrlen((LPCTSTR)lpMsgBuf) + 48) * sizeof(TCHAR)); 
+    sprintf((LPTSTR)lpDisplayBuf, 
+		"%s failed with error %d: %s", 
+        "JW24F14", dw, lpMsgBuf); 
+    MessageBox(NULL, (LPCTSTR)lpDisplayBuf, TEXT("Error"), MB_OK); 
+
+    LocalFree(lpMsgBuf);
+    LocalFree(lpDisplayBuf);
+
+#endif
 		return false;
+	}
 }
 
 void CSensorWinUSBJW::SetQCNState()

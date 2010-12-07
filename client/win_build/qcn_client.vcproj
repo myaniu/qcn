@@ -70,7 +70,7 @@
 				Version=""
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="../sensor/motionnodeaccel/"
-				IgnoreDefaultLibraryNames="msvcrtd.lib"
+				IgnoreDefaultLibraryNames=""
 				DelayLoadDLLs="MotionNodeAccelAPI.dll"
 				GenerateDebugInformation="true"
 				SubSystem="1"

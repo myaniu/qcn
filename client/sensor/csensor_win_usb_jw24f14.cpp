@@ -30,12 +30,12 @@ void CSensorWinUSBJW24F14::closePort()
      if (m_USBDevHandle[i]) {
        try {
           // don't think we need the next line, just close & Release
-      //WriteData(m_USBDevHandle[i], 0x02, 0x00, 0x00);  // Free JW24F14
+      WriteData(m_USBDevHandle[i], 0x02, 0x00, 0x00);  // Free JW
 	  ::CancelIo(m_USBDevHandle[i]);
 	  ::CloseHandle(m_USBDevHandle[i]);
 	  m_USBDevHandle[i] = NULL;
           // mac version:
-          //WriteData(m_USBDevHandle[i], 0x02, 0x00, 0x00, "closePort()::Free JW24F14");
+          //WriteData(m_USBDevHandle[i], 0x02, 0x00);
           //(*m_USBDevHandle[i])->close(m_USBDevHandle[i]);
           //(*m_USBDevHandle[i])->Release(m_USBDevHandle[i]);
           //m_USBDevHandle[i] = NULL;
@@ -293,38 +293,36 @@ unsigned char CSensorWinUSBJW24F14::ReadData(HANDLE handle, unsigned char addr)
 {
 	unsigned char			WriteBuffer[10];
 	unsigned char			ReadBuffer[10];
-	unsigned char			newAddr;
 	long			BytesWritten = 0;
 	long			NumberOfBytesRead = 0;
 	int			Result;
 
 	HidD_FlushQueue(handle);
-	newAddr = 0x80 | addr;
 
-	memset(&WriteBuffer, 0, m_USBCapabilities.OutputReportByteLength+1);
+	memset(WriteBuffer, 0x00, 10);
 
 	/*Enable command-mode from Jw*/
 	WriteBuffer[0] = 0x00; //ReportID
-	WriteBuffer[1] = 0x82; //CMD-Mode
-	WriteBuffer[2] = newAddr; //CMD + Addr
+	WriteBuffer[1] = 0x82; 
+	WriteBuffer[2] = 0x80 | addr;
 
-	Result = WriteFile(handle, &WriteBuffer, m_USBCapabilities.OutputReportByteLength, (LPDWORD) &BytesWritten, NULL);
+	Result = WriteFile(handle, WriteBuffer, m_USBCapabilities.OutputReportByteLength, (LPDWORD) &BytesWritten, NULL);
 
 	if(Result != NULL)
 	{
-		memset(&ReadBuffer, 0, m_USBCapabilities.InputReportByteLength+1);
+		memset(ReadBuffer, 0, m_USBCapabilities.InputReportByteLength+1);
 		ReadBuffer[0] = 0x00;
 	
-		ReadFile(handle, &ReadBuffer, m_USBCapabilities.InputReportByteLength, (LPDWORD) &NumberOfBytesRead, NULL);
+		ReadFile(handle, ReadBuffer, m_USBCapabilities.InputReportByteLength, (LPDWORD) &NumberOfBytesRead, NULL);
 		return ReadBuffer[3];
 	}
 	else
-		return 0;
+		return 0x00;
 }
 
 
 // USB write function
-bool CSensorWinUSBJW24F14::WriteData(HANDLE handle, unsigned char cmd, unsigned char addr, unsigned char data)
+bool CSensorWinUSBJW24F14::WriteData(HANDLE handle, unsigned char cmd, unsigned char addr, bool bCommandMode)
 {
 	unsigned char			WriteBuffer[10];
 	unsigned char			ReadBuffer[10];
@@ -332,52 +330,230 @@ bool CSensorWinUSBJW24F14::WriteData(HANDLE handle, unsigned char cmd, unsigned 
 	long			BytesWritten = 0;
 	long			NumberOfBytesRead = 0;
 
-	memset(&WriteBuffer, 0, m_USBCapabilities.OutputReportByteLength+1);
-
+	HidD_FlushQueue(handle);
+	memset(WriteBuffer, 0x00, 10);
 	WriteBuffer[0] = 0x00;
-	WriteBuffer[1] = cmd;
-	WriteBuffer[2] = addr;
-	WriteBuffer[3] = data;
+	if (bCommandMode) {
+		WriteBuffer[1] = cmd;
+	}
+	else {
+		WriteBuffer[1] = 0x82;
+		WriteBuffer[2] = addr;
+		WriteBuffer[3] = cmd;
+	}
 
-	Result = WriteFile(handle, &WriteBuffer, m_USBCapabilities.OutputReportByteLength, (LPDWORD) &BytesWritten, NULL);
+	Result = WriteFile(handle, WriteBuffer, m_USBCapabilities.OutputReportByteLength, (LPDWORD) &BytesWritten, NULL);
 
-	if(Result != NULL)
+	if(Result)
 	{
 		return true;
-		memset(&ReadBuffer, 0, m_USBCapabilities.InputReportByteLength+1);
+		memset(ReadBuffer, 0, m_USBCapabilities.InputReportByteLength+1);
 		ReadBuffer[0] = 0x00;
 	
-		ReadFile(handle, &ReadBuffer, m_USBCapabilities.InputReportByteLength, (LPDWORD) &NumberOfBytesRead, NULL);
+		ReadFile(handle, ReadBuffer, m_USBCapabilities.InputReportByteLength, (LPDWORD) &NumberOfBytesRead, NULL);
 	}
-	else
+	else {
+#ifdef _DEBUG
+	DWORD dw = GetLastError();
+    LPVOID lpMsgBuf;
+    LPVOID lpDisplayBuf;
+    FormatMessage(
+        FORMAT_MESSAGE_ALLOCATE_BUFFER | 
+        FORMAT_MESSAGE_FROM_SYSTEM |
+        FORMAT_MESSAGE_IGNORE_INSERTS,
+        NULL,
+        dw,
+        MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
+        (LPTSTR) &lpMsgBuf,
+        0, NULL );
+
+    // Display the error message and exit the process
+
+    lpDisplayBuf = (LPVOID)LocalAlloc(LMEM_ZEROINIT, 
+        (lstrlen((LPCTSTR)lpMsgBuf) + 48) * sizeof(TCHAR)); 
+    sprintf((LPTSTR)lpDisplayBuf, 
+		"%s failed with error %d: %s", 
+        "JW24F14", dw, lpMsgBuf); 
+    MessageBox(NULL, (LPCTSTR)lpDisplayBuf, TEXT("Error"), MB_OK); 
+
+    LocalFree(lpMsgBuf);
+    LocalFree(lpDisplayBuf);
+
+#endif
 		return false;
+	}
 }
 
-void CSensorWinUSBJW24F14::SetQCNState()
+bool CSensorWinUSBJW24F14::SetQCNState()
 { // puts the Joystick Warrior USB sensor into the proper state for QCN (50Hz, +/- 2g)
   // and also writes these settings to EEPROM (so each device needs to just get set once hopefully)
 
-	return;
+	const int ciRange = 4;       // 2g range (+/-)
+	const int ciBandwidth = 56;  // 75Hz bandwidth & 0% compensation
 
+	int iRange = 0, iBandwidth = 0;
+	// note the command-mode takes the 2nd handle
+	if (! QCNReadSensor(iRange, iBandwidth)) return false;
+	
+	if (iRange == ciRange && iBandwidth == ciBandwidth) return true; // already set
+
+	// if here need to set
+	if (! QCNWriteSensor(ciRange, ciBandwidth)) return false;
+	
+    return true;
+}
+
+bool CSensorWinUSBJW24F14::JWEnableCommandMode24F14()
+{ 
+	return WriteData(m_USBDevHandle[1], 0x80, 0x80, true);
+}
+
+bool CSensorWinUSBJW24F14::JWDisableCommandMode24F14()
+{ 
+	return WriteData(m_USBDevHandle[1], 0x00, 0x00, true);
+}
+
+bool CSensorWinUSBJW24F14::QCNReadSensor(int& iRange, int& iBandwidth)
+{
+	// Read	
+	// Get values from sensor
+	unsigned char temp = 0x00; //, iComp;
+	if (!JWEnableCommandMode24F14()) return false;
+	
+	// Open 
+	temp = ReadData(m_USBDevHandle[1], 0x0D);
+	boinc_sleep(.05f);
+	temp &= 0xEF;
+	temp |= 0x10;
+	//JWWriteByteToAddress24F14 (interface, 0x0D, temp);
+	WriteData(m_USBDevHandle[1], 0x0D, temp);
+	boinc_sleep(.05f);
+	
+	// Read Bandwidth & Compensation
+	//if (JWReadByteFromAddress24F14 (interface, 0x20, &temp)  != kIOReturnSuccess) return false;
+	temp = ReadData(m_USBDevHandle[1], 0x20);
+	boinc_sleep(.05f);
+	//iBandwidth = (temp & 0xF0) >> 4;
+	//iComp = temp & 0x0F;
+	iBandwidth = temp;
+	
+	// Read Range
+	//if (JWReadByteFromAddress24F14 (interface, 0x35, &temp) != kIOReturnSuccess) return false;
+	temp = ReadData(m_USBDevHandle[1], 0x35);
+	boinc_sleep(.05f);
+	//usleep(50000);
+	//temp &= 0x0E;
+	//iRange = temp >> 1;
+	iRange = temp;
+	
+	
+	// Close Image
+	//JWReadByteFromAddress24F14 (interface, 0x0D, &temp);
+	temp = ReadData(m_USBDevHandle[1], 0x0D);
+	boinc_sleep(.05f);
+	//usleep(50000);
+	temp &= 0xEF;
+	//JWWriteByteToAddress24F14 (interface, 0x0D, temp);
+	WriteData(m_USBDevHandle[1], 0x0D, temp);
+	boinc_sleep(.05f);
+	
+	JWDisableCommandMode24F14();
+	boinc_sleep(.05f);
+	
+	return true;
+}
+
+
+
+bool CSensorWinUSBJW24F14::QCNWriteSensor(const int& iRange, const int& iBandwidth)
+{
+	// Write
+	
+	unsigned char temp = 0x00;
+	//int range			= 2;   // 2g range, 0=1, 1=1.5, 2=2, 3=3, 4=4, 5=8, 6=16
+	//int bandwidth		= 3;   // 75Hz,  0=10, 1=20, 2=40, 3=75, 4=150, 5=300, 6=600, 7=1200
+	//int compensation	= 8;   // 0% comp,  7=-.5%, 8=0, 9=+.5% etc
+	
+    if (!JWEnableCommandMode24F14()) return false;
+    
+	// Open 
+	temp = ReadData(m_USBDevHandle[1], 0x0D);
+	//if (JWReadByteFromAddress24F14 (interface, 0x0D, &temp) != kIOReturnSuccess) return false;
+	boinc_sleep(0.05f);
+	temp &= 0xEF;
+	temp |= 0x10;
+	//if (JWWriteByteToAddress24F14 (interface, 0x0D, temp) != kIOReturnSuccess) return false;
+	WriteData(m_USBDevHandle[1], 0x0D, temp);
+	boinc_sleep(0.05f);
+	
+	// Write Bandwidth & Compensation
+	//JWReadByteFromAddress24F14 (interface, 0x20, &temp);
+	//usleep(50000);
+	//temp &= 0x00;
+	//temp |= (bandwidth<<4);
+	//temp |= compensation;
+	temp = iBandwidth;
+	//if (JWWriteByteToAddress24F14 (interface, 0x20, temp) != kIOReturnSuccess) return false;
+	WriteData(m_USBDevHandle[1], 0x20, temp);
+	boinc_sleep(0.05f);
+	
+	// Write Range
+	//if (JWReadByteFromAddress24F14 (interface, 0x35, &temp) != kIOReturnSuccess) return false;
+	//usleep(50000);
+	//temp &= 0xF1;
+	//temp |= (range<<1);
+	temp = iRange;
+	//if (JWWriteByteToAddress24F14 (interface, 0x35, temp) != kIOReturnSuccess) return false;
+	WriteData(m_USBDevHandle[1], 0x35, temp);
+	boinc_sleep(0.05f);
+	
 	/*
-   unsigned char mReg14 = ReadData(m_USBDevHandle[1], 0x14);  // get current settings of device
-   // if not set already, set it to +/-2g accel (0x00) and 50Hz internal bandwidth 0x01
-   // NB: 0x08 & 0x10 means accel is set to 4 or 8g, if not bit-and with 0x01 bandwidth is other than 50Hz
-   if ((mReg14 & 0x08) || (mReg14 & 0x10) || ((mReg14 & 0x01) != 0x01)) {
-        mReg14 = 0x01 | (ReadData(m_USBDevHandle[1], 0x14) & 0xE0);
+	// Write customer specific byte 1
+    theScanner = [NSScanner scannerWithString:[customerSpecificByte1Field stringValue]]; 
+    int value;
+    [theScanner scanHexInt:(unsigned int*)&value];
+    temp = value;
+	JWWriteByteToAddress24F14 (interface, 0x2c, value);
+	usleep(50000);
+	
+	// Write customer specific byte 2
+    theScanner = [NSScanner scannerWithString:[customerSpecificByte2Field stringValue]]; 
+    [theScanner scanHexInt:(unsigned int*)&value];
+    temp = value;
+	JWWriteByteToAddress24F14 (interface, 0x2d, temp);
+	usleep(50000);
+	*/
+	
+	// Are we going to save to EEPROM or Image only?
+	//if ( [saveImageOrEEPROMField indexOfSelectedItem] == 0 )
+	//{
+	// Close Image
+	//JWReadByteFromAddress24F14 (interface, 0x0D, &temp);
+	temp = ReadData(m_USBDevHandle[1], 0x0D);
+	boinc_sleep(.05f);
+	//usleep(50000);
+	temp &= 0xEF;
+	//JWWriteByteToAddress24F14 (interface, 0x0D, temp);
+	WriteData(m_USBDevHandle[1], 0x0D, temp);
+	boinc_sleep(.05f);
 
-        // write settings to register
-        WriteData(m_USBDevHandle[1], 0x82, 0x14, mReg14);
-
-        // write settings to EEPROM for persistent state
-        WriteData(m_USBDevHandle[1], 0x82, 0x0A, 0x10);  // start EEPROM write
-        boinc_sleep(.050f);
-        WriteData(m_USBDevHandle[1], 0x82, 0x34, mReg14);
-        boinc_sleep(.050f);
-        WriteData(m_USBDevHandle[1], 0x82, 0x0A, 0x02);  // end EEPROM write
-        boinc_sleep(.100f);
-   }
+	//}
+	//else {
+	/* CMC - don't save to EEPROM as there are only a fixed # of times this can be done ~1000
+		// Save changes to EEPROM by touching the registers we want to change
+		JWWriteByteToAddress24F14 (interface, 0x40 & 0xFE, 0);
+	boinc_sleep(0.05f);
+		JWWriteByteToAddress24F14 (interface, 0x55 & 0xFE, 0);
+	boinc_sleep(0.05f);
+		
+		// Soft-reset (save EEPROM-state)
+		JWWriteByteToAddress24F14 (interface, 0x10, 0xB6);
+	boinc_sleep(0.05f);
+	*/
+	//}
+    
+    JWDisableCommandMode24F14();
+	boinc_sleep(0.05f);
+	
+	return true;
 }
-*/
-}
-

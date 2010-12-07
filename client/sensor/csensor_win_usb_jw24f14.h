@@ -35,13 +35,19 @@ class CSensorWinUSBJW24F14  : public CSensor
 
       // two usb-specific methods, one for init, one for reading data
       void GetCapabilities(HANDLE handle);
-      // codemercs.com JoyWarrior 24F8  http://codemercs.com/JW24F1424F8_E.html
-      unsigned char ReadData(HANDLE handle, unsigned char addr);
-      bool WriteData(HANDLE handle, unsigned char cmd, unsigned char addr, unsigned char data);
+
       int SetupJoystick();
-      void SetQCNState(); // persistently set accelerometer to 50Hz and +/- 2g
+      bool SetQCNState(); // persistently set accelerometer to 50Hz and +/- 2g
 
       virtual bool read_xyz(float& x1, float& y1, float& z1);  
+
+	  bool JWEnableCommandMode24F14();
+	  bool JWDisableCommandMode24F14();
+	  bool QCNReadSensor(int& iRange, int& iBandwidth);
+	  bool QCNWriteSensor(const int& iRange, const int& iBandwidth);
+
+      unsigned char ReadData(HANDLE handle, unsigned char addr);
+      bool WriteData(HANDLE handle, unsigned char cmd, unsigned char addr, bool bCommandMode = false);
 
    public:
       CSensorWinUSBJW24F14();
