@@ -539,17 +539,18 @@ bool CSensorWinUSBJW24F14::QCNWriteSensor(const int& iRange, const int& iBandwid
 
 	//}
 	//else {
-	/* CMC - don't save to EEPROM as there are only a fixed # of times this can be done ~1000
 		// Save changes to EEPROM by touching the registers we want to change
-		JWWriteByteToAddress24F14 (interface, 0x40 & 0xFE, 0);
+	//	JWWriteByteToAddress24F14 (interface, 0x40 & 0xFE, 0);
+	WriteData(m_USBDevHandle[1], 0x40 & 0xFE, 0x00);
 	boinc_sleep(0.05f);
-		JWWriteByteToAddress24F14 (interface, 0x55 & 0xFE, 0);
+	//	JWWriteByteToAddress24F14 (interface, 0x55 & 0xFE, 0);
+	WriteData(m_USBDevHandle[1], 0x55 & 0xFE, 0x00);
 	boinc_sleep(0.05f);
 		
 		// Soft-reset (save EEPROM-state)
-		JWWriteByteToAddress24F14 (interface, 0x10, 0xB6);
+	//	JWWriteByteToAddress24F14 (interface, 0x10, 0xB6);
+	WriteData(m_USBDevHandle[1], 0x10, 0xB6);
 	boinc_sleep(0.05f);
-	*/
 	//}
     
     JWDisableCommandMode24F14();

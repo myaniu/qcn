@@ -738,7 +738,7 @@ bool CSensorMacUSBJW::SetQCNState()
            return false;
 		}
 
-	   /* CMC don't write to eeprom, just the reg image above
+	   // CMC don't write to eeprom, just the reg image above
         // write settings to EEPROM for persistent state
         if (! WriteData(m_USBDevHandle[1], 0x82, 0x0A, 0x10, "SetQCNState:W2")) {  // start EEPROM write
            fprintf(stdout, "  * Could not write to JoyWarrior 24F8 USB (SetQCNState:W2), exiting...\n");
@@ -754,7 +754,7 @@ bool CSensorMacUSBJW::SetQCNState()
            fprintf(stdout, "  * Could not write to JoyWarrior 24F8 USB (SetQCNState:W4), exiting...\n");
            return false;
         }
-		*/
+		
         boinc_sleep(.100f);
    } 
 /*
