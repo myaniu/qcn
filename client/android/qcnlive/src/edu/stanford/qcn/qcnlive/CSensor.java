@@ -9,6 +9,7 @@ package edu.stanford.qcn.qcnlive;
  *
  */
 public class CSensor {
+	/*
 	protected 
 	   int m_iType; // what type of sensor, i.e. Thinkpad, HP, USB?
 
@@ -52,4 +53,5 @@ public class CSensor {
      virtual e_sensor getTypeEnum(); // return the iType member variable
 
      virtual bool mean_xyz();   // mean sensor data, implemented here but can be overridden
+     */
 }

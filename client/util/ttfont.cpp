@@ -2,6 +2,15 @@
 
 // FTGL OpenGL TrueType/FreeType font rendering
 // you will need to build & link against freetype2 and ftgl
+// tested using ftgl version 2.1.3 rc5 and freetype version 2.3.9
+
+// ftgl library:  http://sourceforge.net/projects/ftgl/files/FTGL%20Source/
+// freetype2 library:  http://www.freetype.org/
+
+// this should basically be a drop-in for the old boinc txf_* functions i.e.
+//  txf_load_font and txf_render_string, with extra options on the latter for rotating etc
+
+// adapted by Carl Christensen, freely released under LGPL for BOINC
 
 #include "ttfont.h"
 #include "filesys.h"  // from boinc for file_exists
