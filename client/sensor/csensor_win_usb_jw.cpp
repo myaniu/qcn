@@ -392,14 +392,16 @@ void CSensorWinUSBJW::SetQCNState()
 
         // write settings to register
         WriteData(m_USBDevHandle[1], 0x82, 0x14, mReg14);
-
+ 
+       /* no EEPROM write
         // write settings to EEPROM for persistent state
         WriteData(m_USBDevHandle[1], 0x82, 0x0A, 0x10);  // start EEPROM write
         boinc_sleep(.050f);
         WriteData(m_USBDevHandle[1], 0x82, 0x34, mReg14);
         boinc_sleep(.050f);
         WriteData(m_USBDevHandle[1], 0x82, 0x0A, 0x02);  // end EEPROM write
-        boinc_sleep(.100f);
+        */
+       boinc_sleep(.100f);
    }
 }
 
