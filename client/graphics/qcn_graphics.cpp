@@ -1696,13 +1696,6 @@ void Init()
     // everything is loaded, so set flag to true to notify main QCNLive window frame
     // and so don't come into this Init routine again (which shouldn't happen anyway of course)
 
-#ifdef QCNLIVE
-     // check for extra logo i.e. museum logo if any
-     strcpy(path, IMG_LOGO_EXTRA);  // shows up on lower right
-	 if (boinc_file_exists(path)) {
-		txAdd.CreateTextureJPG(path);
-	 }
-
 	// XYZ axes to show at the bottom right of 2d/3d/cube view
 	strcpy(path, IMG_LOGO_XYZAXES);  // shows up on lower right
 	if (boinc_file_exists(path)) {
@@ -1715,6 +1708,13 @@ void Init()
 		txXYZAxesBlack.CreateTextureJPG(path);
 	}
 	
+#ifdef QCNLIVE
+     // check for extra logo i.e. museum logo if any
+     strcpy(path, IMG_LOGO_EXTRA);  // shows up on lower right
+	 if (boinc_file_exists(path)) {
+		txAdd.CreateTextureJPG(path);
+	 }
+
 	earth.SetMapCombined();
 #endif
     g_bInitGraphics = true;
