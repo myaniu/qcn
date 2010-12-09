@@ -1697,13 +1697,21 @@ void Init()
     // and so don't come into this Init routine again (which shouldn't happen anyway of course)
 
 	// XYZ axes to show at the bottom right of 2d/3d/cube view
-	strcpy(path, IMG_LOGO_XYZAXES);  // shows up on lower right
+        #ifdef QCNLIVE
+   	   strcpy(path, IMG_LOGO_XYZAXES);  // shows up on lower right
+       #else
+           boinc_resolve_filename(IMG_LOGO_XYZAXES, path, sizeof(path));
+       #endif
 	if (boinc_file_exists(path)) {
 		txXYZAxes.CreateTextureJPG(path);
 	}
 
 	// XYZ axes to show at the bottom right of 2d/3d/cube view
-	strcpy(path, IMG_LOGO_XYZAXES_BLACK);  // shows up on lower right
+        #ifdef QCNLIVE
+           strcpy(path, IMG_LOGO_XYZAXES_BLACK);  // shows up on lower right
+        #else
+           boinc_resolve_filename(IMG_LOGO_XYZAXES_BLACK, path, sizeof(path));
+        #endif
 	if (boinc_file_exists(path)) {
 		txXYZAxesBlack.CreateTextureJPG(path);
 	}
