@@ -16,6 +16,14 @@
 
 
 $project_news = array(
+   array("December 9, 2010 22:13",
+"If you are going to the AGU Fall Conference in San Francisco next week, please look us up at our various exhibits/posters.  Also I just put up a new version for all platforms that will ensure the F14 sensors are set to +/-2g range, as it seems some were mailed out without being setup properly.  This will only be set on Mac & Windows (BOINC/QCN & QCNLive standalone) programs - as the Linux version just uses 'generic' joystick drivers and doesn't have low-level access to the sensor for programming.  
+<BR><BR>
+So if you are running on Linux, and notice that the extremes of the JW 24F14 sensor seem to 'peak out' or give strange values (usually looks like a 'square wave' if you go through extremes of the range) - you may want to see if you can calibrate it by running a new version of QCNLive on Mac or Linux with this sensor attached.<BR><BR>
+",
+ "QCN at AGU Conference, New Version 6.26 to Calibrate JW24F14 Sensors",
+ ""
+  ),
    array("November 4, 2010 23:23",
 "Due to construction in a new server room at Stanford, we expect intermittent outages between November 22nd and 24th.  No action is required on your part as BOINC will just reconnect when the servers are back online.<BR><BR>",
  "Server Outages November 22nd - 24th, 2010",
