@@ -248,6 +248,12 @@ void MyFrame::createActions()
 	m_actionViewCube->setCheckable(true);
 	m_actionViewCube->setIcon(QIcon(icon_cube_xpm));
     connect(m_actionViewCube, SIGNAL(triggered()), this, SLOT(actionView()));
+
+	/*
+	m_actionViewFullScreen = new QAction(tr("&Full Screen Mode"), this);
+	m_actionViewFullScreen->setToolTip(tr("Go into full-screen mode (ESC key to exit)"));
+    connect(m_actionViewFullScreen, SIGNAL(triggered()), this, SLOT(actionView()));
+	 */
 	
 	
 	// Option - Earth
@@ -442,6 +448,11 @@ void MyFrame::createMenus()
 	m_menuView->addAction(m_actionViewSensor3D);
 	m_menuView->addAction(m_actionViewCube);
 	
+	/*
+	m_menuView->addSeparator();
+	m_menuView->addAction(m_actionViewFullScreen);
+	 */
+	
 	// Options - these change based on the View
 	m_menuOptions = menuBar()->addMenu(tr("&Options"));
 	
@@ -587,7 +598,8 @@ void MyFrame::actionView()
 		qcn_graphics::g_eView = VIEW_CUBE;
 		bChanged = true;
 	}
-	else {
+	else if (pAction == m_actionViewEarth) 
+	{
 		m_sliderTime->hide();
 		ToolBarEarth();
 		if (m_bEarthDay) {
@@ -599,8 +611,14 @@ void MyFrame::actionView()
 			qcn_graphics::earth.SetMapNight();
 		}
 		bChanged = true;
+	} 
+	/*
+	else if (pAction == m_actionViewFullScreen) {
+		qcn_graphics::g_bFullScreen = true;
+		this->showFullScreen();
 	}
-
+	 */
+	
 	m_actionCurrent = pAction;
     qcn_graphics::ResetPlotArray();
 }

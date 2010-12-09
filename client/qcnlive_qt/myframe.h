@@ -64,6 +64,7 @@ private:
 	QAction* m_actionViewSensor2D;
 	QAction* m_actionViewSensor3D;
 	QAction* m_actionViewCube;
+	//QAction* m_actionViewFullScreen;
 	
 	QAction* m_actionOptionEarthDay;
 	QAction* m_actionOptionEarthNight;
