@@ -611,10 +611,10 @@ void draw_text_sensor()
         if (!sm->bSensorFound) {
             TTFont::ttf_render_string(g_alphaText, 0.003, 0.01,0, isize, red, TTF_ARIAL, (const char*) "Demo Mode - Sensor Not Found");
         } else if (sm->lOffset >=0 && sm->lOffset < sm->iWindow ) {  // we're in our calibration window
-            sprintf(buf, "%s sensor calibration in progress (Reset %d)", sm->strSensor, sm->iNumReset);
+            sprintf(buf, "%s sensor calibrating...", sm->strSensor, sm->iNumReset);
             TTFont::ttf_render_string(g_alphaText, 0.003, 0.01, 0, isize, red, TTF_ARIAL, buf);
         } else if (sm->strSensor[0] != 0x00) {
-            sprintf(buf, "Using %s Accelerometer (Reset %d)", sm->strSensor, sm->iNumReset);
+            sprintf(buf, "Using %s sensor (Reset %d)", sm->strSensor, sm->iNumReset);
             TTFont::ttf_render_string(g_alphaText, 0.003, 0.01, 0, isize, red, TTF_ARIAL, buf);
         } else if (dtime()-sm->update_time > 5) {
             TTFont::ttf_render_string(g_alphaText, 0.003, 0.01, 0, isize, red, TTF_ARIAL, (const char*) "QCN Not Running");

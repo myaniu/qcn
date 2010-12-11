@@ -40,7 +40,7 @@
 #define SENSOR_STRLG_USB_JW24F8 "JoyWarrior 24F8 USB"
 #define SENSOR_STRSH_USB_JW24F8 "JW"
 
-#define SENSOR_STRLG_USB_JW24F14 "JoyWarrior 24F14 (Tomcat) USB"
+#define SENSOR_STRLG_USB_JW24F14 "JoyWarrior 24F14 USB"
 #define SENSOR_STRSH_USB_JW24F14 "JT"
 
 #define SENSOR_STRLG_USB_MN "MotionNode Accel USB"
@@ -243,7 +243,7 @@ inline bool CSensor::mean_xyz()
 		}
 #endif		
           // reset if this correction exceeds our time limit or this has been done too much in one session
-		if (++lError > (TIME_ERROR_SECONDS / sm->dt) || ++lErrorCumulative > 1000) {
+		if (++lError > (TIME_ERROR_SECONDS / sm->dt)) { //|| ++lErrorCumulative > 1000) {
 			dTimeDiff = (double) (lError-1) * sm->dt;
                         sm->bWriting = false;
 			goto error_Timing;

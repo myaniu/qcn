@@ -240,6 +240,42 @@ bool CSensorMacUSBJW24F14::closeDevHandle()
 }
 
 inline bool CSensorMacUSBJW24F14::read_xyz(float& x1, float& y1, float& z1)
+{
+	if (!m_USBDevHandle[1]) return false;
+	x1=y1=z1=0.0f;
+			UInt8						rawData[6];
+			int							i;
+			SInt16						x = 0, y = 0, z = 0;
+			
+				JWEnableCommandMode24F14(m_USBDevHandle[1]);
+				
+				for (i = 0; i < 6; i++)
+				{
+					JWReadByteFromAddress24F14(m_USBDevHandle[1], 0x02 + i, &rawData[i]);
+				}
+				
+				JWDisableCommandMode24F14(m_USBDevHandle[1]);
+				
+				x = ((rawData[1] << 8) | (rawData[0] ));
+				x >>= 2;        
+				y = ((rawData[3] << 8) | (rawData[2] ));
+				y >>= 2;
+				z = ((rawData[5] << 8) | (rawData[4] ));
+				z >>= 2;
+
+	// this gives 0 to -39.123
+	//x1 = (((float) x - 16384.f)) / 8192.f * EARTH_G;
+	//y1 = (((float) y - 16384.f)) / 8192.f * EARTH_G;
+
+	x1 = (((float) x)) / 4096.0f * EARTH_G;
+	y1 = (((float) y)) / 4096.0f * EARTH_G;
+	z1 = (((float) z)) / 4096.0f * EARTH_G;
+	
+	return true;
+}
+
+/*
+inline bool CSensorMacUSBJW24F14::read_xyz(float& x1, float& y1, float& z1)
 {  	
     //static int iTestCtr = 0;  // static so we can detect every few seconds if USB stick is still plugged in
     IOReturn result = kIOReturnSuccess;
@@ -276,6 +312,7 @@ inline bool CSensorMacUSBJW24F14::read_xyz(float& x1, float& y1, float& z1)
 	
 	return true;
 }
+*/
 
 bool CSensorMacUSBJW24F14::detect()
 {
