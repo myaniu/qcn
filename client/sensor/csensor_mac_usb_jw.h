@@ -69,6 +69,15 @@ class CSensorMacUSBJW  : public CSensor
 
       void closeHandles();
 
+
+	void JWDiffMsbLsb(UInt16 value, UInt8 *inLSB, UInt8 *inMSB);
+	SInt16 JWMergeOffsetBytes(UInt8 inLSB, UInt8 inMSB);
+	SInt16 JWMergeAxisBytes(UInt8 inLSB, UInt8 inMSB);
+	int JWWriteByteToAddress(IOHIDDeviceInterface122 **hidInterface, UInt8 inAddress, UInt8 inData);
+	int JWReadByteFromAddress(IOHIDDeviceInterface122 **hidInterface, UInt8 inAddress, UInt8 *result);
+	int JWEnableCommandMode (IOHIDDeviceInterface122 **hidInterface);
+	int JWDisableCommandMode (IOHIDDeviceInterface122 **hidInterface);
+
    public:
       CSensorMacUSBJW(enum e_sensor eSensorType = SENSOR_USB_JW24F8);
       virtual ~CSensorMacUSBJW();
