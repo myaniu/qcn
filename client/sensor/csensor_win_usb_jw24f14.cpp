@@ -165,7 +165,7 @@ bool CSensorWinUSBJW24F14::detect()
         SetQCNState();
 	}
 
-    closePort();  // close the HID USB stuff and just use joystick calls from here on out
+    //closePort();  // close the HID USB stuff and just use joystick calls from here on out
 
 	// NB: closePort resets the type & port, so have to set again 
     setType(esTmp);
@@ -213,6 +213,10 @@ inline bool CSensorWinUSBJW24F14::read_xyz(float& x1, float& y1, float& z1)
 {
 	// joystick fn usage
 	if (getPort() < 0) return false;
+
+	x1=y1=z1=0.0f;
+	
+	/*
 	static JOYINFOEX jix;
 	static int iSize = sizeof(JOYINFOEX);
 
@@ -227,68 +231,38 @@ inline bool CSensorWinUSBJW24F14::read_xyz(float& x1, float& y1, float& z1)
                 y1 = (((float) jix.dwYpos - 32767.5f) / 16383.75f) * EARTH_G;
                 z1 = (((float) jix.dwZpos - 32767.5f) / 16383.75f) * EARTH_G;
 	}
-	else {
-		x1 = 0.0f;
-		y1 = 0.0f;
-		z1 = 0.0f;
-	}
+	*/
 
-	/*  // read device 1 which is too slow
-	x = ReadedData(0x02, 0x03, 'x');
-	y = ReadedData(0x04, 0x05, 'y');
-	z = ReadedData(0x06, 0x07, 'z');
-    */
+			unsigned char						rawData[6];
+			int							i;
+			int						x = 0, y = 0, z = 0;
+			
+				if (!JWEnableCommandMode24F14(m_USBDevHandle[1])) return false;
+				
+				for (i = 0; i < 6; i++)
+				{
+					rawData[i] = ReadData(m_USBDevHandle[1], 0x02 + i);
+				}
+				
+				JWDisableCommandMode24F14(m_USBDevHandle[1]);
+
+				/*
+				x = ((rawData[1] << 8) | (rawData[0] )) >> 2;
+				y = ((rawData[3] << 8) | (rawData[2] )) >> 2;
+				z = ((rawData[5] << 8) | (rawData[4] )) >> 2;
+				*/
+
+				x = CalcMsbLsb(rawData[0], rawData[1]);
+				y = CalcMsbLsb(rawData[2], rawData[3]);
+				z = CalcMsbLsb(rawData[4], rawData[5]);
+
+	x1 = ((((float) x)) / 256.0f) * EARTH_G;
+	y1 = ((((float) y)) / 256.0f) * EARTH_G;
+	z1 = ((((float) z)) / 256.0f) * EARTH_G;	
 
 	return true;
 }
 
-/*
-unsigned char CSensorWinUSBJW24F14::ReadData(HANDLE handle, unsigned char cmd, unsigned char addr)
-{
-	unsigned char			WriteBuffer[10];
-	unsigned char			ReadBuffer[10];
-	unsigned char			newAddr;
-	long			BytesWritten = 0;
-	long			NumberOfBytesRead = 0;
-	BOOL			Result;
-
-	newAddr = 0x80 | addr;
-	memset(&WriteBuffer, 0, m_USBCapabilities.OutputReportByteLength+1);
-
-	WriteBuffer[0] = 0x00;
-	WriteBuffer[1] = cmd;
-	WriteBuffer[2] = newAddr;
-
-	Result = WriteFile(handle, &WriteBuffer, m_USBCapabilities.OutputReportByteLength, (LPDWORD) &BytesWritten, NULL);
-
-	if(Result != NULL)
-	{
-		memset(&ReadBuffer, 0, m_USBCapabilities.InputReportByteLength+1);
-		ReadBuffer[0] = 0x00;
-	
-		ReadFile(handle, &ReadBuffer, m_USBCapabilities.InputReportByteLength, (LPDWORD) &NumberOfBytesRead, NULL);
-		return ReadBuffer[3];
-	}
-	else
-		return 0;
-}
-
-float CSensorWinUSBJW24F14::ReadedData(unsigned char addr_LSB, unsigned char addr_MSB, char axe)
-{
-	unsigned char MSB, LSB;
-
-	// use the 0 interface for better speed
-	//LSB = ReadData(m_USBDevHandle[1], 0x82, addr_LSB);
-	//MSB = ReadData(m_USBDevHandle[1], 0x82, addr_MSB);
-
-	LSB = ReadData(m_USBDevHandle[0], 0x82, addr_LSB);
-	MSB = ReadData(m_USBDevHandle[0], 0x82, addr_MSB);
-
-	return (float) CalcMsbLsb(LSB, MSB);
-}
-*/
-
-// USB read function
 unsigned char CSensorWinUSBJW24F14::ReadData(HANDLE handle, unsigned char addr)
 {
 	unsigned char			WriteBuffer[10];
@@ -320,9 +294,75 @@ unsigned char CSensorWinUSBJW24F14::ReadData(HANDLE handle, unsigned char addr)
 		return 0x00;
 }
 
+float CSensorWinUSBJW24F14::ReadFloatData(unsigned char addr_LSB, unsigned char addr_MSB, char axe)
+{
+	unsigned char MSB, LSB;
+
+	// use the 0 interface for better speed
+	LSB = ReadData(m_USBDevHandle[1], addr_LSB);
+	MSB = ReadData(m_USBDevHandle[1], addr_MSB);
+
+	return (float) CalcMsbLsb(LSB, MSB);
+}
+
+int CSensorWinUSBJW24F14::CalcMsbLsb(unsigned char lsb, unsigned char msb)
+{
+	short erg;
+	short LSB, MSB, EXEC;
+
+	EXEC = (msb & 0x80) << 8;
+	EXEC = EXEC & 0x8000;
+
+	// Calculate negative value
+	if(EXEC & 0x8000)
+		EXEC = EXEC | 0x7C00;
+
+	MSB = msb << 2;
+	MSB = MSB & 0x03FC;
+	LSB = (lsb & 0xC0) >> 6;
+	LSB = LSB & 0x0003;
+
+	erg = MSB | LSB | EXEC;
+
+	return erg;
+}
+
+
+// USB read function
+/*
+unsigned char CSensorWinUSBJW24F14::ReadData(HANDLE handle, unsigned char addr)
+{
+	unsigned char			WriteBuffer[10];
+	unsigned char			ReadBuffer[10];
+	long			BytesWritten = 0;
+	long			NumberOfBytesRead = 0;
+	int			Result;
+
+	HidD_FlushQueue(handle);
+
+	memset(WriteBuffer, 0x00, 10);
+
+	WriteBuffer[0] = 0x00; //ReportID
+	WriteBuffer[1] = 0x82; 
+	WriteBuffer[2] = 0x80 | addr;
+
+	Result = WriteFile(handle, WriteBuffer, m_USBCapabilities.OutputReportByteLength, (LPDWORD) &BytesWritten, NULL);
+
+	if(Result != NULL)
+	{
+		memset(ReadBuffer, 0, m_USBCapabilities.InputReportByteLength+1);
+		ReadBuffer[0] = 0x00;
+	
+		ReadFile(handle, ReadBuffer, m_USBCapabilities.InputReportByteLength, (LPDWORD) &NumberOfBytesRead, NULL);
+		return ReadBuffer[3];
+	}
+	else
+		return 0x00;
+}
+*/
 
 // USB write function
-bool CSensorWinUSBJW24F14::WriteData(HANDLE handle, unsigned char cmd, unsigned char addr, bool bCommandMode)
+bool CSensorWinUSBJW24F14::WriteData(HANDLE handle, unsigned char addr, unsigned char cmd, bool bCommandMode)
 {
 	unsigned char			WriteBuffer[10];
 	unsigned char			ReadBuffer[10];
@@ -353,6 +393,7 @@ bool CSensorWinUSBJW24F14::WriteData(HANDLE handle, unsigned char cmd, unsigned 
 		ReadFile(handle, ReadBuffer, m_USBCapabilities.InputReportByteLength, (LPDWORD) &NumberOfBytesRead, NULL);
 	}
 	else {
+	/*
 #ifdef _DEBUG
 	DWORD dw = GetLastError();
     LPVOID lpMsgBuf;
@@ -380,6 +421,7 @@ bool CSensorWinUSBJW24F14::WriteData(HANDLE handle, unsigned char cmd, unsigned 
     LocalFree(lpDisplayBuf);
 
 #endif
+	*/
 		return false;
 	}
 }
@@ -403,14 +445,14 @@ bool CSensorWinUSBJW24F14::SetQCNState()
     return true;
 }
 
-bool CSensorWinUSBJW24F14::JWEnableCommandMode24F14()
+bool CSensorWinUSBJW24F14::JWEnableCommandMode24F14(HANDLE handle)
 { 
-	return WriteData(m_USBDevHandle[1], 0x80, 0x80, true);
+	return WriteData(handle, 0x80, 0x80, true);
 }
 
-bool CSensorWinUSBJW24F14::JWDisableCommandMode24F14()
+bool CSensorWinUSBJW24F14::JWDisableCommandMode24F14(HANDLE handle)
 { 
-	return WriteData(m_USBDevHandle[1], 0x00, 0x00, true);
+	return WriteData(handle, 0x00, 0x00, true);
 }
 
 bool CSensorWinUSBJW24F14::QCNReadSensor(int& iRange, int& iBandwidth)
@@ -418,7 +460,7 @@ bool CSensorWinUSBJW24F14::QCNReadSensor(int& iRange, int& iBandwidth)
 	// Read	
 	// Get values from sensor
 	unsigned char temp = 0x00; //, iComp;
-	if (!JWEnableCommandMode24F14()) return false;
+	if (!JWEnableCommandMode24F14(m_USBDevHandle[1])) return false;
 	
 	// Open 
 	temp = ReadData(m_USBDevHandle[1], 0x0D);
@@ -457,7 +499,7 @@ bool CSensorWinUSBJW24F14::QCNReadSensor(int& iRange, int& iBandwidth)
 	WriteData(m_USBDevHandle[1], 0x0D, temp);
 	boinc_sleep(.05f);
 	
-	JWDisableCommandMode24F14();
+	JWDisableCommandMode24F14(m_USBDevHandle[1]);
 	boinc_sleep(.05f);
 	
 	return true;
@@ -474,7 +516,7 @@ bool CSensorWinUSBJW24F14::QCNWriteSensor(const int& iRange, const int& iBandwid
 	//int bandwidth		= 3;   // 75Hz,  0=10, 1=20, 2=40, 3=75, 4=150, 5=300, 6=600, 7=1200
 	//int compensation	= 8;   // 0% comp,  7=-.5%, 8=0, 9=+.5% etc
 	
-    if (!JWEnableCommandMode24F14()) return false;
+    if (!JWEnableCommandMode24F14(m_USBDevHandle[1])) return false;
     
 	// Open 
 	temp = ReadData(m_USBDevHandle[1], 0x0D);
@@ -555,7 +597,7 @@ bool CSensorWinUSBJW24F14::QCNWriteSensor(const int& iRange, const int& iBandwid
        */
 	//}
     
-    JWDisableCommandMode24F14();
+    JWDisableCommandMode24F14(m_USBDevHandle[1]);
 	boinc_sleep(0.05f);
 	
 	return true;

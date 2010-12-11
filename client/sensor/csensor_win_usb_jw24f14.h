@@ -41,13 +41,15 @@ class CSensorWinUSBJW24F14  : public CSensor
 
       virtual bool read_xyz(float& x1, float& y1, float& z1);  
 
-	  bool JWEnableCommandMode24F14();
-	  bool JWDisableCommandMode24F14();
+	  bool JWEnableCommandMode24F14(HANDLE handle);
+	  bool JWDisableCommandMode24F14(HANDLE handle);
 	  bool QCNReadSensor(int& iRange, int& iBandwidth);
 	  bool QCNWriteSensor(const int& iRange, const int& iBandwidth);
 
+      float ReadFloatData(unsigned char addr_LSB, unsigned char addr_MSB, char axe);
       unsigned char ReadData(HANDLE handle, unsigned char addr);
-      bool WriteData(HANDLE handle, unsigned char cmd, unsigned char addr, bool bCommandMode = false);
+      bool WriteData(HANDLE handle, unsigned char addr, unsigned char cmd, bool bCommandMode = false);
+	  int CalcMsbLsb(unsigned char lsb, unsigned char msb);
 
    public:
       CSensorWinUSBJW24F14();

@@ -267,9 +267,9 @@ inline bool CSensorMacUSBJW24F14::read_xyz(float& x1, float& y1, float& z1)
 	//x1 = (((float) x - 16384.f)) / 8192.f * EARTH_G;
 	//y1 = (((float) y - 16384.f)) / 8192.f * EARTH_G;
 
-	x1 = (((float) x)) / 4096.0f * EARTH_G;
-	y1 = (((float) y)) / 4096.0f * EARTH_G;
-	z1 = (((float) z)) / 4096.0f * EARTH_G;
+	x1 = ((((float) x)) / 4096.0f) * EARTH_G;
+	y1 = ((((float) y)) / 4096.0f) * EARTH_G;
+	z1 = ((((float) z)) / 4096.0f) * EARTH_G;
 	
 	return true;
 }
