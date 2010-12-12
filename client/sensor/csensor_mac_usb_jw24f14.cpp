@@ -239,6 +239,8 @@ bool CSensorMacUSBJW24F14::closeDevHandle()
     return true;
 }
 
+/*
+// not using joystick HID interface
 inline bool CSensorMacUSBJW24F14::read_xyz(float& x1, float& y1, float& z1)
 {
 #ifdef _DEBUG
@@ -282,8 +284,9 @@ inline bool CSensorMacUSBJW24F14::read_xyz(float& x1, float& y1, float& z1)
 	
 	return true;
 }
+*/
 
-/*
+// using joystick HID interface
 inline bool CSensorMacUSBJW24F14::read_xyz(float& x1, float& y1, float& z1)
 {  	
     //static int iTestCtr = 0;  // static so we can detect every few seconds if USB stick is still plugged in
@@ -321,7 +324,6 @@ inline bool CSensorMacUSBJW24F14::read_xyz(float& x1, float& y1, float& z1)
 	
 	return true;
 }
-*/
 
 bool CSensorMacUSBJW24F14::detect()
 {
@@ -498,12 +500,15 @@ bool CSensorMacUSBJW24F14::SetQCNState()
   // and also writes these settings to EEPROM (so each device needs to just get set once hopefully)
 	
 	const int ciRange = 4;       // 2g range (+/-)
-	const int ciBandwidth = 56;  // 75Hz bandwidth & 0% compensation
+	//const int ciBandwidth = 56;  // 75Hz bandwidth & 0% compensation
+	const int ciBandwidth = 120; // 1200Hz bw
 
 	int iRange = 0, iBandwidth = 0;
 	// note the command-mode takes the 2nd handle
 	if (! QCNReadSensor(m_USBDevHandle[1], iRange, iBandwidth)) return false;
-	
+
+	if (! QCNWriteSensor(m_USBDevHandle[1], ciRange, ciBandwidth)) return false;
+
 	if (iRange == ciRange && iBandwidth == ciBandwidth) return true; // already set
 
 	// if here need to set
@@ -622,11 +627,12 @@ bool CSensorMacUSBJW24F14::getHIDCookies(IOHIDDeviceInterface122** handle, cooki
 
 bool CSensorMacUSBJW24F14::QCNReadSensor(IOHIDDeviceInterface122** interface, int& iRange, int& iBandwidth)
 {
+	
 	// Read	
 	// Get values from sensor
 	UInt8 temp; //, iComp;
 	if (JWEnableCommandMode24F14(interface) != kIOReturnSuccess) return false;
-	
+		
 	// Open 
 	if (JWReadByteFromAddress24F14 (interface, 0x0D, &temp) != kIOReturnSuccess) return false;
 	usleep(50000);
@@ -634,7 +640,7 @@ bool CSensorMacUSBJW24F14::QCNReadSensor(IOHIDDeviceInterface122** interface, in
 	temp |= 0x10;
 	JWWriteByteToAddress24F14 (interface, 0x0D, temp);
 	usleep(50000);
-	
+		
 	// Read Bandwidth & Compensation
 	if (JWReadByteFromAddress24F14 (interface, 0x20, &temp)  != kIOReturnSuccess) return false;
 	usleep(50000);
@@ -680,7 +686,7 @@ bool CSensorMacUSBJW24F14::QCNReadSensor(IOHIDDeviceInterface122** interface, in
 bool CSensorMacUSBJW24F14::QCNWriteSensor(IOHIDDeviceInterface122** interface, const int& iRange, const int& iBandwidth)
 {
 	// Write
-	
+
 	UInt8 temp = 0x00;
 	//int range			= 2;   // 2g range, 0=1, 1=1.5, 2=2, 3=3, 4=4, 5=8, 6=16
 	//int bandwidth		= 3;   // 75Hz,  0=10, 1=20, 2=40, 3=75, 4=150, 5=300, 6=600, 7=1200
@@ -696,6 +702,13 @@ bool CSensorMacUSBJW24F14::QCNWriteSensor(IOHIDDeviceInterface122** interface, c
 	if (JWWriteByteToAddress24F14 (interface, 0x0D, temp) != kIOReturnSuccess) return false;
 	usleep(50000);
 	
+	/*
+	// write high_dur * dis_i2c  
+	temp = 51;
+	if (JWWriteByteToAddress24F14 (interface, 0x27, temp) != kIOReturnSuccess) return false;
+	usleep(50000);
+	*/
+
 	// Write Bandwidth & Compensation
 	//JWReadByteFromAddress24F14 (interface, 0x20, &temp);
 	//usleep(50000);

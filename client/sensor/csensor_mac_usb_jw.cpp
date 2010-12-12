@@ -468,6 +468,8 @@ bool CSensorMacUSBJW::closeDevHandle()
     return true;
 }
 
+/*
+ // not using the joystick interface
 inline bool CSensorMacUSBJW::read_xyz(float& x1, float& y1, float& z1)
 {
 	if (!m_USBDevHandle[1]) return false;
@@ -491,8 +493,8 @@ inline bool CSensorMacUSBJW::read_xyz(float& x1, float& y1, float& z1)
 	
 	return true;
 }
+*/
 
-/*
 inline bool CSensorMacUSBJW::read_xyz(float& x1, float& y1, float& z1)
 {  
 	
@@ -532,7 +534,6 @@ inline bool CSensorMacUSBJW::read_xyz(float& x1, float& y1, float& z1)
 
     return true;
 }
-*/
 
 bool CSensorMacUSBJW::detect()
 {
