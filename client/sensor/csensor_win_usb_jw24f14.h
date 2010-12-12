@@ -47,8 +47,8 @@ class CSensorWinUSBJW24F14  : public CSensor
 	  bool QCNWriteSensor(const int& iRange, const int& iBandwidth);
 
       float ReadFloatData(unsigned char addr_LSB, unsigned char addr_MSB, char axe);
-      unsigned char ReadData(HANDLE handle, unsigned char addr);
-      bool WriteData(HANDLE handle, unsigned char addr, unsigned char cmd, bool bCommandMode = false);
+      unsigned char ReadData(HANDLE handle, unsigned char addr, bool bFlush = true);
+      bool WriteData(HANDLE handle, unsigned char addr, unsigned char cmd, bool bCommandMode = false, bool bFlush = true);
 	  int CalcMsbLsb(unsigned char lsb, unsigned char msb);
 
    public:

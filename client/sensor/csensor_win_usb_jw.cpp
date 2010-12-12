@@ -152,8 +152,7 @@ bool CSensorWinUSBJW::detect()
 
 	SetupDiDestroyDeviceInfoList(hDevInfo);
 
-	if (bStart && SetQCNState()) { //SetupJoystick() >= 0) {
-		setPort(SENSOR_USB_JW24F8);
+	if (bStart && SetQCNState() && SetupJoystick() >= 0) {
 		esTmp = SENSOR_USB_JW24F8;
 		iPort = getPort();
         // no single sample, JW actually needs to sample within the 50hz,
@@ -163,7 +162,7 @@ bool CSensorWinUSBJW::detect()
 			"Set to 50Hz internal bandwidth, +/- 2g acceleration.\n", getPort());
 	}
 
-    //closePort();  // close the HID USB stuff and just use joystick calls from here on out
+    closePort();  // close the HID USB stuff and just use joystick calls from here on out
 
 	// NB: closePort resets the type & port, so have to set again 
     setType(esTmp);
@@ -207,6 +206,8 @@ int CSensorWinUSBJW::SetupJoystick()
 	return getPort();
 }
 
+/* 
+// not using joystick interface
 inline bool CSensorWinUSBJW::read_xyz(float& x1, float& y1, float& z1)
 {
 #ifdef _DEBUG
@@ -214,28 +215,9 @@ inline bool CSensorWinUSBJW::read_xyz(float& x1, float& y1, float& z1)
 #endif
 
 	// joystick fn usage
-	//if (getPort() < 0) return false;
 	x1=y1=z1=0.0f;
 
 	if (!m_USBDevHandle[1]) return false;
-
-	/*
-	static JOYINFOEX jix;
-	static int iSize = sizeof(JOYINFOEX);
-
-	memset(&jix, 0x00, iSize);
-	jix.dwSize = iSize;
-	//jix.dwFlags = JOY_RETURNALL; // JOY_RETURNRAWDATA; // JOY_RETURNALL; // JOY_CAL_READ5; //JOY_RETURNRAWDATA | JOY_RETURNALL; // JOY_RETURNX | JOY_RETURNY | JOY_RETURNZ;
-    jix.dwFlags = JOY_CAL_READ5; // read 5 axes calibration info
-	MMRESULT mres = ::joyGetPosEx(getPort(), &jix);
-        // note x/y/z values should be +/-2g where g = 9.78 (see define.h:: EARTH_G)
-	if (mres == JOYERR_NOERROR) { // successfully read the joystick, -2g = 0, 0g = 32767, 2g = 65535
-		x1 = (((float) jix.dwXpos - 32767.5f) / 16383.75f) * EARTH_G;
-		y1 = (((float) jix.dwYpos - 32767.5f) / 16383.75f) * EARTH_G;
-		z1 = (((float) jix.dwZpos - 32767.5f) / 16383.75f) * EARTH_G;
-	}
-	*/
-
         unsigned char rawData[6];
         int i, x, y ,z;
 		i=x=y=z=0;
@@ -261,52 +243,62 @@ inline bool CSensorWinUSBJW::read_xyz(float& x1, float& y1, float& z1)
 
 	return true;
 }
-
-/*
-unsigned char CSensorWinUSBJW::ReadData(HANDLE handle, unsigned char cmd, unsigned char addr)
-{
-	unsigned char			WriteBuffer[10];
-	unsigned char			ReadBuffer[10];
-	unsigned char			newAddr;
-	long			BytesWritten = 0;
-	long			NumberOfBytesRead = 0;
-	BOOL			Result;
-
-	newAddr = 0x80 | addr;
-	memset(&WriteBuffer, 0, m_USBCapabilities.OutputReportByteLength+1);
-
-	WriteBuffer[0] = 0x00;
-	WriteBuffer[1] = cmd;
-	WriteBuffer[2] = newAddr;
-
-	Result = WriteFile(handle, &WriteBuffer, m_USBCapabilities.OutputReportByteLength, (LPDWORD) &BytesWritten, NULL);
-
-	if(Result != NULL)
-	{
-		memset(&ReadBuffer, 0, m_USBCapabilities.InputReportByteLength+1);
-		ReadBuffer[0] = 0x00;
-	
-		ReadFile(handle, &ReadBuffer, m_USBCapabilities.InputReportByteLength, (LPDWORD) &NumberOfBytesRead, NULL);
-		return ReadBuffer[3];
-	}
-	else
-		return 0;
-}
-
-float CSensorWinUSBJW::ReadedData(unsigned char addr_LSB, unsigned char addr_MSB, char axe)
-{
-	unsigned char MSB, LSB;
-
-	// use the 0 interface for better speed
-	//LSB = ReadData(m_USBDevHandle[1], 0x82, addr_LSB);
-	//MSB = ReadData(m_USBDevHandle[1], 0x82, addr_MSB);
-
-	LSB = ReadData(m_USBDevHandle[0], 0x82, addr_LSB);
-	MSB = ReadData(m_USBDevHandle[0], 0x82, addr_MSB);
-
-	return (float) CalcMsbLsb(LSB, MSB);
-}
 */
+
+// using joystick interface
+inline bool CSensorWinUSBJW::read_xyz(float& x1, float& y1, float& z1)
+{
+	// joystick fn usage
+	x1=y1=z1=0.0f;
+	if (getPort() < 0) return false;
+
+	static JOYINFOEX jix;
+	static int iSize = sizeof(JOYINFOEX);
+
+	memset(&jix, 0x00, iSize);
+	jix.dwSize = iSize;
+	//jix.dwFlags = JOY_RETURNALL; // JOY_RETURNRAWDATA; // JOY_RETURNALL; // JOY_CAL_READ5; //JOY_RETURNRAWDATA | JOY_RETURNALL; // JOY_RETURNX | JOY_RETURNY | JOY_RETURNZ;
+    jix.dwFlags = JOY_CAL_READ5; // read 5 axes calibration info
+	MMRESULT mres = ::joyGetPosEx(getPort(), &jix);
+        // note x/y/z values should be +/-2g where g = 9.78 (see define.h:: EARTH_G)
+	if (mres == JOYERR_NOERROR) { // successfully read the joystick, -2g = 0, 0g = 32767, 2g = 65535
+		x1 = (((float) jix.dwXpos - 32767.5f) / 16383.75f) * EARTH_G;
+		y1 = (((float) jix.dwYpos - 32767.5f) / 16383.75f) * EARTH_G;
+		z1 = (((float) jix.dwZpos - 32767.5f) / 16383.75f) * EARTH_G;
+	}
+#ifdef _DEBUG
+	else {
+	DWORD dw = GetLastError();
+    LPVOID lpMsgBuf;
+    LPVOID lpDisplayBuf;
+    FormatMessage(
+        FORMAT_MESSAGE_ALLOCATE_BUFFER | 
+        FORMAT_MESSAGE_FROM_SYSTEM |
+        FORMAT_MESSAGE_IGNORE_INSERTS,
+        NULL,
+        dw,
+        MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
+        (LPTSTR) &lpMsgBuf,
+        0, NULL );
+
+    // Display the error message and exit the process
+
+    lpDisplayBuf = (LPVOID)LocalAlloc(LMEM_ZEROINIT, 
+        (lstrlen((LPCTSTR)lpMsgBuf) + 48) * sizeof(TCHAR)); 
+    sprintf((LPTSTR)lpDisplayBuf, 
+		"%s failed with error %d: %s", 
+        "JW24F14", dw, lpMsgBuf); 
+    MessageBox(NULL, (LPCTSTR)lpDisplayBuf, TEXT("Error"), MB_OK); 
+
+    LocalFree(lpMsgBuf);
+    LocalFree(lpDisplayBuf);
+	}
+
+#endif
+
+	return true;
+}
+
 
 // USB read function
 unsigned char CSensorWinUSBJW::ReadData(HANDLE handle, unsigned char addr)

@@ -153,8 +153,7 @@ bool CSensorWinUSBJW24F14::detect()
 
 	SetupDiDestroyDeviceInfoList(hDevInfo);
 
-	if (bStart && SetQCNState()) { // SetupJoystick() >= 0) {
-		setPort(SENSOR_USB_JW24F14);
+	if (bStart && SetQCNState() && SetupJoystick() >= 0) {
 		esTmp = SENSOR_USB_JW24F14;
 		iPort = getPort();
         // no single sample, JW24F14 actually needs to sample within the 50hz,
@@ -209,18 +208,14 @@ int CSensorWinUSBJW24F14::SetupJoystick()
 	return getPort();
 }
 
+// using joystick interface
 inline bool CSensorWinUSBJW24F14::read_xyz(float& x1, float& y1, float& z1)
 {
-#ifdef _DEBUG
-	static int x_max = -10000, x_min = 10000;
-#endif
-
 	// joystick fn usage
-	if (!m_USBDevHandle[1]) return false;
+	if (getPort() < 0) return false;
 
 	x1=y1=z1=0.0f;
 	
-	/*
 	static JOYINFOEX jix;
 	static int iSize = sizeof(JOYINFOEX);
 
@@ -235,33 +230,35 @@ inline bool CSensorWinUSBJW24F14::read_xyz(float& x1, float& y1, float& z1)
                 y1 = (((float) jix.dwYpos - 32767.5f) / 16383.75f) * EARTH_G;
                 z1 = (((float) jix.dwZpos - 32767.5f) / 16383.75f) * EARTH_G;
 	}
-	*/
+	return true;
+}
 
+/*
+// not using joystick interface
+inline bool CSensorWinUSBJW24F14::read_xyz(float& x1, float& y1, float& z1)
+{
+#ifdef _DEBUG
+	static int x_max = -10000, x_min = 10000;
+#endif
 			unsigned char						rawData[6];
 			int							i;
 			int						x = 0, y = 0, z = 0;
 			
-				if (!JWEnableCommandMode24F14(m_USBDevHandle[1])) return false;
+				//if (!JWEnableCommandMode24F14(m_USBDevHandle[1])) return false;
 				
 				for (i = 0; i < 6; i++)
 				{
 					rawData[i] = ReadData(m_USBDevHandle[1], 0x02 + i);
 				}
 				
-				JWDisableCommandMode24F14(m_USBDevHandle[1]);
-
-				/*
-				x = ((rawData[1] << 8) | (rawData[0] )) >> 2;
-				y = ((rawData[3] << 8) | (rawData[2] )) >> 2;
-				z = ((rawData[5] << 8) | (rawData[4] )) >> 2;
-				*/
+				//JWDisableCommandMode24F14(m_USBDevHandle[1]);
 
 				x = CalcMsbLsb(rawData[0], rawData[1]);
 				y = CalcMsbLsb(rawData[2], rawData[3]);
 				z = CalcMsbLsb(rawData[4], rawData[5]);
 
 #ifdef _DEBUG
-				// range seems to be -512 to 511 inclusive
+	// range seems to be -512 to 511 inclusive
 	if (x > x_max) x_max = x;
 	if (x < x_min) x_min = x;
 #endif
@@ -272,8 +269,9 @@ inline bool CSensorWinUSBJW24F14::read_xyz(float& x1, float& y1, float& z1)
 
 	return true;
 }
+*/
 
-unsigned char CSensorWinUSBJW24F14::ReadData(HANDLE handle, unsigned char addr)
+unsigned char CSensorWinUSBJW24F14::ReadData(HANDLE handle, unsigned char addr, bool bFlush)
 {
 	unsigned char			WriteBuffer[10];
 	unsigned char			ReadBuffer[10];
@@ -288,7 +286,7 @@ unsigned char CSensorWinUSBJW24F14::ReadData(HANDLE handle, unsigned char addr)
 	WriteBuffer[1] = 0x82; 
 	WriteBuffer[2] = 0x80 | addr;
 
-	HidD_FlushQueue(handle);
+	if (bFlush) HidD_FlushQueue(handle);
 	Result = WriteFile(handle, WriteBuffer, m_USBCapabilities.OutputReportByteLength, (LPDWORD) &BytesWritten, NULL);
 
 	if(Result != NULL)
@@ -337,7 +335,7 @@ int CSensorWinUSBJW24F14::CalcMsbLsb(unsigned char lsb, unsigned char msb)
 }
 
 // USB write function
-bool CSensorWinUSBJW24F14::WriteData(HANDLE handle, unsigned char addr, unsigned char cmd, bool bCommandMode)
+bool CSensorWinUSBJW24F14::WriteData(HANDLE handle, unsigned char addr, unsigned char cmd, bool bCommandMode, bool bFlush)
 {
 	unsigned char			WriteBuffer[10];
 	unsigned char			ReadBuffer[10];
@@ -356,7 +354,7 @@ bool CSensorWinUSBJW24F14::WriteData(HANDLE handle, unsigned char addr, unsigned
 		WriteBuffer[3] = cmd;
 	}
 
-	HidD_FlushQueue(handle);
+	if (bFlush) HidD_FlushQueue(handle);
 	Result = WriteFile(handle, WriteBuffer, m_USBCapabilities.OutputReportByteLength, (LPDWORD) &BytesWritten, NULL);
 
 	if(Result)
@@ -406,7 +404,8 @@ bool CSensorWinUSBJW24F14::SetQCNState()
   // and also writes these settings to EEPROM (so each device needs to just get set once hopefully)
 
 	const int ciRange = 4;       // 2g range (+/-)
-	const int ciBandwidth = 56;  // 75Hz bandwidth & 0% compensation
+	//const int ciBandwidth = 56;  // 75Hz bandwidth & 0% compensation
+	const int ciBandwidth = 120;  // 1200Hz bandwidth & 0% compensation
 
 	int iRange = 0, iBandwidth = 0;
 	// note the command-mode takes the 2nd handle
