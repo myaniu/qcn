@@ -211,6 +211,10 @@ int CSensorWinUSBJW24F14::SetupJoystick()
 
 inline bool CSensorWinUSBJW24F14::read_xyz(float& x1, float& y1, float& z1)
 {
+#ifdef _DEBUG
+	static int x_max = -10000, x_min = 10000;
+#endif
+
 	// joystick fn usage
 	if (!m_USBDevHandle[1]) return false;
 
@@ -256,9 +260,15 @@ inline bool CSensorWinUSBJW24F14::read_xyz(float& x1, float& y1, float& z1)
 				y = CalcMsbLsb(rawData[2], rawData[3]);
 				z = CalcMsbLsb(rawData[4], rawData[5]);
 
-	x1 = ((((float) x)) / 256.0f) * EARTH_G;
-	y1 = ((((float) y)) / 256.0f) * EARTH_G;
-	z1 = ((((float) z)) / 256.0f) * EARTH_G;	
+#ifdef _DEBUG
+				// range seems to be -512 to 511 inclusive
+	if (x > x_max) x_max = x;
+	if (x < x_min) x_min = x;
+#endif
+
+	x1 = ((((float) x)) / (x>0 ? 255.5f : 256.0f)) * EARTH_G;
+	y1 = ((((float) y)) / (y>0 ? 255.5f : 256.0f)) * EARTH_G;
+	z1 = ((((float) z)) / (z>0 ? 255.5f : 256.0f)) * EARTH_G;	
 
 	return true;
 }
@@ -271,8 +281,6 @@ unsigned char CSensorWinUSBJW24F14::ReadData(HANDLE handle, unsigned char addr)
 	long			NumberOfBytesRead = 0;
 	int			Result;
 
-	//HidD_FlushQueue(handle);
-
 	memset(WriteBuffer, 0x00, 10);
 
 	/*Enable command-mode from Jw*/
@@ -280,6 +288,7 @@ unsigned char CSensorWinUSBJW24F14::ReadData(HANDLE handle, unsigned char addr)
 	WriteBuffer[1] = 0x82; 
 	WriteBuffer[2] = 0x80 | addr;
 
+	HidD_FlushQueue(handle);
 	Result = WriteFile(handle, WriteBuffer, m_USBCapabilities.OutputReportByteLength, (LPDWORD) &BytesWritten, NULL);
 
 	if(Result != NULL)
@@ -327,40 +336,6 @@ int CSensorWinUSBJW24F14::CalcMsbLsb(unsigned char lsb, unsigned char msb)
 	return erg;
 }
 
-
-// USB read function
-/*
-unsigned char CSensorWinUSBJW24F14::ReadData(HANDLE handle, unsigned char addr)
-{
-	unsigned char			WriteBuffer[10];
-	unsigned char			ReadBuffer[10];
-	long			BytesWritten = 0;
-	long			NumberOfBytesRead = 0;
-	int			Result;
-
-	HidD_FlushQueue(handle);
-
-	memset(WriteBuffer, 0x00, 10);
-
-	WriteBuffer[0] = 0x00; //ReportID
-	WriteBuffer[1] = 0x82; 
-	WriteBuffer[2] = 0x80 | addr;
-
-	Result = WriteFile(handle, WriteBuffer, m_USBCapabilities.OutputReportByteLength, (LPDWORD) &BytesWritten, NULL);
-
-	if(Result != NULL)
-	{
-		memset(ReadBuffer, 0, m_USBCapabilities.InputReportByteLength+1);
-		ReadBuffer[0] = 0x00;
-	
-		ReadFile(handle, ReadBuffer, m_USBCapabilities.InputReportByteLength, (LPDWORD) &NumberOfBytesRead, NULL);
-		return ReadBuffer[3];
-	}
-	else
-		return 0x00;
-}
-*/
-
 // USB write function
 bool CSensorWinUSBJW24F14::WriteData(HANDLE handle, unsigned char addr, unsigned char cmd, bool bCommandMode)
 {
@@ -370,7 +345,6 @@ bool CSensorWinUSBJW24F14::WriteData(HANDLE handle, unsigned char addr, unsigned
 	long			BytesWritten = 0;
 	long			NumberOfBytesRead = 0;
 
-	//HidD_FlushQueue(handle);
 	memset(WriteBuffer, 0x00, 10);
 	WriteBuffer[0] = 0x00;
 	if (bCommandMode) {
@@ -382,6 +356,7 @@ bool CSensorWinUSBJW24F14::WriteData(HANDLE handle, unsigned char addr, unsigned
 		WriteBuffer[3] = cmd;
 	}
 
+	HidD_FlushQueue(handle);
 	Result = WriteFile(handle, WriteBuffer, m_USBCapabilities.OutputReportByteLength, (LPDWORD) &BytesWritten, NULL);
 
 	if(Result)

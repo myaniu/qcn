@@ -249,13 +249,14 @@ inline bool CSensorWinUSBJW::read_xyz(float& x1, float& y1, float& z1)
 		z = CalcMsbLsb(rawData[4], rawData[5]);
 
 #ifdef _DEBUG
+		// range seems to be -512 to 511 inclusive
 	if (x > x_max) x_max = x;
 	if (x < x_min) x_min = x;
 #endif
 
-	x1 = ((((float) x)) / 256.0f) * EARTH_G;
-	y1 = ((((float) y)) / 256.0f) * EARTH_G;
-	z1 = ((((float) z)) / 256.0f) * EARTH_G;	
+	x1 = ((((float) x)) / (x>0 ? 255.5f : 256.0f)) * EARTH_G;
+	y1 = ((((float) y)) / (y>0 ? 255.5f : 256.0f)) * EARTH_G;
+	z1 = ((((float) z)) / (z>0 ? 255.5f : 256.0f)) * EARTH_G;	
 
 
 	return true;
@@ -317,7 +318,6 @@ unsigned char CSensorWinUSBJW::ReadData(HANDLE handle, unsigned char addr)
 	long			NumberOfBytesRead = 0;
 	int			Result;
 
-	//HidD_FlushQueue(handle);
 	newAddr = 0x80 | addr;
 
 	memset(WriteBuffer, 0, m_USBCapabilities.OutputReportByteLength+1);
@@ -327,6 +327,7 @@ unsigned char CSensorWinUSBJW::ReadData(HANDLE handle, unsigned char addr)
 	WriteBuffer[1] = 0x82; //CMD-Mode
 	WriteBuffer[2] = newAddr; //CMD + Addr
 
+	HidD_FlushQueue(handle);
 	Result = WriteFile(handle, WriteBuffer, m_USBCapabilities.OutputReportByteLength, (LPDWORD) &BytesWritten, NULL);
 
 	if(Result != NULL)
@@ -358,8 +359,8 @@ bool CSensorWinUSBJW::WriteData(HANDLE handle, unsigned char cmd, unsigned char 
 	WriteBuffer[2] = addr;
 	WriteBuffer[3] = data;
 
+	HidD_FlushQueue(handle);
 	Result = WriteFile(handle, WriteBuffer, m_USBCapabilities.OutputReportByteLength, (LPDWORD) &BytesWritten, NULL);
-
 	if(Result != NULL)
 	{
 		return true;
