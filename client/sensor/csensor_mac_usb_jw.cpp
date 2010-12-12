@@ -495,6 +495,7 @@ inline bool CSensorMacUSBJW::read_xyz(float& x1, float& y1, float& z1)
 }
 */
 
+// using the joystick interface
 inline bool CSensorMacUSBJW::read_xyz(float& x1, float& y1, float& z1)
 {  
 	

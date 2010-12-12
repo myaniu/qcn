@@ -404,8 +404,8 @@ bool CSensorWinUSBJW24F14::SetQCNState()
   // and also writes these settings to EEPROM (so each device needs to just get set once hopefully)
 
 	const int ciRange = 4;       // 2g range (+/-)
-	//const int ciBandwidth = 56;  // 75Hz bandwidth & 0% compensation
-	const int ciBandwidth = 120;  // 1200Hz bandwidth & 0% compensation
+	//const int ciBandwidth = 120;  // 1200Hz bandwidth & 0% compensation
+	const int ciBandwidth = 56;  // 75Hz bandwidth & 0% compensation
 
 	int iRange = 0, iBandwidth = 0;
 	// note the command-mode takes the 2nd handle
