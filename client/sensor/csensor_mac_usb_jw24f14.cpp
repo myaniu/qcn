@@ -241,6 +241,10 @@ bool CSensorMacUSBJW24F14::closeDevHandle()
 
 inline bool CSensorMacUSBJW24F14::read_xyz(float& x1, float& y1, float& z1)
 {
+#ifdef _DEBUG
+	static int x_max = -10000, x_min = 10000;
+#endif
+	
 	if (!m_USBDevHandle[1]) return false;
 	x1=y1=z1=0.0f;
 			UInt8						rawData[6];
@@ -267,6 +271,11 @@ inline bool CSensorMacUSBJW24F14::read_xyz(float& x1, float& y1, float& z1)
 	//x1 = (((float) x - 16384.f)) / 8192.f * EARTH_G;
 	//y1 = (((float) y - 16384.f)) / 8192.f * EARTH_G;
 
+#ifdef _DEBUG
+	if (x > x_max) x_max = x;
+	if (x < x_min) x_min = x;
+#endif
+	
 	x1 = ((((float) x)) / 4096.0f) * EARTH_G;
 	y1 = ((((float) y)) / 4096.0f) * EARTH_G;
 	z1 = ((((float) z)) / 4096.0f) * EARTH_G;
