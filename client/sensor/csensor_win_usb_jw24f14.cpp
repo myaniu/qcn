@@ -153,7 +153,8 @@ bool CSensorWinUSBJW24F14::detect()
 
 	SetupDiDestroyDeviceInfoList(hDevInfo);
 
-	if (bStart && SetupJoystick() >= 0) {
+	if (bStart && SetQCNState()) { // SetupJoystick() >= 0) {
+		setPort(SENSOR_USB_JW24F14);
 		esTmp = SENSOR_USB_JW24F14;
 		iPort = getPort();
         // no single sample, JW24F14 actually needs to sample within the 50hz,
@@ -162,7 +163,6 @@ bool CSensorWinUSBJW24F14::detect()
 		fprintf(stdout, "JoyWarrior 24F14 USB sensor detected on Windows joystick port %d\n"
 			"Set to 50Hz internal bandwidth, +/- 2g acceleration.\n", getPort());
 
-        SetQCNState();
 	}
 
     //closePort();  // close the HID USB stuff and just use joystick calls from here on out
@@ -212,7 +212,7 @@ int CSensorWinUSBJW24F14::SetupJoystick()
 inline bool CSensorWinUSBJW24F14::read_xyz(float& x1, float& y1, float& z1)
 {
 	// joystick fn usage
-	if (getPort() < 0) return false;
+	if (!m_USBDevHandle[1]) return false;
 
 	x1=y1=z1=0.0f;
 	
@@ -271,7 +271,7 @@ unsigned char CSensorWinUSBJW24F14::ReadData(HANDLE handle, unsigned char addr)
 	long			NumberOfBytesRead = 0;
 	int			Result;
 
-	HidD_FlushQueue(handle);
+	//HidD_FlushQueue(handle);
 
 	memset(WriteBuffer, 0x00, 10);
 
@@ -370,7 +370,7 @@ bool CSensorWinUSBJW24F14::WriteData(HANDLE handle, unsigned char addr, unsigned
 	long			BytesWritten = 0;
 	long			NumberOfBytesRead = 0;
 
-	HidD_FlushQueue(handle);
+	//HidD_FlushQueue(handle);
 	memset(WriteBuffer, 0x00, 10);
 	WriteBuffer[0] = 0x00;
 	if (bCommandMode) {

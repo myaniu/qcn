@@ -152,19 +152,18 @@ bool CSensorWinUSBJW::detect()
 
 	SetupDiDestroyDeviceInfoList(hDevInfo);
 
-	if (bStart && SetupJoystick() >= 0) {
+	if (bStart && SetQCNState()) { //SetupJoystick() >= 0) {
+		setPort(SENSOR_USB_JW24F8);
 		esTmp = SENSOR_USB_JW24F8;
 		iPort = getPort();
         // no single sample, JW actually needs to sample within the 50hz,
         // since we're reading from joystick port, not the downsampling "chip"
 	setSingleSampleDT(true);  // note the usb sensor just requires 1 sample per dt, hardware does the rest
-	fprintf(stdout, "USB sensor detected on Windows joystick port %d\n"
+	fprintf(stdout, "JoyWarrior 24F8 USB sensor detected on Windows joystick port %d\n"
 			"Set to 50Hz internal bandwidth, +/- 2g acceleration.\n", getPort());
-
-        SetQCNState();
 	}
 
-    closePort();  // close the HID USB stuff and just use joystick calls from here on out
+    //closePort();  // close the HID USB stuff and just use joystick calls from here on out
 
 	// NB: closePort resets the type & port, so have to set again 
     setType(esTmp);
@@ -210,8 +209,17 @@ int CSensorWinUSBJW::SetupJoystick()
 
 inline bool CSensorWinUSBJW::read_xyz(float& x1, float& y1, float& z1)
 {
+#ifdef _DEBUG
+	static int x_min = 10000, x_max = -10000;
+#endif
+
 	// joystick fn usage
-	if (getPort() < 0) return false;
+	//if (getPort() < 0) return false;
+	x1=y1=z1=0.0f;
+
+	if (!m_USBDevHandle[1]) return false;
+
+	/*
 	static JOYINFOEX jix;
 	static int iSize = sizeof(JOYINFOEX);
 
@@ -226,17 +234,29 @@ inline bool CSensorWinUSBJW::read_xyz(float& x1, float& y1, float& z1)
 		y1 = (((float) jix.dwYpos - 32767.5f) / 16383.75f) * EARTH_G;
 		z1 = (((float) jix.dwZpos - 32767.5f) / 16383.75f) * EARTH_G;
 	}
-	else {
-		x1 = 0.0f;
-		y1 = 0.0f;
-		z1 = 0.0f;
-	}
+	*/
 
-	/*  // read device 1 which is too slow
-	x = ReadedData(0x02, 0x03, 'x');
-	y = ReadedData(0x04, 0x05, 'y');
-	z = ReadedData(0x06, 0x07, 'z');
-    */
+        unsigned char rawData[6];
+        int i, x, y ,z;
+		i=x=y=z=0;
+        for (i = 0; i < 6; i++)
+        {
+             rawData[i] = ReadData(m_USBDevHandle[1], 0x02 + i);
+        }
+
+		x = CalcMsbLsb(rawData[0], rawData[1]);
+		y = CalcMsbLsb(rawData[2], rawData[3]);
+		z = CalcMsbLsb(rawData[4], rawData[5]);
+
+#ifdef _DEBUG
+	if (x > x_max) x_max = x;
+	if (x < x_min) x_min = x;
+#endif
+
+	x1 = ((((float) x)) / 256.0f) * EARTH_G;
+	y1 = ((((float) y)) / 256.0f) * EARTH_G;
+	z1 = ((((float) z)) / 256.0f) * EARTH_G;	
+
 
 	return true;
 }
@@ -297,7 +317,7 @@ unsigned char CSensorWinUSBJW::ReadData(HANDLE handle, unsigned char addr)
 	long			NumberOfBytesRead = 0;
 	int			Result;
 
-	HidD_FlushQueue(handle);
+	//HidD_FlushQueue(handle);
 	newAddr = 0x80 | addr;
 
 	memset(WriteBuffer, 0, m_USBCapabilities.OutputReportByteLength+1);
@@ -349,6 +369,7 @@ bool CSensorWinUSBJW::WriteData(HANDLE handle, unsigned char cmd, unsigned char 
 		ReadFile(handle, ReadBuffer, m_USBCapabilities.InputReportByteLength, (LPDWORD) &NumberOfBytesRead, NULL);
 	}
 	else {
+/*
 #ifdef _DEBUG
 	DWORD dw = GetLastError();
     LPVOID lpMsgBuf;
@@ -376,11 +397,12 @@ bool CSensorWinUSBJW::WriteData(HANDLE handle, unsigned char cmd, unsigned char 
     LocalFree(lpDisplayBuf);
 
 #endif
+*/
 		return false;
 	}
 }
 
-void CSensorWinUSBJW::SetQCNState()
+bool CSensorWinUSBJW::SetQCNState()
 { // puts the Joystick Warrior USB sensor into the proper state for QCN (50Hz, +/- 2g)
   // and also writes these settings to EEPROM (so each device needs to just get set once hopefully)
 
@@ -403,11 +425,11 @@ void CSensorWinUSBJW::SetQCNState()
         */
        boinc_sleep(.100f);
    }
+   return true;
 }
 
-/*
 // Calculate a 10 bit value with MSB and LSB
-short CSensorWinUSBJW::CalcMsbLsb(unsigned char lsb, unsigned char msb)
+int CSensorWinUSBJW::CalcMsbLsb(unsigned char lsb, unsigned char msb)
 {
 	short erg;
 	short LSB, MSB, EXEC;
@@ -428,4 +450,4 @@ short CSensorWinUSBJW::CalcMsbLsb(unsigned char lsb, unsigned char msb)
 
 	return erg;
 }
-*/
+

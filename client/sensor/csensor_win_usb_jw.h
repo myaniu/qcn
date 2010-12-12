@@ -39,9 +39,10 @@ class CSensorWinUSBJW  : public CSensor
       unsigned char ReadData(HANDLE handle, unsigned char addr);
       bool WriteData(HANDLE handle, unsigned char cmd, unsigned char addr, unsigned char data);
       int SetupJoystick();
-      void SetQCNState(); // persistently set accelerometer to 50Hz and +/- 2g
+      bool SetQCNState(); // persistently set accelerometer to 50Hz and +/- 2g
 
       virtual bool read_xyz(float& x1, float& y1, float& z1);  
+	  int CalcMsbLsb(unsigned char lsb, unsigned char msb);
 
    public:
       CSensorWinUSBJW();
