@@ -30,7 +30,7 @@ void CSensorWinUSBJW24F14::closePort()
      if (m_USBDevHandle[i]) {
        try {
           // don't think we need the next line, just close & Release
-      WriteData(m_USBDevHandle[i], 0x02, 0x00, 0x00);  // Free JW
+      //WriteData(m_USBDevHandle[i], 0x02, 0x00, 0x00);  // Free JW
 	  ::CancelIo(m_USBDevHandle[i]);
 	  ::CloseHandle(m_USBDevHandle[i]);
 	  m_USBDevHandle[i] = NULL;
@@ -164,7 +164,7 @@ bool CSensorWinUSBJW24F14::detect()
 
 	}
 
-    //closePort();  // close the HID USB stuff and just use joystick calls from here on out
+    closePort();  // close the HID USB stuff and just use joystick calls from here on out
 
 	// NB: closePort resets the type & port, so have to set again 
     setType(esTmp);
@@ -403,7 +403,7 @@ bool CSensorWinUSBJW24F14::SetQCNState()
 { // puts the Joystick Warrior USB sensor into the proper state for QCN (50Hz, +/- 2g)
   // and also writes these settings to EEPROM (so each device needs to just get set once hopefully)
    return true; // can't setup without physically removing!
-
+/*
 	const int ciRange = 4;       // 2g range (+/-)
 	//const int ciBandwidth = 120;  // 1200Hz bandwidth & 0% compensation
 	const int ciBandwidth = 56;  // 75Hz bandwidth & 0% compensation
@@ -418,20 +418,22 @@ bool CSensorWinUSBJW24F14::SetQCNState()
 	if (! QCNWriteSensor(ciRange, ciBandwidth)) return false;
 	
     return true;
+*/
 }
 
 bool CSensorWinUSBJW24F14::JWEnableCommandMode24F14(HANDLE handle)
 { 
-	return WriteData(handle, 0x80, 0x80, true);
+	return true; //WriteData(handle, 0x80, 0x80, true);
 }
 
 bool CSensorWinUSBJW24F14::JWDisableCommandMode24F14(HANDLE handle)
 { 
-	return WriteData(handle, 0x00, 0x00, true);
+	return true; //WriteData(handle, 0x00, 0x00, true);
 }
 
 bool CSensorWinUSBJW24F14::QCNReadSensor(int& iRange, int& iBandwidth)
 {
+/*
 	// Read	
 	// Get values from sensor
 	unsigned char temp = 0x00; //, iComp;
@@ -476,7 +478,7 @@ bool CSensorWinUSBJW24F14::QCNReadSensor(int& iRange, int& iBandwidth)
 	
 	JWDisableCommandMode24F14(m_USBDevHandle[1]);
 	boinc_sleep(.05f);
-	
+*/
 	return true;
 }
 
@@ -484,6 +486,7 @@ bool CSensorWinUSBJW24F14::QCNReadSensor(int& iRange, int& iBandwidth)
 
 bool CSensorWinUSBJW24F14::QCNWriteSensor(const int& iRange, const int& iBandwidth)
 {
+/*
 	// Write
 	
 	unsigned char temp = 0x00;
@@ -523,23 +526,7 @@ bool CSensorWinUSBJW24F14::QCNWriteSensor(const int& iRange, const int& iBandwid
 	//if (JWWriteByteToAddress24F14 (interface, 0x35, temp) != kIOReturnSuccess) return false;
 	WriteData(m_USBDevHandle[1], 0x35, temp);
 	boinc_sleep(0.05f);
-	
-	/*
-	// Write customer specific byte 1
-    theScanner = [NSScanner scannerWithString:[customerSpecificByte1Field stringValue]]; 
-    int value;
-    [theScanner scanHexInt:(unsigned int*)&value];
-    temp = value;
-	JWWriteByteToAddress24F14 (interface, 0x2c, value);
-	usleep(50000);
-	
-	// Write customer specific byte 2
-    theScanner = [NSScanner scannerWithString:[customerSpecificByte2Field stringValue]]; 
-    [theScanner scanHexInt:(unsigned int*)&value];
-    temp = value;
-	JWWriteByteToAddress24F14 (interface, 0x2d, temp);
-	usleep(50000);
-	*/
+
 	
 	// Are we going to save to EEPROM or Image only?
 	//if ( [saveImageOrEEPROMField indexOfSelectedItem] == 0 )
@@ -556,7 +543,6 @@ bool CSensorWinUSBJW24F14::QCNWriteSensor(const int& iRange, const int& iBandwid
 
 	//}
 	//else {
-       /* no EEPROM write
 		// Save changes to EEPROM by touching the registers we want to change
 	//	JWWriteByteToAddress24F14 (interface, 0x40 & 0xFE, 0);
 	WriteData(m_USBDevHandle[1], 0x40 & 0xFE, 0x00);
@@ -569,11 +555,10 @@ bool CSensorWinUSBJW24F14::QCNWriteSensor(const int& iRange, const int& iBandwid
 	//	JWWriteByteToAddress24F14 (interface, 0x10, 0xB6);
 	WriteData(m_USBDevHandle[1], 0x10, 0xB6);
 	boinc_sleep(0.05f);
-       */
 	//}
     
     JWDisableCommandMode24F14(m_USBDevHandle[1]);
 	boinc_sleep(0.05f);
-	
+*/	
 	return true;
 }
