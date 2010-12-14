@@ -402,6 +402,7 @@ bool CSensorWinUSBJW24F14::WriteData(HANDLE handle, unsigned char addr, unsigned
 bool CSensorWinUSBJW24F14::SetQCNState()
 { // puts the Joystick Warrior USB sensor into the proper state for QCN (50Hz, +/- 2g)
   // and also writes these settings to EEPROM (so each device needs to just get set once hopefully)
+   return true; // can't setup without physically removing!
 
 	const int ciRange = 4;       // 2g range (+/-)
 	//const int ciBandwidth = 120;  // 1200Hz bandwidth & 0% compensation
