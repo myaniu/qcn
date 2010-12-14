@@ -53,11 +53,14 @@ class CSensorMacUSBJW24F14  : public CSensor
       void closeHandles();
 
 	// utility functions ported from codemercs
-	int JWDisableCommandMode24F14 (IOHIDDeviceInterface122 **hidInterface);
-	int JWEnableCommandMode24F14 (IOHIDDeviceInterface122 **hidInterface);
+	//int JWDisableCommandMode24F14 (IOHIDDeviceInterface122 **hidInterface);
+	//int JWEnableCommandMode24F14 (IOHIDDeviceInterface122 **hidInterface);
+
+        void OpenImage(IOHIDDeviceInterface122 **hidInterface, bool bOpen);
+	void Mode(IOHIDDeviceInterface122 **hidInterface, bool bOpen);
 	
-	int JWReadByteFromAddress24F14 (IOHIDDeviceInterface122 **hidInterface, UInt8 inAddress, UInt8 *result);
-	int JWWriteByteToAddress24F14 (IOHIDDeviceInterface122 **hidInterface, UInt8 inAddress, UInt8 inData);
+	bool JWReadByteFromAddress24F14 (IOHIDDeviceInterface122 **hidInterface, UInt8 inAddress, UInt8 *result);
+	bool JWWriteByteToAddress24F14 (IOHIDDeviceInterface122 **hidInterface, UInt8 cmd, UInt8 inAddress, UInt8 inData);
 	
 	SInt16 JWMergeAxisBytes24F14 (UInt8 inLSB, UInt8 inMSB);
 	SInt16 JWMergeOffsetBytes24F14 (UInt8 inLSB, UInt8 inMSB);
