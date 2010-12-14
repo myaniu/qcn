@@ -56,16 +56,16 @@ class CSensorMacUSBJW24F14  : public CSensor
 	//int JWDisableCommandMode24F14 (IOHIDDeviceInterface122 **hidInterface);
 	//int JWEnableCommandMode24F14 (IOHIDDeviceInterface122 **hidInterface);
 
-        void OpenImage(IOHIDDeviceInterface122 **hidInterface, bool bOpen);
-	void Mode(IOHIDDeviceInterface122 **hidInterface, bool bOpen);
+        //void OpenImage(IOHIDDeviceInterface122 **hidInterface, bool bOpen);
+	//void Mode(IOHIDDeviceInterface122 **hidInterface, bool bOpen);
 	
-	bool JWReadByteFromAddress24F14 (IOHIDDeviceInterface122 **hidInterface, UInt8 inAddress, UInt8 *result);
-	bool JWWriteByteToAddress24F14 (IOHIDDeviceInterface122 **hidInterface, UInt8 cmd, UInt8 inAddress, UInt8 inData);
+	//bool JWReadByteFromAddress24F14 (IOHIDDeviceInterface122 **hidInterface, UInt8 inAddress, UInt8 *result);
+	//bool JWWriteByteToAddress24F14 (IOHIDDeviceInterface122 **hidInterface, UInt8 cmd, UInt8 inAddress, UInt8 inData);
 	
-	SInt16 JWMergeAxisBytes24F14 (UInt8 inLSB, UInt8 inMSB);
-	SInt16 JWMergeOffsetBytes24F14 (UInt8 inLSB, UInt8 inMSB);
+	//SInt16 JWMergeAxisBytes24F14 (UInt8 inLSB, UInt8 inMSB);
+	//SInt16 JWMergeOffsetBytes24F14 (UInt8 inLSB, UInt8 inMSB);
 	
-	void JWDiffMsbLsb24F14 (UInt16 value, UInt8 *inLSB, UInt8 *inMSB);
+	//void JWDiffMsbLsb24F14 (UInt16 value, UInt8 *inLSB, UInt8 *inMSB);
 
 
       bool QCNReadSensor(IOHIDDeviceInterface122** interface, int& iRange, int& iBandwidth);

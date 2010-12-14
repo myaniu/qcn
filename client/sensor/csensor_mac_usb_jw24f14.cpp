@@ -630,6 +630,7 @@ bool CSensorMacUSBJW24F14::getHIDCookies(IOHIDDeviceInterface122** handle, cooki
 
 bool CSensorMacUSBJW24F14::QCNReadSensor(IOHIDDeviceInterface122** interface, int& iRange, int& iBandwidth)
 {	
+	/*
 	// Read	
 	// Get values from sensor
 	UInt8 temp; //, iComp;
@@ -667,6 +668,8 @@ bool CSensorMacUSBJW24F14::QCNReadSensor(IOHIDDeviceInterface122** interface, in
 	//Sleep(10);
 	OpenImage(interface, false);
 	Mode(interface, false);
+	 
+	*/
 	
 	return true;	
 }
@@ -675,6 +678,8 @@ bool CSensorMacUSBJW24F14::QCNReadSensor(IOHIDDeviceInterface122** interface, in
 
 bool CSensorMacUSBJW24F14::QCNWriteSensor(IOHIDDeviceInterface122** interface, const int& iRange, const int& iBandwidth)
 {
+	
+/*
 	// Write
 
 	UInt8 temp = 0x00;
@@ -718,7 +723,6 @@ bool CSensorMacUSBJW24F14::QCNWriteSensor(IOHIDDeviceInterface122** interface, c
 	if (!JWWriteByteToAddress24F14 (interface, 0x82, 0x35, temp)) return false;
 	usleep(10000);
 	
-	/*
 	// Write customer specific byte 1
     theScanner = [NSScanner scannerWithString:[customerSpecificByte1Field stringValue]]; 
     int value;
@@ -733,13 +737,12 @@ bool CSensorMacUSBJW24F14::QCNWriteSensor(IOHIDDeviceInterface122** interface, c
     temp = value;
 	JWWriteByteToAddress24F14 (interface, 0x82, 0x2d, temp);
 	usleep(10000);
-	*/
 	
 	
 	OpenImage(interface, false);
 	Mode(interface, false);
 
-	/* no eeprom saves
+	//no eeprom saves
 		// Save changes to EEPROM by touching the registers we want to change
 		JWWriteByteToAddress24F14 (interface, 0x82, 0x40 & 0xFE, 0);
 		usleep(10000);
@@ -749,12 +752,14 @@ bool CSensorMacUSBJW24F14::QCNWriteSensor(IOHIDDeviceInterface122** interface, c
 		// Soft-reset (save EEPROM-state)
 		JWWriteByteToAddress24F14 (interface, 0x82, 0x10, 0xB6);
 		usleep(10000);
-	 */
+	
 	//}
+	*/
 	
 	return true;
 }
 
+/*
 //Enable or disable direct connection
 void CSensorMacUSBJW24F14::Mode(IOHIDDeviceInterface122 **hidInterface, bool bOpen)
 {
@@ -771,7 +776,6 @@ void CSensorMacUSBJW24F14::OpenImage(IOHIDDeviceInterface122 **hidInterface, boo
 	usleep(10000);
 }
 
-/*
 int CSensorMacUSBJW24F14::JWDisableCommandMode24F14 (IOHIDDeviceInterface122 **hidInterface)
 {
 	UInt8	writeBuffer[8];
@@ -826,7 +830,6 @@ int CSensorMacUSBJW24F14::JWEnableCommandMode24F14(IOHIDDeviceInterface122 **hid
     
 	return ioReturnValue;
 }
-*/
 
 bool CSensorMacUSBJW24F14::JWReadByteFromAddress24F14(IOHIDDeviceInterface122 **hidInterface, UInt8 inAddress, UInt8 *result)
 {
@@ -950,3 +953,4 @@ void CSensorMacUSBJW24F14::JWDiffMsbLsb24F14 (UInt16 value, UInt8 *outLSB, UInt8
 	
 }
 
+ */
