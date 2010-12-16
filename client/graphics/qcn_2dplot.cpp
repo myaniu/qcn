@@ -22,7 +22,7 @@ static int g_iScaleSigOffset  = 0;
 static int g_iScaleAxesOffset = 0;
 
 static const float g_fScaleSig[6]  = { 3.0f, 6.0f, 9.0f, 12.0f, 18.0f, 24.0f }; // default scale for sig is 20
-static const float g_fScaleAxes[6] = { .12f, .36f, 1.8f, 3.0f,  9.8f, 19.6f  };
+static const float g_fScaleAxes[6] = { .12f, .36f, 1.8f, 3.0f,  EARTH_G, EARTH_G * 2.0f  };
 
 static bool g_bAutoScale = true; // set to true when want each axes to scale around the last 100 data points (maybe need every second?)
 
@@ -383,8 +383,8 @@ void draw_plot()
 				}
 			 }
 			 else {
-				g_fMaxAxesCurrent[ee] = ( ee == E_DS ? g_fScaleSig[g_iScaleSigOffset] : g_fScaleAxes[g_iScaleAxesOffset] + g_fAvg[ee]);
-				g_fMinAxesCurrent[ee] = ( ee == E_DS ? 0.0f : -g_fScaleAxes[g_iScaleAxesOffset] + g_fAvg[ee]);
+				 g_fMaxAxesCurrent[ee] = ( ee == E_DS ? g_fScaleSig[g_iScaleSigOffset] : g_fScaleAxes[g_iScaleAxesOffset] ); //+ g_fAvg[ee]);
+				 g_fMinAxesCurrent[ee] = ( ee == E_DS ? 0.0f : -g_fScaleAxes[g_iScaleAxesOffset] ); // + g_fAvg[ee]);
 			 }
 
 			 if ((g_fMaxAxesCurrent[ee] - g_fMinAxesCurrent[ee]) == 0.0f) {
