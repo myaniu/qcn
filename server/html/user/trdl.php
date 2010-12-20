@@ -869,7 +869,7 @@ function get_file_url($res)
 {
 $fileurl = "N/A";
 if ($res->received_file == 100) {
-   if $res->is_archive {
+   if ($res->is_archive) {
      $fileurl = "http://qcn-upl.stanford.edu/trigger/archive/";
    }
    else {
@@ -878,7 +878,9 @@ if ($res->received_file == 100) {
    if ($db_name == "continual") {
       $fileurl .= "continual/";
    }
-   return $fileurl . $res->file;
+   $fileurl .= $res->file;
+}
+return $fileurl;
 }
 
 ?>
