@@ -395,7 +395,7 @@ function show_trigger($hostid, $heading, $private=true)
        . "time_sync,sync_offset,significance, magnitude, " . $sqllatlng 
        . "dt, numreset, "
        . "s.description, "
-       . "sw_version,os_type,runtime_cpu,runtime_clock,varietyid,levelvalue,levelid,received_file,file_url,result_name,alignid "
+       . "sw_version,os_type,runtime_cpu,runtime_clock,varietyid,levelvalue,levelid,received_file,'' as file_url,result_name,alignid "
        . "from DBNAME.qcn_trigger t "
        . "             LEFT JOIN DBNAME.qcn_sensor s ON t.type_sensor = s.id "
        . "WHERE hostid=$hostid order by time_trigger desc limit " . MAX_NUM_TRIGGER;
