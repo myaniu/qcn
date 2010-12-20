@@ -867,18 +867,18 @@ function time_str_csv($x) {
 
 function get_file_url($res)
 {
-$file_url = "N/A";
+$fileurl = "N/A";
 if ($res->received_file == 100) {
    if $res->is_archive {
-     $file_url = "http://qcn-upl.stanford.edu/trigger/archive/";
+     $fileurl = "http://qcn-upl.stanford.edu/trigger/archive/";
    }
    else {
-     $file_url = "http://qcn-upl.stanford.edu/trigger/";
+     $fileurl = "http://qcn-upl.stanford.edu/trigger/";
    }
    if ($db_name == "continual") {
-      $file_url .= "continual/";
+      $fileurl .= "continual/";
    }
-   return $file_url . $res->file;
+   return $fileurl . $res->file;
 }
 
 ?>
