@@ -14,6 +14,17 @@ drop table if exists qcn_dluser;
 drop table if exists qcn_post;
 drop table if exists qcn_ramp_participant;
 drop table if exists qcn_ramp_coordinator;
+drop table if exists qcn_constant;
+
+create table qcn_constant (
+    id int not null primary key auto_increment,
+    description varchar(64) not null,
+    value_int int,
+    value_text varchar(64),
+    value_float float
+);
+create index qcn_constant_description on qcn_constant(description);
+insert into qcn_constant (description, value_int) values ('ArchiveTime', unix_timestamp());
 
 create table qcn_sensor (id smallint not null primary key, is_usb boolean not null default 0, description varchar(64));
 insert into qcn_sensor values (0, 0, 'Not Found');
@@ -201,7 +212,6 @@ os_type varchar(8),
 qcn_quakeid int(11),
 time_filereq double,
 received_file tinyint(1),
-file_url varchar(128),
 runtime_clock double,
 runtime_cpu double,
 varietyid smallint not null default 0,
