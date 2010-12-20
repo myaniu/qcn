@@ -303,7 +303,7 @@ t.id as triggerid, t.hostid, t.ipaddr, t.result_name, t.time_trigger as trigger_
 t.sync_offset, t.significance, t.magnitude as trigger_mag, 
 t.latitude as trigger_lat, t.longitude as trigger_lon, t.file as trigger_file, t.dt as delta_t,
 t.numreset, s.description as sensor_description, t.sw_version, t.qcn_quakeid, t.time_filereq as trigger_timereq, 
-t.received_file
+t.received_file, t.file_url
 FROM
   qcnalpha.qcn_trigger t LEFT OUTER JOIN qcn_quake q ON t.qcn_quakeid = q.id
    LEFT JOIN qcn_sensor s ON t.type_sensor = s.id 

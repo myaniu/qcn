@@ -15,7 +15,7 @@ qcn_admin_user_auth($user, true);
 
 // archive cutoff time is two months prior to the first of the current month
 //$queryArchiveTime = "SELECT unix_timestamp( concat(year(now()), '/', month(now()), '/01 00:00:00') ) - (60 * 24 * 3600) archive_time";
-$unixtimeArchive = mktime(0, 0, 0, date("n"), 1, date("Y")) - (60*24*3600); 
+   $unixtimeArchive = mktime(0, 0, 0, date("n"), 1, date("Y")) - (60*24*3600); 
 
     $config = get_config();
         $user = parse_config($config, "<db_user>");
@@ -867,6 +867,7 @@ function time_str_csv($x) {
 
 function get_file_url($res)
 {
+global $db_name;
 $fileurl = "N/A";
 if ($res->received_file == 100) {
    if ($res->is_archive) {
@@ -878,7 +879,7 @@ if ($res->received_file == 100) {
    if ($db_name == "continual") {
       $fileurl .= "continual/";
    }
-   $fileurl .= $res->file;
+   $fileurl .= $res->trigger_file;
 }
 return $fileurl;
 }
