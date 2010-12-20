@@ -16,12 +16,18 @@
 
 
 $project_news = array(
-   array("December 9, 2010 22:13",
-"If you are going to the AGU Fall Conference in San Francisco next week, please look us up at our various exhibits/posters.  Also I just put up a new version for all platforms that will ensure the F14 sensors are set to +/-2g range, as it seems some were mailed out without being setup properly.  This will only be set on Mac & Windows (BOINC/QCN & QCNLive standalone) programs - as the Linux version just uses 'generic' joystick drivers and doesn't have low-level access to the sensor for programming.  
+   array("December 13, 2010 22:13",
+"We have unfortunately had a problem with the JoyWarrior 24F14 sensor setup, in that some were shipped out without the required 2g settings for QCN.  Also the sensors cannot be setup within the QCN software unlike the 24F8 USB sensors.  So if your sensor does not seem to be working correctly, <A HREF=\"http://qcn.stanford.edu/sensor/download/jw24f14.zip\">please download this small program (for Mac and Windows)</A>, and follow the steps in the README.txt file.  We apologize for any inconvenience.
 <BR><BR>
-So if you are running on Linux, and notice that the extremes of the JW 24F14 sensor seem to 'peak out' or give strange values (usually looks like a 'square wave' if you go through extremes of the range) - you may want to see if you can calibrate it by running a new version of QCNLive on Mac or Windows with this sensor attached.<BR><BR>
 ",
- "QCN at AGU Conference, New Version 6.26 to Calibrate JW24F14 Sensors",
+ "JoyWarrior 24F14 Sensor Setup for QCN",
+ "http://qcn.stanford.edu/sensor/download/jw24f14.zip"
+  ),
+   array("December 9, 2010 22:13",
+"If you are going to the AGU Fall Conference in San Francisco next week, please look us up at our various exhibits/posters.
+<BR><BR>
+",
+ "QCN at AGU Conference",
  ""
   ),
    array("November 4, 2010 23:23",
