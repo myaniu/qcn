@@ -81,7 +81,6 @@
  os_type        varchar(8)
  qcn_quakeid   int(11)
  received_file  bool
- file_url       varchar(128)
 
   (note we store result_name and not resultid to save time on the lookup, qcn_quakeid can also be used later to link a known event with our trigger)
 
@@ -309,14 +308,13 @@ int handle_qcn_trigger(const DB_MSG_FROM_HOST* pmfh, const int iVariety)
        levelid        smallint     YES        NULL            
        alignid
        ipaddr         varchar(32)
-       received_file & file_url & qcn_quakeid should be null
+       received_file qcn_quakeid should be null
      */
 
      // eventid & qcn_quakeid will be used later, 
      // in case we want to tie in some USGS or QCN or other event id to this trigger
      qtrig.qcn_quakeid   = 0;
      qtrig.received_file = 0;
-     strcpy(qtrig.file_url,"");
      qtrig.levelvalue = 0;
      qtrig.levelid    = 0;
      qtrig.alignid = 0;

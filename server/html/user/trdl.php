@@ -53,7 +53,7 @@ t.id as triggerid, t.hostid, t.ipaddr, t.result_name, t.time_trigger as trigger_
 t.sync_offset, t.significance, t.magnitude as trigger_mag, 
 t.latitude as trigger_lat, t.longitude as trigger_lon, t.file as trigger_file, t.dt as delta_t,
 t.numreset, s.description as sensor_description, t.sw_version, t.qcn_quakeid, t.time_filereq as trigger_timereq, 
-t.received_file, t.file_url, REPLACE_ARCHIVE is_archive, t.varietyid
+t.received_file, REPLACE_ARCHIVE is_archive, t.varietyid
 FROM REPLACE_DB.qcn_trigger t LEFT OUTER JOIN qcnalpha.qcn_quake q ON t.qcn_quakeid = q.id
    LEFT JOIN qcnalpha.qcn_sensor s ON t.type_sensor = s.id 
 ";
@@ -728,13 +728,15 @@ function qcn_trigger_detail_csv($res)
           $quakestuff = ",,,,,,,,";
     }
 
+   $file_url = get_file_url($res);
+
     return $res->triggerid . "," . $res->hostid . "," . $res->ipaddr . "," .
        $res->result_name . "," . time_str_csv($res->trigger_time) . "," . round($res->delay_time, 2) . "," .
         time_str_csv($res->trigger_sync) . "," . $res->sync_offset . "," . $res->trigger_mag . "," . $res->significance . "," .
         round($res->trigger_lat, 8) . "," . round($res->trigger_lon, 8) . "," . ($res->numreset ? $res->numreset : 0) . "," .
         $res->delta_t . "," . $res->sensor_description . "," . $res->sw_version . "," .
         time_str_csv($res->trigger_time) . "," . ($res->received_file == 100 ? " Yes " : " No " ) . "," .
-        ($res->file_url ? $res->file_url : "N/A") . "," .
+        $file_url . "," .
         $quakestuff .
         "\n";
 
@@ -811,10 +813,11 @@ function qcn_trigger_detail($res)
         echo "
         <td>" . time_str($res->trigger_timereq) . "</td>
         <td>" . ($res->received_file == 100 ? " Yes " : " No " ) . "</td>";
-
-        if ($res->file_url) {
-          echo "<td><a href=\"" . $res->file_url . "\">Download</a></td>";
-          echo "<td><a href=\"javascript:void(0)\"onclick=\"window.open('http://qcn.stanford.edu/earthquakes/view/view_data.php?dat=".basename($res->file_url)."','linkname','height=500,width=400,scrollbars=no')\">View</a></td>";
+ 
+        $file_url = get_file_url($res);
+        if ($file_url != "N/A") {
+          echo "<td><a href=\"" . $file_url . "\">Download</a></td>";
+          echo "<td><a href=\"javascript:void(0)\"onclick=\"window.open('http://qcn.stanford.edu/earthquakes/view/view_data.php?dat=".basename($file_url)."','linkname','height=500,width=400,scrollbars=no')\">View</a></td>";
         }
         else {
           echo "<td>N/A</td>";
@@ -860,6 +863,22 @@ function query_count($myquery) {
 function time_str_csv($x) {
     if (!$x) return "";
     return gmdate('Y/m/d H:i:s', $x); // . " UTC";
+}
+
+function get_file_url($res)
+{
+$file_url = "N/A";
+if ($res->received_file == 100) {
+   if $res->is_archive {
+     $file_url = "http://qcn-upl.stanford.edu/trigger/archive/";
+   }
+   else {
+     $file_url = "http://qcn-upl.stanford.edu/trigger/";
+   }
+   if ($db_name == "continual") {
+      $file_url .= "continual/";
+   }
+   return $file_url . $res->file;
 }
 
 ?>

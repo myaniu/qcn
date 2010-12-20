@@ -116,7 +116,6 @@ struct QCN_TRIGGER
     int qcn_quakeid;
     double time_filereq;
     int received_file;
-    char file_url[64];
     double runtime_clock;
     double runtime_cpu;
     int varietyid;
@@ -325,7 +324,6 @@ public:
         "qcn_quakeid=%d,"
         "time_filereq=%f,"
         "received_file=%d,"
-        "file_url='%s',"
         "runtime_clock=%f,"
         "runtime_cpu=%f,"
         "varietyid=%d,"
@@ -334,7 +332,7 @@ public:
         hostid, ipaddr, result_name, time_trigger, time_sync, sync_offset,
         significance, magnitude, latitude, longitude, strLevelValue, strLevelID, alignid,
         file, dt, numreset, type_sensor, sw_version, os_type,
-        qcn_quakeid, time_filereq, received_file, file_url, runtime_clock, runtime_cpu, varietyid
+        qcn_quakeid, time_filereq, received_file, runtime_clock, runtime_cpu, varietyid
       );
     }
 
@@ -368,7 +366,6 @@ public:
       qcn_quakeid = safe_atoi(r[i++]);
       time_filereq = safe_atof(r[i++]);
       received_file = safe_atoi(r[i++]);
-      strcpy2(file_url, r[i++]);
       runtime_clock = safe_atof(r[i++]);
       runtime_cpu = safe_atof(r[i++]);
       varietyid = safe_atoi(r[i++]);
