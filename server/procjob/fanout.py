@@ -67,7 +67,10 @@ def archiveFilesPath(bContinual):
 
        #move file over to fullpath
        fpath = os.path.join(dirArchive, f)
-       shutil.move(fpath, fullpath)
+       try:
+          shutil.move(fpath, fullpath)
+       except:  # not a fatal error but weird so may want to go back and remove file
+          traceback.print_exc()
 
     else:
        print "Invalid file name " + f + "  dzip = " + dzip + "   dund = " + dund
