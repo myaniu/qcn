@@ -19,6 +19,28 @@ SAC_CMD = "/usr/local/sac/bin/sac"
 SACSWAP_CMD = "/usr/local/sac/bin/sacswap"
 GRD_CMD = "/usr/local/gmt/bin/grd2point /usr/local/gmt/share/topo/topo30.grd -R"
 
+#fanout dir name
+def getFanoutDirFromZip(myzip):
+    dbin = "0"
+    if not myzip.endswith(".zip"):
+      return dbin
+
+    dzip = myzip.find(".zip")
+    dund = myzip.rfind("_")
+    if dzip>0 and dund>0 and dund<dzip:
+       # found zip & underscore
+       dtime = myzip[dund+1:dzip]
+       dbin = myzip[dund+1:dund+7]
+       if dbin.endswith(".zip"):
+         dbin = dtime
+    
+    return dbin
+
+def makeFanoutDir(rootdir, fandir):
+    #make directory
+    fullpath = os.path.join(rootdir, fandir)    if not os.path.isdir(fullpath):
+      os.mkdir(fullpath)
+
 # this will put metadata into the SAC file using values from the database for this trigger
 # it's very "quick & dirty" and just uses SAC as a cmd line program via a script
 def getSACMetadata(zipinname, latTrig, lonTrig, lvlTrig, lvlType, idQuake, timeQuake, depthKmQuake, latQuake, lonQuake, magQuake):

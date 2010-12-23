@@ -108,9 +108,6 @@ def processSingleZipFile(dbconn, myzipfile):
             shutil.move(tmpfile, newfile)
 
             # now update the qcn_trigger table!
-            #strSQL = "UPDATE continual.qcn_trigger SET received_file=100, " +\
-            #              "file_url='" + URL_DOWNLOAD_BASE + "continual/" + name + "' " +\
-            #              "WHERE file='" + name + "'"
             strSQL = "UPDATE continual.qcn_trigger SET received_file=100 " +\
                           "WHERE file='" + name + "'"
             myCursor.execute(strSQL)
