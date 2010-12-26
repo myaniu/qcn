@@ -22,8 +22,9 @@ GRD_CMD = "/usr/local/gmt/bin/grd2point /usr/local/gmt/share/topo/topo30.grd -R"
 #fanout dir name
 def getFanoutDirFromZip(myzip):
     dbin = "0"
+    dtime = 0
     if not myzip.endswith(".zip"):
-      return dbin
+      return (dbin, dtime)
 
     dzip = myzip.find(".zip")
     dund = myzip.rfind("_")
@@ -34,13 +35,14 @@ def getFanoutDirFromZip(myzip):
        if dbin.endswith(".zip"):
          dbin = dtime
     
-    return dbin
+    return (dbin, long(dtime))
 
 def makeFanoutDir(rootdir, fandir):
     #make directory
-    fullpath = os.path.join(rootdir, fandir)
+    fullpath = os.path.join(rootdir, fandir)    
     if not os.path.isdir(fullpath):
       os.mkdir(fullpath)
+    return fullpath
 
 # this will put metadata into the SAC file using values from the database for this trigger
 # it's very "quick & dirty" and just uses SAC as a cmd line program via a script

@@ -103,6 +103,10 @@ def SetRunType():
 
 def procDownloadRequest(dbconn, outfilename, url, jobid, userid, trigidlist):
  global DBNAME, DBNAME_ARCHIVE
+ # check for empty set of trig id
+ if trigidlist == "()":
+   return 0
+
  tmpdir = tempfile.mkdtemp()
  myCursor = dbconn.cursor()
  # need to join with archive table 
@@ -119,7 +123,14 @@ def procDownloadRequest(dbconn, outfilename, url, jobid, userid, trigidlist):
               "LEFT OUTER JOIN qcnalpha.qcn_quake q ON q.id = t.qcn_quakeid " +\
               "WHERE t.received_file=100 AND t.id IN " + trigidlist
 
- myCursor.execute(query)
+ try:
+   myCursor.execute(query)
+ except:
+   print "Error in query"
+   print query
+   traceback.print_exc()
+   sys.exit(3)
+
 
  zipoutpath = os.path.join(DOWNLOAD_WEB_DIR, outfilename)
  zipinpath = ""
@@ -260,7 +271,8 @@ def processContinualJobs(dbconn):
          nummb = math.floor(numbyte/(1024*1024))
          totalmb += nummb
          sendEmail(rec[2], rec[3], url, nummb)
-         updateRequest(dbconn, rec[0], numbyte, outfilename, url)
+      
+      updateRequest(dbconn, rec[0], numbyte, outfilename, url)
 
    myCursor.close();
    return math.ceil(totalmb)

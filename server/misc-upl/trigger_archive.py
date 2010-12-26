@@ -4,6 +4,9 @@
 # CMC note -- need to install 3rd party MySQLdb libraries for python
 import traceback, sys, os, time, tempfile, string, MySQLdb, shutil, zipfile, qcnutil
 from datetime import datetime
+from qcnutil import getFanoutDirFromZip
+from qcnutil import getSACMetadata
+from qcnutil import makeFanoutDir 
 
 # trigger file download URL base
 URL_DOWNLOAD_BASE = "http://qcn-upl.stanford.edu/trigger/"
@@ -11,23 +14,32 @@ URL_DOWNLOAD_BASE = "http://qcn-upl.stanford.edu/trigger/"
 # CMC note -- make sure these paths exist, or they will be created!
 TMP_DIR = "/tmp"
 # use the old directory
-#UPLOAD_WEB_DIR = "/data/cees2/QCN/trigger/"
-#UPLOAD_CONTINUAL_WEB_DIR = "/data/cees2/QCN/trigger/continual/"
 UPLOAD_WEB_DIR = "/var/www/trigger/"
 UPLOAD_CONTINUAL_WEB_DIR = "/var/www/trigger/continual/"
 
 #ARCHIVE_DIR = "/var/www/trigger/archive/"
 #ARCHIVE_CONTINUAL_DIR = "/var/www/trigger/archive/continual/"
 ARCHIVE_DIR = "/data/cees2/QCN/trigger/archive/"
-ARCHIVE_CONTINUAL_DIR = "/data/cees2/QCN/trigger/archive/continual/"
+ARCHIVE_CONTINUAL_DIR = "/data/cees2/QCN/trigger/continual/"
 
 DBNAME = "qcnalpha"
 DBHOST = "db-private"
 DBUSER = "qcn"
 DBPASSWD = ""
 
-# archive older than 3 months (3600 seconds/hr * 24 hrs/day * 90 days)
-ARCHIVE_TIME = 7776000
+# we'll get the archive time from qcnalpha.qcn_constant table for row ArchiveTime
+ARCHIVE_TIME = 1e9
+
+# get archive constant from database
+def getArchiveTime(dbconn):
+  global ARCHIVE_TIME
+  query = "SELECT value_int FROM qcnalpha.qcn_constant WHERE description='ArchiveTime'"
+  crs = dbconn.cursor()
+  crs.execute(query)
+  rowTime = crs.fetchone()
+  if rowTime == None:
+     return
+  ARCHIVE_TIME = rowTime[0]
 
 # archive old trigger files
 #file names are like:
@@ -35,6 +47,7 @@ ARCHIVE_TIME = 7776000
 #  continual_sc300_sta100_025293_000014_1288177200.zip  continual_sc300_sta200_025914_000000_1288260600.zip  qcnk_sc300_sta200_092450_000208_1287194026.zip
 # basically take the unix time between the last _ and .zip -- divide by 10K, and make a zip file with that name
 def archiveFilesPath(bContinual):
+  global ARCHIVE_TIME
   if bContinual:
     dirOrig = UPLOAD_CONTINUAL_WEB_DIR
     dirArchive = ARCHIVE_CONTINUAL_DIR
@@ -43,37 +56,47 @@ def archiveFilesPath(bContinual):
     dirArchive = ARCHIVE_DIR
 
   now = time.time()
+  ctr = 0
   for f in os.listdir(dirOrig):
+    if not f.endswith(".zip"):
+      #os.remove(dirOrig + fname)
+      continue
+
+    #if ctr > 5:
+    #   print "That's enough..."
+    #   break
+
     fname = os.path.join(dirOrig, f)
-    dzip = f.find(".zip")
-    dund = f.rfind("_")
-    errLevel = 0
-    if dzip>0 and dund>0 and dund<dzip:
-       # found zip & hash, not
-       dtime = f[dund+1:dzip]
-       dbin = f[dund+1:dund+7]
-   
-       if long(dtime) + ARCHIVE_TIME < now:
+    dtime = 0
+    (dbin, dtime) = getFanoutDirFromZip(f)
+    #print str(dbin) + " - " + str(dtime)
+    if long(dtime) > 0 and long(dtime) <= ARCHIVE_TIME:
+         ctr = ctr + 1
+         #just move file to archive dir but use fanout dir name
+         fullarchivedir = makeFanoutDir(dirArchive, dbin)
+         fullarchivepath = os.path.join(fullarchivedir, f)
+
          # old file to archive
          # look for zip file with this bin
-         fullzippath = dirArchive + dbin + ".zip"
+         #fullzippath = dirArchive + dbin + ".zip"
          errLevel = 0
          try:  # catch zipfile exceptions if any - open for append, no compression (since already a zip), and allow > 2GB
-           myzip = zipfile.ZipFile(fullzippath, "a", zipfile.ZIP_STORED, True)
+           #myzip = zipfile.ZipFile(fullzippath, "a", zipfile.ZIP_STORED, True)
            # test for valid zip file
-           if myzip.testzip() != None:  # file corrupt write a new file
-              myzip = zipfile.ZipFile(fullzippath, "w", zipfile.ZIP_STORED, True)
+           #if myzip.testzip() != None:  # file corrupt write a new file
+           #   myzip = zipfile.ZipFile(fullzippath, "w", zipfile.ZIP_STORED, True)
            
            # we just want to add fname to this zip file
-           myzip.write(fname, f, zipfile.ZIP_STORED)
-           myzip.close()
+           #myzip.write(fname, f, zipfile.ZIP_STORED)
+           #myzip.close()
 
            # if we made it here then it was archived and can remove the original
-           os.remove(fname)
-           print "Successfully archived " + f
+           #os.remove(fname)
+           shutil.move(fname, fullarchivepath)
+           print "Successfully archived " + fname + " to " + fullarchivepath
 
          except:
-           print "Error in my zip file: " + f + "  " + fname + "  " + fullzippath
+           print "Error in moving archive zip file: " + f + " to  " + fullarchivepath
            traceback.print_exc()
            print ""
            errLevel = 1
@@ -115,18 +138,22 @@ def main():
       if (checkPaths() != 0):
          sys.exit(2)
 
-      archiveFilesPath(False)
-      archiveFilesPath(True)
+      dbconn = MySQLdb.connect (host = DBHOST,
+                           user = DBUSER,
+                           passwd = DBPASSWD,
+                           db = DBNAME)
 
-      #dbconn = MySQLdb.connect (host = DBHOST,
-      #                     user = DBUSER,
-      #                     passwd = DBPASSWD,
-      #                     db = DBNAME)
+      getArchiveTime(dbconn)
+      dbconn.close()
+
+      print "Using archive time = " + str(ARCHIVE_TIME)
+
+#      archiveFilesPath(False)
+      archiveFilesPath(True)
 
       # basically we need to go to each 
       #processUploadZIPFiles(dbconn)
 
-      #dbconn.close()
 
    except:
       traceback.print_exc()
