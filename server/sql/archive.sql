@@ -1,4 +1,4 @@
-UPDATE continual.qcn_trigger SET flag=1 WHERE time_trigger < (unix_timestamp()-(3600*24*60));
+UPDATE continual.qcn_trigger SET flag=1 WHERE time_trigger < (SELECT value_int+1 FROM qcnalpha.qcn_constant WHERE description='ArchiveTime');
 INSERT INTO contarchive.qcn_trigger SELECT * FROM continual.qcn_trigger WHERE flag=1;
 DELETE FROM continual.qcn_trigger WHERE flag=1;
 OPTIMIZE TABLE contarchive.qcn_trigger;
@@ -9,7 +9,7 @@ UPDATE continual.workunit SET xml_doc=NULL,min_quorum=0,target_nresults=0
 OPTIMIZE TABLE continual.result;
 OPTIMIZE TABLE continual.workunit;
 
-UPDATE qcnalpha.qcn_trigger SET flag=1 WHERE time_trigger < (unix_timestamp()-(3600*24*60));
+UPDATE qcnalpha.qcn_trigger SET flag=1 WHERE time_trigger < (SELECT value_int+1 FROM qcnalpha.qcn_constant WHERE description='ArchiveTime');
 INSERT INTO qcnarchive.qcn_trigger SELECT * FROM qcnalpha.qcn_trigger WHERE flag=1;
 DELETE FROM qcnalpha.qcn_trigger WHERE flag=1;
 OPTIMIZE TABLE qcnarchive.qcn_trigger;
