@@ -38,7 +38,8 @@ def getFanoutDirFromZip(myzip):
 
 def makeFanoutDir(rootdir, fandir):
     #make directory
-    fullpath = os.path.join(rootdir, fandir)    if not os.path.isdir(fullpath):
+    fullpath = os.path.join(rootdir, fandir)
+    if not os.path.isdir(fullpath):
       os.mkdir(fullpath)
 
 # this will put metadata into the SAC file using values from the database for this trigger
