@@ -20,6 +20,7 @@ from datetime import datetime
 from zipfile import ZIP_STORED
 from time import strptime, mktime
 from qcnutil import getSACMetadata
+from qcnutil import getFanoutDirFromZip
 
 global DBHOST 
 global DBUSER
@@ -42,15 +43,16 @@ SMTPS_TIMEOUT = 60
 # the next 5 globals will be set by the appropriate run type in SetRunType()
 global URL_DOWNLOAD_BASE
 global UPLOAD_WEB_DIR
+global ARCHIVE_WEB_DIR
 global DOWNLOAD_WEB_DIR
 global DBNAME
 global DBNAME_ARCHIVE
 global DBNAME_JOB
 
 # use fast zip -1 compression as the files are already compressed
-global ZIP_CMD
-ZIP_CMD  = "/usr/bin/zip -1 "
-global UNZIP_CMD
+#global ZIP_CMD
+#ZIP_CMD  = "/usr/bin/zip -1 "
+#global UNZIP_CMD
 global typeRunning
 typeRunning = ""
 
@@ -67,6 +69,7 @@ def delFilesPath(path):
 def SetRunType():
   global URL_DOWNLOAD_BASE
   global UPLOAD_WEB_DIR
+  global ARCHIVE_WEB_DIR
   global DOWNLOAD_WEB_DIR
   global DBNAME
   global DBNAME_JOB
@@ -87,6 +90,7 @@ def SetRunType():
     URL_DOWNLOAD_BASE = "http://qcn-upl.stanford.edu/trigger/continual/job/"
     # CMC note -- make sure these paths exist
     UPLOAD_WEB_DIR = "/var/www/trigger/continual/"
+    ARCHIVE_WEB_DIR = "/data/cees2/QCN/trigger/archive/continual/"
     DOWNLOAD_WEB_DIR = "/var/www/trigger/continual/job/"
     DBNAME = "continual"
     DBNAME_ARCHIVE = "contarchive"
@@ -94,12 +98,13 @@ def SetRunType():
   else:   #qcnalpha/sensor database
     URL_DOWNLOAD_BASE = "http://qcn-upl.stanford.edu/trigger/job/"
     UPLOAD_WEB_DIR = "/var/www/trigger/"
+    ARCHIVE_WEB_DIR = "/data/cees2/QCN/trigger/archive/"
     DOWNLOAD_WEB_DIR = "/var/www/trigger/job/"
     DBNAME = "qcnalpha"
     DBNAME_ARCHIVE = "qcnarchive"
     DBNAME_JOB = "sensor_download"
 
-  UNZIP_CMD = "/usr/bin/unzip -o -d " + UPLOAD_WEB_DIR + " "
+  #UNZIP_CMD = "/usr/bin/unzip -o -d " + UPLOAD_WEB_DIR + " "
 
 def procDownloadRequest(dbconn, outfilename, url, jobid, userid, trigidlist):
  global DBNAME, DBNAME_ARCHIVE
@@ -152,15 +157,18 @@ def procDownloadRequest(dbconn, outfilename, url, jobid, userid, trigidlist):
    curdir = os.getcwd()   # save current directory and go to the temp dir (so paths aren't stored in zip's)
    os.chdir(tmpdir)
    for rec in result:
-      if rec[13] == 1:
-         continue    # it's an archive record which we aren't handling yet
+      if rec[13] == 1:  # archive - need to get fanout dir name from file name rec[6]
+         fandir, dtime = getFanoutDirFromZip(rec[6])
+         fullpath = os.path.join(ARCHIVE_WEB_DIR, fandir)
+         zipinpath = os.path.join(fullpath, rec[6])
+      else:
+         zipinpath = os.path.join(UPLOAD_WEB_DIR, rec[6])
 
       errlevel = 2
       #print "    ", rec[0] , "  ", rec[1], "  ", rec[2], "  ", rec[3], "  ", rec[4], "  ", rec[5], "  ", rec[6]
 
       # test for valid zip file
       try:
-        zipinpath = os.path.join(UPLOAD_WEB_DIR, rec[6])
         myzipin = zipfile.ZipFile(zipinpath, "r")
         if os.path.isfile(zipinpath) and myzipin.testzip() == None:
            errlevel = 3
@@ -176,8 +184,8 @@ def procDownloadRequest(dbconn, outfilename, url, jobid, userid, trigidlist):
 
              myzipout.write(zipinname)
              os.remove(zipinname)
-
-           
+        else:
+          print "Invalid or missing file " + zipinpath   
 
       except:
         print "Error " + str(errlevel) + " in myzipin " + zipinpath
@@ -280,13 +288,18 @@ def processContinualJobs(dbconn):
 # makes sure that the necessary paths are in place as defined above
 def checkPaths():
    global UPLOAD_WEB_DIR
+   global ARCHIVE_WEB_DIR
    global DOWNLOAD_WEB_DIR
    if not os.access(UPLOAD_WEB_DIR, os.F_OK | os.W_OK):
       print UPLOAD_WEB_DIR + " directory for UPLOAD_WEB_DIR does not exist or not writable!"
       return 1
    
+   if not os.access(ARCHIVE_WEB_DIR, os.F_OK | os.W_OK):
+      print ARCHIVE_WEB_DIR + " directory for ARCHIVE_WEB_DIR does not exist or not writable!"
+      return 1
+   
    if not os.access(DOWNLOAD_WEB_DIR, os.F_OK | os.W_OK):
-      print DOWNLOAD_WEB_DIR + " directory for UPLOAD_WEB_DIR does not exist or not writable!"
+      print DOWNLOAD_WEB_DIR + " directory for DOWNLOAD_WEB_DIR does not exist or not writable!"
       return 1
    
    return 0

@@ -230,9 +230,9 @@ echo "</select>
   <input type=\"checkbox\" id=\"cbUseTime\" name=\"cbUseTime\" value=\"1\" " . ($bUseTime ? "checked" : "") . "> Use Time Constraint
 <BR>
 ";
-
+/*
 echo "<BR><font color=red><B>Please note that triggers older than two months are temporarily not available.</b></font><BR><BR>";
-
+*/
 echo "<ul><table><tr><td>
 Start Time (UTC):";
 
@@ -878,6 +878,10 @@ if ($res->received_file == 100) {
    }
    if ($db_name == "continual") {
       $fileurl .= "continual/";
+   }
+   if ($res->is_archive) { // add the fanout dir
+     $fandir = long($res->time_trigger/10000);
+     $fileurl .= $fandir;
    }
    $fileurl .= $res->trigger_file;
 }
