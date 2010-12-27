@@ -880,8 +880,8 @@ if ($res->received_file == 100) {
       $fileurl .= "continual/";
    }
    if ($res->is_archive) { // add the fanout dir
-     $fandir = long($res->time_trigger/10000);
-     $fileurl .= $fandir;
+     $fandir = floor($res->trigger_time/10000);
+     $fileurl .= $fandir . "/";
    }
    $fileurl .= $res->trigger_file;
 }

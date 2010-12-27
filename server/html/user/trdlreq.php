@@ -73,27 +73,25 @@ function procBatchDownloadRequest()
   }
 
   // archive triggers
-    $triglistA = "(";
+    $triglist = "(";
     for ($i = 0; $i < $numDLTrigA; $i++) {
-      $triglistA .= $aryDLTrigA[$i];
-      if ($i < $numDLTrigA-1) $triglistA .= ",\n";
+      $triglist .= $aryDLTrigA[$i];
+      if ($i < $numDLTrigA-1) $triglist .= ",\n";
     }
-    $triglistA .= ")";
 
     // regular triggers
-    $triglistR = "(";
     for ($i = 0; $i < $numDLTrigR; $i++) {
-      $triglistR .= $aryDLTrigR[$i];
-      if ($i < $numDLTrigR-1) $triglistR .= ",\n";
+      $triglist .= $aryDLTrigR[$i];
+      if ($i < $numDLTrigR-1) $triglist .= ",\n";
     }
-    $triglistR .= ")";
+    $triglist .= ")";
 
     // archive trigger download
     // not yet implemented
 
     // regular trigger download
     $query = "INSERT INTO " . $DB . ".job (userid,create_time,list_triggerid) VALUES ("
-       . $user->id . ", unix_timestamp(), '" . $triglistR . "')";
+       . $user->id . ", unix_timestamp(), '" . $triglist . "')";
 
     $loopctr = 0;
     $result = mysql_query($query);
@@ -106,8 +104,9 @@ function procBatchDownloadRequest()
     $insertid = mysql_insert_id();
 
     if ($insertid) {
+      $tottrig = $numDLTrigA + $numDLTrigR;
       $myurl = $URL_UPL_BASE . $user->id . "_j" . $insertid . ".zip";
-      echo "<BR><BR><H3>" . $numDLTrigR . " trigger download file requests processed for database '" . $db_name . "'!</H3><BR><BR>";
+      echo "<BR><BR><H3>" . $tottrig . " trigger download file requests processed for database '" . $db_name . "'!</H3><BR><BR>";
       echo "<BR><BR>An email will be sent to $user->email_addr when this job is processed with the download link/URL:<BR><BR>"
          . "<A HREF=\"" . $myurl . "\">" . $myurl . "</A><BR><BR>";
      }
@@ -173,6 +172,7 @@ function procTriggerUploadRequest()
     }
     echo "<H3>Processing request, please wait...</H3><BR><BR>";
 
+    // trigger id # is unique across live & archive database, so just send the list to both
     $triglist = "(";
     for ($i = 0; $i < $numReqTrigR; $i++) {
       $triglist .= $aryReqTrigR[$i];
