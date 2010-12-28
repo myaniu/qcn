@@ -66,7 +66,7 @@ FROM REPLACE_DB.qcn_trigger t LEFT OUTER JOIN qcnalpha.qcn_quake q ON t.qcn_quak
 // get the archive time
 $queryTime = "SELECT value_int+1 as archive_time FROM qcnalpha.qcn_constant WHERE description='ArchiveTime'";
 $result = mysql_query($queryTime);
-if (!$result) {
+if ($result) {
   $row = mysql_fetch_row($result);
   $unixtimeArchive = $row[0];
   mysql_free_result($result);
