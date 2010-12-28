@@ -15,7 +15,8 @@ qcn_admin_user_auth($user, true);
 
 // archive cutoff time is two months prior to the first of the current month
 //$queryArchiveTime = "SELECT unix_timestamp( concat(year(now()), '/', month(now()), '/01 00:00:00') ) - (60 * 24 * 3600) archive_time";
-   $unixtimeArchive = mktime(0, 0, 0, date("n"), 1, date("Y")) - (60*24*3600); 
+
+$unixtimeArchive = mktime(0, 0, 0, date("n"), 1, date("Y")) - (60*24*3600); 
 
     $config = get_config();
         $user = parse_config($config, "<db_user>");
@@ -62,6 +63,14 @@ FROM REPLACE_DB.qcn_trigger t LEFT OUTER JOIN qcnalpha.qcn_quake q ON t.qcn_quak
 // http://qcn.stanford.edu/continual_dl/trdl.php?cbCSV=1&cbUseLat=1&LatMin=-39&LatMax=-30&LonMin=-76&LonMax=-69&cbUseSensor=1&type_sensor=100&cbUseTime=1&date_start=2010-03-24&time_hour_start=0&time_minute_start=0&date_end=2010-03-25&time_hour_end=0&time_minute_end=0&rb_sort=ttd
 
 // sort order options: tta/d  hosta/d  maga/d lata/d lona/d
+// get the archive time
+$queryTime = "SELECT value_int+1 as archive_time FROM qcnalpha.qcn_constant WHERE description='ArchiveTime'";
+$result = mysql_query($queryTime);
+if (!$result) {
+  $row = mysql_fetch_row($result);
+  $unixtimeArchive = $row[0];
+  mysql_free_result($result);
+}
 
 // first off get the sensor types
 $sqlsensor = "select id,description from qcn_sensor order by id";
