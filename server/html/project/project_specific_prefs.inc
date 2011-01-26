@@ -64,7 +64,7 @@ function qcn_generate_world_map(&$data, $timeint)
                from_unixtime(max(time_trigger)), ' UTC') descript
              from qcn_trigger t
               LEFT JOIN qcn_sensor s ON t.type_sensor=s.id 
-                where s.type_sensor>0 AND t.hostid not in (select hostid from qcn_showhostlocation)
+                where t.type_sensor>0 AND t.hostid not in (select hostid from qcn_showhostlocation)
                  and time_trigger>unix_timestamp()-" . $trigtime . "
                    group by lat,lng,s.is_usb
          UNION
@@ -74,7 +74,7 @@ function qcn_generate_world_map(&$data, $timeint)
                from_unixtime(max(time_trigger)), ' UTC') descript
              from qcn_trigger t
               LEFT JOIN qcn_sensor s ON t.type_sensor=s.id 
-                where s.type_sensor>0 AND t.hostid in (select hostid from qcn_showhostlocation)
+                where t.type_sensor>0 AND t.hostid in (select hostid from qcn_showhostlocation)
                  and time_trigger>unix_timestamp()-" . $trigtime . "
                    group by lat,lng,s.is_usb
        ";
