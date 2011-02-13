@@ -566,16 +566,22 @@ void draw_logo(bool bExtraOnly)
 																																											
     if (!bExtraOnly && logo.id) {
 
-        float pos[3] = {0.0, .5, 0};
+        float pos[3] = {0.0f, .50f, 0.f};
           float size[3] = {.21, .21, 0};
           logo.draw(pos, size, ALIGN_CENTER, ALIGN_CENTER, g_alphaLogo);
     }
 
     if (txAdd.id) {
-        float pos[3] = {0.0, 0.27, 0};
-		if (bExtraOnly) { // move additional logo to the top
-			pos[0] = -0.015f;
-			pos[1] = 0.545f;
+        float pos[3] = {0.0f, 0.27f, 0.0f};
+		if (bExtraOnly && ! g_MakeQuake.bActive) {/*
+			if (g_MakeQuake.bActive)  {  // make a quake - draw extra logo on the bottom right
+			    pos[0] = 0.50f; 
+				pos[1] = -0.10f;
+			}
+			else { */// move additional logo to the top
+				pos[0] = -0.015f;
+				pos[1] = 0.545f;
+			//}
 		}
         float size[3] = {.2, .2, 0};
         txAdd.draw(pos, size, ALIGN_CENTER, ALIGN_CENTER, g_alphaLogo);
@@ -611,7 +617,7 @@ void draw_text_sensor()
         if (!sm->bSensorFound) {
             TTFont::ttf_render_string(g_alphaText, 0.003, 0.01,0, isize, red, TTF_ARIAL, (const char*) "Demo Mode - Sensor Not Found");
         } else if (sm->lOffset >=0 && sm->lOffset < sm->iWindow ) {  // we're in our calibration window
-            sprintf(buf, "%s sensor calibrating...", sm->strSensor, sm->iNumReset);
+            sprintf(buf, "%s sensor calibrating...", sm->strSensor);
             TTFont::ttf_render_string(g_alphaText, 0.003, 0.01, 0, isize, red, TTF_ARIAL, buf);
         } else if (sm->strSensor[0] != 0x00) {
             sprintf(buf, "Using %s sensor (Reset %d)", sm->strSensor, sm->iNumReset);

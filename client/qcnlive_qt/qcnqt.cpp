@@ -609,6 +609,21 @@ void MyApp::slotPrintPreview(QPrinter* qpr)
 	paint->drawPixmap(rect, *qpjpg);
 	rect.setY(iOldY + ((float) rect.height() * .05));   // draw text not quite at the top edge
 	
+	// CMC HERE - add custom logo to bottom of printout
+/*
+	if (txAdd.id) {
+        float pos[3] = {0.0f, 0.27f, 0.0f};
+		if (bExtraOnly && ! g_MakeQuake.bActive) {
+			pos[0] = 0.50f; 
+			pos[1] = -0.20f;
+		}
+		else { // move additional logo to the top
+			pos[0] = -0.015f;
+			pos[1] = 0.545f;
+		}
+	}
+*/		
+	
 	paint->setFont(qf);
 	paint->drawText(rect, Qt::AlignHCenter | Qt::AlignTop, strTitle);
 	paint->end();
