@@ -24,6 +24,8 @@ Example usage:
 */
 
 #include "jfl_trigmon.h"
+// Include crust_2.0 information
+#include "crust_2.0_subs.h"
 
 DB_CONN trigmem_db;
 
@@ -36,6 +38,15 @@ int g_iTriggerTimeInterval = -1;  // number of seconds to check for triggers (i.
 // keep a global vector of recent QCN quake events, remove them after an hour or so
 // this way follup triggers can be matched to a known QCN quake event (i.e. qcn_quake table)
 //vector<QCN_QUAKE_EVENT> vQuakeEvent;
+
+
+
+
+// defined as extern in the header so other progs/files can include crust_2.0_subs.h
+struct cr_mod crm;                     // The Crust2.0 model map
+struct cr_key crk[mx_cr_type];         // The Crust2.0 model key
+
+
 
 void close_db()
 {
@@ -97,6 +108,181 @@ int do_trigmon(struct trigger t[], struct bad_hosts bh)
    }
 
    return iCtr2;                                           // Return with number of triggers
+
+}
+
+/* The following codes determine the depth-averaged seismic velocity for a location (lon,lat,depth) from CRUST2.0 */
+
+int crust2_load()
+/* This function reads in the crust2.0 model and indexes the model map by number rather than by letter */
+{
+
+// Open input files. These are defined in crust_2.0_subs.h 
+   FILE *fp10 = fopen(crust_key_file,"r");                                                     // Open key file describing each model
+   FILE *fp11 = fopen(crust_map_file,"r");                                                     // Open map file with key at each lat/lon location
+   FILE *fp12 = fopen(crust_elev_file,"r");                                                    // Open elevation file w/ data at each lat/lon
+
+   if (!fp10 || !fp11 || !fp12) {
+      printf("File Open Error %x %x %x\n", fp10, fp11, fp12);
+      return 1;
+   }
+
+   int   i, j, k;                                                                                    // Index variables
+   int   ilat;                                                                                       // Index of latitude
+   char  aline[1000];                                                                                // A full line of characters
+
+/* Temporary variales because I was worried about reading in directly to the variable */
+   char key_string[mx_cr_type][255];                                                                // Temporary key string variable (easier to index by number)
+   char mod_string[mx_cr_lt][mx_cr_ln][255];                                                     // Temporary map key string variable (easier to index by number)
+
+   for (i=0;i<=4;i++) {fgets(aline,1000,fp10); /*printf("Skipping Line: %s \n",aline);*/}            // Skip first 5 lines of key file
+                       fgets(aline,1000,fp11);                                                       // Skip first 1 lines of map file
+                       fgets(aline,1000,fp12);                                                       // Skip first 1 lines of elevation file
+
+// Read in model Key (the two-letter ID and the Vp, Vs, rho, thickness model): 
+   for (i=0;i<=mx_cr_type-1;i++) {                                                                   // Read in Crust 2.0 key
+
+    fgets(aline,1000,fp10);                                                                          // retrieve whole line of Key file
+    sscanf(aline,"%s",key_string[i]);                                                               // Read in key code
+
+    fgets(aline,1000,fp10);                                                                          // retrieve whole line of Key file
+    sscanf(aline,"%f %f %f %f %f %f %f %f",
+           &crk[i].vp[1],&crk[i].vp[0],&crk[i].vp[2],&crk[i].vp[3],
+           &crk[i].vp[4],&crk[i].vp[5],&crk[i].vp[6],&crk[i].vp[7]);                                 // Read P velocity
+
+    fgets(aline,1000,fp10);                                                                          // retrieve whole line of Key file
+    sscanf(aline,"%f %f %f %f %f %f %f %f",
+           &crk[i].vs[1],&crk[i].vs[0],&crk[i].vs[2],&crk[i].vs[3],
+           &crk[i].vs[4],&crk[i].vs[5],&crk[i].vs[6],&crk[i].vs[7]);                                 // Read S velocity
+
+    fgets(aline,1000,fp10);                                                                          // retrieve whole line of Key file
+    sscanf(aline,"%f %f %f %f %f %f %f %f",
+           &crk[i].rh[1],&crk[i].rh[0],&crk[i].rh[2],&crk[i].rh[3],
+           &crk[i].rh[4],&crk[i].rh[5],&crk[i].rh[6],&crk[i].rh[7]);                                 // Read Density
+
+    fgets(aline,1000,fp10);                                                                          // Retrieve whole line of Key file
+    sscanf(aline,"%f %f %f %f %f %f %f   ",
+           &crk[i].dp[1],&crk[i].dp[0],&crk[i].dp[2],&crk[i].dp[3],
+           &crk[i].dp[4],&crk[i].dp[5],&crk[i].dp[6]              );                                 // Read layer thickness 
+
+   }
+
+// Read in map and associate letters with key index:
+   for (i=0; i<=mx_cr_lt-1; i++) {                                                                   // For each latitude
+      fscanf(fp11,"%d",&ilat);                                                                       // Read latitude at beginning of each line
+      fscanf(fp12,"%d",&ilat);                                                                       // Read latitude at beginning of each line
+
+      for(j=0; j<=mx_cr_ln-1; j++) {                                                                 // For each longitude
+         fscanf(fp11,"%s",mod_string[i][j]);                                                        // Read in key letters for that lat/lon location
+         fscanf(fp12,"%f",&crm.elev[i][j]);                                                          // Read elevations for each longitude at this latitude
+
+         for (k=0;k<=mx_cr_type-1; k++) {                                                            // Index the map key by searching through crk.tp
+
+            if (memcmp(key_string[k],mod_string[i][j],2)==0) {                                     // If key found, store the key and stop searching
+
+               crm.ikey[i][j]=k;                                                                     // Set key to this matched index
+               break;                                                                                // Stop looking for additional matches since match found
+
+            }
+
+         }
+      
+      }
+
+   }
+
+   fclose(fp10); fclose(fp11); fclose(fp12);                                                         // Close files
+
+/* Set the longitude and latitude for each node: */
+
+   for (i=0; i<=mx_cr_lt-1; i++) { crm.lat[i]=90.f-( ((float)i)+0.5)*dx_cr ;  }                      // for each latitude
+
+   for (i=0; i<=mx_cr_ln-1; i++) { crm.lon[i]=     ( ((float)i)+0.5)*dx_cr ;  }                      // for each longitude
+
+   return 0;                                                                                         // Done with function
+
+}
+
+
+int crust2_type(float lon, float lat) {
+/* This function returns the index of the model key for the map */
+
+   int ilat,ilon;
+   float lon2=lon; if (lon2<0.f) {lon2+=360.f;}                                                    // make sure 0<lon<360 rather than -180<lon<180
+
+   ilat = (int) (90.f-lat)/dx_cr;                                                                  // index of longitude
+   ilon = (int) (    lon2)/dx_cr;                                                                  // index of latitude
+   printf("ilon=%d    ilat=%d     type=%d\n",ilon,ilat,crm.ikey[ilat][ilon]);
+
+   return crm.ikey[ilat][ilon];                                                                    // index key for this lon/lat location
+
+}
+
+
+void crust2_get_mean_vel(float qdep, float qlon, float qlat, float v[]) {
+
+/* This fuction returns the average seismic velocity integrated from the surface to some depth (qdep). 
+        The velocity is for P:v[0] and S:v[1] waves.  Note: for a zero depth qdep, use the first 
+        non-zero thickness layer.*/
+
+   int i;                                          // Index variables
+   v[0]=0.f; v[1]=0.f;                               // set P(0) and S(1) velocity to 0
+   float d=0;                                        // set depth to 0
+   int itype = crust2_type(qlon,qlat);                   // determine the crust type
+
+// For an event at depth, integrate down to depth (layers 0-6 in crust, 7 is mantle): 
+
+   if (qdep>0.f) {                                   // If depth greater than 0
+
+      for (i=1;i<7;i++) {                            // go through each layer
+
+         if (qdep>=d+crk[itype].dp[i]) {              // If the depth is greater than the last depth plus the thickness of this layer, then it goes all the way through
+
+            v[0]+=crk[itype].vp[i]*crk[itype].dp[i]; // Add thickness weighted Vp from crust2.0
+            v[1]+=crk[itype].vs[i]*crk[itype].dp[i]; // Add Thickness weighted Vs from crust2.0
+            d   +=crk[itype].dp[i];                  // Add layer thickness to accumulated depth.
+
+         } else {                                    // If the depth is not greater than the last depth plust the layer thickness, use the difference between qdep and last depth
+
+            v[0]+=crk[itype].vp[i]*(qdep-d);         // Add to average 
+            v[1]+=crk[itype].vs[i]*(qdep-d);         // Add to average 
+            d=qdep;                                  // Total depth is the depth of the earthquake
+            break;                                   // Stop looking though layers if goal depth is achieved.
+
+         }
+
+      }
+
+      if (qdep>d) {                                  // If depth greater than crustal depth, then ...
+
+       v[0]+=crk[itype].vp[7]*(qdep-d);              // Add mantle velocity to average 
+       v[1]+=crk[itype].vs[7]*(qdep-d);              // Add mantle velocity to average 
+       d=qdep;                                       // Total depth is depth of the earthquake
+
+      }
+
+      v[0]/=d;                                       // Normalize weighted sum by cumulative weight (cumulative depth) for average
+      v[1]/=d;                                       // Normalize weighted sum by cumulative weight (cumulative depth) for average
+
+// Zero depth (surface rupture), means we need velocity below surface at first non-zero thickness layer
+
+   } else {                             // If zero depth, use the velocity of the first layer
+
+      for (i=1;i<7;i++) {               // go through layers until first non-zero layer is encountered.
+
+         if (crk[itype].dp[i]>0.f) {    // if non-zero layer encountered, then 
+
+            v[0]=crk[itype].vp[i];      // set Vp to Crust2.0
+            v[1]=crk[itype].vs[i];      // set Vs to Crust2.0
+            break;                      // stop going through layers
+
+         }
+
+      }
+
+   }
+
+   return;
 
 }
 
@@ -258,7 +444,8 @@ void qcn_event_locate(struct trigger t[], int i, struct event e[]) {
     float ls_mf_min = 9999999999.f;                       // Set obserdly high misfit minimum
     for (h = 1; h<=g.nz; h++) {                           // For each vertical grid step
      dp_x = g.z_min + g.dz * (float) (h-1);               // Calculate depth
-     vel_calc(dp_x,v);                                    // Calculate mean path velocity
+//     vel_calc(dp_x,v);                                    // Calculate mean path velocity
+     crust2_get_mean_vel(dp_x,t[j_min].slon,t[j_min].slat,v); // Get depth-averaged velocity for location from CRUST2.0
      for (k = 1; k<=g.nx; k++) {                          // For each x node
       ln_x = g.x_min + g.dx * (float) (k-1);              // Longitude of grid point
       for (l = 1; l<=g.nx; l++) {                         // For each y node
@@ -301,7 +488,8 @@ void qcn_event_locate(struct trigger t[], int i, struct event e[]) {
 
 
 /* Re-compare times and distance difference between each station pair for best location and identify which phase each trigger is */
-    vel_calc(e[1].edep,v);                                // Get velocity (note - depth dependant - not done well).
+//    vel_calc(e[1].edep,v);                                // Get velocity (note - depth dependant - not done well).
+    crust2_get_mean_vel(dp_x,t[j_min].slon,t[j_min].slat,v); // Get depth-averaged velocity for location from CRUST2.0
     int q_save=0;
     e[1].e_time=0.;
     for (m = 0; m<=t[i].c_cnt; m++) {                     // For each trigger
@@ -929,13 +1117,12 @@ int main(int argc, char** argv)
 /*  Get list of bad hosts  */
     get_bad_hosts(bh);
 
-    
 /* initialize random seed: */
     srand ( time(NULL) );
 
-//    int j;
-    //vQuakeEvent.clear();
- 
+/*  load CRUST2.0 3D seismic velocity model for the crust: */
+    int icrust = crust2_load();
+
     retval = config.parse_file();
     if (retval) {
         log_messages.printf(MSG_CRITICAL,
