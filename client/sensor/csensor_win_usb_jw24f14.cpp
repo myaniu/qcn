@@ -158,7 +158,7 @@ bool CSensorWinUSBJW24F14::detect()
 		iPort = getPort();
         // no single sample, JW24F14 actually needs to sample within the 50hz,
         // since we're reading from joystick port, not the downsampling "chip"
-        setSingleSampleDT(true);  // note the usb sensor just requires 1 sample per dt, hardware does the rest
+        setSingleSampleDT(false);  // note the usb sensor just requires 1 sample per dt, hardware does the rest
 		fprintf(stdout, "JoyWarrior 24F14 USB sensor detected on Windows joystick port %d\n"
 			"Set to 50Hz internal bandwidth, +/- 2g acceleration.\n", getPort());
 

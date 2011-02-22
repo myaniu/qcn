@@ -69,6 +69,7 @@ bool CSensorWinThinkpad::detect()
     //FreeLibrary(libraryHandle);
     setType(SENSOR_WIN_THINKPAD);
 	setPort((int) getTypeEnum());
+        setSingleSampleDT(false);
 	
 	fprintf(stdout, "Thinkpad sensor detected.\n");
 	return true;

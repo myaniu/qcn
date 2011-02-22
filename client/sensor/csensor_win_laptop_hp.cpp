@@ -295,7 +295,8 @@ bool CSensorWinHP::detect()
         setType(SENSOR_WIN_HP);
 	    setPort((int) getTypeEnum());	
 	    fprintf(stdout, "HP sensor detected.\n");
-    }
+    } 
+    setSingleSampleDT(false);
     return (bool)(m_device != INVALID_HANDLE_VALUE);
 }
 

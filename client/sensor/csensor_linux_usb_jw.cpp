@@ -181,7 +181,7 @@ bool CSensorLinuxUSBJW::detect()
          break;  // found a JW24F8
       }
    }
-
+   setSingleSampleDT(false);
    return (bool)(getTypeEnum() == SENSOR_USB_JW24F8);
 }
 

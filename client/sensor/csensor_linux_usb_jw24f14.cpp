@@ -186,7 +186,7 @@ bool CSensorLinuxUSBJW24F14::detect()
          break;  // found a JW24F14
       }
    }
-
+   setSingleSampleDT(false);
    return (bool)(getTypeEnum() == SENSOR_USB_JW24F14);
 }
 

@@ -95,7 +95,7 @@ bool CSensorMacUSBONavi01::detect()
 	setType(SENSOR_USB_ONAVI_1);
 	setPort(m_fd);
 	
-	setSingleSampleDT(true);
+	setSingleSampleDT(true); // onavi samples itself?
 
     return true;
 }

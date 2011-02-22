@@ -187,7 +187,7 @@ bool CSensorMacUSBGeneric::detect()
     // if made it here, we have a sensor of type tsm->eSensor
     setType(tsm->eSensor);  // this returns the actual sensor i.e. JoyWarrior F28
     setPort(getTypeEnum()); // set > -1 so we know we have a sensor
-    setSingleSampleDT(true);  // note the usb sensor just requires 1 sample per dt, hardware does the rest
+    setSingleSampleDT(false);  // note the usb sensor just requires 1 sample per dt, hardware does the rest
 
     fprintf(stdout, "Using the QCN Generic USB Driver for the Mac (qcnusb)\n");
 
