@@ -36,6 +36,13 @@ if (isset($USE_PHPMAILER)) {
 
 // Function sends an email, either using PHPMailer or not.
 //
+function send_email_with_address($person_email, $person_name, $subject, $body, $body_html=null)
+{
+   $user->email_addr = $person_email;
+   $user->name = $person_name;
+   return send_email($user, $subject, $body, $body_html);
+}
+
 function send_email($user, $subject, $body, $body_html=null) {
     global $USE_PHPMAILER;
     global $PHPMAILER_HOST;
