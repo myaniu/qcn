@@ -98,11 +98,20 @@ function send_email($user, $subject, $body, $body_html=null) {
  $port = "465";
  $to = $user->email_addr;
 
+// Jesse added this if statement so that if an html email is sent, it has the content-type: ...
+if ($body_html) {
+ $hdrs = array (
+   'From'    => $from,
+   'To'      => $to,
+   'Subject' => $subject,
+   'Content-Type' => "text/html" );
+ $body = $body_html;
+} else {
  $hdrs = array (
    'From'    => $from,
    'To'      => $to,
    'Subject' => $subject );
-
+}
  $smtp = Mail::factory('smtp', 
      array('host' => $host, 'port' => $port) );
 

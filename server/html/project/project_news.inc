@@ -15,8 +15,23 @@
 */
 
 
-$project_news = array(
-   array("December 13, 2010 22:13",
+$project_news = 
+ array(
+   array("February 23, 2011 21:14",
+"QCN is participating in the <A HREF=\"http://event.twgrid.org/isgc2011/asiaathome.html\">Asia@home Hackfest</A>.  The goal of the event is bring more seismology applications to run under BOINC, and possibly deploy QCN in Taiwan. 
+<BR><BR>
+",
+ "Asia@home Hackfest March 19-25, 2011",
+ "http://event.twgrid.org/isgc2011/asiaathome.html"
+ ),
+   array("February 22, 2011 19:20",
+"On February 21, 2011 at 23:51 (UTC) a M6.3 earthquake occurred just outside of Christchurch, New Zealand.  <A HREF=\"http://qcn.stanford.edu/sensor/download/nz-chch-m63.jpg\">Several QCN stations installed in and around Christchurch recorded this earthquake</A>. Due to the shallow depth of this event and proximity to Christchurch the shaking was quite severe in the city. The QCN stations recorded accelerations up to about 1g (9.8m/s/s), equivalent to the force of gravity. The QCN stations in the region continue to monitor the ongoing aftershock sequence.
+<BR><BR>
+",
+ "February 21, 2011 M6.3 Earthquake in Christchurch Recorded on QCN Stations",
+ "http://qcn.stanford.edu/sensor/download/nz-chch-m63.jpg"
+ ),
+  array("December 13, 2010 22:13",
 "We have unfortunately had a problem with the JoyWarrior 24F14 sensor setup, in that some were shipped out without the required 2g settings for QCN.  Also the sensors cannot be setup within the QCN software unlike the 24F8 USB sensors.  So if your sensor does not seem to be working correctly, <A HREF=\"http://qcn.stanford.edu/sensor/download/jw24f14.zip\">please download this small program (for Mac and Windows)</A>, and follow the steps in the README.txt file.  We apologize for any inconvenience.
 <BR><BR>
 ",

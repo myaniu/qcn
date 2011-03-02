@@ -1,5 +1,16 @@
 <?php
 
+date_default_timezone_set('UTC');         // Set the default time zone to UTC
+
+function require_once_r2($file) {
+$cwd = getcwd();
+chdir("/var/www/boinc/sensor/html/user/");
+
+require_once($file);
+
+chdir($cwd);
+
+}
 
 
 function page_top(){
@@ -70,7 +81,7 @@ echo "       <br>\n";
 echo "       <h1>Recent News</h1>\n";
 echo "       <ul>\n";
 
-include("/var/www/boinc/sensor/html/inc/some_news.inc");
+require_once_r2("../inc/some_news.inc");
 
 
 //include("/var/www/qcn/press/some_news.inc");
@@ -146,7 +157,7 @@ echo "           <li><a href=\"http://qcn.stanford.edu/downloads/\">Download QCN
 echo "           <li><a href=\"http://qcn.stanford.edu/manuals/\">Manuals/Instructions</a></li>\n";
 echo "           <li><a href=\"http://qcn.stanford.edu/RAMP/\">Aftershock Programs</a></li>\n";
 echo "       </ul></li>\n";
-echo "       <li><a href=\"http://qcn.stanford.edu/press/news.php\">News</a>\n";
+echo "       <li><a href=\"http://qcn.stanford.edu/press/index.php\">News</a>\n";
 echo "         <ul>\n";
 echo "           <li><a href=\"http://qcn.stanford.edu/press/news.php\">Recent News</a></li>\n";
 echo "           <li><a href=\"http://qcn.stanford.edu/press/releases.php\">Press Releases</a></li>\n";
@@ -211,4 +222,3 @@ echo "</body>\n";
 echo "</html>\n";
 }
 ?>
-

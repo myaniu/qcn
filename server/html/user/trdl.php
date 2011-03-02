@@ -792,6 +792,7 @@ function qcn_trigger_header() {
 
 function qcn_trigger_detail($res) 
 {
+  // CMC took out hostnamebyid below
     $sensor_type = $res->sensor_description;
     $archpre = $res->is_archive ? "a" : "r"; // prefix to signify if it's an archive record or not
     echo "
@@ -803,7 +804,7 @@ function qcn_trigger_detail($res)
        ($res->received_file != 100 ? " disabled " : " " ) . 
        "></td>
         <td>$res->triggerid</td>
-        <td><a href=\"show_host_detail.php?hostid=$res->hostid\">" . host_name_by_id($res->hostid) . "</a></td>
+        <td><a href=\"show_host_detail.php?hostid=$res->hostid\">" . $res->hostid . "</a></td>
         <td>$res->ipaddr</td>
         <td>$res->result_name</td>
         <td>" . time_str($res->trigger_time) . "</td>

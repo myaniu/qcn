@@ -88,7 +88,7 @@ function get_logged_in_user($must_be_logged_in=true, $ramp=false) {
 
 function show_login($user) {
     if ($user) {
-        echo "Logged in as %s.\n", $user->name;
+        echo "Logged in as ".$user->name.".\n";
         echo "<br><a href=\"login_form.php\">Log in as someone else.</a>\n";
     } else {
         echo "Not logged in.";
@@ -103,7 +103,7 @@ $cache_control_extra="";
 //
 if (!function_exists("page_head")){
 function page_head($title, $java_onload=null, $title_plain=null, $prefix="") {
-require_once("/var/www/qcn/inc/google_translate.inc");
+require_once("/var/www/boinc/sensor/html/inc/google_translate.inc");
 
     global $caching;
     global $cache_control_extra;
@@ -380,7 +380,7 @@ if (!function_exists("print_login_form_aux")){
 function print_login_form_aux($next_url, $user, $ramp) {
     $x = urlencode($next_url);
     echo "
-        <form name=\"f\" method=\"post\" action=\"login_action.php\">
+        <form name=\"f\" method=\"post\" action=\"http://qcn.stanford.edu/sensor/login_action.php\">
         <input type=\"hidden\" name=\"next_url\" value=\"$next_url\">
     ";
 
@@ -420,12 +420,12 @@ function print_login_form_aux($next_url, $user, $ramp) {
 
 if (!function_exists("print_login_form")){
 function print_login_form($ramp=false) {
-include "./temp_top.php";
 //    page_head("Please log in");
+    page_top();
     $next_url = $_SERVER['REQUEST_URI'];
     print_login_form_aux($next_url, null, $ramp);
-include "./temp_bot.php";
 //    page_tail();
+    page_end();
 }
 }
 
