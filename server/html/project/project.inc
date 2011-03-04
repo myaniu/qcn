@@ -395,7 +395,7 @@ function show_trigger($hostid, $heading, $private=true)
        . "time_sync,sync_offset,significance, magnitude, " . $sqllatlng 
        . "dt, numreset, "
        . "s.description, "
-       . "sw_version,os_type,runtime_cpu,runtime_clock,varietyid,levelvalue,levelid,received_file,'' as file_url,result_name,alignid "
+       . "sw_version,os_type,runtime_cpu,runtime_clock,varietyid,levelvalue,levelid,received_file,file as file_url,result_name,alignid "
        . "from DBNAME.qcn_trigger t "
        . "             LEFT JOIN DBNAME.qcn_sensor s ON t.type_sensor = s.id "
        . "WHERE hostid=$hostid order by time_trigger desc limit " . MAX_NUM_TRIGGER;
@@ -468,17 +468,16 @@ mysql> select * from qcn_level;
             case 5:  $elev.="f(sl)"; break;
          }
 
+         $filename = "<A HREF=\"http://qcn-upl.stanford.edu/trigger/" . $row[21] . "\">$row[1]</A>";
          if ($row[17]==1) { // it's a ping record
             $filename = " ping trigger - no file for result " . $row[22];
             $view = "N/A";
          } 
          else {
            if ($row[20] == 100) { // received_file: show file download link
-              $filename = "<A HREF=\"$row[21]\">$row[1]</A>";
               $view = "<A HREF=\"javascript:void(0)\"onclick=\"window.open('http://qcn.stanford.edu/earthquakes/view/view_data.php?dat=".$row[1]."','linkname','height=500,width=400,scrollbars=no')\">View</a>";
            }
            else {
-              $filename = $row[1];
               $view = "N/A";
            }
          }
