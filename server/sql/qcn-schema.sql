@@ -117,6 +117,18 @@ create table qcn_ramp_participant (
 );
 create unique index qcn_ramp_participant_userid on qcn_ramp_participant(userid);
 
+create table qcn_reds (
+    id int not null primary key auto_increment,
+    userid int not null,
+    name varchar(64),
+    email_addr varchar(100),
+    magnitude_min_global double,
+    magnitude_min_local double,
+    active boolean not null default 1,
+    time_edit int
+);
+create unique index qcn_reds_userid on qcn_reds(userid);
+
 create table qcn_post (
     id int not null primary key,
     where_clause varchar(255) not null,
