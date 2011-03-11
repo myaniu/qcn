@@ -117,13 +117,13 @@ def procDownloadRequest(dbconn, outfilename, url, jobid, userid, trigidlist):
  # need to join with archive table 
  query = "SELECT t.id,t.hostid,t.latitude,t.longitude,t.levelvalue,t.levelid,t.file, " +\
             "t.qcn_quakeid, q.time_utc quake_time, q.depth_km quake_depth_km, " +\
-            "q.latitude quake_lat, q.longitude quake_lon, q.magnitude quake_mag, 0 is_archive " +\
+            "q.latitude quake_lat, q.longitude quake_lon, q.magnitude quake_mag, 0 is_archive, t.time_trigger " +\
               "FROM " + DBNAME + ".qcn_trigger t " +\
               "LEFT OUTER JOIN qcnalpha.qcn_quake q ON q.id = t.qcn_quakeid " +\
               "WHERE t.received_file=100 AND t.id IN " + trigidlist + " UNION " +\
         "SELECT t.id,t.hostid,t.latitude,t.longitude,t.levelvalue,t.levelid,t.file, " +\
             "t.qcn_quakeid, q.time_utc quake_time, q.depth_km quake_depth_km, " +\
-            "q.latitude quake_lat, q.longitude quake_lon, q.magnitude quake_mag, 1 is_archive " +\
+            "q.latitude quake_lat, q.longitude quake_lon, q.magnitude quake_mag, 1 is_archive, t.time_trigger " +\
               "FROM " + DBNAME_ARCHIVE + ".qcn_trigger t " +\
               "LEFT OUTER JOIN qcnalpha.qcn_quake q ON q.id = t.qcn_quakeid " +\
               "WHERE t.received_file=100 AND t.id IN " + trigidlist
@@ -167,6 +167,7 @@ def procDownloadRequest(dbconn, outfilename, url, jobid, userid, trigidlist):
       errlevel = 2
       #print "    ", rec[0] , "  ", rec[1], "  ", rec[2], "  ", rec[3], "  ", rec[4], "  ", rec[5], "  ", rec[6]
 
+      #host id is rec[1], time_trigger is rec[14]
       # test for valid zip file
       try:
         myzipin = zipfile.ZipFile(zipinpath, "r")
@@ -180,10 +181,13 @@ def procDownloadRequest(dbconn, outfilename, url, jobid, userid, trigidlist):
              errlevel = 4
              #zipinpath = os.path.join(tmpdir, zipinname)
              # OK - at this point the zip file requested has been unzipped, so we need to process metadata here
-             getSACMetadata(zipinname, rec[2], rec[3], rec[4], rec[5], rec[7], rec[8], rec[9], rec[10], rec[11], rec[12])
+             getSACMetadata(zipinname, rec[1], rec[2], rec[3], rec[4], rec[5], rec[7], rec[8], rec[9], rec[10], rec[11], rec[12])
 
-             myzipout.write(zipinname)
-             os.remove(zipinname)
+             # OK - at this point prepend hostid ID & trigger time so it will be sorted OK
+             nicefilename = "%09d_%d_%s" % (rec[1], rec[14], zipinname)
+             os.rename(zipinname, nicefilename)
+             myzipout.write(nicefilename)
+             os.remove(nicefilename)
         else:
           print "Invalid or missing file " + zipinpath   
 

@@ -3,7 +3,7 @@
 
 # program to get sac metadata given trigger info
 # processes an input zip file, no database or URL info required
-#def getSACMetadata(zipinname, latTrig, lonTrig, lvlTrig, lvlType, idQuake, timeQuake, depthKmQuake, latQuake, lonQuake, magQuake):
+#def getSACMetadata(zipinname, hostid, latTrig, lonTrig, lvlTrig, lvlType, idQuake, timeQuake, depthKmQuake, latQuake, lonQuake, magQuake):
 
 import math, tempfile, smtplib, traceback, sys, os, string, shutil, zipfile
 from datetime import datetime
@@ -46,7 +46,7 @@ def makeFanoutDir(rootdir, fandir):
 
 # this will put metadata into the SAC file using values from the database for this trigger
 # it's very "quick & dirty" and just uses SAC as a cmd line program via a script
-def getSACMetadata(zipinname, latTrig, lonTrig, lvlTrig, lvlType, idQuake, timeQuake, depthKmQuake, latQuake, lonQuake, magQuake):
+def getSACMetadata(zipinname, hostid, latTrig, lonTrig, lvlTrig, lvlType, idQuake, timeQuake, depthKmQuake, latQuake, lonQuake, magQuake):
   global SAC_CMD, SACSWAP_CMD, GRD_CMD
 
 
@@ -99,6 +99,7 @@ def getSACMetadata(zipinname, latTrig, lonTrig, lvlTrig, lvlType, idQuake, timeQ
 #  print "\n\nmyLevel = " + str(myLevel) + " meters\n\n"
   fullcmd = SAC_CMD + " << EOF\n" +\
     "r " + zipinname + "\n" +\
+    "chnhdr kstnm " + str(hostid) + "\n" +\
     "chnhdr stlo " + str(lonTrig) + "\n" +\
     "chnhdr stla " + str(latTrig) + "\n" +\
     "chnhdr stel " + str(myLevel) + "\n"

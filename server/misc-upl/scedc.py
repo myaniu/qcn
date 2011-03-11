@@ -195,8 +195,8 @@ order by time_trigger,hostid"""  \
   #  s.description sensor, IFNULL(a.description,'') alignment,  11 12 
   #   IFNULL(m.levelvalue,'') level, IFNULL(l.description,'') level_type 13 14 
 
-        #def getSACMetadata(zipinname, latTrig, lonTrig, lvlTrig, lvlType, idQuake, timeQuake, depthKmQuake, latQuake, lonQuake, magQuake):
-             getSACMetadata(zipinname, rec[7], rec[8], rec[13], rec[14], rec[20], rec[15], rec[16], rec[17], rec[18], rec[19])
+        #def getSACMetadata(zipinname, hostid, latTrig, lonTrig, lvlTrig, lvlType, idQuake, timeQuake, depthKmQuake, latQuake, lonQuake, magQuake):
+             getSACMetadata(zipinname, rec[3], rec[7], rec[8], rec[13], rec[14], rec[20], rec[15], rec[16], rec[17], rec[18], rec[19])
              myzipout.write(zipinname)
              os.remove(zipinname)
 
