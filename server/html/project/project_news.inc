@@ -17,11 +17,17 @@
 
 $project_news = 
  array(
+   array("March 14, 2011 19:56",
+"Carl from QCN is presenting at the <A HREF=\"http://mozilla.com.cn/event/23-drumbeat-en/\">2011 China Drumbeat Hackfest</A> in Beijing from March 23-25th, 2011. The goal is to encourage volunteer computing and 'citizen science' application development.  Programmers are welcome!<BR><BR>
+",
+ "2011 China Drumbeat Hackfest March 23-25, 2011",
+ "http://mozilla.com.cn/event/23-drumbeat-en/"
+ ),
    array("February 23, 2011 21:14",
 "QCN is participating in the <A HREF=\"http://event.twgrid.org/isgc2011/asiaathome.html\">Asia@home Hackfest</A>.  The goal of the event is bring more seismology applications to run under BOINC, and possibly deploy QCN in Taiwan. 
 <BR><BR>
 ",
- "Asia@home Hackfest March 19-25, 2011",
+ "Asia@home Hackfest March 19-23, 2011",
  "http://event.twgrid.org/isgc2011/asiaathome.html"
  ),
    array("February 22, 2011 19:20",

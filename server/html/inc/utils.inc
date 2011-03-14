@@ -114,7 +114,7 @@ echo " <p align=\"center\"><a href=\"http://www.nsf.gov\"><img src=\"http://qcn.
 echo " <p align=\"center\"><a href=\"http://www.scec.org\"><img src=\"http://qcn.stanford.edu/images/scec_logo.jpg\" width=\"100\"></img></a>\n";
 echo " <p align=\"center\"><a href=\"http://www.iris.edu\"><img src=\"http://qcn.stanford.edu/images/iris_logo.png\" width=\"100\"></img></a>\n";
 echo " <p align=\"center\"><a href=\"http://www.ups.com\"><img src=\"http://qcn.stanford.edu/images/ups_logo.jpg\" width=\"75\"></img></a>\n";
-
+echo " <p align=\"center\"><a href=\"http://www.o-navi.com\"><img src=\"http://qcn.stanford.edu/images/O-NAVI.png\" width=\"100\"></img></a>\n";
 
 echo "     </div>\n";
 
@@ -211,8 +211,9 @@ echo "  </div>\n";
 echo "  <div id=\"footer\"> \n";
 echo "    <ul>\n";
 echo "      <li><a href=\"http://qcn.stanford.edu/\">QCN Home</a></li>\n";
-echo "      <li><a href=\"http://qcn.stanford.edu/about/contact.php\">Contact</a></li><li class=\"last\"><a href=\"http://qcn.stanford.edu/downloads/\">Download Now </a></li> \n";
-
+echo "      <li><a href=\"http://qcn.stanford.edu/about/contact.php\">Contact</a></li>\n
+            <li><a href=\"http://qcn.stanford.edu/downloads/\">Download Now </a></li> \n
+            <li class=\"last\"><a href=\"http://qcn.stanford.edu/about/legal/\">Legal & Privacy</a></li>\n";
 echo "    </ul>\n";
 echo "  </div>\n";
 echo "</div>\n";
