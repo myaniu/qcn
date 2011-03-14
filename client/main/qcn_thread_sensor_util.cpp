@@ -366,7 +366,8 @@ bool getInitialMean(CSensor* psms)
 { // note that the first point (0) stores the initial mean
         sm->xa[0]=0.; sm->ya[0]=0. ; sm->za[0]=0.;               /*  INITIAL MEAN IS INITIAL POINT   */
         sm->resetSampleClock();
-        for (int j = 1; j < 10; j++) {
+		sm->fCorrectionFactor = 1.0f;
+        for (int j = 1; j <= 10; j++) {
 // 2)
     sm->lOffset = 0;
 #ifdef _DEBUG
@@ -380,8 +381,13 @@ bool getInitialMean(CSensor* psms)
            sm->xa[0] += (sm->x0[0] / 10.0f);
            sm->ya[0] += (sm->y0[0] / 10.0f);
            sm->za[0] += (sm->z0[0] / 10.0f);
-	   checkRecordState();
+	       checkRecordState();
         }
+
+	if (fabs(sm->za[0]) > Z_CORRECTION_CUTOFF_JW24F14 && sm->eSensor == SENSOR_USB_JW24F14) {
+		sm->fCorrectionFactor = 0.50f; // values should be half
+	} 
+	
         sm->sgmx = 0.0f;
         sm->xa[0]  = sm->x0[0];
         sm->ya[0]  = sm->y0[0];
@@ -399,7 +405,6 @@ bool getInitialMean(CSensor* psms)
 
 bool getBaseline(CSensor* psms)
 {
-
 // Measure baseline x, y, & z acceleration values for a 1 minute window
        sm->resetSampleClock();
        for (int i = 1; i < sm->iWindow + 1; i++) {             //  CREATE BASELINE AVERAGES
@@ -430,7 +435,7 @@ bool getBaseline(CSensor* psms)
        DebugTime(3);
 #endif
 
-// Determine base line values of variance & significance for first minute
+	// Determine base line values of variance & significance for first minute
        for (int i = 1; i < sm->iWindow + 1; i++) {             //  CREATE BASELINE SIGNIFICANCE
             sm->vari[i]= ( (i-1) * sm->vari[i-1] + QCN_SQR(sm->x0[i]-sm->xa[i])
                                        + QCN_SQR(sm->y0[i]-sm->ya[i])

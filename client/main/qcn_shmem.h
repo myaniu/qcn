@@ -120,6 +120,8 @@ class CQCNShMem : public CSerialize
     //float fmin[4];
     //float fmax[4];
 
+    float fCorrectionFactor;  // a fudge-factor in case the sensor is messed up i.e. JW24F14 calibration is not set to 2g range
+
     double t0[MAXI]; // keep track of each time?
 
     double t0active; // for use by the sensor polling, this value is the real system time (unadjusted from server time)

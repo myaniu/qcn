@@ -108,6 +108,7 @@ void CQCNShMem::clear(bool bAll)
         // start with some values that really shouldn't be 0 ever
 		//iTriggerLastElement = -1;
         dt = g_DT;
+        fCorrectionFactor = 1.0f; // a fudge-factor in case the sensor is messed up i.e. JW24F14 calibration is not set to 2g range
         iWindow = (int) (g_cfTimeWindow / g_DT);  // number of points in time window
 #ifndef QCNLIVE
 		bMyOutputSAC = true;   // default to sac output for non qcnlive  (qcnlive uses the user prefs settings, defaults to non-sac i.e. csv/text output)
@@ -128,6 +129,7 @@ void CQCNShMem::clear(bool bAll)
     //strcpy(pshmem->strUploadLogical, strUploadLogical);  // path to the upload file
     //strcpy(pshmem->strUploadResolve, strUploadResolve);  // path to the upload file
     pshmem->iWindow = iWindow;
+    pshmem->fCorrectionFactor = 1.00f; // reset correction factor
     strcpy(pshmem->strPathImage, strPathImage);  // path to the images
 
     pshmem->iNumTrigger = iNumTrigger;        // the total number of triggers for this workunit

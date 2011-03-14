@@ -261,9 +261,9 @@ inline bool CSensor::mean_xyz()
            x1 = y1 = z1 = 0.0f; 
     	   // note that x/y/z should be scaled to +/- 2g, return values as +/- 2.0f*EARTH_G (in define.h: 9.78033 m/s^2)
            if (read_xyz(x1, y1, z1)) {  // not a fatal error if fails, just don't count this point
-			   *px2 += x1; 
-			   *py2 += y1; 
-			   *pz2 += z1; 
+			   *px2 += (x1 * sm->fCorrectionFactor); 
+			   *py2 += (y1 * sm->fCorrectionFactor); 
+			   *pz2 += (z1 * sm->fCorrectionFactor); 
 			   sm->lSampleSize++; // only increment if not a single sample sensor
 		   }
         }  // done sample size stuff
