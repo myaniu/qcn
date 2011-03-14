@@ -214,7 +214,7 @@ enum e_quake   { QUAKE_CURRENT, QUAKE_WORLD85, QUAKE_DEADLIEST };
 // set to the min allowable value of a usb sensor enum as above
 #define MIN_SENSOR_USB 100
 // set to the max allowable value of a usb sensor enum as above
-#define MAX_SENSOR_USB 103
+#define MAX_SENSOR_USB 106
 
 // enumerate the various sensor types, we can trickle this int back for easier comparisons
 // don't forget to update in the csensor.cpp CSensor constructor
