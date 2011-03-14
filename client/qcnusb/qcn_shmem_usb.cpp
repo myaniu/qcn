@@ -18,6 +18,7 @@ void CQCNUSBSensor::clear()
 {
    memset(this, 0x00, sizeof(CQCNUSBSensor));
    dt = g_DT;
+   fCorrectionFactor = 1.0f;
    resetSampleClock();
 }
 

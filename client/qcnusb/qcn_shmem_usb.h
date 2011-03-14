@@ -42,6 +42,7 @@ struct CQCNUSBSensor
    float  x0;
    float  y0;
    float  z0;
+   float  fCorrectionFactor;
    double t0;
    double dt;
 

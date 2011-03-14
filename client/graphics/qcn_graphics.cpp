@@ -573,7 +573,11 @@ void draw_logo(bool bExtraOnly)
 
     if (txAdd.id) {
         float pos[3] = {0.0f, 0.27f, 0.0f};
-		if (bExtraOnly && ! g_MakeQuake.bActive) {/*
+		if (bExtraOnly 
+#ifdef QCNLIVE
+			&& ! g_MakeQuake.bActive
+#endif
+			) {/*
 			if (g_MakeQuake.bActive)  {  // make a quake - draw extra logo on the bottom right
 			    pos[0] = 0.50f; 
 				pos[1] = -0.10f;
