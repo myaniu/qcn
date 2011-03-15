@@ -171,9 +171,9 @@ inline bool CSensorMacUSBGeneric::mean_xyz()
    }
    */
 
-   sm->x0[sm->lOffset] = tsm->x0;
-   sm->y0[sm->lOffset] = tsm->y0;
-   sm->z0[sm->lOffset] = tsm->z0;
+   sm->x0[sm->lOffset] = tsm->x0 * sm->fCorrectionFactor;
+   sm->y0[sm->lOffset] = tsm->y0 * sm->fCorrectionFactor;
+   sm->z0[sm->lOffset] = tsm->z0 * sm->fCorrectionFactor;
    sm->t0[sm->lOffset] = tsm->t0;
    //if (sm->dt == 0.0f || sm->dt < DT || sm->dt > DT_SLOW) sm->dt = tsm->dt; // dt should only be set if it's 0.0
    sm->t0active = tsm->t0active;
@@ -185,11 +185,11 @@ inline bool CSensorMacUSBGeneric::mean_xyz()
    sm->fRealDT = tsm->fRealDT;
    tsm->bReading = false;
 
-//#ifdef _DEBUG
+#ifdef _DEBUG
    fprintf(stdout, "lOffset=%ld  x0=%f  y0=%f  z0=%f  t0=%f  dt=%f  t0active=%f  t0check=%f\n",
       sm->lOffset, sm->x0[sm->lOffset], sm->y0[sm->lOffset], sm->z0[sm->lOffset], sm->t0[sm->lOffset], sm->dt, sm->t0active, sm->t0check 
    );
-//#endif
+#endif
 
    // check for timing error
    if (sm->lOffset > 1 && sm->lOffset < MAXI) {
@@ -218,9 +218,9 @@ inline bool CSensorMacUSBGeneric::mean_xyz()
 inline bool CSensorMacUSBGeneric::read_xyz(float& x1, float& y1, float& z1)
 {  // there really is no read_xyz for the proc, is there?   just use mean_xyz
    if (!tsm || !sm || !mean_xyz()) return false;
-   x1 = tsm->x0;
-   y1 = tsm->y0;
-   z1 = tsm->z0;
+   x1 = tsm->x0;// * sm->fCorrectionFactor;
+   y1 = tsm->y0;// * sm->fCorrectionFactor;
+   z1 = tsm->z0;// * sm->fCorrectionFactor;
    return true;
 }
 

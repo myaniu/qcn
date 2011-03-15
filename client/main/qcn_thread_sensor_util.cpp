@@ -384,7 +384,8 @@ bool getInitialMean(CSensor* psms)
 	       checkRecordState();
         }
 
-	if (fabs(sm->za[0]) > Z_CORRECTION_CUTOFF_JW24F14 && sm->eSensor == SENSOR_USB_JW24F14) {
+	if (fabs(sm->za[0]) > Z_CORRECTION_CUTOFF_JW24F14) 
+          && (sm->eSensor == SENSOR_USB_JW24F14) {
 		sm->fCorrectionFactor = 0.50f; // values should be half
                 fprintf(stderr, "Uncalibrated JW24F14 found: sm->fCorrectionFactor = %f\n", sm->fCorrectionFactor);
 	} 
