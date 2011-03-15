@@ -16,24 +16,24 @@
 # To install in $HOME instead of /usr/local, use:
 #    make install prefix=$HOME
 
-CC=cc
+CC=gcc-4.2
 
-CFLAGS=-O
+CFLAGS=-O2 -I/Developer/SDKs/MacOSX10.5.sdk/usr/include -I/Developer/SDKs/MacOSX10.5.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64 -m64
 #CFLAGS=-O -DMAX_WBITS=14 -DMAX_MEM_LEVEL=7
 #CFLAGS=-g -DDEBUG
 #CFLAGS=-O3 -Wall -Wwrite-strings -Wpointer-arith -Wconversion \
 #           -Wstrict-prototypes -Wmissing-prototypes
 
-SFLAGS=-O
-LDFLAGS=
+SFLAGS=-O2 -I/Developer/SDKs/MacOSX10.5.sdk/usr/include -I/Developer/SDKs/MacOSX10.5.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64 -fPIC -m64
+LDFLAGS=-isysroot /Developer/SDKs/MacOSX10.5.sdk -Wl,-syslibroot,/Developer/SDKs/MacOSX10.5.sdk -arch x86_64 -L. libz.a
 TEST_LDFLAGS=-L. libz.a
-LDSHARED=$(CC)
-CPP=$(CC) -E
+LDSHARED=gcc-4.2
+CPP=gcc-4.2 -E
 
 STATICLIB=libz.a
-SHAREDLIB=libz.so
-SHAREDLIBV=libz.so.1.2.5
-SHAREDLIBM=libz.so.1
+SHAREDLIB=
+SHAREDLIBV=
+SHAREDLIBM=
 LIBS=$(STATICLIB) $(SHAREDLIBV)
 
 AR=ar rc
@@ -44,12 +44,12 @@ TAR=tar
 SHELL=/bin/sh
 EXE=
 
-prefix = /usr/local
-exec_prefix = ${prefix}
-libdir = ${exec_prefix}/lib
-sharedlibdir = ${libdir}
-includedir = ${prefix}/include
-mandir = ${prefix}/share/man
+prefix =/usr/local
+exec_prefix =${prefix}
+libdir =${exec_prefix}/lib
+sharedlibdir =${libdir}
+includedir =${prefix}/include
+mandir =${prefix}/share/man
 man3dir = ${mandir}/man3
 pkgconfigdir = ${libdir}/pkgconfig
 
@@ -67,7 +67,7 @@ OBJS = $(OBJC) $(OBJA)
 
 PIC_OBJS = $(PIC_OBJC) $(PIC_OBJA)
 
-all: static shared
+all: static
 
 static: example$(EXE) minigzip$(EXE)
 
@@ -77,7 +77,7 @@ all64: example64$(EXE) minigzip64$(EXE)
 
 check: test
 
-test: all teststatic testshared
+test: all teststatic
 
 teststatic: static
 	@if echo hello world | ./minigzip | ./minigzip -d && ./example; then \
