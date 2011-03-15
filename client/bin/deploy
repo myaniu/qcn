@@ -258,5 +258,5 @@ else
   sftp -b qcnsftp.up carlgt1@qcn-web.stanford.edu
 fi
 
-cleanup_files
+#cleanup_files
 

@@ -19,7 +19,7 @@ if OS_DARWIN
 else
    # LIBS += -L/usr/local/lib -lGL -lGLU -lglut
    # LIBS += /usr/local/lib/libGL.a /usr/local/lib/libGLU.a /usr/local/lib/libglut.a
-   MYLDADD = -lftgl -lfreetype -ljpeg -lGL -lGLU -lglut
+   MYLDADD = -lc -lftgl -lfreetype -ljpeg -lGL -lGLU -lglut
    STACKSIZE = --stack=2000000
 endif
 
