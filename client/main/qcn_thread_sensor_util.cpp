@@ -388,7 +388,10 @@ bool getInitialMean(CSensor* psms)
 	if (fabs(sm->za[0]) > Z_CORRECTION_CUTOFF_JW24F14
           && (sm->eSensor == SENSOR_USB_JW24F14)) {
 		sm->fCorrectionFactor = 0.50f; // values should be half
-                fprintf(stderr, "Uncalibrated JW24F14 found: sm->fCorrectionFactor = %f\n", sm->fCorrectionFactor);
+		sm->x0[0] *= sm->fCorrectionFactor;
+		sm->y0[0] *= sm->fCorrectionFactor;
+		sm->z0[0] *= sm->fCorrectionFactor;
+        fprintf(stderr, "Uncalibrated JW24F14 found: sm->fCorrectionFactor = %f\n", sm->fCorrectionFactor);
 	} 
 	
         sm->sgmx = 0.0f;
