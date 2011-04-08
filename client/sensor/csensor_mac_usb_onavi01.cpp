@@ -179,7 +179,10 @@ Values >32768 are positive g and <32768 are negative g. The sampling rate is set
 		memset(bytesIn, 0x00, ciLen+1);
 		iRead = read(m_fd, bytesIn, ciLen);
 		switch (iRead) {
-			case -1:  bRet = false; break; // error
+			case -1:  
+				bRet = false; // error
+				fprintf(stderr, "%f: ONavi Error in read_xyz() - read(m_fd) returned %d\n", sm->t0active, iRead);
+				fflush(stderr);
 			case ciLen:  
 				// good data length read in, now test for appropriate characters
 				if (bytesIn[ciLen] == 0x00) { // && bytesIn[0] == 0x23 && bytesIn[1] == 0x23) {
@@ -217,10 +220,14 @@ Values >32768 are positive g and <32768 are negative g. The sampling rate is set
 				}
 				break;
 			default:
+				fprintf(stderr, "%f: ONavi Error in read_xyz() - read(m_fd) returned %d\n", sm->t0active, iRead);
+				fflush(stderr);
 				x1 = x0; y1 = y0; z1 = z0;  // use last good values
 		}
 	}
 	else {
+		fprintf(stderr, "%f: ONavi Error in read_xyz() - write(m_fd) returned %d\n", sm->t0active, iRead);
+		fflush(stderr);
 		bRet = false;
 	}
 		

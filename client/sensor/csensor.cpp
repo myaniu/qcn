@@ -282,8 +282,13 @@ inline bool CSensor::mean_xyz()
 			   *px2 += (x1 * sm->fCorrectionFactor); 
 			   *py2 += (y1 * sm->fCorrectionFactor); 
 			   *pz2 += (z1 * sm->fCorrectionFactor); 
-			   sm->lSampleSize++; // only increment if not a single sample sensor
-		   }
+            }
+            else {
+		*px2 += dLast[0]; 
+		*py2 += dLast[1]; 
+		*pz2 += dLast[2];
+            }
+            sm->lSampleSize++; // only increment if not a single sample sensor
         }  // done sample size stuff
 
        // dt is in seconds, want to slice it into 10 (SAMPLING_FREQUENCY), put into microseconds, so multiply by 100000
