@@ -40,6 +40,7 @@ class CSensorWinUSBONavi01  : public CSensor
 	  // usb stick stuff
 	  HANDLE	 m_hcom;
 	  SSerInfo   m_si;
+     unsigned short m_usBitSensor;
 
       // two usb-specific methods, one for init, one for reading data
       void GetCapabilities(HANDLE handle);
