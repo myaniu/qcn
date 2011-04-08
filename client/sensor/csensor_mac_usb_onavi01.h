@@ -25,7 +25,8 @@ using namespace std;
 class CSensorMacUSBONavi01  : public CSensor
 {
    private:
-	 int m_fd;
+    int m_fd;
+     unsigned short m_usBitSensor;
 	
       virtual bool read_xyz(float& x1, float& y1, float& z1);  
 

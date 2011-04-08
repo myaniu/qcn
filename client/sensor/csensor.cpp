@@ -46,8 +46,17 @@
 #define SENSOR_STRLG_USB_MN "MotionNode Accel USB"
 #define SENSOR_STRSH_USB_MN "MN"
 
-#define SENSOR_STRLG_USB_ONAVI_1 "ONavi G1 USB"
+#define SENSOR_STRLG_USB_ONAVI_1 "OBSOLETE ONavi G1 USB"
 #define SENSOR_STRSH_USB_ONAVI_1 "O1"
+
+#define SENSOR_STRLG_USB_ONAVI_A_12 "ONavi A 12-bit USB"
+#define SENSOR_STRSH_USB_ONAVI_A_12 "O2"
+
+#define SENSOR_STRLG_USB_ONAVI_A_16 "ONavi A 16-bit USB"
+#define SENSOR_STRSH_USB_ONAVI_A_16 "O3"
+
+#define SENSOR_STRLG_USB_ONAVI_A_24 "ONavi A 24-bit USB"
+#define SENSOR_STRSH_USB_ONAVI_A_24 "O4"
 
 // end sensor strings
 
@@ -98,6 +107,15 @@ CSensor::CSensor()
 		
 		cst.init(SENSOR_USB_ONAVI_1, SENSOR_STRLG_USB_ONAVI_1, SENSOR_STRSH_USB_ONAVI_1);
 		m_map.insert(make_pair(SENSOR_USB_ONAVI_1, cst));
+
+		cst.init(SENSOR_USB_ONAVI_A_12, SENSOR_STRLG_USB_ONAVI_A_12, SENSOR_STRSH_USB_ONAVI_A_12);
+		m_map.insert(make_pair(SENSOR_USB_ONAVI_A_12, cst));
+
+		cst.init(SENSOR_USB_ONAVI_A_16, SENSOR_STRLG_USB_ONAVI_A_16, SENSOR_STRSH_USB_ONAVI_A_16);
+		m_map.insert(make_pair(SENSOR_USB_ONAVI_A_16, cst));
+
+		cst.init(SENSOR_USB_ONAVI_A_24, SENSOR_STRLG_USB_ONAVI_A_24, SENSOR_STRSH_USB_ONAVI_A_24);
+		m_map.insert(make_pair(SENSOR_USB_ONAVI_A_24, cst));
 	}
 }
 

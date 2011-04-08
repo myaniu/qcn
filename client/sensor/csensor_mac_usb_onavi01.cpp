@@ -16,7 +16,7 @@
 #include <termios.h>
 
 CSensorMacUSBONavi01::CSensorMacUSBONavi01()
-  : CSensor(), m_fd(-1)
+  : CSensor(), m_fd(-1), m_usBitSensor(0)
 { 
 }
 
@@ -31,8 +31,9 @@ void CSensorMacUSBONavi01::closePort()
 	  close(m_fd);
     }
     m_fd = -1;
-	setPort();
-	setType();
+    m_usBitSensor = 0;
+    setPort();
+    setType();
 }
 
 bool CSensorMacUSBONavi01::detect()
@@ -90,13 +91,36 @@ bool CSensorMacUSBONavi01::detect()
 		closePort();
 		return false;
 	}
-	
-	// exists, so setPort & Type
-	setType(SENSOR_USB_ONAVI_1);
-	setPort(m_fd);
-	
-	setSingleSampleDT(true); // onavi samples itself?
 
+        setPort(m_fd);
+
+	setSingleSampleDT(true); // onavi samples itself
+
+        // try to read a value and get the sensor bit-type (& hence sensor type)
+        float x,y,z;
+        m_usBitSensor = 0;
+        if (read_xyz(x,y,z) && m_usBitSensor > 0) {
+	   // exists, so setPort & Type
+           switch(m_usBitSensor) {
+             case 12:
+	         setType(SENSOR_USB_ONAVI_A_12);
+                 break;
+             case 16:
+	         setType(SENSOR_USB_ONAVI_A_16);
+                 break;
+             case 24:
+	         setType(SENSOR_USB_ONAVI_A_24);
+                 break;
+             default: // error!
+               closePort();
+               return false;
+	   }
+        }
+        else {
+           closePort();
+           return false;
+        }
+ 
     return true;
 }
 
@@ -125,7 +149,7 @@ Values >32768 are positive g and <32768 are negative g. The sampling rate is set
 
 	*/
 	
-	static float x0 = 0.0f, y0 = 0.0f, z0 = 0.0f;
+	static float x0 = 0.0f, y0 = 0.0f, z0 = 0.0f; // keep last values
 
 	// first check for valid port
 	if (getPort() < 0) {
@@ -139,7 +163,8 @@ Values >32768 are positive g and <32768 are negative g. The sampling rate is set
 	int x = 0, y = 0, z = 0;
 	int iCS = 0;
 	int iRead = 0;
-	x1 = y1 = z1 = 0.0f;
+	//x1 = y1 = z1 = 0.0f; // don't init to 0 as ONavi 24-bit is having errors we need to debug
+        x1 = x0; y1 = y0; z1 = z0;  // use last good values
 	const char cWrite = '*';
 
 	/*
@@ -157,9 +182,21 @@ Values >32768 are positive g and <32768 are negative g. The sampling rate is set
 			case -1:  bRet = false; break; // error
 			case ciLen:  
 				// good data length read in, now test for appropriate characters
-				if (bytesIn[ciLen] == 0x00 && bytesIn[0] == 0x23 && bytesIn[1] == 0x23) {
+				if (bytesIn[ciLen] == 0x00) { // && bytesIn[0] == 0x23 && bytesIn[1] == 0x23) {
 					// format is ##XXYYZZC\0
 					// we found both, the bytes in between are what we want (really bytes after lOffset[0]
+                                        if (m_usBitSensor == 0) { // need to find sensor bit type i.e. 12/16/24-bit ONavi
+					   if (bytesIn[0] == 0x2A && bytesIn[1] == 0x2A) {  // **
+                                              m_usBitSensor = 12;
+                                           }
+					   else if (bytesIn[0] == 0x23 && bytesIn[1] == 0x23) { // ##
+                                              m_usBitSensor = 16;
+                                           }
+					   else if (bytesIn[0] == 0x24 && bytesIn[1] == 0x24) {  // $$
+                                              m_usBitSensor = 24;
+                                           }
+                                        }
+
 					x = (bytesIn[2] * 255) + bytesIn[3];
 					y = (bytesIn[4] * 255) + bytesIn[5];
 					z = (bytesIn[6] * 255) + bytesIn[7];
