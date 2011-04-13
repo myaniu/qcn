@@ -578,14 +578,6 @@ void qcn_event_locate(struct trigger t[], int i, struct event e[]) {
 
 
 
-
-
-
-
-
-
-
-
 void estimate_magnitude_bs(struct trigger t[], struct event e[], int i) {
 /* We need to come up with good magnitude/amplitude relationships.  There are some good ones for peak displacement v. dist.
    We need some for peak acceleration v. distance.  Note - they may vary from location to location.
@@ -600,8 +592,53 @@ void estimate_magnitude_bs(struct trigger t[], struct event e[], int i) {
 
    This subroutine was written by Jesse F. Lawrence (jflawrence@stanford.edu).
 
+*/
+   float a=0.544f; float b=2.0f; float c=0.03085f; float d=4.28f;// Constants for equation above (Need to be adjusted)
+   int j, k, kk, n;                                     // Index variables
+   float mul_amp;                                       // Multiplication factor depends on P & S waves currently set to 1
+   srand ( time(NULL) );                                // Set randomization kernel
+   float mag_ave[n_short];                              // Average magnitude
+
+   e[1].e_mag = 0.f;                                    // Zero magnitude
+   for (j = 0; j <=t[i].c_cnt; j++) {                   // Bootstrap once for each trigger
+    mag_ave[j]=0.;                                      // Zero the average magnitude for this bootstrap
+    for (k = 0; k <= t[i].c_cnt; k++) {                 // Select one point for each trigger
+     kk = rand() % (t[i].c_cnt+1);                      // Use random trigger
+     n = t[i].c_ind[kk];                                // Index of correlated trigger
+     if ( t[n].pors == 0 ) {                            // Use appropriate multilication factor (currently not used but will eventually)
+      mul_amp = 1.f;                                    //
+     } else {                                           //
+      mul_amp = 1.f;                                    //
+     };                                                 //
+     mag_ave[j] += a*log(t[n].mag*b*mul_amp) + c*log(t[n].dis) + d; // Sum magnitude estimate from each trigger for average estimate
+    }
+    mag_ave[j]/= ( (float) t[i].c_cnt + 1.);            // Normalize summed mag estimates for average magnitude estimate
+   }
+   e[1].e_mag = average( mag_ave, t[i].c_cnt);          // Average the averages
+   e[1].e_std = std_dev( mag_ave, t[i].c_cnt, e[1].e_mag)*3.;// 3 sigma is the 99 % confidence (assuming a statistically large enough data set)
+
+}
+
+
+
+
+
+//void estimate_magnitude_bs(struct trigger t[], struct event e[], int i) {
+/* We need to come up with good magnitude/amplitude relationships.  There are some good ones for peak displacement v. dist.
+   We need some for peak acceleration v. distance.  Note - they may vary from location to location.
+   We will need to adjust this for characterization of P & S wave values.  It may also be sensor specific.
+
+   This code bootstraps over the data to determine how cerntain the estimated magnitude is.  Use 3X the standard error for 99% confidence.
+
+   The magnitude relation takes the form:
+           M = a * LN( accel * b) + c * LN(dist) + d
+
+   The
+
+   This subroutine was written by Jesse F. Lawrence (jflawrence@stanford.edu).
+
 */   
-   float a=1.25f; float b=1.8f; float c=0.8f; float d=3.25f;// Constants for equation above (Need to be adjusted)
+/*   float a=1.25f; float b=1.8f; float c=0.8f; float d=3.25f;// Constants for equation above (Need to be adjusted)
    int j, k, kk, n;                                     // Index variables
    float mul_amp;                                       // Multiplication factor depends on P & S waves currently set to 1
    srand ( time(NULL) );                                // Set randomization kernel
@@ -625,24 +662,42 @@ void estimate_magnitude_bs(struct trigger t[], struct event e[], int i) {
    e[1].e_mag = average( mag_ave, t[i].c_cnt);          // Average the averages
    e[1].e_std = std_dev( mag_ave, t[i].c_cnt, e[1].e_mag)*3.;// 3 sigma is the 99 % confidence (assuming a statistically large enough data set)
 }
+*/
 
 
-
-
-
-
-float intensity_extrapolate(int pors, float dist, float dist_eq_nd, float intensity_in) {
+float intensity_extrapolate(int pors, float dist, float dist_eq_nd, float pga1) {
 /* This is a simplistic aproach to wave amplitude decay: 
    The amplitude for a cylindrically expanding wave should be 
    proportional to 1./sqrt(distance).  This blows up near zer 
    distance.  We should take attenuation into account. */
 
- float fact = dist_eq_nd / dist;                        // Factor of node distance (for intensity map) to event-station distance (from trigger)
- if (pors == 0) fact *= 2.;
- if (fact <=0.01) fact = 0.01;                          // If the factor will lead to order of magnitude stronger shaking, then cap it.
- float intensity_out = intensity_in/((fact+sqrt(fact))/2.);                   // Calculate the projected intensity
- return intensity_out;                                  // 
+ float fact=1.;// = dist_eq_nd / dist;                        // Factor of node distance (for intensity map) to event-station distance (from trigger)
+ if (pors == 0) {fact = 2.;}
+// if (fact <=0.01) fact = 0.01;                          // If the factor will lead to order of magnitude stronger shaking, then cap it.
+
+// float intensity_out = intensity_in/((fact+sqrt(fact))/2.);                   // Calculate the projected intensity
+
+   float pga2 = pga1 * exp( -0.05*(dist_eq_nd-dist) );
+
+ return pga2;                                  // 
 }
+
+
+
+
+
+//float intensity_extrapolate(int pors, float dist, float dist_eq_nd, float intensity_in) {
+///* This is a simplistic aproach to wave amplitude decay: 
+//   The amplitude for a cylindrically expanding wave should be 
+//   proportional to 1./sqrt(distance).  This blows up near zer 
+//   distance.  We should take attenuation into account. */
+//
+// float fact = dist_eq_nd / dist;                        // Factor of node distance (for intensity map) to event-station distance (from trigger)
+// if (pors == 0) fact *= 2.;
+// if (fact <=0.01) fact = 0.01;                          // If the factor will lead to order of magnitude stronger shaking, then cap it.
+// float intensity_out = intensity_in/((fact+sqrt(fact))/2.);                   // Calculate the projected intensity
+// return intensity_out;                                  // 
+//}
 
 
 
@@ -650,81 +705,46 @@ float intensity_extrapolate(int pors, float dist, float dist_eq_nd, float intens
 void php_event_email(struct trigger t[], int i, struct event e[], char* epath) {
 /* This subroutine should email us when we detect an earthquake */   
 
+   char phpfile[sizeof "/var/www/boinc/sensor/html/user/" + sizeof "/earthquake_email.php"]; 
+   sprintf(phpfile,"/var/www/boinc/sensor/html/user/earthquake_email.php");
+   FILE *fp11; fp11 = fopen(phpfile,"w+");                       // Open web file
+
+   fprintf(fp11,"<?php\n");
+   fprintf(fp11,"chdir(\"/var/www/boinc/sensor/html/user/\");\n");
+   fprintf(fp11,"require_once(\"/var/www/boinc/sensor/html/inc/earthquake_email.inc\");\n");        // Include email php function
+   
+   time_t t_eq; struct tm * t_eq_gmt; t_eq = (int) e[1].e_time; t_eq_gmt = gmtime(&t_eq);     // Earthquake time
+
+   fprintf(fp11,"$mag  = %1.1f; \n",e[1].e_mag);                     // Set eq magnitude
+   fprintf(fp11,"$elon = %4.3f; \n",e[1].elon);                      // Set eq Lon 
+   fprintf(fp11,"$elat = %4.3f; \n",e[1].elat);                      // Set eq Lat
+   fprintf(fp11,"$edep = %2.1f; \n",e[1].edep);                      // Set Depth
+   fprintf(fp11,"$n_stations = %d; \n",e[1].e_cnt+1);                // Set # of stations used
+   fprintf(fp11,"$etime = %f; \n",e[1].e_time);                      // Set earthquake time
+   fprintf(fp11,"$dtime = %d; \n",e[1].e_t_now);                     // Set current time
+   fprintf(fp11,"$dt_detect  = %3.1f; \n",e[1].e_t_now-e[1].e_time); // Calculate time to detection
+   fprintf(fp11,"$edir       = %s; \n",epath);                       // Set directory
+   fprintf(fp11,"\nearthquake_email($mag,$elon,$elat,$edep,$n_stations,$etime,$edir,$dtime,$dt_detect);\n");
+
+   
+   fprintf(fp11,"\n");                                                                       // Close php while loop.
+   fprintf(fp11,"?>\n");                                                                      // End php
+   fclose(fp11);
+
+   char sys_cmd[sizeof "/usr/local/bin/php" + sizeof phpfile]; sprintf(sys_cmd,"/usr/local/bin/php %s",phpfile);
+   int retval = system(sys_cmd);
+
+
 }
+
+
+
+
 
 
 void php_event_page(struct trigger t[], int i, struct event e[], char* epath) {
 /* This subroutine creates a web page for the event. */
    
-   char phpfile[sizeof epath + sizeof "/index.php"]; sprintf(phpfile,"%s/index.php",epath);
-   FILE *fp11; fp11 = fopen(phpfile,"w+");                       // Open web file
-   //fprintf(stdout,"HI2:\n");
-   fprintf(fp11,"<?php\n");                                      // Start of PHP
-   fprintf(fp11,"require_once('/var/www/qcn/inc/utils.inc');\n");// Includes for page design
-   fprintf(fp11,"require_once('/var/www/qcn/earthquakes/inc/qcn_auto_detect.inc');\n");// Includes for autodetection information
-   fprintf(fp11,"page_top();\n");                                // Standard QCN formatting of page
-   fprintf(fp11,"echo \"\n");                                    // Just a space
-
-/* Earthquake Information */
-   fprintf(fp11,"<h1>Earthquake</h1>");                          // Title
-   time_t t_eq; struct tm * t_eq_gmt; t_eq = (int) e[1].e_time; t_eq_gmt = gmtime(&t_eq); // Earthquake time
-   fprintf(fp11,"<p><strong>Date and Time:</strong> %s </p>\n",asctime(t_eq_gmt));// Earthquake time
-   fprintf(fp11,"<p><strong>Longitude:</strong> %4.4f <strong>Latitude:</strong> %4.4f <strong>Depth:</strong> %4.1f km \n",e[1].elon,e[1].elat,e[1].edep);
-   fprintf(fp11,"<p><strong>Magnitude:</strong> %1.2f &plusmn;%1.1f(Local estimate - for scientific use only)\n",e[1].e_mag,e[1].e_std);
-
-/* Table for intensity maps */
-   fprintf(fp11,"<p><table><tr>");
-   fprintf(fp11,"<td width=\\\"50\\\" align=\\\"center\\\"><img src=\\\"./intensity_02.jpg\\\" width=\\\"325\\\"><br><a href=\\\"./intensity_02.ps\\\">PS</a> or <a href=\\\"./intensity_02.jpg\\\">JPEG</a> file.</td>\n");
-   fprintf(fp11,"<td width=\\\"50\\\" align=\\\"center\\\"><img src=\\\"./intensity_01.jpg\\\" width=\\\"325\\\"><br>Download: <a href=\\\"./intensity_01.ps\\\">PS</a> or <a href=\\\"./intensity_01.jpg\\\">JPEG</a> file.</td>\n");
-   fprintf(fp11,"</tr></table>\n");
-   fprintf(fp11,"<a href=\\\"http://qcn.stanford.edu/images/ShakeMap_Scale.png\\\"><img src=\\\"http://qcn.stanford.edu/images/ShakeMap_Scale.png\\\" width=\\\"600\\\"></a> \n");
-   fprintf(fp11,"\\n\";");
-   
-/* List Quakes under if listed beneath this one */
-   fprintf(fp11,"echo list_quakes(); \n");
-   fprintf(fp11,"echo \" \n");
-
-/* Table of triggers */
-   fprintf(fp11,"<h2>Triggers:</h2>\n");                           // Table Title
-   fprintf(fp11,"<table>\n");
-   fprintf(fp11,"<tr><td><strong>Host ID</strong></td><td><strong>Trigger ID</strong></td><td><strong>Longitude</strong></td><td><strong>Latitude</strong></td><td><strong>Trig Time</strong></td><td><strong>Time Received</strong></td><td><strong>Significance</strong></td><td><strong>|acceleration| (m/s/s)</strong></td><td><strong>Distance (km)</strong></td></tr>");
-   int j;int ji = 0;                                               // Index of triggers 
-   for (j=0;j<=t[i].c_cnt;j++) {                                   // For each trigger
-    int ij = t[i].c_ind[j];
-    if(ji>1){fprintf(fp11,"<tr bgcolor=\\\"#FFFFFF\\\"> \n");ji=0;}// Alternate color from white to gray 
-    else {fprintf(fp11,"<tr bgcolor=\\\"#DDDDDD\\\"> \n");ji++; }  // Color gray
-    fprintf(fp11,"<td><a href=\\\"http://qcn.stanford.edu/%s/show_host_detail.php?hostid=%d\\\">%d</a></td>\n",t[ij].db,t[ij].hid,t[ij].hid); // Link to host
-    fprintf(fp11,"<td><a href=\\\"http://qcn.stanford.edu/%s/%s\\\">%d</a></td>\n",t[ij].db,t[ij].file,t[ij].tid); // Link to downlaod data
-    fprintf(fp11,"<td>%2.4f</td><td>%2.4f</td><td>%f</td><td>%d</td><td>%4.2f</td><td>%4.2f</td><td>%2.5f</td>\n",t[ij].slon,t[ij].slat,t[ij].trig,(int) t[ij].rec,t[ij].sig,t[ij].mag,t[ij].dis);
-    fprintf(fp11,"</tr> \n");
-   }
-   fprintf(fp11,"</table> \n");
-
-
-/* Plot scatter plot of observed to estimated travel times */
-   fprintf(fp11,"<hr><table><tr>\n");                                   //
-   fprintf(fp11,"<td><img src=\\\"./t_scatter.jpg\\\" width=\\\"325\\\"></td> \n");   
-   fprintf(fp11,"<td><p><h2>Travel Time Fit</h2>\n");
-   fprintf(fp11,"<p>The quality of the earthquake location depends on the match between the travel times estimated from the earthquake location to the observed travel times.\n");
-   fprintf(fp11,"The observed travel times come from the time the earthquake triggered the volunteer sensor computer.\n");
-   fprintf(fp11,"The estimated times are determined from the event distance divided by the speed of the wave.\n");
-   fprintf(fp11,"The correlation (R) is a measure of the similarity between observed and estimated travel times.\n");
-   fprintf(fp11,"The misfit is another measure of the similarity\n");
-   fprintf(fp11,"</td></tr></table>\n");
-   time_t t_now; struct tm * t_now_gmt; t_now = e[1].e_t_now;  t_now_gmt = gmtime(&t_now); // Current time
-   fprintf(fp11,"<hr> \n");
-   fprintf(fp11,"<p aling=\\\"justify\\\">Page created on: %s at %f after the event origin. \n",asctime(t_now_gmt),difftime(t_now,t_eq));
-   fprintf(fp11,"<hr> \n");
-   fprintf(fp11,"<p>The information contained on this page is not intended for official use.  This is a scientific project aiming to validate the methods used to produce these data.  For official earthquake characterization, please obtain the appropriate information from your national earthquake program or the <a href=\\\"http://earthquake.usgs.gov/earthquakes/\\\">USGS.</a>\n");   
-
-/* Output a line stating the time from the event to detection */
-   fprintf(fp11,"\n\";\n");
-   fprintf(fp11,"echo \"<p>Page viewed on: \". date(\'M d Y\'). \" at \". date('h:i:s'); echo \" (UTC)\";\n");
-   
-/* Finish the page formatting */
-   fprintf(fp11,"page_end();\n");                              // Finish the page formatting
-   fprintf(fp11,"?>\n");                                       // Finish the php command
-   fclose(fp11);                                               // Close html file 
    
 }
 
@@ -736,108 +756,10 @@ void intensity_map_gmt(struct event e[], char* epath){
     char gmtfile[sizeof epath + sizeof "/gmt_script.csh"]; sprintf(gmtfile,"%s/gmt_script.csh",epath);
     fprintf(stdout,gmtfile);
     FILE *fp10; fp10 = fopen(gmtfile,"w+");                      // gmt script
-    fprintf(fp10,"set GMT      = \"/usr/local/gmt/bin\"\n");                                                    // Set GMT bin directory
-    fprintf(fp10,"set GRID     = \"-I0.01/0.01\" \n");                                                        // Set grid inerval
-    
-    float elon = (float) ((int) (e[1].elon*100))/100.;
-    float elat = (float) ((int) (e[1].elat*100))/100.;
-    fprintf(fp10,"set BOUNDS   = \"-R%2.4f/%2.4f/%2.4f/%2.4f\"\n",elon-2,elon+2,elat-2,elat+2);   // Set bound of intensity map
    
-    fprintf(fp10,"set OUTDIR   = \"%s\" \n",epath);                               // Set Output Directory
-    fprintf(fp10,"set GRDFILE  = \"$OUTDIR/grid.grd\" \n");                      // Set grid file 
-    fprintf(fp10,"set GRADFILE = \"$OUTDIR/grad.grd\" \n");                      // Set grid file 
-    fprintf(fp10,"set TOPO     = \"/usr/local/gmt/share/topo/topo30.grd\" \n");                                 // Set topography file 
-    fprintf(fp10,"set CITIES   = \"/var/www/qcn/earthquakes/inc/worldcitiespop.gmt\"\n");
-    fprintf(fp10,"set CITY_NAMES = \"/var/www/qcn/earthquakes/inc/worldcities_names.gmt\"\n");
-    fprintf(fp10,"set EVENT    = \"$OUTDIR/event.xy\" \n");                      // Set event file 
-    fprintf(fp10,"set STATIONS = \"$OUTDIR/stations.xyz\" \n");                  // Set station file     
-    fprintf(fp10,"set TCONTOUR = \"$OUTDIR/t_contour.xy\" \n");                  // Set contour file
-    fprintf(fp10,"set TXTCON   = \"$OUTDIR/t_contour.txt\" \n");                 // Set contour text description
-    fprintf(fp10,"set IFILE    = \"$OUTDIR/intensity_map.xyz\" \n");             // Set input file name
-    fprintf(fp10,"set TEMP     = \"$OUTDIR/.temp\" \n");                         // Set temp file name
-    fprintf(fp10,"set CPTFILE  = \"/var/www/qcn/earthquakes/inc/int.cpt\" \n");              // Set GMT CPT color definition file
-    fprintf(fp10,"set X1Y1     = \"-X3 -Y10\" \n");                                                             // Set location of file
-    fprintf(fp10,"set PROJ     = \"-JM4i\" \n");                                                              // Set projection of map plot (Mercator)
-    fprintf(fp10,"set FLAGS1   = \"-K -P \" \n");                                                               // Set Flags for first plot layer
-    fprintf(fp10,"set FLAGS2   = \"-K -O \" \n");                                                               // Set Flags for second plot layer
-    fprintf(fp10,"set FLAGS3   = \"-O \" \n");                                                                  // Set flags for last plot layer
-    fprintf(fp10,"set COASTS   = \"-Df -N2 -N1 -W1.0p/0 \" \n");                                                // Set coasts
-
-/*  Cut topography */
-    fprintf(fp10,"$GMT/grdcut $TOPO -G$GRDFILE $BOUNDS \n");                                                    // Cut grid topography file
-    fprintf(fp10,"$GMT/grd2xyz $GRDFILE $BOUNDS > $TEMP \n");
-    fprintf(fp10,"$GMT/surface -S2 $TEMP -G$GRDFILE $GRID $BOUNDS \n");                                           // Convert grid to xyz
-    fprintf(fp10,"$GMT/grdgradient $GRDFILE -A270/20 -Ne0.5 -G$GRADFILE \n");                                // Create gradient shadow from topogray
-  
-/*  Creat grid from intensity */ 
-    fprintf(fp10,"$GMT/surface $IFILE -S2 -T0.9 $GRID $BOUNDS -G$GRDFILE \n");                                  // Contour a surface to the intensity data    
-   for (k=1;k<=2;k++) { 
-
-    fprintf(fp10,"set PSFILE   = \"$OUTDIR/intensity_%02d.ps\"\n",k);                  // Set post script file name
-    fprintf(fp10,"set BOUNDS   = \"-R%2.4f/%2.4f/%2.4f/%2.4f\"\n",e[1].elon-k,e[1].elon+k,e[1].elat-k,e[1].elat+k);   // Set bound of intensity map
-    fprintf(fp10,"set B        = \"-B%dg%d\" \n",k,k);                                                                // Set tick marks
-/*  Plot the grid to an image */
-    fprintf(fp10,"$GMT/grdimage $GRDFILE -I$GRADFILE -C$CPTFILE $BOUNDS $PROJ $X1Y1 $FLAGS1 > $PSFILE \n");        // Plot grid to postscript
-
-/*  Plot the coastline:  */
-    fprintf(fp10,"$GMT/pscoast $COASTS $PROJ $BOUNDS -W1p/0 $FLAGS2>> $PSFILE \n");
-
-/*  Plot Earthquake Location on plot */
-    fprintf(fp10,"$GMT/psxy $EVENT $BOUNDS $PROJ $FLAGS2 -Sa0.75 -W1p/255/0/0 >> $PSFILE \n"); 
-
-/*  Plot Station Locations with color of measured intensity */
-    fprintf(fp10,"$GMT/psxy $STATIONS $BOUNDS $PROJ $FLAGS2 -St0.25 -C$CPTFILE -W0.5p/100 >> $PSFILE \n"); 
-
-/*  Plot City Locations */
-    fprintf(fp10,"$GMT/psxy $CITIES $BOUNDS $PROJ $FLAGS2 -Sc0.2 -G0 -W1p/255 >> $PSFILE\n");
-    fprintf(fp10,"$GMT/pstext $CITY_NAMES $BOUNDS $PROJ $FLAGS2 -G0 >> $PSFILE\n");
-
-
-/*  Plot time contours */
-    fprintf(fp10,"$GMT/psxy $TCONTOUR $BOUNDS $PROJ $FLAGS2 -m -W1p/175 >> $PSFILE \n");
-    fprintf(fp10,"$GMT/pstext $TXTCON $BOUNDS $PROJ $FLAGS3 $B -S0.5p >> $PSFILE \n");
-
-/*  Convert PS file to jpeg file: */
-    fprintf(fp10,"$GMT/ps2raster $PSFILE -D$OUTDIR -A -P -Tj \n");   
-    fprintf(fp10,"if ( ! -e %s/../event.xy ) then\n",epath);
-    fprintf(fp10," cp %s/event.xy %s/../.\n",epath,epath);
-    fprintf(fp10," cp /var/www/qcn/earthquakes/inc/index_earthquake.php %s/../index.php\n",epath); 
-    fprintf(fp10,"endif\n");
-   }
-
-   fprintf(fp10,"set BOUNDS   = \"-R0/100/0/100\"\n");   // Set bound of intensity map
-   fprintf(fp10,"set T_SCAT   = \"$OUTDIR/t_scatter.xy\" \n");                     // Set contour text description
-   fprintf(fp10,"set PROJ     = \"-JX4i/4i\" \n");                                                             // Set projection of map plot (Mercator)
-   fprintf(fp10,"set PSFILE   = \"$OUTDIR/t_scatter.ps\"\n");                  // Set post script file name
-   fprintf(fp10,"set B        = \"-Ba20f10:T_observed(s):/a20f10:T_estimated(s):WSne\"\n"); // Set tick marks
-
-/* Plot observed v. estimated travel times against each other */
-   fprintf(fp10,"$GMT/psxy $T_SCAT $BOUNDS $PROJ $FLAGS1 -Sx0.2 -W1p/255/0/0 >> $PSFILE \n"); 
-
-/* Plot travel time ideal matchup between observed & estimated travel time */
-   fprintf(fp10,"$GMT/psxy         $BOUNDS $PROJ $FLAGS2 $B -m -Wthick,- << EOF >> $PSFILE \n"); 
-   fprintf(fp10,"  0.0,  0.0\n");
-   fprintf(fp10,"100.0,100.0\n");
-   fprintf(fp10,"EOF\n");
-   fprintf(fp10,"$GMT/psxy         $BOUNDS $PROJ $FLAGS2 $B -m -Wthick,- << EOF >> $PSFILE \n"); 
-   fprintf(fp10,"  0.0,  0.0\n");
-   fprintf(fp10,"100.0,55.8\n");
-   fprintf(fp10,"EOF\n");
-   fprintf(fp10,"$GMT/psxy         $BOUNDS $PROJ $FLAGS2 $B -m -Wthick,- << EOF >> $PSFILE \n"); 
-   fprintf(fp10,"  0.0,  0.0\n");
-   fprintf(fp10,"55.8.0,100.0\n");
-   fprintf(fp10,"EOF\n");
-
-/* Label with R^2 correlation and misfit */
-   fprintf(fp10,"$GMT/pstext       $BOUNDS $PROJ $FLAGS3 $B << EOF >> $PSFILE \n");
-   fprintf(fp10,"5.0 87.0 18 0 0 5 \\ R^2 = %2.2f \n",e[1].e_r2);
-   fprintf(fp10,"5.0 80.0 18 0 0 5 \\ Misfit = %2.2f \n",e[1].e_msfit);
-   fprintf(fp10,"EOF\n");
-
-/*  Convert PS file to jpeg file: */
-   fprintf(fp10,"$GMT/ps2raster $PSFILE -D$OUTDIR -A -P -Tj \n");   
-
-   fclose(fp10);     // Close script
+    fprintf(fp10,"cd %s\n",epath);
+    fprintf(fp10,"/usr/local/bin/php /var/www/qcn/earthquakes/inc/gmt_map.php&\n");
+    fclose(fp10);     // Close script
 
 /*  Execute GMT script  */
    char syscmd[sizeof "csh " + sizeof gmtfile + sizeof " &"]; sprintf(syscmd,"csh %s&",gmtfile);
@@ -907,7 +829,7 @@ void intensity_map(struct trigger t[], int i, struct event e[]) {
 /* Create a file with the event location (lon,lat only)       */
    fp10 = fopen(efile,"w+");                                  // Open event output file
    time_t t_now; time(&t_now); e[1].e_t_now = (int) t_now;    // Current time
-   fprintf(fp10,"%4.4f,%4.4f,%1.4f,%1.2f,%d,%f,%d,%1.1f\n",elon,elat,e[1].edep,e[1].e_mag, t[i].c_cnt+1,e[1].e_time,e[1].e_t_now,e[1].e_std);// Output event location
+   fprintf(fp10,"%4.4f,%4.4f,%1.4f,%1.2f,%d,%f,%d,%1.1f,%1.2f,%1.2f\n",elon,elat,e[1].edep,e[1].e_mag, t[i].c_cnt+1,e[1].e_time,e[1].e_t_now,e[1].e_std,e[1].e_r2,e[1].e_msfit);// Output event location
    fclose(fp10);                                              // Close event output file name
    
 /* Create a file with the station information                 */
@@ -920,34 +842,6 @@ void intensity_map(struct trigger t[], int i, struct event e[]) {
    }
    fclose(fp10);                                               // Close station output file name
 
-
-/* Create an interpolated intensity map:                      */
-   fp10 = fopen(ifile,"w+");                                  // Open intensity file
-   float wt;
-   for (j=1; j<=nx; j++) {                                   // For each longitudinal node
-     ln_x = x_min + dx * (float) (j-1);                      // Longitude of grid point
-     for (k=1; k<=ny; k++) {                                 // For each latitudinal node
-       lt_x = y_min + dx * (float) (k-1);                    // Latitude of grid point
-       float dist_min = 9999999.;                            // Set unreasonably high min distance
-       dist_eq_nd = ang_dist_km(ln_x,lt_x,elon,elat);        // Horizontal distance from event to station/host
-       imap = 0.f;
-       il = -999;                                               // Initialize with obviously bad value
-       wt = 0.;
-       for (l=0; l<=t[i].c_cnt; l++) {                       // For each trigger
-        n = t[i].c_ind[l];                                   // Index of lth trigger
-	dist = ang_dist_km(ln_x,lt_x,t[n].slon,t[n].slat);   // Horizontal distance from event to station/host
-	if (dist_min > dist) {dist_min=dist;il=n;};          // Set minimum distance and lth trigger at dist
-	dist = ang_dist_km(elon,elat,t[n].slon,t[n].slat);   // Horizontal distance from event to station/host
-        imap=imap+intensity_extrapolate(t[n].pors,dist, dist_eq_nd, t[n].mag)/ dist/dist;//(float) (t[i].c_cnt+1);                  // 
-        wt = wt + 1./dist/dist;
-       }
-       imap=imap/wt;                                         // Normalized intensity
-       fprintf(fp10,"%f,%f,%f \n",ln_x,lt_x,imap);           // Output locatin & intensity for GMT mapping
-    }
-   }
-   fclose(fp10);                                             // Close intensity map
-   
-
 /* Create contours for time relative to identification time */
    fp10 = fopen(tfile,"w+");                                 // Open time contours output file.
    fp11 = fopen(txtfile,"w+");                               // Label file for contours
@@ -958,8 +852,8 @@ void intensity_map(struct trigger t[], int i, struct event e[]) {
     float dti =  (float) (j-3) * 10.;                        // Time offset from detection time
     float dis = ((float) (j-3) * 10.+t_dif)*3.;              // Distance of time contours (10 s interval at 3km/s)
     if (dis > 0.) {                                          // Only use if distance greater than zero
-     for (k=0; k<=360; k++) {                                // for each azimuth
-      float az = (float) k * pi / 180.;                      // azimuth in radians
+     for (k=0; k<=180; k++) {                                // for each azimuth
+      float az = (float) k * 2 * pi / 180.;                      // azimuth in radians
       float dlon = sin(az)*dis/111.19/abs(cos(latr));        // Longitudinal distance
       ln_x = e[1].elon + dlon;                               // New longitude
       lt_x = e[1].elat + cos(az)*dis/111.19;                 // New latitude
@@ -985,7 +879,7 @@ void intensity_map(struct trigger t[], int i, struct event e[]) {
    intensity_map_gmt(e,epath2);                              // Run Scripts for plotting (GMT)
    php_event_page(t,i,e,epath2);                             // Output event Page
    if (email==1) {
-    php_event_email(t,i,e,epath2);                            // Email if a new event
+    php_event_email(t,i,e,edir);                            // Email if a new event
    }
 
    return;                                                   // 
@@ -1076,7 +970,7 @@ void detect_qcn_event(struct trigger t[], int iCtr, struct event e[]) {
       e[1].eid++;                              // If new Time or location, then new event
       e[1].e_cnt=0;                            // Zero trigger count for event count for if new location/time
      }
-     if (t[i].c_cnt > e[1].e_cnt) {            // Only do new event location ... if more triggers for same event (or new event - no prior triggers)
+     if ((t[i].c_cnt > e[1].e_cnt)||((t[i].trig-e[1].e_t_detect>5.)&&(t[i].c_cnt=e[1].e_cnt))) {            // Only do new event location ... if more triggers for same event (or new event - no prior triggers)
       
       qcn_event_locate(t,j,e);                 // Try to locate event
       if (e[1].e_r2 < 0.5) { break; }          // Stop event if no event located
@@ -1106,6 +1000,7 @@ void get_bad_hosts(struct bad_hosts bh) {
 
 
 
+
 int main(int argc, char** argv) 
 {
     struct trigger t[n_long];                            // Trigger buffer ring
@@ -1113,10 +1008,8 @@ int main(int argc, char** argv)
     int retval;
     int tidl=0; int hidl=0;                                         // default last host id
     struct bad_hosts bh;
-
 /*  Get list of bad hosts  */
     get_bad_hosts(bh);
-
 /* initialize random seed: */
     srand ( time(NULL) );
 

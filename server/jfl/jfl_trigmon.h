@@ -118,6 +118,7 @@ struct bad_hosts {
 };
 
 
+
 // struct to keep in a vector of the most recent QCN generated quake events
 // so followup triggers can be matched to this if we are scanning the trigmem.qcn_trigger_memory 
 // table very frequently (i.e. <5 seconds)
