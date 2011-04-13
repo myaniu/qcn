@@ -5,6 +5,8 @@
 
 # this will be run manually for now, can be extended for other areas of course
 
+# output file is:  http://qcn-upl.stanford.edu/trigger/job/qcn_scedc.zip
+
 #contacts:
 #Ellen Yu 
 #eyu@gps.caltech.edu
