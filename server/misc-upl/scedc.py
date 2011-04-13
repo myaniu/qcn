@@ -11,6 +11,7 @@ from datetime import datetime
 from zipfile import ZIP_STORED
 from time import strptime, mktime
 from qcnutil import getSACMetadata
+from qcnutil import getFanoutDirFromZip
 
 global DBHOST 
 global DBUSER
@@ -35,6 +36,8 @@ global DOWNLOAD_WEB_DIR
 global UPLOAD_WEB_DIR_CONTINUAL
 global DBNAME
 global DBNAME_CONTINUAL
+global DBNAME_JOB
+global IS_ARCHIVE
 global sqlQuery
 global ZIP_CMD
 global UNZIP_CMD
@@ -47,16 +50,15 @@ global LNG_MAX
 global FILE_CSV
 global FILE_ZIP
 
-UPLOAD_WEB_DIR           = "/var/www/trigger/"
 DOWNLOAD_WEB_DIR         = "/var/www/trigger/job/"
-UPLOAD_WEB_DIR_CONTINUAL = "/var/www/trigger/continual/"
-DBNAME                   = "qcnalpha"
-DBNAME_CONTINUAL         = "continual"
+DBNAME = "qcnalpha"
+DBNAME_JOB = "sensor_download"
+
 FILE_CSV                 = "qcn_scedc.csv"
 FILE_ZIP                 = "qcn_scedc.zip"
   
-DATE_MIN = "2010-11-14 00:00:00"
-DATE_MAX = "2010-11-16 00:00:00"
+DATE_MIN = "2011-01-01 00:00:00"
+DATE_MAX = "2011-01-08 00:00:00"
 LAT_MIN  = 31.5
 LAT_MAX  = 37.5
 LNG_MIN  = -121.0
@@ -76,19 +78,6 @@ UNZIP_CMD = "/usr/bin/unzip -o -d "
 #  )
 
 def procRequest(dbconn):
-  global sqlQuery
-  global DOWNLOAD_WEB_DIR
-  global ZIP_CMD
-  global UNZIP_CMD
-  global DATE_MIN
-  global DATE_MAX
-  global LAT_MIN
-  global LAT_MAX
-  global LNG_MIN
-  global LNG_MAX
-  global FILE_CSV
-  global FILE_ZIP
-
 
   sqlQuery = """select
   m.mydb, m.id, m.hostid, 
@@ -104,8 +93,8 @@ from
 select 'Q' mydb, 
 t.id, t.qcn_quakeid, t.hostid, t.time_trigger, t.magnitude, t.significance, t.latitude, t.longitude,
 t.file, t.numreset, t.alignid, t.levelid, t.levelvalue, t.type_sensor
-from qcnalpha.qcn_trigger t
-where time_trigger between unix_timestamp('%s') and unix_timestamp('%s')
+from %s.qcn_trigger t
+where time_trigger between %d and %d
 and time_sync>0
 and varietyid in (0,2)
 and received_file=100
@@ -114,8 +103,8 @@ UNION
 select 'C' mydb, 
 tt.id, tt.qcn_quakeid, tt.hostid, tt.time_trigger, tt.magnitude, tt.significance, tt.latitude, tt.longitude,
 tt.file, tt.numreset, tt.alignid, tt.levelid, tt.levelvalue, tt.type_sensor
-from continual.qcn_trigger tt
-where time_trigger between unix_timestamp('%s') and unix_timestamp('%s')
+from %s.qcn_trigger tt
+where time_trigger between %d and %d
 and time_sync>0
 and varietyid in (0,2)
 and received_file=100
@@ -128,8 +117,8 @@ LEFT OUTER JOIN qcnalpha.qcn_quake q ON q.id = m.qcn_quakeid
 where m.type_sensor=s.id
 order by time_trigger,hostid"""  \
   % ( \
-      DATE_MIN, DATE_MAX, LAT_MIN, LAT_MAX, LNG_MIN, LNG_MAX, \
-      DATE_MIN, DATE_MAX, LAT_MIN, LAT_MAX, LNG_MIN, LNG_MAX  \
+      DBNAME, DATE_MIN, DATE_MAX, LAT_MIN, LAT_MAX, LNG_MIN, LNG_MAX, \
+      DBNAME_CONTINUAL, DATE_MIN, DATE_MAX, LAT_MIN, LAT_MAX, LNG_MIN, LNG_MAX  \
     )
 
   strHeader = "db, triggerid, hostid, time_utc, time_us, magnitude, significance, latitude, longitude, file, " +\
@@ -171,10 +160,19 @@ order by time_trigger,hostid"""  \
 
       # test for valid zip file
       try:
-        if (rec[0] == "Q"):
-          zipinpath = os.path.join(UPLOAD_WEB_DIR, rec[9])
+        if IS_ARCHIVE:  # need to get fanout directory 
+          fandir, dtime = getFanoutDirFromZip(rec[9])
+          if (rec[0] == "Q"):
+            fullpath = os.path.join(UPLOAD_WEB_DIR, fandir)
+            zipinpath = os.path.join(fullpath, rec[9])
+          else:
+            fullpath = os.path.join(UPLOAD_WEB_DIR_CONTINUAL, fandir)
+            zipinpath = os.path.join(fullpath, rec[9])
         else:
-          zipinpath = os.path.join(UPLOAD_WEB_DIR_CONTINUAL, rec[9])
+          if (rec[0] == "Q"):
+            zipinpath = os.path.join(UPLOAD_WEB_DIR, rec[9])
+          else:
+            zipinpath = os.path.join(UPLOAD_WEB_DIR_CONTINUAL, rec[9])
 
         myzipin = zipfile.ZipFile(zipinpath, "r")
         if os.path.isfile(zipinpath) and myzipin.testzip() == None:
@@ -330,27 +328,88 @@ def checkPaths():
    return 0
 
 def main():
+   global UPLOAD_WEB_DIR
+   global DOWNLOAD_WEB_DIR
+   global UPLOAD_WEB_DIR_CONTINUAL
+   global DBNAME
+   global DBNAME_CONTINUAL
+   global IS_ARCHIVE
+   global DATE_MIN
+   global DATE_MAX
+
+   DATE_MIN = ""
+   DATE_MAX = ""
+
    try:
-      # first make sure all the necessary paths are in place
-      if (checkPaths() != 0):
-         sys.exit(2)
+      cnt = 0
+      for s in sys.argv:
+        if cnt == 1:
+           DATE_MIN = s
+        elif cnt == 2:
+           DATE_MAX = s
+        cnt = cnt + 1
 
       dbconn = MySQLdb.connect (host = DBHOST,
                            user = DBUSER,
                            passwd = DBPASSWD,
                            db = DBNAME)
 
-      #totalmb = processContinualJobs(dbconn)
-      #print str(totalmb) + " MB of zip files processed"
+      if (cnt < 3):  # just use first week of current month
+        sqlts = "SELECT UNIX_TIMESTAMP(DATE_ADD(NOW(), INTERVAL -8 DAY)), UNIX_TIMESTAMP(DATE_ADD(NOW(), INTERVAL -1 DAY))"
+      else:
+        sqlts = "SELECT UNIX_TIMESTAMP('" + DATE_MIN + "'), UNIX_TIMESTAMP('" + DATE_MAX + "')"
+    
+      myCursor = dbconn.cursor()
+      myCursor.execute(sqlts)
+      res = myCursor.fetchall()
+      myCursor.close()
 
+      if (res[0][0] == 0 or res[0][1] == 0) or (res[0][0] > res[0][1]):
+         print "Usage: ./scedc DATE_MIN DATE_MAX\n"
+         print "Invalid dates entered - format is YYYY-MM-DD\n"
+         dbconn.close()
+         return 1
+
+      DATE_MIN = int(res[0][0])
+      DATE_MAX = int(res[0][1])
+
+      # now chck if we need archive database or not
+      sqlts = "SELECT value_int FROM qcnalpha.qcn_constant WHERE description='ArchiveTime'"
+      myCursor = dbconn.cursor()
+      myCursor.execute(sqlts)
+      res = myCursor.fetchall()
+      myCursor.close()
+      if int(res[0][0]) == 0:
+         print "Usage: ./scedc DATE_MIN DATE_MAX\n"
+         print "Cannot get archive timestamp - format is YYYY-MM-DD\n"
+         dbconn.close()
+         return 2
+
+      if (int(res[0][0]) > DATE_MIN):
+        IS_ARCHIVE = 1
+        UPLOAD_WEB_DIR           = "/data/cees2/QCN/trigger/archive/"
+        UPLOAD_WEB_DIR_CONTINUAL = "/data/cees2/QCN/trigger/archive/continual/"
+        DBNAME                   = "qcnarchive"
+        DBNAME_CONTINUAL         = "contarchive"
+      else: 
+        IS_ARCHIVE = 0
+        UPLOAD_WEB_DIR           = "/var/www/trigger/"
+        UPLOAD_WEB_DIR_CONTINUAL = "/var/www/trigger/continual/"
+        DBNAME                   = "qcnalpha"
+        DBNAME_CONTINUAL         = "continual"
+
+
+      # first make sure all the necessary paths are in place
+      if (checkPaths() != 0):
+         sys.exit(2)
+ 
       procRequest(dbconn)
-
 
       dbconn.close()
 
    except:
       traceback.print_exc()
-      sys.exit(1)
+      return 3
 
 if __name__ == '__main__':
     main()
