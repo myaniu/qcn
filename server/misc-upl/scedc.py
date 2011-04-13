@@ -5,6 +5,13 @@
 
 # this will be run manually for now, can be extended for other areas of course
 
+#contacts:
+#Ellen Yu 
+#eyu@gps.caltech.edu
+#
+#Aparna Bhaskaran 
+#aparnab@gps.caltech.edu
+#
 # CMC note -- need to install 3rd party MySQLdb libraries for python
 import math, tempfile, smtplib, traceback, sys, os, tempfile, string, MySQLdb, shutil, zipfile
 from datetime import datetime
