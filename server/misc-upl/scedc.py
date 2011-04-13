@@ -8,12 +8,13 @@
 # output file is:  http://qcn-upl.stanford.edu/trigger/job/qcn_scedc.zip
 
 #contacts:
-#Ellen Yu 
+#Ellen Yu
 #eyu@gps.caltech.edu
 #
-#Aparna Bhaskaran 
+#Aparna Bhaskaran
 #aparnab@gps.caltech.edu
 #
+
 # CMC note -- need to install 3rd party MySQLdb libraries for python
 import math, tempfile, smtplib, traceback, sys, os, tempfile, string, MySQLdb, shutil, zipfile
 from datetime import datetime
