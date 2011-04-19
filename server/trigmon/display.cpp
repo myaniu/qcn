@@ -58,8 +58,8 @@ void do_trigmon()
 //   fprintf(stdout,"HELLO\n");
 //   time_t t_now; time(&t_now);                        // Current time
 //   fprintf(stdout,"HELLO2 %s\n",rtfile);
-   char rtfile_ltn[sizeof "/var/www/qcn/rt_image/rt_triggers_LTN.xyz"]="/var/www/qcn/rt_image/rt_triggers_LTN.xyz";  // real time triggers   
-   char rtfile_dtn[sizeof "/var/www/qcn/rt_image/rt_triggers_DTN.xyz"]="/var/www/qcn/rt_image/rt_triggers_DTN.xyz";  // real time triggers   
+   char* rtfile_ltn = "/var/www/qcn/rt_image/rt_triggers_LTN.xyz";  // real time triggers   
+   char* rtfile_dtn = "/var/www/qcn/rt_image/rt_triggers_DTN.xyz";  // real time triggers   
    FILE *fp10; fp10 = fopen(rtfile_ltn,"w+");             // Open output file
    FILE *fp11; fp11 = fopen(rtfile_dtn,"w+");             // Open output file
 
@@ -130,7 +130,7 @@ int main(int argc, char** argv)
     );
     if (retval) {
         log_messages.printf(MSG_CRITICAL,
-            "boinc_db.open: %d; %s\n", retval, boinc_db.error_string()
+            "trigdisplay: boinc_db.open: %d; %s\n", retval, boinc_db.error_string()
         );
         return 3;
     }
@@ -139,19 +139,19 @@ int main(int argc, char** argv)
     );
     if (retval) {
         log_messages.printf(MSG_CRITICAL,
-            "trigmem_db.open: %d; %s\n", retval, boinc_db.error_string()
+            "trigdisplay: trigmem_db.open: %d; %s\n", retval, boinc_db.error_string()
         );
         return 4;
     }
     retval = boinc_db.set_isolation_level(REPEATABLE_READ);
     if (retval) {
         log_messages.printf(MSG_CRITICAL,
-            "boinc_db.set_isolation_level: %d; %s\n", retval, boinc_db.error_string()
+            "trigdisplay: boinc_db.set_isolation_level: %d; %s\n", retval, boinc_db.error_string()
         );
     }
 
     log_messages.printf(MSG_NORMAL,
-            "jfl_trigmon started with the following options:\n"
+            "trigdisplay started with the following options:\n"
             "  -time_interval   = %d\n" 
             "  -sleep_interval  = %f\n",
          g_iTriggerTimeInterval,

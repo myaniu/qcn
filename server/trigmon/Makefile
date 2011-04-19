@@ -20,17 +20,24 @@ SRCS = $(BOINCDIR)/db/db_base.cpp \
   $(BOINCDIR)/lib/parse.cpp \
   $(BOINCDIR)/db/boinc_db.cpp 
 
-MAIN = jfl_trigmon.cpp 
+MAINMON  = trigmon.cpp
+MAINDISP =  display.cpp
 
-all: clean jfl_trigmon
+all: clean trigmonitor trigdisplay
 
-jfl_trigmon: 
-	$(CC) $(CFLAGS) $(INCLUDES) $(MAIN) $(SRCS) $(LIBS) -o jfl_trigmon 
-	strip jfl_trigmon
-	cp jfl_trigmon /var/www/boinc/sensor/bin/
+trigdisplay: 
+	$(CC) $(CFLAGS) $(INCLUDES) $(MAINMDISP) $(SRCS) $(LIBS) -o trigdisplay
+	strip trigdisplay
+	cp trigdisplay /var/www/boinc/sensor/bin/
+
+
+trigmonitor: 
+	$(CC) $(CFLAGS) $(INCLUDES) $(MAINMON) $(SRCS) $(LIBS) -o trigmonitor
+	strip trigmonitor
+	cp trigmonitor /var/www/boinc/sensor/bin/
 
 
 clean:
-	rm -f *.o core *~ jfl_trigmon
+	rm -f *.o core *~ trigmonitor trigdisplay
 
 
