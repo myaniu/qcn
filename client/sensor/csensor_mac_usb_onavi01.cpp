@@ -183,6 +183,7 @@ Values >32768 are positive g and <32768 are negative g. The sampling rate is set
 				bRet = false; // error
 				fprintf(stderr, "%f: ONavi Error in read_xyz() - read(m_fd) returned %d\n", sm->t0active, iRead);
 				fflush(stderr);
+				break;
 			case ciLen:  
 				// good data length read in, now test for appropriate characters
 				if (bytesIn[ciLen] == 0x00) { // && bytesIn[0] == 0x23 && bytesIn[1] == 0x23) {
