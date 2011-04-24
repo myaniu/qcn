@@ -165,7 +165,7 @@ Values >32768 are positive g and <32768 are negative g. The sampling rate is set
 	int iRead = 0;
 	//x1 = y1 = z1 = 0.0f; // don't init to 0 as ONavi 24-bit is having errors we need to debug
         x1 = x0; y1 = y0; z1 = z0;  // use last good values
-	const char cWrite = '*';
+	const char cWrite[2] = {"*"};
 
 	/*
 	int iCtr = 0;
@@ -175,7 +175,7 @@ Values >32768 are positive g and <32768 are negative g. The sampling rate is set
 	}
 	if (iRead == 1) {   // send a * to the device to get back the data
 	*/
-	if ((iRead = write(m_fd, &cWrite, 1)) == 1) {   // send a * to the device to get back the data
+	if ((iRead = write(m_fd, &cWrite, 2)) == 2) {   // send a * to the device to get back the data
 		memset(bytesIn, 0x00, ciLen+1);
 		iRead = read(m_fd, bytesIn, ciLen);
 		switch (iRead) {
