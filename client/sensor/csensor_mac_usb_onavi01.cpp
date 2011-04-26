@@ -58,7 +58,7 @@ bool CSensorMacUSBONavi01::detect()
            return false;
         }
 	
-	m_fd = open(strDevice, O_RDWR | O_NOCTTY | O_NONBLOCK); 
+	m_fd = open(strDevice, O_RDWR); // | O_NOCTTY | O_NONBLOCK); 
         delete [] strDevice; // don't need strDevice after this call
         strDevice = NULL;
 
