@@ -1556,6 +1556,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\..\boinc\lib\procinfo.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\boinc\lib\procinfo_win.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\..\boinc\lib\proxy_info.cpp"
 				>
 				<FileConfiguration
