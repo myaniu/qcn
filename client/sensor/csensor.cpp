@@ -256,8 +256,8 @@ inline bool CSensor::mean_xyz()
 #ifdef _DEBUG
 		if (fileDebug) { 
 			fprintf(fileDebug, "Falling back time:  Cur=%f  Req=%f  Err=%ld\n", dLast[3], sm->t0check, lError);
-			fprintf(fileDebug, "sensorout,%f,%f,%f,%d,%ld,%f\n",
-					sm->t0check, sm->t0active, dTimeDiff, sm->iNumReset, sm->lSampleSize, sm->dt);
+			fprintf(fileDebug, "sensorout,%f,%f,%f,%d,%ld,%f, %f, %f, %f\n",
+					sm->t0check, sm->t0active, dTimeDiff, sm->iNumReset, sm->lSampleSize, sm->dt, dLast[0], dLast[1], dLast[2]);
 		}
 #endif		
           // reset if this correction exceeds our time limit or this has been done too much in one session
@@ -311,12 +311,6 @@ inline bool CSensor::mean_xyz()
 		sm->t0active = dLast[3] + sm->dt;
 	}
 
-#ifdef _DEBUG   // lots of output below!
-   fprintf(fileDebug, "sensorout,%f,%f,%f,%d,%ld,%f\n",
-      sm->t0check, sm->t0active, dTimeDiff, sm->iNumReset, sm->lSampleSize, sm->dt);
-   //fflush(stdout);
-#endif
-
    lLastSample = sm->lSampleSize;
 
    // store values i.e. divide by sample size
@@ -326,6 +320,12 @@ inline bool CSensor::mean_xyz()
 		*pz2 /= (float) sm->lSampleSize; 
    }
    *pt2 = sm->t0active; // save the time into the array, this is the real clock time
+#ifdef _DEBUG   // lots of output below!
+   fprintf(fileDebug, "sensorout,%f,%f,%f,%d,%ld,%f,%f,%f,%f\n",
+      sm->t0check, sm->t0active, dTimeDiff, sm->iNumReset, sm->lSampleSize, sm->dt, *px2, *py2, *pz2);
+   //fflush(stdout);
+#endif
+
 
    if (fabs(dTimeDiff) > TIME_ERROR_SECONDS) { 
       // if our times are different by a second, that's a big lag, so let's reset t0check to t0active
