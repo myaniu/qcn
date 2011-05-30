@@ -17,7 +17,7 @@ $psprefs = project_specific_prefs_parse($user->project_prefs);
 $row["id"] = post_int("db_id", true);
 
 echo "
-<center><h1>Rapid Aftershock Mobilization Program (RAMP)</h1></center>
+<center><h1>Rapid Array Mobilization Program (RAMP)</h1></center>
 ";
 //<h2>Welcome Back " . $user->name . "</h2>
 
@@ -112,7 +112,7 @@ echo "<ul><p align=\"justify\">You can add yourself to QCN RAMP by submitting th
 
 <table>";
 
-     row_heading_array(array("Enter Your Postal Address (for UPS Delivery)"));
+     row_heading_array(array("Enter Your Postal Address (for UPS, Mail, or Hand Delivery)"));
      row2("Name (First and Last/Surname)" , 
        "<input name=\"db_fname\" type=\"text\" id=\"db_fname\" size=\"30\" value=\"" . stripslashes($row["fname"]) . "\">"
        . "&nbsp;&nbsp;<input name=\"db_lname\" type=\"text\" id=\"db_lname\" size=\"60\" value=\"" 
@@ -181,16 +181,16 @@ echo "
      if ($row["id"] > 0 && $row["bshare_map"] == 0) { // don't want to share
         $bshare = "";
      }
-     row2("Share This Location on the QCN Participant Map?", 
-       "<input type=\"checkbox\" name=\"db_bshare_map\" id=\"db_bshare_map\" $bshare>");
+     row2("Will you share this computer's location on the QCN Participant Map?", 
+       "<input type=\"checkbox\" name=\"db_bshare_map\" id=\"db_bshare_map\" $bshare> (Contact & personal information is not shared)");
     
      // bshare_coord == share info with RAMP coordinator
      $bshare = " checked ";
      if ($row["id"] > 0 && $row["bshare_coord"] == 0) { // don't want to share
         $bshare = "";
      }
-     row2("Share Your Information With a Volunteer RAMP coordinator After A Major Earthquake?",
-       "<input type=\"checkbox\" name=\"db_bshare_coord\" id=\"db_bshare_coord \" $bshare>");
+     row2("Share Your Information With a Volunteer RAMP coordinator for installation?",
+       "<input type=\"checkbox\" name=\"db_bshare_coord\" id=\"db_bshare_coord \" $bshare> (some sensors are installed by QCN volunteers)" );
 
      // bshare_ups == share info with UPS
      $bshare = " checked ";
@@ -198,10 +198,10 @@ echo "
         $bshare = "";
      }
      row2("Share Your Information With UPS For Faster Sensor Delivery?",
-       "<input type=\"checkbox\" name=\"db_bshare_ups\" id=\"db_bshare_ups\" $bshare>");
+       "<input type=\"checkbox\" name=\"db_bshare_ups\" id=\"db_bshare_ups\" $bshare> (only following major earthquakes)");
  
      row2("Are you able to distribute sensors to (and help setup) other local participants?",
-       "<input type=\"checkbox\" name=\"db_sensor_distribute\" id=\"db_sensor_distribute\" " . ($row["sensor_distribute"] ? "checked" : "") . ">");
+       "<input type=\"checkbox\" name=\"db_sensor_distribute\" id=\"db_sensor_distribute\" " . ($row["sensor_distribute"] ? "checked" : "") . "> (if so, we may contact you to help install sensors after a major earthquake)");
 
      echo "<tr><td colspan=2><hr></td></tr>";
      row_heading_array(array("Computer Information"));
@@ -231,7 +231,7 @@ echo "
          $cpuage .= (">" . $i . "</option>\n");
      }
      $cpuage .= "</select>";
-     row2("Computer Age In Years<BR><i><font color=red>(0=<1 yr old)</font></i>", $cpuage);
+     row2("Computer Age In Years<BR><i><font color=red>(0=<1 yr old)</font></i>", $cpuage." (Some older computers may have difficulty with QCN software)");
 
      $cpufl = "<select name=\"db_cpu_floor\" id=\"db_cpu_floor\">";
      if (!$row["db_cpu_floor"]) $row["db_cpu_floor"] = 0;
@@ -243,25 +243,28 @@ echo "
          $cpufl .= (">" . $i . "</option>\n");
      }
      $cpufl .= "</select>";
-     row2("Floor Location of Computer<BR><i><font color=red>(-1 = Basement, 0 = Ground Floor, 1 = First Floor etc)<font></i>", $cpufl);
+     row2("Floor Location of Computer<BR><i><font color=red>(-1 = Basement, 0 = Ground Floor, 1 = First Floor etc)<font></i>", $cpufl." (ground or basement floors are ideal)");
 
      row2("Do You Have Administrator Rights On This Computer?",
-       "<input type=\"checkbox\" name=\"db_cpu_admin\" id=\"db_cpu_admin\" "   . ($row["cpu_admin"] ? "checked" : "") . ">");
+       "<input type=\"checkbox\" name=\"db_cpu_admin\" id=\"db_cpu_admin\" "   . ($row["cpu_admin"] ? "checked" : "") . "> (without administrator rights, one can't install the QCN software/drivers)");
 
      row2("Do You Have Permission To Send Seismic Data Out Of Your Country From This Computer?",
-       "<input type=\"checkbox\" name=\"db_cpu_permission\" id=\"db_cpu_permission\" "   . ($row["cpu_permission"] ? "checked" : "") . ">");
+       "<input type=\"checkbox\" name=\"db_cpu_permission\" id=\"db_cpu_permission\" "   . ($row["cpu_permission"] ? "checked" : "") . "> (it may be illegal to disseminate seismic data in some countries)");
 
      row2("Is This Computer Behind A Firewall?",
-       "<input type=\"checkbox\" name=\"db_cpu_firewall\" id=\"db_cpu_firewall\" " . ($row["cpu_firewall"] ? "checked" : "") . ">");
+       "<input type=\"checkbox\" name=\"db_cpu_firewall\" id=\"db_cpu_firewall\" " . ($row["cpu_firewall"] ? "checked" : "") . "> (if the firewall blocks regular programs, it may block QCN)");
 
      row2("Is This Computer Usually Connected To The Internet?",
-       "<input type=\"checkbox\" name=\"db_cpu_internet\" id=\"db_cpu_internet\" " . ($row["cpu_internet"] ? "checked" : "") . ">");
+       "<input type=\"checkbox\" name=\"db_cpu_internet\" id=\"db_cpu_internet\" " . ($row["cpu_internet"] ? "checked" : "") . "> (Without Internet, QCN cannot upload data to the server) ");
 
      row2("Does This Computer Use A Proxy for Internet Access?",
-       "<input type=\"checkbox\" name=\"db_cpu_proxy\" id=\"db_cpu_proxy\" " . ($row["cpu_proxy"] ? "checked" : "") . ">");
+       "<input type=\"checkbox\" name=\"db_cpu_proxy\" id=\"db_cpu_proxy\" " . ($row["cpu_proxy"] ? "checked" : "") . " > (This can occasionally complicate installation)");
 
      row2("Do You Have An Uninterruptible Power Supply Attached To This Computer?",
-       "<input type=\"checkbox\" name=\"db_cpu_unint_power\" id=\"db_cpu_unint_power\" " . ($row["cpu_unint_power"] ? "checked" : "") . ">");
+       "<input type=\"checkbox\" name=\"db_cpu_unint_power\" id=\"db_cpu_unint_power\" " . ($row["cpu_unint_power"] ? "checked" : "") . "> (With an uninterruptible Power Supply, your computer will record even if the power fails)");
+
+
+
 
      echo "<tr><td colspan=2><hr></td></tr>";
      row_heading_array(array("Comments"));

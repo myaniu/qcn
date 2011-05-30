@@ -17,6 +17,13 @@
 
 $project_news = 
  array(
+   array("April 22, 2011 19:22",
+"Thanks to BOINC & QCN participant 'dudumomo' - videos of the recent 'Asia@home Hackfest' are <A HREF='http://www.freetorrent.fr/catalog.php?search=Asia%40home'>now available via torrent download</A>.  Each download is a few hundred MB and features talks by David Anderson of SETI@home and BOINC, and Carl Christensen and Elizabeth Cochran of QCN.  The talks were made in March at Academia Sinica in Taipei, Taiwan.
+<BR><BR>
+",
+ "Asia@home Hackfest Videos Available",
+ "http://www.freetorrent.fr/catalog.php?search=Asia%40home"
+ ),
    array("March 14, 2011 19:56",
 "Carl from QCN is presenting at the <A HREF=\"http://mozilla.com.cn/event/23-drumbeat-en/\">2011 China Drumbeat Hackfest</A> in Beijing from March 23-25th, 2011. The goal is to encourage volunteer computing and 'citizen science' application development.  Programmers are welcome!<BR><BR>
 ",
@@ -65,7 +72,7 @@ $project_news =
 "CNN has released a <A HREF=\"http://edition.cnn.com/2010/TECH/innovation/09/17/ibm.earthquakes/index.html\">news story</A> about QCN and some of our rapid response efforts in Chile and New Zealand.<BR><BR>",
  "CNN News Story On QCN and Our 'Rapid Aftershock Mobilization Program'",
  "http://edition.cnn.com/2010/TECH/innovation/09/17/ibm.earthquakes/index.html"
-  ),
+ ),
    array("August 18, 2010 10:58",
 "Prof. Cochran will do a presentation on the Quake-Catcher Network at the London Citizen Cyberscience Summit on September 3rd.  If you are in the area you may wish to see this and the other interesting presentations on volunteer computing, 'citizen science', etc.  Tickets and a full programme are <A HREF=\"http://www.citizencyberscience.net/summit/\">available at this link</A><BR><BR>",
  "London Citizen Cyberscience Summit - 2-3 Sept 2010",
@@ -159,8 +166,8 @@ The M7.2 earthquake that occurred this afternoon along the Laguna Salada fault i
  "New QCNLive versions (5.34)",""
   ),
    array("May 5, 2009",
-"A Quake-Catcher Network participant <A HREF=\"http://qcn.staford.edu/sensor/img/qcngermanym45.png\">detected a magnitude 4.5 earthquake in SW Germany</A>, near the borders of France and Switzerland using his JoyWarrior USB sensor and QCN/BOINC.  This is a fairly rare event to capture on QCN and we thank him and others running QCN!  The participant's computer was only 10km from the epicentre.<BR>",
- "QCN Participant Detects M4.5 earthquake in Southwest Germany", "http://qcn.staford.edu/sensor/img/qcngermanym45.png"
+"A Quake-Catcher Network participant <A HREF=\"http://qcn.stanford.edu/sensor/img/qcngermanym45.png\">detected a magnitude 4.5 earthquake in SW Germany</A>, near the borders of France and Switzerland using his JoyWarrior USB sensor and QCN/BOINC.  This is a fairly rare event to capture on QCN and we thank him and others running QCN!  The participant's computer was only 10km from the epicentre.<BR>",
+ "QCN Participant Detects M4.5 earthquake in Southwest Germany", "http://qcn.stanford.edu/sensor/img/qcngermanym45.png"
   ),
    array("April 24, 2009",
 "Two Quake-Catcher Network participants felt and recorded yesterday's magnitude 4.0 earthquake in Yorba Linda, California (southern Cal, southeast of Los Angeles).  <A HREF=\"http://qcn.stanford.edu/sensor/forum_thread.php?id=231\">You can view some of the data at this link.</A>  They are only about 4 km / 2.4 miles from the epicenter, so it was a good test of QCN and the JoyWarrior USB sensors!  Happily everyone is OK with just a few plates shaken up etc.<BR>",

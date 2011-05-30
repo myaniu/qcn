@@ -13,8 +13,33 @@ chdir($cwd);
 }
 
 
-function page_top(){
+function page_top($title=null){
+
+$print = $_GET["print"];
+
 require_once("/var/www/boinc/sensor/html/inc/google_translate.inc");
+
+html_header();
+
+echo " <div id=\"container\">\n";
+
+if (!$print) {
+banner($title);
+navigation_top();
+navigation_bar();
+echo "     <div id=\"maincontent\">\n";
+} else {
+echo "     <div id=\"maincontent\">\n";
+banner_print($title);
+}        
+
+
+
+
+}
+
+
+function html_header(){
 echo " <!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n";
 echo " <html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"en\">\n";
 echo " <head>\n";
@@ -34,18 +59,48 @@ echo " </head>\n";
 echo " <body bgcolor=\"#999999\">\n";
 echo " <div id=\"skipnav\"><a href=\"#maincontent\">Skip navigation</a></div>\n";
 
+}
 
-echo " <div id=\"container\">\n";
-echo "       <div id=\"banner\">\n";
-echo "       <table width=100% padding=0 spacing=0 border=0><tr><td width=\"15%\">\n";
-google_translate_new();
-echo "      </td><td>\n";
-echo "   <h1><center><b>The Quake-Catcher Network</b></center></h1>\n";
-echo "   <br><br><br><br><br><br>\n";
-echo "   <p><h3 valign=\"bottom\" color=\"#ffffff\"><center><i>\"Bringing Seismology to Homes and Schools.\"</i></center></h3></div>\n";
-echo "   </td><td width=15%></td></tr></table>\n";
-echo "   </div>\n";
-        
+function banner_print($title=null) {
+ echo "       <table width=100% padding=0 spacing=0 border=0><tr>\n<td width=\"15%\">\n";
+ google_translate_new();
+ echo "      </td><td>\n";
+ $url_now = $_SERVER['SCRIPT_NAME'];
+ $show_mag = $_GET["show_mag"];
+ if ($show_mag) {$url_now=$url_now."?show_mag=y";}
+ echo "   <table width=\"140\" align=\"right\"><tr align=\"right\"><td><a href=\"$url_now\"><font color=\"#58789d\">Full Version</font></a></td></tr></table>\n";
+if ($title) {
+ echo "<h1><center><b>$title</b></center></h1>";
+} else {
+ echo "   <h1><center><b>The Quake-Catcher Network</b></center></h1>\n";
+}
+ echo "   </td></tr></table>\n";
+
+}
+
+function banner($title=null) {
+// This places the banner at the top of the screen
+ echo "       <div id=\"banner\">\n";
+ echo "       <table width=100% padding=0 spacing=0 border=0><tr><td width=\"15%\">\n";
+ google_translate_new();
+ echo "      </td><td>\n";
+ $url_now = $_SERVER['SCRIPT_NAME'];
+ $show_mag = $_GET["show_mag"];
+ if ($show_mag) {$url_print=$url_now."?show_mag=y&print=y";}else{$url_print=$url_now."?print=y";}
+// $url_now = curPageURL();
+ echo "   <table width=\"140\" align=\"right\"><tr align=\"right\"><td align=\"right\"><a href=\"$url_print\"><font color=\"\">Print Version</font></a><br><br></td></tr><tr><td><img src=\"http://qcn.stanford.edu/images/QCN_Logo.png\" width=\"100\" align=\"right\"></td></tr></table>\n";
+if ($title) {
+ echo "<h1><center><b>$title</b></center></h1>";
+} else {
+ echo "   <table align=\"center\" margin=0 padding=0><tr><td><h1><center><b>The Quake-Catcher Network</b></center></h1>\n";
+ echo "   \n";
+ echo "   <p><h3 valign=\"bottom\" color=\"#ffffff\"><center><i>\"Bringing Seismology to Homes and Schools.\"</i></center></h3></td></tr></table></div>\n";
+}
+ echo "   </td></tr></table>\n";
+ echo "   </div>\n";
+}
+
+function navigation_top(){
 echo "   <!--Optional Banner End-->\n";
 echo "   <div id=\"sidebar\">\n";
 echo "     <div id=\"sidecontent\"> \n";
@@ -83,8 +138,6 @@ echo "       <ul>\n";
 
 require_once_r2("../inc/some_news.inc");
 
-
-//include("/var/www/qcn/press/some_news.inc");
 echo "       <br>\n";
 
 echo "       </ul>\n";
@@ -123,21 +176,13 @@ echo "   </div>\n";
 
 
 echo "   <div id=\"content\">\n";
-echo "     <!--Optional Breadcrumb Start-->\n";
-   
-echo "     <!--Optional Breadcrumb End-->\n";
-
-navigation_bar();
-  
-echo "     <div id=\"maincontent\">\n";
-
 
 }
 
 
 function navigation_bar(){
 
-echo "   <table width=\"100%\"><tr><td bgcolor=\"#990000\">\n";
+echo "   <table width=\"100%\"><tr><td bgcolor=\"#58789d\">\n";
 
 echo "   <div id=\"nav\"> \n";
 echo "     <ul>\n";
@@ -201,25 +246,29 @@ echo "         </div>\n";
 echo "         </td></tr>\n";
 
 echo "   </table>\n";
-
 }
 
 function page_end(){
-echo "    </div>\n";
-echo "    <br style=\"clear: both;\" />\n";
-echo "  </div>\n";
-echo "  <div id=\"footer\"> \n";
-echo "    <ul>\n";
-echo "      <li><a href=\"http://qcn.stanford.edu/\">QCN Home</a></li>\n";
-echo "      <li><a href=\"http://qcn.stanford.edu/about/contact.php\">Contact</a></li>\n
+ $print = $_GET["print"];
+
+ if (!$print) {
+  echo "    </div>\n";
+  echo "    <br style=\"clear: both;\" />\n";
+  echo "  </div>\n";
+  echo "  <div id=\"footer\"> \n";
+  echo "    <ul>\n";
+  echo "      <li><a href=\"http://qcn.stanford.edu/\">QCN Home</a></li>\n";
+  echo "      <li><a href=\"http://qcn.stanford.edu/about/contact.php\">Contact</a></li>\n
             <li><a href=\"http://qcn.stanford.edu/downloads/\">Download Now </a></li> \n
             <li class=\"last\"><a href=\"http://qcn.stanford.edu/about/legal/\">Legal & Privacy</a></li>\n";
-echo "    </ul>\n";
-echo "  </div>\n";
-echo "</div>\n";
-echo "<div id=\"copyright\" class=\"vcard\"> <!-- InstanceBeginEditable name=\"copyright\" -->&copy; <span class=\"fn org\">Quake-Catcher Network </span>.  All Rights Reserved.<!-- InstanceEndEditable --></div>\n";
+  echo "    </ul>\n";
+  echo "  </div>\n";
+ }
 
-echo "</body>\n";
-echo "</html>\n";
+ echo "</div>\n";
+ echo "<div id=\"copyright\" class=\"vcard\"> <!-- InstanceBeginEditable name=\"copyright\" -->&copy; <span class=\"fn org\">Quake-Catcher Network </span>.  All Rights Reserved.<!-- InstanceEndEditable --></div>\n";
+
+ echo "</body>\n";
+ echo "</html>\n";
 }
 ?>

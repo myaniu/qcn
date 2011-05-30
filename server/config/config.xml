@@ -182,7 +182,7 @@
         parse-usgs-rss.py
       </cmd>
       <period>
-        30 minutes
+        37 minutes
       </period>
     </task>
     <task>
