@@ -15,6 +15,7 @@ drop table if exists qcn_post;
 drop table if exists qcn_ramp_participant;
 drop table if exists qcn_ramp_coordinator;
 drop table if exists qcn_constant;
+drop table if exists qcn_kml_region;
 
 create table qcn_constant (
     id int not null primary key auto_increment,
@@ -115,10 +116,42 @@ create table qcn_ramp_participant (
     cpu_unint_power boolean,
     sensor_distribute boolean,
     comments blob,
+    loc_home boolean not null default 0,
+    loc_business boolean not null default 0,
+    loc_affix_perm boolean not null default 0,
+    loc_self_install boolean not null default 0,
+    loc_weekend_install boolean not null default 0,
+    loc_time_hour install smallint,
+    loc_time_minute install smallint,
+    loc_years_host smallint,
+    regional boolean not null default 0,
     active boolean not null default 1,
-    time_edit int
+    time_edit int,
+    kml_regionid int not null default 0
 );
 create unique index qcn_ramp_participant_userid on qcn_ramp_participant(userid);
+create index qcn_ramp_participant_kml_regionid on qcn_ramp_participant(kml_regionid);
+
+create table qcn_kml_region
+(
+  id int primary key auto_increment,
+  name varchar(64),
+  filename varchar(255),
+  data blob
+);
+
+insert into qcn_kml_region values (1, 'Anchorage Alaska RAMP', 'Anchorage_RAMP.kml', null);
+insert into qcn_kml_region values (2, 'California Metro RAMP', 'CA_Metro_RAMP.kml', null);
+insert into qcn_kml_region values (3, 'Hayward RAMP', 'Hayward_RAMP.kml', null);
+insert into qcn_kml_region values (4, 'Istanbul RAMP', 'Istanbul_RAMP.kml', null);
+insert into qcn_kml_region values (5, 'New Madrid Fault RAMP (MO,TN,AR,KY)', 'NM_RAMP.kml', null);
+insert into qcn_kml_region values (6, 'Oregon Metro RAMP', 'OR_Metro_RAMP.kml', null);
+insert into qcn_kml_region values (7, 'Pacific Northwest Coastal RAMP', 'PNW_Coast_RAMP.kml', null);
+insert into qcn_kml_region values (8, 'San Andreas Fault North RAMP', 'SAF_N_RAMP.kml', null);
+insert into qcn_kml_region values (9, 'San Francisco RAMP', 'SAF_RAMP.kml', null);
+insert into qcn_kml_region values (10, 'San Andreas Fault South RAMP', 'SAF_S_RAMP.kml', null);
+insert into qcn_kml_region values (11, 'Washington State Metro RAMP', 'WA_Metro_RAMP.kml', null);
+insert into qcn_kml_region values (12, 'Wasatch (SLC Utah) RAMP', 'Wasatch_RAMP.kml', null);
 
 create table qcn_reds (
     id int not null primary key auto_increment,
