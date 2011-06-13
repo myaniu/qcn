@@ -16,9 +16,21 @@ $psprefs = project_specific_prefs_parse($user->project_prefs);
 //$db = BoincDb::get();
 $row["id"] = post_int("db_id", true);
 
+// test if this a ramp regional entry
+$row["regional"] = $GLOBALS["is_regional"];
+if ($row["regional"] != 1) {
+  $row["regional"] = post_int("db_regional", true);
+}
+if ($row["regional"] != 1) {
+   $row["regional"] = get_int("regional", true);
+}
+
+$tmpRegional = $row["regional"];
+
 echo "
 <center><h1>Rapid Array Mobilization Program (RAMP)</h1></center>
 ";
+
 //<h2>Welcome Back " . $user->name . "</h2>
 
 google_translate_new();
@@ -26,7 +38,7 @@ google_translate_new();
 switch ($_POST["submit"]) { 
 
 case "Submit":
-   doRAMPSubmit($user->id, $row["id"]);
+   doRAMPSubmit($user->id, $row["id"], $row["regional"]);
    break;
 case "Delete":
    //break; -- no break, want to "refresh the fields"
@@ -56,7 +68,9 @@ case "Delete":
       mysql_free_result($result);
   }
 
-
+  if ($tmpRegional == 1) {
+     $row["regional"] = $tmpRegional; // get regional status from post or get
+  }
   $mylat = $row["latitude"];
   $mylng = $row["longitude"];
   $zoomout = 0;
@@ -108,6 +122,7 @@ echo "<ul><p align=\"justify\">You can add yourself to QCN RAMP by submitting th
          <form name=\"ramp_form\" method=\"post\" action=\"ramp_signup.php\">
 
     <input name=\"db_id\" type=\"hidden\" id=\"db_id\" size=\"20\" value=\"" . $row["id"] . "\">
+    <input name=\"db_regional\" type=\"hidden\" id=\"db_regional\" size=\"20\" value=\"" . $row["regional"] . "\">
     <input name=\"lnm0\" type=\"hidden\" id=\"lnm0\" size=\"64\">
 
 <table>";
@@ -192,6 +207,7 @@ echo "
      row2("Share Your Information With a Volunteer RAMP coordinator for installation?",
        "<input type=\"checkbox\" name=\"db_bshare_coord\" id=\"db_bshare_coord \" $bshare> (some sensors are installed by QCN volunteers)" );
 
+   if ($row["regional"] != 1) {  // don't use for regional ramp
      // bshare_ups == share info with UPS
      $bshare = " checked ";
      if ($row["id"] > 0 && $row["bshare_ups"] == 0) { // don't want to share
@@ -199,9 +215,10 @@ echo "
      }
      row2("Share Your Information With UPS For Faster Sensor Delivery?",
        "<input type=\"checkbox\" name=\"db_bshare_ups\" id=\"db_bshare_ups\" $bshare> (only following major earthquakes)");
- 
+  
      row2("Are you able to distribute sensors to (and help setup) other local participants?",
        "<input type=\"checkbox\" name=\"db_sensor_distribute\" id=\"db_sensor_distribute\" " . ($row["sensor_distribute"] ? "checked" : "") . "> (if so, we may contact you to help install sensors after a major earthquake)");
+   }
 
      echo "<tr><td colspan=2><hr></td></tr>";
      row_heading_array(array("Computer Information"));
@@ -265,6 +282,66 @@ echo "
 
 
 
+   if ($row["regional"] == 1)  { // regional ramp specific information
+     echo "<tr><td colspan=2><hr></td></tr>";
+     row_heading_array(array("Regional RAMP Questions"));
+     row2("Can we affix a sensor to the floor with adhesive or screws?",
+       "<input type=\"checkbox\" name=\"db_loc_affix_perm\" id=\"db_loc_affix_perm\" " . ($row["loc_affix_perm"] ? "checked" : "") . "> (If
+    the sensor is not mounted, it cannot record strong motions as well)");
+
+     row2("Is this a home location?",
+      "<input type=\"checkbox\" name=\"db_loc_home\" id=\"db_loc_home\" " . 
+        ($row["loc_home"] ? "checked" : "") . "> (check if this is your residence)");
+
+     row2("Is this a business location?",
+      "<input type=\"checkbox\" name=\"db_loc_business\" id=\"db_loc_business\" " . 
+        ($row["loc_business"] ? "checked" : "") . "> (check if this is a business)");
+
+     row2("Are you comfortable installing the sensor yourself?  (<A HREF=\"http://qcn.stanford.edu/manuals/physical/\">Click here for directions</A>)",
+      "<input type=\"checkbox\" name=\"db_loc_self_install\" id=\"db_loc_self_install\" " . 
+        ($row["loc_self_install"] ? "checked" : "") . "> " .
+      "(Volunteer interns can install some sensors, but we mail the rest to participants with instructions)"
+      );
+
+     row2("Is a weekend better for installation?",
+      "<input type=\"checkbox\" name=\"db_loc_weekend_install\" id=\"db_loc_weekend_install\" " . 
+        ($row["loc_weekend_install"] ? "checked" : "") . ">  (if not checked, we'll assume a weekday is OK)");
+
+     $time_hour_install= "<select name=\"db_loc_time_hour_install\" id=\"db_loc_time_hour_install\">";
+     for ($i = 0; $i <=23; $i++) {
+         $time_hour_install .= "<option";
+         if ($row["loc_time_hour_install"] == $i) {
+            $time_hour_install .= " selected";
+         }
+         $time_hour_install .= (">" . $i . "</option>\n");
+     }
+     $time_hour_install .= "</select>";
+
+     $time_minute_install = "<select name=\"db_loc_time_minute_install\" id=\"db_loc_time_minute_install\">";
+     for ($i = 0; $i <=59; $i++) {
+         $time_minute_install .= "<option";
+         if ($row["loc_time_minute_install"] == $i) {
+            $time_minute_install .= " selected";
+         }
+         $time_minute_install .= (">" . $i . "</option>\n");
+     }
+     $time_minute_install .= "</select>";
+
+     row2("Preferred time of day for installation", $time_hour_install . " : " . $time_minute_install .  " (enter as 24 hour clock 0-23 and minutes 0-59)");
+
+     $time_host = "<select name=\"db_loc_years_host\" id=\"db_loc_years_host\">";
+     for ($i = 1; $i <=5; $i++) {
+         $time_host .= "<option";
+         if ($row["loc_years_host"] == $i) {
+            $time_host .= " selected";
+         }
+         $time_host .= (">" . $i . "</option>\n");
+     }
+     $time_host .= "</select>";
+
+     row2("How many years are you willing to host the sensor?", $time_host);
+  } // end regional extra questions
+
 
      echo "<tr><td colspan=2><hr></td></tr>";
      row_heading_array(array("Comments"));
@@ -272,9 +349,9 @@ echo "
      // need to put CRLF back to spaces \r\n
      //har\r\n\r\nde\r\n\r\nhar\r\n\r\nhar\r\n\r\n\r\nblah
      //$comments = nl2br( htmlentities( $row["comments"], ENT_QUOTES, "UTF-8" ) );
-     //$comments = nl2br( $row["comments"] ); 
+     //$comments = nl2br( $row["comments"] );
      $comments = str_replace("\\r\\n", "\n", $row["comments"]);
-     echo "<tr><td colspan=2><textarea name=\"db_comments\" id=\"db_comments\" cols=\"100\" rows=\"10\">" 
+     echo "<tr><td colspan=2><textarea name=\"db_comments\" id=\"db_comments\" cols=\"100\" rows=\"10\">"
         . $comments . "</textarea></td></tr>";
 
 echo "<tr>
@@ -286,7 +363,7 @@ echo "<tr>
 
 page_tail();
 
-function doRAMPSubmit($userid, $rampid)
+function doRAMPSubmit($userid, $rampid, $regional)
 {
 /*   print_r($_POST);Array ( [db_id] => 0 [lnm0] => [db_fname] => car [db_lname] => Christensen [db_addr1] => 14525 SW Millikan #76902 [db_addr2] => [db_city] => Beaverton [db_region] => OR [db_postcode_] => [db_country] => United States [db_phone] => +1 215 989 4276 [db_fax] => carlgt1@yahoo.com [db_email_addr] => carlgt6@hotmail.com [lat0] => [lng0] => [addrlookup] => 14525 SW Millikan #76902, , Beaverton, OR, United States [db_bshare_map] => on [db_bshare_coord] => on [db_bshare_ups] => on [db_sensor_distribute] => on [db_cpu_os] => Mac OS X (Intel) [db_cpu_age] => 5 [db_cpu_floor] => 6 [db_cpu_admi
 n] => on [db_cpu_permission] => on [db_cpu_firewall] => on [db_cpu_internet] => on [db_cpu_proxy] => on [db_cpu_unint_power] => on [db_comments] =>
@@ -295,6 +372,7 @@ n] => on [db_cpu_permission] => on [db_cpu_firewall] => on [db_cpu_internet] => 
 
     // copy over post variables to reuse in the fields below, and for the sql insert/update!
     $row["id"] = $rampid;
+    $row["regional"] = $regional;
     $row["userid"] = $userid;
     $row["fname"] = mysql_real_escape_string(post_str("db_fname"));
     $row["lname"] = mysql_real_escape_string(post_str("db_lname"));
@@ -327,6 +405,19 @@ n] => on [db_cpu_permission] => on [db_cpu_firewall] => on [db_cpu_internet] => 
     $row["cpu_unint_power"] = ($_POST["db_cpu_unint_power"] == "on") ? 1 : 0;
     $row["sensor_distribute"] = ($_POST["db_sensor_distribute"] == "on") ? 1 : 0;
     $row["comments"] = mysql_real_escape_string(post_str("db_comments", true));
+
+    $row["loc_home"] = ($_POST["db_loc_home"] == "on") ? 1 : 0;
+    $row["loc_business"] = ($_POST["db_loc_business"] == "on") ? 1 : 0;
+    $row["loc_affix_perm"] = ($_POST["db_loc_affix_perm"] == "on") ? 1 : 0;
+    $row["loc_self_install"] = ($_POST["db_loc_self_install"] == "on") ? 1 : 0;
+    $row["loc_weekend_install"] = ($_POST["db_loc_weekend_install"] == "on") ? 1 : 0;
+
+    $row["loc_time_hour_install"] = post_int("db_loc_time_hour_install", true);
+    if ($row["loc_time_hour_install"] == "") $row["loc_time_hour_install"] = "null";
+    $row["loc_time_minute_install"] = post_int("db_loc_time_minute_install", true);
+    if ($row["loc_time_minute_install"] == "") $row["loc_time_minute_install"] = "null";
+    $row["loc_years_host"] = post_int("db_loc_years_host", true);
+    if ($row["loc_years_host"] == "") $row["loc_years_host"] = 1;
 
     $mylat = $row["latitude"];
     $mylng = $row["longitude"];
@@ -375,10 +466,20 @@ n] => on [db_cpu_permission] => on [db_cpu_firewall] => on [db_cpu_internet] => 
             cpu_internet=" . $row["cpu_internet"] . ", 
             cpu_unint_power=" . $row["cpu_unint_power"] . ",             
             sensor_distribute=" . $row["sensor_distribute"] . ", 
+            loc_home=" . $row["loc_home"] . ",
+            loc_business=" . $row["loc_business"] . ",
+            loc_affix_perm=" . $row["loc_affix_perm"] . ",
+            loc_self_install=" . $row["loc_self_install"] . ",
+            loc_weekend_install=" . $row["loc_weekend_install"] . ",
+            loc_time_hour_install=" . $row["loc_time_hour_install"] . ",
+            loc_time_minute_install=" . $row["loc_time_minute_install"] . ",
+            loc_years_host=" . $row["loc_years_host"] . ",
             comments='" . $row["comments"] . "', 
             active=1, time_edit=unix_timestamp() ";
 
 //echo "<BR><BR>" . $sqlStart . $sqlSet . $sqlEnd . "<BR><BR>";
+
+      //echo $sqlStart . $sqlSet . $sqlEnd;
 
       $result = mysql_query($sqlStart . $sqlSet . $sqlEnd);
       if ($result) {
@@ -402,4 +503,3 @@ n] => on [db_cpu_permission] => on [db_cpu_firewall] => on [db_cpu_internet] => 
 }
 
 ?>
-

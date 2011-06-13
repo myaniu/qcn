@@ -17,6 +17,13 @@
 
 $project_news = 
  array(
+   array("June 9, 2011 11:55",
+"Carl from QCN will be presenting at the <A HREF=\"http://okcon.org/2011/programme\">Open Knowledge Conference in Berlin</A> on June 29th (workshop on 'open science') and June 30th (panel discussion). 
+<BR><BR>
+",
+ "Open Knowledge Conference in Berlin, Germany (June 28th-July 1st)",
+ "http://okcon.org/2011/programme"
+ ),
    array("April 22, 2011 19:22",
 "Thanks to BOINC & QCN participant 'dudumomo' - videos of the recent 'Asia@home Hackfest' are <A HREF='http://www.freetorrent.fr/catalog.php?search=Asia%40home'>now available via torrent download</A>.  Each download is a few hundred MB and features talks by David Anderson of SETI@home and BOINC, and Carl Christensen and Elizabeth Cochran of QCN.  The talks were made in March at Academia Sinica in Taipei, Taiwan.
 <BR><BR>
