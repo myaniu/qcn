@@ -1097,7 +1097,7 @@ void process_request(
 //    SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, char* code_sign_key, bool bTrigger
 // void process_request(char* code_sign_key) {
 // CMC end new declaration of process_request
-
+    
     PLATFORM* platform;
     int retval;
     double last_rpc_time;
@@ -1128,9 +1128,7 @@ void process_request(
 
     warn_user_if_core_client_upgrade_scheduled();
 
-// CMC here - add !bTrigger to next line
-    if (!bTrigger && requesting_work()) {
-   // if (requesting_work()) {
+    if (requesting_work()) {
         if (config.locality_scheduling || config.locality_scheduler_fraction || config.enable_assignment) {
             have_no_work = false;
         } else {
@@ -1157,8 +1155,8 @@ void process_request(
     // then return without accessing the DB.
     // This is an efficiency hack for when servers are overloaded
     //
-    if (config.nowork_skip
-        && have_no_work
+    if (
+        have_no_work
         && config.nowork_skip
         && requesting_work()
         && (g_request->results.size() == 0)
@@ -1264,21 +1262,17 @@ void process_request(
 
     handle_global_prefs();
 
-    // CMC here -- use bTrigger to bypass handling completed results
-    if (!bTrigger) {
-      read_host_app_versions();
-      update_n_jobs_today();
-      handle_results();
-    }
-    // CMC here - end block for handle_results
+    read_host_app_versions();
+    update_n_jobs_today();
+
+    handle_results();
 
     // Do this before resending lost jobs
     //
     if (bad_install_type()) {
         ok_to_send_work = false;
     }
-// CMC here - add !bTrigger to next line
-    if (!bTrigger && requesting_work()) {
+    if (!requesting_work()) {
         ok_to_send_work = false;
     }
     send_work_setup();
@@ -1303,10 +1297,7 @@ void process_request(
 
         // if last RPC was within config.min_sendwork_interval, don't send work
         //
-    // CMC here -- don't send work on a trickle trigger, only on other trickles or requests
-        if (!bTrigger && !have_no_work && ok_to_send_work) {
-        //if (!have_no_work && ok_to_send_work) {
-    // CMC here - end replacement
+        if (!have_no_work && ok_to_send_work) {
             if (config.min_sendwork_interval) {
                 double diff = dtime() - last_rpc_time;
                 if (diff < config.min_sendwork_interval) {
@@ -1381,6 +1372,7 @@ void handle_request(FILE* fin, FILE* fout, char* code_sign_key) {
     SCHEDULER_REQUEST sreq;
     SCHEDULER_REPLY sreply;
     char buf[1024];
+
     // CMC here mod -- on trigger trickles, bypass trickle down's & quake/project_prefs etc
     bool bTrigger = false;
 
@@ -1421,7 +1413,7 @@ void handle_request(FILE* fin, FILE* fout, char* code_sign_key) {
          bTrigger = (bool) (iTrigger > 0 && iTrigger == iCount); // note all trickles must be triggers, and must have 1 trickle at least!
          process_request(code_sign_key, bTrigger);
          // CMC end section
-//  CMC end block handle_request/process_request
+       //  CMC end block handle_request/process_request
     } else {
         sprintf(buf, "Error in request message: %s", p);
         log_incomplete_request();
