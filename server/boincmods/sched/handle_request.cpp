@@ -47,8 +47,9 @@
 #include "util.h"
 #include "filesys.h"
 
-#include "main.h"
-#include "server_types.h"
+#include "credit.h"
+#include "sched_main.h"
+#include "sched_types.h"
 #include "sched_util.h"
 #include "handle_request.h"
 #include "sched_msgs.h"
@@ -57,13 +58,12 @@
 #include "sched_config.h"
 #include "sched_locality.h"
 #include "sched_result.h"
-#include "sched_plan.h"
+#include "sched_customize.h"
 #include "time_stats_log.h"
 
 // CMC -- need to include our trigger file from the qcn svn tree
 #include "../../qcn/server/trigger/qcn_trigger.h"
 // CMC end section
-
 
 // find the user's most recently-created host with given various characteristics
 //
@@ -99,15 +99,9 @@ static bool find_host_by_other(DB_USER& user, HOST req_host, DB_HOST& host) {
     }
     return false;
 }
-static void get_weak_auth(USER& user, char* buf) {
-    char buf2[256], out[256];
-    sprintf(buf2, "%s%s", user.authenticator, user.passwd_hash);
-    md5_block((unsigned char*)buf2, strlen(buf2), out);
-    sprintf(buf, "%d_%s", user.id, out);
-}
 
 static void send_error_message(const char* msg, int delay) {
-    g_reply->insert_message(USER_MESSAGE(msg, "low"));
+    g_reply->insert_message(msg, "low");
     g_reply->set_delay(delay);
     g_reply->nucleus_only = true;
 }
@@ -128,7 +122,9 @@ int lock_sched() {
 
     g_reply->lockfile_fd=-1;
 
-    sprintf(filename, "%s/CGI_%07d", config.sched_lockfile_dir, g_reply->host.id);
+    sprintf(filename, "%s/CGI_%07d",
+        config.sched_lockfile_dir, g_reply->host.id
+    );
 
     fd = open(filename, O_WRONLY|O_CREAT, S_IRUSR|S_IWUSR|S_IRGRP|S_IROTH);
     if (fd < 0) return -1;
@@ -146,7 +142,11 @@ int lock_sched() {
     // write PID into the CGI_<HOSTID> file and flush to disk
     //
     count = sprintf(pid_string, "%d\n", getpid());
-    write(fd, pid_string, count);
+    ssize_t n = write(fd, pid_string, count);
+    if (n < 0) {
+        close(fd);
+        return -1;
+    }
     fsync(fd);
 
     g_reply->lockfile_fd = fd;
@@ -257,9 +257,7 @@ int authenticate_user() {
             }
         }
         if (retval) {
-            g_reply->insert_message(
-                USER_MESSAGE("Can't find host record", "low")
-            );
+            g_reply->insert_message("Can't find host record", "low");
             log_messages.printf(MSG_NORMAL,
                 "[HOST#%d?] can't find host\n",
                 g_request->hostid
@@ -273,25 +271,25 @@ int authenticate_user() {
         // look up user based on the ID in host record,
         // and see if the authenticator matches (regular or weak)
         //
+        g_request->using_weak_auth = false;
         sprintf(buf, "where id=%d", host.userid);
         retval = user.lookup(buf);
         if (!retval && !strcmp(user.authenticator, g_request->authenticator)) {
             // req auth matches user auth - go on
         } else {
-            bool weak_auth = false;
             if (!retval) {
                 // user for host.userid exists - check weak auth
                 //
                 get_weak_auth(user, buf);
                 if (!strcmp(buf, g_request->authenticator)) {
-                    weak_auth = true;
+                    g_request->using_weak_auth = true;
                     log_messages.printf(MSG_DEBUG,
                         "[HOST#%d] accepting weak authenticator\n",
                         host.id
                     );
                 }
             }
-            if (!weak_auth) {
+            if (!g_request->using_weak_auth) {
                 // weak auth failed - look up user based on authenticator
                 //
                 strlcpy(
@@ -301,10 +299,8 @@ int authenticate_user() {
                 retval = user.lookup(buf);
                 if (retval) {
                     g_reply->insert_message(
-                        USER_MESSAGE("Invalid or missing account key.  "
-                            "Detach and reattach to this project to fix this.",
-                            "high"
-                        )
+                        _("Invalid or missing account key.  To fix, remove and add this project."),
+                        "notice"
                     );
                     g_reply->set_delay(DELAY_MISSING_KEY);
                     g_reply->nucleus_only = true;
@@ -343,7 +339,7 @@ int authenticate_user() {
             );
             goto make_new_host;
         }
-        
+
     } else {
         // Here no hostid was given, or the ID was bad.
         // Look up the user, then create a new host record
@@ -370,16 +366,13 @@ lookup_user_and_make_new_host:
         }
         if (retval) {
             g_reply->insert_message(
-                USER_MESSAGE(
-                    "Invalid or missing account key.  "
-                    "Detach and reattach to this project to fix this.",
-                    "low"
-                )
+                "Invalid or missing account key.  To fix, remove and add this project .",
+                "low"
             );
             g_reply->set_delay(DELAY_MISSING_KEY);
             log_messages.printf(MSG_CRITICAL,
-                "[HOST#<none>] Bad authenticator '%s': %d\n",
-                g_request->authenticator, retval
+                "[HOST#<none>] Bad authenticator '%s': %s\n",
+                g_request->authenticator, boincerror(retval)
             );
             return ERR_AUTHENTICATOR;
         }
@@ -398,7 +391,9 @@ lookup_user_and_make_new_host:
                     "[HOST#%d] [USER#%d] User has another host with same CPID.\n",
                     host.id, host.userid
                 );
-                if (!config.multiple_clients_per_host) {
+                if ((g_request->allow_multiple_clients != 1)
+                    && (g_request->other_results.size() == 0)
+                ) {
                     mark_results_over(host);
                 }
                 goto got_host;
@@ -413,10 +408,11 @@ make_new_host:
         // If found, use the existing host record,
         // and mark in-progress results as over.
         //
-        // NOTE: if the project allows multiple clients per host
-        // (e.g. those that run on grids), skip this.
+        // NOTE: If the client was run with --allow_multiple_clients, skip this.
         //
-        if (!config.multiple_clients_per_host && find_host_by_other(user, g_request->host, host)) {
+        if ((g_request->allow_multiple_clients==1)
+            && find_host_by_other(user, g_request->host, host)
+        ) {
             log_messages.printf(MSG_NORMAL,
                 "[HOST#%d] [USER#%d] Found similar existing host for this user - assigned.\n",
                 host.id, host.userid
@@ -437,13 +433,12 @@ make_new_host:
         host.userid = g_reply->user.id;
         host.rpc_seqno = 0;
         host.expavg_time = time(0);
-        host.error_rate = 0.1;
         strcpy(host.venue, g_reply->user.venue);
         host.fix_nans();
         retval = host.insert();
         if (retval) {
             g_reply->insert_message(
-                USER_MESSAGE("Couldn't create host record in database", "low")
+                "Couldn't create host record in database", "low"
             );
             boinc_db.print_error("host.insert()");
             log_messages.printf(MSG_CRITICAL, "host.insert() failed\n");
@@ -479,7 +474,7 @@ got_host:
 
     // if new user CPID, update user record
     //
-    if (strlen(g_request->cross_project_id)) {
+    if (!g_request->using_weak_auth && strlen(g_request->cross_project_id)) {
         if (strcmp(g_request->cross_project_id, g_reply->user.cross_project_id)) {
             user.id = g_reply->user.id;
             escape_string(g_request->cross_project_id, sizeof(g_request->cross_project_id));
@@ -488,136 +483,8 @@ got_host:
             user.update_field(buf);
         }
     }
-    
+
     return 0;
-}
-
-// Modify claimed credit based on the historical granted credit if
-// the project is configured to do this
-//
-static void modify_credit_rating(HOST& host) {
-    double new_claimed_credit = 0;
-    double percent_difference = 0;
-    // The percent difference between claim and history
-    double difference_weight = 1;
-    // The weight to be applied based on the difference between claim and 
-    // history
-    double credit_weight = 1;
-    // The weight to be applied based on how much credit the host has earned
-    // (hosts that are new do not have accurate histories so they shouldn't
-    // have much weight)
-    double combined_weight = 1;
-
-    // Only modify if the credit_per_cpu_sec is established
-    // and the option is enabled
-    if ( host.credit_per_cpu_sec > 0 
-        && config.granted_credit_weight > 0.0 
-        && config.granted_credit_weight <= 1.0 ) {
-    
-        // Calculate the difference between claimed credit and the hosts
-        // historical granted credit history
-        percent_difference=host.claimed_credit_per_cpu_sec-host.credit_per_cpu_sec;
-        percent_difference = fabs(percent_difference/host.credit_per_cpu_sec);
-
-        // A study on World Community Grid determined that 50% of hosts
-        // claimed within 10% of their historical credit per cpu sec.  
-        // These hosts should not have their credit modified.
-        if ( percent_difference < 0.1000 ) {
-     		log_messages.printf(MSG_DEBUG, "[HOSTID:%d] Claimed credit %.1lf not "
-     		    "modified.  Percent Difference %.4lf\n", host.id, 
-     		    host.claimed_credit_per_cpu_sec*86400, percent_difference
-     		);
-            return;
-}
-
-        // The study also determined that 95% of hosts claim within 
-        // 50% of their historical credit per cpu sec.
-        // Computers claiming above 10% but below 50% should have their 
-        // credit adjusted based on their history
-        // Computers claiming more than 50% above should use their 
-        // historical value.
-        if ( percent_difference < .5 ) {
-            // weight based on variance from historical credit
-            difference_weight=1-(0.5-percent_difference)/0.4;
-    	    } else { 
-            difference_weight=1;
-    	    }
-    	    
-        // A weight also needs to be calculated based upon the amount of
-        // credit awarded to a host.  This is becuase hosts without much
-        // credit awarded do not yet have an accurate history so the weight
-        // should be limited for these hosts.
-        if ( config.granted_credit_ramp_up ) {
-    	    credit_weight=config.granted_credit_ramp_up - host.total_credit;
-    	    credit_weight=credit_weight/config.granted_credit_ramp_up;
-    		if ( credit_weight < 0) credit_weight = 0;
-    	   	credit_weight = 1 - credit_weight;
-        }
-    	    
-        // Compute the combined weight
-        combined_weight=credit_weight*difference_weight*config.granted_credit_weight;    
-     	log_messages.printf(MSG_DEBUG, "[HOSTID:%d] Weight details: "
-     	     "diff_weight=%.4lf credit_weight=%.4lf config_weight=%.4lf\n",
-     	     host.id, difference_weight, credit_weight, 
-     	     config.granted_credit_weight
-     	);
-            
-        // Compute the new value for claimed credit
-        new_claimed_credit=(1-combined_weight)*host.claimed_credit_per_cpu_sec;
-        new_claimed_credit=new_claimed_credit+combined_weight*host.credit_per_cpu_sec;
-        
-        if ( new_claimed_credit < host.claimed_credit_per_cpu_sec ) {
-     	    log_messages.printf(MSG_DEBUG, "[HOSTID:%d] Modified claimed credit "
-     	        "(lowered) original: %.1lf new: %.1lf historical: %.1lf "
-     	        "combined weight: %.4lf\n", host.id, 
-     	        host.claimed_credit_per_cpu_sec*86400, 
-     	        new_claimed_credit*86400, host.credit_per_cpu_sec*86400, 
-     	        combined_weight
-     	    );
-        } else {
-     	    log_messages.printf(MSG_DEBUG, "[HOSTID:%d] Modified claimed credit "
-     	        "(increased) original: %.1lf new: %.1lf historical: %.1lf " 
-     	        "combined weight: %.4lf\n", host.id, 
-     	        host.claimed_credit_per_cpu_sec*86400, 
-     	        new_claimed_credit*86400, host.credit_per_cpu_sec*86400, 
-     	        combined_weight
-     	    );
-    	    }
-    	    
-        host.claimed_credit_per_cpu_sec=new_claimed_credit;
-        }
-    }
-
-// somewhat arbitrary formula for credit as a function of CPU time.
-// Could also include terms for RAM size, network speed etc.
-//
-static void compute_credit_rating(HOST& host) {
-    double fpw, intw, scale, x;
-    if (config.use_benchmark_weights) {
-
-        fpw = config.fp_benchmark_weight;
-        intw = 1. - fpw;
-
-        // FP benchmark is 2x int benchmark, on average.
-        // Compute a scaling factor the gives the same credit per day
-        // no matter how benchmarks are weighted
-        //
-        scale = 1.5 / (2*intw + fpw);
-    } else {
-        fpw = .5;
-        intw = .5;
-        scale = 1;
-    }
-    x = fpw*fabs(host.p_fpops) + intw*fabs(host.p_iops);
-    x /= 1e9;
-    x *= COBBLESTONE_FACTOR;
-    x /= SECONDS_PER_DAY;
-    x *= scale;
-    host.claimed_credit_per_cpu_sec  = x;
-    
-    if (config.granted_credit_weight) {
-        modify_credit_rating(host);
-    }
 }
 
 // modify host struct based on request.
@@ -626,7 +493,15 @@ static void compute_credit_rating(HOST& host) {
 static int modify_host_struct(HOST& host) {
     host.timezone = g_request->host.timezone;
     strncpy(host.domain_name, g_request->host.domain_name, sizeof(host.domain_name));
-    g_request->coprocs.summary_string(host.serialnum, sizeof(host.serialnum));
+    char buf[256], buf2[256];
+    sprintf(buf, "[BOINC|%d.%d.%d]",
+        g_request->core_client_major_version,
+        g_request->core_client_minor_version,
+        g_request->core_client_release
+    );
+    g_request->coprocs.summary_string(buf2, sizeof(buf2));
+    strlcpy(host.serialnum, buf, sizeof(host.serialnum));
+    strlcat(host.serialnum, buf2, sizeof(host.serialnum));
     if (strcmp(host.last_ip_addr, g_request->host.last_ip_addr)) {
         strncpy(host.last_ip_addr, g_request->host.last_ip_addr, sizeof(host.last_ip_addr));
     } else {
@@ -659,8 +534,6 @@ static int modify_host_struct(HOST& host) {
     }
     host.fix_nans();
 
-    compute_credit_rating(host);
-    g_request->host.claimed_credit_per_cpu_sec = host.claimed_credit_per_cpu_sec;
     return 0;
 }
 
@@ -687,9 +560,11 @@ static int update_host_record(HOST& initial_host, HOST& xhost, USER& user) {
     if (p) {
         strlcpy(host.external_ip_addr, p, sizeof(host.external_ip_addr));
     }
-    retval = host.update_diff(initial_host);
+    retval = host.update_diff_sched(initial_host);
     if (retval) {
-        log_messages.printf(MSG_CRITICAL, "host.update() failed: %d\n", retval);
+        log_messages.printf(MSG_CRITICAL,
+            "host.update() failed: %s\n", boincerror(retval)
+        );
     }
     return 0;
 }
@@ -713,7 +588,7 @@ int send_result_abort() {
     DB_IN_PROGRESS_RESULT result;
     std::string result_names;
     unsigned int i;
-    
+
     if (g_request->other_results.size() == 0) {
         return 0;
     }
@@ -723,11 +598,15 @@ int send_result_abort() {
     for (i=0; i<g_request->other_results.size(); i++) {
         OTHER_RESULT& orp=g_request->other_results[i];
         orp.abort = true;
+            // if the host has a result not in the DB, abort it
         orp.abort_if_not_started = false;
         orp.reason = ABORT_REASON_NOT_FOUND;
         if (i > 0) result_names.append(", ");
         result_names.append("'");
-        result_names.append(orp.name);
+        char buf[1024];
+        strcpy(buf, orp.name);
+        escape_string(buf, 1024);
+        result_names.append(buf);
         result_names.append("'");
     }
 
@@ -744,7 +623,7 @@ int send_result_abort() {
                     orp.abort = true;
                     orp.abort_if_not_started = false;
                     orp.reason = ABORT_REASON_WU_CANCELLED;
-                } else if ( result.assimilate_state == ASSIMILATE_DONE ) {
+                } else if (result.assimilate_state == ASSIMILATE_DONE) {
                     // if the WU has been assimilated, abort if not started
                     //
                     orp.abort = false;
@@ -783,20 +662,20 @@ int send_result_abort() {
             log_messages.printf(MSG_NORMAL,
                 "[HOST#%d]: Send result_abort for result %s; reason: %s\n",
                 g_reply->host.id, orp.name, reason_str(orp.reason)
-            ); 
-            // send user message 
+            );
+            // send user message
             char buf[256];
             sprintf(buf, "Result %s is no longer usable", orp.name);
-            g_reply->insert_message(USER_MESSAGE(buf, "high"));
+            g_reply->insert_message(buf, "low");
         } else if (orp.abort_if_not_started) {
             g_reply->result_abort_if_not_starteds.push_back(orp.name);
             log_messages.printf(MSG_NORMAL,
                 "[HOST#%d]: Send result_abort_if_unstarted for result %s; reason %d\n",
                 g_reply->host.id, orp.name, orp.reason
-            ); 
+            );
         }
     }
-    
+
     return aborts_sent;
 }
 
@@ -828,8 +707,8 @@ int handle_global_prefs() {
     }
 
     if (config.debug_prefs) {
-        log_messages.printf(MSG_DEBUG,
-            "have_master:%d have_working: %d have_db: %d\n",
+        log_messages.printf(MSG_NORMAL,
+            "[prefs] have_master:%d have_working: %d have_db: %d\n",
             have_master_prefs, have_working_prefs, have_db_prefs
         );
     }
@@ -840,31 +719,35 @@ int handle_global_prefs() {
     if (have_working_prefs) {
         g_request->global_prefs.parse(g_request->working_global_prefs_xml, "");
         if (config.debug_prefs) {
-            log_messages.printf(MSG_DEBUG, "using working prefs\n");
+            log_messages.printf(MSG_NORMAL, "[prefs] using working prefs\n");
         }
     } else {
         if (have_master_prefs) {
             if (have_db_prefs && db_mod_time > master_mod_time) {
                 g_request->global_prefs.parse(g_reply->user.global_prefs, g_reply->host.venue);
                 if (config.debug_prefs) {
-                    log_messages.printf(MSG_DEBUG, "using db prefs - more recent\n");
+                    log_messages.printf(MSG_NORMAL,
+                        "[prefs] using db prefs - more recent\n"
+                    );
                 }
             } else {
                 g_request->global_prefs.parse(g_request->global_prefs_xml, g_reply->host.venue);
                 if (config.debug_prefs) {
-                    log_messages.printf(MSG_DEBUG, "using master prefs\n");
+                    log_messages.printf(MSG_NORMAL,
+                        "[prefs] using master prefs\n"
+                    );
                 }
             }
         } else {
             if (have_db_prefs) {
                 g_request->global_prefs.parse(g_reply->user.global_prefs, g_reply->host.venue);
                 if (config.debug_prefs) {
-                    log_messages.printf(MSG_DEBUG, "using db prefs\n");
+                    log_messages.printf(MSG_NORMAL, "[prefs] using db prefs\n");
                 }
             } else {
                 g_request->global_prefs.defaults();
                 if (config.debug_prefs) {
-                    log_messages.printf(MSG_DEBUG, "using default prefs\n");
+                    log_messages.printf(MSG_NORMAL, "[prefs] using default prefs\n");
                 }
             }
         }
@@ -872,7 +755,7 @@ int handle_global_prefs() {
 
     // decide whether to update DB
     //
-    if (have_master_prefs) {
+    if (!g_request->using_weak_auth && have_master_prefs) {
         bool update_user_record = false;
         if (have_db_prefs) {
             if (master_mod_time > db_mod_time && same_account) {
@@ -882,7 +765,9 @@ int handle_global_prefs() {
             if (same_account) update_user_record = true;
         }
         if (update_user_record) {
-            log_messages.printf(MSG_DEBUG, "updating db prefs\n");
+            if (config.debug_prefs) {
+                log_messages.printf(MSG_NORMAL, "[prefs] updating db prefs\n");
+            }
             strcpy(g_reply->user.global_prefs, g_request->global_prefs_xml);
             DB_USER user;
             user.id = g_reply->user.id;
@@ -892,7 +777,7 @@ int handle_global_prefs() {
             int retval = user.update_field(buf);
             if (retval) {
                 log_messages.printf(MSG_CRITICAL,
-                    "user.update_field() failed: %d\n", retval
+                    "user.update_field() failed: %s\n", boincerror(retval)
                 );
             }
         }
@@ -901,14 +786,16 @@ int handle_global_prefs() {
     // decide whether to send DB prefs in reply msg
     //
     if (config.debug_prefs) {
-        log_messages.printf(MSG_DEBUG,
-            "have db %d; dbmod %f; global mod %f\n",
+        log_messages.printf(MSG_NORMAL,
+            "[prefs] have db %d; dbmod %f; global mod %f\n",
             have_db_prefs, db_mod_time, g_request->global_prefs.mod_time
         );
     }
     if (have_db_prefs && db_mod_time > master_mod_time) {
         if (config.debug_prefs) {
-            log_messages.printf(MSG_DEBUG, "sending db prefs in reply\n");
+            log_messages.printf(MSG_DEBUG,
+                "[prefs] sending db prefs in reply\n"
+            );
         }
         g_reply->send_global_prefs = true;
     }
@@ -935,12 +822,8 @@ bool send_code_sign_key(char* code_sign_key) {
                 retval = read_file_malloc(path, oldkey);
                 if (retval) {
                     g_reply->insert_message(
-                        USER_MESSAGE(
-                           "You may have an outdated code verification key.  "
-                           "This may prevent you from accepting new executables.  "
-                           "If the problem persists, detach/attach the project. ",
-                           "high"
-                        )
+                       _("Invalid code signing key.  To fix, remove and add this project."),
+                       "notice"
                     );
                     return false;
                 }
@@ -949,12 +832,8 @@ bool send_code_sign_key(char* code_sign_key) {
                     retval = read_file_malloc(path, signature);
                     if (retval) {
                         g_reply->insert_message(
-                            USER_MESSAGE(
-                               "You may have an outdated code verification key.  "
-                               "This may prevent you from accepting new executables.  "
-                               "If the problem persists, detach/attach the project. ",
-                               "high"
-                            )
+                           _("The project has changed its security key.  Please remove and add this project."),
+                           "notice"
                         );
                     } else {
                         safe_strcpy(g_reply->code_sign_key, code_sign_key);
@@ -972,11 +851,10 @@ bool send_code_sign_key(char* code_sign_key) {
     return true;
 }
 
-// This routine examines the <min_core_client_version_announced> value
-// from config.xml.  If set, and the core client version is less than
-// this version, send a warning to users to upgrade before deadline
-// given in <min_core_client_upgrade_deadline> in Unix time(2) format
-// expires.
+// If <min_core_client_version_announced> is set,
+// and the core client version is less than this version,
+// send a warning to users to upgrade before deadline
+// <min_core_client_upgrade_deadline>
 //
 void warn_user_if_core_client_upgrade_scheduled() {
     if (g_request->core_client_version < config.min_core_client_version_announced) {
@@ -986,17 +864,18 @@ void warn_user_if_core_client_upgrade_scheduled() {
         remaining /= 3600;
 
         if (0 < remaining) {
-            
+
             char msg[512];
             int days  = remaining / 24;
             int hours = remaining % 24;
-      
+
             sprintf(msg,
-                "Starting in %d days and %d hours, project will require a minimum "
-                "BOINC core client version of %d.%d.0.  You are currently using "
+                "In %d days and %d hours, this project will require a minimum "
+                "BOINC version of %d.%d.%d.  You are currently using "
                 "version %d.%d.%d; please upgrade before this time.",
                 days, hours,
-                config.min_core_client_version_announced / 100,
+                config.min_core_client_version_announced / 10000,
+                (config.min_core_client_version_announced / 100)%100,
                 config.min_core_client_version_announced % 100,
                 g_request->core_client_major_version,
                 g_request->core_client_minor_version,
@@ -1006,9 +885,9 @@ void warn_user_if_core_client_upgrade_scheduled() {
             // bump to high.
             //
             if (days<3) {
-                g_reply->insert_message(USER_MESSAGE(msg, "high"));
+                g_reply->insert_message(msg, "notice");
             } else {
-                g_reply->insert_message(USER_MESSAGE(msg, "low"));
+                g_reply->insert_message(msg, "low");
             }
             log_messages.printf(MSG_DEBUG,
                 "Sending warning: upgrade client %d.%d.%d within %d days %d hours\n",
@@ -1036,10 +915,11 @@ bool unacceptable_os() {
                 "Unacceptable OS %s %s\n",
                 g_request->host.os_name, g_request->host.os_version
             );
-            sprintf(buf, "This project doesn't support OS type %s %s",
+            sprintf(buf, "%s %s %s",
+                _("This project doesn't support operating system"),
                 g_request->host.os_name, g_request->host.os_version
             );
-            g_reply->insert_message(USER_MESSAGE(buf, "low"));
+            g_reply->insert_message(buf, "notice");
             g_reply->set_delay(DELAY_UNACCEPTABLE_OS);
             return true;
         }
@@ -1061,10 +941,11 @@ bool unacceptable_cpu() {
                 "Unacceptable CPU %s %s\n",
                 g_request->host.p_vendor, g_request->host.p_model
             );
-            sprintf(buf, "This project doesn't support CPU type %s %s",
+            sprintf(buf, "%s %s %s",
+                _("This project doesn't support CPU type"),
                 g_request->host.p_vendor, g_request->host.p_model
             );
-            g_reply->insert_message(USER_MESSAGE(buf, "low"));
+            g_reply->insert_message(buf, "notice");
             g_reply->set_delay(DELAY_UNACCEPTABLE_OS);
             return true;
         }
@@ -1073,32 +954,23 @@ bool unacceptable_cpu() {
 }
 
 bool wrong_core_client_version() {
-    char msg[256];
-    bool wrong_version = false;
-    if (config.min_core_client_version) {
-        int major = config.min_core_client_version/100;
-        int minor = config.min_core_client_version % 100;
-        if (g_request->core_client_major_version < major ||
-            ((g_request->core_client_major_version == major) && (g_request->core_client_minor_version < minor))) {
-            wrong_version = true;
-            sprintf(msg,
-                "Need version %d.%d or higher of the BOINC core client. You have %d.%d.",
-                major, minor,
-                g_request->core_client_major_version, g_request->core_client_minor_version
-            );
-            log_messages.printf(MSG_NORMAL,
-                "[HOST#%d] [auth %s] Wrong minor version from user: wanted %d, got %d\n",
-                g_request->hostid, g_request->authenticator,
-                minor, g_request->core_client_minor_version
-            );
-        }
+    if (!config.min_core_client_version) {
+        return false;
     }
-    if (wrong_version) {
-        g_reply->insert_message(USER_MESSAGE(msg, "low"));
-        g_reply->set_delay(DELAY_BAD_CLIENT_VERSION);
-        return true;
+    if (g_request->core_client_version >= config.min_core_client_version) {
+        return false;
     }
-    return false;
+    log_messages.printf(MSG_NORMAL,
+        "[HOST#%d] Wrong client version from user: wanted %d, got %d\n",
+        g_request->hostid,
+        config.min_core_client_version, g_request->core_client_minor_version
+    );
+    g_reply->insert_message(
+        _("Your BOINC client software is too old.  Please install the current version."),
+        "notice"
+    );
+    g_reply->set_delay(DELAY_BAD_CLIENT_VERSION);
+    return true;
 }
 
 inline static const char* get_remote_addr() {
@@ -1124,7 +996,9 @@ void handle_msgs_from_host() {
             "got msg from host; variety %s \n",
             mfh.variety
         );
-   // CMC -- handle triggers via handle_qcn_trigger
+
+   // CMC here -- begin handle triggers via handle_qcn_trigger
+       // retval = mfh.insert();
         retval = 0;
         int iVariety = -1;
         if (!strcmp(mfh.variety, "trigger")) { // it's a trigger
@@ -1136,7 +1010,7 @@ void handle_msgs_from_host() {
         else if (!strcmp(mfh.variety, "continual")) { // it's a continual trigger
             iVariety = 2;
         }
-        
+
         if (iVariety > -1 ) { // it's a trigger
             retval = handle_qcn_trigger(&mfh, iVariety);
         }
@@ -1145,11 +1019,12 @@ void handle_msgs_from_host() {
             retval = mfh.insert(); // not a trigger and not a quakelist, process as normal (probably a "nosensor" msg)
         }
 //        retval = mfh.insert();
-// CMC - end block for mfh insert
+// CMC here - end block for mfh insert
+
         if (retval) {
             log_messages.printf(MSG_CRITICAL,
-                "[HOST#%d] message insert failed: %d\n",
-                g_reply->host.id, retval
+                "[HOST#%d] message insert failed: %s\n",
+                g_reply->host.id, boincerror(retval)
             );
             g_reply->send_msg_ack = false;
 
@@ -1198,16 +1073,8 @@ bool bad_install_type() {
                     "Vista secure install - not sending work\n"
                 );
                 g_reply->insert_message(
-                    USER_MESSAGE(
-                        "Unable to send work to Vista with BOINC installed in protected mode",
-                        "high"
-                    )
-                );
-                g_reply->insert_message(
-                    USER_MESSAGE(
-                        "Please reinstall BOINC and uncheck 'Protected application execution'",
-                        "high"
-                    )
+                    "Unable to send work to Vista with BOINC installed in protected mode.  Please reinstall BOINC and uncheck 'Protected application execution'",
+                    "notice"
                 );
             }
         }
@@ -1218,7 +1085,8 @@ bool bad_install_type() {
 static inline bool requesting_work() {
     if (g_request->work_req_seconds > 0) return true;
     if (g_request->cpu_req_secs > 0) return true;
-    if (g_request->coproc_cuda && g_request->coproc_cuda->req_secs) return true;
+    if (g_request->coprocs.nvidia.count && g_request->coprocs.nvidia.req_secs) return true;
+    if (g_request->coprocs.ati.count && g_request->coprocs.ati.req_secs) return true;
     return false;
 }
 
@@ -1227,16 +1095,15 @@ void process_request(
     char* code_sign_key, bool bTrigger
 ) {
 //    SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, char* code_sign_key, bool bTrigger
-//void process_request(char* code_sign_key) {
+// void process_request(char* code_sign_key) {
 // CMC end new declaration of process_request
+
     PLATFORM* platform;
     int retval;
     double last_rpc_time;
     struct tm *rpc_time_tm;
-    int last_rpc_dayofyear;
-    int current_rpc_dayofyear;
-    bool ok_to_send_work = true;
-    bool have_no_work;
+    bool ok_to_send_work = !config.dont_send_jobs;
+    bool have_no_work = false;
     char buf[256];
     HOST initial_host;
     unsigned int i;
@@ -1251,19 +1118,19 @@ void process_request(
         || unacceptable_cpu()
     ) {
         ok_to_send_work = false;
-
-        // if no results, return without accessing DB
-        //
-        if (g_request->results.size() == 0) {
-            return;
-        }
-    } else {
-        warn_user_if_core_client_upgrade_scheduled();
     }
+
+    // if no jobs reported and none to send, return without accessing DB
+    //
+    if (!ok_to_send_work && !g_request->results.size()) {
+        return;
+    }
+
+    warn_user_if_core_client_upgrade_scheduled();
 
 // CMC here - add !bTrigger to next line
     if (!bTrigger && requesting_work()) {
-    //if (requesting_work()) {
+   // if (requesting_work()) {
         if (config.locality_scheduling || config.locality_scheduler_fraction || config.enable_assignment) {
             have_no_work = false;
         } else {
@@ -1271,25 +1138,36 @@ void process_request(
             have_no_work = ssp->no_work(g_pid);
             if (have_no_work) {
                 g_wreq->no_jobs_available = true;
-                log_messages.printf(MSG_NORMAL, "No jobs in shmem\n");
+                if (config.debug_send) {
+                    log_messages.printf(MSG_NORMAL,
+                        "[send] No jobs in shmem\n"
+                    );
+                }
             }
             unlock_sema();
         }
     }
 
-    // if there's no work, and client isn't returning results,
-    // this isn't an initial RPC,
-    // and client is requesting work, return without accessing DB
+    // If:
+    // - there's no work,
+    // - a config flag is set,
+    // - client isn't returning results,
+    // - this isn't an initial RPC,
+    // - client is requesting work
+    // then return without accessing the DB.
+    // This is an efficiency hack for when servers are overloaded
     //
 // CMC here - add !bTrigger to next line
     if (!bTrigger &&
         config.nowork_skip
-        && requesting_work()
         && have_no_work
+        && config.nowork_skip
+        && requesting_work()
         && (g_request->results.size() == 0)
         && (g_request->hostid != 0)
     ) {
-        g_reply->insert_message(USER_MESSAGE("No work available", "low"));
+// CMC end
+        g_reply->insert_message("No work available", "low");
         g_reply->set_delay(DELAY_NO_WORK_SKIP);
         if (!config.msg_to_host) {
             log_messages.printf(MSG_NORMAL, "No work - skipping DB access\n");
@@ -1297,11 +1175,10 @@ void process_request(
         }
     }
 
-    // FROM HERE ON DON'T RETURN; goto leave instead
-    // because we've tagged an entry in the work array with our process ID
+    // FROM HERE ON DON'T RETURN; "goto leave" instead
+    // (because ssp->no_work() may have tagged an entry in the work array
+    // with our process ID)
 
-    // now open the database
-    //
     retval = open_database();
     if (retval) {
         send_error_message("Server can't open database", 3600);
@@ -1323,7 +1200,7 @@ void process_request(
 
     // is host blacklisted?
     //
-    if (g_reply->host.max_results_day == -1) {
+    if (g_reply->host._max_results_day == -1) {
         send_error_message("Not accepting requests from this host", 86400);
         goto leave;
     }
@@ -1351,29 +1228,13 @@ void process_request(
     last_rpc_time = g_reply->host.rpc_time;
     t = g_reply->host.rpc_time;
     rpc_time_tm = localtime(&t);
-    last_rpc_dayofyear = rpc_time_tm->tm_yday;
+    g_request->last_rpc_dayofyear = rpc_time_tm->tm_yday;
 
     t = time(0);
     g_reply->host.rpc_time = t;
     rpc_time_tm = localtime(&t);
-    current_rpc_dayofyear = rpc_time_tm->tm_yday;
+    g_request->current_rpc_dayofyear = rpc_time_tm->tm_yday;
 
-    if (config.daily_result_quota) {
-        if (g_reply->host.max_results_day == 0 || g_reply->host.max_results_day > config.daily_result_quota) {
-            g_reply->host.max_results_day = config.daily_result_quota;
-            log_messages.printf(MSG_DEBUG,
-                "[HOST#%d] Initializing max_results_day to %d\n",
-                g_reply->host.id, config.daily_result_quota
-            );
-        }
-    }
-
-    if (last_rpc_dayofyear != current_rpc_dayofyear) {
-        log_messages.printf(MSG_DEBUG,
-            "[HOST#%d] Resetting nresults_today\n", g_reply->host.id
-        );
-        g_reply->host.nresults_today = 0;
-    }
     retval = modify_host_struct(g_reply->host);
 
     // write time stats to disk if present
@@ -1391,8 +1252,11 @@ void process_request(
         if (platform) g_request->platforms.list.push_back(platform);
     }
     if (g_request->platforms.list.size() == 0) {
-        sprintf(buf, "platform '%s' not found", g_request->platform.name);
-        g_reply->insert_message(USER_MESSAGE(buf, "low"));
+        sprintf(buf, "%s %s",
+            _("This project doesn't support computers of type"),
+            g_request->platform.name
+        );
+        g_reply->insert_message(buf, "notice");
         log_messages.printf(MSG_CRITICAL,
             "[HOST#%d] platform '%s' not found\n",
             g_reply->host.id, g_request->platform.name
@@ -1405,7 +1269,9 @@ void process_request(
 
     // CMC here -- use bTrigger to bypass handling completed results
     if (!bTrigger) {
-       handle_results();
+      read_host_app_versions();
+      update_n_jobs_today();
+      handle_results();
     }
     // CMC here - end block for handle_results
 
@@ -1414,21 +1280,16 @@ void process_request(
     if (bad_install_type()) {
         ok_to_send_work = false;
     }
+// CMC here - add !bTrigger to next line
+    if (!bTrigger && requesting_work()) {
+        ok_to_send_work = false;
+    }
     send_work_setup();
 
-    g_wreq->njobs_on_host = g_request->other_results.size();
-    for (i=0; i<g_request->other_results.size(); i++) {
-        OTHER_RESULT& r = g_request->other_results[i];
-        if (r.have_plan_class) {
-            if (app_plan_uses_gpu(r.plan_class)) {
-                g_wreq->njobs_on_host_gpu++;
-            } else {
-                g_wreq->njobs_on_host_cpu++;
-            }
-        }
-    }
     if (g_request->have_other_results_list) {
-        if (config.resend_lost_results && ok_to_send_work) {
+        if (ok_to_send_work
+            && (config.resend_lost_results || g_wreq->resend_lost_results)
+        ) {
             if (resend_lost_work()) {
                 ok_to_send_work = false;
             }
@@ -1437,9 +1298,8 @@ void process_request(
             send_result_abort();
         }
     }
-    
-// CMC here - add !bTrigger to next line
-    if (!bTrigger && requesting_work()) {
+
+    if (requesting_work()) {
         if (!send_code_sign_key(code_sign_key)) {
             ok_to_send_work = false;
         }
@@ -1447,7 +1307,7 @@ void process_request(
         // if last RPC was within config.min_sendwork_interval, don't send work
         //
     // CMC here -- don't send work on a trickle trigger, only on other trickles or requests
-    if (!bTrigger && !have_no_work && ok_to_send_work) {
+        if (!bTrigger && !have_no_work && ok_to_send_work) {
         //if (!have_no_work && ok_to_send_work) {
     // CMC here - end replacement
             if (config.min_sendwork_interval) {
@@ -1460,7 +1320,7 @@ void process_request(
                     sprintf(buf,
                         "Not sending work - last request too recent: %d sec", (int)diff
                     );
-                    g_reply->insert_message(USER_MESSAGE(buf, "low"));
+                    g_reply->insert_message(buf, "low");
 
                     // the 1.01 is in case client's clock
                     // is slightly faster than ours
@@ -1473,12 +1333,7 @@ void process_request(
             }
         }
         if (g_wreq->no_jobs_available) {
-            g_reply->insert_message(
-                USER_MESSAGE(
-                    "(Project has no jobs available)",
-                    "high"
-                )
-            );
+            g_reply->insert_message("Project has no tasks available", "low");
         }
     }
 
@@ -1489,6 +1344,7 @@ void process_request(
     }
 
     update_host_record(initial_host, g_reply->host, g_reply->user);
+    write_host_app_versions();
 
 leave:
     if (!have_no_work) {
@@ -1517,8 +1373,8 @@ static void log_incomplete_request() {
 static void log_user_messages() {
     for (unsigned int i=0; i<g_reply->messages.size(); i++) {
         USER_MESSAGE um = g_reply->messages[i];
-        log_messages.printf(MSG_DEBUG,
-            "[HOST#%d] MSG(%4s) %s\n",
+        log_messages.printf(MSG_NORMAL,
+            "[user_messages] [HOST#%d] MSG(%s) %s\n",
             g_reply->host.id, um.priority.c_str(), um.message.c_str()
         );
     }
@@ -1528,8 +1384,7 @@ void handle_request(FILE* fin, FILE* fout, char* code_sign_key) {
     SCHEDULER_REQUEST sreq;
     SCHEDULER_REPLY sreply;
     char buf[1024];
-    double start_time = dtime();
-    // CMC mod -- on trigger trickles, bypass trickle down's & quake/project_prefs etc
+    // CMC here mod -- on trigger trickles, bypass trickle down's & quake/project_prefs etc
     bool bTrigger = false;
 
     g_request = &sreq;
@@ -1542,21 +1397,22 @@ void handle_request(FILE* fin, FILE* fout, char* code_sign_key) {
     log_messages.set_indent_level(1);
 
     const char* p = sreq.parse(fin);
+    double start_time = dtime();
     if (!p){
        // CMC here -- sreq has been parsed, see if contains a trigger
          //  loop through the msg_from_host vector and see that all entries are variety "trigger"
          //  IFF all entries are "trigger" should we bypass (i.e. may be part of another msg)
          unsigned int iTrigger = 0, iCount = 0;
          for (iCount=0; iCount<sreq.msgs_from_host.size(); iCount++) {
-           if (!strcmp(sreq.msgs_from_host[iCount].variety, "trigger") 
+           if (!strcmp(sreq.msgs_from_host[iCount].variety, "trigger")
              || !strcmp(sreq.msgs_from_host[iCount].variety, "continual"))  {
               // this is a trigger so bump up our counter
               iTrigger++;
               // tack on the external IP address -- msg_text is a std::string
            }
            if (!strcmp(sreq.msgs_from_host[iCount].variety, "trigger")
-                || !strcmp(sreq.msgs_from_host[iCount].variety, "continual") 
-                || !strcmp(sreq.msgs_from_host[iCount].variety, "ping") 
+                || !strcmp(sreq.msgs_from_host[iCount].variety, "continual")
+                || !strcmp(sreq.msgs_from_host[iCount].variety, "ping")
                 || !strcmp(sreq.msgs_from_host[iCount].variety, "quakelist") ) {
              // tack on external IP address if a trigger or quakelist (ping) trickle
              sreq.msgs_from_host[iCount].msg_text += "<extip>";
@@ -1573,7 +1429,7 @@ void handle_request(FILE* fin, FILE* fout, char* code_sign_key) {
     } else {
         sprintf(buf, "Error in request message: %s", p);
         log_incomplete_request();
-        sreply.insert_message(USER_MESSAGE(buf, "low"));
+        sreply.insert_message(buf, "low");
     }
 
     if ((config.locality_scheduling || config.locality_scheduler_fraction) && !sreply.nucleus_only) {
@@ -1584,10 +1440,10 @@ void handle_request(FILE* fin, FILE* fout, char* code_sign_key) {
         log_user_messages();
     }
 
-  // CMC -- next line to send a new param to SCHEDULER_REPLY::write e.g. to bypass quake list for project prefs etc
+  // CMC here -- next line to send a new param to SCHEDULER_REPLY::write e.g. to bypass quake list for project prefs etc
      sreply.write(fout, sreq, bTrigger);
      //sreply.write(fout, sreq);
-
+  // CMC end
     log_messages.printf(MSG_NORMAL,
         "Scheduler ran %.3f seconds\n", dtime()-start_time
     );
@@ -1597,4 +1453,4 @@ void handle_request(FILE* fin, FILE* fout, char* code_sign_key) {
     }
 }
 
-const char *BOINC_RCSID_2ac231f9de = "$Id: handle_request.cpp 18437 2009-06-16 20:54:44Z davea $";
+const char *BOINC_RCSID_2ac231f9de = "$Id: handle_request.cpp 23281 2011-03-25 22:47:49Z davea $";

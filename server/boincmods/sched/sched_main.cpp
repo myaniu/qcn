@@ -51,13 +51,14 @@
 #include "util.h"
 #include "str_util.h"
 #include "synch.h"
+#include "svn_version.h"
 
 #include "sched_config.h"
-#include "server_types.h"
+#include "sched_types.h"
 #include "handle_request.h"
 #include "sched_util.h"
 #include "sched_msgs.h"
-#include "main.h"
+#include "sched_main.h"
 
 
 // Useful for debugging, if your cgi script keeps crashing.  This
@@ -81,25 +82,25 @@ SCHED_SHMEM* ssp = 0;
 bool batch = false;
 bool mark_jobs_done = false;
 bool all_apps_use_hr;
-
 // CMC here -- createthe trigmem db connection
 DB_CONN trigmem_db;
 // end CMC
 
 static void usage(char* p) {
     fprintf(stderr,
-        "usage: %s [options]\n"
-        "\n"
-        "--batch            stdin contains a sequence of request messages.\n"
-        "                   Do them all, and ignore rpc_seqno.\n"
-        "--mark_jobs_done   When send a job, also mark it as done.\n"
-        "                   (for performance testing)\n"
-        "--debug_log        Write messages to the file 'debug_log'\n"
-        "--simulator X      Start with simulated time X\n"
-        "                   (only if compiled with GCL_SIMULATOR)\n",
+        "Usage: %s [OPTION]...\n\n"
+        "Options:\n"
+        "  --batch            stdin contains a sequence of request messages.\n"
+        "                     Do them all, and ignore rpc_seqno.\n"
+        "  --mark_jobs_done   When send a job, also mark it as done.\n"
+        "                     (for performance testing)\n"
+        "  --debug_log        Write messages to the file 'debug_log'\n"
+        "  --simulator X      Start with simulated time X\n"
+        "                     (only if compiled with GCL_SIMULATOR)\n"
+        "  -h | --help        Show this help text\n"
+        "  -v | --version     Show version information\n",
         p
     );
-    exit(1);
 }
 
 void debug_sched(const char *trigger) {
@@ -186,17 +187,22 @@ int open_database() {
 
     if (db_opened) {
         retval = boinc_db.ping();
-// CMC here
+// CMC here -- test our trigmem ping
         if (!retval) retval = trigmem_db.ping();
 // end CMC
         if (retval) {
             log_messages.printf(MSG_CRITICAL,
                 "lost connection to database - trying to reconnect\n"
             );
-        } else {
+        }
+/* CMC here 
+         else {
             return 0;
         }
+// CMC end bypass reutrn
+*/
     }
+
 
     retval = boinc_db.open(
         config.db_name, config.db_host, config.db_user, config.db_passwd
@@ -220,13 +226,17 @@ int open_database() {
     return 0;
 }
 
-// If the scheduler 'hangs', which it can do if a request is not fully processed
-// or some other process arises, then Apache will send a SIGTERM to the cgi.
-// This signal handler ensures that rather than dying silently,
-// the cgi process will leave behind some record in the log file.
+// If the scheduler 'hangs' (e.g. because DB is slow),
+// Apache will send it a SIGTERM.
+// Record this in the log file and close the DB conn.
 //
-void sigterm_handler(int signo) {
-    log_messages.printf(MSG_CRITICAL, "Caught SIGTERM (sent by Apache); exiting\n");
+void sigterm_handler(int /*signo*/) {
+    if (db_opened) {
+        boinc_db.close();
+    }
+    log_messages.printf(MSG_CRITICAL,
+        "Caught SIGTERM (sent by Apache); exiting\n"
+    );
     fflush((FILE*)NULL);
     exit(1);
     return;
@@ -241,18 +251,20 @@ static void log_request_headers(int& length) {
     char *hu=getenv("HTTP_USER_AGENT");
 
     if (config.debug_request_details) {
-        log_messages.printf(MSG_INFO,
+        log_messages.printf(MSG_NORMAL,
             "(req details) REQUEST_METHOD=%s CONTENT_TYPE=%s HTTP_ACCEPT=%s HTTP_USER_AGENT=%s\n",
             rm?rm:"" , ct?ct:"", ha?ha:"", hu?hu:""
         );
     }
 
     if (!cl) {
-        log_messages.printf(MSG_CRITICAL, "CONTENT_LENGTH environment variable not set\n");
+        log_messages.printf(MSG_CRITICAL,
+            "CONTENT_LENGTH environment variable not set\n"
+        );
     } else {
         length=atoi(cl);
         if (config.debug_request_details) {
-            log_messages.printf(MSG_INFO,
+            log_messages.printf(MSG_NORMAL,
                 "CONTENT_LENGTH=%d from %s\n", length, ri?ri:"[Unknown]"
             );
         }
@@ -270,10 +282,11 @@ void set_core_dump_size_limit() {
         char short_string[256], *short_message=short_string;
 
         short_message += sprintf(short_message,"Default resource limit for core dump size curr=");
-        if (limit.rlim_cur == RLIM_INFINITY)
+        if (limit.rlim_cur == RLIM_INFINITY) {
             short_message += sprintf(short_message,"Inf max=");
-        else
+        } else {
             short_message += sprintf(short_message,"%d max=", (int)limit.rlim_cur);
+        }
 
         if (limit.rlim_max == RLIM_INFINITY) {
             short_message += sprintf(short_message,"Inf\n");
@@ -349,7 +362,7 @@ void attach_to_feeder_shmem() {
     }
 
     all_apps_use_hr = true;
-    for (int i=0; i<ssp->napps; i++) {
+    for (i=0; i<ssp->napps; i++) {
         if (!ssp->apps[i].homogeneous_redundancy) {
             all_apps_use_hr = false;
             break;
@@ -381,10 +394,23 @@ int main(int argc, char** argv) {
             debug_log = true;
 #ifdef GCL_SIMULATOR
         } else if (!strcmp(argv[i], "--simulator")) {
-            simtime = atof(argv[++i]);
+            if(!argv[++i]) {
+                log_messages.printf(MSG_CRITICAL, "%s requires an argument\n\n", argv[--i]);
+                usage(argv[0]);
+                exit(1);
+            }
+            simtime = atof(argv[i]);
 #endif 
-        } else {
+        } else if(!strcmp(argv[i], "-h") || !strcmp(argv[i], "--help")) {
             usage(argv[0]);
+            exit(0);
+        } else if(!strcmp(argv[i], "-v") || !strcmp(argv[i], "--version")) {
+            printf("%s\n", SVN_VERSION);
+            exit(0);
+        } else if (strlen(argv[i])){
+            log_messages.printf(MSG_CRITICAL, "unknown command line argument: %s\n\n", argv[i]);
+            usage(argv[0]);
+            exit(1);
         }
     }
 
@@ -394,11 +420,15 @@ int main(int argc, char** argv) {
     signal(SIGTERM, sigterm_handler);
 
     if (debug_log) {
-        freopen("debug_log", "w", stderr);
+        if (!freopen("debug_log", "w", stderr)) {
+            fprintf(stderr, "Can't redirect stderr\n");
+            exit(1);
+        }
     } else {
-        char *stderr_buffer, buf[256];
+        char *stderr_buffer;
         get_log_path(path, "scheduler.log");
 #ifndef _USING_FCGI_
+        char buf[256];
         if (!freopen(path, "a", stderr)) {
             fprintf(stderr, "Can't redirect stderr\n");
             sprintf(buf, "Server can't open log file (%s)", path);
@@ -417,7 +447,7 @@ int main(int argc, char** argv) {
 #else
         FCGI_FILE* f = FCGI::fopen(path, "a");
         if (f) {
-           log_messages.redirect(f);
+            log_messages.redirect(f);
         } else {
             char buf[256];
             fprintf(stderr, "Can't redirect FCGI log messages\n");
@@ -451,6 +481,7 @@ int main(int argc, char** argv) {
     }
 
     log_messages.set_debug_level(config.sched_debug_level);
+    if (config.sched_debug_level == 4) g_print_queries = true;
 
     gui_urls.init();
     project_files.init();
@@ -477,7 +508,7 @@ int main(int argc, char** argv) {
         log_request_headers(length);
     }
 
-    if (check_stop_sched()) {
+    if (!debug_log && check_stop_sched()) {
         send_message("Project is temporarily shut down for maintenance", 3600);
         goto done;
     }
@@ -578,13 +609,16 @@ int main(int argc, char** argv) {
 #endif
     } else {
         handle_request(stdin, stdout, code_sign_key);
+        fflush(stderr);
     }
 done:
 #ifdef _USING_FCGI_
-        log_messages.printf(MSG_DEBUG,
-            "FCGI: counter: %d\n", counter
-        );
-        log_messages.flush();
+        if (config.debug_fcgi) {
+            log_messages.printf(MSG_NORMAL,
+                "FCGI: counter: %d\n", counter
+            );
+            log_messages.flush();
+        }
     }   // do()
     if (counter == MAX_FCGI_COUNT) {
         fprintf(stderr, "FCGI: counter passed MAX_FCGI_COUNT - exiting..\n");
@@ -603,4 +637,35 @@ done:
     }
 }
 
-const char *BOINC_RCSID_0ebdf5d770 = "$Id: main.cpp 18256 2009-06-02 00:22:45Z davea $";
+// the following stuff is here because if you put it in sched_limit.cpp
+// you get "ssp undefined" in programs other than cgi
+
+void RSC_JOB_LIMIT::print_log(const char* rsc_name) {
+    log_messages.printf(MSG_NORMAL,
+        "[quota] %s: base %d scaled %d njobs %d\n",
+        rsc_name, base_limit, scaled_limit, njobs
+    );
+}
+
+void JOB_LIMIT::print_log() {
+    if (total.any_limit()) total.print_log("total");
+    if (cpu.any_limit()) cpu.print_log("CPU");
+    if (gpu.any_limit()) gpu.print_log("GPU");
+}
+
+void JOB_LIMITS::print_log() {
+    log_messages.printf(MSG_NORMAL, "[quota] Overall limits on jobs in progress:\n");
+    project_limits.print_log();
+    for (unsigned int i=0; i<app_limits.size(); i++) {
+        if (app_limits[i].any_limit()) {
+            APP* app = ssp->lookup_app_name(app_limits[i].app_name);
+            if (!app) continue;
+            log_messages.printf(MSG_NORMAL,
+                "[quota] Limits for %s:\n", app->name
+            );
+            app_limits[i].print_log();
+        }
+    }
+}
+
+const char *BOINC_RCSID_0ebdf5d770 = "$Id: sched_main.cpp 23710 2011-06-12 20:58:43Z davea $";
