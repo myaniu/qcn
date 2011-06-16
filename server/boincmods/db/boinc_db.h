@@ -27,8 +27,10 @@
 
 #include <cstdio>
 #include <vector>
+#include <string.h>
 
 #include "db_base.h"
+#include "average.h"
 
 extern DB_CONN boinc_db;
 
@@ -50,7 +52,7 @@ extern DB_CONN boinc_db;
 struct BEST_APP_VERSION;
 
 // A compilation target, i.e. a architecture/OS combination.
-// The core client will be given only applications with the same platform
+// Client will be sent applications only for platforms they support.
 //
 struct PLATFORM {
     int id;
@@ -75,6 +77,14 @@ struct APP {
                             // should come from this app
     bool beta;
     int target_nresults;
+    double min_avg_pfc;
+        // the weighted average of app_version.pfc.avg
+        // over GPU or CPU versions, whichever is less.
+        // Approximates (actual FLOPS)/wu.rsc_fpops_est
+    bool host_scale_check;
+        // use host scaling cautiously, to thwart cherry picking
+    bool homogeneous_app_version;
+        // do all instances of each job using the same app version
 
     int write(FILE*);
     void clear();
@@ -111,13 +121,33 @@ struct APP_VERSION {
     int max_core_version;   // if <>0, max core version this will run with
     bool deprecated;
     char plan_class[256];
+    AVERAGE pfc;
+        // the stats of (claimed PFC)/wu.rsc_fpops_est
+        // If wu.rsc_fpops_est is accurate,
+        // this is the reciprocal of efficiency
+    double pfc_scale;
+        // PFC scaling factor for this app (or 0 if not enough data)
+        // The reciprocal of this version's efficiency, averaged over all jobs,
+        // relative to that of the most efficient version
+    double expavg_credit;
+    double expavg_time;
 
     // the following used by scheduler, not in DB
     //
     BEST_APP_VERSION* bavp;
 
+    // used by validator, not in DB
+    //
+    std::vector<double>pfc_samples;
+    std::vector<double>credit_samples;
+    std::vector<double>credit_times;
+
     int write(FILE*);
     void clear();
+
+    inline bool is_multithread() {
+        return (strstr(plan_class, "mt") != NULL);
+    }
 };
 
 struct USER {
@@ -155,8 +185,7 @@ struct USER {
     bool show_hosts;
     int posts;                      // number of messages posted (redundant)
         // deprecated as of 9/2004 - forum_preferences.posts is used instead
-        // may be used as a temp var
-        // WARNING: it's a shortint (16 bits) in the DB
+        // now used as salt for weak auth
 
     // The following are specific to SETI@home;
     // they record info about the user's involvement in a prior project
@@ -282,15 +311,15 @@ struct HOST {
                             // file upload/download times, and may reflect
                             // factors other than network bandwidth
 
-    // The following is derived (by server) from other fields
     double credit_per_cpu_sec;
+        // deprecated
 
     char venue[256];        // home/work/school
     int nresults_today;     // results sent since midnight
     double avg_turnaround;  // recent average result turnaround time
     char host_cpid[256];    // host cross-project ID
     char external_ip_addr[256]; // IP address seen by scheduler
-    int max_results_day;
+    int _max_results_day;
         // MRD is dynamically adjusted to limit work sent to bad hosts.
         // The maximum # of results sent per day is
         // max_results_day * (NCPUS + NCUDA * cuda_multiplier).
@@ -298,13 +327,16 @@ struct HOST {
         // -1 means this host is blacklisted - don't return results
         // or accept results or trickles; just send it an error message
         // Otherwise it lies in the range 0 .. config.daily_result_quota
-    double error_rate;      // dynamic estimate of fraction of results
-                            // that fail validation
+        // DEPRECATED: only use is -1 means host is blacklisted
+    double _error_rate;
+        // dynamic estimate of fraction of results
+        // that fail validation
+        // DEPRECATED
 
     // the following not stored in DB
     //
-    double claimed_credit_per_cpu_sec;
-    char p_features[256];
+    char p_features[1024];
+    char virtualbox_version[256];
 
     int parse(FILE*);
     int parse_time_stats(FILE*);
@@ -347,6 +379,12 @@ struct WORKUNIT {
     char name[256];
     char xml_doc[BLOB_SIZE];
     int batch;
+        // projects can use this for any of several purposes:
+        // - group together related jobs so you can use a DB query
+        //   to see if they're all done
+        // - defer deleting output files (see file_deleter.cpp)
+        // - GPUGRID: store the min # of processors needed for the job
+        //   (see sched_customize.cpp)
     double rsc_fpops_est;       // estimated # of FP operations
         // used to estimate how long a result will take on a host
     double rsc_fpops_bound;     // upper bound on # of FP ops
@@ -360,12 +398,11 @@ struct WORKUNIT {
         // used for 2 purposes:
         // 1) for scheduling (don't send this WU to a host w/ insuff. disk)
         // 2) abort task if it uses more than this disk
-    double rsc_bandwidth_bound;
-        // send only to hosts with at least this much download bandwidth
     bool need_validate;         // this WU has at least 1 result in
                                 // validate state = NEED_CHECK
     int canonical_resultid;     // ID of canonical result, or zero
     double canonical_credit;    // credit that all correct results get
+        // TODO: deprecate and remove code
     int transition_time;        // when should transition_handler
                                 // next check this WU?
                                 // MAXINT if no need to check
@@ -379,9 +416,9 @@ struct WORKUNIT {
         // (in terms of numerics, performance, or both)
     double opaque;              // project-specific; usually external ID
     int min_quorum;             // minimum quorum size
-    int target_nresults;        // try to get this many successful results
-                                // may be > min_quorum to get consensus
-                                // quicker or reflect loss rate
+    int target_nresults;
+        // try to get this many successful results
+        // may be > min_quorum to get consensus quicker or reflect loss rate
     int max_error_results;      // WU error if < #error results
     int max_total_results;      // WU error if < #total results
         // (need this in case results are never returned)
@@ -390,6 +427,12 @@ struct WORKUNIT {
     char result_template_file[64];
     int priority;
     char mod_time[16];
+    double rsc_bandwidth_bound;
+        // send only to hosts with at least this much download bandwidth
+    int fileset_id;
+    int app_version_id;
+        // if app uses homogeneous_app_version,
+        // which version this job is committed to (0 if none)
 
     // the following not used in the DB
     char app_name[256];
@@ -422,8 +465,9 @@ struct CREDITED_JOB {
     // an error happened on the client
 #define RESULT_OUTCOME_NO_REPLY         4
 #define RESULT_OUTCOME_DIDNT_NEED       5
-    // we created the result but didn't need to send it because we already
-    // got a canonical result for the WU
+    // we created the result but didn't need to send it because
+    // 1) we already got a canonical result for the WU, or
+    // 2) the WU had an error
 #define RESULT_OUTCOME_VALIDATE_ERROR   6
     // The outcome was initially SUCCESS,
     // but the validator had a permanent error reading a result file,
@@ -452,6 +496,12 @@ struct CREDITED_JOB {
 #define ASSIGN_USER     2
 #define ASSIGN_TEAM     3
 
+// values for RESULT.app_version_id for anonymous platform
+#define ANON_PLATFORM_UNKNOWN -1    // relic of old scheduler
+#define ANON_PLATFORM_CPU     -2
+#define ANON_PLATFORM_NVIDIA  -3
+#define ANON_PLATFORM_ATI     -4
+
 struct RESULT {
     int id;
     int create_time;
@@ -470,8 +520,6 @@ struct RESULT {
     int received_time;              // when result was received from host
     char name[256];
     double cpu_time;                // CPU time used to complete result
-        // NOTE: with the current scheduler and client,
-        // this is elapsed time, not the CPU time
     char xml_doc_in[BLOB_SIZE];     // descriptions of output files
     char xml_doc_out[BLOB_SIZE];    // MD5s of output files
     char stderr_out[BLOB_SIZE];     // stderr output, if any
@@ -488,20 +536,19 @@ struct RESULT {
     int teamid;
     int priority;
     char mod_time[16];
+    double elapsed_time;
+        // AKA runtime; returned by 6.10+ clients
+    double flops_estimate;
+        // misnomer: actually the peak device FLOPS,
+        // returned by app_plan()
+        // An adjusted version of this is sent to clients.
+    int app_version_id;
+        // ID of app version used to compute this
+        // 0 if unknown (relic of old scheduler)
+        // -1 anon platform, unknown resource type (relic)
+        // -2/-3/-4 anonymous platform (see variants above)
 
-    // the following used by the scheduler, but not stored in the DB
-    //
-    char wu_name[256];
-    double fpops_per_cpu_sec;
-    double fpops_cumulative;
-    double intops_per_cpu_sec;
-    double intops_cumulative;
-    int units;      // used for granting credit by # of units processed
-    int parse_from_client(FILE*);
-    char platform_name[256];
-    BEST_APP_VERSION* bavp;
     void clear();
-    int write_to_client(FILE*);
 };
 
 struct MSG_FROM_HOST {
@@ -554,6 +601,7 @@ struct TRANSITIONER_ITEM {
     int priority;
     int hr_class;
     int batch;
+    int app_version_id;
     int res_id; // This is the RESULT ID
     char res_name[256];
     int res_report_deadline;
@@ -564,26 +612,55 @@ struct TRANSITIONER_ITEM {
     int res_sent_time;
     int res_hostid;
     int res_received_time;
+    int res_app_version_id;
 
     void clear();
     void parse(MYSQL_ROW&);
 };
 
-struct CREDIT_MULTIPLIER {
-    int id;
-    int appid;
-    int _time;
-    double multiplier;
+struct HOST_APP_VERSION {
+    int host_id;
+    int app_version_id;
+        // or for anon platform:
+        // 1000000*appid + 2 (CPU)
+        // 1000000*appid + 3 (NVIDIA)
+        // 1000000*appid + 4 (ATI)
+    AVERAGE pfc;
+        // the statistics of (claimed peak FLOPS)/wu.rsc_fpops_est
+        // If wu.rsc_fpops_est is accurate,
+        // this is roughly the reciprocal of efficiency
+    AVERAGE_VAR et;
+        // the statistics of (elapsed time)/wu.rsc_fpops_est
+        //
+        // for old clients (which don't report elapsed time)
+        // we use this for CPU time stats
+    int max_jobs_per_day;
+        // the actual limit is:
+        // for GPU versions:
+        //   this times config.gpu_multiplier * #GPUs of this type
+        // for CPU versions:
+        //   this times #CPUs
+    int n_jobs_today;
+    AVERAGE_VAR turnaround;
+        // the stats of turnaround time (received - sent)
+    int consecutive_valid;
+        // number of consecutive validated relicated results.
+        // reset to zero on timeouts, errors, invalid
 
     void clear();
+
+    // not stored in the DB
+    bool reliable;
+    bool trusted;
+    bool daily_quota_exceeded;
 };
-    
-struct DB_CREDIT_MULTIPLIER : public DB_BASE, public CREDIT_MULTIPLIER {
-    DB_CREDIT_MULTIPLIER(DB_CONN* p=0);
-    int get_id();
-    void db_print(char *);
+
+struct DB_HOST_APP_VERSION : public DB_BASE, public HOST_APP_VERSION {
+    DB_HOST_APP_VERSION(DB_CONN* p=0);
+    void db_print(char*);
     void db_parse(MYSQL_ROW &row);
-    void get_nearest(int appid, int time);
+    int update_scheduler(DB_HOST_APP_VERSION&);
+    int update_validator(DB_HOST_APP_VERSION&);
 };
 
 struct STATE_COUNTS {
@@ -617,8 +694,6 @@ struct VALIDATOR_ITEM {
     void parse(MYSQL_ROW&);
 };
 
-    
-
 class DB_PLATFORM : public DB_BASE, public PLATFORM {
 public:
     DB_PLATFORM(DB_CONN* p=0);
@@ -641,6 +716,7 @@ public:
     int get_id();
     void db_print(char*);
     void db_parse(MYSQL_ROW &row);
+    void operator=(APP_VERSION& w) {APP_VERSION::operator=(w);}
 };
 
 class DB_USER : public DB_BASE, public USER {
@@ -664,7 +740,8 @@ class DB_HOST : public DB_BASE, public HOST {
 public:
     DB_HOST(DB_CONN* p=0);
     int get_id();
-    int update_diff(HOST&);
+    int update_diff_sched(HOST&);
+    int update_diff_validator(HOST&);
     void db_print(char*);
     void db_parse(MYSQL_ROW &row);
     void operator=(HOST& r) {HOST::operator=(r);}
@@ -674,7 +751,7 @@ class DB_RESULT : public DB_BASE, public RESULT {
 public:
     DB_RESULT(DB_CONN* p=0);
     int get_id();
-    int mark_as_sent(int old_server_state);
+    int mark_as_sent(int old_server_state, int report_grace_period);
     void db_print(char*);
     void db_print_values(char*);
     void db_parse(MYSQL_ROW &row);
@@ -768,6 +845,8 @@ public:
 struct WORK_ITEM {
     int res_id;
     int res_priority;
+    int res_server_state;
+    double res_report_deadline;
     WORKUNIT wu;
     void parse(MYSQL_ROW& row);
 };
@@ -837,6 +916,8 @@ struct SCHED_RESULT_ITEM {
     int app_version_num;
     int exit_status;
     int file_delete_state;
+    double elapsed_time;
+    int app_version_id;
 
     void clear();
     void parse(MYSQL_ROW& row);
@@ -858,6 +939,127 @@ public:
 
     int update_result(SCHED_RESULT_ITEM& result);
     int update_workunits();
+};
+
+struct FILE_ITEM {
+    int id;
+    char name[254];
+    char md5sum[34];
+    double size;
+
+    void clear();
+};
+
+class DB_FILE : public DB_BASE, public FILE_ITEM {
+public:
+    DB_FILE(DB_CONN* p=0);
+    int get_id();
+    void db_print(char*);
+    void db_parse(MYSQL_ROW &row);
+    void operator=(FILE_ITEM& f) {FILE_ITEM::operator=(f);}
+};
+
+struct FILESET_ITEM {
+    int id;
+    char name[254];
+
+    void clear();
+};
+
+class DB_FILESET : public DB_BASE, public FILESET_ITEM {
+public:
+    DB_FILESET(DB_CONN* p=0);
+    int get_id();
+    void db_print(char*);
+    void db_parse(MYSQL_ROW &row);
+    void operator=(FILESET_ITEM& f) {FILESET_ITEM::operator=(f);}
+
+    // retrieve fileset instance (populate object)
+    int select_by_name(const char* name);
+};
+
+struct FILESET_FILE_ITEM {
+    int fileset_id;
+    int file_id;
+
+    void clear();
+};
+
+class DB_FILESET_FILE : public DB_BASE, public FILESET_FILE_ITEM {
+public:
+    DB_FILESET_FILE(DB_CONN* p=0);
+    void db_print(char*);
+    void db_parse(MYSQL_ROW &row);
+    void operator=(FILESET_FILE_ITEM& tf) {FILESET_FILE_ITEM::operator=(tf);}
+};
+
+struct SCHED_TRIGGER_ITEM {
+    int id;
+    int fileset_id;
+    bool need_work;
+    bool work_available;
+    bool no_work_available;
+    bool working_set_removal;
+
+    void clear();
+};
+
+class DB_SCHED_TRIGGER : public DB_BASE, public SCHED_TRIGGER_ITEM {
+public:
+    DB_SCHED_TRIGGER(DB_CONN* p=0);
+    int get_id();
+    void db_print(char*);
+    void db_parse(MYSQL_ROW &row);
+    void operator=(SCHED_TRIGGER_ITEM& t) {SCHED_TRIGGER_ITEM::operator=(t);}
+
+    typedef enum {
+        none                         = 0,
+        state_need_work              = 1,
+        state_work_available         = 2,
+        state_no_work_available      = 3,
+        state_working_set_removal    = 4
+    } STATE;
+
+    // retrieve trigger instance (populate object)
+    int select_unique_by_fileset_name(const char* fileset_name);
+    // set single trigger state
+    int update_single_state(const DB_SCHED_TRIGGER::STATE state, const bool value);
+};
+
+struct FILESET_SCHED_TRIGGER_ITEM {
+    FILESET_ITEM fileset;
+    SCHED_TRIGGER_ITEM trigger;
+
+    void clear();
+};
+
+class DB_FILESET_SCHED_TRIGGER_ITEM : public DB_BASE_SPECIAL, public FILESET_SCHED_TRIGGER_ITEM {
+public:
+    DB_FILESET_SCHED_TRIGGER_ITEM(DB_CONN* p=0);
+    void db_parse(MYSQL_ROW &row);
+    void operator=(FILESET_SCHED_TRIGGER_ITEM& fst) {FILESET_SCHED_TRIGGER_ITEM::operator=(fst);}
+};
+
+class DB_FILESET_SCHED_TRIGGER_ITEM_SET : public DB_BASE_SPECIAL {
+public:
+    DB_FILESET_SCHED_TRIGGER_ITEM_SET(DB_CONN* p=0);
+    
+    // select available triggers based on name and/or state
+    // -> name filter optional (set string, default NULL)
+    // -> pattern search optional (set use_regexp to true, default false))
+    // -> state filter optional (set state, default none)
+    // -> state_value (default true)
+    int select_by_name_state(
+            const char* fileset_name,
+            const bool use_regexp,
+            const DB_SCHED_TRIGGER::STATE state,
+            const bool state_value);
+
+    // check if given trigger (fileset name) is part of set and return position (1-indexed)
+    int contains_trigger(const char* fileset_name);
+
+    // storage vector
+    std::vector<DB_FILESET_SCHED_TRIGGER_ITEM> items;
 };
 
 #endif

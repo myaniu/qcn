@@ -26,11 +26,14 @@
 #include "error_numbers.h"
 #include "str_util.h"
 #include "util.h"
-#include "main.h"
+#include "boinc_db.h"
+
+#include "sched_main.h"
 #include "sched_util.h"
 #include "sched_msgs.h"
+#include "sched_send.h"
 #include "time_stats_log.h"
-#include "server_types.h"
+#include "sched_types.h"
 
 // CMC here
 #include "filesys.h"
@@ -61,23 +64,49 @@ void remove_quotes(char* p) {
 
 int CLIENT_APP_VERSION::parse(FILE* f) {
     char buf[256];
+    double x;
 
     memset(this, 0, sizeof(CLIENT_APP_VERSION));
+    host_usage.avg_ncpus = 1;
     while (fgets(buf, sizeof(buf), f)) {
-        if (match_tag(buf, "</app_version>")) return 0;
+        if (match_tag(buf, "</app_version>")) {
+            app = ssp->lookup_app_name(app_name);
+            if (!app) return ERR_NOT_FOUND;
+
+            double f = host_usage.avg_ncpus * g_reply->host.p_fpops;
+            if (host_usage.ncudas && g_request->coprocs.nvidia.count) {
+                f += host_usage.ncudas*g_request->coprocs.nvidia.peak_flops;
+            }
+            if (host_usage.natis && g_request->coprocs.ati.count) {
+                f += host_usage.natis*g_request->coprocs.ati.peak_flops;
+            }
+            host_usage.peak_flops = f;
+            return 0;
+        }
         if (parse_str(buf, "<app_name>", app_name, 256)) continue;
         if (parse_str(buf, "<platform>", platform, 256)) continue;
         if (parse_str(buf, "<plan_class>", plan_class, 256)) continue;
         if (parse_int(buf, "<version_num>", version_num)) continue;
-        if (parse_double(buf, "<flops>", host_usage.flops)) continue;
+        if (parse_double(buf, "<avg_ncpus>", x)) {
+            if (x>0) host_usage.avg_ncpus = x;
+            continue;
+        }
+        if (parse_double(buf, "<flops>", x)) {
+            if (x>0) host_usage.projected_flops = x;
+            continue;
+        }
         if (match_tag(buf, "<coproc>")) {
-            COPROC coproc;
+            COPROC_REQ coproc_req;
             MIOFILE mf;
             mf.init_file(f);
-            int retval = coproc.parse(mf);
-            if (!retval && !strcmp(coproc.type, "CUDA")) {
-                host_usage.ncudas = coproc.count;
+            int retval = coproc_req.parse(mf);
+            if (!retval && !strcmp(coproc_req.type, "CUDA")) {
+                host_usage.ncudas = coproc_req.count;
             }
+            if (!retval && !strcmp(coproc_req.type, "ATI")) {
+                host_usage.natis = coproc_req.count;
+            }
+            continue;
         }
     }
     return ERR_XML_PARSE;
@@ -102,12 +131,14 @@ int OTHER_RESULT::parse(FILE* f) {
 
     strcpy(name, "");
     have_plan_class = false;
+    app_version = -1;
     while (fgets(buf, sizeof(buf), f)) {
         if (match_tag(buf, "</other_result>")) {
-            if (name=="") return ERR_XML_PARSE;
+            if (!strcmp(name, "")) return ERR_XML_PARSE;
             return 0;
         }
         if (parse_str(buf, "<name>", name, sizeof(name))) continue;
+        if (parse_int(buf, "<app_version>", app_version)) continue;
         if (parse_str(buf, "<plan_class>", plan_class, sizeof(plan_class))) {
             have_plan_class = true;
             continue;
@@ -142,27 +173,20 @@ int CLIENT_PLATFORM::parse(FILE* fin) {
 }
 
 
-void WORK_REQ::insert_no_work_message(const USER_MESSAGE& um) {
+void WORK_REQ::add_no_work_message(const char* message) {
     for (unsigned int i=0; i<no_work_messages.size(); i++) {
-        if (!strcmp(um.message.c_str(), no_work_messages.at(i).message.c_str())){
+        if (!strcmp(message, no_work_messages.at(i).message.c_str())){
             return;
         }
     }
-    no_work_messages.push_back(um);
-}
-
-
-SCHEDULER_REQUEST::SCHEDULER_REQUEST() {
-}
-
-SCHEDULER_REQUEST::~SCHEDULER_REQUEST() {
+    no_work_messages.push_back(USER_MESSAGE(message, "notice"));
 }
 
 // return an error message or NULL
 //
 const char* SCHEDULER_REQUEST::parse(FILE* fin) {
     char buf[256];
-    RESULT result;
+    SCHED_DB_RESULT result;
     int retval;
 
     strcpy(authenticator, "");
@@ -183,7 +207,6 @@ const char* SCHEDULER_REQUEST::parse(FILE* fin) {
     strcpy(global_prefs_xml, "");
     strcpy(working_global_prefs_xml, "");
     strcpy(code_sign_key, "");
-    anonymous_platform = false;
     memset(&global_prefs, 0, sizeof(global_prefs));
     memset(&host, 0, sizeof(host));
     have_other_results_list = false;
@@ -191,9 +214,16 @@ const char* SCHEDULER_REQUEST::parse(FILE* fin) {
     have_time_stats_log = false;
     client_cap_plan_class = false;
     sandbox = -1;
-    coproc_cuda = 0;
+    allow_multiple_clients = -1;
 
-    fgets(buf, sizeof(buf), fin);
+    // TODO: use XML_PARSER FOR THIS
+
+    if (!fgets(buf, sizeof(buf), fin)) {
+        return "fgets() failed";
+    }
+    if (strstr(buf, "<?xml")) {
+        fgets(buf, sizeof(buf), fin);
+    }
     if (!match_tag(buf, "<scheduler_request>")) return "no start tag";
     while (fgets(buf, sizeof(buf), fin)) {
         // If a line is too long, ignore it.
@@ -208,7 +238,7 @@ const char* SCHEDULER_REQUEST::parse(FILE* fin) {
         }
 
         if (match_tag(buf, "</scheduler_request>")) {
-            core_client_version = 100*core_client_major_version + core_client_minor_version;
+            core_client_version = 10000*core_client_major_version + 100*core_client_minor_version + core_client_release;
             return NULL;
         }
         if (parse_str(buf, "<authenticator>", authenticator, sizeof(authenticator))) {
@@ -232,7 +262,30 @@ const char* SCHEDULER_REQUEST::parse(FILE* fin) {
                 if (match_tag(buf, "</app_versions>")) break;
                 if (match_tag(buf, "<app_version>")) {
                     CLIENT_APP_VERSION cav;
-                    cav.parse(fin);
+                    retval = cav.parse(fin);
+                    if (retval) {
+                        if (!strcmp(platform.name, "anonymous")) {
+                            if (retval == ERR_NOT_FOUND) {
+                                g_reply->insert_message(
+                                    _("Unknown app name in app_info.xml"),
+                                    "notice"
+                                );
+                            } else {
+                                g_reply->insert_message(
+                                    _("Syntax error in app_info.xml"),
+                                    "notice"
+                                );
+                            }
+                        } else {
+                            // this case happens if the app version
+                            // refers to a deprecated app
+                        }
+                        cav.app = 0;
+                    }
+                    // store the CLIENT_APP_VERSION even if it didn't parse.
+                    // This is necessary to maintain the correspondence
+                    // with result.app_version
+                    //
                     client_app_versions.push_back(cav);
                 }
             }
@@ -289,7 +342,24 @@ const char* SCHEDULER_REQUEST::parse(FILE* fin) {
         }
         if (match_tag(buf, "<result>")) {
             result.parse_from_client(fin);
-            results.push_back(result);
+#if 0   // enable if you need to limit CGI memory size
+            if (results.size() >= 1024) {
+                continue;
+            }
+#endif
+            // check if client is sending the same result twice.
+            // Shouldn't happen, but if it does bad things will happen
+            //
+            bool found = false;
+            for (unsigned int i=0; i<results.size(); i++) {
+                if (!strcmp(results[i].name, result.name)) {
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                results.push_back(result);
+            }
             continue;
         }
         if (match_tag(buf, "<code_sign_key>")) {
@@ -350,12 +420,14 @@ const char* SCHEDULER_REQUEST::parse(FILE* fin) {
             continue;
         }
         if (match_tag(buf, "coprocs")) {
-            coprocs.parse(fin);
-            coproc_cuda = (COPROC_CUDA*)coprocs.lookup("CUDA");
+            MIOFILE mf;
+            mf.init_file(fin);
+            coprocs.parse(mf);
             continue;
         }
         if (parse_bool(buf, "client_cap_plan_class", client_cap_plan_class)) continue;
         if (parse_int(buf, "<sandbox>", sandbox)) continue;
+        if (parse_int(buf, "<allow_multiple_clients>", allow_multiple_clients)) continue;
 
         if (match_tag(buf, "<active_task_set>")) continue;
         if (match_tag(buf, "<app>")) continue;
@@ -402,6 +474,9 @@ const char* SCHEDULER_REQUEST::parse(FILE* fin) {
     return "no end tag";
 }
 
+// I'm not real sure why this is here.
+// Why not copy the request message directly?
+//
 int SCHEDULER_REQUEST::write(FILE* fout) {
     unsigned int i;
 
@@ -436,7 +511,7 @@ int SCHEDULER_REQUEST::write(FILE* fout) {
         prrs_fraction,
         cpu_estimated_delay,
         code_sign_key,
-        anonymous_platform?"true":"false"
+        is_anonymous(platforms.list[0])?"true":"false"
     );
 
     for (i=0; i<client_app_versions.size(); i++) {
@@ -554,6 +629,7 @@ SCHEDULER_REPLY::SCHEDULER_REPLY() {
 SCHEDULER_REPLY::~SCHEDULER_REPLY() {
 }
 
+
 // CMC added bool bTrigger which is passed in from handle_request.C so we can bypass
 // quakes and other big messages (i.e. project prefs) for a trigger trickle to
 // expedite the trigger process
@@ -601,26 +677,24 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq, bool bTrigger) {
             min_delay_needed = config.min_sendwork_interval+1;
         }
         if (request_delay<min_delay_needed) {
-            request_delay = min_delay_needed;
+            request_delay = min_delay_needed; 
         }
         fprintf(fout, "<request_delay>%f</request_delay>\n", request_delay);
     }
-  }
-  // CMC end block to bypass on triggers
-
     log_messages.printf(MSG_NORMAL,
         "Sending reply to [HOST#%d]: %d results, delay req %.2f\n",
         host.id, wreq.njobs_sent, request_delay
     );
+  } // CMC end bypass on triggers
 
-    if (sreq.core_client_version <= 419) {
+    if (sreq.core_client_version <= 41900) {
         std::string msg;
         std::string pri = "low";
         for (i=0; i<messages.size(); i++) {
             USER_MESSAGE& um = messages[i];
             msg += um.message + std::string(" ");
-            if (um.priority == "high") {
-                pri = "high";
+            if (um.priority == "notice") {
+                pri = "notice";
             }
         }
         if (messages.size()>0) {
@@ -635,6 +709,20 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq, bool bTrigger) {
             fprintf(fout,
                 "<message priority=\"%s\">%s</message>\n",
                 pri.c_str(), msg.c_str()
+            );
+        }
+    } else if (sreq.core_client_version <= 61100) {
+        char prio[256];
+        for (i=0; i<messages.size(); i++) {
+            USER_MESSAGE& um = messages[i];
+            strcpy(prio, um.priority.c_str());
+            if (!strcmp(prio, "notice")) {
+                strcpy(prio, "high");
+            }
+            fprintf(fout,
+                "<message priority=\"%s\">%s</message>\n",
+                prio,
+                um.message.c_str()
             );
         }
     } else {
@@ -662,6 +750,9 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq, bool bTrigger) {
         fprintf(fout,"<project_is_down/>\n");
         goto end;
     }
+    if (config.workload_sim) {
+        fprintf(fout, "<send_full_workload/>\n");
+    }
 
     if (nucleus_only) goto end;
 
@@ -674,10 +765,12 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq, bool bTrigger) {
     if (user.id) {
         xml_escape(user.name, buf, sizeof(buf));
         fprintf(fout,
+            "<userid>%d</userid>\n"
             "<user_name>%s</user_name>\n"
             "<user_total_credit>%f</user_total_credit>\n"
             "<user_expavg_credit>%f</user_expavg_credit>\n"
             "<user_create_time>%d</user_create_time>\n",
+            user.id,
             buf,
             user.total_credit,
             user.expavg_credit,
@@ -703,14 +796,13 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq, bool bTrigger) {
             fputs("\n", fout);
         }
 
+         // CMC here -- send latest quake list
+       // CMC note -- we bypass this if a trigger trickle
+
         // always send project prefs
         //
         //fputs(user.project_prefs, fout);
         //fputs("\n", fout);
-//        fputs(user.project_prefs, fout);
-//        fputs("\n", fout);
-         // CMC here -- send latest quake list
-       // CMC note -- we bypass this if a trigger trickle
        if (!bTrigger) { // don't send the big quake list on a trigger trickle
          strTemp  = new char[APP_VERSION_XML_BLOB_SIZE];
          strQuake = NULL; // CMC note - read_file_malloc allocates this, make sure to free it! new char[APP_VERSION_XML_BLOB_SIZE];
@@ -746,6 +838,8 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq, bool bTrigger) {
          // end CMC mods
        }  // CMC note -- we bypass this if a trigger trickle
 
+
+
     }
     if (hostid) {
         fprintf(fout,
@@ -769,7 +863,9 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq, bool bTrigger) {
     if (team.id) {
         xml_escape(team.name, buf, sizeof(buf));
         fprintf(fout,
+            "<teamid>%d</teamid>\n"
             "<team_name>%s</team_name>\n",
+            team.id,
             buf
         );
     } else {
@@ -863,6 +959,14 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq, bool bTrigger) {
         );
     }
 
+    fprintf(fout,
+        "<no_cpu_apps>%d</no_cpu_apps>\n"
+        "<no_cuda_apps>%d</no_cuda_apps>\n"
+        "<no_ati_apps>%d</no_ati_apps>\n",
+        ssp->have_cpu_apps?0:1,
+        ssp->have_cuda_apps?0:1,
+        ssp->have_ati_apps?0:1
+    );
     gui_urls.get_gui_urls(user, host, team, buf);
     fputs(buf, fout);
     if (project_files.text) {
@@ -914,16 +1018,27 @@ void SCHEDULER_REPLY::insert_workunit_unique(WORKUNIT& wu) {
     wus.push_back(wu);
 }
 
-void SCHEDULER_REPLY::insert_result(RESULT& result) {
+void SCHEDULER_REPLY::insert_result(SCHED_DB_RESULT& result) {
     results.push_back(result);
 }
 
-void SCHEDULER_REPLY::insert_message(const USER_MESSAGE& um) {
+void SCHEDULER_REPLY::insert_message(const char* msg, const char* prio) {
+    messages.push_back(USER_MESSAGE(msg, prio));
+}
+
+void SCHEDULER_REPLY::insert_message(USER_MESSAGE& um) {
     messages.push_back(um);
 }
 
 USER_MESSAGE::USER_MESSAGE(const char* m, const char* p) {
-    message = m;
+    if (g_request->core_client_version < 61200) {
+        char buf[1024];
+        strcpy(buf, m);
+        strip_translation(buf);
+        message = buf;
+    } else {
+        message = m;
+    }
     priority = p;
 }
 
@@ -940,7 +1055,6 @@ int APP::write(FILE* fout) {
 
 int APP_VERSION::write(FILE* fout) {
     char buf[APP_VERSION_XML_BLOB_SIZE];
-    unsigned int i;
 
     strcpy(buf, xml_doc);
     char* p = strstr(buf, "</app_version>");
@@ -961,7 +1075,7 @@ int APP_VERSION::write(FILE* fout) {
         "    <flops>%f</flops>\n",
         bavp->host_usage.avg_ncpus,
         bavp->host_usage.max_ncpus,
-        bavp->host_usage.flops
+        bavp->host_usage.projected_flops
     );
     if (strlen(bavp->host_usage.cmdline)) {
         fprintf(fout,
@@ -973,16 +1087,31 @@ int APP_VERSION::write(FILE* fout) {
         fprintf(fout,
             "    <coproc>\n"
             "        <type>CUDA</type>\n"
-            "        <count>%d</count>\n"
+            "        <count>%f</count>\n"
             "    </coproc>\n",
             bavp->host_usage.ncudas
+        );
+    }
+    if (bavp->host_usage.natis) {
+        fprintf(fout,
+            "    <coproc>\n"
+            "        <type>ATI</type>\n"
+            "        <count>%f</count>\n"
+            "    </coproc>\n",
+            bavp->host_usage.natis
+        );
+    }
+    if (bavp->host_usage.gpu_ram) {
+        fprintf(fout,
+            "    <gpu_ram>%f</gpu_ram>\n",
+            bavp->host_usage.gpu_ram
         );
     }
     fputs("</app_version>\n", fout);
     return 0;
 }
 
-int RESULT::write_to_client(FILE* fout) {
+int SCHED_DB_RESULT::write_to_client(FILE* fout) {
     char buf[BLOB_SIZE];
 
     strcpy(buf, xml_doc_in);
@@ -994,8 +1123,8 @@ int RESULT::write_to_client(FILE* fout) {
     *p = 0;
     fputs(buf, fout);
 
-    APP_VERSION* avp = bavp->avp;
-    CLIENT_APP_VERSION* cavp = bavp->cavp;
+    APP_VERSION* avp = bav.avp;
+    CLIENT_APP_VERSION* cavp = bav.cavp;
     if (avp) {
         PLATFORM* pp = ssp->lookup_platform_id(avp->platformid);
         fprintf(fout,
@@ -1017,31 +1146,21 @@ int RESULT::write_to_client(FILE* fout) {
     return 0;
 }
 
-int RESULT::parse_from_client(FILE* fin) {
+int SCHED_DB_RESULT::parse_from_client(FILE* fin) {
     char buf[256];
-    double final_cpu_time = 0, final_elapsed_time = 0;
+    char tmp[BLOB_SIZE];
 
     // should be non-zero if exit_status is not found
     exit_status = ERR_NO_EXIT_STATUS;
     memset(this, 0, sizeof(RESULT));
     while (fgets(buf, sizeof(buf), fin)) {
         if (match_tag(buf, "</result>")) {
-            // newer clients (>6.6.15) report final elapsed time;
-            // use it if possible
-            //
-            // actually, let's hold off on this
-
-            //if (final_elapsed_time) {
-            //    cpu_time = final_elapsed_time;
-            //} else {
-                cpu_time = final_cpu_time;
-            //}
             return 0;
         }
         if (parse_str(buf, "<name>", name, sizeof(name))) continue;
         if (parse_int(buf, "<state>", client_state)) continue;
-        if (parse_double(buf, "<final_cpu_time>", final_cpu_time)) continue;
-        if (parse_double(buf, "<final_elapsed_time>", final_elapsed_time)) continue;
+        if (parse_double(buf, "<final_cpu_time>", cpu_time)) continue;
+        if (parse_double(buf, "<final_elapsed_time>", elapsed_time)) continue;
         if (parse_int(buf, "<exit_status>", exit_status)) continue;
         if (parse_int(buf, "<app_version_num>", app_version_num)) continue;
         if (parse_double(buf, "<fpops_per_cpu_sec>", fpops_per_cpu_sec)) continue;
@@ -1110,6 +1229,7 @@ int HOST::parse(FILE* fin) {
         if (parse_double(buf, "<n_bwup>", n_bwup)) continue;
         if (parse_double(buf, "<n_bwdown>", n_bwdown)) continue;
         if (parse_str(buf, "<p_features>", p_features, sizeof(p_features))) continue;
+        if (parse_str(buf, "<virtualbox_version>", virtualbox_version, sizeof(virtualbox_version))) continue;
 
         // parse deprecated fields to avoid error messages
         //
@@ -1235,7 +1355,7 @@ void GUI_URLS::init() {
 
 void GUI_URLS::get_gui_urls(USER& user, HOST& host, TEAM& team, char* buf) {
     bool found;
-    char userid[256], teamid[256], hostid[256];
+    char userid[256], teamid[256], hostid[256], weak_auth[256], rss_auth[256];
     strcpy(buf, "");
     if (!text) return;
     strcpy(buf, text);
@@ -1249,8 +1369,10 @@ void GUI_URLS::get_gui_urls(USER& user, HOST& host, TEAM& team, char* buf) {
         while (remove_element(buf, "<ifteam>", "</ifteam>")) {
             continue;
         }
-
     }
+
+    get_weak_auth(user, weak_auth);
+    get_rss_auth(user, rss_auth);
     while (1) {
         found = false;
         found |= str_replace(buf, "<userid/>", userid);
@@ -1259,6 +1381,8 @@ void GUI_URLS::get_gui_urls(USER& user, HOST& host, TEAM& team, char* buf) {
         found |= str_replace(buf, "<teamid/>", teamid);
         found |= str_replace(buf, "<team_name/>", team.name);
         found |= str_replace(buf, "<authenticator/>", user.authenticator);
+        found |= str_replace(buf, "<weak_auth/>", weak_auth);
+        found |= str_replace(buf, "<rss_auth/>", rss_auth);
         if (!found) break;
     }
 }
@@ -1268,4 +1392,71 @@ void PROJECT_FILES::init() {
     read_file_malloc(config.project_path("project_files.xml"), text);
 }
 
-const char *BOINC_RCSID_ea659117b3 = "$Id: server_types.cpp 18255 2009-06-01 22:15:14Z davea $";
+void get_weak_auth(USER& user, char* buf) {
+    char buf2[256], out[256];
+    sprintf(buf2, "%s%s", user.authenticator, user.passwd_hash);
+    md5_block((unsigned char*)buf2, strlen(buf2), out);
+    sprintf(buf, "%d_%s", user.id, out);
+}
+
+void get_rss_auth(USER& user, char* buf) {
+    char buf2[256], out[256];
+    sprintf(buf2, "%s%s%s", user.authenticator, user.passwd_hash, "notify_rss");
+    md5_block((unsigned char*)buf2, strlen(buf2), out);
+    sprintf(buf, "%d_%s", user.id, out);
+}
+
+void read_host_app_versions() {
+    DB_HOST_APP_VERSION hav;
+    char clause[256];
+
+    sprintf(clause, "where host_id=%d", g_reply->host.id);
+    while (!hav.enumerate(clause)) {
+        g_wreq->host_app_versions.push_back(hav);
+    }
+    g_wreq->host_app_versions_orig = g_wreq->host_app_versions;
+}
+
+DB_HOST_APP_VERSION* gavid_to_havp(int gavid) {
+    for (unsigned int i=0; i<g_wreq->host_app_versions.size(); i++) {
+        DB_HOST_APP_VERSION& hav = g_wreq->host_app_versions[i];
+        if (hav.app_version_id == gavid) return &hav;
+    }
+    return NULL;
+}
+
+void write_host_app_versions() {
+    for (unsigned int i=0; i<g_wreq->host_app_versions.size(); i++) {
+        DB_HOST_APP_VERSION& hav = g_wreq->host_app_versions[i];
+        DB_HOST_APP_VERSION& hav_orig = g_wreq->host_app_versions_orig[i];
+
+        int retval = hav.update_scheduler(hav_orig);
+        if (retval) {
+            log_messages.printf(MSG_CRITICAL,
+                "CRITICAL: hav.update_sched() error: %s\n", boincerror(retval)
+            );
+        }
+    }
+}
+
+DB_HOST_APP_VERSION* BEST_APP_VERSION::host_app_version() {
+    if (cavp) {
+        return gavid_to_havp(
+            generalized_app_version_id(host_usage.resource_type(), appid)
+        );
+    } else {
+        return gavid_to_havp(avp->id);
+    }
+}
+
+// return some HAV for which quota was exceeded
+//
+DB_HOST_APP_VERSION* quota_exceeded_version() {
+    for (unsigned int i=0; i<g_wreq->host_app_versions.size(); i++) {
+        DB_HOST_APP_VERSION& hav = g_wreq->host_app_versions[i];
+        if (hav.daily_quota_exceeded) return &hav;
+    }
+    return NULL;
+}
+
+const char *BOINC_RCSID_ea659117b3 = "$Id: sched_types.cpp 23636 2011-06-06 03:40:42Z davea $";

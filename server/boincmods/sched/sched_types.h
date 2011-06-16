@@ -32,8 +32,8 @@
 // this records an app for which the user will accept work
 //
 struct APP_INFO {
-	int appid;
-	int work_available;
+    int appid;
+    int work_available;
 };
 
 // represents a resource (disk etc.) that the client may not have enough of
@@ -61,162 +61,67 @@ struct USER_MESSAGE {
 };
 
 struct HOST_USAGE {
-    int ncudas;
+    double ncudas;
+    double natis;
+    double gpu_ram;
     double avg_ncpus;
     double max_ncpus;
-    double flops;
+    double projected_flops;
+        // the scheduler's best estimate of wu.rsc_fpops_est/elapsed_time.
+        // Taken from host_app_version elapsed time statistics if available,
+        // else on estimate provided by app_plan()
+    double peak_flops;
+        // stored in result.estimated_flops, and used for credit calculations
     char cmdline[256];
 
     HOST_USAGE() {
         ncudas = 0;
+        natis = 0;
+        gpu_ram = 0;
         avg_ncpus = 1;
         max_ncpus = 1;
-        flops = 0;
+        projected_flops = 0;
+        peak_flops = 0;
         strcpy(cmdline, "");
     }
     void sequential_app(double x) {
         ncudas = 0;
+        natis = 0;
+        gpu_ram = 0;
         avg_ncpus = 1;
         max_ncpus = 1;
-        flops = x;
-        if (flops <= 0) flops = 1e9;
+        if (x <= 0) x = 1e9;
+        projected_flops = x;
+        peak_flops = x;
         strcpy(cmdline, "");
     }
-    ~HOST_USAGE(){}
-};
-
-// summary of a client's request for work, and our response to it
-// Note: this is zeroed out in SCHEDULER_REPLY constructor
-//
-struct WORK_REQ {
-    bool anonymous_platform;
-
-    // Flags used by old-style scheduling,
-    // while making multiple passes through the work array
-    bool infeasible_only;
-    bool reliable_only;
-    bool user_apps_only;
-    bool beta_only;
-
-    // user preferences
-    bool no_gpus;
-    bool no_cpu;
-	bool allow_non_preferred_apps;
-	bool allow_beta_work;
-	std::vector<APP_INFO> preferred_apps;
-
-	bool reliable;
-        // whether the host is classified as "reliable"
-        // (misnomer: means low turnaround time and low error rate
-
-    bool trust;
-        // whether to send unreplicated jobs
-    int effective_ncpus;
-    int effective_ngpus;
-
-    // 6.7+ clients send separate requests for different resource types:
-    //
-    double cpu_req_secs;        // instance-seconds requested
-    double cpu_req_instances;   // number of idle instances, use if possible
-    double cuda_req_secs;
-    double cuda_req_instances;
-    inline bool need_cpu() {
-        return (cpu_req_secs>0) || (cpu_req_instances>0);
+    inline bool is_sequential_app() {
+         if (ncudas) return false;
+         if (natis) return false;
+         if (avg_ncpus != 1) return false;
+         return true;
     }
-    inline bool need_cuda() {
-        return (cuda_req_secs>0) || (cuda_req_instances>0);
-    }
-    inline void clear_cpu_req() {
-        cpu_req_secs = 0;
-        cpu_req_instances = 0;
-    }
-    inline void clear_gpu_req() {
-        cuda_req_secs = 0;
-        cuda_req_instances = 0;
-    }
-
-    // older clients send send a single number, the requested duration of jobs
-    //
-    double seconds_to_fill;
-
-    // true if new-type request
-    //
-    bool rsc_spec_request;
-
-    double disk_available;
-    double ram, usable_ram;
-    double running_frac;
-    double dcf;
-    int njobs_sent;
-
-    // The following keep track of the "easiest" job that was rejected
-    // by EDF simulation.
-    // Any jobs harder than this can be rejected without doing the simulation.
-    //
-    double edf_reject_min_cpu;
-    int edf_reject_max_delay_bound;
-    bool have_edf_reject;
-    void edf_reject(double cpu, int delay_bound) {
-        if (have_edf_reject) {
-            if (cpu < edf_reject_min_cpu) edf_reject_min_cpu = cpu;
-            if (delay_bound> edf_reject_max_delay_bound) edf_reject_max_delay_bound = delay_bound;
-        } else {
-            edf_reject_min_cpu = cpu;
-            edf_reject_max_delay_bound = delay_bound;
-            have_edf_reject = true;
+    inline int resource_type() {
+        if (ncudas) {
+            return ANON_PLATFORM_NVIDIA;
+        } else if (natis) {
+            return ANON_PLATFORM_ATI;
         }
+        return ANON_PLATFORM_CPU;
     }
-    bool edf_reject_test(double cpu, int delay_bound) {
-        if (!have_edf_reject) return false;
-        if (cpu < edf_reject_min_cpu) return false;
-        if (delay_bound > edf_reject_max_delay_bound) return false;
-        return true;
+    inline const char* resource_name() {
+        if (ncudas) {
+            return "nvidia GPU";
+        } else if (natis) {
+            return "ATI GPU";
+        }
+        return "CPU";
     }
-
-    RESOURCE disk;
-    RESOURCE mem;
-    RESOURCE speed;
-    RESOURCE bandwidth;
-
-    std::vector<USER_MESSAGE> no_work_messages;
-    std::vector<BEST_APP_VERSION*> best_app_versions;
-
-    // various reasons for not sending jobs (used to explain why)
-    //
-    bool no_allowed_apps_available;
-    bool excessive_work_buf;
-    bool hr_reject_temp;
-    bool hr_reject_perm;
-    bool outdated_client;
-    bool no_gpus_prefs;
-    bool no_cpu_prefs;
-    bool daily_result_quota_exceeded;
-    bool max_jobs_on_host_exceeded;
-    bool max_jobs_on_host_cpu_exceeded;
-    bool max_jobs_on_host_gpu_exceeded;
-    bool no_jobs_available;     // project has no work right now
-
-    int max_jobs_per_day;
-        // host.max_results_day * (NCPUS + NCUDA*cuda_multiplier)
-    int max_jobs_per_rpc;
-    int njobs_on_host;
-        // How many jobs from this project are in progress on the host.
-        // Initially this is the number of "other_results"
-        // reported in the request message.
-        // If the resend_lost_results option is used,
-        // it's set to the number of outstanding results taken from the DB
-        // (those that were lost are resent).
-        // As new results are sent, it's incremented.
-    int njobs_on_host_cpu;
-        // same, but just CPU jobs.
-    int njobs_on_host_gpu;
-        // same, but just GPU jobs.
-    int max_jobs_on_host;
-    int max_jobs_on_host_cpu;
-    int max_jobs_on_host_gpu;
-    void update_for_result(double seconds_filled);
-    void insert_no_work_message(const USER_MESSAGE&);
-    void get_job_limits();
+    inline bool uses_gpu() {
+        if (ncudas) return true;
+        if (natis) return true;
+        return false;
+    }
 };
 
 // a description of a sticky file on host.
@@ -234,6 +139,7 @@ struct MSG_FROM_HOST_DESC {
 };
 
 // an app version from an anonymous-platform client
+// (starting with 6.11, ALL clients send these)
 //
 struct CLIENT_APP_VERSION {
     char app_name[256];
@@ -241,6 +147,14 @@ struct CLIENT_APP_VERSION {
     int version_num;
     char plan_class[256];
     HOST_USAGE host_usage;
+    double rsc_fpops_scale;
+        // multiply wu.rsc_fpops_est and rsc_fpops_limit
+        // by this amount when send to client,
+        // to reflect the discrepancy between how fast the client
+        // thinks the app is versus how fast we think it is
+    APP* app;
+        // if NULL, this record is a place-holder,
+        // used to preserve array indices
 
     int parse(FILE*);
 };
@@ -249,21 +163,49 @@ struct CLIENT_APP_VERSION {
 //
 struct BEST_APP_VERSION {
     int appid;
+    bool for_64b_jobs;
+        // maintain this separately for jobs that need > 2GB RAM,
+        // in which case we can't use 32-bit apps
 
     bool present;
+        // false means there's no usable version for this app
 
-    // populated if anonymous platform:
     CLIENT_APP_VERSION* cavp;
+        // populated if anonymous platform
 
-    // populated otherwise:
     APP_VERSION* avp;
+        // populated otherwise
+
     HOST_USAGE host_usage;
+        // populated in either case
+
+    bool reliable;
+    bool trusted;
+
+    DB_HOST_APP_VERSION* host_app_version();
+        // get the HOST_APP_VERSION, if any
 
     BEST_APP_VERSION() {
         present = false;
         cavp = NULL;
         avp = NULL;
     }
+};
+
+struct SCHED_DB_RESULT : DB_RESULT {
+    // the following used by the scheduler, but not stored in the DB
+    //
+    char wu_name[256];
+    double fpops_per_cpu_sec;
+    double fpops_cumulative;
+    double intops_per_cpu_sec;
+    double intops_cumulative;
+    int units;      // used for granting credit by # of units processed
+    int parse_from_client(FILE*);
+    char platform_name[256];
+    BEST_APP_VERSION bav;
+
+    int write_to_client(FILE*);
 };
 
 // subset of global prefs used by scheduler
@@ -301,6 +243,7 @@ struct PROJECT_FILES {
 //
 struct OTHER_RESULT {
     char name[256];
+    int app_version;    // index into CLIENT_APP_VERSION array
     char plan_class[64];
     bool have_plan_class;
     bool abort;
@@ -334,10 +277,10 @@ struct SCHEDULER_REQUEST {
     int core_client_major_version;
     int core_client_minor_version;
     int core_client_release;
-    int core_client_version;    // 100*major + minor
+    int core_client_version;    // 10000*major + 100*minor + release
     int rpc_seqno;
     double work_req_seconds;
-		// in "normalized CPU seconds" (see work_req.php)
+        // in "normalized CPU seconds" (see work_req.php)
     double cpu_req_secs;
     double cpu_req_instances;
     double resource_share_fraction;
@@ -354,7 +297,6 @@ struct SCHEDULER_REQUEST {
     char working_global_prefs_xml[BLOB_SIZE];
     char code_sign_key[4096];
 
-    bool anonymous_platform;
     std::vector<CLIENT_APP_VERSION> client_app_versions;
     GLOBAL_PREFS global_prefs;
     char global_prefs_source_email_hash[MD5_LEN];
@@ -362,8 +304,7 @@ struct SCHEDULER_REQUEST {
     HOST host;      // request message is parsed into here.
                     // does NOT contain the full host record.
     COPROCS coprocs;
-    COPROC_CUDA* coproc_cuda;
-    std::vector<RESULT> results;
+    std::vector<SCHED_DB_RESULT> results;
         // completed results being reported
     std::vector<MSG_FROM_HOST_DESC> msgs_from_host;
     std::vector<FILE_INFO> file_infos;
@@ -380,10 +321,18 @@ struct SCHEDULER_REQUEST {
     bool have_ip_results_list;
     bool have_time_stats_log;
     bool client_cap_plan_class;
-    int sandbox;    // -1 = don't know
+    int sandbox;
+        // whether client uses account-based sandbox.  -1 = don't know
+    int allow_multiple_clients;
+        // whether client allows multiple clients per host, -1 don't know
+    bool using_weak_auth;
+        // Request uses weak authenticator.
+        // Don't modify user prefs or CPID
+    int last_rpc_dayofyear;
+    int current_rpc_dayofyear;
 
-    SCHEDULER_REQUEST();
-    ~SCHEDULER_REQUEST();
+    SCHEDULER_REQUEST(){};
+    ~SCHEDULER_REQUEST(){};
     const char* parse(FILE*);
     int write(FILE*); // write request info to file: not complete
 };
@@ -394,6 +343,136 @@ struct DISK_LIMITS {
     double max_used;
     double max_frac;
     double min_free;
+};
+
+// summary of a client's request for work, and our response to it
+// Note: this is zeroed out in SCHEDULER_REPLY constructor
+//
+struct WORK_REQ {
+    bool anonymous_platform;
+
+    // Flags used by old-style scheduling,
+    // while making multiple passes through the work array
+    bool infeasible_only;
+    bool reliable_only;
+    bool user_apps_only;
+    bool beta_only;
+
+    bool resend_lost_results;
+        // this is set if the request is reporting a result
+        // that was previously reported.
+        // This is evidence that the earlier reply was not received
+        // by the client.  It may have contained results,
+        // so check and resend just in case.
+
+    // user preferences
+    bool no_cuda;
+    bool no_ati;
+    bool no_cpu;
+    bool allow_non_preferred_apps;
+    bool allow_beta_work;
+    std::vector<APP_INFO> preferred_apps;
+
+    bool has_reliable_version;
+        // whether the host has a reliable app version
+
+    int effective_ncpus;
+    int effective_ngpus;
+
+    // 6.7+ clients send separate requests for different resource types:
+    //
+    double cpu_req_secs;        // instance-seconds requested
+    double cpu_req_instances;   // number of idle instances, use if possible
+    double cuda_req_secs;
+    double cuda_req_instances;
+    double ati_req_secs;
+    double ati_req_instances;
+    inline bool need_cpu() {
+        return (cpu_req_secs>0) || (cpu_req_instances>0);
+    }
+    inline bool need_cuda() {
+        return (cuda_req_secs>0) || (cuda_req_instances>0);
+    }
+    inline bool need_ati() {
+        return (ati_req_secs>0) || (ati_req_instances>0);
+    }
+    inline void clear_cpu_req() {
+        cpu_req_secs = 0;
+        cpu_req_instances = 0;
+    }
+    inline void clear_gpu_req() {
+        cuda_req_secs = 0;
+        cuda_req_instances = 0;
+        ati_req_secs = 0;
+        ati_req_instances = 0;
+    }
+
+    // older clients send send a single number, the requested duration of jobs
+    //
+    double seconds_to_fill;
+
+    // true if new-type request, which has resource-specific requests
+    //
+    bool rsc_spec_request;
+
+    double disk_available;
+    double ram, usable_ram;
+    double running_frac;
+    int njobs_sent;
+
+    // The following keep track of the "easiest" job that was rejected
+    // by EDF simulation.
+    // Any jobs harder than this can be rejected without doing the simulation.
+    //
+    double edf_reject_min_cpu;
+    int edf_reject_max_delay_bound;
+    bool have_edf_reject;
+    void edf_reject(double cpu, int delay_bound) {
+        if (have_edf_reject) {
+            if (cpu < edf_reject_min_cpu) edf_reject_min_cpu = cpu;
+            if (delay_bound> edf_reject_max_delay_bound) edf_reject_max_delay_bound = delay_bound;
+        } else {
+            edf_reject_min_cpu = cpu;
+            edf_reject_max_delay_bound = delay_bound;
+            have_edf_reject = true;
+        }
+    }
+    bool edf_reject_test(double cpu, int delay_bound) {
+        if (!have_edf_reject) return false;
+        if (cpu < edf_reject_min_cpu) return false;
+        if (delay_bound > edf_reject_max_delay_bound) return false;
+        return true;
+    }
+
+    RESOURCE disk;
+    RESOURCE mem;
+    RESOURCE speed;
+    RESOURCE bandwidth;
+
+    std::vector<USER_MESSAGE> no_work_messages;
+    std::vector<BEST_APP_VERSION*> best_app_versions;
+    std::vector<DB_HOST_APP_VERSION> host_app_versions;
+    std::vector<DB_HOST_APP_VERSION> host_app_versions_orig;
+
+    // various reasons for not sending jobs (used to explain why)
+    //
+    bool no_allowed_apps_available;
+    bool hr_reject_temp;
+    bool hr_reject_perm;
+    bool outdated_client;
+    bool no_cuda_prefs;
+    bool no_ati_prefs;
+    bool no_cpu_prefs;
+    bool max_jobs_on_host_exceeded;
+    bool max_jobs_on_host_cpu_exceeded;
+    bool max_jobs_on_host_gpu_exceeded;
+    bool no_jobs_available;     // project has no work right now
+    int max_jobs_per_rpc;
+    void update_for_result(double seconds_filled);
+    void add_no_work_message(const char*);
+    void get_job_limits();
+
+    ~WORK_REQ() {}
 };
 
 // NOTE: if any field requires initialization,
@@ -417,7 +496,7 @@ struct SCHEDULER_REPLY {
     std::vector<APP> apps;
     std::vector<APP_VERSION> app_versions;
     std::vector<WORKUNIT>wus;
-    std::vector<RESULT>results;
+    std::vector<SCHED_DB_RESULT>results;
     std::vector<std::string>result_acks;
     std::vector<std::string>result_aborts;
     std::vector<std::string>result_abort_if_not_starteds;
@@ -432,17 +511,36 @@ struct SCHEDULER_REPLY {
     ~SCHEDULER_REPLY();
 // CMC here -- added the bool below
     int write(FILE*, SCHEDULER_REQUEST&, bool bTrigger = false);
-//    int write(FILE*, SCHEDULER_REQUEST&);
+    // int write(FILE*, SCHEDULER_REQUEST&);
+// CMC end
     void insert_app_unique(APP&);
     void insert_app_version_unique(APP_VERSION&);
     void insert_workunit_unique(WORKUNIT&);
-    void insert_result(RESULT&);
-    void insert_message(const USER_MESSAGE&);
+    void insert_result(SCHED_DB_RESULT&);
+    void insert_message(const char* msg, const char* prio);
+    void insert_message(USER_MESSAGE&);
     void set_delay(double);
 };
 
 extern SCHEDULER_REQUEST* g_request;
 extern SCHEDULER_REPLY* g_reply;
 extern WORK_REQ* g_wreq;
+
+static inline void add_no_work_message(const char* m) {
+    g_wreq->add_no_work_message(m);
+}
+
+extern void get_weak_auth(USER&, char*);
+extern void get_rss_auth(USER&, char*);
+extern void read_host_app_versions();
+extern DB_HOST_APP_VERSION* get_host_app_version(int gavid);
+extern void write_host_app_versions();
+
+extern DB_HOST_APP_VERSION* gavid_to_havp(int gavid);
+extern DB_HOST_APP_VERSION* quota_exceeded_version();
+
+inline bool is_64b_platform(const char* name) {
+    return (strstr(name, "64") != NULL);
+}
 
 #endif
