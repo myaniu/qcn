@@ -155,9 +155,6 @@ echo "
 ";
 show_news(0, 5);
 //show_news($project_news, 5);
-if (count($project_news) > 5) {
-    echo "<a href=\"old_news.php\">...more</a>";
-}
 
 echo "</table";
 
