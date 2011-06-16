@@ -22,21 +22,26 @@ require_once('../inc/boinc_db.inc');
 // database-related functions.
 // Presentation code (HTML) shouldn't be here
 
-function process_user_text($x) {
-    $x = trim($x);
-    return boinc_real_escape_string($x);
-}
-
 function db_init_aux($try_replica=false) {
     $config = get_config();
-	$user = parse_config($config, "<db_user>");
-	$pass = parse_config($config, "<db_passwd>");
+    $user = parse_config($config, "<db_user>");
+    $pass = parse_config($config, "<db_passwd>");
+    $db_name = parse_config($config, "<db_name>");
     $host = null;
-    if ($try_replica == true) {
-	  $host = parse_config($config, "<replica_db_host>");
+    if ($try_replica) {
+        $x = parse_config($config, "<replica_db_host>");
+        if ($x) {
+            $host = $x;
+            $x = parse_config($config, "<replica_db_user>");
+            if ($x) $user = $x;
+            $x = parse_config($config, "<replica_db_passwd>");
+            if ($x) $pass = $x;
+            $x = parse_config($config, "<replica_db_name>");
+            if ($x) $db_name = $x;
+        }
     }
     if ($host == null) {
-  	  $host = parse_config($config, "<db_host>");
+        $host = parse_config($config, "<db_host>");
     }
     if ($host == null) {
         $host = "localhost";
@@ -45,7 +50,6 @@ function db_init_aux($try_replica=false) {
     if (!$link) {
         return 1;
     }
-    $db_name = parse_config($config, "<db_name>");
     if (!mysql_select_db($db_name, $link)) {
         echo "selecting $db_name\n";
         return 2;

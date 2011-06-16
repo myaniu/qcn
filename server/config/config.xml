@@ -12,7 +12,6 @@
     <sched_debug_level>
       2
     </sched_debug_level>
-    <debug_send/>
     <debug_version_select/>
     <uldl_dir_fanout>
       1024

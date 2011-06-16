@@ -21,6 +21,10 @@ require_once("../inc/util.inc");
 require_once("../inc/user.inc");
 require_once("../inc/host.inc");
 
+check_get_args(array("hostid", "ipprivate"));
+
+BoincDb::get(true);
+
 $hostid = get_int("hostid");
 $ipprivate = get_str("ipprivate", true);
 $host = BoincHost::lookup_id($hostid);
@@ -33,10 +37,8 @@ $user = get_logged_in_user(false);
 if ($user->id != $host->userid) {
     $user = null;
 }
-$private = ($user == null);
 
-page_head("Computer summary");
-$heading = "Computer Triggers for Host # " . $host->id; //  . " (" . $host->domain_name . ")";
+page_head("Computer $hostid");
 show_host($host, $user, $ipprivate);
 show_trigger($host->id,$heading,$private);
 page_tail();

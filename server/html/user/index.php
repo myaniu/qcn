@@ -153,18 +153,23 @@ echo "
     <h2>News</h2>
     <p>
 ";
-show_news($project_news, 5);
+show_news(0, 5);
+//show_news($project_news, 5);
 if (count($project_news) > 5) {
     echo "<a href=\"old_news.php\">...more</a>";
 }
 
+echo "</table";
+
+
+/*
 echo "
     <p class=\"smalltext\">
     News is available as an
     <a href=\"rss_main.php\">RSS feed</a> <img src=\"img/xml.gif\" alt=\"XML\">.</p>
     </td>
     </tr></table>";
-
+*/
 // begin map stuff
 
 echo "<table>

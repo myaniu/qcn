@@ -23,6 +23,7 @@ require_once("../inc/util.inc");
 require_once("../inc/email.inc");
 require_once("../inc/xml.inc");
 require_once("../inc/user.inc");
+require_once("../inc/team.inc");
 
 xml_header();
 
@@ -45,8 +46,12 @@ $email_addr = get_str("email_addr");
 $email_addr = strtolower($email_addr);
 $passwd_hash = get_str("passwd_hash");
 $user_name = get_str("user_name");
+$team_name = get_str("team_name", true);
 
 if (!is_valid_email_addr($email_addr)) {
+    xml_error(-205);
+}
+if (is_banned_email_addr($email_addr)) {
     xml_error(-205);
 }
 
@@ -69,6 +74,14 @@ if ($user) {
     
     if(defined('INVITE_CODES')) {
         error_log("Account for '$email_addr' created using invitation code '$invite_code'");
+    }
+}
+
+if ($team_name) {
+    $team_name = BoincDb::escape_string($team_name);
+    $team = BoincTeam::lookup("name='$team_name'");
+    if ($team && $team->joinable) {
+        user_join_team($team, $user);
     }
 }
 

@@ -23,10 +23,13 @@
 // CMC add next 2 lines
 require_once("../project/project.inc");
 require_once("../inc/prefs.inc");
+
 require_once('../inc/boinc_db.inc');
 require_once('../inc/util.inc');
 require_once('../inc/countries.inc');
 require_once('../inc/translation.inc');
+
+check_get_args(array("auth"));
 
 $auth = get_str("auth");
 $user = lookup_user_auth($auth);

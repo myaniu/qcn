@@ -70,7 +70,7 @@ foreach ($categories as $category) {
         show_forum_title($category, null, null);
         echo "<p>";
         start_forum_table(
-            array(tra("Topic"), tra("Questions"), tra("Replies"), tra("Last post"))
+            array(tra("Topic"), tra("Questions"), tra("Replies"), tra("Last post")), ""
         );
         //start_forum_table(array("Topic", "# Questions", "Last post"));
     }

@@ -16,11 +16,11 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 require_once("../inc/db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/prefs.inc");
+
+check_get_args(array("subset", "cols", "updated"));
 
 db_init();
 
@@ -32,11 +32,11 @@ $updated = get_int("updated", true);
 
 page_head(tra("%1 preferences", subset_name($subset)));
 if (isset($updated)) {
-	echo "<p style='color: red'>
-        ".tra("Your preferences have been updated. Client-related preferences
-	      will take effect when your computer communicates with %1
-	      or you issue the %2Update%3 command from the BOINC client.",
-	      PROJECT, "<strong>", "</strong>")."
+    echo "<p style='color: red'>
+        ".tra("Your preferences have been updated, and
+          will take effect when your computer communicates with %1
+          or you issue the %2Update%3 command from the BOINC Manager.",
+          PROJECT, "<strong>", "</strong>")."
         </p>
     ";
 }
@@ -47,5 +47,5 @@ if ($subset == "global") {
 }
 page_tail();
 
-$cvs_version_tracker[]="\$Id: prefs.php 20657 2010-02-19 17:51:00Z davea $";  //Generated automatically - do not edit
+$cvs_version_tracker[]="\$Id: prefs.php 23010 2011-02-09 22:11:34Z davea $";  //Generated automatically - do not edit
 ?>

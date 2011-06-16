@@ -15,7 +15,7 @@ $psprefs = project_specific_prefs_parse($user->project_prefs);
 $db = BoincDb::get();
 
 //verify this logged in user owns this host!
-$hostid = $_GET['hostid'];
+$hostid = get_int("hostid", true);
 $bMapExact = 0;
 
 if ($hostid) {

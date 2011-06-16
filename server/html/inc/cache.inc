@@ -41,10 +41,14 @@ function make_cache_dirs() {
     }
 }
 
-function get_path($params) {
+function get_path($params, $phpfile=null) {
     if (!@filemtime("../cache/00")) make_cache_dirs();
-    $y = pathinfo($_SERVER["PHP_SELF"]);
-    $z = $y["basename"];
+    if ($phpfile) {
+        $z = $phpfile;
+    } else {
+        $y = pathinfo($_SERVER["PHP_SELF"]);
+        $z = $y["basename"];
+    }
 
     // add a layer of subdirectories for reducing file lookup time
     $sz = substr(md5($z."_".urlencode($params)),1,2);
@@ -155,37 +159,60 @@ function cache_need_to_regenerate($path, $max_age){
 
 // Returns cached data or false if nothing was found -- CMC note the addition of $mypath so I can 'hardcode' a cache file to use
 function get_cached_data($max_age, $params="", $mypath=""){
+    global $no_cache;
+
+    if ($no_cache) return;
+
     if ($mypath) {
-       get_path($params); // note need this to create dirs 
+       get_path($params); // note need this to create dirs
        $path = $mypath;
     }
     else {
        $path = get_path($params);
     }
-    cache_check_diskspace();
+
     if ($max_age) {
-        $regenerate=cache_need_to_regenerate($path, $max_age);
-        if (!$regenerate) {
-            return file_get_contents($path);
+        if (defined('MEMCACHE_SERVERS')) {
+            $cache = BoincMemcache::get()->get($path);
+            if ($cache['content']) {
+                return $cache['content'];
+            } else {
+                return $cache;
+            }
+        } else {
+            cache_check_diskspace();
+            $regenerate=cache_need_to_regenerate($path, $max_age);
+            if (!$regenerate) {
+                return file_get_contents($path);
+            }
         }
     }
     return false; //No data was cached, just return
 }
 
+// DEPRECATED
 function start_cache($max_age, $params=""){
-    global $no_cache, $caching;
+    global $no_cache, $caching, $memcache;
 
     if ($no_cache) return;
     $caching = true;
 
-    $path = get_path($params);
-    $lastmodified = @filemtime($path);
-    cache_check_diskspace(); //Check free disk space once in a while
-
     if ($max_age) {
+        $path = get_path($params);
+        if (defined('MEMCACHE_SERVERS')) {
+            $cache = BoincMemcache::get()->get($path);
+            if ($cache) {
+                $regenerate = false;
+                $lastmodified = abs($cache->timestamp);
+            } else {
+                $regenerate = true;
+            }
+        } else {
+            $lastmodified = @filemtime($path);
+            cache_check_diskspace(); //Check free disk space once in a while
+            $regenerate = cache_need_to_regenerate($path, $max_age);
+        }
         //Is the stored version too old, do we need to regenerate it?
-        //
-        $regenerate = cache_need_to_regenerate($path, $max_age);
         if ($regenerate){
             // If cached version is too old (or non-existent)
             // generate the page and write to cache
@@ -209,6 +236,10 @@ function start_cache($max_age, $params=""){
             Header("Last-Modified: " . gmdate("D, d M Y H:i:s",$lastmodified) . " GMT");
             Header("Expires: " . gmdate("D, d M Y H:i:s",$lastmodified+$max_age) . " GMT");
             Header("Cache-Control: public, max-age=" . $max_age );
+            if ($cache->content) {
+                echo $cache->content;
+                exit;
+            }
             if (!@readfile($path)) {
                 //echo "can't read $path; lastmod $lastmodified\n";
                 @unlink($path);
@@ -221,7 +252,7 @@ function start_cache($max_age, $params=""){
 }
 
 // write output buffer both to client and to cache
-//
+// DEPRECATED
 function end_cache($max_age,$params=""){
     global $no_cache;
     if ($no_cache) return;
@@ -232,29 +263,78 @@ function end_cache($max_age,$params=""){
     }
     if ($max_age) {
         $path = get_path($params);
-        $fhandle=fopen($path, "w");
-        $page=ob_get_contents();
-        ob_end_flush();
-        fwrite($fhandle, $page);
-        fclose($fhandle);
+        
+        if (defined('MEMCACHE_SERVERS')) {
+            $cache = array('content' => ob_get_contents(), 'timestamp' => time());
+            ob_end_flush();
+            $cache = BoincMemcache::get()->set($path, $cache, $max_age);
+        } else {
+            $fhandle=fopen($path, "w");
+            $page=ob_get_contents();
+            ob_end_flush();
+            fwrite($fhandle, $page);
+            fclose($fhandle);
+        }
     }
 }
 
 // CMC modded so we could save our own path
 function set_cache_data($data,$params="",$mypath=""){
+    set_cached_data(86400, $data, $params, $mypath);
+}
+
+// CMC mod
+function set_cached_data($max_age, $data, $params="", $mypath=""){
     // for the benefit of hackers
     if (strstr($params, "..")) {
         return;
     }
-    if ($mypath) { 
-      get_path($params); // note need this to create dirs 
+    if ($mypath) {
+      get_path($params); // note need this to create dirs
       $path = $mypath;
     }
     else {
       $path = get_path($params);
     }
-    $fhandle=fopen($path, "w");
-    fwrite($fhandle, $data);
-    fclose($fhandle);
+    if (defined('MEMCACHE_SERVERS')) {
+        $cache = array('content' => $data, 'timestamp' => time());
+        BoincMemcache::get()->set($path, $cache, $max_age);
+    } else {
+        $fhandle = fopen($path, "w");
+        fwrite($fhandle, $data);
+        fclose($fhandle);
+    }
 }
+
+function clear_cache_entry($phpfile, $params) {
+    if (strstr($phpfile, "..")) {
+        return;
+    }
+    if (strstr($params, "..")) {
+        return;
+    }
+    $path = get_path($params, $phpfile);
+    unlink($path);
+}
+
+// Memcached class
+class BoincMemcache {
+    static $instance;
+    
+    static function get() {
+        self::$instance = new Memcached;
+        if (defined('MEMCACHE_PREFIX')) {
+            self::$instance->setOption(Memcached::OPT_PREFIX_KEY, MEMCACHE_PREFIX);
+        }
+        $servers = explode('|', MEMCACHE_SERVERS);
+        foreach($servers as &$server) {
+            list($ip, $port) = explode(':', $server);
+            if (!$port) { $port = 11211; }
+            $server = array($ip, $port);
+        }
+        self::$instance->addServers($servers);
+        return self::$instance;
+    }
+}
+
 ?>

@@ -34,15 +34,8 @@ if (isset($USE_PHPMAILER)) {
     $USE_PHPMAILER = false;
 }
 
-// Function sends an email, either using PHPMailer or not.
+// send an email, using PHPMailer or not.
 //
-function send_email_with_address($person_email, $person_name, $subject, $body, $body_html=null)
-{
-   $user->email_addr = $person_email;
-   $user->name = $person_name;
-   return send_email($user, $subject, $body, $body_html);
-}
-
 function send_email($user, $subject, $body, $body_html=null) {
     global $USE_PHPMAILER;
     global $PHPMAILER_HOST;
@@ -68,7 +61,7 @@ function send_email($user, $subject, $body, $body_html=null) {
         } else {
             return true;
         }
-    } else {
+    } else {  // CMC modded for new Stanford email methods/servers
         $from = "noreply@stanford.edu";
         $headers ="";
         if (defined('EMAIL_FROM') && defined('EMAIL_FROM_NAME')) {
@@ -80,10 +73,10 @@ function send_email($user, $subject, $body, $body_html=null) {
         }
 
 /*
- Stanford using smtps i.e. SSL smtp email server 
-   -- sendmail configured on qcn to use this as of 4/25/2010 
+ Stanford using smtps i.e. SSL smtp email server
+   -- sendmail configured on qcn to use this as of 4/25/2010
   Uses the PEAR Mail package (build PEAR from php i.e. --enable-pear
-  istall via PEAR:  
+  istall via PEAR: 
      pear install Mail
      pear install Net_Socket
      pear install Net_SMTP
@@ -112,14 +105,14 @@ if ($body_html) {
    'To'      => $to,
    'Subject' => $subject );
 }
- $smtp = Mail::factory('smtp', 
+ $smtp = Mail::factory('smtp',
      array('host' => $host, 'port' => $port) );
 
 /*  for $smtp auth servers
      'auth' => true,
      'username' => $username,
      'password' => $password));
-*/ 
+*/
 
 //       return mail($user->email_addr, $subject, $body, $headers);
 
@@ -155,7 +148,7 @@ function send_auth_email($user) {
     $x = md5($user->id.$user->authenticator.$now);
     $x = substr($x, 0, 16);
     $subject = PROJECT." account information";
-    $body = "This email was sent in reponse to a request on the ".PROJECT." web site.
+    $body = "This email was sent in response to a request on the ".PROJECT." web site.
 
 To log in to your ".PROJECT." account, visit:
 ".$master_url."login_action.php?id=$user->id&t=$now&h=$x
@@ -185,4 +178,7 @@ function salted_key($key) {
     return md5($key.'oogabooga');
 }
 
+function opt_out_url($user) {
+    return URL_BASE."opt_out.php?code=".salted_key($user->authenticator)."&userid=$user->id";
+}
 ?>

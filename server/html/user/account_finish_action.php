@@ -34,11 +34,12 @@ $country = post_str("country");
 if (!is_valid_country($country)) {
     error_page( "invalid country");
 }
+$country = BoincDb::escape_string($country);
+$postal_code = BoincDb::escape_string(strip_tags(post_str("postal_code", true)));
+$auth = BoincDb::escape_string($auth);
 
-$postal_code = strip_tags(post_str("postal_code", true));
-
-$name = process_user_text($name);
-$postal_code = process_user_text($postal_code);
+$name = BoincDb::escape_string($name);
+$postal_code = BoincDb::escape_string($postal_code);
 
 $user = BoincUser::lookup("authenticator='$auth'");
 if (!$user) {
@@ -49,9 +50,20 @@ if (!$retval) {
     error_page("database error");
 }
 
+// team may have already been joined in create_account RPC.
+// if so, skip team-finder
+//
+/*if ($user->teamid) {
+    Header("Location: home.php");
+} else {
+    Header("Location: team_search.php");
+}
+*/
 // CMC here
 Header("Location: edit_host_info_form.php");
 send_cookie('auth', $auth, true);
 send_cookie('init', "1", true);
 
+send_cookie('auth', $auth, true);
+send_cookie('init', "1", true);
 ?>

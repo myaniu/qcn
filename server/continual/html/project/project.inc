@@ -34,6 +34,7 @@ define("MIN_MAGNITUDE_W", "3.5");
 define("MIN_MAGNITUDE_M", "4.0");
 define("MIN_MAGNITUDE_H", "3.0");
 define("MAX_NUM_TRIGGER", "1000");
+define("DBNAME", "continual");
 
 // CMC have default global preferences
 define("GLOBAL_PREFS_DEFAULT", "<global_preferences>\n"
@@ -394,16 +395,15 @@ function show_trigger($hostid, $heading, $private=true)
    else {
       $sqllatlng = "latitude lat, longitude lng, ";
    }
-
-   // CMC note - DBNAME gets replaced by appropriate database name in the db->do_query()
    $sql = "select t.id,file,time_trigger,time_received,"
        . "time_sync,sync_offset,significance, magnitude, " . $sqllatlng 
        . "dt, numreset, "
        . "s.description, "
        . "sw_version,os_type,runtime_cpu,runtime_clock,varietyid,levelvalue,levelid,received_file,file as file_url,result_name,alignid "
-       . "from DBNAME.qcn_trigger t "
-       . "             LEFT JOIN DBNAME.qcn_sensor s ON t.type_sensor = s.id "
+       . "from " . DBNAME . ".qcn_trigger t "
+       . "             LEFT JOIN " . DBNAME . ".qcn_sensor s ON t.type_sensor = s.id "
        . "WHERE hostid=$hostid order by time_trigger desc limit " . MAX_NUM_TRIGGER;
+
    $result=$db->do_query($sql);
    echo "<H2>$heading</H2>\n";
    echo "<H3>Last " . MAX_NUM_TRIGGER . " Triggers for this Computer</H3>\n";

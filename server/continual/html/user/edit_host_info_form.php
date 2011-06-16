@@ -15,7 +15,7 @@ $psprefs = project_specific_prefs_parse($user->project_prefs);
 $db = BoincDb::get();
 
 //verify this logged in user owns this host!
-$hostid = $_GET['hostid'];
+$hostid = get_int("hostid", true);
 $bMapExact = 0;
 
 if ($hostid) {
@@ -230,7 +230,7 @@ echo "</td></tr>\n";
 if ($bnewuser) {
   echo "\n<tr><td $COLSPAN><font color=red>Note that the first row is set based on a guess based on your current IP address, this is not saved until you confirm by pressing the 'Update Info' button</font></td</tr>\n";
 }
-
+ 
   echo "\n<tr><td $COLSPAN><font color=red><i>" .
       "<B>If you have a single location (e.g. USB sensor) just enter the lat/lng and 'clear' the IP/Network address field (do not enter an IP address as all triggers will be recorded at this location)</B>" .
       "</i></font></td</tr>\n";

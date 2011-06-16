@@ -171,19 +171,6 @@ if ($result) {
             break;
         case "workunit":
             workunit_short_header();
-           break;
-// CMC here
-        case "qcn_quake":
-            quake_short_header();
-            break;
-        case "qcn_trigger":
-            trigger_short_header();
-            break;
-        case "qcn_geo_ipaddr":
-            geo_ipaddr_short_header();
-            break;
-        case "qcn_host_ipaddr":
-            host_ipaddr_short_header();
             break;
         }
     }
@@ -201,19 +188,6 @@ if ($result) {
                 break;
             case "workunit":
                 show_workunit_short($res);
-                break;
-// CMC here
-            case "qcn_quake":
-                ops_show_qcn_quake_short($res);
-                break;
-            case "qcn_trigger":
-                ops_show_trigger_short($res);
-                break;
-            case "qcn_geo_ipaddr":
-                show_geo_ipaddr_short($res);
-                break;
-            case "qcn_host_ipaddr":
-                show_host_ipaddr_short($res);
                 break;
             }
         } else {
@@ -241,19 +215,6 @@ if ($result) {
                 break;
             case "user":
                 show_user($res);
-                break;
-// CMC here
-            case "qcn_quake":
-                ops_show_qcn_quake($res);
-                break;
-            case "qcn_trigger":
-                ops_show_trigger($res); // note there's a non-ops show_trigger()
-                break;
-            case "qcn_geo_ipaddr":
-                show_geo_ipaddr($res);
-                break;
-            case "qcn_host_ipaddr":
-                show_host_ipaddr($res);
                 break;
             }
         }

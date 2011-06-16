@@ -390,14 +390,13 @@ function show_trigger($hostid, $heading, $private=true)
       $sqllatlng = "latitude lat, longitude lng, ";
    }
 
-   // CMC note - DBNAME gets replaced by appropriate database name in the db->do_query()
    $sql = "select t.id,file,time_trigger,time_received,"
        . "time_sync,sync_offset,significance, magnitude, " . $sqllatlng 
        . "dt, numreset, "
        . "s.description, "
        . "sw_version,os_type,runtime_cpu,runtime_clock,varietyid,levelvalue,levelid,received_file,file as file_url,result_name,alignid "
-       . "from DBNAME.qcn_trigger t "
-       . "             LEFT JOIN DBNAME.qcn_sensor s ON t.type_sensor = s.id "
+       . "from qcn_trigger t "
+       . "             LEFT JOIN qcn_sensor s ON t.type_sensor = s.id "
        . "WHERE hostid=$hostid order by time_trigger desc limit " . MAX_NUM_TRIGGER;
    $result=$db->do_query($sql);
    echo "<H2>$heading</H2>\n";

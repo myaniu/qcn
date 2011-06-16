@@ -149,8 +149,8 @@ for ($i = 0; $i < 5; $i++) {
 
 // check the host map location info
 
-$iMapCount = post_int("txthidMAPEXACT");
-$bMapExact = 1; // $_POST["cbmapexact"];
+$iMapCount = $_POST["txthidMAPEXACT"];
+$bMapExact = $_POST["cbmapexact"];
 $txtMsg = "";
 
 // just update on a change i.e. went from 0 to 1 or 1 to 0

@@ -16,6 +16,10 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+error_reporting(E_ALL);
+ini_set('display_errors', true);
+ini_set('display_startup_errors', true);
+
 class BoincAssignment {
     static function enum($where_clause) {
         $db = BoincDb::get();
@@ -29,28 +33,28 @@ define("NVALIDATE_STATES", 6);
 // @return String A user readable DateTime-String in UTC
 // @param Integer $x The mysql-Timestamp to convert
 function mysqltime_str($x) {
-	if(strpos($x,"-")==4) {
-		// Syntax of supplied mysql-timestamp is YYYY-MM-DD HH:MM:SS
-		$year = substr($x,0,4);
-		$month = substr($x,5,2);
-		$day = substr($x,8,2);
-		$hour = substr($x,11,2);
-		$minute = substr($x,14,2);
-		$second = substr($x,17,2);
-	} else {
-    	// Syntax of supplied mysql-timestamp is YYYYMMDDHHMMSS
-		$year = substr($x,0,4);
-		$month = substr($x,4,2);
-		$day = substr($x,6,2);
-		$hour = substr($x,8,2);
-		$minute = substr($x,10,2);
-		$second = substr($x,12,2);
-	
+    if(strpos($x,"-")==4) {
+        // Syntax of supplied mysql-timestamp is YYYY-MM-DD HH:MM:SS
+        $year = substr($x,0,4);
+        $month = substr($x,5,2);
+        $day = substr($x,8,2);
+        $hour = substr($x,11,2);
+        $minute = substr($x,14,2);
+        $second = substr($x,17,2);
+    } else {
+        // Syntax of supplied mysql-timestamp is YYYYMMDDHHMMSS
+        $year = substr($x,0,4);
+        $month = substr($x,4,2);
+        $day = substr($x,6,2);
+        $hour = substr($x,8,2);
+        $minute = substr($x,10,2);
+        $second = substr($x,12,2);
+    
     }
-	//make a Unix-Timestamp
+    //make a Unix-Timestamp
     // echo "Time string is " . "$x";
-	$time = mktime($hour,$minute,$second,$month,$day,$year);
-	return time_str($time);
+    $time = mktime($hour,$minute,$second,$month,$day,$year);
+    return time_str($time);
 }
 
 // Function prints a description of $table 
@@ -881,6 +885,58 @@ function show_host_short($host) {
     ";
 }
 
+function days_string($x) {
+    return number_format($x/86400, 2)." days";
+}
+
+function resource_name($x) {
+    switch ($x) {
+    case 2: return "CPU";
+    case 3: return "NVIDIA";
+    case 4: return "ATI";
+    }
+    return "Unknown resource: $x";
+}
+function app_version_string($avid) {
+    if ($avid > 1000000) {
+        $appid = (int)($avid/1000000);
+        $platform_name = "Anonymous platform";
+        $version_info = resource_name($avid%1000000);
+    } else {
+        $av = BoincAppVersion::lookup("id=$avid");
+        if (!$av) return "Missing app version $avid";
+        $appid = $av->appid;
+        $platform = BoincPlatform::lookup_id($av->platformid);
+        if (!$platform) return "Missing platform $av->platformid";
+        $platform_name = $platform->user_friendly_name;
+        $version_info = "$av->version_num $av->plan_class
+            <br>PFC: $av->pfc_avg ($av->pfc_n)
+            <br>scale: $av->pfc_scale
+        ";
+    }
+    $app = BoincApp::lookup_id($appid);
+    if (!$app) return "Missing app $appid";
+    return "$app->user_friendly_name
+        <br>$platform_name
+        <br>$version_info
+    ";
+}
+
+function show_host_app_versions($hostid) {
+    start_table();
+    table_header("app version", "PFC", "Elapsed", "Turnaround");
+    $havs = BoincHostAppVersion::enum("host_id=$hostid");
+    foreach ($havs as $hav) {
+        table_row(
+            app_version_string($hav->app_version_id),
+            "$hav->pfc_avg ($hav->pfc_n)",
+            "$hav->et_avg ($hav->et_n)",
+            days_string($hav->turnaround_avg)." ($hav->turnaround_n)"
+        );
+    }
+    end_table();
+}
+
 function show_host($host) {
     start_table();
 
@@ -891,6 +947,7 @@ function show_host($host) {
     );
 
     row("Venue", $host->venue);
+    row("Info", $host->serialnum);
     row("Total credit", $host->total_credit);
     row("Average credit", $host->expavg_credit);
     row("Average update time", time_str($host->expavg_time));
@@ -902,8 +959,8 @@ function show_host($host) {
     row("Local Standard Time", "UTC $x hours");
     row("Number of CPUs", $host->p_ncpus);
     row("CPU", "$host->p_vendor $host->p_model");
-    row("FP ops/sec", $host->p_fpops);
-    row("Int ops/sec", $host->p_iops);
+    row("GFLOPS", number_format($host->p_fpops/1e9, 2));
+    row("GIOPS", number_format($host->p_iops/1e9, 2));
     row("memory bandwidth", $host->p_membw);
     row("Operating System", "$host->os_name $host->os_version");
     $x = $host->m_nbytes/(1024*1024);
@@ -923,8 +980,7 @@ function show_host($host) {
     row("Free Disk Space", "$y GB");
     row("Avg network bandwidth (upstream)", "$host->n_bwup bytes/sec");
     row("Avg network bandwidth (downstream)", "$host->n_bwdown bytes/sec");
-    $x = $host->avg_turnaround/86400;
-    row("Average turnaround", round($x, 2)." days");
+    row("Average turnaround", days_string($host->avg_turnaround));
     row("Number of RPCs", $host->rpc_seqno);
     row("Last RPC", time_str($host->rpc_time));
     row("% of time client on", 100*$host->on_frac." %");
@@ -933,7 +989,7 @@ function show_host($host) {
     row("# of results today", $host->nresults_today);
     row("Results", "<a href=\"db_action.php?table=result&detail=low&hostid=$host->id&sort_by=sent_time\">click here</a>");
     end_table();
-
+    show_host_app_versions($host->id);
 }
 
 function wu_error_mask_str($s) {
@@ -997,7 +1053,7 @@ function show_workunit($wu) {
     start_table();
     row("Created", time_str($wu->create_time));
     row("Transition Time", time_str($wu->transition_time));
-	row("Last time modified",mysqltime_str($wu->mod_time));
+    row("Last time modified",mysqltime_str($wu->mod_time));
     row("Name", $wu->name);
     row("XML doc", "<pre>".htmlspecialchars($wu->xml_doc)."</pre>");
     row("Application", "<a href=\"db_action.php?table=app&id=$wu->appid\">" . app_name_by_id($wu->appid) . " [".$wu->appid."]</a>");
@@ -1185,9 +1241,7 @@ function show_result($result) {
     row("Host ID", "<a href=\"db_action.php?table=host&id=$result->hostid\">" . host_name_by_id($result->hostid) . "</a> [$result->hostid]");
     row("User ID", "<a href=\"db_action.php?table=user&id=$result->userid\">" . user_name_by_id($result->userid) . "</a> [$result->userid]");
     row("CPU time", $result->cpu_time);
-    row("XML doc in", "<pre>".htmlspecialchars($result->xml_doc_in)."</pre>");
-    row("XML doc out", "<pre>".htmlspecialchars($result->xml_doc_out)."</pre>");
-    row("stderr out", "<pre>".htmlspecialchars($result->stderr_out)."</pre>");
+    row("Elapsed time", $result->elapsed_time);
     if($error=stderr_error_string($result->stderr_out)) {
         row("error in stderr out", $error);
     }
@@ -1198,15 +1252,22 @@ function show_result($result) {
     row("Granted credit", $result->granted_credit);
     row("Application", "<a href=\"db_action.php?table=app&id=$result->appid\">".app_name_by_id($result->appid)."</a>");
     row("App version", "<a href=\"db_action.php?table=app_version&appid=$result->appid&clauses=version_num%3D$result->app_version_num\">".$result->app_version_num."</a>");
+    row("App version ID", $result->app_version_id);
+    row("Estimated GFLOPS", number_format($result->flops_estimate/1e9, 2));
     row("Random",$result->random);
     row("Opaque",$result->opaque);
     row("Teamid",$result->teamid);
     row("Priority",$result->priority);
+    row("XML doc in", "<pre>".htmlspecialchars($result->xml_doc_in)."</pre>");
+    row("XML doc out", "<pre>".htmlspecialchars($result->xml_doc_out)."</pre>");
+    row("stderr out", "<pre>".htmlspecialchars($result->stderr_out)."</pre>");
     end_table();
-    echo "<div align=\"center\">";
-    echo "<a href=\"show_log.php?s=$result->name\">GREP LOGS FOR THIS RESULT</a>";
-    echo "</div>";
-    echo "<p>";
+    echo "
+        <center>
+        <a href=\"show_log.php?s=$result->name\">GREP LOGS FOR THIS RESULT</a>
+        </center>
+        <p>
+    ";
 }
 
 function result_short_header() {
@@ -1256,13 +1317,13 @@ function show_result_short($result) {
             $received = "<font color=\"#ff3333\">". time_str($result->report_deadline) . "</font>";
         }
     }
-    $version = $result->app_version_num;
+    $version = "$result->app_version_num/$result->app_version_id";
     $outcome_color = outcome_color($result->outcome);
     $validate_color = validate_color($result->validate_state);
     $host_user = host_user_link($result->hostid);
     $cpu_hours = sprintf("%.1f",$result->cpu_time / 3600);
     $claimed_credit = credit_str($result->claimed_credit);
-    $granted_credit = credit_str($result->granted_credit);
+    $granted_credit = "<a href=credit.php?resultid=$result->id>".credit_str($result->granted_credit)."</a>";
     $delete_state = file_delete_state_str($result->file_delete_state);
 
     echo "
@@ -1438,5 +1499,5 @@ function host_name_by_id($hostid) {
     }
 }
 
-$cvs_version_tracker[]="\$Id: db_ops.inc 15975 2008-09-07 07:40:56Z davea $";  //Generated automatically - do not edit
+$cvs_version_tracker[]="\$Id: db_ops.inc 22623 2010-11-04 18:20:57Z davea $";  //Generated automatically - do not edit
 ?>

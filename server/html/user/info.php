@@ -1,8 +1,25 @@
 <?php
-$cvs_version_tracker[]="\$Id: info.php 14020 2007-11-02 14:43:02Z Rytis $";
+// This file is part of BOINC.
+// http://boinc.berkeley.edu
+// Copyright (C) 2008 University of California
+//
+// BOINC is free software; you can redistribute it and/or modify it
+// under the terms of the GNU Lesser General Public License
+// as published by the Free Software Foundation,
+// either version 3 of the License, or (at your option) any later version.
+//
+// BOINC is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the GNU Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public License
+// along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 require_once('../inc/util.inc');
 require_once('../inc/translation.inc');
+
+check_get_args(array());
 
 page_head(tra("Read our rules and policies"));
 
@@ -26,7 +43,8 @@ echo "
     <p>".tra("Your account on %1 is identified by a name that you choose. This name may be shown on the %1 web site, along with a summary of the work your computer has done for %1. If you want to be anonymous, choose a name that doesn't reveal your identity.", PROJECT)."
     <p>".tra("If you participate in %1, information about your computer (such as its processor type, amount of memory, etc.) will be recorded by %1 and used to decide what type of work to assign to your computer. This information will also be shown on %1's web site. Nothing that reveals your computer's location (e.g. its domain name or network address) will be shown.", PROJECT)."
     <p>".tra("To participate in %1, you must give an address where you receive email. This address will not be shown on the %1 web site or shared with organizations. %1 may send you periodic newsletters; however, you can opt out at any time.", PROJECT)."
-
+    <p>".tra("Private messages sent on the %1 web site are visible only to the sender and recipient.  %1 does not examine or police the content of private messages.  If you receive unwanted private messages from another %1 user, you may add them to your %2message filter%3.  This will prevent you from seeing any public or private messages from that user.", PROJECT, "<a href=\"edit_forum_preferences_form.php\">", "</a>")." 
+    <p>".tra("If you use our web site forums you must follow the %2posting guidelines%3.  Messages posted to the %1 forums are visible to everyone, including non-members.  By posting to the forums, you are granting irrevocable license for anyone to view and copy your posts.", PROJECT, "<a href=moderation.php>", "</a>")." 
 <h3>".tra("Is it safe to run %1?", PROJECT)."</h3>
     <p>".tra("Any time you download a program through the Internet you are taking a chance: the program might have dangerous errors, or the download server might have been hacked. %1 has made efforts to minimize these risks. We have tested our applications carefully. Our servers are behind a firewall and are configured for high security. To ensure the integrity of program downloads, all executable files are digitally signed on a secure computer not connected to the Internet.", PROJECT)."
     <p>".tra("The applications run by %1 may cause some computers to overheat. If this happens, stop running %1 or use a %2utility program%3 that limits CPU usage.", PROJECT, "<a href=\"download_network.php\">", "</a>")."
@@ -34,33 +52,11 @@ echo "
 
 <h3>".tra("Liability")."</h3>
     <p>".tra("%1 and %2 assume no liability for damage to your computer, loss of data, or any other event or condition that may occur as a result of participating in %1.", PROJECT, COPYRIGHT_HOLDER)."
-<p>
-<ol>
-<li>Stanford provides participant with the Software ('Virtual Seismometer Network' / 'Quake Catcher Network' / 'QCN') AS-IS and WITH ALL FAULTY.  
-<li>User acknowledges that Stanford will not provide User with any maintenance or support for the Software.  
-<li>Stanford makes no representations and extends no warranties of any kind, either express or implied.  
-<li>Stanford disclaims any express or implied warranty of merchantability, of fitness for a particular purpose, 
-or of non-infringement. 
-<li>Stanford is not liable for any direct or indirect damages in connection with the use of the Software. 
-<li>Among other things, Stanford is not responsible for:
-<BR><BR>
-        1) any damage to the laptop as a result of
-<ol>
-            a) repetitively accessing the internal accelerometer
-<BR>
-            b) actions the participant might take while experimenting with the
-               accelerometer and associated software.
-</ol>
-<BR>
-        2) any distress to participant caused by interpretation of acceleration as being representative of an earthquake.
-</ol>
-<BR>
-        The participant understands that the acceleration data from his/her laptop will be shared publicly.
-<BR><BR>
 
 <h3>".tra("Other BOINC projects")."</h3>
     <p>".tra("Other projects use the same platform, BOINC, as %1. You may want to consider participating in one or more of these projects. By doing so, your computer will do useful work even when %1 has no work available for it.", PROJECT)."
     <p>".tra("These other projects are not associated with %1, and we cannot vouch for their security practices or the nature of their research. Join them at your own risk.", PROJECT);
 }
 page_tail();
+$cvs_version_tracker[]="\$Id: info.php 23010 2011-02-09 22:11:34Z davea $";
 ?>

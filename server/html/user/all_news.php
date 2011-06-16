@@ -18,14 +18,13 @@
 
 require_once("../inc/util.inc");
 require_once("../inc/news.inc");
-require_once("../project/project_news.inc");
-//require_once("/var/www/qcn/inc/utils.inc");
+
+check_get_args(array());
 
 page_head("News archive");
-//page_top();
 
-show_old_news($project_news, 0);
+show_old_news(0, 0);
 
-//page_tail();
-page_end();
+page_tail();
+
 ?>

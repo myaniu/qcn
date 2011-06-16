@@ -89,27 +89,6 @@ switch($table){
     case "user":
         print_query_field();
         break;
-//CMC here
-    case "qcn_quake":
-        print_detail_field();
-        print_query_field();
-        echo "<input type=\"hidden\" name=\"sort_by\" value=\"id\">\n";
-        break;
-    case "qcn_trigger":
-        print_detail_field();
-        print_query_field();
-        echo "<input type=\"hidden\" name=\"sort_by\" value=\"id\">\n";
-        break;
-    case "qcn_geo_ipaddr":
-        print_detail_field();
-        print_query_field();
-        echo "<input type=\"hidden\" name=\"sort_by\" value=\"id\">\n";
-        break;
-    case "qcn_host_ipaddr":
-        print_detail_field();
-        print_query_field();
-        echo "<input type=\"hidden\" name=\"sort_by\" value=\"id\">\n";
-        break;
 	default:
 		echo "Unknown table name\n";
         exit();

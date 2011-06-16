@@ -75,8 +75,12 @@ function parse_user($f, $user) {
 
 function get_other_projects($user) {
     $cpid = md5($user->cross_project_id . $user->email_addr);
+    
+    $timeout = 3;
+    $old_timeout = ini_set('default_socket_timeout', $timeout);
     $url = "http://boinc.netsoft-online.com/get_user.php?cpid=$cpid";
-    $f = fopen($url, "r");
+    $f = @fopen($url, "r");
+    ini_set('default_socket_timeout', $old_timeout);
     if (!$f) {
         return $user;
     }
@@ -109,9 +113,9 @@ function show_other_projects($user, $personal) {
     if (count($user->projects) > 1) {
         usort($user->projects, "cmp");
         if ($personal) {
-            echo "<h3>".tra("Projects in which you are participating")."</h3>";
+            echo "<h2>".tra("Projects in which you are participating")."</h2>";
         } else {
-            echo "<h3>".tra("Projects in which %1 is participating", $user->name)."</h3>";
+            echo "<h2>".tra("Projects in which %1 is participating", $user->name)."</h2>";
         }
         start_table();
         row_heading_array(array(
@@ -153,15 +157,15 @@ function show_user_stats_private($user) {
     foreach ($cpid_stats_sites as $site) {
         $name = $site[0];
         $y = sprintf($site[1], $cpid);
-        $x .= "<a href=\"$y\">$name</a><br/>";
+        $x .= "<a href=\"$y\">$name</a><br/>\n";
     }
     $x .= "<br/><span class=\"smalltext\">".tra("Cross-project ID").": $cpid</span>\n";
     row2(tra("Cross-project statistics"), $x);
-    $x = "<a href=cert1.php>Account</a>";
+    $x = '<a href="cert1.php">'.tra("Account").'</a>';
     if ($user->teamid) {
-        $x .= " | <a href=cert_team.php>Team</a>";
+        $x .= ' | <a href="cert_team.php">'.tra("Team").'</a>';
     }
-    $x .= " | <a href=cert_all.php>Cross-project</a>";
+    $x .= ' | <a href="cert_all.php">'.tra("Cross-project").'</a>';
     row2(tra("Certificate"), $x);
     row2(tra("Stats on your cell phone"), URL_BASE."userw.php?id=$user->id");
 }
@@ -177,7 +181,7 @@ function notify_description($notify) {
     case NOTIFY_SUBSCRIBED_POST:
         return subscribed_post_web_line($notify);
     }
-    return "Unknown notification type: $notify->type";
+    return tra("Unknown notification type: %1", $notify->type);
 }
 
 function weak_auth($user) {
@@ -188,30 +192,29 @@ function weak_auth($user) {
 // show static user info (private)
 //
 function show_user_info_private($user) {
-    if (is_valid_email_addr($user->email_addr)) {
-        $email_text = $user->email_addr;
-    } else {
-        $email_text = "Verification pending";
+    $email_text = $user->email_addr;
+    if (defined("SHOW_NONVALIDATED_EMAIL_ADDR") && !$user->email_validated) {
+        $email_text .= " (<a href=validate_email_addr.php>must be validated</a>)";
     }
-
     row1(tra("Account information"));
     row2(tra("Name"), $user->name);
     row2(tra("Email address"), $email_text);
     if (strlen($user->url)) {
-        $x = "http://$user->url";
-    } else {
-        $x = "none";
+        $x = "<a href=http://$user->url>http://$user->url</a>";
+        row2(tra("URL"), $x);
     }
-    row2(tra("URL"), $x);
     row2(tra("Country"), $user->country);
     row2(tra("Postal code"), $user->postal_code);
     row2(tra("%1 member since", PROJECT), date_str($user->create_time));
-    row2(tra("Change"), "<a href=\"edit_email_form.php\">".tra("email address")."</a> | <a href=\"edit_passwd_form.php\">".tra("password")."</a> | <a href=\"edit_user_info_form.php\">".tra("other account info")."</a>");
-    row2("", "<a href=\"logout.php?".url_tokens($user->authenticator)."\">".tra("Log out")."</a>");
+    $url_tokens = url_tokens($user->authenticator);
+    row2(tra("Change"), "<a href=\"edit_email_form.php\">".tra("email address")."</a>
+        | <a href=\"".SECURE_URL_BASE."/edit_passwd_form.php\">".tra("password")."</a>
+        | <a href=\"edit_user_info_form.php?$url_tokens\">".tra("other account info")."</a>"
+    );
     row2(tra("User ID")."<br/><span class=\"note\">".tra("Used in community functions")."</span>", $user->id);
     if (!no_computing()) {
         row2(tra("Account key")."<br/><span class=\"note\">".tra("Provides full access to your account")."</span>", $user->authenticator);
-        row2(tra("Weak account key")."<br/><span class=\"note\">".tra("Provides")." <a href=\"weak_auth.php\">".tra("limited access")."</a> ".tra("to your account")."</span>", weak_auth($user));
+        row2(tra("Weak account key")."<br/><span class=\"note\">".tra("Provides %1limited access%2 to your account", "<a href=\"weak_auth.php\">", "</a> ")."</span>", weak_auth($user));
     }
 
     row1("<a name=\"prefs\"></a>".tra("Preferences"));
@@ -225,7 +228,7 @@ function show_user_info_private($user) {
         "<a href=\"edit_forum_preferences_form.php\">".tra("Community preferences")."</a>"
     );
     if (!no_computing()) {
-        row2(tra("Resource share and graphics"),
+        row2(tra("Preferences for this project"),
             "<a href=\"prefs.php?subset=project\">".tra("%1 preferences", PROJECT)."</a>"
         );
     }
@@ -257,38 +260,40 @@ function show_community_private($user) {
         row2(tra("Notifications"), $x);
     }
 
-    if ($user->teamid) {
-        $team = lookup_team($user->teamid);
-        $x = "<a href=\"team_display.php?teamid=$team->id\">$team->name</a>
-            | <a href=\"team_quit_form.php\">".tra("Quit team")."</a>";
-        if (is_team_admin($user, $team)) {
-            $x .= " | <a href=\"team_manage.php?teamid=$user->teamid\">".tra("Administer")."</a>";
-        }
+    if (!defined('NO_TEAMS')) {
+        if ($user->teamid) {
+            $team = lookup_team($user->teamid);
+            $x = "<a href=\"team_display.php?teamid=$team->id\">$team->name</a>
+                | <a href=\"team_quit_form.php\">".tra("Quit team")."</a>";
+            if (is_team_admin($user, $team)) {
+                $x .= " | <a href=\"team_manage.php?teamid=$user->teamid\">".tra("Administer")."</a>";
+            }
 
-        // if there's a foundership request, notify the founder
-        //
-        if ($user->id==$team->userid && $team->ping_user >0) {
-            $x .= "<span style=\"color:red;\">".tra("(foundership change request pending)")."</span>";
-        }
-        row2(tra("Member of team"), $x);
-    } else {
-        row2(tra("Team"), tra("None")." | <a href=\"team_search.php\">".tra("find a team")."</a>");
-    }
-    
-    $teams_founded = BoincTeam::enum("userid=$user->id");
-    foreach ($teams_founded as $team) {
-        if ($team->id != $user->teamid) {
-            $x = "<a href=\"team_display.php?teamid=$team->id\">$team->name</a>";
-            $x .= "| <a href=\"team_manage.php?teamid=".$team->id."\">".tra("Administer")."</a>";
-            if ($team->ping_user > 0) {
+            // if there's a foundership request, notify the founder
+            //
+            if ($user->id==$team->userid && $team->ping_user >0) {
                 $x .= "<span style=\"color:red;\">".tra("(foundership change request pending)")."</span>";
             }
-            row2(tra("Founder but not member of"), $x);
+            row2(tra("Member of team"), $x);
+        } else {
+            row2(tra("Team"), tra("None")." | <a href=\"team_search.php\">".tra("find a team")."</a>");
+        }
+        
+        $teams_founded = BoincTeam::enum("userid=$user->id");
+        foreach ($teams_founded as $team) {
+            if ($team->id != $user->teamid) {
+                $x = "<a href=\"team_display.php?teamid=$team->id\">$team->name</a>";
+                $x .= "| <a href=\"team_manage.php?teamid=".$team->id."\">".tra("Administer")."</a>";
+                if ($team->ping_user > 0) {
+                    $x .= "<span style=\"color:red;\">".tra("(foundership change request pending)")."</span>";
+                }
+                row2(tra("Founder but not member of"), $x);
+            }
         }
     }
 
     $friends = BoincFriend::enum("user_src=$user->id and reciprocated=1");
-    $x = "<a href=\"user_search.php\">".tra("Find friends")."</a><br\>\n";
+    $x = "<a href=\"user_search.php\">".tra("Find friends")."</a><br/>\n";
     $n = count($friends);
     if ($n) {
         foreach($friends as $friend) {
@@ -305,6 +310,7 @@ function show_community_private($user) {
 //
 function show_user_summary_public($user) {
     global $g_logged_in_user;
+    row2(tra("User ID"), $user->id);
     row2(tra("%1 member since", PROJECT), date_str($user->create_time));
     row2(tra("Country"), $user->country);
     if (strlen($user->url)) {
@@ -328,20 +334,45 @@ function show_user_summary_public($user) {
     }
 }
 
-function community_links($user) {
-    global $g_logged_in_user;
-    if ($user->teamid && ($team = lookup_team($user->teamid))) {
-        row2(tra("Team"), "<a href=\"".URL_BASE."team_display.php?teamid=$team->id\">$team->name</a>");
-    } else {
-        row2(tra("Team"), tra("None"));
+// Returns a cacheable community links data object
+// @param user The user to produce a community links object for
+
+function get_community_links_object($user){
+    $cache_object->post_count = total_posts($user);
+    $cache_object->user = $user;
+    $cache_object->team = lookup_team($user->teamid);
+
+    $friends = BoincFriend::enum("user_src=$user->id and reciprocated=1");
+    $n = count($friends);
+    if ($n) {
+        $x = null;
+        foreach($friends as $friend) {
+            $fuser = BoincUser::lookup_id($friend->user_dest);
+            $cache_object->friends[] = $fuser;
+        }
     }
-    $tot = total_posts($user);
+    return $cache_object;
+}
+
+function community_links($clo, $logged_in_user){
+    $user = $clo->user;
+    $team = $clo->team;
+    $friends = $clo->friends;
+    $tot = $clo->post_count;
+    
+    if (!defined('NO_TEAMS')) {
+        if ($user->teamid && $team) {
+            row2(tra("Team"), "<a href=\"".URL_BASE."team_display.php?teamid=$team->id\">$team->name</a>");
+        } else {
+            row2(tra("Team"), tra("None"));
+        }
+    }
     if ($tot) {
         row2(tra("Message boards"), "<a href=\"".URL_BASE."forum_user_posts.php?userid=$user->id\">".tra("%1 posts", $tot)."</a>");
     }
-    if ($g_logged_in_user && $g_logged_in_user->id != $user->id) {
+    if ($logged_in_user && $logged_in_user->id != $user->id) {
         row2(tra("Contact"), "<a href=\"pm.php?action=new&userid=".$user->id."\">".tra("Send private message")."</a>");
-        $friend = BoincFriend::lookup($g_logged_in_user->id, $user->id);
+        $friend = BoincFriend::lookup($logged_in_user->id, $user->id);
         if ($friend && $friend->reciprocated) {
             row2(tra("This person is a friend"), 
                 "<a href=\"friend.php?action=cancel_confirm&userid=$user->id\">".tra("Cancel friendship")."</a>"
@@ -352,15 +383,13 @@ function community_links($user) {
             row2(tra("Friends"),  "<a href=\"friend.php?action=add&userid=$user->id\">".tra("Add as friend")."</a>");
         }
     }
-    $friends = BoincFriend::enum("user_src=$user->id and reciprocated=1");
-    $n = count($friends);
-    if ($n) {
+    
+    if ($friends) {
         $x = null;
         foreach($friends as $friend) {
-            $fuser = BoincUser::lookup_id($friend->user_dest);
-            $x .= friend_links($fuser);
+            $x .= friend_links($friend);
         }
-        row2(tra("Friends")." ($n)", $x);
+        row2(tra("Friends")." (".sizeof($friends).")", $x);
     }
 }
 
@@ -370,6 +399,44 @@ function show_profile_link($user) {
     }
 }
 
+function show_account_private($user) {
+    start_table_noborder();
+    echo "<tr><td valign=top>";
+    start_table();
+    show_user_info_private($user);
+    if (!no_computing()) {
+        show_user_stats_private($user);
+    }
+
+    if (file_exists("../project/donations.inc")) {
+        require_once("../project/donations.inc");
+        if (function_exists('show_user_donations_private')) {
+            show_user_donations_private($user);
+        }
+    }
+    end_table();
+    show_other_projects($user, true);
+    project_user_page_private($user);
+    //echo "<a href=delete_account.php>Delete account</a>\n";
+    echo "</td><td valign=top>";
+    start_table();
+    show_community_private($user);
+    end_table();
+
+    echo "</td></tr></table>";
+}
+
+function is_banned_email_addr($email_addr) {
+    global $banned_email_domains;
+    if (isset($banned_email_domains)) {
+        foreach($banned_email_domains as $d) {
+            $x = strstr($email_addr, $d);
+            if ($x == $d) return true;
+        }
+    }
+    return false;
+}
+
 // the following DB-escapes its args
 //
 function make_user(
@@ -377,17 +444,20 @@ function make_user(
     $country=null, $postal_code=null, $project_prefs=null, $teamid=0
 ) {
     if (!is_valid_email_addr($email_addr)) return null;
+    if (is_banned_email_addr($email_addr)) return null;
+
     $authenticator = random_string();
     $cross_project_id = random_string();
     $now = time();
     if (!is_valid_country($country)) return null;
 
-    $email_addr = process_user_text($email_addr);
-    $name = process_user_text($name);
-    $passwd_hash = process_user_text($passwd_hash);
+    $email_addr = BoincDb::escape_string($email_addr);
+    $name = strip_tags($name);
+    $name = BoincDb::escape_string($name);
+    $passwd_hash = BoincDb::escape_string($passwd_hash);
 
     $country = BoincDb::escape_string($country);
-    $postal_code = strip_tags(process_user_text($postal_code));
+    $postal_code = strip_tags(BoincDb::escape_string($postal_code));
 
 // CMC set defaults for global prefs
     $uid = BoincUser::insert("(create_time, email_addr, name, authenticator, country, postal_code, total_credit, expavg_credit, expavg_time, project_prefs, teamid,  send_email, show_hosts, cross_project_id, passwd_hash, global_prefs) values($now, '$email_addr', '$name', '$authenticator', '$country', '$postal_code', 0, 0, unix_timestamp(), '$project_prefs', $teamid, 1, 1, '$cross_project_id', '$passwd_hash','" . GLOBAL_PREFS_DEFAULT . "')");
@@ -399,6 +469,6 @@ function make_user(
     }
 }
 
-$cvs_version_tracker[]="\$Id: user.inc 15758 2008-08-05 22:43:14Z davea $";  //Generated automatically - do not edit
+$cvs_version_tracker[]="\$Id: user.inc 23387 2011-04-20 14:50:50Z davea $";  //Generated automatically - do not edit
 
 ?>
