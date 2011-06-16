@@ -36,7 +36,7 @@ using namespace std;
 #include "str_replace.h"
 #include "util.h"
 #include "filesys.h"
-#include "server_types.h"
+#include "sched_types.h"
 #include "sched_util.h"
 #include "sched_msgs.h"
 

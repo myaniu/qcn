@@ -1157,16 +1157,13 @@ void process_request(
     // then return without accessing the DB.
     // This is an efficiency hack for when servers are overloaded
     //
-// CMC here - add !bTrigger to next line
-    if (!bTrigger &&
-        config.nowork_skip
+    if (config.nowork_skip
         && have_no_work
         && config.nowork_skip
         && requesting_work()
         && (g_request->results.size() == 0)
         && (g_request->hostid != 0)
     ) {
-// CMC end
         g_reply->insert_message("No work available", "low");
         g_reply->set_delay(DELAY_NO_WORK_SKIP);
         if (!config.msg_to_host) {
