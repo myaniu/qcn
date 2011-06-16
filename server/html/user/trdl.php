@@ -1,7 +1,7 @@
 <?php
 require_once("../inc/util.inc");
 require_once("../inc/db.inc");
-require_once("../inc/db_ops.inc");
+require_once("../inc/sqlquerystring.inc");
 
 db_init();
 
@@ -15,7 +15,7 @@ qcn_admin_user_auth($user, true);
 
 // archive cutoff time is two months prior to the first of the current month
 //$queryArchiveTime = "SELECT unix_timestamp( concat(year(now()), '/', month(now()), '/01 00:00:00') ) - (60 * 24 * 3600) archive_time";
-
+$try_replica = false;
 $unixtimeArchive = mktime(0, 0, 0, date("n"), 1, date("Y")) - (60*24*3600); 
 
     $config = get_config();
@@ -792,13 +792,15 @@ function qcn_trigger_header() {
 
 function qcn_trigger_detail($res) 
 {
+global $unixtimeArchive;
+
   // CMC took out hostnamebyid below
     $sensor_type = $res->sensor_description;
     $archpre = $res->is_archive ? "a" : "r"; // prefix to signify if it's an archive record or not
     echo "
         <tr>
         <td><input type=\"checkbox\" name=\"cb_" . $archpre . "_reqfile[]\" id=\"cb_" . $archpre . "_reqfile[]\" value=\"$res->triggerid\"" . 
-       ($res->varietyid!=0 || $res->received_file == 100 || $res->trigger_timereq>0 || $res->trigger_time < $timeArchive ? " disabled " : " " ) . 
+       ($res->varietyid!=0 || $res->received_file == 100 || $res->trigger_timereq>0 || $res->trigger_time < $unixtimeArchive ? " disabled " : " " ) . 
        "></td>
         <td><input type=\"checkbox\" name=\"cb_" . $archpre . "_dlfile[]\" id=\"cb_" . $archpre . "_dlfile[]\" value=\"$res->triggerid\"" . 
        ($res->received_file != 100 ? " disabled " : " " ) . 

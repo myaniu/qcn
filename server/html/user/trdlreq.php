@@ -1,8 +1,8 @@
 <?php
 
-require_once("../inc/util_ops.inc");
 require_once("../inc/util.inc");
-require_once("../inc/db_ops.inc");
+require_once("../inc/sqlquerystring.inc");
+//require_once("../inc/db_ops.inc");
 
 // _a_ == archive record  _r_ == regular trigger record
 $aryDLTrigA = $_POST["cb_a_dlfile"];

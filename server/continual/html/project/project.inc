@@ -21,6 +21,7 @@ define("EMAIL_FROM_NAME", "Quake-Catcher Network  (Do Not Reply)");
 define("EMAIL_FROM", "noreply@qcn.stanford.edu");
 define("TITLE_COLOR", "");
 define("TITLE_FONT", "");
+define("BODY_COLOR", "");
 define("QUAKE_XML", "../../qcn-quake.xml");
 define("MAP_BASE", "img/earth_web.jpg");
 define("MAP_TRIGGER", "img/trigger_latest.jpg");
@@ -520,12 +521,13 @@ mysql> select * from qcn_level;
 
    end_table();
 }
+
 function qcn_admin_user_auth($user, $exit_on_nonauth = false)
 {
 // authenticate admin-level user
 $auth = false;
 if ($user) {
-  if (!$user->prefs) BoincForumPrefs::lookup($user);
+  if (!isset($user->prefs)) BoincForumPrefs::lookup($user);
   if (substr($user->prefs->special_user, 3, 1) == "1") $auth = true;
 }
 if ($exit_on_nonauth && !$auth) {
