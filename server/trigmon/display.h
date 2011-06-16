@@ -38,6 +38,7 @@ using std::vector;
 
 #define n_long 1000
 #define n_short 300
+
 struct trigger {
 /*  Data structure for input trigger data to be used with QCN MySQL output & location
     program. This structure written by Jesse Lawrence (April 2010) - 
@@ -124,6 +125,7 @@ int getQCNQuakeID(
     const int& iCtr, 
     const double& dTimeMin, 
     const double& dTimeMax);
+
 void close_db();
 void do_delete_trigmem();
 void setQueries();

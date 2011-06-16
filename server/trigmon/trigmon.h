@@ -45,8 +45,8 @@ using std::vector;
 #define C_CNT_MIN 5                         // Min # of correlated triggers for event detect
 #define EVENT_MASK 0755
 
-char EVENT_PATH[]= "/var/www/qcn/earthquakes/";
-char BAD_HOSTS_FILE[] = "/var/www/qcn/earthquakes/inc/bad_hosts.txt";
+#define EVENT_PATH      "/var/www/qcn/earthquakes/"
+#define BAD_HOSTS_FILE  "/var/www/qcn/earthquakes/inc/bad_hosts.txt"
 
 
 struct trigger {

@@ -15,7 +15,7 @@ logic:
   4) request uploads from these triggers as appropriate
 
 Example usage:
-./jfl_trigmon -d 3 -sleep_interval 10 -time_interval 100
+./fl_trigmon -d 3 -sleep_interval 10 -time_interval 100
 
 (run every 10 seconds, show all debug (-d 3), triggers in last 100 seconds)
 
@@ -23,7 +23,7 @@ Example usage:
 
 */
 
-#include "jfl_trigmon.h"
+#include "trigmon.h"
 // Include crust_2.0 information
 #include "crust_2.0_subs.h"
 
@@ -123,7 +123,7 @@ int crust2_load()
    FILE *fp12 = fopen(crust_elev_file,"r");                                                    // Open elevation file w/ data at each lat/lon
 
    if (!fp10 || !fp11 || !fp12) {
-      printf("File Open Error %x %x %x\n", fp10, fp11, fp12);
+      fprintf(stdout, "File Open Error %x %x %x\n", (long) fp10, (long) fp11, (long) fp12);
       return 1;
    }
 
@@ -986,7 +986,7 @@ void detect_qcn_event(struct trigger t[], int iCtr, struct event e[]) {
 
 void get_bad_hosts(struct bad_hosts bh) {
 /*  This subrouting retrieves the bad host names */
-   FILE *fp10; fp10 = fopen(BAD_HOSTS_FILE,"r");
+   FILE *fp10 = fopen(BAD_HOSTS_FILE,"r");
    bh.nh = -1;
    while (feof(fp10) == 0) {
     bh.nh++;
@@ -1034,7 +1034,7 @@ int main(int argc, char** argv)
         } else {
             log_messages.printf(MSG_CRITICAL,
                 "bad cmdline arg: %s\n\n"
-                "Example usage: jfl_trigmon -d 3 -sleep_interval 3 -count 10 -time_interval 10\n\n"
+                "Example usage: trigmon -d 3 -sleep_interval 3 -count 10 -time_interval 10\n\n"
              , argv[i]
             );
             return 2;
@@ -1072,7 +1072,7 @@ int main(int argc, char** argv)
     }
 
     log_messages.printf(MSG_NORMAL,
-            "jfl_trigmon started with the following options:\n"
+            "trigmon started with the following options:\n"
             "  -time_interval   = %d\n" 
             "  -sleep_interval  = %f\n",
          g_iTriggerTimeInterval,
