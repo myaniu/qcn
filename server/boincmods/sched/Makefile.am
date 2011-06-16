@@ -1,5 +1,5 @@
 ## -*- mode: makefile; tab-width: 4 -*-
-## $Id: Makefile.am 18389 2009-06-12 03:06:01Z davea $
+## $Id: Makefile.am 23431 2011-04-24 21:33:51Z davea $
 
 include $(top_srcdir)/Makefile.incl
 
@@ -10,9 +10,11 @@ AM_LDFLAGS += -static -lcurl
 if ENABLE_LIBRARIES
 
 libsched_sources = \
+    credit.cpp \
     sched_shmem.cpp \
     sched_util.cpp \
     sched_config.cpp \
+    sched_limit.cpp \
     sched_msgs.cpp \
     ../db/boinc_db.cpp \
     ../db/db_base.cpp \
@@ -29,7 +31,9 @@ libsched_la_LIBADD= $(SSL_LIBS)
 ## install only headers that are meant for exporting the API !!
 if INSTALL_HEADERS
 pkginclude_HEADERS = \
+	credit.h \
 	sched_config.h \
+	sched_limit.h \
 	sched_msgs.h \
 	sched_util.h \
 	../tools/backend_lib.h \
@@ -71,11 +75,11 @@ all-local: $(all_local)
 
 $(LIBSCHED_STATIC): libsched.la
 	rm -f $(LIBSCHED_STATIC)
-	$(LN) .libs/$(LIBSCHED_STATIC)
+	$(LN) .libs/$(LIBSCHED_STATIC) .
 
 $(LIBSCHED_FCGI_STATIC): libsched_fcgi.la
 	rm -f $(LIBSCHED_FCGI_STATIC)
-	$(LN) .libs/$(LIBSCHED_FCGI_STATIC)
+	$(LN) .libs/$(LIBSCHED_FCGI_STATIC) .
 
 
 endif
@@ -90,14 +94,14 @@ bin_PROGRAMS = \
     delete_file \
     get_file \
     make_work \
-    request_file_list \
     sched_driver \
-    send_file \
+    put_file \
     show_shmem \
     wu_check
 
 sched_PROGRAMS = \
     census \
+	credit_test \
     db_dump \
     db_purge \
     feeder \
@@ -110,7 +114,8 @@ sched_PROGRAMS = \
     sample_work_generator \
     single_job_assimilator \
     transitioner \
-    trickle_handler \
+    trickle_credit \
+    trickle_echo \
     update_stats
 
 cgi_PROGRAMS= \
@@ -123,13 +128,13 @@ bin_SCRIPTS = start stop status
 noinst_HEADERS = \
     assimilate_handler.h \
     handle_request.h \
-    main.h \
+    sched_main.h \
     sched_locality.h \
     sched_score.h \
     sched_send.h \
     sched_shmem.h \
     sched_version.h \
-    server_types.h
+    sched_types.h
 
 EXTRA_DIST = \
     start
@@ -137,23 +142,25 @@ EXTRA_DIST = \
 # CMC note we have added the qcn_trigger file below
 cgi_sources = \
     ../../qcn/server/trigger/qcn_trigger.cpp \
+	credit.cpp \
     edf_sim.cpp \
     handle_request.cpp \
     hr.cpp \
     hr_info.cpp \
-    main.cpp \
+    sched_main.cpp \
     sched_array.cpp \
     sched_assign.cpp \
+    sched_customize.cpp \
     sched_hr.cpp \
     sched_resend.cpp \
+    sched_limit.cpp \
     sched_locality.cpp \
     sched_result.cpp \
-    sched_plan.cpp \
     sched_score.cpp \
     sched_send.cpp \
     sched_timezone.cpp \
     sched_version.cpp \
-    server_types.cpp \
+    sched_types.cpp \
     time_stats_log.cpp
 
 cgi_SOURCES = $(cgi_sources)
@@ -164,6 +171,10 @@ census_SOURCES = \
     hr.cpp \
     hr_info.cpp
 census_LDADD = $(SERVERLIBS)
+
+credit_test_SOURCES = \
+	credit_test.cpp
+credit_test_LDADD = $(SERVERLIBS)
 
 feeder_SOURCES = \
     feeder.cpp \
@@ -181,19 +192,34 @@ show_shmem_LDADD = $(SERVERLIBS)
 file_deleter_SOURCES = file_deleter.cpp
 file_deleter_LDADD = $(SERVERLIBS)
 
-sample_bitwise_validator_SOURCES = validator.cpp sample_bitwise_validator.cpp validate_util.cpp validate_util.h validate_util2.cpp
+VALIDATOR_SOURCES = \
+	credit.cpp \
+	validator.cpp \
+	validate_util.cpp \
+	validate_util2.cpp
+
+sample_bitwise_validator_SOURCES = $(VALIDATOR_SOURCES) \
+	sample_bitwise_validator.cpp 
 sample_bitwise_validator_LDADD = $(SERVERLIBS)
 
-sample_trivial_validator_SOURCES = validator.cpp sample_trivial_validator.cpp validate_util.cpp validate_util.h validate_util2.cpp
+sample_trivial_validator_SOURCES = $(VALIDATOR_SOURCES) \
+	sample_trivial_validator.cpp
 sample_trivial_validator_LDADD = $(SERVERLIBS)
 
-sample_dummy_assimilator_SOURCES = assimilator.cpp sample_dummy_assimilator.cpp validate_util.cpp validate_util.h
+ASSIMILATOR_SOURCES = \
+	assimilator.cpp \
+	validate_util.cpp
+
+sample_dummy_assimilator_SOURCES = $(ASSIMILATOR_SOURCES) \
+	sample_dummy_assimilator.cpp
 sample_dummy_assimilator_LDADD = $(SERVERLIBS)
 
-sample_assimilator_SOURCES = assimilator.cpp sample_assimilator.cpp validate_util.cpp validate_util.h
+sample_assimilator_SOURCES = $(ASSIMILATOR_SOURCES) \
+	sample_assimilator.cpp
 sample_assimilator_LDADD = $(SERVERLIBS)
 
-single_job_assimilator_SOURCES = assimilator.cpp single_job_assimilator.cpp validate_util.cpp validate_util.h
+single_job_assimilator_SOURCES = $(ASSIMILATOR_SOURCES) \
+	single_job_assimilator.cpp
 single_job_assimilator_LDADD = $(SERVERLIBS)
 
 sample_work_generator_SOURCES = sample_work_generator.cpp
@@ -205,8 +231,11 @@ db_dump_LDADD = $(SERVERLIBS)
 db_purge_SOURCES = db_purge.cpp
 db_purge_LDADD = $(SERVERLIBS)
 
-trickle_handler_SOURCES = trickle_handler.cpp
-trickle_handler_LDADD = $(SERVERLIBS)
+trickle_credit_SOURCES = trickle_credit.cpp trickle_handler.cpp
+trickle_credit_LDADD = $(SERVERLIBS)
+
+trickle_echo_SOURCES = trickle_echo.cpp trickle_handler.cpp
+trickle_echo_LDADD = $(SERVERLIBS)
 
 update_stats_SOURCES = update_stats.cpp
 update_stats_LDADD = $(SERVERLIBS)
@@ -223,14 +252,11 @@ transitioner_LDADD = $(SERVERLIBS)
 message_handler_SOURCES = message_handler.cpp
 message_handler_LDADD = $(SERVERLIBS)
 
-request_file_list_SOURCES = request_file_list.cpp
-request_file_list_LDADD = $(SERVERLIBS)
-
 get_file_SOURCES = get_file.cpp
 get_file_LDADD = $(SERVERLIBS)
 
-send_file_SOURCES = send_file.cpp
-send_file_LDADD = $(SERVERLIBS)
+put_file_SOURCES = put_file.cpp
+put_file_LDADD = $(SERVERLIBS)
 
 delete_file_SOURCES = delete_file.cpp
 delete_file_LDADD = $(SERVERLIBS)
@@ -246,7 +272,6 @@ cgi_PROGRAMS += fcgi \
 fcgi_SOURCES = $(cgi_sources)
 fcgi_CPPFLAGS = -D_USING_FCGI_ $(AM_CPPFLAGS)
 fcgi_LDADD = $(SERVERLIBS_FCGI)
-
 
 fcgi_file_upload_handler_SOURCES = \
     file_upload_handler.cpp \
