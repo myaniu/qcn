@@ -48,7 +48,7 @@ void close_db()
 
 void create_plot() {
   // CMC note -- don't run this in the background as it reuses filenames and can get ahead of itself
-  system ("csh /var/www/qcn/rt_image/inc/rt_images.csh");
+  system (CSH_PLOT_CMD);
 }
 
 void do_delete_trigmem()
@@ -209,7 +209,7 @@ int main(int argc, char** argv)
     ); 
 
     //signal(SIGUSR1, show_state);
-    double dtDelete = 0.0f; // time to delete old triggers from memory
+    //double dtDelete = 0.0f; // time to delete old triggers from memory
     while (1) {
       g_dTimeCurrent = dtime();
       double dtEnd = g_dTimeCurrent + g_dSleepInterval;

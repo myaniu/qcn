@@ -28,6 +28,8 @@ using std::vector;
 #define FILE_NAME_TRIGGER_LAPTOP  "/var/www/qcn/rt_image/rt_triggers_LTN.xyz"
 #define FILE_NAME_TRIGGER_DESKTOP "/var/www/qcn/rt_image/rt_triggers_DTN.xyz"
 
+#define CSH_PLOT_CMD  "/bin/csh /var/www/qcn/rt_image/inc/rt_images.csh"
+
 // returns quakeid if event found/created (0 if not)
 int getQCNQuakeID(
     const double& dLat, 

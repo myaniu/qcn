@@ -25,7 +25,8 @@ SRCS = $(BOINCDIR)/db/db_base.cpp \
 MAINMON  = trigmon.cpp
 MAINDISP =  display.cpp
 
-all: clean trigmonitor trigdisplay
+#all: clean trigmonitor trigdisplay
+all: clean trigdisplay
 
 trigdisplay: 
 	$(CC) $(CFLAGS) $(INCLUDES) $(MAINDISP) $(SRCS) $(LIBS) -o trigdisplay
