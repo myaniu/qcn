@@ -119,9 +119,9 @@ int crust2_load()
 {
 
 // Open input files. These are defined in crust_2.0_subs.h 
-   FILE *fp10 = fopen(crust_key_file,"r");                                                     // Open key file describing each model
-   FILE *fp11 = fopen(crust_map_file,"r");                                                     // Open map file with key at each lat/lon location
-   FILE *fp12 = fopen(crust_elev_file,"r");                                                    // Open elevation file w/ data at each lat/lon
+   FILE *fp10 = fopen(CRUST_KEY_FILE, "r");                                                     // Open key file describing each model
+   FILE *fp11 = fopen(CRUST_MAP_FILE, "r");                                                     // Open map file with key at each lat/lon location
+   FILE *fp12 = fopen(CRUST_ELEV_FILE, "r");                                                    // Open elevation file w/ data at each lat/lon
 
    if (!fp10 || !fp11 || !fp12) {
       fprintf(stdout, "File Open Error %x %x %x\n", (long) fp10, (long) fp11, (long) fp12);
