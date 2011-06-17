@@ -32,6 +32,8 @@ double g_dTimeCurrent = 0.0;  // global for current time
 // global params for trigger monitoring behavior
 double g_dSleepInterval = -1.0;   // number of seconds to sleep between trigmem enumerations
 int g_iTriggerTimeInterval = -1;  // number of seconds to check for triggers (i.e. "time width" of triggers for an event)
+int g_iTriggerDeleteInterval = -1;  // number of seconds to delete trigmem table array
+
 
 // keep a global vector of recent QCN quake events, remove them after an hour or so
 // this way follup triggers can be matched to a known QCN quake event (i.e. qcn_quake table)
@@ -51,7 +53,29 @@ void create_plot() {
 
 }
 
-void do_trigmon() 
+void do_delete_trigmem()
+{
+    char strDelete[128];
+    sprintf(strDelete,
+      "DELETE FROM trigmem.qcn_trigger_memory WHERE time_trigger<(unix_timestamp() - %d"
+       ") OR time_trigger>(unix_timestamp()+10.0)",
+      g_iTriggerDeleteInterval
+    );
+
+    int retval = trigmem_db.do_query(strDelete);
+    if (retval) {
+        log_messages.printf(MSG_CRITICAL,
+            "do_delete_trigmem() error: %s\n", boincerror(retval)
+        );
+    }
+    else {
+        log_messages.printf(MSG_DEBUG,
+            "do_delete_trigmem(): Removed old triggers from memory\n"
+        );
+    }
+}
+
+void do_display() 
 {
    DB_QCN_TRIGGER_MEMORY qtm;
    qtm.clear();
@@ -110,10 +134,12 @@ int main(int argc, char** argv)
             g_dSleepInterval = atof(argv[++i]);
         } else if (!strcmp(argv[i], "-time_interval")) {
             g_iTriggerTimeInterval = atoi(argv[++i]);
+        } else if (!strcmp(argv[i], "-delete_interval")) {
+            g_iTriggerDeleteInterval = atoi(argv[++i]);
         } else {
             log_messages.printf(MSG_CRITICAL,
                 "bad cmdline arg: %s\n\n"
-                "Example usage: jfl_trigmon -d 3 -sleep_interval 3 -count 10 -time_interval 10\n\n"
+                "Example usage: bin/trigdisplay -d 3 -sleep_interval 3 -time_interval 10 -delete_interval 300\n\n"
              , argv[i]
             );
             return 2;
@@ -121,6 +147,7 @@ int main(int argc, char** argv)
     }
     if (g_dSleepInterval < 0) g_dSleepInterval = TRIGGER_SLEEP_INTERVAL;
     if (g_iTriggerTimeInterval < 0) g_iTriggerTimeInterval = TRIGGER_TIME_INTERVAL;
+    if (g_iTriggerDeleteInterval < 0) g_iTriggerDeleteInterval = TRIGGER_DELETE_INTERVAL;
 
     install_stop_signal_handler();
     atexit(close_db);
@@ -159,10 +186,15 @@ int main(int argc, char** argv)
     ); 
 
     //signal(SIGUSR1, show_state);
+    double dtDelete = 0.0f; // time to delete old triggers from memory
     while (1) {
       g_dTimeCurrent = dtime();
       double dtEnd = g_dTimeCurrent + g_dSleepInterval;
-      do_trigmon();          // the main trigger monitoring routine
+      if (g_dTimeCurrent > dtDelete) {
+         do_delete_trigmem();  // get rid of triggers every once in awhile
+         dtDelete = g_dTimeCurrent + g_iTriggerDeleteInterval;
+      }
+      do_display();          // the main trigger monitoring routine
       check_stop_daemons();  // checks for a quit request
       g_dTimeCurrent = dtime();
       if (g_dTimeCurrent < dtEnd && (dtEnd - g_dTimeCurrent) < 60.0) { // sleep a bit if not less than 60 seconds
