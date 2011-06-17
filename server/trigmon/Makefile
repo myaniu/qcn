@@ -26,7 +26,8 @@ MAINMON  = trigmon.cpp
 MAINDISP =  display.cpp
 
 #all: clean trigmonitor trigdisplay
-all: clean trigdisplay
+#all: clean trigdisplay
+all: clean trigmonitor
 
 trigdisplay: 
 	$(CC) $(CFLAGS) $(INCLUDES) $(MAINDISP) $(SRCS) $(LIBS) -o trigdisplay
@@ -41,6 +42,7 @@ trigmonitor:
 
 
 clean:
-	rm -f *.o core *~ trigmonitor trigdisplay $(INSTALLDIR)/trigmonitor $(INSTALLDIR)/trigdisplay
+	#rm -f *.o core *~ trigmonitor trigdisplay $(INSTALLDIR)/trigmonitor $(INSTALLDIR)/trigdisplay
+	rm -f *.o core *~ trigmonitor trigdisplay $(INSTALLDIR)/trigmonitor
 
 
