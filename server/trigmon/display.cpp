@@ -67,20 +67,16 @@ void do_display()
 {
    DB_QCN_TRIGGER_MEMORY qtm;
    qtm.clear();
-//   fprintf(stdout,"HELLO\n");
-//   time_t t_now; time(&t_now);                        // Current time
-//   fprintf(stdout,"HELLO2 %s\n",rtfile);
-   char* rtfile_ltn = "/var/www/qcn/rt_image/rt_triggers_LTN.xyz";  // real time triggers
-   char* rtfile_dtn = "/var/www/qcn/rt_image/rt_triggers_DTN.xyz";  // real time triggers
-   FILE *fp10; fp10 = fopen(rtfile_ltn,"w+");             // Open output file
-   FILE *fp11; fp11 = fopen(rtfile_dtn,"w+");             // Open output file
 
+   FILE* fp[2];
+   fp[0] = fopen(FILE_NAME_TRIGGER_LAPTOP,"w");             // Open output file
+   fp[1] = fopen(FILE_NAME_TRIGGER_DESKTOP,"w");             // Open output file
 
-   int iCtr = -1;
+   //int iCtr = -1;
    char strWhere[64];
    sprintf(strWhere, "WHERE time_trigger > (unix_timestamp()-%d)", g_iTriggerTimeInterval);
    while (!qtm.enumerate(strWhere))  {
-    iCtr++;
+    //iCtr++;
     // just print a line out of trigger info i.e. all fields in qtm
 /*     fprintf(stdout, "%d %s %d %d %s %s %f %f %f %f %f %f %f %f %f %d %d %f %d %d %d %d %d\n",
         ++iCtr, qtm.db_name, qtm.triggerid, qtm.hostid, qtm.ipaddr, qtm.result_name, qtm.time_trigger,
@@ -88,16 +84,15 @@ void do_display()
          qtm.longitude, qtm.levelvalue, qtm.levelid, qtm.alignid, qtm.dt, qtm.numreset, qtm.type_sensor,
          qtm.varietyid, qtm.qcn_quakeid, qtm.posted ); */
 //     float dt = t_now-qtm.time_trigger;
-    if (qtm.type_sensor < 100) {
-     fprintf(fp10,"%f,%f,%f,%d\n",qtm.longitude,qtm.latitude,qtm.magnitude,qtm.hostid);
-    } else {
-     fprintf(fp11,"%f,%f,%f,%d\n",qtm.longitude,qtm.latitude,qtm.magnitude,qtm.hostid);
-    }
-    iCtr++;
+     fprintf( qtm.type_sensor < ID_USB_START ? fp[0] : fp[1],
+          "%f,%f,%f,%d\n",
+           qtm.longitude,qtm.latitude,qtm.magnitude,qtm.hostid
+     );
+     //iCtr++;
    }
    create_plot();
-   fclose(fp10);                                        // Close output file
-   fclose(fp11);                                        // Close output file
+   if (fp[0]) fclose(fp[0]);
+   if (fp[1]) fclose(fp[1]);
 }
 
 int main(int argc, char** argv)

@@ -38,7 +38,6 @@ int getQCNQuakeID(
     const double& dTimeMin, 
     const double& dTimeMax);
 
-void close_db();
 void do_delete_trigmem();
 void setQueries();
 void do_display();

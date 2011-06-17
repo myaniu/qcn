@@ -1,5 +1,5 @@
-#ifndef _STRUCTS_H_
-#define _STRUCTS_H_
+#ifndef _COMMON_H_
+#define _COMMON_H_
 
 #include "boinc_db.h"
 
@@ -151,4 +151,4 @@ int qcn_db_open()
     return retval;
 }
 
-#endif // _STRUCTS_H_
+#endif // _COMMON_H_
