@@ -34,98 +34,11 @@ double g_dSleepInterval = -1.0;   // number of seconds to sleep between trigmem 
 int g_iTriggerTimeInterval = -1;  // number of seconds to check for triggers (i.e. "time width" of triggers for an event)
 int g_iTriggerDeleteInterval = -1;  // number of seconds to delete trigmem table array
 
-
-// keep a global vector of recent QCN quake events, remove them after an hour or so
-// this way follup triggers can be matched to a known QCN quake event (i.e. qcn_quake table)
-//vector<QCN_QUAKE_EVENT> vQuakeEvent;
-
-void close_db()
-{
-   log_messages.printf(MSG_DEBUG, "Closing databases.\n");
-   boinc_db.close();
-   trigmem_db.close();
-}
-
-void create_plot() {
-  // CMC note -- don't run this in the background as it reuses filenames and can get ahead of itself
-  system (CSH_PLOT_CMD);
-}
-
-void do_delete_trigmem()
-{
-    char strDelete[128];
-    sprintf(strDelete,
-      "DELETE FROM trigmem.qcn_trigger_memory WHERE time_trigger<(unix_timestamp() - %d"
-       ") OR time_trigger>(unix_timestamp()+10.0)",
-      g_iTriggerDeleteInterval
-    );
-
-    int retval = trigmem_db.do_query(strDelete);
-    if (retval) {
-        log_messages.printf(MSG_CRITICAL,
-            "do_delete_trigmem() error: %s\n", boincerror(retval)
-        );
-    }
-    else {
-        log_messages.printf(MSG_DEBUG,
-            "do_delete_trigmem(): Removed old triggers from memory\n"
-        );
-    }
-}
-
-void do_display() 
-{
-   DB_QCN_TRIGGER_MEMORY qtm;
-   FILE* fp[2] = {NULL, NULL};
-
-    fp[0] = fopen(FILE_NAME_TRIGGER_LAPTOP,  "w");             // Open output file
-    fp[1] = fopen(FILE_NAME_TRIGGER_DESKTOP, "w");             // Open output file
-
-    if (!fp[0]) {
-      if (fp[1]) fclose(fp[1]);
-      log_messages.printf(MSG_CRITICAL,
-            "trigdisplay: cannot open laptop file\n"
-      );
-      return;
-    }
-    if (!fp[1]) {
-      if (fp[0]) fclose(fp[0]);
-      log_messages.printf(MSG_CRITICAL,
-            "trigdisplay: cannot open desktop file\n"
-      );
-      return;
-    }
-
-   //int iCtr = -1;
-   char strWhere[64];
-
-   sprintf(strWhere, "WHERE time_trigger > (unix_timestamp()-%d)", g_iTriggerTimeInterval);
-   qtm.clear();
-   while (!qtm.enumerate(strWhere))  {
-     //iCtr++;
-    // just print a line out of trigger info i.e. all fields in qtm
-/*     fprintf(stdout, "%d %s %d %d %s %s %f %f %f %f %f %f %f %f %f %d %d %f %d %d %d %d %d\n",
-        iCtr, qtm.db_name, qtm.triggerid, qtm.hostid, qtm.ipaddr, qtm.result_name, qtm.time_trigger,
-        qtm.time_received, qtm.time_sync, qtm.sync_offset, qtm.significance, qtm.magnitude, qtm.latitude,
-         qtm.longitude, qtm.levelvalue, qtm.levelid, qtm.alignid, qtm.dt, qtm.numreset, qtm.type_sensor,
-         qtm.varietyid, qtm.qcn_quakeid, qtm.posted ); */
-//     float dt = t_now-qtm.time_trigger;
-       fprintf(qtm.type_sensor < ID_USB_SENSOR_START ? fp[0]: fp[1],
-          "%f,%f,%f,%d\n",
-           qtm.longitude,qtm.latitude,qtm.magnitude,qtm.hostid
-       );
-   }
-
-   create_plot();
-
-   if (fp[0]) fclose(fp[0]);
-   if (fp[1]) fclose(fp[1]);
-}
-
-
-int main(int argc, char** argv) 
+int main(int argc, char** argv)
 {
     int retval;
+    //vQuakeEvent.clear();
+
 
     retval = config.parse_file();
     if (retval) {
@@ -158,55 +71,19 @@ int main(int argc, char** argv)
     if (g_iTriggerDeleteInterval < 0) g_iTriggerDeleteInterval = TRIGGER_DELETE_INTERVAL;
 
     install_stop_signal_handler();
+
     atexit(close_db);
 
-    retval = boinc_db.open(
-        config.db_name, config.db_host, config.db_user, config.db_passwd
-    );
-    if (retval) {
-        log_messages.printf(MSG_CRITICAL,
-            "trigdisplay: boinc_db.open: %d; %s\n", retval, boinc_db.error_string()
-        );
-        return 3;
-    }
-    retval = trigmem_db.open(
-        config.trigmem_db_name, config.trigmem_db_host, config.trigmem_db_user, config.trigmem_db_passwd
-    );
-    if (retval) {
-        log_messages.printf(MSG_CRITICAL,
-            "trigdisplay: trigmem_db.open: %d; %s\n", retval, boinc_db.error_string()
-        );
-        return 4;
-    }
-    retval = boinc_db.set_isolation_level(REPEATABLE_READ);
-    if (retval) {
-        log_messages.printf(MSG_CRITICAL,
-            "trigdisplay: boinc_db.set_isolation_level: %d; %s\n", retval, boinc_db.error_string()
-        );
-    }
+    retval = qcn_open_db();
+    if (retval) return retval;
 
     log_messages.printf(MSG_NORMAL,
             "trigdisplay started with the following options:\n"
-            "  -time_interval   = %d\n" 
+            "  -time_interval   = %d\n"
             "  -sleep_interval  = %f\n",
          g_iTriggerTimeInterval,
          g_dSleepInterval
-    ); 
-
-    retval = boinc_db.set_isolation_level(REPEATABLE_READ);
-    if (retval) {
-        log_messages.printf(MSG_CRITICAL,
-            "trigdisplay: boinc_db.set_isolation_level: %d; %s\n", retval, boinc_db.error_string()
-        );
-    }
-
-    log_messages.printf(MSG_NORMAL,
-            "trigdisplay started with the following options:\n"
-            "  -time_interval   = %d\n" 
-            "  -sleep_interval  = %f\n",
-         g_iTriggerTimeInterval,
-         g_dSleepInterval
-    ); 
+    );
 
     //signal(SIGUSR1, show_state);
     //double dtDelete = 0.0f; // time to delete old triggers from memory

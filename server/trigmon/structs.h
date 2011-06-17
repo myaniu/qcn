@@ -105,5 +105,39 @@ struct QCN_QUAKE_EVENT
     QCN_QUAKE_EVENT() { clear(); };
 };
 
+int qcn_db_open()
+{
+    int retval = boinc_db.open(
+        config.db_name, config.db_host, config.db_user, config.db_passwd
+    );
+    if (retval) {
+        log_messages.printf(MSG_CRITICAL,
+            "boinc_db.open: %d; %s\n", retval, boinc_db.error_string()
+        );
+        return 3;
+    }
+    retval = trigmem_db.open(
+        config.trigmem_db_name, config.trigmem_db_host, config.trigmem_db_user, config.trigmem_db_passwd
+    );
+    if (retval) {
+        log_messages.printf(MSG_CRITICAL,
+            "trigmem_db.open: %d; %s\n", retval, boinc_db.error_string()
+        );
+        return 4;
+    }
+    retval = boinc_db.set_isolation_level(REPEATABLE_READ);
+    if (retval) {
+        log_messages.printf(MSG_CRITICAL,
+            "boinc_db.set_isolation_level: %d; %s\n", retval, boinc_db.error_string()
+        );
+    }
+    retval = trigmem_db.set_isolation_level(REPEATABLE_READ);
+    if (retval) {
+        log_messages.printf(MSG_CRITICAL,
+            "trigmem_db.set_isolation_level: %d; %s\n", retval, boinc_db.error_string()
+        );
+    }
+    return retval;
+}
 
 #endif // _STRUCTS_H_
