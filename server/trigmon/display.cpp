@@ -47,10 +47,8 @@ void close_db()
 }
 
 void create_plot() {
-
-
-    system ("csh /var/www/qcn/rt_image/inc/rt_images.csh &");
-
+  // CMC note -- don't run this in the background as it reuses filenames and can get ahead of itself
+  system ("csh /var/www/qcn/rt_image/inc/rt_images.csh");
 }
 
 void do_delete_trigmem()
@@ -78,47 +76,57 @@ void do_delete_trigmem()
 void do_display() 
 {
    DB_QCN_TRIGGER_MEMORY qtm;
-   qtm.clear();
-//   fprintf(stdout,"HELLO\n");
-//   time_t t_now; time(&t_now);                        // Current time
-//   fprintf(stdout,"HELLO2 %s\n",rtfile);
-   char* rtfile_ltn = "/var/www/qcn/rt_image/rt_triggers_LTN.xyz";  // real time triggers   
-   char* rtfile_dtn = "/var/www/qcn/rt_image/rt_triggers_DTN.xyz";  // real time triggers   
-   FILE *fp10; fp10 = fopen(rtfile_ltn,"w+");             // Open output file
-   FILE *fp11; fp11 = fopen(rtfile_dtn,"w+");             // Open output file
+   FILE* fp[2] = {NULL, NULL};
 
+    fp[0] = fopen(FILE_NAME_TRIGGER_LAPTOP,  "w");             // Open output file
+    fp[1] = fopen(FILE_NAME_TRIGGER_DESKTOP, "w");             // Open output file
 
-   int iCtr = -1;
+    if (!fp[0]) {
+      if (fp[1]) fclose(fp[1]);
+      log_messages.printf(MSG_CRITICAL,
+            "trigdisplay: cannot open laptop file\n"
+      );
+      return;
+    }
+    if (!fp[1]) {
+      if (fp[0]) fclose(fp[0]);
+      log_messages.printf(MSG_CRITICAL,
+            "trigdisplay: cannot open desktop file\n"
+      );
+      return;
+    }
+
+   //int iCtr = -1;
    char strWhere[64];
+
    sprintf(strWhere, "WHERE time_trigger > (unix_timestamp()-%d)", g_iTriggerTimeInterval);
+   qtm.clear();
    while (!qtm.enumerate(strWhere))  {
-    iCtr++;
+     //iCtr++;
     // just print a line out of trigger info i.e. all fields in qtm
 /*     fprintf(stdout, "%d %s %d %d %s %s %f %f %f %f %f %f %f %f %f %d %d %f %d %d %d %d %d\n",
-        ++iCtr, qtm.db_name, qtm.triggerid, qtm.hostid, qtm.ipaddr, qtm.result_name, qtm.time_trigger,
+        iCtr, qtm.db_name, qtm.triggerid, qtm.hostid, qtm.ipaddr, qtm.result_name, qtm.time_trigger,
         qtm.time_received, qtm.time_sync, qtm.sync_offset, qtm.significance, qtm.magnitude, qtm.latitude,
          qtm.longitude, qtm.levelvalue, qtm.levelid, qtm.alignid, qtm.dt, qtm.numreset, qtm.type_sensor,
          qtm.varietyid, qtm.qcn_quakeid, qtm.posted ); */
 //     float dt = t_now-qtm.time_trigger;
-    if (qtm.type_sensor < 100) {
-     fprintf(fp10,"%f,%f,%f,%d\n",qtm.longitude,qtm.latitude,qtm.magnitude,qtm.hostid);
-    } else {
-     fprintf(fp11,"%f,%f,%f,%d\n",qtm.longitude,qtm.latitude,qtm.magnitude,qtm.hostid);
-    }
-    iCtr++;
+       fprintf(qtm.type_sensor < ID_USB_SENSOR_START ? fp[0]: fp[1],
+          "%f,%f,%f,%d\n",
+           qtm.longitude,qtm.latitude,qtm.magnitude,qtm.hostid
+       );
    }
+
    create_plot();
-   fclose(fp10);                                        // Close output file
-   fclose(fp11);                                        // Close output file
+
+   if (fp[0]) fclose(fp[0]);
+   if (fp[1]) fclose(fp[1]);
 }
 
 
 int main(int argc, char** argv) 
 {
     int retval;
-    //vQuakeEvent.clear();
 
- 
     retval = config.parse_file();
     if (retval) {
         log_messages.printf(MSG_CRITICAL,
@@ -185,15 +193,33 @@ int main(int argc, char** argv)
          g_dSleepInterval
     ); 
 
+    retval = boinc_db.set_isolation_level(REPEATABLE_READ);
+    if (retval) {
+        log_messages.printf(MSG_CRITICAL,
+            "trigdisplay: boinc_db.set_isolation_level: %d; %s\n", retval, boinc_db.error_string()
+        );
+    }
+
+    log_messages.printf(MSG_NORMAL,
+            "trigdisplay started with the following options:\n"
+            "  -time_interval   = %d\n" 
+            "  -sleep_interval  = %f\n",
+         g_iTriggerTimeInterval,
+         g_dSleepInterval
+    ); 
+
     //signal(SIGUSR1, show_state);
     double dtDelete = 0.0f; // time to delete old triggers from memory
     while (1) {
       g_dTimeCurrent = dtime();
       double dtEnd = g_dTimeCurrent + g_dSleepInterval;
+#if 0
+    // the qcn_trigmon program which checks against known USGS quakes takes care of deleting
       if (g_dTimeCurrent > dtDelete) {
          do_delete_trigmem();  // get rid of triggers every once in awhile
          dtDelete = g_dTimeCurrent + g_iTriggerDeleteInterval;
       }
+#endif
       do_display();          // the main trigger monitoring routine
       check_stop_daemons();  // checks for a quit request
       g_dTimeCurrent = dtime();
@@ -204,6 +230,4 @@ int main(int argc, char** argv)
     }
     return 0;
 }
-
-
 

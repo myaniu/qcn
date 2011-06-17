@@ -6,6 +6,9 @@
 #define n_short 300
 #define n_long 1000
 
+// usb sensors start with type id # 100
+#define ID_USB_SENSOR_START 100
+
 // important constants for the main query
 #define TRIGGER_TIME_INTERVAL 10
 #define TRIGGER_COUNT 10

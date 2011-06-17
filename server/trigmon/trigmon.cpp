@@ -75,7 +75,8 @@ int do_trigmon(struct trigger t[], struct bad_hosts bh)
      if (qtm.hostid==bh.hid[j]) bad_host=j;  
     }
     ++iCtr;
-     if ( (qtm.type_sensor>=100)&&(bad_host<0) ) {                           // Only use triggers from usb accelerometers
+     if ( (qtm.type_sensor>=ID_USB_SENSOR_START)&&(bad_host<0) ) { 
+      // Only use triggers from usb accelerometers
       ++iCtr2;                                             // Count triggers
       t[iCtr2].hid  = qtm.hostid;                          // Host ID
       t[iCtr2].tid  = qtm.triggerid;                       // Trigger ID
