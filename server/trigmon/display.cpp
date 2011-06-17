@@ -84,7 +84,7 @@ void do_display()
          qtm.longitude, qtm.levelvalue, qtm.levelid, qtm.alignid, qtm.dt, qtm.numreset, qtm.type_sensor,
          qtm.varietyid, qtm.qcn_quakeid, qtm.posted ); */
 //     float dt = t_now-qtm.time_trigger;
-     fprintf( qtm.type_sensor < ID_USB_START ? fp[0] : fp[1],
+     fprintf( qtm.type_sensor < ID_USB_SENSOR_START ? fp[0] : fp[1],
           "%f,%f,%f,%d\n",
            qtm.longitude,qtm.latitude,qtm.magnitude,qtm.hostid
      );
