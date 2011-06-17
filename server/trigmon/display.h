@@ -23,7 +23,7 @@ using std::vector;
 #include "sched_util.h"
 // re-use the data structures from the qcn_trigger scheduler stuff
 #include "../trigger/qcn_trigger.h"
-#include "structs.h"
+#include "common.h"
 
 #define FILE_NAME_TRIGGER_LAPTOP  "/var/www/qcn/rt_image/rt_triggers_LTN.xyz"
 #define FILE_NAME_TRIGGER_DESKTOP "/var/www/qcn/rt_image/rt_triggers_DTN.xyz"

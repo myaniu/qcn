@@ -23,7 +23,7 @@ using std::vector;
 #include "sched_util.h"
 // re-use the data structures from the qcn_trigger scheduler stuff
 #include "../trigger/qcn_trigger.h"
-#include "structs.h"
+#include "common.h"
 
 #define Vs 3.4                              // S wave velocity (km/s)
 #define Vp 6.4                              // P wave velocity (km/s)
