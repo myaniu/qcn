@@ -42,12 +42,14 @@ struct event {
     Contact: jflawrence@stanford.edu                                                  */
 
    int    eid;                   // Event ID
+   int    qcn_quakeid;           // QCN database (qcn_quake table) ID of this event
    float  elon,elat,edep;        // Event Longitude, Latitude, & Depth
    double  e_time;               // Event Origin Time
    int    e_t_now;               // Event ID Time
    float  e_r2;                  // r-squared correlation
    float  e_mag; float e_std;    // Event magnitude & magnitude standard deviation
    int    e_cnt;
+   float  e_msfit;                 // event misfit
    double e_t_detect;            // Time detected
    float  e_dt_detect;           // Time from event origin time to detection 
 };
