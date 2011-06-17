@@ -3,8 +3,8 @@
 
 #define DB_TRIGMEM "trigmem"
 
-#define n_long 1000
 #define n_short 300
+#define n_long 1000
 
 // important constants for the main query
 #define TRIGGER_TIME_INTERVAL 10
