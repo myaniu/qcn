@@ -1,25 +1,7 @@
-/* version of qcn_trigmon for Jesse
+/* trigdisplay  (c) 2011 Stanford University
 
-  This program will monitor the "live" triggers in memory 
-   (the mysql trigmem.qcn_trigger_memory table)
-
-The general idea is that a query is run every few seconds to see if any quakes were
-detected by QCN sensors via lat/lng & time etc
-
-if there were "hits" in a certain area, then flag this as a quake and put in the qcn_quake table
-
-logic:
-  1) check for numerous trickles within a region in a short time period (i.e. 10 seconds) 
-  2) if there are numerous trickles - see if this event has been reported in qcnalpha.qcn_quake - lookup by time/lat/lng
-  3) if has been reported, use that event to tag trickles; else make an entry in qcn_quake and tag triggers
-  4) request uploads from these triggers as appropriate
-
-Example usage:
-./jfl_trigmon -d 3 -sleep_interval 10 -time_interval 100
-
-(run every 10 seconds, show all debug (-d 3), triggers in last 100 seconds)
-
-(c) 2010  Stanford University School of Earth Sciences
+   this program will dump out the latest triggers from memory to a file every
+   few seconds and then use gmt et al to plot out the latest triggers
 
 */
 
