@@ -41,6 +41,6 @@ int getQCNQuakeID(
 void close_db();
 void do_delete_trigmem();
 void setQueries();
-int do_display(int hid[]);
+int do_display(); //int hid[]);
 
 #endif //_DISPLAY_H_

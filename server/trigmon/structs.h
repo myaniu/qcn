@@ -1,6 +1,10 @@
 #ifndef _STRUCTS_H_
 #define _STRUCTS_H_
 
+#include "boinc_db.h"
+
+extern DB_CONN trigmem_db;
+
 #define DB_TRIGMEM "trigmem"
 
 #define n_short 300
@@ -104,6 +108,13 @@ struct QCN_QUAKE_EVENT
     void clear() { memset(this, 0x00, sizeof(QCN_QUAKE_EVENT)); }
     QCN_QUAKE_EVENT() { clear(); };
 };
+
+void qcn_db_close()
+{
+   log_messages.printf(MSG_DEBUG, "Closing databases.\n");
+   boinc_db.close();
+   trigmem_db.close();
+}
 
 int qcn_db_open()
 {

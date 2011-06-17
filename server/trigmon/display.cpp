@@ -34,6 +34,50 @@ double g_dSleepInterval = -1.0;   // number of seconds to sleep between trigmem 
 int g_iTriggerTimeInterval = -1;  // number of seconds to check for triggers (i.e. "time width" of triggers for an event)
 int g_iTriggerDeleteInterval = -1;  // number of seconds to delete trigmem table array
 
+void create_plot()
+{
+  // CMC note: not a good idea to run this in the background as it's such a lengthy script
+  // it's possible to loop around and overwrite files in the middle of being used by the script etc
+    system (CSH_PLOT_CMD);
+}
+
+void do_display()
+{
+   DB_QCN_TRIGGER_MEMORY qtm;
+   qtm.clear();
+//   fprintf(stdout,"HELLO\n");
+//   time_t t_now; time(&t_now);                        // Current time
+//   fprintf(stdout,"HELLO2 %s\n",rtfile);
+   char* rtfile_ltn = "/var/www/qcn/rt_image/rt_triggers_LTN.xyz";  // real time triggers
+   char* rtfile_dtn = "/var/www/qcn/rt_image/rt_triggers_DTN.xyz";  // real time triggers
+   FILE *fp10; fp10 = fopen(rtfile_ltn,"w+");             // Open output file
+   FILE *fp11; fp11 = fopen(rtfile_dtn,"w+");             // Open output file
+
+
+   int iCtr = -1;
+   char strWhere[64];
+   sprintf(strWhere, "WHERE time_trigger > (unix_timestamp()-%d)", g_iTriggerTimeInterval);
+   while (!qtm.enumerate(strWhere))  {
+    iCtr++;
+    // just print a line out of trigger info i.e. all fields in qtm
+/*     fprintf(stdout, "%d %s %d %d %s %s %f %f %f %f %f %f %f %f %f %d %d %f %d %d %d %d %d\n",
+        ++iCtr, qtm.db_name, qtm.triggerid, qtm.hostid, qtm.ipaddr, qtm.result_name, qtm.time_trigger,
+        qtm.time_received, qtm.time_sync, qtm.sync_offset, qtm.significance, qtm.magnitude, qtm.latitude,
+         qtm.longitude, qtm.levelvalue, qtm.levelid, qtm.alignid, qtm.dt, qtm.numreset, qtm.type_sensor,
+         qtm.varietyid, qtm.qcn_quakeid, qtm.posted ); */
+//     float dt = t_now-qtm.time_trigger;
+    if (qtm.type_sensor < 100) {
+     fprintf(fp10,"%f,%f,%f,%d\n",qtm.longitude,qtm.latitude,qtm.magnitude,qtm.hostid);
+    } else {
+     fprintf(fp11,"%f,%f,%f,%d\n",qtm.longitude,qtm.latitude,qtm.magnitude,qtm.hostid);
+    }
+    iCtr++;
+   }
+   create_plot();
+   fclose(fp10);                                        // Close output file
+   fclose(fp11);                                        // Close output file
+}
+
 int main(int argc, char** argv)
 {
     int retval;
@@ -72,9 +116,9 @@ int main(int argc, char** argv)
 
     install_stop_signal_handler();
 
-    atexit(close_db);
+    atexit(qcn_db_close);
 
-    retval = qcn_open_db();
+    retval = qcn_db_open();
     if (retval) return retval;
 
     log_messages.printf(MSG_NORMAL,
@@ -105,6 +149,7 @@ int main(int argc, char** argv)
           boinc_sleep(dtEnd - g_dTimeCurrent);
       } 
     }
+    qcn_db_close();
     return 0;
 }
 
