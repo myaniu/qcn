@@ -41,6 +41,28 @@ void create_plot()
     system (CSH_PLOT_CMD);
 }
 
+void do_delete_trigmem()
+{
+    char strDelete[128];
+    sprintf(strDelete,
+      "DELETE FROM trigmem.qcn_trigger_memory WHERE time_trigger<(unix_timestamp() - %d"
+       ") OR time_trigger>(unix_timestamp()+10.0)",
+      g_iTriggerDeleteInterval
+    );
+
+    int retval = trigmem_db.do_query(strDelete);
+    if (retval) {
+        log_messages.printf(MSG_CRITICAL,
+            "do_delete_trigmem() error: %s\n", boincerror(retval)
+        );
+    }
+    else {
+        log_messages.printf(MSG_DEBUG,
+            "do_delete_trigmem(): Removed old triggers from memory\n"
+        );
+    }
+}
+
 void do_display()
 {
    DB_QCN_TRIGGER_MEMORY qtm;
