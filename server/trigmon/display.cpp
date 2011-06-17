@@ -23,7 +23,7 @@ Example usage:
 
 */
 
-#include "jfl_display.h"
+#include "display.h"
 
 DB_CONN trigmem_db;
 

@@ -4,6 +4,7 @@ CC = g++
 BOINCDIR = ../../../boinc
 MYSQLDIR = /usr/local/mysql
 SSLDIR = /usr/local/ssl
+INSTALLDIR = /var/www/boinc/sensor/bin
 
 LIBS = -L$(MYSQLDIR)/lib -lmysqlclient_r \
   -L$(BOINCDIR)/lib -lboinc \
@@ -27,18 +28,18 @@ MAINDISP =  display.cpp
 all: clean trigmonitor trigdisplay
 
 trigdisplay: 
-	$(CC) $(CFLAGS) $(INCLUDES) $(MAINMDISP) $(SRCS) $(LIBS) -o trigdisplay
+	$(CC) $(CFLAGS) $(INCLUDES) $(MAINDISP) $(SRCS) $(LIBS) -o trigdisplay
 	strip trigdisplay
-	cp trigdisplay /var/www/boinc/sensor/bin/
+	cp trigdisplay $(INSTALLDIR)
 
 
 trigmonitor: 
 	$(CC) $(CFLAGS) $(INCLUDES) $(MAINMON) $(SRCS) $(LIBS) -o trigmonitor
 	strip trigmonitor
-	cp trigmonitor /var/www/boinc/sensor/bin/
+	cp trigmonitor $(INSTALLDIR)
 
 
 clean:
-	rm -f *.o core *~ trigmonitor trigdisplay
+	rm -f *.o core *~ trigmonitor trigdisplay $(INSTALLDIR)/trigmonitor $(INSTALLDIR)/trigdisplay
 
 
