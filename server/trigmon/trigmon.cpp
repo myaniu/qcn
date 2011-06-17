@@ -3,7 +3,7 @@
   This program will monitor the "live" triggers in memory 
    (the mysql trigmem.qcn_trigger_memory table)
 
-The general idea is that a query is run every few seconds to see if any quakes were
+The general idea is that a query is run frequently (<1 secod) to see if any quakes were
 detected by QCN sensors via lat/lng & time etc
 
 if there were "hits" in a certain area, then flag this as a quake and put in the qcn_quake table
@@ -15,9 +15,9 @@ logic:
   4) request uploads from these triggers as appropriate
 
 Example usage:
-./fl_trigmon -d 3 -sleep_interval 10 -time_interval 100
+./trigmonitor -d 3 -sleep_interval .2 -time_interval 100
 
-(run every 10 seconds, show all debug (-d 3), triggers in last 100 seconds)
+(run every .2 seconds, show all debug (-d 3), triggers in last 100 seconds)
 
 (c) 2010  Stanford University School of Earth Sciences
 
@@ -45,15 +45,6 @@ int g_iTriggerTimeInterval = -1;  // number of seconds to check for triggers (i.
 // defined as extern in the header so other progs/files can include crust_2.0_subs.h
 struct cr_mod crm;                     // The Crust2.0 model map
 struct cr_key crk[mx_cr_type];         // The Crust2.0 model key
-
-
-
-void close_db()
-{
-   log_messages.printf(MSG_DEBUG, "Closing databases.\n");
-   boinc_db.close();
-   trigmem_db.close();
-}
 
 int do_trigmon(struct trigger t[], struct bad_hosts bh) 
 {
@@ -1010,7 +1001,7 @@ int main(int argc, char** argv)
     int tidl=0; int hidl=0;                                         // default last host id
     struct bad_hosts bh;
 /*  Get list of bad hosts  */
-    get_bad_hosts(bh);
+//    get_bad_hosts(bh);
 /* initialize random seed: */
     srand ( time(NULL) );
 
@@ -1045,31 +1036,14 @@ int main(int argc, char** argv)
     if (g_iTriggerTimeInterval < 0) g_iTriggerTimeInterval = TRIGGER_TIME_INTERVAL;
 
     install_stop_signal_handler();
-    atexit(close_db);
+    atexit(qcn_db_close);
 
-    retval = boinc_db.open(
-        config.db_name, config.db_host, config.db_user, config.db_passwd
-    );
+    retval = qcn_db_open();
     if (retval) {
         log_messages.printf(MSG_CRITICAL,
             "boinc_db.open: %d; %s\n", retval, boinc_db.error_string()
         );
         return 3;
-    }
-    retval = trigmem_db.open(
-        config.trigmem_db_name, config.trigmem_db_host, config.trigmem_db_user, config.trigmem_db_passwd
-    );
-    if (retval) {
-        log_messages.printf(MSG_CRITICAL,
-            "trigmem_db.open: %d; %s\n", retval, boinc_db.error_string()
-        );
-        return 4;
-    }
-    retval = boinc_db.set_isolation_level(REPEATABLE_READ);
-    if (retval) {
-        log_messages.printf(MSG_CRITICAL,
-            "boinc_db.set_isolation_level: %d; %s\n", retval, boinc_db.error_string()
-        );
     }
 
     log_messages.printf(MSG_NORMAL,
@@ -1101,6 +1075,4 @@ int main(int argc, char** argv)
     }
     return 0;
 }
-
-
 
