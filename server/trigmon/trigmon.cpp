@@ -790,7 +790,7 @@ void get_loc(float ilon, float ilat, float dis, float az, float olon, float olat
 
 int intensity_map(struct trigger t[], int i, struct event e[]) 
 {
-   fprintf(stdout,"Calculate intensity map\n");
+   time_t t_now; time(&t_now); e[1].e_t_now = (int) t_now;    // Current time
    float width=5; float dx=0.05;                              // Physical dimensions of grid
    int   nx = ((int) (width/dx)) + 1; int ny = nx;            // array dimension of grid
    float   dist,dist_eq_nd;                                          // Min distance from triger host to grid node
@@ -806,6 +806,10 @@ int intensity_map(struct trigger t[], int i, struct event e[])
    float x_min = elon - width/2.f;                            // Minimum longitude of map
    float y_min = elat - width/2.f;                            // Min Latitude
 
+   float pi = atan(1.)*4.;                                   // pi = 3.14....
+   float latr = e[1].elat*pi/180.;                           // Latitude in radians
+   time_t t_eq; t_eq = (int) e[1].e_time;double t_dif = difftime(t_now,t_eq);
+
 /* Create an event directory name                             */
    char *edir = new char[_MAX_PATH];
    char *epath = new char[_MAX_PATH];
@@ -820,7 +824,7 @@ int intensity_map(struct trigger t[], int i, struct event e[])
 /* Create event base directory path                           */
    struct stat st;                                            // I/O status for checking existance of directory/file
    if(stat(epath,&st) != 0) {                                 // If the path does not exist,
-     retval = mkdir(epath,E_MASK);      syscmd                  // Make new directory
+     retval = mkdir(epath,E_MASK);                            // Make new directory
    }
 
 /* Create iteration directory                                 */
@@ -849,7 +853,6 @@ int intensity_map(struct trigger t[], int i, struct event e[])
 
 /* Create a file with the event location (lon,lat only)       */
    fp[OUT_EVENT] = fopen(strPath[OUT_EVENT],"w");      // Open event output file
-   time_t t_now; time(&t_now); e[1].e_t_now = (int) t_now;    // Current time
    if (!fp[OUT_EVENT]) {
       retval = 1;
       fprintf(stdout, "Error in intensity_map OUT_EVENT file creation\n");
@@ -888,9 +891,6 @@ int intensity_map(struct trigger t[], int i, struct event e[])
       goto close_output_files;
    }
 
-   float pi = atan(1.)*4.;                                   // pi = 3.14....
-   float latr = e[1].elat*pi/180.;                           // Latitude in radians
-   time_t t_eq; t_eq = (int) e[1].e_time;double t_dif = difftime(t_now,t_eq);
    for (j = 1; j<=9; j++) {                                  // For five distances
     float dti =  (float) (j-3) * 10.;                        // Time offset from detection time
     float dis = ((float) (j-3) * 10.+t_dif)*3.;              // Distance of time contours (10 s interval at 3km/s)
@@ -900,7 +900,7 @@ int intensity_map(struct trigger t[], int i, struct event e[])
       float dlon = sin(az)*dis/111.19/abs(cos(latr));        // Longitudinal distance
       ln_x = e[1].elon + dlon;                               // New longitude
       lt_x = e[1].elat + cos(az)*dis/111.19;                 // New latitude
-      fprintf(fp10,"%f,%f\n",ln_x,lt_x);                     // Output contour
+      fprintf(fp[OUT_CONT_TIME],"%f,%f\n",ln_x,lt_x);                     // Output contour
      }                                                       //
      fprintf(fp[OUT_CONT_TIME],">\n");                                    // Deliminator for separation between line segments
      fprintf(fp[OUT_CONT_LABEL],"%f %f 12 0 1 5 \\ %d \n",ln_x,lt_x,(int) dti );// Output labels for each contour
