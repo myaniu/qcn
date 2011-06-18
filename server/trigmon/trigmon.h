@@ -35,6 +35,8 @@ using std::vector;
 #define EVENT_PATH      "/var/www/qcn/earthquakes/"
 #define BAD_HOSTS_FILE  "/var/www/qcn/earthquakes/inc/bad_hosts.txt"
 
+enum eOutput { OUT_EVENT, OUT_STATION, OUT_INTENSITY_MAP, OUT_CONT_TIME, OUT_CONT_LABEL, OUT_TIME_SCATTER };
+
 // returns quakeid if event found/created (0 if not)
 int getQCNQuakeID(
     const double& dLat, 
@@ -61,9 +63,9 @@ float intensity_extrapolate(int pors, float dist, float dist_eq_nd, float intens
 void php_event_email(struct trigger t[], int i, struct event e[], char* epath);
 void php_event_page(struct trigger t[], int i, struct event e[], char* epath);
 void preserve_dir(char * edir, char * epath);
-void intensity_map_gmt(struct event e[], char* epath);
+int intensity_map_gmt(struct event e[], char* epath);
 void scatter_plot_gmt(struct event e[], char* epath);
-void intensity_map(struct trigger t[], int i, struct event e[]);
+int intensity_map(struct trigger t[], int i, struct event e[]);
 
 void detect_qcn_event(struct trigger t[], int iCtr, struct event e[]);
 void get_bad_hosts(struct bad_hosts bh[]);

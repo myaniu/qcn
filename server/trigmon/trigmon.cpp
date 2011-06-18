@@ -29,8 +29,6 @@ Example usage:
 
 DB_CONN trigmem_db;
    
-FILE *fpCrust[3] = {NULL, NULL, NULL};  // Crust2 files
-
 double g_dTimeCurrent = 0.0;  // global for current time
 
 // global params for trigger monitoring behavior
@@ -107,17 +105,12 @@ int do_trigmon(struct trigger t[], struct bad_hosts bh)
 
 /* The following codes determine the depth-averaged seismic velocity for a location (lon,lat,depth) from CRUST2.0 */
 
-void crust2_close()
-{
-   for (int i = 0; i < 3; i++) {
-     if (fpCrust[i]) fclose(fpCrust[i]);
-     fpCrust[i] = NULL; 
-   }
-}
-
 int crust2_load()
 /* This function reads in the crust2.0 model and indexes the model map by number rather than by letter */
 {
+
+   FILE *fpCrust[3] = {NULL, NULL, NULL};  // Crust2 files
+   int retval = 0;
 
 // Open input files. These are defined in crust_2.0_subs.h 
    fpCrust[CRUST_KEY] = fopen(CRUST_KEY_FILE, "r");     // Open key file describing each model
@@ -126,8 +119,8 @@ int crust2_load()
 
    if (!fpCrust[CRUST_KEY] || !fpCrust[CRUST_MAP] || !fpCrust[CRUST_ELEV]) {
       fprintf(stdout, "File Open Error %x %x %x\n", fpCrust[CRUST_KEY], fpCrust[CRUST_MAP], fpCrust[CRUST_ELEV]);
-      crust2_close();
-      return 1;
+      retval = 1;
+      goto crust2_close;
    }
 
    int   i, j, k;                                                                                    // Index variables
@@ -188,15 +181,18 @@ int crust2_load()
       }
    }
 
-   crust2_close();
-
 /* Set the longitude and latitude for each node: */
 
    for (i=0; i<=mx_cr_lt-1; i++) { crm.lat[i]=90.f-( ((float)i)+0.5)*dx_cr ;  }                      // for each latitude
 
    for (i=0; i<=mx_cr_ln-1; i++) { crm.lon[i]=     ( ((float)i)+0.5)*dx_cr ;  }                      // for each longitude
 
-   return 0;                                                                                         // Done with function
+crust2_close:
+   for (i = 0; i < 3; i++) {
+     if (fpCrust[i]) fclose(fpCrust[i]);
+     fpCrust[i] = NULL; 
+   }
+   return retval;                                                                                         // Done with function
 
 }
 
@@ -700,43 +696,43 @@ float intensity_extrapolate(int pors, float dist, float dist_eq_nd, float pga1) 
 
 
 void php_event_email(struct trigger t[], int i, struct event e[], char* epath) {
-/* This subroutine should email us when we detect an earthquake */   
+/* This subroutine should email us when we detect an earthquake */
 
-   char phpfile[sizeof "/var/www/boinc/sensor/html/user/" + sizeof "/earthquake_email.php"]; 
+   char phpfile[sizeof "/var/www/boinc/sensor/html/user/" + sizeof "/earthquake_email.php"];
    sprintf(phpfile,"/var/www/boinc/sensor/html/user/earthquake_email.php");
-   FILE *fpCrust[CRUST_MAP]; fpCrust[1] = fopen(phpfile,"w+");                       // Open web file
+   FILE *fpMail  = fopen(phpfile,"w+");                       // Open web file
+   if (!fpMail) {
+    fprintf(stdout, "Error in php_event_email - could not open file %s\n", phpfile);
+     return;  //error
+   }
 
-   fprintf(fpCrust[CRUST_MAP],"<?php\n");
-   fprintf(fpCrust[CRUST_MAP],"chdir(\"/var/www/boinc/sensor/html/user/\");\n");
-   fprintf(fpCrust[CRUST_MAP],"require_once(\"/var/www/boinc/sensor/html/inc/earthquake_email.inc\");\n");        // Include email php function
-   
+   fprintf(fpMail,"<?php\n");
+   fprintf(fpMail,"chdir(\"/var/www/boinc/sensor/html/user/\");\n");
+   fprintf(fpMail,"require_once(\"/var/www/boinc/sensor/html/inc/earthquake_email.inc\");\n");        // Include email php function
+
    time_t t_eq; struct tm * t_eq_gmt; t_eq = (int) e[1].e_time; t_eq_gmt = gmtime(&t_eq);     // Earthquake time
 
-   fprintf(fpCrust[CRUST_MAP],"$mag  = %1.1f; \n",e[1].e_mag);                     // Set eq magnitude
-   fprintf(fpCrust[CRUST_MAP],"$elon = %4.3f; \n",e[1].elon);                      // Set eq Lon 
-   fprintf(fpCrust[CRUST_MAP],"$elat = %4.3f; \n",e[1].elat);                      // Set eq Lat
-   fprintf(fpCrust[CRUST_MAP],"$edep = %2.1f; \n",e[1].edep);                      // Set Depth
-   fprintf(fpCrust[CRUST_MAP],"$n_stations = %d; \n",e[1].e_cnt+1);                // Set # of stations used
-   fprintf(fpCrust[CRUST_MAP],"$etime = %f; \n",e[1].e_time);                      // Set earthquake time
-   fprintf(fpCrust[CRUST_MAP],"$dtime = %d; \n",e[1].e_t_now);                     // Set current time
-   fprintf(fpCrust[CRUST_MAP],"$dt_detect  = %3.1f; \n",e[1].e_t_now-e[1].e_time); // Calculate time to detection
-   fprintf(fpCrust[CRUST_MAP],"$edir       = %s; \n",epath);                       // Set directory
-   fprintf(fpCrust[CRUST_MAP],"\nearthquake_email($mag,$elon,$elat,$edep,$n_stations,$etime,$edir,$dtime,$dt_detect);\n");
+   fprintf(fpMail,"$mag  = %1.1f; \n",e[1].e_mag);                     // Set eq magnitude
+   fprintf(fpMail,"$elon = %4.3f; \n",e[1].elon);                      // Set eq Lon 
+   fprintf(fpMail,"$elat = %4.3f; \n",e[1].elat);                      // Set eq Lat
+   fprintf(fpMail,"$edep = %2.1f; \n",e[1].edep);                      // Set Depth
+   fprintf(fpMail,"$n_stations = %d; \n",e[1].e_cnt+1);                // Set # of stations used
+   fprintf(fpMail,"$etime = %f; \n",e[1].e_time);                      // Set earthquake time
+   fprintf(fpMail,"$dtime = %d; \n",e[1].e_t_now);                     // Set current time
+   fprintf(fpMail,"$dt_detect  = %3.1f; \n",e[1].e_t_now-e[1].e_time); // Calculate time to detection
+   fprintf(fpMail,"$edir       = %s; \n",epath);                       // Set directory
+   fprintf(fpMail,"\nearthquake_email($mag,$elon,$elat,$edep,$n_stations,$etime,$edir,$dtime,$dt_detect);\n");
 
-   
-   fprintf(fpCrust[CRUST_MAP],"\n");                                                                       // Close php while loop.
-   fprintf(fpCrust[CRUST_MAP],"?>\n");                                                                      // End php
-   fclose(fpCrust[CRUST_MAP]);
+
+   fprintf(fpMail,"\n");                                                                       // Close php while loop.
+   fprintf(fpMail,"?>\n");                                                                      // End php
+   fclose(fpMail);
 
    char sys_cmd[sizeof "/usr/local/bin/php" + sizeof phpfile]; sprintf(sys_cmd,"/usr/local/bin/php %s",phpfile);
    int retval = system(sys_cmd);
 
 
 }
-
-
-
-
 
 
 void php_event_page(struct trigger t[], int i, struct event e[], char* epath) {
@@ -746,22 +742,37 @@ void php_event_page(struct trigger t[], int i, struct event e[], char* epath) {
 }
 
 
-void intensity_map_gmt(struct event e[], char* epath){
+int intensity_map_gmt(struct event e[], char* epath){
    fprintf(stdout,"Create/run GMT map script \n");
-   int k;
+   int k, retval = 0;
   
-    char gmtfile[sizeof epath + sizeof "/gmt_script.csh"]; sprintf(gmtfile,"%s/gmt_script.csh",epath);
+    char *gmtfile = new char[_MAX_PATH];
+    char *syscmd = new char[_MAX_PATH];
+    memset(gmtfile, 0x00, sizeof(char) * _MAX_PATH);
+    memset(syscmd, 0x00, sizeof(char) * _MAX_PATH);
+
+    sprintf(gmtfile,"%s/gmt_script.csh", epath);
     fprintf(stdout,gmtfile);
-    FILE *fpCrust[CRUST_KEY]; fpCrust[0] = fopen(gmtfile,"w+");                      // gmt script
+    FILE *fpGMT = fopen(gmtfile,"w+");                      // gmt script
+    if (!fpGMT) {
+      fprintf(stdout, "Error in intensity_map_gmt - could not open file %s\n", gmtfile);
+      retval = 1;  //error
+      goto ints_map_gmt_cleanup;
+    }
    
-    fprintf(fpCrust[CRUST_KEY],"cd %s\n",epath);
-    fprintf(fpCrust[CRUST_KEY],"/usr/local/bin/php /var/www/qcn/earthquakes/inc/gmt_map.php&\n");
-    fclose(fpCrust[CRUST_KEY]);     // Close script
+    fprintf(fpGMT,"cd %s\n",epath);
+    fprintf(fpGMT,"/usr/local/bin/php /var/www/qcn/earthquakes/inc/gmt_map.php\n");
+    fclose(fpGMT);     // Close script
 
 /*  Execute GMT script  */
-   char syscmd[sizeof "csh " + sizeof gmtfile + sizeof " &"]; sprintf(syscmd,"csh %s&",gmtfile);
-   int retval = system(syscmd);
+   sprintf(syscmd,"csh %s",gmtfile);
+   retval = system(syscmd);
 
+ints_map_gmt_cleanup:
+   if (gmtfile) delete [] gmtfile;
+   if (syscmd) delete [] syscmd;
+
+   return retval;
 }
 
 
@@ -777,16 +788,18 @@ void get_loc(float ilon, float ilat, float dis, float az, float olon, float olat
 }
 
 
-void intensity_map(struct trigger t[], int i, struct event e[]) {
-   fprintf(stdout,"Calculate intensit map\n");
+int intensity_map(struct trigger t[], int i, struct event e[]) 
+{
+   fprintf(stdout,"Calculate intensity map\n");
    float width=5; float dx=0.05;                              // Physical dimensions of grid
    int   nx = ((int) (width/dx)) + 1; int ny = nx;            // array dimension of grid
    float   dist,dist_eq_nd;                                          // Min distance from triger host to grid node
    float   ln_x,lt_x,imap;                                    // Location & intensity at grid node
-   FILE *fp10; FILE *fp11;                                    // Output file(s)
+   FILE *fp[6] = {NULL, NULL, NULL, NULL, NULL, NULL};                                            // Output file(s)
    int j,k,l,n,il;                                            // Index variables
    mode_t E_MASK=0777;                                        // File Permissions for new directory to create
    int email = 0;                                             // email=1 if we want to email people about new event
+   int retval = 0;
 
    float elon = e[1].elon;                                    // Copy even longitude & Latitude
    float elat = e[1].elat;
@@ -794,54 +807,87 @@ void intensity_map(struct trigger t[], int i, struct event e[]) {
    float y_min = elat - width/2.f;                            // Min Latitude
 
 /* Create an event directory name                             */
-   char edir[]="00000000"; sprintf(edir,"%08d", e[1].eid);
-   char epath[sizeof EVENT_PATH + sizeof edir]; sprintf(epath,"%s%s",EVENT_PATH,edir);
+   char *edir = new char[_MAX_PATH];
+   char *epath = new char[_MAX_PATH];
+   char *epath2 = new char[_MAX_PATH];
+   memset(edir, 0x00, sizeof(char) * _MAX_PATH);
+   memset(epath, 0x00, sizeof(char) * _MAX_PATH);
+   memset(epath2, 0x00, sizeof(char) * _MAX_PATH);
+
+   sprintf(edir,"%08d", e[1].eid);
+   sprintf(epath,"%s%s",EVENT_PATH,edir);
 
 /* Create event base directory path                           */
    struct stat st;                                            // I/O status for checking existance of directory/file
    if(stat(epath,&st) != 0) {                                 // If the path does not exist,
-     int retval = mkdir(epath,E_MASK);                        // Make new directory
+     retval = mkdir(epath,E_MASK);      syscmd                  // Make new directory
    }
 
 /* Create iteration directory                                 */
-   char epath2[sizeof epath + sizeof "/A"];                   // Set size of sub directory
    char ABC[]="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";                   // All caps variables
    for (j = 0; j<64; j++) {                                   // For all letters
      sprintf(epath2,"%s/%c",epath,ABC[j]); // Create full path directory name
      if (stat(epath2,&st) != 0 ) {                            // If the directory doesn't exist, creat it
-       int retval = mkdir(epath2,E_MASK);                     // Make new directory
+       retval = mkdir(epath2,E_MASK);                     // Make new directory
        break;                                                 // Stop here because this is where we want to put the files
      }
    }
    if (j<1) {email=1;} else {email=0;}                // Set email to send if first iteration
 
 /* Generate file names */
-   char efile[sizeof epath2 + sizeof "/event.xy"]; sprintf(efile,"%s/event.xy",epath2);
-   char sfile[sizeof epath2 + sizeof "/stations.xyz"]; sprintf(sfile,"%s/stations.xyz",epath2);
-   char ifile[sizeof epath2 + sizeof "/intensity_map.xyz"]; sprintf(ifile,"%s/intensity_map.xyz",epath2);
-   char tfile[sizeof epath2 + sizeof "/t_contour.xy"]; sprintf(tfile,"%s/t_contour.xy",epath2);
-   char txtfile[sizeof epath2 + sizeof "/t_contour.txt"]; sprintf(txtfile,"%s/t_contour.txt",epath2);
-   char tscfile[sizeof epath2 + sizeof "/t_scatter.xy"]; sprintf(tscfile,"%s/t_scatter.xy",epath2);
+   char* strPath[6] = {NULL, NULL, NULL, NULL, NULL, NULL};
+   for (i = 0; i < 6; i++) {
+     strPath[i] = new char[_MAX_PATH]; 
+     memset(strPath[i], 0x00, sizeof(char) * _MAX_PATH);
+   }
+   sprintf(strPath[OUT_EVENT],         "%s/event.xy",          epath2);
+   sprintf(strPath[OUT_STATION],       "%s/stations.xyz",      epath2);
+   sprintf(strPath[OUT_INTENSITY_MAP], "%s/intensity_map.xyz", epath2);
+   sprintf(strPath[OUT_CONT_TIME],     "%s/t_contour.xy",      epath2);
+   sprintf(strPath[OUT_CONT_LABEL],    "%s/t_contour.txt",     epath2);
+   sprintf(strPath[OUT_TIME_SCATTER],  "%s/t_scatter.xy",      epath2);
 
 /* Create a file with the event location (lon,lat only)       */
-   fp10 = fopen(efile,"w+");                                  // Open event output file
+   fp[OUT_EVENT] = fopen(strPath[OUT_EVENT],"w");      // Open event output file
    time_t t_now; time(&t_now); e[1].e_t_now = (int) t_now;    // Current time
-   fprintf(fp10,"%4.4f,%4.4f,%1.4f,%1.2f,%d,%f,%d,%1.1f,%1.2f,%1.2f\n",elon,elat,e[1].edep,e[1].e_mag, t[i].c_cnt+1,e[1].e_time,e[1].e_t_now,e[1].e_std,e[1].e_r2,e[1].e_msfit);// Output event location
-   fclose(fp10);                                              // Close event output file name
+   if (!fp[OUT_EVENT]) {
+      retval = 1;
+      fprintf(stdout, "Error in intensity_map OUT_EVENT file creation\n");
+      goto close_output_files;
+   }
+
+   fprintf(fp[OUT_EVENT],
+       "%4.4f,%4.4f,%1.4f,%1.2f,%d,%f,%d,%1.1f,%1.2f,%1.2f\n",
+     elon,elat,e[1].edep,e[1].e_mag, t[i].c_cnt+1,e[1].e_time,e[1].e_t_now,e[1].e_std,e[1].e_r2,e[1].e_msfit);// Output event location
+   fclose(fp[OUT_EVENT]);                                              // Close event output file name
+   fp[OUT_EVENT] = NULL;
 
 /* Create a file with the station information                 */
-   fp10 = fopen(sfile,"w+");                                  // Open station output file
+   fp[OUT_STATION] = fopen(strPath[OUT_STATION],"w");                                  // Open station output file
+   if (!fp[OUT_EVENT]) {
+      retval = 1;
+      fprintf(stdout, "Error in intensity_map OUT_EVENT file creation\n");
+      goto close_output_files;
+   }
+
    for (k = 0; k<=t[i].c_cnt; k++) {                          // For each correlated trigger
      n = t[i].c_ind[k];                                       // Index of correlated trigger
-     fprintf(fp10,"%f,%f,%f,%d,%d,%s,%f,%d,%f,%f",t[n].slon,t[n].slat,t[n].mag,t[n].hid,t[n].tid,t[n].file,t[n].trig,(int) t[n].rec,t[n].sig,t[n].dis);
-     fprintf(fp10,",%f,%f,%f,%f,%f,%f,%f,%f \n",t[n].pgah[0],t[n].pgaz[0],t[n].pgah[1],t[n].pgaz[1],t[n].pgah[2],t[n].pgaz[2],t[n].pgah[3],t[n].pgaz[3]);// Output correlated trigger loc & magnitude
+     fprintf(fp[OUT_STATION],"%f,%f,%f,%d,%d,%s,%f,%d,%f,%f",t[n].slon,t[n].slat,t[n].mag,t[n].hid,t[n].tid,t[n].file,t[n].trig,(int) t[n].rec,t[n].sig,t[n].dis);
+     fprintf(fp[OUT_STATION],",%f,%f,%f,%f,%f,%f,%f,%f \n",t[n].pgah[0],t[n].pgaz[0],t[n].pgah[1],t[n].pgaz[1],t[n].pgah[2],t[n].pgaz[2],t[n].pgah[3],t[n].pgaz[3]);// Output correlated trigger loc & magnitude
 //t[ij].tid,t[ij].slon,t[ij].slat,t[ij].trig,(int) t[ij].rec,t[ij].sig,t[ij].mag,t[ij].dis)
    }
-   fclose(fp10);                                               // Close station output file name
+   fclose(fp[OUT_STATION]);                                               // Close station output file name
+   fp[OUT_STATION] = NULL;
 
 /* Create contours for time relative to identification time */
-   fp10 = fopen(tfile,"w+");                                 // Open time contours output file.
-   fp11 = fopen(txtfile,"w+");                               // Label file for contours
+   fp[OUT_CONT_TIME] = fopen(strPath[OUT_CONT_TIME],"w");     // Open time contours output file.
+   fp[OUT_CONT_LABEL] = fopen(strPath[OUT_CONT_LABEL],"w");     // label file for contours
+   if (!fp[OUT_CONT_LABEL] || !fp[OUT_CONT_TIME]) {
+      retval = 1;
+      fprintf(stdout, "Error in intensity_map OUT_CONT_TIME/LABEL file creation %x %x\n", fp[OUT_CONT_TIME], fp[OUT_CONT_LABEL]);
+      goto close_output_files;
+   }
+
    float pi = atan(1.)*4.;                                   // pi = 3.14....
    float latr = e[1].elat*pi/180.;                           // Latitude in radians
    time_t t_eq; t_eq = (int) e[1].e_time;double t_dif = difftime(t_now,t_eq);
@@ -856,21 +902,28 @@ void intensity_map(struct trigger t[], int i, struct event e[]) {
       lt_x = e[1].elat + cos(az)*dis/111.19;                 // New latitude
       fprintf(fp10,"%f,%f\n",ln_x,lt_x);                     // Output contour
      }                                                       //
-     fprintf(fp10,">\n");                                    // Deliminator for separation between line segments
-     fprintf(fp11,"%f %f 12 0 1 5 \\ %d \n",ln_x,lt_x,(int) dti );// Output labels for each contour
+     fprintf(fp[OUT_CONT_TIME],">\n");                                    // Deliminator for separation between line segments
+     fprintf(fp[OUT_CONT_LABEL],"%f %f 12 0 1 5 \\ %d \n",ln_x,lt_x,(int) dti );// Output labels for each contour
     }
    }                                                         //
-   fclose(fp10);                                             // Close time contour
-   fclose(fp11);                                             // Close time contour labels
+   fclose(fp[OUT_CONT_TIME]);
+   fclose(fp[OUT_CONT_LABEL]);
+   fp[OUT_CONT_TIME] = fp[OUT_CONT_LABEL] = NULL;
 
 /* Create scatter plot data for observed v. estimated travel time */
-   fp10 = fopen(tscfile,"w+");                               // Open time scatter plot file
+   fp[OUT_TIME_SCATTER] = fopen(strPath[OUT_TIME_SCATTER],"w");                               // Open time scatter plot file
+   if (!fp[OUT_TIME_SCATTER]) {
+      retval = 1;
+      fprintf(stdout, "Error in intensity_map OUT_TIME_SCATTER file creation\n");
+      goto close_output_files;
+   }
+
    for (j = 1; j <= t[i].c_cnt; j++) {                       // For each correlated trigger
     n = t[i].c_ind[j];                                       // index of correlated triggers
-    fprintf(fp10,"%f,%f\n",t[n].trig-e[1].e_time,t[n].t_est-e[1].e_time); // Print out travel times
+    fprintf(fp[OUT_TIME_SCATTER],"%f,%f\n",t[n].trig-e[1].e_time,t[n].t_est-e[1].e_time); // Print out travel times
    }
-   fclose(fp10);                                             // Close scatter plot file
-
+   fclose(fp[OUT_TIME_SCATTER]);                                             // Close scatter plot file
+   fp[OUT_TIME_SCATTER] = NULL;
 
 
    intensity_map_gmt(e,epath2);                              // Run Scripts for plotting (GMT)
@@ -879,7 +932,19 @@ void intensity_map(struct trigger t[], int i, struct event e[]) {
     php_event_email(t,i,e,edir);                            // Email if a new event
    }
 
-   return;                                                   //
+close_output_files:
+   if (edir) delete [] edir;
+   if (epath) delete [] epath;
+   if (epath2) delete [] epath2;
+   for (i = 0; i < 6; i++) {
+      if (fp[i]) fclose(fp[i]);
+      fp[i] = NULL;
+      if (strPath[i]) {
+        delete [] strPath[i];
+        strPath[i] = NULL;
+      }
+   }
+   return retval;                                                   //
 }
 
 

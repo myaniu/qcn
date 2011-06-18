@@ -10,6 +10,10 @@ extern DB_CONN trigmem_db;
 #define n_short 300
 #define n_long 1000
 
+#ifndef _MAX_PATH
+#define _MAX_PATH 255
+#endif
+
 // usb sensors start with type id # 100
 #define ID_USB_SENSOR_START 100
 
