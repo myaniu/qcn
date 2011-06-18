@@ -1,6 +1,8 @@
 #ifndef _CRUST_H_
 #define _CRUST_H_
 
+enum crust_types { CRUST_KEY, CRUST_MAP, CRUST_ELEV };
+
 #define CRUST_KEY_FILE     "/var/www/qcn/earthquakes/inc/CNtype2_key.txt"
 #define CRUST_MAP_FILE     "/var/www/qcn/earthquakes/inc/CNtype2.txt"
 #define CRUST_ELEV_FILE    "/var/www/qcn/earthquakes/inc/CNelevatio2.txt"

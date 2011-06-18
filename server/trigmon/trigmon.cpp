@@ -28,6 +28,8 @@ Example usage:
 #include "crust_2.0_subs.h"
 
 DB_CONN trigmem_db;
+   
+FILE *fpCrust[3] = {NULL, NULL, NULL};  // Crust2 files
 
 double g_dTimeCurrent = 0.0;  // global for current time
 
@@ -105,17 +107,26 @@ int do_trigmon(struct trigger t[], struct bad_hosts bh)
 
 /* The following codes determine the depth-averaged seismic velocity for a location (lon,lat,depth) from CRUST2.0 */
 
+void crust2_close()
+{
+   for (int i = 0; i < 3; i++) {
+     if (fpCrust[i]) fclose(fpCrust[i]);
+     fpCrust[i] = NULL; 
+   }
+}
+
 int crust2_load()
 /* This function reads in the crust2.0 model and indexes the model map by number rather than by letter */
 {
 
 // Open input files. These are defined in crust_2.0_subs.h 
-   FILE *fp10 = fopen(CRUST_KEY_FILE, "r");                                                     // Open key file describing each model
-   FILE *fp11 = fopen(CRUST_MAP_FILE, "r");                                                     // Open map file with key at each lat/lon location
-   FILE *fp12 = fopen(CRUST_ELEV_FILE, "r");                                                    // Open elevation file w/ data at each lat/lon
+   fpCrust[CRUST_KEY] = fopen(CRUST_KEY_FILE, "r");     // Open key file describing each model
+   fpCrust[CRUST_MAP] = fopen(CRUST_MAP_FILE, "r");     // Open map file with key at each lat/lon location
+   fpCrust[CRUST_ELEV] = fopen(CRUST_ELEV_FILE, "r");    // Open elevation file w/ data at each lat/lon
 
-   if (!fp10 || !fp11 || !fp12) {
-      fprintf(stdout, "File Open Error %x %x %x\n", (long) fp10, (long) fp11, (long) fp12);
+   if (!fpCrust[CRUST_KEY] || !fpCrust[CRUST_MAP] || !fpCrust[CRUST_ELEV]) {
+      fprintf(stdout, "File Open Error %x %x %x\n", fpCrust[CRUST_KEY], fpCrust[CRUST_MAP], fpCrust[CRUST_ELEV]);
+      crust2_close();
       return 1;
    }
 
@@ -124,66 +135,60 @@ int crust2_load()
    char  aline[1000];                                                                                // A full line of characters
 
 /* Temporary variales because I was worried about reading in directly to the variable */
-   char key_string[mx_cr_type][255];                                                                // Temporary key string variable (easier to index by number)
-   char mod_string[mx_cr_lt][mx_cr_ln][255];                                                     // Temporary map key string variable (easier to index by number)
+   char key_string[mx_cr_type][255];   // Temporary key string variable (easier to index by number)
+   char mod_string[mx_cr_lt][mx_cr_ln][255];  // Temporary map key string variable (easier to index by number)
 
-   for (i=0;i<=4;i++) {fgets(aline,1000,fp10); /*printf("Skipping Line: %s \n",aline);*/}            // Skip first 5 lines of key file
-                       fgets(aline,1000,fp11);                                                       // Skip first 1 lines of map file
-                       fgets(aline,1000,fp12);                                                       // Skip first 1 lines of elevation file
+   for (i=0;i<=4;i++) {
+      fgets(aline,1000,fpCrust[CRUST_KEY]); /*printf("Skipping Line: %s \n",aline);*/
+   }            // Skip first 5 lines of key file
+   fgets(aline,1000,fpCrust[CRUST_MAP]);                                                       // Skip first 1 lines of map file
+   fgets(aline,1000,fpCrust[CRUST_ELEV]);                                                       // Skip first 1 lines of elevation file
 
 // Read in model Key (the two-letter ID and the Vp, Vs, rho, thickness model): 
-   for (i=0;i<=mx_cr_type-1;i++) {                                                                   // Read in Crust 2.0 key
-
-    fgets(aline,1000,fp10);                                                                          // retrieve whole line of Key file
-    sscanf(aline,"%s",key_string[i]);                                                               // Read in key code
-
-    fgets(aline,1000,fp10);                                                                          // retrieve whole line of Key file
+   for (i=0;i<=mx_cr_type-1;i++) {   // Read in Crust 2.0 key
+     fgets(aline,1000,fpCrust[CRUST_KEY]);        // retrieve whole line of Key file
+    sscanf(aline,"%s",key_string[i]);  // Read in key code
+    fgets(aline,1000,fpCrust[CRUST_KEY]);     // retrieve whole line of Key file
     sscanf(aline,"%f %f %f %f %f %f %f %f",
            &crk[i].vp[1],&crk[i].vp[0],&crk[i].vp[2],&crk[i].vp[3],
-           &crk[i].vp[4],&crk[i].vp[5],&crk[i].vp[6],&crk[i].vp[7]);                                 // Read P velocity
+           &crk[i].vp[4],&crk[i].vp[5],&crk[i].vp[6],&crk[i].vp[7]);    // Read P velocity
 
-    fgets(aline,1000,fp10);                                                                          // retrieve whole line of Key file
+    fgets(aline,1000,fpCrust[CRUST_KEY]);                                         // retrieve whole line of Key file
     sscanf(aline,"%f %f %f %f %f %f %f %f",
            &crk[i].vs[1],&crk[i].vs[0],&crk[i].vs[2],&crk[i].vs[3],
-           &crk[i].vs[4],&crk[i].vs[5],&crk[i].vs[6],&crk[i].vs[7]);                                 // Read S velocity
+           &crk[i].vs[4],&crk[i].vs[5],&crk[i].vs[6],&crk[i].vs[7]);  // Read S velocity
 
-    fgets(aline,1000,fp10);                                                                          // retrieve whole line of Key file
+    fgets(aline,1000,fpCrust[CRUST_KEY]);                                           // retrieve whole line of Key file
     sscanf(aline,"%f %f %f %f %f %f %f %f",
            &crk[i].rh[1],&crk[i].rh[0],&crk[i].rh[2],&crk[i].rh[3],
-           &crk[i].rh[4],&crk[i].rh[5],&crk[i].rh[6],&crk[i].rh[7]);                                 // Read Density
+           &crk[i].rh[4],&crk[i].rh[5],&crk[i].rh[6],&crk[i].rh[7]);   // Read Density
 
-    fgets(aline,1000,fp10);                                                                          // Retrieve whole line of Key file
+    fgets(aline,1000,fpCrust[CRUST_KEY]);                                          // Retrieve whole line of Key file
     sscanf(aline,"%f %f %f %f %f %f %f   ",
            &crk[i].dp[1],&crk[i].dp[0],&crk[i].dp[2],&crk[i].dp[3],
-           &crk[i].dp[4],&crk[i].dp[5],&crk[i].dp[6]              );                                 // Read layer thickness 
+           &crk[i].dp[4],&crk[i].dp[5],&crk[i].dp[6]              ); // Read layer thickness 
 
    }
 
 // Read in map and associate letters with key index:
-   for (i=0; i<=mx_cr_lt-1; i++) {                                                                   // For each latitude
-      fscanf(fp11,"%d",&ilat);                                                                       // Read latitude at beginning of each line
-      fscanf(fp12,"%d",&ilat);                                                                       // Read latitude at beginning of each line
+   for (i=0; i<=mx_cr_lt-1; i++) {                          // For each latitude
+      fscanf(fpCrust[CRUST_MAP],"%d",&ilat);                              // Read latitude at beginning of each line
+      fscanf(fpCrust[CRUST_ELEV],"%d",&ilat);                              // Read latitude at beginning of each line
 
-      for(j=0; j<=mx_cr_ln-1; j++) {                                                                 // For each longitude
-         fscanf(fp11,"%s",mod_string[i][j]);                                                        // Read in key letters for that lat/lon location
-         fscanf(fp12,"%f",&crm.elev[i][j]);                                                          // Read elevations for each longitude at this latitude
+      for(j=0; j<=mx_cr_ln-1; j++) {                        // For each longitude
+         fscanf(fpCrust[CRUST_MAP],"%s",mod_string[i][j]);                // Read in key letters for that lat/lon location
+         fscanf(fpCrust[CRUST_ELEV],"%f",&crm.elev[i][j]);                 // Read elevations for each longitude at this latitude
 
-         for (k=0;k<=mx_cr_type-1; k++) {                                                            // Index the map key by searching through crk.tp
+         for (k=0;k<=mx_cr_type-1; k++) {                   // Index the map key by searching through crk.tp
 
-            if (memcmp(key_string[k],mod_string[i][j],2)==0) {                                     // If key found, store the key and stop searching
-
-               crm.ikey[i][j]=k;                                                                     // Set key to this matched index
-               break;                                                                                // Stop looking for additional matches since match found
-
+            if (memcmp(key_string[k],mod_string[i][j],2)==0) {    // If key found, store the key and stop searching
+               break;                                             // Stop looking for additional matches since match found
             }
-
          }
-      
       }
-
    }
 
-   fclose(fp10); fclose(fp11); fclose(fp12);                                                         // Close files
+   crust2_close();
 
 /* Set the longitude and latitude for each node: */
 
@@ -699,29 +704,29 @@ void php_event_email(struct trigger t[], int i, struct event e[], char* epath) {
 
    char phpfile[sizeof "/var/www/boinc/sensor/html/user/" + sizeof "/earthquake_email.php"]; 
    sprintf(phpfile,"/var/www/boinc/sensor/html/user/earthquake_email.php");
-   FILE *fp11; fp11 = fopen(phpfile,"w+");                       // Open web file
+   FILE *fpCrust[CRUST_MAP]; fpCrust[1] = fopen(phpfile,"w+");                       // Open web file
 
-   fprintf(fp11,"<?php\n");
-   fprintf(fp11,"chdir(\"/var/www/boinc/sensor/html/user/\");\n");
-   fprintf(fp11,"require_once(\"/var/www/boinc/sensor/html/inc/earthquake_email.inc\");\n");        // Include email php function
+   fprintf(fpCrust[CRUST_MAP],"<?php\n");
+   fprintf(fpCrust[CRUST_MAP],"chdir(\"/var/www/boinc/sensor/html/user/\");\n");
+   fprintf(fpCrust[CRUST_MAP],"require_once(\"/var/www/boinc/sensor/html/inc/earthquake_email.inc\");\n");        // Include email php function
    
    time_t t_eq; struct tm * t_eq_gmt; t_eq = (int) e[1].e_time; t_eq_gmt = gmtime(&t_eq);     // Earthquake time
 
-   fprintf(fp11,"$mag  = %1.1f; \n",e[1].e_mag);                     // Set eq magnitude
-   fprintf(fp11,"$elon = %4.3f; \n",e[1].elon);                      // Set eq Lon 
-   fprintf(fp11,"$elat = %4.3f; \n",e[1].elat);                      // Set eq Lat
-   fprintf(fp11,"$edep = %2.1f; \n",e[1].edep);                      // Set Depth
-   fprintf(fp11,"$n_stations = %d; \n",e[1].e_cnt+1);                // Set # of stations used
-   fprintf(fp11,"$etime = %f; \n",e[1].e_time);                      // Set earthquake time
-   fprintf(fp11,"$dtime = %d; \n",e[1].e_t_now);                     // Set current time
-   fprintf(fp11,"$dt_detect  = %3.1f; \n",e[1].e_t_now-e[1].e_time); // Calculate time to detection
-   fprintf(fp11,"$edir       = %s; \n",epath);                       // Set directory
-   fprintf(fp11,"\nearthquake_email($mag,$elon,$elat,$edep,$n_stations,$etime,$edir,$dtime,$dt_detect);\n");
+   fprintf(fpCrust[CRUST_MAP],"$mag  = %1.1f; \n",e[1].e_mag);                     // Set eq magnitude
+   fprintf(fpCrust[CRUST_MAP],"$elon = %4.3f; \n",e[1].elon);                      // Set eq Lon 
+   fprintf(fpCrust[CRUST_MAP],"$elat = %4.3f; \n",e[1].elat);                      // Set eq Lat
+   fprintf(fpCrust[CRUST_MAP],"$edep = %2.1f; \n",e[1].edep);                      // Set Depth
+   fprintf(fpCrust[CRUST_MAP],"$n_stations = %d; \n",e[1].e_cnt+1);                // Set # of stations used
+   fprintf(fpCrust[CRUST_MAP],"$etime = %f; \n",e[1].e_time);                      // Set earthquake time
+   fprintf(fpCrust[CRUST_MAP],"$dtime = %d; \n",e[1].e_t_now);                     // Set current time
+   fprintf(fpCrust[CRUST_MAP],"$dt_detect  = %3.1f; \n",e[1].e_t_now-e[1].e_time); // Calculate time to detection
+   fprintf(fpCrust[CRUST_MAP],"$edir       = %s; \n",epath);                       // Set directory
+   fprintf(fpCrust[CRUST_MAP],"\nearthquake_email($mag,$elon,$elat,$edep,$n_stations,$etime,$edir,$dtime,$dt_detect);\n");
 
    
-   fprintf(fp11,"\n");                                                                       // Close php while loop.
-   fprintf(fp11,"?>\n");                                                                      // End php
-   fclose(fp11);
+   fprintf(fpCrust[CRUST_MAP],"\n");                                                                       // Close php while loop.
+   fprintf(fpCrust[CRUST_MAP],"?>\n");                                                                      // End php
+   fclose(fpCrust[CRUST_MAP]);
 
    char sys_cmd[sizeof "/usr/local/bin/php" + sizeof phpfile]; sprintf(sys_cmd,"/usr/local/bin/php %s",phpfile);
    int retval = system(sys_cmd);
@@ -747,11 +752,11 @@ void intensity_map_gmt(struct event e[], char* epath){
   
     char gmtfile[sizeof epath + sizeof "/gmt_script.csh"]; sprintf(gmtfile,"%s/gmt_script.csh",epath);
     fprintf(stdout,gmtfile);
-    FILE *fp10; fp10 = fopen(gmtfile,"w+");                      // gmt script
+    FILE *fpCrust[CRUST_KEY]; fpCrust[0] = fopen(gmtfile,"w+");                      // gmt script
    
-    fprintf(fp10,"cd %s\n",epath);
-    fprintf(fp10,"/usr/local/bin/php /var/www/qcn/earthquakes/inc/gmt_map.php&\n");
-    fclose(fp10);     // Close script
+    fprintf(fpCrust[CRUST_KEY],"cd %s\n",epath);
+    fprintf(fpCrust[CRUST_KEY],"/usr/local/bin/php /var/www/qcn/earthquakes/inc/gmt_map.php&\n");
+    fclose(fpCrust[CRUST_KEY]);     // Close script
 
 /*  Execute GMT script  */
    char syscmd[sizeof "csh " + sizeof gmtfile + sizeof " &"]; sprintf(syscmd,"csh %s&",gmtfile);
@@ -782,9 +787,9 @@ void intensity_map(struct trigger t[], int i, struct event e[]) {
    int j,k,l,n,il;                                            // Index variables
    mode_t E_MASK=0777;                                        // File Permissions for new directory to create
    int email = 0;                                             // email=1 if we want to email people about new event
-   
+
    float elon = e[1].elon;                                    // Copy even longitude & Latitude
-   float elat = e[1].elat; 
+   float elat = e[1].elat;
    float x_min = elon - width/2.f;                            // Minimum longitude of map
    float y_min = elat - width/2.f;                            // Min Latitude
 
@@ -794,9 +799,9 @@ void intensity_map(struct trigger t[], int i, struct event e[]) {
 
 /* Create event base directory path                           */
    struct stat st;                                            // I/O status for checking existance of directory/file
-   if(stat(epath,&st) != 0) {                                 // If the path does not exist,  
+   if(stat(epath,&st) != 0) {                                 // If the path does not exist,
      int retval = mkdir(epath,E_MASK);                        // Make new directory
-   }   
+   }
 
 /* Create iteration directory                                 */
    char epath2[sizeof epath + sizeof "/A"];                   // Set size of sub directory
@@ -814,16 +819,16 @@ void intensity_map(struct trigger t[], int i, struct event e[]) {
    char efile[sizeof epath2 + sizeof "/event.xy"]; sprintf(efile,"%s/event.xy",epath2);
    char sfile[sizeof epath2 + sizeof "/stations.xyz"]; sprintf(sfile,"%s/stations.xyz",epath2);
    char ifile[sizeof epath2 + sizeof "/intensity_map.xyz"]; sprintf(ifile,"%s/intensity_map.xyz",epath2);
-   char tfile[sizeof epath2 + sizeof "/t_contour.xy"]; sprintf(tfile,"%s/t_contour.xy",epath2);   
+   char tfile[sizeof epath2 + sizeof "/t_contour.xy"]; sprintf(tfile,"%s/t_contour.xy",epath2);
    char txtfile[sizeof epath2 + sizeof "/t_contour.txt"]; sprintf(txtfile,"%s/t_contour.txt",epath2);
    char tscfile[sizeof epath2 + sizeof "/t_scatter.xy"]; sprintf(tscfile,"%s/t_scatter.xy",epath2);
-   
+
 /* Create a file with the event location (lon,lat only)       */
    fp10 = fopen(efile,"w+");                                  // Open event output file
    time_t t_now; time(&t_now); e[1].e_t_now = (int) t_now;    // Current time
    fprintf(fp10,"%4.4f,%4.4f,%1.4f,%1.2f,%d,%f,%d,%1.1f,%1.2f,%1.2f\n",elon,elat,e[1].edep,e[1].e_mag, t[i].c_cnt+1,e[1].e_time,e[1].e_t_now,e[1].e_std,e[1].e_r2,e[1].e_msfit);// Output event location
    fclose(fp10);                                              // Close event output file name
-   
+
 /* Create a file with the station information                 */
    fp10 = fopen(sfile,"w+");                                  // Open station output file
    for (k = 0; k<=t[i].c_cnt; k++) {                          // For each correlated trigger
@@ -874,7 +879,7 @@ void intensity_map(struct trigger t[], int i, struct event e[]) {
     php_event_email(t,i,e,edir);                            // Email if a new event
    }
 
-   return;                                                   // 
+   return;                                                   //
 }
 
 
@@ -978,13 +983,13 @@ void detect_qcn_event(struct trigger t[], int iCtr, struct event e[]) {
 
 void get_bad_hosts(struct bad_hosts bh) {
 /*  This subrouting retrieves the bad host names */
-   FILE *fp10 = fopen(BAD_HOSTS_FILE,"r");
+   FILE *fpBadHosts = fopen(BAD_HOSTS_FILE,"r");
    bh.nh = -1;
-   while (feof(fp10) == 0) {
+   while (!feof(fpBadHosts)) {
     bh.nh++;
-    fscanf(fp10,"%d",&bh.hid[bh.nh]);
+    fscanf(fpBadHosts,"%d",&bh.hid[bh.nh]);
    }
-   fclose(fp10);
+   fclose(fpBadHosts);
    return;
 }
 
