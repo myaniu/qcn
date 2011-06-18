@@ -395,8 +395,8 @@ void qcn_event_locate(struct trigger t[], int i, struct event e[]) {
    float  width = 4.f; float zrange=150.f;                // Lateral and vertical grid size
    float  dx = 0.1f; float dz = 10.f;                     // Lateral and vertical grid step size                  
    int    n_iter=3;                                       // Number of grid search iterations
-   float  ln_x,lt_x,dp_x;                                 // Lon, Lat, & Depth of each grid point
-   float  dn=0.; float dp;                                // Distances to the nth and pth trigger location
+   float  ln_x=0.,lt_x=0.,dp_x=0.;                                 // Lon, Lat, & Depth of each grid point
+   float  dn=0.; float dp=0.;                                // Distances to the nth and pth trigger location
    double  dt,dt_min;                                     // Travel time difference between two stations (and minimum for P & S wave)
    double  ls_mf,ls_ct;                                   // Least-squares misfit & count (For normalization)
    float   v[2];                                          // Seismic Velocities (P & S)
