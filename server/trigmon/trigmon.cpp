@@ -698,11 +698,9 @@ float intensity_extrapolate(int pors, float dist, float dist_eq_nd, float pga1) 
 void php_event_email(struct trigger t[], int i, struct event e[], char* epath) {
 /* This subroutine should email us when we detect an earthquake */
 
-   char phpfile[sizeof "/var/www/boinc/sensor/html/user/" + sizeof "/earthquake_email.php"];
-   sprintf(phpfile,"/var/www/boinc/sensor/html/user/earthquake_email.php");
-   FILE *fpMail  = fopen(phpfile,"w+");                       // Open web file
+   FILE *fpMail  = fopen(PATH_EMAIL, "w");                       // Open web file
    if (!fpMail) {
-    fprintf(stdout, "Error in php_event_email - could not open file %s\n", phpfile);
+    fprintf(stdout, "Error in php_event_email - could not open file %s\n", PATH_EMAIL);
      return;  //error
    }
 
@@ -728,10 +726,11 @@ void php_event_email(struct trigger t[], int i, struct event e[], char* epath) {
    fprintf(fpMail,"?>\n");                                                                      // End php
    fclose(fpMail);
 
-   char sys_cmd[sizeof "/usr/local/bin/php" + sizeof phpfile]; sprintf(sys_cmd,"/usr/local/bin/php %s",phpfile);
+   char *sys_cmd = new char[_MAX_PATH];
+   memset(sys_cmd, 0x00, sizeof(char) * _MAX_PATH);
+   sprintf(sys_cmd,"%s %s", PHP_CMD, PATH_EMAIL);
    int retval = system(sys_cmd);
-
-
+   delete [] sys_cmd;
 }
 
 
@@ -753,7 +752,7 @@ int intensity_map_gmt(struct event e[], char* epath){
 
     sprintf(gmtfile,"%s/gmt_script.csh", epath);
     fprintf(stdout,gmtfile);
-    FILE *fpGMT = fopen(gmtfile,"w+");                      // gmt script
+    FILE *fpGMT = fopen(gmtfile,"w");                      // gmt script
     if (!fpGMT) {
       fprintf(stdout, "Error in intensity_map_gmt - could not open file %s\n", gmtfile);
       retval = 1;  //error
@@ -761,7 +760,7 @@ int intensity_map_gmt(struct event e[], char* epath){
     }
    
     fprintf(fpGMT,"cd %s\n",epath);
-    fprintf(fpGMT,"/usr/local/bin/php /var/www/qcn/earthquakes/inc/gmt_map.php\n");
+    fprintf(fpGMT,"%s %s\n", PHP_CMD, GMT_MAP_PHP);
     fclose(fpGMT);     // Close script
 
 /*  Execute GMT script  */
@@ -875,9 +874,14 @@ int intensity_map(struct trigger t[], int i, struct event e[])
 
    for (k = 0; k<=t[i].c_cnt; k++) {                          // For each correlated trigger
      n = t[i].c_ind[k];                                       // Index of correlated trigger
-     fprintf(fp[OUT_STATION],"%f,%f,%f,%d,%d,%s,%f,%d,%f,%f",t[n].slon,t[n].slat,t[n].mag,t[n].hid,t[n].tid,t[n].file,t[n].trig,(int) t[n].rec,t[n].sig,t[n].dis);
-     fprintf(fp[OUT_STATION],",%f,%f,%f,%f,%f,%f,%f,%f \n",t[n].pgah[0],t[n].pgaz[0],t[n].pgah[1],t[n].pgaz[1],t[n].pgah[2],t[n].pgaz[2],t[n].pgah[3],t[n].pgaz[3]);// Output correlated trigger loc & magnitude
-//t[ij].tid,t[ij].slon,t[ij].slat,t[ij].trig,(int) t[ij].rec,t[ij].sig,t[ij].mag,t[ij].dis)
+     fprintf(fp[OUT_STATION],
+        "%f,%f,%f,%d,%d,%s,%f,%d,%f,%f",
+            t[n].slon,t[n].slat,t[n].mag,t[n].hid,t[n].tid,t[n].file,t[n].trig,(int) t[n].rec,t[n].sig,t[n].dis);
+     fprintf(fp[OUT_STATION],
+         ",%f,%f,%f,%f,%f,%f,%f,%f \n",
+            t[n].pgah[0],t[n].pgaz[0],t[n].pgah[1],t[n].pgaz[1],t[n].pgah[2],t[n].pgaz[2],t[n].pgah[3],t[n].pgaz[3]);
+     // Output correlated trigger loc & magnitude
+     //t[ij].tid,t[ij].slon,t[ij].slat,t[ij].trig,(int) t[ij].rec,t[ij].sig,t[ij].mag,t[ij].dis)
    }
    fclose(fp[OUT_STATION]);                                               // Close station output file name
    fp[OUT_STATION] = NULL;
