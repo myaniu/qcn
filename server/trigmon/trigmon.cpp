@@ -103,10 +103,10 @@ int do_trigmon(struct trigger t[], struct bad_hosts bh)
 
 }
 
-/* The following codes determine the depth-averaged seismic velocity for a location (lon,lat,depth) from CRUST2.0 */
+// The following codes determine the depth-averaged seismic velocity for a location (lon,lat,depth) from CRUST2.0 
 
 int crust2_load()
-/* This function reads in the crust2.0 model and indexes the model map by number rather than by letter */
+// This function reads in the crust2.0 model and indexes the model map by number rather than by letter 
 {
 
    FILE *fpCrust[3] = {NULL, NULL, NULL};  // Crust2 files
@@ -127,12 +127,12 @@ int crust2_load()
    int   ilat;                                                                                       // Index of latitude
    char  aline[1000];                                                                                // A full line of characters
 
-/* Temporary variales because I was worried about reading in directly to the variable */
+// Temporary variales because I was worried about reading in directly to the variable 
    char key_string[mx_cr_type][255];   // Temporary key string variable (easier to index by number)
    char mod_string[mx_cr_lt][mx_cr_ln][255];  // Temporary map key string variable (easier to index by number)
 
    for (i=0;i<=4;i++) {
-      fgets(aline,1000,fpCrust[CRUST_KEY]); /*printf("Skipping Line: %s \n",aline);*/
+      fgets(aline,1000,fpCrust[CRUST_KEY]); //printf("Skipping Line: %s \n",aline);
    }            // Skip first 5 lines of key file
    fgets(aline,1000,fpCrust[CRUST_MAP]);                                                       // Skip first 1 lines of map file
    fgets(aline,1000,fpCrust[CRUST_ELEV]);                                                       // Skip first 1 lines of elevation file
@@ -181,7 +181,7 @@ int crust2_load()
       }
    }
 
-/* Set the longitude and latitude for each node: */
+// Set the longitude and latitude for each node: 
 
    for (i=0; i<=mx_cr_lt-1; i++) { crm.lat[i]=90.f-( ((float)i)+0.5)*dx_cr ;  }                      // for each latitude
 
@@ -198,7 +198,7 @@ crust2_close:
 
 
 int crust2_type(float lon, float lat) {
-/* This function returns the index of the model key for the map */
+// This function returns the index of the model key for the map
 
    int ilat,ilon;
    float lon2=lon; if (lon2<0.f) {lon2+=360.f;}                                                    // make sure 0<lon<360 rather than -180<lon<180
@@ -214,9 +214,11 @@ int crust2_type(float lon, float lat) {
 
 void crust2_get_mean_vel(float qdep, float qlon, float qlat, float v[]) {
 
-/* This fuction returns the average seismic velocity integrated from the surface to some depth (qdep). 
+/* 
+   This fuction returns the average seismic velocity integrated from the surface to some depth (qdep). 
         The velocity is for P:v[0] and S:v[1] waves.  Note: for a zero depth qdep, use the first 
-        non-zero thickness layer.*/
+        non-zero thickness layer.
+*/
 
    int i;                                          // Index variables
    v[0]=0.f; v[1]=0.f;                               // set P(0) and S(1) velocity to 0
@@ -229,13 +231,13 @@ void crust2_get_mean_vel(float qdep, float qlon, float qlat, float v[]) {
 
       for (i=1;i<7;i++) {                            // go through each layer
 
-         if (qdep>=d+crk[itype].dp[i]) {              // If the depth is greater than the last depth plus the thickness of this layer, then it goes all the way through
+         if (qdep>=d+crk[itype].dp[i]) {// If the depth is greater than the last depth plus the thickness of this layer, then it goes all the way through
 
             v[0]+=crk[itype].vp[i]*crk[itype].dp[i]; // Add thickness weighted Vp from crust2.0
             v[1]+=crk[itype].vs[i]*crk[itype].dp[i]; // Add Thickness weighted Vs from crust2.0
             d   +=crk[itype].dp[i];                  // Add layer thickness to accumulated depth.
 
-         } else {                                    // If the depth is not greater than the last depth plust the layer thickness, use the difference between qdep and last depth
+         } else {          // If the depth is not greater than the last depth plust the layer thickness, use the difference between qdep and last depth
 
             v[0]+=crk[itype].vp[i]*(qdep-d);         // Add to average 
             v[1]+=crk[itype].vs[i]*(qdep-d);         // Add to average 
@@ -283,7 +285,7 @@ void crust2_get_mean_vel(float qdep, float qlon, float qlat, float v[]) {
 
 
 float average( float dat[], int ndat) {
-/*  This fuction calculates the average of a data set (dat) of length (ndat). */
+//  This fuction calculates the average of a data set (dat) of length (ndat). 
    float dat_ave = 0.;                                    // Start with zero as average
    int j;                                                 // Index variable
    for (j = 0; j<=ndat; j++) {                            // For each point
@@ -294,7 +296,7 @@ float average( float dat[], int ndat) {
 }
 
 float std_dev( float dat[], int ndat, float dat_ave) {
-/*  This function calculates the standard deviation of a data set (dat) of length (ndat) with a mean of (dat_ave) */
+//  This function calculates the standard deviation of a data set (dat) of length (ndat) with a mean of (dat_ave) 
    float dat_std = 0.;                                    // Zero the standard deviation
    int j;                                                 // Index variable
    for (j = 0; j<=ndat; j++) {                            // For each point
@@ -306,7 +308,7 @@ float std_dev( float dat[], int ndat, float dat_ave) {
 }
 
 float correlate( float datx[], float daty[], int ndat) {
-/*  This function correlates two data sets (datx & daty) of length (ndat).  It returns the R^2 value (not r). */
+//  This function correlates two data sets (datx & daty) of length (ndat).  It returns the R^2 value (not r). 
    float datx_ave = average(datx,ndat);                   // Average of x series
    float daty_ave = average(daty,ndat);                   // Average of y series
 
@@ -445,7 +447,7 @@ void qcn_event_locate(struct trigger t[], int i, struct event e[]) {
        lt_x = g.y_min + g.dy * (float) (l-1);             // Latitude of grid point
        ls_mf = 0.; ls_ct = 0.;                            // Zero least-squares misfit & count
 
-/* Compare times and distance difference between each station pair */
+// Compare times and distance difference between each station pair 
        for (m = 0; m< t[i].c_cnt; m++) {                  // For each trigger
         n = t[i].c_ind[m];                                // Index of correlated trigger
         dn=ang_dist_km(ln_x,lt_x,t[n].slon,t[n].slat);    // Horizontal distance between node and host/station
@@ -480,7 +482,7 @@ void qcn_event_locate(struct trigger t[], int i, struct event e[]) {
     dx /=10.f; width/=10.f; dz/=10.f; zrange/=10.f;       // Reduce grid dimensions by an order of magnitude
 
 
-/* Re-compare times and distance difference between each station pair for best location and identify which phase each trigger is */
+// Re-compare times and distance difference between each station pair for best location and identify which phase each trigger is 
 //    vel_calc(e[1].edep,v);                                // Get velocity (note - depth dependant - not done well).
     crust2_get_mean_vel(dp_x,t[j_min].slon,t[j_min].slat,v); // Get depth-averaged velocity for location from CRUST2.0
     int q_save=0;
@@ -514,14 +516,14 @@ void qcn_event_locate(struct trigger t[], int i, struct event e[]) {
      e[1].e_time += t[n].trig - dn/v[t[n].pors];          // Time of event calculated from ith trigger.
     }                                                     //
 
-/* Time of earthquake: */
+// Time of earthquake: 
    e[1].e_time = e[1].e_time / ((float) t[i].c_cnt + 1.); // Time of earthquake calculated by averaging time w.r.t each station normalized by number of stations
    if (e[1].eid <=0) {                                    // For New earthquake ID if earthquake time wasn't set
     e[1].eid = ((int) e[1].e_time);                       //
     fprintf(stdout,"NEW EID: %d \n",e[1].eid);}           //
    }
 
-/*  Determine maximum dimension of array  */
+//  Determine maximum dimension of array  
    float ss_dist_max = -999999999.;                       // Start with large station to station maximum array dimension
    for (j = 0; j<t[i].c_cnt; j++) {                       // For each trigger/station
     n = t[i].c_ind[j];                                    // Index of jth station
@@ -532,7 +534,7 @@ void qcn_event_locate(struct trigger t[], int i, struct event e[]) {
     }                                                     // 
    }                                                      //
 
-/*  Require that the earthquake-to-array distance be less than four times the dimension of the array */
+//  Require that the earthquake-to-array distance be less than four times the dimension of the array 
    if (ss_dist_max*4. < t[j_min].dis) {                   // If the event-to-station distance > 4 times the array dimension
     e[1].e_r2=-1.;                                        // Set correlation to -1 (will reject earthquake)
     fprintf(stdout,"Event poorly located: Array dimension=%f EQ Dist=%f.\n",ss_dist_max,dn); //Status report
@@ -541,7 +543,7 @@ void qcn_event_locate(struct trigger t[], int i, struct event e[]) {
     fprintf(stdout,"Event located: %f %f\n",e[1].elon,e[1].elat);
    }
    
-/*  Calculate the estimated arrival time of the phase */ 
+//  Calculate the estimated arrival time of the phase 
    float t_obs[t[i].c_cnt];                               // Observed phase arrival times (from triggers)
    float t_est[t[i].c_cnt];                               // Estimated phase arrival times (from earthquake location estimate)
    float dt_ave=0;                                        // Average model-data time variance
@@ -556,14 +558,14 @@ void qcn_event_locate(struct trigger t[], int i, struct event e[]) {
    }
    e[1].e_msfit /= ( (float) t[i].c_cnt + 1.);            // Normalize the event misfit
    e[1].e_msfit = sqrt(e[1].e_msfit);                     // 
-/*  Require that the model variance is less than two seconds */
+//  Require that the model variance is less than two seconds 
    dt_ave /= ( (float) t[i].c_cnt + 1.);                  // Normalize the data-model variance
    if (dt_ave > 2.) {                                     // If the average travel time misfit is greater than 2 seconds, reject the event detection
     e[1].e_r2 = -1.;                                      // Set correlation to < 0 for rejection
     return;                                               // Return with bad correlation
    }
 
-/*  Correlate observed and estimated travel times  */
+//  Correlate observed and estimated travel times  
     e[1].e_r2 = correlate(t_obs, t_est, t[i].c_cnt);  // Correlate observed & estimated times
     fprintf(stdout,"Estimated times correlate at r^2= %f \n",e[1].e_r2);
 
@@ -696,7 +698,7 @@ float intensity_extrapolate(int pors, float dist, float dist_eq_nd, float pga1) 
 
 
 void php_event_email(struct trigger t[], int i, struct event e[], char* epath) {
-/* This subroutine should email us when we detect an earthquake */
+// This subroutine should email us when we detect an earthquake 
 
    FILE *fpMail  = fopen(PATH_EMAIL, "w");                       // Open web file
    if (!fpMail) {
@@ -735,7 +737,7 @@ void php_event_email(struct trigger t[], int i, struct event e[], char* epath) {
 
 
 void php_event_page(struct trigger t[], int i, struct event e[], char* epath) {
-/* This subroutine creates a web page for the event. */
+// This subroutine creates a web page for the event. 
    
    
 }
@@ -763,7 +765,7 @@ int intensity_map_gmt(struct event e[], char* epath){
     fprintf(fpGMT,"%s %s\n", PHP_CMD, GMT_MAP_PHP);
     fclose(fpGMT);     // Close script
 
-/*  Execute GMT script  */
+//  Execute GMT script  
    sprintf(syscmd,"csh %s",gmtfile);
    retval = system(syscmd);
 
@@ -777,7 +779,7 @@ ints_map_gmt_cleanup:
 
 
 void get_loc(float ilon, float ilat, float dis, float az, float olon, float olat) {
-/* This subroutine determins a new location based on a starting location, an azimuth and a distance to project to. */
+// This subroutine determins a new location based on a starting location, an azimuth and a distance to project to. 
   float pi = atan(1.)*4.;                                     // pi = 3.14....
   float az_r = az*pi/180.;                                    // azimuth in radians
   float latr = ilat*pi/180.;                                  // Latitude in radians
@@ -809,7 +811,7 @@ int intensity_map(struct trigger t[], int i, struct event e[])
    float latr = e[1].elat*pi/180.;                           // Latitude in radians
    time_t t_eq; t_eq = (int) e[1].e_time;double t_dif = difftime(t_now,t_eq);
 
-/* Create an event directory name                             */
+// Create an event directory name                             
    char *edir = new char[_MAX_PATH];
    char *epath = new char[_MAX_PATH];
    char *epath2 = new char[_MAX_PATH];
@@ -820,13 +822,13 @@ int intensity_map(struct trigger t[], int i, struct event e[])
    sprintf(edir,"%08d", e[1].eid);
    sprintf(epath,"%s%s",EVENT_PATH,edir);
 
-/* Create event base directory path                           */
+// Create event base directory path                           
    struct stat st;                                            // I/O status for checking existance of directory/file
    if(stat(epath,&st) != 0) {                                 // If the path does not exist,
      retval = mkdir(epath,E_MASK);                            // Make new directory
    }
 
-/* Create iteration directory                                 */
+// Create iteration directory                                 
    char ABC[]="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";                   // All caps variables
    for (j = 0; j<64; j++) {                                   // For all letters
      sprintf(epath2,"%s/%c",epath,ABC[j]); // Create full path directory name
@@ -837,7 +839,7 @@ int intensity_map(struct trigger t[], int i, struct event e[])
    }
    if (j<1) {email=1;} else {email=0;}                // Set email to send if first iteration
 
-/* Generate file names */
+// Generate file names 
    char* strPath[6] = {NULL, NULL, NULL, NULL, NULL, NULL};
    for (i = 0; i < 6; i++) {
      strPath[i] = new char[_MAX_PATH]; 
@@ -850,7 +852,7 @@ int intensity_map(struct trigger t[], int i, struct event e[])
    sprintf(strPath[OUT_CONT_LABEL],    "%s/t_contour.txt",     epath2);
    sprintf(strPath[OUT_TIME_SCATTER],  "%s/t_scatter.xy",      epath2);
 
-/* Create a file with the event location (lon,lat only)       */
+// Create a file with the event location (lon,lat only)       
    fp[OUT_EVENT] = fopen(strPath[OUT_EVENT],"w");      // Open event output file
    if (!fp[OUT_EVENT]) {
       retval = 1;
@@ -864,7 +866,7 @@ int intensity_map(struct trigger t[], int i, struct event e[])
    fclose(fp[OUT_EVENT]);                                              // Close event output file name
    fp[OUT_EVENT] = NULL;
 
-/* Create a file with the station information                 */
+// Create a file with the station information                 
    fp[OUT_STATION] = fopen(strPath[OUT_STATION],"w");                                  // Open station output file
    if (!fp[OUT_EVENT]) {
       retval = 1;
@@ -886,7 +888,7 @@ int intensity_map(struct trigger t[], int i, struct event e[])
    fclose(fp[OUT_STATION]);                                               // Close station output file name
    fp[OUT_STATION] = NULL;
 
-/* Create contours for time relative to identification time */
+// Create contours for time relative to identification time 
    fp[OUT_CONT_TIME] = fopen(strPath[OUT_CONT_TIME],"w");     // Open time contours output file.
    fp[OUT_CONT_LABEL] = fopen(strPath[OUT_CONT_LABEL],"w");     // label file for contours
    if (!fp[OUT_CONT_LABEL] || !fp[OUT_CONT_TIME]) {
@@ -914,7 +916,7 @@ int intensity_map(struct trigger t[], int i, struct event e[])
    fclose(fp[OUT_CONT_LABEL]);
    fp[OUT_CONT_TIME] = fp[OUT_CONT_LABEL] = NULL;
 
-/* Create scatter plot data for observed v. estimated travel time */
+// Create scatter plot data for observed v. estimated travel time 
    fp[OUT_TIME_SCATTER] = fopen(strPath[OUT_TIME_SCATTER],"w");                               // Open time scatter plot file
    if (!fp[OUT_TIME_SCATTER]) {
       retval = 1;
@@ -983,7 +985,7 @@ void detect_qcn_event(struct trigger t[], int iCtr, struct event e[]) {
      h[nh]=t[i].hid;                          // assign the new host id
      ind[nh]=i;                               // Index the trigger
     } else {                                  // If a prior match is found, then
-/*   Save peak fmag for all triggers within 5 seconds of first arrival */
+//   Save peak fmag for all triggers within 5 seconds of first arrival 
      if ( (t[i].trig>t[ind[ih]].trig) && (t[1].trig<t[ind[ih]].trig + 5.) ) { // Trigger is older than prior, but less than prior + 5 seconds use the higher value
       if (t[i].mag > t[ind[nh]].mag) {t[ind[nh]].mag=t[i].mag;} // Use largest fmag for primary trigger
      }
@@ -991,18 +993,19 @@ void detect_qcn_event(struct trigger t[], int iCtr, struct event e[]) {
     
     if ( (t[i].hid!=t[i-1].hid) && (ih<0) ) {        // Do not use repeating triggers
      for (j = i-1; j>=1; j--) {                // For every other trigger
-      if ( (t[j].hid!=t[i].hid) && (t[j].hid!=t[j-1].hid) && (abs(t[i].trig-t[j].trig) <= T_max) ) {//For non-repeating triggers & triggers less than t_max apart
-       dist=ang_dist_km(t[i].slon,t[i].slat,t[j].slon,t[j].slat);//Distance between triggers
-       if ( (abs(t[i].trig-t[j].trig)<dist/Vs + 3.f) && (dist<=D_max) ) {
-        t[i].c_cnt++;                          // Add count of correlated triggers for this trigger
-        if (t[i].c_cnt>n_short) {              // Make sure we don't use more correlations than array size
-         t[i].c_cnt=n_short;                   // Set count to max array size
-         break;                                // Done
+       if ( (t[j].hid!=t[i].hid) && (t[j].hid!=t[j-1].hid) && (abs(t[i].trig-t[j].trig) <= T_max) ) {
+        //For non-repeating triggers & triggers less than t_max apart
+        dist=ang_dist_km(t[i].slon,t[i].slat,t[j].slon,t[j].slat);//Distance between triggers
+        if ( (abs(t[i].trig-t[j].trig)<dist/Vs + 3.f) && (dist<=D_max) ) {
+         t[i].c_cnt++;                          // Add count of correlated triggers for this trigger
+         if (t[i].c_cnt>n_short) {              // Make sure we don't use more correlations than array size
+          t[i].c_cnt=n_short;                   // Set count to max array size
+          break;                                // Done
+         }
+         t[i].c_ind[t[i].c_cnt]=j;              // index of all correlaed triggers
+         t[i].c_hid[t[i].c_cnt]=t[i].hid;       // Index of host ids
         }
-        t[i].c_ind[t[i].c_cnt]=j;              // index of all correlaed triggers
-        t[i].c_hid[t[i].c_cnt]=t[i].hid;       // Index of host ids
-       }
-      }     
+       }     
      }
     }
    }                                           // Done correlating
@@ -1050,8 +1053,9 @@ void detect_qcn_event(struct trigger t[], int iCtr, struct event e[]) {
    return;                                     // Done
 };
 
+/*
 void get_bad_hosts(struct bad_hosts bh) {
-/*  This subrouting retrieves the bad host names */
+//  This subrouting retrieves the bad host names 
    FILE *fpBadHosts = fopen(BAD_HOSTS_FILE,"r");
    bh.nh = -1;
    while (!feof(fpBadHosts)) {
@@ -1061,11 +1065,7 @@ void get_bad_hosts(struct bad_hosts bh) {
    fclose(fpBadHosts);
    return;
 }
-
-
-
-
-
+*/
 
 int main(int argc, char** argv) 
 {
@@ -1074,12 +1074,12 @@ int main(int argc, char** argv)
     int retval;
     int tidl=0; int hidl=0;                                         // default last host id
     struct bad_hosts bh;
-/*  Get list of bad hosts  */
+//  Get list of bad hosts  
 //    get_bad_hosts(bh);
-/* initialize random seed: */
+// initialize random seed: 
     srand ( time(NULL) );
 
-/*  load CRUST2.0 3D seismic velocity model for the crust: */
+//  load CRUST2.0 3D seismic velocity model for the crust: 
     int icrust = crust2_load();
 
     retval = config.parse_file();

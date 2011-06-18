@@ -27,8 +27,8 @@ using std::vector;
 
 #define Vs 3.4                              // S wave velocity (km/s)
 #define Vp 6.4                              // P wave velocity (km/s)
-#define T_max 90.                           // Maximum time between triggers
-#define D_max 200.                          // Maximum distance between triggers
+#define T_max 90.                           // Maximum time between triggers in seconds
+#define D_max 200.                          // Maximum distance between triggers in km
 #define C_CNT_MIN 5                         // Min # of correlated triggers for event detect
 #define EVENT_MASK 0755
 
@@ -59,18 +59,19 @@ float correlate( float datx[], float daty[], int ndat);
 float ang_dist_km(float lon1, float lat1, float lon2, float lat2);
 void vel_calc(float dep, float v[]);
 void set_grid3D( struct bounds g, float elon, float elat, float edep, float width, float dx, float zrange, float dz);
-void qcn_event_locate(struct trigger t[], int i, struct event e[]);
 
-void estimate_magnitude_bs(struct trigger t[], struct event e[], int i);
 float intensity_extrapolate(int pors, float dist, float dist_eq_nd, float intensity_in);
+
+void qcn_event_locate(struct trigger t[], int i, struct event e[]);
+void estimate_magnitude_bs(struct trigger t[], struct event e[], int i);
 void php_event_email(struct trigger t[], int i, struct event e[], char* epath);
 void php_event_page(struct trigger t[], int i, struct event e[], char* epath);
-void preserve_dir(char * edir, char * epath);
 int intensity_map_gmt(struct event e[], char* epath);
 void scatter_plot_gmt(struct event e[], char* epath);
 int intensity_map(struct trigger t[], int i, struct event e[]);
-
 void detect_qcn_event(struct trigger t[], int iCtr, struct event e[]);
+
+void preserve_dir(char * edir, char * epath);
 void get_bad_hosts(struct bad_hosts bh[]);
 
 #endif //_QCN_TRIGMON_H_
