@@ -207,8 +207,8 @@ inline bool CSensor::mean_xyz()
  */
    static long lLastSample = 10L;  // store last sample size, start at 10 so doesn't give less sleep below, but will if lastSample<3
    static double dLast[4] = {0.0, 0.0, 0.0, 0.0};
-	static long lError = 0;
-	static long lErrorCumulative = 0;
+   static long lError = 0;
+   static long lErrorCumulative = 0;
    float x1,y1,z1;
    double dTimeDiff=0.0f;
 
@@ -287,6 +287,12 @@ inline bool CSensor::mean_xyz()
 		*px2 += dLast[0]; 
 		*py2 += dLast[1]; 
 		*pz2 += dLast[2];
+                if (++lError > (TIME_ERROR_SECONDS / sm->dt) || ++lErrorCumulative > 1000) {
+                        dTimeDiff = (double) (lError-1) * sm->dt;
+                        sm->bWriting = false;
+                        goto error_Timing;
+                }
+
             }
             sm->lSampleSize++; // only increment if not a single sample sensor
         }  // done sample size stuff
