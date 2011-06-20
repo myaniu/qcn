@@ -261,7 +261,7 @@ inline bool CSensor::mean_xyz()
 		}
 #endif		
           // reset if this correction exceeds our time limit or this has been done too much in one session
-		if (++lError > (TIME_ERROR_SECONDS / sm->dt) || ++lErrorCumulative > 1000) {
+		if (++lError > (TIME_ERROR_SECONDS / sm->dt) || ++lErrorCumulative > ERROR_CUMULATIVE_CUTOFF) {
 			dTimeDiff = (double) (lError-1) * sm->dt;
 			sm->bWriting = false;
 			goto error_Timing;
@@ -287,7 +287,7 @@ inline bool CSensor::mean_xyz()
 		*px2 += dLast[0]; 
 		*py2 += dLast[1]; 
 		*pz2 += dLast[2];
-                if (++lError > (TIME_ERROR_SECONDS / sm->dt) || ++lErrorCumulative > 1000) {
+                if (++lError > (TIME_ERROR_SECONDS / sm->dt) || ++lErrorCumulative > ERROR_CUMULATIVE_CUTOFF) {
                         dTimeDiff = (double) (lError-1) * sm->dt;
                         sm->bWriting = false;
                         goto error_Timing;
