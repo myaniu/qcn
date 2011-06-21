@@ -39,20 +39,41 @@ int g_iTriggerTimeInterval = -1;  // number of seconds to check for triggers (i.
 // this way follup triggers can be matched to a known QCN quake event (i.e. qcn_quake table)
 //vector<QCN_QUAKE_EVENT> vQuakeEvent;
 
-
-
+//map<string, struct trigger> mapTrigger;
+//map<int, struct event> mapEvent;
+vector<struct trigger> vt;
+vector<struct event> ve;
+//vector<struct bad_hosts> vbh;
 
 // defined as extern in the header so other progs/files can include crust_2.0_subs.h
 struct cr_mod crm;                     // The Crust2.0 model map
 struct cr_key crk[mx_cr_type];         // The Crust2.0 model key
 
-int do_trigmon(struct trigger t[], struct bad_hosts bh) 
+/*
+void make_strKeyTrigger(char* strKey, const int& iLen, const char* db, const int& id)
+{
+  if (!strKey) return;
+  memset(strKey, 0x00, iLen);
+  sprintf(strKey, "%s%020d", db, id);
+}
+*/
+
+// get the latest triggers from the database memory table and place into k////
+int QCN_GetTriggers()
 {
    DB_QCN_TRIGGER_MEMORY qtm;
+   struct trigger t;
    qtm.clear();
-   int iCtr = 0; int iCtr2 = 0; int j;
+   t.clear();
+   int j;
+   //char strKeyTrigger[32];
    char strWhere[64];
+
+   //mapTrigger.clear(); // clear old triggers
+   vt.clear();
+
    sprintf(strWhere, "WHERE time_trigger > (unix_timestamp()-%d)", g_iTriggerTimeInterval);
+
    while (!qtm.enumerate(strWhere))  {
     // just print a line out of trigger info i.e. all fields in qtm
 /*     fprintf(stdout, "%d %s %d %d %s %s %f %f %f %f %f %f %f %f %f %d %d %f %d %d %d %d %d\n",
@@ -61,46 +82,50 @@ int do_trigmon(struct trigger t[], struct bad_hosts bh)
          qtm.longitude, qtm.levelvalue, qtm.levelid, qtm.alignid, qtm.dt, qtm.numreset, qtm.type_sensor,
          qtm.varietyid, qtm.qcn_quakeid, qtm.posted
      );*/
+/* CMC suppress the bad host stuff now as all clients should be behaving with my "throttling trickle" code by now
     int bad_host=-999;
     for (j=1; j<bh.nh;j++) {
      if (qtm.hostid==bh.hid[j]) bad_host=j;  
     }
-    ++iCtr;
-     if ( (qtm.type_sensor>=ID_USB_SENSOR_START)&&(bad_host<0) ) { 
+*/
+    if ( qtm.type_sensor>=ID_USB_SENSOR_START ) { //&&(bad_host<0) ) { 
       // Only use triggers from usb accelerometers
-      ++iCtr2;                                             // Count triggers
-      t[iCtr2].hid  = qtm.hostid;                          // Host ID
-      t[iCtr2].tid  = qtm.triggerid;                       // Trigger ID
-      sprintf(t[iCtr2].db,"%s",qtm.db_name);               // Database Name
-      sprintf(t[iCtr2].file,"%s",qtm.file);                // File name
-      t[iCtr2].slat = qtm.latitude;                        // Latitude
-      t[iCtr2].slon = qtm.longitude;                       // Longitude
-      t[iCtr2].trig = qtm.time_trigger;                    // Trigger Time
-      t[iCtr2].rec  = qtm.time_received;                   // Time Trigger received
-      t[iCtr2].sig  = qtm.significance;                    // Significance (Trigger detection filter)
-      t[iCtr2].mag  = qtm.magnitude;                       // set mag to magnitude at time of trigger
-      t[iCtr2].pgah[0] = qtm.mxy1p;                        // Peak Ground Acceleration (1 second before and during trigger) (m/s/s)
-      t[iCtr2].pgaz[0] = qtm.mz1p;                         // Peak Ground Acceleration (1 seconds before and during trigger) (m/s/s)
+      t.hid  = qtm.hostid;                          // Host ID
+      t.tid  = qtm.triggerid;                       // Trigger ID
+      strncpy(t.db, qtm.db_name, sizeof(t.db)-1);               // Database Name
+      strncpy(t.file, qtm.file, sizeof(t.file)-1);                // File name
+      t.slat = qtm.latitude;                        // Latitude
+      t.slon = qtm.longitude;                       // Longitude
+      t.trig = qtm.time_trigger;                    // Trigger Time
+      t.rec  = qtm.time_received;                   // Time Trigger received
+      t.sig  = qtm.significance;                    // Significance (Trigger detection filter)
+      t.mag  = qtm.magnitude;                       // set mag to magnitude at time of trigger
+      t.pgah[0] = qtm.mxy1p;                        // Peak Ground Acceleration (1 second before and during trigger) (m/s/s)
+      t.pgaz[0] = qtm.mz1p;                         // Peak Ground Acceleration (1 seconds before and during trigger) (m/s/s)
     
-      t[iCtr2].pgah[1] = qtm.mxy1a;                        // Peak Ground Acceleration (1 second after trigger)  (m/s/s)
-      t[iCtr2].pgaz[1] = qtm.mz1a;                         // Peak Ground Acceleration (1 second after trigger)  (m/s/s)
+      t.pgah[1] = qtm.mxy1a;                        // Peak Ground Acceleration (1 second after trigger)  (m/s/s)
+      t.pgaz[1] = qtm.mz1a;                         // Peak Ground Acceleration (1 second after trigger)  (m/s/s)
     
-      t[iCtr2].pgah[2] = qtm.mxy2a;                        // Peak Ground Acceleration (2 seconds after trigger)  (m/s/s)
-      t[iCtr2].pgaz[2] = qtm.mz2a;                         // Peak Ground Acceleration (2 seconds after trigger)  (m/s/s)
+      t.pgah[2] = qtm.mxy2a;                        // Peak Ground Acceleration (2 seconds after trigger)  (m/s/s)
+      t.pgaz[2] = qtm.mz2a;                         // Peak Ground Acceleration (2 seconds after trigger)  (m/s/s)
     
-      t[iCtr2].pgah[3] = qtm.mxy4a;                        // Peak Ground Acceleration (4 seconds after trigger) (m/s/s)
-      t[iCtr2].pgaz[3] = qtm.mz4a;                         // Peak Ground Acceleration (4 seconds after trigger) (m/s/s)
+      t.pgah[3] = qtm.mxy4a;                        // Peak Ground Acceleration (4 seconds after trigger) (m/s/s)
+      t.pgaz[3] = qtm.mz4a;                         // Peak Ground Acceleration (4 seconds after trigger) (m/s/s)
 
       for (j=0;j<=3;j++) {
-       if (t[iCtr2].pgah[j] > t[iCtr2].mag) t[iCtr2].mag = t[iCtr2].pgah[j];  
-       if (t[iCtr2].pgaz[j] > t[iCtr2].mag) t[iCtr2].mag = t[iCtr2].pgah[j];  
-      }    
+       if (t.pgah[j] > t.mag) t.mag = t.pgah[j];  
+       if (t.pgaz[j] > t.mag) t.mag = t.pgah[j];  
+      }   
 
-     }     
+      // now insert trigger 
+      // get key
+      //make_strKeyTrigger(strKeyTrigger, 32, t.db_name, t.triggerid);
+      //mapTrigger.:
+      vt.push_back(t);  // insert into our vector of triggers
+
+     }  // USB sensor    
    }
-
-   return iCtr2;                                           // Return with number of triggers
-
+   return (int) vt.size();
 }
 
 // The following codes determine the depth-averaged seismic velocity for a location (lon,lat,depth) from CRUST2.0 
@@ -138,7 +163,7 @@ int crust2_load()
    fgets(aline,1000,fpCrust[CRUST_ELEV]);                                                       // Skip first 1 lines of elevation file
 
 // Read in model Key (the two-letter ID and the Vp, Vs, rho, thickness model): 
-   for (i=0;i<=mx_cr_type-1;i++) {   // Read in Crust 2.0 key
+   for (i=0;i<mx_cr_type;i++) {   // Read in Crust 2.0 key
      fgets(aline,1000,fpCrust[CRUST_KEY]);        // retrieve whole line of Key file
     sscanf(aline,"%s",key_string[i]);  // Read in key code
     fgets(aline,1000,fpCrust[CRUST_KEY]);     // retrieve whole line of Key file
@@ -197,7 +222,7 @@ crust2_close:
 }
 
 
-int crust2_type(float lon, float lat) {
+int crust2_type(const float& lon, const float& lat) {
 // This function returns the index of the model key for the map
 
    int ilat,ilon;
@@ -212,7 +237,7 @@ int crust2_type(float lon, float lat) {
 }
 
 
-void crust2_get_mean_vel(float qdep, float qlon, float qlat, float v[]) {
+void crust2_get_mean_vel(const float& qdep, const float& qlon, const float& qlat, float* v) {
 
 /* 
    This fuction returns the average seismic velocity integrated from the surface to some depth (qdep). 
@@ -284,7 +309,7 @@ void crust2_get_mean_vel(float qdep, float qlon, float qlat, float v[]) {
 
 
 
-float average( float dat[], int ndat) {
+float average(float* dat, const int& ndat) {
 //  This fuction calculates the average of a data set (dat) of length (ndat). 
    float dat_ave = 0.;                                    // Start with zero as average
    int j;                                                 // Index variable
@@ -295,7 +320,7 @@ float average( float dat[], int ndat) {
    return dat_ave;                                        // Return with average
 }
 
-float std_dev( float dat[], int ndat, float dat_ave) {
+float std_dev(float* dat, const int& ndat, const float& dat_ave) {
 //  This function calculates the standard deviation of a data set (dat) of length (ndat) with a mean of (dat_ave) 
    float dat_std = 0.;                                    // Zero the standard deviation
    int j;                                                 // Index variable
@@ -307,7 +332,7 @@ float std_dev( float dat[], int ndat, float dat_ave) {
    return dat_std;                                        // Return standard deviation
 }
 
-float correlate( float datx[], float daty[], int ndat) {
+float correlate(float* datx, float* daty, const int& ndat) {
 //  This function correlates two data sets (datx & daty) of length (ndat).  It returns the R^2 value (not r). 
    float datx_ave = average(datx,ndat);                   // Average of x series
    float daty_ave = average(daty,ndat);                   // Average of y series
@@ -329,7 +354,7 @@ float correlate( float datx[], float daty[], int ndat) {
 
 
 
-float ang_dist_km(float lon1, float lat1, float lon2, float lat2) {
+float ang_dist_km(const float& lon1, const float& lat1, const float& lon2, const float& lat2) {
 /* This function returns the distance (in km) between two points given as
    (lon1,lat1) & (lon2,lat2).This function written by Jesse Lawrence (April 2010) - 
     Contact: jflawrence@stanford.edu   
@@ -344,7 +369,11 @@ float ang_dist_km(float lon1, float lat1, float lon2, float lat2) {
 };
 
 
-void set_grid3D( struct bounds g, float elon, float elat, float edep, float width, float dx, float zrange, float dz) {
+void set_grid3D(struct bounds *g, const float& elon, const float& elat, const float& edep,    
+    const float& width, const float& dx, const float& zrange, const float& dz)
+{
+//
+//void set_grid3D( struct bounds g, float elon, float elat, float edep, float width, float dx, float zrange, float dz) {
 /* This subroutine sets up a 3D grid search (x,y, & z) for source location.  This is a brute force location
    scheme.  Slower than it should be.  The gridding is made into a subroutine because I do several iterations,
    that focus in on the best solution of the prior grid, which is much faster than a fine grid for a large area.
@@ -356,24 +385,25 @@ void set_grid3D( struct bounds g, float elon, float elat, float edep, float widt
    The grid has vertical dimension zrange with vertical node interval of dz.
 
 */ 
-   g.yw = width;                                          // Latitudinal width of grid
-   g.xw = width;                                          // Latitudinal width of grid
-   g.zw = zrange;
+   if (!g) return; // null ptr
+   g->yw = width;                                          // Latitudinal width of grid
+   g->xw = width;                                          // Latitudinal width of grid
+   g->zw = zrange;
    
-   g.x_min = elon-g.xw/2.f;                               // Set bounds of grid
-   g.x_max = elon+g.xw/2.f;
-   g.y_min = elat-g.yw/2.f;
-   g.y_max = elat+g.yw/2.f;
-   g.z_min = edep-g.zw/2.f;if (g.z_min < 0.) {g.z_min=0.f;};
-   g.z_max = edep+g.zw/2.f;
+   g->x_min = elon-g->xw/2.f;                               // Set bounds of grid
+   g->x_max = elon+g->xw/2.f;
+   g->y_min = elat-g->yw/2.f;
+   g->y_max = elat+g->yw/2.f;
+   g->z_min = edep-g->zw/2.f;if (g->z_min < 0.) {g->z_min=0.f;};
+   g->z_max = edep+g->zw/2.f;
 
-   g.dy = dx;                                             // Set latitudinal step size
-   g.dx = dx;                                             // Set longitudinal step size
-   g.dz = dz;
+   g->dy = dx;                                             // Set latitudinal step size
+   g->dx = dx;                                             // Set longitudinal step size
+   g->dz = dz;
    
-   g.ny = (int) ((g.y_max-g.y_min)/g.dy);                 // Set number of latitudinal steps
-   g.nx = (int) ((g.x_max-g.x_min)/g.dx);                 // Set number of longitudinal steps
-   g.nz = (int) ((g.z_max-g.z_min)/g.dz);                 // Set number of depth steps
+   g->ny = (int) ((g->y_max-g->y_min)/g->dy);                 // Set number of latitudinal steps
+   g->nx = (int) ((g->x_max-g->x_min)/g->dx);                 // Set number of longitudinal steps
+   g->nz = (int) ((g->z_max-g->z_min)/g->dz);                 // Set number of depth steps
 }
 
 void vel_calc(float dep, float v[]) {
@@ -417,7 +447,7 @@ void qcn_event_locate(struct trigger t[], int i, struct event e[]) {
    e[1].edep = 33.;                                       // Start with default Moho depth eq.
    
    for (j = 1; j<=n_iter; j++) {                          // For each iteration 
-//    set_grid3D(g, e[1].elon, e[1].elat, e[1].edep, width, dx, zrange, dz);        // Set bounds of grid search
+//    set_grid3D(&g, e[1].elon, e[1].elat, e[1].edep, width, dx, zrange, dz);        // Set bounds of grid search
     g.yw = width;                                         // Latitudinal width of grid
     g.xw = width;                                         // Latitudinal width of grid
     g.zw = zrange;                                        // Vertical dimension of grid
@@ -572,8 +602,8 @@ void qcn_event_locate(struct trigger t[], int i, struct event e[]) {
 }
 
 
-
-void estimate_magnitude_bs(struct trigger t[], struct event e[], int i) {
+void QCN_EstimateMagnitude(int i)
+{
 /* We need to come up with good magnitude/amplitude relationships.  There are some good ones for peak displacement v. dist.
    We need some for peak acceleration v. distance.  Note - they may vary from location to location.
    We will need to adjust this for characterization of P & S wave values.  It may also be sensor specific.
@@ -618,7 +648,7 @@ void estimate_magnitude_bs(struct trigger t[], struct event e[], int i) {
 
 
 
-//void estimate_magnitude_bs(struct trigger t[], struct event e[], int i) {
+//void QCN_EstimateMagnitude(struct trigger t[], struct event e[], int i) {
 /* We need to come up with good magnitude/amplitude relationships.  There are some good ones for peak displacement v. dist.
    We need some for peak acceleration v. distance.  Note - they may vary from location to location.
    We will need to adjust this for characterization of P & S wave values.  It may also be sensor specific.
@@ -743,7 +773,7 @@ void php_event_page(struct trigger t[], int i, struct event e[], char* epath) {
 }
 
 
-int intensity_map_gmt(struct event e[], char* epath){
+int QCN_IntensityMapGMT(struct event e[], char* epath){
    fprintf(stdout,"Create/run GMT map script \n");
    int k, retval = 0;
   
@@ -789,7 +819,7 @@ void get_loc(float ilon, float ilat, float dis, float az, float olon, float olat
 }
 
 
-int intensity_map(struct trigger t[], int i, struct event e[]) 
+int QCN_IntensityMap(struct trigger t[], int i, struct event e[]) 
 {
    time_t t_now; time(&t_now); e[1].e_t_now = (int) t_now;    // Current time
    float width=5; float dx=0.05;                              // Physical dimensions of grid
@@ -954,7 +984,8 @@ close_output_files:
 }
 
 
-void detect_qcn_event(struct trigger t[], int iCtr, struct event e[]) {
+void QCN_DetectEvent();
+{
 /* This subroutine determines if a set of triggers is correlated in time and space.
    The subroutine is used by program main, which assumes that the triggers have already been read in.
    The subroutine uses ang_dist_km, which provides the distance between two points in kilometers. 
@@ -1041,11 +1072,11 @@ void detect_qcn_event(struct trigger t[], int iCtr, struct event e[]) {
      }
      if ((t[i].c_cnt > e[1].e_cnt)||((t[i].trig-e[1].e_t_detect>5.)&&(t[i].c_cnt=e[1].e_cnt))) {            // Only do new event location ... if more triggers for same event (or new event - no prior triggers)
       
-      qcn_event_locate(t,j,e);                 // Try to locate event
+      QCN_EventLocate(j);                 // Try to locate event
       if (e[1].e_r2 < 0.5) { break; }          // Stop event if no event located
       e[1].e_cnt = t[i].c_cnt;
-      estimate_magnitude_bs(t, e, j);          // Estimate the magnitude of the earthquake
-      intensity_map(t,j,e);                    // This generates the intensity map
+      QCN_EstimateMagnitude(j);          // Estimate the magnitude of the earthquake
+      QCN_IntensityMap(j);                    // This generates the intensity map
      }
     } 
    }
@@ -1072,8 +1103,8 @@ int main(int argc, char** argv)
     struct trigger t[n_long];                            // Trigger buffer ring
     struct event   e[2];e[1].eid=0;                      // event
     int retval;
-    int tidl=0; int hidl=0;                                         // default last host id
-    struct bad_hosts bh;
+//    int tidl=0; int hidl=0;                                         // default last host id
+ //   struct bad_hosts bh;
 //  Get list of bad hosts  
 //    get_bad_hosts(bh);
 // initialize random seed: 
@@ -1132,14 +1163,10 @@ int main(int argc, char** argv)
     while (1) {
       g_dTimeCurrent = dtime();
       double dtEnd = g_dTimeCurrent + g_dSleepInterval;
-      int iCtr = do_trigmon(t,bh);          // the main trigger monitoring routine
-      
-      if (iCtr>C_CNT_MIN) {
-       if ( (t[1].tid != tidl) && (t[1].hid != hidl) ) {  // Dont allow repeat trigger id or host id as last entry otherwise redundant process
-        detect_qcn_event(t,iCtr,e);       
-        tidl=t[1].tid; hidl=t[1].hid;                    // Save last trigger id & host id (so no repeats)
-       }
-      }
+
+      QCN_GetTriggers();  // reads the memories from the trigger memory table into a global vector
+      QCN_DetectEvent();     // searches the vector of triggers for matching events
+
       check_stop_daemons();  // checks for a quit request
       g_dTimeCurrent = dtime();
       if (g_dTimeCurrent < dtEnd && (dtEnd - g_dTimeCurrent) < 60.0) { // sleep a bit if not less than 60 seconds

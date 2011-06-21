@@ -48,30 +48,32 @@ int getQCNQuakeID(
     const double& dTimeMin, 
     const double& dTimeMax);
 
-void close_db();
+int QCN_GetTriggers();
+void QCN_EventLocate(int i);
+
+int QCN_IntensityMapGMT(const char* epath);
+int QCN_IntensityMap(int i);
+
 void setQueries();
-int do_trigmon(struct trigger t[],struct bad_hosts bh);
 
-float average( float dat[], int ndat);
-float std_dev( float dat[], int ndat, float dat_ave);
-float correlate( float datx[], float daty[], int ndat);
+float average(float* dat, const int& ndat);
+float std_dev(float* dat, const int& ndat, const float& dat_ave);
+float correlate(float* datx, float* daty, const int& ndat);
 
-float ang_dist_km(float lon1, float lat1, float lon2, float lat2);
-void vel_calc(float dep, float v[]);
-void set_grid3D( struct bounds g, float elon, float elat, float edep, float width, float dx, float zrange, float dz);
+float ang_dist_km(const float& lon1, const float& lat1, const float& lon2, const float& lat2);
+void vel_calc(float& dep, float* v);
+void set_grid3D(struct bounds& g, const float& elon, const float& elat, const float& edep, 
+   const float& width, const float& dx, const float& zrange, const float& dz);
 
 float intensity_extrapolate(int pors, float dist, float dist_eq_nd, float intensity_in);
 
-void qcn_event_locate(struct trigger t[], int i, struct event e[]);
-void estimate_magnitude_bs(struct trigger t[], struct event e[], int i);
-void php_event_email(struct trigger t[], int i, struct event e[], char* epath);
-void php_event_page(struct trigger t[], int i, struct event e[], char* epath);
-int intensity_map_gmt(struct event e[], char* epath);
-void scatter_plot_gmt(struct event e[], char* epath);
-int intensity_map(struct trigger t[], int i, struct event e[]);
-void detect_qcn_event(struct trigger t[], int iCtr, struct event e[]);
+void estimate_magnitude_bs(int i);
+void php_event_email(const char* epath);
+void php_event_page(int i, const char* epath);
+void scatter_plot_gmt(const char* epath);
+void detect_qcn_event(int iCtr);
 
-void preserve_dir(char * edir, char * epath);
-void get_bad_hosts(struct bad_hosts bh[]);
+void preserve_dir(const char* edir, const char* epath);
+void get_bad_hosts();
 
 #endif //_QCN_TRIGMON_H_
