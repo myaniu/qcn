@@ -1013,18 +1013,18 @@ close_output_files:
    return retval;                                                   //
 }
 
-
-void QCN_DetectEvent();
+// this is the main routine for searching through the triggers (now in a vector vt) and see if they are correlated in time & space
+void QCN_DetectEvent()
 {
 /* This subroutine determines if a set of triggers is correlated in time and space.
    The subroutine is used by program main, which assumes that the triggers have already been read in.
-   The subroutine uses ang_dist_km, which provides the distance between two points in kilometers. 
+   The subroutine uses ang_dist_km, which provides the distance between two points in kilometers.
    The subroutine uses hid_yn, which determines if the primary trigger has already encountered a host ID or not.
-   
-   A correlated station pair occurs when the distance is < 100 km apart and the trigger time difference 
-   is less than the velocity divided by the station separation.
-*/
+
+   A correlated station pair occurs when the distance is < 100 km apart and the trigger time difference
+   is less than the velocity divided by the station separation.*/
    int i,j,k,l,kl;                             // Index variables
+   int iCtr = vt.size() - 1;   // max index of the trigger vector
 //   double  dt;                               // Time between triggers
    float   dist;                               // Distance between triggers
    int   nh = 0;int ih=0;                      // Number of hosts, ith host
@@ -1032,27 +1032,30 @@ void QCN_DetectEvent();
    h[0]=t[iCtr].hid;                           // First host id is last in trigger list
    ind[0]=iCtr;                                // Index of host id's start at last trigger first
 
-   //fprintf(stdout,"New possible event: Correlate triggers: %d \n",iCtr);
-   for (i=iCtr; i>=2; i--) {                   // For each trigger (go backwards because triggers in order of latest first, and we want first first)
-    t[i].c_cnt=0;                              // Zero the count of correlated triggers 
+   if (iCtr < (C_CNT_MIN - 1)) return; // not enough triggers to do anything with
+
+// CMC HERE
+   for (i=iCtr; i>=2; i--) {          // For each trigger (go backwards because triggers in order of latest first, and we want first first)
+    t[i].c_cnt=0;                              // Zero the count of correlated triggers
     t[i].c_ind[0]=i;                           // Index the same trigger as zeroth trigger
     ih = -10;                                    // Unassigned host id
     for (j = 0; j<=nh;j++) {                  // search through the assigned host ids
      if (t[i].hid == h[j]) {                  // to find a match
       ih = j;                                 // Match found
-     }   
+     }
     }
     if (ih<0) {                               // If no match found, then
-     nh++;                                    // add a new assigned host id 
+     nh++;                                    // add a new assigned host id
      h[nh]=t[i].hid;                          // assign the new host id
      ind[nh]=i;                               // Index the trigger
     } else {                                  // If a prior match is found, then
-//   Save peak fmag for all triggers within 5 seconds of first arrival 
-     if ( (t[i].trig>t[ind[ih]].trig) && (t[1].trig<t[ind[ih]].trig + 5.) ) { // Trigger is older than prior, but less than prior + 5 seconds use the higher value
+//   Save peak fmag for all triggers within 5 seconds of first arrival
+     if ( (t[i].trig>t[ind[ih]].trig) && (t[1].trig<t[ind[ih]].trig + 5.) ) { 
+       // Trigger is older than prior, but less than prior + 5 seconds use the higher value
       if (t[i].mag > t[ind[nh]].mag) {t[ind[nh]].mag=t[i].mag;} // Use largest fmag for primary trigger
      }
     }
-    
+
     if ( (t[i].hid!=t[i-1].hid) && (ih<0) ) {        // Do not use repeating triggers
      for (j = i-1; j>=1; j--) {                // For every other trigger
        if ( (t[j].hid!=t[i].hid) && (t[j].hid!=t[j-1].hid) && (abs(t[i].trig-t[j].trig) <= T_max) ) {
@@ -1067,7 +1070,7 @@ void QCN_DetectEvent();
          t[i].c_ind[t[i].c_cnt]=j;              // index of all correlaed triggers
          t[i].c_hid[t[i].c_cnt]=t[i].hid;       // Index of host ids
         }
-       }     
+       }
      }
     }
    }                                           // Done correlating
@@ -1076,16 +1079,16 @@ void QCN_DetectEvent();
 
 /* Now we correlate triggers that are currently correlated with triggers that are correlated with the initial trigger, but not
    correlated with the initial trigger itself */
-   for (i =iCtr; i>1; i--) {                   // For each trigger 
+   for (i =iCtr; i>1; i--) {                   // For each trigger
     if (t[i].c_cnt > C_CNT_MIN) {              // If more than 4 correlated triggers, possible regional event
      for (j = i-1;j>=0; j--) {                 // Compare with all later triggers
-      if (t[j].c_cnt > C_CNT_MIN) {            // Make sure this trigger is an event all of it's own 
+      if (t[j].c_cnt > C_CNT_MIN) {            // Make sure this trigger is an event all of it's own
        kl = -10;
-       for (k = 0; k<=t[j].c_cnt;k++) {        // Compare all potential secondary correlated triggers 
+       for (k = 0; k<=t[j].c_cnt;k++) {        // Compare all potential secondary correlated triggers
         for (l = 0; l<=t[i].c_cnt;l++) {       // Make sure trigger isn't same host as prior trigger
          if (t[i].c_ind[l]==t[j].c_ind[k]) {
           kl = l;break;
-         }   
+         }
         }
         if (kl < 0) {                         // If no matching trigger, then add secondary trigger to primary trigger list
          t[i].c_cnt++;
@@ -1096,24 +1099,23 @@ void QCN_DetectEvent();
        }
       }
      }
-     j = i; 
+     j = i;
      if ( ( t[i].trig > T_max+e[1].e_time)||(abs(t[i].slat-e[1].elat)>3.) ) {
       e[1].eid++;                              // If new Time or location, then new event
       e[1].e_cnt=0;                            // Zero trigger count for event count for if new location/time
      }
      if ((t[i].c_cnt > e[1].e_cnt)||((t[i].trig-e[1].e_t_detect>5.)&&(t[i].c_cnt=e[1].e_cnt))) {            // Only do new event location ... if more triggers for same event (or new event - no prior triggers)
-      
-      QCN_EventLocate(j);                 // Try to locate event
+
+      qcn_event_locate(t,j,e);                 // Try to locate event
       if (e[1].e_r2 < 0.5) { break; }          // Stop event if no event located
       e[1].e_cnt = t[i].c_cnt;
-      QCN_EstimateMagnitude(j);          // Estimate the magnitude of the earthquake
-      QCN_IntensityMap(j);                    // This generates the intensity map
+      estimate_magnitude_bs(t, e, j);          // Estimate the magnitude of the earthquake
+      intensity_map(t,j,e);                    // This generates the intensity map
      }
-    } 
+    }
    }
-   
-   return;                                     // Done
-};
+
+}
 
 /*
 void get_bad_hosts(struct bad_hosts bh) {
@@ -1131,14 +1133,8 @@ void get_bad_hosts(struct bad_hosts bh) {
 
 int main(int argc, char** argv) 
 {
-    struct trigger t[n_long];                            // Trigger buffer ring
-    struct event   e[2];e[1].eid=0;                      // event
     int retval;
-//    int tidl=0; int hidl=0;                                         // default last host id
- //   struct bad_hosts bh;
-//  Get list of bad hosts  
-//    get_bad_hosts(bh);
-// initialize random seed: 
+    // initialize random seed: 
     srand ( time(NULL) );
 
 //  load CRUST2.0 3D seismic velocity model for the crust: 
