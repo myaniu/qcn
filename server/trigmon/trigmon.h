@@ -50,11 +50,10 @@ int getQCNQuakeID(
 
 int QCN_GetTriggers();
 void QCN_EventLocate(int i);
+void QCN_DetectEvent();
 
-int QCN_IntensityMapGMT(const char* epath);
-int QCN_IntensityMap(int i);
-
-void setQueries();
+int QCN_IntensityMapGMT(const struct event& e, const char* epath);
+int QCN_IntensityMap(const struct event& e);
 
 float average(float* dat, const int& ndat);
 float std_dev(float* dat, const int& ndat, const float& dat_ave);
@@ -68,12 +67,12 @@ void set_grid3D(struct bounds& g, const float& elon, const float& elat, const fl
 float intensity_extrapolate(int pors, float dist, float dist_eq_nd, float intensity_in);
 
 void estimate_magnitude_bs(int i);
-void php_event_email(const char* epath);
-void php_event_page(int i, const char* epath);
 void scatter_plot_gmt(const char* epath);
-void detect_qcn_event(int iCtr);
 
 void preserve_dir(const char* edir, const char* epath);
-void get_bad_hosts();
+//void get_bad_hosts();
+
+void php_event_email(const char* epath);
+void php_event_page(int i, const char* epath);
 
 #endif //_QCN_TRIGMON_H_

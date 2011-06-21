@@ -792,7 +792,7 @@ void php_event_page(struct trigger t[], int i, struct event e[], char* epath) {
 }
 
 
-int QCN_IntensityMapGMT(struct event e[], char* epath)
+int QCN_IntensityMapGMT(const struct event& e, char* epath)
 {
     int k, retval = 0;
     char *gmtfile = new char[_MAX_PATH];
@@ -841,7 +841,7 @@ void get_loc(float ilon, float ilat, float dis, float az, float olon, float olat
 }
 
 
-int QCN_IntensityMap(struct trigger t[], int i, struct event e[]) 
+int QCN_IntensityMap(const struct event& e)
 {
    time_t t_now; time(&t_now); e[1].e_t_now = (int) t_now;    // Current time
    float width=5; float dx=0.05;                              // Physical dimensions of grid
@@ -992,7 +992,7 @@ int QCN_IntensityMap(struct trigger t[], int i, struct event e[])
    fp[OUT_TIME_SCATTER] = NULL;
 
 
-   intensity_map_gmt(e,epath2);                              // Run Scripts for plotting (GMT)
+   QCN_IntensityMapGMT(e,epath2);                              // Run Scripts for plotting (GMT)
    php_event_page(t,i,e,epath2);                             // Output event Page
    if (email==1) {
     php_event_email(t,i,e,edir);                            // Email if a new event
