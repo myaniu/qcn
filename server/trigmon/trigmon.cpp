@@ -63,14 +63,15 @@ int QCN_GetTriggers()
 {
    DB_QCN_TRIGGER_MEMORY qtm;
    struct trigger t;
-   qtm.clear();
-   t.clear();
-   int j;
    //char strKeyTrigger[32];
    char strWhere[64];
 
+   // clear our local variables
+   qtm.clear();
+   t.clear();
+
    //mapTrigger.clear(); // clear old triggers
-   vt.clear();
+   vt.clear();  // clear our trigger vector
 
    sprintf(strWhere, "WHERE time_trigger > (unix_timestamp()-%d)", g_iTriggerTimeInterval);
 
@@ -123,9 +124,9 @@ int QCN_GetTriggers()
       //mapTrigger.:
       vt.push_back(t);  // insert into our vector of triggers
 
-     }  // USB sensor    
+     }  // USB sensors only
    }
-   return (int) vt.size();
+   //return (int) vt.size();
 }
 
 // The following codes determine the depth-averaged seismic velocity for a location (lon,lat,depth) from CRUST2.0 
@@ -143,7 +144,9 @@ int crust2_load()
    fpCrust[CRUST_ELEV] = fopen(CRUST_ELEV_FILE, "r");    // Open elevation file w/ data at each lat/lon
 
    if (!fpCrust[CRUST_KEY] || !fpCrust[CRUST_MAP] || !fpCrust[CRUST_ELEV]) {
-      fprintf(stdout, "File Open Error %x %x %x\n", fpCrust[CRUST_KEY], fpCrust[CRUST_MAP], fpCrust[CRUST_ELEV]);
+      log_messages.printf(MSG_CRITICAL,
+         "File Open Error %x %x %x\n", fpCrust[CRUST_KEY], fpCrust[CRUST_MAP], fpCrust[CRUST_ELEV]
+      );
       retval = 1;
       goto crust2_close;
    }
@@ -230,7 +233,9 @@ int crust2_type(const float& lon, const float& lat) {
 
    ilat = (int) (90.f-lat)/dx_cr;                                                                  // index of longitude
    ilon = (int) (    lon2)/dx_cr;                                                                  // index of latitude
-   printf("ilon=%d    ilat=%d     type=%d\n",ilon,ilat,crm.ikey[ilat][ilon]);
+   log_messages.printf(MSG_DEBUG,
+      "ilon=%d    ilat=%d     type=%d\n",ilon,ilat,crm.ikey[ilat][ilon]
+   );
 
    return crm.ikey[ilat][ilon];                                                                    // index key for this lon/lat location
 
@@ -417,8 +422,12 @@ void vel_calc(float dep, float v[]) {
    v[0] = 1.86*v[1];                                      // Vp = 1.86*Vs
 }
 
-void qcn_event_locate(struct trigger t[], int i, struct event e[]) {
-   fprintf(stdout,"Locate possible event %d \n",t[i].c_cnt);
+void QCN_EventLocate()
+{
+   log_messages.printf(MSG_DEBUG,
+      "Locate possible event %d \n",t[i].c_cnt
+   );
+
    if ( ( t[i].trig > T_max+e[1].e_time)||(abs(t[i].slat-e[1].elat)>3.) ) e[1].eid=0;         // If new Time or location, then new event
    
    
@@ -550,7 +559,9 @@ void qcn_event_locate(struct trigger t[], int i, struct event e[]) {
    e[1].e_time = e[1].e_time / ((float) t[i].c_cnt + 1.); // Time of earthquake calculated by averaging time w.r.t each station normalized by number of stations
    if (e[1].eid <=0) {                                    // For New earthquake ID if earthquake time wasn't set
     e[1].eid = ((int) e[1].e_time);                       //
-    fprintf(stdout,"NEW EID: %d \n",e[1].eid);}           //
+    log_messages.printf(MSG_DEBUG,
+       "NEW EID: %d \n", e[1].eid
+    );
    }
 
 //  Determine maximum dimension of array  
@@ -567,10 +578,14 @@ void qcn_event_locate(struct trigger t[], int i, struct event e[]) {
 //  Require that the earthquake-to-array distance be less than four times the dimension of the array 
    if (ss_dist_max*4. < t[j_min].dis) {                   // If the event-to-station distance > 4 times the array dimension
     e[1].e_r2=-1.;                                        // Set correlation to -1 (will reject earthquake)
-    fprintf(stdout,"Event poorly located: Array dimension=%f EQ Dist=%f.\n",ss_dist_max,dn); //Status report
+    log_messages.printf(MSG_DEBUG,
+       "Event poorly located: Array dimension=%f EQ Dist=%f.\n",ss_dist_max,dn //Status report
+    );
     return;                                               // Return so done
    } else {                                               // Otherwise output status report
-    fprintf(stdout,"Event located: %f %f\n",e[1].elon,e[1].elat);
+    log_messages.printf(MSG_DEBUG,
+       "Event located: %f %f\n",e[1].elon,e[1].elat
+    );
    }
    
 //  Calculate the estimated arrival time of the phase 
@@ -597,7 +612,9 @@ void qcn_event_locate(struct trigger t[], int i, struct event e[]) {
 
 //  Correlate observed and estimated travel times  
     e[1].e_r2 = correlate(t_obs, t_est, t[i].c_cnt);  // Correlate observed & estimated times
-    fprintf(stdout,"Estimated times correlate at r^2= %f \n",e[1].e_r2);
+    log_messages.printf(MSG_DEBUG,
+       "Estimated times correlate at r^2= %f \n",e[1].e_r2
+    );
 
 }
 
@@ -732,8 +749,10 @@ void php_event_email(struct trigger t[], int i, struct event e[], char* epath) {
 
    FILE *fpMail  = fopen(PATH_EMAIL, "w");                       // Open web file
    if (!fpMail) {
-    fprintf(stdout, "Error in php_event_email - could not open file %s\n", PATH_EMAIL);
-     return;  //error
+    log_messages.printf(MSG_CRITICAL,
+       "Error in php_event_email - could not open file %s\n", PATH_EMAIL
+    );
+    return;  //error
    }
 
    fprintf(fpMail,"<?php\n");
@@ -773,20 +792,23 @@ void php_event_page(struct trigger t[], int i, struct event e[], char* epath) {
 }
 
 
-int QCN_IntensityMapGMT(struct event e[], char* epath){
-   fprintf(stdout,"Create/run GMT map script \n");
-   int k, retval = 0;
-  
+int QCN_IntensityMapGMT(struct event e[], char* epath)
+{
+    int k, retval = 0;
     char *gmtfile = new char[_MAX_PATH];
     char *syscmd = new char[_MAX_PATH];
     memset(gmtfile, 0x00, sizeof(char) * _MAX_PATH);
     memset(syscmd, 0x00, sizeof(char) * _MAX_PATH);
 
     sprintf(gmtfile,"%s/gmt_script.csh", epath);
-    fprintf(stdout,gmtfile);
     FILE *fpGMT = fopen(gmtfile,"w");                      // gmt script
+    log_messages.printf(MSG_DEBUG,
+       "Create/run GMT map script %s\n", gmtfile
+    );
     if (!fpGMT) {
-      fprintf(stdout, "Error in intensity_map_gmt - could not open file %s\n", gmtfile);
+      log_messages.printf(MSG_CRITICAL,
+        "Error in intensity_map_gmt - could not open file %s\n", gmtfile
+      );
       retval = 1;  //error
       goto ints_map_gmt_cleanup;
     }
@@ -796,7 +818,7 @@ int QCN_IntensityMapGMT(struct event e[], char* epath){
     fclose(fpGMT);     // Close script
 
 //  Execute GMT script  
-   sprintf(syscmd,"csh %s",gmtfile);
+   sprintf(syscmd,"%s %s", CSHELL_CMD, gmtfile);
    retval = system(syscmd);
 
 ints_map_gmt_cleanup:
@@ -886,7 +908,9 @@ int QCN_IntensityMap(struct trigger t[], int i, struct event e[])
    fp[OUT_EVENT] = fopen(strPath[OUT_EVENT],"w");      // Open event output file
    if (!fp[OUT_EVENT]) {
       retval = 1;
-      fprintf(stdout, "Error in intensity_map OUT_EVENT file creation\n");
+      log_messages.printf(MSG_CRITICAL,
+         "Error in intensity_map OUT_EVENT file creation\n"
+      );
       goto close_output_files;
    }
 
@@ -900,7 +924,9 @@ int QCN_IntensityMap(struct trigger t[], int i, struct event e[])
    fp[OUT_STATION] = fopen(strPath[OUT_STATION],"w");                                  // Open station output file
    if (!fp[OUT_EVENT]) {
       retval = 1;
-      fprintf(stdout, "Error in intensity_map OUT_EVENT file creation\n");
+      log_messages.printf(MSG_CRITICAL,
+         "Error in intensity_map OUT_EVENT file creation\n"
+      );
       goto close_output_files;
    }
 
@@ -923,7 +949,9 @@ int QCN_IntensityMap(struct trigger t[], int i, struct event e[])
    fp[OUT_CONT_LABEL] = fopen(strPath[OUT_CONT_LABEL],"w");     // label file for contours
    if (!fp[OUT_CONT_LABEL] || !fp[OUT_CONT_TIME]) {
       retval = 1;
-      fprintf(stdout, "Error in intensity_map OUT_CONT_TIME/LABEL file creation %x %x\n", fp[OUT_CONT_TIME], fp[OUT_CONT_LABEL]);
+      log_messages.printf(MSG_CRITICAL,
+         "Error in intensity_map OUT_CONT_TIME/LABEL file creation %x %x\n", fp[OUT_CONT_TIME], fp[OUT_CONT_LABEL]
+      );
       goto close_output_files;
    }
 
@@ -950,7 +978,9 @@ int QCN_IntensityMap(struct trigger t[], int i, struct event e[])
    fp[OUT_TIME_SCATTER] = fopen(strPath[OUT_TIME_SCATTER],"w");                               // Open time scatter plot file
    if (!fp[OUT_TIME_SCATTER]) {
       retval = 1;
-      fprintf(stdout, "Error in intensity_map OUT_TIME_SCATTER file creation\n");
+      log_messages.printf(MSG_CRITICAL,
+         "Error in intensity_map OUT_TIME_SCATTER file creation\n"
+      );
       goto close_output_files;
    }
 
@@ -1001,7 +1031,8 @@ void QCN_DetectEvent();
    int   h[n_long]; int ind[n_long];           // host ids already used
    h[0]=t[iCtr].hid;                           // First host id is last in trigger list
    ind[0]=iCtr;                                // Index of host id's start at last trigger first
-   fprintf(stdout,"New possible event: Correlate triggers: %d \n",iCtr);
+
+   //fprintf(stdout,"New possible event: Correlate triggers: %d \n",iCtr);
    for (i=iCtr; i>=2; i--) {                   // For each trigger (go backwards because triggers in order of latest first, and we want first first)
     t[i].c_cnt=0;                              // Zero the count of correlated triggers 
     t[i].c_ind[0]=i;                           // Index the same trigger as zeroth trigger
