@@ -7,8 +7,8 @@ extern DB_CONN trigmem_db;
 
 #define DB_TRIGMEM "trigmem"
 
-#define n_short 300
-#define n_long 1000
+#define N_SHORT 300
+#define N_LONG  1000
 
 #ifndef _MAX_PATH
 #define _MAX_PATH 255
@@ -41,8 +41,8 @@ struct trigger {
    float  sig, mag;              // Significance and magnitude (sig/noise)
    float  pgah[4],pgaz[4];       // Peak Ground Acceleration (Horizontal & vertical)
    int    c_cnt;                 // Count of correlated triggers
-   int    c_ind[n_short];        // Correlated trigger IDs
-   int    c_hid[n_short];        // Correlated host IDs
+   int    c_ind[N_SHORT];        // Correlated trigger IDs
+   int    c_hid[N_SHORT];        // Correlated host IDs
    float  dis;                   // Event to station distance (km)
    int    pors;                   // 1=P, 2=S wave             
 };
@@ -90,12 +90,13 @@ struct bounds {
    float lon_factor;              // Longitude/latitude factor as approach poles
 };
 
+/* CMC not needed now
 struct bad_hosts {
    int   nh;                      // Number of bad host ids
-   int   hid[n_long];              // Bad host ids
+   int   hid[N_LONG];              // Bad host ids
 
 };
-
+*/
 
 // struct to keep in a vector of the most recent QCN generated quake events
 // so followup triggers can be matched to this if we are scanning the trigmem.qcn_trigger_memory 
