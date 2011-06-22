@@ -115,9 +115,9 @@ int main(int argc, char** argv)
 
     install_stop_signal_handler();
 
-    atexit(qcn_db_close);
+    atexit(QCN_DBClose);
 
-    retval = qcn_db_open();
+    retval = QCN_DBOpen();
     if (retval) return retval;
 
     log_messages.printf(MSG_NORMAL,
@@ -148,7 +148,7 @@ int main(int argc, char** argv)
           boinc_sleep(dtEnd - g_dTimeCurrent);
       } 
     }
-    qcn_db_close();
+    QCN_DBClose();
     return 0;
 }
 

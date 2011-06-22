@@ -28,9 +28,10 @@ struct cr_mod {
 
 
 int  crust2_load();                         // Loads crust2.0 into memory
-int  crust2_type(float lon, float lat);     // Retrieves crustal type from lon & lat of CRUST2.0
 // retrieves mean velocity to depth from CRUST2.0
-void crust2_get_mean_vel(float qdep, float qlon, float qlat, float v[]);  
+void crust2_get_mean_vel(const float& qdep, const float& qlon, const float& qlat, float* v);
+// Retrieves crustal type from lon & lat of CRUST2.0
+int crust2_type(const float& lon, const float& lat);
 
 extern struct cr_mod crm;                     // The Crust2.0 model map
 extern struct cr_key crk[mx_cr_type];         // The Crust2.0 model key

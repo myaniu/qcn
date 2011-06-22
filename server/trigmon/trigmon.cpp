@@ -63,6 +63,7 @@ int QCN_GetTriggers()
 {
    DB_QCN_TRIGGER_MEMORY qtm;
    struct trigger t;
+   int j;
    //char strKeyTrigger[32];
    char strWhere[64];
 
@@ -225,7 +226,8 @@ crust2_close:
 }
 
 
-int crust2_type(const float& lon, const float& lat) {
+int crust2_type(const float& lon, const float& lat) 
+{
 // This function returns the index of the model key for the map
 
    int ilat,ilon;
@@ -1167,9 +1169,9 @@ int main(int argc, char** argv)
     if (g_iTriggerTimeInterval < 0) g_iTriggerTimeInterval = TRIGGER_TIME_INTERVAL;
 
     install_stop_signal_handler();
-    atexit(qcn_db_close);
+    atexit(QCN_DBClose);
 
-    retval = qcn_db_open();
+    retval = QCN_DBOpen();
     if (retval) {
         log_messages.printf(MSG_CRITICAL,
             "boinc_db.open: %d; %s\n", retval, boinc_db.error_string()
@@ -1200,6 +1202,7 @@ int main(int argc, char** argv)
           boinc_sleep(dtEnd - g_dTimeCurrent);
       } 
     }
+    QCN_DBClose();
     return 0;
 }
 

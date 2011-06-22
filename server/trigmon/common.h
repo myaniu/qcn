@@ -45,6 +45,9 @@ struct trigger {
    int    c_hid[N_SHORT];        // Correlated host IDs
    float  dis;                   // Event to station distance (km)
    int    pors;                   // 1=P, 2=S wave             
+    
+   void clear() { memset(this, 0x00, sizeof(trigger)); }
+   trigger() { clear(); };
 };
 
 struct event {
@@ -63,12 +66,18 @@ struct event {
    float  e_msfit;                 // event misfit
    double e_t_detect;            // Time detected
    float  e_dt_detect;           // Time from event origin time to detection 
+
+   void clear() { memset(this, 0x00, sizeof(event)); }
+   event() { clear(); };
 };
 
 struct qcn_host {
    int    hid;                   // Host ID (Sensor number) 
    float  slon, slat;            // Sensor location
    double t_last;                // Last detection by host
+   
+   void clear() { memset(this, 0x00, sizeof(qcn_host)); }
+   qcn_host() { clear(); };
 };
 
 struct bounds {
@@ -88,6 +97,9 @@ struct bounds {
    float dy;                      // Latitudinal step size of grid
    float dz;                      // depth step size of grid
    float lon_factor;              // Longitude/latitude factor as approach poles
+   
+   void clear() { memset(this, 0x00, sizeof(bounds)); }
+   bounds() { clear(); };
 };
 
 /* CMC not needed now
@@ -114,14 +126,14 @@ struct QCN_QUAKE_EVENT
     QCN_QUAKE_EVENT() { clear(); };
 };
 
-void qcn_db_close()
+void QCN_DBClose()
 {
    log_messages.printf(MSG_DEBUG, "Closing databases.\n");
    boinc_db.close();
    trigmem_db.close();
 }
 
-int qcn_db_open()
+int QCN_DBOpen()
 {
     int retval = boinc_db.open(
         config.db_name, config.db_host, config.db_user, config.db_passwd
