@@ -224,7 +224,7 @@
     </daemon>
     <daemon>
       <cmd>
-        jfl_display -d 2 -time_interval 15 -sleep_interval 2
+        trigdisplay -d 2 -sleep_interval 4 -time_interval 15
       </cmd>
     </daemon>
   </daemons>
