@@ -30,7 +30,7 @@ function show_nav() {
         <p>
         QCN is a joint project between Stanford University and University of California at Riverside.
         <ul>
-        <li> <A HREF=\"http://qcn-web.stanford.edu/index.html\">Quake Catcher Network Home Page</A>
+        <li> <A HREF=\"http://qcn.stanford.edu/index.php\">Quake Catcher Network Home Page</A>
         <li> <A HREF=\"http://qcn.stanford.edu/about/contact.html\">Project Personnel</A>
         </ul>
         <h2>Join ".PROJECT."</h2>

@@ -209,7 +209,8 @@ function show_user_info_private($user) {
     $url_tokens = url_tokens($user->authenticator);
     row2(tra("Change"), "<a href=\"edit_email_form.php\">".tra("email address")."</a>
         | <a href=\"".SECURE_URL_BASE."/edit_passwd_form.php\">".tra("password")."</a>
-        | <a href=\"edit_user_info_form.php?$url_tokens\">".tra("other account info")."</a>"
+        | <a href=\"edit_user_info_form.php?$url_tokens\">".tra("other account info")."</a>
+        | <a href=\"logout.php?" . $url_tokens . "\">" . tra("Log out") . "</a>"
     );
     row2(tra("User ID")."<br/><span class=\"note\">".tra("Used in community functions")."</span>", $user->id);
     if (!no_computing()) {
