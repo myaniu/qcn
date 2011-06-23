@@ -69,13 +69,13 @@ int QCN_GetTriggers()
    int j;
    //char strKeyTrigger[32];
    char strWhere[64];
-   const int iTestTime = 120;
+   const int iTestTime = 120;  // number of seconds to flush out quake events so our vector doesn't get too big
 
    // flush out old events every few minutes
    if ( iCounter++ == (int) ( (float) iTestTime / g_dSleepInterval ) && ve.size() > 0 ) {
        // flush out old events
        iCounter = 0;
-       // get time
+       // get time from database
        long int lTest = getMySQLUnixTime() - iTestTime;
        vector<struct event>::iterator it = ve.begin();
        while (it != ve.end()) {
@@ -86,15 +86,13 @@ int QCN_GetTriggers()
            it++;
          }
        }
-       
    }
 
    // clear our local variables
    qtm.clear();
    t.clear();
 
-   //mapTrigger.clear(); // clear old triggers
-   vt.clear();  // clear our trigger vector
+   vt.clear();  // clear our trigger vector since we will rebuild it from the database below
 
    sprintf(strWhere, "WHERE time_trigger > (unix_timestamp()-%d)", g_iTriggerTimeInterval);
 

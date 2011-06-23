@@ -28,7 +28,7 @@ MAINDISP =  display.cpp
 #all: clean trigmonitor trigdisplay
 #all: clean trigdisplay
 #all: clean trigmonitor
-all: clean trigdisplay
+all: clean trigmonitor
 
 trigdisplay: 
 	$(CC) $(CFLAGS) $(INCLUDES) $(MAINDISP) $(SRCS) $(LIBS) -o trigdisplay
