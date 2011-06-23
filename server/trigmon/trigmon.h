@@ -24,6 +24,7 @@ using std::vector;
 // re-use the data structures from the qcn_trigger scheduler stuff
 #include "../trigger/qcn_trigger.h"
 #include "common.h"
+#include "qcn_post.h"
 
 #define Vs 3.4                              // S wave velocity (km/s)
 #define Vp 6.4                              // P wave velocity (km/s)
@@ -32,6 +33,7 @@ using std::vector;
 #define C_CNT_MIN 5                         // Min # of correlated triggers for event detect
 #define EVENT_MASK 0755
 
+#define CSHELL_CMD      "/bin/csh"
 #define PHP_CMD         "/usr/local/bin/php"
 #define EVENT_PATH      "/var/www/qcn/earthquakes/"
 #define BAD_HOSTS_FILE  "/var/www/qcn/earthquakes/inc/bad_hosts.txt"
@@ -49,11 +51,12 @@ int getQCNQuakeID(
     const double& dTimeMax);
 
 int QCN_GetTriggers();
-void QCN_EventLocate(int i);
+void QCN_EventLocate(const bool& bEventFound, struct event& e, const int& ciOff);
 void QCN_DetectEvent();
 
-int QCN_IntensityMapGMT(const struct event& e, const char* epath);
-int QCN_IntensityMap(const struct event& e);
+int QCN_IntensityMapGMT(struct event& e, const char* epath);
+int QCN_IntensityMap(struct event& e);
+void QCN_EstimateMagnitude(struct event& e, const int& ciOff);
 
 float average(float* dat, const int& ndat);
 float std_dev(float* dat, const int& ndat, const float& dat_ave);
@@ -66,13 +69,13 @@ void set_grid3D(struct bounds& g, const float& elon, const float& elat, const fl
 
 float intensity_extrapolate(int pors, float dist, float dist_eq_nd, float intensity_in);
 
-void estimate_magnitude_bs(int i);
+void estimate_magnitude_bs(struct trigger& t, struct event& e);
 void scatter_plot_gmt(const char* epath);
 
 void preserve_dir(const char* edir, const char* epath);
 //void get_bad_hosts();
 
-void php_event_email(const char* epath);
-void php_event_page(int i, const char* epath);
+void php_event_email(const struct event& e, char* epath);
+void php_event_page(const struct event& e, char* epath);
 
 #endif //_QCN_TRIGMON_H_

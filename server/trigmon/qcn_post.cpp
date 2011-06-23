@@ -219,3 +219,83 @@ void utc_timestamp(double dt, char* p) {
     );
 }
 
+
+long int getMySQLUnixTime()
+{
+    long int lTime = 0L;
+    int numRows = 0;
+    int retval = trigmem_db.do_query("SELECT unix_timestamp()");
+    if (retval) { // big error, should probably quit as may have lost database connection
+        log_messages.printf(MSG_CRITICAL,
+            "getMySQLUnixTime() error: %s - %s\n", "Query Error", boincerror(retval)
+        );
+        goto done;
+    }
+
+    MYSQL_ROW row;
+    MYSQL_RES* rp;
+    rp = mysql_store_result(trigmem_db.mysql);
+    while (rp && (row = mysql_fetch_row(rp))) {
+      numRows++;
+      lTime = atol(row[0]);
+    }
+    mysql_free_result(rp);
+
+done:
+    return lTime;
+}
+
+
+// check this potential event is in our vector of quake events (i.e. we may have
+// already processed triggers from other hosts for this event) -- also make sure
+// this event is reported in the qcn_quake table and save the qcn_quakeid to update the
+// qcn_trigger entries
+int insertQCNQuake(const double& dLat,
+    const double& dLng,
+    const int& iCtr,
+    const double& dTimeMin,
+    const double& dTimeMax)
+{
+     int iQCNQuakeID = 0;  // store qcn_quakeid for quick retrieval later
+     DB_QCN_QUAKE dqq;
+     char strWhere[256];
+     sprintf(strWhere,
+        "WHERE ROUND(latitude,0) = ROUND(%f,0) "
+        "  AND ROUND(longitude,0)= ROUND(%f,0) "
+        "  AND time_utc BETWEEN %f AND %f ",
+          dLat, dLng, dTimeMin-10.0, dTimeMax+10.0
+     );
+
+      // search via dqq.lookup(WHERE_CLAUSE)
+     dqq.clear();
+     int iRetVal = dqq.lookup(strWhere);
+     switch(iRetVal) {
+        case ERR_DB_NOT_FOUND:  // insert new qcn_quake record
+           dqq.time_utc = dTimeMin;  // min time of triggers found // (dTimeMin + dTimeMax) / 2.0;  // avg time of trigger?
+           dqq.latitude = dLat;
+           dqq.longitude = dLng;
+           sprintf(dqq.description, "QCN Event %ld - %d Hosts", (long) dTimeMin, iCtr);
+           dqq.processed = 1; // flag that it's already processed
+           sprintf(dqq.guid, "QCN_%ld_%ld_%ld", (long) dTimeMin, (long) dLat, (long) dLng);
+           iRetVal = dqq.insert();
+           if (iRetVal) {
+              log_messages.printf(
+                 SCHED_MSG_LOG::MSG_CRITICAL, "qcn_quake insert failed for (%f,%f) at %f\n",
+                      dLat, dLng, dTimeMin);
+           } else { // trigger got in OK
+              iQCNQuakeID = dqq.db->insert_id();
+           }
+           break;
+        case 0: // found, get the ID
+           iQCNQuakeID = dqq.id;
+           break;
+        default:  // other database error
+           log_messages.printf(
+              SCHED_MSG_LOG::MSG_CRITICAL, "qcn_quake lookup, failed for (%f,%f) at %f\n%s\n\n%s\n\n",
+                 dLat, dLng, dTimeMin, strWhere, boincerror(iRetVal));
+     }
+
+     return iQCNQuakeID; // will either be 0 or a valid qcn_quakeid
+}
+
+

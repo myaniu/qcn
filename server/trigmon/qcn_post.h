@@ -37,6 +37,14 @@ void utc_timestamp(double dt, char* p);
 // decl for curl wrapper function
 bool qcn_post_curl(const char* strURL, const char* strPost, const int iLenPost);
 
+long int getMySQLUnixTime();
+
+int insertQCNQuake(const double& dLat,
+    const double& dLng,
+    const int& iCtr,
+    const double& dTimeMin,
+    const double& dTimeMax);
+
 // decl for curl write and read functions
 //size_t qcn_post_curl_write_data(void *ptr, size_t size, size_t nmemb, void *stream);
 size_t qcn_post_curl_read_data(void *ptr, size_t size, size_t nmemb, void *stream);

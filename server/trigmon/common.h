@@ -58,7 +58,7 @@ struct event {
     program. This structure written by Jesse Lawrence (April 2010) - 
     Contact: jflawrence@stanford.edu                                                  */
 
-   int    eventid;                   // Event ID
+   int    eventid;                   // internal Event ID
    int    qcn_quakeid;           // QCN database (qcn_quake table) ID of this event
    float  longitude, latitude, depth;        // Event Longitude, Latitude, & Depth
    double  e_time;               // Event Origin Time
