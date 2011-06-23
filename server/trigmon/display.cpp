@@ -54,10 +54,10 @@ void do_display()
    fp[0] = fopen(FILE_NAME_TRIGGER_LAPTOP,"w");             // Open output file
    fp[1] = fopen(FILE_NAME_TRIGGER_DESKTOP,"w");             // Open output file
 
-   //int iCtr = -1;
+   int iCtr = 0;
    char strWhere[64];
    sprintf(strWhere, "WHERE time_trigger > (unix_timestamp()-%d)", g_iTriggerTimeInterval);
-   while (!qtm.enumerate(strWhere))  {
+   while (fp[0] && fp[1] && !qtm.enumerate(strWhere))  {
     //iCtr++;
     // just print a line out of trigger info i.e. all fields in qtm
 /*     fprintf(stdout, "%d %s %d %d %s %s %f %f %f %f %f %f %f %f %f %d %d %f %d %d %d %d %d\n",
@@ -70,11 +70,11 @@ void do_display()
           "%f,%f,%f,%d\n",
            qtm.longitude,qtm.latitude,qtm.magnitude,qtm.hostid
      );
-     //iCtr++;
+     iCtr++;
    }
-   create_plot();
    if (fp[0]) fclose(fp[0]);
    if (fp[1]) fclose(fp[1]);
+   if (iCtr) create_plot();   // create_plot does a lot, so just do if there are any trigs
 }
 
 int main(int argc, char** argv)
