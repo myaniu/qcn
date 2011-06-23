@@ -72,6 +72,9 @@ void do_display()
      );
      iCtr++;
    }
+   log_messages.printf(MSG_DEBUG,
+      "  # of Active Triggers: %d\n", iCtr
+   );
    if (fp[0]) fclose(fp[0]);
    if (fp[1]) fclose(fp[1]);
    if (iCtr) create_plot();   // create_plot does a lot, so just do if there are any trigs
