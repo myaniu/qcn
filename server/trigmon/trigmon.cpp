@@ -35,7 +35,7 @@ double g_dTimeCurrent = 0.0;  // global for current time
 double g_dSleepInterval = -1.0;   // number of seconds to sleep between trigmem enumerations
 int g_iTriggerTimeInterval = -1;  // number of seconds to check for triggers (i.e. "time width" of triggers for an event)
 
-int g_idEvent = 1;  // internal counter of event id, eventually we use database qcn_quakeid
+//int g_idEvent = 1;  // internal counter of event id, eventually we use database qcn_quakeid
 
 // keep a global vector of recent QCN quake events, remove them after an hour or so
 // this way follup triggers can be matched to a known QCN quake event (i.e. qcn_quake table)
@@ -571,15 +571,12 @@ bool QCN_EventLocate(const bool& bEventFound, struct event& e, const int& ciOff)
 
 // Time of earthquake: 
    e.e_time = e.e_time / ((float) vt[ciOff].c_cnt + 1.); // Time of earthquake calculated by averaging time w.r.t each station normalized by number of stations
-/*
    if (!bEventFound) {// e.eventid<=0) {                                    // For New earthquake ID if earthquake time wasn't set
-      // CMC alredy incremented above
-      // e.eventid = ((int) e.e_time);                       //
+      e.eventid = ((int) e.e_time);                       //
       log_messages.printf(MSG_DEBUG,
          "NEW EID: %d \n", e.eventid
       );
    }
- */
  } // j  ie big outer loop ending
 
 //  Determine maximum dimension of array  
@@ -654,7 +651,7 @@ float intensity_extrapolate(int pors, float dist, float dist_eq_nd, float pga1) 
  return pga2;                                  // 
 }
 
-void php_event_email(const struct event& e, char* epath) {
+void php_event_email(const struct event& e, const char* epath) {
 // This subroutine should email us when we detect an earthquake 
 
    FILE *fpMail  = fopen(PATH_EMAIL, "w");                       // Open web file
@@ -671,7 +668,7 @@ void php_event_email(const struct event& e, char* epath) {
 
    time_t t_eq; struct tm * t_eq_gmt; t_eq = (int) e.e_time; t_eq_gmt = gmtime(&t_eq);     // Earthquake time
 
-   fprintf(fpMail,"$mag  = %1.1f; \n",e.e_mag);                     // Set eq magnitude
+   fprintf(fpMail,"$mag  = %1.1f; \n",e.magnitude);                     // Set eq magnitude
    fprintf(fpMail,"$longitude = %4.3f; \n",e.longitude);                      // Set eq Lon 
    fprintf(fpMail,"$latitude = %4.3f; \n",e.latitude);                      // Set eq Lat
    fprintf(fpMail,"$depth = %2.1f; \n",e.depth);                      // Set Depth
@@ -701,14 +698,14 @@ void php_event_email(const struct event& e, char* epath) {
 }
 
 
-void php_event_page(const struct event& e, char* epath) {
+void php_event_page(const struct event& e, const char* epath) {
 // This subroutine creates a web page for the event. 
    
    
 }
 
 
-int QCN_IntensityMapGMT(struct event& e, char* epath)
+int QCN_IntensityMapGMT(struct event& e, const char* epath)
 {
     int retval = 0;
     char *gmtfile = new char[_MAX_PATH];
@@ -757,7 +754,7 @@ void get_loc(float ilon, float ilat, float dis, float az, float olon, float olat
 }
 
 
-int QCN_IntensityMap(struct event& e, const int& ciOff)
+int QCN_IntensityMap(const bool& bInsertEvent, struct event& e, const int& ciOff)
 {
    time_t t_now; time(&t_now); e.e_t_now = (int) t_now;    // Current time
    //float width=5; float dx=0.05;                              // Physical dimensions of grid
@@ -788,7 +785,7 @@ int QCN_IntensityMap(struct event& e, const int& ciOff)
    memset(epath, 0x00, sizeof(char) * _MAX_PATH);
    memset(epath2, 0x00, sizeof(char) * _MAX_PATH);
 
-   sprintf(edir,"%08d", e.eventid);
+   sprintf(edir,"%d", e.eventid);
    sprintf(epath,"%s%s",EVENT_PATH,edir);
 
 // Create event base directory path                           
@@ -833,7 +830,7 @@ int QCN_IntensityMap(struct event& e, const int& ciOff)
 
    fprintf(fp[OUT_EVENT],
        "%4.4f,%4.4f,%1.4f,%1.2f,%d,%f,%d,%1.1f,%1.2f,%1.2f\n",
-     longitude,latitude,e.depth,e.e_mag, vt[ciOff].c_cnt+1,e.e_time,e.e_t_now,e.e_std,e.e_r2,e.e_msfit);// Output event location
+     longitude,latitude,e.depth,e.magnitude, vt[ciOff].c_cnt+1,e.e_time,e.e_t_now,e.e_std,e.e_r2,e.e_msfit);// Output event location
    fclose(fp[OUT_EVENT]);                                              // Close event output file name
    fp[OUT_EVENT] = NULL;
 
@@ -851,7 +848,9 @@ int QCN_IntensityMap(struct event& e, const int& ciOff)
      n = vt[ciOff].c_ind[k];                                       // Index of correlated trigger
      fprintf(fp[OUT_STATION],
         "%f,%f,%f,%d,%d,%s,%f,%d,%f,%f",
-             vt[n].longitude,vt[n].latitude,vt[n].magnitude,vt[n].hostid,vt[n].triggerid,vt[n].file,vt[n].time_trigger,(int) vt[n].time_received,vt[n].significance,vt[n].dis);
+             vt[n].longitude,vt[n].latitude,vt[n].magnitude,
+             vt[n].hostid,vt[n].triggerid,vt[n].file,
+            vt[n].time_trigger,(int) vt[n].time_received,vt[n].significance,vt[n].dis);
      fprintf(fp[OUT_STATION],
          ",%f,%f,%f,%f,%f,%f,%f,%f \n",
             vt[n].pgah[0],vt[n].pgaz[0],vt[n].pgah[1],vt[n].pgaz[1],vt[n].pgah[2],vt[n].pgaz[2],vt[n].pgah[3],vt[n].pgaz[3]);
@@ -910,6 +909,10 @@ int QCN_IntensityMap(struct event& e, const int& ciOff)
 
 
    QCN_IntensityMapGMT(e,epath2);                              // Run Scripts for plotting (GMT)
+
+   // quake event info
+   QCN_UpdateQuake(bInsertEvent, e, i);
+
    php_event_page(e,epath2);                             // Output event Page
    if (email==1) {
     php_event_email(e,edir);                            // Email if a new event
@@ -1035,7 +1038,7 @@ void QCN_DetectEvent()
        } */
      } // for k
      if (!bEventFound) { // need to add a new quake event
-        e.eventid = g_idEvent++; // If new Time or location, then new event
+        e.eventid = vt[i].time_trigger; //g_idEvent++; // If new Time or location, then new event
         e.e_cnt=0;                            // Zero trigger count for event count for if new location/time
         e.dirty = true;
      }
@@ -1048,8 +1051,7 @@ void QCN_DetectEvent()
        e.e_cnt = vt[i].c_cnt;
        bInsertEvent = (bool) (e.qcn_quakeid == 0); // if 0 then we don't have a quake id yet hence need to insert
        QCN_EstimateMagnitude(e, i); //  // Estimate the magnitude of the earthquake
-       QCN_UpdateQuake(bInsertEvent, e, i);
-       QCN_IntensityMap(e, i);                    // This generates the intensity map
+       QCN_IntensityMap(bInsertEvent, e, i);   // This generates the intensity map -- also where quake info updated in the qcn_quake & qcn_trigger tables
      }
      if (bEventFound) { // replace element
         ve[k] = e;
@@ -1061,13 +1063,85 @@ void QCN_DetectEvent()
  } // for i
 }
 
-// CMC HERE
 // insert or update this event in the qcn_quake table
 // we will also want to get the triggers and update their data in qcn_trigger as well,
 // including sending a file upload request if one wasn't posted already
 void QCN_UpdateQuake(const bool& bInsert, struct event& e, const int& ciOff)
 {
-   if (!e.dirty) return; 
+   //if (!e.dirty) return; 
+   int retval = 0;
+   bool bFound = false;
+   DB_QCN_QUAKE dqq;
+
+   if (bInsert) {
+     dqq.clear();
+   }
+   else {
+     bFound = (bool) (dqq.lookup_id(e.qcn_quakeid) == 0); // boinc db fn 0 means found
+   }
+
+   dqq.time_utc = e.e_time;
+   dqq.magnitude = e.magnitude;
+   dqq.depth_km = e.depth;
+   dqq.latitude = e.latitude;
+   dqq.longitude = e.longitude;
+   sprintf(dqq.description, "QCN Detected Event # %d : #Sens=%d Std=%f r2=%f mft=%f dt=%f", 
+         e.eventid, e.e_cnt, e.e_std, e.e_r2, e.e_msfit, e.e_dt_detect);
+   dqq.processed = 1;
+   sprintf(dqq.url,"%s/%d", EVENT_URL_BASE, e.eventid);
+   sprintf(dqq.guid,"QCNTRIGMON%d", e.eventid);
+
+   // get/update qcn_quakeid and set e.qcn_quakeid 
+   // now insert
+   if (bInsert || !bFound) {
+     retval = dqq.insert();
+     if (retval) {
+        log_messages.printf(
+          MSG_CRITICAL, "QCN_UpdateQuake Insert qcn_quake error event ID %d , errno %d, %s\n",
+              e.eventid, retval, boincerror(retval)
+        );
+      } else { // trigger got in OK
+         e.qcn_quakeid = dqq.db->insert_id();
+      }
+   }
+   else { // update
+      retval = dqq.update();
+      if (retval) {
+        log_messages.printf(
+          MSG_CRITICAL, "QCN_UpdateQuake Update qcn_quake error event ID %d , errno %d, %s\n",
+              e.eventid, retval, boincerror(retval)
+        );
+       }
+   }
+   // set e.dirty to false after insert/update?
+   e.dirty = false;
+   if (e.qcn_quakeid == 0) return; // something is really wrong if we don't have a quakeid at this point
+
+// CMC HERE
+   // now go through all the correlated triggers for this event, post file upload requests, set qcn_quakeid
+   //   note to do this in the trigmem as well as the qcnalpha/continual database!
+
+/*
+struct trigger
+   int    triggerid;                   // Trigger ID
+
+   char   db[64];               // Database
+   char   file[64];              // File name
+   float  longitude, latitude;            // Sensor location
+   double time_trigger, time_received, time_est;       // Time of trigger & Time received
+   float  significance, magnitude;              // Significance and magnitude (sig/noise)
+   float  pgah[4],pgaz[4];       // Peak Ground Acceleration (Horizontal & vertical)
+   int    c_cnt;                 // Count of correlated triggers
+   int    c_ind[N_SHORT];        // Correlated trigger IDs
+   int    c_hid[N_SHORT];        // Correlated host IDs
+   float  dis;                   // Event to station distance (km)
+   int    pors;                   // 1=P, 2=S wave
+   bool   dirty;    // if this is true, we changed and should update the qcn_trigger table ie for quakeid etc
+   void clear() { memset(this, 0x00, sizeof(trigger)); }
+   trigger() { clear(); };
+};
+*/
+
 }
 
 void QCN_EstimateMagnitude(struct event& e, const int& ciOff)
@@ -1092,7 +1166,7 @@ void QCN_EstimateMagnitude(struct event& e, const int& ciOff)
    srand ( time(NULL) );                                // Set randomization kernel
    float mag_ave[N_SHORT];                              // Average magnitude
 
-   e.e_mag = 0.f;                                    // Zero magnitude
+   e.magnitude = 0.f;                                    // Zero magnitude
    for (j = 0; j <=vt[ciOff].c_cnt; j++) {                   // Bootstrap once for each trigger
     mag_ave[j]=0.;                                      // Zero the average magnitude for this bootstrap
     for (k = 0; k <= vt[ciOff].c_cnt; k++) {                 // Select one point for each trigger
@@ -1107,8 +1181,8 @@ void QCN_EstimateMagnitude(struct event& e, const int& ciOff)
     }
     mag_ave[j]/= ( (float) vt[ciOff].c_cnt + 1.);            // Normalize summed mag estimates for average magnitude estimate
    }
-   e.e_mag = average( mag_ave, vt[ciOff].c_cnt);          // Average the averages
-   e.e_std = std_dev( mag_ave, vt[ciOff].c_cnt, e.e_mag)*3.;// 3 sigma is the 99 % confidence (assuming a statistically large enough data set)
+   e.magnitude = average( mag_ave, vt[ciOff].c_cnt);          // Average the averages
+   e.e_std = std_dev( mag_ave, vt[ciOff].c_cnt, e.magnitude)*3.;// 3 sigma is the 99 % confidence (assuming a statistically large enough data set)
    e.dirty = true; // flag that we should update this event
 }
 

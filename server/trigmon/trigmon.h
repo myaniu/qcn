@@ -40,6 +40,8 @@ using std::vector;
 #define PATH_EMAIL      "/var/www/boinc/sensor/html/user/earthquake_email.php"
 #define GMT_MAP_PHP     "/var/www/qcn/earthquakes/inc/gmt_map.php"
 
+#define EVENT_URL_BASE  "http://qcn.stanford.edu/earthquakes"
+
 enum eOutput { OUT_EVENT, OUT_STATION, OUT_INTENSITY_MAP, OUT_CONT_TIME, OUT_CONT_LABEL, OUT_TIME_SCATTER };
 
 // returns quakeid if event found/created (0 if not)
@@ -55,7 +57,7 @@ void QCN_DetectEvent();
 bool QCN_EventLocate(const bool& bEventFound, struct event& e, const int& ciOff);
 
 int QCN_IntensityMapGMT(struct event& e, const char* epath);
-int QCN_IntensityMap(struct event& e);
+int QCN_IntensityMap(const bool& bInsertEvent, struct event& e, const int& ciOff);
 void QCN_EstimateMagnitude(struct event& e, const int& ciOff);
 
 float average(float* dat, const int& ndat);

@@ -44,7 +44,7 @@ struct trigger {
    float  significance, magnitude;              // Significance and magnitude (sig/noise)
    float  pgah[4],pgaz[4];       // Peak Ground Acceleration (Horizontal & vertical)
    int    c_cnt;                 // Count of correlated triggers
-   int    c_ind[N_SHORT];        // Correlated trigger IDs
+   int    c_ind[N_SHORT];        // Correlated trigger IDs  (really the index into the trigger vector)
    int    c_hid[N_SHORT];        // Correlated host IDs
    float  dis;                   // Event to station distance (km)
    int    pors;                   // 1=P, 2=S wave             
@@ -64,7 +64,7 @@ struct event {
    double  e_time;               // Event Origin Time
    int    e_t_now;               // Event ID Time
    float  e_r2;                  // r-squared correlation
-   float  e_mag; float e_std;    // Event magnitude & magnitude standard deviation
+   float  magnitude; float e_std;    // Event magnitude & magnitude standard deviation
    int    e_cnt;
    float  e_msfit;                 // event misfit
    double e_t_detect;            // Time detected
