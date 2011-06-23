@@ -807,9 +807,9 @@ int QCN_IntensityMap(const bool& bInsertEvent, struct event& e, const int& ciOff
 
 // Generate file names 
    char* strPath[6] = {NULL, NULL, NULL, NULL, NULL, NULL};
-   for (int i = 0; i < 6; i++) {
-     strPath[i] = new char[_MAX_PATH]; 
-     memset(strPath[i], 0x00, sizeof(char) * _MAX_PATH);
+   for (int ii = 0; ii < 6; ii++) {
+     strPath[ii] = new char[_MAX_PATH]; 
+     memset(strPath[ii], 0x00, sizeof(char) * _MAX_PATH);
    }
    sprintf(strPath[OUT_EVENT],         "%s/event.xy",          epath2);
    sprintf(strPath[OUT_STATION],       "%s/stations.xyz",      epath2);
@@ -911,7 +911,7 @@ int QCN_IntensityMap(const bool& bInsertEvent, struct event& e, const int& ciOff
    QCN_IntensityMapGMT(e,epath2);                              // Run Scripts for plotting (GMT)
 
    // quake event info
-   QCN_UpdateQuake(bInsertEvent, e, i);
+   QCN_UpdateQuake(bInsertEvent, e, ciOff);
 
    php_event_page(e,epath2);                             // Output event Page
    if (email==1) {
@@ -1038,7 +1038,7 @@ void QCN_DetectEvent()
        } */
      } // for k
      if (!bEventFound) { // need to add a new quake event
-        e.eventid = vt[i].time_trigger; //g_idEvent++; // If new Time or location, then new event
+        e.eventid = (long) vt[i].time_trigger; //g_idEvent++; // If new Time or location, then new event
         e.e_cnt=0;                            // Zero trigger count for event count for if new location/time
         e.dirty = true;
      }

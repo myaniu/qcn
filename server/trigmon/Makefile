@@ -1,5 +1,5 @@
-#CFLAGS = -g -O0 -Wall
-CFLAGS = -O2 -Wall
+CFLAGS = -g -O0 -Wall
+#CFLAGS = -02 -Wall
 CC = g++
 BOINCDIR = ../../../boinc
 MYSQLDIR = /usr/local/mysql
@@ -32,13 +32,13 @@ all: clean trigmonitor
 
 trigdisplay: 
 	$(CC) $(CFLAGS) $(INCLUDES) $(MAINDISP) $(SRCS) $(LIBS) -o trigdisplay
-	strip trigdisplay
+	#strip trigdisplay
 	cp trigdisplay $(INSTALLDIR)
 
 
 trigmonitor: 
 	$(CC) $(CFLAGS) $(INCLUDES) $(MAINMON) $(SRCS) $(LIBS) -o trigmonitor
-	strip trigmonitor
+	#strip trigmonitor
 	cp trigmonitor $(INSTALLDIR)
 
 
