@@ -51,8 +51,8 @@ int getQCNQuakeID(
     const double& dTimeMax);
 
 int QCN_GetTriggers();
-void QCN_EventLocate(const bool& bEventFound, struct event& e, const int& ciOff);
 void QCN_DetectEvent();
+bool QCN_EventLocate(const bool& bEventFound, struct event& e, const int& ciOff);
 
 int QCN_IntensityMapGMT(struct event& e, const char* epath);
 int QCN_IntensityMap(struct event& e);
@@ -74,6 +74,8 @@ void scatter_plot_gmt(const char* epath);
 
 void preserve_dir(const char* edir, const char* epath);
 //void get_bad_hosts();
+          
+void QCN_UpdateQuake(const bool& bInsert, struct event& e, const int& ciOff);
 
 void php_event_email(const struct event& e, char* epath);
 void php_event_page(const struct event& e, char* epath);

@@ -48,7 +48,7 @@ struct trigger {
    int    c_hid[N_SHORT];        // Correlated host IDs
    float  dis;                   // Event to station distance (km)
    int    pors;                   // 1=P, 2=S wave             
-    
+   bool   dirty;    // if this is true, we changed and should update the qcn_trigger table ie for quakeid etc 
    void clear() { memset(this, 0x00, sizeof(trigger)); }
    trigger() { clear(); };
 };
@@ -69,6 +69,7 @@ struct event {
    float  e_msfit;                 // event misfit
    double e_t_detect;            // Time detected
    float  e_dt_detect;           // Time from event origin time to detection 
+   bool   dirty;    // if this is true, we changed and should update the qcn_trigger table ie for quakeid etc 
 
    void clear() { memset(this, 0x00, sizeof(event)); }
    event() { clear(); };

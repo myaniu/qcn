@@ -437,10 +437,10 @@ void vel_calc(float dep, float* v) {
    v[0] = 1.86*v[1];                                      // Vp = 1.86*Vs
 }
 
-void QCN_EventLocate(const bool& bEventFound, struct event& e, const int& ciOff)
+bool QCN_EventLocate(const bool& bEventFound, struct event& e, const int& ciOff)
 {
    log_messages.printf(MSG_DEBUG,
-      "Locate possible event %d \n",vt[ciOff].c_cnt
+      "Locate possible event ID %d, Count %d \n", e.eventid, vt[ciOff].c_cnt
    );
 
    // CMC the next line was handled above in QCN_Detect and basically we can use bEventFound if this event was already used
@@ -571,6 +571,7 @@ void QCN_EventLocate(const bool& bEventFound, struct event& e, const int& ciOff)
 
 // Time of earthquake: 
    e.e_time = e.e_time / ((float) vt[ciOff].c_cnt + 1.); // Time of earthquake calculated by averaging time w.r.t each station normalized by number of stations
+/*
    if (!bEventFound) {// e.eventid<=0) {                                    // For New earthquake ID if earthquake time wasn't set
       // CMC alredy incremented above
       // e.eventid = ((int) e.e_time);                       //
@@ -578,6 +579,7 @@ void QCN_EventLocate(const bool& bEventFound, struct event& e, const int& ciOff)
          "NEW EID: %d \n", e.eventid
       );
    }
+ */
  } // j  ie big outer loop ending
 
 //  Determine maximum dimension of array  
@@ -597,7 +599,7 @@ void QCN_EventLocate(const bool& bEventFound, struct event& e, const int& ciOff)
     log_messages.printf(MSG_DEBUG,
        "Event poorly located: Array dimension=%f EQ Dist=%f.\n",ss_dist_max,dn //Status report
     );
-    return;                                               // Return so done
+    return false;                                               // Return so done
    } else {                                               // Otherwise output status report
     log_messages.printf(MSG_DEBUG,
        "Event located: %f %f\n",e.longitude,e.latitude
@@ -623,7 +625,7 @@ void QCN_EventLocate(const bool& bEventFound, struct event& e, const int& ciOff)
    dt_ave /= ( (float) vt[ciOff].c_cnt + 1.);                  // Normalize the data-model variance
    if (dt_ave > 2.) {                                     // If the average travel time misfit is greater than 2 seconds, reject the event detection
     e.e_r2 = -1.;                                      // Set correlation to < 0 for rejection
-    return;                                               // Return with bad correlation
+    return false;                                               // Return with bad correlation
    }
 
 //  correlate observed and estimated travel times  
@@ -631,7 +633,7 @@ void QCN_EventLocate(const bool& bEventFound, struct event& e, const int& ciOff)
     log_messages.printf(MSG_DEBUG,
        "Estimated times correlate at r^2= %f \n",e.e_r2
     );
-
+   return true;
 }
 
 
@@ -1021,12 +1023,12 @@ void QCN_DetectEvent()
      } // j 
      j = i;
      bool bEventFound = false;
-     e.clear();
+     e.clear(); // CMC use a temp event struct that we can fill in and update the array as necessary with the dirty bit (or insert if a new one)
      for (k = 0; k < (int) ve.size(); k++)  { // go through all the events for a match, if not make a new event
        if ( ( vt[i].time_trigger <= T_max+ve[k].e_time) && (abs(vt[i].latitude-ve[k].latitude)<=3.) ) {
              // this is a match by time & location (just using lat though?)
           bEventFound = true;
-          e = ve[k];
+          e = ve[k];  // should have a qcn_quakeid here as it should have been inserted in the original pass
           break;
        }
       /* if ( ( vt[i].time_trigger > T_max+ve[k].e_time)||(abs(vt[i].latitude-e.latitude)>3.) ) {
@@ -1035,17 +1037,19 @@ void QCN_DetectEvent()
      if (!bEventFound) { // need to add a new quake event
         e.eventid = g_idEvent++; // If new Time or location, then new event
         e.e_cnt=0;                            // Zero trigger count for event count for if new location/time
+        e.dirty = true;
      }
 
      if ((vt[i].c_cnt > e.e_cnt)||((vt[i].time_trigger-e.e_t_detect>5.)&&(vt[i].c_cnt=e.e_cnt))) { 
        // Only do new event location ... if more triggers for same event (or new event - no prior triggers)
-
-      QCN_EventLocate(bEventFound, e, i);                 // Try to locate event
-      if (e.e_r2 < 0.5) { break; }          // Stop event if no event located
-      e.e_cnt = vt[i].c_cnt;
-      QCN_EstimateMagnitude(e, i); //  // Estimate the magnitude of the earthquake
-      QCN_IntensityMap(e, i);                    // This generates the intensity map
-      bInsertEvent = true;
+       if (!QCN_EventLocate(bEventFound, e, i) || e.e_r2 < 0.5) { 
+          break; 
+       }          // Stop event if no event located
+       e.e_cnt = vt[i].c_cnt;
+       bInsertEvent = (bool) (e.qcn_quakeid == 0); // if 0 then we don't have a quake id yet hence need to insert
+       QCN_EstimateMagnitude(e, i); //  // Estimate the magnitude of the earthquake
+       QCN_UpdateQuake(bInsertEvent, e, i);
+       QCN_IntensityMap(e, i);                    // This generates the intensity map
      }
      if (bEventFound) { // replace element
         ve[k] = e;
@@ -1055,9 +1059,16 @@ void QCN_DetectEvent()
      }
    } // if vt[i]
  } // for i
-
 }
 
+// CMC HERE
+// insert or update this event in the qcn_quake table
+// we will also want to get the triggers and update their data in qcn_trigger as well,
+// including sending a file upload request if one wasn't posted already
+void QCN_UpdateQuake(const bool& bInsert, struct event& e, const int& ciOff)
+{
+   if (!e.dirty) return; 
+}
 
 void QCN_EstimateMagnitude(struct event& e, const int& ciOff)
 {
@@ -1098,7 +1109,7 @@ void QCN_EstimateMagnitude(struct event& e, const int& ciOff)
    }
    e.e_mag = average( mag_ave, vt[ciOff].c_cnt);          // Average the averages
    e.e_std = std_dev( mag_ave, vt[ciOff].c_cnt, e.e_mag)*3.;// 3 sigma is the 99 % confidence (assuming a statistically large enough data set)
-
+   e.dirty = true; // flag that we should update this event
 }
 
 /*

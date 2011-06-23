@@ -132,17 +132,15 @@ int main(int argc, char** argv)
     );
 
     //signal(SIGUSR1, show_state);
-    //double dtDelete = 0.0f; // time to delete old triggers from memory
+    double dtDelete = 0.0f; // time to delete old triggers from memory
     while (1) {
       g_dTimeCurrent = dtime();
       double dtEnd = g_dTimeCurrent + g_dSleepInterval;
-#if 0
     // the qcn_trigmon program which checks against known USGS quakes takes care of deleting
       if (g_dTimeCurrent > dtDelete) {
          do_delete_trigmem();  // get rid of triggers every once in awhile
          dtDelete = g_dTimeCurrent + g_iTriggerDeleteInterval;
       }
-#endif
       do_display();          // the main trigger monitoring routine
       check_stop_daemons();  // checks for a quit request
       g_dTimeCurrent = dtime();
