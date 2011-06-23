@@ -79,7 +79,7 @@ int QCN_GetTriggers()
    while (!qtm.enumerate(strWhere))  {
     // just print a line out of trigger info i.e. all fields in qtm
 /*     fprintf(stdout, "%d %s %d %d %s %s %f %f %f %f %f %f %f %f %f %d %d %f %d %d %d %d %d\n",
-        ++iCtr, qtm.db_name, qtm.triggerid, qtm.hostid, qtm.ipaddr, qtm.result_name, qtm.time_trigger,
+        ++iCtr, qtm.db_name, qtm.time_triggerid, qtm.hostid, qtm.ipaddr, qtm.result_name, qtm.time_trigger,
         qtm.time_received, qtm.time_sync, qtm.sync_offset, qtm.significance, qtm.magnitude, qtm.latitude,
          qtm.longitude, qtm.levelvalue, qtm.levelid, qtm.alignid, qtm.dt, qtm.numreset, qtm.type_sensor,
          qtm.varietyid, qtm.qcn_quakeid, qtm.posted
@@ -93,29 +93,29 @@ int QCN_GetTriggers()
     // Note this will get previous quake eventid info (if updated) for the trigger
     if ( qtm.type_sensor >= ID_USB_SENSOR_START ) { //&&(bad_host<0) ) { 
       // Only use triggers from usb accelerometers
-      t.hostid  = qtm.hostid;                          // Host ID
-      t.triggerid  = qtm.triggerid;                       // Trigger ID
-      t.qcn_quakeid = qtm.qcn_quakeid;                // bring in the matching quake id, if any yet!
-      t.posted = qtm.posted;                // file req posted?
-      strncpy(t.db, qtm.db_name, sizeof(t.db)-1);               // Database Name
-      strncpy(t.file, qtm.file, sizeof(t.file)-1);                // File name
-      t.latitude = qtm.latitude;                        // Latitude
-      t.longitude= qtm.longitude;                       // Longitude
-      t.time_trigger = qtm.time_trigger;                    // Trigger Time
-      t.time_received = qtm.time_received;                   // Time Trigger received
-      t.significance  = qtm.significance;                    // Significance (Trigger detection filter)
-      t.magnitude  = qtm.magnitude;                       // set mag to magnitude at time of trigger
-      t.pgah[0] = qtm.mxy1p;                        // Peak Ground Acceleration (1 second before and during trigger) (m/s/s)
-      t.pgaz[0] = qtm.mz1p;                         // Peak Ground Acceleration (1 seconds before and during trigger) (m/s/s)
+      t.hostid  = qtm.hostid;            // Host ID
+      t.time_triggerid  = qtm.time_triggerid;      // Trigger ID
+      t.qcn_quakeid = qtm.qcn_quakeid;   // bring in the matching quake id, if any yet!
+      t.posted = qtm.posted;             // file req posted?
+      strncpy(t.db, qtm.db_name, sizeof(t.db)-1);   // Database Name
+      strncpy(t.file, qtm.file, sizeof(t.file)-1);  // File name
+      t.latitude = qtm.latitude;         // Latitude
+      t.longitude= qtm.longitude;        // Longitude
+      t.time_trigger = qtm.time_trigger; // Trigger Time
+      t.time_received = qtm.time_received; // Time Trigger received
+      t.significance  = qtm.significance;  // Significance (Trigger detection filter)
+      t.magnitude  = qtm.magnitude;        // set mag to magnitude at time of trigger
+      t.pgah[0] = qtm.mxy1p;               // Peak Ground Acceleration (1 second before and during trigger) (m/s/s)
+      t.pgaz[0] = qtm.mz1p;                // Peak Ground Acceleration (1 seconds before and during trigger) (m/s/s)
     
-      t.pgah[1] = qtm.mxy1a;                        // Peak Ground Acceleration (1 second after trigger)  (m/s/s)
-      t.pgaz[1] = qtm.mz1a;                         // Peak Ground Acceleration (1 second after trigger)  (m/s/s)
+      t.pgah[1] = qtm.mxy1a;               // Peak Ground Acceleration (1 second after trigger)  (m/s/s)
+      t.pgaz[1] = qtm.mz1a;                // Peak Ground Acceleration (1 second after trigger)  (m/s/s)
     
-      t.pgah[2] = qtm.mxy2a;                        // Peak Ground Acceleration (2 seconds after trigger)  (m/s/s)
-      t.pgaz[2] = qtm.mz2a;                         // Peak Ground Acceleration (2 seconds after trigger)  (m/s/s)
+      t.pgah[2] = qtm.mxy2a;               // Peak Ground Acceleration (2 seconds after trigger)  (m/s/s)
+      t.pgaz[2] = qtm.mz2a;                // Peak Ground Acceleration (2 seconds after trigger)  (m/s/s)
     
-      t.pgah[3] = qtm.mxy4a;                        // Peak Ground Acceleration (4 seconds after trigger) (m/s/s)
-      t.pgaz[3] = qtm.mz4a;                         // Peak Ground Acceleration (4 seconds after trigger) (m/s/s)
+      t.pgah[3] = qtm.mxy4a;               // Peak Ground Acceleration (4 seconds after trigger) (m/s/s)
+      t.pgaz[3] = qtm.mz4a;                // Peak Ground Acceleration (4 seconds after trigger) (m/s/s)
 
       for (j=0;j<=3;j++) {
        if (t.pgah[j] > t.magnitude) t.magnitude = t.pgah[j];  
@@ -214,9 +214,9 @@ int crust2_load()
 
 // Set the longitude and latitude for each node: 
 
-   for (i=0; i<=mx_cr_lt-1; i++) { crm.lat[i]=90.f-( ((float)i)+0.5)*dx_cr ;  }                      // for each latitude
+   for (i=0; i<mx_cr_lt; i++) { crm.lat[i]=90.f-( ((float)i)+0.5)*dx_cr ;  }                      // for each latitude
 
-   for (i=0; i<=mx_cr_ln-1; i++) { crm.lon[i]=     ( ((float)i)+0.5)*dx_cr ;  }                      // for each longitude
+   for (i=0; i<mx_cr_ln; i++) { crm.lon[i]=     ( ((float)i)+0.5)*dx_cr ;  }                      // for each longitude
 
 crust2_close:
    for (i = 0; i < 3; i++) {
@@ -290,8 +290,8 @@ void crust2_get_mean_vel(const float& qdep, const float& qlon, const float& qlat
 
       }
 
-      v[0]/=d;                                       // Normalize weighted sum by cumulative weight (cumulative depth) for average
-      v[1]/=d;                                       // Normalize weighted sum by cumulative weight (cumulative depth) for average
+      v[0]/=d;  // Normalize weighted sum by cumulative weight (cumulative depth) for average
+      v[1]/=d;  // Normalize weighted sum by cumulative weight (cumulative depth) for average
 
 // Zero depth (surface rupture), means we need velocity below surface at first non-zero thickness layer
 
@@ -310,13 +310,7 @@ void crust2_get_mean_vel(const float& qdep, const float& qlon, const float& qlat
       }
 
    }
-
-   return;
-
 }
-
-
-
 
 inline float average(float* dat, const int& ndat) {
 //  This fuction calculates the average of a data set (dat) of length (ndat). 
@@ -341,8 +335,8 @@ inline float std_dev(float* dat, const int& ndat, const float& dat_ave) {
    return dat_std;                                        // Return standard deviation
 }
 
-float corrlatitudee(float* datx, float* daty, const int& ndat) {
-//  This function corrlatitudees two data sets (datx & daty) of length (ndat).  It returns the R^2 value (not r). 
+float correlate(float* datx, float* daty, const int& ndat) {
+//  This function correlates two data sets (datx & daty) of length (ndat).  It returns the R^2 value (not r). 
    float datx_ave = average(datx,ndat);                   // Average of x series
    float daty_ave = average(daty,ndat);                   // Average of y series
 
@@ -358,10 +352,8 @@ float corrlatitudee(float* datx, float* daty, const int& ndat) {
    Sxx -= datx_ave;                                       
    Syy -= daty_ave;
    float R = Sxy*Sxy / Sxx / Syy;                         // Corrlatitudeion coefficient
-   return R;                                              // Return with corrlatitudeion coefficient
+   return R;                                              // Return with correlation coefficient
 }
-
-
 
 inline float ang_dist_km(const float& lon1, const float& lat1, const float& lon2, const float& lat2) {
 /* This function returns the distance (in km) between two points given as
@@ -376,7 +368,6 @@ inline float ang_dist_km(const float& lon1, const float& lat1, const float& lon2
  
    return delt;                                           // Return with distance
 };
-
 
 void set_grid3D(struct bounds *g, const float& longitude, const float& latitude, const float& depth,    
     const float& width, const float& dx, const float& zrange, const float& dz)
@@ -444,14 +435,14 @@ void QCN_EventLocate(const int& j)
    double  ls_mf,ls_ct;                                   // Least-squares misfit & count (For normalization)
    float   v[2];                                          // Seismic Velocities (P & S)
    int     h,j,k,l,m,n,o,p,q,r,j_min;                     // Index variables
-   double t_min = t[i].trig;                              // Minimum trigger time
+   double t_min = t[i].time_trigger;                              // Minimum trigger time
    struct bounds g;                                       // Bounds of grid
 
    j_min = i;                                             // Assume first trigger is i'th trigger (not necessarily the case and will be checked)
    for (j = 0; j<=t[i].c_cnt; j++) {                      // Find earliest trigger
-    n = t[i].c_ind[j];                                    // index of corrlatitudeed series
-    if (t_min < t[n].trig) {                              // If earlier trigger, then use that as first time
-     t_min = t[n].trig;                                   //
+    n = t[i].c_ind[j];                                    // index of correlated series
+    if (t_min < t[n].time_trigger) {                              // If earlier trigger, then use that as first time
+     t_min = t[n].time_trigger;                                   //
      j_min = n;                                           //
     }
    }                                                      //
@@ -492,18 +483,18 @@ void QCN_EventLocate(const int& j)
 
 // Compare times and distance difference between each station pair 
        for (m = 0; m< t[i].c_cnt; m++) {                  // For each trigger
-        n = t[i].c_ind[m];                                // Index of corrlatitudeed trigger
+        n = t[i].c_ind[m];                                // Index of correlated trigger
         dn=ang_dist_km(ln_x,lt_x,t[n].longitude,t[n].latitude);    // Horizontal distance between node and host/station
         dn = sqrt(dn*dn + dp_x*dp_x);                     // Actual distance between event & station/host
         
         for (o = m+1; o<=t[i].c_cnt; o++) {               // Compare with each other trigger
-         p = t[i].c_ind[o];                               // Index of corrlatitudeed trigger
+         p = t[i].c_ind[o];                               // Index of correlated trigger
          dp=ang_dist_km(ln_x,lt_x,t[p].longitude,t[p].latitude);   // Distance between triggers
          dp = sqrt(dp*dp + dp_x*dp_x);                    // Distance corrected for depth
          dt_min = 9999999.f;                              // Search For best P-wave & S-wave pairing
          for (q=0;q<=1;q++) {                             //    First station P(0) or S(1)
           for (r=0;r<=1;r++) {                            //    Second station P(0) or S(1)
-           dt = (t[n].trig-t[p].trig) - (dn/v[q]-dp/v[r]);//    Interstation time difference - theoretical time difference
+           dt = (t[n].time_trigger-t[p].time_trigger) - (dn/v[q]-dp/v[r]);//    Interstation time difference - theoretical time difference
            if (dt*dt < dt_min*dt_min) {
             dt_min = dt;};                                //    Use the smallest value (assume if neerer zero then probably true)
           }
@@ -514,7 +505,7 @@ void QCN_EventLocate(const int& j)
        }      
        if (ls_ct > 0.) {                                  // make sure at least one point used
         ls_mf = ls_mf/ls_ct;                              // Normalize misfit by count
-        if (ls_mf < ls_mf_min) {                          // If minimum misfit/max corrlatitudeion save location & r2
+        if (ls_mf < ls_mf_min) {                          // If minimum misfit/max correlation save location & r2
          ls_mf_min = ls_mf;                               // Save new misfit minimum
          ve[1].longitude=ln_x; ve[1].latitude=lt_x; ve[1].depth=dp_x;  // Save location of best fit
         }                                                 // End loop over 2nd trigger of pair
@@ -531,20 +522,20 @@ void QCN_EventLocate(const int& j)
     int q_save=0;
     ve[1].e_time=0.;
     for (m = 0; m<=t[i].c_cnt; m++) {                     // For each trigger
-     n = t[i].c_ind[m];                                   // Index of corrlatitudeed trigger
+     n = t[i].c_ind[m];                                   // Index of correlated trigger
      t[n].pors = 0;
      dn=ang_dist_km(ve[1].longitude,ve[1].latitude,t[n].longitude,t[n].latitude);// Horizontal distance between node and host/station
      dn = sqrt(dn*dn + ve[1].depth*ve[1].depth);                 // Actual distance between event & station/host
         
      for (o = 0; o<=t[i].c_cnt; o++) {                    // Compare with each other trigger
-      p = t[i].c_ind[o];                                  // Index of corrlatitudeed trigger
+      p = t[i].c_ind[o];                                  // Index of correlated trigger
       if (p!=n) {
        dp=ang_dist_km(ve[1].longitude,ve[1].latitude,t[p].longitude,t[p].latitude);  // Distance between triggers
        dp = sqrt(dp*dp + ve[1].depth*ve[1].depth);
        dt_min = 9999999.f;                                // Search For best P-wave & S-wave pairing
        for (q=0;q<=1;q++) {                               //    First station P(0) or S(1)
         for (r=0;r<=1;r++) {                              //    Second station P(0) or S(1)
-         dt = (t[n].trig-t[p].trig) - (dn/v[q]-dp/v[r]);  //    Interstation time difference - theoretical time difference
+         dt = (t[n].time_trigger-t[p].time_trigger) - (dn/v[q]-dp/v[r]);  //    Interstation time difference - theoretical time difference
          if (dt*dt < dt_min*dt_min) {                     //    Use lowest time misfit to identify P or S
           q_save = q;                                     //    Save P or S
           dt_min = dt;                                    //    Save minimum time
@@ -556,7 +547,7 @@ void QCN_EventLocate(const int& j)
      }      
      t[n].pors = (int) round( (float) t[n].pors / ((float) t[i].c_cnt +1.));  // Normalize P or S to see if it is closer to P or S
      t[n].dis=dn;                                         // Save distance
-     ve[1].e_time += t[n].trig - dn/v[t[n].pors];          // Time of event calculated from ith trigger.
+     ve[1].e_time += t[n].time_trigger - dn/v[t[n].pors];          // Time of event calculated from ith trigger.
     }                                                     //
 
 // Time of earthquake: 
@@ -581,7 +572,7 @@ void QCN_EventLocate(const int& j)
 
 //  Require that the earthquake-to-array distance be less than four times the dimension of the array 
    if (ss_dist_max*4. < t[j_min].dis) {                   // If the event-to-station distance > 4 times the array dimension
-    ve[1].e_r2=-1.;                                        // Set corrlatitudeion to -1 (will reject earthquake)
+    ve[1].e_r2=-1.;                                        // Set correlation to -1 (will reject earthquake)
     log_messages.printf(MSG_DEBUG,
        "Event poorly located: Array dimension=%f EQ Dist=%f.\n",ss_dist_max,dn //Status report
     );
@@ -600,7 +591,7 @@ void QCN_EventLocate(const int& j)
    for (j=0;j<=t[i].c_cnt;j++) {                          // For each trigger
     n = t[i].c_ind[j];                                    // Index of triggers
     t[n].t_est = ve[1].e_time + t[n].dis / v[t[n].pors];   // Estimated time is event origin time plus distance divided by velocity
-    t_obs[j]=t[n].trig-ve[1].e_time;                       // Store observed times
+    t_obs[j]=t[n].time_trigger-ve[1].e_time;                       // Store observed times
     t_est[j]=t[n].t_est-ve[1].e_time;                      // Store estimated times
     dt_ave += abs(t_obs[j]-t_est[j]);                     // Sum averaged model-data time variance
     ve[1].e_msfit += (t_obs[j]-t_est[j])*(t_obs[j]-t_est[j]);// Sum L2 misfit
@@ -610,14 +601,14 @@ void QCN_EventLocate(const int& j)
 //  Require that the model variance is less than two seconds 
    dt_ave /= ( (float) t[i].c_cnt + 1.);                  // Normalize the data-model variance
    if (dt_ave > 2.) {                                     // If the average travel time misfit is greater than 2 seconds, reject the event detection
-    ve[1].e_r2 = -1.;                                      // Set corrlatitudeion to < 0 for rejection
-    return;                                               // Return with bad corrlatitudeion
+    ve[1].e_r2 = -1.;                                      // Set correlation to < 0 for rejection
+    return;                                               // Return with bad correlation
    }
 
 //  Corrlatitudee observed and estimated travel times  
-    ve[1].e_r2 = corrlatitudee(t_obs, t_est, t[i].c_cnt);  // Corrlatitudee observed & estimated times
+    ve[1].e_r2 = correlate(t_obs, t_est, t[i].c_cnt);  // Corrlatitudee observed & estimated times
     log_messages.printf(MSG_DEBUG,
-       "Estimated times corrlatitudee at r^2= %f \n",ve[1].e_r2
+       "Estimated times correlate at r^2= %f \n",ve[1].e_r2
     );
 
 }
@@ -650,7 +641,7 @@ void QCN_EstimateMagnitude(int i)
     mag_ave[j]=0.;                                      // Zero the average magnitude for this bootstrap
     for (k = 0; k <= t[i].c_cnt; k++) {                 // Select one point for each trigger
      kk = rand() % (t[i].c_cnt+1);                      // Use random trigger
-     n = t[i].c_ind[kk];                                // Index of corrlatitudeed trigger
+     n = t[i].c_ind[kk];                                // Index of correlated trigger
      if ( t[n].pors == 0 ) {                            // Use appropriate multilication factor (currently not used but will eventually)
       mul_amp = 1.f;                                    //
      } else {                                           //
@@ -695,7 +686,7 @@ void QCN_EstimateMagnitude(int i)
     mag_ave[j]=0.;                                      // Zero the average magnitude for this bootstrap
     for (k = 0; k <= t[i].c_cnt; k++) {                 // Select one point for each trigger
      kk = rand() % (t[i].c_cnt+1);                      // Use random trigger
-     n = t[i].c_ind[kk];                                // Index of corrlatitudeed trigger
+     n = t[i].c_ind[kk];                                // Index of correlated trigger
      if ( t[n].pors == 0 ) {                            // Use appropriate multilication factor (currently not used but will eventually)
       mul_amp = 1.f;                                    //
      } else {                                           //
@@ -934,16 +925,16 @@ int QCN_IntensityMap(const struct event& e)
       goto close_output_files;
    }
 
-   for (k = 0; k<=t[i].c_cnt; k++) {                          // For each corrlatitudeed trigger
-     n = t[i].c_ind[k];                                       // Index of corrlatitudeed trigger
+   for (k = 0; k<=t[i].c_cnt; k++) {                          // For each correlated trigger
+     n = t[i].c_ind[k];                                       // Index of correlated trigger
      fprintf(fp[OUT_STATION],
         "%f,%f,%f,%d,%d,%s,%f,%d,%f,%f",
-            t[n].longitude,t[n].latitude,t[n].mag,t[n].hostid,t[n].triggerid,t[n].file,t[n].trig,(int) t[n].rec,t[n].sig,t[n].dis);
+            t[n].longitude,t[n].latitude,t[n].mag,t[n].hostid,t[n].time_triggerid,t[n].file,t[n].time_trigger,(int) t[n].time_received,t[n].sig,t[n].dis);
      fprintf(fp[OUT_STATION],
          ",%f,%f,%f,%f,%f,%f,%f,%f \n",
             t[n].pgah[0],t[n].pgaz[0],t[n].pgah[1],t[n].pgaz[1],t[n].pgah[2],t[n].pgaz[2],t[n].pgah[3],t[n].pgaz[3]);
-     // Output corrlatitudeed trigger loc & magnitude
-     //t[ij].triggerid,t[ij].longitude,t[ij].latitude,t[ij].trig,(int) t[ij].rec,t[ij].sig,t[ij].mag,t[ij].dis)
+     // Output correlated trigger loc & magnitude
+     //t[ij].time_triggerid,t[ij].longitude,t[ij].latitude,t[ij].time_trigger,(int) t[ij].time_received,t[ij].sig,t[ij].mag,t[ij].dis)
    }
    fclose(fp[OUT_STATION]);                                               // Close station output file name
    fp[OUT_STATION] = NULL;
@@ -988,9 +979,9 @@ int QCN_IntensityMap(const struct event& e)
       goto close_output_files;
    }
 
-   for (j = 1; j <= t[i].c_cnt; j++) {                       // For each corrlatitudeed trigger
-    n = t[i].c_ind[j];                                       // index of corrlatitudeed triggers
-    fprintf(fp[OUT_TIME_SCATTER],"%f,%f\n",t[n].trig-e.e_time,t[n].t_est-e.e_time); // Print out travel times
+   for (j = 1; j <= t[i].c_cnt; j++) {                       // For each correlated trigger
+    n = t[i].c_ind[j];                                       // index of correlated triggers
+    fprintf(fp[OUT_TIME_SCATTER],"%f,%f\n",t[n].time_trigger-e.e_time,t[n].t_est-e.e_time); // Print out travel times
    }
    fclose(fp[OUT_TIME_SCATTER]);                                             // Close scatter plot file
    fp[OUT_TIME_SCATTER] = NULL;
@@ -1017,15 +1008,15 @@ close_output_files:
    return retval;                                                   //
 }
 
-// this is the main routine for searching through the triggers (now in a vector vt) and see if they are corrlatitudeed in time & space
+// this is the main routine for searching through the triggers (now in a vector vt) and see if they are correlated in time & space
 void QCN_DetectEvent()
 {
-/* This subroutine determines if a set of triggers is corrlatitudeed in time and space.
+/* This subroutine determines if a set of triggers is correlated in time and space.
    The subroutine is used by program main, which assumes that the triggers have already been read in.
    The subroutine uses ang_dist_km, which provides the distance between two points in kilometers.
    The subroutine uses hid_yn, which determines if the primary trigger has already encountered a host ID or not.
 
-   A corrlatitudeed station pair occurs when the distance is < 100 km apart and the trigger time difference
+   A correlated station pair occurs when the distance is < 100 km apart and the trigger time difference
    is less than the velocity divided by the station separation.*/
 
    int i,j,k,l,kl;                             // Index variables
@@ -1041,18 +1032,22 @@ void QCN_DetectEvent()
    ind[0]=iCtr;                                // Index of host id's start at last trigger first
 
    if (iCtr < (C_CNT_MIN - 1)) return; // not enough triggers to do anything with
+
+   for (i=iCtr; i>=2; i--) {          // For each trigger (go backwards because triggers in order of latest first, and we want first first)
+    vt[i].c_cnt=0;                              // Zero the count of correlated triggers
+    vt[i].c_ind[0]=i;                           // Index the same trigger as zeroth trigger
 }
 
 
-// this is the main routine for searching through the triggers (now in a vector vt) and see if they are corrlatitudeed in time & space
+// this is the main routine for searching through the triggers (now in a vector vt) and see if they are correlated in time & space
 void QCN_DetectEvent_OLD()
 {
-/* This subroutine determines if a set of triggers is corrlatitudeed in time and space.
+/* This subroutine determines if a set of triggers is correlated in time and space.
    The subroutine is used by program main, which assumes that the triggers have already been read in.
    The subroutine uses ang_dist_km, which provides the distance between two points in kilometers.
    The subroutine uses hid_yn, which determines if the primary trigger has already encountered a host ID or not.
 
-   A corrlatitudeed station pair occurs when the distance is < 100 km apart and the trigger time difference
+   A correlated station pair occurs when the distance is < 100 km apart and the trigger time difference
    is less than the velocity divided by the station separation.*/
    int i,j,k,l,kl;                             // Index variables
    int iCtr = vt.size() - 1;   // max index of the trigger vector
@@ -1060,13 +1055,14 @@ void QCN_DetectEvent_OLD()
    float   dist;                               // Distance between triggers
    int   nh = 0;int ih=0;                      // Number of hosts, ith host
    int   h[N_LONG]; int ind[N_LONG];           // host ids already used
+   
    h[0]=t[iCtr].hostid;                           // First host id is last in trigger list
    ind[0]=iCtr;                                // Index of host id's start at last trigger first
 
    if (iCtr < (C_CNT_MIN - 1)) return; // not enough triggers to do anything with
 
    for (i=iCtr; i>=2; i--) {          // For each trigger (go backwards because triggers in order of latest first, and we want first first)
-    vt[i].c_cnt=0;                              // Zero the count of corrlatitudeed triggers
+    vt[i].c_cnt=0;                              // Zero the count of correlated triggers
     vt[i].c_ind[0]=i;                           // Index the same trigger as zeroth trigger
     ih = -10;                                    // Unassigned host id
     for (j = 0; j<=nh;j++) {                  // search through the assigned host ids
@@ -1080,7 +1076,7 @@ void QCN_DetectEvent_OLD()
      ind[nh]=i;                               // Index the trigger
     } else {                                  // If a prior match is found, then
 //   Save peak fmag for all triggers within 5 seconds of first arrival
-     if ( (vt[i].trig > vt[ind[ih]].trig) && (vt[1].trig < vt[ind[ih]].trig + 5.) ) { 
+     if ( (vt[i].time_trigger > vt[ind[ih]].time_trigger) && (vt[1].time_trigger < vt[ind[ih]].time_trigger + 5.) ) { 
        // Trigger is older than prior, but less than prior + 5 seconds use the higher value
       if (vt[i].magnitude > vt[ind[nh]].magnitude) {vt[ind[nh]].magnitude=vt[i].magnitude;} // Use largest fmag for primary trigger
      }
@@ -1088,12 +1084,12 @@ void QCN_DetectEvent_OLD()
 
     if ( (vt[i].hostid != vt[i-1].hostid) && (ih < 0) ) {        // Do not use repeating triggers
      for (j = i-1; j>=1; j--) {                // For every other trigger
-       if ( (vt[j].hostid != vt[i].hostid) && (vt[j].hostid != vt[j-1].hostid) && (abs(vt[i].trig - vt[j].trig) <= T_max) ) {
+       if ( (vt[j].hostid != vt[i].hostid) && (vt[j].hostid != vt[j-1].hostid) && (abs(vt[i].time_trigger - vt[j].time_trigger) <= T_max) ) {
         //For non-repeating triggers & triggers less than t_max apart
         dist=ang_dist_km(vt[i].longitude,vt[i].latitude,vt[j].longitude,vt[j].latitude);//Distance between triggers
-        if ( (abs(vt[i].trig-vt[j].trig)<dist/Vs + 3.f) && (dist<=D_max) ) {
-         vt[i].c_cnt++;                          // Add count of corrlatitudeed triggers for this trigger
-         if (vt[i].c_cnt>N_SHORT) {              // Make sure we don't use more corrlatitudeions than array size
+        if ( (abs(vt[i].time_trigger-vt[j].time_trigger)<dist/Vs + 3.f) && (dist<=D_max) ) {
+         vt[i].c_cnt++;                          // Add count of correlated triggers for this trigger
+         if (vt[i].c_cnt>N_SHORT) {              // Make sure we don't use more correlations than array size
           vt[i].c_cnt=N_SHORT;                   // Set count to max array size
           break;                                // Done
          }
@@ -1103,18 +1099,18 @@ void QCN_DetectEvent_OLD()
        }
      }
     }
-   }                                           // Done corrlatitudeing
+   }                                           // Done correlating
 
 
 
-/* Now we corrlatitudee triggers that are currently corrlatitudeed with triggers that are corrlatitudeed with the initial trigger, but not
-   corrlatitudeed with the initial trigger itself */
+/* Now we correlate triggers that are currently correlated with triggers that are correlated with the initial trigger, but not
+   correlated with the initial trigger itself */
    for (i =iCtr; i>1; i--) {                   // For each trigger
-    if (vt[i].c_cnt > C_CNT_MIN) {              // If more than 4 corrlatitudeed triggers, possible regional event
+    if (vt[i].c_cnt > C_CNT_MIN) {              // If more than 4 correlated triggers, possible regional event
      for (j = i-1;j>=0; j--) {                 // Compare with all later triggers
       if (vt[j].c_cnt > C_CNT_MIN) {            // Make sure this trigger is an event all of it's own
        kl = -10;
-       for (k = 0; k<=vt[j].c_cnt;k++) {        // Compare all potential secondary corrlatitudeed triggers
+       for (k = 0; k<=vt[j].c_cnt;k++) {        // Compare all potential secondary correlated triggers
         for (l = 0; l<=vt[i].c_cnt;l++) {       // Make sure trigger isn't same host as prior trigger
          if (vt[i].c_ind[l]==vt[j].c_ind[k]) {
           kl = l;break;
@@ -1125,16 +1121,16 @@ void QCN_DetectEvent_OLD()
          vt[i].c_ind[t[i].c_cnt]=t[j].c_ind[k];
          vt[i].c_hid[t[i].c_cnt]=t[j].c_hid[k];
         }
-        vt[k].c_cnt = 0;                        // get rid of corrlatitudeed triggers (now that they are primary triggers)
+        vt[k].c_cnt = 0;                        // get rid of correlated triggers (now that they are primary triggers)
        }
       }
      }
      j = i;
-     if ( ( vt[i].trig > T_max+e.e_time)||(abs(vt[i].latitude-e.latitude)>3.) ) {
+     if ( ( vt[i].time_trigger > T_max+e.e_time)||(abs(vt[i].latitude-e.latitude)>3.) ) {
       e.eventid++;                              // If new Time or location, then new event
       e.e_cnt=0;                            // Zero trigger count for event count for if new location/time
      }
-     if ((vt[i].c_cnt > e.e_cnt)||((vt[i].trig-e.e_t_detect>5.)&&(vt[i].c_cnt=e.e_cnt))) {            // Only do new event location ... if more triggers for same event (or new event - no prior triggers)
+     if ((vt[i].c_cnt > e.e_cnt)||((vt[i].time_trigger-e.e_t_detect>5.)&&(vt[i].c_cnt=e.e_cnt))) {            // Only do new event location ... if more triggers for same event (or new event - no prior triggers)
 
       QCN_EventLocate(j);                 // Try to locate event
       if (e.e_r2 < 0.5) { break; }          // Stop event if no event located
