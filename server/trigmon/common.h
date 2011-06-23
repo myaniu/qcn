@@ -31,14 +31,17 @@ struct trigger {
 /*  Data structure for input trigger data to be used with QCN MySQL output & location
     program. This structure written by Jesse Lawrence (April 2010) - 
     Contact: jflawrence@stanford.edu                                                  */
-   int    hid;                   // Host ID (Sensor number) 
-   int    tid;                   // Trigger ID
+   int    qcn_quakeid;           // QCN database (qcn_quake table) ID of this event
+   bool   posted;   // was this updated in the database
+
+   int    hostid;                   // Host ID (Sensor number) 
+   int    triggerid;                   // Trigger ID
 
    char   db[64];               // Database
    char   file[64];              // File name
-   float  slon, slat;            // Sensor location
-   double trig, rec,t_est;       // Time of trigger & Time received
-   float  sig, mag;              // Significance and magnitude (sig/noise)
+   float  longitude, latitude;            // Sensor location
+   double time_trigger, time_received, time_est;       // Time of trigger & Time received
+   float  significance, magnitude;              // Significance and magnitude (sig/noise)
    float  pgah[4],pgaz[4];       // Peak Ground Acceleration (Horizontal & vertical)
    int    c_cnt;                 // Count of correlated triggers
    int    c_ind[N_SHORT];        // Correlated trigger IDs
@@ -55,9 +58,9 @@ struct event {
     program. This structure written by Jesse Lawrence (April 2010) - 
     Contact: jflawrence@stanford.edu                                                  */
 
-   int    eid;                   // Event ID
+   int    eventid;                   // Event ID
    int    qcn_quakeid;           // QCN database (qcn_quake table) ID of this event
-   float  elon,elat,edep;        // Event Longitude, Latitude, & Depth
+   float  longitude, latitude, depth;        // Event Longitude, Latitude, & Depth
    double  e_time;               // Event Origin Time
    int    e_t_now;               // Event ID Time
    float  e_r2;                  // r-squared correlation
