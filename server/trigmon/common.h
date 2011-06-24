@@ -172,4 +172,29 @@ int QCN_DBOpen()
     return retval;
 }
 
+long int getMySQLUnixTime()
+{
+    long int lTime = 0L;
+    int numRows = 0;
+    int retval = trigmem_db.do_query("SELECT unix_timestamp()");
+    if (retval) { // big error, should probably quit as may have lost database connection
+        log_messages.printf(MSG_CRITICAL,
+            "getMySQLUnixTime() error: %s - %s\n", "Query Error", boincerror(retval)
+        );
+        goto done;
+    }
+
+    MYSQL_ROW row;
+    MYSQL_RES* rp;
+    rp = mysql_store_result(trigmem_db.mysql);
+    while (rp && (row = mysql_fetch_row(rp))) {
+      numRows++;
+      lTime = atol(row[0]);
+    }
+    mysql_free_result(rp);
+
+done:
+    return lTime;
+}
+
 #endif // _COMMON_H_

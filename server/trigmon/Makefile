@@ -22,7 +22,7 @@ SRCS = $(BOINCDIR)/db/db_base.cpp \
   $(BOINCDIR)/lib/parse.cpp \
   $(BOINCDIR)/db/boinc_db.cpp 
 
-MAINMON  = trigmon.cpp qcn_post.cpp
+MAINMON  = trigmon.cpp
 MAINDISP =  display.cpp
 
 #all: clean trigmonitor trigdisplay

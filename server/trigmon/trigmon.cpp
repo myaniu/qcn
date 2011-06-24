@@ -1108,18 +1108,75 @@ void QCN_UpdateQuake(const bool& bInsert, struct event& e, const int& ciOff)
       retval = dqq.update();
       if (retval) {
         log_messages.printf(
-          MSG_CRITICAL, "QCN_UpdateQuake Update qcn_quake error event ID %d , errno %d, %s\n",
+          MSG_CRITICAL, "QCN_UpdateQuake error event ID %d , errno %d, %s\n",
               e.eventid, retval, boincerror(retval)
         );
        }
    }
    // set e.dirty to false after insert/update?
    e.dirty = false;
-   if (e.qcn_quakeid == 0) return; // something is really wrong if we don't have a quakeid at this point
+   if (e.qcn_quakeid == 0) {
+      log_messages.printf(
+        MSG_CRITICAL, "QCN_UpdateQuake error no qcn_quakeid allocated ID %d\n",
+          e.eventid
+      );
+      return; // something is really wrong if we don't have a quakeid at this point
+   }
 
-// CMC HERE
    // now go through all the correlated triggers for this event, post file upload requests, set qcn_quakeid
    //   note to do this in the trigmem as well as the qcnalpha/continual database!
+   const char strBaseTrigMem[] = {"UPDATE trigmem.qcn_trigger_memory SET qcn_quakeid=%d, posted=1 WHERE db='%s' AND id=%d"};
+   const char strBaseTrig[] = {"UPDATE %s.qcn_trigger SET qcn_quakeid=%d, time_filereq=unix_timestamp() WHERE id=%d"};
+   char strSQL[_MAX_PATH];
+   for (int m = 0; m < vt[ciOff].c_cnt; m++) {  // For each trigger
+        int n = vt[ciOff].c_ind[m];         // Index of correlated trigger so just use vt[n]
+
+        // first update the trigmemdb trigger table with quake id & posted (since we will request uploads)
+        if (! vt[n].posted) { // only need to update if wasn't already posted
+          sprintf(strSQL, strBaseTrigMem, e.qcn_quakeid, vt[n].db, vt[n].triggerid);
+          retval = trigmem_db.do_query(strSQL);
+          if (retval) { // big error, should probably quit as may have lost database connection
+             log_messages.printf(MSG_CRITICAL,
+                "QCN_UpdateQuake trigmem db update error: %s - %s\n", strSQL, boincerror(retval)
+             );
+          }
+        }
+ 
+        // now do the appropriate main table 
+        sprintf(strSQL, strBaseTrig, vt[n].db, e.qcn_quakeid, vt[n].triggerid);
+        retval = boinc_db.do_query(strSQL);
+        if (retval) { // big error, should probably quit as may have lost database connection
+           log_messages.printf(MSG_CRITICAL,
+              "QCN_UpdateQuake %s db update error: %s - %s\n", vt[n].db, strSQL, boincerror(retval)
+           );
+         }
+
+
+        // do the upload file request here
+//CMC HERE
+     }
+/*
+trigmem_db.do_query("SELECT unix_timestamp()");
+    if (retval) { // big error, should probably quit as may have lost database connection
+        log_messages.printf(MSG_CRITICAL,
+            "getMySQLUnixTime() error: %s - %s\n", "Query Error", boincerror(retval)
+        );
+        goto done;
+    }
+
+    MYSQL_ROW row;
+    MYSQL_RES* rp;
+    rp = mysql_store_result(trigmem_db.mysql);
+    while (rp && (row = mysql_fetch_row(rp))) {
+      numRows++;
+      lTime = atol(row[0]);
+    }
+    mysql_free_result(rp);
+*/
+
+   // loop across all triggers for this event
+
+   // update the trigmem entries to reflect this
 
 /*
 struct trigger
