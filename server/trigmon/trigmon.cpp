@@ -968,7 +968,7 @@ void QCN_DetectEvent()
      return;
    }      
    log_messages.printf(MSG_DEBUG,
-      "QCN_DetectEvent: Scanning %d triggers %d\n", iCtr+1
+      "QCN_DetectEvent: Scanning %d triggers\n", iCtr+1
    );
 
    h[0]=vt[iCtr].hostid;                           // First host id is last in trigger list
