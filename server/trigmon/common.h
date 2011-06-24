@@ -39,6 +39,7 @@ struct trigger {
 
    char   db[64];               // Database
    char   file[64];              // File name
+   char   result_name[64];       // qcn db result name
    float  longitude, latitude;            // Sensor location
    double time_trigger, time_received, time_est;       // Time of trigger & Time received
    float  significance, magnitude;              // Significance and magnitude (sig/noise)

@@ -81,4 +81,6 @@ void QCN_UpdateQuake(const bool& bInsert, struct event& e, const int& ciOff);
 void php_event_email(const struct event& e, const char* epath);
 void php_event_page(const struct event& e, const char* epath);
 
+bool sendTriggerFileRequest(const char* strFile, const char* result, const int& hostid);
+
 #endif //_QCN_TRIGMON_H_

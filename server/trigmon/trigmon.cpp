@@ -119,6 +119,7 @@ int QCN_GetTriggers()
       t.posted = qtm.posted;             // file req posted?
       strncpy(t.db, qtm.db_name, sizeof(t.db)-1);   // Database Name
       strncpy(t.file, qtm.file, sizeof(t.file)-1);  // File name
+      strncpy(t.result_name, qtm.result_name, sizeof(t.result_name)-1);  // File name
       t.latitude = qtm.latitude;         // Latitude
       t.longitude= qtm.longitude;        // Longitude
       t.time_trigger = qtm.time_trigger; // Trigger Time
@@ -1126,8 +1127,11 @@ void QCN_UpdateQuake(const bool& bInsert, struct event& e, const int& ciOff)
    // now go through all the correlated triggers for this event, post file upload requests, set qcn_quakeid
    //   note to do this in the trigmem as well as the qcnalpha/continual database!
    const char strBaseTrigMem[] = {"UPDATE trigmem.qcn_trigger_memory SET qcn_quakeid=%d, posted=1 WHERE db='%s' AND id=%d"};
-   const char strBaseTrig[] = {"UPDATE %s.qcn_trigger SET qcn_quakeid=%d, time_filereq=unix_timestamp() WHERE id=%d"};
+   const char strBaseTrig[] = {"UPDATE %s.qcn_trigger SET qcn_quakeid=%d, time_filereq=unix_timestamp(), "
+         "received_file=IF(ISNULL(received_file), 1, received_file+1) WHERE id=%d"};
    char strSQL[_MAX_PATH];
+
+   // loop over all correlated triggers and update as appropriate & send file upload request
    for (int m = 0; m < vt[ciOff].c_cnt; m++) {  // For each trigger
         int n = vt[ciOff].c_ind[m];         // Index of correlated trigger so just use vt[n]
 
@@ -1135,6 +1139,9 @@ void QCN_UpdateQuake(const bool& bInsert, struct event& e, const int& ciOff)
         if (! vt[n].posted) { // only need to update if wasn't already posted
           sprintf(strSQL, strBaseTrigMem, e.qcn_quakeid, vt[n].db, vt[n].triggerid);
           retval = trigmem_db.do_query(strSQL);
+          log_messages.printf(MSG_DEBUG,
+             "QCN_UpdateQuake Updating trigmem trigger %s %d\n", vt[n].db, vt[n].triggerid
+          );
           if (retval) { // big error, should probably quit as may have lost database connection
              log_messages.printf(MSG_CRITICAL,
                 "QCN_UpdateQuake trigmem db update error: %s - %s\n", strSQL, boincerror(retval)
@@ -1145,59 +1152,18 @@ void QCN_UpdateQuake(const bool& bInsert, struct event& e, const int& ciOff)
         // now do the appropriate main table 
         sprintf(strSQL, strBaseTrig, vt[n].db, e.qcn_quakeid, vt[n].triggerid);
         retval = boinc_db.do_query(strSQL);
+        log_messages.printf(MSG_DEBUG,
+           "QCN_UpdateQuake Updating %s trigger %d\n", vt[n].db, vt[n].triggerid
+        );
         if (retval) { // big error, should probably quit as may have lost database connection
            log_messages.printf(MSG_CRITICAL,
               "QCN_UpdateQuake %s db update error: %s - %s\n", vt[n].db, strSQL, boincerror(retval)
            );
-         }
-
+        }
 
         // do the upload file request here
-//CMC HERE
-     }
-/*
-trigmem_db.do_query("SELECT unix_timestamp()");
-    if (retval) { // big error, should probably quit as may have lost database connection
-        log_messages.printf(MSG_CRITICAL,
-            "getMySQLUnixTime() error: %s - %s\n", "Query Error", boincerror(retval)
-        );
-        goto done;
-    }
-
-    MYSQL_ROW row;
-    MYSQL_RES* rp;
-    rp = mysql_store_result(trigmem_db.mysql);
-    while (rp && (row = mysql_fetch_row(rp))) {
-      numRows++;
-      lTime = atol(row[0]);
-    }
-    mysql_free_result(rp);
-*/
-
-   // loop across all triggers for this event
-
-   // update the trigmem entries to reflect this
-
-/*
-struct trigger
-   int    triggerid;                   // Trigger ID
-
-   char   db[64];               // Database
-   char   file[64];              // File name
-   float  longitude, latitude;            // Sensor location
-   double time_trigger, time_received, time_est;       // Time of trigger & Time received
-   float  significance, magnitude;              // Significance and magnitude (sig/noise)
-   float  pgah[4],pgaz[4];       // Peak Ground Acceleration (Horizontal & vertical)
-   int    c_cnt;                 // Count of correlated triggers
-   int    c_ind[N_SHORT];        // Correlated trigger IDs
-   int    c_hid[N_SHORT];        // Correlated host IDs
-   float  dis;                   // Event to station distance (km)
-   int    pors;                   // 1=P, 2=S wave
-   bool   dirty;    // if this is true, we changed and should update the qcn_trigger table ie for quakeid etc
-   void clear() { memset(this, 0x00, sizeof(trigger)); }
-   trigger() { clear(); };
-};
-*/
+        sendTriggerFileRequest(vt[n].file, vt[n].result_name, vt[n].hostid);
+     } // end for loop over vt[n]
 
 }
 
@@ -1337,3 +1303,34 @@ int main(int argc, char** argv)
     return 0;
 }
 
+bool sendTriggerFileRequest(const char* strFile, const char* strResult, const int& hostid)
+{  
+/* // use this to get the latest result name sent out for given hostid
+   const char strFileReq[] = "insert into msg_to_host " 
+               "(create_time,hostid,variety,handled,xml) " 
+               "values (unix_timestamp(), %d, 'filelist', 0, "
+               "concat('<trickle_down>\n<result_name>', r.name, '</result_name>\n<filelist>\n" 
+               "%s</filelist>\n</trickle_down>\n') " 
+               "from result r where r.hostid=%d"
+               "  and r.sent_time=(select max(rr.sent_time) from result rr where rr.hostid=r.hostid) "};
+*/
+   // since these are live triggers the following should be fine as it's the latest result hostid working on
+   const char strFileReq[] = { "insert into msg_to_host " 
+               "(create_time,hostid,variety,handled,xml) " 
+               "values (unix_timestamp(), %d, 'filelist', 0, "
+               "concat('<trickle_down>\n<result_name>', %s, '</result_name>\n<filelist>\n" 
+               "%s</filelist>\n</trickle_down>\n') )" }; 
+   char strSQL[_MAX_PATH];
+   sprintf(strSQL, strFileReq, hostid, strResult, strFile);
+   log_messages.printf(MSG_DEBUG,
+      "sendTriggerFileRequest host %d %s %s\n", hostid, strFile, strResult
+   );
+   int retval = boinc_db.do_query(strSQL);
+   if (retval) { 
+     log_messages.printf(MSG_CRITICAL,
+        "sendTriggerFileRequest error: %s - %s\n", strSQL, boincerror(retval)
+     );
+     return false;
+   }
+   return true;
+}
