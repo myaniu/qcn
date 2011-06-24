@@ -1,5 +1,5 @@
-CFLAGS = -g -O0 -Wall
-#CFLAGS = -02 -Wall
+#CFLAGS = -g -O0 -Wall
+CFLAGS = -02 -Wall
 CC = g++
 BOINCDIR = ../../../boinc
 MYSQLDIR = /usr/local/mysql
@@ -25,20 +25,19 @@ SRCS = $(BOINCDIR)/db/db_base.cpp \
 MAINMON  = trigmon.cpp
 MAINDISP =  display.cpp
 
-#all: clean trigmonitor trigdisplay
+all: clean trigmonitor trigdisplay
 #all: clean trigdisplay
 #all: clean trigmonitor
-all: clean trigmonitor
 
 trigdisplay: 
 	$(CC) $(CFLAGS) $(INCLUDES) $(MAINDISP) $(SRCS) $(LIBS) -o trigdisplay
-	#strip trigdisplay
+	strip trigdisplay
 	cp trigdisplay $(INSTALLDIR)
 
 
 trigmonitor: 
 	$(CC) $(CFLAGS) $(INCLUDES) $(MAINMON) $(SRCS) $(LIBS) -o trigmonitor
-	#strip trigmonitor
+	strip trigmonitor
 	cp trigmonitor $(INSTALLDIR)
 
 
