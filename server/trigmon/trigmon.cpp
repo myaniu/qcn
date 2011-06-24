@@ -74,12 +74,18 @@ int QCN_GetTriggers()
    // flush out old events every few minutes
    if ( iCounter++ == (int) ( (float) iTestTime / g_dSleepInterval ) && ve.size() > 0 ) {
        // flush out old events
+       log_messages.printf(MSG_DEBUG,
+          "QCN_GetTriggers: erasing old quake events...\n"
+       );
        iCounter = 0;
        // get time from database
        long int lTest = getMySQLUnixTime() - iTestTime;
        vector<struct event>::iterator it = ve.begin();
        while (it != ve.end()) {
          if (it->e_time < lTest) { // remove this record 
+           log_messages.printf(MSG_DEBUG,
+             "QCN_GetTriggers: erased old quake id %d %d\n", it->eventid, it->qcn_quakeid
+           );
            it = ve.erase(it);  // erase and set new iterator start as elements will shift
          }
          else { // just increment iterator
@@ -955,8 +961,16 @@ void QCN_DetectEvent()
    memset(h, 0x00, sizeof(int) * N_LONG);
    memset(ind, 0x00, sizeof(int) * N_LONG);
 
-   if (iCtr < (C_CNT_MIN - 1)) return; // not enough triggers to do anything with
- 
+   if (iCtr < (C_CNT_MIN - 1)) {
+     log_messages.printf(MSG_DEBUG,
+      "QCN_DetectEvent: Not enough triggers %d\n", iCtr+1
+     );
+     return;
+   }      
+   log_messages.printf(MSG_DEBUG,
+      "QCN_DetectEvent: Scanning %d triggers %d\n", iCtr+1
+   );
+
    h[0]=vt[iCtr].hostid;                           // First host id is last in trigger list
    ind[0]=iCtr;                                // Index of host id's start at last trigger first
 
