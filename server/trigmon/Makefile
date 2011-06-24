@@ -42,7 +42,6 @@ trigmonitor:
 
 
 clean:
-	#rm -f *.o core *~ trigmonitor trigdisplay $(INSTALLDIR)/trigmonitor $(INSTALLDIR)/trigdisplay
-	rm -f *.o core *~ trigmonitor trigdisplay $(INSTALLDIR)/trigmonitor
+	rm -f *.o core *~ trigmonitor trigdisplay $(INSTALLDIR)/trigmonitor $(INSTALLDIR)/trigdisplay
 
 
