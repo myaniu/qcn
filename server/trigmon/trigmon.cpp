@@ -954,11 +954,12 @@ void QCN_DetectEvent()
   
    memset(h, 0x00, sizeof(int) * N_LONG);
    memset(ind, 0x00, sizeof(int) * N_LONG);
+
+   if (iCtr < (C_CNT_MIN - 1)) return; // not enough triggers to do anything with
  
    h[0]=vt[iCtr].hostid;                           // First host id is last in trigger list
    ind[0]=iCtr;                                // Index of host id's start at last trigger first
 
-   if (iCtr < (C_CNT_MIN - 1)) return; // not enough triggers to do anything with
 
    for (i=iCtr; i>=2; i--) {          // For each trigger (go backwards because triggers in order of latest first, and we want first first)
     vt[i].c_cnt=0;                              // Zero the count of correlated triggers
@@ -1255,7 +1256,7 @@ int main(int argc, char** argv)
         } else {
             log_messages.printf(MSG_CRITICAL,
                 "bad cmdline arg: %s\n\n"
-                "Example usage: trigmon -d 3 -sleep_interval 3 -count 10 -time_interval 10\n\n"
+                "Example usage: trigmon -d 3 -sleep_interval 3 -time_interval 10\n\n"
              , argv[i]
             );
             return 2;
