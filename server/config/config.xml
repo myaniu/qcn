@@ -224,7 +224,7 @@
     </daemon>
     <daemon>
       <cmd>
-        trigdisplay -d 3 -sleep_interval 4 -time_interval 15 -delete_interval 333
+        trigdisplay -d 2 -sleep_interval 4 -time_interval 15 -delete_interval 333
       </cmd>
     </daemon>
   </daemons>

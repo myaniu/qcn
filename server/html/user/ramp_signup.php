@@ -305,21 +305,21 @@ echo "
      echo "<tr><td colspan=2><hr></td></tr>";
      row_heading_array(array("Regional RAMP Questions"));
      row2("Can we affix a sensor to the floor with adhesive or screws?",
-       "<input type=\"checkbox\" name=\"db_loc_affix_perm\" id=\"db_loc_affix_perm\" " . ($row["loc_affix_perm"] ? "checked" : "") . "> (If
+       "<input type=\"checkbox\" name=\"db_loc_affix_perm\" id=\"db_loc_affix_perm\" " . ($row["loc_affix_perm"] ? "checked" : "") . "> (Check if 'Yes' - If
     the sensor is not mounted, it cannot record strong motions as well)");
 
      row2("Is this a home location?",
       "<input type=\"checkbox\" name=\"db_loc_home\" id=\"db_loc_home\" " . 
-        ($row["loc_home"] ? "checked" : "") . "> (check if this is your residence)");
+        ($row["loc_home"] ? "checked" : "") . "> (Check if this is your residence)");
 
      row2("Is this a business location?",
       "<input type=\"checkbox\" name=\"db_loc_business\" id=\"db_loc_business\" " . 
-        ($row["loc_business"] ? "checked" : "") . "> (check if this is a business)");
+        ($row["loc_business"] ? "checked" : "") . "> (Check if this is a business)");
 
      row2("Are you comfortable installing the sensor yourself?  (<A HREF=\"http://qcn.stanford.edu/manuals/physical/\">Click here for directions</A>)",
       "<input type=\"checkbox\" name=\"db_loc_self_install\" id=\"db_loc_self_install\" " . 
         ($row["loc_self_install"] ? "checked" : "") . "> " .
-      "(Volunteer interns can install some sensors, but we mail the rest to participants with instructions)"
+      "(Check if 'Yes - Volunteer interns can install some sensors, but we mail the rest to participants with instructions)"
       );
 
      $time_host = "<select name=\"db_loc_years_host\" id=\"db_loc_years_host\">";
