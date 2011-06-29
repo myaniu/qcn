@@ -263,22 +263,40 @@ echo "
      row2("Floor Location of Computer<BR><i><font color=red>(-1 = Basement, 0 = Ground Floor, 1 = First Floor etc)<font></i>", $cpufl." (ground or basement floors are ideal)");
 
      row2("Do You Have Administrator Rights On This Computer?",
-       "<input type=\"checkbox\" name=\"db_cpu_admin\" id=\"db_cpu_admin\" "   . ($row["cpu_admin"] ? "checked" : "") . "> (without administrator rights, one can't install the QCN software/drivers)");
+       "<input type=\"radio\" name=\"db_cpu_admin\" id=\"db_cpu_admin\" value=0 " . ($row["cpu_admin"] == 0 ? "checked" : "") . ">No&nbsp&nbsp  "
+       . "<input type=\"radio\" name=\"db_cpu_admin\" id=\"db_cpu_admin\" value=1 " . ($row["cpu_admin"] == 1 ? "checked" : "") . ">Yes&nbsp&nbsp  "
+       . "<input type=\"radio\" name=\"db_cpu_admin\" id=\"db_cpu_admin\" value=2 " . ($row["cpu_admin"] == 2 ? "checked" : "") . ">Not Sure&nbsp&nbsp  "
+       . "  (without administrator rights, one can't install the QCN software/drivers)");
 
      row2("Do You Have Permission To Send Seismic Data Out Of Your Country From This Computer?",
-       "<input type=\"checkbox\" name=\"db_cpu_permission\" id=\"db_cpu_permission\" "   . ($row["cpu_permission"] ? "checked" : "") . "> (it may be illegal to disseminate seismic data in some countries)");
+       "<input type=\"radio\" name=\"db_cpu_permission\" id=\"db_cpu_permission\" value=0 " . ($row["cpu_permission"] == 0 ? "checked" : "") . ">No&nbsp&nbsp  "
+       . "<input type=\"radio\" name=\"db_cpu_permission\" id=\"db_cpu_permission\" value=1 " . ($row["cpu_permission"] == 1 ? "checked" : "") . ">Yes&nbsp&nbsp  "
+       . "<input type=\"radio\" name=\"db_cpu_permission\" id=\"db_cpu_permission\" value=2 " . ($row["cpu_permission"] == 2 ? "checked" : "") . ">Not Sure&nbsp&nbsp  " 
+       . "  (it may be illegal to disseminate seismic data in some countries)");
 
      row2("Is This Computer Behind A Firewall?",
-       "<input type=\"checkbox\" name=\"db_cpu_firewall\" id=\"db_cpu_firewall\" " . ($row["cpu_firewall"] ? "checked" : "") . "> (if the firewall blocks regular programs, it may block QCN)");
+       "<input type=\"radio\" name=\"db_cpu_firewall\" id=\"db_cpu_firewall\" value=0 " . ($row["cpu_firewall"] == 0 ? "checked" : "") . ">No&nbsp&nbsp  "
+       . "<input type=\"radio\" name=\"db_cpu_firewall\" id=\"db_cpu_firewall\" value=1 " . ($row["cpu_firewall"] == 1 ? "checked" : "") . ">Yes&nbsp&nbsp  "
+       . "<input type=\"radio\" name=\"db_cpu_firewall\" id=\"db_cpu_firewall\" value=2 " . ($row["cpu_firewall"] == 2 ? "checked" : "") . ">Not Sure&nbsp&nbsp  " 
+       . "  (if the firewall blocks regular programs, it may block QCN)");
 
      row2("Is This Computer Usually Connected To The Internet?",
-       "<input type=\"checkbox\" name=\"db_cpu_internet\" id=\"db_cpu_internet\" " . ($row["cpu_internet"] ? "checked" : "") . "> (Without Internet, QCN cannot upload data to the server) ");
+       "<input type=\"radio\" name=\"db_cpu_internet\" id=\"db_cpu_internet\" value=0 " . ($row["cpu_internet"] == 0 ? "checked" : "") . ">No&nbsp&nbsp  "
+       . "<input type=\"radio\" name=\"db_cpu_internet\" id=\"db_cpu_internet\" value=1 " . ($row["cpu_internet"] == 1 ? "checked" : "") . ">Yes&nbsp&nbsp  "
+       . "<input type=\"radio\" name=\"db_cpu_internet\" id=\"db_cpu_internet\" value=2 " . ($row["cpu_internet"] == 2 ? "checked" : "") . ">Not Sure&nbsp&nbsp  " 
+       . " (without the Internet, QCN cannot upload data to the server) ");
 
      row2("Does This Computer Use A Proxy for Internet Access?",
-       "<input type=\"checkbox\" name=\"db_cpu_proxy\" id=\"db_cpu_proxy\" " . ($row["cpu_proxy"] ? "checked" : "") . " > (This can occasionally complicate installation)");
+       "<input type=\"radio\" name=\"db_cpu_proxy\" id=\"db_cpu_proxy\" value=0 " . ($row["cpu_proxy"] == 0 ? "checked" : "") . ">No&nbsp&nbsp  "
+       . "<input type=\"radio\" name=\"db_cpu_proxy\" id=\"db_cpu_proxy\" value=1 " . ($row["cpu_proxy"] == 1 ? "checked" : "") . ">Yes&nbsp&nbsp  "
+       . "<input type=\"radio\" name=\"db_cpu_proxy\" id=\"db_cpu_proxy\" value=2 " . ($row["cpu_proxy"] == 2 ? "checked" : "") . ">Not Sure&nbsp&nbsp  " 
+       . "  (this can occasionally complicate installation)");
 
      row2("Do You Have An Uninterruptible Power Supply Attached To This Computer?",
-       "<input type=\"checkbox\" name=\"db_cpu_unint_power\" id=\"db_cpu_unint_power\" " . ($row["cpu_unint_power"] ? "checked" : "") . "> (With an uninterruptible Power Supply, your computer will record even if the power fails)");
+       "<input type=\"radio\" name=\"db_cpu_unint_power\" id=\"db_cpu_unint_power\" value=0 " . ($row["cpu_unint_power"] == 0 ? "checked" : "") . ">No&nbsp&nbsp  "
+       . "<input type=\"radio\" name=\"db_cpu_unint_power\" id=\"db_cpu_unint_power\" value=1 " . ($row["cpu_unint_power"] == 1 ? "checked" : "") . ">Yes&nbsp&nbsp  "
+       . "<input type=\"radio\" name=\"db_cpu_unint_power\" id=\"db_cpu_unint_power\" value=2 " . ($row["cpu_unint_power"] == 2 ? "checked" : "") . ">Not Sure&nbsp&nbsp  " 
+       . "  (with an uninterruptible Power Supply, your computer will record even if the power fails)");
 
 
 
@@ -303,10 +321,115 @@ echo "
       "(Volunteer interns can install some sensors, but we mail the rest to participants with instructions)"
       );
 
-     row2("Is a weekend better for installation?",
-      "<input type=\"checkbox\" name=\"db_loc_weekend_install\" id=\"db_loc_weekend_install\" " . 
-        ($row["loc_weekend_install"] ? "checked" : "") . ">  (if not checked, we'll assume a weekday is OK)");
+     $time_host = "<select name=\"db_loc_years_host\" id=\"db_loc_years_host\">";
+     for ($i = 1; $i <=5; $i++) {
+         $time_host .= "<option";
+         if ($row["loc_years_host"] == $i) {
+            $time_host .= " selected";
+         }
+         $time_host .= (">" . $i . "</option>\n");
+     }
+     $time_host .= "</select>";
+     row2("How many years are you willing to host the sensor?", $time_host);
 
+
+     //"<select name=\"db_cpu_os\" id=\"db_cpu_os\">";
+     $time_ops = array("All Day",
+                 "Morning (8am-12pm)", "Afternoon (12pm-4pm)", "Evenings (4pm-8pm)",
+                 "8am", "9am", "10am", "11am", "12pm", "1pm", "2pm", "3pm", "4pm", "5pm",
+                 "6pm", "7pm", "8pm"
+               );
+     $time_select = array("","","","","","","");
+     $time_test = array(
+                         $row["loc_time_install_sunday"],
+                         $row["loc_time_install_monday"],
+                         $row["loc_time_install_tuesday"],
+                         $row["loc_time_install_wednesday"],
+                         $row["loc_time_install_thursday"],
+                         $row["loc_time_install_friday"],
+                         $row["loc_time_install_saturday"]
+                     );
+
+//print_r($time_test);
+
+     for ($j = 0; $j < count($time_select); $j++) {
+       for ($i = 0; $i < count($time_ops); $i++) {
+         $time_select[$j] .= "<option";
+         if (strcmp($time_test[$j], $time_ops[$i]) == 0) {
+            $time_select[$j] .= " selected";
+         }
+         $time_select[$j] .= (">" . $time_ops[$i] . "</option>\n");
+       }
+       $time_select[$j] .= "</select>";
+     }
+
+    row_heading_array(array("Preferred Installation Day and Time", "(you can select more than one day)"));
+
+    row2("Sunday <input type=\"checkbox\" name=\"db_loc_day_install_sunday\" id=\"db_loc_day_install_sunday\" " . 
+          ($row["loc_day_install_sunday"] ? "checked" : "") . ">" ,
+              "<select name=\"db_loc_time_install_sunday\" id=\"db_loc_time_install_sunday\">" . $time_select[0]);
+    row2("Monday <input type=\"checkbox\" name=\"db_loc_day_install_monday\" id=\"db_loc_day_install_monday\" " . 
+          ($row["loc_day_install_monday"] ? "checked" : "") . ">" ,
+              "<select name=\"db_loc_time_install_monday\" id=\"db_loc_time_install_monday\">" . $time_select[1]);
+    row2("Tuesday <input type=\"checkbox\" name=\"db_loc_day_install_tuesday\" id=\"db_loc_day_install_tuesday\" " . 
+          ($row["loc_day_install_tuesday"] ? "checked" : "") . ">" ,
+              "<select name=\"db_loc_time_install_tuesday\" id=\"db_loc_time_install_tuesday\">" . $time_select[2]);
+   row2("Wednesday <input type=\"checkbox\" name=\"db_loc_day_install_wednesday\" id=\"db_loc_day_install_wednesday\" " . 
+          ($row["loc_day_install_wednesday"] ? "checked" : "") . ">" ,
+              "<select name=\"db_loc_time_install_wednesday\" id=\"db_loc_time_install_wednesday\">" . $time_select[3]);
+   row2("Thursday <input type=\"checkbox\" name=\"db_loc_day_install_thursday\" id=\"db_loc_day_install_thursday\" " . 
+          ($row["loc_day_install_thursday"] ? "checked" : "") . ">" ,
+              "<select name=\"db_loc_time_install_thursday\" id=\"db_loc_time_install_thursday\">" . $time_select[4]);
+   row2("Friday <input type=\"checkbox\" name=\"db_loc_day_install_friday\" id=\"db_loc_day_install_friday\" " . 
+          ($row["loc_day_install_friday"] ? "checked" : "") . ">" ,
+              "<select name=\"db_loc_time_install_friday\" id=\"db_loc_time_install_friday\">" . $time_select[5]);
+   row2("Saturday <input type=\"checkbox\" name=\"db_loc_day_install_saturday\" id=\"db_loc_day_install_saturday\" " . 
+          ($row["loc_day_install_saturday"] ? "checked" : "") . ">" ,
+              "<select name=\"db_loc_time_install_saturday\" id=\"db_loc_time_install_saturday\">" . $time_select[6]);
+
+/*  //  echo "<table width=\"80%\"><tr>\n" .
+     echo  "<tr colspan=7><th><input type=\"checkbox\" name=\"db_loc_day_install_sunday\" id=\"db_loc_day_install_sunday\" " . 
+          ($row["loc_day_install_sunday"] ? "checked" : "") . ">Sunday<BR>" .
+              "<select name=\"db_loc_time_install_sunday\" id=\"db_loc_time_install_sunday\">" . $time_select[0] . "</th>\n" .
+       "<th><input type=\"checkbox\" name=\"db_loc_day_install_monday\" id=\"db_loc_day_install_monday\" " . 
+          ($row["loc_day_install_monday"] ? "checked" : "") . ">Monday<BR>" .
+              "<select name=\"db_loc_time_install_monday\" id=\"db_loc_time_install_monday\">" . $time_select[1] . "</th>\n" .
+       "<th><input type=\"checkbox\" name=\"db_loc_day_install_tuesday\" id=\"db_loc_day_install_tuesday\" " . 
+          ($row["loc_day_install_tuesday"] ? "checked" : "") . ">Tuesday<BR>" .
+              "<select name=\"db_loc_time_install_tuesday\" id=\"db_loc_time_install_tuesday\">" . $time_select[2] . "</th>\n" .
+       "<th><input type=\"checkbox\" name=\"db_loc_day_install_wednesday\" id=\"db_loc_day_install_wednesday\" " . 
+          ($row["loc_day_install_wednesday"] ? "checked" : "") . ">Wednesday<BR>" .
+              "<select name=\"db_loc_time_install_wednesday\" id=\"db_loc_time_install_wednesday\">" . $time_select[3] . "</th>\n" .
+       "<th><input type=\"checkbox\" name=\"db_loc_day_install_thursday\" id=\"db_loc_day_install_thursday\" " . 
+          ($row["loc_day_install_thursday"] ? "checked" : "") . ">Thursday<BR>" .
+              "<select name=\"db_loc_time_install_thursday\" id=\"db_loc_time_install_thursday\">" . $time_select[4] . "</th>\n" .
+       "<th><input type=\"checkbox\" name=\"db_loc_day_install_friday\" id=\"db_loc_day_install_friday\" " . 
+          ($row["loc_day_install_friday"] ? "checked" : "") . ">Friday<BR>" .
+              "<select name=\"db_loc_time_install_friday\" id=\"db_loc_time_install_friday\">" . $time_select[5] . "</th>\n" .
+       "<th><input type=\"checkbox\" name=\"db_loc_day_install_saturday\" id=\"db_loc_day_install_saturday\" " . 
+          ($row["loc_day_install_sunday"] ? "checked" : "") . ">Saturday<BR>" .
+              "<select name=\"db_loc_time_install_saturday\" id=\"db_loc_time_install_saturday\">" . $time_select[6] . "</th>\n" .
+      "</tr>" ; //</table>\n<BR>";
+*/
+/*
+     row2("Preferred installation day?  (you can select more than one)",
+      "<input type=\"checkbox\" name=\"db_loc_day_install_sunday\" id=\"db_loc_day_install_sunday\" " . 
+        ($row["loc_day_install_sunday"] ? "checked" : "") . ">Sunday&nbsp&nbsp" .
+      "<input type=\"checkbox\" name=\"db_loc_day_install_monday\" id=\"db_loc_day_install_monday\" " . 
+        ($row["loc_day_install_monday"] ? "checked" : "") . ">Monday&nbsp&nbsp" .
+      "<input type=\"checkbox\" name=\"db_loc_day_install_tuesday\" id=\"db_loc_day_install_tuesday\" " . 
+        ($row["loc_day_install_tuesday"] ? "checked" : "") . ">Tuesday&nbsp&nbsp" .
+      "<input type=\"checkbox\" name=\"db_loc_day_install_wednesday\" id=\"db_loc_day_install_wednesday\" " . 
+        ($row["loc_day_install_wednesday"] ? "checked" : "") . ">Wednesday&nbsp&nbsp" .
+      "<input type=\"checkbox\" name=\"db_loc_day_install_thursday\" id=\"db_loc_day_install_thursday\" " . 
+        ($row["loc_day_install_thursday"] ? "checked" : "") . ">Thursday&nbsp&nbsp" .
+      "<input type=\"checkbox\" name=\"db_loc_day_install_friday\" id=\"db_loc_day_install_friday\" " . 
+        ($row["loc_day_install_friday"] ? "checked" : "") . ">Friday&nbsp&nbsp" .
+      "<input type=\"checkbox\" name=\"db_loc_day_install_saturday\" id=\"db_loc_day_install_saturday\" " . 
+        ($row["loc_day_install_saturday"] ? "checked" : "") . ">Saturday&nbsp&nbsp"
+     );
+*/
+/*
      $time_hour_install= "<select name=\"db_loc_time_hour_install\" id=\"db_loc_time_hour_install\">";
      for ($i = 0; $i <=23; $i++) {
          $time_hour_install .= "<option";
@@ -328,18 +451,8 @@ echo "
      $time_minute_install .= "</select>";
 
      row2("Preferred time of day for installation", $time_hour_install . " : " . $time_minute_install .  " (enter as 24 hour clock 0-23 and minutes 0-59)");
+*/
 
-     $time_host = "<select name=\"db_loc_years_host\" id=\"db_loc_years_host\">";
-     for ($i = 1; $i <=5; $i++) {
-         $time_host .= "<option";
-         if ($row["loc_years_host"] == $i) {
-            $time_host .= " selected";
-         }
-         $time_host .= (">" . $i . "</option>\n");
-     }
-     $time_host .= "</select>";
-
-     row2("How many years are you willing to host the sensor?", $time_host);
   } // end regional extra questions
 
 
@@ -397,12 +510,12 @@ n] => on [db_cpu_permission] => on [db_cpu_firewall] => on [db_cpu_internet] => 
     $row["cpu_os"] = post_str("db_cpu_os", true);
     $row["cpu_age"] = post_int("db_cpu_age", true);
     $row["cpu_floor"] = post_int("db_cpu_floor", true);
-    $row["cpu_admin"] = ($_POST["db_cpu_admin"] == "on") ? 1 : 0;
-    $row["cpu_permission"] = ($_POST["db_cpu_permission"] == "on") ? 1 : 0;
-    $row["cpu_firewall"] = ($_POST["db_cpu_firewall"] == "on") ? 1 : 0;
-    $row["cpu_proxy"] = ($_POST["db_cpu_proxy"] == "on") ? 1 : 0;
-    $row["cpu_internet"] = ($_POST["db_cpu_internet"] == "on") ? 1 : 0;
-    $row["cpu_unint_power"] = ($_POST["db_cpu_unint_power"] == "on") ? 1 : 0;
+    $row["cpu_admin"] = post_int("db_cpu_admin", true);
+    $row["cpu_permission"] = post_int("db_cpu_permission", true);
+    $row["cpu_firewall"] = post_int("db_cpu_firewall", true);
+    $row["cpu_proxy"] = post_int("db_cpu_proxy", true);
+    $row["cpu_internet"] = post_int("db_cpu_internet", true);
+    $row["cpu_unint_power"] = post_int("db_cpu_unint_power", true);
     $row["sensor_distribute"] = ($_POST["db_sensor_distribute"] == "on") ? 1 : 0;
     $row["comments"] = mysql_real_escape_string(post_str("db_comments", true));
 
@@ -410,7 +523,43 @@ n] => on [db_cpu_permission] => on [db_cpu_firewall] => on [db_cpu_internet] => 
     $row["loc_business"] = ($_POST["db_loc_business"] == "on") ? 1 : 0;
     $row["loc_affix_perm"] = ($_POST["db_loc_affix_perm"] == "on") ? 1 : 0;
     $row["loc_self_install"] = ($_POST["db_loc_self_install"] == "on") ? 1 : 0;
-    $row["loc_weekend_install"] = ($_POST["db_loc_weekend_install"] == "on") ? 1 : 0;
+    
+    $row["loc_day_install_sunday"] = ($_POST["db_loc_day_install_sunday"] == "on") ? 1 : 0;
+    $row["loc_day_install_monday"] = ($_POST["db_loc_day_install_monday"] == "on") ? 1 : 0;
+    $row["loc_day_install_tuesday"] = ($_POST["db_loc_day_install_tuesday"] == "on") ? 1 : 0;
+    $row["loc_day_install_wednesday"] = ($_POST["db_loc_day_install_wednesday"] == "on") ? 1 : 0;
+    $row["loc_day_install_thursday"] = ($_POST["db_loc_day_install_thursday"] == "on") ? 1 : 0;
+    $row["loc_day_install_friday"] = ($_POST["db_loc_day_install_friday"] == "on") ? 1 : 0;
+    $row["loc_day_install_saturday"] = ($_POST["db_loc_day_install_saturday"] == "on") ? 1 : 0;
+
+    if ($row["loc_day_install_sunday"])
+      $row["loc_time_install_sunday"] = $_POST["db_loc_time_install_sunday"];
+    else
+      $row["loc_time_install_sunday"] = "";
+    if ($row["loc_day_install_monday"])
+      $row["loc_time_install_monday"] = $_POST["db_loc_time_install_monday"];
+    else
+      $row["loc_time_install_monday"] = "";
+    if ($row["loc_day_install_tuesday"])
+      $row["loc_time_install_tuesday"] = $_POST["db_loc_time_install_tuesday"];
+    else
+      $row["loc_time_install_tuesday"] = "";
+    if ($row["loc_day_install_wednesday"])
+      $row["loc_time_install_wednesday"] = $_POST["db_loc_time_install_wednesday"];
+    else
+      $row["loc_time_install_wednesday"] = "";
+    if ($row["loc_day_install_thursday"])
+      $row["loc_time_install_thursday"] = $_POST["db_loc_time_install_thursday"];
+    else
+      $row["loc_time_install_thursday"] = "";
+    if ($row["loc_day_install_friday"])
+      $row["loc_time_install_friday"] = $_POST["db_loc_time_install_friday"];
+    else
+      $row["loc_time_install_friday"] = "";
+    if ($row["loc_day_install_saturday"])
+      $row["loc_time_install_saturday"] = $_POST["db_loc_time_install_saturday"];
+    else
+      $row["loc_time_install_saturday"] = "";
 
     $row["loc_time_hour_install"] = post_int("db_loc_time_hour_install", true);
     if ($row["loc_time_hour_install"] == "") $row["loc_time_hour_install"] = "null";
@@ -470,9 +619,20 @@ n] => on [db_cpu_permission] => on [db_cpu_firewall] => on [db_cpu_internet] => 
             loc_business=" . $row["loc_business"] . ",
             loc_affix_perm=" . $row["loc_affix_perm"] . ",
             loc_self_install=" . $row["loc_self_install"] . ",
-            loc_weekend_install=" . $row["loc_weekend_install"] . ",
-            loc_time_hour_install=" . $row["loc_time_hour_install"] . ",
-            loc_time_minute_install=" . $row["loc_time_minute_install"] . ",
+            loc_day_install_sunday=" . $row["loc_day_install_sunday"] . ",
+            loc_day_install_monday=" . $row["loc_day_install_monday"] . ",
+            loc_day_install_tuesday=" . $row["loc_day_install_tuesday"] . ",
+            loc_day_install_wednesday=" . $row["loc_day_install_wednesday"] . ",
+            loc_day_install_thursday=" . $row["loc_day_install_thursday"] . ",
+            loc_day_install_friday=" . $row["loc_day_install_friday"] . ",
+            loc_day_install_saturday=" . $row["loc_day_install_saturday"] . ",
+            loc_time_install_sunday='" . $row["loc_time_install_sunday"] . "',
+            loc_time_install_monday='" . $row["loc_time_install_monday"] . "',
+            loc_time_install_tuesday='" . $row["loc_time_install_tuesday"] . "',
+            loc_time_install_wednesday='" . $row["loc_time_install_wednesday"] . "',
+            loc_time_install_thursday='" . $row["loc_time_install_thursday"] . "',
+            loc_time_install_friday='" . $row["loc_time_install_friday"] . "',
+            loc_time_install_saturday='" . $row["loc_time_install_saturday"] . "',
             loc_years_host=" . $row["loc_years_host"] . ",
             comments='" . $row["comments"] . "', 
             active=1, time_edit=unix_timestamp() ";

@@ -511,27 +511,28 @@ if ($bUseCSV) {
 // Google Map stuff
 $pm = new PhoogleMap();
 
+$zoom=null;
 if ($zoom) {
    $pm->zoomLevel = $zoom;
 }
 else {
    $pm->zoomLevel = 5;
 }
-
+$mapwidth=null;
 if ($mapwidth) {
    $pm->setWidth($mapwidth);
 }
 else {
    $pm->setWidth(1);
 }
-
+$mapheight=null;
 if ($mapheight) {
    $pm->setHeight($mapheight);
 }
 else {
    $pm->setHeight(1);
 }
-
+$cx=null;
 if ($cx && $cy) {
    $pm->centerMap($cx, $cy);
 }
