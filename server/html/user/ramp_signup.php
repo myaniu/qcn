@@ -24,6 +24,7 @@ if ($row["regional"] != 1) {
 if ($row["regional"] != 1) {
    $row["regional"] = get_int("regional", true);
 }
+if (! $row["regional"]) $row["regional"] = 0;
 
 $tmpRegional = $row["regional"];
 
@@ -635,6 +636,7 @@ n] => on [db_cpu_permission] => on [db_cpu_firewall] => on [db_cpu_internet] => 
             loc_time_install_saturday='" . $row["loc_time_install_saturday"] . "',
             loc_years_host=" . $row["loc_years_host"] . ",
             comments='" . $row["comments"] . "', 
+            regional=" . $row["regional"] . ", 
             active=1, time_edit=unix_timestamp() ";
 
 //echo "<BR><BR>" . $sqlStart . $sqlSet . $sqlEnd . "<BR><BR>";
