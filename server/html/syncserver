@@ -31,6 +31,7 @@ scp carlgt1@qcn-web:/var/www/boinc/sensor/html/project/plate_boundary.inc projec
 scp carlgt1@qcn-web:/var/www/boinc/sensor/html/user/earthquake_email.php user/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/html/user/ramp_signup.php user/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/html/user/rampreg_signup.php user/
+scp carlgt1@qcn-web:/var/www/boinc/sensor/html/user/login_form.php user/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/html/user/ramp_map.php user/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/html/user/account_finish.php user/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/html/user/account_finish_action.php user/

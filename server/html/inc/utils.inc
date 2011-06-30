@@ -136,7 +136,7 @@ echo "       <br>\n";
 echo "       <h1>Recent News</h1>\n";
 echo "       <ul>\n";
 
-require_once_r2("../inc/some_news.inc");
+require_once_r("/var/www/boinc/sensor/html/inc/some_news.inc");
 
 echo "       <br>\n";
 
@@ -192,7 +192,7 @@ echo "       <ul>\n";
 echo "           <li><a href=\"http://qcn.stanford.edu/about/laptop.php\">Laptop Network</a></li>\n";
 echo "           <li><a href=\"http://qcn.stanford.edu/about/desktop.php\">Desktop Network</a></li>\n";
 echo "           <li><a href=\"http://qcn.stanford.edu/RAMP/\"            >Aftershock Program</a></li>\n";
-echo "           <li><a href=\"http://qcn.stanford.edu/about/contact.php\">Contact Us</a></li>\n";
+echo "           <li><a href=\"http://qcn.stanford.edu/about/contacts\">Contact Us</a></li>\n";
 echo "       </ul>\n";
 echo "       <li><a href=\"http://qcn.stanford.edu/learning/join.php\">Join QCN</a>\n";
 echo "       <ul>\n";
@@ -258,7 +258,7 @@ function page_end(){
   echo "  <div id=\"footer\"> \n";
   echo "    <ul>\n";
   echo "      <li><a href=\"http://qcn.stanford.edu/\">QCN Home</a></li>\n";
-  echo "      <li><a href=\"http://qcn.stanford.edu/about/contact.php\">Contact</a></li>\n
+  echo "      <li><a href=\"http://qcn.stanford.edu/about/contacts\">Contact</a></li>\n
             <li><a href=\"http://qcn.stanford.edu/downloads/\">Download Now </a></li> \n
             <li class=\"last\"><a href=\"http://qcn.stanford.edu/about/legal/\">Legal & Privacy</a></li>\n";
   echo "    </ul>\n";
