@@ -830,7 +830,7 @@ int QCN_IntensityMap(const bool& bInsertEvent, struct event& e, const int& ciOff
    if (!fp[OUT_EVENT]) {
       retval = 1;
       log_messages.printf(MSG_CRITICAL,
-         "Error in intensity_map OUT_EVENT file creation\n"
+         "Error in intensity_map OUT_EVENT file creation %s\n", strPath[OUT_EVENT]
       );
       goto close_output_files;
    }
@@ -843,10 +843,10 @@ int QCN_IntensityMap(const bool& bInsertEvent, struct event& e, const int& ciOff
 
 // Create a file with the station information                 
    fp[OUT_STATION] = fopen(strPath[OUT_STATION],"w");                                  // Open station output file
-   if (!fp[OUT_EVENT]) {
+   if (!fp[OUT_STATION]) {
       retval = 1;
       log_messages.printf(MSG_CRITICAL,
-         "Error in intensity_map OUT_EVENT file creation\n"
+         "Error in intensity_map OUT_STATION file creation\n"
       );
       goto close_output_files;
    }
