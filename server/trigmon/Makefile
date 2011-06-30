@@ -1,5 +1,5 @@
-#CFLAGS = -g -O0 -Wall
 CFLAGS = -O2 -Wall
+#CFLAGS = -g -O0 -Wall
 CC = g++
 BOINCDIR = ../../../boinc
 MYSQLDIR = /usr/local/mysql
