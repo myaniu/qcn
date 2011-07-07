@@ -117,6 +117,8 @@ echo "
 </a>
 ";
 
+if ($is_regional == 1) echo "<center><h1>Apply for a free USB sensor if you are in a region of interest:</h1></center>\n";
+
 echo "<ul><p align=\"justify\">You can add yourself to QCN RAMP by submitting the following information,
     or edit a previous submission.
 <BR>Please enter as much of the following information as you can:</p>
