@@ -36,6 +36,7 @@ scp carlgt1@qcn-web:/var/www/boinc/sensor/html/user/ramp_map.php user/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/html/user/account_finish.php user/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/html/user/account_finish_action.php user/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/html/user/create_account.php user/
+scp carlgt1@qcn-web:/var/www/boinc/sensor/html/user/create_account_form.php user/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/html/user/info.php user/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/html/user/edit_host_info_form.php user/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/html/user/edit_host_info_action.php user/
