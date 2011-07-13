@@ -595,7 +595,8 @@ function qcn_logical($log)
 }
 
 function qcn_ramp_header_csv() {
-   return "ID, FirstName, LastName, Email, Address1, Address2, City, Region, "
+  // note microsoft excel has a bug - crashes if first two chars are "ID"!
+   return "id, FirstName, LastName, Email, Address1, Address2, City, Region, "
      . "PostCode, Country, Latitude, Longitude, Phone, Fax, ShareCoord, ShareMap, ShareUPS, "
      . "CPUType, OpSys, CPUAgeYrs, CPUFloor#, AdminRts, Permission, Firewall, Proxy, Internet, UnintPower, DistribSensor, "
      . "Home, Business, AffixPerm, SelfInstall, Sunday, SundayTime, Monday, MondayTime, Tuesday, TuesdayTime, Wednesday, WedsTime, "
@@ -605,6 +606,9 @@ function qcn_ramp_header_csv() {
 
 function qcn_ramp_detail_csv($res)
 {
+  $entry = $res->comments;
+  $entry = str_replace("\r\n\r\n", "</p><p>", $entry);
+  $entry = str_replace("\n", "<br />", $entry);
     return 
        $res->id . "," . 
        "\"$res->fname\"" . "," . 
@@ -653,7 +657,7 @@ function qcn_ramp_detail_csv($res)
   qcn_logical($res->loc_day_install_saturday) . "\",\"" .
   $res->loc_time_install_saturday . "\"," .
   $res->loc_years_host . ", \"" . 
-  nl2br($res->comments) . "\"\n";
+  $entry . "\"\n";
 
 }
 
