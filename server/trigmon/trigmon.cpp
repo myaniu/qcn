@@ -1141,7 +1141,7 @@ void QCN_UpdateQuake(const bool& bInsert, struct event& e, const int& ciOff)
 
    // now go through all the correlated triggers for this event, post file upload requests, set qcn_quakeid
    //   note to do this in the trigmem as well as the qcnalpha/continual database!
-   const char strBaseTrigMem[] = {"UPDATE trigmem.qcn_trigger_memory SET qcn_quakeid=%d, posted=1 WHERE db='%s' AND id=%d"};
+   const char strBaseTrigMem[] = {"UPDATE trigmem.qcn_trigger_memory SET qcn_quakeid=%d, posted=1 WHERE db_name='%s' AND id=%d"};
    const char strBaseTrig[] = {"UPDATE %s.qcn_trigger SET qcn_quakeid=%d, time_filereq=unix_timestamp(), "
          "received_file=IF(ISNULL(received_file), 1, received_file+1) WHERE id=%d"};
    char strSQL[_MAX_PATH];
@@ -1333,8 +1333,8 @@ bool sendTriggerFileRequest(const char* strFile, const char* strResult, const in
    const char strFileReq[] = { "insert into msg_to_host " 
                "(create_time,hostid,variety,handled,xml) " 
                "values (unix_timestamp(), %d, 'filelist', 0, "
-               "concat('<trickle_down>\n<result_name>', %s, '</result_name>\n<filelist>\n" 
-               "%s</filelist>\n</trickle_down>\n') )" }; 
+               "concat('<trickle_down>\n<result_name>', '%s', '</result_name>\n<filelist>\n', " 
+               "'%s', '</filelist>\n</trickle_down>\n') )" }; 
    char strSQL[_MAX_PATH];
    sprintf(strSQL, strFileReq, hostid, strResult, strFile);
    log_messages.printf(MSG_DEBUG,
