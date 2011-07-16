@@ -12,6 +12,7 @@ scp carlgt1@qcn-web:/usr/local/apache2/conf/drupal.conf ../config/
 scp carlgt1@qcn-web:/etc/init.d/httpd ../config/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/html/inc/cache.inc inc/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/html/inc/sqlquerystring.inc inc/
+scp carlgt1@qcn-web:/var/www/boinc/sensor/html/inc/earthquake_email.inc inc/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/html/inc/db_ops.inc inc/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/html/inc/forum.inc inc/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/html/inc/host.inc inc/
