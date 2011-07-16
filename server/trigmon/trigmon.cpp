@@ -1141,7 +1141,7 @@ void QCN_UpdateQuake(const bool& bInsert, struct event& e, const int& ciOff)
 
    // now go through all the correlated triggers for this event, post file upload requests, set qcn_quakeid
    //   note to do this in the trigmem as well as the qcnalpha/continual database!
-   const char strBaseTrigMem[] = {"UPDATE trigmem.qcn_trigger_memory SET qcn_quakeid=%d, posted=1 WHERE db_name='%s' AND id=%d"};
+   const char strBaseTrigMem[] = {"UPDATE trigmem.qcn_trigger_memory SET qcn_quakeid=%d, posted=1 WHERE db_name='%s' AND triggerid=%d"};
    const char strBaseTrig[] = {"UPDATE %s.qcn_trigger SET qcn_quakeid=%d, time_filereq=unix_timestamp(), "
          "received_file=IF(ISNULL(received_file), 1, received_file+1) WHERE id=%d"};
    char strSQL[_MAX_PATH];
