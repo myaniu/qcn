@@ -1,11 +1,11 @@
 <?php
+
 require_once("../inc/util.inc");
 require_once("../inc/db.inc");
 require_once("../inc/db_ops.inc");
 require_once('../inc/translation.inc');
 require_once('../inc/phoogle.inc');
 require_once('../project/project_specific_prefs.inc');
-
 db_init();
 
 set_time_limit(600);
@@ -14,7 +14,27 @@ $user = get_logged_in_user(true);
 // authenticate admin-level user
 qcn_admin_user_auth($user, true);
 
-$query = "select id, fname, lname, email_addr, addr1, addr2, city, region, postcode, country, latitude, longitude, phone, fax, bshare_coord, bshare_map, bshare_ups, cpu_type, cpu_os, cpu_age, cpu_floor, cpu_admin, cpu_permission, cpu_firewall, cpu_proxy, cpu_internet, cpu_unint_power, sensor_distribute, comments from qcn_ramp_participant WHERE active=1";
+$query = "select id, fname, lname, email_addr, addr1, addr2, city, region, postcode, country, latitude, longitude, phone, fax, bshare_coord, bshare_map, bshare_ups, cpu_type, cpu_os, cpu_age, cpu_floor, cpu_admin, cpu_permission, cpu_firewall, cpu_proxy, cpu_internet, cpu_unint_power, sensor_distribute, comments,
+ loc_home,
+ loc_business,
+ loc_affix_perm,
+ loc_self_install,
+ loc_day_install_sunday,
+ loc_time_install_sunday,
+ loc_day_install_monday,
+ loc_time_install_monday,
+ loc_day_install_tuesday,
+ loc_time_install_tuesday,
+ loc_day_install_wednesday,
+ loc_time_install_wednesday,
+ loc_day_install_thursday,
+ loc_time_install_thursday,
+ loc_day_install_friday,
+ loc_time_install_friday,
+ loc_day_install_saturday,
+ loc_time_install_saturday,
+ loc_years_host
+from qcn_ramp_participant WHERE active=1";
 $order = "order by country, lname, fname";
 
 $detail = null;
@@ -28,6 +48,7 @@ $nresults = get_int("nresults", true);
 $last_pos = get_int("last_pos", true);
 
 $bUseCSV = get_int("cbUseCSV", true);
+$bUseRegional = get_int("cbUseRegional", true);
 /*$bUseArchive = get_int("cbUseArchive", true);
 $bUseFile  = get_int("cbUseFile", true);
 $bUseQuake = get_int("cbUseQuake", true);
@@ -242,7 +263,7 @@ echo "<select name=\"rb_sort\" id=\"rb_sort\">
 
 // end the form
 
-echo "<form name=\"formFilter\" method=\"get\" action=\"ramp_map.php\" >";
+echo "<form name=\"formFilter\" method=\"get\" action=\"ramp.php\" >";
 
 if (!$strCountry || $strCountry == "None") $strCountry = "International";
 echo "Filter by Country:
@@ -251,12 +272,16 @@ echo "Filter by Country:
 echo "
      </select></td></tr>
 <BR><BR>
+<input type=\"checkbox\" id=\"cbUseRegional\" name=\"cbUseRegional\" value=\"1\" " . ($bUseRegional? "checked" : "") . "> Show only Regional RAMP Signups?
+<BR><BR>
 <input type=\"checkbox\" id=\"cbUseCSV\" name=\"cbUseCSV\" value=\"1\" " . ($bUseCSV? "checked" : "") . "> Create Text/CSV File of Triggers?
 <BR><BR>
    <input type=\"submit\" value=\"Submit Constraints\" />
    </form> <H7>";
 
 if ($strCountry != "International" && $strCountry != "None") $query .= " AND country='$strCountry' ";
+
+if ($bUseRegional) $query .= " AND regional=1";
 
 //print "<BR><BR>$query<BR><BR>";
 
@@ -385,16 +410,17 @@ else {
                 $main_query = $query;
         }
 
-//$count = 1e6;
+$count = 0;
+$last = 0;
 
 if (!$bUseCSV) {
-$count = query_count($query);
+  $count = query_count($query);
 
-if ($count < $start_at + $entries_to_show) {
-    $entries_to_show = $count - $start_at;
-}
+  if ($count < $start_at + $entries_to_show) {
+      $entries_to_show = $count - $start_at;
+  }
 
-$last = $start_at + $entries_to_show;
+  $last = $start_at + $entries_to_show;
 }
 
 // For display, convert query string characters < and > into 'html form' so
@@ -435,7 +461,7 @@ echo "
 ";
 }
 
-$url = $q->get_url("ramp_ramp.php");
+$url = $q->get_url("ramp_map.php");
 if ($detail) {
     $url .= "&detail=$detail";
 }
@@ -495,18 +521,20 @@ if ($start_at || $last < $count) {
 
 echo "<p>\n";
 
+$ftmp = 0;
 
 if ($bUseCSV) {   
    // tmp file name tied to user ID & server time
    $fileTemp = sprintf("data/%ld_u%d.csv", time(), $user->id);
    $ftmp = fopen($fileTemp, "w");
    if ($ftmp) {
-//      fwrite($ftmp, qcn_ramp_header_csv());
+      fwrite($ftmp, qcn_ramp_header_csv());
    }
    else {
       $fileTemp = ""; // to check for status later on down
    }
 }
+
 
 // Google Map stuff
 $pm = new PhoogleMap();
@@ -559,10 +587,10 @@ if ($result) {
     icon_setup();
     echo "\n    var locations = [\n";
     while ($res = mysql_fetch_object($result)) {
-        if ($bUseCSV && $ftmp) {
-           fwrite($ftmp, qcn_ramp_detail_csv($res));
-        }
-        else { 
+//        if ($bUseCSV && $ftmp) {
+//           fwrite($ftmp, qcn_ramp_detail_csv($res));
+//        }
+//        else { 
         $descript = "DING";
 //Name: $res->fname $res->lname \nEmail: $res->email_addr \nAddress: $res->addr1.\nAddress: $res->addr2 \nCity: $res->city \nRegion: $res->region\nPhone: $res->phone\n"; 
         $is_quake = "0";
@@ -581,7 +609,7 @@ if ($result) {
            rywg_icon($res);
            echo " ],\n";
         }
-         }
+//         }
     }
     mysql_free_result($result);
 
@@ -683,6 +711,29 @@ downloaded (i.e. 123431_u15.csv), then select 'Delimited' and then ',' (comma) o
    ";
 }
 else {
+ echo "<BR><BR>
+  <input type=\"submit\" value=\"Delete Checked?\" disabled />
+  </form>";
+
+  if ($start_at || $last < $count) {
+    echo "<table border=\"1\"><tr><td width=\"100\">";
+    if ($start_at) {
+        $prev_pos = $start_at - $page_entries_to_show;
+        if ($prev_pos < 0) {
+            $prev_pos = 0;
+        }
+        echo "
+            <a href=\"$url&last_pos=$prev_pos" . $queryString . "\">Previous $page_entries_to_show</a><br>
+        ";
+    }
+    echo "</td><td width=100>";
+    if ($last < $count) {
+        echo "
+            <a href=\"$url&last_pos=$last" . $queryString . "\">Next $page_entries_to_show</a><br>
+        ";
+    }
+    echo "</td></tr></table>";
+  }
 }
     if ($bUseCSV && $ftmp) {
       fclose($ftmp);
@@ -691,16 +742,26 @@ else {
 
 page_tail();
 
+function qcn_logical($log)
+{
+  return ($log == 0 ? "N" : ($log == 1 ? "Y" : "M"));
+}
 
 function qcn_ramp_header_csv() {
-   return "ID, FirstName, LastName, Email, Address1, Address2, City, Region, "
+  // note microsoft excel has a bug - crashes if first two chars are "ID"!
+   return "id, FirstName, LastName, Email, Address1, Address2, City, Region, "
      . "PostCode, Country, Latitude, Longitude, Phone, Fax, ShareCoord, ShareMap, ShareUPS, "
-     . "CPUType, OpSys, CPUAgeYrs, CPUFloor#, AdminRts, Permission, Firewall, Proxy, Internet, UnintPower, DistribSensor"
+     . "CPUType, OpSys, CPUAgeYrs, CPUFloor#, AdminRts, Permission, Firewall, Proxy, Internet, UnintPower, DistribSensor, "
+     . "Home, Business, AffixPerm, SelfInstall, Sunday, SundayTime, Monday, MondayTime, Tuesday, TuesdayTime, Wednesday, WedsTime, "
+     . "Thursday, ThursdayTime, Friday, FridayTime, Saturday, SatTime, YearsHost, Comments"
      . "\n";
 }
 
 function qcn_ramp_detail_csv($res)
 {
+  $entry = $res->comments;
+  $entry = str_replace("\r\n\r\n", "</p><p>", $entry);
+  $entry = str_replace("\n", "<br />", $entry);
     return 
        $res->id . "," . 
        "\"$res->fname\"" . "," . 
@@ -715,24 +776,42 @@ function qcn_ramp_detail_csv($res)
        "$res->latitude" . "," .
        "$res->longitude" . "," .
        "\"$res->phone\"" . "," .
-       "\"$res->fax\"" . "," .
-       ($res->bshare_coord ? "\"Y\"" : "\"N\"") . "," .
-       ($res->bshare_map ? "\"Y\"" : "\"N\"") . "," .
-       ($res->bshare_ups ? "\"Y\"" : "\"N\"") . "," .
+       "\"$res->fax\"" . ",\"" .
+       qcn_logical($res->bshare_coord) . "\",\"" .
+       qcn_logical($res->bshare_map) . "\",\"" .
+       qcn_logical($res->bshare_ups) . "\"," .
        "\"$res->cpu_type\"" . "," .
        "\"$res->cpu_os\"" . "," .
        "$res->cpu_age" . "," .
-       "$res->cpu_floor" . "," .
-       ($res->cpu_admin ? "\"Y\"" : "\"N\"") . "," .
-       ($res->cpu_permission ? "\"Y\"" : "\"N\"") . "," .
-       ($res->cpu_firewall ? "\"Y\"" : "\"N\"") . "," .
-       ($res->cpu_proxy ? "\"Y\"" : "\"N\"") . "," .
-       ($res->cpu_internet ? "\"Y\"" : "\"N\"") . "," .
-       ($res->cpu_unint_power ? "\"Y\"" : "\"N\"") . "," .
-       ($res->sensor_distribute ? "\"Y\"" : "\"N\"") . "," .
-        "\n";
+       "$res->cpu_floor" . ",\"" .
+       qcn_logical($res->cpu_admin) . "\",\"" .
+       qcn_logical($res->cpu_permission) . "\",\"" .
+       qcn_logical($res->cpu_firewall) . "\",\"" .
+       qcn_logical($res->cpu_proxy) . "\",\"" .
+       qcn_logical($res->cpu_internet) . "\",\"" .
+       qcn_logical($res->cpu_unint_power) . "\",\"" .
+       qcn_logical($res->sensor_distribute) . "\",\"" .
+  qcn_logical($res->loc_home) . "\",\"" .
+  qcn_logical($res->loc_business) . "\",\"" .
+  qcn_logical($res->loc_affix_perm) . "\",\"" .
+  qcn_logical($res->loc_self_install) . "\",\"" .
+  qcn_logical($res->loc_day_install_sunday) . "\",\"" .
+  $res->loc_time_install_sunday . "\",\"" .
+  qcn_logical($res->loc_day_install_monday) . "\",\"" .
+  $res->loc_time_install_monday . "\",\"" .
+  qcn_logical($res->loc_day_install_tuesday) . "\",\"" .
+  $res->loc_time_install_tuesday . "\",\"" .
+  qcn_logical($res->loc_day_install_wednesday) . "\",\"" .
+  $res->loc_time_install_wednesday . "\",\"" .
+  qcn_logical($res->loc_day_install_thursday) . "\",\"" .
+  $res->loc_time_install_thursday . "\",\"" .
+  qcn_logical($res->loc_day_install_friday) . "\",\"" .
+  $res->loc_time_install_friday . "\",\"" .
+  qcn_logical($res->loc_day_install_saturday) . "\",\"" .
+  $res->loc_time_install_saturday . "\"," .
+  $res->loc_years_host . ", \"" . 
+  $entry . "\"\n";
 
-       //"\"$res->comments\"" . 
 }
 
 function qcn_ramp_header() {
@@ -766,6 +845,25 @@ function qcn_ramp_header() {
        <th>Internet</th>
        <th>UnintPower</th>
        <th>DistribSensor</th>
+       <th>Home</th>
+       <th>Business</th>
+       <th>AffixPerm</th>
+       <th>SelfInstall</th>
+       <th>Sunday</th>
+       <th>SundayTime</th>
+       <th>Monday</th>
+       <th>MondayTime</th>
+       <th>Tuesday</th>
+       <th>TuesdayTime</th>
+       <th>Wednesday</th>
+       <th>WedsTime</th>
+       <th>Thursday</th>
+       <th>ThursdayTime</th>
+       <th>Friday</th>
+       <th>FridayTime</th>
+       <th>Saturday</th>
+       <th>SatTime</th>
+       <th>YearsHost</th>
        <th>Comments</th>
        </tr>
      ";
@@ -805,8 +903,27 @@ function qcn_ramp_detail($res)
        <td>$res->cpu_proxy</td>
        <td>$res->cpu_internet</td>
        <td>$res->cpu_unint_power</td>
-       <td>$res->sensor_distribute</td>
-       <td>$res->comments</td>
+       <td>$res->sensor_distribute</td><td>" .
+  qcn_logical($res->loc_home) . "</td><td>" .
+  qcn_logical($res->loc_business) . "</td><td>" .
+  qcn_logical($res->loc_affix_perm) . "</td><td>" .
+  qcn_logical($res->loc_self_install) . "</td><td>" .
+  qcn_logical($res->loc_day_install_sunday) . "</td><td>" .
+  $res->loc_time_install_sunday . "</td><td>" .
+  qcn_logical($res->loc_day_install_monday) . "</td><td>" .
+  $res->loc_time_install_monday . "</td><td>" .
+  qcn_logical($res->loc_day_install_tuesday) . "</td><td>" .
+  $res->loc_time_install_tuesday . "</td><td>" .
+  qcn_logical($res->loc_day_install_wednesday) . "</td><td>" .
+  $res->loc_time_install_wednesday . "</td><td>" .
+  qcn_logical($res->loc_day_install_thursday) . "</td><td>" .
+  $res->loc_time_install_thursday . "</td><td>" .
+  qcn_logical($res->loc_day_install_friday) . "</td><td>" .
+  $res->loc_time_install_friday . "</td><td>" .
+  qcn_logical($res->loc_day_install_saturday) . "</td><td>" .
+  $res->loc_time_install_saturday . "</td><td>" .
+  $res->loc_years_host . "</td><td width=\"15%\">" .
+     nl2br($res->comments) . "</td>
        </tr>
     ";
 }
@@ -824,7 +941,6 @@ function time_str_csv($x) {
     if (!$x) return "";
     return gmdate('Y/m/d H:i:s', $x); // . " UTC";
 }
-
 
 
 function yn10($num10) {
@@ -892,11 +1008,13 @@ function qcn_ramp_map_key(){
 }
 
 function rywg_icon($res){
-       if ($res->bshare_coord==0){
+       echo "\"red\"";
+return;
+       if ($res->bshare_coord){
         echo "\"red\"";
         return;
        }
-       if ($res->bshare_map==0){
+       if ($res->bshare_map){
         echo "\"red\"";
         return;
        }
@@ -904,15 +1022,15 @@ function rywg_icon($res){
         echo "\"black\"";
         return;
        }
-       if ($res->cpu_internet==0){
+       if ($res->cpu_internet){
         echo "\"purple\"";
         return;
        }
-       if ($res->cpu_proxy==1){
+       if ($res->cpu_proxy){
         echo "\"orange\"";
         return;
        }
-       if ($res->cpu_firewall==1){
+       if ($res->cpu_firewall){
         echo "\"gray\"";
         return;
        }
@@ -920,15 +1038,15 @@ function rywg_icon($res){
         echo "\"yellow\"";
         return;
        }
-       if ($res->cpu_admin==0){
+       if ($res->cpu_admin){
         echo "\"white\"";
         return;
        }
-       if ($res->cpu_permission==0){
+       if ($res->cpu_permission){
         echo "\"blue\"";
         return;
        }
-       if ($res->cpu_unint_power==0){
+       if ($res->cpu_unint_power){
         echo "\"green\"";
         return;
        }
@@ -966,7 +1084,3 @@ function qcn_ramp_check_boxes() {
 
 
 ?>
-
-
-
-

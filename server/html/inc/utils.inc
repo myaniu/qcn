@@ -121,7 +121,7 @@ echo "         <li><a href=\"http://qcn.stanford.edu/downloads/index.php#Network
 echo " 	<li><dd><a href=\"http://boinc.berkeley.edu/download.php\">(BOINC)</a></p></li></dd>\n";
 echo "         <li><a href=\"http://qcn.stanford.edu/downloads/index.php#Interactive\">QCN Interactive Software</a></li>\n";
 echo " 	<li><dd><a href=\"http://qcn.stanford.edu/downloads/index.php#Interactive\">(QCNLive)</a></li></dd>\n";
-echo "         <li><a href=\"http://qcn.stanford.edu/downloads/index.php#USB_Drivers\">USB Sensor Drivers</a></li>\n";
+echo "         <li><a href=\"http://qcn.stanford.edu/downloads/index.php#usbdrivers\">USB Sensor Drivers</a></li>\n";
 echo "         <li><a href=\"http://qcn.stanford.edu/manuals/index.php\">Manuals/Instructions</a></li>\n";
 echo "       </ul><br>\n";
 

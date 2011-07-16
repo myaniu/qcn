@@ -73,7 +73,7 @@ $message = "<h1><strong>QCN Rapid Earthquake Detection: M$mag</strong></h1></p>
 
        $subject = "QCN Local Quake: M$mag - ".date('M d Y H:i:s',$etime);// Set email subject:
        if ($test) { $subject = "TEST ONLY:".$subject;}                     // Note this is only a test
-       send_email_with_address("$email","$name","$subject","","$message"); // Send the email:
+       send_email_with_address($email,$name,$subject,"",$message); // Send the email:
 
     } else {
 
@@ -81,7 +81,7 @@ $message = "<h1><strong>QCN Rapid Earthquake Detection: M$mag</strong></h1></p>
 
          $subject = "QCN Global Quake: M$mag - ".date('M d Y H:i:s',$etime);// Set email subject:
          if ($test) { $subject = "TEST ONLY:".$subject;}                     // Note this is only a test
-         send_email_with_address("$email","$name","$subject","","$message"); // Send the email:
+         send_email_with_address($email,$name,$subject,"",$message); // Send the email:
 
       }
     }
