@@ -1177,7 +1177,7 @@ void QCN_UpdateQuake(const bool& bInsert, struct event& e, const int& ciOff)
         }
 
         // do the upload file request here
-        sendTriggerFileRequest(vt[n].file, vt[n].result_name, vt[n].hostid);
+        sendTriggerFileRequest(vt[n].file, vt[n].result_name, vt[n].hostid, vt[n].db);
      } // end for loop over vt[n]
 
 }
@@ -1318,7 +1318,7 @@ int main(int argc, char** argv)
     return 0;
 }
 
-bool sendTriggerFileRequest(const char* strFile, const char* strResult, const int& hostid)
+bool sendTriggerFileRequest(const char* strFile, const char* strResult, const int& hostid, const char* strDB)
 {  
 /* // use this to get the latest result name sent out for given hostid
    const char strFileReq[] = "insert into msg_to_host " 
@@ -1330,13 +1330,13 @@ bool sendTriggerFileRequest(const char* strFile, const char* strResult, const in
                "  and r.sent_time=(select max(rr.sent_time) from result rr where rr.hostid=r.hostid) "};
 */
    // since these are live triggers the following should be fine as it's the latest result hostid working on
-   const char strFileReq[] = { "insert into msg_to_host " 
+   const char strFileReq[] = { "insert into %s.msg_to_host " 
                "(create_time,hostid,variety,handled,xml) " 
                "values (unix_timestamp(), %d, 'filelist', 0, "
                "concat('<trickle_down>\n<result_name>', '%s', '</result_name>\n<filelist>\n', " 
                "'%s', '</filelist>\n</trickle_down>\n') )" }; 
    char strSQL[_MAX_PATH];
-   sprintf(strSQL, strFileReq, hostid, strResult, strFile);
+   sprintf(strSQL, strFileReq, strDB, hostid, strResult, strFile);
    log_messages.printf(MSG_DEBUG,
       "sendTriggerFileRequest host %d %s %s\n", hostid, strFile, strResult
    );
