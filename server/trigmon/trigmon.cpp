@@ -629,6 +629,9 @@ bool QCN_EventLocate(const bool& bEventFound, struct event& e, const int& ciOff)
    dt_ave /= ( (float) vt[ciOff].c_cnt + 1.);                  // Normalize the data-model variance
    if (dt_ave > 2.) {                                     // If the average travel time misfit is greater than 2 seconds, reject the event detection
     e.e_r2 = -1.;                                      // Set correlation to < 0 for rejection
+    log_messages.printf(MSG_DEBUG,
+       "Event rejected - average travel time misfit greater than 2 seconds \n"
+    );
     return false;                                               // Return with bad correlation
    }
 
