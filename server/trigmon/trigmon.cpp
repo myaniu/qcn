@@ -1179,8 +1179,10 @@ void QCN_UpdateQuake(const bool& bInsert, struct event& e, const int& ciOff)
            );
         }
 
-        // do the upload file request here
-        sendTriggerFileRequest(vt[n].file, vt[n].result_name, vt[n].hostid, vt[n].db);
+        // do the upload file request here (if wasn't already posted)
+        if (! vt[n].posted) { // only need to update if wasn't already posted
+           sendTriggerFileRequest(vt[n].file, vt[n].result_name, vt[n].hostid, vt[n].db);
+        }
      } // end for loop over vt[n]
 
 }
