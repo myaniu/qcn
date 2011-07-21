@@ -72,7 +72,7 @@ int QCN_GetTriggers()
    const int iTestTime = 120;  // number of seconds to flush out quake events so our vector doesn't get too big
 
    // flush out old events every few minutes
-   if ( iCounter++ == (int) ( (float) iTestTime / g_dSleepInterval ) {
+   if ( iCounter++ == (int) ( (float) iTestTime / g_dSleepInterval ) ) {
      iCounter = 0;
      if (ve.size() > 0 ) {
        // flush out old events
