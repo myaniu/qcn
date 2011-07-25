@@ -517,14 +517,12 @@
 		43619EDC129B356000F1BA29 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					i386,
-					ppc,
-				);
+				ARCHS = "$(ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1 = "ppc i386";
 				BUILD_ROOT = /Users/carlgt1/projects/qcn/client/qcnlive_qt;
-				CC = "/usr/bin/gcc-4.0";
+				CC = "/Developer/usr/bin/gcc-4.0";
 				COPY_PHASE_STRIP = NO;
-				CPLUSPLUS = "/usr/bin/g++-4.0";
+				CPLUSPLUS = "/Developer/usr/bin/g++-4.0";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DYLIB_COMPATIBILITY_VERSION = 1.0;
 				DYLIB_CURRENT_VERSION = 1.0.0;
