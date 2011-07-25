@@ -10,8 +10,8 @@ export LIBTOOLIZE=/usr/local/bin/libtoolize
 
 #PowerPC (old) Macs on OS X 10.4 (Tiger)
 export MARCH=ppc
-export CXX=g++-4.0
-export CC=gcc-4.0
+export CXX=/Developer/usr/bin/g++-4.0
+export CC=/Developer/usr/bin/gcc-4.0
 export MACOSX_DEPLOYMENT_TARGET=10.4
 export SDKROOT="/Developer/SDKs/MacOSX10.4u.sdk"
 export LDFLAGS="-isysroot $SDKROOT -Wl,-syslibroot,$SDKROOT -arch $MARCH"
