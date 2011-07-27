@@ -12,7 +12,7 @@ else
    cd qcn
 fi
 if ( test "`uname -s`" = "Darwin" ) then
-  export PATH=$PATH:/Developer/usr/bin
+  # CMC note on Mac OS X Lion + you may need to edit /etc/paths and add /Developer/usr/bin to get gcc etc
   cp configure.ac.mac configure.ac
   cp config.h.mac config.h
   ./set-version $1
