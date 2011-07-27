@@ -190,7 +190,7 @@
 #define HAVE_SOCKLEN_T 1
 
 /* Define to 1 if you have the `stat64' function. */
-#define HAVE_STAT64 1
+/* #undef HAVE_STAT64 */
 
 /* Define to 1 if you have the <stdint.h> header file. */
 #define HAVE_STDINT_H 1
@@ -273,7 +273,7 @@
 /* #undef HAVE_SYS_STATFS_H */
 
 /* Define to 1 if you have the <sys/statvfs.h> header file. */
-//#define HAVE_SYS_STATVFS_H 1
+#define HAVE_SYS_STATVFS_H 1
 
 /* Define to 1 if you have the <sys/stat.h> header file. */
 #define HAVE_SYS_STAT_H 1
@@ -342,7 +342,7 @@
 
 /* Platform identification used to identify applications for this BOINC core
    client */
-#define HOSTTYPE "i686-apple-darwin"
+#define HOSTTYPE "i686-apple-darwin1"
 
 /* Alternate identification used to identify applications for this BOINC core
    client */
@@ -364,13 +364,13 @@
 #define PACKAGE_NAME "QCN"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "QCN 4.86"
+#define PACKAGE_STRING "QCN 6.61"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "qcn"
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "4.86"
+#define PACKAGE_VERSION "6.61"
 
 /* Define to the necessary symbol if this constant uses a non-standard name on
    your system. */
@@ -395,7 +395,7 @@
 /* #undef UTMP_LOCATION */
 
 /* Version number of package */
-#define VERSION "4.86"
+#define VERSION "6.61"
 
 /* Define to prevent redefinition of INT32 in jconfig.h */
 /* #undef XMD_H */
