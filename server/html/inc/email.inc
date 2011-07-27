@@ -34,15 +34,6 @@ if (isset($USE_PHPMAILER)) {
     $USE_PHPMAILER = false;
 }
 
-
-// CMC here - Jesse uses a different style function call:
-//            send_email_with_address($email,$name,$subject,"",$message); // Send the email:
-function send_email_with_address($user_addr, $user_name, $subject, $dummy, $message))
-{
-    send_email($user_name . " <" . $user_addr . ">", $subject, $message);
-}
-// end CMC
-
 // send an email, using PHPMailer or not.
 //
 function send_email($user, $subject, $body, $body_html=null) {

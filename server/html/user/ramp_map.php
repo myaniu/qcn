@@ -1,11 +1,8 @@
 <?php
-
 require_once("../inc/util.inc");
 require_once("../inc/db.inc");
 require_once("../inc/db_ops.inc");
-require_once('../inc/translation.inc');
-require_once('../inc/phoogle.inc');
-require_once('../project/project_specific_prefs.inc');
+
 db_init();
 
 set_time_limit(600);
@@ -461,7 +458,7 @@ echo "
 ";
 }
 
-$url = $q->get_url("ramp_map.php");
+$url = $q->get_url("ramp.php");
 if ($detail) {
     $url .= "&detail=$detail";
 }
@@ -535,171 +532,21 @@ if ($bUseCSV) {
    }
 }
 
-
-// Google Map stuff
-$pm = new PhoogleMap();
-
-$zoom=null;
-if ($zoom) {
-   $pm->zoomLevel = $zoom;
-}
-else {
-   $pm->zoomLevel = 5;
-}
-$mapwidth=null;
-if ($mapwidth) {
-   $pm->setWidth($mapwidth);
-}
-else {
-   $pm->setWidth(1);
-}
-$mapheight=null;
-if ($mapheight) {
-   $pm->setHeight($mapheight);
-}
-else {
-   $pm->setHeight(1);
-}
-$cx=null;
-if ($cx && $cy) {
-   $pm->centerMap($cx, $cy);
-}
-else {  // default to northern California
-   $pm->centerMap(38, -115);
-}
-
-
-
-
-echo "<script src=\"http://maps.google.com/maps/api/js?sensor=false\" type=\"text/javascript\"></script>\n";
-
-echo "  <div id=\"map_container\" style=\"width: 727px; height: 651px; margin: 0 auto 0 auto;\">";
-echo "  <div id=\"map\" style=\"width: 500px; height: 650px; float: left;\"></div>\n";
-    qcn_ramp_map_key();
-    qcn_ramp_check_boxes();
 $result = mysql_query($main_query);
 if ($result) {
-    echo "<form name=\"formDelete\" method=\"get\" action=\"ramp_map.php\" >";
-//    start_table();
-//    if (!$bUseCSV && !$ftmp) qcn_ramp_header();
-
-    echo "  <script type=\"text/javascript\">\n";
-    icon_setup();
-    echo "\n    var locations = [\n";
+    echo "<form name=\"formDelete\" method=\"get\" action=\"ramp.php\" >";
+    start_table();
+    if (!$bUseCSV && !$ftmp) qcn_ramp_header();
     while ($res = mysql_fetch_object($result)) {
-//        if ($bUseCSV && $ftmp) {
-//           fwrite($ftmp, qcn_ramp_detail_csv($res));
-//        }
-//        else { 
-        $descript = "DING";
-//Name: $res->fname $res->lname \nEmail: $res->email_addr \nAddress: $res->addr1.\nAddress: $res->addr2 \nCity: $res->city \nRegion: $res->region\nPhone: $res->phone\n"; 
-        $is_quake = "0";
-        $is_usb   = "1";
-//           qcn_ramp_detail($res);
-
-        $comment = "<b>Name:</b> $res->fname $res->lname <br><b>Email:</b> $res->email_addr <br><b>Address:</b><ul> $res->addr1 <br>$res->addr2 <br>$res->city, $res->region, $res->postcode<br>$res->country</ul><b>Lat:</b> ".number_format($res->latitude,2).", <b>Lon:</b> ".number_format($res->longitude,2)."<br><b>Phone:</b> $res->phone<br><b>Fax:</b> $res->fax<br><b>Share:</b> $res->bshare_coord<br><b>Share Map:</b> ".yn10($res->bshare_map)." <br><b>CPU Type:</b> ".yn10($res->cpu_type)." <br><b>Operating System:</b> $res->cpu_os <br><b>CPU Usage:</b> ".yn10($res->cpu_age)." <br><b>Floor:</b> $res->cpu_floor <br><b>CPU Admin:</b> ".yn10($res->cpu_admin)." <br><b>Permissions:</b> ".yn10($res->cpu_permission)." <br><b>Firewall</b>: ".yn10($res->cpu_firewall)." <br><b>Proxy:</b> ".yn10($res->cpu_proxy)." <br><b>Internet:</b> ".yn10($res->cpu_internet)." <br><b>Power:</b> ".yn10($res->cpu_unint_power)." <br><b>Distribute:</b> ".yn10($res->sensor_distribute);";// <br>Comments: $res->comments";
-        $comment=str_replace("'","",$comment);
-        $comment=str_replace("!","",$comment);
-        $comment=str_replace("?","",$comment);
-        $comment=str_replace("+","",$comment);
-//        $comment=str_replace("(","",$comment);
-//        $comment=str_replace(")","",$comment);
-        if ($res->bshare_coord=1) {
-           echo "   ['$comment', $res->latitude, $res->longitude, $res->cpu_internet, ";
-           rywg_icon($res);
-           echo " ],\n";
+        if ($bUseCSV && $ftmp) {
+           fwrite($ftmp, qcn_ramp_detail_csv($res));
         }
-//         }
+        else { 
+           qcn_ramp_detail($res);
+        }
     }
+    end_table();
     mysql_free_result($result);
-
-    echo "];\n";
-    echo "
-    myCenter = new google.maps.LatLng(35,-110.);
-    var myOptions = {
-      zoom: 2,
-      center: myCenter,
-      mapTypeId: google.maps.MapTypeId.ROADMAP
-    }\n";
-    echo " var map = new google.maps.Map(document.getElementById('map'), myOptions);\n
-
-    var infowindow = new google.maps.InfoWindow();";
-
-    $region1  = $_REQUEST["region"];
-    if ($region1 == null) {$region1 = "all";};
-
-
-    if ( ($region1 == "PNWall")||($region1 == "ORMetro")||($region1 == "all") ) {
-      echo "var ctaLayerOR = new google.maps.KmlLayer('http://qcn.stanford.edu/RAMP/KML/OR_Metro_RAMP.kml');\n
-      ctaLayerOR.setMap(map);\n";
-    }
-    if ( ($region1 == "PNWall")||($region1 == "WAMetro")||($region1 == "all") ) {
-      echo "var ctaLayerWA = new google.maps.KmlLayer('http://qcn.stanford.edu/RAMP/KML/WA_Metro_RAMP.kml');\n
-      ctaLayerWA.setMap(map);\n";
-    }
-    if ( ($region1 == "PNWall")||($region1 == "PNWCoast")||($region1 == "all") ) {
-      echo "var ctaLayerP = new google.maps.KmlLayer('http://qcn.stanford.edu/RAMP/KML/PNW_Coast_RAMP.kml');\n
-      ctaLayerP.setMap(map);\n";
-    }
-    if ( ($region1 == "Anchorage")||($region1 == "all") ) {
-      echo "var ctaLayerA = new google.maps.KmlLayer('http://qcn.stanford.edu/RAMP/KML/Anchorage_RAMP.kml');\n
-      ctaLayerA.setMap(map);\n";
-    }
-    if ( ($region1 == "Wasatch")||($region1 == "all") ) {
-      echo "var ctaLayerW = new google.maps.KmlLayer('http://qcn.stanford.edu/RAMP/KML/Wasatch_RAMP.kml');\n
-      ctaLayerW.setMap(map);\n";
-    }
-    if ( ($region1 == "NAF")||($region1 == "all") ) {
-      echo "var ctaLayerI = new google.maps.KmlLayer('http://qcn.stanford.edu/RAMP/KML/Istanbul_RAMP.kml');\n
-      ctaLayerI.setMap(map);\n";
-    }
-    if ( ($region1 == "NM")||($region1 == "all") ) {
-      echo "var ctaLayerNM = new google.maps.KmlLayer('http://qcn.stanford.edu/RAMP/KML/NM_RAMP.kml');\n
-      ctaLayerNM.setMap(map);\n";
-    }
-    if ( ($region1 == "CAall")||($region1 == "Hayward")||($region1 == "all") ) {
-      echo "var ctaLayerH = new google.maps.KmlLayer('http://qcn.stanford.edu/RAMP/KML/Hayward_RAMP.kml');\n
-      ctaLayerH.setMap(map);\n";
-    }
-    if ( ($region1 == "CAall")||($region1 == "SAFN")||($region1 == "all") ) {
-      echo "var ctaLayerSN = new google.maps.KmlLayer('http://qcn.stanford.edu/RAMP/KML/SAF_N_RAMP.kml');\n
-      ctaLayerSN.setMap(map);\n";
-    }
-    if ( ($region1 == "CAall")||($region1 == "SAFS")||($region1 == "all") ) {
-      echo "var ctaLayerSS = new google.maps.KmlLayer('http://qcn.stanford.edu/RAMP/KML/SAF_S_RAMP.kml');\n
-      ctaLayerSS.setMap(map);\n";
-    }
-    if ( ($region1 == "CAall")||($region1 == "CAMetro")||($region1 == "all") ) {
-      echo "var ctaLayer2 = new google.maps.KmlLayer('http://qcn.stanford.edu/RAMP/KML/CA_Metro_RAMP.kml');\n
-      ctaLayer2.setMap(map);\n";
-    }
-
-    echo "
-    var marker, i;
-
-    for (i = 0; i < locations.length; i++) {  
-      marker = new google.maps.Marker({
-        position: new google.maps.LatLng(locations[i][1], locations[i][2]),
-        map: map,
-        icon: new google.maps.MarkerImage(\"http://labs.google.com/ridefinder/images/mm_20_\" + locations[i][4] + \".png\"),
-//        shape: shape
-          
-      });
-
-      google.maps.event.addListener(marker, 'click', (function(marker, i) {
-        return function() {
-          infowindow.setContent(locations[i][0]);
-          infowindow.open(map, marker);
-          infowindow.maxWidth(200);
-        }
-      })(marker, i));
-    }
-    setCenter(myCenter);
-  </script>\n";
-    
-  echo "</div>\n";
-
-
 } else {
     echo "<h2>No results found</h2>";
 }
@@ -941,146 +788,5 @@ function time_str_csv($x) {
     if (!$x) return "";
     return gmdate('Y/m/d H:i:s', $x); // . " UTC";
 }
-
-
-function yn10($num10) {
-   if ($num10==0) {
-      return $yn="no";
-   } else {
-      return $yn="yes";
-   }
-}
-
-function icon_setup(){
-   echo "
-       var image = new google.maps.MarkerImage('mapIcons/marker_red.png',
-          // This marker is 20 pixels wide by 32 pixels tall.
-          new google.maps.Size(20, 34),
-          // The origin for this image is 0,0.
-          new google.maps.Point(0,0),
-          // The anchor for this image is the base of the flagpole at 0,32.
-          new google.maps.Point(9, 34)
-       );
-       var shadow = new google.maps.MarkerImage(
-          'http://www.google.com/mapfiles/shadow50.png',
-          // The shadow image is larger in the horizontal dimension
-          // while the position and offset are the same as for the main image.
-          new google.maps.Size(37, 34),
-          new google.maps.Point(0,0),
-          new google.maps.Point(9, 34)
-       );
-
-       // Shapes define the clickable region of the icon.
-       // The type defines an HTML &lt;area&gt; element 'poly' which
-       // traces out a polygon as a series of X,Y points. The final
-       // coordinate closes the poly by connecting to the first
-       // coordinate.
-
-       var shape = {
-          coord: [9,0,6,1,4,2,2,4,0,8,0,12,1,14,2,16,5,19,7,23,8,26,9,30,9,34,11,34,11,30,12,26,13,24,14,21,16,18,18,16,20,12,20,8,18,4,16,2,15,1,13,0],
-          type: 'poly'
-       };";
-
-}
-
-
-function qcn_ramp_map_key(){
- echo "<div id=\"key\" style=\"width: 224px; height: 200px; float: right;\">
-       <table align=\"left\">
-       <tr><td><img src=\"http://labs.google.com/ridefinder/images/mm_20_red.png\"></td>
-           <td>No Info Sharing</td></tr>\n
-       <tr><td><img src=\"http://labs.google.com/ridefinder/images/mm_20_orange.png\"></td>
-           <td>Proxy or Firewall</td></tr>\n
-       <tr><td><img src=\"http://labs.google.com/ridefinder/images/mm_20_yellow.png\"></td>
-           <td>CPU on Upper floor</td></tr>\n
-       <tr><td><img src=\"http://labs.google.com/ridefinder/images/mm_20_black.png\"></td>
-           <td>CPU > 5 years</td></tr>\n
-       <tr><td><img src=\"http://labs.google.com/ridefinder/images/mm_20_gray.png\"></td>
-           <td>Firewall</td></tr>\n
-       <tr><td><img src=\"http://labs.google.com/ridefinder/images/mm_20_white.png\"></td>
-           <td>No Admin Privledges</td></tr>\n
-       <tr><td><img src=\"http://labs.google.com/ridefinder/images/mm_20_purple.png\"></td>
-           <td>Not usually on Internet</td></tr>\n
-       <tr><td><img src=\"http://labs.google.com/ridefinder/images/mm_20_green.png\"></td>
-           <td>Perfect</td></tr>\n
-       </table>\n
-       </div>";
-}
-
-function rywg_icon($res){
-       echo "\"red\"";
-return;
-       if ($res->bshare_coord){
-        echo "\"red\"";
-        return;
-       }
-       if ($res->bshare_map){
-        echo "\"red\"";
-        return;
-       }
-       if ($res->cpu_age>5){
-        echo "\"black\"";
-        return;
-       }
-       if ($res->cpu_internet){
-        echo "\"purple\"";
-        return;
-       }
-       if ($res->cpu_proxy){
-        echo "\"orange\"";
-        return;
-       }
-       if ($res->cpu_firewall){
-        echo "\"gray\"";
-        return;
-       }
-       if ($res->cpu_floor>3){
-        echo "\"yellow\"";
-        return;
-       }
-       if ($res->cpu_admin){
-        echo "\"white\"";
-        return;
-       }
-       if ($res->cpu_permission){
-        echo "\"blue\"";
-        return;
-       }
-       if ($res->cpu_unint_power){
-        echo "\"green\"";
-        return;
-       }
-       echo "\"green\"";
-       
-}
-
-
-function qcn_ramp_check_boxes() {
-   
-   echo "<div id=\"ramp_box\" style=\"width: 224px; height: 400px; float: right;\">
-
-       <p><b>United States:</b></p>\n
-       <ul><li><a href=\"http://qcn.stanford.edu/sensor/ramp_map.php?region=CAall\">California</a></li>\n
-           <ul><li><a href=\"http://qcn.stanford.edu/sensor/ramp_map.php?region=SAFN\">San Andreas Fault (North)</a></li>\n
-               <li><a href=\"http://qcn.stanford.edu/sensor/ramp_map.php?region=SAFS\">San Andreas Fault (South)</a></li>\n
-               <li><a href=\"http://qcn.stanford.edu/sensor/ramp_map.php?region=Hayward\">Hayward/Calaveras Fault</a></li>\n
-               <li><a href=\"http://qcn.stanford.edu/sensor/ramp_map.php?region=CAMetro\">SF Bay Area</a></li>\n
-               <li><a href=\"http://qcn.stanford.edu/sensor/ramp_map.php?region=CAMetro\">Greater Los Angeles Basin</a></li>\n
-           </ul>\n
-           <li><a href=\"http://qcn.stanford.edu/sensor/ramp_map.php?region=PNWall\">Pacific NorthWest</a></li>\n
-           <ul><li><a href=\"http://qcn.stanford.edu/sensor/ramp_map.php?region=ORMetro\">Oregon Metropolitan Areas</a></li>\n
-               <li><a href=\"http://qcn.stanford.edu/sensor/ramp_map.php?region=WAMetro\">Washington Metropolitan Areas</a></li>\n
-               <li><a href=\"http://qcn.stanford.edu/sensor/ramp_map.php?region=PNWCoast\">Coastal Regions</a></li>\n
-           </ul>\n
-           <li><a href=\"http://qcn.stanford.edu/sensor/ramp_map.php?region=Wasatch\">Wasatch Fault, (Salt Lake Utah)</a></li>\n
-           <li><a href=\"http://qcn.stanford.edu/sensor/ramp_map.php?region=NM\">New Madrid (Tenn, Missouri, Arkansas, Kentucky)</a></li>\n
-           <li><a href=\"http://qcn.stanford.edu/sensor/ramp_map.php?region=Anchorage\">Anchorage Alaska</a></li>\n
-       </ul>
-       <p><b>International:</b></p>\n
-       <ul><li><a href=\"http://qcn.stanford.edu/sensor/ramp_map.php?region=NAF\">Northern Anatolian Fault (Istanbul, Turkey)</a></li></ul>\n
-       </div>\n\n";
-
-}
-
 
 ?>
