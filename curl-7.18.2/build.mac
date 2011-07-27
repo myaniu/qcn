@@ -3,7 +3,7 @@
 #NB -- unlike other build.mac scripts, don't get rid of lib/ subdir as that is an important curl dir!
 #!/bin/bash
 chmod uog+rx configure
-export LIBTOOLIZE=/usr/local/bin/libtoolize
+#export LIBTOOLIZE=/usr/local/bin/libtoolize
 
 #PowerPC Mac OS X 10.4 (Tiger)
 export MARCH=ppc
