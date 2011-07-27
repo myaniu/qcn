@@ -73,12 +73,12 @@ if ( test "`uname -s`" = "Darwin" ) then
   #lipo -extract ppc qcn.app/Contents/MacOS/qcn -output qcn_${vnon}_$suffixp
   #lipo -extract x86_64 qcn.app/Contents/MacOS/qcn -output qcn_${vnci}_$suffixs$ncisuffix
   #lipo -extract x86_64 qcn.app/Contents/MacOS/qcn -output qcn_${vnon}_$suffixs
-  lipo -extract i386 qcn_graphics.app/Contents/MacOS/qcn_graphics -output graphics_app=qcn_graphics_${vnci}_$suffixi
-  #lipo -extract i386 qcn_graphics.app/Contents/MacOS/qcn_graphics -output graphics_app=qcn_graphics_${vnon}_$suffixi
-  lipo -extract ppc qcn_graphics.app/Contents/MacOS/qcn_graphics -output graphics_app=qcn_graphics_${vnci}_$suffixp
-  #lipo -extract ppc qcn_graphics.app/Contents/MacOS/qcn_graphics -output graphics_app=qcn_graphics_${vnon}_$suffixp
-  #lipo -extract x86_64 qcn_graphics.app/Contents/MacOS/qcn_graphics -output graphics_app=qcn_graphics_${vnci}_$suffixs
-  #lipo -extract x86_64 qcn_graphics.app/Contents/MacOS/qcn_graphics -output graphics_app=qcn_graphics_${vnon}_$suffixs
+  lipo -extract i386 qcn_graphics.app/Contents/MacOS/qcn_graphics -output qcn_graphics_${vnci}_$suffixi
+  #lipo -extract i386 qcn_graphics.app/Contents/MacOS/qcn_graphics -output qcn_graphics_${vnon}_$suffixi
+  lipo -extract ppc qcn_graphics.app/Contents/MacOS/qcn_graphics -output qcn_graphics_${vnci}_$suffixp
+  #lipo -extract ppc qcn_graphics.app/Contents/MacOS/qcn_graphics -output qcn_graphics_${vnon}_$suffixp
+  #lipo -extract x86_64 qcn_graphics.app/Contents/MacOS/qcn_graphics -output qcn_graphics_${vnci}_$suffixs
+  #lipo -extract x86_64 qcn_graphics.app/Contents/MacOS/qcn_graphics -output qcn_graphics_${vnon}_$suffixs
 
 appspathone=$suffixi$ncisuffix
 #appspathtwo=qcn_${vnon}_$suffixi
@@ -101,7 +101,7 @@ echo chdir ${vnci} >> qcnsftp.up
 echo -mkdir $appspathone >> qcnsftp.up
 echo chdir $appspathone >> qcnsftp.up
 echo put qcn_${vnci}_$suffixi$ncisuffix >> qcnsftp.up
-echo put graphics_app=qcn_graphics_${vnci}_$suffixi >> qcnsftp.up
+echo put qcn_graphics_${vnci}_$suffixi >> qcnsftp.up
 echo put version.xml >> qcnsftp.up
 print_common_boinc_files $ntpdv
 
@@ -109,7 +109,7 @@ print_common_boinc_files $ntpdv
 #echo -mkdir $appspathtwo >> qcnsftp.up
 #echo chdir $appspathtwo >> qcnsftp.up
 #echo put qcn_${vnon}_$suffixi >> qcnsftp.up
-#echo put graphics_app=qcn_graphics_${vnon}_$suffixi >> qcnsftp.up
+#echo put qcn_graphics_${vnon}_$suffixi >> qcnsftp.up
 #print_common_boinc_files $ntpdv
 
 echo chdir $pathpre >> qcnsftp.up
@@ -117,7 +117,7 @@ echo chdir ${vnci} >> qcnsftp.up
 echo -mkdir $appspaththree >> qcnsftp.up
 echo chdir $appspaththree >> qcnsftp.up
 echo put qcn_${vnci}_$suffixp$ncisuffix >> qcnsftp.up
-echo put graphics_app=qcn_graphics_${vnci}_$suffixp >> qcnsftp.up
+echo put qcn_graphics_${vnci}_$suffixp >> qcnsftp.up
 echo put version.xml >> qcnsftp.up
 print_common_boinc_files $ntpdv
 
@@ -125,21 +125,21 @@ print_common_boinc_files $ntpdv
 #echo -mkdir $appspathfour >> qcnsftp.up
 #echo chdir $appspathfour >> qcnsftp.up
 #echo put qcn_${vnon}_$suffixp >> qcnsftp.up
-#echo put graphics_app=qcn_graphics_${vnon}_$suffixp >> qcnsftp.up
+#echo put qcn_graphics_${vnon}_$suffixp >> qcnsftp.up
 #print_common_boinc_files $ntpdv
 
 #echo chdir $pathpre >> qcnsftp.up
 #echo -mkdir $appspathfive >> qcnsftp.up
 #echo chdir $appspathfive >> qcnsftp.up
 #echo put qcn_${vnci}_$suffixs$ncisuffix >> qcnsftp.up
-#echo put graphics_app=qcn_graphics_${vnci}_$suffixs >> qcnsftp.up
+#echo put qcn_graphics_${vnci}_$suffixs >> qcnsftp.up
 #print_common_boinc_files $ntpdv
 
 #echo chdir $pathpre >> qcnsftp.up
 #echo -mkdir $appspathsix >> qcnsftp.up
 #echo chdir $appspathsix >> qcnsftp.up
 #echo put qcn_${vnon}_$suffixs >> qcnsftp.up
-#echo put graphics_app=qcn_graphics_${vnon}_$suffixs >> qcnsftp.up
+#echo put qcn_graphics_${vnon}_$suffixs >> qcnsftp.up
 #print_common_boinc_files $ntpdv
 
 #continual QCN/BOINC
@@ -149,7 +149,7 @@ echo chdir ${vnci} >> qcnsftp.up
 echo -mkdir $appspathone >> qcnsftp.up
 echo chdir $appspathone >> qcnsftp.up
 echo put qcn_${vnci}_$suffixi$ncisuffix >> qcnsftp.up
-echo put graphics_app=qcn_graphics_${vnci}_$suffixi >> qcnsftp.up
+echo put qcn_graphics_${vnci}_$suffixi >> qcnsftp.up
 echo put version.xml >> qcnsftp.up
 print_common_boinc_files $ntpdv
 
@@ -158,7 +158,7 @@ print_common_boinc_files $ntpdv
 #echo -mkdir $appspathtwo >> qcnsftp.up
 #echo chdir $appspathtwo >> qcnsftp.up
 #echo put qcn_${vnon}_$suffixi >> qcnsftp.up
-#echo put graphics_app=qcn_graphics_${vnon}_$suffixi >> qcnsftp.up
+#echo put qcn_graphics_${vnon}_$suffixi >> qcnsftp.up
 #print_common_boinc_files $ntpdv
 
 echo chdir $pathprecont >> qcnsftp.up
@@ -166,7 +166,7 @@ echo chdir ${vnci} >> qcnsftp.up
 echo -mkdir $appspaththree >> qcnsftp.up
 echo chdir $appspaththree >> qcnsftp.up
 echo put qcn_${vnci}_$suffixp$ncisuffix >> qcnsftp.up
-echo put graphics_app=qcn_graphics_${vnci}_$suffixp >> qcnsftp.up
+echo put qcn_graphics_${vnci}_$suffixp >> qcnsftp.up
 echo put version.xml >> qcnsftp.up
 print_common_boinc_files $ntpdv
 
@@ -174,21 +174,21 @@ print_common_boinc_files $ntpdv
 #echo -mkdir $appspathfour >> qcnsftp.up
 #echo chdir $appspathfour >> qcnsftp.up
 #echo put qcn_${vnon}_$suffixp >> qcnsftp.up
-#echo put graphics_app=qcn_graphics_${vnon}_$suffixp >> qcnsftp.up
+#echo put qcn_graphics_${vnon}_$suffixp >> qcnsftp.up
 #print_common_boinc_files $ntpdv
 
 #echo chdir $pathprecont >> qcnsftp.up
 #echo -mkdir $appspathfive >> qcnsftp.up
 #echo chdir $appspathfive >> qcnsftp.up
 #echo put qcn_${vnci}_$suffixs$ncisuffix >> qcnsftp.up
-#echo put graphics_app=qcn_graphics_${vnci}_$suffixs >> qcnsftp.up
+#echo put qcn_graphics_${vnci}_$suffixs >> qcnsftp.up
 #print_common_boinc_files $ntpdv
 
 #echo chdir $pathprecont >> qcnsftp.up
 #echo -mkdir $appspathsix >> qcnsftp.up
 #echo chdir $appspathsix >> qcnsftp.up
 #echo put qcn_${vnon}_$suffixs >> qcnsftp.up
-#echo put graphics_app=qcn_graphics_${vnon}_$suffixs >> qcnsftp.up
+#echo put qcn_graphics_${vnon}_$suffixs >> qcnsftp.up
 #print_common_boinc_files $ntpdv
 
 
@@ -208,7 +208,7 @@ else
    #cp qcn_${vnci}_$suffix $appspathone
    #mv qcn_${vnci}_$suffix $appspathtwo
 
-   #cp graphics_app=qcn_graphics_${vnci}_$suffix graphics_app=qcn_graphics_${vnon}_$suffix
+   #cp qcn_graphics_${vnci}_$suffix qcn_graphics_${vnon}_$suffix
    rm -f qcnlive-linux.zip
    rm -f qcnlive-linux-exec.zip
 
@@ -241,14 +241,14 @@ else
   echo -mkdir $appspathone >> qcnsftp.up
   echo chdir $appspathone >> qcnsftp.up
   echo put qcn_${vnci}_$suffix >> qcnsftp.up
-  echo put graphics_app=qcn_graphics_${vnci}_$suffix >> qcnsftp.up
+  echo put qcn_graphics_${vnci}_$suffix >> qcnsftp.up
   print_common_boinc_files $ntpdv
 
   #echo chdir ../ >> qcnsftp.up
   #echo -mkdir $appspathtwo >> qcnsftp.up
   #echo chdir $appspathtwo >> qcnsftp.up
   #echo put $appspathtwo >> qcnsftp.up
-  #echo put graphics_app=qcn_graphics_${vnon}_$suffix >> qcnsftp.up
+  #echo put qcn_graphics_${vnon}_$suffix >> qcnsftp.up
   #print_common_boinc_files $ntpdv
 
   #continual QCN/BOINC
@@ -258,7 +258,7 @@ else
   echo -mkdir $appspathone >> qcnsftp.up
   echo chdir $appspathone >> qcnsftp.up
   echo put qcn_${vnci}_$suffix >> qcnsftp.up
-  echo put graphics_app=qcn_graphics_${vnci}_$suffix >> qcnsftp.up
+  echo put qcn_graphics_${vnci}_$suffix >> qcnsftp.up
   print_common_boinc_files $ntpdv
 
   echo exit >> qcnsftp.up
