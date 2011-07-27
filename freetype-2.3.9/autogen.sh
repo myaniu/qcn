@@ -130,9 +130,7 @@ if test "$AUTOCONF"x = x; then
   AUTOCONF=autoconf
 fi
 
-check_tool_version $ACLOCAL    aclocal    ACLOCAL    1.10.1
 check_tool_version $LIBTOOLIZE libtoolize LIBTOOLIZE 2.2.4
-check_tool_version $AUTOCONF   autoconf   AUTOCONF   2.62
 
 # This sets freetype_major, freetype_minor, and freetype_patch.
 eval `sed -nf version.sed include/freetype/freetype.h`
@@ -148,7 +146,7 @@ echo "generating \`configure.ac'"
 sed -e "s;@VERSION@;$freetype_major$freetype_minor$freetype_patch;" \
   < configure.raw > configure.ac
 
-run aclocal -I . --force
+run aclocal -I m4sugar -I . --force
 run $LIBTOOLIZE --force --copy --install
 run autoconf --force
 
