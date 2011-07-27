@@ -1,7 +1,7 @@
 # note this file is needed as libraries such as ntpd, zlib, jpeg etc do not have XCode projects, but use the Linux-style autoconf/automake
 #!/bin/bash
 if (test "$1" = "all" || test "$2" = "all" || test "$1" = "libs" || test "$2" = "libs") then
-XCB=/Developer/usr/bin/$XCB
+XCB=/Developer/usr/bin/xcodebuild
 export CXX=
 export CC=
 export MARCH=
