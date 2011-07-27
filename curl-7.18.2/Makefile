@@ -59,7 +59,7 @@ NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = i386-apple-darwin11.0.0
-host_triplet = powerpc-unknown-none
+host_triplet = x86_64-pc-none
 DIST_COMMON = README $(am__configure_deps) $(srcdir)/Makefile.am \
 	$(srcdir)/Makefile.in $(srcdir)/curl-config.in \
 	$(srcdir)/libcurl.pc.in $(top_srcdir)/configure COPYING \
@@ -119,13 +119,13 @@ AUTOCONF = ${SHELL} "/Users/carlgt1/projects/qcn/curl-7.18.2/missing" --run auto
 AUTOHEADER = ${SHELL} "/Users/carlgt1/projects/qcn/curl-7.18.2/missing" --run autoheader
 AUTOMAKE = ${SHELL} "/Users/carlgt1/projects/qcn/curl-7.18.2/missing" --run automake-1.9
 AWK = awk
-CC = /Developer/usr/bin/gcc-4.0
+CC = /Developer/usr/bin/gcc-4.2
 CCDEPMODE = depmode=gcc3
-CFLAGS = -O2 -I/Developer/SDKs/MacOSX10.4u.sdk/usr/include -I/Developer/SDKs/MacOSX10.4u.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc
-CPP = /Developer/usr/bin/gcc-4.0 -E
-CPPFLAGS = -O2 -I/Developer/SDKs/MacOSX10.4u.sdk/usr/include -I/Developer/SDKs/MacOSX10.4u.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc
-CROSSCOMPILING_FALSE = #
-CROSSCOMPILING_TRUE = 
+CFLAGS = -DHAVE_POSIX_STRERROR_R=1 -O2 -I/Developer/SDKs/MacOSX10.5.sdk/usr/include -I/Developer/SDKs/MacOSX10.5.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64
+CPP = /Developer/usr/bin/gcc-4.2 -E
+CPPFLAGS = -O2 -I/Developer/SDKs/MacOSX10.5.sdk/usr/include -I/Developer/SDKs/MacOSX10.5.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64
+CROSSCOMPILING_FALSE = 
+CROSSCOMPILING_TRUE = #
 CURL_DISABLE_DICT = 
 CURL_DISABLE_FILE = 
 CURL_DISABLE_FTP = 
@@ -157,9 +157,9 @@ INSTALL_DATA = ${INSTALL} -m 644
 INSTALL_PROGRAM = ${INSTALL}
 INSTALL_SCRIPT = ${INSTALL}
 INSTALL_STRIP_PROGRAM = ${SHELL} $(install_sh) -c -s
-IPV6_ENABLED = 
+IPV6_ENABLED = 1
 KRB4_ENABLED = 
-LDFLAGS = -L/Developer/SDKs/MacOSX10.4u.sdk/usr/lib/ -isysroot /Developer/SDKs/MacOSX10.4u.sdk -Wl,-syslibroot,/Developer/SDKs/MacOSX10.4u.sdk -arch ppc
+LDFLAGS = -L/Developer/SDKs/MacOSX10.5.sdk/usr/lib/ -isysroot /Developer/SDKs/MacOSX10.5.sdk -Wl,-syslibroot,/Developer/SDKs/MacOSX10.5.sdk -arch x86_64
 LIBCURL_LIBS =  -lz
 LIBOBJS = 
 LIBS = 
@@ -230,11 +230,11 @@ datarootdir = ${prefix}/share
 docdir = ${datarootdir}/doc/${PACKAGE_TARNAME}
 dvidir = ${docdir}
 exec_prefix = ${prefix}
-host = powerpc-unknown-none
-host_alias = ppc
-host_cpu = powerpc
+host = x86_64-pc-none
+host_alias = x86_64
+host_cpu = x86_64
 host_os = none
-host_vendor = unknown
+host_vendor = pc
 htmldir = ${docdir}
 includedir = ${prefix}/include
 infodir = ${datarootdir}/info
@@ -750,20 +750,20 @@ pdf:
 
 check: test examples
 
-test-full: test
-test-torture: test
-
-test:
-	@echo "NOTICE: we can't run the tests when cross-compiling!"
+#test-full: test
+#test-torture: test
 
 #test:
-#	@(cd tests; $(MAKE) all quiet-test)
+#	@echo "NOTICE: we can't run the tests when cross-compiling!"
 
-#test-full:
-#	@(cd tests; $(MAKE) all full-test)
+test:
+	@(cd tests; $(MAKE) all quiet-test)
 
-#test-torture:
-#	@(cd tests; $(MAKE) all torture-test)
+test-full:
+	@(cd tests; $(MAKE) all full-test)
+
+test-torture:
+	@(cd tests; $(MAKE) all torture-test)
 
 examples:
 	@(cd docs/examples; $(MAKE) check)
