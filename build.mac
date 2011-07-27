@@ -53,6 +53,14 @@ cd ../../qcn
     exit
   fi
 fi
+export CXX=
+export CC=
+export MARCH=
+export SDKROOT=
+export LDFLAGS=
+export CPPFLAGS=
+export CFLAGS=
+export CXXFLAGS=
 cd client/mac_build
 $XCB -project qcn.xcodeproj -configuration Release -target qcn clean build
 $XCB -project qcn.xcodeproj -configuration Release -target qcn_graphics clean build
