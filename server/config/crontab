@@ -1,6 +1,3 @@
 0,5,10,15,20,25,30,35,40,45,50,55 * * * * /var/www/boinc/sensor/bin/start --cron
-2,7,12,17,22,27,32,37,42,47,52,57 * * * * /var/www/boinc/sensor/bin/start
 6,12,18,24,30,36,42,48,54 * * * * /var/www/boinc/continual/bin/start --cron
-8,14,20,26,32,38,44,50,58 * * * * /var/www/boinc/continual/bin/start
 12 7 * * 0 /var/www/boinc/sensor/bin/clean_tmpdata.sh
-
