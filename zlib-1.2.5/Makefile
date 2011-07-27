@@ -25,7 +25,7 @@ CFLAGS=-O2 -I/Developer/SDKs/MacOSX10.5.sdk/usr/include -I/Developer/SDKs/MacOSX
 #           -Wstrict-prototypes -Wmissing-prototypes
 
 SFLAGS=-O2 -I/Developer/SDKs/MacOSX10.5.sdk/usr/include -I/Developer/SDKs/MacOSX10.5.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64 -fPIC -m64
-LDFLAGS=-isysroot /Developer/SDKs/MacOSX10.5.sdk -Wl,-syslibroot,/Developer/SDKs/MacOSX10.5.sdk -arch x86_64 -L. libz.a
+LDFLAGS=-L/Developer/SDKs/MacOSX10.5.sdk/usr/lib/ -isysroot /Developer/SDKs/MacOSX10.5.sdk -Wl,-syslibroot,/Developer/SDKs/MacOSX10.5.sdk -arch x86_64 -L. libz.a
 TEST_LDFLAGS=-L. libz.a
 LDSHARED=gcc-4.2
 CPP=gcc-4.2 -E
