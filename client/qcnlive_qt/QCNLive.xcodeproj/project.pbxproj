@@ -633,7 +633,7 @@
 				BUILD_ROOT = /Users/carlgt1/projects/qcn/client/qcnlive_qt;
 				CC = "/usr/bin/gcc-4.0";
 				COPY_PHASE_STRIP = YES;
-				CPLUSPLUS = "/usr/bin/g++-4.0";
+				CPLUSPLUS = "/Developer/usr/bin/g++-4.0";
 				DYLIB_COMPATIBILITY_VERSION = 1.0;
 				DYLIB_CURRENT_VERSION = 1.0.0;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
