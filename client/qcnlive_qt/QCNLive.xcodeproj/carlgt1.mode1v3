@@ -213,14 +213,6 @@
 						<string>4345CAD7132ECB0200BEB8F7</string>
 						<key>PBXProjectModuleLabel</key>
 						<string>csensor.cpp</string>
-						<key>_historyCapacity</key>
-						<integer>0</integer>
-						<key>bookmark</key>
-						<string>43FBFE9A13E043F00033D017</string>
-						<key>history</key>
-						<array>
-							<string>4323680013DE10760072057D</string>
-						</array>
 					</dict>
 					<key>SplitCount</key>
 					<string>1</string>
@@ -253,14 +245,6 @@
 						<string>43DFBD03132ED76A003749C4</string>
 						<key>PBXProjectModuleLabel</key>
 						<string>qcn_graphics.cpp</string>
-						<key>_historyCapacity</key>
-						<integer>0</integer>
-						<key>bookmark</key>
-						<string>43FBFE9B13E043F00033D017</string>
-						<key>history</key>
-						<array>
-							<string>4323680113DE10760072057D</string>
-						</array>
 					</dict>
 					<key>SplitCount</key>
 					<string>1</string>
@@ -310,6 +294,8 @@
 			<key>Layout</key>
 			<array>
 				<dict>
+					<key>BecomeActive</key>
+					<true/>
 					<key>ContentConfiguration</key>
 					<dict>
 						<key>PBXBottomSmartGroupGIDs</key>
@@ -380,7 +366,7 @@
 							<real>349</real>
 						</array>
 						<key>RubberWindowFrame</key>
-						<string>76 236 1269 918 0 0 1920 1178 </string>
+						<string>156 223 1269 918 0 0 1920 1178 </string>
 					</dict>
 					<key>Module</key>
 					<string>PBXSmartGroupTreeModule</string>
@@ -391,14 +377,12 @@
 					<key>Dock</key>
 					<array>
 						<dict>
-							<key>BecomeActive</key>
-							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
 								<string>1CE0B20306471E060097A5F4</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>csensor_mac_usb_jw24f14.cpp</string>
+								<string>qcn_thread_sensor.cpp</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -406,18 +390,16 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>1CE0B20406471E060097A5F4</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>csensor_mac_usb_jw24f14.cpp</string>
+										<string>qcn_thread_sensor.cpp</string>
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>43FBFE9913E043F00033D017</string>
+										<string>43FF796613E0460700E3B69B</string>
 										<key>history</key>
 										<array>
-											<string>43903C8A12B37DA60050ECC3</string>
 											<string>4341A86712B577260051AA5C</string>
 											<string>4331E51A12B5838F00C80DED</string>
 											<string>4394342F12B6E11300B7810D</string>
-											<string>4376099312B8292000546213</string>
 											<string>43D90CA512B8823D00C504DD</string>
 											<string>4385A1CB1307CED7000BCFDC</string>
 											<string>4385A1CC1307CED7000BCFDC</string>
@@ -432,7 +414,6 @@
 											<string>432367FB13DE10760072057D</string>
 											<string>432367FD13DE10760072057D</string>
 											<string>43FBFDDF13E03FFD0033D017</string>
-											<string>43FBFE2313E041E40033D017</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -444,14 +425,14 @@
 							<key>GeometryConfiguration</key>
 							<dict>
 								<key>Frame</key>
-								<string>{{0, 0}, {898, 533}}</string>
+								<string>{{0, 0}, {898, 525}}</string>
 								<key>RubberWindowFrame</key>
-								<string>76 236 1269 918 0 0 1920 1178 </string>
+								<string>156 223 1269 918 0 0 1920 1178 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
 							<key>Proportion</key>
-							<string>533pt</string>
+							<string>525pt</string>
 						</dict>
 						<dict>
 							<key>ContentConfiguration</key>
@@ -464,14 +445,14 @@
 							<key>GeometryConfiguration</key>
 							<dict>
 								<key>Frame</key>
-								<string>{{0, 538}, {898, 339}}</string>
+								<string>{{0, 530}, {898, 347}}</string>
 								<key>RubberWindowFrame</key>
-								<string>76 236 1269 918 0 0 1920 1178 </string>
+								<string>156 223 1269 918 0 0 1920 1178 </string>
 							</dict>
 							<key>Module</key>
 							<string>XCDetailModule</string>
 							<key>Proportion</key>
-							<string>339pt</string>
+							<string>347pt</string>
 						</dict>
 					</array>
 					<key>Proportion</key>
@@ -490,9 +471,9 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>43FBFDC913E03F9E0033D017</string>
+				<string>43FF795113E0460700E3B69B</string>
 				<string>1CE0B1FE06471DED0097A5F4</string>
-				<string>43FBFDCA13E03F9E0033D017</string>
+				<string>43FF795213E0460700E3B69B</string>
 				<string>1CE0B20306471E060097A5F4</string>
 				<string>1CE0B20506471E060097A5F4</string>
 			</array>
@@ -630,9 +611,6 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>43FBFDDB13E03FE90033D017</string>
-		<string>43FBFDDC13E03FE90033D017</string>
-		<string>1C78EAAD065D492600B07095</string>
 		<string>43B794F012B364B200675464</string>
 		<string>43DFBD02132ED76A003749C4</string>
 		<string>1CD10A99069EF8BA00B06720</string>
@@ -640,7 +618,7 @@
 		<string>/Users/carlgt1/projects/qcn/client/qcnlive_qt/QCNLive.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
-	<string>76 236 1269 918 0 0 1920 1178 </string>
+	<string>156 223 1269 918 0 0 1920 1178 </string>
 	<key>WindowToolsV3</key>
 	<array>
 		<dict>
@@ -717,7 +695,7 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>43B794F012B364B200675464</string>
-				<string>43FBFDCD13E03F9E0033D017</string>
+				<string>43FF795513E0460700E3B69B</string>
 				<string>1CD0528F0623707200166675</string>
 				<string>XCMainBuildResultsModuleGUID</string>
 			</array>
@@ -804,11 +782,11 @@
 									<key>DebugVariablesTableConfiguration</key>
 									<array>
 										<string>Name</string>
-										<real>130</real>
+										<real>135</real>
 										<string>Value</string>
-										<real>95</real>
+										<real>100</real>
 										<string>Summary</string>
-										<real>128</real>
+										<real>118</real>
 									</array>
 									<key>Frame</key>
 									<string>{{316, 0}, {378, 203}}</string>
@@ -839,13 +817,13 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>1CD10A99069EF8BA00B06720</string>
-				<string>43FBFDCE13E03F9E0033D017</string>
+				<string>43FF795613E0460700E3B69B</string>
 				<string>1C162984064C10D400B95A72</string>
-				<string>43FBFDCF13E03F9E0033D017</string>
-				<string>43FBFDD013E03F9E0033D017</string>
-				<string>43FBFDD113E03F9E0033D017</string>
-				<string>43FBFDD213E03F9E0033D017</string>
-				<string>43FBFDD313E03F9E0033D017</string>
+				<string>43FF795713E0460700E3B69B</string>
+				<string>43FF795813E0460700E3B69B</string>
+				<string>43FF795913E0460700E3B69B</string>
+				<string>43FF795A13E0460700E3B69B</string>
+				<string>43FF795B13E0460700E3B69B</string>
 			</array>
 			<key>ToolbarConfiguration</key>
 			<string>xcode.toolbar.config.debugV3</string>
