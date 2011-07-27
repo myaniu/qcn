@@ -5,7 +5,8 @@ rm -rf lib
 rm -f ../mac_build/libftgl-universal.a
 mkdir lib
 chmod uog+rx configure
-export LIBTOOLIZE=/usr/local/bin/libtoolize
+export LIBTOOLIZE=
+#export LIBTOOLIZE=/usr/local/bin/libtoolize
 
 export MARCH=ppc
 export CXX=/Developer/usr/bin/g++-4.0

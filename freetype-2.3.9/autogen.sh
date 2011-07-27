@@ -146,7 +146,7 @@ echo "generating \`configure.ac'"
 sed -e "s;@VERSION@;$freetype_major$freetype_minor$freetype_patch;" \
   < configure.raw > configure.ac
 
-run aclocal -I m4sugar -I . --force
+run aclocal -I . --force
 run $LIBTOOLIZE --force --copy --install
 run autoconf --force
 
