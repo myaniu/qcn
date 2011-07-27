@@ -9,7 +9,7 @@ dnl not sure exactly what the minimum version is (but 2.13 wont work)
 AC_PREREQ(2.57)
 
 dnl Set the BOINC version here.  You can also use the set-version script.
-AC_INIT(QCN, 6.60)
+AC_INIT(QCN, 6.18)
 LIBBOINC_VERSION=`echo ${PACKAGE_VERSION} | sed 's/\./:/g'`
 AC_SUBST([LIBBOINC_VERSION])
 
@@ -417,6 +417,79 @@ if test -e "/proc/meminfo"; then
     AC_DEFINE(HAVE__PROC_MEMINFO, 1, [Define to 1 if /proc/meminfo exists])
 fi
 
+dnl ---------- wxWidgets --------------------------------------------------
+
+AM_OPTIONS_WXCONFIG
+
+dnl check for wxWidgets
+
+if test "${enable_client_release}" = yes ; then
+    if test "${enable_debug}" = yes ; then
+        if test "${enable_unicode}" = yes ; then
+            echo 'Portable client-build: checking for debug unicode wx-libs ...'
+            AM_PATH_WXCONFIG([2.6.0], [wxWin=1], [wxWin=0], --static=yes --unicode=yes --debug=yes)
+        else
+            echo 'Portable client-build: checking for debug wx-libs ...'
+            AM_PATH_WXCONFIG([2.6.0], [wxWin=1], [wxWin=0], --static=yes --unicode=no --debug=yes)
+        fi
+    else
+        if test "${enable_unicode}" = yes ; then
+            echo 'Portable client-build: checking for unicode wx-libs ...'
+            AM_PATH_WXCONFIG([2.6.0], [wxWin=1], [wxWin=0], --static=yes --unicode=yes --debug=no)
+        else
+            echo 'Portable client-build: checking for wx-libs ...'
+            AM_PATH_WXCONFIG([2.6.0], [wxWin=1], [wxWin=0], --static=yes --unicode=no --debug=no)
+        fi
+    fi
+else
+    if test "${enable_debug}" = yes ; then
+        if test "${enable_unicode}" = yes ; then
+            echo 'checking for debug unicode wx-libs ...'
+            AM_PATH_WXCONFIG([2.6.0], [wxWin=1], [wxWin=0], --unicode=yes --debug=yes)
+        else
+            echo 'checking for debug wx-libs ...'
+            AM_PATH_WXCONFIG([2.6.0], [wxWin=1], [wxWin=0], --unicode=no --debug=yes)
+        fi
+    else
+        if test "${enable_unicode}" = yes ; then
+            echo 'checking for unicode wx-libs ...'
+            AM_PATH_WXCONFIG([2.6.0], [wxWin=1], [wxWin=0], --unicode=yes --debug=no)
+        else
+            echo 'checking for wx-libs ...'
+            AM_PATH_WXCONFIG([2.6.0], [wxWin=1], [wxWin=0], --unicode=no --debug=no)
+        fi
+    fi
+fi
+
+
+if ( test "${enable_client}" = yes ) && ( test "$wxWin" != 1 ); then
+   AC_MSG_WARN([
+================================================================================
+WARNING: A suitable installation of wxWidgets could not be found 
+	 ==> building client without clientgui.
+
+  If you add wxWidgets to your system, then this configure script will also
+  configure your system to build the BOINC graphical client (clientgui).  
+
+  If wxWidgets is installed on your system, please check that wx-config is 
+  in the path, that the directory where wxWidgets libraries are installed 
+  (returned by 'wx-config --libs' command) is in LD_LIBRARY_PATH (or equivalent),
+  and that wxWidgets version is 2.6.0 or above. Currently wxWidgets version
+  2.6.0 (gtk based) is known to work with boinc_gui under Linux. You can
+  use wx-config --version to find what version you have currently installed.
+
+  NOTE: if building a portable client-release, you need the *static* version
+  of the wx-libs installed!   
+
+  You can get wxWidgets by following the DOWNLOAD link at:
+  http://www.wxwindows.org/
+================================================================================
+       ])
+fi
+
+AM_CONDITIONAL(BUILD_CLIENTGUI, [ test "$wxWin" = 1 -a "${enable_client}" = yes ])
+
+dnl --------------------------------------------------------------------------------
 
 dnl Heres another way to set up host-specific stuff
 AM_CONDITIONAL(IS_I386, [test "`uname -p`" = i386])

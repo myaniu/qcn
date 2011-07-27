@@ -13,6 +13,16 @@ else
 fi
 if ( test "`uname -s`" = "Darwin" ) then
   # CMC note on Mac OS X Lion + you may need to edit /etc/paths and add /Developer/usr/bin to get gcc etc
+#Intel 32-bit Mac
+export MARCH=i386
+export CXX=g++-4.0
+export CC=gcc-4.0
+export MACOSX_DEPLOYMENT_TARGET=10.4
+export SDKROOT="/Developer/SDKs/MacOSX10.4u.sdk"
+export LDFLAGS="-L$SDKROOT/usr/lib/ -isysroot $SDKROOT -Wl,-syslibroot,$SDKROOT -arch $MARCH"
+export CPPFLAGS="-O2 -I$SDKROOT/usr/include -I$SDKROOT/usr/local/include -isysroot $SDKROOT -arch $MARCH"
+export CFLAGS="-O2 -I$SDKROOT/usr/include -I$SDKROOT/usr/local/include -isysroot $SDKROOT -arch $MARCH"
+export CXXFLAGS="-O2 -I$SDKROOT/usr/include -I$SDKROOT/usr/local/include -isysroot $SDKROOT -arch $MARCH"
   cp configure.ac.mac configure.ac
   cp config.h.mac config.h
   ./set-version $1
