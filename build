@@ -12,6 +12,7 @@ else
    cd qcn
 fi
 if ( test "`uname -s`" = "Darwin" ) then
+  export PATH=$PATH:/Developer/usr/bin
   cp configure.ac.mac configure.ac
   cp config.h.mac config.h
   ./set-version $1
