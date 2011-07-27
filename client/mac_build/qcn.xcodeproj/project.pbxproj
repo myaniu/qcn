@@ -1220,8 +1220,8 @@
 			buildSettings = {
 				ADDITIONAL_SDKS = "";
 				ARCHS = (
-					i386,
 					ppc,
+					i386,
 				);
 				CONFIGURATION_BUILD_DIR = ../bin;
 				COPY_PHASE_STRIP = YES;
