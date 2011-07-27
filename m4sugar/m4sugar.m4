@@ -252,10 +252,10 @@ m4_location[: the top level]]))dnl
 # -----------------------
 # Declare that the FILE was loading; and warn if it has already
 # been included.
-#m4_define([m4_include_unique],
-#[m4_ifdef([m4_include($1)],
-#	  [m4_warn([syntax], [file `$1' included several times])])dnl
-#m4_define([m4_include($1)])])
+m4_define([m4_include_unique],
+[m4_ifdef([m4_include($1)],
+	  [m4_warn([syntax], [file `$1' included several times])])dnl
+m4_define([m4_include($1)])])
 
 
 # m4_include(FILE)
@@ -1724,7 +1724,7 @@ m4_define([m4_version_compare],
 # m4_PACKAGE_STRING
 # m4_PACKAGE_BUGREPORT
 # --------------------
-#m4_include([m4sugar/version.m4])
+m4_include([m4sugar/version.m4])
 
 
 # m4_version_prereq(VERSION, [IF-OK], [IF-NOT = FAIL])
