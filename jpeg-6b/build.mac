@@ -25,8 +25,8 @@ mv .libs/libjpeg.a lib/libjpeg_ppc.a
 
 #Intel 32-bit Mac
 export MARCH=i386
-export CXX=g++-4.0
-export CC=gcc-4.0
+export CXX=/Developer/usr/bin/g++-4.0
+export CC=/Developer/usr/bin/gcc-4.0
 export MACOSX_DEPLOYMENT_TARGET=10.4
 export SDKROOT="/Developer/SDKs/MacOSX10.4u.sdk"
 export LDFLAGS="-L$SDKROOT/usr/lib/ -isysroot $SDKROOT -Wl,-syslibroot,$SDKROOT -arch $MARCH"
@@ -40,8 +40,8 @@ mv .libs/libjpeg.a lib/libjpeg_i386.a
 
 #Intel 64-bit Mac
 export MARCH=x86_64
-export CXX=g++-4.2
-export CC=gcc-4.2
+export CXX=/Developer/usr/bin/g++-4.2
+export CC=/Developer/usr/bin/gcc-4.2
 export MACOSX_DEPLOYMENT_TARGET=10.5
 export SDKROOT="/Developer/SDKs/MacOSX10.5.sdk"
 export LDFLAGS="-L$SDKROOT/usr/lib/ -isysroot $SDKROOT -Wl,-syslibroot,$SDKROOT -arch $MARCH"
