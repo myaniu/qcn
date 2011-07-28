@@ -4,6 +4,7 @@
 rm -rf lib
 mkdir lib
 chmod uog+rx configure
+export LIBTOOL='/usr/local/bin/libtool --tag=CC'
 export LIBTOOLIZE=/usr/local/bin/libtoolize
 
 #PowerPC Mac
