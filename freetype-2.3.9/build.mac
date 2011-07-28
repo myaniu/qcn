@@ -24,7 +24,7 @@ export LDFLAGS="-L$SDKROOT/usr/lib/ crt1.o -L$SDKROOT/usr/local/lib/ -isysroot $
 export CPPFLAGS="-O2 -I$SDKROOT/usr/include -I$SDKROOT/usr/local/include -isysroot $SDKROOT -arch $MARCH"
 export CFLAGS="-O2 -I$SDKROOT/usr/include -I$SDKROOT/usr/local/include -isysroot $SDKROOT -arch $MARCH"
 export CXXFLAGS="-O2 -I$SDKROOT/usr/include -I$SDKROOT/usr/local/include -isysroot $SDKROOT -arch $MARCH"
-./autogen.sh
+#./autogen.sh
 ./configure --host=$MARCH --enable-shared=no --enable-static=yes
 make clean
 make
@@ -39,7 +39,7 @@ export LDFLAGS="-L$SDKROOT/usr/lib/ -isysroot $SDKROOT -Wl,-syslibroot,$SDKROOT 
 export CPPFLAGS="-O2 -I$SDKROOT/usr/include -I$SDKROOT/usr/local/include -isysroot $SDKROOT -arch $MARCH"
 export CFLAGS="-O2 -I$SDKROOT/usr/include -I$SDKROOT/usr/local/include -isysroot $SDKROOT -arch $MARCH"
 export CXXFLAGS="-O2 -I$SDKROOT/usr/include -I$SDKROOT/usr/local/include -isysroot $SDKROOT -arch $MARCH"
-./autogen.sh
+#./autogen.sh
 ./configure --host=$MARCH --enable-shared=no --enable-static=yes
 make clean
 make
@@ -54,7 +54,7 @@ export LDFLAGS="-L$SDKROOT/usr/lib/ -isysroot $SDKROOT -Wl,-syslibroot,$SDKROOT 
 export CPPFLAGS="-O2 -I$SDKROOT/usr/include -I$SDKROOT/usr/local/include -isysroot $SDKROOT -arch $MARCH"
 export CFLAGS="-O2 -I$SDKROOT/usr/include -I$SDKROOT/usr/local/include -isysroot $SDKROOT -arch $MARCH"
 export CXXFLAGS="-O2 -I$SDKROOT/usr/include -I$SDKROOT/usr/local/include -isysroot $SDKROOT -arch $MARCH"
-./autogen.sh
+#./autogen.sh
 ./configure --host=$MARCH --enable-shared=no --enable-static=yes
 make clean
 make
