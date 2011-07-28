@@ -22,7 +22,7 @@ make clean
 cd ntpdate
 make
 cd ..
-mv ntpdate/ntpdate ../client/bin/init/ntpdate_4.2.4p7c_powerpc-apple-darwin
+mv ntpdate/ntpdate ../client/bin/init/ntpdate_4.2.4p7d_powerpc-apple-darwin
 make clean
 
 #Intel 32-bit Macs on OS X 10.4 (Tiger)
@@ -40,7 +40,7 @@ make clean
 cd ntpdate
 make
 cd ..
-mv ntpdate/ntpdate ../client/bin/init/ntpdate_4.2.4p7c_i686-apple-darwin
+mv ntpdate/ntpdate ../client/bin/init/ntpdate_4.2.4p7d_i686-apple-darwin
 
 #Intel 64-bit Macs on 10.5
 export MARCH=x86_64
@@ -57,6 +57,6 @@ make clean
 cd ntpdate
 make
 cd ..
-mv ntpdate/ntpdate ../client/bin/init/ntpdate_4.2.4p7c_x86_64-apple-darwin
-lipo -arch ppc ../client/bin/init/ntpdate_4.2.4p7c_powerpc-apple-darwin -arch i386 ../client/bin/init/ntpdate_4.2.4p7c_i686-apple-darwin -arch x86_64 ../client/bin/init/ntpdate_4.2.4p7c_x86_64-apple-darwin -create -output ../client/bin/init/ntpdate_4.2.4p7c_universal-apple-darwin
+mv ntpdate/ntpdate ../client/bin/init/ntpdate_4.2.4p7d_x86_64-apple-darwin
+lipo -arch ppc ../client/bin/init/ntpdate_4.2.4p7d_powerpc-apple-darwin -arch i386 ../client/bin/init/ntpdate_4.2.4p7d_i686-apple-darwin -arch x86_64 ../client/bin/init/ntpdate_4.2.4p7d_x86_64-apple-darwin -create -output ../client/bin/init/ntpdate_4.2.4p7d_universal-apple-darwin
 make clean
