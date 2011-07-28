@@ -4,11 +4,11 @@
 
 import os, time, shutil
 
-#FROM = "/data/cees2/QCN/trigger/continual/"
-#TO   = "/data/cees2/QCN/trigger/continual/"
+#FROM = "/data/QCN/trigger/continual/"
+#TO   = "/data/QCN/trigger/continual/"
 
-FROM = "/data/cees2/QCN/trigger/continual/"
-TO   = "/data/cees2/QCN/trigger/continual/"
+FROM = "/data/QCN/trigger/continual/"
+TO   = "/data/QCN/trigger/continual/"
 
 def moveFilesPath(frompath, topath):
   now = time.time()

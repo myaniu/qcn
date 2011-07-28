@@ -397,8 +397,8 @@ def main():
 
       if (int(res[0][0]) > DATE_MIN):
         IS_ARCHIVE = 1
-        UPLOAD_WEB_DIR           = "/data/cees2/QCN/trigger/archive/"
-        UPLOAD_WEB_DIR_CONTINUAL = "/data/cees2/QCN/trigger/archive/continual/"
+        UPLOAD_WEB_DIR           = "/data/QCN/trigger/archive/"
+        UPLOAD_WEB_DIR_CONTINUAL = "/data/QCN/trigger/archive/continual/"
         DBNAME                   = "qcnarchive"
         DBNAME_CONTINUAL         = "contarchive"
       else: 

@@ -4,7 +4,7 @@
 
 import os, time, shutil
 
-FROM = "/data/cees2/QCN/trigger/continual/"
+FROM = "/data/QCN/trigger/continual/"
 TO =   "/home/boinc/continual/"
 
 def moveFilesPath(frompath, topath):

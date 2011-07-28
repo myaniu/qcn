@@ -19,8 +19,8 @@ UPLOAD_CONTINUAL_WEB_DIR = "/var/www/trigger/continual/"
 
 #ARCHIVE_DIR = "/var/www/trigger/archive/"
 #ARCHIVE_CONTINUAL_DIR = "/var/www/trigger/archive/continual/"
-ARCHIVE_DIR = "/data/cees2/QCN/trigger/archive/"
-ARCHIVE_CONTINUAL_DIR = "/data/cees2/QCN/trigger/archive/continual/"
+ARCHIVE_DIR = "/data/QCN/trigger/archive/"
+ARCHIVE_CONTINUAL_DIR = "/data/QCN/trigger/archive/continual/"
 
 DBNAME = "qcnalpha"
 DBHOST = "db-private"

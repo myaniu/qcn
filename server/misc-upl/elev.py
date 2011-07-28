@@ -6,15 +6,15 @@ from zipfile import ZIP_STORED
 from time import strptime, mktime
 from subprocess import Popen, PIPE, STDOUT
 
-GRD_CMD = "/data/cees2/QCN/GMT/bin/grd2point /data/cees2/QCN/GMT/share/topo/topo30.grd -R"
+GRD_CMD = "/data/QCN/GMT/bin/grd2point /data/QCN/GMT/share/topo/topo30.grd -R"
 
 lonTrig = -122.3485
 latTrig = 37.96850
 
 # elevation data - usage of GRD_CMD -Rlon_min/lon_max/lat_min/lat_max
-#grd2point /data/cees2/QCN/GMT/share/topo/topo30.grd -R$lng/$lng2/$lat/$lat2
+#grd2point /data/QCN/GMT/share/topo/topo30.grd -R$lng/$lng2/$lat/$lat2
 #> temp.xyz#output
-#/data/cees2/QCN/GMT/bin/grd2point /data/cees2/QCN/GMT/share/topo/topo30.grd -R-75.01/-75.00/40.00/40.01#grd2point: GMT WARNING: (w - x_min) must equal (NX + eps) * x_inc), where NX is an integer and |eps| <= 0.0001.
+#/data/QCN/GMT/bin/grd2point /data/QCN/GMT/share/topo/topo30.grd -R-75.01/-75.00/40.00/40.01#grd2point: GMT WARNING: (w - x_min) must equal (NX + eps) * x_inc), where NX is an integer and |eps| <= 0.0001.
 #grd2point: GMT WARNING: w reset to -75.0083
 #grd2point: GMT WARNING: (n - y_min) must equal (NY + eps) * y_inc), where NY is an integer and |eps| <= 0.0001.
 #grd2point: GMT WARNING: n reset to 40.0083
