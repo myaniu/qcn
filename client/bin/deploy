@@ -7,7 +7,7 @@ fi
 
 # setup nci & non-nci version numbers for the BOINC app versions
 vnci=$1
-vnon=`eval "echo 'scale=2; $vnci-.01'|bc"`
+#vnon=`eval "echo 'scale=2; $vnci-.01'|bc"`
 
 #qcn/boinc files required
 print_common_boinc_files ()
@@ -36,7 +36,6 @@ cleanup_files ()
 rm -f qcnlive*.zip
 rm -f qcnusb*.zip
 rm -f *qcn*${vnci}*
-rm -f *qcn*${vnon}*
 rm -rf QCNLive*
 }
 
