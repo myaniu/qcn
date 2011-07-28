@@ -36,7 +36,10 @@ using std::vector;
 #define PHP_CMD         "/usr/local/bin/php"
 #define EVENT_PATH      "/var/www/qcn/earthquakes/"
 #define BAD_HOSTS_FILE  "/var/www/qcn/earthquakes/inc/bad_hosts.txt"
-#define PATH_EMAIL      "/var/www/boinc/sensor/html/user/earthquake_email.php"
+
+#define EMAIL_DIR       "/var/www/boinc/sensor/html/user"
+#define EMAIL_INC       "/var/www/boinc/sensor/html/inc/earthquake_email.inc"
+#define EMAIL_PATH      "/var/www/boinc/sensor/html/user/earthquake_email.php"
 #define GMT_MAP_PHP     "/var/www/qcn/earthquakes/inc/gmt_map.php"
 
 #define EVENT_URL_BASE  "http://qcn.stanford.edu/earthquakes"

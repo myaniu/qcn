@@ -667,17 +667,18 @@ float intensity_extrapolate(int pors, float dist, float dist_eq_nd, float pga1) 
 void php_event_email(const struct event& e, const char* epath) {
 // This subroutine should email us when we detect an earthquake 
 
-   FILE *fpMail  = fopen(PATH_EMAIL, "w");                       // Open web file
+   FILE *fpMail  = fopen(EMAIL_PATH, "w");                       // Open web file
    if (!fpMail) {
     log_messages.printf(MSG_CRITICAL,
-       "Error in php_event_email - could not open file %s\n", PATH_EMAIL
+       "Error in php_event_email - could not open file %s\n", EMAIL_PATH 
     );
     return;  //error
    }
 
    fprintf(fpMail,"<?php\n");
-   fprintf(fpMail,"chdir(\"/var/www/boinc/sensor/html/user/\");\n");
-   fprintf(fpMail,"require_once(\"/var/www/boinc/sensor/html/inc/earthquake_email.inc\");\n");        // Include email php function
+   fprintf(fpMail,"chdir(\"%s\");\n", EMAIL_DIR);
+   // Include email php function
+   fprintf(fpMail,"require_once(\"%s\");\n", EMAIL_INC); 
 
    time_t t_eq; struct tm * t_eq_gmt; t_eq = (int) e.e_time; t_eq_gmt = gmtime(&t_eq);     // Earthquake time
 
@@ -699,7 +700,7 @@ void php_event_email(const struct event& e, const char* epath) {
 
    char *sys_cmd = new char[_MAX_PATH];
    memset(sys_cmd, 0x00, sizeof(char) * _MAX_PATH);
-   sprintf(sys_cmd,"%s %s", PHP_CMD, PATH_EMAIL);
+   sprintf(sys_cmd,"%s %s", PHP_CMD, EMAIL_PATH);
    int retval = system(sys_cmd);
    if (retval) {
     log_messages.printf(MSG_CRITICAL,
@@ -778,7 +779,7 @@ int QCN_IntensityMap(const bool& bInsertEvent, struct event& e, const int& ciOff
    int j,k,n;
    //int l,il;                                            // Index variables
    mode_t E_MASK=0777;                                        // File Permissions for new directory to create
-   int email = 0;                                             // email=1 if we want to email people about new event
+   int email = 1;                                             // email=1 if we want to email people about new event
    int retval = 0;
 
    float longitude = e.longitude;                                    // Copy even longitude & Latitude
