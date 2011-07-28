@@ -16,7 +16,7 @@
 # To install in $HOME instead of /usr/local, use:
 #    make install prefix=$HOME
 
-CC=gcc-4.2
+CC=/Developer/usr/bin/gcc-4.2
 
 CFLAGS=-O2 -I/Developer/SDKs/MacOSX10.5.sdk/usr/include -I/Developer/SDKs/MacOSX10.5.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64 -m64
 #CFLAGS=-O -DMAX_WBITS=14 -DMAX_MEM_LEVEL=7
@@ -27,8 +27,8 @@ CFLAGS=-O2 -I/Developer/SDKs/MacOSX10.5.sdk/usr/include -I/Developer/SDKs/MacOSX
 SFLAGS=-O2 -I/Developer/SDKs/MacOSX10.5.sdk/usr/include -I/Developer/SDKs/MacOSX10.5.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64 -fPIC -m64
 LDFLAGS=-L/Developer/SDKs/MacOSX10.5.sdk/usr/lib/ -isysroot /Developer/SDKs/MacOSX10.5.sdk -Wl,-syslibroot,/Developer/SDKs/MacOSX10.5.sdk -arch x86_64 -L. libz.a
 TEST_LDFLAGS=-L. libz.a
-LDSHARED=gcc-4.2
-CPP=gcc-4.2 -E
+LDSHARED=/Developer/usr/bin/gcc-4.2
+CPP=/Developer/usr/bin/gcc-4.2 -E
 
 STATICLIB=libz.a
 SHAREDLIB=
