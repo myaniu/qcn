@@ -125,6 +125,7 @@ print_r($user);
 echo $to . "   " . $mail . "\n";
 echo "[" . PEAR::isError($mail) . "]\n";
 */
+//print_r($mail);
 
   return ! PEAR::isError($mail);
    }
