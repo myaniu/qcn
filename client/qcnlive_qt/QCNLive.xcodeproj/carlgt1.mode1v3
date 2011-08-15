@@ -202,7 +202,7 @@
 			<key>Content</key>
 			<dict>
 				<key>PBXProjectModuleGUID</key>
-				<string>43BE0BA213F98B1800E92104</string>
+				<string>43BE0BBA13F98D4E00E92104</string>
 				<key>PBXProjectModuleLabel</key>
 				<string>csensor_mac_usb_onavi01.cpp</string>
 				<key>PBXSplitModuleInNavigatorKey</key>
@@ -210,16 +210,16 @@
 					<key>Split0</key>
 					<dict>
 						<key>PBXProjectModuleGUID</key>
-						<string>43BE0BA313F98B1800E92104</string>
+						<string>43BE0BBB13F98D4E00E92104</string>
 						<key>PBXProjectModuleLabel</key>
 						<string>csensor_mac_usb_onavi01.cpp</string>
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>43BE0BB413F98BDB00E92104</string>
+						<string>43BE0BBC13F98D4E00E92104</string>
 						<key>history</key>
 						<array>
-							<string>43BE0BA413F98B1800E92104</string>
+							<string>43BE0BB613F98D4800E92104</string>
 						</array>
 					</dict>
 					<key>SplitCount</key>
@@ -373,7 +373,7 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>43BE0BB313F98BDB00E92104</string>
+										<string>43BE0BB913F98D4E00E92104</string>
 										<key>history</key>
 										<array>
 											<string>4341A86712B577260051AA5C</string>
@@ -590,14 +590,13 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>43BE0BB513F98BDB00E92104</string>
 		<string>43BE0BA813F98B1800E92104</string>
 		<string>43BE0BA913F98B1800E92104</string>
 		<string>1C78EAAD065D492600B07095</string>
 		<string>43B794F012B364B200675464</string>
 		<string>1CD10A99069EF8BA00B06720</string>
 		<string>/Users/carlgt1/projects/qcn/client/qcnlive_qt/QCNLive.xcodeproj</string>
-		<string>43BE0BA213F98B1800E92104</string>
+		<string>43BE0BBA13F98D4E00E92104</string>
 	</array>
 	<key>WindowString</key>
 	<string>156 223 1269 918 0 0 1920 1178 </string>

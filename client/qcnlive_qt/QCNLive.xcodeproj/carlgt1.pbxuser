@@ -256,11 +256,11 @@
 		delayBeforeContinue = 0;
 		fileReference = 9B6843302E440676EF54364B /* csensor_mac_usb_onavi01.cpp */;
 		functionName = "CSensorMacUSBONavi01::detect()";
-		hitCount = 0;
+		hitCount = 1;
 		ignoreCount = 0;
 		lineNumber = 45;
 		location = QCNLive;
-		modificationTime = 335121370.104725;
+		modificationTime = 335121372.791964;
 		originalNumberOfMultipleMatches = 1;
 		state = 1;
 	};
@@ -352,6 +352,30 @@
 		rLoc = 1012;
 		rType = 0;
 		vrLen = 1760;
+		vrLoc = 0;
+	};
+	43BE0BB613F98D4800E92104 /* PBXBookmark */ = {
+		isa = PBXBookmark;
+		fRef = 9B6843302E440676EF54364B /* csensor_mac_usb_onavi01.cpp */;
+	};
+	43BE0BB913F98D4E00E92104 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 73A3AF2E1B5C8E0CC5E3B85D /* qcn_thread_sensor.cpp */;
+		name = "qcn_thread_sensor.cpp: 64";
+		rLen = 0;
+		rLoc = 2787;
+		rType = 0;
+		vrLen = 1852;
+		vrLoc = 4509;
+	};
+	43BE0BBC13F98D4E00E92104 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 9B6843302E440676EF54364B /* csensor_mac_usb_onavi01.cpp */;
+		name = "csensor_mac_usb_onavi01.cpp: 288";
+		rLen = 0;
+		rLoc = 9354;
+		rType = 0;
+		vrLen = 2068;
 		vrLoc = 0;
 	};
 	43C6EC12132EF2F600AFC6BE /* PBXTextBookmark */ = {
@@ -479,7 +503,7 @@
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {1209, 4095}}";
 			sepNavSelRange = "{2787, 0}";
-			sepNavVisRange = "{4509, 1722}";
+			sepNavVisRange = "{4509, 1852}";
 			sepNavWindowFrame = "{{38, 108}, {1472, 1044}}";
 		};
 	};
@@ -596,6 +620,9 @@
 			43BE0BAF13F98B6F00E92104 /* PBXTextBookmark */ = 43BE0BAF13F98B6F00E92104 /* PBXTextBookmark */;
 			43BE0BB313F98BDB00E92104 /* PBXTextBookmark */ = 43BE0BB313F98BDB00E92104 /* PBXTextBookmark */;
 			43BE0BB413F98BDB00E92104 /* PBXTextBookmark */ = 43BE0BB413F98BDB00E92104 /* PBXTextBookmark */;
+			43BE0BB613F98D4800E92104 /* PBXBookmark */ = 43BE0BB613F98D4800E92104 /* PBXBookmark */;
+			43BE0BB913F98D4E00E92104 /* PBXTextBookmark */ = 43BE0BB913F98D4E00E92104 /* PBXTextBookmark */;
+			43BE0BBC13F98D4E00E92104 /* PBXTextBookmark */ = 43BE0BBC13F98D4E00E92104 /* PBXTextBookmark */;
 			43C6EC12132EF2F600AFC6BE = 43C6EC12132EF2F600AFC6BE /* PBXTextBookmark */;
 			43D90CA512B8823D00C504DD = 43D90CA512B8823D00C504DD /* PBXTextBookmark */;
 			43DFBCD5132ED13B003749C4 = 43DFBCD5132ED13B003749C4 /* PBXTextBookmark */;
@@ -620,9 +647,9 @@
 	};
 	9B6843302E440676EF54364B /* csensor_mac_usb_onavi01.cpp */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1413, 3952}}";
-			sepNavSelRange = "{1012, 15}";
-			sepNavVisRange = "{0, 1760}";
+			sepNavIntBoundsRect = "{{0, 0}, {2868, 3666}}";
+			sepNavSelRange = "{9354, 0}";
+			sepNavVisRange = "{0, 2068}";
 			sepNavWindowFrame = "{{169, 123}, {1472, 1044}}";
 		};
 	};
