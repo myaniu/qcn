@@ -38,14 +38,17 @@ void CSensorMacUSBONavi01::closePort()
 
 bool CSensorMacUSBONavi01::detect()
 {
-	// first see if the port actually exists (the device is a "file" at /dev/tty.xrusbmodemNNN, given in STR_USB_ONAVI01
+	// first see if the port actually exists (the device is a "file" at /dev/tty.xrusbmodemNNN, given in STR_USB_ONAVI01 and now STR_USB_ONAVI02 since they seem to have changed the device name
 
         // use glob to match names, if count is > 0, we found a match
         glob_t gt;
         memset(&gt, 0x00, sizeof(glob_t));
         if (glob(STR_USB_ONAVI01, GLOB_NOCHECK, NULL, &gt) || !gt.gl_matchc) {  // either glob failed or no match
-           globfree(&gt);
-           return false;
+           // device string failed, but try the new string onavi (really Exar USB driver) may be using
+           if (glob(STR_USB_ONAVI02, GLOB_NOCHECK, NULL, &gt) || !gt.gl_matchc) {  // either glob failed or no match
+             globfree(&gt);
+             return false;
+           }
         }
         char* strDevice = new char[_MAX_PATH];
         memset(strDevice, 0x00, sizeof(char) * _MAX_PATH);

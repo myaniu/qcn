@@ -55,8 +55,8 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 266;
-		location = qcnusb;
-		modificationTime = 333464535.522741;
+		location = QCNLive;
+		modificationTime = 335121370.032162;
 		originalNumberOfMultipleMatches = 1;
 		state = 1;
 	};
@@ -73,8 +73,8 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 291;
-		location = qcnusb;
-		modificationTime = 333464535.593615;
+		location = QCNLive;
+		modificationTime = 335121370.074984;
 		originalNumberOfMultipleMatches = 1;
 		state = 1;
 	};
@@ -185,8 +185,8 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 674;
-		location = qcnusb;
-		modificationTime = 333464535.4770671;
+		location = QCNLive;
+		modificationTime = 335121370.001677;
 		originalNumberOfMultipleMatches = 1;
 		state = 1;
 	};
@@ -235,6 +235,124 @@
 	43B794F312B364B200675464 /* Code sense */ = {
 		isa = PBXCodeSenseManager;
 		indexTemplatePath = "";
+	};
+	43BE0B9213F98AF200E92104 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 73A3AF2E1B5C8E0CC5E3B85D /* qcn_thread_sensor.cpp */;
+		name = "qcn_thread_sensor.cpp: 64";
+		rLen = 0;
+		rLoc = 2787;
+		rType = 0;
+		vrLen = 1852;
+		vrLoc = 4509;
+	};
+	43BE0B9D13F98B1100E92104 /* csensor_mac_usb_onavi01.cpp:45 */ = {
+		isa = PBXFileBreakpoint;
+		actions = (
+		);
+		breakpointStyle = 0;
+		continueAfterActions = 0;
+		countType = 0;
+		delayBeforeContinue = 0;
+		fileReference = 9B6843302E440676EF54364B /* csensor_mac_usb_onavi01.cpp */;
+		functionName = "CSensorMacUSBONavi01::detect()";
+		hitCount = 0;
+		ignoreCount = 0;
+		lineNumber = 45;
+		location = QCNLive;
+		modificationTime = 335121370.104725;
+		originalNumberOfMultipleMatches = 1;
+		state = 1;
+	};
+	43BE0BA113F98B1800E92104 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 73A3AF2E1B5C8E0CC5E3B85D /* qcn_thread_sensor.cpp */;
+		name = "qcn_thread_sensor.cpp: 64";
+		rLen = 0;
+		rLoc = 2787;
+		rType = 0;
+		vrLen = 1722;
+		vrLoc = 4509;
+	};
+	43BE0BA413F98B1800E92104 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 9B6843302E440676EF54364B /* csensor_mac_usb_onavi01.cpp */;
+		name = "csensor_mac_usb_onavi01.cpp: 45";
+		rLen = 0;
+		rLoc = 994;
+		rType = 0;
+		vrLen = 1833;
+		vrLoc = 0;
+	};
+	43BE0BA513F98B1800E92104 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 9B6843302E440676EF54364B /* csensor_mac_usb_onavi01.cpp */;
+		name = "csensor_mac_usb_onavi01.cpp: 45";
+		rLen = 0;
+		rLoc = 994;
+		rType = 0;
+		vrLen = 1760;
+		vrLoc = 0;
+	};
+	43BE0BAC13F98B2900E92104 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 73A3AF2E1B5C8E0CC5E3B85D /* qcn_thread_sensor.cpp */;
+		name = "qcn_thread_sensor.cpp: 64";
+		rLen = 0;
+		rLoc = 2787;
+		rType = 0;
+		vrLen = 1852;
+		vrLoc = 4509;
+	};
+	43BE0BAD13F98B2900E92104 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 9B6843302E440676EF54364B /* csensor_mac_usb_onavi01.cpp */;
+		name = "csensor_mac_usb_onavi01.cpp: 45";
+		rLen = 0;
+		rLoc = 994;
+		rType = 0;
+		vrLen = 1833;
+		vrLoc = 0;
+	};
+	43BE0BAE13F98B6F00E92104 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 73A3AF2E1B5C8E0CC5E3B85D /* qcn_thread_sensor.cpp */;
+		name = "qcn_thread_sensor.cpp: 64";
+		rLen = 0;
+		rLoc = 2787;
+		rType = 0;
+		vrLen = 1722;
+		vrLoc = 4509;
+	};
+	43BE0BAF13F98B6F00E92104 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 9B6843302E440676EF54364B /* csensor_mac_usb_onavi01.cpp */;
+		name = "csensor_mac_usb_onavi01.cpp: 45";
+		rLen = 0;
+		rLoc = 994;
+		rType = 0;
+		vrLen = 1760;
+		vrLoc = 0;
+	};
+	43BE0BB313F98BDB00E92104 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 73A3AF2E1B5C8E0CC5E3B85D /* qcn_thread_sensor.cpp */;
+		name = "qcn_thread_sensor.cpp: 64";
+		rLen = 0;
+		rLoc = 2787;
+		rType = 0;
+		vrLen = 1722;
+		vrLoc = 4509;
+	};
+	43BE0BB413F98BDB00E92104 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 9B6843302E440676EF54364B /* csensor_mac_usb_onavi01.cpp */;
+		name = "csensor_mac_usb_onavi01.cpp: 46";
+		rLen = 15;
+		rLoc = 1012;
+		rType = 0;
+		vrLen = 1760;
+		vrLoc = 0;
 	};
 	43C6EC12132EF2F600AFC6BE /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
@@ -359,9 +477,9 @@
 	};
 	73A3AF2E1B5C8E0CC5E3B85D /* qcn_thread_sensor.cpp */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1209, 4108}}";
+			sepNavIntBoundsRect = "{{0, 0}, {1209, 4095}}";
 			sepNavSelRange = "{2787, 0}";
-			sepNavVisRange = "{4509, 1994}";
+			sepNavVisRange = "{4509, 1722}";
 			sepNavWindowFrame = "{{38, 108}, {1472, 1044}}";
 		};
 	};
@@ -383,13 +501,14 @@
 	};
 	91B15E841AA80083484172DE /* Project object */ = {
 		activeArchitecturePreference = i386;
-		activeBuildConfigurationName = Release;
+		activeBuildConfigurationName = Debug;
 		activeExecutable = 43B794D212B3649900675464 /* QCNLive */;
 		activeTarget = B1E56B9E0881E5027F4AEEAF /* QCNLive */;
 		breakpoints = (
 			439434CC12B6E61C00B7810D /* csensor_mac_usb_jw24f14.cpp:674 */,
 			431407DF13AFD23400832ABB /* csensor.cpp:266 */,
 			431407E113AFD23F00832ABB /* csensor.cpp:291 */,
+			43BE0B9D13F98B1100E92104 /* csensor_mac_usb_onavi01.cpp:45 */,
 		);
 		codeSenseManager = 43B794F312B364B200675464 /* Code sense */;
 		executables = (
@@ -454,28 +573,38 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 333465245;
-			PBXWorkspaceStateSaveDate = 333465245;
+			PBXPerProjectTemplateStateSaveDate = 335121136;
+			PBXWorkspaceStateSaveDate = 335121136;
 		};
 		perUserProjectItems = {
-			430BAE7013E046D10008D6F1 /* PBXTextBookmark */ = 430BAE7013E046D10008D6F1 /* PBXTextBookmark */;
-			432367EE13DE100D0072057D /* PBXTextBookmark */ = 432367EE13DE100D0072057D /* PBXTextBookmark */;
-			432367FB13DE10760072057D /* PBXTextBookmark */ = 432367FB13DE10760072057D /* PBXTextBookmark */;
-			432367FD13DE10760072057D /* PBXTextBookmark */ = 432367FD13DE10760072057D /* PBXTextBookmark */;
-			4331E51A12B5838F00C80DED /* PBXTextBookmark */ = 4331E51A12B5838F00C80DED /* PBXTextBookmark */;
-			4341A86712B577260051AA5C /* PBXTextBookmark */ = 4341A86712B577260051AA5C /* PBXTextBookmark */;
-			4385A1CB1307CED7000BCFDC /* PBXTextBookmark */ = 4385A1CB1307CED7000BCFDC /* PBXTextBookmark */;
-			4385A1CC1307CED7000BCFDC /* PBXTextBookmark */ = 4385A1CC1307CED7000BCFDC /* PBXTextBookmark */;
-			4394342F12B6E11300B7810D /* PBXTextBookmark */ = 4394342F12B6E11300B7810D /* PBXTextBookmark */;
-			43C6EC12132EF2F600AFC6BE /* PBXTextBookmark */ = 43C6EC12132EF2F600AFC6BE /* PBXTextBookmark */;
-			43D90CA512B8823D00C504DD /* PBXTextBookmark */ = 43D90CA512B8823D00C504DD /* PBXTextBookmark */;
-			43DFBCD5132ED13B003749C4 /* PBXTextBookmark */ = 43DFBCD5132ED13B003749C4 /* PBXTextBookmark */;
-			43DFBCE5132ED443003749C4 /* PBXTextBookmark */ = 43DFBCE5132ED443003749C4 /* PBXTextBookmark */;
-			43DFBCE6132ED443003749C4 /* PBXTextBookmark */ = 43DFBCE6132ED443003749C4 /* PBXTextBookmark */;
-			43DFBD17132ED898003749C4 /* PBXTextBookmark */ = 43DFBD17132ED898003749C4 /* PBXTextBookmark */;
-			43F9CFD613638E03003C246E /* PBXTextBookmark */ = 43F9CFD613638E03003C246E /* PBXTextBookmark */;
-			43F9CFE013638E1E003C246E /* PBXTextBookmark */ = 43F9CFE013638E1E003C246E /* PBXTextBookmark */;
-			43FF796613E0460700E3B69B /* PBXTextBookmark */ = 43FF796613E0460700E3B69B /* PBXTextBookmark */;
+			430BAE7013E046D10008D6F1 = 430BAE7013E046D10008D6F1 /* PBXTextBookmark */;
+			432367EE13DE100D0072057D = 432367EE13DE100D0072057D /* PBXTextBookmark */;
+			432367FB13DE10760072057D = 432367FB13DE10760072057D /* PBXTextBookmark */;
+			432367FD13DE10760072057D = 432367FD13DE10760072057D /* PBXTextBookmark */;
+			4331E51A12B5838F00C80DED = 4331E51A12B5838F00C80DED /* PBXTextBookmark */;
+			4341A86712B577260051AA5C = 4341A86712B577260051AA5C /* PBXTextBookmark */;
+			4385A1CB1307CED7000BCFDC = 4385A1CB1307CED7000BCFDC /* PBXTextBookmark */;
+			4385A1CC1307CED7000BCFDC = 4385A1CC1307CED7000BCFDC /* PBXTextBookmark */;
+			4394342F12B6E11300B7810D = 4394342F12B6E11300B7810D /* PBXTextBookmark */;
+			43BE0B9213F98AF200E92104 /* PBXTextBookmark */ = 43BE0B9213F98AF200E92104 /* PBXTextBookmark */;
+			43BE0BA113F98B1800E92104 /* PBXTextBookmark */ = 43BE0BA113F98B1800E92104 /* PBXTextBookmark */;
+			43BE0BA413F98B1800E92104 /* PBXTextBookmark */ = 43BE0BA413F98B1800E92104 /* PBXTextBookmark */;
+			43BE0BA513F98B1800E92104 /* PBXTextBookmark */ = 43BE0BA513F98B1800E92104 /* PBXTextBookmark */;
+			43BE0BAC13F98B2900E92104 /* PBXTextBookmark */ = 43BE0BAC13F98B2900E92104 /* PBXTextBookmark */;
+			43BE0BAD13F98B2900E92104 /* PBXTextBookmark */ = 43BE0BAD13F98B2900E92104 /* PBXTextBookmark */;
+			43BE0BAE13F98B6F00E92104 /* PBXTextBookmark */ = 43BE0BAE13F98B6F00E92104 /* PBXTextBookmark */;
+			43BE0BAF13F98B6F00E92104 /* PBXTextBookmark */ = 43BE0BAF13F98B6F00E92104 /* PBXTextBookmark */;
+			43BE0BB313F98BDB00E92104 /* PBXTextBookmark */ = 43BE0BB313F98BDB00E92104 /* PBXTextBookmark */;
+			43BE0BB413F98BDB00E92104 /* PBXTextBookmark */ = 43BE0BB413F98BDB00E92104 /* PBXTextBookmark */;
+			43C6EC12132EF2F600AFC6BE = 43C6EC12132EF2F600AFC6BE /* PBXTextBookmark */;
+			43D90CA512B8823D00C504DD = 43D90CA512B8823D00C504DD /* PBXTextBookmark */;
+			43DFBCD5132ED13B003749C4 = 43DFBCD5132ED13B003749C4 /* PBXTextBookmark */;
+			43DFBCE5132ED443003749C4 = 43DFBCE5132ED443003749C4 /* PBXTextBookmark */;
+			43DFBCE6132ED443003749C4 = 43DFBCE6132ED443003749C4 /* PBXTextBookmark */;
+			43DFBD17132ED898003749C4 = 43DFBD17132ED898003749C4 /* PBXTextBookmark */;
+			43F9CFD613638E03003C246E = 43F9CFD613638E03003C246E /* PBXTextBookmark */;
+			43F9CFE013638E1E003C246E = 43F9CFE013638E1E003C246E /* PBXTextBookmark */;
+			43FF796613E0460700E3B69B = 43FF796613E0460700E3B69B /* PBXTextBookmark */;
 		};
 		sourceControlManager = 43B794F212B364B200675464 /* Source Control */;
 		userBuildSettings = {
@@ -491,9 +620,9 @@
 	};
 	9B6843302E440676EF54364B /* csensor_mac_usb_onavi01.cpp */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {852, 3835}}";
-			sepNavSelRange = "{952, 0}";
-			sepNavVisRange = "{742, 783}";
+			sepNavIntBoundsRect = "{{0, 0}, {1413, 3952}}";
+			sepNavSelRange = "{1012, 15}";
+			sepNavVisRange = "{0, 1760}";
 			sepNavWindowFrame = "{{169, 123}, {1472, 1044}}";
 		};
 	};
