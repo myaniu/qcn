@@ -9,7 +9,7 @@ dnl not sure exactly what the minimum version is (but 2.13 wont work)
 AC_PREREQ(2.57)
 
 dnl Set the BOINC version here.  You can also use the set-version script.
-AC_INIT(QCN, 6.18)
+AC_INIT(QCN, 6.65)
 LIBBOINC_VERSION=`echo ${PACKAGE_VERSION} | sed 's/\./:/g'`
 AC_SUBST([LIBBOINC_VERSION])
 
@@ -82,7 +82,6 @@ echo "--- Build Components: (${configured_to_build}) ---"
 AC_CANONICAL_TARGET
 
 dnl generate .tar.gz, .tar.bz2, .zip
-dnl AM_INIT_AUTOMAKE(dist-bzip2 dist-zip)
 AM_INIT_AUTOMAKE(dist-zip)
 
 AC_COPYRIGHT([
@@ -603,7 +602,6 @@ AC_CONFIG_FILES([
                  Makefile
                  client/main/Makefile
                  client/graphics/Makefile
-                 client/qcnlive/Makefile
                  client/qcnusb/Makefile
                  m4/Makefile
                  ])
