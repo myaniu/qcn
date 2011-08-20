@@ -21,14 +21,45 @@ int deploy_qcn(bool bQCNLive = false);  // send exe's to QCN server
 const int g_version_major = QCN_MAJOR_VERSION;
 const int g_version_minor = QCN_MINOR_VERSION;
 
+void print_version_xml()
+{
+	FILE* fVersion = NULL;
+	if (fopen_s(&fVersion, "version.xml", "w") || !fVersion) {
+	    fprintf(stdout, "Could not create version.xml file!\n");
+		return; // error!
+	}
+
+	fprintf(fVersion, 
+		"<version>\n"
+		"  <file>\n"
+		"    <physical_name>qcn_%d.%02d_%s__nci.exe</physical_name>\n"
+		"    <main_program/>\n"
+		"  </file>\n"
+		"  <file>\n"
+		"    <physical_name>qcn_graphics_%d.%02d_%s.exe</physical_name>\n"
+		"    <logical_name>graphics_app</logical_name>\n"
+		"  </file>\n"
+		"</version>\n",
+			g_version_major, g_version_minor, BOINC_WIN_SUFFIX
+			,
+			g_version_major, g_version_minor, BOINC_WIN_SUFFIX
+	);
+
+	fclose(fVersion);
+}
+
 void printQCNFiles(FILE* fBatch)
 {
+   print_version_xml();
 
      // new BOINC handled nci (__nci)
-        fprintf(fBatch, "mkdir qcn_%d.%02d_%s__nci.exe\n", g_version_major, g_version_minor, BOINC_WIN_SUFFIX);
-        fprintf(fBatch, "cd qcn_%d.%02d_%s__nci.exe\n", g_version_major, g_version_minor, BOINC_WIN_SUFFIX);
+	// CMC note - we are assuming this directory was already created by Mac or Linux build!
+	// fprintf(fBatch, "mkdir %d.%02d\n", g_version_major, g_version_minor);
+        fprintf(fBatch, "cd %d.%02d\n", g_version_major, g_version_minor);
+        fprintf(fBatch, "mkdir %s__nci\n", BOINC_WIN_SUFFIX);
+        fprintf(fBatch, "cd %s__nci\n", BOINC_WIN_SUFFIX);
         fprintf(fBatch, "put qcn_%d.%02d_%s__nci.exe\n", g_version_major, g_version_minor, BOINC_WIN_SUFFIX);
-        fprintf(fBatch, "put graphics_app=qcn_graphics_%d.%02d_%s.exe\n", g_version_major, g_version_minor, BOINC_WIN_SUFFIX);
+        fprintf(fBatch, "put qcn_graphics_%d.%02d_%s.exe\n", g_version_major, g_version_minor, BOINC_WIN_SUFFIX);
         fprintf(fBatch, "put init/hvt\n");
         fprintf(fBatch, "put init/cbt\n");
         fprintf(fBatch, "put init/earthday4096.jpg\n");
@@ -37,12 +68,14 @@ void printQCNFiles(FILE* fBatch)
         fprintf(fBatch, "put init/xyzaxesbl.jpg\n");
         fprintf(fBatch, "put init/logo.jpg\n");
         fprintf(fBatch, "put init/%s_%s.exe\n", NTPDATE_EXEC_VERSION, BOINC_WIN_SUFFIX);
+        fprintf(fBatch, "put version.xml\n");
 #ifndef _WIN64
         fprintf(fBatch, "put init/MotionNodeAccelAPI.dll\n");
 #endif
     fprintf(fBatch, "cd ../\n");
 
-        //old style BOINC
+/*
+   //old style BOINC
         fprintf(fBatch, "mkdir qcn_%d.%02d_%s.exe\n", g_version_major, g_version_minor - 1, BOINC_WIN_SUFFIX);
         fprintf(fBatch, "cd qcn_%d.%02d_%s.exe\n", g_version_major, g_version_minor - 1, BOINC_WIN_SUFFIX);
         fprintf(fBatch, "put qcn_%d.%02d_%s.exe\n", g_version_major, g_version_minor - 1, BOINC_WIN_SUFFIX);
@@ -58,6 +91,7 @@ void printQCNFiles(FILE* fBatch)
 #ifndef _WIN64
         fprintf(fBatch, "put init/MotionNodeAccelAPI.dll\n");
 #endif
+*/
 
 }
 
