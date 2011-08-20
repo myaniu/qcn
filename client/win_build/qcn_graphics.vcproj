@@ -235,7 +235,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="opengl32.lib glu32.lib jpeglib.lib boinc_lib.lib boinc_api.lib zlib.lib boinc_zip.lib freetype.lib ftgl.lib"
-				OutputFile="../bin/graphics_app=qcn_graphics.exe"
+				OutputFile="../bin/qcn_graphics.exe"
 				Version=""
 				LinkIncremental="1"
 				AdditionalLibraryDirectories=""
@@ -390,7 +390,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="opengl32.lib glu32.lib jpeglibl.lib boinc_libl.lib boinc_apil.lib zlibl.lib boinc_zipl.lib freetypel.lib ftgll.lib"
-				OutputFile="../bin/graphics_app=qcn_graphics.exe"
+				OutputFile="../bin/qcn_graphics.exe"
 				Version=""
 				LinkIncremental="1"
 				AdditionalLibraryDirectories=""
