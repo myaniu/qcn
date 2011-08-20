@@ -278,7 +278,7 @@
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
 				AdditionalLibraryDirectories="$(QTDIR)\lib,c:/projects/qcn/client/win_build,../sensor/motionnodeaccel"
-				IgnoreDefaultLibraryNames=""
+				IgnoreDefaultLibraryNames="msvcrt.lib"
 				DelayLoadDLLs="MotionNodeAccelAPI.dll"
 				GenerateDebugInformation="false"
 				ProgramDatabaseFile=""
@@ -2630,57 +2630,22 @@
 				<File
 					RelativePath=".\DebugDLL\moc_dlgmakequake.cpp"
 					>
-					<FileConfiguration
-						Name="DebugDLL|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-						/>
-					</FileConfiguration>
 				</File>
 				<File
 					RelativePath=".\DebugDLL\moc_dlgsettings.cpp"
 					>
-					<FileConfiguration
-						Name="DebugDLL|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-						/>
-					</FileConfiguration>
 				</File>
 				<File
 					RelativePath=".\DebugDLL\moc_glwidget.cpp"
 					>
-					<FileConfiguration
-						Name="DebugDLL|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-						/>
-					</FileConfiguration>
 				</File>
 				<File
 					RelativePath=".\DebugDLL\moc_myframe.cpp"
 					>
-					<FileConfiguration
-						Name="DebugDLL|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-						/>
-					</FileConfiguration>
 				</File>
 				<File
 					RelativePath=".\DebugDLL\moc_qcnqt.cpp"
 					>
-					<FileConfiguration
-						Name="DebugDLL|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-						/>
-					</FileConfiguration>
 				</File>
 			</Filter>
 		</Filter>
