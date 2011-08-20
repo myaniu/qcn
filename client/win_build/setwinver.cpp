@@ -129,10 +129,10 @@ int main(int argc, char** argv)
     if (strstr(argv[1], "qcn_graphics")) {
 		bDeploy = true;
 	   sprintf_s(strOut[0], _MAX_PATH, "%s\\%s_%d.%02d_%s.exe", argv[3], argv[1], g_version_major, g_version_minor, BOINC_WIN_SUFFIX); 
-	   sprintf_s(strOut[1], _MAX_PATH, "%s\\%s_%d.%02d_%s.exe", argv[3], argv[1], g_version_major, g_version_minor - 1, BOINC_WIN_SUFFIX); 
+	   //sprintf_s(strOut[1], _MAX_PATH, "%s\\%s_%d.%02d_%s.exe", argv[3], argv[1], g_version_major, g_version_minor - 1, BOINC_WIN_SUFFIX); 
 	} else {
 	   sprintf_s(strOut[0], _MAX_PATH, "%s\\%s_%d.%02d_%s__nci.exe", argv[3], argv[1], g_version_major, g_version_minor, BOINC_WIN_SUFFIX); 
-	   sprintf_s(strOut[1], _MAX_PATH, "%s\\%s_%d.%02d_%s.exe", argv[3], argv[1], g_version_major, g_version_minor - 1, BOINC_WIN_SUFFIX); 
+	   //sprintf_s(strOut[1], _MAX_PATH, "%s\\%s_%d.%02d_%s.exe", argv[3], argv[1], g_version_major, g_version_minor - 1, BOINC_WIN_SUFFIX); 
         }
 
 	if (!boinc_file_exists(strIn)) {
@@ -140,13 +140,13 @@ int main(int argc, char** argv)
 		return 1;
 	}
 	if (boinc_file_exists(strOut[0])) boinc_delete_file(strOut[0]);
-	if (boinc_file_exists(strOut[1])) boinc_delete_file(strOut[1]);
+	//if (boinc_file_exists(strOut[1])) boinc_delete_file(strOut[1]);
 	if (rename(strIn, strOut[0])) {
 		fprintf(stdout, "Failed to rename %s to %s!\n", strIn, strOut[0]);
 	}
 	else {
 		fprintf(stdout, "Successfully renamed %s to %s!\n", strIn, strOut[0]);
-                boinc_copy(strOut[0], strOut[1]);
+              //  boinc_copy(strOut[0], strOut[1]);
 	}
 
 	// if graphics then we need to deploy the qcn apps to the server
