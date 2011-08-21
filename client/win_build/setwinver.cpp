@@ -112,9 +112,10 @@ int main(int argc, char** argv)
 		// this machine has to be setup to seamlessly (i.e. authorized_keys2 etc)
 		// ssh/sftp to carlgt1@qcn-web, so the VPN to Stanford must be on
 		return deploy_qcn(false);
-	}
+	} 
+	else
 	*/
-	else if (argc == 2 && !strcmp(argv[1], "deploy")) {
+	if (argc == 2 && !strcmp(argv[1], "deploy")) {
 		// send to the qcn server!
 		// this machine has to be setup to seamlessly (i.e. authorized_keys2 etc)
 		// ssh/sftp to carlgt1@qcn-web, so the VPN to Stanford must be on
