@@ -267,9 +267,11 @@ int deploy_qcn(bool bQCNLive)
 	    fprintf(stdout, "Error with sftp!\n");
 	}
 
-        // get rid of exe files
-	strcpy(strCmd, "del /q *qcn*.exe");
-	iRetVal = system(strCmd);
+	if (bQCNLive) { // clean up
+       // get rid of exe files
+	   strcpy(strCmd, "del /q *qcn*.exe");
+	   iRetVal = system(strCmd);
+	}
         
 	delete [] strCmd;
 
