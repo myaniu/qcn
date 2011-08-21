@@ -86,7 +86,7 @@
 				SuppressStartupBanner="true"
 				AdditionalLibraryDirectories="$(QTDIR)\lib,c:/projects/qcn/client/win_build,../sensor/motionnodeaccel/"
 				IgnoreAllDefaultLibraries="false"
-				IgnoreDefaultLibraryNames=""
+				IgnoreDefaultLibraryNames="msvcrtd.lib"
 				DelayLoadDLLs="MotionNodeAccelAPI.dll"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile=""
