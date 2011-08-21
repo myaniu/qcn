@@ -102,7 +102,7 @@
 			/>
 			<Tool
 				Name="VCManifestTool"
-				EmbedManifest="false"
+				EmbedManifest="true"
 			/>
 			<Tool
 				Name="VCXDCMakeTool"
@@ -291,7 +291,7 @@
 			/>
 			<Tool
 				Name="VCManifestTool"
-				EmbedManifest="false"
+				EmbedManifest="true"
 			/>
 			<Tool
 				Name="VCXDCMakeTool"
@@ -419,11 +419,13 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				Description="deploy boinc files first (qcn_client &amp; graphics)"
-				CommandLine="..\bin\setwinverl.exe deploy-boinc"
+				Description=""
+				CommandLine=""
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
+				Description=""
+				CommandLine=""
 			/>
 			<Tool
 				Name="VCXMLDataGeneratorTool"
@@ -487,7 +489,8 @@
 			/>
 			<Tool
 				Name="VCManifestTool"
-				EmbedManifest="false"
+				OutputManifestFile="$(IntDir)\$(TargetFileName).embed.manifest"
+				EmbedManifest="true"
 			/>
 			<Tool
 				Name="VCXDCMakeTool"
@@ -504,7 +507,7 @@
 			<Tool
 				Name="VCPostBuildEventTool"
 				Description="deploy to webserver"
-				CommandLine="..\bin\setwinverl.exe deploy-qcnlive"
+				CommandLine="..\bin\setwinverl.exe deploy"
 			/>
 		</Configuration>
 		<Configuration
@@ -686,6 +689,7 @@
 			/>
 			<Tool
 				Name="VCManifestTool"
+				EmbedManifest="true"
 			/>
 			<Tool
 				Name="VCXDCMakeTool"

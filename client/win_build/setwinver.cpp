@@ -98,22 +98,27 @@ void printQCNFiles(FILE* fBatch)
 // simple program to rename Windows QCN programs to full BOINC format
 int main(int argc, char** argv)
 {
+	// note qcn_client & qcn_graphics built as Release, Multithreaded (not DLL)
+	// QCNLive has to be build with Release Multithreaded DLL
+
 	// pass in 4 args, 1st by default is this execname,
 	// 2nd is the program name without the path or suffix, 3rd is path to prog
 	// 4th is output path
 
 #ifndef _DEBUG  // never deploy a debug build!
+	/*
 	if (argc == 2 && !strcmp(argv[1], "deploy-boinc")) {
 		// send to the qcn server!
 		// this machine has to be setup to seamlessly (i.e. authorized_keys2 etc)
 		// ssh/sftp to carlgt1@qcn-web, so the VPN to Stanford must be on
 		return deploy_qcn(false);
 	}
-	else if (argc == 2 && !strcmp(argv[1], "deploy-qcnlive")) {
+	*/
+	else if (argc == 2 && !strcmp(argv[1], "deploy")) {
 		// send to the qcn server!
 		// this machine has to be setup to seamlessly (i.e. authorized_keys2 etc)
 		// ssh/sftp to carlgt1@qcn-web, so the VPN to Stanford must be on
-		return deploy_qcn(true);
+		return deploy_qcn(true) && deploy_qcn(false);
 	}
 #endif
 
@@ -265,7 +270,7 @@ int deploy_qcn(bool bQCNLive)
 	    fprintf(stdout, "Error with sftp!\n");
 	}
 
-	if (bQCNLive) { // clean up
+	if (!bQCNLive) { // clean up
        // get rid of exe files
 	   strcpy(strCmd, "del /q *qcn*.exe");
 	   iRetVal = system(strCmd);
