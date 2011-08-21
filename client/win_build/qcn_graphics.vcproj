@@ -424,6 +424,7 @@
 				Name="VCPostBuildEventTool"
 				Description="setwinver"
 				CommandLine="..\bin\setwinver.exe qcn_graphics ..\bin ..\bin"
+				ExcludedFromBuild="false"
 			/>
 		</Configuration>
 		<Configuration

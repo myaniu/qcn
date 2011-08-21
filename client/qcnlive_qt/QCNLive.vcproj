@@ -307,8 +307,9 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				Description="deploy to webserver"
-				CommandLine="..\bin\setwinver.exe deploy"
+				Description=""
+				CommandLine=""
+				ExcludedFromBuild="false"
 			/>
 		</Configuration>
 		<Configuration
@@ -418,6 +419,8 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
+				Description="deploy boinc files first (qcn_client &amp; graphics)"
+				CommandLine="..\bin\setwinverl.exe deploy-boinc"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -501,7 +504,7 @@
 			<Tool
 				Name="VCPostBuildEventTool"
 				Description="deploy to webserver"
-				CommandLine="..\bin\setwinverl.exe deploy"
+				CommandLine="..\bin\setwinverl.exe deploy-qcnlive"
 			/>
 		</Configuration>
 		<Configuration
