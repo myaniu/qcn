@@ -1186,6 +1186,8 @@ void QCN_UpdateQuake(const bool& bInsert, struct event& e, const int& ciOff)
         // do the upload file request here (if wasn't already posted)
         if (! vt[n].posted) { // only need to update if wasn't already posted
            sendTriggerFileRequest(vt[n].file, vt[n].result_name, vt[n].hostid, vt[n].db);
+           // now set memvar to be posted in casea it's reused since we don't want duplicate msg_to_host trickle down requests
+           vt[n].posted = 1; 
         }
      } // end for loop over vt[n]
 
