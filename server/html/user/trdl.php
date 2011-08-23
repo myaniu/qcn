@@ -10,6 +10,10 @@ set_time_limit(600);
 // make sure they're logged in
 $user = get_logged_in_user(true);
 
+
+// if no querystring then we are coming in "fresh" so just show a small subset ie usgs-detected quakes
+$bNoQuery = ($_SERVER["QUERY_STRING"] == null);
+
 // authenticate admin-level user
 //qcn_admin_user_auth($user, true);
 
@@ -137,23 +141,23 @@ if ($bVarietyNormal == "" && $bVarietyPing == "" && $bVarietyContinual == "") {
    }
 }
 
-if ($bUseFile == "" && $db_name != "continual") {
+/*
+if ($bUseFile && $db_name != "continual") {
    $bUseFile = 1;
 }
 
 
-
-if ($bUseQuake == "" && $db_name != "continual") {
+if ($bUseQuake && $db_name != "continual") {
    $bUseQuake = 1;
    if ($bUseQCNQuake==1) {
      $bUseQuake = 0;
    }
-
 }
-
-if ($db_name == "continual" && $bUseTime == null) {
+if ($db_name == "continual" && $bUseTime) {
    $bUseTime = 1;
 }
+*/
+
 
 /*if ($strLatMin =="") {$strLatMin =  "-90.0";}
 if ($strLatMax =="") {$strLatMax =  " 90.0";}
@@ -217,7 +221,12 @@ echo "<html><head>
 // if no constraints then at least use quakes as otherwise we'll have too many i.e. a million triggers
 //if (!$bUseFile && !$bUseQuake && !$bUseQCNQuake && !$bUseLat && !$bUseTime && !$bUseSensor) $bUseQuake = 1;
 // actually use time constraint, if quake page use the
-if (!$bUseFile && !$bUseQuake && !$bUseQCNQuake && !$bUseLat && !$bUseTime && !$bUseSensor) $bUseTime = 1;
+//if (!$bUseFile && !$bUseQuake && !$bUseQCNQuake && !$bUseLat && !$bUseTime && !$bUseSensor) $bUseTime = 1;
+if ($bNoQuery) {
+  $bUseQuake = 1;
+  $bUseQCNQuake = 1;
+  $quake_mag_min = 3.0;
+}
 
 echo "<form name='formSelect' method=\"get\" action=trdl.php >";
 //echo "<HR>Constraints:<br><br>";
@@ -461,12 +470,16 @@ if ($bUseHost) {
   }
 }
 
-if ($bUseQuake) {
-   $whereString .= " AND t.qcn_quakeid>0 AND q.magnitude >= " . $quake_mag_min;
-}
-
-if ($bUseQCNQuake) {
+if ($bUseQuake || $bUseQCNQuake) {
+  if ($bUseQuake && !$bUseQCNQuake) {
+     $whereString .= " AND t.qcn_quakeid>0 AND q.magnitude >= " . $quake_mag_min;
+  }
+  else if (!$bUseQCNQuake && $bUseQCNQuake) {
    $whereString .= " AND t.qcn_quakeid>0 AND q.guid like 'QCN_%' ";
+  }
+  else { // both
+    $whereString .= " AND t.qcn_quakeid > 0 ";
+  }
 }
 
 if ($bUseLat) {
