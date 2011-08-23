@@ -141,24 +141,6 @@ if ($bVarietyNormal == "" && $bVarietyPing == "" && $bVarietyContinual == "") {
    }
 }
 
-/*
-if ($bUseFile && $db_name != "continual") {
-   $bUseFile = 1;
-}
-
-
-if ($bUseQuake && $db_name != "continual") {
-   $bUseQuake = 1;
-   if ($bUseQCNQuake==1) {
-     $bUseQuake = 0;
-   }
-}
-if ($db_name == "continual" && $bUseTime) {
-   $bUseTime = 1;
-}
-*/
-
-
 /*if ($strLatMin =="") {$strLatMin =  "-90.0";}
 if ($strLatMax =="") {$strLatMax =  " 90.0";}
 if ($strLonMin =="") {$strLonMin = "-180.0";}
@@ -223,6 +205,7 @@ echo "<html><head>
 // actually use time constraint, if quake page use the
 //if (!$bUseFile && !$bUseQuake && !$bUseQCNQuake && !$bUseLat && !$bUseTime && !$bUseSensor) $bUseTime = 1;
 if ($bNoQuery) {
+  $bUseFile = 1;
   $bUseQuake = 1;
   $bUseQCNQuake = 1;
   $quake_mag_min = 3.0;
