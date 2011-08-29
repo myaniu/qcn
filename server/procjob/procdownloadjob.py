@@ -90,7 +90,7 @@ def SetRunType():
     URL_DOWNLOAD_BASE = "http://qcn-upl.stanford.edu/trigger/continual/job/"
     # CMC note -- make sure these paths exist
     UPLOAD_WEB_DIR = "/var/www/trigger/continual/"
-    ARCHIVE_WEB_DIR = "/data/cees2/QCN/trigger/archive/continual/"
+    ARCHIVE_WEB_DIR = "/data/QCN/trigger/archive/continual/"
     DOWNLOAD_WEB_DIR = "/var/www/trigger/continual/job/"
     DBNAME = "continual"
     DBNAME_ARCHIVE = "contarchive"
@@ -98,7 +98,7 @@ def SetRunType():
   else:   #qcnalpha/sensor database
     URL_DOWNLOAD_BASE = "http://qcn-upl.stanford.edu/trigger/job/"
     UPLOAD_WEB_DIR = "/var/www/trigger/"
-    ARCHIVE_WEB_DIR = "/data/cees2/QCN/trigger/archive/"
+    ARCHIVE_WEB_DIR = "/data/QCN/trigger/archive/"
     DOWNLOAD_WEB_DIR = "/var/www/trigger/job/"
     DBNAME = "qcnalpha"
     DBNAME_ARCHIVE = "qcnarchive"
