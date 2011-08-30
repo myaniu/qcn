@@ -336,7 +336,7 @@ extern int sacio
 	
 
 #ifdef QCN_SAC_DATA
-	lTemp = FALSE;
+	lTemp = 0L;
 #else
 	lTemp = TRUE;
 #endif
