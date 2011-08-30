@@ -154,7 +154,11 @@ bool MyFrame::Init()
     centralLayout->addWidget(m_sliderTime, 1, 0, 1, 2);
     m_centralWidget->setLayout(centralLayout);
 			
+#ifdef QCN_RAW_DATA
+    setWindowTitle(tr("QCNLive (Raw Data)"));
+#else
     setWindowTitle(tr("QCNLive"));
+#endif
 	statusBar()->showMessage(tr("Ready"), 0);
 		
 	QSettings settings(SET_COMPANY, SET_APP);
@@ -772,7 +776,11 @@ void MyFrame::actionHelp()
 	else if (pAction == m_actionHelpAbout) {
 		//MyAboutBox myabout(this);
 		//myabout.exec();	
+#ifdef QCN_RAW_DATA
+		QString strVer(tr("About QCNLive (Raw Data) version "));
+#else
 		QString strVer(tr("About QCNLive version "));
+#endif
 		QString strMsg(tr("<b>QCNLive</b> is provided free of charge, "
 			"<BR>no guarantees or warrantees or liabilities,<BR>"
 			"(i.e. use at your own risk),<BR>all rights reserved, by the "

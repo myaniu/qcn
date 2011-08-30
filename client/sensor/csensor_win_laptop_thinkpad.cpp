@@ -82,9 +82,15 @@ bool CSensorWinThinkpad::read_xyz(float& x1, float& y1, float& z1)
 	try {
 		memset(&m_ThinkpadData, 0x00, sizeof(m_ThinkpadData));
 		m_getDataThinkpad(&m_ThinkpadData);
+#ifdef QCN_RAW_DATA
+		x1 = (float) m_ThinkpadData.x;
+		y1 = (float) m_ThinkpadData.y;
+		z1 = 0.0f;
+#else
 		x1 = (((float) m_ThinkpadData.x - 512.0f) / 256.0f) * EARTH_G;
 		y1 = (((float) m_ThinkpadData.y - 512.0f) / 256.0f) * EARTH_G;
 		z1 = 0.0f;
+#endif
 	}
 	catch(...) {
 		bRetVal = false;

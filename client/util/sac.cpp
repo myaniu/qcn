@@ -64,14 +64,15 @@ void wsac0(
        fprintf(stderr, "wsac0:yarray:: Expected %ld bytes written but wrote %ld for %s\n", sizeof(float) * npts, sizeof(float) * sizeWrite, fname);
     }
 
-	/*
+#ifdef QCN_RAW_DATA
+	// write time data out - else assume it's evenly spaced data by dt
     //sizeWrite = fwrite(xarray, sizeof(float), npts, fp);  // write the x-axis (time/t0) as floats differenced from ref (zero) time
     sizeWrite = fp.write(xarray, sizeof(float), npts);  // write the x-axis (time/t0) as floats differenced from ref (zero) time
     if (sizeWrite != (size_t) (npts)) {
        fprintf(stderr, "wsac0:xarray:: Expected %ld bytes written but wrote %ld for %s\n", sizeof(float) * npts, sizeof(float) * sizeWrite, fname);
     }
-	 */
-
+#endif
+	
     //fclose(fp);
     //fp = NULL;
     fp.close();
@@ -223,7 +224,11 @@ extern int sacio
     memset(s, 0x00, sizeof(float) * npts);
     memset(t, 0x00, sizeof(float) * npts);
 
+#ifdef QCN_RAW_DATA	
+    const double cfFactor = 1.0f;  // sac data is in nanometers per sec^2 
+#else
     const double cfFactor = sm->bMyOutputSAC ? 1.0e9f : 1.0f;  // sac data is in nanometers per sec^2 
+#endif
 
     lOff = n1;
 	//double dCtr = 0.0;
@@ -300,7 +305,11 @@ extern int sacio
     lTemp = IB;
     long_swap((QCN_CBYTE*) &lTemp, sacdata.l[esl_iztype]);   // IB means it's begin time
 
+#ifdef QCN_SAC_DATA
+    lTemp = 0;  // unknown
+#else
     lTemp = IACC;
+#endif
     long_swap((QCN_CBYTE*) &lTemp, sacdata.l[esl_idep]);   // acceleration in nm/s/s, so multiply x/y/z values by 10^9
 
     lTemp = IRLDTA;
@@ -328,8 +337,13 @@ extern int sacio
     float_swap((QCN_CBYTE*) &fTemp, sacdata.f[esf_stdp]);  // this is the delta in evenly spaced file -- we try for .02 but not guaranteed based on accelerometer grade
 #endif
 	
-	 lTemp = TRUE;
-	 long_swap((QCN_CBYTE*) &lTemp, sacdata.l[esl_leven]);   // actually we are going to force even spaced .02s (50Hz) timings
+
+#ifdef QCN_SAC_DATA
+	lTemp = FALSE;
+#else
+	lTemp = TRUE;
+#endif
+	long_swap((QCN_CBYTE*) &lTemp, sacdata.l[esl_leven]);   // actually we are going to force even spaced .02s (50Hz) timings
 	
     // event origin time -- trigger time I guess?  in seconds relative to ref time; was set in the above loop and clock adjusted
     if (ti.bReal && fTimeTrigger > -1.0f)  { // NB: if it's a demo trigger, don't mark trigger point

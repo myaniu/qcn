@@ -70,9 +70,15 @@ inline bool CSensorLinuxUSBJW::read_xyz(float& x1, float& y1, float& z1)
     }
 
     // note that x/y/z should be scaled to +/- 2g, return values as +/- 2.0f*EARTH_G (in define.h: 9.78033 m/s^2)
+#ifdef QCN_RAW_DATA
+    x1 = (float) m_piAxes[0];
+    y1 = (float) m_piAxes[1];
+    z1 = (float) m_piAxes[2];
+#else           
     x1 = EARTH_G * (((float) m_piAxes[0] - 512.0f ) / 256.0f);
     y1 = EARTH_G * (((float) m_piAxes[1] - 512.0f ) / 256.0f);
     z1 = EARTH_G * (((float) m_piAxes[2] - 512.0f ) / 256.0f);
+#endif 
 
     // fprintf(stderr, "x1 = %f   y1 = %f   z1 = %f\n", x1, y1, z1);
 

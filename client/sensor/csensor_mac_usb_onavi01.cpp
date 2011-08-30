@@ -209,7 +209,13 @@ Values >32768 are positive g and <32768 are negative g. The sampling rate is set
 					z = (bytesIn[6] * 255) + bytesIn[7];
 					cs   = bytesIn[8];
 					for (int i = 2; i <= 7; i++) iCS += bytesIn[i];
-					
+
+#ifdef QCN_RAW_DATA	
+					// for testing on USGS shake table - they just want the raw integer data sent out
+					x1 = (float) x;
+					y1 = (float) y;
+					z1 = (float) z;
+#else
 					// convert to g decimal value
 					// g  = x - 32768 * (5 / 65536) 
 					// Where: x is the data value 0 - 65536 (x0000 to xFFFF). 
@@ -217,6 +223,7 @@ Values >32768 are positive g and <32768 are negative g. The sampling rate is set
 					x1 = ((float) x - 32768.0f) * FLOAT_ONAVI_FACTOR * EARTH_G;
 					y1 = ((float) y - 32768.0f) * FLOAT_ONAVI_FACTOR * EARTH_G;
 					z1 = ((float) z - 32768.0f) * FLOAT_ONAVI_FACTOR * EARTH_G;
+#endif
 					
 					x0 = x1; y0 = y1; z0 = z1;  // preserve values
 					

@@ -527,8 +527,14 @@ inline bool CSensorMacUSBJW::read_xyz(float& x1, float& y1, float& z1)
 
       result = (*m_USBDevHandle[0])->getElementValue(m_USBDevHandle[0], m_cookies.gAxisCookie[i], &hidEvent);
       // note that x/y/z should be scaled to +/- 2g, return values as +/- 2.0f*EARTH_G (in define.h: 9.78033 m/s^2)
-      if (result == kIOReturnSuccess) 
+      if (result == kIOReturnSuccess) {
+#ifdef QCN_RAW_DATA	
+	 // for testing on USGS shake table - they just want the raw integer data sent out
+	 fVal[i]  = (float) hidEvent.value;
+#else
          fVal[i]  = (((float) hidEvent.value - 512.0f) / 256.0f) * EARTH_G;
+#endif
+       }
     }
 
     x1 = fVal[0]; y1 = fVal[1]; z1 = fVal[2];

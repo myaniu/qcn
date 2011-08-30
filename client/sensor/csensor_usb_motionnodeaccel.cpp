@@ -204,9 +204,15 @@ The attached plot shows how data is currently being displayed in QCNLive from th
 //        y1 = a[1] * EARTH_G;
 //        z1 = a[2] * EARTH_G;
 */
+#ifdef QCN_RAW_DATA	
+        x1 = a[2];
+        y1 = a[0];
+        z1 = a[1];
+#else
         x1 = a[2] * EARTH_G;
         y1 = a[0] * EARTH_G;
         z1 = a[1] * EARTH_G;
+#endif
         bRet = true;
     }
     return bRet;

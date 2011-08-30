@@ -78,9 +78,15 @@ fprintf(stdout, "x=%d  y=%d  z=%d\n",
 
    // 2^14 = 16384, so 4g across 16384, range is 0 through 16383 (-2g to 2g)
     // note that x/y/z should be scaled to +/- 2g, return values as +/- 2.0f*EARTH_G (in define.h: 9.78033 m/s^2)
+#ifdef QCN_RAW_DATA
+                x1 = (float) m_piAxes[0];
+                y1 = (float) m_piAxes[1];
+                z1 = (float) m_piAxes[2];
+#else           
                 x1 = (((float) m_piAxes[0] - 8191.5f) / 4095.75f) * EARTH_G;
                 y1 = (((float) m_piAxes[1] - 8191.5f) / 4095.75f) * EARTH_G;
                 z1 = (((float) m_piAxes[2] - 8191.5f) / 4095.75f) * EARTH_G;
+#endif 
 
     // fprintf(stderr, "x1 = %f   y1 = %f   z1 = %f\n", x1, y1, z1);
 

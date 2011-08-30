@@ -282,10 +282,13 @@ inline bool CSensorMacLaptop::read_xyz(float& x1, float& y1, float& z1)
     
       // note that x/y/z should be scaled to +/- 2g, return values as +/- 2.0f*EARTH_G (in define.h: 9.78033 m/s^2)
       // mac's seem to be 256 = 1g, so divide each value by 256 * multiply by EARTH_G
+#ifndef QCN_RAW_DATA	
+   // convert to +/- 2g unless we want the raw data output
       x1 = (x1 / 256.0) * EARTH_G;
       y1 = (y1 / 256.0) * EARTH_G;
       z1 = (z1 / 256.0) * EARTH_G;
- 
+#endif
+	
       return (result == KERN_SUCCESS);
 }
 

@@ -51,7 +51,7 @@ extern int sacio
   const char* strSensorType
 );
 
-// sac constants we're using, ref http://terra.rice.edu/comp.res/apps/S/sac/docs/FileFormatPt2.html
+// sac constants we're using, ref http://www.iris.edu/software/sac/manual/file_format.html
 const int32_t ITIME  = 1;
 const int32_t IDISP  = 6;
 const int32_t IACC   = 8;

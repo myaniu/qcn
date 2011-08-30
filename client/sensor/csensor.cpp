@@ -246,6 +246,8 @@ inline bool CSensor::mean_xyz()
    *pt2 = 0.0f;
 		 
    // first check if we're behind time, i.e. the last time is greater than our dt, if so carry over the last value and get out fast so it can catch up
+   // note if we want the raw data, don't do this check as we want the "misses"
+#ifndef QCN_RAW_DATA
 	if (dLast[3] > sm->t0check) {
 	   // weird timing issue, i.e. current time is greater than the requested time		
 		dLast[3] = dtime();  // save this current time
@@ -271,6 +273,7 @@ inline bool CSensor::mean_xyz()
 		//usleep(DT_MICROSECOND_SAMPLE); // sleep a little so it's not an instantaneous return
 		return true;
 	}
+#endif // QCN_RAW_DATA
 	
    // this will get executed at least once, then the time is checked to see if we have enough time left for more samples
    do {
