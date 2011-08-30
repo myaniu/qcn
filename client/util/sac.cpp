@@ -237,14 +237,11 @@ extern int sacio
 
        //qcn_util::getTimeOffset((const double*) sm->dTimeServerTime, (const double*) sm->dTimeServerOffset, (const double) sm->t0[lOff], dTimeOffset, dTimeOffsetTime);
 
-	   // it's fairly reliable & safe to assume that each point is sm->dt apart (leven = true)
 		if (j == 0) {
 			dTimeZero = sm->t0[lOff] + qcn_main::g_dTimeOffset;
 			t[0] = 0.0f;
 		}
 		else {
-			//dCtr += sm->dt;
- 	        //t[j] = dCtr;
 			t[j] = sm->t0[lOff] + qcn_main::g_dTimeOffset - dTimeZero;
 		}
 			
