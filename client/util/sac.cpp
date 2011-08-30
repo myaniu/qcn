@@ -286,7 +286,7 @@ extern int sacio
 		
 	// note the time & accel aces arrays are all byte-swapped at this point!
 
-    // ref for header values:  http://terra.rice.edu/comp.res/apps/S/sac/docs/FileFormatPt2.html
+    // ref for header values:  http://www.iris.edu/software/sac/manual/file_format.html
     set_sac_null(&sacdata); 
 
     lTemp = SAC_VERSION;
