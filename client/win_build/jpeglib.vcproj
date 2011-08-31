@@ -529,6 +529,260 @@
 				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
+		<Configuration
+			Name="DebugDLLRaw|Win32"
+			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
+			IntermediateDirectory="$(ConfigurationName)"
+			ConfigurationType="4"
+			CharacterSet="0"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="MASM"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="0"
+				PreprocessorDefinitions="WIN32;_DEBUG;_LIB;_WIN32"
+				BasicRuntimeChecks="3"
+				RuntimeLibrary="3"
+				BrowseInformation="0"
+				WarningLevel="3"
+				DebugInformationFormat="4"
+				CompileAs="1"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLibrarianTool"
+				OutputFile="jpeglibdl.lib"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+		</Configuration>
+		<Configuration
+			Name="DebugDLLRaw|x64"
+			OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			ConfigurationType="4"
+			CharacterSet="0"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="MASM"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				TargetEnvironment="3"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="0"
+				PreprocessorDefinitions="WIN32;_DEBUG;_LIB;_WIN32"
+				BasicRuntimeChecks="3"
+				RuntimeLibrary="3"
+				BrowseInformation="0"
+				WarningLevel="3"
+				DebugInformationFormat="3"
+				CompileAs="1"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLibrarianTool"
+				OutputFile="jpeglibd64.lib"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+		</Configuration>
+		<Configuration
+			Name="ReleaseDLLRaw|Win32"
+			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
+			IntermediateDirectory="$(ConfigurationName)"
+			ConfigurationType="4"
+			CharacterSet="0"
+			ManagedExtensions="0"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="MASM"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				PreprocessorDefinitions="_WIN32;WIN32;NDEBUG;_LIB"
+				RuntimeLibrary="2"
+				CompileAs="1"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLibrarianTool"
+				OutputFile="jpeglibl.lib"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+		</Configuration>
+		<Configuration
+			Name="ReleaseDLLRaw|x64"
+			OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			ConfigurationType="4"
+			CharacterSet="0"
+			ManagedExtensions="0"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="MASM"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				TargetEnvironment="3"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				PreprocessorDefinitions="_WIN32;WIN32;NDEBUG;_LIB"
+				RuntimeLibrary="2"
+				CompileAs="1"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLibrarianTool"
+				OutputFile="jpeglib64.lib"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+		</Configuration>
 	</Configurations>
 	<References>
 	</References>
@@ -573,6 +827,22 @@
 						CompileAs="1"
 					/>
 				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\jpeg-6b\jcapimin.c"
@@ -603,6 +873,22 @@
 				</FileConfiguration>
 				<FileConfiguration
 					Name="DebugDLL|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|x64"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -645,6 +931,22 @@
 						CompileAs="1"
 					/>
 				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\jpeg-6b\jccoefct.c"
@@ -675,6 +977,22 @@
 				</FileConfiguration>
 				<FileConfiguration
 					Name="DebugDLL|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|x64"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -717,6 +1035,22 @@
 						CompileAs="1"
 					/>
 				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\jpeg-6b\jcdctmgr.c"
@@ -747,6 +1081,22 @@
 				</FileConfiguration>
 				<FileConfiguration
 					Name="DebugDLL|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|x64"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -789,6 +1139,22 @@
 						CompileAs="1"
 					/>
 				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\jpeg-6b\jcinit.c"
@@ -819,6 +1185,22 @@
 				</FileConfiguration>
 				<FileConfiguration
 					Name="DebugDLL|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|x64"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -861,6 +1243,22 @@
 						CompileAs="1"
 					/>
 				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\jpeg-6b\jcmarker.c"
@@ -891,6 +1289,22 @@
 				</FileConfiguration>
 				<FileConfiguration
 					Name="DebugDLL|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|x64"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -933,6 +1347,22 @@
 						CompileAs="1"
 					/>
 				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\jpeg-6b\jcomapi.c"
@@ -963,6 +1393,22 @@
 				</FileConfiguration>
 				<FileConfiguration
 					Name="DebugDLL|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|x64"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -1005,6 +1451,22 @@
 						CompileAs="1"
 					/>
 				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\jpeg-6b\jcphuff.c"
@@ -1035,6 +1497,22 @@
 				</FileConfiguration>
 				<FileConfiguration
 					Name="DebugDLL|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|x64"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -1077,6 +1555,22 @@
 						CompileAs="1"
 					/>
 				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\jpeg-6b\jcsample.c"
@@ -1107,6 +1601,22 @@
 				</FileConfiguration>
 				<FileConfiguration
 					Name="DebugDLL|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|x64"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -1149,6 +1659,22 @@
 						CompileAs="1"
 					/>
 				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\jpeg-6b\jdapimin.c"
@@ -1179,6 +1705,22 @@
 				</FileConfiguration>
 				<FileConfiguration
 					Name="DebugDLL|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|x64"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -1221,6 +1763,22 @@
 						CompileAs="1"
 					/>
 				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\jpeg-6b\jdatadst.c"
@@ -1251,6 +1809,22 @@
 				</FileConfiguration>
 				<FileConfiguration
 					Name="DebugDLL|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|x64"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -1293,6 +1867,22 @@
 						CompileAs="1"
 					/>
 				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\jpeg-6b\jdcoefct.c"
@@ -1323,6 +1913,22 @@
 				</FileConfiguration>
 				<FileConfiguration
 					Name="DebugDLL|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|x64"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -1365,6 +1971,22 @@
 						CompileAs="1"
 					/>
 				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\jpeg-6b\jddctmgr.c"
@@ -1395,6 +2017,22 @@
 				</FileConfiguration>
 				<FileConfiguration
 					Name="DebugDLL|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|x64"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -1437,6 +2075,22 @@
 						CompileAs="1"
 					/>
 				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\jpeg-6b\jdinput.c"
@@ -1467,6 +2121,22 @@
 				</FileConfiguration>
 				<FileConfiguration
 					Name="DebugDLL|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|x64"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -1509,6 +2179,22 @@
 						CompileAs="1"
 					/>
 				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\jpeg-6b\jdmarker.c"
@@ -1539,6 +2225,22 @@
 				</FileConfiguration>
 				<FileConfiguration
 					Name="DebugDLL|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|x64"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -1581,6 +2283,22 @@
 						CompileAs="1"
 					/>
 				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\jpeg-6b\jdmerge.c"
@@ -1611,6 +2329,22 @@
 				</FileConfiguration>
 				<FileConfiguration
 					Name="DebugDLL|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|x64"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -1653,6 +2387,22 @@
 						CompileAs="1"
 					/>
 				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\jpeg-6b\jdpostct.c"
@@ -1683,6 +2433,22 @@
 				</FileConfiguration>
 				<FileConfiguration
 					Name="DebugDLL|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|x64"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -1725,6 +2491,22 @@
 						CompileAs="1"
 					/>
 				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\jpeg-6b\jdtrans.c"
@@ -1755,6 +2537,22 @@
 				</FileConfiguration>
 				<FileConfiguration
 					Name="DebugDLL|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|x64"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -1797,6 +2595,22 @@
 						CompileAs="1"
 					/>
 				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\jpeg-6b\jfdctflt.c"
@@ -1827,6 +2641,22 @@
 				</FileConfiguration>
 				<FileConfiguration
 					Name="DebugDLL|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|x64"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -1869,6 +2699,22 @@
 						CompileAs="1"
 					/>
 				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\jpeg-6b\jfdctint.c"
@@ -1899,6 +2745,22 @@
 				</FileConfiguration>
 				<FileConfiguration
 					Name="DebugDLL|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|x64"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -1941,6 +2803,22 @@
 						CompileAs="1"
 					/>
 				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\jpeg-6b\jidctfst.c"
@@ -1971,6 +2849,22 @@
 				</FileConfiguration>
 				<FileConfiguration
 					Name="DebugDLL|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|x64"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -2013,6 +2907,22 @@
 						CompileAs="1"
 					/>
 				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\jpeg-6b\jidctred.c"
@@ -2043,6 +2953,22 @@
 				</FileConfiguration>
 				<FileConfiguration
 					Name="DebugDLL|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|x64"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -2085,6 +3011,22 @@
 						CompileAs="1"
 					/>
 				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\jpeg-6b\jmemmgr.c"
@@ -2115,6 +3057,22 @@
 				</FileConfiguration>
 				<FileConfiguration
 					Name="DebugDLL|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|x64"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -2157,6 +3115,22 @@
 						CompileAs="1"
 					/>
 				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\jpeg-6b\jquant2.c"
@@ -2187,6 +3161,22 @@
 				</FileConfiguration>
 				<FileConfiguration
 					Name="DebugDLL|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|x64"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -2229,6 +3219,22 @@
 						CompileAs="1"
 					/>
 				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\jpeg-6b\rdbmp.c"
@@ -2259,6 +3265,22 @@
 				</FileConfiguration>
 				<FileConfiguration
 					Name="DebugDLL|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|x64"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -2301,6 +3323,22 @@
 						CompileAs="1"
 					/>
 				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\jpeg-6b\rdgif.c"
@@ -2331,6 +3369,22 @@
 				</FileConfiguration>
 				<FileConfiguration
 					Name="DebugDLL|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|x64"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -2373,6 +3427,22 @@
 						CompileAs="1"
 					/>
 				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\jpeg-6b\rdrle.c"
@@ -2403,6 +3473,22 @@
 				</FileConfiguration>
 				<FileConfiguration
 					Name="DebugDLL|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|x64"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -2445,6 +3531,22 @@
 						CompileAs="1"
 					/>
 				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\jpeg-6b\rdtarga.c"
@@ -2475,6 +3577,22 @@
 				</FileConfiguration>
 				<FileConfiguration
 					Name="DebugDLL|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|x64"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -2517,6 +3635,22 @@
 						CompileAs="1"
 					/>
 				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\jpeg-6b\wrbmp.c"
@@ -2547,6 +3681,22 @@
 				</FileConfiguration>
 				<FileConfiguration
 					Name="DebugDLL|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|x64"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -2589,6 +3739,22 @@
 						CompileAs="1"
 					/>
 				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\jpeg-6b\wrppm.c"
@@ -2619,6 +3785,22 @@
 				</FileConfiguration>
 				<FileConfiguration
 					Name="DebugDLL|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|x64"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -2661,6 +3843,22 @@
 						CompileAs="1"
 					/>
 				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\jpeg-6b\wrtarga.c"
@@ -2691,6 +3889,22 @@
 				</FileConfiguration>
 				<FileConfiguration
 					Name="DebugDLL|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugDLLRaw|x64"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
