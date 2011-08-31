@@ -192,7 +192,11 @@ bool CSensorLinuxUSBJW24F14::detect()
          break;  // found a JW24F14
       }
    }
+#ifdef QCN_RAW_DATA
+   setSingleSampleDT(true); // set to true in raw mode so we don't get any interpolated/avg points (i.e. just the "integer" value hopefully)
+#else
    setSingleSampleDT(false);
+#endif
    return (bool)(getTypeEnum() == SENSOR_USB_JW24F14);
 }
 

@@ -258,6 +258,9 @@ int qcn_main(int argc, char **argv)
     // first test endian-ness
     g_endian = qcn_util::check_endian(); // g_endian is global to all procs, i.e. the sac file I/O utils can now use it
     fprintf(stdout, "Host machine is %s-endian\n", g_endian == ENDIAN_BIG ? "big" : "little");
+#ifdef QCN_RAW_DATA
+    fprintf(stdout, "Note: Running in 'raw data' mode (integer values from the accelerometer)\n");
+#endif
     fflush(stdout);
 
 #ifdef __USE_BOINC_OPTIONS
