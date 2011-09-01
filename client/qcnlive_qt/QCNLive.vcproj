@@ -2605,13 +2605,6 @@
 						/>
 					</FileConfiguration>
 					<FileConfiguration
-						Name="Debug|x64"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
 						Name="Release|Win32"
 						ExcludedFromBuild="true"
 						>
@@ -2698,13 +2691,6 @@
 					<FileConfiguration
 						Name="Debug|Win32"
 						ExcludedFromBuild="true"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Debug|x64"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
@@ -2803,13 +2789,6 @@
 						/>
 					</FileConfiguration>
 					<FileConfiguration
-						Name="Debug|x64"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
 						Name="Release|Win32"
 						ExcludedFromBuild="true"
 						>
@@ -2902,13 +2881,6 @@
 						/>
 					</FileConfiguration>
 					<FileConfiguration
-						Name="Debug|x64"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
 						Name="Release|Win32"
 						ExcludedFromBuild="true"
 						>
@@ -2995,13 +2967,6 @@
 					<FileConfiguration
 						Name="Debug|Win32"
 						ExcludedFromBuild="true"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Debug|x64"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
@@ -3122,13 +3087,6 @@
 						/>
 					</FileConfiguration>
 					<FileConfiguration
-						Name="Release|x64"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
 						Name="ReleaseDLL|Win32"
 						ExcludedFromBuild="true"
 						>
@@ -3215,13 +3173,6 @@
 					<FileConfiguration
 						Name="Release|Win32"
 						ExcludedFromBuild="true"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|x64"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
@@ -3320,13 +3271,6 @@
 						/>
 					</FileConfiguration>
 					<FileConfiguration
-						Name="Release|x64"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
 						Name="ReleaseDLL|Win32"
 						ExcludedFromBuild="true"
 						>
@@ -3419,13 +3363,6 @@
 						/>
 					</FileConfiguration>
 					<FileConfiguration
-						Name="Release|x64"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
 						Name="ReleaseDLL|Win32"
 						ExcludedFromBuild="true"
 						>
@@ -3512,13 +3449,6 @@
 					<FileConfiguration
 						Name="Release|Win32"
 						ExcludedFromBuild="true"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|x64"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
@@ -3639,13 +3569,6 @@
 						/>
 					</FileConfiguration>
 					<FileConfiguration
-						Name="ReleaseDLL|x64"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
 						Name="DebugDLL|Win32"
 						ExcludedFromBuild="true"
 						>
@@ -3732,13 +3655,6 @@
 					<FileConfiguration
 						Name="ReleaseDLL|Win32"
 						ExcludedFromBuild="true"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="ReleaseDLL|x64"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
@@ -3837,13 +3753,6 @@
 						/>
 					</FileConfiguration>
 					<FileConfiguration
-						Name="ReleaseDLL|x64"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
 						Name="DebugDLL|Win32"
 						ExcludedFromBuild="true"
 						>
@@ -3936,13 +3845,6 @@
 						/>
 					</FileConfiguration>
 					<FileConfiguration
-						Name="ReleaseDLL|x64"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
 						Name="DebugDLL|Win32"
 						ExcludedFromBuild="true"
 						>
@@ -4029,13 +3931,6 @@
 					<FileConfiguration
 						Name="ReleaseDLL|Win32"
 						ExcludedFromBuild="true"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="ReleaseDLL|x64"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
@@ -4149,14 +4044,6 @@
 					</FileConfiguration>
 					<FileConfiguration
 						Name="DebugDLL|Win32"
-						ExcludedFromBuild="true"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="DebugDLL|x64"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
@@ -4248,14 +4135,6 @@
 					</FileConfiguration>
 					<FileConfiguration
 						Name="DebugDLL|Win32"
-						ExcludedFromBuild="true"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="DebugDLL|x64"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
@@ -4347,14 +4226,6 @@
 					</FileConfiguration>
 					<FileConfiguration
 						Name="DebugDLL|Win32"
-						ExcludedFromBuild="true"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="DebugDLL|x64"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
@@ -4446,14 +4317,6 @@
 					</FileConfiguration>
 					<FileConfiguration
 						Name="DebugDLL|Win32"
-						ExcludedFromBuild="true"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="DebugDLL|x64"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
@@ -4545,14 +4408,6 @@
 					</FileConfiguration>
 					<FileConfiguration
 						Name="DebugDLL|Win32"
-						ExcludedFromBuild="true"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="DebugDLL|x64"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
@@ -4665,20 +4520,6 @@
 						/>
 					</FileConfiguration>
 					<FileConfiguration
-						Name="DebugDLLRaw|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="DebugDLLRaw|x64"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
 						Name="ReleaseDLLRaw|Win32"
 						ExcludedFromBuild="true"
 						>
@@ -4757,20 +4598,6 @@
 					<FileConfiguration
 						Name="DebugDLL|x64"
 						ExcludedFromBuild="true"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="DebugDLLRaw|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="DebugDLLRaw|x64"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
@@ -4861,20 +4688,6 @@
 						/>
 					</FileConfiguration>
 					<FileConfiguration
-						Name="DebugDLLRaw|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="DebugDLLRaw|x64"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
 						Name="ReleaseDLLRaw|Win32"
 						ExcludedFromBuild="true"
 						>
@@ -4959,20 +4772,6 @@
 						/>
 					</FileConfiguration>
 					<FileConfiguration
-						Name="DebugDLLRaw|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="DebugDLLRaw|x64"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
 						Name="ReleaseDLLRaw|Win32"
 						ExcludedFromBuild="true"
 						>
@@ -5051,20 +4850,6 @@
 					<FileConfiguration
 						Name="DebugDLL|x64"
 						ExcludedFromBuild="true"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="DebugDLLRaw|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="DebugDLLRaw|x64"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
@@ -5176,20 +4961,6 @@
 							Name="VCCLCompilerTool"
 						/>
 					</FileConfiguration>
-					<FileConfiguration
-						Name="ReleaseDLLRaw|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="ReleaseDLLRaw|x64"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-						/>
-					</FileConfiguration>
 				</File>
 				<File
 					RelativePath=".\ReleaseDLLRaw\moc_dlgsettings.cpp"
@@ -5269,20 +5040,6 @@
 					<FileConfiguration
 						Name="DebugDLLRaw|x64"
 						ExcludedFromBuild="true"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="ReleaseDLLRaw|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="ReleaseDLLRaw|x64"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
@@ -5372,20 +5129,6 @@
 							Name="VCCLCompilerTool"
 						/>
 					</FileConfiguration>
-					<FileConfiguration
-						Name="ReleaseDLLRaw|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="ReleaseDLLRaw|x64"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-						/>
-					</FileConfiguration>
 				</File>
 				<File
 					RelativePath=".\ReleaseDLLRaw\moc_myframe.cpp"
@@ -5470,20 +5213,6 @@
 							Name="VCCLCompilerTool"
 						/>
 					</FileConfiguration>
-					<FileConfiguration
-						Name="ReleaseDLLRaw|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="ReleaseDLLRaw|x64"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-						/>
-					</FileConfiguration>
 				</File>
 				<File
 					RelativePath=".\ReleaseDLLRaw\moc_qcnqt.cpp"
@@ -5563,20 +5292,6 @@
 					<FileConfiguration
 						Name="DebugDLLRaw|x64"
 						ExcludedFromBuild="true"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="ReleaseDLLRaw|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="ReleaseDLLRaw|x64"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
