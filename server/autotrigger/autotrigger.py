@@ -34,7 +34,7 @@ from datetime import datetime
 from time import strptime, mktime
 
 QUERY_QUAKE_PROCESSED = "SELECT id, time_utc, latitude, longitude, magnitude " +\
-                        "FROM qcn_quake WHERE guid NOT LIKE 'QCN_%' AND (processed IS NULL OR NOT processed) "
+                        "FROM qcnalpha.qcn_quake WHERE guid NOT LIKE 'QCN%' AND (processed IS NULL OR NOT processed) "
 
 QUERY_TRIGGER_HOST_LIST = "SELECT hostid,count(*) FROM qcn_trigger "
 
