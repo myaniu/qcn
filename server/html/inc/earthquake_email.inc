@@ -54,6 +54,18 @@ $message = "<h1><strong>QCN Rapid Earthquake Detection: M$mag</strong></h1></p>
  }
 
 
+    // setup an object to simulate the boinc user record (just need email addr, name, & id)
+    class tmpUser {
+      public $email_addr;
+      public $name;
+      public $id;
+      public function __construct($em, $name, $id)
+      {
+            $this->email_addr = $em;
+            $this->name = $name;
+            $this->id = $id;
+      }
+    };
 
 // For each entry in the email list, determine if we should email or not: 
  while (!feof($file_handle)) {
@@ -67,13 +79,16 @@ $message = "<h1><strong>QCN Rapid Earthquake Detection: M$mag</strong></h1></p>
     if (strlen($email)<6) { break 1; }                                    // Skip email if too short
     //echo "$email\n$slon\n$slat\n$mag_global\n$mag_local\n";               // Status report
 
-
     $dist_km = distance($slon,$slat,$elon,$elat);
+ 
+    $myuser = new tmpUser($email, $name, $id);
+
     if (($dist_km<$dist_local)&&($mag>$mag_local)) { 
 
        $subject = "QCN Local Quake: M$mag - ".date('M d Y H:i:s',$etime);// Set email subject:
        if ($test) { $subject = "TEST ONLY:".$subject;}                     // Note this is only a test
-       send_email_with_address($email,$name,$subject,"",$message); // Send the email:
+       send_email($myuser, $subject, "", $message);
+       //print "Sending email to " . $myuser->email_addr . "\n";
 
     } else {
 
@@ -81,11 +96,11 @@ $message = "<h1><strong>QCN Rapid Earthquake Detection: M$mag</strong></h1></p>
 
          $subject = "QCN Global Quake: M$mag - ".date('M d Y H:i:s',$etime);// Set email subject:
          if ($test) { $subject = "TEST ONLY:".$subject;}                     // Note this is only a test
-         send_email_with_address($email,$name,$subject,"",$message); // Send the email:
-
+         send_email($myuser, $subject, "", $message);
+        //  print "Sending email to " . $myuser->email_addr . "\n";
       }
     }
- }
+}
 
 }
 ?>
