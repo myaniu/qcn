@@ -329,7 +329,11 @@ struct FDSET_GROUP {
 #define DECAY_INTERACTIVE_SECONDS 60.0f
 
 // how often to write out trigger file if in demo mode 
-#define DEMO_TRIGGER_TIME_SECONDS 600.0f
+#ifdef QCN_RAW_DATA
+  #define DEMO_TRIGGER_TIME_SECONDS 3600.0f
+#else
+  #define DEMO_TRIGGER_TIME_SECONDS 600.0f
+#endif
 
 // number of elements in the shared mem time offset arrays
 //#define MAX_TIME_ARRAY    10 
