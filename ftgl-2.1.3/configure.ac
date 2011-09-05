@@ -47,13 +47,13 @@ AC_PATH_X
 
 AC_PATH_XTRA
 
-FTGL_CHECK_GL
-FTGL_CHECK_GLUT
-FTGL_CHECK_FONT
+#FTGL_CHECK_GL
+#FTGL_CHECK_GLUT
+#FTGL_CHECK_FONT
 
-PKG_CHECK_MODULES(CPPUNIT, cppunit, [CPPUNIT="yes"], [CPPUNIT="no"])
-AC_MSG_RESULT($CPPUNIT)
-AM_CONDITIONAL(HAVE_CPPUNIT, test "x$CPPUNIT" != "xno")
+#PKG_CHECK_MODULES(CPPUNIT, cppunit, [CPPUNIT="yes"], [CPPUNIT="no"])
+#AC_MSG_RESULT($CPPUNIT)
+#AM_CONDITIONAL(HAVE_CPPUNIT, test "x$CPPUNIT" != "xno")
 
 dnl search the include directory (required for non-srcdir builds).
 dnl should come after the system services checks otherwise headers
