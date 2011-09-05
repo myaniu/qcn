@@ -6,14 +6,14 @@
 # Command: /usr/bin/qmake -o QCNLive.xcodeproj/project.pbxproj QCNLive.pro
 #############################################################################
 
-MOC       = /Developer/QtSDK/Desktop/Qt/474/gcc/bin/moc
-UIC       = /Developer/QtSDK/Desktop/Qt/474/gcc/bin/uic
+MOC       = /Developer/Tools/Qt/moc
+UIC       = /Developer/Tools/Qt/uic
 LEX       = flex
 LEXFLAGS  = 
 YACC      = yacc
 YACCFLAGS = -d
 DEFINES       = -D_USE_NTPDATE_EXEC_ -DFTGL_LIBRARY_STATIC -DQCNLIVE -DGRAPHICS_PROGRAM -DAPP_GRAPHICS -D_ZLIB -DQCN -D_THREAD_SAFE -DCURL_STATICLIB -D_ZLIB -DQT_OPENGL_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_SHARED
-INCPATH       = -I/Developer/QtSDK/Desktop/Qt/474/gcc/mkspecs/macx-xcode -I. -I/Developer/QtSDK/Desktop/Qt/474/gcc/lib/QtCore.framework/Versions/4/Headers -I/usr/include/QtCore -I/Developer/QtSDK/Desktop/Qt/474/gcc/lib/QtGui.framework/Versions/4/Headers -I/usr/include/QtGui -I/Developer/QtSDK/Desktop/Qt/474/gcc/lib/QtOpenGL.framework/Versions/4/Headers -I/usr/include/QtOpenGL -I/usr/include -I../../../qcn -I../../jpeg-6b -I../../zlib-1.2.5 -I../../curl-7.18.2/include -I../../ftgl-2.1.3/include -I../../freetype-2.3.9/include -I../main -I../sensor -I../util -I../../../boinc/lib -I../../../boinc/api -I../../../boinc/zip -I../graphics -F/Developer/QtSDK/Desktop/Qt/474/gcc/lib
+INCPATH       = -I/usr/local/Qt4.7/mkspecs/macx-xcode -I. -I/Library/Frameworks/QtCore.framework/Versions/4/Headers -I/usr/include/QtCore -I/Library/Frameworks/QtGui.framework/Versions/4/Headers -I/usr/include/QtGui -I/Library/Frameworks/QtOpenGL.framework/Versions/4/Headers -I/usr/include/QtOpenGL -I/usr/include -I../../../qcn -I../../jpeg-6b -I../../zlib-1.2.5 -I../../curl-7.18.2/include -I../../ftgl-2.1.3/include -I../../freetype-2.3.9/include -I../main -I../sensor -I../util -I../../../boinc/lib -I../../../boinc/api -I../../../boinc/zip -I../graphics -I/System/Library/Frameworks/OpenGL.framework/Versions/A/Headers -I/System/Library/Frameworks/AGL.framework/Headers -I. -I/usr/local/include -I/System/Library/Frameworks/CarbonCore.framework/Headers -F/Library/Frameworks
 DEL_FILE  = rm -f
 MOVE      = mv -f
 
@@ -43,7 +43,7 @@ moc_qcnqt.cpp: ../graphics/qcn_graphics.h \
 		qcnlive_define.h \
 		glwidget.h \
 		qcnqt.h
-	$MOC $(DEFINES) $(INCPATH) -D__APPLE__ -D__GNUC__ qcnqt.h -o moc_qcnqt.cpp
+	/Developer/Tools/Qt/moc $(DEFINES) $(INCPATH) -D__APPLE__ -D__GNUC__ qcnqt.h -o moc_qcnqt.cpp
 
 moc_glwidget.cpp: qcnqt.h \
 		../graphics/qcn_graphics.h \
@@ -52,7 +52,7 @@ moc_glwidget.cpp: qcnqt.h \
 		glwidget.h \
 		qcnlive_define.h \
 		glwidget.h
-	$MOC $(DEFINES) $(INCPATH) -D__APPLE__ -D__GNUC__ glwidget.h -o moc_glwidget.cpp
+	/Developer/Tools/Qt/moc $(DEFINES) $(INCPATH) -D__APPLE__ -D__GNUC__ glwidget.h -o moc_glwidget.cpp
 
 moc_myframe.cpp: qcnqt.h \
 		../graphics/qcn_graphics.h \
@@ -61,7 +61,7 @@ moc_myframe.cpp: qcnqt.h \
 		glwidget.h \
 		qcnlive_define.h \
 		myframe.h
-	$MOC $(DEFINES) $(INCPATH) -D__APPLE__ -D__GNUC__ myframe.h -o moc_myframe.cpp
+	/Developer/Tools/Qt/moc $(DEFINES) $(INCPATH) -D__APPLE__ -D__GNUC__ myframe.h -o moc_myframe.cpp
 
 moc_dlgsettings.cpp: qcnqt.h \
 		../graphics/qcn_graphics.h \
@@ -71,7 +71,7 @@ moc_dlgsettings.cpp: qcnqt.h \
 		qcnlive_define.h \
 		../sensor/csensor.h \
 		dlgsettings.h
-	$MOC $(DEFINES) $(INCPATH) -D__APPLE__ -D__GNUC__ dlgsettings.h -o moc_dlgsettings.cpp
+	/Developer/Tools/Qt/moc $(DEFINES) $(INCPATH) -D__APPLE__ -D__GNUC__ dlgsettings.h -o moc_dlgsettings.cpp
 
 moc_dlgmakequake.cpp: qcnqt.h \
 		../graphics/qcn_graphics.h \
@@ -80,7 +80,7 @@ moc_dlgmakequake.cpp: qcnqt.h \
 		glwidget.h \
 		qcnlive_define.h \
 		dlgmakequake.h
-	$MOC $(DEFINES) $(INCPATH) -D__APPLE__ -D__GNUC__ dlgmakequake.h -o moc_dlgmakequake.cpp
+	/Developer/Tools/Qt/moc $(DEFINES) $(INCPATH) -D__APPLE__ -D__GNUC__ dlgmakequake.h -o moc_dlgmakequake.cpp
 
 compiler_rcc_make_all:
 compiler_rcc_clean:
