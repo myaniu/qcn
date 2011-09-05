@@ -113,8 +113,8 @@ BUILD_UNITTESTS_TRUE = #
 CC = /Developer/usr/bin/llvm-gcc-4.2
 CCDEPMODE = depmode=gcc3
 CFLAGS = -DHAVE_POSIX_STRERROR_R=1 -O2 -isystem /Developer/SDKs/MacOSX10.6.sdk/usr/include -isystem /Developer/SDKs/MacOSX10.6.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.6.sdk -arch x86_64 -g0 -Wno-system-headers
-CONFIGURE_OPTIONS = " '--host=x86_64' '--disable-crypto-auth' '--without-ssl' '--disable-ldap' '--disable-ldaps' '--disable-telnet' '--enable-static' '--disable-shared' 'host_alias=x86_64' 'CC=/Developer/usr/bin/llvm-gcc-4.2' 'CFLAGS=-DHAVE_POSIX_STRERROR_R=1 -O2 -I/Developer/SDKs/MacOSX10.6.sdk/usr/include -I/Developer/SDKs/MacOSX10.6.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.6.sdk -arch x86_64' 'LDFLAGS=-L/Developer/SDKs/MacOSX10.6.sdk/usr/lib/ -isysroot /Developer/SDKs/MacOSX10.6.sdk -Wl,-syslibroot,/Developer/SDKs/MacOSX10.6.sdk -arch x86_64' 'CPPFLAGS=-O2 -I/Developer/SDKs/MacOSX10.6.sdk/usr/include -I/Developer/SDKs/MacOSX10.6.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.6.sdk -arch x86_64'"
-CPP = /Developer/usr/bin/llvm-gcc-4.2 -E
+CONFIGURE_OPTIONS = " '--host=x86_64' '--disable-crypto-auth' '--without-ssl' '--disable-ldap' '--disable-ldaps' '--disable-telnet' '--enable-static' '--disable-shared' 'host_alias=x86_64' 'CC=/Developer/usr/bin/llvm-gcc-4.2' 'CFLAGS=-DHAVE_POSIX_STRERROR_R=1 -O2 -I/Developer/SDKs/MacOSX10.6.sdk/usr/include -I/Developer/SDKs/MacOSX10.6.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.6.sdk -arch x86_64' 'LDFLAGS=-L/Developer/SDKs/MacOSX10.6.sdk/usr/lib/ -isysroot /Developer/SDKs/MacOSX10.6.sdk -Wl,-syslibroot,/Developer/SDKs/MacOSX10.6.sdk -arch x86_64' 'CPPFLAGS=-O2 -I/Developer/SDKs/MacOSX10.6.sdk/usr/include -I/Developer/SDKs/MacOSX10.6.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.6.sdk -arch x86_64' 'CPP=/Developer/usr/bin/llvm-cpp-4.2'"
+CPP = /Developer/usr/bin/llvm-cpp-4.2
 CPPFLAGS = -O2 -isystem /Developer/SDKs/MacOSX10.6.sdk/usr/include -isystem /Developer/SDKs/MacOSX10.6.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.6.sdk -arch x86_64
 CROSSCOMPILING_FALSE = 
 CROSSCOMPILING_TRUE = #
