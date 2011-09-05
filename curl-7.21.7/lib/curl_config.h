@@ -275,16 +275,16 @@
 /* #undef HAVE_GNUTLS_SRP */
 
 /* if you have the gssapi libraries */
-/* #undef HAVE_GSSAPI */
+#define HAVE_GSSAPI 1
 
 /* Define to 1 if you have the <gssapi/gssapi_generic.h> header file. */
-/* #undef HAVE_GSSAPI_GSSAPI_GENERIC_H */
+#define HAVE_GSSAPI_GSSAPI_GENERIC_H 1
 
 /* Define to 1 if you have the <gssapi/gssapi.h> header file. */
-/* #undef HAVE_GSSAPI_GSSAPI_H */
+#define HAVE_GSSAPI_GSSAPI_H 1
 
 /* Define to 1 if you have the <gssapi/gssapi_krb5.h> header file. */
-/* #undef HAVE_GSSAPI_GSSAPI_KRB5_H */
+#define HAVE_GSSAPI_GSSAPI_KRB5_H 1
 
 /* if you have the GNU gssapi libraries */
 /* #undef HAVE_GSSGNU */
@@ -293,7 +293,7 @@
 /* #undef HAVE_GSSHEIMDAL */
 
 /* if you have the MIT gssapi libraries */
-/* #undef HAVE_GSSMIT */
+#define HAVE_GSSMIT 1
 
 /* Define to 1 if you have the `idna_strerror' function. */
 /* #undef HAVE_IDNA_STRERROR */

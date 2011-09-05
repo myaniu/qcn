@@ -1,3 +1,6 @@
+./MacOSX-Framework
+exit
+
 #notes - upgrade libtool, autoconf, automake, and ln /usr/bin to /usr/bin/include refs as needed
 # also need to ln -s /usr/local/bin/libtoolize /usr/bin/glibtoolize
 #NB -- unlike other build.mac scripts, don't get rid of lib/ subdir as that is an important curl dir!

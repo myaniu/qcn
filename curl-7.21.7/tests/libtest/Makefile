@@ -460,8 +460,8 @@ ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 ACLOCAL = ${SHELL} "/Users/carlgt1/projects/qcn/curl-7.21.7/missing" --run aclocal-1.9
-AMDEP_FALSE = #
-AMDEP_TRUE = 
+AMDEP_FALSE = 
+AMDEP_TRUE = #
 AMTAR = ${SHELL} "/Users/carlgt1/projects/qcn/curl-7.21.7/missing" --run tar
 AR = /usr/bin/ar
 AS = as
@@ -473,12 +473,12 @@ BUILD_LIBHOSTNAME_FALSE = #
 BUILD_LIBHOSTNAME_TRUE = 
 BUILD_UNITTESTS_FALSE = 
 BUILD_UNITTESTS_TRUE = #
-CC = gcc
-CCDEPMODE = depmode=gcc3
-CFLAGS = -g0 -O2 -Wno-system-headers
-CONFIGURE_OPTIONS = " 'CC=' 'CFLAGS=' 'LDFLAGS=' 'CPPFLAGS=' 'CPP=/Developer/usr/bin/llvm-cpp-4.2'"
+CC = /Developer/usr/bin/llvm-gcc-4.2
+CCDEPMODE = depmode=none
+CFLAGS = -Os -isysroot /Developer/SDKs/MacOSX10.7.sdk -arch x86_64 -mmacosx-version-min=10.7 -g0 -Wno-system-headers
+CONFIGURE_OPTIONS = " '--disable-dependency-tracking' '--disable-static' '--with-gssapi' 'CFLAGS=-Os -isysroot /Developer/SDKs/MacOSX10.7.sdk -arch x86_64 -mmacosx-version-min=10.7' 'LDFLAGS=-Wl,-syslibroot,/Developer/SDKs/MacOSX10.7.sdk -arch x86_64 -mmacosx-version-min=10.7 -Wl,-headerpad_max_install_names' 'CC=/Developer/usr/bin/llvm-gcc-4.2' 'CPPFLAGS=-O2 -I/Developer/SDKs/MacOSX10.6.sdk/usr/include -I/Developer/SDKs/MacOSX10.6.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.6.sdk -arch x86_64' 'CPP=/Developer/usr/bin/llvm-cpp-4.2'"
 CPP = /Developer/usr/bin/llvm-cpp-4.2
-CPPFLAGS = 
+CPPFLAGS = -O2 -isystem /Developer/SDKs/MacOSX10.6.sdk/usr/include -isystem /Developer/SDKs/MacOSX10.6.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.6.sdk -arch x86_64
 CROSSCOMPILING_FALSE = 
 CROSSCOMPILING_TRUE = #
 CURLDEBUG_FALSE = 
@@ -530,9 +530,9 @@ INSTALL_SCRIPT = ${INSTALL}
 INSTALL_STRIP_PROGRAM = ${SHELL} $(install_sh) -c -s
 IPV6_ENABLED = 1
 KRB4_ENABLED = 
-LD = /usr/llvm-gcc-4.2/libexec/gcc/i686-apple-darwin11/4.2.1/ld
-LDFLAGS = 
-LIBCURL_LIBS = -lssl -lcrypto -lldap -lz
+LD = /Developer/usr/llvm-gcc-4.2/libexec/gcc/i686-apple-darwin11/4.2.1/ld
+LDFLAGS = -Wl,-syslibroot,/Developer/SDKs/MacOSX10.7.sdk -arch x86_64 -mmacosx-version-min=10.7 -Wl,-headerpad_max_install_names
+LIBCURL_LIBS = -lssl -lcrypto -lldap -lgssapi_krb5 -lresolv -lz
 LIBOBJS = 
 LIBS = 
 LIBTOOL = $(SHELL) $(top_builddir)/libtool
@@ -603,10 +603,10 @@ USE_WINDOWS_SSPI =
 VERSION = -
 VERSIONNUM = 071507
 ac_ct_AR = 
-ac_ct_CC = gcc
+ac_ct_CC = /Developer/usr/bin/llvm-gcc-4.2
 ac_ct_DUMPBIN = 
-am__fastdepCC_FALSE = #
-am__fastdepCC_TRUE = 
+am__fastdepCC_FALSE = 
+am__fastdepCC_TRUE = #
 am__include = include
 am__leading_dot = .
 am__quote = 
@@ -1076,554 +1076,554 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-include ./$(DEPDIR)/chkhostname-chkhostname.Po
-include ./$(DEPDIR)/chkhostname-curl_gethostname.Po
-include ./$(DEPDIR)/first.Po
-include ./$(DEPDIR)/lib500.Po
-include ./$(DEPDIR)/lib501.Po
-include ./$(DEPDIR)/lib502.Po
-include ./$(DEPDIR)/lib503.Po
-include ./$(DEPDIR)/lib504.Po
-include ./$(DEPDIR)/lib505.Po
-include ./$(DEPDIR)/lib506.Po
-include ./$(DEPDIR)/lib507.Po
-include ./$(DEPDIR)/lib508.Po
-include ./$(DEPDIR)/lib510.Po
-include ./$(DEPDIR)/lib511.Po
-include ./$(DEPDIR)/lib512.Po
-include ./$(DEPDIR)/lib513.Po
-include ./$(DEPDIR)/lib514.Po
-include ./$(DEPDIR)/lib515.Po
-include ./$(DEPDIR)/lib516.Po
-include ./$(DEPDIR)/lib517.Po
-include ./$(DEPDIR)/lib518.Po
-include ./$(DEPDIR)/lib519.Po
-include ./$(DEPDIR)/lib520.Po
-include ./$(DEPDIR)/lib521.Po
-include ./$(DEPDIR)/lib523.Po
-include ./$(DEPDIR)/lib524.Po
-include ./$(DEPDIR)/lib525.Po
-include ./$(DEPDIR)/lib526-first.Po
-include ./$(DEPDIR)/lib526-lib526.Po
-include ./$(DEPDIR)/lib526-testutil.Po
-include ./$(DEPDIR)/lib526-warnless.Po
-include ./$(DEPDIR)/lib527-first.Po
-include ./$(DEPDIR)/lib527-lib526.Po
-include ./$(DEPDIR)/lib527-testutil.Po
-include ./$(DEPDIR)/lib527-warnless.Po
-include ./$(DEPDIR)/lib529-first.Po
-include ./$(DEPDIR)/lib529-lib525.Po
-include ./$(DEPDIR)/lib529-testutil.Po
-include ./$(DEPDIR)/lib529-warnless.Po
-include ./$(DEPDIR)/lib530-first.Po
-include ./$(DEPDIR)/lib530-lib530.Po
-include ./$(DEPDIR)/lib530-testutil.Po
-include ./$(DEPDIR)/lib530-warnless.Po
-include ./$(DEPDIR)/lib532-first.Po
-include ./$(DEPDIR)/lib532-lib526.Po
-include ./$(DEPDIR)/lib532-testutil.Po
-include ./$(DEPDIR)/lib532-warnless.Po
-include ./$(DEPDIR)/lib533.Po
-include ./$(DEPDIR)/lib536.Po
-include ./$(DEPDIR)/lib537.Po
-include ./$(DEPDIR)/lib539.Po
-include ./$(DEPDIR)/lib540.Po
-include ./$(DEPDIR)/lib541.Po
-include ./$(DEPDIR)/lib542.Po
-include ./$(DEPDIR)/lib543.Po
-include ./$(DEPDIR)/lib544.Po
-include ./$(DEPDIR)/lib545-first.Po
-include ./$(DEPDIR)/lib545-lib544.Po
-include ./$(DEPDIR)/lib547.Po
-include ./$(DEPDIR)/lib548-first.Po
-include ./$(DEPDIR)/lib548-lib547.Po
-include ./$(DEPDIR)/lib549.Po
-include ./$(DEPDIR)/lib552.Po
-include ./$(DEPDIR)/lib553.Po
-include ./$(DEPDIR)/lib554.Po
-include ./$(DEPDIR)/lib555.Po
-include ./$(DEPDIR)/lib556.Po
-include ./$(DEPDIR)/lib557.Po
-include ./$(DEPDIR)/lib560.Po
-include ./$(DEPDIR)/lib562.Po
-include ./$(DEPDIR)/lib564.Po
-include ./$(DEPDIR)/lib565-first.Po
-include ./$(DEPDIR)/lib565-lib510.Po
-include ./$(DEPDIR)/lib566.Po
-include ./$(DEPDIR)/lib567.Po
-include ./$(DEPDIR)/lib568.Po
-include ./$(DEPDIR)/lib569.Po
-include ./$(DEPDIR)/lib570.Po
-include ./$(DEPDIR)/lib571.Po
-include ./$(DEPDIR)/lib572.Po
-include ./$(DEPDIR)/lib573.Po
-include ./$(DEPDIR)/lib574.Po
-include ./$(DEPDIR)/lib575.Po
-include ./$(DEPDIR)/lib576.Po
-include ./$(DEPDIR)/lib578.Po
-include ./$(DEPDIR)/lib579.Po
-include ./$(DEPDIR)/lib582.Po
-include ./$(DEPDIR)/lib583.Po
-include ./$(DEPDIR)/lib585-first.Po
-include ./$(DEPDIR)/lib585-lib500.Po
-include ./$(DEPDIR)/sethostname.Plo
-include ./$(DEPDIR)/testutil.Po
-include ./$(DEPDIR)/warnless.Po
+#include ./$(DEPDIR)/chkhostname-chkhostname.Po
+#include ./$(DEPDIR)/chkhostname-curl_gethostname.Po
+#include ./$(DEPDIR)/first.Po
+#include ./$(DEPDIR)/lib500.Po
+#include ./$(DEPDIR)/lib501.Po
+#include ./$(DEPDIR)/lib502.Po
+#include ./$(DEPDIR)/lib503.Po
+#include ./$(DEPDIR)/lib504.Po
+#include ./$(DEPDIR)/lib505.Po
+#include ./$(DEPDIR)/lib506.Po
+#include ./$(DEPDIR)/lib507.Po
+#include ./$(DEPDIR)/lib508.Po
+#include ./$(DEPDIR)/lib510.Po
+#include ./$(DEPDIR)/lib511.Po
+#include ./$(DEPDIR)/lib512.Po
+#include ./$(DEPDIR)/lib513.Po
+#include ./$(DEPDIR)/lib514.Po
+#include ./$(DEPDIR)/lib515.Po
+#include ./$(DEPDIR)/lib516.Po
+#include ./$(DEPDIR)/lib517.Po
+#include ./$(DEPDIR)/lib518.Po
+#include ./$(DEPDIR)/lib519.Po
+#include ./$(DEPDIR)/lib520.Po
+#include ./$(DEPDIR)/lib521.Po
+#include ./$(DEPDIR)/lib523.Po
+#include ./$(DEPDIR)/lib524.Po
+#include ./$(DEPDIR)/lib525.Po
+#include ./$(DEPDIR)/lib526-first.Po
+#include ./$(DEPDIR)/lib526-lib526.Po
+#include ./$(DEPDIR)/lib526-testutil.Po
+#include ./$(DEPDIR)/lib526-warnless.Po
+#include ./$(DEPDIR)/lib527-first.Po
+#include ./$(DEPDIR)/lib527-lib526.Po
+#include ./$(DEPDIR)/lib527-testutil.Po
+#include ./$(DEPDIR)/lib527-warnless.Po
+#include ./$(DEPDIR)/lib529-first.Po
+#include ./$(DEPDIR)/lib529-lib525.Po
+#include ./$(DEPDIR)/lib529-testutil.Po
+#include ./$(DEPDIR)/lib529-warnless.Po
+#include ./$(DEPDIR)/lib530-first.Po
+#include ./$(DEPDIR)/lib530-lib530.Po
+#include ./$(DEPDIR)/lib530-testutil.Po
+#include ./$(DEPDIR)/lib530-warnless.Po
+#include ./$(DEPDIR)/lib532-first.Po
+#include ./$(DEPDIR)/lib532-lib526.Po
+#include ./$(DEPDIR)/lib532-testutil.Po
+#include ./$(DEPDIR)/lib532-warnless.Po
+#include ./$(DEPDIR)/lib533.Po
+#include ./$(DEPDIR)/lib536.Po
+#include ./$(DEPDIR)/lib537.Po
+#include ./$(DEPDIR)/lib539.Po
+#include ./$(DEPDIR)/lib540.Po
+#include ./$(DEPDIR)/lib541.Po
+#include ./$(DEPDIR)/lib542.Po
+#include ./$(DEPDIR)/lib543.Po
+#include ./$(DEPDIR)/lib544.Po
+#include ./$(DEPDIR)/lib545-first.Po
+#include ./$(DEPDIR)/lib545-lib544.Po
+#include ./$(DEPDIR)/lib547.Po
+#include ./$(DEPDIR)/lib548-first.Po
+#include ./$(DEPDIR)/lib548-lib547.Po
+#include ./$(DEPDIR)/lib549.Po
+#include ./$(DEPDIR)/lib552.Po
+#include ./$(DEPDIR)/lib553.Po
+#include ./$(DEPDIR)/lib554.Po
+#include ./$(DEPDIR)/lib555.Po
+#include ./$(DEPDIR)/lib556.Po
+#include ./$(DEPDIR)/lib557.Po
+#include ./$(DEPDIR)/lib560.Po
+#include ./$(DEPDIR)/lib562.Po
+#include ./$(DEPDIR)/lib564.Po
+#include ./$(DEPDIR)/lib565-first.Po
+#include ./$(DEPDIR)/lib565-lib510.Po
+#include ./$(DEPDIR)/lib566.Po
+#include ./$(DEPDIR)/lib567.Po
+#include ./$(DEPDIR)/lib568.Po
+#include ./$(DEPDIR)/lib569.Po
+#include ./$(DEPDIR)/lib570.Po
+#include ./$(DEPDIR)/lib571.Po
+#include ./$(DEPDIR)/lib572.Po
+#include ./$(DEPDIR)/lib573.Po
+#include ./$(DEPDIR)/lib574.Po
+#include ./$(DEPDIR)/lib575.Po
+#include ./$(DEPDIR)/lib576.Po
+#include ./$(DEPDIR)/lib578.Po
+#include ./$(DEPDIR)/lib579.Po
+#include ./$(DEPDIR)/lib582.Po
+#include ./$(DEPDIR)/lib583.Po
+#include ./$(DEPDIR)/lib585-first.Po
+#include ./$(DEPDIR)/lib585-lib500.Po
+#include ./$(DEPDIR)/sethostname.Plo
+#include ./$(DEPDIR)/testutil.Po
+#include ./$(DEPDIR)/warnless.Po
 
 .c.o:
-	if $(COMPILE) -MT $@ -MD -MP -MF "$(DEPDIR)/$*.Tpo" -c -o $@ $<; \
-	then mv -f "$(DEPDIR)/$*.Tpo" "$(DEPDIR)/$*.Po"; else rm -f "$(DEPDIR)/$*.Tpo"; exit 1; fi
-#	source='$<' object='$@' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(COMPILE) -c $<
+#	if $(COMPILE) -MT $@ -MD -MP -MF "$(DEPDIR)/$*.Tpo" -c -o $@ $<; \
+#	then mv -f "$(DEPDIR)/$*.Tpo" "$(DEPDIR)/$*.Po"; else rm -f "$(DEPDIR)/$*.Tpo"; exit 1; fi
+#	source='$<' object='$@' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(COMPILE) -c $<
 
 .c.obj:
-	if $(COMPILE) -MT $@ -MD -MP -MF "$(DEPDIR)/$*.Tpo" -c -o $@ `$(CYGPATH_W) '$<'`; \
-	then mv -f "$(DEPDIR)/$*.Tpo" "$(DEPDIR)/$*.Po"; else rm -f "$(DEPDIR)/$*.Tpo"; exit 1; fi
-#	source='$<' object='$@' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(COMPILE) -c `$(CYGPATH_W) '$<'`
+#	if $(COMPILE) -MT $@ -MD -MP -MF "$(DEPDIR)/$*.Tpo" -c -o $@ `$(CYGPATH_W) '$<'`; \
+#	then mv -f "$(DEPDIR)/$*.Tpo" "$(DEPDIR)/$*.Po"; else rm -f "$(DEPDIR)/$*.Tpo"; exit 1; fi
+#	source='$<' object='$@' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(COMPILE) -c `$(CYGPATH_W) '$<'`
 
 .c.lo:
-	if $(LTCOMPILE) -MT $@ -MD -MP -MF "$(DEPDIR)/$*.Tpo" -c -o $@ $<; \
-	then mv -f "$(DEPDIR)/$*.Tpo" "$(DEPDIR)/$*.Plo"; else rm -f "$(DEPDIR)/$*.Tpo"; exit 1; fi
-#	source='$<' object='$@' libtool=yes \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(LTCOMPILE) -c -o $@ $<
+#	if $(LTCOMPILE) -MT $@ -MD -MP -MF "$(DEPDIR)/$*.Tpo" -c -o $@ $<; \
+#	then mv -f "$(DEPDIR)/$*.Tpo" "$(DEPDIR)/$*.Plo"; else rm -f "$(DEPDIR)/$*.Tpo"; exit 1; fi
+#	source='$<' object='$@' libtool=yes 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(LTCOMPILE) -c -o $@ $<
 
 chkhostname-chkhostname.o: chkhostname.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(chkhostname_CFLAGS) $(CFLAGS) -MT chkhostname-chkhostname.o -MD -MP -MF "$(DEPDIR)/chkhostname-chkhostname.Tpo" -c -o chkhostname-chkhostname.o `test -f 'chkhostname.c' || echo '$(srcdir)/'`chkhostname.c; \
-	then mv -f "$(DEPDIR)/chkhostname-chkhostname.Tpo" "$(DEPDIR)/chkhostname-chkhostname.Po"; else rm -f "$(DEPDIR)/chkhostname-chkhostname.Tpo"; exit 1; fi
-#	source='chkhostname.c' object='chkhostname-chkhostname.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(chkhostname_CFLAGS) $(CFLAGS) -c -o chkhostname-chkhostname.o `test -f 'chkhostname.c' || echo '$(srcdir)/'`chkhostname.c
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(chkhostname_CFLAGS) $(CFLAGS) -MT chkhostname-chkhostname.o -MD -MP -MF "$(DEPDIR)/chkhostname-chkhostname.Tpo" -c -o chkhostname-chkhostname.o `test -f 'chkhostname.c' || echo '$(srcdir)/'`chkhostname.c; \
+#	then mv -f "$(DEPDIR)/chkhostname-chkhostname.Tpo" "$(DEPDIR)/chkhostname-chkhostname.Po"; else rm -f "$(DEPDIR)/chkhostname-chkhostname.Tpo"; exit 1; fi
+#	source='chkhostname.c' object='chkhostname-chkhostname.o' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(chkhostname_CFLAGS) $(CFLAGS) -c -o chkhostname-chkhostname.o `test -f 'chkhostname.c' || echo '$(srcdir)/'`chkhostname.c
 
 chkhostname-chkhostname.obj: chkhostname.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(chkhostname_CFLAGS) $(CFLAGS) -MT chkhostname-chkhostname.obj -MD -MP -MF "$(DEPDIR)/chkhostname-chkhostname.Tpo" -c -o chkhostname-chkhostname.obj `if test -f 'chkhostname.c'; then $(CYGPATH_W) 'chkhostname.c'; else $(CYGPATH_W) '$(srcdir)/chkhostname.c'; fi`; \
-	then mv -f "$(DEPDIR)/chkhostname-chkhostname.Tpo" "$(DEPDIR)/chkhostname-chkhostname.Po"; else rm -f "$(DEPDIR)/chkhostname-chkhostname.Tpo"; exit 1; fi
-#	source='chkhostname.c' object='chkhostname-chkhostname.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(chkhostname_CFLAGS) $(CFLAGS) -c -o chkhostname-chkhostname.obj `if test -f 'chkhostname.c'; then $(CYGPATH_W) 'chkhostname.c'; else $(CYGPATH_W) '$(srcdir)/chkhostname.c'; fi`
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(chkhostname_CFLAGS) $(CFLAGS) -MT chkhostname-chkhostname.obj -MD -MP -MF "$(DEPDIR)/chkhostname-chkhostname.Tpo" -c -o chkhostname-chkhostname.obj `if test -f 'chkhostname.c'; then $(CYGPATH_W) 'chkhostname.c'; else $(CYGPATH_W) '$(srcdir)/chkhostname.c'; fi`; \
+#	then mv -f "$(DEPDIR)/chkhostname-chkhostname.Tpo" "$(DEPDIR)/chkhostname-chkhostname.Po"; else rm -f "$(DEPDIR)/chkhostname-chkhostname.Tpo"; exit 1; fi
+#	source='chkhostname.c' object='chkhostname-chkhostname.obj' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(chkhostname_CFLAGS) $(CFLAGS) -c -o chkhostname-chkhostname.obj `if test -f 'chkhostname.c'; then $(CYGPATH_W) 'chkhostname.c'; else $(CYGPATH_W) '$(srcdir)/chkhostname.c'; fi`
 
 chkhostname-curl_gethostname.o: $(top_srcdir)/lib/curl_gethostname.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(chkhostname_CFLAGS) $(CFLAGS) -MT chkhostname-curl_gethostname.o -MD -MP -MF "$(DEPDIR)/chkhostname-curl_gethostname.Tpo" -c -o chkhostname-curl_gethostname.o `test -f '$(top_srcdir)/lib/curl_gethostname.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/curl_gethostname.c; \
-	then mv -f "$(DEPDIR)/chkhostname-curl_gethostname.Tpo" "$(DEPDIR)/chkhostname-curl_gethostname.Po"; else rm -f "$(DEPDIR)/chkhostname-curl_gethostname.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/curl_gethostname.c' object='chkhostname-curl_gethostname.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(chkhostname_CFLAGS) $(CFLAGS) -c -o chkhostname-curl_gethostname.o `test -f '$(top_srcdir)/lib/curl_gethostname.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/curl_gethostname.c
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(chkhostname_CFLAGS) $(CFLAGS) -MT chkhostname-curl_gethostname.o -MD -MP -MF "$(DEPDIR)/chkhostname-curl_gethostname.Tpo" -c -o chkhostname-curl_gethostname.o `test -f '$(top_srcdir)/lib/curl_gethostname.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/curl_gethostname.c; \
+#	then mv -f "$(DEPDIR)/chkhostname-curl_gethostname.Tpo" "$(DEPDIR)/chkhostname-curl_gethostname.Po"; else rm -f "$(DEPDIR)/chkhostname-curl_gethostname.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/curl_gethostname.c' object='chkhostname-curl_gethostname.o' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(chkhostname_CFLAGS) $(CFLAGS) -c -o chkhostname-curl_gethostname.o `test -f '$(top_srcdir)/lib/curl_gethostname.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/curl_gethostname.c
 
 chkhostname-curl_gethostname.obj: $(top_srcdir)/lib/curl_gethostname.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(chkhostname_CFLAGS) $(CFLAGS) -MT chkhostname-curl_gethostname.obj -MD -MP -MF "$(DEPDIR)/chkhostname-curl_gethostname.Tpo" -c -o chkhostname-curl_gethostname.obj `if test -f '$(top_srcdir)/lib/curl_gethostname.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/curl_gethostname.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/curl_gethostname.c'; fi`; \
-	then mv -f "$(DEPDIR)/chkhostname-curl_gethostname.Tpo" "$(DEPDIR)/chkhostname-curl_gethostname.Po"; else rm -f "$(DEPDIR)/chkhostname-curl_gethostname.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/curl_gethostname.c' object='chkhostname-curl_gethostname.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(chkhostname_CFLAGS) $(CFLAGS) -c -o chkhostname-curl_gethostname.obj `if test -f '$(top_srcdir)/lib/curl_gethostname.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/curl_gethostname.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/curl_gethostname.c'; fi`
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(chkhostname_CFLAGS) $(CFLAGS) -MT chkhostname-curl_gethostname.obj -MD -MP -MF "$(DEPDIR)/chkhostname-curl_gethostname.Tpo" -c -o chkhostname-curl_gethostname.obj `if test -f '$(top_srcdir)/lib/curl_gethostname.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/curl_gethostname.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/curl_gethostname.c'; fi`; \
+#	then mv -f "$(DEPDIR)/chkhostname-curl_gethostname.Tpo" "$(DEPDIR)/chkhostname-curl_gethostname.Po"; else rm -f "$(DEPDIR)/chkhostname-curl_gethostname.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/curl_gethostname.c' object='chkhostname-curl_gethostname.obj' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(chkhostname_CFLAGS) $(CFLAGS) -c -o chkhostname-curl_gethostname.obj `if test -f '$(top_srcdir)/lib/curl_gethostname.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/curl_gethostname.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/curl_gethostname.c'; fi`
 
 warnless.o: $(top_srcdir)/lib/warnless.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT warnless.o -MD -MP -MF "$(DEPDIR)/warnless.Tpo" -c -o warnless.o `test -f '$(top_srcdir)/lib/warnless.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/warnless.c; \
-	then mv -f "$(DEPDIR)/warnless.Tpo" "$(DEPDIR)/warnless.Po"; else rm -f "$(DEPDIR)/warnless.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/warnless.c' object='warnless.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o warnless.o `test -f '$(top_srcdir)/lib/warnless.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/warnless.c
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT warnless.o -MD -MP -MF "$(DEPDIR)/warnless.Tpo" -c -o warnless.o `test -f '$(top_srcdir)/lib/warnless.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/warnless.c; \
+#	then mv -f "$(DEPDIR)/warnless.Tpo" "$(DEPDIR)/warnless.Po"; else rm -f "$(DEPDIR)/warnless.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/warnless.c' object='warnless.o' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o warnless.o `test -f '$(top_srcdir)/lib/warnless.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/warnless.c
 
 warnless.obj: $(top_srcdir)/lib/warnless.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT warnless.obj -MD -MP -MF "$(DEPDIR)/warnless.Tpo" -c -o warnless.obj `if test -f '$(top_srcdir)/lib/warnless.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/warnless.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/warnless.c'; fi`; \
-	then mv -f "$(DEPDIR)/warnless.Tpo" "$(DEPDIR)/warnless.Po"; else rm -f "$(DEPDIR)/warnless.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/warnless.c' object='warnless.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o warnless.obj `if test -f '$(top_srcdir)/lib/warnless.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/warnless.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/warnless.c'; fi`
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT warnless.obj -MD -MP -MF "$(DEPDIR)/warnless.Tpo" -c -o warnless.obj `if test -f '$(top_srcdir)/lib/warnless.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/warnless.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/warnless.c'; fi`; \
+#	then mv -f "$(DEPDIR)/warnless.Tpo" "$(DEPDIR)/warnless.Po"; else rm -f "$(DEPDIR)/warnless.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/warnless.c' object='warnless.obj' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o warnless.obj `if test -f '$(top_srcdir)/lib/warnless.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/warnless.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/warnless.c'; fi`
 
 lib526-lib526.o: lib526.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib526_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib526-lib526.o -MD -MP -MF "$(DEPDIR)/lib526-lib526.Tpo" -c -o lib526-lib526.o `test -f 'lib526.c' || echo '$(srcdir)/'`lib526.c; \
-	then mv -f "$(DEPDIR)/lib526-lib526.Tpo" "$(DEPDIR)/lib526-lib526.Po"; else rm -f "$(DEPDIR)/lib526-lib526.Tpo"; exit 1; fi
-#	source='lib526.c' object='lib526-lib526.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib526_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib526-lib526.o `test -f 'lib526.c' || echo '$(srcdir)/'`lib526.c
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib526_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib526-lib526.o -MD -MP -MF "$(DEPDIR)/lib526-lib526.Tpo" -c -o lib526-lib526.o `test -f 'lib526.c' || echo '$(srcdir)/'`lib526.c; \
+#	then mv -f "$(DEPDIR)/lib526-lib526.Tpo" "$(DEPDIR)/lib526-lib526.Po"; else rm -f "$(DEPDIR)/lib526-lib526.Tpo"; exit 1; fi
+#	source='lib526.c' object='lib526-lib526.o' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib526_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib526-lib526.o `test -f 'lib526.c' || echo '$(srcdir)/'`lib526.c
 
 lib526-lib526.obj: lib526.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib526_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib526-lib526.obj -MD -MP -MF "$(DEPDIR)/lib526-lib526.Tpo" -c -o lib526-lib526.obj `if test -f 'lib526.c'; then $(CYGPATH_W) 'lib526.c'; else $(CYGPATH_W) '$(srcdir)/lib526.c'; fi`; \
-	then mv -f "$(DEPDIR)/lib526-lib526.Tpo" "$(DEPDIR)/lib526-lib526.Po"; else rm -f "$(DEPDIR)/lib526-lib526.Tpo"; exit 1; fi
-#	source='lib526.c' object='lib526-lib526.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib526_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib526-lib526.obj `if test -f 'lib526.c'; then $(CYGPATH_W) 'lib526.c'; else $(CYGPATH_W) '$(srcdir)/lib526.c'; fi`
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib526_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib526-lib526.obj -MD -MP -MF "$(DEPDIR)/lib526-lib526.Tpo" -c -o lib526-lib526.obj `if test -f 'lib526.c'; then $(CYGPATH_W) 'lib526.c'; else $(CYGPATH_W) '$(srcdir)/lib526.c'; fi`; \
+#	then mv -f "$(DEPDIR)/lib526-lib526.Tpo" "$(DEPDIR)/lib526-lib526.Po"; else rm -f "$(DEPDIR)/lib526-lib526.Tpo"; exit 1; fi
+#	source='lib526.c' object='lib526-lib526.obj' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib526_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib526-lib526.obj `if test -f 'lib526.c'; then $(CYGPATH_W) 'lib526.c'; else $(CYGPATH_W) '$(srcdir)/lib526.c'; fi`
 
 lib526-first.o: first.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib526_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib526-first.o -MD -MP -MF "$(DEPDIR)/lib526-first.Tpo" -c -o lib526-first.o `test -f 'first.c' || echo '$(srcdir)/'`first.c; \
-	then mv -f "$(DEPDIR)/lib526-first.Tpo" "$(DEPDIR)/lib526-first.Po"; else rm -f "$(DEPDIR)/lib526-first.Tpo"; exit 1; fi
-#	source='first.c' object='lib526-first.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib526_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib526-first.o `test -f 'first.c' || echo '$(srcdir)/'`first.c
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib526_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib526-first.o -MD -MP -MF "$(DEPDIR)/lib526-first.Tpo" -c -o lib526-first.o `test -f 'first.c' || echo '$(srcdir)/'`first.c; \
+#	then mv -f "$(DEPDIR)/lib526-first.Tpo" "$(DEPDIR)/lib526-first.Po"; else rm -f "$(DEPDIR)/lib526-first.Tpo"; exit 1; fi
+#	source='first.c' object='lib526-first.o' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib526_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib526-first.o `test -f 'first.c' || echo '$(srcdir)/'`first.c
 
 lib526-first.obj: first.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib526_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib526-first.obj -MD -MP -MF "$(DEPDIR)/lib526-first.Tpo" -c -o lib526-first.obj `if test -f 'first.c'; then $(CYGPATH_W) 'first.c'; else $(CYGPATH_W) '$(srcdir)/first.c'; fi`; \
-	then mv -f "$(DEPDIR)/lib526-first.Tpo" "$(DEPDIR)/lib526-first.Po"; else rm -f "$(DEPDIR)/lib526-first.Tpo"; exit 1; fi
-#	source='first.c' object='lib526-first.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib526_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib526-first.obj `if test -f 'first.c'; then $(CYGPATH_W) 'first.c'; else $(CYGPATH_W) '$(srcdir)/first.c'; fi`
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib526_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib526-first.obj -MD -MP -MF "$(DEPDIR)/lib526-first.Tpo" -c -o lib526-first.obj `if test -f 'first.c'; then $(CYGPATH_W) 'first.c'; else $(CYGPATH_W) '$(srcdir)/first.c'; fi`; \
+#	then mv -f "$(DEPDIR)/lib526-first.Tpo" "$(DEPDIR)/lib526-first.Po"; else rm -f "$(DEPDIR)/lib526-first.Tpo"; exit 1; fi
+#	source='first.c' object='lib526-first.obj' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib526_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib526-first.obj `if test -f 'first.c'; then $(CYGPATH_W) 'first.c'; else $(CYGPATH_W) '$(srcdir)/first.c'; fi`
 
 lib526-testutil.o: testutil.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib526_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib526-testutil.o -MD -MP -MF "$(DEPDIR)/lib526-testutil.Tpo" -c -o lib526-testutil.o `test -f 'testutil.c' || echo '$(srcdir)/'`testutil.c; \
-	then mv -f "$(DEPDIR)/lib526-testutil.Tpo" "$(DEPDIR)/lib526-testutil.Po"; else rm -f "$(DEPDIR)/lib526-testutil.Tpo"; exit 1; fi
-#	source='testutil.c' object='lib526-testutil.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib526_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib526-testutil.o `test -f 'testutil.c' || echo '$(srcdir)/'`testutil.c
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib526_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib526-testutil.o -MD -MP -MF "$(DEPDIR)/lib526-testutil.Tpo" -c -o lib526-testutil.o `test -f 'testutil.c' || echo '$(srcdir)/'`testutil.c; \
+#	then mv -f "$(DEPDIR)/lib526-testutil.Tpo" "$(DEPDIR)/lib526-testutil.Po"; else rm -f "$(DEPDIR)/lib526-testutil.Tpo"; exit 1; fi
+#	source='testutil.c' object='lib526-testutil.o' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib526_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib526-testutil.o `test -f 'testutil.c' || echo '$(srcdir)/'`testutil.c
 
 lib526-testutil.obj: testutil.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib526_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib526-testutil.obj -MD -MP -MF "$(DEPDIR)/lib526-testutil.Tpo" -c -o lib526-testutil.obj `if test -f 'testutil.c'; then $(CYGPATH_W) 'testutil.c'; else $(CYGPATH_W) '$(srcdir)/testutil.c'; fi`; \
-	then mv -f "$(DEPDIR)/lib526-testutil.Tpo" "$(DEPDIR)/lib526-testutil.Po"; else rm -f "$(DEPDIR)/lib526-testutil.Tpo"; exit 1; fi
-#	source='testutil.c' object='lib526-testutil.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib526_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib526-testutil.obj `if test -f 'testutil.c'; then $(CYGPATH_W) 'testutil.c'; else $(CYGPATH_W) '$(srcdir)/testutil.c'; fi`
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib526_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib526-testutil.obj -MD -MP -MF "$(DEPDIR)/lib526-testutil.Tpo" -c -o lib526-testutil.obj `if test -f 'testutil.c'; then $(CYGPATH_W) 'testutil.c'; else $(CYGPATH_W) '$(srcdir)/testutil.c'; fi`; \
+#	then mv -f "$(DEPDIR)/lib526-testutil.Tpo" "$(DEPDIR)/lib526-testutil.Po"; else rm -f "$(DEPDIR)/lib526-testutil.Tpo"; exit 1; fi
+#	source='testutil.c' object='lib526-testutil.obj' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib526_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib526-testutil.obj `if test -f 'testutil.c'; then $(CYGPATH_W) 'testutil.c'; else $(CYGPATH_W) '$(srcdir)/testutil.c'; fi`
 
 lib526-warnless.o: $(top_srcdir)/lib/warnless.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib526_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib526-warnless.o -MD -MP -MF "$(DEPDIR)/lib526-warnless.Tpo" -c -o lib526-warnless.o `test -f '$(top_srcdir)/lib/warnless.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/warnless.c; \
-	then mv -f "$(DEPDIR)/lib526-warnless.Tpo" "$(DEPDIR)/lib526-warnless.Po"; else rm -f "$(DEPDIR)/lib526-warnless.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/warnless.c' object='lib526-warnless.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib526_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib526-warnless.o `test -f '$(top_srcdir)/lib/warnless.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/warnless.c
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib526_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib526-warnless.o -MD -MP -MF "$(DEPDIR)/lib526-warnless.Tpo" -c -o lib526-warnless.o `test -f '$(top_srcdir)/lib/warnless.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/warnless.c; \
+#	then mv -f "$(DEPDIR)/lib526-warnless.Tpo" "$(DEPDIR)/lib526-warnless.Po"; else rm -f "$(DEPDIR)/lib526-warnless.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/warnless.c' object='lib526-warnless.o' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib526_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib526-warnless.o `test -f '$(top_srcdir)/lib/warnless.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/warnless.c
 
 lib526-warnless.obj: $(top_srcdir)/lib/warnless.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib526_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib526-warnless.obj -MD -MP -MF "$(DEPDIR)/lib526-warnless.Tpo" -c -o lib526-warnless.obj `if test -f '$(top_srcdir)/lib/warnless.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/warnless.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/warnless.c'; fi`; \
-	then mv -f "$(DEPDIR)/lib526-warnless.Tpo" "$(DEPDIR)/lib526-warnless.Po"; else rm -f "$(DEPDIR)/lib526-warnless.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/warnless.c' object='lib526-warnless.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib526_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib526-warnless.obj `if test -f '$(top_srcdir)/lib/warnless.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/warnless.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/warnless.c'; fi`
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib526_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib526-warnless.obj -MD -MP -MF "$(DEPDIR)/lib526-warnless.Tpo" -c -o lib526-warnless.obj `if test -f '$(top_srcdir)/lib/warnless.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/warnless.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/warnless.c'; fi`; \
+#	then mv -f "$(DEPDIR)/lib526-warnless.Tpo" "$(DEPDIR)/lib526-warnless.Po"; else rm -f "$(DEPDIR)/lib526-warnless.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/warnless.c' object='lib526-warnless.obj' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib526_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib526-warnless.obj `if test -f '$(top_srcdir)/lib/warnless.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/warnless.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/warnless.c'; fi`
 
 lib527-lib526.o: lib526.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib527_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib527-lib526.o -MD -MP -MF "$(DEPDIR)/lib527-lib526.Tpo" -c -o lib527-lib526.o `test -f 'lib526.c' || echo '$(srcdir)/'`lib526.c; \
-	then mv -f "$(DEPDIR)/lib527-lib526.Tpo" "$(DEPDIR)/lib527-lib526.Po"; else rm -f "$(DEPDIR)/lib527-lib526.Tpo"; exit 1; fi
-#	source='lib526.c' object='lib527-lib526.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib527_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib527-lib526.o `test -f 'lib526.c' || echo '$(srcdir)/'`lib526.c
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib527_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib527-lib526.o -MD -MP -MF "$(DEPDIR)/lib527-lib526.Tpo" -c -o lib527-lib526.o `test -f 'lib526.c' || echo '$(srcdir)/'`lib526.c; \
+#	then mv -f "$(DEPDIR)/lib527-lib526.Tpo" "$(DEPDIR)/lib527-lib526.Po"; else rm -f "$(DEPDIR)/lib527-lib526.Tpo"; exit 1; fi
+#	source='lib526.c' object='lib527-lib526.o' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib527_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib527-lib526.o `test -f 'lib526.c' || echo '$(srcdir)/'`lib526.c
 
 lib527-lib526.obj: lib526.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib527_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib527-lib526.obj -MD -MP -MF "$(DEPDIR)/lib527-lib526.Tpo" -c -o lib527-lib526.obj `if test -f 'lib526.c'; then $(CYGPATH_W) 'lib526.c'; else $(CYGPATH_W) '$(srcdir)/lib526.c'; fi`; \
-	then mv -f "$(DEPDIR)/lib527-lib526.Tpo" "$(DEPDIR)/lib527-lib526.Po"; else rm -f "$(DEPDIR)/lib527-lib526.Tpo"; exit 1; fi
-#	source='lib526.c' object='lib527-lib526.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib527_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib527-lib526.obj `if test -f 'lib526.c'; then $(CYGPATH_W) 'lib526.c'; else $(CYGPATH_W) '$(srcdir)/lib526.c'; fi`
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib527_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib527-lib526.obj -MD -MP -MF "$(DEPDIR)/lib527-lib526.Tpo" -c -o lib527-lib526.obj `if test -f 'lib526.c'; then $(CYGPATH_W) 'lib526.c'; else $(CYGPATH_W) '$(srcdir)/lib526.c'; fi`; \
+#	then mv -f "$(DEPDIR)/lib527-lib526.Tpo" "$(DEPDIR)/lib527-lib526.Po"; else rm -f "$(DEPDIR)/lib527-lib526.Tpo"; exit 1; fi
+#	source='lib526.c' object='lib527-lib526.obj' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib527_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib527-lib526.obj `if test -f 'lib526.c'; then $(CYGPATH_W) 'lib526.c'; else $(CYGPATH_W) '$(srcdir)/lib526.c'; fi`
 
 lib527-first.o: first.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib527_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib527-first.o -MD -MP -MF "$(DEPDIR)/lib527-first.Tpo" -c -o lib527-first.o `test -f 'first.c' || echo '$(srcdir)/'`first.c; \
-	then mv -f "$(DEPDIR)/lib527-first.Tpo" "$(DEPDIR)/lib527-first.Po"; else rm -f "$(DEPDIR)/lib527-first.Tpo"; exit 1; fi
-#	source='first.c' object='lib527-first.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib527_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib527-first.o `test -f 'first.c' || echo '$(srcdir)/'`first.c
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib527_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib527-first.o -MD -MP -MF "$(DEPDIR)/lib527-first.Tpo" -c -o lib527-first.o `test -f 'first.c' || echo '$(srcdir)/'`first.c; \
+#	then mv -f "$(DEPDIR)/lib527-first.Tpo" "$(DEPDIR)/lib527-first.Po"; else rm -f "$(DEPDIR)/lib527-first.Tpo"; exit 1; fi
+#	source='first.c' object='lib527-first.o' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib527_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib527-first.o `test -f 'first.c' || echo '$(srcdir)/'`first.c
 
 lib527-first.obj: first.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib527_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib527-first.obj -MD -MP -MF "$(DEPDIR)/lib527-first.Tpo" -c -o lib527-first.obj `if test -f 'first.c'; then $(CYGPATH_W) 'first.c'; else $(CYGPATH_W) '$(srcdir)/first.c'; fi`; \
-	then mv -f "$(DEPDIR)/lib527-first.Tpo" "$(DEPDIR)/lib527-first.Po"; else rm -f "$(DEPDIR)/lib527-first.Tpo"; exit 1; fi
-#	source='first.c' object='lib527-first.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib527_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib527-first.obj `if test -f 'first.c'; then $(CYGPATH_W) 'first.c'; else $(CYGPATH_W) '$(srcdir)/first.c'; fi`
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib527_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib527-first.obj -MD -MP -MF "$(DEPDIR)/lib527-first.Tpo" -c -o lib527-first.obj `if test -f 'first.c'; then $(CYGPATH_W) 'first.c'; else $(CYGPATH_W) '$(srcdir)/first.c'; fi`; \
+#	then mv -f "$(DEPDIR)/lib527-first.Tpo" "$(DEPDIR)/lib527-first.Po"; else rm -f "$(DEPDIR)/lib527-first.Tpo"; exit 1; fi
+#	source='first.c' object='lib527-first.obj' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib527_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib527-first.obj `if test -f 'first.c'; then $(CYGPATH_W) 'first.c'; else $(CYGPATH_W) '$(srcdir)/first.c'; fi`
 
 lib527-testutil.o: testutil.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib527_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib527-testutil.o -MD -MP -MF "$(DEPDIR)/lib527-testutil.Tpo" -c -o lib527-testutil.o `test -f 'testutil.c' || echo '$(srcdir)/'`testutil.c; \
-	then mv -f "$(DEPDIR)/lib527-testutil.Tpo" "$(DEPDIR)/lib527-testutil.Po"; else rm -f "$(DEPDIR)/lib527-testutil.Tpo"; exit 1; fi
-#	source='testutil.c' object='lib527-testutil.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib527_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib527-testutil.o `test -f 'testutil.c' || echo '$(srcdir)/'`testutil.c
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib527_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib527-testutil.o -MD -MP -MF "$(DEPDIR)/lib527-testutil.Tpo" -c -o lib527-testutil.o `test -f 'testutil.c' || echo '$(srcdir)/'`testutil.c; \
+#	then mv -f "$(DEPDIR)/lib527-testutil.Tpo" "$(DEPDIR)/lib527-testutil.Po"; else rm -f "$(DEPDIR)/lib527-testutil.Tpo"; exit 1; fi
+#	source='testutil.c' object='lib527-testutil.o' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib527_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib527-testutil.o `test -f 'testutil.c' || echo '$(srcdir)/'`testutil.c
 
 lib527-testutil.obj: testutil.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib527_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib527-testutil.obj -MD -MP -MF "$(DEPDIR)/lib527-testutil.Tpo" -c -o lib527-testutil.obj `if test -f 'testutil.c'; then $(CYGPATH_W) 'testutil.c'; else $(CYGPATH_W) '$(srcdir)/testutil.c'; fi`; \
-	then mv -f "$(DEPDIR)/lib527-testutil.Tpo" "$(DEPDIR)/lib527-testutil.Po"; else rm -f "$(DEPDIR)/lib527-testutil.Tpo"; exit 1; fi
-#	source='testutil.c' object='lib527-testutil.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib527_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib527-testutil.obj `if test -f 'testutil.c'; then $(CYGPATH_W) 'testutil.c'; else $(CYGPATH_W) '$(srcdir)/testutil.c'; fi`
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib527_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib527-testutil.obj -MD -MP -MF "$(DEPDIR)/lib527-testutil.Tpo" -c -o lib527-testutil.obj `if test -f 'testutil.c'; then $(CYGPATH_W) 'testutil.c'; else $(CYGPATH_W) '$(srcdir)/testutil.c'; fi`; \
+#	then mv -f "$(DEPDIR)/lib527-testutil.Tpo" "$(DEPDIR)/lib527-testutil.Po"; else rm -f "$(DEPDIR)/lib527-testutil.Tpo"; exit 1; fi
+#	source='testutil.c' object='lib527-testutil.obj' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib527_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib527-testutil.obj `if test -f 'testutil.c'; then $(CYGPATH_W) 'testutil.c'; else $(CYGPATH_W) '$(srcdir)/testutil.c'; fi`
 
 lib527-warnless.o: $(top_srcdir)/lib/warnless.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib527_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib527-warnless.o -MD -MP -MF "$(DEPDIR)/lib527-warnless.Tpo" -c -o lib527-warnless.o `test -f '$(top_srcdir)/lib/warnless.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/warnless.c; \
-	then mv -f "$(DEPDIR)/lib527-warnless.Tpo" "$(DEPDIR)/lib527-warnless.Po"; else rm -f "$(DEPDIR)/lib527-warnless.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/warnless.c' object='lib527-warnless.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib527_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib527-warnless.o `test -f '$(top_srcdir)/lib/warnless.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/warnless.c
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib527_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib527-warnless.o -MD -MP -MF "$(DEPDIR)/lib527-warnless.Tpo" -c -o lib527-warnless.o `test -f '$(top_srcdir)/lib/warnless.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/warnless.c; \
+#	then mv -f "$(DEPDIR)/lib527-warnless.Tpo" "$(DEPDIR)/lib527-warnless.Po"; else rm -f "$(DEPDIR)/lib527-warnless.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/warnless.c' object='lib527-warnless.o' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib527_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib527-warnless.o `test -f '$(top_srcdir)/lib/warnless.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/warnless.c
 
 lib527-warnless.obj: $(top_srcdir)/lib/warnless.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib527_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib527-warnless.obj -MD -MP -MF "$(DEPDIR)/lib527-warnless.Tpo" -c -o lib527-warnless.obj `if test -f '$(top_srcdir)/lib/warnless.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/warnless.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/warnless.c'; fi`; \
-	then mv -f "$(DEPDIR)/lib527-warnless.Tpo" "$(DEPDIR)/lib527-warnless.Po"; else rm -f "$(DEPDIR)/lib527-warnless.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/warnless.c' object='lib527-warnless.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib527_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib527-warnless.obj `if test -f '$(top_srcdir)/lib/warnless.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/warnless.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/warnless.c'; fi`
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib527_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib527-warnless.obj -MD -MP -MF "$(DEPDIR)/lib527-warnless.Tpo" -c -o lib527-warnless.obj `if test -f '$(top_srcdir)/lib/warnless.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/warnless.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/warnless.c'; fi`; \
+#	then mv -f "$(DEPDIR)/lib527-warnless.Tpo" "$(DEPDIR)/lib527-warnless.Po"; else rm -f "$(DEPDIR)/lib527-warnless.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/warnless.c' object='lib527-warnless.obj' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib527_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib527-warnless.obj `if test -f '$(top_srcdir)/lib/warnless.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/warnless.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/warnless.c'; fi`
 
 lib529-lib525.o: lib525.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib529_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib529-lib525.o -MD -MP -MF "$(DEPDIR)/lib529-lib525.Tpo" -c -o lib529-lib525.o `test -f 'lib525.c' || echo '$(srcdir)/'`lib525.c; \
-	then mv -f "$(DEPDIR)/lib529-lib525.Tpo" "$(DEPDIR)/lib529-lib525.Po"; else rm -f "$(DEPDIR)/lib529-lib525.Tpo"; exit 1; fi
-#	source='lib525.c' object='lib529-lib525.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib529_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib529-lib525.o `test -f 'lib525.c' || echo '$(srcdir)/'`lib525.c
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib529_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib529-lib525.o -MD -MP -MF "$(DEPDIR)/lib529-lib525.Tpo" -c -o lib529-lib525.o `test -f 'lib525.c' || echo '$(srcdir)/'`lib525.c; \
+#	then mv -f "$(DEPDIR)/lib529-lib525.Tpo" "$(DEPDIR)/lib529-lib525.Po"; else rm -f "$(DEPDIR)/lib529-lib525.Tpo"; exit 1; fi
+#	source='lib525.c' object='lib529-lib525.o' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib529_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib529-lib525.o `test -f 'lib525.c' || echo '$(srcdir)/'`lib525.c
 
 lib529-lib525.obj: lib525.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib529_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib529-lib525.obj -MD -MP -MF "$(DEPDIR)/lib529-lib525.Tpo" -c -o lib529-lib525.obj `if test -f 'lib525.c'; then $(CYGPATH_W) 'lib525.c'; else $(CYGPATH_W) '$(srcdir)/lib525.c'; fi`; \
-	then mv -f "$(DEPDIR)/lib529-lib525.Tpo" "$(DEPDIR)/lib529-lib525.Po"; else rm -f "$(DEPDIR)/lib529-lib525.Tpo"; exit 1; fi
-#	source='lib525.c' object='lib529-lib525.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib529_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib529-lib525.obj `if test -f 'lib525.c'; then $(CYGPATH_W) 'lib525.c'; else $(CYGPATH_W) '$(srcdir)/lib525.c'; fi`
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib529_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib529-lib525.obj -MD -MP -MF "$(DEPDIR)/lib529-lib525.Tpo" -c -o lib529-lib525.obj `if test -f 'lib525.c'; then $(CYGPATH_W) 'lib525.c'; else $(CYGPATH_W) '$(srcdir)/lib525.c'; fi`; \
+#	then mv -f "$(DEPDIR)/lib529-lib525.Tpo" "$(DEPDIR)/lib529-lib525.Po"; else rm -f "$(DEPDIR)/lib529-lib525.Tpo"; exit 1; fi
+#	source='lib525.c' object='lib529-lib525.obj' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib529_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib529-lib525.obj `if test -f 'lib525.c'; then $(CYGPATH_W) 'lib525.c'; else $(CYGPATH_W) '$(srcdir)/lib525.c'; fi`
 
 lib529-first.o: first.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib529_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib529-first.o -MD -MP -MF "$(DEPDIR)/lib529-first.Tpo" -c -o lib529-first.o `test -f 'first.c' || echo '$(srcdir)/'`first.c; \
-	then mv -f "$(DEPDIR)/lib529-first.Tpo" "$(DEPDIR)/lib529-first.Po"; else rm -f "$(DEPDIR)/lib529-first.Tpo"; exit 1; fi
-#	source='first.c' object='lib529-first.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib529_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib529-first.o `test -f 'first.c' || echo '$(srcdir)/'`first.c
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib529_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib529-first.o -MD -MP -MF "$(DEPDIR)/lib529-first.Tpo" -c -o lib529-first.o `test -f 'first.c' || echo '$(srcdir)/'`first.c; \
+#	then mv -f "$(DEPDIR)/lib529-first.Tpo" "$(DEPDIR)/lib529-first.Po"; else rm -f "$(DEPDIR)/lib529-first.Tpo"; exit 1; fi
+#	source='first.c' object='lib529-first.o' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib529_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib529-first.o `test -f 'first.c' || echo '$(srcdir)/'`first.c
 
 lib529-first.obj: first.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib529_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib529-first.obj -MD -MP -MF "$(DEPDIR)/lib529-first.Tpo" -c -o lib529-first.obj `if test -f 'first.c'; then $(CYGPATH_W) 'first.c'; else $(CYGPATH_W) '$(srcdir)/first.c'; fi`; \
-	then mv -f "$(DEPDIR)/lib529-first.Tpo" "$(DEPDIR)/lib529-first.Po"; else rm -f "$(DEPDIR)/lib529-first.Tpo"; exit 1; fi
-#	source='first.c' object='lib529-first.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib529_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib529-first.obj `if test -f 'first.c'; then $(CYGPATH_W) 'first.c'; else $(CYGPATH_W) '$(srcdir)/first.c'; fi`
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib529_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib529-first.obj -MD -MP -MF "$(DEPDIR)/lib529-first.Tpo" -c -o lib529-first.obj `if test -f 'first.c'; then $(CYGPATH_W) 'first.c'; else $(CYGPATH_W) '$(srcdir)/first.c'; fi`; \
+#	then mv -f "$(DEPDIR)/lib529-first.Tpo" "$(DEPDIR)/lib529-first.Po"; else rm -f "$(DEPDIR)/lib529-first.Tpo"; exit 1; fi
+#	source='first.c' object='lib529-first.obj' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib529_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib529-first.obj `if test -f 'first.c'; then $(CYGPATH_W) 'first.c'; else $(CYGPATH_W) '$(srcdir)/first.c'; fi`
 
 lib529-testutil.o: testutil.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib529_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib529-testutil.o -MD -MP -MF "$(DEPDIR)/lib529-testutil.Tpo" -c -o lib529-testutil.o `test -f 'testutil.c' || echo '$(srcdir)/'`testutil.c; \
-	then mv -f "$(DEPDIR)/lib529-testutil.Tpo" "$(DEPDIR)/lib529-testutil.Po"; else rm -f "$(DEPDIR)/lib529-testutil.Tpo"; exit 1; fi
-#	source='testutil.c' object='lib529-testutil.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib529_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib529-testutil.o `test -f 'testutil.c' || echo '$(srcdir)/'`testutil.c
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib529_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib529-testutil.o -MD -MP -MF "$(DEPDIR)/lib529-testutil.Tpo" -c -o lib529-testutil.o `test -f 'testutil.c' || echo '$(srcdir)/'`testutil.c; \
+#	then mv -f "$(DEPDIR)/lib529-testutil.Tpo" "$(DEPDIR)/lib529-testutil.Po"; else rm -f "$(DEPDIR)/lib529-testutil.Tpo"; exit 1; fi
+#	source='testutil.c' object='lib529-testutil.o' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib529_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib529-testutil.o `test -f 'testutil.c' || echo '$(srcdir)/'`testutil.c
 
 lib529-testutil.obj: testutil.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib529_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib529-testutil.obj -MD -MP -MF "$(DEPDIR)/lib529-testutil.Tpo" -c -o lib529-testutil.obj `if test -f 'testutil.c'; then $(CYGPATH_W) 'testutil.c'; else $(CYGPATH_W) '$(srcdir)/testutil.c'; fi`; \
-	then mv -f "$(DEPDIR)/lib529-testutil.Tpo" "$(DEPDIR)/lib529-testutil.Po"; else rm -f "$(DEPDIR)/lib529-testutil.Tpo"; exit 1; fi
-#	source='testutil.c' object='lib529-testutil.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib529_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib529-testutil.obj `if test -f 'testutil.c'; then $(CYGPATH_W) 'testutil.c'; else $(CYGPATH_W) '$(srcdir)/testutil.c'; fi`
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib529_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib529-testutil.obj -MD -MP -MF "$(DEPDIR)/lib529-testutil.Tpo" -c -o lib529-testutil.obj `if test -f 'testutil.c'; then $(CYGPATH_W) 'testutil.c'; else $(CYGPATH_W) '$(srcdir)/testutil.c'; fi`; \
+#	then mv -f "$(DEPDIR)/lib529-testutil.Tpo" "$(DEPDIR)/lib529-testutil.Po"; else rm -f "$(DEPDIR)/lib529-testutil.Tpo"; exit 1; fi
+#	source='testutil.c' object='lib529-testutil.obj' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib529_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib529-testutil.obj `if test -f 'testutil.c'; then $(CYGPATH_W) 'testutil.c'; else $(CYGPATH_W) '$(srcdir)/testutil.c'; fi`
 
 lib529-warnless.o: $(top_srcdir)/lib/warnless.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib529_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib529-warnless.o -MD -MP -MF "$(DEPDIR)/lib529-warnless.Tpo" -c -o lib529-warnless.o `test -f '$(top_srcdir)/lib/warnless.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/warnless.c; \
-	then mv -f "$(DEPDIR)/lib529-warnless.Tpo" "$(DEPDIR)/lib529-warnless.Po"; else rm -f "$(DEPDIR)/lib529-warnless.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/warnless.c' object='lib529-warnless.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib529_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib529-warnless.o `test -f '$(top_srcdir)/lib/warnless.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/warnless.c
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib529_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib529-warnless.o -MD -MP -MF "$(DEPDIR)/lib529-warnless.Tpo" -c -o lib529-warnless.o `test -f '$(top_srcdir)/lib/warnless.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/warnless.c; \
+#	then mv -f "$(DEPDIR)/lib529-warnless.Tpo" "$(DEPDIR)/lib529-warnless.Po"; else rm -f "$(DEPDIR)/lib529-warnless.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/warnless.c' object='lib529-warnless.o' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib529_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib529-warnless.o `test -f '$(top_srcdir)/lib/warnless.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/warnless.c
 
 lib529-warnless.obj: $(top_srcdir)/lib/warnless.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib529_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib529-warnless.obj -MD -MP -MF "$(DEPDIR)/lib529-warnless.Tpo" -c -o lib529-warnless.obj `if test -f '$(top_srcdir)/lib/warnless.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/warnless.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/warnless.c'; fi`; \
-	then mv -f "$(DEPDIR)/lib529-warnless.Tpo" "$(DEPDIR)/lib529-warnless.Po"; else rm -f "$(DEPDIR)/lib529-warnless.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/warnless.c' object='lib529-warnless.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib529_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib529-warnless.obj `if test -f '$(top_srcdir)/lib/warnless.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/warnless.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/warnless.c'; fi`
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib529_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib529-warnless.obj -MD -MP -MF "$(DEPDIR)/lib529-warnless.Tpo" -c -o lib529-warnless.obj `if test -f '$(top_srcdir)/lib/warnless.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/warnless.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/warnless.c'; fi`; \
+#	then mv -f "$(DEPDIR)/lib529-warnless.Tpo" "$(DEPDIR)/lib529-warnless.Po"; else rm -f "$(DEPDIR)/lib529-warnless.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/warnless.c' object='lib529-warnless.obj' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib529_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib529-warnless.obj `if test -f '$(top_srcdir)/lib/warnless.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/warnless.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/warnless.c'; fi`
 
 lib530-lib530.o: lib530.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib530_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib530-lib530.o -MD -MP -MF "$(DEPDIR)/lib530-lib530.Tpo" -c -o lib530-lib530.o `test -f 'lib530.c' || echo '$(srcdir)/'`lib530.c; \
-	then mv -f "$(DEPDIR)/lib530-lib530.Tpo" "$(DEPDIR)/lib530-lib530.Po"; else rm -f "$(DEPDIR)/lib530-lib530.Tpo"; exit 1; fi
-#	source='lib530.c' object='lib530-lib530.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib530_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib530-lib530.o `test -f 'lib530.c' || echo '$(srcdir)/'`lib530.c
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib530_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib530-lib530.o -MD -MP -MF "$(DEPDIR)/lib530-lib530.Tpo" -c -o lib530-lib530.o `test -f 'lib530.c' || echo '$(srcdir)/'`lib530.c; \
+#	then mv -f "$(DEPDIR)/lib530-lib530.Tpo" "$(DEPDIR)/lib530-lib530.Po"; else rm -f "$(DEPDIR)/lib530-lib530.Tpo"; exit 1; fi
+#	source='lib530.c' object='lib530-lib530.o' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib530_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib530-lib530.o `test -f 'lib530.c' || echo '$(srcdir)/'`lib530.c
 
 lib530-lib530.obj: lib530.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib530_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib530-lib530.obj -MD -MP -MF "$(DEPDIR)/lib530-lib530.Tpo" -c -o lib530-lib530.obj `if test -f 'lib530.c'; then $(CYGPATH_W) 'lib530.c'; else $(CYGPATH_W) '$(srcdir)/lib530.c'; fi`; \
-	then mv -f "$(DEPDIR)/lib530-lib530.Tpo" "$(DEPDIR)/lib530-lib530.Po"; else rm -f "$(DEPDIR)/lib530-lib530.Tpo"; exit 1; fi
-#	source='lib530.c' object='lib530-lib530.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib530_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib530-lib530.obj `if test -f 'lib530.c'; then $(CYGPATH_W) 'lib530.c'; else $(CYGPATH_W) '$(srcdir)/lib530.c'; fi`
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib530_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib530-lib530.obj -MD -MP -MF "$(DEPDIR)/lib530-lib530.Tpo" -c -o lib530-lib530.obj `if test -f 'lib530.c'; then $(CYGPATH_W) 'lib530.c'; else $(CYGPATH_W) '$(srcdir)/lib530.c'; fi`; \
+#	then mv -f "$(DEPDIR)/lib530-lib530.Tpo" "$(DEPDIR)/lib530-lib530.Po"; else rm -f "$(DEPDIR)/lib530-lib530.Tpo"; exit 1; fi
+#	source='lib530.c' object='lib530-lib530.obj' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib530_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib530-lib530.obj `if test -f 'lib530.c'; then $(CYGPATH_W) 'lib530.c'; else $(CYGPATH_W) '$(srcdir)/lib530.c'; fi`
 
 lib530-first.o: first.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib530_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib530-first.o -MD -MP -MF "$(DEPDIR)/lib530-first.Tpo" -c -o lib530-first.o `test -f 'first.c' || echo '$(srcdir)/'`first.c; \
-	then mv -f "$(DEPDIR)/lib530-first.Tpo" "$(DEPDIR)/lib530-first.Po"; else rm -f "$(DEPDIR)/lib530-first.Tpo"; exit 1; fi
-#	source='first.c' object='lib530-first.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib530_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib530-first.o `test -f 'first.c' || echo '$(srcdir)/'`first.c
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib530_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib530-first.o -MD -MP -MF "$(DEPDIR)/lib530-first.Tpo" -c -o lib530-first.o `test -f 'first.c' || echo '$(srcdir)/'`first.c; \
+#	then mv -f "$(DEPDIR)/lib530-first.Tpo" "$(DEPDIR)/lib530-first.Po"; else rm -f "$(DEPDIR)/lib530-first.Tpo"; exit 1; fi
+#	source='first.c' object='lib530-first.o' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib530_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib530-first.o `test -f 'first.c' || echo '$(srcdir)/'`first.c
 
 lib530-first.obj: first.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib530_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib530-first.obj -MD -MP -MF "$(DEPDIR)/lib530-first.Tpo" -c -o lib530-first.obj `if test -f 'first.c'; then $(CYGPATH_W) 'first.c'; else $(CYGPATH_W) '$(srcdir)/first.c'; fi`; \
-	then mv -f "$(DEPDIR)/lib530-first.Tpo" "$(DEPDIR)/lib530-first.Po"; else rm -f "$(DEPDIR)/lib530-first.Tpo"; exit 1; fi
-#	source='first.c' object='lib530-first.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib530_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib530-first.obj `if test -f 'first.c'; then $(CYGPATH_W) 'first.c'; else $(CYGPATH_W) '$(srcdir)/first.c'; fi`
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib530_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib530-first.obj -MD -MP -MF "$(DEPDIR)/lib530-first.Tpo" -c -o lib530-first.obj `if test -f 'first.c'; then $(CYGPATH_W) 'first.c'; else $(CYGPATH_W) '$(srcdir)/first.c'; fi`; \
+#	then mv -f "$(DEPDIR)/lib530-first.Tpo" "$(DEPDIR)/lib530-first.Po"; else rm -f "$(DEPDIR)/lib530-first.Tpo"; exit 1; fi
+#	source='first.c' object='lib530-first.obj' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib530_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib530-first.obj `if test -f 'first.c'; then $(CYGPATH_W) 'first.c'; else $(CYGPATH_W) '$(srcdir)/first.c'; fi`
 
 lib530-testutil.o: testutil.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib530_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib530-testutil.o -MD -MP -MF "$(DEPDIR)/lib530-testutil.Tpo" -c -o lib530-testutil.o `test -f 'testutil.c' || echo '$(srcdir)/'`testutil.c; \
-	then mv -f "$(DEPDIR)/lib530-testutil.Tpo" "$(DEPDIR)/lib530-testutil.Po"; else rm -f "$(DEPDIR)/lib530-testutil.Tpo"; exit 1; fi
-#	source='testutil.c' object='lib530-testutil.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib530_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib530-testutil.o `test -f 'testutil.c' || echo '$(srcdir)/'`testutil.c
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib530_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib530-testutil.o -MD -MP -MF "$(DEPDIR)/lib530-testutil.Tpo" -c -o lib530-testutil.o `test -f 'testutil.c' || echo '$(srcdir)/'`testutil.c; \
+#	then mv -f "$(DEPDIR)/lib530-testutil.Tpo" "$(DEPDIR)/lib530-testutil.Po"; else rm -f "$(DEPDIR)/lib530-testutil.Tpo"; exit 1; fi
+#	source='testutil.c' object='lib530-testutil.o' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib530_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib530-testutil.o `test -f 'testutil.c' || echo '$(srcdir)/'`testutil.c
 
 lib530-testutil.obj: testutil.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib530_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib530-testutil.obj -MD -MP -MF "$(DEPDIR)/lib530-testutil.Tpo" -c -o lib530-testutil.obj `if test -f 'testutil.c'; then $(CYGPATH_W) 'testutil.c'; else $(CYGPATH_W) '$(srcdir)/testutil.c'; fi`; \
-	then mv -f "$(DEPDIR)/lib530-testutil.Tpo" "$(DEPDIR)/lib530-testutil.Po"; else rm -f "$(DEPDIR)/lib530-testutil.Tpo"; exit 1; fi
-#	source='testutil.c' object='lib530-testutil.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib530_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib530-testutil.obj `if test -f 'testutil.c'; then $(CYGPATH_W) 'testutil.c'; else $(CYGPATH_W) '$(srcdir)/testutil.c'; fi`
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib530_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib530-testutil.obj -MD -MP -MF "$(DEPDIR)/lib530-testutil.Tpo" -c -o lib530-testutil.obj `if test -f 'testutil.c'; then $(CYGPATH_W) 'testutil.c'; else $(CYGPATH_W) '$(srcdir)/testutil.c'; fi`; \
+#	then mv -f "$(DEPDIR)/lib530-testutil.Tpo" "$(DEPDIR)/lib530-testutil.Po"; else rm -f "$(DEPDIR)/lib530-testutil.Tpo"; exit 1; fi
+#	source='testutil.c' object='lib530-testutil.obj' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib530_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib530-testutil.obj `if test -f 'testutil.c'; then $(CYGPATH_W) 'testutil.c'; else $(CYGPATH_W) '$(srcdir)/testutil.c'; fi`
 
 lib530-warnless.o: $(top_srcdir)/lib/warnless.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib530_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib530-warnless.o -MD -MP -MF "$(DEPDIR)/lib530-warnless.Tpo" -c -o lib530-warnless.o `test -f '$(top_srcdir)/lib/warnless.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/warnless.c; \
-	then mv -f "$(DEPDIR)/lib530-warnless.Tpo" "$(DEPDIR)/lib530-warnless.Po"; else rm -f "$(DEPDIR)/lib530-warnless.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/warnless.c' object='lib530-warnless.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib530_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib530-warnless.o `test -f '$(top_srcdir)/lib/warnless.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/warnless.c
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib530_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib530-warnless.o -MD -MP -MF "$(DEPDIR)/lib530-warnless.Tpo" -c -o lib530-warnless.o `test -f '$(top_srcdir)/lib/warnless.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/warnless.c; \
+#	then mv -f "$(DEPDIR)/lib530-warnless.Tpo" "$(DEPDIR)/lib530-warnless.Po"; else rm -f "$(DEPDIR)/lib530-warnless.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/warnless.c' object='lib530-warnless.o' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib530_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib530-warnless.o `test -f '$(top_srcdir)/lib/warnless.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/warnless.c
 
 lib530-warnless.obj: $(top_srcdir)/lib/warnless.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib530_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib530-warnless.obj -MD -MP -MF "$(DEPDIR)/lib530-warnless.Tpo" -c -o lib530-warnless.obj `if test -f '$(top_srcdir)/lib/warnless.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/warnless.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/warnless.c'; fi`; \
-	then mv -f "$(DEPDIR)/lib530-warnless.Tpo" "$(DEPDIR)/lib530-warnless.Po"; else rm -f "$(DEPDIR)/lib530-warnless.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/warnless.c' object='lib530-warnless.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib530_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib530-warnless.obj `if test -f '$(top_srcdir)/lib/warnless.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/warnless.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/warnless.c'; fi`
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib530_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib530-warnless.obj -MD -MP -MF "$(DEPDIR)/lib530-warnless.Tpo" -c -o lib530-warnless.obj `if test -f '$(top_srcdir)/lib/warnless.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/warnless.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/warnless.c'; fi`; \
+#	then mv -f "$(DEPDIR)/lib530-warnless.Tpo" "$(DEPDIR)/lib530-warnless.Po"; else rm -f "$(DEPDIR)/lib530-warnless.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/warnless.c' object='lib530-warnless.obj' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib530_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib530-warnless.obj `if test -f '$(top_srcdir)/lib/warnless.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/warnless.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/warnless.c'; fi`
 
 lib532-lib526.o: lib526.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib532_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib532-lib526.o -MD -MP -MF "$(DEPDIR)/lib532-lib526.Tpo" -c -o lib532-lib526.o `test -f 'lib526.c' || echo '$(srcdir)/'`lib526.c; \
-	then mv -f "$(DEPDIR)/lib532-lib526.Tpo" "$(DEPDIR)/lib532-lib526.Po"; else rm -f "$(DEPDIR)/lib532-lib526.Tpo"; exit 1; fi
-#	source='lib526.c' object='lib532-lib526.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib532_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib532-lib526.o `test -f 'lib526.c' || echo '$(srcdir)/'`lib526.c
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib532_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib532-lib526.o -MD -MP -MF "$(DEPDIR)/lib532-lib526.Tpo" -c -o lib532-lib526.o `test -f 'lib526.c' || echo '$(srcdir)/'`lib526.c; \
+#	then mv -f "$(DEPDIR)/lib532-lib526.Tpo" "$(DEPDIR)/lib532-lib526.Po"; else rm -f "$(DEPDIR)/lib532-lib526.Tpo"; exit 1; fi
+#	source='lib526.c' object='lib532-lib526.o' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib532_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib532-lib526.o `test -f 'lib526.c' || echo '$(srcdir)/'`lib526.c
 
 lib532-lib526.obj: lib526.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib532_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib532-lib526.obj -MD -MP -MF "$(DEPDIR)/lib532-lib526.Tpo" -c -o lib532-lib526.obj `if test -f 'lib526.c'; then $(CYGPATH_W) 'lib526.c'; else $(CYGPATH_W) '$(srcdir)/lib526.c'; fi`; \
-	then mv -f "$(DEPDIR)/lib532-lib526.Tpo" "$(DEPDIR)/lib532-lib526.Po"; else rm -f "$(DEPDIR)/lib532-lib526.Tpo"; exit 1; fi
-#	source='lib526.c' object='lib532-lib526.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib532_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib532-lib526.obj `if test -f 'lib526.c'; then $(CYGPATH_W) 'lib526.c'; else $(CYGPATH_W) '$(srcdir)/lib526.c'; fi`
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib532_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib532-lib526.obj -MD -MP -MF "$(DEPDIR)/lib532-lib526.Tpo" -c -o lib532-lib526.obj `if test -f 'lib526.c'; then $(CYGPATH_W) 'lib526.c'; else $(CYGPATH_W) '$(srcdir)/lib526.c'; fi`; \
+#	then mv -f "$(DEPDIR)/lib532-lib526.Tpo" "$(DEPDIR)/lib532-lib526.Po"; else rm -f "$(DEPDIR)/lib532-lib526.Tpo"; exit 1; fi
+#	source='lib526.c' object='lib532-lib526.obj' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib532_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib532-lib526.obj `if test -f 'lib526.c'; then $(CYGPATH_W) 'lib526.c'; else $(CYGPATH_W) '$(srcdir)/lib526.c'; fi`
 
 lib532-first.o: first.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib532_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib532-first.o -MD -MP -MF "$(DEPDIR)/lib532-first.Tpo" -c -o lib532-first.o `test -f 'first.c' || echo '$(srcdir)/'`first.c; \
-	then mv -f "$(DEPDIR)/lib532-first.Tpo" "$(DEPDIR)/lib532-first.Po"; else rm -f "$(DEPDIR)/lib532-first.Tpo"; exit 1; fi
-#	source='first.c' object='lib532-first.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib532_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib532-first.o `test -f 'first.c' || echo '$(srcdir)/'`first.c
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib532_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib532-first.o -MD -MP -MF "$(DEPDIR)/lib532-first.Tpo" -c -o lib532-first.o `test -f 'first.c' || echo '$(srcdir)/'`first.c; \
+#	then mv -f "$(DEPDIR)/lib532-first.Tpo" "$(DEPDIR)/lib532-first.Po"; else rm -f "$(DEPDIR)/lib532-first.Tpo"; exit 1; fi
+#	source='first.c' object='lib532-first.o' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib532_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib532-first.o `test -f 'first.c' || echo '$(srcdir)/'`first.c
 
 lib532-first.obj: first.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib532_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib532-first.obj -MD -MP -MF "$(DEPDIR)/lib532-first.Tpo" -c -o lib532-first.obj `if test -f 'first.c'; then $(CYGPATH_W) 'first.c'; else $(CYGPATH_W) '$(srcdir)/first.c'; fi`; \
-	then mv -f "$(DEPDIR)/lib532-first.Tpo" "$(DEPDIR)/lib532-first.Po"; else rm -f "$(DEPDIR)/lib532-first.Tpo"; exit 1; fi
-#	source='first.c' object='lib532-first.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib532_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib532-first.obj `if test -f 'first.c'; then $(CYGPATH_W) 'first.c'; else $(CYGPATH_W) '$(srcdir)/first.c'; fi`
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib532_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib532-first.obj -MD -MP -MF "$(DEPDIR)/lib532-first.Tpo" -c -o lib532-first.obj `if test -f 'first.c'; then $(CYGPATH_W) 'first.c'; else $(CYGPATH_W) '$(srcdir)/first.c'; fi`; \
+#	then mv -f "$(DEPDIR)/lib532-first.Tpo" "$(DEPDIR)/lib532-first.Po"; else rm -f "$(DEPDIR)/lib532-first.Tpo"; exit 1; fi
+#	source='first.c' object='lib532-first.obj' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib532_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib532-first.obj `if test -f 'first.c'; then $(CYGPATH_W) 'first.c'; else $(CYGPATH_W) '$(srcdir)/first.c'; fi`
 
 lib532-testutil.o: testutil.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib532_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib532-testutil.o -MD -MP -MF "$(DEPDIR)/lib532-testutil.Tpo" -c -o lib532-testutil.o `test -f 'testutil.c' || echo '$(srcdir)/'`testutil.c; \
-	then mv -f "$(DEPDIR)/lib532-testutil.Tpo" "$(DEPDIR)/lib532-testutil.Po"; else rm -f "$(DEPDIR)/lib532-testutil.Tpo"; exit 1; fi
-#	source='testutil.c' object='lib532-testutil.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib532_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib532-testutil.o `test -f 'testutil.c' || echo '$(srcdir)/'`testutil.c
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib532_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib532-testutil.o -MD -MP -MF "$(DEPDIR)/lib532-testutil.Tpo" -c -o lib532-testutil.o `test -f 'testutil.c' || echo '$(srcdir)/'`testutil.c; \
+#	then mv -f "$(DEPDIR)/lib532-testutil.Tpo" "$(DEPDIR)/lib532-testutil.Po"; else rm -f "$(DEPDIR)/lib532-testutil.Tpo"; exit 1; fi
+#	source='testutil.c' object='lib532-testutil.o' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib532_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib532-testutil.o `test -f 'testutil.c' || echo '$(srcdir)/'`testutil.c
 
 lib532-testutil.obj: testutil.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib532_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib532-testutil.obj -MD -MP -MF "$(DEPDIR)/lib532-testutil.Tpo" -c -o lib532-testutil.obj `if test -f 'testutil.c'; then $(CYGPATH_W) 'testutil.c'; else $(CYGPATH_W) '$(srcdir)/testutil.c'; fi`; \
-	then mv -f "$(DEPDIR)/lib532-testutil.Tpo" "$(DEPDIR)/lib532-testutil.Po"; else rm -f "$(DEPDIR)/lib532-testutil.Tpo"; exit 1; fi
-#	source='testutil.c' object='lib532-testutil.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib532_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib532-testutil.obj `if test -f 'testutil.c'; then $(CYGPATH_W) 'testutil.c'; else $(CYGPATH_W) '$(srcdir)/testutil.c'; fi`
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib532_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib532-testutil.obj -MD -MP -MF "$(DEPDIR)/lib532-testutil.Tpo" -c -o lib532-testutil.obj `if test -f 'testutil.c'; then $(CYGPATH_W) 'testutil.c'; else $(CYGPATH_W) '$(srcdir)/testutil.c'; fi`; \
+#	then mv -f "$(DEPDIR)/lib532-testutil.Tpo" "$(DEPDIR)/lib532-testutil.Po"; else rm -f "$(DEPDIR)/lib532-testutil.Tpo"; exit 1; fi
+#	source='testutil.c' object='lib532-testutil.obj' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib532_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib532-testutil.obj `if test -f 'testutil.c'; then $(CYGPATH_W) 'testutil.c'; else $(CYGPATH_W) '$(srcdir)/testutil.c'; fi`
 
 lib532-warnless.o: $(top_srcdir)/lib/warnless.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib532_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib532-warnless.o -MD -MP -MF "$(DEPDIR)/lib532-warnless.Tpo" -c -o lib532-warnless.o `test -f '$(top_srcdir)/lib/warnless.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/warnless.c; \
-	then mv -f "$(DEPDIR)/lib532-warnless.Tpo" "$(DEPDIR)/lib532-warnless.Po"; else rm -f "$(DEPDIR)/lib532-warnless.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/warnless.c' object='lib532-warnless.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib532_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib532-warnless.o `test -f '$(top_srcdir)/lib/warnless.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/warnless.c
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib532_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib532-warnless.o -MD -MP -MF "$(DEPDIR)/lib532-warnless.Tpo" -c -o lib532-warnless.o `test -f '$(top_srcdir)/lib/warnless.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/warnless.c; \
+#	then mv -f "$(DEPDIR)/lib532-warnless.Tpo" "$(DEPDIR)/lib532-warnless.Po"; else rm -f "$(DEPDIR)/lib532-warnless.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/warnless.c' object='lib532-warnless.o' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib532_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib532-warnless.o `test -f '$(top_srcdir)/lib/warnless.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/warnless.c
 
 lib532-warnless.obj: $(top_srcdir)/lib/warnless.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib532_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib532-warnless.obj -MD -MP -MF "$(DEPDIR)/lib532-warnless.Tpo" -c -o lib532-warnless.obj `if test -f '$(top_srcdir)/lib/warnless.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/warnless.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/warnless.c'; fi`; \
-	then mv -f "$(DEPDIR)/lib532-warnless.Tpo" "$(DEPDIR)/lib532-warnless.Po"; else rm -f "$(DEPDIR)/lib532-warnless.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/warnless.c' object='lib532-warnless.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib532_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib532-warnless.obj `if test -f '$(top_srcdir)/lib/warnless.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/warnless.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/warnless.c'; fi`
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib532_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib532-warnless.obj -MD -MP -MF "$(DEPDIR)/lib532-warnless.Tpo" -c -o lib532-warnless.obj `if test -f '$(top_srcdir)/lib/warnless.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/warnless.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/warnless.c'; fi`; \
+#	then mv -f "$(DEPDIR)/lib532-warnless.Tpo" "$(DEPDIR)/lib532-warnless.Po"; else rm -f "$(DEPDIR)/lib532-warnless.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/warnless.c' object='lib532-warnless.obj' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib532_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib532-warnless.obj `if test -f '$(top_srcdir)/lib/warnless.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/warnless.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/warnless.c'; fi`
 
 lib545-lib544.o: lib544.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib545_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib545-lib544.o -MD -MP -MF "$(DEPDIR)/lib545-lib544.Tpo" -c -o lib545-lib544.o `test -f 'lib544.c' || echo '$(srcdir)/'`lib544.c; \
-	then mv -f "$(DEPDIR)/lib545-lib544.Tpo" "$(DEPDIR)/lib545-lib544.Po"; else rm -f "$(DEPDIR)/lib545-lib544.Tpo"; exit 1; fi
-#	source='lib544.c' object='lib545-lib544.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib545_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib545-lib544.o `test -f 'lib544.c' || echo '$(srcdir)/'`lib544.c
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib545_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib545-lib544.o -MD -MP -MF "$(DEPDIR)/lib545-lib544.Tpo" -c -o lib545-lib544.o `test -f 'lib544.c' || echo '$(srcdir)/'`lib544.c; \
+#	then mv -f "$(DEPDIR)/lib545-lib544.Tpo" "$(DEPDIR)/lib545-lib544.Po"; else rm -f "$(DEPDIR)/lib545-lib544.Tpo"; exit 1; fi
+#	source='lib544.c' object='lib545-lib544.o' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib545_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib545-lib544.o `test -f 'lib544.c' || echo '$(srcdir)/'`lib544.c
 
 lib545-lib544.obj: lib544.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib545_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib545-lib544.obj -MD -MP -MF "$(DEPDIR)/lib545-lib544.Tpo" -c -o lib545-lib544.obj `if test -f 'lib544.c'; then $(CYGPATH_W) 'lib544.c'; else $(CYGPATH_W) '$(srcdir)/lib544.c'; fi`; \
-	then mv -f "$(DEPDIR)/lib545-lib544.Tpo" "$(DEPDIR)/lib545-lib544.Po"; else rm -f "$(DEPDIR)/lib545-lib544.Tpo"; exit 1; fi
-#	source='lib544.c' object='lib545-lib544.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib545_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib545-lib544.obj `if test -f 'lib544.c'; then $(CYGPATH_W) 'lib544.c'; else $(CYGPATH_W) '$(srcdir)/lib544.c'; fi`
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib545_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib545-lib544.obj -MD -MP -MF "$(DEPDIR)/lib545-lib544.Tpo" -c -o lib545-lib544.obj `if test -f 'lib544.c'; then $(CYGPATH_W) 'lib544.c'; else $(CYGPATH_W) '$(srcdir)/lib544.c'; fi`; \
+#	then mv -f "$(DEPDIR)/lib545-lib544.Tpo" "$(DEPDIR)/lib545-lib544.Po"; else rm -f "$(DEPDIR)/lib545-lib544.Tpo"; exit 1; fi
+#	source='lib544.c' object='lib545-lib544.obj' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib545_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib545-lib544.obj `if test -f 'lib544.c'; then $(CYGPATH_W) 'lib544.c'; else $(CYGPATH_W) '$(srcdir)/lib544.c'; fi`
 
 lib545-first.o: first.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib545_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib545-first.o -MD -MP -MF "$(DEPDIR)/lib545-first.Tpo" -c -o lib545-first.o `test -f 'first.c' || echo '$(srcdir)/'`first.c; \
-	then mv -f "$(DEPDIR)/lib545-first.Tpo" "$(DEPDIR)/lib545-first.Po"; else rm -f "$(DEPDIR)/lib545-first.Tpo"; exit 1; fi
-#	source='first.c' object='lib545-first.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib545_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib545-first.o `test -f 'first.c' || echo '$(srcdir)/'`first.c
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib545_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib545-first.o -MD -MP -MF "$(DEPDIR)/lib545-first.Tpo" -c -o lib545-first.o `test -f 'first.c' || echo '$(srcdir)/'`first.c; \
+#	then mv -f "$(DEPDIR)/lib545-first.Tpo" "$(DEPDIR)/lib545-first.Po"; else rm -f "$(DEPDIR)/lib545-first.Tpo"; exit 1; fi
+#	source='first.c' object='lib545-first.o' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib545_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib545-first.o `test -f 'first.c' || echo '$(srcdir)/'`first.c
 
 lib545-first.obj: first.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib545_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib545-first.obj -MD -MP -MF "$(DEPDIR)/lib545-first.Tpo" -c -o lib545-first.obj `if test -f 'first.c'; then $(CYGPATH_W) 'first.c'; else $(CYGPATH_W) '$(srcdir)/first.c'; fi`; \
-	then mv -f "$(DEPDIR)/lib545-first.Tpo" "$(DEPDIR)/lib545-first.Po"; else rm -f "$(DEPDIR)/lib545-first.Tpo"; exit 1; fi
-#	source='first.c' object='lib545-first.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib545_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib545-first.obj `if test -f 'first.c'; then $(CYGPATH_W) 'first.c'; else $(CYGPATH_W) '$(srcdir)/first.c'; fi`
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib545_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib545-first.obj -MD -MP -MF "$(DEPDIR)/lib545-first.Tpo" -c -o lib545-first.obj `if test -f 'first.c'; then $(CYGPATH_W) 'first.c'; else $(CYGPATH_W) '$(srcdir)/first.c'; fi`; \
+#	then mv -f "$(DEPDIR)/lib545-first.Tpo" "$(DEPDIR)/lib545-first.Po"; else rm -f "$(DEPDIR)/lib545-first.Tpo"; exit 1; fi
+#	source='first.c' object='lib545-first.obj' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib545_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib545-first.obj `if test -f 'first.c'; then $(CYGPATH_W) 'first.c'; else $(CYGPATH_W) '$(srcdir)/first.c'; fi`
 
 lib548-lib547.o: lib547.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib548_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib548-lib547.o -MD -MP -MF "$(DEPDIR)/lib548-lib547.Tpo" -c -o lib548-lib547.o `test -f 'lib547.c' || echo '$(srcdir)/'`lib547.c; \
-	then mv -f "$(DEPDIR)/lib548-lib547.Tpo" "$(DEPDIR)/lib548-lib547.Po"; else rm -f "$(DEPDIR)/lib548-lib547.Tpo"; exit 1; fi
-#	source='lib547.c' object='lib548-lib547.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib548_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib548-lib547.o `test -f 'lib547.c' || echo '$(srcdir)/'`lib547.c
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib548_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib548-lib547.o -MD -MP -MF "$(DEPDIR)/lib548-lib547.Tpo" -c -o lib548-lib547.o `test -f 'lib547.c' || echo '$(srcdir)/'`lib547.c; \
+#	then mv -f "$(DEPDIR)/lib548-lib547.Tpo" "$(DEPDIR)/lib548-lib547.Po"; else rm -f "$(DEPDIR)/lib548-lib547.Tpo"; exit 1; fi
+#	source='lib547.c' object='lib548-lib547.o' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib548_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib548-lib547.o `test -f 'lib547.c' || echo '$(srcdir)/'`lib547.c
 
 lib548-lib547.obj: lib547.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib548_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib548-lib547.obj -MD -MP -MF "$(DEPDIR)/lib548-lib547.Tpo" -c -o lib548-lib547.obj `if test -f 'lib547.c'; then $(CYGPATH_W) 'lib547.c'; else $(CYGPATH_W) '$(srcdir)/lib547.c'; fi`; \
-	then mv -f "$(DEPDIR)/lib548-lib547.Tpo" "$(DEPDIR)/lib548-lib547.Po"; else rm -f "$(DEPDIR)/lib548-lib547.Tpo"; exit 1; fi
-#	source='lib547.c' object='lib548-lib547.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib548_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib548-lib547.obj `if test -f 'lib547.c'; then $(CYGPATH_W) 'lib547.c'; else $(CYGPATH_W) '$(srcdir)/lib547.c'; fi`
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib548_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib548-lib547.obj -MD -MP -MF "$(DEPDIR)/lib548-lib547.Tpo" -c -o lib548-lib547.obj `if test -f 'lib547.c'; then $(CYGPATH_W) 'lib547.c'; else $(CYGPATH_W) '$(srcdir)/lib547.c'; fi`; \
+#	then mv -f "$(DEPDIR)/lib548-lib547.Tpo" "$(DEPDIR)/lib548-lib547.Po"; else rm -f "$(DEPDIR)/lib548-lib547.Tpo"; exit 1; fi
+#	source='lib547.c' object='lib548-lib547.obj' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib548_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib548-lib547.obj `if test -f 'lib547.c'; then $(CYGPATH_W) 'lib547.c'; else $(CYGPATH_W) '$(srcdir)/lib547.c'; fi`
 
 lib548-first.o: first.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib548_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib548-first.o -MD -MP -MF "$(DEPDIR)/lib548-first.Tpo" -c -o lib548-first.o `test -f 'first.c' || echo '$(srcdir)/'`first.c; \
-	then mv -f "$(DEPDIR)/lib548-first.Tpo" "$(DEPDIR)/lib548-first.Po"; else rm -f "$(DEPDIR)/lib548-first.Tpo"; exit 1; fi
-#	source='first.c' object='lib548-first.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib548_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib548-first.o `test -f 'first.c' || echo '$(srcdir)/'`first.c
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib548_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib548-first.o -MD -MP -MF "$(DEPDIR)/lib548-first.Tpo" -c -o lib548-first.o `test -f 'first.c' || echo '$(srcdir)/'`first.c; \
+#	then mv -f "$(DEPDIR)/lib548-first.Tpo" "$(DEPDIR)/lib548-first.Po"; else rm -f "$(DEPDIR)/lib548-first.Tpo"; exit 1; fi
+#	source='first.c' object='lib548-first.o' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib548_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib548-first.o `test -f 'first.c' || echo '$(srcdir)/'`first.c
 
 lib548-first.obj: first.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib548_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib548-first.obj -MD -MP -MF "$(DEPDIR)/lib548-first.Tpo" -c -o lib548-first.obj `if test -f 'first.c'; then $(CYGPATH_W) 'first.c'; else $(CYGPATH_W) '$(srcdir)/first.c'; fi`; \
-	then mv -f "$(DEPDIR)/lib548-first.Tpo" "$(DEPDIR)/lib548-first.Po"; else rm -f "$(DEPDIR)/lib548-first.Tpo"; exit 1; fi
-#	source='first.c' object='lib548-first.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib548_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib548-first.obj `if test -f 'first.c'; then $(CYGPATH_W) 'first.c'; else $(CYGPATH_W) '$(srcdir)/first.c'; fi`
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib548_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib548-first.obj -MD -MP -MF "$(DEPDIR)/lib548-first.Tpo" -c -o lib548-first.obj `if test -f 'first.c'; then $(CYGPATH_W) 'first.c'; else $(CYGPATH_W) '$(srcdir)/first.c'; fi`; \
+#	then mv -f "$(DEPDIR)/lib548-first.Tpo" "$(DEPDIR)/lib548-first.Po"; else rm -f "$(DEPDIR)/lib548-first.Tpo"; exit 1; fi
+#	source='first.c' object='lib548-first.obj' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib548_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib548-first.obj `if test -f 'first.c'; then $(CYGPATH_W) 'first.c'; else $(CYGPATH_W) '$(srcdir)/first.c'; fi`
 
 lib565-lib510.o: lib510.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib565_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib565-lib510.o -MD -MP -MF "$(DEPDIR)/lib565-lib510.Tpo" -c -o lib565-lib510.o `test -f 'lib510.c' || echo '$(srcdir)/'`lib510.c; \
-	then mv -f "$(DEPDIR)/lib565-lib510.Tpo" "$(DEPDIR)/lib565-lib510.Po"; else rm -f "$(DEPDIR)/lib565-lib510.Tpo"; exit 1; fi
-#	source='lib510.c' object='lib565-lib510.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib565_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib565-lib510.o `test -f 'lib510.c' || echo '$(srcdir)/'`lib510.c
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib565_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib565-lib510.o -MD -MP -MF "$(DEPDIR)/lib565-lib510.Tpo" -c -o lib565-lib510.o `test -f 'lib510.c' || echo '$(srcdir)/'`lib510.c; \
+#	then mv -f "$(DEPDIR)/lib565-lib510.Tpo" "$(DEPDIR)/lib565-lib510.Po"; else rm -f "$(DEPDIR)/lib565-lib510.Tpo"; exit 1; fi
+#	source='lib510.c' object='lib565-lib510.o' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib565_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib565-lib510.o `test -f 'lib510.c' || echo '$(srcdir)/'`lib510.c
 
 lib565-lib510.obj: lib510.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib565_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib565-lib510.obj -MD -MP -MF "$(DEPDIR)/lib565-lib510.Tpo" -c -o lib565-lib510.obj `if test -f 'lib510.c'; then $(CYGPATH_W) 'lib510.c'; else $(CYGPATH_W) '$(srcdir)/lib510.c'; fi`; \
-	then mv -f "$(DEPDIR)/lib565-lib510.Tpo" "$(DEPDIR)/lib565-lib510.Po"; else rm -f "$(DEPDIR)/lib565-lib510.Tpo"; exit 1; fi
-#	source='lib510.c' object='lib565-lib510.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib565_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib565-lib510.obj `if test -f 'lib510.c'; then $(CYGPATH_W) 'lib510.c'; else $(CYGPATH_W) '$(srcdir)/lib510.c'; fi`
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib565_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib565-lib510.obj -MD -MP -MF "$(DEPDIR)/lib565-lib510.Tpo" -c -o lib565-lib510.obj `if test -f 'lib510.c'; then $(CYGPATH_W) 'lib510.c'; else $(CYGPATH_W) '$(srcdir)/lib510.c'; fi`; \
+#	then mv -f "$(DEPDIR)/lib565-lib510.Tpo" "$(DEPDIR)/lib565-lib510.Po"; else rm -f "$(DEPDIR)/lib565-lib510.Tpo"; exit 1; fi
+#	source='lib510.c' object='lib565-lib510.obj' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib565_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib565-lib510.obj `if test -f 'lib510.c'; then $(CYGPATH_W) 'lib510.c'; else $(CYGPATH_W) '$(srcdir)/lib510.c'; fi`
 
 lib565-first.o: first.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib565_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib565-first.o -MD -MP -MF "$(DEPDIR)/lib565-first.Tpo" -c -o lib565-first.o `test -f 'first.c' || echo '$(srcdir)/'`first.c; \
-	then mv -f "$(DEPDIR)/lib565-first.Tpo" "$(DEPDIR)/lib565-first.Po"; else rm -f "$(DEPDIR)/lib565-first.Tpo"; exit 1; fi
-#	source='first.c' object='lib565-first.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib565_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib565-first.o `test -f 'first.c' || echo '$(srcdir)/'`first.c
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib565_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib565-first.o -MD -MP -MF "$(DEPDIR)/lib565-first.Tpo" -c -o lib565-first.o `test -f 'first.c' || echo '$(srcdir)/'`first.c; \
+#	then mv -f "$(DEPDIR)/lib565-first.Tpo" "$(DEPDIR)/lib565-first.Po"; else rm -f "$(DEPDIR)/lib565-first.Tpo"; exit 1; fi
+#	source='first.c' object='lib565-first.o' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib565_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib565-first.o `test -f 'first.c' || echo '$(srcdir)/'`first.c
 
 lib565-first.obj: first.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib565_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib565-first.obj -MD -MP -MF "$(DEPDIR)/lib565-first.Tpo" -c -o lib565-first.obj `if test -f 'first.c'; then $(CYGPATH_W) 'first.c'; else $(CYGPATH_W) '$(srcdir)/first.c'; fi`; \
-	then mv -f "$(DEPDIR)/lib565-first.Tpo" "$(DEPDIR)/lib565-first.Po"; else rm -f "$(DEPDIR)/lib565-first.Tpo"; exit 1; fi
-#	source='first.c' object='lib565-first.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib565_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib565-first.obj `if test -f 'first.c'; then $(CYGPATH_W) 'first.c'; else $(CYGPATH_W) '$(srcdir)/first.c'; fi`
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib565_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib565-first.obj -MD -MP -MF "$(DEPDIR)/lib565-first.Tpo" -c -o lib565-first.obj `if test -f 'first.c'; then $(CYGPATH_W) 'first.c'; else $(CYGPATH_W) '$(srcdir)/first.c'; fi`; \
+#	then mv -f "$(DEPDIR)/lib565-first.Tpo" "$(DEPDIR)/lib565-first.Po"; else rm -f "$(DEPDIR)/lib565-first.Tpo"; exit 1; fi
+#	source='first.c' object='lib565-first.obj' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib565_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib565-first.obj `if test -f 'first.c'; then $(CYGPATH_W) 'first.c'; else $(CYGPATH_W) '$(srcdir)/first.c'; fi`
 
 lib585-lib500.o: lib500.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib585_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib585-lib500.o -MD -MP -MF "$(DEPDIR)/lib585-lib500.Tpo" -c -o lib585-lib500.o `test -f 'lib500.c' || echo '$(srcdir)/'`lib500.c; \
-	then mv -f "$(DEPDIR)/lib585-lib500.Tpo" "$(DEPDIR)/lib585-lib500.Po"; else rm -f "$(DEPDIR)/lib585-lib500.Tpo"; exit 1; fi
-#	source='lib500.c' object='lib585-lib500.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib585_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib585-lib500.o `test -f 'lib500.c' || echo '$(srcdir)/'`lib500.c
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib585_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib585-lib500.o -MD -MP -MF "$(DEPDIR)/lib585-lib500.Tpo" -c -o lib585-lib500.o `test -f 'lib500.c' || echo '$(srcdir)/'`lib500.c; \
+#	then mv -f "$(DEPDIR)/lib585-lib500.Tpo" "$(DEPDIR)/lib585-lib500.Po"; else rm -f "$(DEPDIR)/lib585-lib500.Tpo"; exit 1; fi
+#	source='lib500.c' object='lib585-lib500.o' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib585_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib585-lib500.o `test -f 'lib500.c' || echo '$(srcdir)/'`lib500.c
 
 lib585-lib500.obj: lib500.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib585_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib585-lib500.obj -MD -MP -MF "$(DEPDIR)/lib585-lib500.Tpo" -c -o lib585-lib500.obj `if test -f 'lib500.c'; then $(CYGPATH_W) 'lib500.c'; else $(CYGPATH_W) '$(srcdir)/lib500.c'; fi`; \
-	then mv -f "$(DEPDIR)/lib585-lib500.Tpo" "$(DEPDIR)/lib585-lib500.Po"; else rm -f "$(DEPDIR)/lib585-lib500.Tpo"; exit 1; fi
-#	source='lib500.c' object='lib585-lib500.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib585_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib585-lib500.obj `if test -f 'lib500.c'; then $(CYGPATH_W) 'lib500.c'; else $(CYGPATH_W) '$(srcdir)/lib500.c'; fi`
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib585_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib585-lib500.obj -MD -MP -MF "$(DEPDIR)/lib585-lib500.Tpo" -c -o lib585-lib500.obj `if test -f 'lib500.c'; then $(CYGPATH_W) 'lib500.c'; else $(CYGPATH_W) '$(srcdir)/lib500.c'; fi`; \
+#	then mv -f "$(DEPDIR)/lib585-lib500.Tpo" "$(DEPDIR)/lib585-lib500.Po"; else rm -f "$(DEPDIR)/lib585-lib500.Tpo"; exit 1; fi
+#	source='lib500.c' object='lib585-lib500.obj' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib585_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib585-lib500.obj `if test -f 'lib500.c'; then $(CYGPATH_W) 'lib500.c'; else $(CYGPATH_W) '$(srcdir)/lib500.c'; fi`
 
 lib585-first.o: first.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib585_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib585-first.o -MD -MP -MF "$(DEPDIR)/lib585-first.Tpo" -c -o lib585-first.o `test -f 'first.c' || echo '$(srcdir)/'`first.c; \
-	then mv -f "$(DEPDIR)/lib585-first.Tpo" "$(DEPDIR)/lib585-first.Po"; else rm -f "$(DEPDIR)/lib585-first.Tpo"; exit 1; fi
-#	source='first.c' object='lib585-first.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib585_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib585-first.o `test -f 'first.c' || echo '$(srcdir)/'`first.c
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib585_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib585-first.o -MD -MP -MF "$(DEPDIR)/lib585-first.Tpo" -c -o lib585-first.o `test -f 'first.c' || echo '$(srcdir)/'`first.c; \
+#	then mv -f "$(DEPDIR)/lib585-first.Tpo" "$(DEPDIR)/lib585-first.Po"; else rm -f "$(DEPDIR)/lib585-first.Tpo"; exit 1; fi
+#	source='first.c' object='lib585-first.o' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib585_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib585-first.o `test -f 'first.c' || echo '$(srcdir)/'`first.c
 
 lib585-first.obj: first.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib585_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib585-first.obj -MD -MP -MF "$(DEPDIR)/lib585-first.Tpo" -c -o lib585-first.obj `if test -f 'first.c'; then $(CYGPATH_W) 'first.c'; else $(CYGPATH_W) '$(srcdir)/first.c'; fi`; \
-	then mv -f "$(DEPDIR)/lib585-first.Tpo" "$(DEPDIR)/lib585-first.Po"; else rm -f "$(DEPDIR)/lib585-first.Tpo"; exit 1; fi
-#	source='first.c' object='lib585-first.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib585_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib585-first.obj `if test -f 'first.c'; then $(CYGPATH_W) 'first.c'; else $(CYGPATH_W) '$(srcdir)/first.c'; fi`
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib585_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lib585-first.obj -MD -MP -MF "$(DEPDIR)/lib585-first.Tpo" -c -o lib585-first.obj `if test -f 'first.c'; then $(CYGPATH_W) 'first.c'; else $(CYGPATH_W) '$(srcdir)/first.c'; fi`; \
+#	then mv -f "$(DEPDIR)/lib585-first.Tpo" "$(DEPDIR)/lib585-first.Po"; else rm -f "$(DEPDIR)/lib585-first.Tpo"; exit 1; fi
+#	source='first.c' object='lib585-first.obj' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(lib585_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lib585-first.obj `if test -f 'first.c'; then $(CYGPATH_W) 'first.c'; else $(CYGPATH_W) '$(srcdir)/first.c'; fi`
 
 mostlyclean-libtool:
 	-rm -f *.lo

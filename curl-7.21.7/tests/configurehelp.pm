@@ -18,6 +18,6 @@ use vars qw(
     $Cpreprocessor
     );
 
-$Cpreprocessor = '/Developer/usr/bin/llvm-cpp-4.2';
+$Cpreprocessor = '/Developer/usr/bin/llvm-cpp-4.2 -O2 -isystem /Developer/SDKs/MacOSX10.6.sdk/usr/include -isystem /Developer/SDKs/MacOSX10.6.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.6.sdk -arch x86_64';
 
 1;

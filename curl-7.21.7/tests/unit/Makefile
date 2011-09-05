@@ -124,8 +124,8 @@ ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 ACLOCAL = ${SHELL} "/Users/carlgt1/projects/qcn/curl-7.21.7/missing" --run aclocal-1.9
-AMDEP_FALSE = #
-AMDEP_TRUE = 
+AMDEP_FALSE = 
+AMDEP_TRUE = #
 AMTAR = ${SHELL} "/Users/carlgt1/projects/qcn/curl-7.21.7/missing" --run tar
 AR = /usr/bin/ar
 AS = as
@@ -137,12 +137,12 @@ BUILD_LIBHOSTNAME_FALSE = #
 BUILD_LIBHOSTNAME_TRUE = 
 BUILD_UNITTESTS_FALSE = 
 BUILD_UNITTESTS_TRUE = #
-CC = gcc
-CCDEPMODE = depmode=gcc3
-CFLAGS = -g0 -O2 -Wno-system-headers
-CONFIGURE_OPTIONS = " 'CC=' 'CFLAGS=' 'LDFLAGS=' 'CPPFLAGS=' 'CPP=/Developer/usr/bin/llvm-cpp-4.2'"
+CC = /Developer/usr/bin/llvm-gcc-4.2
+CCDEPMODE = depmode=none
+CFLAGS = -Os -isysroot /Developer/SDKs/MacOSX10.7.sdk -arch x86_64 -mmacosx-version-min=10.7 -g0 -Wno-system-headers
+CONFIGURE_OPTIONS = " '--disable-dependency-tracking' '--disable-static' '--with-gssapi' 'CFLAGS=-Os -isysroot /Developer/SDKs/MacOSX10.7.sdk -arch x86_64 -mmacosx-version-min=10.7' 'LDFLAGS=-Wl,-syslibroot,/Developer/SDKs/MacOSX10.7.sdk -arch x86_64 -mmacosx-version-min=10.7 -Wl,-headerpad_max_install_names' 'CC=/Developer/usr/bin/llvm-gcc-4.2' 'CPPFLAGS=-O2 -I/Developer/SDKs/MacOSX10.6.sdk/usr/include -I/Developer/SDKs/MacOSX10.6.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.6.sdk -arch x86_64' 'CPP=/Developer/usr/bin/llvm-cpp-4.2'"
 CPP = /Developer/usr/bin/llvm-cpp-4.2
-CPPFLAGS = 
+CPPFLAGS = -O2 -isystem /Developer/SDKs/MacOSX10.6.sdk/usr/include -isystem /Developer/SDKs/MacOSX10.6.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.6.sdk -arch x86_64
 CROSSCOMPILING_FALSE = 
 CROSSCOMPILING_TRUE = #
 CURLDEBUG_FALSE = 
@@ -194,9 +194,9 @@ INSTALL_SCRIPT = ${INSTALL}
 INSTALL_STRIP_PROGRAM = ${SHELL} $(install_sh) -c -s
 IPV6_ENABLED = 1
 KRB4_ENABLED = 
-LD = /usr/llvm-gcc-4.2/libexec/gcc/i686-apple-darwin11/4.2.1/ld
-LDFLAGS = 
-LIBCURL_LIBS = -lssl -lcrypto -lldap -lz
+LD = /Developer/usr/llvm-gcc-4.2/libexec/gcc/i686-apple-darwin11/4.2.1/ld
+LDFLAGS = -Wl,-syslibroot,/Developer/SDKs/MacOSX10.7.sdk -arch x86_64 -mmacosx-version-min=10.7 -Wl,-headerpad_max_install_names
+LIBCURL_LIBS = -lssl -lcrypto -lldap -lgssapi_krb5 -lresolv -lz
 LIBOBJS = 
 LIBS = 
 LIBTOOL = $(SHELL) $(top_builddir)/libtool
@@ -267,10 +267,10 @@ USE_WINDOWS_SSPI =
 VERSION = -
 VERSIONNUM = 071507
 ac_ct_AR = 
-ac_ct_CC = gcc
+ac_ct_CC = /Developer/usr/bin/llvm-gcc-4.2
 ac_ct_DUMPBIN = 
-am__fastdepCC_FALSE = #
-am__fastdepCC_TRUE = 
+am__fastdepCC_FALSE = 
+am__fastdepCC_TRUE = #
 am__include = include
 am__leading_dot = .
 am__quote = 
@@ -366,7 +366,7 @@ INCLUDES = -I$(top_builddir)/include/curl \
 #           -I$(top_srcdir)/ares
 
 EXTRA_DIST = Makefile.inc
-LDADD = $(top_builddir)/lib/libcurlu.la  -lssl -lcrypto -lldap -lz 
+LDADD = $(top_builddir)/lib/libcurlu.la -Wl,-syslibroot,/Developer/SDKs/MacOSX10.7.sdk -arch x86_64 -mmacosx-version-min=10.7 -Wl,-headerpad_max_install_names -lssl -lcrypto -lldap -lgssapi_krb5 -lresolv -lz 
 DEPENDENCIES = $(top_builddir)/lib/libcurlu.la
 AM_CPPFLAGS = -DUNITTESTS
 UNITFILES = curlcheck.h \
@@ -461,51 +461,51 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-include ./$(DEPDIR)/first.Po
-include ./$(DEPDIR)/unit1300.Po
-include ./$(DEPDIR)/unit1301.Po
-include ./$(DEPDIR)/unit1302.Po
-include ./$(DEPDIR)/unit1303.Po
-include ./$(DEPDIR)/unit1304.Po
-include ./$(DEPDIR)/unit1305.Po
-include ./$(DEPDIR)/unit1307.Po
-include ./$(DEPDIR)/unit1308.Po
-include ./$(DEPDIR)/unit1309.Po
+#include ./$(DEPDIR)/first.Po
+#include ./$(DEPDIR)/unit1300.Po
+#include ./$(DEPDIR)/unit1301.Po
+#include ./$(DEPDIR)/unit1302.Po
+#include ./$(DEPDIR)/unit1303.Po
+#include ./$(DEPDIR)/unit1304.Po
+#include ./$(DEPDIR)/unit1305.Po
+#include ./$(DEPDIR)/unit1307.Po
+#include ./$(DEPDIR)/unit1308.Po
+#include ./$(DEPDIR)/unit1309.Po
 
 .c.o:
-	if $(COMPILE) -MT $@ -MD -MP -MF "$(DEPDIR)/$*.Tpo" -c -o $@ $<; \
-	then mv -f "$(DEPDIR)/$*.Tpo" "$(DEPDIR)/$*.Po"; else rm -f "$(DEPDIR)/$*.Tpo"; exit 1; fi
-#	source='$<' object='$@' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(COMPILE) -c $<
+#	if $(COMPILE) -MT $@ -MD -MP -MF "$(DEPDIR)/$*.Tpo" -c -o $@ $<; \
+#	then mv -f "$(DEPDIR)/$*.Tpo" "$(DEPDIR)/$*.Po"; else rm -f "$(DEPDIR)/$*.Tpo"; exit 1; fi
+#	source='$<' object='$@' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(COMPILE) -c $<
 
 .c.obj:
-	if $(COMPILE) -MT $@ -MD -MP -MF "$(DEPDIR)/$*.Tpo" -c -o $@ `$(CYGPATH_W) '$<'`; \
-	then mv -f "$(DEPDIR)/$*.Tpo" "$(DEPDIR)/$*.Po"; else rm -f "$(DEPDIR)/$*.Tpo"; exit 1; fi
-#	source='$<' object='$@' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(COMPILE) -c `$(CYGPATH_W) '$<'`
+#	if $(COMPILE) -MT $@ -MD -MP -MF "$(DEPDIR)/$*.Tpo" -c -o $@ `$(CYGPATH_W) '$<'`; \
+#	then mv -f "$(DEPDIR)/$*.Tpo" "$(DEPDIR)/$*.Po"; else rm -f "$(DEPDIR)/$*.Tpo"; exit 1; fi
+#	source='$<' object='$@' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(COMPILE) -c `$(CYGPATH_W) '$<'`
 
 .c.lo:
-	if $(LTCOMPILE) -MT $@ -MD -MP -MF "$(DEPDIR)/$*.Tpo" -c -o $@ $<; \
-	then mv -f "$(DEPDIR)/$*.Tpo" "$(DEPDIR)/$*.Plo"; else rm -f "$(DEPDIR)/$*.Tpo"; exit 1; fi
-#	source='$<' object='$@' libtool=yes \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(LTCOMPILE) -c -o $@ $<
+#	if $(LTCOMPILE) -MT $@ -MD -MP -MF "$(DEPDIR)/$*.Tpo" -c -o $@ $<; \
+#	then mv -f "$(DEPDIR)/$*.Tpo" "$(DEPDIR)/$*.Plo"; else rm -f "$(DEPDIR)/$*.Tpo"; exit 1; fi
+#	source='$<' object='$@' libtool=yes 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(LTCOMPILE) -c -o $@ $<
 
 first.o: $(top_srcdir)/tests/libtest/first.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT first.o -MD -MP -MF "$(DEPDIR)/first.Tpo" -c -o first.o `test -f '$(top_srcdir)/tests/libtest/first.c' || echo '$(srcdir)/'`$(top_srcdir)/tests/libtest/first.c; \
-	then mv -f "$(DEPDIR)/first.Tpo" "$(DEPDIR)/first.Po"; else rm -f "$(DEPDIR)/first.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/tests/libtest/first.c' object='first.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o first.o `test -f '$(top_srcdir)/tests/libtest/first.c' || echo '$(srcdir)/'`$(top_srcdir)/tests/libtest/first.c
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT first.o -MD -MP -MF "$(DEPDIR)/first.Tpo" -c -o first.o `test -f '$(top_srcdir)/tests/libtest/first.c' || echo '$(srcdir)/'`$(top_srcdir)/tests/libtest/first.c; \
+#	then mv -f "$(DEPDIR)/first.Tpo" "$(DEPDIR)/first.Po"; else rm -f "$(DEPDIR)/first.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/tests/libtest/first.c' object='first.o' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o first.o `test -f '$(top_srcdir)/tests/libtest/first.c' || echo '$(srcdir)/'`$(top_srcdir)/tests/libtest/first.c
 
 first.obj: $(top_srcdir)/tests/libtest/first.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT first.obj -MD -MP -MF "$(DEPDIR)/first.Tpo" -c -o first.obj `if test -f '$(top_srcdir)/tests/libtest/first.c'; then $(CYGPATH_W) '$(top_srcdir)/tests/libtest/first.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/tests/libtest/first.c'; fi`; \
-	then mv -f "$(DEPDIR)/first.Tpo" "$(DEPDIR)/first.Po"; else rm -f "$(DEPDIR)/first.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/tests/libtest/first.c' object='first.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o first.obj `if test -f '$(top_srcdir)/tests/libtest/first.c'; then $(CYGPATH_W) '$(top_srcdir)/tests/libtest/first.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/tests/libtest/first.c'; fi`
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT first.obj -MD -MP -MF "$(DEPDIR)/first.Tpo" -c -o first.obj `if test -f '$(top_srcdir)/tests/libtest/first.c'; then $(CYGPATH_W) '$(top_srcdir)/tests/libtest/first.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/tests/libtest/first.c'; fi`; \
+#	then mv -f "$(DEPDIR)/first.Tpo" "$(DEPDIR)/first.Po"; else rm -f "$(DEPDIR)/first.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/tests/libtest/first.c' object='first.obj' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o first.obj `if test -f '$(top_srcdir)/tests/libtest/first.c'; then $(CYGPATH_W) '$(top_srcdir)/tests/libtest/first.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/tests/libtest/first.c'; fi`
 
 mostlyclean-libtool:
 	-rm -f *.lo

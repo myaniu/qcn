@@ -142,8 +142,8 @@ ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 ACLOCAL = ${SHELL} "/Users/carlgt1/projects/qcn/curl-7.21.7/missing" --run aclocal-1.9
-AMDEP_FALSE = #
-AMDEP_TRUE = 
+AMDEP_FALSE = 
+AMDEP_TRUE = #
 AMTAR = ${SHELL} "/Users/carlgt1/projects/qcn/curl-7.21.7/missing" --run tar
 AR = /usr/bin/ar
 AS = as
@@ -155,12 +155,12 @@ BUILD_LIBHOSTNAME_FALSE = #
 BUILD_LIBHOSTNAME_TRUE = 
 BUILD_UNITTESTS_FALSE = 
 BUILD_UNITTESTS_TRUE = #
-CC = gcc
-CCDEPMODE = depmode=gcc3
-CFLAGS = -g0 -O2 -Wno-system-headers
-CONFIGURE_OPTIONS = " 'CC=' 'CFLAGS=' 'LDFLAGS=' 'CPPFLAGS=' 'CPP=/Developer/usr/bin/llvm-cpp-4.2'"
+CC = /Developer/usr/bin/llvm-gcc-4.2
+CCDEPMODE = depmode=none
+CFLAGS = -Os -isysroot /Developer/SDKs/MacOSX10.7.sdk -arch x86_64 -mmacosx-version-min=10.7 -g0 -Wno-system-headers
+CONFIGURE_OPTIONS = " '--disable-dependency-tracking' '--disable-static' '--with-gssapi' 'CFLAGS=-Os -isysroot /Developer/SDKs/MacOSX10.7.sdk -arch x86_64 -mmacosx-version-min=10.7' 'LDFLAGS=-Wl,-syslibroot,/Developer/SDKs/MacOSX10.7.sdk -arch x86_64 -mmacosx-version-min=10.7 -Wl,-headerpad_max_install_names' 'CC=/Developer/usr/bin/llvm-gcc-4.2' 'CPPFLAGS=-O2 -I/Developer/SDKs/MacOSX10.6.sdk/usr/include -I/Developer/SDKs/MacOSX10.6.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.6.sdk -arch x86_64' 'CPP=/Developer/usr/bin/llvm-cpp-4.2'"
 CPP = /Developer/usr/bin/llvm-cpp-4.2
-CPPFLAGS = 
+CPPFLAGS = -O2 -isystem /Developer/SDKs/MacOSX10.6.sdk/usr/include -isystem /Developer/SDKs/MacOSX10.6.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.6.sdk -arch x86_64
 CROSSCOMPILING_FALSE = 
 CROSSCOMPILING_TRUE = #
 CURLDEBUG_FALSE = 
@@ -212,9 +212,9 @@ INSTALL_SCRIPT = ${INSTALL}
 INSTALL_STRIP_PROGRAM = ${SHELL} $(install_sh) -c -s
 IPV6_ENABLED = 1
 KRB4_ENABLED = 
-LD = /usr/llvm-gcc-4.2/libexec/gcc/i686-apple-darwin11/4.2.1/ld
-LDFLAGS = 
-LIBCURL_LIBS = -lssl -lcrypto -lldap -lz
+LD = /Developer/usr/llvm-gcc-4.2/libexec/gcc/i686-apple-darwin11/4.2.1/ld
+LDFLAGS = -Wl,-syslibroot,/Developer/SDKs/MacOSX10.7.sdk -arch x86_64 -mmacosx-version-min=10.7 -Wl,-headerpad_max_install_names
+LIBCURL_LIBS = -lssl -lcrypto -lldap -lgssapi_krb5 -lresolv -lz
 LIBOBJS = 
 LIBS = 
 LIBTOOL = $(SHELL) $(top_builddir)/libtool
@@ -285,10 +285,10 @@ USE_WINDOWS_SSPI =
 VERSION = -
 VERSIONNUM = 071507
 ac_ct_AR = 
-ac_ct_CC = gcc
+ac_ct_CC = /Developer/usr/bin/llvm-gcc-4.2
 ac_ct_DUMPBIN = 
-am__fastdepCC_FALSE = #
-am__fastdepCC_TRUE = 
+am__fastdepCC_FALSE = 
+am__fastdepCC_TRUE = #
 am__include = include
 am__leading_dot = .
 am__quote = 
@@ -513,1017 +513,1017 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-include ./$(DEPDIR)/getpart-base64.Po
-include ./$(DEPDIR)/getpart-getpart.Po
-include ./$(DEPDIR)/getpart-memdebug.Po
-include ./$(DEPDIR)/getpart-mprintf.Po
-include ./$(DEPDIR)/getpart-nonblock.Po
-include ./$(DEPDIR)/getpart-strequal.Po
-include ./$(DEPDIR)/getpart-strtoofft.Po
-include ./$(DEPDIR)/getpart-testpart.Po
-include ./$(DEPDIR)/getpart-timeval.Po
-include ./$(DEPDIR)/getpart-warnless.Po
-include ./$(DEPDIR)/resolve-base64.Po
-include ./$(DEPDIR)/resolve-getpart.Po
-include ./$(DEPDIR)/resolve-memdebug.Po
-include ./$(DEPDIR)/resolve-mprintf.Po
-include ./$(DEPDIR)/resolve-nonblock.Po
-include ./$(DEPDIR)/resolve-resolve.Po
-include ./$(DEPDIR)/resolve-strequal.Po
-include ./$(DEPDIR)/resolve-strtoofft.Po
-include ./$(DEPDIR)/resolve-timeval.Po
-include ./$(DEPDIR)/resolve-util.Po
-include ./$(DEPDIR)/resolve-warnless.Po
-include ./$(DEPDIR)/rtspd-base64.Po
-include ./$(DEPDIR)/rtspd-getpart.Po
-include ./$(DEPDIR)/rtspd-memdebug.Po
-include ./$(DEPDIR)/rtspd-mprintf.Po
-include ./$(DEPDIR)/rtspd-nonblock.Po
-include ./$(DEPDIR)/rtspd-rtspd.Po
-include ./$(DEPDIR)/rtspd-strequal.Po
-include ./$(DEPDIR)/rtspd-strtoofft.Po
-include ./$(DEPDIR)/rtspd-timeval.Po
-include ./$(DEPDIR)/rtspd-util.Po
-include ./$(DEPDIR)/rtspd-warnless.Po
-include ./$(DEPDIR)/sockfilt-base64.Po
-include ./$(DEPDIR)/sockfilt-getpart.Po
-include ./$(DEPDIR)/sockfilt-inet_pton.Po
-include ./$(DEPDIR)/sockfilt-memdebug.Po
-include ./$(DEPDIR)/sockfilt-mprintf.Po
-include ./$(DEPDIR)/sockfilt-nonblock.Po
-include ./$(DEPDIR)/sockfilt-sockfilt.Po
-include ./$(DEPDIR)/sockfilt-strequal.Po
-include ./$(DEPDIR)/sockfilt-strtoofft.Po
-include ./$(DEPDIR)/sockfilt-timeval.Po
-include ./$(DEPDIR)/sockfilt-util.Po
-include ./$(DEPDIR)/sockfilt-warnless.Po
-include ./$(DEPDIR)/sws-base64.Po
-include ./$(DEPDIR)/sws-getpart.Po
-include ./$(DEPDIR)/sws-memdebug.Po
-include ./$(DEPDIR)/sws-mprintf.Po
-include ./$(DEPDIR)/sws-nonblock.Po
-include ./$(DEPDIR)/sws-strequal.Po
-include ./$(DEPDIR)/sws-strtoofft.Po
-include ./$(DEPDIR)/sws-sws.Po
-include ./$(DEPDIR)/sws-timeval.Po
-include ./$(DEPDIR)/sws-util.Po
-include ./$(DEPDIR)/sws-warnless.Po
-include ./$(DEPDIR)/tftpd-base64.Po
-include ./$(DEPDIR)/tftpd-getpart.Po
-include ./$(DEPDIR)/tftpd-memdebug.Po
-include ./$(DEPDIR)/tftpd-mprintf.Po
-include ./$(DEPDIR)/tftpd-nonblock.Po
-include ./$(DEPDIR)/tftpd-strequal.Po
-include ./$(DEPDIR)/tftpd-strtoofft.Po
-include ./$(DEPDIR)/tftpd-tftpd.Po
-include ./$(DEPDIR)/tftpd-timeval.Po
-include ./$(DEPDIR)/tftpd-util.Po
-include ./$(DEPDIR)/tftpd-warnless.Po
+#include ./$(DEPDIR)/getpart-base64.Po
+#include ./$(DEPDIR)/getpart-getpart.Po
+#include ./$(DEPDIR)/getpart-memdebug.Po
+#include ./$(DEPDIR)/getpart-mprintf.Po
+#include ./$(DEPDIR)/getpart-nonblock.Po
+#include ./$(DEPDIR)/getpart-strequal.Po
+#include ./$(DEPDIR)/getpart-strtoofft.Po
+#include ./$(DEPDIR)/getpart-testpart.Po
+#include ./$(DEPDIR)/getpart-timeval.Po
+#include ./$(DEPDIR)/getpart-warnless.Po
+#include ./$(DEPDIR)/resolve-base64.Po
+#include ./$(DEPDIR)/resolve-getpart.Po
+#include ./$(DEPDIR)/resolve-memdebug.Po
+#include ./$(DEPDIR)/resolve-mprintf.Po
+#include ./$(DEPDIR)/resolve-nonblock.Po
+#include ./$(DEPDIR)/resolve-resolve.Po
+#include ./$(DEPDIR)/resolve-strequal.Po
+#include ./$(DEPDIR)/resolve-strtoofft.Po
+#include ./$(DEPDIR)/resolve-timeval.Po
+#include ./$(DEPDIR)/resolve-util.Po
+#include ./$(DEPDIR)/resolve-warnless.Po
+#include ./$(DEPDIR)/rtspd-base64.Po
+#include ./$(DEPDIR)/rtspd-getpart.Po
+#include ./$(DEPDIR)/rtspd-memdebug.Po
+#include ./$(DEPDIR)/rtspd-mprintf.Po
+#include ./$(DEPDIR)/rtspd-nonblock.Po
+#include ./$(DEPDIR)/rtspd-rtspd.Po
+#include ./$(DEPDIR)/rtspd-strequal.Po
+#include ./$(DEPDIR)/rtspd-strtoofft.Po
+#include ./$(DEPDIR)/rtspd-timeval.Po
+#include ./$(DEPDIR)/rtspd-util.Po
+#include ./$(DEPDIR)/rtspd-warnless.Po
+#include ./$(DEPDIR)/sockfilt-base64.Po
+#include ./$(DEPDIR)/sockfilt-getpart.Po
+#include ./$(DEPDIR)/sockfilt-inet_pton.Po
+#include ./$(DEPDIR)/sockfilt-memdebug.Po
+#include ./$(DEPDIR)/sockfilt-mprintf.Po
+#include ./$(DEPDIR)/sockfilt-nonblock.Po
+#include ./$(DEPDIR)/sockfilt-sockfilt.Po
+#include ./$(DEPDIR)/sockfilt-strequal.Po
+#include ./$(DEPDIR)/sockfilt-strtoofft.Po
+#include ./$(DEPDIR)/sockfilt-timeval.Po
+#include ./$(DEPDIR)/sockfilt-util.Po
+#include ./$(DEPDIR)/sockfilt-warnless.Po
+#include ./$(DEPDIR)/sws-base64.Po
+#include ./$(DEPDIR)/sws-getpart.Po
+#include ./$(DEPDIR)/sws-memdebug.Po
+#include ./$(DEPDIR)/sws-mprintf.Po
+#include ./$(DEPDIR)/sws-nonblock.Po
+#include ./$(DEPDIR)/sws-strequal.Po
+#include ./$(DEPDIR)/sws-strtoofft.Po
+#include ./$(DEPDIR)/sws-sws.Po
+#include ./$(DEPDIR)/sws-timeval.Po
+#include ./$(DEPDIR)/sws-util.Po
+#include ./$(DEPDIR)/sws-warnless.Po
+#include ./$(DEPDIR)/tftpd-base64.Po
+#include ./$(DEPDIR)/tftpd-getpart.Po
+#include ./$(DEPDIR)/tftpd-memdebug.Po
+#include ./$(DEPDIR)/tftpd-mprintf.Po
+#include ./$(DEPDIR)/tftpd-nonblock.Po
+#include ./$(DEPDIR)/tftpd-strequal.Po
+#include ./$(DEPDIR)/tftpd-strtoofft.Po
+#include ./$(DEPDIR)/tftpd-tftpd.Po
+#include ./$(DEPDIR)/tftpd-timeval.Po
+#include ./$(DEPDIR)/tftpd-util.Po
+#include ./$(DEPDIR)/tftpd-warnless.Po
 
 .c.o:
-	if $(COMPILE) -MT $@ -MD -MP -MF "$(DEPDIR)/$*.Tpo" -c -o $@ $<; \
-	then mv -f "$(DEPDIR)/$*.Tpo" "$(DEPDIR)/$*.Po"; else rm -f "$(DEPDIR)/$*.Tpo"; exit 1; fi
-#	source='$<' object='$@' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(COMPILE) -c $<
+#	if $(COMPILE) -MT $@ -MD -MP -MF "$(DEPDIR)/$*.Tpo" -c -o $@ $<; \
+#	then mv -f "$(DEPDIR)/$*.Tpo" "$(DEPDIR)/$*.Po"; else rm -f "$(DEPDIR)/$*.Tpo"; exit 1; fi
+#	source='$<' object='$@' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(COMPILE) -c $<
 
 .c.obj:
-	if $(COMPILE) -MT $@ -MD -MP -MF "$(DEPDIR)/$*.Tpo" -c -o $@ `$(CYGPATH_W) '$<'`; \
-	then mv -f "$(DEPDIR)/$*.Tpo" "$(DEPDIR)/$*.Po"; else rm -f "$(DEPDIR)/$*.Tpo"; exit 1; fi
-#	source='$<' object='$@' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(COMPILE) -c `$(CYGPATH_W) '$<'`
+#	if $(COMPILE) -MT $@ -MD -MP -MF "$(DEPDIR)/$*.Tpo" -c -o $@ `$(CYGPATH_W) '$<'`; \
+#	then mv -f "$(DEPDIR)/$*.Tpo" "$(DEPDIR)/$*.Po"; else rm -f "$(DEPDIR)/$*.Tpo"; exit 1; fi
+#	source='$<' object='$@' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(COMPILE) -c `$(CYGPATH_W) '$<'`
 
 .c.lo:
-	if $(LTCOMPILE) -MT $@ -MD -MP -MF "$(DEPDIR)/$*.Tpo" -c -o $@ $<; \
-	then mv -f "$(DEPDIR)/$*.Tpo" "$(DEPDIR)/$*.Plo"; else rm -f "$(DEPDIR)/$*.Tpo"; exit 1; fi
-#	source='$<' object='$@' libtool=yes \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(LTCOMPILE) -c -o $@ $<
+#	if $(LTCOMPILE) -MT $@ -MD -MP -MF "$(DEPDIR)/$*.Tpo" -c -o $@ $<; \
+#	then mv -f "$(DEPDIR)/$*.Tpo" "$(DEPDIR)/$*.Plo"; else rm -f "$(DEPDIR)/$*.Tpo"; exit 1; fi
+#	source='$<' object='$@' libtool=yes 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(LTCOMPILE) -c -o $@ $<
 
 getpart-mprintf.o: $(top_srcdir)/lib/mprintf.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(getpart_CFLAGS) $(CFLAGS) -MT getpart-mprintf.o -MD -MP -MF "$(DEPDIR)/getpart-mprintf.Tpo" -c -o getpart-mprintf.o `test -f '$(top_srcdir)/lib/mprintf.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/mprintf.c; \
-	then mv -f "$(DEPDIR)/getpart-mprintf.Tpo" "$(DEPDIR)/getpart-mprintf.Po"; else rm -f "$(DEPDIR)/getpart-mprintf.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/mprintf.c' object='getpart-mprintf.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(getpart_CFLAGS) $(CFLAGS) -c -o getpart-mprintf.o `test -f '$(top_srcdir)/lib/mprintf.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/mprintf.c
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(getpart_CFLAGS) $(CFLAGS) -MT getpart-mprintf.o -MD -MP -MF "$(DEPDIR)/getpart-mprintf.Tpo" -c -o getpart-mprintf.o `test -f '$(top_srcdir)/lib/mprintf.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/mprintf.c; \
+#	then mv -f "$(DEPDIR)/getpart-mprintf.Tpo" "$(DEPDIR)/getpart-mprintf.Po"; else rm -f "$(DEPDIR)/getpart-mprintf.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/mprintf.c' object='getpart-mprintf.o' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(getpart_CFLAGS) $(CFLAGS) -c -o getpart-mprintf.o `test -f '$(top_srcdir)/lib/mprintf.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/mprintf.c
 
 getpart-mprintf.obj: $(top_srcdir)/lib/mprintf.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(getpart_CFLAGS) $(CFLAGS) -MT getpart-mprintf.obj -MD -MP -MF "$(DEPDIR)/getpart-mprintf.Tpo" -c -o getpart-mprintf.obj `if test -f '$(top_srcdir)/lib/mprintf.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/mprintf.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/mprintf.c'; fi`; \
-	then mv -f "$(DEPDIR)/getpart-mprintf.Tpo" "$(DEPDIR)/getpart-mprintf.Po"; else rm -f "$(DEPDIR)/getpart-mprintf.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/mprintf.c' object='getpart-mprintf.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(getpart_CFLAGS) $(CFLAGS) -c -o getpart-mprintf.obj `if test -f '$(top_srcdir)/lib/mprintf.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/mprintf.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/mprintf.c'; fi`
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(getpart_CFLAGS) $(CFLAGS) -MT getpart-mprintf.obj -MD -MP -MF "$(DEPDIR)/getpart-mprintf.Tpo" -c -o getpart-mprintf.obj `if test -f '$(top_srcdir)/lib/mprintf.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/mprintf.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/mprintf.c'; fi`; \
+#	then mv -f "$(DEPDIR)/getpart-mprintf.Tpo" "$(DEPDIR)/getpart-mprintf.Po"; else rm -f "$(DEPDIR)/getpart-mprintf.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/mprintf.c' object='getpart-mprintf.obj' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(getpart_CFLAGS) $(CFLAGS) -c -o getpart-mprintf.obj `if test -f '$(top_srcdir)/lib/mprintf.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/mprintf.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/mprintf.c'; fi`
 
 getpart-nonblock.o: $(top_srcdir)/lib/nonblock.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(getpart_CFLAGS) $(CFLAGS) -MT getpart-nonblock.o -MD -MP -MF "$(DEPDIR)/getpart-nonblock.Tpo" -c -o getpart-nonblock.o `test -f '$(top_srcdir)/lib/nonblock.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/nonblock.c; \
-	then mv -f "$(DEPDIR)/getpart-nonblock.Tpo" "$(DEPDIR)/getpart-nonblock.Po"; else rm -f "$(DEPDIR)/getpart-nonblock.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/nonblock.c' object='getpart-nonblock.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(getpart_CFLAGS) $(CFLAGS) -c -o getpart-nonblock.o `test -f '$(top_srcdir)/lib/nonblock.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/nonblock.c
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(getpart_CFLAGS) $(CFLAGS) -MT getpart-nonblock.o -MD -MP -MF "$(DEPDIR)/getpart-nonblock.Tpo" -c -o getpart-nonblock.o `test -f '$(top_srcdir)/lib/nonblock.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/nonblock.c; \
+#	then mv -f "$(DEPDIR)/getpart-nonblock.Tpo" "$(DEPDIR)/getpart-nonblock.Po"; else rm -f "$(DEPDIR)/getpart-nonblock.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/nonblock.c' object='getpart-nonblock.o' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(getpart_CFLAGS) $(CFLAGS) -c -o getpart-nonblock.o `test -f '$(top_srcdir)/lib/nonblock.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/nonblock.c
 
 getpart-nonblock.obj: $(top_srcdir)/lib/nonblock.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(getpart_CFLAGS) $(CFLAGS) -MT getpart-nonblock.obj -MD -MP -MF "$(DEPDIR)/getpart-nonblock.Tpo" -c -o getpart-nonblock.obj `if test -f '$(top_srcdir)/lib/nonblock.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/nonblock.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/nonblock.c'; fi`; \
-	then mv -f "$(DEPDIR)/getpart-nonblock.Tpo" "$(DEPDIR)/getpart-nonblock.Po"; else rm -f "$(DEPDIR)/getpart-nonblock.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/nonblock.c' object='getpart-nonblock.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(getpart_CFLAGS) $(CFLAGS) -c -o getpart-nonblock.obj `if test -f '$(top_srcdir)/lib/nonblock.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/nonblock.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/nonblock.c'; fi`
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(getpart_CFLAGS) $(CFLAGS) -MT getpart-nonblock.obj -MD -MP -MF "$(DEPDIR)/getpart-nonblock.Tpo" -c -o getpart-nonblock.obj `if test -f '$(top_srcdir)/lib/nonblock.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/nonblock.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/nonblock.c'; fi`; \
+#	then mv -f "$(DEPDIR)/getpart-nonblock.Tpo" "$(DEPDIR)/getpart-nonblock.Po"; else rm -f "$(DEPDIR)/getpart-nonblock.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/nonblock.c' object='getpart-nonblock.obj' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(getpart_CFLAGS) $(CFLAGS) -c -o getpart-nonblock.obj `if test -f '$(top_srcdir)/lib/nonblock.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/nonblock.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/nonblock.c'; fi`
 
 getpart-strequal.o: $(top_srcdir)/lib/strequal.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(getpart_CFLAGS) $(CFLAGS) -MT getpart-strequal.o -MD -MP -MF "$(DEPDIR)/getpart-strequal.Tpo" -c -o getpart-strequal.o `test -f '$(top_srcdir)/lib/strequal.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/strequal.c; \
-	then mv -f "$(DEPDIR)/getpart-strequal.Tpo" "$(DEPDIR)/getpart-strequal.Po"; else rm -f "$(DEPDIR)/getpart-strequal.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/strequal.c' object='getpart-strequal.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(getpart_CFLAGS) $(CFLAGS) -c -o getpart-strequal.o `test -f '$(top_srcdir)/lib/strequal.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/strequal.c
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(getpart_CFLAGS) $(CFLAGS) -MT getpart-strequal.o -MD -MP -MF "$(DEPDIR)/getpart-strequal.Tpo" -c -o getpart-strequal.o `test -f '$(top_srcdir)/lib/strequal.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/strequal.c; \
+#	then mv -f "$(DEPDIR)/getpart-strequal.Tpo" "$(DEPDIR)/getpart-strequal.Po"; else rm -f "$(DEPDIR)/getpart-strequal.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/strequal.c' object='getpart-strequal.o' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(getpart_CFLAGS) $(CFLAGS) -c -o getpart-strequal.o `test -f '$(top_srcdir)/lib/strequal.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/strequal.c
 
 getpart-strequal.obj: $(top_srcdir)/lib/strequal.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(getpart_CFLAGS) $(CFLAGS) -MT getpart-strequal.obj -MD -MP -MF "$(DEPDIR)/getpart-strequal.Tpo" -c -o getpart-strequal.obj `if test -f '$(top_srcdir)/lib/strequal.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/strequal.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/strequal.c'; fi`; \
-	then mv -f "$(DEPDIR)/getpart-strequal.Tpo" "$(DEPDIR)/getpart-strequal.Po"; else rm -f "$(DEPDIR)/getpart-strequal.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/strequal.c' object='getpart-strequal.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(getpart_CFLAGS) $(CFLAGS) -c -o getpart-strequal.obj `if test -f '$(top_srcdir)/lib/strequal.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/strequal.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/strequal.c'; fi`
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(getpart_CFLAGS) $(CFLAGS) -MT getpart-strequal.obj -MD -MP -MF "$(DEPDIR)/getpart-strequal.Tpo" -c -o getpart-strequal.obj `if test -f '$(top_srcdir)/lib/strequal.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/strequal.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/strequal.c'; fi`; \
+#	then mv -f "$(DEPDIR)/getpart-strequal.Tpo" "$(DEPDIR)/getpart-strequal.Po"; else rm -f "$(DEPDIR)/getpart-strequal.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/strequal.c' object='getpart-strequal.obj' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(getpart_CFLAGS) $(CFLAGS) -c -o getpart-strequal.obj `if test -f '$(top_srcdir)/lib/strequal.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/strequal.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/strequal.c'; fi`
 
 getpart-strtoofft.o: $(top_srcdir)/lib/strtoofft.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(getpart_CFLAGS) $(CFLAGS) -MT getpart-strtoofft.o -MD -MP -MF "$(DEPDIR)/getpart-strtoofft.Tpo" -c -o getpart-strtoofft.o `test -f '$(top_srcdir)/lib/strtoofft.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/strtoofft.c; \
-	then mv -f "$(DEPDIR)/getpart-strtoofft.Tpo" "$(DEPDIR)/getpart-strtoofft.Po"; else rm -f "$(DEPDIR)/getpart-strtoofft.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/strtoofft.c' object='getpart-strtoofft.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(getpart_CFLAGS) $(CFLAGS) -c -o getpart-strtoofft.o `test -f '$(top_srcdir)/lib/strtoofft.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/strtoofft.c
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(getpart_CFLAGS) $(CFLAGS) -MT getpart-strtoofft.o -MD -MP -MF "$(DEPDIR)/getpart-strtoofft.Tpo" -c -o getpart-strtoofft.o `test -f '$(top_srcdir)/lib/strtoofft.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/strtoofft.c; \
+#	then mv -f "$(DEPDIR)/getpart-strtoofft.Tpo" "$(DEPDIR)/getpart-strtoofft.Po"; else rm -f "$(DEPDIR)/getpart-strtoofft.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/strtoofft.c' object='getpart-strtoofft.o' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(getpart_CFLAGS) $(CFLAGS) -c -o getpart-strtoofft.o `test -f '$(top_srcdir)/lib/strtoofft.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/strtoofft.c
 
 getpart-strtoofft.obj: $(top_srcdir)/lib/strtoofft.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(getpart_CFLAGS) $(CFLAGS) -MT getpart-strtoofft.obj -MD -MP -MF "$(DEPDIR)/getpart-strtoofft.Tpo" -c -o getpart-strtoofft.obj `if test -f '$(top_srcdir)/lib/strtoofft.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/strtoofft.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/strtoofft.c'; fi`; \
-	then mv -f "$(DEPDIR)/getpart-strtoofft.Tpo" "$(DEPDIR)/getpart-strtoofft.Po"; else rm -f "$(DEPDIR)/getpart-strtoofft.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/strtoofft.c' object='getpart-strtoofft.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(getpart_CFLAGS) $(CFLAGS) -c -o getpart-strtoofft.obj `if test -f '$(top_srcdir)/lib/strtoofft.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/strtoofft.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/strtoofft.c'; fi`
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(getpart_CFLAGS) $(CFLAGS) -MT getpart-strtoofft.obj -MD -MP -MF "$(DEPDIR)/getpart-strtoofft.Tpo" -c -o getpart-strtoofft.obj `if test -f '$(top_srcdir)/lib/strtoofft.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/strtoofft.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/strtoofft.c'; fi`; \
+#	then mv -f "$(DEPDIR)/getpart-strtoofft.Tpo" "$(DEPDIR)/getpart-strtoofft.Po"; else rm -f "$(DEPDIR)/getpart-strtoofft.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/strtoofft.c' object='getpart-strtoofft.obj' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(getpart_CFLAGS) $(CFLAGS) -c -o getpart-strtoofft.obj `if test -f '$(top_srcdir)/lib/strtoofft.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/strtoofft.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/strtoofft.c'; fi`
 
 getpart-timeval.o: $(top_srcdir)/lib/timeval.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(getpart_CFLAGS) $(CFLAGS) -MT getpart-timeval.o -MD -MP -MF "$(DEPDIR)/getpart-timeval.Tpo" -c -o getpart-timeval.o `test -f '$(top_srcdir)/lib/timeval.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/timeval.c; \
-	then mv -f "$(DEPDIR)/getpart-timeval.Tpo" "$(DEPDIR)/getpart-timeval.Po"; else rm -f "$(DEPDIR)/getpart-timeval.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/timeval.c' object='getpart-timeval.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(getpart_CFLAGS) $(CFLAGS) -c -o getpart-timeval.o `test -f '$(top_srcdir)/lib/timeval.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/timeval.c
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(getpart_CFLAGS) $(CFLAGS) -MT getpart-timeval.o -MD -MP -MF "$(DEPDIR)/getpart-timeval.Tpo" -c -o getpart-timeval.o `test -f '$(top_srcdir)/lib/timeval.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/timeval.c; \
+#	then mv -f "$(DEPDIR)/getpart-timeval.Tpo" "$(DEPDIR)/getpart-timeval.Po"; else rm -f "$(DEPDIR)/getpart-timeval.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/timeval.c' object='getpart-timeval.o' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(getpart_CFLAGS) $(CFLAGS) -c -o getpart-timeval.o `test -f '$(top_srcdir)/lib/timeval.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/timeval.c
 
 getpart-timeval.obj: $(top_srcdir)/lib/timeval.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(getpart_CFLAGS) $(CFLAGS) -MT getpart-timeval.obj -MD -MP -MF "$(DEPDIR)/getpart-timeval.Tpo" -c -o getpart-timeval.obj `if test -f '$(top_srcdir)/lib/timeval.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/timeval.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/timeval.c'; fi`; \
-	then mv -f "$(DEPDIR)/getpart-timeval.Tpo" "$(DEPDIR)/getpart-timeval.Po"; else rm -f "$(DEPDIR)/getpart-timeval.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/timeval.c' object='getpart-timeval.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(getpart_CFLAGS) $(CFLAGS) -c -o getpart-timeval.obj `if test -f '$(top_srcdir)/lib/timeval.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/timeval.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/timeval.c'; fi`
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(getpart_CFLAGS) $(CFLAGS) -MT getpart-timeval.obj -MD -MP -MF "$(DEPDIR)/getpart-timeval.Tpo" -c -o getpart-timeval.obj `if test -f '$(top_srcdir)/lib/timeval.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/timeval.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/timeval.c'; fi`; \
+#	then mv -f "$(DEPDIR)/getpart-timeval.Tpo" "$(DEPDIR)/getpart-timeval.Po"; else rm -f "$(DEPDIR)/getpart-timeval.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/timeval.c' object='getpart-timeval.obj' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(getpart_CFLAGS) $(CFLAGS) -c -o getpart-timeval.obj `if test -f '$(top_srcdir)/lib/timeval.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/timeval.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/timeval.c'; fi`
 
 getpart-warnless.o: $(top_srcdir)/lib/warnless.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(getpart_CFLAGS) $(CFLAGS) -MT getpart-warnless.o -MD -MP -MF "$(DEPDIR)/getpart-warnless.Tpo" -c -o getpart-warnless.o `test -f '$(top_srcdir)/lib/warnless.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/warnless.c; \
-	then mv -f "$(DEPDIR)/getpart-warnless.Tpo" "$(DEPDIR)/getpart-warnless.Po"; else rm -f "$(DEPDIR)/getpart-warnless.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/warnless.c' object='getpart-warnless.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(getpart_CFLAGS) $(CFLAGS) -c -o getpart-warnless.o `test -f '$(top_srcdir)/lib/warnless.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/warnless.c
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(getpart_CFLAGS) $(CFLAGS) -MT getpart-warnless.o -MD -MP -MF "$(DEPDIR)/getpart-warnless.Tpo" -c -o getpart-warnless.o `test -f '$(top_srcdir)/lib/warnless.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/warnless.c; \
+#	then mv -f "$(DEPDIR)/getpart-warnless.Tpo" "$(DEPDIR)/getpart-warnless.Po"; else rm -f "$(DEPDIR)/getpart-warnless.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/warnless.c' object='getpart-warnless.o' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(getpart_CFLAGS) $(CFLAGS) -c -o getpart-warnless.o `test -f '$(top_srcdir)/lib/warnless.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/warnless.c
 
 getpart-warnless.obj: $(top_srcdir)/lib/warnless.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(getpart_CFLAGS) $(CFLAGS) -MT getpart-warnless.obj -MD -MP -MF "$(DEPDIR)/getpart-warnless.Tpo" -c -o getpart-warnless.obj `if test -f '$(top_srcdir)/lib/warnless.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/warnless.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/warnless.c'; fi`; \
-	then mv -f "$(DEPDIR)/getpart-warnless.Tpo" "$(DEPDIR)/getpart-warnless.Po"; else rm -f "$(DEPDIR)/getpart-warnless.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/warnless.c' object='getpart-warnless.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(getpart_CFLAGS) $(CFLAGS) -c -o getpart-warnless.obj `if test -f '$(top_srcdir)/lib/warnless.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/warnless.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/warnless.c'; fi`
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(getpart_CFLAGS) $(CFLAGS) -MT getpart-warnless.obj -MD -MP -MF "$(DEPDIR)/getpart-warnless.Tpo" -c -o getpart-warnless.obj `if test -f '$(top_srcdir)/lib/warnless.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/warnless.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/warnless.c'; fi`; \
+#	then mv -f "$(DEPDIR)/getpart-warnless.Tpo" "$(DEPDIR)/getpart-warnless.Po"; else rm -f "$(DEPDIR)/getpart-warnless.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/warnless.c' object='getpart-warnless.obj' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(getpart_CFLAGS) $(CFLAGS) -c -o getpart-warnless.obj `if test -f '$(top_srcdir)/lib/warnless.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/warnless.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/warnless.c'; fi`
 
 getpart-getpart.o: getpart.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(getpart_CFLAGS) $(CFLAGS) -MT getpart-getpart.o -MD -MP -MF "$(DEPDIR)/getpart-getpart.Tpo" -c -o getpart-getpart.o `test -f 'getpart.c' || echo '$(srcdir)/'`getpart.c; \
-	then mv -f "$(DEPDIR)/getpart-getpart.Tpo" "$(DEPDIR)/getpart-getpart.Po"; else rm -f "$(DEPDIR)/getpart-getpart.Tpo"; exit 1; fi
-#	source='getpart.c' object='getpart-getpart.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(getpart_CFLAGS) $(CFLAGS) -c -o getpart-getpart.o `test -f 'getpart.c' || echo '$(srcdir)/'`getpart.c
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(getpart_CFLAGS) $(CFLAGS) -MT getpart-getpart.o -MD -MP -MF "$(DEPDIR)/getpart-getpart.Tpo" -c -o getpart-getpart.o `test -f 'getpart.c' || echo '$(srcdir)/'`getpart.c; \
+#	then mv -f "$(DEPDIR)/getpart-getpart.Tpo" "$(DEPDIR)/getpart-getpart.Po"; else rm -f "$(DEPDIR)/getpart-getpart.Tpo"; exit 1; fi
+#	source='getpart.c' object='getpart-getpart.o' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(getpart_CFLAGS) $(CFLAGS) -c -o getpart-getpart.o `test -f 'getpart.c' || echo '$(srcdir)/'`getpart.c
 
 getpart-getpart.obj: getpart.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(getpart_CFLAGS) $(CFLAGS) -MT getpart-getpart.obj -MD -MP -MF "$(DEPDIR)/getpart-getpart.Tpo" -c -o getpart-getpart.obj `if test -f 'getpart.c'; then $(CYGPATH_W) 'getpart.c'; else $(CYGPATH_W) '$(srcdir)/getpart.c'; fi`; \
-	then mv -f "$(DEPDIR)/getpart-getpart.Tpo" "$(DEPDIR)/getpart-getpart.Po"; else rm -f "$(DEPDIR)/getpart-getpart.Tpo"; exit 1; fi
-#	source='getpart.c' object='getpart-getpart.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(getpart_CFLAGS) $(CFLAGS) -c -o getpart-getpart.obj `if test -f 'getpart.c'; then $(CYGPATH_W) 'getpart.c'; else $(CYGPATH_W) '$(srcdir)/getpart.c'; fi`
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(getpart_CFLAGS) $(CFLAGS) -MT getpart-getpart.obj -MD -MP -MF "$(DEPDIR)/getpart-getpart.Tpo" -c -o getpart-getpart.obj `if test -f 'getpart.c'; then $(CYGPATH_W) 'getpart.c'; else $(CYGPATH_W) '$(srcdir)/getpart.c'; fi`; \
+#	then mv -f "$(DEPDIR)/getpart-getpart.Tpo" "$(DEPDIR)/getpart-getpart.Po"; else rm -f "$(DEPDIR)/getpart-getpart.Tpo"; exit 1; fi
+#	source='getpart.c' object='getpart-getpart.obj' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(getpart_CFLAGS) $(CFLAGS) -c -o getpart-getpart.obj `if test -f 'getpart.c'; then $(CYGPATH_W) 'getpart.c'; else $(CYGPATH_W) '$(srcdir)/getpart.c'; fi`
 
 getpart-base64.o: $(top_srcdir)/lib/base64.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(getpart_CFLAGS) $(CFLAGS) -MT getpart-base64.o -MD -MP -MF "$(DEPDIR)/getpart-base64.Tpo" -c -o getpart-base64.o `test -f '$(top_srcdir)/lib/base64.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/base64.c; \
-	then mv -f "$(DEPDIR)/getpart-base64.Tpo" "$(DEPDIR)/getpart-base64.Po"; else rm -f "$(DEPDIR)/getpart-base64.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/base64.c' object='getpart-base64.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(getpart_CFLAGS) $(CFLAGS) -c -o getpart-base64.o `test -f '$(top_srcdir)/lib/base64.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/base64.c
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(getpart_CFLAGS) $(CFLAGS) -MT getpart-base64.o -MD -MP -MF "$(DEPDIR)/getpart-base64.Tpo" -c -o getpart-base64.o `test -f '$(top_srcdir)/lib/base64.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/base64.c; \
+#	then mv -f "$(DEPDIR)/getpart-base64.Tpo" "$(DEPDIR)/getpart-base64.Po"; else rm -f "$(DEPDIR)/getpart-base64.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/base64.c' object='getpart-base64.o' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(getpart_CFLAGS) $(CFLAGS) -c -o getpart-base64.o `test -f '$(top_srcdir)/lib/base64.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/base64.c
 
 getpart-base64.obj: $(top_srcdir)/lib/base64.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(getpart_CFLAGS) $(CFLAGS) -MT getpart-base64.obj -MD -MP -MF "$(DEPDIR)/getpart-base64.Tpo" -c -o getpart-base64.obj `if test -f '$(top_srcdir)/lib/base64.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/base64.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/base64.c'; fi`; \
-	then mv -f "$(DEPDIR)/getpart-base64.Tpo" "$(DEPDIR)/getpart-base64.Po"; else rm -f "$(DEPDIR)/getpart-base64.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/base64.c' object='getpart-base64.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(getpart_CFLAGS) $(CFLAGS) -c -o getpart-base64.obj `if test -f '$(top_srcdir)/lib/base64.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/base64.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/base64.c'; fi`
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(getpart_CFLAGS) $(CFLAGS) -MT getpart-base64.obj -MD -MP -MF "$(DEPDIR)/getpart-base64.Tpo" -c -o getpart-base64.obj `if test -f '$(top_srcdir)/lib/base64.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/base64.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/base64.c'; fi`; \
+#	then mv -f "$(DEPDIR)/getpart-base64.Tpo" "$(DEPDIR)/getpart-base64.Po"; else rm -f "$(DEPDIR)/getpart-base64.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/base64.c' object='getpart-base64.obj' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(getpart_CFLAGS) $(CFLAGS) -c -o getpart-base64.obj `if test -f '$(top_srcdir)/lib/base64.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/base64.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/base64.c'; fi`
 
 getpart-memdebug.o: $(top_srcdir)/lib/memdebug.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(getpart_CFLAGS) $(CFLAGS) -MT getpart-memdebug.o -MD -MP -MF "$(DEPDIR)/getpart-memdebug.Tpo" -c -o getpart-memdebug.o `test -f '$(top_srcdir)/lib/memdebug.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/memdebug.c; \
-	then mv -f "$(DEPDIR)/getpart-memdebug.Tpo" "$(DEPDIR)/getpart-memdebug.Po"; else rm -f "$(DEPDIR)/getpart-memdebug.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/memdebug.c' object='getpart-memdebug.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(getpart_CFLAGS) $(CFLAGS) -c -o getpart-memdebug.o `test -f '$(top_srcdir)/lib/memdebug.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/memdebug.c
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(getpart_CFLAGS) $(CFLAGS) -MT getpart-memdebug.o -MD -MP -MF "$(DEPDIR)/getpart-memdebug.Tpo" -c -o getpart-memdebug.o `test -f '$(top_srcdir)/lib/memdebug.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/memdebug.c; \
+#	then mv -f "$(DEPDIR)/getpart-memdebug.Tpo" "$(DEPDIR)/getpart-memdebug.Po"; else rm -f "$(DEPDIR)/getpart-memdebug.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/memdebug.c' object='getpart-memdebug.o' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(getpart_CFLAGS) $(CFLAGS) -c -o getpart-memdebug.o `test -f '$(top_srcdir)/lib/memdebug.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/memdebug.c
 
 getpart-memdebug.obj: $(top_srcdir)/lib/memdebug.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(getpart_CFLAGS) $(CFLAGS) -MT getpart-memdebug.obj -MD -MP -MF "$(DEPDIR)/getpart-memdebug.Tpo" -c -o getpart-memdebug.obj `if test -f '$(top_srcdir)/lib/memdebug.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/memdebug.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/memdebug.c'; fi`; \
-	then mv -f "$(DEPDIR)/getpart-memdebug.Tpo" "$(DEPDIR)/getpart-memdebug.Po"; else rm -f "$(DEPDIR)/getpart-memdebug.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/memdebug.c' object='getpart-memdebug.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(getpart_CFLAGS) $(CFLAGS) -c -o getpart-memdebug.obj `if test -f '$(top_srcdir)/lib/memdebug.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/memdebug.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/memdebug.c'; fi`
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(getpart_CFLAGS) $(CFLAGS) -MT getpart-memdebug.obj -MD -MP -MF "$(DEPDIR)/getpart-memdebug.Tpo" -c -o getpart-memdebug.obj `if test -f '$(top_srcdir)/lib/memdebug.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/memdebug.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/memdebug.c'; fi`; \
+#	then mv -f "$(DEPDIR)/getpart-memdebug.Tpo" "$(DEPDIR)/getpart-memdebug.Po"; else rm -f "$(DEPDIR)/getpart-memdebug.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/memdebug.c' object='getpart-memdebug.obj' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(getpart_CFLAGS) $(CFLAGS) -c -o getpart-memdebug.obj `if test -f '$(top_srcdir)/lib/memdebug.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/memdebug.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/memdebug.c'; fi`
 
 getpart-testpart.o: testpart.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(getpart_CFLAGS) $(CFLAGS) -MT getpart-testpart.o -MD -MP -MF "$(DEPDIR)/getpart-testpart.Tpo" -c -o getpart-testpart.o `test -f 'testpart.c' || echo '$(srcdir)/'`testpart.c; \
-	then mv -f "$(DEPDIR)/getpart-testpart.Tpo" "$(DEPDIR)/getpart-testpart.Po"; else rm -f "$(DEPDIR)/getpart-testpart.Tpo"; exit 1; fi
-#	source='testpart.c' object='getpart-testpart.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(getpart_CFLAGS) $(CFLAGS) -c -o getpart-testpart.o `test -f 'testpart.c' || echo '$(srcdir)/'`testpart.c
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(getpart_CFLAGS) $(CFLAGS) -MT getpart-testpart.o -MD -MP -MF "$(DEPDIR)/getpart-testpart.Tpo" -c -o getpart-testpart.o `test -f 'testpart.c' || echo '$(srcdir)/'`testpart.c; \
+#	then mv -f "$(DEPDIR)/getpart-testpart.Tpo" "$(DEPDIR)/getpart-testpart.Po"; else rm -f "$(DEPDIR)/getpart-testpart.Tpo"; exit 1; fi
+#	source='testpart.c' object='getpart-testpart.o' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(getpart_CFLAGS) $(CFLAGS) -c -o getpart-testpart.o `test -f 'testpart.c' || echo '$(srcdir)/'`testpart.c
 
 getpart-testpart.obj: testpart.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(getpart_CFLAGS) $(CFLAGS) -MT getpart-testpart.obj -MD -MP -MF "$(DEPDIR)/getpart-testpart.Tpo" -c -o getpart-testpart.obj `if test -f 'testpart.c'; then $(CYGPATH_W) 'testpart.c'; else $(CYGPATH_W) '$(srcdir)/testpart.c'; fi`; \
-	then mv -f "$(DEPDIR)/getpart-testpart.Tpo" "$(DEPDIR)/getpart-testpart.Po"; else rm -f "$(DEPDIR)/getpart-testpart.Tpo"; exit 1; fi
-#	source='testpart.c' object='getpart-testpart.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(getpart_CFLAGS) $(CFLAGS) -c -o getpart-testpart.obj `if test -f 'testpart.c'; then $(CYGPATH_W) 'testpart.c'; else $(CYGPATH_W) '$(srcdir)/testpart.c'; fi`
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(getpart_CFLAGS) $(CFLAGS) -MT getpart-testpart.obj -MD -MP -MF "$(DEPDIR)/getpart-testpart.Tpo" -c -o getpart-testpart.obj `if test -f 'testpart.c'; then $(CYGPATH_W) 'testpart.c'; else $(CYGPATH_W) '$(srcdir)/testpart.c'; fi`; \
+#	then mv -f "$(DEPDIR)/getpart-testpart.Tpo" "$(DEPDIR)/getpart-testpart.Po"; else rm -f "$(DEPDIR)/getpart-testpart.Tpo"; exit 1; fi
+#	source='testpart.c' object='getpart-testpart.obj' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(getpart_CFLAGS) $(CFLAGS) -c -o getpart-testpart.obj `if test -f 'testpart.c'; then $(CYGPATH_W) 'testpart.c'; else $(CYGPATH_W) '$(srcdir)/testpart.c'; fi`
 
 resolve-mprintf.o: $(top_srcdir)/lib/mprintf.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(resolve_CFLAGS) $(CFLAGS) -MT resolve-mprintf.o -MD -MP -MF "$(DEPDIR)/resolve-mprintf.Tpo" -c -o resolve-mprintf.o `test -f '$(top_srcdir)/lib/mprintf.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/mprintf.c; \
-	then mv -f "$(DEPDIR)/resolve-mprintf.Tpo" "$(DEPDIR)/resolve-mprintf.Po"; else rm -f "$(DEPDIR)/resolve-mprintf.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/mprintf.c' object='resolve-mprintf.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(resolve_CFLAGS) $(CFLAGS) -c -o resolve-mprintf.o `test -f '$(top_srcdir)/lib/mprintf.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/mprintf.c
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(resolve_CFLAGS) $(CFLAGS) -MT resolve-mprintf.o -MD -MP -MF "$(DEPDIR)/resolve-mprintf.Tpo" -c -o resolve-mprintf.o `test -f '$(top_srcdir)/lib/mprintf.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/mprintf.c; \
+#	then mv -f "$(DEPDIR)/resolve-mprintf.Tpo" "$(DEPDIR)/resolve-mprintf.Po"; else rm -f "$(DEPDIR)/resolve-mprintf.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/mprintf.c' object='resolve-mprintf.o' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(resolve_CFLAGS) $(CFLAGS) -c -o resolve-mprintf.o `test -f '$(top_srcdir)/lib/mprintf.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/mprintf.c
 
 resolve-mprintf.obj: $(top_srcdir)/lib/mprintf.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(resolve_CFLAGS) $(CFLAGS) -MT resolve-mprintf.obj -MD -MP -MF "$(DEPDIR)/resolve-mprintf.Tpo" -c -o resolve-mprintf.obj `if test -f '$(top_srcdir)/lib/mprintf.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/mprintf.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/mprintf.c'; fi`; \
-	then mv -f "$(DEPDIR)/resolve-mprintf.Tpo" "$(DEPDIR)/resolve-mprintf.Po"; else rm -f "$(DEPDIR)/resolve-mprintf.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/mprintf.c' object='resolve-mprintf.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(resolve_CFLAGS) $(CFLAGS) -c -o resolve-mprintf.obj `if test -f '$(top_srcdir)/lib/mprintf.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/mprintf.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/mprintf.c'; fi`
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(resolve_CFLAGS) $(CFLAGS) -MT resolve-mprintf.obj -MD -MP -MF "$(DEPDIR)/resolve-mprintf.Tpo" -c -o resolve-mprintf.obj `if test -f '$(top_srcdir)/lib/mprintf.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/mprintf.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/mprintf.c'; fi`; \
+#	then mv -f "$(DEPDIR)/resolve-mprintf.Tpo" "$(DEPDIR)/resolve-mprintf.Po"; else rm -f "$(DEPDIR)/resolve-mprintf.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/mprintf.c' object='resolve-mprintf.obj' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(resolve_CFLAGS) $(CFLAGS) -c -o resolve-mprintf.obj `if test -f '$(top_srcdir)/lib/mprintf.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/mprintf.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/mprintf.c'; fi`
 
 resolve-nonblock.o: $(top_srcdir)/lib/nonblock.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(resolve_CFLAGS) $(CFLAGS) -MT resolve-nonblock.o -MD -MP -MF "$(DEPDIR)/resolve-nonblock.Tpo" -c -o resolve-nonblock.o `test -f '$(top_srcdir)/lib/nonblock.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/nonblock.c; \
-	then mv -f "$(DEPDIR)/resolve-nonblock.Tpo" "$(DEPDIR)/resolve-nonblock.Po"; else rm -f "$(DEPDIR)/resolve-nonblock.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/nonblock.c' object='resolve-nonblock.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(resolve_CFLAGS) $(CFLAGS) -c -o resolve-nonblock.o `test -f '$(top_srcdir)/lib/nonblock.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/nonblock.c
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(resolve_CFLAGS) $(CFLAGS) -MT resolve-nonblock.o -MD -MP -MF "$(DEPDIR)/resolve-nonblock.Tpo" -c -o resolve-nonblock.o `test -f '$(top_srcdir)/lib/nonblock.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/nonblock.c; \
+#	then mv -f "$(DEPDIR)/resolve-nonblock.Tpo" "$(DEPDIR)/resolve-nonblock.Po"; else rm -f "$(DEPDIR)/resolve-nonblock.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/nonblock.c' object='resolve-nonblock.o' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(resolve_CFLAGS) $(CFLAGS) -c -o resolve-nonblock.o `test -f '$(top_srcdir)/lib/nonblock.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/nonblock.c
 
 resolve-nonblock.obj: $(top_srcdir)/lib/nonblock.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(resolve_CFLAGS) $(CFLAGS) -MT resolve-nonblock.obj -MD -MP -MF "$(DEPDIR)/resolve-nonblock.Tpo" -c -o resolve-nonblock.obj `if test -f '$(top_srcdir)/lib/nonblock.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/nonblock.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/nonblock.c'; fi`; \
-	then mv -f "$(DEPDIR)/resolve-nonblock.Tpo" "$(DEPDIR)/resolve-nonblock.Po"; else rm -f "$(DEPDIR)/resolve-nonblock.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/nonblock.c' object='resolve-nonblock.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(resolve_CFLAGS) $(CFLAGS) -c -o resolve-nonblock.obj `if test -f '$(top_srcdir)/lib/nonblock.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/nonblock.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/nonblock.c'; fi`
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(resolve_CFLAGS) $(CFLAGS) -MT resolve-nonblock.obj -MD -MP -MF "$(DEPDIR)/resolve-nonblock.Tpo" -c -o resolve-nonblock.obj `if test -f '$(top_srcdir)/lib/nonblock.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/nonblock.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/nonblock.c'; fi`; \
+#	then mv -f "$(DEPDIR)/resolve-nonblock.Tpo" "$(DEPDIR)/resolve-nonblock.Po"; else rm -f "$(DEPDIR)/resolve-nonblock.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/nonblock.c' object='resolve-nonblock.obj' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(resolve_CFLAGS) $(CFLAGS) -c -o resolve-nonblock.obj `if test -f '$(top_srcdir)/lib/nonblock.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/nonblock.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/nonblock.c'; fi`
 
 resolve-strequal.o: $(top_srcdir)/lib/strequal.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(resolve_CFLAGS) $(CFLAGS) -MT resolve-strequal.o -MD -MP -MF "$(DEPDIR)/resolve-strequal.Tpo" -c -o resolve-strequal.o `test -f '$(top_srcdir)/lib/strequal.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/strequal.c; \
-	then mv -f "$(DEPDIR)/resolve-strequal.Tpo" "$(DEPDIR)/resolve-strequal.Po"; else rm -f "$(DEPDIR)/resolve-strequal.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/strequal.c' object='resolve-strequal.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(resolve_CFLAGS) $(CFLAGS) -c -o resolve-strequal.o `test -f '$(top_srcdir)/lib/strequal.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/strequal.c
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(resolve_CFLAGS) $(CFLAGS) -MT resolve-strequal.o -MD -MP -MF "$(DEPDIR)/resolve-strequal.Tpo" -c -o resolve-strequal.o `test -f '$(top_srcdir)/lib/strequal.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/strequal.c; \
+#	then mv -f "$(DEPDIR)/resolve-strequal.Tpo" "$(DEPDIR)/resolve-strequal.Po"; else rm -f "$(DEPDIR)/resolve-strequal.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/strequal.c' object='resolve-strequal.o' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(resolve_CFLAGS) $(CFLAGS) -c -o resolve-strequal.o `test -f '$(top_srcdir)/lib/strequal.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/strequal.c
 
 resolve-strequal.obj: $(top_srcdir)/lib/strequal.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(resolve_CFLAGS) $(CFLAGS) -MT resolve-strequal.obj -MD -MP -MF "$(DEPDIR)/resolve-strequal.Tpo" -c -o resolve-strequal.obj `if test -f '$(top_srcdir)/lib/strequal.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/strequal.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/strequal.c'; fi`; \
-	then mv -f "$(DEPDIR)/resolve-strequal.Tpo" "$(DEPDIR)/resolve-strequal.Po"; else rm -f "$(DEPDIR)/resolve-strequal.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/strequal.c' object='resolve-strequal.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(resolve_CFLAGS) $(CFLAGS) -c -o resolve-strequal.obj `if test -f '$(top_srcdir)/lib/strequal.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/strequal.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/strequal.c'; fi`
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(resolve_CFLAGS) $(CFLAGS) -MT resolve-strequal.obj -MD -MP -MF "$(DEPDIR)/resolve-strequal.Tpo" -c -o resolve-strequal.obj `if test -f '$(top_srcdir)/lib/strequal.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/strequal.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/strequal.c'; fi`; \
+#	then mv -f "$(DEPDIR)/resolve-strequal.Tpo" "$(DEPDIR)/resolve-strequal.Po"; else rm -f "$(DEPDIR)/resolve-strequal.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/strequal.c' object='resolve-strequal.obj' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(resolve_CFLAGS) $(CFLAGS) -c -o resolve-strequal.obj `if test -f '$(top_srcdir)/lib/strequal.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/strequal.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/strequal.c'; fi`
 
 resolve-strtoofft.o: $(top_srcdir)/lib/strtoofft.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(resolve_CFLAGS) $(CFLAGS) -MT resolve-strtoofft.o -MD -MP -MF "$(DEPDIR)/resolve-strtoofft.Tpo" -c -o resolve-strtoofft.o `test -f '$(top_srcdir)/lib/strtoofft.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/strtoofft.c; \
-	then mv -f "$(DEPDIR)/resolve-strtoofft.Tpo" "$(DEPDIR)/resolve-strtoofft.Po"; else rm -f "$(DEPDIR)/resolve-strtoofft.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/strtoofft.c' object='resolve-strtoofft.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(resolve_CFLAGS) $(CFLAGS) -c -o resolve-strtoofft.o `test -f '$(top_srcdir)/lib/strtoofft.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/strtoofft.c
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(resolve_CFLAGS) $(CFLAGS) -MT resolve-strtoofft.o -MD -MP -MF "$(DEPDIR)/resolve-strtoofft.Tpo" -c -o resolve-strtoofft.o `test -f '$(top_srcdir)/lib/strtoofft.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/strtoofft.c; \
+#	then mv -f "$(DEPDIR)/resolve-strtoofft.Tpo" "$(DEPDIR)/resolve-strtoofft.Po"; else rm -f "$(DEPDIR)/resolve-strtoofft.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/strtoofft.c' object='resolve-strtoofft.o' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(resolve_CFLAGS) $(CFLAGS) -c -o resolve-strtoofft.o `test -f '$(top_srcdir)/lib/strtoofft.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/strtoofft.c
 
 resolve-strtoofft.obj: $(top_srcdir)/lib/strtoofft.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(resolve_CFLAGS) $(CFLAGS) -MT resolve-strtoofft.obj -MD -MP -MF "$(DEPDIR)/resolve-strtoofft.Tpo" -c -o resolve-strtoofft.obj `if test -f '$(top_srcdir)/lib/strtoofft.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/strtoofft.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/strtoofft.c'; fi`; \
-	then mv -f "$(DEPDIR)/resolve-strtoofft.Tpo" "$(DEPDIR)/resolve-strtoofft.Po"; else rm -f "$(DEPDIR)/resolve-strtoofft.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/strtoofft.c' object='resolve-strtoofft.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(resolve_CFLAGS) $(CFLAGS) -c -o resolve-strtoofft.obj `if test -f '$(top_srcdir)/lib/strtoofft.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/strtoofft.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/strtoofft.c'; fi`
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(resolve_CFLAGS) $(CFLAGS) -MT resolve-strtoofft.obj -MD -MP -MF "$(DEPDIR)/resolve-strtoofft.Tpo" -c -o resolve-strtoofft.obj `if test -f '$(top_srcdir)/lib/strtoofft.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/strtoofft.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/strtoofft.c'; fi`; \
+#	then mv -f "$(DEPDIR)/resolve-strtoofft.Tpo" "$(DEPDIR)/resolve-strtoofft.Po"; else rm -f "$(DEPDIR)/resolve-strtoofft.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/strtoofft.c' object='resolve-strtoofft.obj' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(resolve_CFLAGS) $(CFLAGS) -c -o resolve-strtoofft.obj `if test -f '$(top_srcdir)/lib/strtoofft.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/strtoofft.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/strtoofft.c'; fi`
 
 resolve-timeval.o: $(top_srcdir)/lib/timeval.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(resolve_CFLAGS) $(CFLAGS) -MT resolve-timeval.o -MD -MP -MF "$(DEPDIR)/resolve-timeval.Tpo" -c -o resolve-timeval.o `test -f '$(top_srcdir)/lib/timeval.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/timeval.c; \
-	then mv -f "$(DEPDIR)/resolve-timeval.Tpo" "$(DEPDIR)/resolve-timeval.Po"; else rm -f "$(DEPDIR)/resolve-timeval.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/timeval.c' object='resolve-timeval.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(resolve_CFLAGS) $(CFLAGS) -c -o resolve-timeval.o `test -f '$(top_srcdir)/lib/timeval.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/timeval.c
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(resolve_CFLAGS) $(CFLAGS) -MT resolve-timeval.o -MD -MP -MF "$(DEPDIR)/resolve-timeval.Tpo" -c -o resolve-timeval.o `test -f '$(top_srcdir)/lib/timeval.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/timeval.c; \
+#	then mv -f "$(DEPDIR)/resolve-timeval.Tpo" "$(DEPDIR)/resolve-timeval.Po"; else rm -f "$(DEPDIR)/resolve-timeval.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/timeval.c' object='resolve-timeval.o' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(resolve_CFLAGS) $(CFLAGS) -c -o resolve-timeval.o `test -f '$(top_srcdir)/lib/timeval.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/timeval.c
 
 resolve-timeval.obj: $(top_srcdir)/lib/timeval.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(resolve_CFLAGS) $(CFLAGS) -MT resolve-timeval.obj -MD -MP -MF "$(DEPDIR)/resolve-timeval.Tpo" -c -o resolve-timeval.obj `if test -f '$(top_srcdir)/lib/timeval.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/timeval.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/timeval.c'; fi`; \
-	then mv -f "$(DEPDIR)/resolve-timeval.Tpo" "$(DEPDIR)/resolve-timeval.Po"; else rm -f "$(DEPDIR)/resolve-timeval.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/timeval.c' object='resolve-timeval.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(resolve_CFLAGS) $(CFLAGS) -c -o resolve-timeval.obj `if test -f '$(top_srcdir)/lib/timeval.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/timeval.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/timeval.c'; fi`
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(resolve_CFLAGS) $(CFLAGS) -MT resolve-timeval.obj -MD -MP -MF "$(DEPDIR)/resolve-timeval.Tpo" -c -o resolve-timeval.obj `if test -f '$(top_srcdir)/lib/timeval.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/timeval.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/timeval.c'; fi`; \
+#	then mv -f "$(DEPDIR)/resolve-timeval.Tpo" "$(DEPDIR)/resolve-timeval.Po"; else rm -f "$(DEPDIR)/resolve-timeval.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/timeval.c' object='resolve-timeval.obj' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(resolve_CFLAGS) $(CFLAGS) -c -o resolve-timeval.obj `if test -f '$(top_srcdir)/lib/timeval.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/timeval.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/timeval.c'; fi`
 
 resolve-warnless.o: $(top_srcdir)/lib/warnless.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(resolve_CFLAGS) $(CFLAGS) -MT resolve-warnless.o -MD -MP -MF "$(DEPDIR)/resolve-warnless.Tpo" -c -o resolve-warnless.o `test -f '$(top_srcdir)/lib/warnless.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/warnless.c; \
-	then mv -f "$(DEPDIR)/resolve-warnless.Tpo" "$(DEPDIR)/resolve-warnless.Po"; else rm -f "$(DEPDIR)/resolve-warnless.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/warnless.c' object='resolve-warnless.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(resolve_CFLAGS) $(CFLAGS) -c -o resolve-warnless.o `test -f '$(top_srcdir)/lib/warnless.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/warnless.c
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(resolve_CFLAGS) $(CFLAGS) -MT resolve-warnless.o -MD -MP -MF "$(DEPDIR)/resolve-warnless.Tpo" -c -o resolve-warnless.o `test -f '$(top_srcdir)/lib/warnless.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/warnless.c; \
+#	then mv -f "$(DEPDIR)/resolve-warnless.Tpo" "$(DEPDIR)/resolve-warnless.Po"; else rm -f "$(DEPDIR)/resolve-warnless.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/warnless.c' object='resolve-warnless.o' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(resolve_CFLAGS) $(CFLAGS) -c -o resolve-warnless.o `test -f '$(top_srcdir)/lib/warnless.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/warnless.c
 
 resolve-warnless.obj: $(top_srcdir)/lib/warnless.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(resolve_CFLAGS) $(CFLAGS) -MT resolve-warnless.obj -MD -MP -MF "$(DEPDIR)/resolve-warnless.Tpo" -c -o resolve-warnless.obj `if test -f '$(top_srcdir)/lib/warnless.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/warnless.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/warnless.c'; fi`; \
-	then mv -f "$(DEPDIR)/resolve-warnless.Tpo" "$(DEPDIR)/resolve-warnless.Po"; else rm -f "$(DEPDIR)/resolve-warnless.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/warnless.c' object='resolve-warnless.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(resolve_CFLAGS) $(CFLAGS) -c -o resolve-warnless.obj `if test -f '$(top_srcdir)/lib/warnless.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/warnless.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/warnless.c'; fi`
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(resolve_CFLAGS) $(CFLAGS) -MT resolve-warnless.obj -MD -MP -MF "$(DEPDIR)/resolve-warnless.Tpo" -c -o resolve-warnless.obj `if test -f '$(top_srcdir)/lib/warnless.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/warnless.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/warnless.c'; fi`; \
+#	then mv -f "$(DEPDIR)/resolve-warnless.Tpo" "$(DEPDIR)/resolve-warnless.Po"; else rm -f "$(DEPDIR)/resolve-warnless.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/warnless.c' object='resolve-warnless.obj' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(resolve_CFLAGS) $(CFLAGS) -c -o resolve-warnless.obj `if test -f '$(top_srcdir)/lib/warnless.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/warnless.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/warnless.c'; fi`
 
 resolve-getpart.o: getpart.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(resolve_CFLAGS) $(CFLAGS) -MT resolve-getpart.o -MD -MP -MF "$(DEPDIR)/resolve-getpart.Tpo" -c -o resolve-getpart.o `test -f 'getpart.c' || echo '$(srcdir)/'`getpart.c; \
-	then mv -f "$(DEPDIR)/resolve-getpart.Tpo" "$(DEPDIR)/resolve-getpart.Po"; else rm -f "$(DEPDIR)/resolve-getpart.Tpo"; exit 1; fi
-#	source='getpart.c' object='resolve-getpart.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(resolve_CFLAGS) $(CFLAGS) -c -o resolve-getpart.o `test -f 'getpart.c' || echo '$(srcdir)/'`getpart.c
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(resolve_CFLAGS) $(CFLAGS) -MT resolve-getpart.o -MD -MP -MF "$(DEPDIR)/resolve-getpart.Tpo" -c -o resolve-getpart.o `test -f 'getpart.c' || echo '$(srcdir)/'`getpart.c; \
+#	then mv -f "$(DEPDIR)/resolve-getpart.Tpo" "$(DEPDIR)/resolve-getpart.Po"; else rm -f "$(DEPDIR)/resolve-getpart.Tpo"; exit 1; fi
+#	source='getpart.c' object='resolve-getpart.o' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(resolve_CFLAGS) $(CFLAGS) -c -o resolve-getpart.o `test -f 'getpart.c' || echo '$(srcdir)/'`getpart.c
 
 resolve-getpart.obj: getpart.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(resolve_CFLAGS) $(CFLAGS) -MT resolve-getpart.obj -MD -MP -MF "$(DEPDIR)/resolve-getpart.Tpo" -c -o resolve-getpart.obj `if test -f 'getpart.c'; then $(CYGPATH_W) 'getpart.c'; else $(CYGPATH_W) '$(srcdir)/getpart.c'; fi`; \
-	then mv -f "$(DEPDIR)/resolve-getpart.Tpo" "$(DEPDIR)/resolve-getpart.Po"; else rm -f "$(DEPDIR)/resolve-getpart.Tpo"; exit 1; fi
-#	source='getpart.c' object='resolve-getpart.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(resolve_CFLAGS) $(CFLAGS) -c -o resolve-getpart.obj `if test -f 'getpart.c'; then $(CYGPATH_W) 'getpart.c'; else $(CYGPATH_W) '$(srcdir)/getpart.c'; fi`
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(resolve_CFLAGS) $(CFLAGS) -MT resolve-getpart.obj -MD -MP -MF "$(DEPDIR)/resolve-getpart.Tpo" -c -o resolve-getpart.obj `if test -f 'getpart.c'; then $(CYGPATH_W) 'getpart.c'; else $(CYGPATH_W) '$(srcdir)/getpart.c'; fi`; \
+#	then mv -f "$(DEPDIR)/resolve-getpart.Tpo" "$(DEPDIR)/resolve-getpart.Po"; else rm -f "$(DEPDIR)/resolve-getpart.Tpo"; exit 1; fi
+#	source='getpart.c' object='resolve-getpart.obj' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(resolve_CFLAGS) $(CFLAGS) -c -o resolve-getpart.obj `if test -f 'getpart.c'; then $(CYGPATH_W) 'getpart.c'; else $(CYGPATH_W) '$(srcdir)/getpart.c'; fi`
 
 resolve-base64.o: $(top_srcdir)/lib/base64.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(resolve_CFLAGS) $(CFLAGS) -MT resolve-base64.o -MD -MP -MF "$(DEPDIR)/resolve-base64.Tpo" -c -o resolve-base64.o `test -f '$(top_srcdir)/lib/base64.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/base64.c; \
-	then mv -f "$(DEPDIR)/resolve-base64.Tpo" "$(DEPDIR)/resolve-base64.Po"; else rm -f "$(DEPDIR)/resolve-base64.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/base64.c' object='resolve-base64.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(resolve_CFLAGS) $(CFLAGS) -c -o resolve-base64.o `test -f '$(top_srcdir)/lib/base64.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/base64.c
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(resolve_CFLAGS) $(CFLAGS) -MT resolve-base64.o -MD -MP -MF "$(DEPDIR)/resolve-base64.Tpo" -c -o resolve-base64.o `test -f '$(top_srcdir)/lib/base64.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/base64.c; \
+#	then mv -f "$(DEPDIR)/resolve-base64.Tpo" "$(DEPDIR)/resolve-base64.Po"; else rm -f "$(DEPDIR)/resolve-base64.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/base64.c' object='resolve-base64.o' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(resolve_CFLAGS) $(CFLAGS) -c -o resolve-base64.o `test -f '$(top_srcdir)/lib/base64.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/base64.c
 
 resolve-base64.obj: $(top_srcdir)/lib/base64.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(resolve_CFLAGS) $(CFLAGS) -MT resolve-base64.obj -MD -MP -MF "$(DEPDIR)/resolve-base64.Tpo" -c -o resolve-base64.obj `if test -f '$(top_srcdir)/lib/base64.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/base64.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/base64.c'; fi`; \
-	then mv -f "$(DEPDIR)/resolve-base64.Tpo" "$(DEPDIR)/resolve-base64.Po"; else rm -f "$(DEPDIR)/resolve-base64.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/base64.c' object='resolve-base64.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(resolve_CFLAGS) $(CFLAGS) -c -o resolve-base64.obj `if test -f '$(top_srcdir)/lib/base64.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/base64.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/base64.c'; fi`
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(resolve_CFLAGS) $(CFLAGS) -MT resolve-base64.obj -MD -MP -MF "$(DEPDIR)/resolve-base64.Tpo" -c -o resolve-base64.obj `if test -f '$(top_srcdir)/lib/base64.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/base64.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/base64.c'; fi`; \
+#	then mv -f "$(DEPDIR)/resolve-base64.Tpo" "$(DEPDIR)/resolve-base64.Po"; else rm -f "$(DEPDIR)/resolve-base64.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/base64.c' object='resolve-base64.obj' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(resolve_CFLAGS) $(CFLAGS) -c -o resolve-base64.obj `if test -f '$(top_srcdir)/lib/base64.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/base64.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/base64.c'; fi`
 
 resolve-memdebug.o: $(top_srcdir)/lib/memdebug.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(resolve_CFLAGS) $(CFLAGS) -MT resolve-memdebug.o -MD -MP -MF "$(DEPDIR)/resolve-memdebug.Tpo" -c -o resolve-memdebug.o `test -f '$(top_srcdir)/lib/memdebug.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/memdebug.c; \
-	then mv -f "$(DEPDIR)/resolve-memdebug.Tpo" "$(DEPDIR)/resolve-memdebug.Po"; else rm -f "$(DEPDIR)/resolve-memdebug.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/memdebug.c' object='resolve-memdebug.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(resolve_CFLAGS) $(CFLAGS) -c -o resolve-memdebug.o `test -f '$(top_srcdir)/lib/memdebug.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/memdebug.c
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(resolve_CFLAGS) $(CFLAGS) -MT resolve-memdebug.o -MD -MP -MF "$(DEPDIR)/resolve-memdebug.Tpo" -c -o resolve-memdebug.o `test -f '$(top_srcdir)/lib/memdebug.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/memdebug.c; \
+#	then mv -f "$(DEPDIR)/resolve-memdebug.Tpo" "$(DEPDIR)/resolve-memdebug.Po"; else rm -f "$(DEPDIR)/resolve-memdebug.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/memdebug.c' object='resolve-memdebug.o' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(resolve_CFLAGS) $(CFLAGS) -c -o resolve-memdebug.o `test -f '$(top_srcdir)/lib/memdebug.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/memdebug.c
 
 resolve-memdebug.obj: $(top_srcdir)/lib/memdebug.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(resolve_CFLAGS) $(CFLAGS) -MT resolve-memdebug.obj -MD -MP -MF "$(DEPDIR)/resolve-memdebug.Tpo" -c -o resolve-memdebug.obj `if test -f '$(top_srcdir)/lib/memdebug.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/memdebug.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/memdebug.c'; fi`; \
-	then mv -f "$(DEPDIR)/resolve-memdebug.Tpo" "$(DEPDIR)/resolve-memdebug.Po"; else rm -f "$(DEPDIR)/resolve-memdebug.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/memdebug.c' object='resolve-memdebug.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(resolve_CFLAGS) $(CFLAGS) -c -o resolve-memdebug.obj `if test -f '$(top_srcdir)/lib/memdebug.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/memdebug.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/memdebug.c'; fi`
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(resolve_CFLAGS) $(CFLAGS) -MT resolve-memdebug.obj -MD -MP -MF "$(DEPDIR)/resolve-memdebug.Tpo" -c -o resolve-memdebug.obj `if test -f '$(top_srcdir)/lib/memdebug.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/memdebug.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/memdebug.c'; fi`; \
+#	then mv -f "$(DEPDIR)/resolve-memdebug.Tpo" "$(DEPDIR)/resolve-memdebug.Po"; else rm -f "$(DEPDIR)/resolve-memdebug.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/memdebug.c' object='resolve-memdebug.obj' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(resolve_CFLAGS) $(CFLAGS) -c -o resolve-memdebug.obj `if test -f '$(top_srcdir)/lib/memdebug.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/memdebug.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/memdebug.c'; fi`
 
 resolve-util.o: util.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(resolve_CFLAGS) $(CFLAGS) -MT resolve-util.o -MD -MP -MF "$(DEPDIR)/resolve-util.Tpo" -c -o resolve-util.o `test -f 'util.c' || echo '$(srcdir)/'`util.c; \
-	then mv -f "$(DEPDIR)/resolve-util.Tpo" "$(DEPDIR)/resolve-util.Po"; else rm -f "$(DEPDIR)/resolve-util.Tpo"; exit 1; fi
-#	source='util.c' object='resolve-util.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(resolve_CFLAGS) $(CFLAGS) -c -o resolve-util.o `test -f 'util.c' || echo '$(srcdir)/'`util.c
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(resolve_CFLAGS) $(CFLAGS) -MT resolve-util.o -MD -MP -MF "$(DEPDIR)/resolve-util.Tpo" -c -o resolve-util.o `test -f 'util.c' || echo '$(srcdir)/'`util.c; \
+#	then mv -f "$(DEPDIR)/resolve-util.Tpo" "$(DEPDIR)/resolve-util.Po"; else rm -f "$(DEPDIR)/resolve-util.Tpo"; exit 1; fi
+#	source='util.c' object='resolve-util.o' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(resolve_CFLAGS) $(CFLAGS) -c -o resolve-util.o `test -f 'util.c' || echo '$(srcdir)/'`util.c
 
 resolve-util.obj: util.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(resolve_CFLAGS) $(CFLAGS) -MT resolve-util.obj -MD -MP -MF "$(DEPDIR)/resolve-util.Tpo" -c -o resolve-util.obj `if test -f 'util.c'; then $(CYGPATH_W) 'util.c'; else $(CYGPATH_W) '$(srcdir)/util.c'; fi`; \
-	then mv -f "$(DEPDIR)/resolve-util.Tpo" "$(DEPDIR)/resolve-util.Po"; else rm -f "$(DEPDIR)/resolve-util.Tpo"; exit 1; fi
-#	source='util.c' object='resolve-util.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(resolve_CFLAGS) $(CFLAGS) -c -o resolve-util.obj `if test -f 'util.c'; then $(CYGPATH_W) 'util.c'; else $(CYGPATH_W) '$(srcdir)/util.c'; fi`
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(resolve_CFLAGS) $(CFLAGS) -MT resolve-util.obj -MD -MP -MF "$(DEPDIR)/resolve-util.Tpo" -c -o resolve-util.obj `if test -f 'util.c'; then $(CYGPATH_W) 'util.c'; else $(CYGPATH_W) '$(srcdir)/util.c'; fi`; \
+#	then mv -f "$(DEPDIR)/resolve-util.Tpo" "$(DEPDIR)/resolve-util.Po"; else rm -f "$(DEPDIR)/resolve-util.Tpo"; exit 1; fi
+#	source='util.c' object='resolve-util.obj' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(resolve_CFLAGS) $(CFLAGS) -c -o resolve-util.obj `if test -f 'util.c'; then $(CYGPATH_W) 'util.c'; else $(CYGPATH_W) '$(srcdir)/util.c'; fi`
 
 resolve-resolve.o: resolve.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(resolve_CFLAGS) $(CFLAGS) -MT resolve-resolve.o -MD -MP -MF "$(DEPDIR)/resolve-resolve.Tpo" -c -o resolve-resolve.o `test -f 'resolve.c' || echo '$(srcdir)/'`resolve.c; \
-	then mv -f "$(DEPDIR)/resolve-resolve.Tpo" "$(DEPDIR)/resolve-resolve.Po"; else rm -f "$(DEPDIR)/resolve-resolve.Tpo"; exit 1; fi
-#	source='resolve.c' object='resolve-resolve.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(resolve_CFLAGS) $(CFLAGS) -c -o resolve-resolve.o `test -f 'resolve.c' || echo '$(srcdir)/'`resolve.c
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(resolve_CFLAGS) $(CFLAGS) -MT resolve-resolve.o -MD -MP -MF "$(DEPDIR)/resolve-resolve.Tpo" -c -o resolve-resolve.o `test -f 'resolve.c' || echo '$(srcdir)/'`resolve.c; \
+#	then mv -f "$(DEPDIR)/resolve-resolve.Tpo" "$(DEPDIR)/resolve-resolve.Po"; else rm -f "$(DEPDIR)/resolve-resolve.Tpo"; exit 1; fi
+#	source='resolve.c' object='resolve-resolve.o' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(resolve_CFLAGS) $(CFLAGS) -c -o resolve-resolve.o `test -f 'resolve.c' || echo '$(srcdir)/'`resolve.c
 
 resolve-resolve.obj: resolve.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(resolve_CFLAGS) $(CFLAGS) -MT resolve-resolve.obj -MD -MP -MF "$(DEPDIR)/resolve-resolve.Tpo" -c -o resolve-resolve.obj `if test -f 'resolve.c'; then $(CYGPATH_W) 'resolve.c'; else $(CYGPATH_W) '$(srcdir)/resolve.c'; fi`; \
-	then mv -f "$(DEPDIR)/resolve-resolve.Tpo" "$(DEPDIR)/resolve-resolve.Po"; else rm -f "$(DEPDIR)/resolve-resolve.Tpo"; exit 1; fi
-#	source='resolve.c' object='resolve-resolve.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(resolve_CFLAGS) $(CFLAGS) -c -o resolve-resolve.obj `if test -f 'resolve.c'; then $(CYGPATH_W) 'resolve.c'; else $(CYGPATH_W) '$(srcdir)/resolve.c'; fi`
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(resolve_CFLAGS) $(CFLAGS) -MT resolve-resolve.obj -MD -MP -MF "$(DEPDIR)/resolve-resolve.Tpo" -c -o resolve-resolve.obj `if test -f 'resolve.c'; then $(CYGPATH_W) 'resolve.c'; else $(CYGPATH_W) '$(srcdir)/resolve.c'; fi`; \
+#	then mv -f "$(DEPDIR)/resolve-resolve.Tpo" "$(DEPDIR)/resolve-resolve.Po"; else rm -f "$(DEPDIR)/resolve-resolve.Tpo"; exit 1; fi
+#	source='resolve.c' object='resolve-resolve.obj' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(resolve_CFLAGS) $(CFLAGS) -c -o resolve-resolve.obj `if test -f 'resolve.c'; then $(CYGPATH_W) 'resolve.c'; else $(CYGPATH_W) '$(srcdir)/resolve.c'; fi`
 
 rtspd-mprintf.o: $(top_srcdir)/lib/mprintf.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rtspd_CFLAGS) $(CFLAGS) -MT rtspd-mprintf.o -MD -MP -MF "$(DEPDIR)/rtspd-mprintf.Tpo" -c -o rtspd-mprintf.o `test -f '$(top_srcdir)/lib/mprintf.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/mprintf.c; \
-	then mv -f "$(DEPDIR)/rtspd-mprintf.Tpo" "$(DEPDIR)/rtspd-mprintf.Po"; else rm -f "$(DEPDIR)/rtspd-mprintf.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/mprintf.c' object='rtspd-mprintf.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rtspd_CFLAGS) $(CFLAGS) -c -o rtspd-mprintf.o `test -f '$(top_srcdir)/lib/mprintf.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/mprintf.c
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rtspd_CFLAGS) $(CFLAGS) -MT rtspd-mprintf.o -MD -MP -MF "$(DEPDIR)/rtspd-mprintf.Tpo" -c -o rtspd-mprintf.o `test -f '$(top_srcdir)/lib/mprintf.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/mprintf.c; \
+#	then mv -f "$(DEPDIR)/rtspd-mprintf.Tpo" "$(DEPDIR)/rtspd-mprintf.Po"; else rm -f "$(DEPDIR)/rtspd-mprintf.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/mprintf.c' object='rtspd-mprintf.o' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rtspd_CFLAGS) $(CFLAGS) -c -o rtspd-mprintf.o `test -f '$(top_srcdir)/lib/mprintf.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/mprintf.c
 
 rtspd-mprintf.obj: $(top_srcdir)/lib/mprintf.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rtspd_CFLAGS) $(CFLAGS) -MT rtspd-mprintf.obj -MD -MP -MF "$(DEPDIR)/rtspd-mprintf.Tpo" -c -o rtspd-mprintf.obj `if test -f '$(top_srcdir)/lib/mprintf.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/mprintf.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/mprintf.c'; fi`; \
-	then mv -f "$(DEPDIR)/rtspd-mprintf.Tpo" "$(DEPDIR)/rtspd-mprintf.Po"; else rm -f "$(DEPDIR)/rtspd-mprintf.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/mprintf.c' object='rtspd-mprintf.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rtspd_CFLAGS) $(CFLAGS) -c -o rtspd-mprintf.obj `if test -f '$(top_srcdir)/lib/mprintf.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/mprintf.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/mprintf.c'; fi`
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rtspd_CFLAGS) $(CFLAGS) -MT rtspd-mprintf.obj -MD -MP -MF "$(DEPDIR)/rtspd-mprintf.Tpo" -c -o rtspd-mprintf.obj `if test -f '$(top_srcdir)/lib/mprintf.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/mprintf.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/mprintf.c'; fi`; \
+#	then mv -f "$(DEPDIR)/rtspd-mprintf.Tpo" "$(DEPDIR)/rtspd-mprintf.Po"; else rm -f "$(DEPDIR)/rtspd-mprintf.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/mprintf.c' object='rtspd-mprintf.obj' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rtspd_CFLAGS) $(CFLAGS) -c -o rtspd-mprintf.obj `if test -f '$(top_srcdir)/lib/mprintf.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/mprintf.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/mprintf.c'; fi`
 
 rtspd-nonblock.o: $(top_srcdir)/lib/nonblock.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rtspd_CFLAGS) $(CFLAGS) -MT rtspd-nonblock.o -MD -MP -MF "$(DEPDIR)/rtspd-nonblock.Tpo" -c -o rtspd-nonblock.o `test -f '$(top_srcdir)/lib/nonblock.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/nonblock.c; \
-	then mv -f "$(DEPDIR)/rtspd-nonblock.Tpo" "$(DEPDIR)/rtspd-nonblock.Po"; else rm -f "$(DEPDIR)/rtspd-nonblock.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/nonblock.c' object='rtspd-nonblock.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rtspd_CFLAGS) $(CFLAGS) -c -o rtspd-nonblock.o `test -f '$(top_srcdir)/lib/nonblock.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/nonblock.c
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rtspd_CFLAGS) $(CFLAGS) -MT rtspd-nonblock.o -MD -MP -MF "$(DEPDIR)/rtspd-nonblock.Tpo" -c -o rtspd-nonblock.o `test -f '$(top_srcdir)/lib/nonblock.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/nonblock.c; \
+#	then mv -f "$(DEPDIR)/rtspd-nonblock.Tpo" "$(DEPDIR)/rtspd-nonblock.Po"; else rm -f "$(DEPDIR)/rtspd-nonblock.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/nonblock.c' object='rtspd-nonblock.o' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rtspd_CFLAGS) $(CFLAGS) -c -o rtspd-nonblock.o `test -f '$(top_srcdir)/lib/nonblock.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/nonblock.c
 
 rtspd-nonblock.obj: $(top_srcdir)/lib/nonblock.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rtspd_CFLAGS) $(CFLAGS) -MT rtspd-nonblock.obj -MD -MP -MF "$(DEPDIR)/rtspd-nonblock.Tpo" -c -o rtspd-nonblock.obj `if test -f '$(top_srcdir)/lib/nonblock.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/nonblock.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/nonblock.c'; fi`; \
-	then mv -f "$(DEPDIR)/rtspd-nonblock.Tpo" "$(DEPDIR)/rtspd-nonblock.Po"; else rm -f "$(DEPDIR)/rtspd-nonblock.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/nonblock.c' object='rtspd-nonblock.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rtspd_CFLAGS) $(CFLAGS) -c -o rtspd-nonblock.obj `if test -f '$(top_srcdir)/lib/nonblock.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/nonblock.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/nonblock.c'; fi`
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rtspd_CFLAGS) $(CFLAGS) -MT rtspd-nonblock.obj -MD -MP -MF "$(DEPDIR)/rtspd-nonblock.Tpo" -c -o rtspd-nonblock.obj `if test -f '$(top_srcdir)/lib/nonblock.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/nonblock.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/nonblock.c'; fi`; \
+#	then mv -f "$(DEPDIR)/rtspd-nonblock.Tpo" "$(DEPDIR)/rtspd-nonblock.Po"; else rm -f "$(DEPDIR)/rtspd-nonblock.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/nonblock.c' object='rtspd-nonblock.obj' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rtspd_CFLAGS) $(CFLAGS) -c -o rtspd-nonblock.obj `if test -f '$(top_srcdir)/lib/nonblock.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/nonblock.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/nonblock.c'; fi`
 
 rtspd-strequal.o: $(top_srcdir)/lib/strequal.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rtspd_CFLAGS) $(CFLAGS) -MT rtspd-strequal.o -MD -MP -MF "$(DEPDIR)/rtspd-strequal.Tpo" -c -o rtspd-strequal.o `test -f '$(top_srcdir)/lib/strequal.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/strequal.c; \
-	then mv -f "$(DEPDIR)/rtspd-strequal.Tpo" "$(DEPDIR)/rtspd-strequal.Po"; else rm -f "$(DEPDIR)/rtspd-strequal.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/strequal.c' object='rtspd-strequal.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rtspd_CFLAGS) $(CFLAGS) -c -o rtspd-strequal.o `test -f '$(top_srcdir)/lib/strequal.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/strequal.c
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rtspd_CFLAGS) $(CFLAGS) -MT rtspd-strequal.o -MD -MP -MF "$(DEPDIR)/rtspd-strequal.Tpo" -c -o rtspd-strequal.o `test -f '$(top_srcdir)/lib/strequal.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/strequal.c; \
+#	then mv -f "$(DEPDIR)/rtspd-strequal.Tpo" "$(DEPDIR)/rtspd-strequal.Po"; else rm -f "$(DEPDIR)/rtspd-strequal.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/strequal.c' object='rtspd-strequal.o' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rtspd_CFLAGS) $(CFLAGS) -c -o rtspd-strequal.o `test -f '$(top_srcdir)/lib/strequal.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/strequal.c
 
 rtspd-strequal.obj: $(top_srcdir)/lib/strequal.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rtspd_CFLAGS) $(CFLAGS) -MT rtspd-strequal.obj -MD -MP -MF "$(DEPDIR)/rtspd-strequal.Tpo" -c -o rtspd-strequal.obj `if test -f '$(top_srcdir)/lib/strequal.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/strequal.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/strequal.c'; fi`; \
-	then mv -f "$(DEPDIR)/rtspd-strequal.Tpo" "$(DEPDIR)/rtspd-strequal.Po"; else rm -f "$(DEPDIR)/rtspd-strequal.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/strequal.c' object='rtspd-strequal.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rtspd_CFLAGS) $(CFLAGS) -c -o rtspd-strequal.obj `if test -f '$(top_srcdir)/lib/strequal.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/strequal.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/strequal.c'; fi`
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rtspd_CFLAGS) $(CFLAGS) -MT rtspd-strequal.obj -MD -MP -MF "$(DEPDIR)/rtspd-strequal.Tpo" -c -o rtspd-strequal.obj `if test -f '$(top_srcdir)/lib/strequal.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/strequal.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/strequal.c'; fi`; \
+#	then mv -f "$(DEPDIR)/rtspd-strequal.Tpo" "$(DEPDIR)/rtspd-strequal.Po"; else rm -f "$(DEPDIR)/rtspd-strequal.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/strequal.c' object='rtspd-strequal.obj' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rtspd_CFLAGS) $(CFLAGS) -c -o rtspd-strequal.obj `if test -f '$(top_srcdir)/lib/strequal.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/strequal.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/strequal.c'; fi`
 
 rtspd-strtoofft.o: $(top_srcdir)/lib/strtoofft.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rtspd_CFLAGS) $(CFLAGS) -MT rtspd-strtoofft.o -MD -MP -MF "$(DEPDIR)/rtspd-strtoofft.Tpo" -c -o rtspd-strtoofft.o `test -f '$(top_srcdir)/lib/strtoofft.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/strtoofft.c; \
-	then mv -f "$(DEPDIR)/rtspd-strtoofft.Tpo" "$(DEPDIR)/rtspd-strtoofft.Po"; else rm -f "$(DEPDIR)/rtspd-strtoofft.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/strtoofft.c' object='rtspd-strtoofft.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rtspd_CFLAGS) $(CFLAGS) -c -o rtspd-strtoofft.o `test -f '$(top_srcdir)/lib/strtoofft.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/strtoofft.c
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rtspd_CFLAGS) $(CFLAGS) -MT rtspd-strtoofft.o -MD -MP -MF "$(DEPDIR)/rtspd-strtoofft.Tpo" -c -o rtspd-strtoofft.o `test -f '$(top_srcdir)/lib/strtoofft.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/strtoofft.c; \
+#	then mv -f "$(DEPDIR)/rtspd-strtoofft.Tpo" "$(DEPDIR)/rtspd-strtoofft.Po"; else rm -f "$(DEPDIR)/rtspd-strtoofft.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/strtoofft.c' object='rtspd-strtoofft.o' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rtspd_CFLAGS) $(CFLAGS) -c -o rtspd-strtoofft.o `test -f '$(top_srcdir)/lib/strtoofft.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/strtoofft.c
 
 rtspd-strtoofft.obj: $(top_srcdir)/lib/strtoofft.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rtspd_CFLAGS) $(CFLAGS) -MT rtspd-strtoofft.obj -MD -MP -MF "$(DEPDIR)/rtspd-strtoofft.Tpo" -c -o rtspd-strtoofft.obj `if test -f '$(top_srcdir)/lib/strtoofft.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/strtoofft.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/strtoofft.c'; fi`; \
-	then mv -f "$(DEPDIR)/rtspd-strtoofft.Tpo" "$(DEPDIR)/rtspd-strtoofft.Po"; else rm -f "$(DEPDIR)/rtspd-strtoofft.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/strtoofft.c' object='rtspd-strtoofft.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rtspd_CFLAGS) $(CFLAGS) -c -o rtspd-strtoofft.obj `if test -f '$(top_srcdir)/lib/strtoofft.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/strtoofft.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/strtoofft.c'; fi`
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rtspd_CFLAGS) $(CFLAGS) -MT rtspd-strtoofft.obj -MD -MP -MF "$(DEPDIR)/rtspd-strtoofft.Tpo" -c -o rtspd-strtoofft.obj `if test -f '$(top_srcdir)/lib/strtoofft.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/strtoofft.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/strtoofft.c'; fi`; \
+#	then mv -f "$(DEPDIR)/rtspd-strtoofft.Tpo" "$(DEPDIR)/rtspd-strtoofft.Po"; else rm -f "$(DEPDIR)/rtspd-strtoofft.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/strtoofft.c' object='rtspd-strtoofft.obj' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rtspd_CFLAGS) $(CFLAGS) -c -o rtspd-strtoofft.obj `if test -f '$(top_srcdir)/lib/strtoofft.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/strtoofft.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/strtoofft.c'; fi`
 
 rtspd-timeval.o: $(top_srcdir)/lib/timeval.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rtspd_CFLAGS) $(CFLAGS) -MT rtspd-timeval.o -MD -MP -MF "$(DEPDIR)/rtspd-timeval.Tpo" -c -o rtspd-timeval.o `test -f '$(top_srcdir)/lib/timeval.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/timeval.c; \
-	then mv -f "$(DEPDIR)/rtspd-timeval.Tpo" "$(DEPDIR)/rtspd-timeval.Po"; else rm -f "$(DEPDIR)/rtspd-timeval.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/timeval.c' object='rtspd-timeval.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rtspd_CFLAGS) $(CFLAGS) -c -o rtspd-timeval.o `test -f '$(top_srcdir)/lib/timeval.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/timeval.c
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rtspd_CFLAGS) $(CFLAGS) -MT rtspd-timeval.o -MD -MP -MF "$(DEPDIR)/rtspd-timeval.Tpo" -c -o rtspd-timeval.o `test -f '$(top_srcdir)/lib/timeval.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/timeval.c; \
+#	then mv -f "$(DEPDIR)/rtspd-timeval.Tpo" "$(DEPDIR)/rtspd-timeval.Po"; else rm -f "$(DEPDIR)/rtspd-timeval.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/timeval.c' object='rtspd-timeval.o' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rtspd_CFLAGS) $(CFLAGS) -c -o rtspd-timeval.o `test -f '$(top_srcdir)/lib/timeval.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/timeval.c
 
 rtspd-timeval.obj: $(top_srcdir)/lib/timeval.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rtspd_CFLAGS) $(CFLAGS) -MT rtspd-timeval.obj -MD -MP -MF "$(DEPDIR)/rtspd-timeval.Tpo" -c -o rtspd-timeval.obj `if test -f '$(top_srcdir)/lib/timeval.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/timeval.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/timeval.c'; fi`; \
-	then mv -f "$(DEPDIR)/rtspd-timeval.Tpo" "$(DEPDIR)/rtspd-timeval.Po"; else rm -f "$(DEPDIR)/rtspd-timeval.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/timeval.c' object='rtspd-timeval.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rtspd_CFLAGS) $(CFLAGS) -c -o rtspd-timeval.obj `if test -f '$(top_srcdir)/lib/timeval.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/timeval.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/timeval.c'; fi`
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rtspd_CFLAGS) $(CFLAGS) -MT rtspd-timeval.obj -MD -MP -MF "$(DEPDIR)/rtspd-timeval.Tpo" -c -o rtspd-timeval.obj `if test -f '$(top_srcdir)/lib/timeval.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/timeval.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/timeval.c'; fi`; \
+#	then mv -f "$(DEPDIR)/rtspd-timeval.Tpo" "$(DEPDIR)/rtspd-timeval.Po"; else rm -f "$(DEPDIR)/rtspd-timeval.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/timeval.c' object='rtspd-timeval.obj' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rtspd_CFLAGS) $(CFLAGS) -c -o rtspd-timeval.obj `if test -f '$(top_srcdir)/lib/timeval.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/timeval.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/timeval.c'; fi`
 
 rtspd-warnless.o: $(top_srcdir)/lib/warnless.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rtspd_CFLAGS) $(CFLAGS) -MT rtspd-warnless.o -MD -MP -MF "$(DEPDIR)/rtspd-warnless.Tpo" -c -o rtspd-warnless.o `test -f '$(top_srcdir)/lib/warnless.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/warnless.c; \
-	then mv -f "$(DEPDIR)/rtspd-warnless.Tpo" "$(DEPDIR)/rtspd-warnless.Po"; else rm -f "$(DEPDIR)/rtspd-warnless.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/warnless.c' object='rtspd-warnless.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rtspd_CFLAGS) $(CFLAGS) -c -o rtspd-warnless.o `test -f '$(top_srcdir)/lib/warnless.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/warnless.c
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rtspd_CFLAGS) $(CFLAGS) -MT rtspd-warnless.o -MD -MP -MF "$(DEPDIR)/rtspd-warnless.Tpo" -c -o rtspd-warnless.o `test -f '$(top_srcdir)/lib/warnless.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/warnless.c; \
+#	then mv -f "$(DEPDIR)/rtspd-warnless.Tpo" "$(DEPDIR)/rtspd-warnless.Po"; else rm -f "$(DEPDIR)/rtspd-warnless.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/warnless.c' object='rtspd-warnless.o' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rtspd_CFLAGS) $(CFLAGS) -c -o rtspd-warnless.o `test -f '$(top_srcdir)/lib/warnless.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/warnless.c
 
 rtspd-warnless.obj: $(top_srcdir)/lib/warnless.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rtspd_CFLAGS) $(CFLAGS) -MT rtspd-warnless.obj -MD -MP -MF "$(DEPDIR)/rtspd-warnless.Tpo" -c -o rtspd-warnless.obj `if test -f '$(top_srcdir)/lib/warnless.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/warnless.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/warnless.c'; fi`; \
-	then mv -f "$(DEPDIR)/rtspd-warnless.Tpo" "$(DEPDIR)/rtspd-warnless.Po"; else rm -f "$(DEPDIR)/rtspd-warnless.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/warnless.c' object='rtspd-warnless.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rtspd_CFLAGS) $(CFLAGS) -c -o rtspd-warnless.obj `if test -f '$(top_srcdir)/lib/warnless.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/warnless.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/warnless.c'; fi`
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rtspd_CFLAGS) $(CFLAGS) -MT rtspd-warnless.obj -MD -MP -MF "$(DEPDIR)/rtspd-warnless.Tpo" -c -o rtspd-warnless.obj `if test -f '$(top_srcdir)/lib/warnless.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/warnless.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/warnless.c'; fi`; \
+#	then mv -f "$(DEPDIR)/rtspd-warnless.Tpo" "$(DEPDIR)/rtspd-warnless.Po"; else rm -f "$(DEPDIR)/rtspd-warnless.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/warnless.c' object='rtspd-warnless.obj' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rtspd_CFLAGS) $(CFLAGS) -c -o rtspd-warnless.obj `if test -f '$(top_srcdir)/lib/warnless.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/warnless.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/warnless.c'; fi`
 
 rtspd-getpart.o: getpart.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rtspd_CFLAGS) $(CFLAGS) -MT rtspd-getpart.o -MD -MP -MF "$(DEPDIR)/rtspd-getpart.Tpo" -c -o rtspd-getpart.o `test -f 'getpart.c' || echo '$(srcdir)/'`getpart.c; \
-	then mv -f "$(DEPDIR)/rtspd-getpart.Tpo" "$(DEPDIR)/rtspd-getpart.Po"; else rm -f "$(DEPDIR)/rtspd-getpart.Tpo"; exit 1; fi
-#	source='getpart.c' object='rtspd-getpart.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rtspd_CFLAGS) $(CFLAGS) -c -o rtspd-getpart.o `test -f 'getpart.c' || echo '$(srcdir)/'`getpart.c
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rtspd_CFLAGS) $(CFLAGS) -MT rtspd-getpart.o -MD -MP -MF "$(DEPDIR)/rtspd-getpart.Tpo" -c -o rtspd-getpart.o `test -f 'getpart.c' || echo '$(srcdir)/'`getpart.c; \
+#	then mv -f "$(DEPDIR)/rtspd-getpart.Tpo" "$(DEPDIR)/rtspd-getpart.Po"; else rm -f "$(DEPDIR)/rtspd-getpart.Tpo"; exit 1; fi
+#	source='getpart.c' object='rtspd-getpart.o' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rtspd_CFLAGS) $(CFLAGS) -c -o rtspd-getpart.o `test -f 'getpart.c' || echo '$(srcdir)/'`getpart.c
 
 rtspd-getpart.obj: getpart.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rtspd_CFLAGS) $(CFLAGS) -MT rtspd-getpart.obj -MD -MP -MF "$(DEPDIR)/rtspd-getpart.Tpo" -c -o rtspd-getpart.obj `if test -f 'getpart.c'; then $(CYGPATH_W) 'getpart.c'; else $(CYGPATH_W) '$(srcdir)/getpart.c'; fi`; \
-	then mv -f "$(DEPDIR)/rtspd-getpart.Tpo" "$(DEPDIR)/rtspd-getpart.Po"; else rm -f "$(DEPDIR)/rtspd-getpart.Tpo"; exit 1; fi
-#	source='getpart.c' object='rtspd-getpart.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rtspd_CFLAGS) $(CFLAGS) -c -o rtspd-getpart.obj `if test -f 'getpart.c'; then $(CYGPATH_W) 'getpart.c'; else $(CYGPATH_W) '$(srcdir)/getpart.c'; fi`
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rtspd_CFLAGS) $(CFLAGS) -MT rtspd-getpart.obj -MD -MP -MF "$(DEPDIR)/rtspd-getpart.Tpo" -c -o rtspd-getpart.obj `if test -f 'getpart.c'; then $(CYGPATH_W) 'getpart.c'; else $(CYGPATH_W) '$(srcdir)/getpart.c'; fi`; \
+#	then mv -f "$(DEPDIR)/rtspd-getpart.Tpo" "$(DEPDIR)/rtspd-getpart.Po"; else rm -f "$(DEPDIR)/rtspd-getpart.Tpo"; exit 1; fi
+#	source='getpart.c' object='rtspd-getpart.obj' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rtspd_CFLAGS) $(CFLAGS) -c -o rtspd-getpart.obj `if test -f 'getpart.c'; then $(CYGPATH_W) 'getpart.c'; else $(CYGPATH_W) '$(srcdir)/getpart.c'; fi`
 
 rtspd-base64.o: $(top_srcdir)/lib/base64.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rtspd_CFLAGS) $(CFLAGS) -MT rtspd-base64.o -MD -MP -MF "$(DEPDIR)/rtspd-base64.Tpo" -c -o rtspd-base64.o `test -f '$(top_srcdir)/lib/base64.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/base64.c; \
-	then mv -f "$(DEPDIR)/rtspd-base64.Tpo" "$(DEPDIR)/rtspd-base64.Po"; else rm -f "$(DEPDIR)/rtspd-base64.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/base64.c' object='rtspd-base64.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rtspd_CFLAGS) $(CFLAGS) -c -o rtspd-base64.o `test -f '$(top_srcdir)/lib/base64.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/base64.c
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rtspd_CFLAGS) $(CFLAGS) -MT rtspd-base64.o -MD -MP -MF "$(DEPDIR)/rtspd-base64.Tpo" -c -o rtspd-base64.o `test -f '$(top_srcdir)/lib/base64.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/base64.c; \
+#	then mv -f "$(DEPDIR)/rtspd-base64.Tpo" "$(DEPDIR)/rtspd-base64.Po"; else rm -f "$(DEPDIR)/rtspd-base64.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/base64.c' object='rtspd-base64.o' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rtspd_CFLAGS) $(CFLAGS) -c -o rtspd-base64.o `test -f '$(top_srcdir)/lib/base64.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/base64.c
 
 rtspd-base64.obj: $(top_srcdir)/lib/base64.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rtspd_CFLAGS) $(CFLAGS) -MT rtspd-base64.obj -MD -MP -MF "$(DEPDIR)/rtspd-base64.Tpo" -c -o rtspd-base64.obj `if test -f '$(top_srcdir)/lib/base64.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/base64.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/base64.c'; fi`; \
-	then mv -f "$(DEPDIR)/rtspd-base64.Tpo" "$(DEPDIR)/rtspd-base64.Po"; else rm -f "$(DEPDIR)/rtspd-base64.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/base64.c' object='rtspd-base64.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rtspd_CFLAGS) $(CFLAGS) -c -o rtspd-base64.obj `if test -f '$(top_srcdir)/lib/base64.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/base64.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/base64.c'; fi`
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rtspd_CFLAGS) $(CFLAGS) -MT rtspd-base64.obj -MD -MP -MF "$(DEPDIR)/rtspd-base64.Tpo" -c -o rtspd-base64.obj `if test -f '$(top_srcdir)/lib/base64.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/base64.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/base64.c'; fi`; \
+#	then mv -f "$(DEPDIR)/rtspd-base64.Tpo" "$(DEPDIR)/rtspd-base64.Po"; else rm -f "$(DEPDIR)/rtspd-base64.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/base64.c' object='rtspd-base64.obj' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rtspd_CFLAGS) $(CFLAGS) -c -o rtspd-base64.obj `if test -f '$(top_srcdir)/lib/base64.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/base64.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/base64.c'; fi`
 
 rtspd-memdebug.o: $(top_srcdir)/lib/memdebug.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rtspd_CFLAGS) $(CFLAGS) -MT rtspd-memdebug.o -MD -MP -MF "$(DEPDIR)/rtspd-memdebug.Tpo" -c -o rtspd-memdebug.o `test -f '$(top_srcdir)/lib/memdebug.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/memdebug.c; \
-	then mv -f "$(DEPDIR)/rtspd-memdebug.Tpo" "$(DEPDIR)/rtspd-memdebug.Po"; else rm -f "$(DEPDIR)/rtspd-memdebug.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/memdebug.c' object='rtspd-memdebug.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rtspd_CFLAGS) $(CFLAGS) -c -o rtspd-memdebug.o `test -f '$(top_srcdir)/lib/memdebug.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/memdebug.c
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rtspd_CFLAGS) $(CFLAGS) -MT rtspd-memdebug.o -MD -MP -MF "$(DEPDIR)/rtspd-memdebug.Tpo" -c -o rtspd-memdebug.o `test -f '$(top_srcdir)/lib/memdebug.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/memdebug.c; \
+#	then mv -f "$(DEPDIR)/rtspd-memdebug.Tpo" "$(DEPDIR)/rtspd-memdebug.Po"; else rm -f "$(DEPDIR)/rtspd-memdebug.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/memdebug.c' object='rtspd-memdebug.o' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rtspd_CFLAGS) $(CFLAGS) -c -o rtspd-memdebug.o `test -f '$(top_srcdir)/lib/memdebug.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/memdebug.c
 
 rtspd-memdebug.obj: $(top_srcdir)/lib/memdebug.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rtspd_CFLAGS) $(CFLAGS) -MT rtspd-memdebug.obj -MD -MP -MF "$(DEPDIR)/rtspd-memdebug.Tpo" -c -o rtspd-memdebug.obj `if test -f '$(top_srcdir)/lib/memdebug.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/memdebug.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/memdebug.c'; fi`; \
-	then mv -f "$(DEPDIR)/rtspd-memdebug.Tpo" "$(DEPDIR)/rtspd-memdebug.Po"; else rm -f "$(DEPDIR)/rtspd-memdebug.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/memdebug.c' object='rtspd-memdebug.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rtspd_CFLAGS) $(CFLAGS) -c -o rtspd-memdebug.obj `if test -f '$(top_srcdir)/lib/memdebug.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/memdebug.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/memdebug.c'; fi`
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rtspd_CFLAGS) $(CFLAGS) -MT rtspd-memdebug.obj -MD -MP -MF "$(DEPDIR)/rtspd-memdebug.Tpo" -c -o rtspd-memdebug.obj `if test -f '$(top_srcdir)/lib/memdebug.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/memdebug.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/memdebug.c'; fi`; \
+#	then mv -f "$(DEPDIR)/rtspd-memdebug.Tpo" "$(DEPDIR)/rtspd-memdebug.Po"; else rm -f "$(DEPDIR)/rtspd-memdebug.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/memdebug.c' object='rtspd-memdebug.obj' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rtspd_CFLAGS) $(CFLAGS) -c -o rtspd-memdebug.obj `if test -f '$(top_srcdir)/lib/memdebug.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/memdebug.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/memdebug.c'; fi`
 
 rtspd-util.o: util.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rtspd_CFLAGS) $(CFLAGS) -MT rtspd-util.o -MD -MP -MF "$(DEPDIR)/rtspd-util.Tpo" -c -o rtspd-util.o `test -f 'util.c' || echo '$(srcdir)/'`util.c; \
-	then mv -f "$(DEPDIR)/rtspd-util.Tpo" "$(DEPDIR)/rtspd-util.Po"; else rm -f "$(DEPDIR)/rtspd-util.Tpo"; exit 1; fi
-#	source='util.c' object='rtspd-util.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rtspd_CFLAGS) $(CFLAGS) -c -o rtspd-util.o `test -f 'util.c' || echo '$(srcdir)/'`util.c
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rtspd_CFLAGS) $(CFLAGS) -MT rtspd-util.o -MD -MP -MF "$(DEPDIR)/rtspd-util.Tpo" -c -o rtspd-util.o `test -f 'util.c' || echo '$(srcdir)/'`util.c; \
+#	then mv -f "$(DEPDIR)/rtspd-util.Tpo" "$(DEPDIR)/rtspd-util.Po"; else rm -f "$(DEPDIR)/rtspd-util.Tpo"; exit 1; fi
+#	source='util.c' object='rtspd-util.o' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rtspd_CFLAGS) $(CFLAGS) -c -o rtspd-util.o `test -f 'util.c' || echo '$(srcdir)/'`util.c
 
 rtspd-util.obj: util.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rtspd_CFLAGS) $(CFLAGS) -MT rtspd-util.obj -MD -MP -MF "$(DEPDIR)/rtspd-util.Tpo" -c -o rtspd-util.obj `if test -f 'util.c'; then $(CYGPATH_W) 'util.c'; else $(CYGPATH_W) '$(srcdir)/util.c'; fi`; \
-	then mv -f "$(DEPDIR)/rtspd-util.Tpo" "$(DEPDIR)/rtspd-util.Po"; else rm -f "$(DEPDIR)/rtspd-util.Tpo"; exit 1; fi
-#	source='util.c' object='rtspd-util.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rtspd_CFLAGS) $(CFLAGS) -c -o rtspd-util.obj `if test -f 'util.c'; then $(CYGPATH_W) 'util.c'; else $(CYGPATH_W) '$(srcdir)/util.c'; fi`
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rtspd_CFLAGS) $(CFLAGS) -MT rtspd-util.obj -MD -MP -MF "$(DEPDIR)/rtspd-util.Tpo" -c -o rtspd-util.obj `if test -f 'util.c'; then $(CYGPATH_W) 'util.c'; else $(CYGPATH_W) '$(srcdir)/util.c'; fi`; \
+#	then mv -f "$(DEPDIR)/rtspd-util.Tpo" "$(DEPDIR)/rtspd-util.Po"; else rm -f "$(DEPDIR)/rtspd-util.Tpo"; exit 1; fi
+#	source='util.c' object='rtspd-util.obj' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rtspd_CFLAGS) $(CFLAGS) -c -o rtspd-util.obj `if test -f 'util.c'; then $(CYGPATH_W) 'util.c'; else $(CYGPATH_W) '$(srcdir)/util.c'; fi`
 
 rtspd-rtspd.o: rtspd.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rtspd_CFLAGS) $(CFLAGS) -MT rtspd-rtspd.o -MD -MP -MF "$(DEPDIR)/rtspd-rtspd.Tpo" -c -o rtspd-rtspd.o `test -f 'rtspd.c' || echo '$(srcdir)/'`rtspd.c; \
-	then mv -f "$(DEPDIR)/rtspd-rtspd.Tpo" "$(DEPDIR)/rtspd-rtspd.Po"; else rm -f "$(DEPDIR)/rtspd-rtspd.Tpo"; exit 1; fi
-#	source='rtspd.c' object='rtspd-rtspd.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rtspd_CFLAGS) $(CFLAGS) -c -o rtspd-rtspd.o `test -f 'rtspd.c' || echo '$(srcdir)/'`rtspd.c
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rtspd_CFLAGS) $(CFLAGS) -MT rtspd-rtspd.o -MD -MP -MF "$(DEPDIR)/rtspd-rtspd.Tpo" -c -o rtspd-rtspd.o `test -f 'rtspd.c' || echo '$(srcdir)/'`rtspd.c; \
+#	then mv -f "$(DEPDIR)/rtspd-rtspd.Tpo" "$(DEPDIR)/rtspd-rtspd.Po"; else rm -f "$(DEPDIR)/rtspd-rtspd.Tpo"; exit 1; fi
+#	source='rtspd.c' object='rtspd-rtspd.o' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rtspd_CFLAGS) $(CFLAGS) -c -o rtspd-rtspd.o `test -f 'rtspd.c' || echo '$(srcdir)/'`rtspd.c
 
 rtspd-rtspd.obj: rtspd.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rtspd_CFLAGS) $(CFLAGS) -MT rtspd-rtspd.obj -MD -MP -MF "$(DEPDIR)/rtspd-rtspd.Tpo" -c -o rtspd-rtspd.obj `if test -f 'rtspd.c'; then $(CYGPATH_W) 'rtspd.c'; else $(CYGPATH_W) '$(srcdir)/rtspd.c'; fi`; \
-	then mv -f "$(DEPDIR)/rtspd-rtspd.Tpo" "$(DEPDIR)/rtspd-rtspd.Po"; else rm -f "$(DEPDIR)/rtspd-rtspd.Tpo"; exit 1; fi
-#	source='rtspd.c' object='rtspd-rtspd.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rtspd_CFLAGS) $(CFLAGS) -c -o rtspd-rtspd.obj `if test -f 'rtspd.c'; then $(CYGPATH_W) 'rtspd.c'; else $(CYGPATH_W) '$(srcdir)/rtspd.c'; fi`
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rtspd_CFLAGS) $(CFLAGS) -MT rtspd-rtspd.obj -MD -MP -MF "$(DEPDIR)/rtspd-rtspd.Tpo" -c -o rtspd-rtspd.obj `if test -f 'rtspd.c'; then $(CYGPATH_W) 'rtspd.c'; else $(CYGPATH_W) '$(srcdir)/rtspd.c'; fi`; \
+#	then mv -f "$(DEPDIR)/rtspd-rtspd.Tpo" "$(DEPDIR)/rtspd-rtspd.Po"; else rm -f "$(DEPDIR)/rtspd-rtspd.Tpo"; exit 1; fi
+#	source='rtspd.c' object='rtspd-rtspd.obj' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rtspd_CFLAGS) $(CFLAGS) -c -o rtspd-rtspd.obj `if test -f 'rtspd.c'; then $(CYGPATH_W) 'rtspd.c'; else $(CYGPATH_W) '$(srcdir)/rtspd.c'; fi`
 
 sockfilt-mprintf.o: $(top_srcdir)/lib/mprintf.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sockfilt_CFLAGS) $(CFLAGS) -MT sockfilt-mprintf.o -MD -MP -MF "$(DEPDIR)/sockfilt-mprintf.Tpo" -c -o sockfilt-mprintf.o `test -f '$(top_srcdir)/lib/mprintf.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/mprintf.c; \
-	then mv -f "$(DEPDIR)/sockfilt-mprintf.Tpo" "$(DEPDIR)/sockfilt-mprintf.Po"; else rm -f "$(DEPDIR)/sockfilt-mprintf.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/mprintf.c' object='sockfilt-mprintf.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sockfilt_CFLAGS) $(CFLAGS) -c -o sockfilt-mprintf.o `test -f '$(top_srcdir)/lib/mprintf.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/mprintf.c
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sockfilt_CFLAGS) $(CFLAGS) -MT sockfilt-mprintf.o -MD -MP -MF "$(DEPDIR)/sockfilt-mprintf.Tpo" -c -o sockfilt-mprintf.o `test -f '$(top_srcdir)/lib/mprintf.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/mprintf.c; \
+#	then mv -f "$(DEPDIR)/sockfilt-mprintf.Tpo" "$(DEPDIR)/sockfilt-mprintf.Po"; else rm -f "$(DEPDIR)/sockfilt-mprintf.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/mprintf.c' object='sockfilt-mprintf.o' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sockfilt_CFLAGS) $(CFLAGS) -c -o sockfilt-mprintf.o `test -f '$(top_srcdir)/lib/mprintf.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/mprintf.c
 
 sockfilt-mprintf.obj: $(top_srcdir)/lib/mprintf.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sockfilt_CFLAGS) $(CFLAGS) -MT sockfilt-mprintf.obj -MD -MP -MF "$(DEPDIR)/sockfilt-mprintf.Tpo" -c -o sockfilt-mprintf.obj `if test -f '$(top_srcdir)/lib/mprintf.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/mprintf.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/mprintf.c'; fi`; \
-	then mv -f "$(DEPDIR)/sockfilt-mprintf.Tpo" "$(DEPDIR)/sockfilt-mprintf.Po"; else rm -f "$(DEPDIR)/sockfilt-mprintf.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/mprintf.c' object='sockfilt-mprintf.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sockfilt_CFLAGS) $(CFLAGS) -c -o sockfilt-mprintf.obj `if test -f '$(top_srcdir)/lib/mprintf.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/mprintf.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/mprintf.c'; fi`
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sockfilt_CFLAGS) $(CFLAGS) -MT sockfilt-mprintf.obj -MD -MP -MF "$(DEPDIR)/sockfilt-mprintf.Tpo" -c -o sockfilt-mprintf.obj `if test -f '$(top_srcdir)/lib/mprintf.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/mprintf.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/mprintf.c'; fi`; \
+#	then mv -f "$(DEPDIR)/sockfilt-mprintf.Tpo" "$(DEPDIR)/sockfilt-mprintf.Po"; else rm -f "$(DEPDIR)/sockfilt-mprintf.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/mprintf.c' object='sockfilt-mprintf.obj' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sockfilt_CFLAGS) $(CFLAGS) -c -o sockfilt-mprintf.obj `if test -f '$(top_srcdir)/lib/mprintf.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/mprintf.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/mprintf.c'; fi`
 
 sockfilt-nonblock.o: $(top_srcdir)/lib/nonblock.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sockfilt_CFLAGS) $(CFLAGS) -MT sockfilt-nonblock.o -MD -MP -MF "$(DEPDIR)/sockfilt-nonblock.Tpo" -c -o sockfilt-nonblock.o `test -f '$(top_srcdir)/lib/nonblock.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/nonblock.c; \
-	then mv -f "$(DEPDIR)/sockfilt-nonblock.Tpo" "$(DEPDIR)/sockfilt-nonblock.Po"; else rm -f "$(DEPDIR)/sockfilt-nonblock.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/nonblock.c' object='sockfilt-nonblock.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sockfilt_CFLAGS) $(CFLAGS) -c -o sockfilt-nonblock.o `test -f '$(top_srcdir)/lib/nonblock.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/nonblock.c
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sockfilt_CFLAGS) $(CFLAGS) -MT sockfilt-nonblock.o -MD -MP -MF "$(DEPDIR)/sockfilt-nonblock.Tpo" -c -o sockfilt-nonblock.o `test -f '$(top_srcdir)/lib/nonblock.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/nonblock.c; \
+#	then mv -f "$(DEPDIR)/sockfilt-nonblock.Tpo" "$(DEPDIR)/sockfilt-nonblock.Po"; else rm -f "$(DEPDIR)/sockfilt-nonblock.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/nonblock.c' object='sockfilt-nonblock.o' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sockfilt_CFLAGS) $(CFLAGS) -c -o sockfilt-nonblock.o `test -f '$(top_srcdir)/lib/nonblock.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/nonblock.c
 
 sockfilt-nonblock.obj: $(top_srcdir)/lib/nonblock.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sockfilt_CFLAGS) $(CFLAGS) -MT sockfilt-nonblock.obj -MD -MP -MF "$(DEPDIR)/sockfilt-nonblock.Tpo" -c -o sockfilt-nonblock.obj `if test -f '$(top_srcdir)/lib/nonblock.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/nonblock.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/nonblock.c'; fi`; \
-	then mv -f "$(DEPDIR)/sockfilt-nonblock.Tpo" "$(DEPDIR)/sockfilt-nonblock.Po"; else rm -f "$(DEPDIR)/sockfilt-nonblock.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/nonblock.c' object='sockfilt-nonblock.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sockfilt_CFLAGS) $(CFLAGS) -c -o sockfilt-nonblock.obj `if test -f '$(top_srcdir)/lib/nonblock.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/nonblock.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/nonblock.c'; fi`
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sockfilt_CFLAGS) $(CFLAGS) -MT sockfilt-nonblock.obj -MD -MP -MF "$(DEPDIR)/sockfilt-nonblock.Tpo" -c -o sockfilt-nonblock.obj `if test -f '$(top_srcdir)/lib/nonblock.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/nonblock.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/nonblock.c'; fi`; \
+#	then mv -f "$(DEPDIR)/sockfilt-nonblock.Tpo" "$(DEPDIR)/sockfilt-nonblock.Po"; else rm -f "$(DEPDIR)/sockfilt-nonblock.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/nonblock.c' object='sockfilt-nonblock.obj' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sockfilt_CFLAGS) $(CFLAGS) -c -o sockfilt-nonblock.obj `if test -f '$(top_srcdir)/lib/nonblock.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/nonblock.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/nonblock.c'; fi`
 
 sockfilt-strequal.o: $(top_srcdir)/lib/strequal.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sockfilt_CFLAGS) $(CFLAGS) -MT sockfilt-strequal.o -MD -MP -MF "$(DEPDIR)/sockfilt-strequal.Tpo" -c -o sockfilt-strequal.o `test -f '$(top_srcdir)/lib/strequal.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/strequal.c; \
-	then mv -f "$(DEPDIR)/sockfilt-strequal.Tpo" "$(DEPDIR)/sockfilt-strequal.Po"; else rm -f "$(DEPDIR)/sockfilt-strequal.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/strequal.c' object='sockfilt-strequal.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sockfilt_CFLAGS) $(CFLAGS) -c -o sockfilt-strequal.o `test -f '$(top_srcdir)/lib/strequal.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/strequal.c
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sockfilt_CFLAGS) $(CFLAGS) -MT sockfilt-strequal.o -MD -MP -MF "$(DEPDIR)/sockfilt-strequal.Tpo" -c -o sockfilt-strequal.o `test -f '$(top_srcdir)/lib/strequal.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/strequal.c; \
+#	then mv -f "$(DEPDIR)/sockfilt-strequal.Tpo" "$(DEPDIR)/sockfilt-strequal.Po"; else rm -f "$(DEPDIR)/sockfilt-strequal.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/strequal.c' object='sockfilt-strequal.o' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sockfilt_CFLAGS) $(CFLAGS) -c -o sockfilt-strequal.o `test -f '$(top_srcdir)/lib/strequal.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/strequal.c
 
 sockfilt-strequal.obj: $(top_srcdir)/lib/strequal.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sockfilt_CFLAGS) $(CFLAGS) -MT sockfilt-strequal.obj -MD -MP -MF "$(DEPDIR)/sockfilt-strequal.Tpo" -c -o sockfilt-strequal.obj `if test -f '$(top_srcdir)/lib/strequal.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/strequal.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/strequal.c'; fi`; \
-	then mv -f "$(DEPDIR)/sockfilt-strequal.Tpo" "$(DEPDIR)/sockfilt-strequal.Po"; else rm -f "$(DEPDIR)/sockfilt-strequal.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/strequal.c' object='sockfilt-strequal.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sockfilt_CFLAGS) $(CFLAGS) -c -o sockfilt-strequal.obj `if test -f '$(top_srcdir)/lib/strequal.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/strequal.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/strequal.c'; fi`
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sockfilt_CFLAGS) $(CFLAGS) -MT sockfilt-strequal.obj -MD -MP -MF "$(DEPDIR)/sockfilt-strequal.Tpo" -c -o sockfilt-strequal.obj `if test -f '$(top_srcdir)/lib/strequal.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/strequal.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/strequal.c'; fi`; \
+#	then mv -f "$(DEPDIR)/sockfilt-strequal.Tpo" "$(DEPDIR)/sockfilt-strequal.Po"; else rm -f "$(DEPDIR)/sockfilt-strequal.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/strequal.c' object='sockfilt-strequal.obj' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sockfilt_CFLAGS) $(CFLAGS) -c -o sockfilt-strequal.obj `if test -f '$(top_srcdir)/lib/strequal.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/strequal.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/strequal.c'; fi`
 
 sockfilt-strtoofft.o: $(top_srcdir)/lib/strtoofft.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sockfilt_CFLAGS) $(CFLAGS) -MT sockfilt-strtoofft.o -MD -MP -MF "$(DEPDIR)/sockfilt-strtoofft.Tpo" -c -o sockfilt-strtoofft.o `test -f '$(top_srcdir)/lib/strtoofft.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/strtoofft.c; \
-	then mv -f "$(DEPDIR)/sockfilt-strtoofft.Tpo" "$(DEPDIR)/sockfilt-strtoofft.Po"; else rm -f "$(DEPDIR)/sockfilt-strtoofft.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/strtoofft.c' object='sockfilt-strtoofft.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sockfilt_CFLAGS) $(CFLAGS) -c -o sockfilt-strtoofft.o `test -f '$(top_srcdir)/lib/strtoofft.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/strtoofft.c
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sockfilt_CFLAGS) $(CFLAGS) -MT sockfilt-strtoofft.o -MD -MP -MF "$(DEPDIR)/sockfilt-strtoofft.Tpo" -c -o sockfilt-strtoofft.o `test -f '$(top_srcdir)/lib/strtoofft.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/strtoofft.c; \
+#	then mv -f "$(DEPDIR)/sockfilt-strtoofft.Tpo" "$(DEPDIR)/sockfilt-strtoofft.Po"; else rm -f "$(DEPDIR)/sockfilt-strtoofft.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/strtoofft.c' object='sockfilt-strtoofft.o' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sockfilt_CFLAGS) $(CFLAGS) -c -o sockfilt-strtoofft.o `test -f '$(top_srcdir)/lib/strtoofft.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/strtoofft.c
 
 sockfilt-strtoofft.obj: $(top_srcdir)/lib/strtoofft.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sockfilt_CFLAGS) $(CFLAGS) -MT sockfilt-strtoofft.obj -MD -MP -MF "$(DEPDIR)/sockfilt-strtoofft.Tpo" -c -o sockfilt-strtoofft.obj `if test -f '$(top_srcdir)/lib/strtoofft.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/strtoofft.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/strtoofft.c'; fi`; \
-	then mv -f "$(DEPDIR)/sockfilt-strtoofft.Tpo" "$(DEPDIR)/sockfilt-strtoofft.Po"; else rm -f "$(DEPDIR)/sockfilt-strtoofft.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/strtoofft.c' object='sockfilt-strtoofft.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sockfilt_CFLAGS) $(CFLAGS) -c -o sockfilt-strtoofft.obj `if test -f '$(top_srcdir)/lib/strtoofft.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/strtoofft.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/strtoofft.c'; fi`
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sockfilt_CFLAGS) $(CFLAGS) -MT sockfilt-strtoofft.obj -MD -MP -MF "$(DEPDIR)/sockfilt-strtoofft.Tpo" -c -o sockfilt-strtoofft.obj `if test -f '$(top_srcdir)/lib/strtoofft.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/strtoofft.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/strtoofft.c'; fi`; \
+#	then mv -f "$(DEPDIR)/sockfilt-strtoofft.Tpo" "$(DEPDIR)/sockfilt-strtoofft.Po"; else rm -f "$(DEPDIR)/sockfilt-strtoofft.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/strtoofft.c' object='sockfilt-strtoofft.obj' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sockfilt_CFLAGS) $(CFLAGS) -c -o sockfilt-strtoofft.obj `if test -f '$(top_srcdir)/lib/strtoofft.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/strtoofft.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/strtoofft.c'; fi`
 
 sockfilt-timeval.o: $(top_srcdir)/lib/timeval.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sockfilt_CFLAGS) $(CFLAGS) -MT sockfilt-timeval.o -MD -MP -MF "$(DEPDIR)/sockfilt-timeval.Tpo" -c -o sockfilt-timeval.o `test -f '$(top_srcdir)/lib/timeval.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/timeval.c; \
-	then mv -f "$(DEPDIR)/sockfilt-timeval.Tpo" "$(DEPDIR)/sockfilt-timeval.Po"; else rm -f "$(DEPDIR)/sockfilt-timeval.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/timeval.c' object='sockfilt-timeval.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sockfilt_CFLAGS) $(CFLAGS) -c -o sockfilt-timeval.o `test -f '$(top_srcdir)/lib/timeval.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/timeval.c
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sockfilt_CFLAGS) $(CFLAGS) -MT sockfilt-timeval.o -MD -MP -MF "$(DEPDIR)/sockfilt-timeval.Tpo" -c -o sockfilt-timeval.o `test -f '$(top_srcdir)/lib/timeval.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/timeval.c; \
+#	then mv -f "$(DEPDIR)/sockfilt-timeval.Tpo" "$(DEPDIR)/sockfilt-timeval.Po"; else rm -f "$(DEPDIR)/sockfilt-timeval.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/timeval.c' object='sockfilt-timeval.o' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sockfilt_CFLAGS) $(CFLAGS) -c -o sockfilt-timeval.o `test -f '$(top_srcdir)/lib/timeval.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/timeval.c
 
 sockfilt-timeval.obj: $(top_srcdir)/lib/timeval.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sockfilt_CFLAGS) $(CFLAGS) -MT sockfilt-timeval.obj -MD -MP -MF "$(DEPDIR)/sockfilt-timeval.Tpo" -c -o sockfilt-timeval.obj `if test -f '$(top_srcdir)/lib/timeval.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/timeval.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/timeval.c'; fi`; \
-	then mv -f "$(DEPDIR)/sockfilt-timeval.Tpo" "$(DEPDIR)/sockfilt-timeval.Po"; else rm -f "$(DEPDIR)/sockfilt-timeval.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/timeval.c' object='sockfilt-timeval.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sockfilt_CFLAGS) $(CFLAGS) -c -o sockfilt-timeval.obj `if test -f '$(top_srcdir)/lib/timeval.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/timeval.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/timeval.c'; fi`
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sockfilt_CFLAGS) $(CFLAGS) -MT sockfilt-timeval.obj -MD -MP -MF "$(DEPDIR)/sockfilt-timeval.Tpo" -c -o sockfilt-timeval.obj `if test -f '$(top_srcdir)/lib/timeval.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/timeval.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/timeval.c'; fi`; \
+#	then mv -f "$(DEPDIR)/sockfilt-timeval.Tpo" "$(DEPDIR)/sockfilt-timeval.Po"; else rm -f "$(DEPDIR)/sockfilt-timeval.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/timeval.c' object='sockfilt-timeval.obj' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sockfilt_CFLAGS) $(CFLAGS) -c -o sockfilt-timeval.obj `if test -f '$(top_srcdir)/lib/timeval.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/timeval.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/timeval.c'; fi`
 
 sockfilt-warnless.o: $(top_srcdir)/lib/warnless.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sockfilt_CFLAGS) $(CFLAGS) -MT sockfilt-warnless.o -MD -MP -MF "$(DEPDIR)/sockfilt-warnless.Tpo" -c -o sockfilt-warnless.o `test -f '$(top_srcdir)/lib/warnless.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/warnless.c; \
-	then mv -f "$(DEPDIR)/sockfilt-warnless.Tpo" "$(DEPDIR)/sockfilt-warnless.Po"; else rm -f "$(DEPDIR)/sockfilt-warnless.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/warnless.c' object='sockfilt-warnless.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sockfilt_CFLAGS) $(CFLAGS) -c -o sockfilt-warnless.o `test -f '$(top_srcdir)/lib/warnless.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/warnless.c
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sockfilt_CFLAGS) $(CFLAGS) -MT sockfilt-warnless.o -MD -MP -MF "$(DEPDIR)/sockfilt-warnless.Tpo" -c -o sockfilt-warnless.o `test -f '$(top_srcdir)/lib/warnless.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/warnless.c; \
+#	then mv -f "$(DEPDIR)/sockfilt-warnless.Tpo" "$(DEPDIR)/sockfilt-warnless.Po"; else rm -f "$(DEPDIR)/sockfilt-warnless.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/warnless.c' object='sockfilt-warnless.o' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sockfilt_CFLAGS) $(CFLAGS) -c -o sockfilt-warnless.o `test -f '$(top_srcdir)/lib/warnless.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/warnless.c
 
 sockfilt-warnless.obj: $(top_srcdir)/lib/warnless.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sockfilt_CFLAGS) $(CFLAGS) -MT sockfilt-warnless.obj -MD -MP -MF "$(DEPDIR)/sockfilt-warnless.Tpo" -c -o sockfilt-warnless.obj `if test -f '$(top_srcdir)/lib/warnless.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/warnless.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/warnless.c'; fi`; \
-	then mv -f "$(DEPDIR)/sockfilt-warnless.Tpo" "$(DEPDIR)/sockfilt-warnless.Po"; else rm -f "$(DEPDIR)/sockfilt-warnless.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/warnless.c' object='sockfilt-warnless.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sockfilt_CFLAGS) $(CFLAGS) -c -o sockfilt-warnless.obj `if test -f '$(top_srcdir)/lib/warnless.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/warnless.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/warnless.c'; fi`
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sockfilt_CFLAGS) $(CFLAGS) -MT sockfilt-warnless.obj -MD -MP -MF "$(DEPDIR)/sockfilt-warnless.Tpo" -c -o sockfilt-warnless.obj `if test -f '$(top_srcdir)/lib/warnless.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/warnless.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/warnless.c'; fi`; \
+#	then mv -f "$(DEPDIR)/sockfilt-warnless.Tpo" "$(DEPDIR)/sockfilt-warnless.Po"; else rm -f "$(DEPDIR)/sockfilt-warnless.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/warnless.c' object='sockfilt-warnless.obj' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sockfilt_CFLAGS) $(CFLAGS) -c -o sockfilt-warnless.obj `if test -f '$(top_srcdir)/lib/warnless.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/warnless.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/warnless.c'; fi`
 
 sockfilt-getpart.o: getpart.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sockfilt_CFLAGS) $(CFLAGS) -MT sockfilt-getpart.o -MD -MP -MF "$(DEPDIR)/sockfilt-getpart.Tpo" -c -o sockfilt-getpart.o `test -f 'getpart.c' || echo '$(srcdir)/'`getpart.c; \
-	then mv -f "$(DEPDIR)/sockfilt-getpart.Tpo" "$(DEPDIR)/sockfilt-getpart.Po"; else rm -f "$(DEPDIR)/sockfilt-getpart.Tpo"; exit 1; fi
-#	source='getpart.c' object='sockfilt-getpart.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sockfilt_CFLAGS) $(CFLAGS) -c -o sockfilt-getpart.o `test -f 'getpart.c' || echo '$(srcdir)/'`getpart.c
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sockfilt_CFLAGS) $(CFLAGS) -MT sockfilt-getpart.o -MD -MP -MF "$(DEPDIR)/sockfilt-getpart.Tpo" -c -o sockfilt-getpart.o `test -f 'getpart.c' || echo '$(srcdir)/'`getpart.c; \
+#	then mv -f "$(DEPDIR)/sockfilt-getpart.Tpo" "$(DEPDIR)/sockfilt-getpart.Po"; else rm -f "$(DEPDIR)/sockfilt-getpart.Tpo"; exit 1; fi
+#	source='getpart.c' object='sockfilt-getpart.o' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sockfilt_CFLAGS) $(CFLAGS) -c -o sockfilt-getpart.o `test -f 'getpart.c' || echo '$(srcdir)/'`getpart.c
 
 sockfilt-getpart.obj: getpart.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sockfilt_CFLAGS) $(CFLAGS) -MT sockfilt-getpart.obj -MD -MP -MF "$(DEPDIR)/sockfilt-getpart.Tpo" -c -o sockfilt-getpart.obj `if test -f 'getpart.c'; then $(CYGPATH_W) 'getpart.c'; else $(CYGPATH_W) '$(srcdir)/getpart.c'; fi`; \
-	then mv -f "$(DEPDIR)/sockfilt-getpart.Tpo" "$(DEPDIR)/sockfilt-getpart.Po"; else rm -f "$(DEPDIR)/sockfilt-getpart.Tpo"; exit 1; fi
-#	source='getpart.c' object='sockfilt-getpart.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sockfilt_CFLAGS) $(CFLAGS) -c -o sockfilt-getpart.obj `if test -f 'getpart.c'; then $(CYGPATH_W) 'getpart.c'; else $(CYGPATH_W) '$(srcdir)/getpart.c'; fi`
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sockfilt_CFLAGS) $(CFLAGS) -MT sockfilt-getpart.obj -MD -MP -MF "$(DEPDIR)/sockfilt-getpart.Tpo" -c -o sockfilt-getpart.obj `if test -f 'getpart.c'; then $(CYGPATH_W) 'getpart.c'; else $(CYGPATH_W) '$(srcdir)/getpart.c'; fi`; \
+#	then mv -f "$(DEPDIR)/sockfilt-getpart.Tpo" "$(DEPDIR)/sockfilt-getpart.Po"; else rm -f "$(DEPDIR)/sockfilt-getpart.Tpo"; exit 1; fi
+#	source='getpart.c' object='sockfilt-getpart.obj' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sockfilt_CFLAGS) $(CFLAGS) -c -o sockfilt-getpart.obj `if test -f 'getpart.c'; then $(CYGPATH_W) 'getpart.c'; else $(CYGPATH_W) '$(srcdir)/getpart.c'; fi`
 
 sockfilt-base64.o: $(top_srcdir)/lib/base64.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sockfilt_CFLAGS) $(CFLAGS) -MT sockfilt-base64.o -MD -MP -MF "$(DEPDIR)/sockfilt-base64.Tpo" -c -o sockfilt-base64.o `test -f '$(top_srcdir)/lib/base64.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/base64.c; \
-	then mv -f "$(DEPDIR)/sockfilt-base64.Tpo" "$(DEPDIR)/sockfilt-base64.Po"; else rm -f "$(DEPDIR)/sockfilt-base64.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/base64.c' object='sockfilt-base64.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sockfilt_CFLAGS) $(CFLAGS) -c -o sockfilt-base64.o `test -f '$(top_srcdir)/lib/base64.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/base64.c
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sockfilt_CFLAGS) $(CFLAGS) -MT sockfilt-base64.o -MD -MP -MF "$(DEPDIR)/sockfilt-base64.Tpo" -c -o sockfilt-base64.o `test -f '$(top_srcdir)/lib/base64.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/base64.c; \
+#	then mv -f "$(DEPDIR)/sockfilt-base64.Tpo" "$(DEPDIR)/sockfilt-base64.Po"; else rm -f "$(DEPDIR)/sockfilt-base64.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/base64.c' object='sockfilt-base64.o' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sockfilt_CFLAGS) $(CFLAGS) -c -o sockfilt-base64.o `test -f '$(top_srcdir)/lib/base64.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/base64.c
 
 sockfilt-base64.obj: $(top_srcdir)/lib/base64.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sockfilt_CFLAGS) $(CFLAGS) -MT sockfilt-base64.obj -MD -MP -MF "$(DEPDIR)/sockfilt-base64.Tpo" -c -o sockfilt-base64.obj `if test -f '$(top_srcdir)/lib/base64.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/base64.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/base64.c'; fi`; \
-	then mv -f "$(DEPDIR)/sockfilt-base64.Tpo" "$(DEPDIR)/sockfilt-base64.Po"; else rm -f "$(DEPDIR)/sockfilt-base64.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/base64.c' object='sockfilt-base64.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sockfilt_CFLAGS) $(CFLAGS) -c -o sockfilt-base64.obj `if test -f '$(top_srcdir)/lib/base64.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/base64.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/base64.c'; fi`
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sockfilt_CFLAGS) $(CFLAGS) -MT sockfilt-base64.obj -MD -MP -MF "$(DEPDIR)/sockfilt-base64.Tpo" -c -o sockfilt-base64.obj `if test -f '$(top_srcdir)/lib/base64.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/base64.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/base64.c'; fi`; \
+#	then mv -f "$(DEPDIR)/sockfilt-base64.Tpo" "$(DEPDIR)/sockfilt-base64.Po"; else rm -f "$(DEPDIR)/sockfilt-base64.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/base64.c' object='sockfilt-base64.obj' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sockfilt_CFLAGS) $(CFLAGS) -c -o sockfilt-base64.obj `if test -f '$(top_srcdir)/lib/base64.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/base64.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/base64.c'; fi`
 
 sockfilt-memdebug.o: $(top_srcdir)/lib/memdebug.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sockfilt_CFLAGS) $(CFLAGS) -MT sockfilt-memdebug.o -MD -MP -MF "$(DEPDIR)/sockfilt-memdebug.Tpo" -c -o sockfilt-memdebug.o `test -f '$(top_srcdir)/lib/memdebug.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/memdebug.c; \
-	then mv -f "$(DEPDIR)/sockfilt-memdebug.Tpo" "$(DEPDIR)/sockfilt-memdebug.Po"; else rm -f "$(DEPDIR)/sockfilt-memdebug.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/memdebug.c' object='sockfilt-memdebug.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sockfilt_CFLAGS) $(CFLAGS) -c -o sockfilt-memdebug.o `test -f '$(top_srcdir)/lib/memdebug.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/memdebug.c
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sockfilt_CFLAGS) $(CFLAGS) -MT sockfilt-memdebug.o -MD -MP -MF "$(DEPDIR)/sockfilt-memdebug.Tpo" -c -o sockfilt-memdebug.o `test -f '$(top_srcdir)/lib/memdebug.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/memdebug.c; \
+#	then mv -f "$(DEPDIR)/sockfilt-memdebug.Tpo" "$(DEPDIR)/sockfilt-memdebug.Po"; else rm -f "$(DEPDIR)/sockfilt-memdebug.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/memdebug.c' object='sockfilt-memdebug.o' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sockfilt_CFLAGS) $(CFLAGS) -c -o sockfilt-memdebug.o `test -f '$(top_srcdir)/lib/memdebug.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/memdebug.c
 
 sockfilt-memdebug.obj: $(top_srcdir)/lib/memdebug.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sockfilt_CFLAGS) $(CFLAGS) -MT sockfilt-memdebug.obj -MD -MP -MF "$(DEPDIR)/sockfilt-memdebug.Tpo" -c -o sockfilt-memdebug.obj `if test -f '$(top_srcdir)/lib/memdebug.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/memdebug.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/memdebug.c'; fi`; \
-	then mv -f "$(DEPDIR)/sockfilt-memdebug.Tpo" "$(DEPDIR)/sockfilt-memdebug.Po"; else rm -f "$(DEPDIR)/sockfilt-memdebug.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/memdebug.c' object='sockfilt-memdebug.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sockfilt_CFLAGS) $(CFLAGS) -c -o sockfilt-memdebug.obj `if test -f '$(top_srcdir)/lib/memdebug.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/memdebug.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/memdebug.c'; fi`
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sockfilt_CFLAGS) $(CFLAGS) -MT sockfilt-memdebug.obj -MD -MP -MF "$(DEPDIR)/sockfilt-memdebug.Tpo" -c -o sockfilt-memdebug.obj `if test -f '$(top_srcdir)/lib/memdebug.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/memdebug.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/memdebug.c'; fi`; \
+#	then mv -f "$(DEPDIR)/sockfilt-memdebug.Tpo" "$(DEPDIR)/sockfilt-memdebug.Po"; else rm -f "$(DEPDIR)/sockfilt-memdebug.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/memdebug.c' object='sockfilt-memdebug.obj' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sockfilt_CFLAGS) $(CFLAGS) -c -o sockfilt-memdebug.obj `if test -f '$(top_srcdir)/lib/memdebug.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/memdebug.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/memdebug.c'; fi`
 
 sockfilt-util.o: util.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sockfilt_CFLAGS) $(CFLAGS) -MT sockfilt-util.o -MD -MP -MF "$(DEPDIR)/sockfilt-util.Tpo" -c -o sockfilt-util.o `test -f 'util.c' || echo '$(srcdir)/'`util.c; \
-	then mv -f "$(DEPDIR)/sockfilt-util.Tpo" "$(DEPDIR)/sockfilt-util.Po"; else rm -f "$(DEPDIR)/sockfilt-util.Tpo"; exit 1; fi
-#	source='util.c' object='sockfilt-util.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sockfilt_CFLAGS) $(CFLAGS) -c -o sockfilt-util.o `test -f 'util.c' || echo '$(srcdir)/'`util.c
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sockfilt_CFLAGS) $(CFLAGS) -MT sockfilt-util.o -MD -MP -MF "$(DEPDIR)/sockfilt-util.Tpo" -c -o sockfilt-util.o `test -f 'util.c' || echo '$(srcdir)/'`util.c; \
+#	then mv -f "$(DEPDIR)/sockfilt-util.Tpo" "$(DEPDIR)/sockfilt-util.Po"; else rm -f "$(DEPDIR)/sockfilt-util.Tpo"; exit 1; fi
+#	source='util.c' object='sockfilt-util.o' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sockfilt_CFLAGS) $(CFLAGS) -c -o sockfilt-util.o `test -f 'util.c' || echo '$(srcdir)/'`util.c
 
 sockfilt-util.obj: util.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sockfilt_CFLAGS) $(CFLAGS) -MT sockfilt-util.obj -MD -MP -MF "$(DEPDIR)/sockfilt-util.Tpo" -c -o sockfilt-util.obj `if test -f 'util.c'; then $(CYGPATH_W) 'util.c'; else $(CYGPATH_W) '$(srcdir)/util.c'; fi`; \
-	then mv -f "$(DEPDIR)/sockfilt-util.Tpo" "$(DEPDIR)/sockfilt-util.Po"; else rm -f "$(DEPDIR)/sockfilt-util.Tpo"; exit 1; fi
-#	source='util.c' object='sockfilt-util.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sockfilt_CFLAGS) $(CFLAGS) -c -o sockfilt-util.obj `if test -f 'util.c'; then $(CYGPATH_W) 'util.c'; else $(CYGPATH_W) '$(srcdir)/util.c'; fi`
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sockfilt_CFLAGS) $(CFLAGS) -MT sockfilt-util.obj -MD -MP -MF "$(DEPDIR)/sockfilt-util.Tpo" -c -o sockfilt-util.obj `if test -f 'util.c'; then $(CYGPATH_W) 'util.c'; else $(CYGPATH_W) '$(srcdir)/util.c'; fi`; \
+#	then mv -f "$(DEPDIR)/sockfilt-util.Tpo" "$(DEPDIR)/sockfilt-util.Po"; else rm -f "$(DEPDIR)/sockfilt-util.Tpo"; exit 1; fi
+#	source='util.c' object='sockfilt-util.obj' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sockfilt_CFLAGS) $(CFLAGS) -c -o sockfilt-util.obj `if test -f 'util.c'; then $(CYGPATH_W) 'util.c'; else $(CYGPATH_W) '$(srcdir)/util.c'; fi`
 
 sockfilt-sockfilt.o: sockfilt.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sockfilt_CFLAGS) $(CFLAGS) -MT sockfilt-sockfilt.o -MD -MP -MF "$(DEPDIR)/sockfilt-sockfilt.Tpo" -c -o sockfilt-sockfilt.o `test -f 'sockfilt.c' || echo '$(srcdir)/'`sockfilt.c; \
-	then mv -f "$(DEPDIR)/sockfilt-sockfilt.Tpo" "$(DEPDIR)/sockfilt-sockfilt.Po"; else rm -f "$(DEPDIR)/sockfilt-sockfilt.Tpo"; exit 1; fi
-#	source='sockfilt.c' object='sockfilt-sockfilt.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sockfilt_CFLAGS) $(CFLAGS) -c -o sockfilt-sockfilt.o `test -f 'sockfilt.c' || echo '$(srcdir)/'`sockfilt.c
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sockfilt_CFLAGS) $(CFLAGS) -MT sockfilt-sockfilt.o -MD -MP -MF "$(DEPDIR)/sockfilt-sockfilt.Tpo" -c -o sockfilt-sockfilt.o `test -f 'sockfilt.c' || echo '$(srcdir)/'`sockfilt.c; \
+#	then mv -f "$(DEPDIR)/sockfilt-sockfilt.Tpo" "$(DEPDIR)/sockfilt-sockfilt.Po"; else rm -f "$(DEPDIR)/sockfilt-sockfilt.Tpo"; exit 1; fi
+#	source='sockfilt.c' object='sockfilt-sockfilt.o' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sockfilt_CFLAGS) $(CFLAGS) -c -o sockfilt-sockfilt.o `test -f 'sockfilt.c' || echo '$(srcdir)/'`sockfilt.c
 
 sockfilt-sockfilt.obj: sockfilt.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sockfilt_CFLAGS) $(CFLAGS) -MT sockfilt-sockfilt.obj -MD -MP -MF "$(DEPDIR)/sockfilt-sockfilt.Tpo" -c -o sockfilt-sockfilt.obj `if test -f 'sockfilt.c'; then $(CYGPATH_W) 'sockfilt.c'; else $(CYGPATH_W) '$(srcdir)/sockfilt.c'; fi`; \
-	then mv -f "$(DEPDIR)/sockfilt-sockfilt.Tpo" "$(DEPDIR)/sockfilt-sockfilt.Po"; else rm -f "$(DEPDIR)/sockfilt-sockfilt.Tpo"; exit 1; fi
-#	source='sockfilt.c' object='sockfilt-sockfilt.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sockfilt_CFLAGS) $(CFLAGS) -c -o sockfilt-sockfilt.obj `if test -f 'sockfilt.c'; then $(CYGPATH_W) 'sockfilt.c'; else $(CYGPATH_W) '$(srcdir)/sockfilt.c'; fi`
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sockfilt_CFLAGS) $(CFLAGS) -MT sockfilt-sockfilt.obj -MD -MP -MF "$(DEPDIR)/sockfilt-sockfilt.Tpo" -c -o sockfilt-sockfilt.obj `if test -f 'sockfilt.c'; then $(CYGPATH_W) 'sockfilt.c'; else $(CYGPATH_W) '$(srcdir)/sockfilt.c'; fi`; \
+#	then mv -f "$(DEPDIR)/sockfilt-sockfilt.Tpo" "$(DEPDIR)/sockfilt-sockfilt.Po"; else rm -f "$(DEPDIR)/sockfilt-sockfilt.Tpo"; exit 1; fi
+#	source='sockfilt.c' object='sockfilt-sockfilt.obj' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sockfilt_CFLAGS) $(CFLAGS) -c -o sockfilt-sockfilt.obj `if test -f 'sockfilt.c'; then $(CYGPATH_W) 'sockfilt.c'; else $(CYGPATH_W) '$(srcdir)/sockfilt.c'; fi`
 
 sockfilt-inet_pton.o: $(top_srcdir)/lib/inet_pton.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sockfilt_CFLAGS) $(CFLAGS) -MT sockfilt-inet_pton.o -MD -MP -MF "$(DEPDIR)/sockfilt-inet_pton.Tpo" -c -o sockfilt-inet_pton.o `test -f '$(top_srcdir)/lib/inet_pton.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/inet_pton.c; \
-	then mv -f "$(DEPDIR)/sockfilt-inet_pton.Tpo" "$(DEPDIR)/sockfilt-inet_pton.Po"; else rm -f "$(DEPDIR)/sockfilt-inet_pton.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/inet_pton.c' object='sockfilt-inet_pton.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sockfilt_CFLAGS) $(CFLAGS) -c -o sockfilt-inet_pton.o `test -f '$(top_srcdir)/lib/inet_pton.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/inet_pton.c
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sockfilt_CFLAGS) $(CFLAGS) -MT sockfilt-inet_pton.o -MD -MP -MF "$(DEPDIR)/sockfilt-inet_pton.Tpo" -c -o sockfilt-inet_pton.o `test -f '$(top_srcdir)/lib/inet_pton.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/inet_pton.c; \
+#	then mv -f "$(DEPDIR)/sockfilt-inet_pton.Tpo" "$(DEPDIR)/sockfilt-inet_pton.Po"; else rm -f "$(DEPDIR)/sockfilt-inet_pton.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/inet_pton.c' object='sockfilt-inet_pton.o' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sockfilt_CFLAGS) $(CFLAGS) -c -o sockfilt-inet_pton.o `test -f '$(top_srcdir)/lib/inet_pton.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/inet_pton.c
 
 sockfilt-inet_pton.obj: $(top_srcdir)/lib/inet_pton.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sockfilt_CFLAGS) $(CFLAGS) -MT sockfilt-inet_pton.obj -MD -MP -MF "$(DEPDIR)/sockfilt-inet_pton.Tpo" -c -o sockfilt-inet_pton.obj `if test -f '$(top_srcdir)/lib/inet_pton.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/inet_pton.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/inet_pton.c'; fi`; \
-	then mv -f "$(DEPDIR)/sockfilt-inet_pton.Tpo" "$(DEPDIR)/sockfilt-inet_pton.Po"; else rm -f "$(DEPDIR)/sockfilt-inet_pton.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/inet_pton.c' object='sockfilt-inet_pton.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sockfilt_CFLAGS) $(CFLAGS) -c -o sockfilt-inet_pton.obj `if test -f '$(top_srcdir)/lib/inet_pton.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/inet_pton.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/inet_pton.c'; fi`
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sockfilt_CFLAGS) $(CFLAGS) -MT sockfilt-inet_pton.obj -MD -MP -MF "$(DEPDIR)/sockfilt-inet_pton.Tpo" -c -o sockfilt-inet_pton.obj `if test -f '$(top_srcdir)/lib/inet_pton.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/inet_pton.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/inet_pton.c'; fi`; \
+#	then mv -f "$(DEPDIR)/sockfilt-inet_pton.Tpo" "$(DEPDIR)/sockfilt-inet_pton.Po"; else rm -f "$(DEPDIR)/sockfilt-inet_pton.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/inet_pton.c' object='sockfilt-inet_pton.obj' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sockfilt_CFLAGS) $(CFLAGS) -c -o sockfilt-inet_pton.obj `if test -f '$(top_srcdir)/lib/inet_pton.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/inet_pton.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/inet_pton.c'; fi`
 
 sws-mprintf.o: $(top_srcdir)/lib/mprintf.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sws_CFLAGS) $(CFLAGS) -MT sws-mprintf.o -MD -MP -MF "$(DEPDIR)/sws-mprintf.Tpo" -c -o sws-mprintf.o `test -f '$(top_srcdir)/lib/mprintf.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/mprintf.c; \
-	then mv -f "$(DEPDIR)/sws-mprintf.Tpo" "$(DEPDIR)/sws-mprintf.Po"; else rm -f "$(DEPDIR)/sws-mprintf.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/mprintf.c' object='sws-mprintf.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sws_CFLAGS) $(CFLAGS) -c -o sws-mprintf.o `test -f '$(top_srcdir)/lib/mprintf.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/mprintf.c
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sws_CFLAGS) $(CFLAGS) -MT sws-mprintf.o -MD -MP -MF "$(DEPDIR)/sws-mprintf.Tpo" -c -o sws-mprintf.o `test -f '$(top_srcdir)/lib/mprintf.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/mprintf.c; \
+#	then mv -f "$(DEPDIR)/sws-mprintf.Tpo" "$(DEPDIR)/sws-mprintf.Po"; else rm -f "$(DEPDIR)/sws-mprintf.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/mprintf.c' object='sws-mprintf.o' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sws_CFLAGS) $(CFLAGS) -c -o sws-mprintf.o `test -f '$(top_srcdir)/lib/mprintf.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/mprintf.c
 
 sws-mprintf.obj: $(top_srcdir)/lib/mprintf.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sws_CFLAGS) $(CFLAGS) -MT sws-mprintf.obj -MD -MP -MF "$(DEPDIR)/sws-mprintf.Tpo" -c -o sws-mprintf.obj `if test -f '$(top_srcdir)/lib/mprintf.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/mprintf.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/mprintf.c'; fi`; \
-	then mv -f "$(DEPDIR)/sws-mprintf.Tpo" "$(DEPDIR)/sws-mprintf.Po"; else rm -f "$(DEPDIR)/sws-mprintf.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/mprintf.c' object='sws-mprintf.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sws_CFLAGS) $(CFLAGS) -c -o sws-mprintf.obj `if test -f '$(top_srcdir)/lib/mprintf.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/mprintf.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/mprintf.c'; fi`
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sws_CFLAGS) $(CFLAGS) -MT sws-mprintf.obj -MD -MP -MF "$(DEPDIR)/sws-mprintf.Tpo" -c -o sws-mprintf.obj `if test -f '$(top_srcdir)/lib/mprintf.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/mprintf.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/mprintf.c'; fi`; \
+#	then mv -f "$(DEPDIR)/sws-mprintf.Tpo" "$(DEPDIR)/sws-mprintf.Po"; else rm -f "$(DEPDIR)/sws-mprintf.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/mprintf.c' object='sws-mprintf.obj' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sws_CFLAGS) $(CFLAGS) -c -o sws-mprintf.obj `if test -f '$(top_srcdir)/lib/mprintf.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/mprintf.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/mprintf.c'; fi`
 
 sws-nonblock.o: $(top_srcdir)/lib/nonblock.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sws_CFLAGS) $(CFLAGS) -MT sws-nonblock.o -MD -MP -MF "$(DEPDIR)/sws-nonblock.Tpo" -c -o sws-nonblock.o `test -f '$(top_srcdir)/lib/nonblock.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/nonblock.c; \
-	then mv -f "$(DEPDIR)/sws-nonblock.Tpo" "$(DEPDIR)/sws-nonblock.Po"; else rm -f "$(DEPDIR)/sws-nonblock.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/nonblock.c' object='sws-nonblock.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sws_CFLAGS) $(CFLAGS) -c -o sws-nonblock.o `test -f '$(top_srcdir)/lib/nonblock.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/nonblock.c
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sws_CFLAGS) $(CFLAGS) -MT sws-nonblock.o -MD -MP -MF "$(DEPDIR)/sws-nonblock.Tpo" -c -o sws-nonblock.o `test -f '$(top_srcdir)/lib/nonblock.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/nonblock.c; \
+#	then mv -f "$(DEPDIR)/sws-nonblock.Tpo" "$(DEPDIR)/sws-nonblock.Po"; else rm -f "$(DEPDIR)/sws-nonblock.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/nonblock.c' object='sws-nonblock.o' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sws_CFLAGS) $(CFLAGS) -c -o sws-nonblock.o `test -f '$(top_srcdir)/lib/nonblock.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/nonblock.c
 
 sws-nonblock.obj: $(top_srcdir)/lib/nonblock.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sws_CFLAGS) $(CFLAGS) -MT sws-nonblock.obj -MD -MP -MF "$(DEPDIR)/sws-nonblock.Tpo" -c -o sws-nonblock.obj `if test -f '$(top_srcdir)/lib/nonblock.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/nonblock.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/nonblock.c'; fi`; \
-	then mv -f "$(DEPDIR)/sws-nonblock.Tpo" "$(DEPDIR)/sws-nonblock.Po"; else rm -f "$(DEPDIR)/sws-nonblock.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/nonblock.c' object='sws-nonblock.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sws_CFLAGS) $(CFLAGS) -c -o sws-nonblock.obj `if test -f '$(top_srcdir)/lib/nonblock.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/nonblock.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/nonblock.c'; fi`
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sws_CFLAGS) $(CFLAGS) -MT sws-nonblock.obj -MD -MP -MF "$(DEPDIR)/sws-nonblock.Tpo" -c -o sws-nonblock.obj `if test -f '$(top_srcdir)/lib/nonblock.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/nonblock.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/nonblock.c'; fi`; \
+#	then mv -f "$(DEPDIR)/sws-nonblock.Tpo" "$(DEPDIR)/sws-nonblock.Po"; else rm -f "$(DEPDIR)/sws-nonblock.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/nonblock.c' object='sws-nonblock.obj' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sws_CFLAGS) $(CFLAGS) -c -o sws-nonblock.obj `if test -f '$(top_srcdir)/lib/nonblock.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/nonblock.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/nonblock.c'; fi`
 
 sws-strequal.o: $(top_srcdir)/lib/strequal.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sws_CFLAGS) $(CFLAGS) -MT sws-strequal.o -MD -MP -MF "$(DEPDIR)/sws-strequal.Tpo" -c -o sws-strequal.o `test -f '$(top_srcdir)/lib/strequal.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/strequal.c; \
-	then mv -f "$(DEPDIR)/sws-strequal.Tpo" "$(DEPDIR)/sws-strequal.Po"; else rm -f "$(DEPDIR)/sws-strequal.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/strequal.c' object='sws-strequal.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sws_CFLAGS) $(CFLAGS) -c -o sws-strequal.o `test -f '$(top_srcdir)/lib/strequal.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/strequal.c
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sws_CFLAGS) $(CFLAGS) -MT sws-strequal.o -MD -MP -MF "$(DEPDIR)/sws-strequal.Tpo" -c -o sws-strequal.o `test -f '$(top_srcdir)/lib/strequal.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/strequal.c; \
+#	then mv -f "$(DEPDIR)/sws-strequal.Tpo" "$(DEPDIR)/sws-strequal.Po"; else rm -f "$(DEPDIR)/sws-strequal.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/strequal.c' object='sws-strequal.o' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sws_CFLAGS) $(CFLAGS) -c -o sws-strequal.o `test -f '$(top_srcdir)/lib/strequal.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/strequal.c
 
 sws-strequal.obj: $(top_srcdir)/lib/strequal.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sws_CFLAGS) $(CFLAGS) -MT sws-strequal.obj -MD -MP -MF "$(DEPDIR)/sws-strequal.Tpo" -c -o sws-strequal.obj `if test -f '$(top_srcdir)/lib/strequal.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/strequal.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/strequal.c'; fi`; \
-	then mv -f "$(DEPDIR)/sws-strequal.Tpo" "$(DEPDIR)/sws-strequal.Po"; else rm -f "$(DEPDIR)/sws-strequal.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/strequal.c' object='sws-strequal.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sws_CFLAGS) $(CFLAGS) -c -o sws-strequal.obj `if test -f '$(top_srcdir)/lib/strequal.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/strequal.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/strequal.c'; fi`
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sws_CFLAGS) $(CFLAGS) -MT sws-strequal.obj -MD -MP -MF "$(DEPDIR)/sws-strequal.Tpo" -c -o sws-strequal.obj `if test -f '$(top_srcdir)/lib/strequal.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/strequal.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/strequal.c'; fi`; \
+#	then mv -f "$(DEPDIR)/sws-strequal.Tpo" "$(DEPDIR)/sws-strequal.Po"; else rm -f "$(DEPDIR)/sws-strequal.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/strequal.c' object='sws-strequal.obj' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sws_CFLAGS) $(CFLAGS) -c -o sws-strequal.obj `if test -f '$(top_srcdir)/lib/strequal.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/strequal.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/strequal.c'; fi`
 
 sws-strtoofft.o: $(top_srcdir)/lib/strtoofft.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sws_CFLAGS) $(CFLAGS) -MT sws-strtoofft.o -MD -MP -MF "$(DEPDIR)/sws-strtoofft.Tpo" -c -o sws-strtoofft.o `test -f '$(top_srcdir)/lib/strtoofft.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/strtoofft.c; \
-	then mv -f "$(DEPDIR)/sws-strtoofft.Tpo" "$(DEPDIR)/sws-strtoofft.Po"; else rm -f "$(DEPDIR)/sws-strtoofft.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/strtoofft.c' object='sws-strtoofft.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sws_CFLAGS) $(CFLAGS) -c -o sws-strtoofft.o `test -f '$(top_srcdir)/lib/strtoofft.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/strtoofft.c
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sws_CFLAGS) $(CFLAGS) -MT sws-strtoofft.o -MD -MP -MF "$(DEPDIR)/sws-strtoofft.Tpo" -c -o sws-strtoofft.o `test -f '$(top_srcdir)/lib/strtoofft.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/strtoofft.c; \
+#	then mv -f "$(DEPDIR)/sws-strtoofft.Tpo" "$(DEPDIR)/sws-strtoofft.Po"; else rm -f "$(DEPDIR)/sws-strtoofft.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/strtoofft.c' object='sws-strtoofft.o' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sws_CFLAGS) $(CFLAGS) -c -o sws-strtoofft.o `test -f '$(top_srcdir)/lib/strtoofft.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/strtoofft.c
 
 sws-strtoofft.obj: $(top_srcdir)/lib/strtoofft.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sws_CFLAGS) $(CFLAGS) -MT sws-strtoofft.obj -MD -MP -MF "$(DEPDIR)/sws-strtoofft.Tpo" -c -o sws-strtoofft.obj `if test -f '$(top_srcdir)/lib/strtoofft.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/strtoofft.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/strtoofft.c'; fi`; \
-	then mv -f "$(DEPDIR)/sws-strtoofft.Tpo" "$(DEPDIR)/sws-strtoofft.Po"; else rm -f "$(DEPDIR)/sws-strtoofft.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/strtoofft.c' object='sws-strtoofft.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sws_CFLAGS) $(CFLAGS) -c -o sws-strtoofft.obj `if test -f '$(top_srcdir)/lib/strtoofft.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/strtoofft.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/strtoofft.c'; fi`
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sws_CFLAGS) $(CFLAGS) -MT sws-strtoofft.obj -MD -MP -MF "$(DEPDIR)/sws-strtoofft.Tpo" -c -o sws-strtoofft.obj `if test -f '$(top_srcdir)/lib/strtoofft.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/strtoofft.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/strtoofft.c'; fi`; \
+#	then mv -f "$(DEPDIR)/sws-strtoofft.Tpo" "$(DEPDIR)/sws-strtoofft.Po"; else rm -f "$(DEPDIR)/sws-strtoofft.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/strtoofft.c' object='sws-strtoofft.obj' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sws_CFLAGS) $(CFLAGS) -c -o sws-strtoofft.obj `if test -f '$(top_srcdir)/lib/strtoofft.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/strtoofft.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/strtoofft.c'; fi`
 
 sws-timeval.o: $(top_srcdir)/lib/timeval.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sws_CFLAGS) $(CFLAGS) -MT sws-timeval.o -MD -MP -MF "$(DEPDIR)/sws-timeval.Tpo" -c -o sws-timeval.o `test -f '$(top_srcdir)/lib/timeval.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/timeval.c; \
-	then mv -f "$(DEPDIR)/sws-timeval.Tpo" "$(DEPDIR)/sws-timeval.Po"; else rm -f "$(DEPDIR)/sws-timeval.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/timeval.c' object='sws-timeval.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sws_CFLAGS) $(CFLAGS) -c -o sws-timeval.o `test -f '$(top_srcdir)/lib/timeval.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/timeval.c
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sws_CFLAGS) $(CFLAGS) -MT sws-timeval.o -MD -MP -MF "$(DEPDIR)/sws-timeval.Tpo" -c -o sws-timeval.o `test -f '$(top_srcdir)/lib/timeval.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/timeval.c; \
+#	then mv -f "$(DEPDIR)/sws-timeval.Tpo" "$(DEPDIR)/sws-timeval.Po"; else rm -f "$(DEPDIR)/sws-timeval.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/timeval.c' object='sws-timeval.o' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sws_CFLAGS) $(CFLAGS) -c -o sws-timeval.o `test -f '$(top_srcdir)/lib/timeval.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/timeval.c
 
 sws-timeval.obj: $(top_srcdir)/lib/timeval.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sws_CFLAGS) $(CFLAGS) -MT sws-timeval.obj -MD -MP -MF "$(DEPDIR)/sws-timeval.Tpo" -c -o sws-timeval.obj `if test -f '$(top_srcdir)/lib/timeval.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/timeval.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/timeval.c'; fi`; \
-	then mv -f "$(DEPDIR)/sws-timeval.Tpo" "$(DEPDIR)/sws-timeval.Po"; else rm -f "$(DEPDIR)/sws-timeval.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/timeval.c' object='sws-timeval.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sws_CFLAGS) $(CFLAGS) -c -o sws-timeval.obj `if test -f '$(top_srcdir)/lib/timeval.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/timeval.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/timeval.c'; fi`
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sws_CFLAGS) $(CFLAGS) -MT sws-timeval.obj -MD -MP -MF "$(DEPDIR)/sws-timeval.Tpo" -c -o sws-timeval.obj `if test -f '$(top_srcdir)/lib/timeval.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/timeval.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/timeval.c'; fi`; \
+#	then mv -f "$(DEPDIR)/sws-timeval.Tpo" "$(DEPDIR)/sws-timeval.Po"; else rm -f "$(DEPDIR)/sws-timeval.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/timeval.c' object='sws-timeval.obj' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sws_CFLAGS) $(CFLAGS) -c -o sws-timeval.obj `if test -f '$(top_srcdir)/lib/timeval.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/timeval.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/timeval.c'; fi`
 
 sws-warnless.o: $(top_srcdir)/lib/warnless.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sws_CFLAGS) $(CFLAGS) -MT sws-warnless.o -MD -MP -MF "$(DEPDIR)/sws-warnless.Tpo" -c -o sws-warnless.o `test -f '$(top_srcdir)/lib/warnless.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/warnless.c; \
-	then mv -f "$(DEPDIR)/sws-warnless.Tpo" "$(DEPDIR)/sws-warnless.Po"; else rm -f "$(DEPDIR)/sws-warnless.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/warnless.c' object='sws-warnless.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sws_CFLAGS) $(CFLAGS) -c -o sws-warnless.o `test -f '$(top_srcdir)/lib/warnless.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/warnless.c
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sws_CFLAGS) $(CFLAGS) -MT sws-warnless.o -MD -MP -MF "$(DEPDIR)/sws-warnless.Tpo" -c -o sws-warnless.o `test -f '$(top_srcdir)/lib/warnless.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/warnless.c; \
+#	then mv -f "$(DEPDIR)/sws-warnless.Tpo" "$(DEPDIR)/sws-warnless.Po"; else rm -f "$(DEPDIR)/sws-warnless.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/warnless.c' object='sws-warnless.o' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sws_CFLAGS) $(CFLAGS) -c -o sws-warnless.o `test -f '$(top_srcdir)/lib/warnless.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/warnless.c
 
 sws-warnless.obj: $(top_srcdir)/lib/warnless.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sws_CFLAGS) $(CFLAGS) -MT sws-warnless.obj -MD -MP -MF "$(DEPDIR)/sws-warnless.Tpo" -c -o sws-warnless.obj `if test -f '$(top_srcdir)/lib/warnless.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/warnless.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/warnless.c'; fi`; \
-	then mv -f "$(DEPDIR)/sws-warnless.Tpo" "$(DEPDIR)/sws-warnless.Po"; else rm -f "$(DEPDIR)/sws-warnless.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/warnless.c' object='sws-warnless.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sws_CFLAGS) $(CFLAGS) -c -o sws-warnless.obj `if test -f '$(top_srcdir)/lib/warnless.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/warnless.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/warnless.c'; fi`
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sws_CFLAGS) $(CFLAGS) -MT sws-warnless.obj -MD -MP -MF "$(DEPDIR)/sws-warnless.Tpo" -c -o sws-warnless.obj `if test -f '$(top_srcdir)/lib/warnless.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/warnless.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/warnless.c'; fi`; \
+#	then mv -f "$(DEPDIR)/sws-warnless.Tpo" "$(DEPDIR)/sws-warnless.Po"; else rm -f "$(DEPDIR)/sws-warnless.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/warnless.c' object='sws-warnless.obj' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sws_CFLAGS) $(CFLAGS) -c -o sws-warnless.obj `if test -f '$(top_srcdir)/lib/warnless.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/warnless.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/warnless.c'; fi`
 
 sws-getpart.o: getpart.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sws_CFLAGS) $(CFLAGS) -MT sws-getpart.o -MD -MP -MF "$(DEPDIR)/sws-getpart.Tpo" -c -o sws-getpart.o `test -f 'getpart.c' || echo '$(srcdir)/'`getpart.c; \
-	then mv -f "$(DEPDIR)/sws-getpart.Tpo" "$(DEPDIR)/sws-getpart.Po"; else rm -f "$(DEPDIR)/sws-getpart.Tpo"; exit 1; fi
-#	source='getpart.c' object='sws-getpart.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sws_CFLAGS) $(CFLAGS) -c -o sws-getpart.o `test -f 'getpart.c' || echo '$(srcdir)/'`getpart.c
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sws_CFLAGS) $(CFLAGS) -MT sws-getpart.o -MD -MP -MF "$(DEPDIR)/sws-getpart.Tpo" -c -o sws-getpart.o `test -f 'getpart.c' || echo '$(srcdir)/'`getpart.c; \
+#	then mv -f "$(DEPDIR)/sws-getpart.Tpo" "$(DEPDIR)/sws-getpart.Po"; else rm -f "$(DEPDIR)/sws-getpart.Tpo"; exit 1; fi
+#	source='getpart.c' object='sws-getpart.o' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sws_CFLAGS) $(CFLAGS) -c -o sws-getpart.o `test -f 'getpart.c' || echo '$(srcdir)/'`getpart.c
 
 sws-getpart.obj: getpart.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sws_CFLAGS) $(CFLAGS) -MT sws-getpart.obj -MD -MP -MF "$(DEPDIR)/sws-getpart.Tpo" -c -o sws-getpart.obj `if test -f 'getpart.c'; then $(CYGPATH_W) 'getpart.c'; else $(CYGPATH_W) '$(srcdir)/getpart.c'; fi`; \
-	then mv -f "$(DEPDIR)/sws-getpart.Tpo" "$(DEPDIR)/sws-getpart.Po"; else rm -f "$(DEPDIR)/sws-getpart.Tpo"; exit 1; fi
-#	source='getpart.c' object='sws-getpart.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sws_CFLAGS) $(CFLAGS) -c -o sws-getpart.obj `if test -f 'getpart.c'; then $(CYGPATH_W) 'getpart.c'; else $(CYGPATH_W) '$(srcdir)/getpart.c'; fi`
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sws_CFLAGS) $(CFLAGS) -MT sws-getpart.obj -MD -MP -MF "$(DEPDIR)/sws-getpart.Tpo" -c -o sws-getpart.obj `if test -f 'getpart.c'; then $(CYGPATH_W) 'getpart.c'; else $(CYGPATH_W) '$(srcdir)/getpart.c'; fi`; \
+#	then mv -f "$(DEPDIR)/sws-getpart.Tpo" "$(DEPDIR)/sws-getpart.Po"; else rm -f "$(DEPDIR)/sws-getpart.Tpo"; exit 1; fi
+#	source='getpart.c' object='sws-getpart.obj' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sws_CFLAGS) $(CFLAGS) -c -o sws-getpart.obj `if test -f 'getpart.c'; then $(CYGPATH_W) 'getpart.c'; else $(CYGPATH_W) '$(srcdir)/getpart.c'; fi`
 
 sws-base64.o: $(top_srcdir)/lib/base64.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sws_CFLAGS) $(CFLAGS) -MT sws-base64.o -MD -MP -MF "$(DEPDIR)/sws-base64.Tpo" -c -o sws-base64.o `test -f '$(top_srcdir)/lib/base64.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/base64.c; \
-	then mv -f "$(DEPDIR)/sws-base64.Tpo" "$(DEPDIR)/sws-base64.Po"; else rm -f "$(DEPDIR)/sws-base64.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/base64.c' object='sws-base64.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sws_CFLAGS) $(CFLAGS) -c -o sws-base64.o `test -f '$(top_srcdir)/lib/base64.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/base64.c
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sws_CFLAGS) $(CFLAGS) -MT sws-base64.o -MD -MP -MF "$(DEPDIR)/sws-base64.Tpo" -c -o sws-base64.o `test -f '$(top_srcdir)/lib/base64.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/base64.c; \
+#	then mv -f "$(DEPDIR)/sws-base64.Tpo" "$(DEPDIR)/sws-base64.Po"; else rm -f "$(DEPDIR)/sws-base64.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/base64.c' object='sws-base64.o' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sws_CFLAGS) $(CFLAGS) -c -o sws-base64.o `test -f '$(top_srcdir)/lib/base64.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/base64.c
 
 sws-base64.obj: $(top_srcdir)/lib/base64.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sws_CFLAGS) $(CFLAGS) -MT sws-base64.obj -MD -MP -MF "$(DEPDIR)/sws-base64.Tpo" -c -o sws-base64.obj `if test -f '$(top_srcdir)/lib/base64.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/base64.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/base64.c'; fi`; \
-	then mv -f "$(DEPDIR)/sws-base64.Tpo" "$(DEPDIR)/sws-base64.Po"; else rm -f "$(DEPDIR)/sws-base64.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/base64.c' object='sws-base64.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sws_CFLAGS) $(CFLAGS) -c -o sws-base64.obj `if test -f '$(top_srcdir)/lib/base64.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/base64.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/base64.c'; fi`
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sws_CFLAGS) $(CFLAGS) -MT sws-base64.obj -MD -MP -MF "$(DEPDIR)/sws-base64.Tpo" -c -o sws-base64.obj `if test -f '$(top_srcdir)/lib/base64.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/base64.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/base64.c'; fi`; \
+#	then mv -f "$(DEPDIR)/sws-base64.Tpo" "$(DEPDIR)/sws-base64.Po"; else rm -f "$(DEPDIR)/sws-base64.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/base64.c' object='sws-base64.obj' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sws_CFLAGS) $(CFLAGS) -c -o sws-base64.obj `if test -f '$(top_srcdir)/lib/base64.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/base64.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/base64.c'; fi`
 
 sws-memdebug.o: $(top_srcdir)/lib/memdebug.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sws_CFLAGS) $(CFLAGS) -MT sws-memdebug.o -MD -MP -MF "$(DEPDIR)/sws-memdebug.Tpo" -c -o sws-memdebug.o `test -f '$(top_srcdir)/lib/memdebug.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/memdebug.c; \
-	then mv -f "$(DEPDIR)/sws-memdebug.Tpo" "$(DEPDIR)/sws-memdebug.Po"; else rm -f "$(DEPDIR)/sws-memdebug.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/memdebug.c' object='sws-memdebug.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sws_CFLAGS) $(CFLAGS) -c -o sws-memdebug.o `test -f '$(top_srcdir)/lib/memdebug.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/memdebug.c
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sws_CFLAGS) $(CFLAGS) -MT sws-memdebug.o -MD -MP -MF "$(DEPDIR)/sws-memdebug.Tpo" -c -o sws-memdebug.o `test -f '$(top_srcdir)/lib/memdebug.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/memdebug.c; \
+#	then mv -f "$(DEPDIR)/sws-memdebug.Tpo" "$(DEPDIR)/sws-memdebug.Po"; else rm -f "$(DEPDIR)/sws-memdebug.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/memdebug.c' object='sws-memdebug.o' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sws_CFLAGS) $(CFLAGS) -c -o sws-memdebug.o `test -f '$(top_srcdir)/lib/memdebug.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/memdebug.c
 
 sws-memdebug.obj: $(top_srcdir)/lib/memdebug.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sws_CFLAGS) $(CFLAGS) -MT sws-memdebug.obj -MD -MP -MF "$(DEPDIR)/sws-memdebug.Tpo" -c -o sws-memdebug.obj `if test -f '$(top_srcdir)/lib/memdebug.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/memdebug.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/memdebug.c'; fi`; \
-	then mv -f "$(DEPDIR)/sws-memdebug.Tpo" "$(DEPDIR)/sws-memdebug.Po"; else rm -f "$(DEPDIR)/sws-memdebug.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/memdebug.c' object='sws-memdebug.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sws_CFLAGS) $(CFLAGS) -c -o sws-memdebug.obj `if test -f '$(top_srcdir)/lib/memdebug.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/memdebug.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/memdebug.c'; fi`
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sws_CFLAGS) $(CFLAGS) -MT sws-memdebug.obj -MD -MP -MF "$(DEPDIR)/sws-memdebug.Tpo" -c -o sws-memdebug.obj `if test -f '$(top_srcdir)/lib/memdebug.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/memdebug.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/memdebug.c'; fi`; \
+#	then mv -f "$(DEPDIR)/sws-memdebug.Tpo" "$(DEPDIR)/sws-memdebug.Po"; else rm -f "$(DEPDIR)/sws-memdebug.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/memdebug.c' object='sws-memdebug.obj' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sws_CFLAGS) $(CFLAGS) -c -o sws-memdebug.obj `if test -f '$(top_srcdir)/lib/memdebug.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/memdebug.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/memdebug.c'; fi`
 
 sws-util.o: util.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sws_CFLAGS) $(CFLAGS) -MT sws-util.o -MD -MP -MF "$(DEPDIR)/sws-util.Tpo" -c -o sws-util.o `test -f 'util.c' || echo '$(srcdir)/'`util.c; \
-	then mv -f "$(DEPDIR)/sws-util.Tpo" "$(DEPDIR)/sws-util.Po"; else rm -f "$(DEPDIR)/sws-util.Tpo"; exit 1; fi
-#	source='util.c' object='sws-util.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sws_CFLAGS) $(CFLAGS) -c -o sws-util.o `test -f 'util.c' || echo '$(srcdir)/'`util.c
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sws_CFLAGS) $(CFLAGS) -MT sws-util.o -MD -MP -MF "$(DEPDIR)/sws-util.Tpo" -c -o sws-util.o `test -f 'util.c' || echo '$(srcdir)/'`util.c; \
+#	then mv -f "$(DEPDIR)/sws-util.Tpo" "$(DEPDIR)/sws-util.Po"; else rm -f "$(DEPDIR)/sws-util.Tpo"; exit 1; fi
+#	source='util.c' object='sws-util.o' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sws_CFLAGS) $(CFLAGS) -c -o sws-util.o `test -f 'util.c' || echo '$(srcdir)/'`util.c
 
 sws-util.obj: util.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sws_CFLAGS) $(CFLAGS) -MT sws-util.obj -MD -MP -MF "$(DEPDIR)/sws-util.Tpo" -c -o sws-util.obj `if test -f 'util.c'; then $(CYGPATH_W) 'util.c'; else $(CYGPATH_W) '$(srcdir)/util.c'; fi`; \
-	then mv -f "$(DEPDIR)/sws-util.Tpo" "$(DEPDIR)/sws-util.Po"; else rm -f "$(DEPDIR)/sws-util.Tpo"; exit 1; fi
-#	source='util.c' object='sws-util.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sws_CFLAGS) $(CFLAGS) -c -o sws-util.obj `if test -f 'util.c'; then $(CYGPATH_W) 'util.c'; else $(CYGPATH_W) '$(srcdir)/util.c'; fi`
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sws_CFLAGS) $(CFLAGS) -MT sws-util.obj -MD -MP -MF "$(DEPDIR)/sws-util.Tpo" -c -o sws-util.obj `if test -f 'util.c'; then $(CYGPATH_W) 'util.c'; else $(CYGPATH_W) '$(srcdir)/util.c'; fi`; \
+#	then mv -f "$(DEPDIR)/sws-util.Tpo" "$(DEPDIR)/sws-util.Po"; else rm -f "$(DEPDIR)/sws-util.Tpo"; exit 1; fi
+#	source='util.c' object='sws-util.obj' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sws_CFLAGS) $(CFLAGS) -c -o sws-util.obj `if test -f 'util.c'; then $(CYGPATH_W) 'util.c'; else $(CYGPATH_W) '$(srcdir)/util.c'; fi`
 
 sws-sws.o: sws.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sws_CFLAGS) $(CFLAGS) -MT sws-sws.o -MD -MP -MF "$(DEPDIR)/sws-sws.Tpo" -c -o sws-sws.o `test -f 'sws.c' || echo '$(srcdir)/'`sws.c; \
-	then mv -f "$(DEPDIR)/sws-sws.Tpo" "$(DEPDIR)/sws-sws.Po"; else rm -f "$(DEPDIR)/sws-sws.Tpo"; exit 1; fi
-#	source='sws.c' object='sws-sws.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sws_CFLAGS) $(CFLAGS) -c -o sws-sws.o `test -f 'sws.c' || echo '$(srcdir)/'`sws.c
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sws_CFLAGS) $(CFLAGS) -MT sws-sws.o -MD -MP -MF "$(DEPDIR)/sws-sws.Tpo" -c -o sws-sws.o `test -f 'sws.c' || echo '$(srcdir)/'`sws.c; \
+#	then mv -f "$(DEPDIR)/sws-sws.Tpo" "$(DEPDIR)/sws-sws.Po"; else rm -f "$(DEPDIR)/sws-sws.Tpo"; exit 1; fi
+#	source='sws.c' object='sws-sws.o' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sws_CFLAGS) $(CFLAGS) -c -o sws-sws.o `test -f 'sws.c' || echo '$(srcdir)/'`sws.c
 
 sws-sws.obj: sws.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sws_CFLAGS) $(CFLAGS) -MT sws-sws.obj -MD -MP -MF "$(DEPDIR)/sws-sws.Tpo" -c -o sws-sws.obj `if test -f 'sws.c'; then $(CYGPATH_W) 'sws.c'; else $(CYGPATH_W) '$(srcdir)/sws.c'; fi`; \
-	then mv -f "$(DEPDIR)/sws-sws.Tpo" "$(DEPDIR)/sws-sws.Po"; else rm -f "$(DEPDIR)/sws-sws.Tpo"; exit 1; fi
-#	source='sws.c' object='sws-sws.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sws_CFLAGS) $(CFLAGS) -c -o sws-sws.obj `if test -f 'sws.c'; then $(CYGPATH_W) 'sws.c'; else $(CYGPATH_W) '$(srcdir)/sws.c'; fi`
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sws_CFLAGS) $(CFLAGS) -MT sws-sws.obj -MD -MP -MF "$(DEPDIR)/sws-sws.Tpo" -c -o sws-sws.obj `if test -f 'sws.c'; then $(CYGPATH_W) 'sws.c'; else $(CYGPATH_W) '$(srcdir)/sws.c'; fi`; \
+#	then mv -f "$(DEPDIR)/sws-sws.Tpo" "$(DEPDIR)/sws-sws.Po"; else rm -f "$(DEPDIR)/sws-sws.Tpo"; exit 1; fi
+#	source='sws.c' object='sws-sws.obj' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sws_CFLAGS) $(CFLAGS) -c -o sws-sws.obj `if test -f 'sws.c'; then $(CYGPATH_W) 'sws.c'; else $(CYGPATH_W) '$(srcdir)/sws.c'; fi`
 
 tftpd-mprintf.o: $(top_srcdir)/lib/mprintf.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tftpd_CFLAGS) $(CFLAGS) -MT tftpd-mprintf.o -MD -MP -MF "$(DEPDIR)/tftpd-mprintf.Tpo" -c -o tftpd-mprintf.o `test -f '$(top_srcdir)/lib/mprintf.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/mprintf.c; \
-	then mv -f "$(DEPDIR)/tftpd-mprintf.Tpo" "$(DEPDIR)/tftpd-mprintf.Po"; else rm -f "$(DEPDIR)/tftpd-mprintf.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/mprintf.c' object='tftpd-mprintf.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tftpd_CFLAGS) $(CFLAGS) -c -o tftpd-mprintf.o `test -f '$(top_srcdir)/lib/mprintf.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/mprintf.c
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tftpd_CFLAGS) $(CFLAGS) -MT tftpd-mprintf.o -MD -MP -MF "$(DEPDIR)/tftpd-mprintf.Tpo" -c -o tftpd-mprintf.o `test -f '$(top_srcdir)/lib/mprintf.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/mprintf.c; \
+#	then mv -f "$(DEPDIR)/tftpd-mprintf.Tpo" "$(DEPDIR)/tftpd-mprintf.Po"; else rm -f "$(DEPDIR)/tftpd-mprintf.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/mprintf.c' object='tftpd-mprintf.o' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tftpd_CFLAGS) $(CFLAGS) -c -o tftpd-mprintf.o `test -f '$(top_srcdir)/lib/mprintf.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/mprintf.c
 
 tftpd-mprintf.obj: $(top_srcdir)/lib/mprintf.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tftpd_CFLAGS) $(CFLAGS) -MT tftpd-mprintf.obj -MD -MP -MF "$(DEPDIR)/tftpd-mprintf.Tpo" -c -o tftpd-mprintf.obj `if test -f '$(top_srcdir)/lib/mprintf.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/mprintf.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/mprintf.c'; fi`; \
-	then mv -f "$(DEPDIR)/tftpd-mprintf.Tpo" "$(DEPDIR)/tftpd-mprintf.Po"; else rm -f "$(DEPDIR)/tftpd-mprintf.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/mprintf.c' object='tftpd-mprintf.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tftpd_CFLAGS) $(CFLAGS) -c -o tftpd-mprintf.obj `if test -f '$(top_srcdir)/lib/mprintf.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/mprintf.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/mprintf.c'; fi`
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tftpd_CFLAGS) $(CFLAGS) -MT tftpd-mprintf.obj -MD -MP -MF "$(DEPDIR)/tftpd-mprintf.Tpo" -c -o tftpd-mprintf.obj `if test -f '$(top_srcdir)/lib/mprintf.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/mprintf.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/mprintf.c'; fi`; \
+#	then mv -f "$(DEPDIR)/tftpd-mprintf.Tpo" "$(DEPDIR)/tftpd-mprintf.Po"; else rm -f "$(DEPDIR)/tftpd-mprintf.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/mprintf.c' object='tftpd-mprintf.obj' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tftpd_CFLAGS) $(CFLAGS) -c -o tftpd-mprintf.obj `if test -f '$(top_srcdir)/lib/mprintf.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/mprintf.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/mprintf.c'; fi`
 
 tftpd-nonblock.o: $(top_srcdir)/lib/nonblock.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tftpd_CFLAGS) $(CFLAGS) -MT tftpd-nonblock.o -MD -MP -MF "$(DEPDIR)/tftpd-nonblock.Tpo" -c -o tftpd-nonblock.o `test -f '$(top_srcdir)/lib/nonblock.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/nonblock.c; \
-	then mv -f "$(DEPDIR)/tftpd-nonblock.Tpo" "$(DEPDIR)/tftpd-nonblock.Po"; else rm -f "$(DEPDIR)/tftpd-nonblock.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/nonblock.c' object='tftpd-nonblock.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tftpd_CFLAGS) $(CFLAGS) -c -o tftpd-nonblock.o `test -f '$(top_srcdir)/lib/nonblock.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/nonblock.c
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tftpd_CFLAGS) $(CFLAGS) -MT tftpd-nonblock.o -MD -MP -MF "$(DEPDIR)/tftpd-nonblock.Tpo" -c -o tftpd-nonblock.o `test -f '$(top_srcdir)/lib/nonblock.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/nonblock.c; \
+#	then mv -f "$(DEPDIR)/tftpd-nonblock.Tpo" "$(DEPDIR)/tftpd-nonblock.Po"; else rm -f "$(DEPDIR)/tftpd-nonblock.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/nonblock.c' object='tftpd-nonblock.o' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tftpd_CFLAGS) $(CFLAGS) -c -o tftpd-nonblock.o `test -f '$(top_srcdir)/lib/nonblock.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/nonblock.c
 
 tftpd-nonblock.obj: $(top_srcdir)/lib/nonblock.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tftpd_CFLAGS) $(CFLAGS) -MT tftpd-nonblock.obj -MD -MP -MF "$(DEPDIR)/tftpd-nonblock.Tpo" -c -o tftpd-nonblock.obj `if test -f '$(top_srcdir)/lib/nonblock.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/nonblock.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/nonblock.c'; fi`; \
-	then mv -f "$(DEPDIR)/tftpd-nonblock.Tpo" "$(DEPDIR)/tftpd-nonblock.Po"; else rm -f "$(DEPDIR)/tftpd-nonblock.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/nonblock.c' object='tftpd-nonblock.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tftpd_CFLAGS) $(CFLAGS) -c -o tftpd-nonblock.obj `if test -f '$(top_srcdir)/lib/nonblock.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/nonblock.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/nonblock.c'; fi`
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tftpd_CFLAGS) $(CFLAGS) -MT tftpd-nonblock.obj -MD -MP -MF "$(DEPDIR)/tftpd-nonblock.Tpo" -c -o tftpd-nonblock.obj `if test -f '$(top_srcdir)/lib/nonblock.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/nonblock.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/nonblock.c'; fi`; \
+#	then mv -f "$(DEPDIR)/tftpd-nonblock.Tpo" "$(DEPDIR)/tftpd-nonblock.Po"; else rm -f "$(DEPDIR)/tftpd-nonblock.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/nonblock.c' object='tftpd-nonblock.obj' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tftpd_CFLAGS) $(CFLAGS) -c -o tftpd-nonblock.obj `if test -f '$(top_srcdir)/lib/nonblock.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/nonblock.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/nonblock.c'; fi`
 
 tftpd-strequal.o: $(top_srcdir)/lib/strequal.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tftpd_CFLAGS) $(CFLAGS) -MT tftpd-strequal.o -MD -MP -MF "$(DEPDIR)/tftpd-strequal.Tpo" -c -o tftpd-strequal.o `test -f '$(top_srcdir)/lib/strequal.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/strequal.c; \
-	then mv -f "$(DEPDIR)/tftpd-strequal.Tpo" "$(DEPDIR)/tftpd-strequal.Po"; else rm -f "$(DEPDIR)/tftpd-strequal.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/strequal.c' object='tftpd-strequal.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tftpd_CFLAGS) $(CFLAGS) -c -o tftpd-strequal.o `test -f '$(top_srcdir)/lib/strequal.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/strequal.c
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tftpd_CFLAGS) $(CFLAGS) -MT tftpd-strequal.o -MD -MP -MF "$(DEPDIR)/tftpd-strequal.Tpo" -c -o tftpd-strequal.o `test -f '$(top_srcdir)/lib/strequal.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/strequal.c; \
+#	then mv -f "$(DEPDIR)/tftpd-strequal.Tpo" "$(DEPDIR)/tftpd-strequal.Po"; else rm -f "$(DEPDIR)/tftpd-strequal.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/strequal.c' object='tftpd-strequal.o' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tftpd_CFLAGS) $(CFLAGS) -c -o tftpd-strequal.o `test -f '$(top_srcdir)/lib/strequal.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/strequal.c
 
 tftpd-strequal.obj: $(top_srcdir)/lib/strequal.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tftpd_CFLAGS) $(CFLAGS) -MT tftpd-strequal.obj -MD -MP -MF "$(DEPDIR)/tftpd-strequal.Tpo" -c -o tftpd-strequal.obj `if test -f '$(top_srcdir)/lib/strequal.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/strequal.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/strequal.c'; fi`; \
-	then mv -f "$(DEPDIR)/tftpd-strequal.Tpo" "$(DEPDIR)/tftpd-strequal.Po"; else rm -f "$(DEPDIR)/tftpd-strequal.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/strequal.c' object='tftpd-strequal.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tftpd_CFLAGS) $(CFLAGS) -c -o tftpd-strequal.obj `if test -f '$(top_srcdir)/lib/strequal.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/strequal.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/strequal.c'; fi`
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tftpd_CFLAGS) $(CFLAGS) -MT tftpd-strequal.obj -MD -MP -MF "$(DEPDIR)/tftpd-strequal.Tpo" -c -o tftpd-strequal.obj `if test -f '$(top_srcdir)/lib/strequal.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/strequal.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/strequal.c'; fi`; \
+#	then mv -f "$(DEPDIR)/tftpd-strequal.Tpo" "$(DEPDIR)/tftpd-strequal.Po"; else rm -f "$(DEPDIR)/tftpd-strequal.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/strequal.c' object='tftpd-strequal.obj' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tftpd_CFLAGS) $(CFLAGS) -c -o tftpd-strequal.obj `if test -f '$(top_srcdir)/lib/strequal.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/strequal.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/strequal.c'; fi`
 
 tftpd-strtoofft.o: $(top_srcdir)/lib/strtoofft.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tftpd_CFLAGS) $(CFLAGS) -MT tftpd-strtoofft.o -MD -MP -MF "$(DEPDIR)/tftpd-strtoofft.Tpo" -c -o tftpd-strtoofft.o `test -f '$(top_srcdir)/lib/strtoofft.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/strtoofft.c; \
-	then mv -f "$(DEPDIR)/tftpd-strtoofft.Tpo" "$(DEPDIR)/tftpd-strtoofft.Po"; else rm -f "$(DEPDIR)/tftpd-strtoofft.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/strtoofft.c' object='tftpd-strtoofft.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tftpd_CFLAGS) $(CFLAGS) -c -o tftpd-strtoofft.o `test -f '$(top_srcdir)/lib/strtoofft.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/strtoofft.c
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tftpd_CFLAGS) $(CFLAGS) -MT tftpd-strtoofft.o -MD -MP -MF "$(DEPDIR)/tftpd-strtoofft.Tpo" -c -o tftpd-strtoofft.o `test -f '$(top_srcdir)/lib/strtoofft.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/strtoofft.c; \
+#	then mv -f "$(DEPDIR)/tftpd-strtoofft.Tpo" "$(DEPDIR)/tftpd-strtoofft.Po"; else rm -f "$(DEPDIR)/tftpd-strtoofft.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/strtoofft.c' object='tftpd-strtoofft.o' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tftpd_CFLAGS) $(CFLAGS) -c -o tftpd-strtoofft.o `test -f '$(top_srcdir)/lib/strtoofft.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/strtoofft.c
 
 tftpd-strtoofft.obj: $(top_srcdir)/lib/strtoofft.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tftpd_CFLAGS) $(CFLAGS) -MT tftpd-strtoofft.obj -MD -MP -MF "$(DEPDIR)/tftpd-strtoofft.Tpo" -c -o tftpd-strtoofft.obj `if test -f '$(top_srcdir)/lib/strtoofft.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/strtoofft.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/strtoofft.c'; fi`; \
-	then mv -f "$(DEPDIR)/tftpd-strtoofft.Tpo" "$(DEPDIR)/tftpd-strtoofft.Po"; else rm -f "$(DEPDIR)/tftpd-strtoofft.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/strtoofft.c' object='tftpd-strtoofft.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tftpd_CFLAGS) $(CFLAGS) -c -o tftpd-strtoofft.obj `if test -f '$(top_srcdir)/lib/strtoofft.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/strtoofft.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/strtoofft.c'; fi`
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tftpd_CFLAGS) $(CFLAGS) -MT tftpd-strtoofft.obj -MD -MP -MF "$(DEPDIR)/tftpd-strtoofft.Tpo" -c -o tftpd-strtoofft.obj `if test -f '$(top_srcdir)/lib/strtoofft.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/strtoofft.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/strtoofft.c'; fi`; \
+#	then mv -f "$(DEPDIR)/tftpd-strtoofft.Tpo" "$(DEPDIR)/tftpd-strtoofft.Po"; else rm -f "$(DEPDIR)/tftpd-strtoofft.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/strtoofft.c' object='tftpd-strtoofft.obj' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tftpd_CFLAGS) $(CFLAGS) -c -o tftpd-strtoofft.obj `if test -f '$(top_srcdir)/lib/strtoofft.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/strtoofft.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/strtoofft.c'; fi`
 
 tftpd-timeval.o: $(top_srcdir)/lib/timeval.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tftpd_CFLAGS) $(CFLAGS) -MT tftpd-timeval.o -MD -MP -MF "$(DEPDIR)/tftpd-timeval.Tpo" -c -o tftpd-timeval.o `test -f '$(top_srcdir)/lib/timeval.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/timeval.c; \
-	then mv -f "$(DEPDIR)/tftpd-timeval.Tpo" "$(DEPDIR)/tftpd-timeval.Po"; else rm -f "$(DEPDIR)/tftpd-timeval.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/timeval.c' object='tftpd-timeval.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tftpd_CFLAGS) $(CFLAGS) -c -o tftpd-timeval.o `test -f '$(top_srcdir)/lib/timeval.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/timeval.c
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tftpd_CFLAGS) $(CFLAGS) -MT tftpd-timeval.o -MD -MP -MF "$(DEPDIR)/tftpd-timeval.Tpo" -c -o tftpd-timeval.o `test -f '$(top_srcdir)/lib/timeval.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/timeval.c; \
+#	then mv -f "$(DEPDIR)/tftpd-timeval.Tpo" "$(DEPDIR)/tftpd-timeval.Po"; else rm -f "$(DEPDIR)/tftpd-timeval.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/timeval.c' object='tftpd-timeval.o' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tftpd_CFLAGS) $(CFLAGS) -c -o tftpd-timeval.o `test -f '$(top_srcdir)/lib/timeval.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/timeval.c
 
 tftpd-timeval.obj: $(top_srcdir)/lib/timeval.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tftpd_CFLAGS) $(CFLAGS) -MT tftpd-timeval.obj -MD -MP -MF "$(DEPDIR)/tftpd-timeval.Tpo" -c -o tftpd-timeval.obj `if test -f '$(top_srcdir)/lib/timeval.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/timeval.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/timeval.c'; fi`; \
-	then mv -f "$(DEPDIR)/tftpd-timeval.Tpo" "$(DEPDIR)/tftpd-timeval.Po"; else rm -f "$(DEPDIR)/tftpd-timeval.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/timeval.c' object='tftpd-timeval.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tftpd_CFLAGS) $(CFLAGS) -c -o tftpd-timeval.obj `if test -f '$(top_srcdir)/lib/timeval.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/timeval.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/timeval.c'; fi`
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tftpd_CFLAGS) $(CFLAGS) -MT tftpd-timeval.obj -MD -MP -MF "$(DEPDIR)/tftpd-timeval.Tpo" -c -o tftpd-timeval.obj `if test -f '$(top_srcdir)/lib/timeval.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/timeval.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/timeval.c'; fi`; \
+#	then mv -f "$(DEPDIR)/tftpd-timeval.Tpo" "$(DEPDIR)/tftpd-timeval.Po"; else rm -f "$(DEPDIR)/tftpd-timeval.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/timeval.c' object='tftpd-timeval.obj' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tftpd_CFLAGS) $(CFLAGS) -c -o tftpd-timeval.obj `if test -f '$(top_srcdir)/lib/timeval.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/timeval.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/timeval.c'; fi`
 
 tftpd-warnless.o: $(top_srcdir)/lib/warnless.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tftpd_CFLAGS) $(CFLAGS) -MT tftpd-warnless.o -MD -MP -MF "$(DEPDIR)/tftpd-warnless.Tpo" -c -o tftpd-warnless.o `test -f '$(top_srcdir)/lib/warnless.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/warnless.c; \
-	then mv -f "$(DEPDIR)/tftpd-warnless.Tpo" "$(DEPDIR)/tftpd-warnless.Po"; else rm -f "$(DEPDIR)/tftpd-warnless.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/warnless.c' object='tftpd-warnless.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tftpd_CFLAGS) $(CFLAGS) -c -o tftpd-warnless.o `test -f '$(top_srcdir)/lib/warnless.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/warnless.c
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tftpd_CFLAGS) $(CFLAGS) -MT tftpd-warnless.o -MD -MP -MF "$(DEPDIR)/tftpd-warnless.Tpo" -c -o tftpd-warnless.o `test -f '$(top_srcdir)/lib/warnless.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/warnless.c; \
+#	then mv -f "$(DEPDIR)/tftpd-warnless.Tpo" "$(DEPDIR)/tftpd-warnless.Po"; else rm -f "$(DEPDIR)/tftpd-warnless.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/warnless.c' object='tftpd-warnless.o' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tftpd_CFLAGS) $(CFLAGS) -c -o tftpd-warnless.o `test -f '$(top_srcdir)/lib/warnless.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/warnless.c
 
 tftpd-warnless.obj: $(top_srcdir)/lib/warnless.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tftpd_CFLAGS) $(CFLAGS) -MT tftpd-warnless.obj -MD -MP -MF "$(DEPDIR)/tftpd-warnless.Tpo" -c -o tftpd-warnless.obj `if test -f '$(top_srcdir)/lib/warnless.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/warnless.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/warnless.c'; fi`; \
-	then mv -f "$(DEPDIR)/tftpd-warnless.Tpo" "$(DEPDIR)/tftpd-warnless.Po"; else rm -f "$(DEPDIR)/tftpd-warnless.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/warnless.c' object='tftpd-warnless.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tftpd_CFLAGS) $(CFLAGS) -c -o tftpd-warnless.obj `if test -f '$(top_srcdir)/lib/warnless.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/warnless.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/warnless.c'; fi`
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tftpd_CFLAGS) $(CFLAGS) -MT tftpd-warnless.obj -MD -MP -MF "$(DEPDIR)/tftpd-warnless.Tpo" -c -o tftpd-warnless.obj `if test -f '$(top_srcdir)/lib/warnless.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/warnless.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/warnless.c'; fi`; \
+#	then mv -f "$(DEPDIR)/tftpd-warnless.Tpo" "$(DEPDIR)/tftpd-warnless.Po"; else rm -f "$(DEPDIR)/tftpd-warnless.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/warnless.c' object='tftpd-warnless.obj' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tftpd_CFLAGS) $(CFLAGS) -c -o tftpd-warnless.obj `if test -f '$(top_srcdir)/lib/warnless.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/warnless.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/warnless.c'; fi`
 
 tftpd-getpart.o: getpart.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tftpd_CFLAGS) $(CFLAGS) -MT tftpd-getpart.o -MD -MP -MF "$(DEPDIR)/tftpd-getpart.Tpo" -c -o tftpd-getpart.o `test -f 'getpart.c' || echo '$(srcdir)/'`getpart.c; \
-	then mv -f "$(DEPDIR)/tftpd-getpart.Tpo" "$(DEPDIR)/tftpd-getpart.Po"; else rm -f "$(DEPDIR)/tftpd-getpart.Tpo"; exit 1; fi
-#	source='getpart.c' object='tftpd-getpart.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tftpd_CFLAGS) $(CFLAGS) -c -o tftpd-getpart.o `test -f 'getpart.c' || echo '$(srcdir)/'`getpart.c
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tftpd_CFLAGS) $(CFLAGS) -MT tftpd-getpart.o -MD -MP -MF "$(DEPDIR)/tftpd-getpart.Tpo" -c -o tftpd-getpart.o `test -f 'getpart.c' || echo '$(srcdir)/'`getpart.c; \
+#	then mv -f "$(DEPDIR)/tftpd-getpart.Tpo" "$(DEPDIR)/tftpd-getpart.Po"; else rm -f "$(DEPDIR)/tftpd-getpart.Tpo"; exit 1; fi
+#	source='getpart.c' object='tftpd-getpart.o' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tftpd_CFLAGS) $(CFLAGS) -c -o tftpd-getpart.o `test -f 'getpart.c' || echo '$(srcdir)/'`getpart.c
 
 tftpd-getpart.obj: getpart.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tftpd_CFLAGS) $(CFLAGS) -MT tftpd-getpart.obj -MD -MP -MF "$(DEPDIR)/tftpd-getpart.Tpo" -c -o tftpd-getpart.obj `if test -f 'getpart.c'; then $(CYGPATH_W) 'getpart.c'; else $(CYGPATH_W) '$(srcdir)/getpart.c'; fi`; \
-	then mv -f "$(DEPDIR)/tftpd-getpart.Tpo" "$(DEPDIR)/tftpd-getpart.Po"; else rm -f "$(DEPDIR)/tftpd-getpart.Tpo"; exit 1; fi
-#	source='getpart.c' object='tftpd-getpart.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tftpd_CFLAGS) $(CFLAGS) -c -o tftpd-getpart.obj `if test -f 'getpart.c'; then $(CYGPATH_W) 'getpart.c'; else $(CYGPATH_W) '$(srcdir)/getpart.c'; fi`
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tftpd_CFLAGS) $(CFLAGS) -MT tftpd-getpart.obj -MD -MP -MF "$(DEPDIR)/tftpd-getpart.Tpo" -c -o tftpd-getpart.obj `if test -f 'getpart.c'; then $(CYGPATH_W) 'getpart.c'; else $(CYGPATH_W) '$(srcdir)/getpart.c'; fi`; \
+#	then mv -f "$(DEPDIR)/tftpd-getpart.Tpo" "$(DEPDIR)/tftpd-getpart.Po"; else rm -f "$(DEPDIR)/tftpd-getpart.Tpo"; exit 1; fi
+#	source='getpart.c' object='tftpd-getpart.obj' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tftpd_CFLAGS) $(CFLAGS) -c -o tftpd-getpart.obj `if test -f 'getpart.c'; then $(CYGPATH_W) 'getpart.c'; else $(CYGPATH_W) '$(srcdir)/getpart.c'; fi`
 
 tftpd-base64.o: $(top_srcdir)/lib/base64.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tftpd_CFLAGS) $(CFLAGS) -MT tftpd-base64.o -MD -MP -MF "$(DEPDIR)/tftpd-base64.Tpo" -c -o tftpd-base64.o `test -f '$(top_srcdir)/lib/base64.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/base64.c; \
-	then mv -f "$(DEPDIR)/tftpd-base64.Tpo" "$(DEPDIR)/tftpd-base64.Po"; else rm -f "$(DEPDIR)/tftpd-base64.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/base64.c' object='tftpd-base64.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tftpd_CFLAGS) $(CFLAGS) -c -o tftpd-base64.o `test -f '$(top_srcdir)/lib/base64.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/base64.c
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tftpd_CFLAGS) $(CFLAGS) -MT tftpd-base64.o -MD -MP -MF "$(DEPDIR)/tftpd-base64.Tpo" -c -o tftpd-base64.o `test -f '$(top_srcdir)/lib/base64.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/base64.c; \
+#	then mv -f "$(DEPDIR)/tftpd-base64.Tpo" "$(DEPDIR)/tftpd-base64.Po"; else rm -f "$(DEPDIR)/tftpd-base64.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/base64.c' object='tftpd-base64.o' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tftpd_CFLAGS) $(CFLAGS) -c -o tftpd-base64.o `test -f '$(top_srcdir)/lib/base64.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/base64.c
 
 tftpd-base64.obj: $(top_srcdir)/lib/base64.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tftpd_CFLAGS) $(CFLAGS) -MT tftpd-base64.obj -MD -MP -MF "$(DEPDIR)/tftpd-base64.Tpo" -c -o tftpd-base64.obj `if test -f '$(top_srcdir)/lib/base64.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/base64.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/base64.c'; fi`; \
-	then mv -f "$(DEPDIR)/tftpd-base64.Tpo" "$(DEPDIR)/tftpd-base64.Po"; else rm -f "$(DEPDIR)/tftpd-base64.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/base64.c' object='tftpd-base64.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tftpd_CFLAGS) $(CFLAGS) -c -o tftpd-base64.obj `if test -f '$(top_srcdir)/lib/base64.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/base64.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/base64.c'; fi`
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tftpd_CFLAGS) $(CFLAGS) -MT tftpd-base64.obj -MD -MP -MF "$(DEPDIR)/tftpd-base64.Tpo" -c -o tftpd-base64.obj `if test -f '$(top_srcdir)/lib/base64.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/base64.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/base64.c'; fi`; \
+#	then mv -f "$(DEPDIR)/tftpd-base64.Tpo" "$(DEPDIR)/tftpd-base64.Po"; else rm -f "$(DEPDIR)/tftpd-base64.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/base64.c' object='tftpd-base64.obj' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tftpd_CFLAGS) $(CFLAGS) -c -o tftpd-base64.obj `if test -f '$(top_srcdir)/lib/base64.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/base64.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/base64.c'; fi`
 
 tftpd-memdebug.o: $(top_srcdir)/lib/memdebug.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tftpd_CFLAGS) $(CFLAGS) -MT tftpd-memdebug.o -MD -MP -MF "$(DEPDIR)/tftpd-memdebug.Tpo" -c -o tftpd-memdebug.o `test -f '$(top_srcdir)/lib/memdebug.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/memdebug.c; \
-	then mv -f "$(DEPDIR)/tftpd-memdebug.Tpo" "$(DEPDIR)/tftpd-memdebug.Po"; else rm -f "$(DEPDIR)/tftpd-memdebug.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/memdebug.c' object='tftpd-memdebug.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tftpd_CFLAGS) $(CFLAGS) -c -o tftpd-memdebug.o `test -f '$(top_srcdir)/lib/memdebug.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/memdebug.c
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tftpd_CFLAGS) $(CFLAGS) -MT tftpd-memdebug.o -MD -MP -MF "$(DEPDIR)/tftpd-memdebug.Tpo" -c -o tftpd-memdebug.o `test -f '$(top_srcdir)/lib/memdebug.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/memdebug.c; \
+#	then mv -f "$(DEPDIR)/tftpd-memdebug.Tpo" "$(DEPDIR)/tftpd-memdebug.Po"; else rm -f "$(DEPDIR)/tftpd-memdebug.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/memdebug.c' object='tftpd-memdebug.o' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tftpd_CFLAGS) $(CFLAGS) -c -o tftpd-memdebug.o `test -f '$(top_srcdir)/lib/memdebug.c' || echo '$(srcdir)/'`$(top_srcdir)/lib/memdebug.c
 
 tftpd-memdebug.obj: $(top_srcdir)/lib/memdebug.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tftpd_CFLAGS) $(CFLAGS) -MT tftpd-memdebug.obj -MD -MP -MF "$(DEPDIR)/tftpd-memdebug.Tpo" -c -o tftpd-memdebug.obj `if test -f '$(top_srcdir)/lib/memdebug.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/memdebug.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/memdebug.c'; fi`; \
-	then mv -f "$(DEPDIR)/tftpd-memdebug.Tpo" "$(DEPDIR)/tftpd-memdebug.Po"; else rm -f "$(DEPDIR)/tftpd-memdebug.Tpo"; exit 1; fi
-#	source='$(top_srcdir)/lib/memdebug.c' object='tftpd-memdebug.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tftpd_CFLAGS) $(CFLAGS) -c -o tftpd-memdebug.obj `if test -f '$(top_srcdir)/lib/memdebug.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/memdebug.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/memdebug.c'; fi`
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tftpd_CFLAGS) $(CFLAGS) -MT tftpd-memdebug.obj -MD -MP -MF "$(DEPDIR)/tftpd-memdebug.Tpo" -c -o tftpd-memdebug.obj `if test -f '$(top_srcdir)/lib/memdebug.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/memdebug.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/memdebug.c'; fi`; \
+#	then mv -f "$(DEPDIR)/tftpd-memdebug.Tpo" "$(DEPDIR)/tftpd-memdebug.Po"; else rm -f "$(DEPDIR)/tftpd-memdebug.Tpo"; exit 1; fi
+#	source='$(top_srcdir)/lib/memdebug.c' object='tftpd-memdebug.obj' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tftpd_CFLAGS) $(CFLAGS) -c -o tftpd-memdebug.obj `if test -f '$(top_srcdir)/lib/memdebug.c'; then $(CYGPATH_W) '$(top_srcdir)/lib/memdebug.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/lib/memdebug.c'; fi`
 
 tftpd-util.o: util.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tftpd_CFLAGS) $(CFLAGS) -MT tftpd-util.o -MD -MP -MF "$(DEPDIR)/tftpd-util.Tpo" -c -o tftpd-util.o `test -f 'util.c' || echo '$(srcdir)/'`util.c; \
-	then mv -f "$(DEPDIR)/tftpd-util.Tpo" "$(DEPDIR)/tftpd-util.Po"; else rm -f "$(DEPDIR)/tftpd-util.Tpo"; exit 1; fi
-#	source='util.c' object='tftpd-util.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tftpd_CFLAGS) $(CFLAGS) -c -o tftpd-util.o `test -f 'util.c' || echo '$(srcdir)/'`util.c
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tftpd_CFLAGS) $(CFLAGS) -MT tftpd-util.o -MD -MP -MF "$(DEPDIR)/tftpd-util.Tpo" -c -o tftpd-util.o `test -f 'util.c' || echo '$(srcdir)/'`util.c; \
+#	then mv -f "$(DEPDIR)/tftpd-util.Tpo" "$(DEPDIR)/tftpd-util.Po"; else rm -f "$(DEPDIR)/tftpd-util.Tpo"; exit 1; fi
+#	source='util.c' object='tftpd-util.o' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tftpd_CFLAGS) $(CFLAGS) -c -o tftpd-util.o `test -f 'util.c' || echo '$(srcdir)/'`util.c
 
 tftpd-util.obj: util.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tftpd_CFLAGS) $(CFLAGS) -MT tftpd-util.obj -MD -MP -MF "$(DEPDIR)/tftpd-util.Tpo" -c -o tftpd-util.obj `if test -f 'util.c'; then $(CYGPATH_W) 'util.c'; else $(CYGPATH_W) '$(srcdir)/util.c'; fi`; \
-	then mv -f "$(DEPDIR)/tftpd-util.Tpo" "$(DEPDIR)/tftpd-util.Po"; else rm -f "$(DEPDIR)/tftpd-util.Tpo"; exit 1; fi
-#	source='util.c' object='tftpd-util.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tftpd_CFLAGS) $(CFLAGS) -c -o tftpd-util.obj `if test -f 'util.c'; then $(CYGPATH_W) 'util.c'; else $(CYGPATH_W) '$(srcdir)/util.c'; fi`
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tftpd_CFLAGS) $(CFLAGS) -MT tftpd-util.obj -MD -MP -MF "$(DEPDIR)/tftpd-util.Tpo" -c -o tftpd-util.obj `if test -f 'util.c'; then $(CYGPATH_W) 'util.c'; else $(CYGPATH_W) '$(srcdir)/util.c'; fi`; \
+#	then mv -f "$(DEPDIR)/tftpd-util.Tpo" "$(DEPDIR)/tftpd-util.Po"; else rm -f "$(DEPDIR)/tftpd-util.Tpo"; exit 1; fi
+#	source='util.c' object='tftpd-util.obj' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tftpd_CFLAGS) $(CFLAGS) -c -o tftpd-util.obj `if test -f 'util.c'; then $(CYGPATH_W) 'util.c'; else $(CYGPATH_W) '$(srcdir)/util.c'; fi`
 
 tftpd-tftpd.o: tftpd.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tftpd_CFLAGS) $(CFLAGS) -MT tftpd-tftpd.o -MD -MP -MF "$(DEPDIR)/tftpd-tftpd.Tpo" -c -o tftpd-tftpd.o `test -f 'tftpd.c' || echo '$(srcdir)/'`tftpd.c; \
-	then mv -f "$(DEPDIR)/tftpd-tftpd.Tpo" "$(DEPDIR)/tftpd-tftpd.Po"; else rm -f "$(DEPDIR)/tftpd-tftpd.Tpo"; exit 1; fi
-#	source='tftpd.c' object='tftpd-tftpd.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tftpd_CFLAGS) $(CFLAGS) -c -o tftpd-tftpd.o `test -f 'tftpd.c' || echo '$(srcdir)/'`tftpd.c
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tftpd_CFLAGS) $(CFLAGS) -MT tftpd-tftpd.o -MD -MP -MF "$(DEPDIR)/tftpd-tftpd.Tpo" -c -o tftpd-tftpd.o `test -f 'tftpd.c' || echo '$(srcdir)/'`tftpd.c; \
+#	then mv -f "$(DEPDIR)/tftpd-tftpd.Tpo" "$(DEPDIR)/tftpd-tftpd.Po"; else rm -f "$(DEPDIR)/tftpd-tftpd.Tpo"; exit 1; fi
+#	source='tftpd.c' object='tftpd-tftpd.o' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tftpd_CFLAGS) $(CFLAGS) -c -o tftpd-tftpd.o `test -f 'tftpd.c' || echo '$(srcdir)/'`tftpd.c
 
 tftpd-tftpd.obj: tftpd.c
-	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tftpd_CFLAGS) $(CFLAGS) -MT tftpd-tftpd.obj -MD -MP -MF "$(DEPDIR)/tftpd-tftpd.Tpo" -c -o tftpd-tftpd.obj `if test -f 'tftpd.c'; then $(CYGPATH_W) 'tftpd.c'; else $(CYGPATH_W) '$(srcdir)/tftpd.c'; fi`; \
-	then mv -f "$(DEPDIR)/tftpd-tftpd.Tpo" "$(DEPDIR)/tftpd-tftpd.Po"; else rm -f "$(DEPDIR)/tftpd-tftpd.Tpo"; exit 1; fi
-#	source='tftpd.c' object='tftpd-tftpd.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tftpd_CFLAGS) $(CFLAGS) -c -o tftpd-tftpd.obj `if test -f 'tftpd.c'; then $(CYGPATH_W) 'tftpd.c'; else $(CYGPATH_W) '$(srcdir)/tftpd.c'; fi`
+#	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tftpd_CFLAGS) $(CFLAGS) -MT tftpd-tftpd.obj -MD -MP -MF "$(DEPDIR)/tftpd-tftpd.Tpo" -c -o tftpd-tftpd.obj `if test -f 'tftpd.c'; then $(CYGPATH_W) 'tftpd.c'; else $(CYGPATH_W) '$(srcdir)/tftpd.c'; fi`; \
+#	then mv -f "$(DEPDIR)/tftpd-tftpd.Tpo" "$(DEPDIR)/tftpd-tftpd.Po"; else rm -f "$(DEPDIR)/tftpd-tftpd.Tpo"; exit 1; fi
+#	source='tftpd.c' object='tftpd-tftpd.obj' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tftpd_CFLAGS) $(CFLAGS) -c -o tftpd-tftpd.obj `if test -f 'tftpd.c'; then $(CYGPATH_W) 'tftpd.c'; else $(CYGPATH_W) '$(srcdir)/tftpd.c'; fi`
 
 mostlyclean-libtool:
 	-rm -f *.lo

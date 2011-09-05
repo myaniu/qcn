@@ -74,7 +74,7 @@ while test $# -gt 0; do
 	;;
 
     --cc)
-	echo "gcc"
+	echo "/Developer/usr/bin/llvm-gcc-4.2"
 	;;
 
     --prefix)
@@ -142,18 +142,18 @@ while test $# -gt 0; do
 	   CURLLIBDIR=""
 	fi
 	if test "Xyes" = "Xyes"; then
-	  echo ${CURLLIBDIR}-lcurl  -lssl -lcrypto -lldap -lz 
+	  echo ${CURLLIBDIR}-lcurl -Wl,-syslibroot,/Developer/SDKs/MacOSX10.7.sdk -arch x86_64 -mmacosx-version-min=10.7 -Wl,-headerpad_max_install_names -lssl -lcrypto -lldap -lgssapi_krb5 -lresolv -lz 
 	else
-	  echo ${CURLLIBDIR}-lcurl  
+	  echo ${CURLLIBDIR}-lcurl -Wl,-syslibroot,/Developer/SDKs/MacOSX10.7.sdk -arch x86_64 -mmacosx-version-min=10.7 -Wl,-headerpad_max_install_names 
 	fi
 	;;
 
     --static-libs)
-	echo ${exec_prefix}/lib/libcurl.a  -lssl -lcrypto -lldap -lz 
+	echo ${exec_prefix}/lib/libcurl.a -Wl,-syslibroot,/Developer/SDKs/MacOSX10.7.sdk -arch x86_64 -mmacosx-version-min=10.7 -Wl,-headerpad_max_install_names -lssl -lcrypto -lldap -lgssapi_krb5 -lresolv -lz 
 	;;
 
     --configure)
-      echo " 'CC=' 'CFLAGS=' 'LDFLAGS=' 'CPPFLAGS=' 'CPP=/Developer/usr/bin/llvm-cpp-4.2'"
+      echo " '--disable-dependency-tracking' '--disable-static' '--with-gssapi' 'CFLAGS=-Os -isysroot /Developer/SDKs/MacOSX10.7.sdk -arch x86_64 -mmacosx-version-min=10.7' 'LDFLAGS=-Wl,-syslibroot,/Developer/SDKs/MacOSX10.7.sdk -arch x86_64 -mmacosx-version-min=10.7 -Wl,-headerpad_max_install_names' 'CC=/Developer/usr/bin/llvm-gcc-4.2' 'CPPFLAGS=-O2 -I/Developer/SDKs/MacOSX10.6.sdk/usr/include -I/Developer/SDKs/MacOSX10.6.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.6.sdk -arch x86_64' 'CPP=/Developer/usr/bin/llvm-cpp-4.2'"
     ;;
 
     *)
