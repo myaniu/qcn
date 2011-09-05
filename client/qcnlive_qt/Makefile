@@ -8,8 +8,8 @@
 
 ####### Compiler, tools and options
 
-CC            = gcc-4.0
-CXX           = g++-4.0
+CC            = /Developer/usr/bin/gcc-4.0
+CXX           = /Developer/usr/bin/g++-4.0
 DEFINES       = -D_USE_NTPDATE_EXEC_ -DFTGL_LIBRARY_STATIC -DQCNLIVE -DGRAPHICS_PROGRAM -DAPP_GRAPHICS -D_ZLIB -DQCN -D_THREAD_SAFE -DCURL_STATICLIB -D_ZLIB -DQT_OPENGL_LIB -DQT_GUI_LIB -DQT_CORE_LIB
 CFLAGS        = -pipe -g -gdwarf-2 -arch x86_64 -Xarch_x86_64 -mmacosx-version-min=10.5 -arch ppc -arch i386 -Wall -W -isysroot /Developer/SDKs/MacOSX10.4u.sdk $(DEFINES)
 CXXFLAGS      = -pipe -g -gdwarf-2 -arch x86_64 -Xarch_x86_64 -mmacosx-version-min=10.5 -arch ppc -arch i386 -Wall -W -isysroot /Developer/SDKs/MacOSX10.4u.sdk $(DEFINES)
