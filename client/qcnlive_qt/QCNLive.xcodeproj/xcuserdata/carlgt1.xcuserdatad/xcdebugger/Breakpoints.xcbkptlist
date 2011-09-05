@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bucket
+   type = "1"
+   version = "1.0">
+   <FileBreakpoints>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "0"
+         filePath = "/Users/carlgt1/projects/qcn/client/sensor/csensor_mac_usb_jw24f14.cpp"
+         timestampString = "336517061.465612"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "680"
+         endingLineNumber = "680">
+      </FileBreakpoint>
+   </FileBreakpoints>
+</Bucket>

@@ -6,14 +6,14 @@
 # Command: /usr/bin/qmake -o QCNLive.xcodeproj/project.pbxproj QCNLive.pro
 #############################################################################
 
-MOC       = /Developer/Tools/Qt/moc
-UIC       = /Developer/Tools/Qt/uic
+MOC       = /Developer/QtSDK/Desktop/Qt/474/gcc/bin/moc
+UIC       = /Developer/QtSDK/Desktop/Qt/474/gcc/bin/uic
 LEX       = flex
 LEXFLAGS  = 
 YACC      = yacc
 YACCFLAGS = -d
 DEFINES       = -D_USE_NTPDATE_EXEC_ -DFTGL_LIBRARY_STATIC -DQCNLIVE -DGRAPHICS_PROGRAM -DAPP_GRAPHICS -D_ZLIB -DQCN -D_THREAD_SAFE -DCURL_STATICLIB -D_ZLIB -DQT_OPENGL_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_SHARED
-INCPATH       = -I/usr/local/Qt4.7/mkspecs/macx-xcode -I. -I/Library/Frameworks/QtCore.framework/Versions/4/Headers -I/usr/include/QtCore -I/Library/Frameworks/QtGui.framework/Versions/4/Headers -I/usr/include/QtGui -I/Library/Frameworks/QtOpenGL.framework/Versions/4/Headers -I/usr/include/QtOpenGL -I/usr/include -I../../../qcn -I../../jpeg-6b -I../../zlib-1.2.5 -I../../curl-7.18.2/include -I../../ftgl-2.1.3/include -I../../freetype-2.3.9/include -I../main -I../sensor -I../util -I../../../boinc/lib -I../../../boinc/api -I../../../boinc/zip -I../graphics -I/System/Library/Frameworks/OpenGL.framework/Versions/A/Headers -I/System/Library/Frameworks/AGL.framework/Headers -I. -I/usr/local/include -I/System/Library/Frameworks/CarbonCore.framework/Headers -F/Library/Frameworks
+INCPATH       = -I/Developer/QtSDK/Desktop/Qt/474/gcc/mkspecs/macx-xcode -I. -I/Library/Frameworks/QtCore.framework/Versions/4/Headers -I/usr/include/QtCore -I/Library/Frameworks/QtGui.framework/Versions/4/Headers -I/usr/include/QtGui -I/Library/Frameworks/QtOpenGL.framework/Versions/4/Headers -I/usr/include/QtOpenGL -I/usr/include -I../../../qcn -I../../jpeg-6b -I../../zlib-1.2.5 -I../../curl-7.18.2/include -I../../ftgl-2.1.3/include -I../../freetype-2.3.9/include -I../main -I../sensor -I../util -I../../../boinc/lib -I../../../boinc/api -I../../../boinc/zip -I../graphics -I/System/Library/Frameworks/OpenGL.framework/Versions/A/Headers -I/System/Library/Frameworks/AGL.framework/Headers -I. -I/usr/local/include -I/System/Library/Frameworks/CarbonCore.framework/Headers -F/Library/Frameworks
 DEL_FILE  = rm -f
 MOVE      = mv -f
 
