@@ -134,14 +134,14 @@ AUTOMAKE = ${SHELL} /Users/carlgt1/projects/qcn/ftgl-2.1.3/.auto/missing --run a
 AWK = awk
 CC = /Developer/usr/bin/llvm-gcc-4.2
 CCDEPMODE = depmode=gcc3
-CFLAGS = -O2 -I../../freetype-2.4.6/include -I/Developer/SDKs/MacOSX10.6.sdk/usr/include -I/Developer/SDKs/MacOSX10.6.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.6.sdk -arch i386 -Waggregate-return -Wstrict-prototypes -Wmissing-prototypes -Wnested-externs
+CFLAGS = -O2 -I../../freetype-2.4.6/include -I/Developer/SDKs/MacOSX10.6.sdk/usr/include -I/Developer/SDKs/MacOSX10.6.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.6.sdk -arch x86_64 -Waggregate-return -Wstrict-prototypes -Wmissing-prototypes -Wnested-externs
 CONVERT = no
 CPP = /Developer/usr/bin/llvm-cpp-4.2
-CPPFLAGS = -O2 -I../../freetype-2.4.6/include -I/Developer/SDKs/MacOSX10.6.sdk/usr/include -I/Developer/SDKs/MacOSX10.6.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.6.sdk -arch i386 -I${top_srcdir}/src -Wall -Wpointer-arith -Wcast-align -Wcast-qual -Wshadow -Wsign-compare
+CPPFLAGS = -O2 -I../../freetype-2.4.6/include -I/Developer/SDKs/MacOSX10.6.sdk/usr/include -I/Developer/SDKs/MacOSX10.6.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.6.sdk -arch x86_64 -I${top_srcdir}/src -Wall -Wpointer-arith -Wcast-align -Wcast-qual -Wshadow -Wsign-compare
 CXX = /Developer/usr/bin/llvm-g++-4.2
 CXXCPP = /Developer/usr/bin/llvm-g++-4.2 -E
 CXXDEPMODE = depmode=gcc3
-CXXFLAGS = -O2 -I../../freetype-2.4.6/include -I/Developer/SDKs/MacOSX10.6.sdk/usr/include -I/Developer/SDKs/MacOSX10.6.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.6.sdk -arch i386
+CXXFLAGS = -O2 -I../../freetype-2.4.6/include -I/Developer/SDKs/MacOSX10.6.sdk/usr/include -I/Developer/SDKs/MacOSX10.6.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.6.sdk -arch x86_64
 CYGPATH_W = echo
 DEFS = -DHAVE_CONFIG_H
 DEPDIR = .deps
@@ -166,7 +166,7 @@ INSTALL_STRIP_PROGRAM = $(install_sh) -c -s
 KPSEWHICH = no
 LATEX = no
 LD = /Developer/usr/llvm-gcc-4.2/libexec/gcc/i686-apple-darwin11/4.2.1/ld
-LDFLAGS = -L/Developer/SDKs/MacOSX10.6.sdk/usr/lib/ -isysroot /Developer/SDKs/MacOSX10.6.sdk -Wl,-syslibroot,/Developer/SDKs/MacOSX10.6.sdk -arch i386
+LDFLAGS = -L/Developer/SDKs/MacOSX10.6.sdk/usr/lib/ -isysroot /Developer/SDKs/MacOSX10.6.sdk -Wl,-syslibroot,/Developer/SDKs/MacOSX10.6.sdk -arch x86_64
 LIBOBJS = 
 LIBS = 
 LIBTOOL = $(SHELL) $(top_builddir)/libtool
