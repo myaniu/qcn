@@ -47,6 +47,9 @@
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "ftgl"
 
+/* Define to the home page for this package. */
+#define PACKAGE_URL ""
+
 /* Define to the version of this package. */
 #define PACKAGE_VERSION "2.1.3~rc5"
 

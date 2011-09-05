@@ -6,9 +6,8 @@ rm -f ../mac_build/libftgl-universal.a
 mkdir lib
 chmod uog+rx configure
 
-#export LIBTOOLIZE=
-#export LIBTOOL='/usr/local/bin/libtool --tag=CC'
-export LIBTOOL=/usr/bin/libtool
+export LIBTOOLIZE=/usr/local/bin/libtoolize
+export LIBTOOL='/usr/local/bin/libtool --tag=CC'
 export CXX=/Developer/usr/bin/llvm-g++-4.2
 export CC=/Developer/usr/bin/llvm-gcc-4.2
 export CPP=/Developer/usr/bin/llvm-cpp-4.2
