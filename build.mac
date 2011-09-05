@@ -20,7 +20,7 @@ chmod uog+rx build.mac
 cd ../zlib-1.2.5
 chmod uog+rx build.mac
 ./build.mac
-cd ../curl-7.18.2
+cd ../curl-7.21.7
 chmod uog+rx build.mac
 ./build.mac
 cd ../freetype-2.3.9
