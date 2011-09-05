@@ -58,7 +58,7 @@ POST_INSTALL = :
 NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
-build_triplet = i386-apple-darwin11.0.0
+build_triplet = i386-apple-darwin11.1.0
 host_triplet = x86_64-pc-none
 DIST_COMMON = README $(am__configure_deps) $(srcdir)/Makefile.am \
 	$(srcdir)/Makefile.in $(srcdir)/curl-config.in \
@@ -119,11 +119,11 @@ AUTOCONF = ${SHELL} "/Users/carlgt1/projects/qcn/curl-7.18.2/missing" --run auto
 AUTOHEADER = ${SHELL} "/Users/carlgt1/projects/qcn/curl-7.18.2/missing" --run autoheader
 AUTOMAKE = ${SHELL} "/Users/carlgt1/projects/qcn/curl-7.18.2/missing" --run automake-1.9
 AWK = awk
-CC = /Developer/usr/bin/gcc-4.2
+CC = /Developer/usr/bin/llvm-gcc-4.2
 CCDEPMODE = depmode=gcc3
-CFLAGS = -DHAVE_POSIX_STRERROR_R=1 -O2 -I/Developer/SDKs/MacOSX10.5.sdk/usr/include -I/Developer/SDKs/MacOSX10.5.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64
-CPP = /Developer/usr/bin/gcc-4.2 -E
-CPPFLAGS = -O2 -I/Developer/SDKs/MacOSX10.5.sdk/usr/include -I/Developer/SDKs/MacOSX10.5.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64
+CFLAGS = -DHAVE_POSIX_STRERROR_R=1 -O2 -I/Developer/SDKs/MacOSX10.6.sdk/usr/include -I/Developer/SDKs/MacOSX10.6.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.6.sdk -arch x86_64
+CPP = /Developer/usr/bin/llvm-gcc-4.2 -E
+CPPFLAGS = -O2 -I/Developer/SDKs/MacOSX10.6.sdk/usr/include -I/Developer/SDKs/MacOSX10.6.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.6.sdk -arch x86_64
 CROSSCOMPILING_FALSE = 
 CROSSCOMPILING_TRUE = #
 CURL_DISABLE_DICT = 
@@ -159,7 +159,7 @@ INSTALL_SCRIPT = ${INSTALL}
 INSTALL_STRIP_PROGRAM = ${SHELL} $(install_sh) -c -s
 IPV6_ENABLED = 1
 KRB4_ENABLED = 
-LDFLAGS = -L/Developer/SDKs/MacOSX10.5.sdk/usr/lib/ -isysroot /Developer/SDKs/MacOSX10.5.sdk -Wl,-syslibroot,/Developer/SDKs/MacOSX10.5.sdk -arch x86_64
+LDFLAGS = -L/Developer/SDKs/MacOSX10.6.sdk/usr/lib/ -isysroot /Developer/SDKs/MacOSX10.6.sdk -Wl,-syslibroot,/Developer/SDKs/MacOSX10.6.sdk -arch x86_64
 LIBCURL_LIBS =  -lz
 LIBOBJS = 
 LIBS = 
@@ -220,10 +220,10 @@ am__quote =
 am__tar = ${AMTAR} chof - "$$tardir"
 am__untar = ${AMTAR} xf -
 bindir = ${exec_prefix}/bin
-build = i386-apple-darwin11.0.0
+build = i386-apple-darwin11.1.0
 build_alias = 
 build_cpu = i386
-build_os = darwin11.0.0
+build_os = darwin11.1.0
 build_vendor = apple
 datadir = ${datarootdir}
 datarootdir = ${prefix}/share
