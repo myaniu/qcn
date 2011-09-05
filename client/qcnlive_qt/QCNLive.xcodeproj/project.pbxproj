@@ -406,6 +406,9 @@
 /* Begin PBXProject section */
 		91B15E841AA80083484172DE /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0410;
+			};
 			buildConfigurationList = 2A951308CDB28F104D0A4BD2 /* Build configuration list for PBXProject "QCNLive" */;
 			compatibilityVersion = "Xcode 2.4";
 			developmentRegion = English;
@@ -520,7 +523,6 @@
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1)";
 				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = "x86_64 i386 ppc";
 				BUILD_ROOT = /Users/carlgt1/projects/qcn/client/qcnlive_qt;
-				CC = "/usr/bin/gcc-4.0";
 				COPY_PHASE_STRIP = NO;
 				CPLUSPLUS = "/usr/bin/g++-4.0";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -627,7 +629,6 @@
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1)";
 				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = "x86_64 i386 ppc";
 				BUILD_ROOT = /Users/carlgt1/projects/qcn/client/qcnlive_qt;
-				CC = "/usr/bin/gcc-4.0";
 				COPY_PHASE_STRIP = YES;
 				CPLUSPLUS = "/usr/bin/g++-4.0";
 				DYLIB_COMPATIBILITY_VERSION = 1.0;
@@ -735,7 +736,6 @@
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1)";
 				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = "x86_64 i386 ppc";
 				BUILD_ROOT = /Users/carlgt1/projects/qcn/client/qcnlive_qt;
-				CC = "/usr/bin/gcc-4.0";
 				CPLUSPLUS = "/usr/bin/g++-4.0";
 				DYLIB_COMPATIBILITY_VERSION = 1.0;
 				DYLIB_CURRENT_VERSION = 1.0.0;
