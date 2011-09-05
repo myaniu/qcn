@@ -1,4 +1,6 @@
 ./MacOSX-Framework
+sudo rm -rf /Library/Frameworks/libcurl.framework
+sudo mv libcurl.framework /Library/Frameworks
 exit
 
 #notes - upgrade libtool, autoconf, automake, and ln /usr/bin to /usr/bin/include refs as needed

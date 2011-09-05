@@ -188,8 +188,8 @@ IOReturn CSensorMacUSBJW::ReadByteFromAddress (IOHIDDeviceInterface122** hidInte
 	UInt8	 readBuffer[8];
 	UInt8	 writeBuffer[8];
 	IOReturn ioReturnValue;
-	UInt32   readDataSize; // may be a problem with Mac's 10.4 to 10.5+
-	//uint32_t readDataSize;  // for 10.5+
+	//UInt32   readDataSize; // may be a problem with Mac's 10.4 to 10.5+
+	uint32_t readDataSize;  // for 10.5+
 
 	*result = 0x00;
 	
