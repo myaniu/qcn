@@ -23,7 +23,7 @@ chmod uog+rx build.mac
 cd ../curl-7.21.7
 chmod uog+rx build.mac
 ./build.mac
-cd ../freetype-2.3.9
+cd ../freetype-2.4.6
 chmod uog+rx build.mac
 ./build.mac
 cd ../ftgl-2.1.3
