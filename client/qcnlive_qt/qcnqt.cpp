@@ -452,6 +452,9 @@ bool MyApp::Init()
 	}
 	KillSplashScreen(); // just in case the myframe construction failed
 
+    if (m_bInit) {
+        m_frame->setStartupView();
+    }
     return m_bInit;
 } 
 

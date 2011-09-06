@@ -116,10 +116,6 @@ bool MyFrame::Init()
     createMenus();
 	createToolbar();
 
-	// initial view is the earth
-	qcn_graphics::g_eView = VIEW_EARTH_DAY;  // set view to 0
-	m_actionCurrent = m_actionViewEarth; // initialize the first action to the earth view, so will turn off the toggle/check mark on the menu
-
     m_centralWidget = new QWidget;
     setCentralWidget(m_centralWidget);
 	
@@ -172,8 +168,7 @@ bool MyFrame::Init()
 	if (settings.contains(QT_WINDOW_SETTINGS_STATE))  {
 		restoreState(settings.value(QT_WINDOW_SETTINGS_STATE).toByteArray());
 	}
-	
-
+    
 	return true;
 }
 
@@ -206,6 +201,17 @@ void MyFrame::slotTimePosition(int iPos)
 {
 	emit signalTimePosition(iPos);
 	setTimeSliderValue(iPos);
+}
+
+void MyFrame::setStartupView(int iView)
+{
+#ifdef QCN_RAW_DATA  // default to 2d view
+    m_actionCurrent = m_actionViewEarth;
+    m_actionViewSensor2D->activate(QAction::Trigger);
+#else
+    m_actionViewEarth->activate(QAction::Trigger);
+#endif
+    updateGLWidget();
 }
 
 void MyFrame::createActions()
@@ -686,8 +692,9 @@ void MyFrame::fileMakeQuake()
 			else 
 				qcn_graphics::SetTimeWindowWidthInt(60);
 			// set to absolute
+#ifndef QCN_RAW_DATA
 			m_actionOptionSensorAbsolute->activate(QAction::Trigger); // set to absolute scale
-
+#endif
 			setTimeSliderValue(100);
 			
 			SetToggleSensor(false);
@@ -997,6 +1004,12 @@ void MyFrame::SetToggleSensor(const bool b3D)
 		Toggle(m_actionOptionSensorScaled, !m_bSensorAbsolute3D, !m_bSensorAbsolute3D);
 	}
 	else { 
+#ifdef QCN_RAW_DATA
+		m_bSensorAbsolute2D = false;
+		if (!qcn_graphics::IsScaled()) qcn_graphics::SetScaled(true);
+		Toggle(m_actionOptionSensorAbsolute, m_bSensorAbsolute2D, m_bSensorAbsolute2D);
+		Toggle(m_actionOptionSensorScaled, !m_bSensorAbsolute2D, !m_bSensorAbsolute2D);
+#else
 		if (m_bSensorAbsolute2D) {
 			if (qcn_graphics::IsScaled()) qcn_graphics::SetScaled(false);
 		}
@@ -1005,6 +1018,7 @@ void MyFrame::SetToggleSensor(const bool b3D)
 		}
 		Toggle(m_actionOptionSensorAbsolute, m_bSensorAbsolute2D);
 		Toggle(m_actionOptionSensorScaled, !m_bSensorAbsolute2D);		
+#endif
 	}
 	
 	// recording state

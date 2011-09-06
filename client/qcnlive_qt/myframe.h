@@ -126,6 +126,7 @@ public:
 	MyFrame(MyApp* papp);
 
 	bool Init();
+    void setStartupView(int iView = 0);
 	void EarthRotate(bool bAuto = true);
 	void ToggleStartStop(bool bStart);
 
