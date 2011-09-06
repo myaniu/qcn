@@ -1,2 +1,2 @@
 export XCB=/Developer/usr/bin/xcodebuild
-$XCB GCC_PREPROCESSOR_DEFINITIONS='$(value) QCN_RAW_DATA=1' -project QCNLive.xcodeproj -configuration Release -target QCNLive clean build
+$XCB GCC_PREPROCESSOR_DEFINITIONS='$(value) QCN_RAW_DATA=1' -project QCNLive.xcodeproj -configuration Release -target QCNLive clean build 
