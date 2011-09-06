@@ -209,7 +209,7 @@ void MyFrame::setStartupView(int iView)
     m_actionCurrent = m_actionViewEarth;
     m_actionViewSensor2D->activate(QAction::Trigger);
 #else
-    m_actionViewEarth->activate(QAction::Trigger);
+        m_actionViewEarth->activate(QAction::Trigger);
 #endif
     updateGLWidget();
 }
