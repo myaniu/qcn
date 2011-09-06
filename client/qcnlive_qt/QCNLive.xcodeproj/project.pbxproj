@@ -670,6 +670,7 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				OTHER_CFLAGS = (
+					"-DQCN_RAW_DATA",
 					"-pipe",
 					"-g",
 					"-Wall",
@@ -690,6 +691,7 @@
 					"-DQT_SHARED",
 				);
 				OTHER_CPLUSPLUSFLAGS = (
+					"-DQCN_RAW_DATA",
 					"-pipe",
 					"-g",
 					"-Wall",
