@@ -8,23 +8,13 @@ else
    cd qcn
 fi
 rm -f vers; gcc version.c -o vers ; ./vers 1
+rm -f vers; gcc version.c -o vers 
 VERSION=`./vers`
+echo $VERSION
+if ( test $VERSION = "" ) then
+   exit 1
+fi
 if ( test "`uname -s`" = "Darwin" ) then
-  # CMC note on Mac OS X Lion + you may need to edit /etc/paths and add /Developer/usr/bin to get gcc etc
-#Intel 32-bit Mac
-export MARCH=i386
-export CXX=/Developer/usr/bin/g++-4.0
-export CC=/Developer/usr/bin/gcc-4.0
-export MACOSX_DEPLOYMENT_TARGET=10.4
-export SDKROOT="/Developer/SDKs/MacOSX10.4u.sdk"
-export LDFLAGS="-L$SDKROOT/usr/lib/ -isysroot $SDKROOT -Wl,-syslibroot,$SDKROOT -arch $MARCH"
-export CPPFLAGS="-O2 -I$SDKROOT/usr/include -I$SDKROOT/usr/local/include -isysroot $SDKROOT -arch $MARCH"
-export CFLAGS="-O2 -I$SDKROOT/usr/include -I$SDKROOT/usr/local/include -isysroot $SDKROOT -arch $MARCH"
-export CXXFLAGS="-O2 -I$SDKROOT/usr/include -I$SDKROOT/usr/local/include -isysroot $SDKROOT -arch $MARCH"
-  cp configure.ac.mac configure.ac
-  chmod uog+rx build.mac
-  #./_autosetup
-  #./configure --disable-client --disable-server --disable-manager --disable-fcgi
   cp config.h.mac config.h
   ./build.mac $1 $2
 else
