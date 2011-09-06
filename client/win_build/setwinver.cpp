@@ -18,9 +18,6 @@
 int deploy_qcn(bool bQCNLive = false);  // send exe's to QCN server
 #endif
 
-const int g_version_major = QCN_MAJOR_VERSION;
-const int g_version_minor = QCN_MINOR_VERSION;
-
 void print_version_xml()
 {
 	FILE* fVersion = NULL;
@@ -32,17 +29,17 @@ void print_version_xml()
 	fprintf(fVersion, 
 		"<version>\n"
 		"  <file>\n"
-		"    <physical_name>qcn_%d.%02d_%s__nci.exe</physical_name>\n"
+		"    <physical_name>qcn_%s_%s__nci.exe</physical_name>\n"
 		"    <main_program/>\n"
 		"  </file>\n"
 		"  <file>\n"
-		"    <physical_name>qcn_graphics_%d.%02d_%s.exe</physical_name>\n"
+		"    <physical_name>qcn_graphics_%s_%s.exe</physical_name>\n"
 		"    <logical_name>graphics_app</logical_name>\n"
 		"  </file>\n"
 		"</version>\n",
-			g_version_major, g_version_minor, BOINC_WIN_SUFFIX
+			QCN_VERSION_STRING, BOINC_WIN_SUFFIX
 			,
-			g_version_major, g_version_minor, BOINC_WIN_SUFFIX
+			QCN_VERSION_STRING, BOINC_WIN_SUFFIX
 	);
 
 	fclose(fVersion);
@@ -54,12 +51,12 @@ void printQCNFiles(FILE* fBatch)
 
      // new BOINC handled nci (__nci)
 	// CMC note - we are assuming this directory was already created by Mac or Linux build!
-	// fprintf(fBatch, "mkdir %d.%02d\n", g_version_major, g_version_minor);
-        fprintf(fBatch, "cd %d.%02d\n", g_version_major, g_version_minor);
+	// fprintf(fBatch, "mkdir %sd\n", QCN_VERSION_STRING);
+        fprintf(fBatch, "cd %s\n", QCN_VERSION_STRING);
         fprintf(fBatch, "mkdir %s__nci\n", BOINC_WIN_SUFFIX);
         fprintf(fBatch, "cd %s__nci\n", BOINC_WIN_SUFFIX);
-        fprintf(fBatch, "put qcn_%d.%02d_%s__nci.exe\n", g_version_major, g_version_minor, BOINC_WIN_SUFFIX);
-        fprintf(fBatch, "put qcn_graphics_%d.%02d_%s.exe\n", g_version_major, g_version_minor, BOINC_WIN_SUFFIX);
+        fprintf(fBatch, "put qcn_%s_%s__nci.exe\n", QCN_VERSION_STRING, BOINC_WIN_SUFFIX);
+        fprintf(fBatch, "put qcn_graphics_%s_%s.exe\n", QCN_VERSION_STRING, BOINC_WIN_SUFFIX);
         fprintf(fBatch, "put init/hvt\n");
         fprintf(fBatch, "put init/cbt\n");
         fprintf(fBatch, "put init/earthday4096.jpg\n");
@@ -76,7 +73,7 @@ void printQCNFiles(FILE* fBatch)
 
 /*
    //old style BOINC
-        fprintf(fBatch, "mkdir qcn_%d.%02d_%s.exe\n", g_version_major, g_version_minor - 1, BOINC_WIN_SUFFIX);
+        fprintf(fBatch, "mkdir qcn_%d.%02d_%s.exe\n", QCN_VERSION_STRING- 1, BOINC_WIN_SUFFIX);
         fprintf(fBatch, "cd qcn_%d.%02d_%s.exe\n", g_version_major, g_version_minor - 1, BOINC_WIN_SUFFIX);
         fprintf(fBatch, "put qcn_%d.%02d_%s.exe\n", g_version_major, g_version_minor - 1, BOINC_WIN_SUFFIX);
         fprintf(fBatch, "put graphics_app=qcn_graphics_%d.%02d_%s.exe\n", g_version_major, g_version_minor - 1, BOINC_WIN_SUFFIX);
@@ -133,11 +130,11 @@ int main(int argc, char** argv)
 	sprintf_s(strIn, _MAX_PATH, "%s\\%s.exe", argv[2], argv[1]);
     if (strstr(argv[1], "qcn_graphics")) {
 		bDeploy = true;
-	   sprintf_s(strOut[0], _MAX_PATH, "%s\\%s_%d.%02d_%s.exe", argv[3], argv[1], g_version_major, g_version_minor, BOINC_WIN_SUFFIX); 
-	   //sprintf_s(strOut[1], _MAX_PATH, "%s\\%s_%d.%02d_%s.exe", argv[3], argv[1], g_version_major, g_version_minor - 1, BOINC_WIN_SUFFIX); 
+	   sprintf_s(strOut[0], _MAX_PATH, "%s\\%s_%s_%s.exe", argv[3], argv[1], QCN_VERSION_STRING, BOINC_WIN_SUFFIX); 
+	   //sprintf_s(strOut[1], _MAX_PATH, "%s\\%s_%1.02f_%s.exe", argv[3], argv[1], atof(QCN_VERSION_STRING) - .01f, BOINC_WIN_SUFFIX); 
 	} else {
-	   sprintf_s(strOut[0], _MAX_PATH, "%s\\%s_%d.%02d_%s__nci.exe", argv[3], argv[1], g_version_major, g_version_minor, BOINC_WIN_SUFFIX); 
-	   //sprintf_s(strOut[1], _MAX_PATH, "%s\\%s_%d.%02d_%s.exe", argv[3], argv[1], g_version_major, g_version_minor - 1, BOINC_WIN_SUFFIX); 
+	   sprintf_s(strOut[0], _MAX_PATH, "%s\\%s_%s_%s__nci.exe", argv[3], argv[1], QCN_VERSION_STRING, BOINC_WIN_SUFFIX); 
+	   //sprintf_s(strOut[1], _MAX_PATH, "%s\\%s_%1.02f_%s.exe", argv[3], argv[1], atof(QCN_VERSION_STRING) - .01f, BOINC_WIN_SUFFIX); 
         }
 
 	if (!boinc_file_exists(strIn)) {

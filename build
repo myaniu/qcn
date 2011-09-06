@@ -1,9 +1,5 @@
 #!/bin/sh
-if ( test "$1" = "") then
-   echo "Usage:  ./build VERSION_NUMBER [all|libs]"
-   exit 1
-fi
-if (test "$2" = "all" || test "$3" = "all") then
+if (test "$1" = "all" || test "$2" = "all") then
    ./getboinc
 else
    # at least update boinc cvs?
@@ -24,15 +20,15 @@ export CPPFLAGS="-O2 -I$SDKROOT/usr/include -I$SDKROOT/usr/local/include -isysro
 export CFLAGS="-O2 -I$SDKROOT/usr/include -I$SDKROOT/usr/local/include -isysroot $SDKROOT -arch $MARCH"
 export CXXFLAGS="-O2 -I$SDKROOT/usr/include -I$SDKROOT/usr/local/include -isysroot $SDKROOT -arch $MARCH"
   cp configure.ac.mac configure.ac
-  cp config.h.mac config.h
-  ./set-version $1
+  rm vers; gcc version.c -o vers ; ./vers 1
+  VERSION=`./vers`
   chmod uog+rx build.mac
-  ./_autosetup
-  ./configure --disable-client --disable-server --disable-manager --disable-fcgi
+  #./_autosetup
+  #./configure --disable-client --disable-server --disable-manager --disable-fcgi
   cp config.h.mac config.h
-  ./build.mac $2 $3
+  ./build.mac $l $2
 else
- if (test "$2" = "all" || test "$3" = "all" || test "$2" = "libs" || test "$3" = "libs") then
+ if (test "$1" = "all" || test "$2" = "all" || test "$1" = "libs" || test "$2" = "libs") then
   cd zlib-1.2.5
   ./configure --enable-shared=no --enable-static=yes
   make clean && make
@@ -88,11 +84,11 @@ else
   cp api/libboinc_graphics2.a ../qcn/client/linux_build/
   cd ../qcn
   cp configure.ac.linux configure.ac
-  ./set-version $1
+   rm -f vers; gcc version.c -o vers ; ./vers 1
   ./_autosetup
   ./configure --enable-client-release --disable-server
   make clean && make
   mv client/qcnlive_qt/QCNLive client/bin/
 fi
 cd client/bin
-./deploy $1 $2 $3
+./deploy $VERSION $1 $2
