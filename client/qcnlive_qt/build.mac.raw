@@ -4,5 +4,6 @@ $XCB GCC_PREPROCESSOR_DEFINITIONS='$(value) QCN_RAW_DATA=1' -project QCNLive.xco
 rm -rf ../bin/QCNLive.app
 cp -r QCNLive.app ../bin/
 mkdir ../bin/QCNLive.app/Contents/Resources/
+/Library/Frameworks/libcurl.framework/Versions/Release-7.21.7/libcurl
 cp ../../doc/qcnmac.icns ../bin/QCNLive.app/Contents/Resources/
 cd ../bin
