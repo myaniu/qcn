@@ -44,7 +44,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../;../../src/;../../../freetype-2.3.9/include"
+				AdditionalIncludeDirectories="../;../../src/;../../../freetype-2.4.6/include"
 				PreprocessorDefinitions="WIN32;_DEBUG;_LIB;FTGL_LIBRARY_STATIC"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -173,7 +173,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="../;../../src/;../../../freetype-2.3.9/include"
+				AdditionalIncludeDirectories="../;../../src/;../../../freetype-2.4.6/include"
 				PreprocessorDefinitions="WIN32;_WIN32;NDEBUG;_LIB;FTGL_LIBRARY_STATIC"
 				RuntimeLibrary="0"
 				UsePrecompiledHeader="0"
@@ -298,7 +298,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="../;../../src/;../../../freetype-2.3.9/include"
+				AdditionalIncludeDirectories="../;../../src/;../../../freetype-2.4.6/include"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB;FTGL_LIBRARY_STATIC"
 				RuntimeLibrary="0"
 				UsePrecompiledHeader="0"
@@ -423,7 +423,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="../;../../src/;../../../freetype-2.3.9/include"
+				AdditionalIncludeDirectories="../;../../src/;../../../freetype-2.4.6/include"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB;FTGL_LIBRARY_STATIC"
 				RuntimeLibrary="0"
 				UsePrecompiledHeader="0"
@@ -548,7 +548,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="../;../../src/;../../../freetype-2.3.9/include"
+				AdditionalIncludeDirectories="../;../../src/;../../../freetype-2.4.6/include"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB;FTGL_LIBRARY_STATIC"
 				RuntimeLibrary="0"
 				UsePrecompiledHeader="0"
@@ -673,7 +673,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../;../../src/;../../../freetype-2.3.9/include"
+				AdditionalIncludeDirectories="../;../../src/;../../../freetype-2.4.6/include"
 				PreprocessorDefinitions="WIN32;_DEBUG;_LIB;FTGL_LIBRARY_STATIC"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -802,7 +802,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="../;../../src/;../../../freetype-2.3.9/include"
+				AdditionalIncludeDirectories="../;../../src/;../../../freetype-2.4.6/include"
 				PreprocessorDefinitions="WIN32;_WIN32;NDEBUG;_LIB;FTGL_LIBRARY_STATIC"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
@@ -927,7 +927,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../;../../src/;../../../freetype-2.3.9/include"
+				AdditionalIncludeDirectories="../;../../src/;../../../freetype-2.4.6/include"
 				PreprocessorDefinitions="WIN32;_DEBUG;_LIB;FTGL_LIBRARY_STATIC"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -1056,7 +1056,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../;../../src/;../../../freetype-2.3.9/include"
+				AdditionalIncludeDirectories="../;../../src/;../../../freetype-2.4.6/include"
 				PreprocessorDefinitions="WIN32;_DEBUG;_LIB;FTGL_LIBRARY_STATIC"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -1185,7 +1185,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="../;../../src/;../../../freetype-2.3.9/include"
+				AdditionalIncludeDirectories="../;../../src/;../../../freetype-2.4.6/include"
 				PreprocessorDefinitions="WIN32;_WIN32;NDEBUG;_LIB;FTGL_LIBRARY_STATIC"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
