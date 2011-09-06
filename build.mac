@@ -68,10 +68,14 @@ $XCB -project qcn.xcodeproj -configuration Release -target qcnusb clean build
 #$XCB -project qcn.xcodeproj -configuration Release -target QCNLive clean build
 cd ../qcnlive_qt
 $XCB -project QCNLive.xcodeproj -configuration Release -target QCNLive clean build
-/usr/bin/macdeployqt ./QCNLive.app 
+/usr/bin/macdeployqt ./QCNLive.app
+FRWL=/Library/Frameworks/libcurl.framework
+FRWQ=QCNLive.app/Contents/Frameworks/libcurl.framework/
+mkdir $FRWQ
+cp -r $FRWL/Resources $FRWQ
+cp -r $FRWL/Versions $FRWQ
 rm -rf ../bin/QCNLive.app
 cp -r QCNLive.app ../bin/
 mkdir ../bin/QCNLive.app/Contents/Resources/
 cp ../../doc/qcnmac.icns ../bin/QCNLive.app/Contents/Resources/
 cd ../bin
-#CMC note - Qt seems to come with Mac OS X Lion's XCode?
