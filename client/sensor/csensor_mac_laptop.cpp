@@ -197,14 +197,14 @@ inline bool CSensorMacLaptop::read_xyz(float& x1, float& y1, float& z1)
 {
       kern_return_t result;                            
 
-#ifdef __LP64__ // MAC_OS_X_VERSION_10_5
+//#ifdef __LP64__ // MAC_OS_X_VERSION_10_5
 	size_t structureInputSize;          // DATA STRUCTURE SIZE      
 	size_t structureOutputSize;
-#else
+/*#else
 	IOItemCount structureInputSize;          // DATA STRUCTURE SIZE      
 	IOByteCount structureOutputSize;
 #endif
-	
+*/	
       if (getTypeEnum() == SENSOR_MAC_INTEL)  {
 // Intel Mac
          struct stDataMacIntel inputStructureIntel;            
