@@ -34,13 +34,13 @@ then
 else
  SDK32=$NEW_SDK
 fi
+SDK32=MacOSX10.6.sdk
 
 MACVER=`echo $SDK32|sed -e s/[a-zA-Z]//g -e s/.\$//`
 
 SDK32_DIR='/Developer/SDKs/'$SDK32
 MINVER32='-mmacosx-version-min='$MACVER
-ARCHES32='-arch i386 -arch ppc'
-
+ARCHES32='-arch i386'
 
 if test $PPC64_NEEDED -gt 0
 then
@@ -59,6 +59,7 @@ else
    SDK64=$NEW_SDK64
   fi
 fi
+SDK64=$SDK32
 
 SDK64_DIR='/Developer/SDKs/'$SDK64
 MACVER64=`echo $SDK64|sed -e s/[a-zA-Z]//g -e s/.\$//`

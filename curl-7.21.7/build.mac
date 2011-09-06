@@ -1,3 +1,9 @@
+export LIBTOOL='/usr/local/bin/libtool --tag=CC'
+export LIBTOOLIZE=/usr/local/bin/libtoolize
+export CXX=/Developer/usr/bin/llvm-g++-4.2
+export CC=/Developer/usr/bin/llvm-gcc-4.2
+export MACOSX_DEPLOYMENT_TARGET=10.6
+export SDKROOT="/Developer/SDKs/MacOSX10.6.sdk"
 ./MacOSX-Framework
 sudo rm -rf /Library/Frameworks/libcurl.framework
 sudo mv libcurl.framework /Library/Frameworks

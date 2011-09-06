@@ -78,10 +78,10 @@ BUILD_UNITTESTS_FALSE =
 BUILD_UNITTESTS_TRUE = #
 CC = /Developer/usr/bin/llvm-gcc-4.2
 CCDEPMODE = depmode=none
-CFLAGS = -Os -isysroot /Developer/SDKs/MacOSX10.7.sdk -arch x86_64 -mmacosx-version-min=10.7 -g0 -Wno-system-headers
-CONFIGURE_OPTIONS = " '--disable-dependency-tracking' '--disable-static' '--with-gssapi' 'CFLAGS=-Os -isysroot /Developer/SDKs/MacOSX10.7.sdk -arch x86_64 -mmacosx-version-min=10.7' 'LDFLAGS=-Wl,-syslibroot,/Developer/SDKs/MacOSX10.7.sdk -arch x86_64 -mmacosx-version-min=10.7 -Wl,-headerpad_max_install_names' 'CC=/Developer/usr/bin/llvm-gcc-4.2' 'CPPFLAGS=-O2 -I/Developer/SDKs/MacOSX10.6.sdk/usr/include -I/Developer/SDKs/MacOSX10.6.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.6.sdk -arch x86_64' 'CPP=/Developer/usr/bin/llvm-cpp-4.2'"
-CPP = /Developer/usr/bin/llvm-cpp-4.2
-CPPFLAGS = -O2 -isystem /Developer/SDKs/MacOSX10.6.sdk/usr/include -isystem /Developer/SDKs/MacOSX10.6.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.6.sdk -arch x86_64
+CFLAGS = -Os -isysroot /Developer/SDKs/MacOSX10.6.sdk -arch x86_64 -mmacosx-version-min=10.6 -g0 -Wno-system-headers
+CONFIGURE_OPTIONS = " '--disable-dependency-tracking' '--disable-static' '--with-gssapi' 'CFLAGS=-Os -isysroot /Developer/SDKs/MacOSX10.6.sdk -arch x86_64 -mmacosx-version-min=10.6' 'LDFLAGS=-Wl,-syslibroot,/Developer/SDKs/MacOSX10.6.sdk -arch x86_64 -mmacosx-version-min=10.6 -Wl,-headerpad_max_install_names' 'CC=/Developer/usr/bin/llvm-gcc-4.2'"
+CPP = /Developer/usr/bin/llvm-gcc-4.2 -E
+CPPFLAGS = 
 CROSSCOMPILING_FALSE = 
 CROSSCOMPILING_TRUE = #
 CURLDEBUG_FALSE = 
@@ -134,7 +134,7 @@ INSTALL_STRIP_PROGRAM = ${SHELL} $(install_sh) -c -s
 IPV6_ENABLED = 1
 KRB4_ENABLED = 
 LD = /Developer/usr/llvm-gcc-4.2/libexec/gcc/i686-apple-darwin11/4.2.1/ld
-LDFLAGS = -Wl,-syslibroot,/Developer/SDKs/MacOSX10.7.sdk -arch x86_64 -mmacosx-version-min=10.7 -Wl,-headerpad_max_install_names
+LDFLAGS = -Wl,-syslibroot,/Developer/SDKs/MacOSX10.6.sdk -arch x86_64 -mmacosx-version-min=10.6 -Wl,-headerpad_max_install_names
 LIBCURL_LIBS = -lssl -lcrypto -lldap -lgssapi_krb5 -lresolv -lz
 LIBOBJS = 
 LIBS = 

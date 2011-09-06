@@ -164,7 +164,7 @@ lock_old_archive_extraction=yes
 LTCC="/Developer/usr/bin/llvm-gcc-4.2"
 
 # LTCC compiler flags.
-LTCFLAGS="-Os -isysroot /Developer/SDKs/MacOSX10.7.sdk -arch x86_64 -mmacosx-version-min=10.7 -g0 -Wno-system-headers"
+LTCFLAGS="-Os -isysroot /Developer/SDKs/MacOSX10.6.sdk -arch x86_64 -mmacosx-version-min=10.6 -g0 -Wno-system-headers"
 
 # Take the output of nm and produce a listing of raw symbols and C names.
 global_symbol_pipe="sed -n -e 's/^.*[	 ]\\([BCDEGRST][BCDEGRST]*\\)[	 ][	 ]*_\\([_A-Za-z][_A-Za-z0-9]*\\)\$/\\1 _\\2 \\2/p' | sed '/ __gnu_lto/d'"
