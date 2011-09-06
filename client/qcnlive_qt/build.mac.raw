@@ -1,2 +1,8 @@
 export XCB=/Developer/usr/bin/xcodebuild
 $XCB GCC_PREPROCESSOR_DEFINITIONS='$(value) QCN_RAW_DATA=1' -project QCNLive.xcodeproj -configuration Release -target QCNLive clean build 
+/usr/bin/macdeployqt ./QCNLive.app 
+rm -rf ../bin/QCNLive.app
+cp -r QCNLive.app ../bin/
+mkdir ../bin/QCNLive.app/Contents/Resources/
+cp ../../doc/qcnmac.icns ../bin/QCNLive.app/Contents/Resources/
+cd ../bin
