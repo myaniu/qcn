@@ -127,7 +127,6 @@ extern void* QCNThreadSensor(void*)
              continue;
          }
 		  
-		  SetSensorThresholdAndDiffFactor();
 
          fprintf(stdout,"Start of monitoring at time %f  interval %f  threshold %f\n", sm->t0start, sm->dt, g_fThreshold);
          fprintf(stdout,"Initial sensor values:  x0=%f  y0=%f  z0=%f  sample size=%ld  dt=%f\n", sm->x0[0], sm->y0[0], sm->z0[0], sm->lSampleSize, sm->dt);

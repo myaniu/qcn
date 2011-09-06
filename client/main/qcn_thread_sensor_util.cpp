@@ -369,7 +369,7 @@ bool getInitialMean(CSensor* psms)
 { // note that the first point (0) stores the initial mean
         sm->xa[0]=0.; sm->ya[0]=0. ; sm->za[0]=0.;               /*  INITIAL MEAN IS INITIAL POINT   */
         sm->resetSampleClock();
-		sm->fCorrectionFactor = 1.0f;
+	sm->fCorrectionFactor = 1.0f;
         for (int j = 1; j <= 10; j++) {
 // 2)
     sm->lOffset = 0;
@@ -394,9 +394,11 @@ bool getInitialMean(CSensor* psms)
 		sm->x0[0] *= sm->fCorrectionFactor;
 		sm->y0[0] *= sm->fCorrectionFactor;
 		sm->z0[0] *= sm->fCorrectionFactor;
-        fprintf(stderr, "Uncalibrated JW24F14 found: sm->fCorrectionFactor = %f\n", sm->fCorrectionFactor);
+       		fprintf(stderr, "Uncalibrated JW24F14 found: sm->fCorrectionFactor = %f\n", sm->fCorrectionFactor);
 	} 
 	
+	SetSensorThresholdAndDiffFactor(); // good spot to set thresholds for sensor triggers
+
         sm->sgmx = 0.0f;
         sm->xa[0]  = sm->x0[0];
         sm->ya[0]  = sm->y0[0];
@@ -632,17 +634,20 @@ void SetSensorThresholdAndDiffFactor()
 		case SENSOR_WIN_THINKPAD:
 			g_fThreshold = 0.20f;
 			break;
+		case SENSOR_USB_MOTIONNODEACCEL:
 		case SENSOR_USB_JW24F8:
-			g_fThreshold = 0.025f;
+			g_fThreshold = 0.01f;
 			g_fSensorDiffFactor = 1.10f;   // note USB sensors get a small diff factor below, instead of 33% just 10%
 			break;
 		case SENSOR_USB_JW24F14:
-		case SENSOR_USB_MOTIONNODEACCEL:
+			g_fThreshold = 0.005f;
+			g_fSensorDiffFactor = 1.10f;   // note USB sensors get a small diff factor below, instead of 33% just 10%
+			break;
 		case SENSOR_USB_ONAVI_1:
                 case SENSOR_USB_ONAVI_A_12:
                 case SENSOR_USB_ONAVI_A_16:
                 case SENSOR_USB_ONAVI_A_24:
-			g_fThreshold = 0.01f;
+			g_fThreshold = 0.0025f;
 			g_fSensorDiffFactor = 1.10f;   // note USB sensors get a small diff factor below, instead of 33% just 10%
 			break;
 		default:
