@@ -2,15 +2,14 @@
 rm -rf QCNLive.app
 export XCB=/Developer/usr/bin/xcodebuild
 $XCB GCC_PREPROCESSOR_DEFINITIONS='$(value) QCN_RAW_DATA=1' -project QCNLive.xcodeproj -configuration Release -target QCNLive clean build 
-#/usr/bin/macdeployqt ./QCNLive.app 
-#FRWL=/Library/Frameworks/libcurl.framework
-#FRWQ=QCNLive.app/Contents/Frameworks/libcurl.framework/
-#mkdir $FRWQ
-#cp -r $FRWL/Resources $FRWQ
-#cp -r $FRWL/Versions $FRWQ
-#mkdir ../bin/QCNLive.app/Contents/Resources/
-unzip qt-mac-frameworks.zip -d QCNLive.app/Contents
+/usr/bin/macdeployqt ./QCNLive.app 
+FRWL=/Library/Frameworks/libcurl.framework
+FRWQ=QCNLive.app/Contents/Frameworks/libcurl.framework/
+mkdir $FRWQ
+cp -r $FRWL/Resources $FRWQ
+cp -r $FRWL/Versions $FRWQ
 cp ../../doc/qcnmac.icns QCNLive.app/Contents/Resources/
+# get rid of all the extra libraries
 rm -rf ../bin/QCNLive.app
 cp -r QCNLive.app ../bin/
 cd ../bin
