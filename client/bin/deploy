@@ -171,14 +171,14 @@ print_common_boinc_files $ntpdv
 #echo put qcn_graphics_${vnon}_$suffixi >> qcnsftp.up
 #print_common_boinc_files $ntpdv
 
-echo chdir $pathprecont >> qcnsftp.up
-echo chdir ${vnci} >> qcnsftp.up
-echo -mkdir $appspaththree >> qcnsftp.up
-echo chdir $appspaththree >> qcnsftp.up
-echo put qcn_${vnci}_$suffixp$ncisuffix >> qcnsftp.up
-echo put qcn_graphics_${vnci}_$suffixp >> qcnsftp.up
-echo put version.xml >> qcnsftp.up
-print_common_boinc_files $ntpdv
+#echo chdir $pathprecont >> qcnsftp.up
+#echo chdir ${vnci} >> qcnsftp.up
+#echo -mkdir $appspaththree >> qcnsftp.up
+#echo chdir $appspaththree >> qcnsftp.up
+#echo put qcn_${vnci}_$suffixp$ncisuffix >> qcnsftp.up
+#echo put qcn_graphics_${vnci}_$suffixp >> qcnsftp.up
+#echo put version.xml >> qcnsftp.up
+#print_common_boinc_files $ntpdv
 
 #echo chdir $pathprecont >> qcnsftp.up
 #echo -mkdir $appspathfour >> qcnsftp.up
@@ -186,6 +186,16 @@ print_common_boinc_files $ntpdv
 #echo put qcn_${vnon}_$suffixp >> qcnsftp.up
 #echo put qcn_graphics_${vnon}_$suffixp >> qcnsftp.up
 #print_common_boinc_files $ntpdv
+
+echo chdir $pathprecont >> qcnsftp.up
+echo -mkdir ${vnci} >> qcnsftp.up
+echo chdir ${vnci} >> qcnsftp.up
+echo -mkdir $appspathfive >> qcnsftp.up
+echo chdir $appspathfive >> qcnsftp.up
+echo put qcn_${vnci}_$suffixs$ncisuffix >> qcnsftp.up
+echo put qcn_graphics_${vnci}_$suffixs >> qcnsftp.up
+echo put version.xml >> qcnsftp.up
+print_common_boinc_files $ntpdv
 
 #echo chdir $pathprecont >> qcnsftp.up
 #echo -mkdir $appspathfive >> qcnsftp.up
