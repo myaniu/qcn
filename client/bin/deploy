@@ -97,6 +97,7 @@ echo put \*.zip >> qcnsftp.up
 #regular QCN/BOINC
 MAIN=qcn_${vnci}_$suffixi$ncisuffix
 GRAPHICS=qcn_graphics_${vnci}_$suffixi 
+sed s/MAIN/$MAIN/ < version.xml.in | sed s/GRAPHICS/$GRAPHICS/ > version.xml
 echo chdir $pathpre >> qcnsftp.up
 echo -mkdir ${vnci} >> qcnsftp.up
 echo chdir ${vnci} >> qcnsftp.up
@@ -132,6 +133,7 @@ print_common_boinc_files $ntpdv
 
 MAIN=qcn_${vnci}_$suffixs$ncisuffix
 GRAPHICS=qcn_graphics_${vnci}_$suffixs 
+sed s/MAIN/$MAIN/ < version.xml.in | sed s/GRAPHICS/$GRAPHICS/ > version.xml
 echo chdir $pathpre >> qcnsftp.up
 echo -mkdir ${vnci} >> qcnsftp.up
 echo chdir ${vnci} >> qcnsftp.up
@@ -159,6 +161,7 @@ print_common_boinc_files $ntpdv
 #continual QCN/BOINC
 MAIN=qcn_${vnci}_$suffixi$ncisuffix
 GRAPHICS=qcn_graphics_${vnci}_$suffixi 
+sed s/MAIN/$MAIN/ < version.xml.in | sed s/GRAPHICS/$GRAPHICS/ > version.xml
 echo chdir $pathprecont >> qcnsftp.up
 echo -mkdir ${vnci} >> qcnsftp.up
 echo chdir ${vnci} >> qcnsftp.up
@@ -195,6 +198,7 @@ print_common_boinc_files $ntpdv
 
 MAIN=qcn_${vnci}_$suffixs$ncisuffix
 GRAPHICS=qcn_graphics_${vnci}_$suffixs 
+sed s/MAIN/$MAIN/ < version.xml.in | sed s/GRAPHICS/$GRAPHICS/ > version.xml
 echo chdir $pathprecont >> qcnsftp.up
 echo -mkdir ${vnci} >> qcnsftp.up
 echo chdir ${vnci} >> qcnsftp.up
@@ -265,6 +269,7 @@ else
   # now copy apps up
   MAIN=qcn_${vnci}_$suffix
   GRAPHICS=qcn_graphics_${vnci}_$suffix
+  sed s/MAIN/$MAIN/ < version.xml.in | sed s/GRAPHICS/$GRAPHICS/ > version.xml
   echo chdir $pathpre >> qcnsftp.up
   echo -mkdir ${vnci} >> qcnsftp.up
   echo chdir ${vnci}  >> qcnsftp.up

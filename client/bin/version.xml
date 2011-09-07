@@ -1,10 +1,10 @@
 <version>
   <file>
-    <physical_name>qcn_6.67_windows_intelx86__nci.exe</physical_name>
+    <physical_name>qcn_5.43_i686-apple-darwin.exe</physical_name>
     <main_program/>
   </file>
   <file>
-    <physical_name>qcn_graphics_6.67_windows_intelx86.exe</physical_name>
+    <physical_name>qcn_graphics.5.43_i686</physical_name>
     <logical_name>graphics_app</logical_name>
   </file>
 </version>
