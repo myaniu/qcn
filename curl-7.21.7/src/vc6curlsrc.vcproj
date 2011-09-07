@@ -443,7 +443,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\client\win_build\curld.lib"
+				OutputFile="..\..\client\win_build\curllib.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -893,7 +893,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\client\win_build\curldx64.lib"
+				OutputFile="..\..\client\win_build\curllib.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -970,7 +970,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\client\win_build\curldl.lib"
+				OutputFile="..\..\client\win_build\curllib.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -1048,7 +1048,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\client\win_build\curldlx64.lib"
+				OutputFile="..\..\client\win_build\curllib.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -1125,7 +1125,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\client\win_build\curl.lib"
+				OutputFile="..\..\client\win_build\curllib.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -1203,7 +1203,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\client\win_build\curlx64.lib"
+				OutputFile="..\..\client\win_build\curllib.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -1280,7 +1280,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\client\win_build\curll.lib"
+				OutputFile="..\..\client\win_build\curllib.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -1358,7 +1358,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\client\win_build\curllx64.lib"
+				OutputFile="..\..\client\win_build\curllib.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
