@@ -815,7 +815,7 @@
 /* #undef NEED_THREAD_SAFE */
 
 /* cpu-machine-OS */
-#define OS "x86_64-apple-darwin11.0.1"
+#define OS "x86_64-apple-darwin11.1.0"
 
 /* Name of package */
 #define PACKAGE "curl"

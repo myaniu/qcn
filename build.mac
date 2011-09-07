@@ -18,6 +18,9 @@ export CXXFLAGS=
 cd jpeg-6b
 chmod uog+rx build.mac
 ./build.mac
+cd ../bzip2-1.0.6
+chmod uog+rx build.mac
+./build.mac
 cd ../zlib-1.2.5
 chmod uog+rx build.mac
 ./build.mac
