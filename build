@@ -78,6 +78,7 @@ else
   cp api/libboinc_graphics2.a ../qcn/client/linux_build/
   cd ../qcn
   cp configure.ac.linux configure.ac
+  cp client/qcnlive_qt/Makefile.linux client/qcnlive_qt/Makefile
   ./_autosetup
   ./configure --enable-client-release --disable-server
   make clean && make
