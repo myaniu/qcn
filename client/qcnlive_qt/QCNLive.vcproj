@@ -470,7 +470,7 @@
 				Name="VCLinkerTool"
 				IgnoreImportLibrary="false"
 				AdditionalOptions="/LTCG &quot;/MANIFESTDEPENDENCY:type=&apos;win32&apos; name=&apos;Microsoft.Windows.Common-Controls&apos; version=&apos;6.0.0.0&apos; publicKeyToken=&apos;6595b64144ccf1df&apos; language=&apos;*&apos; processorArchitecture=&apos;*&apos;&quot;"
-				AdditionalDependencies="gdi32.lib user32.lib qtmain.lib wsock32.lib hid.lib setupapi.lib winmm.lib comctl32.lib boinc_zipl.lib curllibl.lib jpeglibl.lib zlibl.lib MotionNodeAccelAPI.lib QtOpenGL4.lib QtGui4.lib QtCore4.lib ftgll.lib freetypel.lib boinc_libl.lib boinc_apil.lib"
+				AdditionalDependencies="opengl32.lib glu32.lib gdi32.lib user32.lib qtmain.lib wsock32.lib hid.lib setupapi.lib winmm.lib comctl32.lib boinc_zipl.lib curllibl.lib jpeglibl.lib zlibl.lib MotionNodeAccelAPI.lib QtOpenGL4.lib QtGui4.lib QtCore4.lib ftgll.lib freetypel.lib boinc_libl.lib boinc_apil.lib"
 				OutputFile="..\bin\$(ProjectName).exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
@@ -665,7 +665,7 @@
 				Name="VCLinkerTool"
 				IgnoreImportLibrary="false"
 				AdditionalOptions="/LTCG &quot;/MANIFESTDEPENDENCY:type=&apos;win32&apos; name=&apos;Microsoft.Windows.Common-Controls&apos; version=&apos;6.0.0.0&apos; publicKeyToken=&apos;6595b64144ccf1df&apos; language=&apos;*&apos; processorArchitecture=&apos;*&apos;&quot;"
-				AdditionalDependencies="gdi32.lib user32.lib qtmaind.lib wsock32.lib hid.lib setupapi.lib winmm.lib comctl32.lib boinc_zipdl.lib curllibdl.lib jpeglibdl.lib zlibdl.lib MotionNodeAccelAPI.lib QtOpenGLd4.lib QtGuid4.lib QtCored4.lib ftgldl.lib freetypedl.lib boinc_libdl.lib boinc_apidl.lib"
+				AdditionalDependencies="gdi32.lib user32.lib opengl32.lib glu32.lib qtmaind.lib wsock32.lib hid.lib setupapi.lib winmm.lib comctl32.lib boinc_zipdl.lib curllibdl.lib jpeglibdl.lib zlibdl.lib MotionNodeAccelAPI.lib QtOpenGLd4.lib QtGuid4.lib QtCored4.lib ftgldl.lib freetypedl.lib boinc_libdl.lib boinc_apidl.lib"
 				OutputFile="..\bin\$(ProjectName)d.exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
@@ -1214,13 +1214,6 @@
 				<FileConfiguration
 					Name="ReleaseDLL|x64"
 					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="DebugDLL|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -3585,7 +3578,6 @@
 					</FileConfiguration>
 					<FileConfiguration
 						Name="ReleaseDLL|Win32"
-						ExcludedFromBuild="true"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
@@ -3677,7 +3669,6 @@
 					</FileConfiguration>
 					<FileConfiguration
 						Name="ReleaseDLL|Win32"
-						ExcludedFromBuild="true"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
@@ -3769,7 +3760,6 @@
 					</FileConfiguration>
 					<FileConfiguration
 						Name="ReleaseDLL|Win32"
-						ExcludedFromBuild="true"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
@@ -3861,7 +3851,6 @@
 					</FileConfiguration>
 					<FileConfiguration
 						Name="ReleaseDLL|Win32"
-						ExcludedFromBuild="true"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
@@ -3953,7 +3942,6 @@
 					</FileConfiguration>
 					<FileConfiguration
 						Name="ReleaseDLL|Win32"
-						ExcludedFromBuild="true"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
