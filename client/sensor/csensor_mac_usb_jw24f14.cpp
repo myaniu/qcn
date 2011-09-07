@@ -116,7 +116,7 @@ CFMutableArrayRef CSensorMacUSBJW24F14::DiscoverHIDInterfaces(int vendorID, int 
 
 	//ioReturnValue = IOMasterPort(bootstrap_port, &masterPort);
 	ioReturnValue = IOMasterPort(MACH_PORT_NULL, &masterPort);
-	if (masterPort == nil || ioReturnValue != kIOReturnSuccess) {
+	if (!masterPort || ioReturnValue != kIOReturnSuccess) {
 		fprintf(stderr, "DiscoverHIDInterfaces: Couldn't create a master I/O Kit Port.");
 		return result;
 	}
@@ -476,6 +476,8 @@ bool CSensorMacUSBJW24F14::detect()
 	
 //	bool CSensorMacUSBJW24F14::ReadData(IOHIDDeviceInterface122** hidInterface, const UInt8 addr, UInt8* cTemp, const char* strCallProc)
 
+    if (! openDevHandle()) return false;
+    
    // OK, we have a JoyWarrior USB sensor, and I/O is setup using Apple HID Utilities at 50Hz, +/- 2g
    setType(SENSOR_USB_JW24F14);
    setPort(getTypeEnum()); // set > -1 so we know we have a sensor
