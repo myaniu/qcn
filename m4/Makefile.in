@@ -42,22 +42,15 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/acx_pthread.m4 \
 	$(top_srcdir)/m4/ax_lang_compiler_ms.m4 \
 	$(top_srcdir)/m4/ax_winsock.m4 \
 	$(top_srcdir)/m4/boinc_check_cygwin.m4 \
-	$(top_srcdir)/m4/boinc_check_fcgi.m4 \
-	$(top_srcdir)/m4/boinc_check_flags.m4 \
-	$(top_srcdir)/m4/boinc_check_lib_with.m4 \
 	$(top_srcdir)/m4/boinc_getsockopt.m4 \
 	$(top_srcdir)/m4/boinc_platform.m4 \
-	$(top_srcdir)/m4/boinc_set_compile_flags.m4 \
-	$(top_srcdir)/m4/boinc_wxwidgets.m4 \
-	$(top_srcdir)/m4/check_ssl.m4 $(top_srcdir)/m4/kc_mysql.m4 \
-	$(top_srcdir)/m4/libcurl.m4 $(top_srcdir)/m4/sah_check_lib.m4 \
+	$(top_srcdir)/m4/sah_check_lib.m4 \
 	$(top_srcdir)/m4/sah_header_stdcxx.m4 \
 	$(top_srcdir)/m4/sah_largefile_breaks_cxx.m4 \
 	$(top_srcdir)/m4/sah_libext.m4 $(top_srcdir)/m4/sah_links.m4 \
 	$(top_srcdir)/m4/sah_namespace.m4 \
 	$(top_srcdir)/m4/sah_select_bitness.m4 \
 	$(top_srcdir)/m4/sah_staticize_ldflags.m4 \
-	$(top_srcdir)/m4/sqlite3.m4 $(top_srcdir)/m4/wxWidgets.m4 \
 	$(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
@@ -68,7 +61,6 @@ SOURCES =
 DIST_SOURCES =
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 ACLOCAL = @ACLOCAL@
-ALLOCA = @ALLOCA@
 AMTAR = @AMTAR@
 AR = @AR@
 AS = @AS@
@@ -76,11 +68,6 @@ AUTOCONF = @AUTOCONF@
 AUTOHEADER = @AUTOHEADER@
 AUTOMAKE = @AUTOMAKE@
 AWK = @AWK@
-BOINC_EXTRA_LIBS = @BOINC_EXTRA_LIBS@
-BOINC_MAJOR_VERSION = @BOINC_MAJOR_VERSION@
-BOINC_MINOR_VERSION = @BOINC_MINOR_VERSION@
-BOINC_RELEASE = @BOINC_RELEASE@
-BOINC_VERSION_STRING = @BOINC_VERSION_STRING@
 CC = @CC@
 CCDEPMODE = @CCDEPMODE@
 CFLAGS = @CFLAGS@
@@ -88,7 +75,6 @@ CLIENTGUIFLAGS = @CLIENTGUIFLAGS@
 CLIENTGUILIBS = @CLIENTGUILIBS@
 CLIENTLIBS = @CLIENTLIBS@
 CLIENT_BIN_FILENAME = @CLIENT_BIN_FILENAME@
-CLIENT_CMD_BIN_FILENAME = @CLIENT_CMD_BIN_FILENAME@
 CLIENT_GUI_BIN_FILENAME = @CLIENT_GUI_BIN_FILENAME@
 CPP = @CPP@
 CPPFLAGS = @CPPFLAGS@
@@ -111,7 +97,6 @@ EGREP = @EGREP@
 EXEEXT = @EXEEXT@
 F77 = @F77@
 FFLAGS = @FFLAGS@
-FULLNAME = @FULLNAME@
 GLUT_CFLAGS = @GLUT_CFLAGS@
 GLUT_LIBS = @GLUT_LIBS@
 GLU_CFLAGS = @GLU_CFLAGS@
@@ -127,23 +112,15 @@ INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
 LDFLAGS = @LDFLAGS@
 LD_EXPORT_DYNAMIC = @LD_EXPORT_DYNAMIC@
 LIBBOINC_VERSION = @LIBBOINC_VERSION@
-LIBCURL = @LIBCURL@
-LIBCURL_CPPFLAGS = @LIBCURL_CPPFLAGS@
 LIBEXT = @LIBEXT@
-LIBNOTIFY_CFLAGS = @LIBNOTIFY_CFLAGS@
-LIBNOTIFY_LIBS = @LIBNOTIFY_LIBS@
 LIBOBJS = @LIBOBJS@
 LIBS = @LIBS@
 LIBTOOL = @LIBTOOL@
 LN = @LN@
 LN_S = @LN_S@
-LOGNAME = @LOGNAME@
 LTLIBOBJS = @LTLIBOBJS@
 MAKEINFO = @MAKEINFO@
 MKDIR_P = @MKDIR_P@
-MYSQL_CFLAGS = @MYSQL_CFLAGS@
-MYSQL_CONFIG = @MYSQL_CONFIG@
-MYSQL_LIBS = @MYSQL_LIBS@
 NMEDIT = @NMEDIT@
 OBJC = @OBJC@
 OBJCDEPMODE = @OBJCDEPMODE@
@@ -158,46 +135,26 @@ PACKAGE_TARNAME = @PACKAGE_TARNAME@
 PACKAGE_VERSION = @PACKAGE_VERSION@
 PATH_SEPARATOR = @PATH_SEPARATOR@
 PICFLAGS = @PICFLAGS@
-PKGCONFIG = @PKGCONFIG@
-PKG_CONFIG = @PKG_CONFIG@
 PTHREAD_CC = @PTHREAD_CC@
 PTHREAD_CFLAGS = @PTHREAD_CFLAGS@
 PTHREAD_LIBS = @PTHREAD_LIBS@
+QCN_MAJOR_VERSION = @QCN_MAJOR_VERSION@
+QCN_MINOR_VERSION = @QCN_MINOR_VERSION@
+QCN_RELEASE = @QCN_RELEASE@
+QCN_VERSION_STRING = @QCN_VERSION_STRING@
 RANLIB = @RANLIB@
-RDATE = @RDATE@
-REV = @REV@
 SED = @SED@
 SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
-SQLITE3_CPPFLAGS = @SQLITE3_CPPFLAGS@
-SQLITE3_LIBS = @SQLITE3_LIBS@
-SSLDIR = @SSLDIR@
-SSL_CFLAGS = @SSL_CFLAGS@
-SSL_CXXFLAGS = @SSL_CXXFLAGS@
-SSL_LIBS = @SSL_LIBS@
 STRIP = @STRIP@
 TOP_BUILD_DIR = @TOP_BUILD_DIR@
+TOP_SOURCE_DIR = @TOP_SOURCE_DIR@
 VERSION = @VERSION@
-WHOAMI = @WHOAMI@
-WX_CFLAGS = @WX_CFLAGS@
-WX_CFLAGS_ONLY = @WX_CFLAGS_ONLY@
-WX_CONFIG_PATH = @WX_CONFIG_PATH@
-WX_CPPFLAGS = @WX_CPPFLAGS@
-WX_CXXFLAGS = @WX_CXXFLAGS@
-WX_CXXFLAGS_ONLY = @WX_CXXFLAGS_ONLY@
-WX_LIBS = @WX_LIBS@
-WX_LIBS_STATIC = @WX_LIBS_STATIC@
-WX_VERSION = @WX_VERSION@
-XCBATOM_CFLAGS = @XCBATOM_CFLAGS@
-XCBATOM_LIBS = @XCBATOM_LIBS@
-XCB_CFLAGS = @XCB_CFLAGS@
-XCB_LIBS = @XCB_LIBS@
 XMKMF = @XMKMF@
 X_CFLAGS = @X_CFLAGS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_LIBS = @X_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
-_libcurl_config = @_libcurl_config@
 abs_builddir = @abs_builddir@
 abs_srcdir = @abs_srcdir@
 abs_top_builddir = @abs_top_builddir@

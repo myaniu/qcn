@@ -96,27 +96,6 @@
 /* Define to 1 if you have the <inttypes.h> header file. */
 #define HAVE_INTTYPES_H 1
 
-/* Define to 1 if you have the c library */
-#define HAVE_LIBC 1
-
-/* Define to 1 if you have the gcc library */
-#define HAVE_LIBGCC 1
-
-/* Define to 1 if you have the gcc_eh library */
-#define HAVE_LIBGCC_EH 1
-
-/* Define to 1 if you have the math library */
-#define HAVE_LIBM 1
-
-/* Define to 1 if you have the pthread library */
-#define HAVE_LIBPTHREAD 1
-
-/* Define to 1 if you have the stdc++ library */
-#define HAVE_LIBSTDC__ 1
-
-/* Define to 1 if you have the wsock32 library */
-/* #undef HAVE_LIBWSOCK32 */
-
 /* Define to 1 if you have the <malloc.h> header file. */
 #define HAVE_MALLOC_H 1
 
@@ -331,15 +310,6 @@
 /* Define to 1 if you have the `_alloca' function. */
 /* #undef HAVE__ALLOCA */
 
-/* Define to 1 if /proc/meminfo exists */
-#define HAVE__PROC_MEMINFO 1
-
-/* Define to 1 if /proc/self/psinfo exists */
-/* #undef HAVE__PROC_SELF_PSINFO */
-
-/* Define to 1 if /proc/self/stat exists */
-#define HAVE__PROC_SELF_STAT 1
-
 /* Platform identification used to identify applications for this BOINC core
    client */
 #define HOSTTYPE "i686-pc-linux-gnu"
@@ -364,13 +334,13 @@
 #define PACKAGE_NAME "QCN"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "QCN 6.50"
+#define PACKAGE_STRING "QCN 6.18"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "qcn"
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "6.50"
+#define PACKAGE_VERSION "6.18"
 
 /* Define to the necessary symbol if this constant uses a non-standard name on
    your system. */
@@ -395,7 +365,7 @@
 #define UTMP_LOCATION "/var/run/utmp"
 
 /* Version number of package */
-#define VERSION "6.50"
+#define VERSION "6.18"
 
 /* Define to prevent redefinition of INT32 in jconfig.h */
 /* #undef XMD_H */
@@ -414,6 +384,12 @@
 
 /* Define to `unsigned int' if <sys/types.h> does not define. */
 /* #undef size_t */
+
+
+#ifndef HAVE_SOCKLEN_T
+typedef BOINC_SOCKLEN_T socklen_t;
+#endif
+
 
 
 

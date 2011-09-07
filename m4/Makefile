@@ -14,9 +14,9 @@
 
 
 
-pkgdatadir = $(datadir)/boinc
-pkglibdir = $(libdir)/boinc
-pkgincludedir = $(includedir)/boinc
+pkgdatadir = $(datadir)/qcn
+pkglibdir = $(libdir)/qcn
+pkgincludedir = $(includedir)/qcn
 am__cd = CDPATH="$${ZSH_VERSION+.}$(PATH_SEPARATOR)" && cd
 install_sh_DATA = $(install_sh) -c -m 644
 install_sh_PROGRAM = $(install_sh) -c
@@ -42,22 +42,15 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/acx_pthread.m4 \
 	$(top_srcdir)/m4/ax_lang_compiler_ms.m4 \
 	$(top_srcdir)/m4/ax_winsock.m4 \
 	$(top_srcdir)/m4/boinc_check_cygwin.m4 \
-	$(top_srcdir)/m4/boinc_check_fcgi.m4 \
-	$(top_srcdir)/m4/boinc_check_flags.m4 \
-	$(top_srcdir)/m4/boinc_check_lib_with.m4 \
 	$(top_srcdir)/m4/boinc_getsockopt.m4 \
 	$(top_srcdir)/m4/boinc_platform.m4 \
-	$(top_srcdir)/m4/boinc_set_compile_flags.m4 \
-	$(top_srcdir)/m4/boinc_wxwidgets.m4 \
-	$(top_srcdir)/m4/check_ssl.m4 $(top_srcdir)/m4/kc_mysql.m4 \
-	$(top_srcdir)/m4/libcurl.m4 $(top_srcdir)/m4/sah_check_lib.m4 \
+	$(top_srcdir)/m4/sah_check_lib.m4 \
 	$(top_srcdir)/m4/sah_header_stdcxx.m4 \
 	$(top_srcdir)/m4/sah_largefile_breaks_cxx.m4 \
 	$(top_srcdir)/m4/sah_libext.m4 $(top_srcdir)/m4/sah_links.m4 \
 	$(top_srcdir)/m4/sah_namespace.m4 \
 	$(top_srcdir)/m4/sah_select_bitness.m4 \
 	$(top_srcdir)/m4/sah_staticize_ldflags.m4 \
-	$(top_srcdir)/m4/sqlite3.m4 $(top_srcdir)/m4/wxWidgets.m4 \
 	$(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
@@ -67,35 +60,28 @@ CONFIG_CLEAN_FILES =
 SOURCES =
 DIST_SOURCES =
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
-ACLOCAL = ${SHELL} /home/carlgt1/projects/boinc/missing --run aclocal-1.10
-ALLOCA = 
-AMTAR = ${SHELL} /home/carlgt1/projects/boinc/missing --run tar
+ACLOCAL = ${SHELL} /home/carlgt1/projects/qcn/missing --run aclocal-1.10
+AMTAR = ${SHELL} /home/carlgt1/projects/qcn/missing --run tar
 AR = ar
 AS = as
-AUTOCONF = ${SHELL} /home/carlgt1/projects/boinc/missing --run autoconf
-AUTOHEADER = ${SHELL} /home/carlgt1/projects/boinc/missing --run autoheader
-AUTOMAKE = ${SHELL} /home/carlgt1/projects/boinc/missing --run automake-1.10
+AUTOCONF = ${SHELL} /home/carlgt1/projects/qcn/missing --run autoconf
+AUTOHEADER = ${SHELL} /home/carlgt1/projects/qcn/missing --run autoheader
+AUTOMAKE = ${SHELL} /home/carlgt1/projects/qcn/missing --run automake-1.10
 AWK = mawk
-BOINC_EXTRA_LIBS =  -lssl -lcrypto   -ldl -lnsl -lz
-BOINC_MAJOR_VERSION = 6
-BOINC_MINOR_VERSION = 13
-BOINC_RELEASE = 2
-BOINC_VERSION_STRING = 6.13.2
 CC = gcc
 CCDEPMODE = depmode=gcc3
-CFLAGS = -g -O2 -Wall
+CFLAGS = -g -O2
 CLIENTGUIFLAGS = 
-CLIENTGUILIBS =   
-CLIENTLIBS = -lresolv -lpthread -lm 
-CLIENT_BIN_FILENAME = boinc
-CLIENT_CMD_BIN_FILENAME = boinccmd
-CLIENT_GUI_BIN_FILENAME = boincmgr
+CLIENTGUILIBS = 
+CLIENTLIBS = 
+CLIENT_BIN_FILENAME = qcn
+CLIENT_GUI_BIN_FILENAME = qcn_graphics
 CPP = gcc -E
 CPPFLAGS = 
 CXX = g++
 CXXCPP = g++ -E
 CXXDEPMODE = depmode=gcc3
-CXXFLAGS = -g -O2 -Wall
+CXXFLAGS = -g -O2
 CYGPATH_W = echo
 DEFS = -DHAVE_CONFIG_H
 DEPDIR = .deps
@@ -110,8 +96,7 @@ ECHO_T =
 EGREP = /bin/grep -E
 EXEEXT = 
 F77 = gfortran
-FFLAGS = -g -O2 -Wall
-FULLNAME = Carl Christensen,,,
+FFLAGS = -g -O2
 GLUT_CFLAGS = -pthread
 GLUT_LIBS = -L/usr/local/lib -lglut  -lSM -lICE -lXmu -lXi  -L/usr/local/lib -lGLU -L/usr/local/lib -lGL  -lm
 GLU_CFLAGS = -pthread
@@ -126,82 +111,54 @@ INSTALL_SCRIPT = ${INSTALL}
 INSTALL_STRIP_PROGRAM = $(install_sh) -c -s
 LDFLAGS = 
 LD_EXPORT_DYNAMIC = 
-LIBBOINC_VERSION = 6:13:2
-LIBCURL = 
-LIBCURL_CPPFLAGS = 
+LIBBOINC_VERSION = 6:18
 LIBEXT = a
-LIBNOTIFY_CFLAGS = 
-LIBNOTIFY_LIBS = 
 LIBOBJS = 
-LIBS = -lresolv -lpthread -lm 
+LIBS =  -lz  
 LIBTOOL = $(SHELL) $(top_builddir)/libtool
 LN = /bin/ln
 LN_S = ln -s
-LOGNAME = carlgt1
 LTLIBOBJS = 
-MAKEINFO = ${SHELL} /home/carlgt1/projects/boinc/missing --run makeinfo
+MAKEINFO = ${SHELL} /home/carlgt1/projects/qcn/missing --run makeinfo
 MKDIR_P = /bin/mkdir -p
-MYSQL_CFLAGS = 
-MYSQL_CONFIG = 
-MYSQL_LIBS = 
 NMEDIT = 
 OBJC = gcc
 OBJCDEPMODE = depmode=none
 OBJCFLAGS = -ObjC
 OBJDUMP = objdump
 OBJEXT = o
-PACKAGE = boinc
+PACKAGE = qcn
 PACKAGE_BUGREPORT = 
-PACKAGE_NAME = BOINC
-PACKAGE_STRING = BOINC 6.13.2
-PACKAGE_TARNAME = boinc
-PACKAGE_VERSION = 6.13.2
+PACKAGE_NAME = QCN
+PACKAGE_STRING = QCN 6.18
+PACKAGE_TARNAME = qcn
+PACKAGE_VERSION = 6.18
 PATH_SEPARATOR = :
 PICFLAGS =  -fPIC -DPIC
-PKGCONFIG = /usr/bin/pkg-config
-PKG_CONFIG = /usr/bin/pkg-config
 PTHREAD_CC = gcc
 PTHREAD_CFLAGS = -pthread
 PTHREAD_LIBS = 
+QCN_MAJOR_VERSION = 6
+QCN_MINOR_VERSION = 18
+QCN_RELEASE = 
+QCN_VERSION_STRING = 6.18
 RANLIB = ranlib
-RDATE = 2011.09.07
-REV = 24142
 SED = /bin/sed
 SET_MAKE = 
 SHELL = /bin/sh
-SQLITE3_CPPFLAGS = 
-SQLITE3_LIBS = 
-SSLDIR = /usr
-SSL_CFLAGS =  
-SSL_CXXFLAGS =  
-SSL_LIBS = -lssl -lcrypto  
 STRIP = strip
-TOP_BUILD_DIR = /home/carlgt1/projects/boinc
-VERSION = 6.13.2
-WHOAMI = /usr/bin/whoami
-WX_CFLAGS = 
-WX_CFLAGS_ONLY = 
-WX_CONFIG_PATH = no
-WX_CPPFLAGS = 
-WX_CXXFLAGS = 
-WX_CXXFLAGS_ONLY = 
-WX_LIBS = 
-WX_LIBS_STATIC = 
-WX_VERSION = 
-XCBATOM_CFLAGS = 
-XCBATOM_LIBS = 
-XCB_CFLAGS =  
-XCB_LIBS = -lxcb  
+TOP_BUILD_DIR = /home/carlgt1/projects/qcn
+TOP_SOURCE_DIR = /home/carlgt1/projects/qcn
+VERSION = 6.18
 XMKMF = 
 X_CFLAGS = 
 X_EXTRA_LIBS = 
 X_LIBS = 
 X_PRE_LIBS =  -lSM -lICE
-_libcurl_config = 
-abs_builddir = /home/carlgt1/projects/boinc/m4
-abs_srcdir = /home/carlgt1/projects/boinc/m4
-abs_top_builddir = /home/carlgt1/projects/boinc
-abs_top_srcdir = /home/carlgt1/projects/boinc
+abs_builddir = /home/carlgt1/projects/qcn/m4
+abs_srcdir = /home/carlgt1/projects/qcn/m4
+abs_top_builddir = /home/carlgt1/projects/qcn
+abs_top_srcdir = /home/carlgt1/projects/qcn
 ac_ct_CC = gcc
 ac_ct_CXX = g++
 ac_ct_F77 = gfortran
@@ -224,7 +181,7 @@ datadir = ${datarootdir}
 datarootdir = ${prefix}/share
 docdir = ${datarootdir}/doc/${PACKAGE_TARNAME}
 dvidir = ${docdir}
-exec_prefix = /usr/local
+exec_prefix = ${prefix}
 host = i686-pc-linux-gnu
 host_alias = 
 host_cpu = i686
@@ -233,7 +190,7 @@ host_vendor = pc
 htmldir = ${docdir}
 includedir = ${prefix}/include
 infodir = ${datarootdir}/info
-install_sh = $(SHELL) /home/carlgt1/projects/boinc/install-sh
+install_sh = $(SHELL) /home/carlgt1/projects/qcn/install-sh
 libdir = ${exec_prefix}/lib
 libexecdir = ${exec_prefix}/libexec
 localedir = ${datarootdir}/locale
