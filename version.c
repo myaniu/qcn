@@ -30,6 +30,7 @@ int main(int argc, char** argv)
      printf("QCN Version Changed To %2.02f\n", fVal);
    }
    else {
+     print_version_file(fVal);
      printf("%2.02f\n", fVal);
    }
 }

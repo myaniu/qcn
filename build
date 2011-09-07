@@ -7,8 +7,11 @@ else
    svn update boinc
    cd qcn
 fi
-rm -f vers; gcc version.c -o vers ; ./vers 1
-rm -f vers; gcc version.c -o vers 
+if ( test "`uname -s`" = "Darwin" ) then
+  rm -f vers; gcc version.c -o vers ; ./vers 1
+else
+  rm -f vers; gcc version.c -o vers ; ./vers
+fi
 VERSION=`./vers`
 ./set-version $VERSION
 if ( test $VERSION = "" ) then
