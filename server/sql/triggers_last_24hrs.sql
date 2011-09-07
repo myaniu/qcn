@@ -12,4 +12,3 @@ from continual.qcn_trigger
 where time_trigger > unix_timestamp() - (3600*24) group by 'C', hostid, latitude, longitude
 ) qcn_24hrs
 order by db, hostid, latitude, longitude;
-
