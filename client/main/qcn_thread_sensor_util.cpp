@@ -188,7 +188,7 @@ bool getSensor(CSensor* volatile *ppsms)
 							 if (boinc_is_standalone()) 
 								 *ppsms = (CSensor*) new CSensorMacUSBJW();
 	#ifndef QCNLIVE
-						 else
+						 else 
 							*ppsms = (CSensor*) new CSensorMacUSBGeneric();
 	#endif
 	#endif		
@@ -211,7 +211,7 @@ bool getSensor(CSensor* volatile *ppsms)
 					   if (boinc_is_standalone()) 
 						   *ppsms = (CSensor*) new CSensorMacUSBJW24F14();
 #ifndef QCNLIVE
-					   else
+					   else 
 						   *ppsms = (CSensor*) new CSensorMacUSBGeneric();
 #endif
 #endif		
