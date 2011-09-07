@@ -8,11 +8,12 @@ else
    cd qcn
 fi
 if ( test "`uname -s`" = "Darwin" ) then
-  rm -f vers; gcc version.c -o vers ; ./vers 1
+  rm -f vers; gcc version.c -o vers 
+  VERSION=`./vers 1`
 else
-  rm -f vers; gcc version.c -o vers ; ./vers
+  rm -f vers; gcc version.c -o vers 
+  VERSION=`./vers`
 fi
-VERSION=`./vers`
 ./set-version $VERSION
 if ( test $VERSION = "" ) then
    exit 1
@@ -81,10 +82,9 @@ else
   cd ../qcn
  fi   # end of library or 'all' build
   cp configure.ac.linux configure.ac
-  VERSION=`./vers`
-  ./set-version $VERSION
   cp client/qcnlive_qt/Makefile.linux client/qcnlive_qt/Makefile
   ./_autosetup
+   #rm -f vers; gcc version.c -o vers 
   ./configure --enable-client-release --disable-server
   make clean && make
   mv client/qcnlive_qt/QCNLive client/bin/
