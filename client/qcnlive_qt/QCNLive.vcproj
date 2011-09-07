@@ -156,7 +156,7 @@
 				PreprocessorDefinitions="FTGL_LIBRARY_STATIC;_DEBUG;_WINDOWS;WIN32;QT_LARGEFILE_SUPPORT;_USE_NTPDATE_EXEC_;QCNLIVE;GRAPHICS_PROGRAM;APP_GRAPHICS;_ZLIB;QCN;_THREAD_SAFE;CURL_STATICLIB;QT_DLL;QT_OPENGL_LIB;QT_GUI_LIB;QT_CORE_LIB;QT_HAVE_MMX;QT_HAVE_3DNOW;QT_HAVE_SSE;QT_HAVE_MMXEXT;QT_HAVE_SSE2;QT_THREAD_SUPPORT"
 				GeneratePreprocessedFile="0"
 				ExceptionHandling="1"
-				RuntimeLibrary="3"
+				RuntimeLibrary="1"
 				BufferSecurityCheck="true"
 				TreatWChar_tAsBuiltInType="true"
 				RuntimeTypeInfo="true"
@@ -347,7 +347,7 @@
 				PreprocessorDefinitions="FTGL_LIBRARY_STATIC QT_NO_DEBUG;NDEBUG;_WINDOWS;WIN32;QT_LARGEFILE_SUPPORT;_USE_NTPDATE_EXEC_;QCNLIVE;GRAPHICS_PROGRAM;APP_GRAPHICS;_ZLIB;QCN;_THREAD_SAFE;CURL_STATICLIB;QT_DLL;QT_NO_DEBUG;QT_OPENGL_LIB;QT_GUI_LIB;QT_CORE_LIB;QT_HAVE_MMX;QT_HAVE_3DNOW;QT_HAVE_SSE;QT_HAVE_MMXEXT;QT_HAVE_SSE2;QT_THREAD_SUPPORT"
 				GeneratePreprocessedFile="0"
 				ExceptionHandling="1"
-				RuntimeLibrary="2"
+				RuntimeLibrary="0"
 				BufferSecurityCheck="true"
 				TreatWChar_tAsBuiltInType="true"
 				RuntimeTypeInfo="true"
@@ -4043,13 +4043,6 @@
 						/>
 					</FileConfiguration>
 					<FileConfiguration
-						Name="DebugDLL|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
 						Name="DebugDLLRaw|Win32"
 						ExcludedFromBuild="true"
 						>
@@ -4128,13 +4121,6 @@
 					<FileConfiguration
 						Name="ReleaseDLL|x64"
 						ExcludedFromBuild="true"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="DebugDLL|Win32"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
@@ -4225,13 +4211,6 @@
 						/>
 					</FileConfiguration>
 					<FileConfiguration
-						Name="DebugDLL|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
 						Name="DebugDLLRaw|Win32"
 						ExcludedFromBuild="true"
 						>
@@ -4316,13 +4295,6 @@
 						/>
 					</FileConfiguration>
 					<FileConfiguration
-						Name="DebugDLL|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
 						Name="DebugDLLRaw|Win32"
 						ExcludedFromBuild="true"
 						>
@@ -4401,13 +4373,6 @@
 					<FileConfiguration
 						Name="ReleaseDLL|x64"
 						ExcludedFromBuild="true"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="DebugDLL|Win32"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
