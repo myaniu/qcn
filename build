@@ -10,7 +10,7 @@ fi
 rm -f vers; gcc version.c -o vers ; ./vers 1
 rm -f vers; gcc version.c -o vers 
 VERSION=`./vers`
-echo $VERSION
+./set-version $VERSION
 if ( test $VERSION = "" ) then
    exit 1
 fi
@@ -66,7 +66,6 @@ else
   #               zip/zip/Makefile
   #               zip/unzip/Makefile
   cd ../../boinc
- fi   # end of library or 'all' build
   # always build the latest boinc libs
   cd ../boinc
   ./_autosetup
@@ -77,6 +76,7 @@ else
   cp api/libboinc_api.a ../qcn/client/linux_build/
   cp api/libboinc_graphics2.a ../qcn/client/linux_build/
   cd ../qcn
+ fi   # end of library or 'all' build
   cp configure.ac.linux configure.ac
   cp client/qcnlive_qt/Makefile.linux client/qcnlive_qt/Makefile
   ./_autosetup
