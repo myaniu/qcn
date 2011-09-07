@@ -31,17 +31,17 @@ all: clean trigmonitor trigdisplay
 
 trigdisplay: 
 	$(CC) $(CFLAGS) $(INCLUDES) $(MAINDISP) $(SRCS) $(LIBS) -o trigdisplay
-	strip trigdisplay
-	cp trigdisplay $(INSTALLDIR)
+	strip jfl_trigdisplay
+	cp jfl_trigdisplay $(INSTALLDIR)
 
 
 trigmonitor: 
 	$(CC) $(CFLAGS) $(INCLUDES) $(MAINMON) $(SRCS) $(LIBS) -o trigmonitor
-	strip trigmonitor
-	cp trigmonitor $(INSTALLDIR)
+	strip jfl_trigmonitor
+	cp jfl_trigmonitor $(INSTALLDIR)
 
 
 clean:
-	rm -f *.o core *~ trigmonitor trigdisplay $(INSTALLDIR)/trigmonitor $(INSTALLDIR)/trigdisplay
+	rm -f *.o core *~ jfl_trigmonitor jfl_trigdisplay $(INSTALLDIR)/jfl_trigmonitor $(INSTALLDIR)/jfl_trigdisplay
 
 
