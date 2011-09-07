@@ -9,7 +9,7 @@ dnl not sure exactly what the minimum version is (but 2.13 wont work)
 AC_PREREQ(2.57)
 
 dnl Set the BOINC version here.  You can also use the set-version script.
-AC_INIT(QCN, 6.65)
+AC_INIT(QCN, 6.18)
 LIBBOINC_VERSION=`echo ${PACKAGE_VERSION} | sed 's/\./:/g'`
 AC_SUBST([LIBBOINC_VERSION])
 
@@ -82,6 +82,7 @@ echo "--- Build Components: (${configured_to_build}) ---"
 AC_CANONICAL_TARGET
 
 dnl generate .tar.gz, .tar.bz2, .zip
+dnl AM_INIT_AUTOMAKE(dist-bzip2 dist-zip)
 AM_INIT_AUTOMAKE(dist-zip)
 
 AC_COPYRIGHT([
@@ -257,10 +258,6 @@ SAH_CHECK_LIB([curl], [curl_easy_init],
 LIBS=${SAVELIBS_AAF}
 
 dnl check for pthread
-ACX_PTHREAD(AC_DEFINE(HAVE_PTHREAD,1, [Have pthread]))
-CXXFLAGS="$CXXFLAGS $PTHREAD_CFLAGS"
-CFLAGS="$CFLAGS $PTHREAD_CFLAGS"
-LIBS="$PTHREAD_LIBS $LIBS"
 
 
 dnl ---------- decide wether to build the graphical boinc-api libs or not
@@ -401,95 +398,6 @@ if test -n "$utmp_file"; then
     AC_DEFINE_UNQUOTED(UTMP_LOCATION, "$utmp_file", utmp file location)
 fi
 
-dnl Check for /proc/self/psinfo (Solaris)
-if test -e "/proc/self/psinfo"; then
-    AC_DEFINE(HAVE__PROC_SELF_PSINFO, 1, [Define to 1 if /proc/self/psinfo exists])
-fi
-
-dnl Check for /proc/self/stat (Linux)
-if test -e "/proc/self/stat"; then
-    AC_DEFINE(HAVE__PROC_SELF_STAT, 1, [Define to 1 if /proc/self/stat exists])
-fi
-
-dnl Check for /proc/meminfo (Linux)
-if test -e "/proc/meminfo"; then
-    AC_DEFINE(HAVE__PROC_MEMINFO, 1, [Define to 1 if /proc/meminfo exists])
-fi
-
-dnl ---------- wxWidgets --------------------------------------------------
-
-AM_OPTIONS_WXCONFIG
-
-dnl check for wxWidgets
-
-if test "${enable_client_release}" = yes ; then
-    if test "${enable_debug}" = yes ; then
-        if test "${enable_unicode}" = yes ; then
-            echo 'Portable client-build: checking for debug unicode wx-libs ...'
-            AM_PATH_WXCONFIG([2.6.0], [wxWin=1], [wxWin=0], --static=yes --unicode=yes --debug=yes)
-        else
-            echo 'Portable client-build: checking for debug wx-libs ...'
-            AM_PATH_WXCONFIG([2.6.0], [wxWin=1], [wxWin=0], --static=yes --unicode=no --debug=yes)
-        fi
-    else
-        if test "${enable_unicode}" = yes ; then
-            echo 'Portable client-build: checking for unicode wx-libs ...'
-            AM_PATH_WXCONFIG([2.6.0], [wxWin=1], [wxWin=0], --static=yes --unicode=yes --debug=no)
-        else
-            echo 'Portable client-build: checking for wx-libs ...'
-            AM_PATH_WXCONFIG([2.6.0], [wxWin=1], [wxWin=0], --static=yes --unicode=no --debug=no)
-        fi
-    fi
-else
-    if test "${enable_debug}" = yes ; then
-        if test "${enable_unicode}" = yes ; then
-            echo 'checking for debug unicode wx-libs ...'
-            AM_PATH_WXCONFIG([2.6.0], [wxWin=1], [wxWin=0], --unicode=yes --debug=yes)
-        else
-            echo 'checking for debug wx-libs ...'
-            AM_PATH_WXCONFIG([2.6.0], [wxWin=1], [wxWin=0], --unicode=no --debug=yes)
-        fi
-    else
-        if test "${enable_unicode}" = yes ; then
-            echo 'checking for unicode wx-libs ...'
-            AM_PATH_WXCONFIG([2.6.0], [wxWin=1], [wxWin=0], --unicode=yes --debug=no)
-        else
-            echo 'checking for wx-libs ...'
-            AM_PATH_WXCONFIG([2.6.0], [wxWin=1], [wxWin=0], --unicode=no --debug=no)
-        fi
-    fi
-fi
-
-
-if ( test "${enable_client}" = yes ) && ( test "$wxWin" != 1 ); then
-   AC_MSG_WARN([
-================================================================================
-WARNING: A suitable installation of wxWidgets could not be found 
-	 ==> building client without clientgui.
-
-  If you add wxWidgets to your system, then this configure script will also
-  configure your system to build the BOINC graphical client (clientgui).  
-
-  If wxWidgets is installed on your system, please check that wx-config is 
-  in the path, that the directory where wxWidgets libraries are installed 
-  (returned by 'wx-config --libs' command) is in LD_LIBRARY_PATH (or equivalent),
-  and that wxWidgets version is 2.6.0 or above. Currently wxWidgets version
-  2.6.0 (gtk based) is known to work with boinc_gui under Linux. You can
-  use wx-config --version to find what version you have currently installed.
-
-  NOTE: if building a portable client-release, you need the *static* version
-  of the wx-libs installed!   
-
-  You can get wxWidgets by following the DOWNLOAD link at:
-  http://www.wxwindows.org/
-================================================================================
-       ])
-fi
-
-AM_CONDITIONAL(BUILD_CLIENTGUI, [ test "$wxWin" = 1 -a "${enable_client}" = yes ])
-
-dnl --------------------------------------------------------------------------------
-
 dnl Heres another way to set up host-specific stuff
 AM_CONDITIONAL(IS_I386, [test "`uname -p`" = i386])
 AM_CONDITIONAL(OS_DARWIN, [test "`uname -s`" = Darwin])
@@ -515,36 +423,6 @@ dnl some more vodoo required for building portable client-binary (client, client
 dnl ======================================================================
 
 CLIENTLIBS=
-
-SAH_CHECK_LIB([c],[atexit], [
-    AC_DEFINE([HAVE_LIBC],[1],[Define to 1 if you have the c library])
-    CLIENTLIBS="${CLIENTLIBS} ${sah_lib_last}"])
-   echo DEBUG: CLIENTLIBS=${CLIENTLIBS} >&5
-SAH_CHECK_LIB([gcc_eh],[_Unwind_Resume],[ 
-    AC_DEFINE([HAVE_LIBGCC_EH],[1],[Define to 1 if you have the gcc_eh library])
-    CLIENTLIBS="${CLIENTLIBS} ${sah_lib_last}"])
-   echo DEBUG: CLIENTLIBS=${CLIENTLIBS} >&5
-SAH_CHECK_LIB([stdc++],[sscanf],[
-    AC_DEFINE([HAVE_LIBSTDC__],[1],[Define to 1 if you have the stdc++ library])
-    CLIENTLIBS="${CLIENTLIBS} ${sah_lib_last}"])
-   echo DEBUG: CLIENTLIBS=${CLIENTLIBS} >&5
-SAH_CHECK_LIB([gcc],[sscanf], [
-    AC_DEFINE([HAVE_LIBGCC],[1],[Define to 1 if you have the gcc library])
-    CLIENTLIBS="${CLIENTLIBS} ${sah_lib_last}" ])
-   echo DEBUG: CLIENTLIBS=${CLIENTLIBS} >&5
-SAH_CHECK_LIB([m],[sin], [
-    AC_DEFINE([HAVE_LIBM],[1],[Define to 1 if you have the math library])
-    CLIENTLIBS="${CLIENTLIBS} ${sah_lib_last}"])
-   echo DEBUG: CLIENTLIBS=${CLIENTLIBS} >&5
-SAH_CHECK_LIB([pthread],[pthread_join],[
-    AC_DEFINE([HAVE_LIBPTHREAD],[1],[Define to 1 if you have the pthread library])
-    CLIENTLIBS="${CLIENTLIBS} ${sah_lib_last}"])
-   echo DEBUG: CLIENTLIBS=${CLIENTLIBS} >&5
-SAH_CHECK_LIB([wsock32],[fopen],[
-    AC_DEFINE([HAVE_LIBWSOCK32],[1],[Define to 1 if you have the wsock32 library])
-    CLIENTLIBS="${CLIENTLIBS} ${sah_lib_last}"])
-   echo DEBUG: CLIENTLIBS=${CLIENTLIBS} >&5
-    
 
 if ( test "${disable_static_linkage}" != yes ) && ( test "${enable_client_release}" = yes ); then
 
