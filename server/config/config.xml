@@ -162,6 +162,14 @@
       </period>
     </task>
     <task>
+      <cmd>
+        trig24.sh
+      </cmd>
+      <period>
+        60 minutes
+      </period>
+    </task>
+    <task>
       <output>
         generate_maptrig.out
       </output>
