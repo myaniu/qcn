@@ -51,7 +51,7 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/acx_pthread.m4 \
 	$(top_srcdir)/m4/sah_namespace.m4 \
 	$(top_srcdir)/m4/sah_select_bitness.m4 \
 	$(top_srcdir)/m4/sah_staticize_ldflags.m4 \
-	$(top_srcdir)/configure.ac
+	$(top_srcdir)/m4/wxWidgets.m4 $(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 mkinstalldirs = $(install_sh) -d
@@ -70,10 +70,10 @@ AUTOMAKE = ${SHELL} /home/carlgt1/projects/qcn/missing --run automake-1.10
 AWK = mawk
 CC = gcc
 CCDEPMODE = depmode=gcc3
-CFLAGS = -g -O2
+CFLAGS = -g -O2 -pthread
 CLIENTGUIFLAGS = 
 CLIENTGUILIBS = 
-CLIENTLIBS = 
+CLIENTLIBS =  -lc -lgcc_eh -lstdc++ -lgcc -lm -lpthread
 CLIENT_BIN_FILENAME = qcn
 CLIENT_GUI_BIN_FILENAME = qcn_graphics
 CPP = gcc -E
@@ -81,7 +81,7 @@ CPPFLAGS =
 CXX = g++
 CXXCPP = g++ -E
 CXXDEPMODE = depmode=gcc3
-CXXFLAGS = -g -O2
+CXXFLAGS = -g -O2 -pthread
 CYGPATH_W = echo
 DEFS = -DHAVE_CONFIG_H
 DEPDIR = .deps
@@ -114,7 +114,7 @@ LD_EXPORT_DYNAMIC =
 LIBBOINC_VERSION = 6:18
 LIBEXT = a
 LIBOBJS = 
-LIBS =  -lz  
+LIBS =  -lz  -lpthread -lm -lgcc -lstdc++ -lgcc_eh -lc  
 LIBTOOL = $(SHELL) $(top_builddir)/libtool
 LN = /bin/ln
 LN_S = ln -s
@@ -150,6 +150,15 @@ STRIP = strip
 TOP_BUILD_DIR = /home/carlgt1/projects/qcn
 TOP_SOURCE_DIR = /home/carlgt1/projects/qcn
 VERSION = 6.18
+WX_CFLAGS = 
+WX_CFLAGS_ONLY = 
+WX_CONFIG_PATH = no
+WX_CPPFLAGS = 
+WX_CXXFLAGS = 
+WX_CXXFLAGS_ONLY = 
+WX_LIBS = 
+WX_LIBS_STATIC = 
+WX_VERSION = 
 XMKMF = 
 X_CFLAGS = 
 X_EXTRA_LIBS = 

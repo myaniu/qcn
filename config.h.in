@@ -95,6 +95,27 @@
 /* Define to 1 if you have the <inttypes.h> header file. */
 #undef HAVE_INTTYPES_H
 
+/* Define to 1 if you have the c library */
+#undef HAVE_LIBC
+
+/* Define to 1 if you have the gcc library */
+#undef HAVE_LIBGCC
+
+/* Define to 1 if you have the gcc_eh library */
+#undef HAVE_LIBGCC_EH
+
+/* Define to 1 if you have the math library */
+#undef HAVE_LIBM
+
+/* Define to 1 if you have the pthread library */
+#undef HAVE_LIBPTHREAD
+
+/* Define to 1 if you have the stdc++ library */
+#undef HAVE_LIBSTDC__
+
+/* Define to 1 if you have the wsock32 library */
+#undef HAVE_LIBWSOCK32
+
 /* Define to 1 if you have the <malloc.h> header file. */
 #undef HAVE_MALLOC_H
 
@@ -308,6 +329,15 @@
 
 /* Define to 1 if you have the `_alloca' function. */
 #undef HAVE__ALLOCA
+
+/* Define to 1 if /proc/meminfo exists */
+#undef HAVE__PROC_MEMINFO
+
+/* Define to 1 if /proc/self/psinfo exists */
+#undef HAVE__PROC_SELF_PSINFO
+
+/* Define to 1 if /proc/self/stat exists */
+#undef HAVE__PROC_SELF_STAT
 
 /* Platform identification used to identify applications for this BOINC core
    client */

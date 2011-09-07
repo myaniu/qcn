@@ -10,9 +10,9 @@ BOINC_BASEDIR = $(top_builddir)/../boinc
 BOINC_DIR = $(BOINC_BASEDIR)
 
 FTGL_DIR=$(top_builddir)/ftgl-2.1.3
-FREETYPE_DIR=$(top_builddir)/freetype-2.3.9
+FREETYPE_DIR=$(top_builddir)/freetype-2.4.6
 ZLIB_DIR=$(top_builddir)/zlib-1.2.5
-CURL_DIR=$(top_builddir)/curl-7.18.2
+CURL_DIR=$(top_builddir)/curl-7.21.7
 
 #if OS_DARWIN
 #   BOINC_LIB_DIR = $(BOINC_BASEDIR)/mac_build/build/Deployment
