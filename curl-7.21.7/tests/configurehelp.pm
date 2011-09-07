@@ -18,6 +18,6 @@ use vars qw(
     $Cpreprocessor
     );
 
-$Cpreprocessor = '/Developer/usr/bin/llvm-gcc-4.2 -E';
+$Cpreprocessor = 'gcc -E';
 
 1;

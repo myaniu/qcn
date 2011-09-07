@@ -66,15 +66,15 @@ while test $# -gt 0; do
 
     case "$1" in
     --built-shared)
-        echo yes
+        echo no
         ;;
 
     --ca)
-	echo ""
+	echo ""/etc/ssl/certs/ca-certificates.crt""
 	;;
 
     --cc)
-	echo "/Developer/usr/bin/llvm-gcc-4.2"
+	echo "gcc"
 	;;
 
     --prefix)
@@ -82,13 +82,13 @@ while test $# -gt 0; do
 	;;
 
     --feature|--features)
-        for feature in SSL IPv6 libz NTLM ""; do
+        for feature in IPv6 libz ""; do
             test -n "$feature" && echo "$feature"
         done
 	;;
 
     --protocols)
-        for protocol in DICT FILE FTP FTPS GOPHER HTTP HTTPS IMAP IMAPS LDAP LDAPS POP3 POP3S RTSP SMTP SMTPS TELNET TFTP; do
+        for protocol in DICT FILE FTP GOPHER HTTP IMAP POP3 RTSP SMTP TFTP; do
             echo "$protocol"
         done
 	;;
@@ -142,18 +142,18 @@ while test $# -gt 0; do
 	   CURLLIBDIR=""
 	fi
 	if test "Xyes" = "Xyes"; then
-	  echo ${CURLLIBDIR}-lcurl -Wl,-syslibroot,/Developer/SDKs/MacOSX10.6.sdk -arch x86_64 -mmacosx-version-min=10.6 -Wl,-headerpad_max_install_names -lssl -lcrypto -lldap -lgssapi_krb5 -lresolv -lz 
+	  echo ${CURLLIBDIR}-lcurl  -lrt -lz 
 	else
-	  echo ${CURLLIBDIR}-lcurl -Wl,-syslibroot,/Developer/SDKs/MacOSX10.6.sdk -arch x86_64 -mmacosx-version-min=10.6 -Wl,-headerpad_max_install_names 
+	  echo ${CURLLIBDIR}-lcurl  
 	fi
 	;;
 
     --static-libs)
-	echo ${exec_prefix}/lib/libcurl.a -Wl,-syslibroot,/Developer/SDKs/MacOSX10.6.sdk -arch x86_64 -mmacosx-version-min=10.6 -Wl,-headerpad_max_install_names -lssl -lcrypto -lldap -lgssapi_krb5 -lresolv -lz 
+	echo ${exec_prefix}/lib/libcurl.a  -lrt -lz 
 	;;
 
     --configure)
-      echo " '--disable-dependency-tracking' '--disable-static' '--with-gssapi' 'CFLAGS=-Os -isysroot /Developer/SDKs/MacOSX10.6.sdk -arch x86_64 -mmacosx-version-min=10.6' 'LDFLAGS=-Wl,-syslibroot,/Developer/SDKs/MacOSX10.6.sdk -arch x86_64 -mmacosx-version-min=10.6 -Wl,-headerpad_max_install_names' 'CC=/Developer/usr/bin/llvm-gcc-4.2'"
+      echo " '--disable-crypto-auth' '--without-ssl' '--disable-ldap' '--disable-ldaps' '--disable-telnet' '--enable-static' '--disable-shared'"
     ;;
 
     *)

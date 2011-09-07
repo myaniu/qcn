@@ -8,5 +8,5 @@ Description: A free, high-quality, and portable font engine.
 Version: 13.1.7
 Requires:
 Libs: -L${libdir} -lfreetype
-Libs.private: -lz -lbz2 
+Libs.private: -lz  
 Cflags: -I${includedir}/freetype2 -I${includedir}
