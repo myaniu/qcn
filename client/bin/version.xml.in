@@ -1,0 +1,10 @@
+<version>
+  <file>
+    <physical_name>MAIN</physical_name>
+    <main_program/>
+  </file>
+  <file>
+    <physical_name>GRAPHICS</physical_name>
+    <logical_name>graphics_app</logical_name>
+  </file>
+</version>
