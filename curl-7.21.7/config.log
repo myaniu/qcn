@@ -32,6 +32,7 @@ PATH: /usr/bin
 PATH: /bin
 PATH: /usr/games
 PATH: /opt/qtsdk-2010.05/bin
+PATH: /usr/local/bin
 
 
 ## ----------- ##
@@ -50320,7 +50321,7 @@ ac_cv_env_CC_set=
 ac_cv_env_CC_value=
 ac_cv_env_CFLAGS_set=
 ac_cv_env_CFLAGS_value=
-ac_cv_env_CPPFLAGS_set=
+ac_cv_env_CPPFLAGS_set=set
 ac_cv_env_CPPFLAGS_value=
 ac_cv_env_CPP_set=
 ac_cv_env_CPP_value=

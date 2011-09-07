@@ -32,6 +32,7 @@ PATH: /usr/bin
 PATH: /bin
 PATH: /usr/games
 PATH: /opt/qtsdk-2010.05/bin
+PATH: /usr/local/bin
 
 
 ## ----------- ##
