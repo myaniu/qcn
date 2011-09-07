@@ -59,7 +59,6 @@ moveover:
 	mkdir -p $(top_srcdir)/client/test/projects/qcn.edu_qcn
 	mv $(BINARY) $(top_srcdir)/client/bin/
 	cp $(top_srcdir)/client/bin/$(BINARY) $(top_srcdir)/client/test/projects/qcn.edu_qcn/
-	mv $(top_srcdir)/client/bin/$(BINARY) $(top_srcdir)/client/bin/$(BINARY)
 
 ## these source files need to be specified because no rule uses them.
 
