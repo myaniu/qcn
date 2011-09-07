@@ -84,7 +84,6 @@ else
   cp configure.ac.linux configure.ac
   cp client/qcnlive_qt/Makefile.linux client/qcnlive_qt/Makefile
   ./_autosetup
-   #rm -f vers; gcc version.c -o vers 
   ./configure --enable-client-release --disable-server
   make clean && make
   mv client/qcnlive_qt/QCNLive client/bin/
