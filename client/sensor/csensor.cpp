@@ -290,11 +290,13 @@ inline bool CSensor::mean_xyz()
 		*px2 += dLast[0]; 
 		*py2 += dLast[1]; 
 		*pz2 += dLast[2];
+#ifndef QCN_RAW_DATA
                 if (++lError > (TIME_ERROR_SECONDS / sm->dt) || ++lErrorCumulative > ERROR_CUMULATIVE_CUTOFF) {
                         dTimeDiff = (double) (lError-1) * sm->dt;
                         sm->bWriting = false;
                         goto error_Timing;
                 }
+#endif // skip the reset for raw data
 
             }
             sm->lSampleSize++; // only increment if not a single sample sensor
