@@ -17,7 +17,7 @@ GRAPHICSDIR = $$BASEDIRQCN/client/graphics
 BINDIR = $$BASEDIRQCN/client/bin
 BAPIDIR = $$BASEDIRBOINC/api
 BLIBDIR = $$BASEDIRBOINC/lib
-CURLDIR = $$BASEDIRQCN/curl-7.18.2/include
+CURLDIR = $$BASEDIRQCN/curl-7.21.7/include
 
 CFLAGS = -Wall -Wno-deprecated
 #QMAKE_CFLAGS_DEBUG += $$CFLAGS -D_DEBUG -D_DEBUG_QCNLIVE -g -O0
@@ -74,7 +74,7 @@ INCLUDEPATH += \
         $$BASEDIRQCN/zlib-1.2.5 \
         $$CURLDIR \
         $$BASEDIRQCN/ftgl-2.1.3/include \
-        $$BASEDIRQCN/freetype-2.3.9/include \
+        $$BASEDIRQCN/freetype-2.4.6/include \
         $$MAINDIR \
         $$SENSORDIR \
         $$UTILDIR \
