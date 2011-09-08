@@ -124,7 +124,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="../../client/win_build/zlibd.lib"
+				OutputFile="../../client/win_build/zlibd64.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -250,7 +250,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="../../client/win_build/zlib.lib"
+				OutputFile="../../client/win_build/zlib64.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -376,7 +376,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="../../client/win_build/zlib.lib"
+				OutputFile="../../client/win_build/zlib64l.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"

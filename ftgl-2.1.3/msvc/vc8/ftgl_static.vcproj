@@ -130,7 +130,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\..\win_build\Build\$(PlatformName)\$(ConfigurationName)\ftgl_static.lib"
+				OutputFile="..\..\..\client\win_build\ftgld64.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -255,7 +255,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\..\win_build\Build\$(PlatformName)\$(ConfigurationName)\ftgl_static.lib"
+				OutputFile="..\..\..\client\win_build\ftgl64.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"

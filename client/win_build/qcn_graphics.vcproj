@@ -132,8 +132,8 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				WholeProgramOptimization="false"
-				AdditionalIncludeDirectories="../../zlib;../../;../main;../sensor;../util;../../../boinc/lib;../../../boinc/api;&quot;../../jpeg-6b&quot;;../../freeglut/include;../../../boinc/zip"
-				PreprocessorDefinitions="_WIN64;QCNGRAPHICS;_WIN32;WIN32;_DEBUG;_ZLIB;_CRT_SECURE_NO_DEPRECATE;GRAPHICS_PROGRAM"
+				AdditionalIncludeDirectories="../../;../../ftgl-2.1.3/include;../../freetype-2.4.6\include;../main;../graphics;../sensor;../util;../../../boinc/lib;../../zlib-1.2.5;../../jpeg-6b;../../../boinc/api;../../../boinc/zip"
+				PreprocessorDefinitions="FTGL_LIBRARY_STATIC ;_WIN64;QCNGRAPHICS;_WIN32;WIN32;_DEBUG;_ZLIB;_CRT_SECURE_NO_DEPRECATE;GRAPHICS_PROGRAM"
 				ExceptionHandling="1"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
@@ -240,7 +240,7 @@
 				Version=""
 				LinkIncremental="1"
 				AdditionalLibraryDirectories=""
-				IgnoreDefaultLibraryNames="msvcrt.lib"
+				IgnoreDefaultLibraryNames=""
 				SubSystem="2"
 				StackReserveSize="33554432"
 				RandomizedBaseAddress="1"
@@ -298,8 +298,8 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="../../zlib;../../;../main;../sensor;../util;../../../boinc/lib;../../../boinc/api;&quot;../../jpeg-6b&quot;;../../freeglut/include;../../../boinc/zip"
-				PreprocessorDefinitions="_WIN64;GRAPHICS_PROGRAM;QCNGRAPHICS;_WIN32;NDEBUG;_ZLIB;_CRT_SECURE_NO_DEPRECATE"
+				AdditionalIncludeDirectories="../../;../../ftgl-2.1.3/include;../../freetype-2.4.6\include;../main;../graphics;../sensor;../util;../../../boinc/lib;../../zlib-1.2.5;../../jpeg-6b;../../../boinc/api;../../../boinc/zip"
+				PreprocessorDefinitions="FTGL_LIBRARY_STATIC ;_WIN64;GRAPHICS_PROGRAM;QCNGRAPHICS;_WIN32;NDEBUG;_ZLIB;_CRT_SECURE_NO_DEPRECATE"
 				RuntimeLibrary="0"
 				ForcedIncludeFiles="windows.h"
 			/>
@@ -314,8 +314,8 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="opengl32.lib glu32.lib jpeglib64.lib boinc_lib64.lib boinc_api64.lib zlib64.lib boinc_zip64.lib"
-				OutputFile="../bin/graphics_app=qcn_graphics.exe"
+				AdditionalDependencies="opengl32.lib glu32.lib jpeglib64.lib boinc_lib64.lib boinc_api64.lib zlib64.lib boinc_zip64.lib freetype64.lib ftgl64.lib"
+				OutputFile="../bin/qcn_graphics.exe"
 				Version=""
 				LinkIncremental="1"
 				AdditionalLibraryDirectories=""
@@ -346,7 +346,7 @@
 			<Tool
 				Name="VCPostBuildEventTool"
 				Description="setwinver"
-				CommandLine="..\bin\setwinver64.exe graphics_app=qcn_graphics ..\bin ..\bin"
+				CommandLine="..\bin\setwinver64.exe qcn_graphics ..\bin ..\bin"
 			/>
 		</Configuration>
 		<Configuration
@@ -454,8 +454,8 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="../../zlib;../../;../main;../sensor;../util;../../../boinc/lib;../../../boinc/api;&quot;../../jpeg-6b&quot;;../../freeglut/include;../../../boinc/zip"
-				PreprocessorDefinitions="_WIN64;GRAPHICS_PROGRAM;QCNGRAPHICS;_WIN32;NDEBUG;_ZLIB;_CRT_SECURE_NO_DEPRECATE"
+				AdditionalIncludeDirectories="../../;../main;../sensor;../util;../../../boinc/lib;../../zlib-1.2.5;../../../boinc/api;../../../boinc/zip"
+				PreprocessorDefinitions="FTGL_LIBRARY_STATIC ;_WIN64;GRAPHICS_PROGRAM;QCNGRAPHICS;_WIN32;NDEBUG;_ZLIB;_CRT_SECURE_NO_DEPRECATE"
 				RuntimeLibrary="2"
 				ForcedIncludeFiles="windows.h"
 			/>
@@ -502,7 +502,7 @@
 			<Tool
 				Name="VCPostBuildEventTool"
 				Description="setwinver"
-				CommandLine="..\bin\setwinver64.exe graphics_app=qcn_graphics ..\bin ..\bin"
+				CommandLine="..\bin\setwinver64.exe qcn_graphics ..\bin ..\bin"
 			/>
 		</Configuration>
 		<Configuration
@@ -619,7 +619,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				WholeProgramOptimization="false"
-				AdditionalIncludeDirectories="../../zlib;../../;../main;../sensor;../util;../../../boinc/lib;../../../boinc/api;&quot;../../jpeg-6b&quot;;../../freeglut/include;../../../boinc/zip"
+				AdditionalIncludeDirectories="../../;../main;../sensor;../util;../../../boinc/lib;../../zlib-1.2.5;../../../boinc/api;../../../boinc/zip"
 				PreprocessorDefinitions="_WIN64;QCNGRAPHICS;_WIN32;WIN32;_DEBUG;_ZLIB;_CRT_SECURE_NO_DEPRECATE;GRAPHICS_PROGRAM"
 				ExceptionHandling="1"
 				BasicRuntimeChecks="3"

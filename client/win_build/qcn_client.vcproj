@@ -134,7 +134,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				WholeProgramOptimization="false"
-				AdditionalIncludeDirectories="../../;../main;../util;../sensor;../../zlib;../../../boinc/zip;../../../boinc/lib;../../../boinc/api"
+				AdditionalIncludeDirectories="../../;../main;../sensor;../util;../../../boinc/lib;../../zlib-1.2.5;../../../boinc/api;../../../boinc/zip"
 				PreprocessorDefinitions="_WIN64;_USE_NTPDATE_EXEC_;_WIN32;WIN32;_DEBUG;_CRT_SECURE_NO_DEPRECATE;_ZLIB;APP_GRAPHICS"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
@@ -314,7 +314,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="../../;../main;../sensor;../util;../../../boinc/lib;../../zlib;../../../boinc/api;../../../boinc/zip"
+				AdditionalIncludeDirectories="../../;../main;../sensor;../util;../../../boinc/lib;../../zlib-1.2.5;../../../boinc/api;../../../boinc/zip"
 				PreprocessorDefinitions="_WIN64;_USE_NTPDATE_EXEC_;_WIN32;NDEBUG;_WIN32;_CRT_SECURE_NO_DEPRECATE;_ZLIB;APP_GRAPHICS"
 				RuntimeLibrary="0"
 				ForcedIncludeFiles="windows.h"
@@ -667,7 +667,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="../../;../main;../sensor;../util;../../../boinc/lib;../../zlib;../../../boinc/api;../../../boinc/zip"
+				AdditionalIncludeDirectories="../../;../main;../sensor;../util;../../../boinc/lib;../../zlib-1.2.5;../../../boinc/api;../../../boinc/zip"
 				PreprocessorDefinitions="_WIN64;_USE_NTPDATE_EXEC_;_WIN32;NDEBUG;_WIN32;_CRT_SECURE_NO_DEPRECATE;_ZLIB;APP_GRAPHICS"
 				RuntimeLibrary="2"
 				ForcedIncludeFiles="windows.h"
@@ -840,7 +840,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				WholeProgramOptimization="false"
-				AdditionalIncludeDirectories="../../;../main;../util;../sensor;../../zlib;../../../boinc/zip;../../../boinc/lib;../../../boinc/api"
+				AdditionalIncludeDirectories="../../;../main;../sensor;../util;../../../boinc/lib;../../zlib-1.2.5;../../../boinc/api;../../../boinc/zip"
 				PreprocessorDefinitions="_WIN64;_USE_NTPDATE_EXEC_;_WIN32;WIN32;_DEBUG;_CRT_SECURE_NO_DEPRECATE;_ZLIB;APP_GRAPHICS"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
