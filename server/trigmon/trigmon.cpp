@@ -110,7 +110,7 @@ int QCN_GetTriggers()
 /*     fprintf(stdout, "%d %s %d %d %s %s %f %f %f %f %f %f %f %f %f %d %d %f %d %d %d %d %d\n",
         ++iCtr, qtm.db_name, qtm.triggerid, qtm.hostid, qtm.ipaddr, qtm.result_name, qtm.time_trigger,
         qtm.time_received, qtm.time_sync, qtm.sync_offset, qtm.significance, qtm.magnitude, qtm.latitude,
-         qtm.longitude, qtm.levelvalue, qtm.levelid, qtm.alignid, qtm.dt, qtm.numreset, qtm.type_sensor,
+         qtm.longitude, qtm.levelvalue, qtm.levelid, qtm.alignid, qtm.dt, qtm.numreset, qtm.qcn_sensorid,
          qtm.varietyid, qtm.qcn_quakeid, qtm.posted
      );*/
 /* CMC suppress the bad host stuff now as all clients should be behaving with my "throttling trickle" code by now
@@ -120,7 +120,7 @@ int QCN_GetTriggers()
     }
 */
     // Note this will get previous quake eventid info (if updated) for the trigger
-    if ( qtm.type_sensor >= ID_USB_SENSOR_START ) { //&&(bad_host<0) ) { 
+    if ( qtm.qcn_sensorid >= ID_USB_SENSOR_START ) { //&&(bad_host<0) ) { 
       // Only use triggers from usb accelerometers
       t.hostid  = qtm.hostid;            // Host ID
       t.triggerid  = qtm.triggerid;      // Trigger ID

@@ -63,10 +63,10 @@ void do_display()
 /*     fprintf(stdout, "%d %s %d %d %s %s %f %f %f %f %f %f %f %f %f %d %d %f %d %d %d %d %d\n",
         ++iCtr, qtm.db_name, qtm.triggerid, qtm.hostid, qtm.ipaddr, qtm.result_name, qtm.time_trigger,
         qtm.time_received, qtm.time_sync, qtm.sync_offset, qtm.significance, qtm.magnitude, qtm.latitude,
-         qtm.longitude, qtm.levelvalue, qtm.levelid, qtm.alignid, qtm.dt, qtm.numreset, qtm.type_sensor,
+         qtm.longitude, qtm.levelvalue, qtm.levelid, qtm.alignid, qtm.dt, qtm.numreset, qtm.qcn_sensorid,
          qtm.varietyid, qtm.qcn_quakeid, qtm.posted ); */
 //     float dt = t_now-qtm.time_trigger;
-     fprintf( qtm.type_sensor < ID_USB_SENSOR_START ? fp[0] : fp[1],
+     fprintf( qtm.qcn_sensorid < ID_USB_SENSOR_START ? fp[0] : fp[1],
           "%f,%f,%f,%d\n",
            qtm.longitude,qtm.latitude,qtm.magnitude,qtm.hostid
      );

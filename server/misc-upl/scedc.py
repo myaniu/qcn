@@ -102,7 +102,7 @@ from
 (
 select 'Q' mydb, 
 t.id, t.qcn_quakeid, t.hostid, t.time_trigger, t.magnitude, t.significance, t.latitude, t.longitude,
-t.file, t.numreset, t.alignid, t.levelid, t.levelvalue, t.type_sensor
+t.file, t.numreset, t.alignid, t.levelid, t.levelvalue, t.qcn_sensorid
 from %s.qcn_trigger t
 where time_trigger between %d and %d
 and time_sync>0
@@ -112,7 +112,7 @@ and latitude between %f and %f and longitude between %f and %f
 UNION
 select 'C' mydb, 
 tt.id, tt.qcn_quakeid, tt.hostid, tt.time_trigger, tt.magnitude, tt.significance, tt.latitude, tt.longitude,
-tt.file, tt.numreset, tt.alignid, tt.levelid, tt.levelvalue, tt.type_sensor
+tt.file, tt.numreset, tt.alignid, tt.levelid, tt.levelvalue, tt.qcn_sensorid
 from %s.qcn_trigger tt
 where time_trigger between %d and %d
 and time_sync>0
@@ -120,11 +120,11 @@ and varietyid in (0,2)
 and received_file=100
 and latitude between %f and %f and longitude between %f and %f
 ) m
-LEFT JOIN qcnalpha.qcn_sensor s ON m.type_sensor = s.id
+LEFT JOIN qcnalpha.qcn_sensor s ON m.qcn_sensorid = s.id
 LEFT OUTER JOIN qcnalpha.qcn_align a ON m.alignid = a.id
 LEFT OUTER JOIN qcnalpha.qcn_level l ON m.levelid = l.id
 LEFT OUTER JOIN qcnalpha.qcn_quake q ON q.id = m.qcn_quakeid
-where m.type_sensor=s.id
+where m.qcn_sensorid=s.id
 order by time_trigger,hostid"""  \
   % ( \
       DBNAME, DATE_MIN, DATE_MAX, LAT_MIN, LAT_MAX, LNG_MIN, LNG_MAX, \

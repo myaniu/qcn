@@ -110,7 +110,7 @@ struct QCN_TRIGGER
     char file[64];
     double dt;
     int numreset;
-    int type_sensor;
+    int qcn_sensorid;
     char sw_version[9];
     char os_type[9];
     int qcn_quakeid;
@@ -152,7 +152,7 @@ struct QCN_TRIGGER_MEMORY
     char file[64];
     double dt;
     int numreset;
-    int type_sensor;
+    int qcn_sensorid;
     int varietyid;
     int qcn_quakeid;
     bool posted;
@@ -318,7 +318,7 @@ public:
         "file='%s',"
         "dt=%f,"
         "numreset=%d,"
-        "type_sensor=%d,"
+        "qcn_sensorid=%d,"
         "sw_version='%s',"
         "os_type='%s',"
         "qcn_quakeid=%d,"
@@ -331,7 +331,7 @@ public:
         ,
         hostid, ipaddr, result_name, time_trigger, time_sync, sync_offset,
         significance, magnitude, latitude, longitude, strLevelValue, strLevelID, alignid,
-        file, dt, numreset, type_sensor, sw_version, os_type,
+        file, dt, numreset, qcn_sensorid, sw_version, os_type,
         qcn_quakeid, time_filereq, received_file, runtime_clock, runtime_cpu, varietyid
       );
     }
@@ -360,7 +360,7 @@ public:
       strcpy2(file, r[i++]);
       dt = safe_atof(r[i++]);
       numreset = safe_atoi(r[i++]);
-      type_sensor = safe_atoi(r[i++]);
+      qcn_sensorid = safe_atoi(r[i++]);
       strcpy2(sw_version, r[i++]);
       strcpy2(os_type, r[i++]);
       qcn_quakeid = safe_atoi(r[i++]);
@@ -420,7 +420,7 @@ public:
         "file='%s',"
         "dt=%f,"
         "numreset=%d,"
-        "type_sensor=%d,"
+        "qcn_sensorid=%d,"
         "varietyid=%d,"
         "qcn_quakeid=%d,"
         "posted=%d"
@@ -436,7 +436,7 @@ public:
         mxy4a,
         mz4a,
         latitude, longitude, strLevelValue, strLevelID, alignid,
-        file, dt, numreset, type_sensor, varietyid, qcn_quakeid, posted ? 1 : 0
+        file, dt, numreset, qcn_sensorid, varietyid, qcn_quakeid, posted ? 1 : 0
       );
     }
 
@@ -481,7 +481,7 @@ public:
       strcpy2(file, r[i++]);
       dt = safe_atof(r[i++]);
       numreset = safe_atoi(r[i++]);
-      type_sensor = safe_atoi(r[i++]);
+      qcn_sensorid = safe_atoi(r[i++]);
       varietyid = safe_atoi(r[i++]);
       qcn_quakeid = safe_atoi(r[i++]);
       posted = (bool) safe_atoi(r[i++]);

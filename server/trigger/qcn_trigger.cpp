@@ -76,7 +76,7 @@
  file           varchar(64)  YES        NULL            
  dt             float        YES        NULL            
  numreset       int(6)       YES        NULL            
- type_sensor    int(2)       YES        NULL            
+ qcn_sensorid    int(2)       YES        NULL            
  sw_version     varchar(8)
  os_type        varchar(8)
  qcn_quakeid   int(11)
@@ -189,7 +189,7 @@ bool doTriggerMemoryInsert(const DB_QCN_TRIGGER& qtrig, const double* const dmxy
     qtrigmem.alignid = qtrig.alignid;
     qtrigmem.dt = qtrig.dt;
     qtrigmem.numreset = qtrig.numreset;
-    qtrigmem.type_sensor = qtrig.type_sensor;
+    qtrigmem.qcn_sensorid = qtrig.qcn_sensorid;
     qtrigmem.varietyid = qtrig.varietyid;
 
     //if (dmxy[0] > -DBL_MAX) qtrigmem.mxy1p = dmxy[0];
@@ -232,7 +232,7 @@ int handle_qcn_trigger(const DB_MSG_FROM_HOST* pmfh, const int iVariety)
      if (!parse_str(pmfh->xml, "<result_name>", qtrig.result_name, sizeof(qtrig.result_name))) memset(qtrig.result_name, 0x00, sizeof(qtrig.result_name));
      if (!parse_str(pmfh->xml, "<vr>", qtrig.sw_version, sizeof(qtrig.sw_version))) memset(qtrig.sw_version, 0x00, sizeof(qtrig.sw_version));
      if (!parse_str(pmfh->xml, "<os>", qtrig.os_type, sizeof(qtrig.os_type))) memset(qtrig.os_type, 0x00, sizeof(qtrig.os_type));
-     parse_int(pmfh->xml, "<sms>", qtrig.type_sensor);
+     parse_int(pmfh->xml, "<sms>", qtrig.qcn_sensorid);
      parse_int(pmfh->xml, "<reset>", qtrig.numreset);
      parse_double(pmfh->xml, "<dt>", qtrig.dt);
      parse_double(pmfh->xml, "<tsync>", qtrig.time_sync);
@@ -263,12 +263,12 @@ int handle_qcn_trigger(const DB_MSG_FROM_HOST* pmfh, const int iVariety)
      }
 
 // CMC hack - change JW 7 to 100, MN 8 to 101
-     switch(qtrig.type_sensor) {
+     switch(qtrig.qcn_sensorid) {
         case 7:
-           qtrig.type_sensor = 100;
+           qtrig.qcn_sensorid = 100;
            break;
         case 8:
-           qtrig.type_sensor = 101;
+           qtrig.qcn_sensorid = 101;
            break;
       }
 
