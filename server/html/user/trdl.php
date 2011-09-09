@@ -58,7 +58,7 @@ t.id as triggerid, t.hostid, t.ipaddr, t.result_name, t.time_trigger as trigger_
 t.sync_offset, t.significance, t.magnitude as trigger_mag, 
 t.latitude as trigger_lat, t.longitude as trigger_lon, t.file as trigger_file, t.dt as delta_t,
 t.numreset, s.description as sensor_description, t.sw_version, t.qcn_quakeid, t.time_filereq as trigger_timereq, 
-t.received_file, REPLACE_ARCHIVE is_archive, t.varietyid
+t.received_file, REPLACE_ARCHIVE is_archive, t.varietyid, q.url quake_url
 FROM REPLACE_DB.qcn_trigger t LEFT OUTER JOIN qcnalpha.qcn_quake q ON t.qcn_quakeid = q.id
    LEFT JOIN qcnalpha.qcn_sensor s ON t.qcn_sensorid = s.id 
 ";
@@ -783,10 +783,10 @@ function qcn_trigger_detail_csv($res)
              $res->quake_lon . "," .
              $res->guid . "," .
              $res->description . ","  .
-             $res->is_quake ? 1 : 0; 
+             $res->is_quake ? 1 : 0 . "," . $res->quake_url; 
     }
     else {
-          $quakestuff = ",,,,,,,,";
+          $quakestuff = ",,,,,,,,,";
     }
 
    $file_url = get_file_url($res);
@@ -889,7 +889,7 @@ global $unixtimeArchive;
         }
 
         if ($res->qcn_quakeid) {
-           echo "<td><font size=\"1\">$res->qcn_quakeid</font size></td>";
+           echo "<td><font size=\"1\"><A HREF=\"$res->quake_url\">$res->qcn_quakeid</A></font size></td>";
            echo "<td><font size=\"1\">$res->quake_distance_km</font size></td>";
            echo "<td><font size=\"1\">$res->quake_magnitude</font size></td>";
            echo "<td><font size=\"1\">" . time_str($res->quake_time) . "</font size></td>";

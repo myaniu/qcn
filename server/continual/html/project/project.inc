@@ -390,19 +390,21 @@ function show_trigger($hostid, $heading, $private=true)
    $db = BoincDb::get();
    // if $private just show lat/lng rounded to .01 so we're not showing exact addresses of participants!
    if ($private) {
-      $sqllatlng = "round(latitude,2) lat, round(longitude,2) lng, ";
+      $sqllatlng = "round(t.latitude,2) lat, round(t.longitude,2) lng, ";
    }
    else {
-      $sqllatlng = "latitude lat, longitude lng, ";
+      $sqllatlng = "t.latitude lat, t.longitude lng, ";
    }
 
-   $sql = "select t.id,file,time_trigger,time_received,"
-       . "time_sync,sync_offset,significance, magnitude, " . $sqllatlng 
-       . "dt, numreset, "
+   $sql = "select t.id,t.file,t.time_trigger,t.time_received,"
+       . "t.time_sync,t.sync_offset,t.significance, t.magnitude, " . $sqllatlng 
+       . "t.dt, t.numreset, "
        . "s.description, "
-       . "sw_version,os_type,runtime_cpu,runtime_clock,varietyid,levelvalue,levelid,received_file,file as file_url,result_name,alignid "
+       . "t.sw_version,t.os_type,t.runtime_cpu,t.runtime_clock,t.varietyid,t.levelvalue,t.levelid,"
+       . "t.received_file,t.file as file_url,t.result_name,t.alignid,t.qcn_quakeid,q.url "
        . "from qcn_trigger t "
        . "             LEFT JOIN qcn_sensor s ON t.qcn_sensorid = s.id "
+       . "             LEFT JOIN qcn_quake q ON t.qcn_quakeid = q.id "
        . "WHERE hostid=$hostid order by time_trigger desc limit " . MAX_NUM_TRIGGER;
    $result=$db->do_query($sql);
    echo "<H2>$heading</H2>\n";
@@ -428,7 +430,8 @@ function show_trigger($hostid, $heading, $private=true)
              <th>WU CPU Time</th>
              <th>WU Run Time</th>
              <th>File Name</th>
-             <th>view</th>
+             <th>View</th>
+             <th>Quake</th>
          </tr>";
 
    if ($result && mysql_num_rows($result)>0) {  // we found some records
@@ -493,6 +496,12 @@ mysql> select * from qcn_level;
            case 5:  $alignment = "W"; break;
          }
 
+         $quakestuff = "";
+         if ($row[24] > 0 ) { // must have matched a quake!
+             $bgcolor = "\"#FF0000\"";  // red background for this row
+             $quakestuff = "<A HREF=\"" . $row[25] . "\">" . $row[24] . "</A>";
+         }
+
          echo "    <tr bgcolor=$bgcolor>
                    <td>$strTableFont$row[0]$strFontEnd</td>
                    <td>$strTableFont" . time_str($row[2]) . "$strFontEnd</td>
@@ -514,6 +523,7 @@ mysql> select * from qcn_level;
                    <td>$strTableFont$row[16]$strFontEnd</td>
                    <td>$strTableFont$filename$strFontEnd</td>
                    <td>$strTableFont$view$strFontEnd</td>
+                   <td>$strTableFont$quakestuff$strFontEnd</td>
               </font></tr>";
       }
    }
