@@ -26,9 +26,9 @@ and varietyid in (0,2)
 and received_file=100
 and latitude between 31.5 and 37.5 and longitude between -121 and -114
 ) m
-LEFT JOIN qcnalpha.qcn_sensor s ON m.type_sensor = s.id
+LEFT JOIN qcnalpha.qcn_sensor s ON m.qcn_sensorid = s.id
 LEFT OUTER JOIN qcnalpha.qcn_align a ON m.alignid = a.id
 LEFT OUTER JOIN qcnalpha.qcn_level l ON m.levelid = l.id
-where m.type_sensor=s.id
+where m.qcn_sensorid=s.id
 order by time_trigger,hostid
 ;

@@ -16,13 +16,13 @@ insert into qcn_trigger_distinct
  time_received, time_sync,  sync_offset,
  significance, magnitude, latitude,
  longitude, depth_km, file, dt,
- numreset, type_sensor, sw_version, qcn_quakeid,
+ numreset, qcn_sensorid, sw_version, qcn_quakeid,
  time_filereq, received_file, runtime_clock, runtime_cpu)
 select distinct hostid, ipaddr, result_name, time_trigger,
  time_trigger, time_sync,  sync_offset,
  significance, magnitude, latitude,
  longitude, depth_km, file, dt,
- numreset, type_sensor, sw_version, qcn_quakeid,
+ numreset, qcn_sensorid, sw_version, qcn_quakeid,
  time_filereq, received_file, runtime_clock, runtime_cpu
 from qcn_trigger_backup;
 
@@ -34,13 +34,13 @@ insert into qcn_trigger
  time_received, time_sync,  sync_offset,
  significance, magnitude, latitude,
  longitude, depth_km, file, dt,
- numreset, type_sensor, sw_version, qcn_quakeid,
+ numreset, qcn_sensorid, sw_version, qcn_quakeid,
  time_filereq, received_file, runtime_clock, runtime_cpu)
 select hostid, ipaddr, result_name, time_trigger,
  time_received, time_sync,  sync_offset,
  significance, magnitude, latitude,
  longitude, depth_km, file, dt,
- numreset, type_sensor, sw_version, qcn_quakeid,
+ numreset, qcn_sensorid, sw_version, qcn_quakeid,
  time_filereq, received_file, runtime_clock, runtime_cpu
 from qcn_trigger_distinct;
 

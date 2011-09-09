@@ -266,7 +266,7 @@ alignid smallint,
 file varchar(64),
 dt float,
 numreset int(6),
-type_sensor int(3),
+qcn_sensorid int(3),
 sw_version varchar(8),
 os_type varchar(8),
 qcn_quakeid int(11),
@@ -286,7 +286,7 @@ create index qcn_trigger_result_name on qcn_trigger (result_name,id,varietyid);
 create index qcn_trigger_hostid_filereq on qcn_trigger(hostid,time_filereq,received_file);
 create index qcn_trigger_quakeid on qcn_trigger (qcn_quakeid);
 create index qcn_trigger_file on qcn_trigger (file);
-create index qcn_trigger_type_sensor on qcn_trigger (type_sensor);
+create index qcn_trigger_qcn_sensorid on qcn_trigger (qcn_sensorid);
 create index qcn_trigger_qcn_quakeid on qcn_trigger (qcn_quakeid);
 create index qcn_trigger_flag on qcn_trigger (flag);
 
@@ -361,7 +361,7 @@ alignid smallint,
 file varchar(64),
 dt float,
 numreset int(6),
-type_sensor int(3),
+qcn_sensorid int(3),
 varietyid smallint not null default 0,
 qcn_quakeid int not null default 0,
 posted boolean not null default false
@@ -378,7 +378,7 @@ create index qcn_trigger_memory_file on trigmem.qcn_trigger_memory(file);
 insert into trigmem.qcn_trigger_memory
    select 'qcnalpha',id,hostid,ipaddr,result_name,time_trigger,time_received,time_sync,sync_offset,
       significance,magnitude,latitude,longitude,
-      levelvalue, levelid, alignid, dt, numreset, type_sensor, varietyid
+      levelvalue, levelid, alignid, dt, numreset, qcn_sensorid, varietyid
          from qcn_trigger where time_sync>1e6 order by time_trigger desc limit 10000;
 
 
