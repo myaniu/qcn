@@ -12,6 +12,10 @@ cd /var/www/
   --exclude "/var/www/boinc/continual/tmp_qcn-web/*" \
   --exclude "/var/www/boinc/continual/html/cache/*" \
   --exclude "/var/www/boinc/continual/html/stats/*" \
+  --exclude "/var/www/qcn/earthquakes/aichung/*" \
+  --exclude "/var/www/qcn/earthquakes/aichung/" \
+  --exclude "/var/www/qcn/earthquakes/12*/*" \
+  --exclude "/var/www/qcn/earthquakes/12*" \
  boinc/ qcn/ \
  1>/root/backupweb.log 2>/root/backupweb.err
 # note for the following line need to have .ssh id between root & carlgt1 setup
