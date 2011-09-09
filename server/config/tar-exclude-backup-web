@@ -1,0 +1,4 @@
+boinc/sensor/log*/*
+boinc/continual/log*/*
+boinc/sensor/html/cache/*
+boinc/continual/html/cache/*

@@ -1,8 +1,8 @@
 #!/bin/bash
 /bin/rm -f /tmp/qcn-web-backup.tgz
-cd /var/www
-/bin/nice -n19 /bin/tar czf /tmp/qcn-web-backup.tgz boinc/ drupal/ qcn/ 
+cd /var/www/
+/bin/nice -n19 /bin/tar czf --exclude-from /root/tar-exclude-backup-web /tmp/qcn-web-backup.tgz boinc/ qcn/
 # note for the following line need to have .ssh id between root & carlgt1 setup
 # also make sure that '.ssh/known_hosts' is setup to receive connections
 /bin/nice -n19 /usr/bin/scp /tmp/qcn-web-backup.tgz carlgt1@upl-private:
-/bin/nice -n19 /bin/mv -f /tmp/qcn-web-backup.tgz /data/cees2/QCN/
+/bin/nice -n19 /bin/mv -f /tmp/qcn-web-backup.tgz /data/QCN/
