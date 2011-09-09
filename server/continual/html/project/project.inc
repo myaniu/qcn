@@ -402,7 +402,7 @@ function show_trigger($hostid, $heading, $private=true)
        . "s.description, "
        . "sw_version,os_type,runtime_cpu,runtime_clock,varietyid,levelvalue,levelid,received_file,file as file_url,result_name,alignid "
        . "from qcn_trigger t "
-       . "             LEFT JOIN qcn_sensor s ON t.type_sensor = s.id "
+       . "             LEFT JOIN qcn_sensor s ON t.qcn_sensorid = s.id "
        . "WHERE hostid=$hostid order by time_trigger desc limit " . MAX_NUM_TRIGGER;
    $result=$db->do_query($sql);
    echo "<H2>$heading</H2>\n";

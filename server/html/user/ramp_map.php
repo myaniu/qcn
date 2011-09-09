@@ -59,7 +59,7 @@ $strHostID = get_int("HostID", true);
 $strCountry = get_str("db_country", true);
 
 /*
-$type_sensor = get_int("type_sensor", true);
+$qcn_sensorid = get_int("qcn_sensorid", true);
 $dateStart = get_str("date_start", true);
 $dateEnd   = get_str("date_end", true);
 $strLonMin = get_str("LonMin", true);
@@ -116,7 +116,7 @@ echo "<H2>QCN Ramp Participants</H2>";
 /*
   for ($i = 0; $i < sizeof($arrSensor); $i++)  {
      echo "<option value=" . $arrSensor[$i][0];
-     if ($type_sensor == $arrSensor[$i][0]) echo " selected";
+     if ($qcn_sensorid == $arrSensor[$i][0]) echo " selected";
      echo ">" . $arrSensor[$i][1] . "\n";
   }
 echo "</select>
@@ -311,7 +311,7 @@ if ($bUseLat) {
 }
 
 if ($bUseSensor) {
-   $whereString .= " AND t.type_sensor=$type_sensor ";
+   $whereString .= " AND t.qcn_sensorid=$qcn_sensorid ";
 }
 
 if ($bUseTime) {
@@ -331,7 +331,7 @@ t.numreset, s.description as sensor_description, t.sw_version, t.qcn_quakeid, t.
 t.received_file, t.file_url
 FROM
   qcnalpha.qcn_trigger t LEFT OUTER JOIN qcn_quake q ON t.qcn_quakeid = q.id
-   LEFT JOIN qcn_sensor s ON t.type_sensor = s.id 
+   LEFT JOIN qcn_sensor s ON t.qcn_sensorid = s.id 
 ";
 */
 
@@ -474,7 +474,7 @@ $queryString = "&nresults=$page_entries_to_show"
        . "&cbUseLat=$bUseLat"
        . "&cbUseTime=$bUseTime"
        . "&cbUseSensor=$bUseSensor"
-       . "&type_sensor=$type_sensor"
+       . "&qcn_sensorid=$qcn_sensorid"
        . "&date_start=$dateStart"
        . "&date_end=$dateEnd"
        . "&LonMin=$strLonMin"

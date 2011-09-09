@@ -60,11 +60,11 @@ t.latitude as trigger_lat, t.longitude as trigger_lon, t.file as trigger_file, t
 t.numreset, s.description as sensor_description, t.sw_version, t.qcn_quakeid, t.time_filereq as trigger_timereq, 
 t.received_file, REPLACE_ARCHIVE is_archive, t.varietyid
 FROM REPLACE_DB.qcn_trigger t LEFT OUTER JOIN qcnalpha.qcn_quake q ON t.qcn_quakeid = q.id
-   LEFT JOIN qcnalpha.qcn_sensor s ON t.type_sensor = s.id 
+   LEFT JOIN qcnalpha.qcn_sensor s ON t.qcn_sensorid = s.id 
 ";
 
 // full querystring
-// http://qcn.stanford.edu/continual_dl/trdl.php?cbCSV=1&cbUseLat=1&LatMin=-39&LatMax=-30&LonMin=-76&LonMax=-69&cbUseSensor=1&type_sensor=100&cbUseTime=1&date_start=2010-03-24&time_hour_start=0&time_minute_start=0&date_end=2010-03-25&time_hour_end=0&time_minute_end=0&rb_sort=ttd
+// http://qcn.stanford.edu/continual_dl/trdl.php?cbCSV=1&cbUseLat=1&LatMin=-39&LatMax=-30&LonMin=-76&LonMax=-69&cbUseSensor=1&qcn_sensorid=100&cbUseTime=1&date_start=2010-03-24&time_hour_start=0&time_minute_start=0&date_end=2010-03-25&time_hour_end=0&time_minute_end=0&rb_sort=ttd
 
 // sort order options: tta/d  hosta/d  maga/d lata/d lona/d
 // get the archive time
@@ -113,7 +113,7 @@ $strHostName = get_str("HostName", true);
 
 $quake_mag_min = get_str("quake_mag_min", true);
 
-$type_sensor = get_int("type_sensor", true);
+$qcn_sensorid = get_int("qcn_sensorid", true);
 $dateStart = get_str("date_start", true);
 $dateEnd   = get_str("date_end", true);
 
@@ -387,11 +387,11 @@ echo "</select> (UTC)\n </td></tr></table></UL> \n ";
 
 echo "<p><input type=\"checkbox\" id=\"cbUseSensor\" name=\"cbUseSensor\" value=\"1\" " . ($bUseSensor ? "checked" : "") . "> Use Sensor Type:\n";
 echo "<ul>\n";
-echo "<select name=\"type_sensor\" id=\"type_sensor\">";
+echo "<select name=\"qcn_sensorid\" id=\"qcn_sensorid\">";
 echo "<font size=\"1\">";
   for ($i = 0; $i < sizeof($arrSensor); $i++)  {
      echo "<option value=" . $arrSensor[$i][0];
-     if ($type_sensor == $arrSensor[$i][0]) echo " selected";
+     if ($qcn_sensorid == $arrSensor[$i][0]) echo " selected";
      echo ">" . $arrSensor[$i][1] . "\n";
   }
 echo "</select>\n </ul>\n";
@@ -470,7 +470,7 @@ if ($bUseLat) {
 }
 
 if ($bUseSensor) {
-   $whereString .= " AND t.type_sensor=$type_sensor ";
+   $whereString .= " AND t.qcn_sensorid=$qcn_sensorid ";
 }
 
 $unixtimeStart = 0;
@@ -635,7 +635,7 @@ $queryString = "&nresults=$page_entries_to_show"
        . "&cbUseLat=$bUseLat"
        . "&cbUseTime=$bUseTime"
        . "&cbUseSensor=$bUseSensor"
-       . "&type_sensor=$type_sensor"
+       . "&qcn_sensorid=$qcn_sensorid"
        . "&date_start=$dateStart"
        . "&date_end=$dateEnd"
        . "&LonMin=$strLonMin"
