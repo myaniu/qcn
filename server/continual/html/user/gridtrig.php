@@ -23,7 +23,7 @@ t.numreset, s.description as sensor_description, t.sw_version, t.qcn_quakeid, t.
 t.received_file, t.file_url
 FROM
   qcn_trigger t LEFT OUTER JOIN qcn_quake q ON t.qcn_quakeid = q.id
-   LEFT JOIN qcn_sensor s ON t.type_sensor = s.id 
+   LEFT JOIN qcn_sensor s ON t.qcn_sensorid = s.id 
 ";
 
 /*
@@ -31,13 +31,13 @@ $query = "select t.id as triggerid, t.hostid, t.ipaddr, t.result_name, t.time_tr
 (t.time_received-t.time_trigger) as delay_time, t.time_sync as trigger_sync,
 t.sync_offset, t.significance, t.magnitude as trigger_mag, 
 t.latitude as trigger_lat, t.longitude as trigger_lon, t.file as trigger_file, t.dt as delta_t,
-t.numreset, t.type_sensor, t.sw_version, t.qcn_quakeid, t.time_filereq as trigger_timereq, 
+t.numreset, t.qcn_sensorid, t.sw_version, t.qcn_quakeid, t.time_filereq as trigger_timereq, 
 t.received_file, t.file_url
 from qcn_trigger t ";
 */
 
 // full querystring
-// http://qcn.stanford.edu/continual_dl/trig.php?cbCSV=1&cbUseLat=1&LatMin=-39&LatMax=-30&LonMin=-76&LonMax=-69&cbUseSensor=1&type_sensor=100&cbUseTime=1&date_start=2010-03-24&time_hour_start=0&time_minute_start=0&date_end=2010-03-25&time_hour_end=0&time_minute_end=0&rb_sort=ttd
+// http://qcn.stanford.edu/continual_dl/trig.php?cbCSV=1&cbUseLat=1&LatMin=-39&LatMax=-30&LonMin=-76&LonMax=-69&cbUseSensor=1&qcn_sensorid=100&cbUseTime=1&date_start=2010-03-24&time_hour_start=0&time_minute_start=0&date_end=2010-03-25&time_hour_end=0&time_minute_end=0&rb_sort=ttd
 
 // sort order options: tta/d  hosta/d  maga/d lata/d lona/d
 
@@ -77,7 +77,7 @@ $strHostName = get_str("HostName", true);
 
 $quake_mag_min = get_str("quake_mag_min", true);
 
-$type_sensor = get_int("type_sensor", true);
+$qcn_sensorid = get_int("qcn_sensorid", true);
 $dateStart = get_str("date_start", true);
 $dateEnd   = get_str("date_end", true);
 
@@ -187,14 +187,14 @@ Constraints:<br><br>
 
   <input type=\"checkbox\" id=\"cbUseSensor\" name=\"cbUseSensor\" value=\"1\" " . ($bUseSensor ? "checked" : "") . "> Use Sensor Constraint
 
-<select name=\"type_sensor\" id=\"type_sensor\">
+<select name=\"qcn_sensorid\" id=\"qcn_sensorid\">
 
 ";
 echo "<H5>";
 
   for ($i = 0; $i < sizeof($arrSensor); $i++)  {
      echo "<option value=" . $arrSensor[$i][0];
-     if ($type_sensor == $arrSensor[$i][0]) echo " selected";
+     if ($qcn_sensorid == $arrSensor[$i][0]) echo " selected";
      echo ">" . $arrSensor[$i][1] . "\n";
   }
 
@@ -338,7 +338,7 @@ if ($bUseLat) {
 }
 
 if ($bUseSensor) {
-   $whereString .= " AND t.type_sensor=$type_sensor ";
+   $whereString .= " AND t.qcn_sensorid=$qcn_sensorid ";
 }
 
 if ($bUseTime) {
