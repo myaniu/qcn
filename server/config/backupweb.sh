@@ -16,7 +16,7 @@ cd /var/www/
   --exclude "/var/www/qcn/earthquakes/aichung/" \
   --exclude "/var/www/qcn/earthquakes/12*/*" \
   --exclude "/var/www/qcn/earthquakes/12*" \
- boinc/ qcn/ \
+ boinc/ qcn/ qcnwp/ \
  1>/root/backupweb.log 2>/root/backupweb.err
 # note for the following line need to have .ssh id between root & carlgt1 setup
 # also make sure that '.ssh/known_hosts' is setup to receive connections
