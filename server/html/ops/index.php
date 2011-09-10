@@ -122,11 +122,6 @@ echo "
         <li><a href=\"db_action.php?table=app\">Applications</a></li>
         <li><a href=\"db_form.php?table=app_version\">Application versions</a></li>
         <li><a href=\"db_action.php?table=platform\">Platforms</a></li>
-        <li><a href=\"db_form.php?table=qcn_quake&amp;detail=low\">Known Quakes</a></li>
-        <li><a href=\"db_form.php?table=qcn_trigger&amp;detail=low\">Trigger View</a></li>
-        <li><a href=\"db_form.php?table=qcn_host_ipaddr&amp;detail=low\">Host/IP/LatLng</a></li>
-        <li><a href=\"db_form.php?table=qcn_geo_ipaddr&amp;detail=low\">Geo/IP/LatLng</a></li>
-        <li><a href=\"todo/index.php\">QCN 'To Do' List</a></li>
         <li><a href=dbinfo.php>DB row counts and disk usage</a>
         <li><a href=\"show_log.php?f=mysql*.log&amp;l=-20\">Tail MySQL logs</a>
     </ul>
