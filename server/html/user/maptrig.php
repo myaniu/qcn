@@ -76,7 +76,7 @@ echo "<h3>" . $title . "</h3>";
 echo "<h5>" . $legend . "</h5>";
 echo "<h7>Note: locations changed at the kilometer-level to protect privacy, unless participant authorized exact location be used</h7><BR>";
 echo "<I>click and drag to move map; on empty region - left dbl-click to zoom in, right dbl-click to zoom out</I><BR>";
-echo "<I>If you do not see the map, click 'Refresh' on your browser to reload the page</I><BR>";
+echo "<I>If you do not see the map or sensors or quakes, click 'Refresh' on your browser to reload the page</I><BR>";
 
 $pm = new PhoogleMap();
 
