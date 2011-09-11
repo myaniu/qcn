@@ -73,17 +73,16 @@ function show_nav() {
 
         //if ($user->id == 15) {
         // check for db replication timestamp
-        $kewfile = "/var/www/boinc/sensor/html/user/max.txt";
-        if (file_exists($kewfile) && ($handle = fopen($kewfile, 'r'))) {
-              $output = fgets($handle); // skip first line
-              $output = fgets($handle);              fclose($handle);
-              echo "        <li>Kew Sync Diff (seconds): " . $output . "<BR>(should be a small number else server is down)
-<BR>";
-        }        else {
-              echo "        <li>No Replication Sync File on Kew - Better Check!";
-    }
+        #$kewfile = "/var/www/boinc/sensor/html/user/max.txt";
+        #if (file_exists($kewfile) && ($handle = fopen($kewfile, 'r'))) {
+        #      $output = fgets($handle); // skip first line
+        #      $output = fgets($handle);              fclose($handle);
+        #      echo "        <li>Kew Sync Diff (seconds): " . $output . "<BR>(should be a small number else server is down) <BR>";
+     #   }        else {
+     #         echo "        <li>No Replication Sync File on Kew - Better Check!";
+     # }
 
-  echo "</ul>";
+     echo "</ul>";
 }
 
 echo "
