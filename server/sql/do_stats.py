@@ -16,6 +16,8 @@ def main():
                            passwd = DBPASSWD,
                            db = DBNAME)
       cMain = dbconn.cursor()
+      cMain.execute("update qcnalpha.result set validate_state=1 where validate_state=3 and outcome=1")
+      cMain.execute("update continual.result set validate_state=1 where validate_state=3 and outcome=1")
       cMain.execute("call do_stats();")
       dbconn.close()
       t2 = time()
