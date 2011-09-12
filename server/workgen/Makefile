@@ -14,7 +14,7 @@ SSL_LIBS = -L/usr/kerberos/lib64 -lssl -lcrypto -ldl -lz
 QCNDIR = /var/www/boinc/sensor
 CONTDIR = /var/www/boinc/continual
 
-LIBS = $(SSL_LIBS) -L$(BOINCDIR)/lib -lboinc $(MYSQL_LIBS)
+LIBS = $(SSL_LIBS) -L$(BOINCDIR)/lib -lboinc -lboinc_crypt -L$(BOINCDIR)/sched -lsched $(MYSQL_LIBS)
 
 INCLUDES = -I$(BOINCDIR) -I$(BOINCDIR)/lib -I$(BOINCDIR)/tools -I$(BOINCDIR)/db \
            -I$(MYSQLDIR)/include -I$(BOINCDIR)/sched
