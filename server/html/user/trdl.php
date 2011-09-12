@@ -15,7 +15,7 @@ $user = get_logged_in_user(true);
 $bNoQuery = ($_SERVER["QUERY_STRING"] == null);
 
 // authenticate admin-level user
-//qcn_admin_user_auth($user, true);
+qcn_admin_user_auth($user, true);
 
 // archive cutoff time is two months prior to the first of the current month
 //$queryArchiveTime = "SELECT unix_timestamp( concat(year(now()), '/', month(now()), '/01 00:00:00') ) - (60 * 24 * 3600) archive_time";
