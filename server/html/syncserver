@@ -48,6 +48,8 @@ scp carlgt1@qcn-web:/var/www/boinc/sensor/html/user/maptrig.php user/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/html/user/maptrigtime.php user/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/html/user/results.php user/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/html/user/qcn.css user/
+scp carlgt1@qcn-web:/var/www/boinc/sensor/html/user/qcn_orig.css user/
+scp carlgt1@qcn-web:/var/www/boinc/sensor/html/user/qcn_wordpress.css user/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/html/user/show_host_detail.php user/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/html/user/server_status.php user/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/html/user/trigger.php user/
