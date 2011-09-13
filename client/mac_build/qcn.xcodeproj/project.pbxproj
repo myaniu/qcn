@@ -685,7 +685,11 @@
 			buildSettings = {
 				ADDITIONAL_SDKS = "";
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				ARCHS = (
+					ppc,
+					i386,
+					x86_64,
+				);
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -694,7 +698,10 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
-				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_VERSION = 4.2;
+				"GCC_VERSION[sdk=macosx10.4][arch=ppc]" = 4.0;
+				"GCC_VERSION[sdk=macosx10.5][arch=i386]" = 4.2;
+				"GCC_VERSION[sdk=macosx10.6][arch=x86_64]" = 4.2;
 				HEADER_SEARCH_PATHS = (
 					../../,
 					../main,
@@ -714,6 +721,9 @@
 					"\"$(SRCROOT)/../../zlib-1.2.5\"",
 					"\"$(SRCROOT)\"",
 				);
+				"MACOSX_DEPLOYMENT_TARGET[sdk=macosx10.4][arch=ppc]" = 10.4;
+				"MACOSX_DEPLOYMENT_TARGET[sdk=macosx10.5][arch=i386]" = 10.5;
+				"MACOSX_DEPLOYMENT_TARGET[sdk=macosx10.6][arch=x86_64]" = 10.6;
 				OTHER_CFLAGS = (
 					"-Wall",
 					"-W",
@@ -736,7 +746,10 @@
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = qcnusb;
-				SDKROOT = macosx10.6;
+				SDKROOT = macosx10.5;
+				"SDKROOT[arch=i386]" = macosx10.5;
+				"SDKROOT[arch=ppc]" = macosx10.4;
+				"SDKROOT[arch=x86_64]" = macosx10.6;
 				SYMROOT = ../bin;
 			};
 			name = Debug;
@@ -746,7 +759,11 @@
 			buildSettings = {
 				ADDITIONAL_SDKS = "";
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				ARCHS = (
+					ppc,
+					i386,
+					x86_64,
+				);
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)";
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -754,7 +771,10 @@
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
-				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_VERSION = 4.2;
+				"GCC_VERSION[sdk=macosx10.4][arch=ppc]" = 4.0;
+				"GCC_VERSION[sdk=macosx10.5][arch=i386]" = 4.2;
+				"GCC_VERSION[sdk=macosx10.6][arch=x86_64]" = 4.2;
 				HEADER_SEARCH_PATHS = (
 					../../,
 					../main,
@@ -774,6 +794,9 @@
 					"\"$(SRCROOT)/../../zlib-1.2.5\"",
 					"\"$(SRCROOT)\"",
 				);
+				"MACOSX_DEPLOYMENT_TARGET[sdk=macosx10.4][arch=ppc]" = 10.4;
+				"MACOSX_DEPLOYMENT_TARGET[sdk=macosx10.5][arch=i386]" = 10.5;
+				"MACOSX_DEPLOYMENT_TARGET[sdk=macosx10.6][arch=x86_64]" = 10.6;
 				OTHER_CFLAGS = (
 					"-Wall",
 					"-W",
@@ -796,7 +819,10 @@
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = qcnusb;
-				SDKROOT = macosx10.6;
+				SDKROOT = macosx10.5;
+				"SDKROOT[arch=i386]" = macosx10.5;
+				"SDKROOT[arch=ppc]" = macosx10.4;
+				"SDKROOT[arch=x86_64]" = macosx10.6;
 				SYMROOT = ../bin;
 				ZERO_LINK = NO;
 			};
@@ -825,7 +851,11 @@
 		E3A499F30D64E62A00E51CDF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				ARCHS = (
+					ppc,
+					i386,
+					x86_64,
+				);
 				CONFIGURATION_BUILD_DIR = ../bin;
 				COPY_PHASE_STRIP = NO;
 				GCC_DEBUGGING_SYMBOLS = full;
@@ -836,7 +866,10 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "";
-				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_VERSION = 4.2;
+				"GCC_VERSION[sdk=macosx10.4][arch=ppc]" = 4.0;
+				"GCC_VERSION[sdk=macosx10.5][arch=i386]" = 4.2;
+				"GCC_VERSION[sdk=macosx10.6][arch=x86_64]" = 4.2;
 				HEADER_SEARCH_PATHS = (
 					../../,
 					../main,
@@ -856,7 +889,10 @@
 					"\"$(SRCROOT)/../../zlib\"",
 					"\"$(SRCROOT)\"",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				"MACOSX_DEPLOYMENT_TARGET[sdk=macosx10.4][arch=ppc]" = 10.4;
+				"MACOSX_DEPLOYMENT_TARGET[sdk=macosx10.5][arch=i386]" = 10.5;
+				"MACOSX_DEPLOYMENT_TARGET[sdk=macosx10.6][arch=x86_64]" = 10.6;
 				OBJROOT = ../bin;
 				OTHER_CFLAGS = (
 					"-Wall",
@@ -881,7 +917,10 @@
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = qcn;
-				SDKROOT = macosx10.6;
+				SDKROOT = macosx10.5;
+				"SDKROOT[arch=i386]" = macosx10.5;
+				"SDKROOT[arch=ppc]" = macosx10.4;
+				"SDKROOT[arch=x86_64]" = macosx10.6;
 				SYMROOT = ../bin;
 				WRAPPER_EXTENSION = app;
 			};
@@ -891,7 +930,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ADDITIONAL_SDKS = "";
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				ARCHS = (
+					ppc,
+					i386,
+					x86_64,
+				);
 				CONFIGURATION_BUILD_DIR = ../bin;
 				COPY_PHASE_STRIP = YES;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -900,7 +943,10 @@
 				GCC_MODEL_TUNING = G4;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "";
-				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_VERSION = 4.2;
+				"GCC_VERSION[sdk=macosx10.4][arch=ppc]" = 4.0;
+				"GCC_VERSION[sdk=macosx10.5][arch=i386]" = 4.2;
+				"GCC_VERSION[sdk=macosx10.6][arch=x86_64]" = 4.2;
 				HEADER_SEARCH_PATHS = (
 					../../,
 					../main,
@@ -920,7 +966,10 @@
 					"\"$(SRCROOT)/../../zlib\"",
 					"\"$(SRCROOT)\"",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				"MACOSX_DEPLOYMENT_TARGET[sdk=macosx10.4][arch=ppc]" = 10.4;
+				"MACOSX_DEPLOYMENT_TARGET[sdk=macosx10.5][arch=i386]" = 10.5;
+				"MACOSX_DEPLOYMENT_TARGET[sdk=macosx10.6][arch=x86_64]" = 10.6;
 				OBJROOT = ../bin;
 				OTHER_CFLAGS = (
 					"-Wall",
@@ -945,7 +994,10 @@
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = qcn;
-				SDKROOT = macosx10.6;
+				SDKROOT = macosx10.5;
+				"SDKROOT[arch=i386]" = macosx10.5;
+				"SDKROOT[arch=ppc]" = macosx10.4;
+				"SDKROOT[arch=x86_64]" = macosx10.6;
 				SYMROOT = ../bin;
 				WRAPPER_EXTENSION = app;
 			};
@@ -955,14 +1007,21 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				ARCHS = (
+					ppc,
+					i386,
+					x86_64,
+				);
 				CODE_SIGN_IDENTITY = "";
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_VERSION = 4.2;
+				"GCC_VERSION[sdk=macosx10.4][arch=ppc]" = 4.0;
+				"GCC_VERSION[sdk=macosx10.5][arch=i386]" = 4.2;
+				"GCC_VERSION[sdk=macosx10.6][arch=x86_64]" = 4.2;
 				HEADER_SEARCH_PATHS = (
 					../../,
 					../main,
@@ -985,6 +1044,9 @@
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
 				);
+				"MACOSX_DEPLOYMENT_TARGET[sdk=macosx10.4][arch=ppc]" = 10.4;
+				"MACOSX_DEPLOYMENT_TARGET[sdk=macosx10.5][arch=i386]" = 10.5;
+				"MACOSX_DEPLOYMENT_TARGET[sdk=macosx10.6][arch=x86_64]" = 10.6;
 				OTHER_CFLAGS = (
 					"-Wall",
 					"-DQCN",
@@ -1010,7 +1072,10 @@
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = qcn_graphics;
-				SDKROOT = macosx10.6;
+				SDKROOT = macosx10.5;
+				"SDKROOT[arch=i386]" = macosx10.5;
+				"SDKROOT[arch=ppc]" = macosx10.4;
+				"SDKROOT[arch=x86_64]" = macosx10.6;
 				SYMROOT = ../bin;
 			};
 			name = Debug;
@@ -1019,14 +1084,21 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				ARCHS = (
+					ppc,
+					i386,
+					x86_64,
+				);
 				CODE_SIGN_IDENTITY = "";
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)";
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_VERSION = 4.2;
+				"GCC_VERSION[sdk=macosx10.4][arch=ppc]" = 4.0;
+				"GCC_VERSION[sdk=macosx10.5][arch=i386]" = 4.2;
+				"GCC_VERSION[sdk=macosx10.6][arch=x86_64]" = 4.2;
 				HEADER_SEARCH_PATHS = (
 					../../,
 					../main,
@@ -1049,6 +1121,9 @@
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
 				);
+				"MACOSX_DEPLOYMENT_TARGET[sdk=macosx10.4][arch=ppc]" = 10.4;
+				"MACOSX_DEPLOYMENT_TARGET[sdk=macosx10.5][arch=i386]" = 10.5;
+				"MACOSX_DEPLOYMENT_TARGET[sdk=macosx10.6][arch=x86_64]" = 10.6;
 				OTHER_CFLAGS = (
 					"-Wall",
 					"-DQCN",
@@ -1074,7 +1149,10 @@
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = qcn_graphics;
-				SDKROOT = macosx10.6;
+				SDKROOT = macosx10.5;
+				"SDKROOT[arch=i386]" = macosx10.5;
+				"SDKROOT[arch=ppc]" = macosx10.4;
+				"SDKROOT[arch=x86_64]" = macosx10.6;
 				SYMROOT = ../bin;
 				ZERO_LINK = NO;
 			};
