@@ -5,7 +5,7 @@
 /* #undef BUILDING_LIBCURL */
 
 /* Location of default ca bundle */
-#define CURL_CA_BUNDLE "/etc/ssl/certs/ca-certificates.crt"
+/* #undef CURL_CA_BUNDLE */
 
 /* Location of default ca path */
 /* #undef CURL_CA_PATH */
@@ -92,16 +92,16 @@
 #define GETNAMEINFO_TYPE_ARG2 socklen_t
 
 /* Define to the type of args 4 and 6 for getnameinfo. */
-#define GETNAMEINFO_TYPE_ARG46 size_t
+#define GETNAMEINFO_TYPE_ARG46 socklen_t
 
 /* Define to the type of arg 7 for getnameinfo. */
-#define GETNAMEINFO_TYPE_ARG7 unsigned int
+#define GETNAMEINFO_TYPE_ARG7 int
 
 /* Specifies the number of arguments to getservbyport_r */
-#define GETSERVBYPORT_R_ARGS 6
+/* #undef GETSERVBYPORT_R_ARGS */
 
 /* Specifies the size of the buffer to pass to getservbyport_r */
-#define GETSERVBYPORT_R_BUFSIZE 4096
+/* #undef GETSERVBYPORT_R_BUFSIZE */
 
 /* Define to 1 if you have the alarm function. */
 #define HAVE_ALARM 1
@@ -125,7 +125,7 @@
 #define HAVE_BOOL_T 1
 
 /* Define to 1 if you have the clock_gettime function and monotonic timer. */
-#define HAVE_CLOCK_GETTIME_MONOTONIC 1
+/* #undef HAVE_CLOCK_GETTIME_MONOTONIC */
 
 /* Define to 1 if you have the closesocket function. */
 /* #undef HAVE_CLOSESOCKET */
@@ -185,10 +185,10 @@
 #define HAVE_FSETXATTR 1
 
 /* fsetxattr() takes 5 args */
-#define HAVE_FSETXATTR_5 1
+/* #undef HAVE_FSETXATTR_5 */
 
 /* fsetxattr() takes 6 args */
-/* #undef HAVE_FSETXATTR_6 */
+#define HAVE_FSETXATTR_6 1
 
 /* Define to 1 if you have the ftruncate function. */
 #define HAVE_FTRUNCATE 1
@@ -200,7 +200,7 @@
 #define HAVE_GETADDRINFO 1
 
 /* Define to 1 if the getaddrinfo function is threadsafe. */
-#define HAVE_GETADDRINFO_THREADSAFE 1
+/* #undef HAVE_GETADDRINFO_THREADSAFE */
 
 /* Define to 1 if you have the `geteuid' function. */
 #define HAVE_GETEUID 1
@@ -209,7 +209,7 @@
 #define HAVE_GETHOSTBYADDR 1
 
 /* Define to 1 if you have the gethostbyaddr_r function. */
-#define HAVE_GETHOSTBYADDR_R 1
+/* #undef HAVE_GETHOSTBYADDR_R */
 
 /* gethostbyaddr_r() takes 5 args */
 /* #undef HAVE_GETHOSTBYADDR_R_5 */
@@ -218,13 +218,13 @@
 /* #undef HAVE_GETHOSTBYADDR_R_7 */
 
 /* gethostbyaddr_r() takes 8 args */
-#define HAVE_GETHOSTBYADDR_R_8 1
+/* #undef HAVE_GETHOSTBYADDR_R_8 */
 
 /* Define to 1 if you have the gethostbyname function. */
 #define HAVE_GETHOSTBYNAME 1
 
 /* Define to 1 if you have the gethostbyname_r function. */
-#define HAVE_GETHOSTBYNAME_R 1
+/* #undef HAVE_GETHOSTBYNAME_R */
 
 /* gethostbyname_r() takes 3 args */
 /* #undef HAVE_GETHOSTBYNAME_R_3 */
@@ -233,7 +233,7 @@
 /* #undef HAVE_GETHOSTBYNAME_R_5 */
 
 /* gethostbyname_r() takes 6 args */
-#define HAVE_GETHOSTBYNAME_R_6 1
+/* #undef HAVE_GETHOSTBYNAME_R_6 */
 
 /* Define to 1 if you have the gethostname function. */
 #define HAVE_GETHOSTNAME 1
@@ -260,7 +260,7 @@
 #define HAVE_GETRLIMIT 1
 
 /* Define to 1 if you have the getservbyport_r function. */
-#define HAVE_GETSERVBYPORT_R 1
+/* #undef HAVE_GETSERVBYPORT_R */
 
 /* Define to 1 if you have the `gettimeofday' function. */
 #define HAVE_GETTIMEOFDAY 1
@@ -444,7 +444,7 @@
 #define HAVE_LONGLONG 1
 
 /* Define to 1 if you have the malloc.h header file. */
-#define HAVE_MALLOC_H 1
+/* #undef HAVE_MALLOC_H */
 
 /* Define to 1 if you have the memory.h header file. */
 #define HAVE_MEMORY_H 1
@@ -453,7 +453,7 @@
 /* #undef HAVE_MEMRCHR */
 
 /* Define to 1 if you have the MSG_NOSIGNAL flag. */
-#define HAVE_MSG_NOSIGNAL 1
+/* #undef HAVE_MSG_NOSIGNAL */
 
 /* Define to 1 if you have the <netdb.h> header file. */
 #define HAVE_NETDB_H 1
@@ -559,7 +559,7 @@
 #define HAVE_SETLOCALE 1
 
 /* Define to 1 if you have the `setmode' function. */
-/* #undef HAVE_SETMODE */
+#define HAVE_SETMODE 1
 
 /* Define to 1 if you have the `setrlimit' function. */
 #define HAVE_SETRLIMIT 1
@@ -631,7 +631,7 @@
 #define HAVE_STRCASECMP 1
 
 /* Define to 1 if you have the strcasestr function. */
-/* #undef HAVE_STRCASESTR */
+#define HAVE_STRCASESTR 1
 
 /* Define to 1 if you have the strcmpi function. */
 /* #undef HAVE_STRCMPI */
@@ -652,7 +652,7 @@
 #define HAVE_STRING_H 1
 
 /* Define to 1 if you have the strlcat function. */
-/* #undef HAVE_STRLCAT */
+#define HAVE_STRLCAT 1
 
 /* Define to 1 if you have the `strlcpy' function. */
 /* #undef HAVE_STRLCPY */
@@ -667,7 +667,7 @@
 /* #undef HAVE_STRNICMP */
 
 /* Define to 1 if you have the <stropts.h> header file. */
-#define HAVE_STROPTS_H 1
+/* #undef HAVE_STROPTS_H */
 
 /* Define to 1 if you have the strstr function. */
 #define HAVE_STRSTR 1
@@ -685,7 +685,7 @@
 #define HAVE_STRUCT_TIMEVAL 1
 
 /* Define to 1 if you have the <sys/filio.h> header file. */
-/* #undef HAVE_SYS_FILIO_H */
+#define HAVE_SYS_FILIO_H 1
 
 /* Define to 1 if you have the <sys/ioctl.h> header file. */
 #define HAVE_SYS_IOCTL_H 1
@@ -706,7 +706,7 @@
 #define HAVE_SYS_SOCKET_H 1
 
 /* Define to 1 if you have the <sys/sockio.h> header file. */
-/* #undef HAVE_SYS_SOCKIO_H */
+#define HAVE_SYS_SOCKIO_H 1
 
 /* Define to 1 if you have the <sys/stat.h> header file. */
 #define HAVE_SYS_STAT_H 1
@@ -733,7 +733,7 @@
 #define HAVE_TERMIOS_H 1
 
 /* Define to 1 if you have the <termio.h> header file. */
-#define HAVE_TERMIO_H 1
+/* #undef HAVE_TERMIO_H */
 
 /* Define to 1 if you have the <time.h> header file. */
 #define HAVE_TIME_H 1
@@ -815,7 +815,7 @@
 /* #undef NEED_THREAD_SAFE */
 
 /* cpu-machine-OS */
-#define OS "i686-pc-linux-gnu"
+#define OS "x86_64-pc-none"
 
 /* Name of package */
 #define PACKAGE "curl"
@@ -872,7 +872,7 @@
 /* #undef RECVFROM_TYPE_ARG6_IS_VOID */
 
 /* Define to the function return type for recvfrom. */
-#define RECVFROM_TYPE_RETV int
+#define RECVFROM_TYPE_RETV ssize_t
 
 /* Define to the type of arg 1 for recv. */
 #define RECV_TYPE_ARG1 int
@@ -887,7 +887,7 @@
 #define RECV_TYPE_ARG4 int
 
 /* Define to the function return type for recv. */
-#define RECV_TYPE_RETV int
+#define RECV_TYPE_RETV ssize_t
 
 /* Define as the return type of signal handlers (`int' or `void'). */
 #define RETSIGTYPE void
@@ -923,13 +923,13 @@
 #define SEND_TYPE_ARG4 int
 
 /* Define to the function return type for send. */
-#define SEND_TYPE_RETV int
+#define SEND_TYPE_RETV ssize_t
 
 /* The size of `int', as computed by sizeof. */
 #define SIZEOF_INT 4
 
 /* The size of `long', as computed by sizeof. */
-#define SIZEOF_LONG 4
+#define SIZEOF_LONG 8
 
 /* The size of `off_t', as computed by sizeof. */
 #define SIZEOF_OFF_T 8
@@ -938,13 +938,13 @@
 #define SIZEOF_SHORT 2
 
 /* The size of `size_t', as computed by sizeof. */
-#define SIZEOF_SIZE_T 4
+#define SIZEOF_SIZE_T 8
 
 /* The size of `time_t', as computed by sizeof. */
-#define SIZEOF_TIME_T 4
+#define SIZEOF_TIME_T 8
 
 /* The size of `void*', as computed by sizeof. */
-#define SIZEOF_VOIDP 4
+#define SIZEOF_VOIDP 8
 
 /* Define to 1 if you have the ANSI C header files. */
 #define STDC_HEADERS 1
@@ -1026,7 +1026,7 @@
 #endif
 
 /* Number of bits in a file offset, on hosts where this is settable. */
-#define _FILE_OFFSET_BITS 64
+/* #undef _FILE_OFFSET_BITS */
 
 /* Define for large files, on AIX-style hosts. */
 /* #undef _LARGE_FILES */
