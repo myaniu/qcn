@@ -54,3 +54,4 @@ make clean
 make
 mv objs/.libs/libfreetype.a lib/libfreetype_x86_64.a
 lipo -arch ppc lib/libfreetype_ppc.a -arch i386 lib/libfreetype_i386.a -arch x86_64 lib/libfreetype_x86_64.a -create -output ../client/mac_build/libfreetype-universal.a
+make clean
