@@ -22,28 +22,11 @@ make clean
 cd ntpdate
 make
 cd ..
-mv ntpdate/ntpdate ../client/bin/init/ntpdate_4.2.4p7d_powerpc-apple-darwin
+mv ntpdate/ntpdate ../client/bin/init/ntpdate_4.2.4p7e_powerpc-apple-darwin
 make clean
 
-#Intel 32-bit Macs on OS X 10.4 (Tiger)
+#Intel 32-bit Macs on OS X 10.5 (Tiger)
 export MARCH=i386
-export CXX=/Developer/usr/bin/g++-4.0
-export CC=/Developer/usr/bin/gcc-4.0
-export MACOSX_DEPLOYMENT_TARGET=10.4
-export SDKROOT="/Developer/SDKs/MacOSX10.4u.sdk"
-export LDFLAGS="-L$SDKROOT/usr/lib -L$SDKROOT/usr/local/lib -isysroot $SDKROOT -Wl,-syslibroot,$SDKROOT -arch $MARCH"
-export CPPFLAGS="-O2 -I$SDKROOT/usr/include -I$SDKROOT/usr/local/include -isysroot $SDKROOT -arch $MARCH"
-export CFLAGS="-O2 -I$SDKROOT/usr/include -I$SDKROOT/usr/local/include -isysroot $SDKROOT -arch $MARCH"
-export CXXFLAGS="-O2 -I$SDKROOT/usr/include -I$SDKROOT/usr/local/include -isysroot $SDKROOT -arch $MARCH"
-./configure --host=$MARCH --without-openssl-incdir --enable-static --disable-shared --oldincludedir=$SDKROOT/usr/include
-make clean
-cd ntpdate
-make
-cd ..
-mv ntpdate/ntpdate ../client/bin/init/ntpdate_4.2.4p7d_i686-apple-darwin
-
-#Intel 64-bit Macs on 10.5
-export MARCH=x86_64
 export CXX=/Developer/usr/bin/g++-4.2
 export CC=/Developer/usr/bin/gcc-4.2
 export MACOSX_DEPLOYMENT_TARGET=10.5
@@ -57,6 +40,23 @@ make clean
 cd ntpdate
 make
 cd ..
-mv ntpdate/ntpdate ../client/bin/init/ntpdate_4.2.4p7d_x86_64-apple-darwin
-lipo -arch ppc ../client/bin/init/ntpdate_4.2.4p7d_powerpc-apple-darwin -arch i386 ../client/bin/init/ntpdate_4.2.4p7d_i686-apple-darwin -arch x86_64 ../client/bin/init/ntpdate_4.2.4p7d_x86_64-apple-darwin -create -output ../client/bin/init/ntpdate_4.2.4p7d_universal-apple-darwin
+mv ntpdate/ntpdate ../client/bin/init/ntpdate_4.2.4p7e_i686-apple-darwin
+
+#Intel 64-bit Macs on 10.6
+export MARCH=x86_64
+export CXX=/Developer/usr/bin/g++-4.2
+export CC=/Developer/usr/bin/gcc-4.2
+export MACOSX_DEPLOYMENT_TARGET=10.6
+export SDKROOT="/Developer/SDKs/MacOSX10.6.sdk"
+export LDFLAGS="-L$SDKROOT/usr/lib -L$SDKROOT/usr/local/lib -isysroot $SDKROOT -Wl,-syslibroot,$SDKROOT -arch $MARCH"
+export CPPFLAGS="-O2 -I$SDKROOT/usr/include -I$SDKROOT/usr/local/include -isysroot $SDKROOT -arch $MARCH"
+export CFLAGS="-O2 -I$SDKROOT/usr/include -I$SDKROOT/usr/local/include -isysroot $SDKROOT -arch $MARCH"
+export CXXFLAGS="-O2 -I$SDKROOT/usr/include -I$SDKROOT/usr/local/include -isysroot $SDKROOT -arch $MARCH"
+./configure --host=$MARCH --without-openssl-incdir --enable-static --disable-shared --oldincludedir=$SDKROOT/usr/include
+make clean
+cd ntpdate
+make
+cd ..
+mv ntpdate/ntpdate ../client/bin/init/ntpdate_4.2.4p7e_x86_64-apple-darwin
+lipo -arch ppc ../client/bin/init/ntpdate_4.2.4p7e_powerpc-apple-darwin -arch i386 ../client/bin/init/ntpdate_4.2.4p7e_i686-apple-darwin -arch x86_64 ../client/bin/init/ntpdate_4.2.4p7e_x86_64-apple-darwin -create -output ../client/bin/init/ntpdate_4.2.4p7e_universal-apple-darwin
 make clean
