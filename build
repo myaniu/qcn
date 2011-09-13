@@ -1,11 +1,6 @@
 #!/bin/sh
 if (test "$1" = "all" || test "$2" = "all") then
    ./getboinc
-else
-   # at least update boinc cvs?
-   cd ..
-   svn update boinc
-   cd qcn
 fi
 if ( test "`uname -s`" = "Darwin" ) then
   rm -f vers; gcc version.c -o vers 
