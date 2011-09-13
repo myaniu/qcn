@@ -58,8 +58,7 @@ export CXXFLAGS="-O2 -I$SDKROOT/usr/include -I$SDKROOT/usr/local/include -isysro
 make clean
 make
 mv lib/.libs/libcurl.a lib/libcurl_x86_64.a
-#lipo -arch ppc lib/libcurl_ppc.a -arch i386 lib/libcurl_i386.a -arch x86_64 lib/libcurl_x86_64.a -create -output libcurl-universal.a
-lipo -arch i386 lib/libcurl_i386.a -arch x86_64 lib/libcurl_x86_64.a -create -output libcurl-universal.a
+lipo -arch ppc lib/libcurl_ppc.a -arch i386 lib/libcurl_i386.a -arch x86_64 lib/libcurl_x86_64.a -create -output libcurl-universal.a
 mv libcurl-universal.a ../client/mac_build/
 make clean
 rm lib/*.a
