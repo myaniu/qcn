@@ -47,7 +47,7 @@ zipuplstring='init/hvt init/cbt init/hvtb init/splash.png \
          init/qcnlogo.png \
          init/logo.jpg'
  ntpversion='ntpdate_4.2.4p7c_'
- ntpdv='ntpdate_4.2.4p7e_universal-apple-darwin'
+ ntpdv='ntpdate_4.2.4p7c_universal-apple-darwin'
 if ( test "`uname -s`" = "Darwin" ) then
   # Apple Mac -- universal!
   suffixp='powerpc-apple-darwin'
