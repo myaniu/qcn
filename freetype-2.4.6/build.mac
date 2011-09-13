@@ -4,7 +4,6 @@
 rm -rf lib
 rm -f ../client/mac_build/libfreetype-universal.a
 mkdir lib
-mkdir objs
 chmod uog+rx configure
 chmod uog+rx builds/unix/configure
 
