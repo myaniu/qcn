@@ -10,8 +10,8 @@ export LIBTOOLIZE=/usr/local/bin/libtoolize
 
 #PowerPC Mac
 export MARCH=ppc
-export CXX=/Developer/usr/bin/g++-4.2
-export CC=/Developer/usr/bin/gcc-4.2
+export CXX=/Developer/usr/bin/g++-4.0
+export CC=/Developer/usr/bin/gcc-4.0
 export MACOSX_DEPLOYMENT_TARGET=10.4
 export SDKROOT="/Developer/SDKs/MacOSX10.4u.sdk"
 export LDFLAGS="-L$SDKROOT/usr/lib/ -isysroot $SDKROOT -Wl,-syslibroot,$SDKROOT -arch $MARCH"
@@ -54,4 +54,5 @@ make
 mv libz.a lib/libz_x86_64.a
 lipo -arch ppc lib/libz_ppc.a -arch i386 lib/libz_i386.a -arch x86_64 lib/libz_x86_64.a -create -output libz-universal.a
 mv libz-universal.a ../client/mac_build/
+cp zconf-win.h zconf.h
 rm -rf lib ; make clean
