@@ -2,7 +2,6 @@
 # also need to ln -s /usr/local/bin/libtoolize /usr/bin/glibtoolize
 #!/bin/bash
 rm -rf lib
-rm -rf objs
 rm -f ../client/mac_build/libfreetype-universal.a
 mkdir lib
 mkdir objs
