@@ -1,24 +1,53 @@
 // !$*UTF8*$!
 {
-	438B0187141FF39800844135 /* PBXTextBookmark */ = {
+	439D72D7141FF56F00F46201 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
 		fRef = E388F8770FF1B9CD00D948DE /* qcnusb.cpp */;
 		name = "qcnusb.cpp: 1";
 		rLen = 0;
 		rLoc = 0;
 		rType = 0;
-		vrLen = 169;
+		vrLen = 162;
 		vrLoc = 0;
 	};
-	438F319513E0594000F72FB4 /* PBXTextBookmark */ = {
+	439D730A141FF81A00F46201 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
-		fRef = E388F8770FF1B9CD00D948DE /* qcnusb.cpp */;
-		name = "qcnusb.cpp: 1";
+		fRef = 43E2768F1146C38F00D80E16 /* csensor_mac_usb_jw24f14.cpp */;
+		name = "csensor_mac_usb_jw24f14.cpp: 221";
 		rLen = 0;
-		rLoc = 0;
+		rLoc = 7667;
 		rType = 0;
-		vrLen = 170;
-		vrLoc = 0;
+		vrLen = 337;
+		vrLoc = 7491;
+	};
+	439D7366141FFEF500F46201 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = E371C7F70E2AB5D0009B4DAA /* csensor_mac_usb_jw.cpp */;
+		name = "csensor_mac_usb_jw.cpp: 228";
+		rLen = 0;
+		rLoc = 8571;
+		rType = 0;
+		vrLen = 353;
+		vrLoc = 8424;
+	};
+	439D7367141FFEF500F46201 /* XCBuildMessageTextBookmark */ = {
+		isa = PBXTextBookmark;
+		comments = "'IOConnectCallStructMethod' was not declared in this scope";
+		fRef = E371C7F60E2AB5D0009B4DAA /* csensor_mac_laptop.cpp */;
+		fallbackIsa = XCBuildMessageTextBookmark;
+		rLen = 1;
+		rLoc = 227;
+		rType = 1;
+	};
+	439D7369141FFEF800F46201 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = E371C7F60E2AB5D0009B4DAA /* csensor_mac_laptop.cpp */;
+		name = "csensor_mac_laptop.cpp: 228";
+		rLen = 0;
+		rLoc = 7241;
+		rType = 0;
+		vrLen = 554;
+		vrLoc = 6746;
 	};
 	439FA01912B39F330028D77D /* qcn */ = {
 		isa = PBXExecutable;
@@ -152,9 +181,10 @@
 	};
 	43E2768F1146C38F00D80E16 /* csensor_mac_usb_jw24f14.cpp */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {999, 12389}}";
-			sepNavSelRange = "{11231, 0}";
-			sepNavVisRange = "{10910, 1023}";
+			sepNavIntBoundsRect = "{{0, 0}, {999, 12766}}";
+			sepNavSelRange = "{7667, 0}";
+			sepNavVisRange = "{7491, 337}";
+			sepNavWindowFrame = "{{491, 323}, {1148, 739}}";
 		};
 	};
 	E30F9E9C0DEC6D4C0000FACE /* csensor.cpp */ = {
@@ -165,6 +195,21 @@
 			sepNavWindowFrame = "{{61, 87}, {1472, 1044}}";
 		};
 	};
+	E371C7F60E2AB5D0009B4DAA /* csensor_mac_laptop.cpp */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1048, 3939}}";
+			sepNavSelRange = "{5719, 4}";
+			sepNavVisRange = "{5216, 1391}";
+		};
+	};
+	E371C7F70E2AB5D0009B4DAA /* csensor_mac_usb_jw.cpp */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1020, 13585}}";
+			sepNavSelRange = "{8571, 0}";
+			sepNavVisRange = "{8424, 353}";
+			sepNavWindowFrame = "{{649, 183}, {1148, 739}}";
+		};
+	};
 	E388F7C60FF1B3E500D948DE /* qcnusb */ = {
 		activeExec = 0;
 		executables = (
@@ -173,17 +218,17 @@
 	};
 	E388F8770FF1B9CD00D948DE /* qcnusb.cpp */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {761, 6266}}";
+			sepNavIntBoundsRect = "{{0, 0}, {756, 6292}}";
 			sepNavSelRange = "{0, 0}";
-			sepNavVisRange = "{0, 169}";
+			sepNavVisRange = "{0, 162}";
 			sepNavWindowFrame = "{{15, 129}, {1472, 1044}}";
 		};
 	};
 	E3A499DD0D64E60400E51CDF /* Project object */ = {
-		activeArchitecturePreference = i386;
+		activeArchitecturePreference = x86_64;
 		activeBuildConfigurationName = Release;
-		activeExecutable = 439FA01912B39F330028D77D /* qcn */;
-		activeTarget = E3A499ED0D64E62A00E51CDF /* qcn */;
+		activeExecutable = 439FA01B12B39F330028D77D /* qcnusb */;
+		activeTarget = E388F7C60FF1B3E500D948DE /* qcnusb */;
 		breakpoints = (
 		);
 		codeSenseManager = 439FA03012B39F3F0028D77D /* Code sense */;
@@ -213,7 +258,7 @@
 				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
 				PBXFileTableDataSourceColumnWidthsKey = (
 					20,
-					593,
+					443,
 					20,
 					48,
 					43,
@@ -235,7 +280,7 @@
 				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
 				PBXFileTableDataSourceColumnWidthsKey = (
 					20,
-					553,
+					403,
 					60,
 					20,
 					48,
@@ -252,12 +297,15 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 337637841;
-			PBXWorkspaceStateSaveDate = 337637841;
+			PBXPerProjectTemplateStateSaveDate = 337638448;
+			PBXWorkspaceStateSaveDate = 337638448;
 		};
 		perUserProjectItems = {
-			438B0187141FF39800844135 /* PBXTextBookmark */ = 438B0187141FF39800844135 /* PBXTextBookmark */;
-			438F319513E0594000F72FB4 /* PBXTextBookmark */ = 438F319513E0594000F72FB4 /* PBXTextBookmark */;
+			439D72D7141FF56F00F46201 /* PBXTextBookmark */ = 439D72D7141FF56F00F46201 /* PBXTextBookmark */;
+			439D730A141FF81A00F46201 /* PBXTextBookmark */ = 439D730A141FF81A00F46201 /* PBXTextBookmark */;
+			439D7366141FFEF500F46201 /* PBXTextBookmark */ = 439D7366141FFEF500F46201 /* PBXTextBookmark */;
+			439D7367141FFEF500F46201 /* XCBuildMessageTextBookmark */ = 439D7367141FFEF500F46201 /* XCBuildMessageTextBookmark */;
+			439D7369141FFEF800F46201 /* PBXTextBookmark */ = 439D7369141FFEF800F46201 /* PBXTextBookmark */;
 		};
 		sourceControlManager = 439FA02F12B39F3F0028D77D /* Source Control */;
 		userBuildSettings = {

@@ -198,14 +198,15 @@ inline bool CSensorMacLaptop::read_xyz(float& x1, float& y1, float& z1)
       kern_return_t result;                            
 
 //#ifdef __LP64__ // MAC_OS_X_VERSION_10_5
+#if __MAC_OS_X_VERSION_MAX_ALLOWED >= 1050
 	size_t structureInputSize;          // DATA STRUCTURE SIZE      
 	size_t structureOutputSize;
-/*#else
+#else
 	IOItemCount structureInputSize;          // DATA STRUCTURE SIZE      
 	IOByteCount structureOutputSize;
 #endif
-*/	
-      if (getTypeEnum() == SENSOR_MAC_INTEL)  {
+
+	if (getTypeEnum() == SENSOR_MAC_INTEL)  {
 // Intel Mac
          struct stDataMacIntel inputStructureIntel;            
          struct stDataMacIntel outputStructureIntel;
@@ -215,6 +216,7 @@ inline bool CSensorMacLaptop::read_xyz(float& x1, float& y1, float& z1)
          memset(&outputStructureIntel, 0x00, sizeof(outputStructureIntel));
 
 //#if defined(__LP64__) 
+#if __MAC_OS_X_VERSION_MAX_ALLOWED >= 1050
 		  // Mac OS X 10.5 API is available...
 			  result = IOConnectCallStructMethod(
 												     getPort(),                     // an io_connect_t returned from IOServiceOpen().
@@ -225,7 +227,7 @@ inline bool CSensorMacLaptop::read_xyz(float& x1, float& y1, float& z1)
 													 &structureOutputSize                  // pointer to the size of the output structure parameter.
 													 );
      // Otherwise fall back to older API.
-/*#else
+#else
 			  result = IOConnectMethodStructureIStructureO(
 														   getPort(),
 														   m_iKernel,			           // index to kernel ,5,21,2
@@ -236,7 +238,7 @@ inline bool CSensorMacLaptop::read_xyz(float& x1, float& y1, float& z1)
 														   ); 
 		  
 #endif
-*/
+
 		  if (result == KERN_SUCCESS) {
 		    x1 = outputStructureIntel.x;                     // SIDE-TO-SIDE POSITION         
             y1 = outputStructureIntel.y;                     // FRONT-TO-BACK POSITION     
@@ -253,7 +255,8 @@ inline bool CSensorMacLaptop::read_xyz(float& x1, float& y1, float& z1)
          memset(&outputStructurePPC, 0x00, sizeof(outputStructurePPC));
 
 		  // CMC note:  these single calls to IOConnect are eating up a lot of CPU at only 3 samples per dt
-//#if defined(__LP64__)
+// #if defined(__LP64__)
+#if __MAC_OS_X_VERSION_MAX_ALLOWED >= 1050
 		  // Check if Mac OS X 10.5 API is available...
 		  result = IOConnectCallStructMethod(getPort(),                     // an io_connect_t returned from IOServiceOpen().
 											 m_iKernel,     // selector of the function to be called via the user client.
@@ -263,7 +266,7 @@ inline bool CSensorMacLaptop::read_xyz(float& x1, float& y1, float& z1)
 											 &structureOutputSize                  // pointer to the size of the output structure parameter.
 											 );
 		  // Otherwise fall back to older API.
-/*#else
+#else
 		result = IOConnectMethodStructureIStructureO(
 													   getPort(),
 													   m_iKernel,			           // index to kernel ,5,21,24
@@ -273,7 +276,7 @@ inline bool CSensorMacLaptop::read_xyz(float& x1, float& y1, float& z1)
 													   (struct stDataMacPPC*) &outputStructurePPC
 													   );  
 #endif
-*/
+
 		  if (result == KERN_SUCCESS) {
 			  x1 = outputStructurePPC.x;                     // SIDE-TO-SIDE POSITION         
 			  y1 = outputStructurePPC.y;                     // FRONT-TO-BACK POSITION        

@@ -188,10 +188,11 @@ IOReturn CSensorMacUSBJW::ReadByteFromAddress (IOHIDDeviceInterface122** hidInte
 	UInt8	 readBuffer[8];
 	UInt8	 writeBuffer[8];
 	IOReturn ioReturnValue;
-#ifdef __LP64__
+	
+#if __MAC_OS_X_VERSION_MAX_ALLOWED >= 1050
+	uint32	 readDataSize;
+#else
 	UInt32   readDataSize; // may be a problem with Mac's 10.4 to 10.5+
-#else  // 32-bit
-	uint32_t readDataSize;  // for 10.5+
 #endif
 
 	*result = 0x00;
@@ -934,10 +935,10 @@ int CSensorMacUSBJW::JWReadByteFromAddress (IOHIDDeviceInterface122 **hidInterfa
 	UInt8	writeBuffer[8];
 	int     ioReturnValue;
     
-#ifdef __LP64__
+#if __MAC_OS_X_VERSION_MAX_ALLOWED >= 1050
+	uint32	 readDataSize;
+#else
 	UInt32   readDataSize; // may be a problem with Mac's 10.4 to 10.5+
-#else  // 32-bit
-	uint32_t readDataSize;  // for 10.5+
 #endif
 	
 	*result = 0;
