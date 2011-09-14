@@ -167,7 +167,7 @@ SOURCES       = glwidget.cpp \
                 $$SRC_GRAPHICS 
 
 macx {
-CONFIG += x86 ppc app_bundle
+CONFIG += x86 x86_64 app_bundle
 }
 else {
 CONFIG += x86 app_bundle
