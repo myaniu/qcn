@@ -28,9 +28,9 @@ CFLAGS = -Wall -Wno-deprecated
 
 # Mac specific settings
 macx {
-GCC_VERSION="GCC 4.2"
-QMAKE_CC = gcc-4.2
-QMAKE_CXX = g++-4.2
+GCC_VERSION="LLVM GCC 4.2"
+QMAKE_CC = llvm-gcc-4.2
+QMAKE_CXX = llvm-g++-4.2
 QMAKE_MACOSX_DEPLOYMENT_TARGET=10.5
 QMAKE_MAC_SDK=/Developer/SDKs/MacOSX10.5.sdk
 
