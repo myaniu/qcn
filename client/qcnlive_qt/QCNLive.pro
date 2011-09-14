@@ -27,11 +27,11 @@ CFLAGS = -Wall -Wno-deprecated
 
 # Mac specific settings
 macx {
-GCC_VERSION="GCC 4.0"
-QMAKE_CC = gcc-4.0
-QMAKE_CXX = g++-4.0
-QMAKE_MACOSX_DEPLOYMENT_TARGET=10.4
-QMAKE_MAC_SDK=/Developer/SDKs/MacOSX10.4u.sdk
+GCC_VERSION="GCC 4.2"
+QMAKE_CC = gcc-4.2
+QMAKE_CXX = g++-4.2
+QMAKE_MACOSX_DEPLOYMENT_TARGET=10.5
+QMAKE_MAC_SDK=/Developer/SDKs/MacOSX10.5.sdk
 
 # my own specific plist not the qmake generated one
 QMAKE_INFO_PLIST = "Info.plist.mac"
