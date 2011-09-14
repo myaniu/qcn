@@ -25,9 +25,11 @@ CFLAGS = -Wall -Wno-deprecated
 #QMAKE_CFLAGS_RELEASE += $$CFLAGS -O2
 #QMAKE_CXXFLAGS_DEBUG += $$QMAKE_CFLAGS_DEBUG
 #QMAKE_CXXFLAGS_RELEASE += $$QMAKE_CFLAGS_RELEASE
+HOME = .
 
 # Mac specific settings
 macx {
+HOME = ..
 GCC_VERSION="LLVM GCC 4.2"
 QMAKE_CC = llvm-gcc-4.2
 QMAKE_CXX = llvm-g++-4.2
@@ -145,22 +147,22 @@ SRC_GRAPHICS = $$GRAPHICSDIR/qcn_graphics.cpp \
       $$GRAPHICSDIR/coastline.cpp \
       $$GRAPHICSDIR/plate_boundary.cpp
 
-HEADERS       += qcnqt.h $$WININCLUDE \
-                glwidget.h \
-                myframe.h \
-                dlgsettings.h \
-                dlgmakequake.h \
-                qcnlive_define.h \
-                icons.h \
+HEADERS       += $$HOME/qcnqt.h $$WININCLUDE \
+                $$HOME/glwidget.h \
+                $$HOME/myframe.h \
+                $$HOME/dlgsettings.h \
+                $$HOME/dlgmakequake.h \
+                $$HOME/qcnlive_define.h \
+                $$HOME/icons.h \
                 $$MAINDIR/main.h \
                 $$MAINDIR/define.h
 
 
-SOURCES       = glwidget.cpp \
-                qcnqt.cpp \
-                myframe.cpp \
-                dlgsettings.cpp \
-                dlgmakequake.cpp \
+SOURCES       = $$HOME/glwidget.cpp \
+                $$HOME/qcnqt.cpp \
+                $$HOME/myframe.cpp \
+                $$HOME/dlgsettings.cpp \
+                $$HOME/dlgmakequake.cpp \
                 $$SRC_MAIN \
                 $$SRC_UTIL \
                 $$SRC_SENSOR \

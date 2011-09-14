@@ -269,6 +269,10 @@
 								<string>FB61758D0F0FDA4BA867C3D5</string>
 								<string>BFA3A29D17FD123C907B6E35</string>
 								<string>DCB318ABE7A96AA736975C2A</string>
+								<string>883D7615C4D2DE3FA1218F12</string>
+								<string>4458B98565818D7E2682FA2D</string>
+								<string>E11BEA6A53EB481066C2098B</string>
+								<string>A434E3BBA1C04CDB3F3C2EDD</string>
 								<string>ED1E82605DD74B483AF3C982</string>
 								<string>1C37FBAC04509CD000000102</string>
 								<string>4381C3A91421678B00B6A073</string>
@@ -278,9 +282,11 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>6</integer>
-									<integer>2</integer>
-									<integer>1</integer>
+									<integer>27</integer>
+									<integer>25</integer>
+									<integer>24</integer>
+									<integer>16</integer>
+									<integer>15</integer>
 									<integer>0</integer>
 								</array>
 							</array>
@@ -530,8 +536,8 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>43B625D5142012A200334ED2</string>
 		<string>/Users/carlgt1/projects/qcn/client/qcnlive_qt/QCNLive.xcodeproj</string>
+		<string>43B625D5142012A200334ED2</string>
 	</array>
 	<key>WindowString</key>
 	<string>182 311 1185 784 0 0 1920 1178 </string>
@@ -572,6 +578,8 @@
 							<string>379pt</string>
 						</dict>
 						<dict>
+							<key>BecomeActive</key>
+							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
@@ -624,7 +632,7 @@
 			<key>WindowToolGUID</key>
 			<string>43B625D5142012A200334ED2</string>
 			<key>WindowToolIsVisible</key>
-			<false/>
+			<true/>
 		</dict>
 		<dict>
 			<key>FirstTimeWindowDisplayed</key>

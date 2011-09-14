@@ -167,8 +167,8 @@
 			PBXWorkspaceStateSaveDate = 337733480;
 		};
 		perUserProjectItems = {
-			436A2751142156F800D6B9BF = 436A2751142156F800D6B9BF /* PBXTextBookmark */;
-			436A2752142156F800D6B9BF = 436A2752142156F800D6B9BF /* PBXTextBookmark */;
+			436A2751142156F800D6B9BF /* PBXTextBookmark */ = 436A2751142156F800D6B9BF /* PBXTextBookmark */;
+			436A2752142156F800D6B9BF /* PBXTextBookmark */ = 436A2752142156F800D6B9BF /* PBXTextBookmark */;
 		};
 		sourceControlManager = 43B625CE1420127000334ED2 /* Source Control */;
 		userBuildSettings = {
