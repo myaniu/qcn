@@ -370,7 +370,6 @@ error_Timing:    // too many timing errors encountered, should probably drop bac
 	fprintf(stderr, "Timing error encountered t0check=%f  t0active=%f  diff=%f  timeadj=%d  sample_size=%ld, dt=%f, lErr=%ld, lErrCum=%ld resetting...\n", 
 			sm->t0check, sm->t0active, dTimeDiff, sm->iNumReset, sm->lSampleSize, sm->dt, lError, lErrorCumulative);
 	fprintf(stderr, "  Last values were %f %f %f %f\n", dLast[0], dLast[1], dLast[2], dLast[3]);
-
 	lError = 0;  
 	lErrorCumulative = 0;  // reset error counts  
 
