@@ -1,15 +1,5 @@
 // !$*UTF8*$!
 {
-	43599642142157CF00C21310 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 514B45140FBAF53969785617 /* qcn_earth.cpp */;
-		name = "qcn_earth.cpp: 1189";
-		rLen = 0;
-		rLoc = 42956;
-		rType = 0;
-		vrLen = 884;
-		vrLoc = 42458;
-	};
 	436A2751142156F800D6B9BF /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
 		fRef = 5F02801ACF9C72A274A802D8 /* glwidget.cpp */;
@@ -29,26 +19,6 @@
 		rType = 0;
 		vrLen = 468;
 		vrLoc = 0;
-	};
-	436A2756142156F800D6B9BF /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 514B45140FBAF53969785617 /* qcn_earth.cpp */;
-		name = "qcn_earth.cpp: 1189";
-		rLen = 0;
-		rLoc = 42956;
-		rType = 0;
-		vrLen = 781;
-		vrLoc = 42458;
-	};
-	438B43CF14215D1000606D28 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 514B45140FBAF53969785617 /* qcn_earth.cpp */;
-		name = "qcn_earth.cpp: 1189";
-		rLen = 0;
-		rLoc = 42956;
-		rType = 0;
-		vrLen = 909;
-		vrLoc = 42433;
 	};
 	43B625BB1420125700334ED2 /* QCNLive */ = {
 		isa = PBXExecutable;
@@ -124,7 +94,7 @@
 				PBXFileTableDataSourceColumnWidthsKey = (
 					22,
 					300,
-					251,
+					472,
 				);
 				PBXFileTableDataSourceColumnsKey = (
 					PBXExecutablesDataSource_ActiveFlagID,
@@ -176,15 +146,12 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 337730704;
-			PBXWorkspaceStateSaveDate = 337730704;
+			PBXPerProjectTemplateStateSaveDate = 337731661;
+			PBXWorkspaceStateSaveDate = 337731661;
 		};
 		perUserProjectItems = {
-			43599642142157CF00C21310 = 43599642142157CF00C21310 /* PBXTextBookmark */;
-			436A2751142156F800D6B9BF = 436A2751142156F800D6B9BF /* PBXTextBookmark */;
-			436A2752142156F800D6B9BF = 436A2752142156F800D6B9BF /* PBXTextBookmark */;
-			436A2756142156F800D6B9BF = 436A2756142156F800D6B9BF /* PBXTextBookmark */;
-			438B43CF14215D1000606D28 /* PBXTextBookmark */ = 438B43CF14215D1000606D28 /* PBXTextBookmark */;
+			436A2751142156F800D6B9BF /* PBXTextBookmark */ = 436A2751142156F800D6B9BF /* PBXTextBookmark */;
+			436A2752142156F800D6B9BF /* PBXTextBookmark */ = 436A2752142156F800D6B9BF /* PBXTextBookmark */;
 		};
 		sourceControlManager = 43B625CE1420127000334ED2 /* Source Control */;
 		userBuildSettings = {
