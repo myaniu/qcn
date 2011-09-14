@@ -1,4 +1,5 @@
-./configure -prefix /Developer/Qt -I$HOME/projects/qcn/jpeg-6b -I$HOME/projects/qcn/zlib-1.2.5 -exceptions -stl -no-qt3support -arch "ppc x86 x86_64" -sdk /Developer/SDKs/MacOSX10.5.sdk -system-zlib -system-libjpeg
+./configure -prefix /Developer/Qt -I$HOME/projects/qcn/jpeg-6b -I$HOME/projects/qcn/zlib-1.2.5 -exceptions -stl -no-qt3support -arch "x86 x86_64" -sdk /Developer/SDKs/MacOSX10.5.sdk -system-zlib -system-libjpeg
+#./configure -prefix /Developer/Qt -I$HOME/projects/qcn/jpeg-6b -I$HOME/projects/qcn/zlib-1.2.5 -exceptions -stl -no-qt3support -arch "ppc x86 x86_64" -sdk /Developer/SDKs/MacOSX10.5.sdk -system-zlib -system-libjpeg
 #./configure -prefix /Developer/Qt -exceptions -stl -no-qt3support -arch "x86 x86_64" -sdk /Developer/SDKs/MacOSX10.5.sdk -system-zlib -system-libpng -system-libjpeg
 #./configure -exceptions -stl -no-qt3support -universal -sdk /Developer/SDKs/MacOSX10.5.sdk -system-zlib -system-libpng -system-libjpeg
 #./configure -debug-and-release -static -no-fast -exceptions -stl -plugin-sql-mysql -no-qt3support -platform macx-g++ -universal -system-zlib -system-libpng -system-libjpeg
