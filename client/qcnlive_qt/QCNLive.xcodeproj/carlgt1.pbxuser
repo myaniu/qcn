@@ -24,6 +24,8 @@
 		executableUserSymbolLevel = 0;
 		libgmallocEnabled = 0;
 		name = QCNLive;
+		savedGlobals = {
+		};
 		showTypeColumn = 0;
 		sourceDirectories = (
 		);
@@ -110,8 +112,8 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 337735549;
-			PBXWorkspaceStateSaveDate = 337735549;
+			PBXPerProjectTemplateStateSaveDate = 337735647;
+			PBXWorkspaceStateSaveDate = 337735647;
 		};
 		sourceControlManager = 434E39A014216FC2002361AF /* Source Control */;
 		userBuildSettings = {
