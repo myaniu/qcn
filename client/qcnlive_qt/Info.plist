@@ -2,21 +2,23 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>CFBundleDevelopmentRegion</key>
-	<string>English</string>
-	<key>CFBundleExecutable</key>
-	<string>QCNLive</string>
-	<key>CFBundleIconFile</key>
-	<string>qcnmac.icns</string>
-	<key>CFBundleIdentifier</key>
-	<string>edu.stanford.qcn.QCNLive</string>
-	<key>CFBundleInfoDictionaryVersion</key>
-	<string>6.0</string>
-	<key>CFBundlePackageType</key>
-	<string>APPL</string>
-	<key>CFBundleSignature</key>
-	<string>CMC1</string>
-	<key>CFBundleVersion</key>
-	<string>6.74</string>
+        <key>CFBundleDevelopmentRegion</key>
+        <string>English</string>
+        <key>CFBundleExecutable</key>
+        <string>QCNLive</string>
+        <key>CFBundleIconFile</key>
+        <string>qcnmac.icns</string>
+        <key>CFBundleIdentifier</key>
+        <string>edu.stanford.qcn.QCNLive</string>
+        <key>CFBundleInfoDictionaryVersion</key>
+        <string>6.0</string>
+        <key>CFBundlePackageType</key>
+        <string>APPL</string>
+        <key>CFBundleSignature</key>
+        <string>CMC1</string>
+        <key>CFBundleVersion</key>
+        <string>6.10</string>
+        <key>NSPrincipalClass</key>
+        <string>CarbonApp</string>
 </dict>
 </plist>
