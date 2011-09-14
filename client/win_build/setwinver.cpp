@@ -116,7 +116,9 @@ int main(int argc, char** argv)
 		// send to the qcn server!
 		// this machine has to be setup to seamlessly (i.e. authorized_keys2 etc)
 		// ssh/sftp to carlgt1@qcn-web, so the VPN to Stanford must be on
+#ifndef _WIN64
 		deploy_qcn(true);
+#endif
 		return deploy_qcn(false);
 	}
 #endif
