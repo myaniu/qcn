@@ -75,7 +75,7 @@ cd ../qcnlive_qt
 rm -rf QCNLive.app
 $XCB -project QCNLive.xcodeproj -configuration Release -target QCNLive clean build
 /Developer/Qt/bin/macdeployqt ./QCNLive.app
-#cp ../../doc/qcnmac.icns QCNLive.app/Contents/Resources/
+cp ../../doc/qcnmac.icns QCNLive.app/Contents/Resources/
 rm -rf ../bin/QCNLive.app
 cp -r QCNLive.app ../bin/
 cd ../bin
