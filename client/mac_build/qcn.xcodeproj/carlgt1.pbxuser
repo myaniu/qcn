@@ -1,5 +1,15 @@
 // !$*UTF8*$!
 {
+	43668AE014216DEF005362E1 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = E371C7F60E2AB5D0009B4DAA /* csensor_mac_laptop.cpp */;
+		name = "csensor_mac_laptop.cpp: 228";
+		rLen = 0;
+		rLoc = 7241;
+		rType = 0;
+		vrLen = 495;
+		vrLoc = 6746;
+	};
 	439D72D7141FF56F00F46201 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
 		fRef = E388F8770FF1B9CD00D948DE /* qcnusb.cpp */;
@@ -29,15 +39,6 @@
 		rType = 0;
 		vrLen = 353;
 		vrLoc = 8424;
-	};
-	439D7367141FFEF500F46201 /* XCBuildMessageTextBookmark */ = {
-		isa = PBXTextBookmark;
-		comments = "'IOConnectCallStructMethod' was not declared in this scope";
-		fRef = E371C7F60E2AB5D0009B4DAA /* csensor_mac_laptop.cpp */;
-		fallbackIsa = XCBuildMessageTextBookmark;
-		rLen = 1;
-		rLoc = 227;
-		rType = 1;
 	};
 	439D7369141FFEF800F46201 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
@@ -197,9 +198,9 @@
 	};
 	E371C7F60E2AB5D0009B4DAA /* csensor_mac_laptop.cpp */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1048, 3939}}";
-			sepNavSelRange = "{5719, 4}";
-			sepNavVisRange = "{5216, 1391}";
+			sepNavIntBoundsRect = "{{0, 0}, {1048, 3783}}";
+			sepNavSelRange = "{7241, 0}";
+			sepNavVisRange = "{6746, 495}";
 		};
 	};
 	E371C7F70E2AB5D0009B4DAA /* csensor_mac_usb_jw.cpp */ = {
@@ -226,9 +227,9 @@
 	};
 	E3A499DD0D64E60400E51CDF /* Project object */ = {
 		activeArchitecturePreference = x86_64;
-		activeBuildConfigurationName = Release;
-		activeExecutable = 439FA01B12B39F330028D77D /* qcnusb */;
-		activeTarget = E388F7C60FF1B3E500D948DE /* qcnusb */;
+		activeBuildConfigurationName = Debug;
+		activeExecutable = 439FA01A12B39F330028D77D /* qcn_graphics */;
+		activeTarget = E3D35BC50FF175D500E64121 /* qcn_graphics */;
 		breakpoints = (
 		);
 		codeSenseManager = 439FA03012B39F3F0028D77D /* Code sense */;
@@ -297,14 +298,14 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 337638448;
-			PBXWorkspaceStateSaveDate = 337638448;
+			PBXPerProjectTemplateStateSaveDate = 337735107;
+			PBXWorkspaceStateSaveDate = 337735107;
 		};
 		perUserProjectItems = {
+			43668AE014216DEF005362E1 /* PBXTextBookmark */ = 43668AE014216DEF005362E1 /* PBXTextBookmark */;
 			439D72D7141FF56F00F46201 /* PBXTextBookmark */ = 439D72D7141FF56F00F46201 /* PBXTextBookmark */;
 			439D730A141FF81A00F46201 /* PBXTextBookmark */ = 439D730A141FF81A00F46201 /* PBXTextBookmark */;
 			439D7366141FFEF500F46201 /* PBXTextBookmark */ = 439D7366141FFEF500F46201 /* PBXTextBookmark */;
-			439D7367141FFEF500F46201 /* XCBuildMessageTextBookmark */ = 439D7367141FFEF500F46201 /* XCBuildMessageTextBookmark */;
 			439D7369141FFEF800F46201 /* PBXTextBookmark */ = 439D7369141FFEF800F46201 /* PBXTextBookmark */;
 		};
 		sourceControlManager = 439FA02F12B39F3F0028D77D /* Source Control */;
