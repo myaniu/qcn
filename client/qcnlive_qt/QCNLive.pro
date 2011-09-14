@@ -18,6 +18,7 @@ BINDIR = $$BASEDIRQCN/client/bin
 BAPIDIR = $$BASEDIRBOINC/api
 BLIBDIR = $$BASEDIRBOINC/lib
 CURLDIR = $$BASEDIRQCN/curl-7.21.7/include
+BZDIR = $$BASEDIRQCN/bzip2-1.0.6
 
 CFLAGS = -Wall -Wno-deprecated
 #QMAKE_CFLAGS_DEBUG += $$CFLAGS -D_DEBUG -D_DEBUG_QCNLIVE -g -O0
@@ -39,7 +40,7 @@ QMAKE_INFO_PLIST = "Info.plist.mac"
 LIBS += -framework IOKit -framework Carbon \
    -L$$BASEDIRQCN/client/mac_build \
      -lboinc_api -lboinc -lboinc_zip -lboinc_graphics2 \
-    -ljpeg-universal -lcurl-universal \
+    -ljpeg-universal -lcurl-universal -lbz2-universal \
      -lz-universal -lfreetype-universal -lftgl-universal
 
 ICON = $$BASEDIRQCN/doc/qcnmac.icns
@@ -72,6 +73,7 @@ INCLUDEPATH += \
         $$BASEDIRQCN \
         $$BASEDIRQCN/jpeg-6b \
         $$BASEDIRQCN/zlib-1.2.5 \
+        $$BZDIR \
         $$CURLDIR \
         $$BASEDIRQCN/ftgl-2.1.3/include \
         $$BASEDIRQCN/freetype-2.4.6/include \
