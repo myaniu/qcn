@@ -20,7 +20,7 @@ void create_plot()
 {
   // CMC note: not a good idea to run this in the background as it's such a lengthy script
   // it's possible to loop around and overwrite files in the middle of being used by the script etc
-    system (CSH_PLOT_CMD);
+    system (PLOT_CMD);
 }
 
 void do_delete_trigmem()

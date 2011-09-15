@@ -5,8 +5,9 @@
 
 extern DB_CONN trigmem_db;
 
-#define CSHELL_CMD      "/bin/csh"
-#define PHP_CMD         "/usr/local/bin/php"
+#define CSHELL_CMD    "/bin/csh"
+#define SHELL_CMD     "/bin/bash"
+#define PHP_CMD       "/usr/local/bin/php"
 
 #define WEB_BASE_DIR "/var/www"
 #define EVENT_URL_BASE  "http://qcn.stanford.edu/earthquakes"
@@ -19,7 +20,8 @@ extern DB_CONN trigmem_db;
 #define FILE_NAME_TRIGGER_LAPTOP  WEB_BASE_DIR "/qcn/rt_image/rt_triggers_LTN.xyz"
 #define FILE_NAME_TRIGGER_DESKTOP WEB_BASE_DIR "/qcn/rt_image/rt_triggers_DTN.xyz"
 
-#define CSH_PLOT_CMD  CSHELL_CMD " " WEB_BASE_DIR "/qcn/rt_image/inc/rt_images.csh"
+// note using bash on this
+#define PLOT_CMD  SHELL_CMD " " WEB_BASE_DIR "/qcn/rt_image/inc/rt_images.sh " WEB_BASE_DIR
 
 #ifndef _MAX_PATH
 #define _MAX_PATH 255
