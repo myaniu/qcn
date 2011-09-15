@@ -19,7 +19,7 @@ extern DB_CONN trigmem_db;
 #define FILE_NAME_TRIGGER_LAPTOP  WEB_BASE_DIR "/qcn/rt_image/rt_triggers_LTN.xyz"
 #define FILE_NAME_TRIGGER_DESKTOP WEB_BASE_DIR "/qcn/rt_image/rt_triggers_DTN.xyz"
 
-#define CSH_PLOT_CMD  CSHELL_CMD " " WEB_BASE_DIR "qcn/rt_image/inc/rt_images.csh"
+#define CSH_PLOT_CMD  CSHELL_CMD " " WEB_BASE_DIR "/qcn/rt_image/inc/rt_images.csh"
 
 #ifndef _MAX_PATH
 #define _MAX_PATH 255
