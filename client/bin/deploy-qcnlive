@@ -50,7 +50,7 @@ if ( test "`uname -s`" = "Darwin" ) then
   suffixs='x86_64-apple-darwin'
 
     rm -f qcnlive-*.zip
-    zip -r qcnlive_raw_mac.zip QCNLive.app \
+    zip -r qcnlive-mac.zip QCNLive.app \
        init/earthnight4096.jpg init/earthday4096.jpg \
        init/$ntpdv $zipuplstring \
        init/libMotionNodeAccelAPI.dylib \
