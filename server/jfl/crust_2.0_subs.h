@@ -1,11 +1,17 @@
 #ifndef _CRUST_H_
 #define _CRUST_H_
 
+#include "common.h"
+
 enum crust_types { CRUST_KEY, CRUST_MAP, CRUST_ELEV };
 
-#define CRUST_KEY_FILE     "/var/www/qcn/earthquakes/inc/CNtype2_key.txt"
-#define CRUST_MAP_FILE     "/var/www/qcn/earthquakes/inc/CNtype2.txt"
-#define CRUST_ELEV_FILE    "/var/www/qcn/earthquakes/inc/CNelevatio2.txt"
+#define CKF "/qcn/earthquakes/inc/CNtype2_key.txt"
+#define CMF "/qcn/earthquakes/inc/CNtype2.txt"
+#define CEF "/qcn/earthquakes/inc/CNelevatio2.txt"
+
+#define CRUST_KEY_FILE     WEB_BASE_DIR CKF
+#define CRUST_MAP_FILE     WEB_BASE_DIR CMF
+#define CRUST_ELEV_FILE    WEB_BASE_DIR CEF
  
 #define mx_cr_type 360                // Number of crust2.0 crust types
 #define mx_cr_lt    90                // Number of latitude nodes

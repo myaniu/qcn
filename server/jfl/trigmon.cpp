@@ -1259,6 +1259,15 @@ int main(int argc, char** argv)
     // initialize random seed: 
     srand ( time(NULL) );
 
+/* CMC check paths
+fprintf(stdout, "%s\n", EVENT_PATH);
+fprintf(stdout, "%s\n", BAD_HOSTS_FILE);
+fprintf(stdout, "%s\n", EMAIL_DIR);
+fprintf(stdout, "%s\n", EMAIL_INC);
+fprintf(stdout, "%s\n", EMAIL_PATH);
+fprintf(stdout, "%s\n", GMT_MAP_PHP);
+*/
+
 //  load CRUST2.0 3D seismic velocity model for the crust: 
     if ((retval = crust2_load())) {
         log_messages.printf(MSG_CRITICAL,
