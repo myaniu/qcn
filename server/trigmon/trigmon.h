@@ -32,13 +32,13 @@ using std::vector;
 #define C_CNT_MIN 5                         // Min # of correlated triggers for event detect
 #define EVENT_MASK 0755
 
-#define EVENT_PATH      WEB_BASE_DIR ## "qcn/earthquakes/"
-#define BAD_HOSTS_FILE  WEB_BASE_DIR ## "qcn/earthquakes/inc/bad_hosts.txt"
+#define EVENT_PATH      WEB_BASE_DIR "/qcn/earthquakes/"
+#define BAD_HOSTS_FILE  WEB_BASE_DIR "/qcn/earthquakes/inc/bad_hosts.txt"
 
-#define EMAIL_DIR       WEB_BASE_DIR ## "boinc/sensor/html/user"
-#define EMAIL_INC       WEB_BASE_DIR ## "boinc/sensor/html/inc/earthquake_email.inc"
-#define EMAIL_PATH      WEB_BASE_DIR ## "boinc/sensor/html/user/earthquake_email.php"
-#define GMT_MAP_PHP     WEB_BASE_DIR ## "qcn/earthquakes/inc/gmt_map.php"
+#define EMAIL_DIR       WEB_BASE_DIR "/boinc/sensor/html/user"
+#define EMAIL_INC       WEB_BASE_DIR "/boinc/sensor/html/inc/earthquake_email.inc"
+#define EMAIL_PATH      WEB_BASE_DIR "/boinc/sensor/html/user/earthquake_email.php"
+#define GMT_MAP_PHP     WEB_BASE_DIR "/qcn/earthquakes/inc/gmt_map.php"
 
 enum eOutput { OUT_EVENT, OUT_STATION, OUT_INTENSITY_MAP, OUT_CONT_TIME, OUT_CONT_LABEL, OUT_TIME_SCATTER };
 
