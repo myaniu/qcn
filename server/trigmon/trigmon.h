@@ -32,17 +32,13 @@ using std::vector;
 #define C_CNT_MIN 5                         // Min # of correlated triggers for event detect
 #define EVENT_MASK 0755
 
-#define CSHELL_CMD      "/bin/csh"
-#define PHP_CMD         "/usr/local/bin/php"
-#define EVENT_PATH      "/var/www/qcn/earthquakes/"
-#define BAD_HOSTS_FILE  "/var/www/qcn/earthquakes/inc/bad_hosts.txt"
+#define EVENT_PATH      WEB_BASE_DIR ## "qcn/earthquakes/"
+#define BAD_HOSTS_FILE  WEB_BASE_DIR ## "qcn/earthquakes/inc/bad_hosts.txt"
 
-#define EMAIL_DIR       "/var/www/boinc/sensor/html/user"
-#define EMAIL_INC       "/var/www/boinc/sensor/html/inc/earthquake_email.inc"
-#define EMAIL_PATH      "/var/www/boinc/sensor/html/user/earthquake_email.php"
-#define GMT_MAP_PHP     "/var/www/qcn/earthquakes/inc/gmt_map.php"
-
-#define EVENT_URL_BASE  "http://qcn.stanford.edu/earthquakes"
+#define EMAIL_DIR       WEB_BASE_DIR ## "boinc/sensor/html/user"
+#define EMAIL_INC       WEB_BASE_DIR ## "boinc/sensor/html/inc/earthquake_email.inc"
+#define EMAIL_PATH      WEB_BASE_DIR ## "boinc/sensor/html/user/earthquake_email.php"
+#define GMT_MAP_PHP     WEB_BASE_DIR ## "qcn/earthquakes/inc/gmt_map.php"
 
 enum eOutput { OUT_EVENT, OUT_STATION, OUT_INTENSITY_MAP, OUT_CONT_TIME, OUT_CONT_LABEL, OUT_TIME_SCATTER };
 
