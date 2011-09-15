@@ -73,9 +73,15 @@ $XCB -project qcn.xcodeproj -configuration Release -target qcnusb clean build
 #$XCB -project qcn.xcodeproj -configuration Release -target QCNLive clean build
 cd ../qcnlive_qt
 rm -rf QCNLive.app
-$XCB -project QCNLive.xcodeproj -configuration Release -target QCNLive clean build
-/Developer/Qt/bin/macdeployqt ./QCNLive.app
-cp ../../doc/qcnmac.icns QCNLive.app/Contents/Resources/
 rm -rf ../bin/QCNLive.app
-cp -r QCNLive.app ../bin/
+$XCB -project QCNLive.xcodeproj -configuration Release -target QCNLive clean build
+/Developer/Qt/bin/macdeployqt ./QCNLive.app 
+rm -rf QCNLive.app/Contents/Frameworks/QtSql.framework
+rm -rf QCNLive.app/Contents/Frameworks/QtXmlPatterns.framework
+rm -rf QCNLive.app/Contents/Frameworks/QtDeclarative.framework
+rm -rf QCNLive.app/Contents/Frameworks/QtNetwork.framework
+rm -rf QCNLive.app/Contents/Frameworks/QtScript.framework
+rm -rf QCNLive.app/Contents/Frameworks/QtSvg.framework
+rm -rf ../bin/QCNLive.app
+mv QCNLive.app ../bin/
 cd ../bin
