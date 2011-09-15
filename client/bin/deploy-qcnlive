@@ -1,0 +1,119 @@
+#!/bin/bash
+
+if (test "$1" = "") then
+   echo "Usage:  ./deploy VERSION_NUMBER"
+   exit 1
+fi
+
+# setup nci & non-nci version numbers for the BOINC app versions
+vnci=$1
+#vnon=`eval "echo 'scale=2; $vnci-.01'|bc"`
+
+#qcn/boinc files required
+print_common_boinc_files ()
+{
+ntpexec=$1
+echo put init/hvt >> qcnsftp.up
+echo put init/cbt >> qcnsftp.up
+echo put init/logo.jpg >> qcnsftp.up
+echo put init/$ntpexec >> qcnsftp.up
+echo put init/xyzaxes.jpg >> qcnsftp.up
+echo put init/xyzaxesbl.jpg >> qcnsftp.up
+# note Linux gets smaller pics
+if ( test "`uname -s`" = "Darwin" ) then
+   echo put init/earthday4096.jpg >> qcnsftp.up
+   echo put init/earthnight4096.jpg >> qcnsftp.up
+   echo put init/libMotionNodeAccelAPI.dylib >> qcnsftp.up
+else
+   echo put init/earthday2048.jpg >> qcnsftp.up
+   echo put init/earthnight2048.jpg >> qcnsftp.up
+   echo put init/libMotionNodeAccelAPI.so >> qcnsftp.up
+fi
+}
+
+cleanup_files ()
+{
+rm -f qcnlive*.zip
+rm -f qcnusb*.zip
+rm -f *qcn*${vnci}*
+rm -rf QCNLive*
+}
+
+# init/earthmask.rgb  # disable for now
+ncisuffix='__nci'
+zipuplstring='init/hvt init/cbt init/hvtb init/splash.png \
+         init/xyzaxes.jpg \
+         init/xyzaxesbl.jpg \
+         init/qcnlogo.png \
+         init/logo.jpg'
+ ntpversion='ntpdate_4.2.4p7c_'
+ ntpdv='ntpdate_4.2.4p7c_universal-apple-darwin'
+if ( test "`uname -s`" = "Darwin" ) then
+  # Apple Mac -- universal!
+  suffixp='powerpc-apple-darwin'
+  suffixi='i686-apple-darwin'
+  suffixs='x86_64-apple-darwin'
+
+    rm -f qcnlive-mac.zip
+    zip -r qcnlive-mac.zip QCNLive.app \
+       init/earthnight4096.jpg init/earthday4096.jpg \
+       init/$ntpdv $zipuplstring \
+       init/libMotionNodeAccelAPI.dylib \
+         -x@exclude.lst
+
+#    cp qcnusb.app/Contents/MacOS/qcnusb ../qcnusb/install
+#    cd ../qcnusb/install
+#    /Developer/usr/bin/packagemaker --doc qcnusb.pmdoc --out ../../bin/qcnusb-mac.mpkg
+#    cd ../../bin/
+#    zip -r qcnusb-mac.zip qcnusb-mac.mpkg -x@exclude.lst
+
+rm -f qcnsftp.up
+echo chdir /var/www/boinc/sensor/download >> qcnsftp.up
+echo put qcnlive*.zip >> qcnsftp.up
+echo exit >> qcnsftp.up
+sftp -b qcnsftp.up carlgt1@qcn-web.stanford.edu
+
+
+else
+   # Linux -- uname -p below returns 'unknown'!
+   # suffix=`uname -p`-pc-linux-gnu
+   suffix=i686-pc-linux-gnu
+
+   appspathone=$suffix$ncisuffix
+   #appspathtwo=$suffix
+
+   ntpdv=$ntpversion$suffix
+   #cp qcn_${vnci}_$suffix $appspathone
+   #mv qcn_${vnci}_$suffix $appspathtwo
+
+   #cp qcn_graphics_${vnci}_$suffix qcn_graphics_${vnon}_$suffix
+   rm -f qcnlive-linux.zip
+   rm -f qcnlive-linux-exec.zip
+
+   qtlibs='init/libQtCore.so.4 init/libQtGui.so.4 init/libQtOpenGL.so.4'
+
+   zip -r qcnlive-linux.zip QCNLive \
+         init/earthnight2048.jpg init/earthday2048.jpg \
+         init/$ntpdv $zipuplstring \
+         init/libMotionNodeAccelAPI.so \
+          $qtlibs \
+            -x@exclude.lst
+
+   zip qcnlive-linux-exec.zip QCNLive
+
+  pathpre='/var/www/boinc/sensor/apps/qcnsensor'
+  pathprecont='/var/www/boinc/continual/apps/qcncontinual'
+
+  rm -f qcnsftp.up
+
+  # copy qcnlive to download dir
+    echo chdir /var/www/boinc/sensor/download >> qcnsftp.up
+    echo put qcnlive-linux.zip >> qcnsftp.up
+    echo put qcnlive-linux-exec.zip >> qcnsftp.up
+
+  echo exit >> qcnsftp.up
+
+  sftp -b qcnsftp.up carlgt1@qcn-web.stanford.edu
+fi
+
+#cleanup_files
