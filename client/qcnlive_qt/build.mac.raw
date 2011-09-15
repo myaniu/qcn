@@ -13,6 +13,6 @@ rm -rf QCNLive.app/Contents/Frameworks/QtNetwork.framework
 rm -rf QCNLive.app/Contents/Frameworks/QtScript.framework
 rm -rf QCNLive.app/Contents/Frameworks/QtSvg.framework
 rm -rf ../bin/QCNLive.app
-cp -r QCNLive.app ../bin/
+mv QCNLive.app ../bin/
 cd ../bin
 make -f Makefile.mac clean

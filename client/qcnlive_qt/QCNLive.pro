@@ -43,8 +43,8 @@ LIBS += -framework IOKit -framework Carbon \
     -ljpeg-universal -lcurl-universal -lbz2-universal \
      -lz-universal -lfreetype-universal -lftgl-universal
 
-ICON = $$BASEDIRQCN/doc/qcnmac.icns
-RC_FILE = $$BASEDIRQCN/doc/qcnmac.icns
+ICON = qcnmac.icns
+RC_FILE = qcnmac.icns
 QMAKE_INFO_PLIST = Info.plist.mac
 }
 unix {
