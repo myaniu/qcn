@@ -2,6 +2,7 @@
 require_once("../inc/util.inc");
 require_once("../inc/db.inc");
 require_once("../inc/sqlquerystring.inc");
+require_once("../project/common.inc");
 
 db_init();
 
@@ -64,7 +65,7 @@ FROM REPLACE_DB.qcn_trigger t LEFT OUTER JOIN qcnalpha.qcn_quake q ON t.qcn_quak
 ";
 
 // full querystring
-// http://qcn.stanford.edu/continual_dl/trdl.php?cbCSV=1&cbUseLat=1&LatMin=-39&LatMax=-30&LonMin=-76&LonMax=-69&cbUseSensor=1&qcn_sensorid=100&cbUseTime=1&date_start=2010-03-24&time_hour_start=0&time_minute_start=0&date_end=2010-03-25&time_hour_end=0&time_minute_end=0&rb_sort=ttd
+// http://qcn/continual_dl/trdl.php?cbCSV=1&cbUseLat=1&LatMin=-39&LatMax=-30&LonMin=-76&LonMax=-69&cbUseSensor=1&qcn_sensorid=100&cbUseTime=1&date_start=2010-03-24&time_hour_start=0&time_minute_start=0&date_end=2010-03-25&time_hour_end=0&time_minute_end=0&rb_sort=ttd
 
 // sort order options: tta/d  hosta/d  maga/d lata/d lona/d
 // get the archive time
@@ -419,9 +420,9 @@ echo "</td></tr></table>";  // End of inner table
 echo "<center><input type=\"submit\" value=\"Submit Constraints\" name=\"btnConstraints\" id=\"btnConstraints\" /></center>\n";
 echo "</form>";
 if ($db_name == "continual") {
-echo "<center><a href=\"http://qcn.stanford.edu/continual/trdl.php\">Start Over</a></center>\n";
+echo "<center><a href=\"" . BASEURL . "/continual/trdl.php\">Start Over</a></center>\n";
 } else {
-echo "<center><a href=\"http://qcn.stanford.edu/sensor/trdl.php\">Start Over</a></center>\n";
+echo "<center><a href=\"" . BASEURL . "/sensor/trdl.php\">Start Over</a></center>\n";
 }
 
 
@@ -881,7 +882,7 @@ global $unixtimeArchive;
         $file_url = get_file_url($res);
         if ($file_url != "N/A") {
           echo "<td><font size=\"1\"><a href=\"" . $file_url . "\">Download</a></font size></td>";
-          echo "<td><font size=\"1\"><a href=\"javascript:void(0)\"onclick=\"window.open('http://qcn.stanford.edu/earthquakes/view/view_data.php?dat=".basename($file_url)."','linkname','height=500,width=400,scrollbars=no')\">View</a></font size></td>";
+          echo "<td><font size=\"1\"><a href=\"javascript:void(0)\"onclick=\"window.open('" . BASEURL . "/earthquakes/view/view_data.php?dat=".basename($file_url)."','linkname','height=500,width=400,scrollbars=no')\">View</a></font size></td>";
         }
         else {
           echo "<td><font size=\"1\">N/A</font size></td>";
@@ -935,10 +936,10 @@ global $db_name;
 $fileurl = "N/A";
 if ($res->received_file == 100) {
    if ($res->is_archive) {
-     $fileurl = "http://qcn-upl.stanford.edu/trigger/archive/";
+     $fileurl = UPLOADURL . "/trigger/archive/";
    }
    else {
-     $fileurl = "http://qcn-upl.stanford.edu/trigger/";
+     $fileurl = UPLOADURL . "/trigger/";
    }
    if ($db_name == "continual") {
       $fileurl .= "continual/";

@@ -1,13 +1,15 @@
 <?php
 
+require_once("../project/project.inc");
+
 $test=NULL;
 
 function earthquake_email($mag,$elon,$elat,$edep,$n_stations,$etime,$edir,$dtime,$dt_detect,$test=null)
 {
- chdir("/var/www/boinc/sensor/html/user/");      // Only works from within this directory (relative paths)
+ chdir(BASEPATH . "/boinc/sensor/html/user/");      // Only works from within this directory (relative paths)
 
- require_once("/var/www/boinc/sensor/html/inc/email.inc"); // Include email info
- require_once("/var/www/boinc/sensor/html/inc/distance.inc"); // Include distance function (km)
+ require_once(BASEPATH . "/boinc/sensor/html/inc/email.inc"); // Include email info
+ require_once(BASEPATH . "/boinc/sensor/html/inc/distance.inc"); // Include distance function (km)
 
 
 // Set the regional distance (maximum distance for using regional magnitude):
@@ -32,10 +34,11 @@ $message = "<h1><strong>QCN Rapid Earthquake Detection: M$mag</strong></h1></p>
  $td1 Depth: $td2 $edep $rt
  $td1 Detected: $td2 ".date('M d Y H:i:s',$dtime)." at $dt_detect seconds after the origin time. $rt
  $td1 Stations: $td2  $n_stations $rt
- $td1 Link:  $td2 <a href=\"http://qcn.stanford.edu/earthquakes/$edir\">http://qcn.stanford.edu/earthquakes/$edir</a> $rt
- $td1        $td2<img src=\"http://qcn.stanford.edu/earthquakes/$edir/intensity_03.jpg\" width=\"300\"> $rt
+ $td1 Link:  $td2 <a href=\"" . BASEURL . "/earthquakes/$edir\">" . BASEURL . "/earthquakes/$edir</a> $rt
+ $td1        $td2<img src=\"" . BASEURL . "/earthquakes/$edir/intensity_03.jpg\" width=\"300\"> $rt
  </table>
- <p>This notice is for scientific use only (not for use as an earthquake early warning tool). This message is generated automatically by the Quake-Catcher Network&#39s Rapid Earthquake Detection System (REDS).  In some cases, REDS compromises accuracy for speed.  Updates to the magnitude are usually available even before you receive the message.  For more information about the earthquake, please click <a href=\"http://qcn.stanford.edu/earthquakes/$edir\">here</a>. For more information about REDS, <a href=\"http://qcn.stanford.edu/earthquakes/REDS.php\">click here</a>.";
+ <p>This notice is for scientific use only (not for use as an earthquake early warning tool). This message is generated automatically by the Quake-Catcher Network&#39s Rapid Earthquake Detection System (REDS).  In some cases, REDS compromises accuracy for speed.  Updates to the magnitude are usually available even before you receive the message.  For more information about the earthquake, please click <a href=\"" . BASEURL . "/earthquakes/$edir\">here</a>. For more information about REDS, <a href=\"" . BASEURL . 
+    "/earthquakes/REDS.php\">click here</a>.";
 
 
 
@@ -46,11 +49,11 @@ $message = "<h1><strong>QCN Rapid Earthquake Detection: M$mag</strong></h1></p>
 
 // Email list for Rapid Earthquake Detection System
  if($test) {
-    $file_handle = fopen("/var/www/qcn/earthquakes/inc/earthquake_email_test.list",  "r"); // File with list of emails/parametrs for testing
+    $file_handle = fopen(BASEPATH . "/qcn/earthquakes/inc/earthquake_email_test.list",  "r"); // File with list of emails/parametrs for testing
     $message     = "<p>This is a TEST. This is NOT an earthquake.</h1></p>\n".$message;       // Add note at top that this is only a test
  
 } else {
-    $file_handle = fopen("/var/www/qcn/earthquakes/inc/earthquake_email.list",  "r"); // File with list of emails/parametrs
+    $file_handle = fopen(BASEPATH . "/qcn/earthquakes/inc/earthquake_email.list",  "r"); // File with list of emails/parametrs
  }
 
 

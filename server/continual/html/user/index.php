@@ -10,6 +10,7 @@ require_once("../inc/translation.inc");
 require_once("../inc/text_transform.inc");
 require_once("../project/project.inc");
 require_once("../project/project_news.inc");
+require_once("../project/common.inc");
 
 
 function show_nav() {
@@ -30,8 +31,8 @@ function show_nav() {
         <p>
         QCN is a joint project between Stanford University and University of California at Riverside.
         <ul>
-        <li> <A HREF=\"http://qcn-web.stanford.edu/index.html\">Quake Catcher Network Home Page</A>
-        <li> <A HREF=\"http://qcn.stanford.edu/about/contact.html\">Project Personnel</A>
+        <li> <A HREF=\"" . BASEURL . ">Quake Catcher Network Home Page</A>
+        <li> <A HREF=\"" . BASEURL . "/about/contact.html\">Project Personnel</A>
         </ul>
         <h2>Join ".PROJECT."</h2>
         <ul>
@@ -69,7 +70,7 @@ function show_nav() {
         <ul>
         <li><a href=\"trdl.php\">".tra("Trigger Search/Upload/Download Page")."</a>
         <li><a href=\"ramp.php\">".tra("View RAMP Signups")."</a>
-        <li><a href=\"http://qcn.stanford.edu/sensor_ops/todo\">".tra("To-Do List")."</a>";
+        <li><a href=\"" . BASEURL . "/sensor_ops/todo\">".tra("To-Do List")."</a>";
 
         //if ($user->id == 15) {
         // check for db replication timestamp

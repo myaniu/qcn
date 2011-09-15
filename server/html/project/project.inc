@@ -3,6 +3,7 @@
 // CMC note -- added Google Maps stuff for QCN
 
 require_once("../inc/util.inc");
+require_once("common.inc");
 
 $master_url = parse_config(get_config(), "<master_url>");
 define("PROJECT", "Quake-Catcher Network Seismic Monitoring");

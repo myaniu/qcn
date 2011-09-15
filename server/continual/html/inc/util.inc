@@ -23,6 +23,7 @@ require_once("../inc/db.inc");
 require_once("../inc/boinc_db.inc");
 require_once("../inc/translation.inc");
 require_once("../inc/profile.inc");
+require_once("../project/common.inc");
 
 // don't allow /... at the end of URL
 
@@ -588,6 +589,20 @@ function get_int($name, $optional=false) {
     return (int)$x;
 }
 
+// CMC function for post of a double/float
+function post_double($name, $optional=false) {
+    $x = null;
+    if (isset($_POST[$name])) $x = $_POST[$name];
+    if (!is_numeric($x)) {
+        if ($optional) {
+            return null;
+        } else {
+            error_page("missing or bad parameter: $name; supplied: ".htmlspecialchars($x));
+        }
+    }
+    return (double)$x;
+}
+
 function post_int($name, $optional=false) {
     $x = null;
     if (isset($_POST[$name])) $x = $_POST[$name];
@@ -850,7 +865,7 @@ if (!function_exists("print_login_form_aux")){
 function print_login_form_aux($next_url, $user, $ramp) {
     $x = urlencode($next_url);
     echo "
-        <form name=\"f\" method=\"post\" action=\"http://qcn.stanford.edu/sensor/login_action.php\">
+        <form name=\"f\" method=\"post\" action=\"" . BASEURL . "/sensor/login_action.php\">
         <input type=\"hidden\" name=\"next_url\" value=\"$next_url\">
     ";
 

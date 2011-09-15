@@ -23,6 +23,7 @@ require_once("../inc/db.inc");
 require_once("../inc/boinc_db.inc");
 require_once("../inc/translation.inc");
 require_once("../inc/profile.inc");
+require_once("../project/common.inc");
 
 // don't allow /... at the end of URL
 
@@ -864,7 +865,7 @@ if (!function_exists("print_login_form_aux")){
 function print_login_form_aux($next_url, $user, $ramp) {
     $x = urlencode($next_url);
     echo "
-        <form name=\"f\" method=\"post\" action=\"http://qcn.stanford.edu/sensor/login_action.php\">
+        <form name=\"f\" method=\"post\" action=\"" . BASEURL . "/sensor/login_action.php\">
         <input type=\"hidden\" name=\"next_url\" value=\"$next_url\">
     ";
 

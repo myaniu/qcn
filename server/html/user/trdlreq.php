@@ -3,6 +3,7 @@
 require_once("../inc/util.inc");
 require_once("../inc/sqlquerystring.inc");
 //require_once("../inc/db_ops.inc");
+require_once("../project/common.inc");
 
 // _a_ == archive record  _r_ == regular trigger record
 $aryDLTrigA = $_POST["cb_a_dlfile"];
@@ -26,11 +27,11 @@ print_r($aryDLTrigR);
 
 if ($db_name == "qcnalpha") {
   $DB = "sensor_download";
-  $URL_UPL_BASE = "http://qcn-upl.stanford.edu/trigger/job/u";
+  $URL_UPL_BASE = UPLOADURL . "/trigger/job/u";
 }
 else if ($db_name == "continual") {
   $DB = "continual_download";
-  $URL_UPL_BASE = "http://qcn-upl.stanford.edu/trigger/continual/job/u";
+  $URL_UPL_BASE = UPLOADURL . "/trigger/continual/job/u";
 }
 else {
    print "Error - invalid database - cannot continue - please go back and try your query again";

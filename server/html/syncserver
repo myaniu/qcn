@@ -22,6 +22,7 @@ scp carlgt1@qcn-web:/var/www/boinc/sensor/html/inc/distance.inc inc/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/html/inc/util.inc inc/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/html/inc/utils.inc inc/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/html/inc/google_translate.inc inc/
+scp carlgt1@qcn-web:/var/www/boinc/sensor/html/project/common.inc project/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/html/project/cache_parameters.inc project/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/html/project/project.inc project/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/html/project/project_news.inc project/
@@ -81,6 +82,7 @@ scp carlgt1@qcn-web:/var/www/boinc/sensor/html/inc/earthquake_email.inc inc/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/html/inc/email.inc inc/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/html/user/earthquake_email.php user/
 scp carlgt1@qcn-web:/var/www/boinc/continual/html/inc/email.inc ../continual/html/inc/
+scp carlgt1@qcn-web:/var/www/boinc/continual/html/project/common.inc ../continual/html/project/
 scp carlgt1@qcn-web:/var/www/boinc/continual/html/project/project.inc ../continual/html/project/
 scp carlgt1@qcn-web:/var/www/boinc/continual/html/project/project_specific_prefs.inc ../continual/html/project/
 scp carlgt1@qcn-web:/var/www/boinc/continual/html/user/calendar.jpg ../continual/html/user/
