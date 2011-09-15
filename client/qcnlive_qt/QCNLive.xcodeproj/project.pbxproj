@@ -21,7 +21,7 @@
 		3A1936BCF2C3EDC07752A851 /* nation_boundary.cpp in Build Sources */ = {isa = PBXBuildFile; fileRef = 6F1E47B893712D3C19D185CE /* nation_boundary.cpp */; settings = {ATTRIBUTES = (); }; };
 		3BBD6E3E630068B57C2CEC5B /* moc_glwidget.cpp in Build Sources */ = {isa = PBXBuildFile; fileRef = 24FC5F21B8D858EDB1CC09E6 /* moc_glwidget.cpp */; settings = {ATTRIBUTES = (); }; };
 		3C3F4C56CEAAC0EAA95ACCD6 /* csensor_usb_motionnodeaccel.cpp in Build Sources */ = {isa = PBXBuildFile; fileRef = F9750758D0EC92FB41209DD6 /* csensor_usb_motionnodeaccel.cpp */; settings = {ATTRIBUTES = (); }; };
-		4329E4B1142255F7009789B4 /* QCNLive.app in Project Copy */ = {isa = PBXBuildFile; fileRef = 4329E4AE142255F7009789B4 /* QCNLive.app */; };
+		43F140571422645D001C0846 /* QCNLive.app in Project Copy */ = {isa = PBXBuildFile; fileRef = 43F140541422645D001C0846 /* QCNLive.app */; };
 		44C796EE39420FB81C48361D /* qcn_2dplot.cpp in Build Sources */ = {isa = PBXBuildFile; fileRef = 78EB6090A2080F8DAA0A8A2C /* qcn_2dplot.cpp */; settings = {ATTRIBUTES = (); }; };
 		48118D5E3A3987BF3F5161A6 /* ftgl-universal in Frameworks & Libraries */ = {isa = PBXBuildFile; fileRef = 090F09679E677D295ECC01EA /* ftgl-universal */; };
 		4A14691F28FAAE51221E20B0 /* dlgmakequake.cpp in Build Sources */ = {isa = PBXBuildFile; fileRef = 17346D870A6CE8561A8CD144 /* dlgmakequake.cpp */; settings = {ATTRIBUTES = (); }; };
@@ -76,7 +76,7 @@
 			dstPath = /Users/carlgt1/projects/qcn/client/qcnlive_qt;
 			dstSubfolderSpec = 0;
 			files = (
-				4329E4B1142255F7009789B4 /* QCNLive.app in Project Copy */,
+				43F140571422645D001C0846 /* QCNLive.app in Project Copy */,
 			);
 			name = "Project Copy";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -101,7 +101,7 @@
 		389D844839024C27E3EE1BD6 /* icons.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = icons.h; sourceTree = "<group>"; };
 		3A9598F9D0008B7DC47F0F9B /* trickledown.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = trickledown.cpp; path = ../util/trickledown.cpp; sourceTree = "<group>"; };
 		40A4D687C2287AC419FAC700 /* qcn_signal.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = qcn_signal.cpp; path = ../util/qcn_signal.cpp; sourceTree = "<group>"; };
-		4329E4AE142255F7009789B4 /* QCNLive.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QCNLive.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		43F140541422645D001C0846 /* QCNLive.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QCNLive.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		514B45140FBAF53969785617 /* qcn_earth.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = qcn_earth.cpp; path = ../graphics/qcn_earth.cpp; sourceTree = "<group>"; };
 		5304A65977DCB8F0A4FFAD28 /* dlgsettings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = dlgsettings.h; sourceTree = "<group>"; };
 		56AC31C7FFE6B1646C5B875E /* z-universal */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "z-universal"; path = "../mac_build/libz-universal.a"; sourceTree = "<group>"; };
@@ -193,7 +193,7 @@
 				883D7615C4D2DE3FA1218F12 /* Headers */,
 				7CABE3C80E79AD2B307756D2 /* Sources [qmake] */,
 				ED1E82605DD74B483AF3C982 /* External Frameworks and Libraries */,
-				4329E4AF142255F7009789B4 /* Products */,
+				43F140551422645D001C0846 /* Products */,
 			);
 			name = QCNLive;
 			sourceTree = "<group>";
@@ -225,10 +225,10 @@
 			name = graphics;
 			sourceTree = "<group>";
 		};
-		4329E4AF142255F7009789B4 /* Products */ = {
+		43F140551422645D001C0846 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				4329E4AE142255F7009789B4 /* QCNLive.app */,
+				43F140541422645D001C0846 /* QCNLive.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -371,7 +371,7 @@
 /* Begin PBXNativeTarget section */
 		B1E56B9E0881E5027F4AEEAF /* QCNLive */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 4329E4C71422565B009789B4 /* Build configuration list for PBXNativeTarget "QCNLive" */;
+			buildConfigurationList = 43F14075142264BB001C0846 /* Build configuration list for PBXNativeTarget "QCNLive" */;
 			buildPhases = (
 				D7BA7D76DAB5DD13389D6332 /* Qt Qmake */,
 				A0A52A2ADF7A1E2A99738674 /* Qt Preprocessors */,
@@ -386,7 +386,7 @@
 			);
 			name = QCNLive;
 			productName = QCNLive;
-			productReference = 4329E4AE142255F7009789B4 /* QCNLive.app */;
+			productReference = 43F140541422645D001C0846 /* QCNLive.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -405,7 +405,7 @@
 				German,
 			);
 			mainGroup = 05596AB53D8D521C69802C27 /* QCNLive */;
-			productRefGroup = 4329E4AF142255F7009789B4 /* Products */;
+			productRefGroup = 43F140551422645D001C0846 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -502,11 +502,13 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		4329E4C4142255F7009789B4 /* Debug */ = {
+		43F1406A1422645D001C0846 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1)";
-				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = "x86_64 i386 ppc";
+				ARCHS = (
+					i386,
+					x86_64,
+				);
 				BUILD_ROOT = /Users/carlgt1/projects/qcn/client/qcnlive_qt;
 				CC = "/usr/bin/llvm-gcc-4.2";
 				COPY_PHASE_STRIP = NO;
@@ -611,11 +613,13 @@
 			};
 			name = Debug;
 		};
-		4329E4C5142255F7009789B4 /* Release */ = {
+		43F1406B1422645D001C0846 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1)";
-				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = "x86_64 i386 ppc";
+				ARCHS = (
+					i386,
+					x86_64,
+				);
 				BUILD_ROOT = /Users/carlgt1/projects/qcn/client/qcnlive_qt;
 				CC = "/usr/bin/llvm-gcc-4.2";
 				COPY_PHASE_STRIP = YES;
@@ -719,11 +723,13 @@
 			};
 			name = Release;
 		};
-		4329E4C6142255F7009789B4 /* Default */ = {
+		43F1406C1422645D001C0846 /* Default */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1)";
-				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = "x86_64 i386 ppc";
+				ARCHS = (
+					i386,
+					x86_64,
+				);
 				BUILD_ROOT = /Users/carlgt1/projects/qcn/client/qcnlive_qt;
 				CC = "/usr/bin/llvm-gcc-4.2";
 				CPLUSPLUS = "/usr/bin/llvm-g++-4.2";
@@ -818,7 +824,6 @@
 				OTHER_REZFLAGS = "";
 				PREBINDING = NO;
 				PRODUCT_NAME = QCNLive;
-				SDKROOT = /Developer/SDKs/MacOSX10.5.sdk;
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = "";
 				YACCFLAGS = "-d";
@@ -860,12 +865,12 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		4329E4C71422565B009789B4 /* Build configuration list for PBXNativeTarget "QCNLive" */ = {
+		43F14075142264BB001C0846 /* Build configuration list for PBXNativeTarget "QCNLive" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				4329E4C4142255F7009789B4 /* Debug */,
-				4329E4C5142255F7009789B4 /* Release */,
-				4329E4C6142255F7009789B4 /* Default */,
+				43F1406A1422645D001C0846 /* Debug */,
+				43F1406B1422645D001C0846 /* Release */,
+				43F1406C1422645D001C0846 /* Default */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Default;
