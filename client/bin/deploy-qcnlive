@@ -1,10 +1,5 @@
 #!/bin/bash
 
-if (test "$1" = "") then
-   echo "Usage:  ./deploy VERSION_NUMBER"
-   exit 1
-fi
-
 # setup nci & non-nci version numbers for the BOINC app versions
 vnci=$1
 #vnon=`eval "echo 'scale=2; $vnci-.01'|bc"`
@@ -54,8 +49,8 @@ if ( test "`uname -s`" = "Darwin" ) then
   suffixi='i686-apple-darwin'
   suffixs='x86_64-apple-darwin'
 
-    rm -f qcnlive-mac.zip
-    zip -r qcnlive-mac.zip QCNLive.app \
+    rm -f qcnlive-*.zip
+    zip -r qcnlive_raw_mac.zip QCNLive.app \
        init/earthnight4096.jpg init/earthday4096.jpg \
        init/$ntpdv $zipuplstring \
        init/libMotionNodeAccelAPI.dylib \
