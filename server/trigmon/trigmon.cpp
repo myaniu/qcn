@@ -34,6 +34,7 @@ double g_dTimeCurrent = 0.0;  // global for current time
 // global params for trigger monitoring behavior
 double g_dSleepInterval = -1.0;   // number of seconds to sleep between trigmem enumerations
 int g_iTriggerTimeInterval = -1;  // number of seconds to check for triggers (i.e. "time width" of triggers for an event)
+int g_iTriggerDeleteInterval = -1;  // number of seconds to delete trigmem table array
 
 //int g_idEvent = 1;  // internal counter of event id, eventually we use database qcn_quakeid
 
@@ -59,6 +60,29 @@ void make_strKeyTrigger(char* strKey, const int& iLen, const char* db, const int
   sprintf(strKey, "%s%020d", db, id);
 }
 */
+
+void do_delete_trigmem()
+{
+    char strDelete[128];
+    sprintf(strDelete,
+      "DELETE FROM trigmem.qcn_trigger_memory WHERE time_trigger<(unix_timestamp() - %d"
+       ") OR time_trigger>(unix_timestamp()+10.0)",
+      g_iTriggerDeleteInterval
+    );
+
+    int retval = trigmem_db.do_query(strDelete);
+    if (retval) {
+        log_messages.printf(MSG_CRITICAL,
+            "do_delete_trigmem() error: %s\n", boincerror(retval)
+        );
+    }
+    else {
+        log_messages.printf(MSG_DEBUG,
+            "do_delete_trigmem(): Removed old triggers from memory\n"
+        );
+    }
+}
+
 
 // get the latest triggers from the database memory table and place into k////
 int QCN_GetTriggers()
@@ -1291,6 +1315,8 @@ fprintf(stdout, "%s\n", GMT_MAP_PHP);
             g_dSleepInterval = atof(argv[++i]);
         } else if (!strcmp(argv[i], "-time_interval")) {
             g_iTriggerTimeInterval = atoi(argv[++i]);
+        } else if (!strcmp(argv[i], "-delete_interval")) {
+            g_iTriggerDeleteInterval = atoi(argv[++i]);
         } else {
             log_messages.printf(MSG_CRITICAL,
                 "bad cmdline arg: %s\n\n"
@@ -1322,11 +1348,17 @@ fprintf(stdout, "%s\n", GMT_MAP_PHP);
          g_dSleepInterval
     ); 
 
-
-    //signal(SIGUSR1, show_state);
+    double dtDelete = 0.; // time to delete old triggers from memory
+    double dtEnd = 0.; // sleep cutoff
     while (1) {
       g_dTimeCurrent = dtime();
-      double dtEnd = g_dTimeCurrent + g_dSleepInterval;
+      dtEnd = g_dTimeCurrent + g_dSleepInterval;
+
+      // the qcn_trigmon program which checks against known USGS quakes takes care of deleting
+      if (g_dTimeCurrent > dtDelete) {
+         do_delete_trigmem();  // get rid of triggers every once in awhile
+         dtDelete = g_dTimeCurrent + g_iTriggerDeleteInterval;
+      }
 
       QCN_GetTriggers();  // reads the memories from the trigger memory table into a global vector
       QCN_DetectEvent();     // searches the vector of triggers for matching events
