@@ -222,12 +222,12 @@
     </daemon>
     <daemon>
       <cmd>
-        trigmonitor -d 3 -sleep_interval 1 -time_interval 120
+        trigmonitor -d 3 -sleep_interval 1 -time_interval 120 -delete_interval 200
       </cmd>
     </daemon>
     <daemon>
       <cmd>
-        trigdisplay -d 3 -sleep_interval 4 -time_interval 15 -delete_interval 333
+        trigdisplay -d 3 -sleep_interval 4 -time_interval 15 
       </cmd>
     </daemon>
   </daemons>
