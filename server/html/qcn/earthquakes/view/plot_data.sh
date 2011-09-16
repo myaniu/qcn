@@ -4,6 +4,7 @@ source ../inc/bash.env
 # for security test that dir is a subdirectory of BASEPATH (and that BASEPATH is set)
 MYDIR=$1
 QCNDIR=$BASEPATH/qcn/earthquakes/view
+export SACAUX=$SACPATH/aux
 
 # test that directories don't exist, aren't blank, and are in the proper place
 if [ -z $MYDIR ] || [ -z $BASEPATH ] || [ ! -e $MYDIR ] || [ `echo $MYDIR | grep -c $QCNDIR` -eq 0 ]; then 
@@ -11,12 +12,8 @@ if [ -z $MYDIR ] || [ -z $BASEPATH ] || [ ! -e $MYDIR ] || [ `echo $MYDIR | grep
   exit
 fi
 
-echo $MYDIR
-echo $UNZIP_CMD
-
 cd $MYDIR
-$UNZIP_CMD *.zip 
-
+$UNZIP_CMD -o *.zip 
 $SACPATH/bin/sac << EOF
 r *Z.sac *Y.sac *X.sac
 rmean
