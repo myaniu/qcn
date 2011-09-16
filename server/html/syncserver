@@ -23,6 +23,7 @@ scp carlgt1@qcn-web:/var/www/boinc/sensor/html/inc/util.inc inc/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/html/inc/utils.inc inc/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/html/inc/google_translate.inc inc/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/html/project/common.inc project/
+scp carlgt1@qcn-web:/var/www/boinc/sensor/html/project/csh.env project/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/html/project/cache_parameters.inc project/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/html/project/project.inc project/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/html/project/project_news.inc project/
