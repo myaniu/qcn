@@ -6,7 +6,7 @@ date_default_timezone_set('UTC');         // Set the default time zone to UTC
 
 function require_once_r2($file) {
 $cwd = getcwd();
-chdir(BASEDIR . "/boinc/sensor/html/user/");
+chdir(BASEPATH . "/boinc/sensor/html/user/");
 
 require_once($file);
 
@@ -19,7 +19,7 @@ function page_top($title=null){
 
 $print = $_GET["print"];
 
-require_once(BASEDIR . "/boinc/sensor/html/inc/google_translate.inc");
+require_once(BASEPATH . "/boinc/sensor/html/inc/google_translate.inc");
 
 html_header();
 
@@ -138,7 +138,7 @@ echo "       <br>\n";
 echo "       <h1>Recent News</h1>\n";
 echo "       <ul>\n";
 
-require_once_r(BASEDIR . "/boinc/sensor/html/inc/some_news.inc");
+require_once_r(BASEPATH . "/boinc/sensor/html/inc/some_news.inc");
 
 echo "       <br>\n";
 
