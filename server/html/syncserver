@@ -24,6 +24,7 @@ scp carlgt1@qcn-web:/var/www/boinc/sensor/html/inc/utils.inc inc/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/html/inc/google_translate.inc inc/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/html/project/common.inc project/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/html/project/csh.env project/
+scp carlgt1@qcn-web:/var/www/boinc/sensor/html/project/bash.env project/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/html/project/cache_parameters.inc project/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/html/project/project.inc project/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/html/project/project_news.inc project/
@@ -70,29 +71,94 @@ scp carlgt1@qcn-web:/var/www/boinc/sensor/html/ops/dbinfo.php ops/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/html/ops/generate_maptrig.php ops/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/html/ops/weekly-host.php ops/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/html/ops/.htaccess ops/
-scp carlgt1@qcn-web:/var/www/boinc/continual/html/ops/generate_maptrig.php ../continual/html/ops/
-scp carlgt1@qcn-web:/var/www/boinc/continual/html/inc/db.inc ../continual/html/inc/
-scp carlgt1@qcn-web:/var/www/boinc/continual/html/inc/prefs.inc ../continual/html/inc/
-scp carlgt1@qcn-web:/var/www/boinc/continual/html/inc/utils.inc ../continual/html/inc/
-scp carlgt1@qcn-web:/var/www/boinc/continual/html/inc/util.inc ../continual/html/inc/
-scp carlgt1@qcn-web:/var/www/boinc/continual/html/inc/user.inc ../continual/html/inc/
-scp carlgt1@qcn-web:/var/www/boinc/continual/html/inc/host.inc ../continual/html/inc/
-scp carlgt1@qcn-web:/var/www/boinc/continual/html/inc/cache.inc ../continual/html/inc/
+scp carlgt1@qcn-web:/var/www/boinc/continual/html/ops/generate_maptrig.php continual/html/ops/
+scp carlgt1@qcn-web:/var/www/boinc/continual/html/inc/db.inc continual/html/inc/
+scp carlgt1@qcn-web:/var/www/boinc/continual/html/inc/prefs.inc continual/html/inc/
+scp carlgt1@qcn-web:/var/www/boinc/continual/html/inc/utils.inc continual/html/inc/
+scp carlgt1@qcn-web:/var/www/boinc/continual/html/inc/util.inc continual/html/inc/
+scp carlgt1@qcn-web:/var/www/boinc/continual/html/inc/user.inc continual/html/inc/
+scp carlgt1@qcn-web:/var/www/boinc/continual/html/inc/host.inc continual/html/inc/
+scp carlgt1@qcn-web:/var/www/boinc/continual/html/inc/cache.inc continual/html/inc/
 scp carlgt1@qcn-web:/var/www/qcn/earthquakes/inc/earthquake_email.list inc/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/html/inc/earthquake_email.inc inc/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/html/inc/email.inc inc/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/html/user/earthquake_email.php user/
-scp carlgt1@qcn-web:/var/www/boinc/continual/html/inc/email.inc ../continual/html/inc/
-scp carlgt1@qcn-web:/var/www/boinc/continual/html/project/common.inc ../continual/html/project/
-scp carlgt1@qcn-web:/var/www/boinc/continual/html/project/project.inc ../continual/html/project/
-scp carlgt1@qcn-web:/var/www/boinc/continual/html/project/project_specific_prefs.inc ../continual/html/project/
-scp carlgt1@qcn-web:/var/www/boinc/continual/html/user/calendar.jpg ../continual/html/user/
-scp carlgt1@qcn-web:/var/www/boinc/continual/html/user/calendarDateInput.js ../continual/html/user/
-scp carlgt1@qcn-web:/var/www/boinc/continual/html/user/prefs.php ../continual/html/user/
-scp carlgt1@qcn-web:/var/www/boinc/continual/html/user/edit_host_info_form.php ../continual/html/user/
-scp carlgt1@qcn-web:/var/www/boinc/continual/html/user/edit_host_info_action.php ../continual/html/user/
-scp carlgt1@qcn-web:/var/www/boinc/continual/html/user/maptrig.php ../continual/html/user/
-scp carlgt1@qcn-web:/var/www/boinc/continual/html/user/maptrigtime.php ../continual/html/user/
-scp carlgt1@qcn-web:/var/www/boinc/continual/html/user/account_finish.php ../continual/html/user/
-scp carlgt1@qcn-web:/var/www/boinc/continual/html/user/account_finish_action.php ../continual/html/user/
-scp carlgt1@qcn-web:/var/www/boinc/continual/html/user/index.php ../continual/html/user/
+scp carlgt1@qcn-web:/var/www/boinc/continual/html/inc/email.inc continual/html/inc/
+scp carlgt1@qcn-web:/var/www/boinc/continual/html/project/common.inc continual/html/project/
+scp carlgt1@qcn-web:/var/www/boinc/continual/html/project/project.inc continual/html/project/
+scp carlgt1@qcn-web:/var/www/boinc/continual/html/project/project_specific_prefs.inc continual/html/project/
+scp carlgt1@qcn-web:/var/www/boinc/continual/html/user/calendar.jpg continual/html/user/
+scp carlgt1@qcn-web:/var/www/boinc/continual/html/user/calendarDateInput.js continual/html/user/
+scp carlgt1@qcn-web:/var/www/boinc/continual/html/user/prefs.php continual/html/user/
+scp carlgt1@qcn-web:/var/www/boinc/continual/html/user/edit_host_info_form.php continual/html/user/
+scp carlgt1@qcn-web:/var/www/boinc/continual/html/user/edit_host_info_action.php continual/html/user/
+scp carlgt1@qcn-web:/var/www/boinc/continual/html/user/maptrig.php continual/html/user/
+scp carlgt1@qcn-web:/var/www/boinc/continual/html/user/maptrigtime.php continual/html/user/
+scp carlgt1@qcn-web:/var/www/boinc/continual/html/user/account_finish.php continual/html/user/
+scp carlgt1@qcn-web:/var/www/boinc/continual/html/user/account_finish_action.php continual/html/user/
+scp carlgt1@qcn-web:/var/www/boinc/continual/html/user/index.php continual/html/user/
+
+# earthquake scripts etc
+scp carlgt1@qcn-web:/var/www/qcn/earthquakes/earthquake_stats.php qcn/earthquakes/
+scp carlgt1@qcn-web:/var/www/qcn/earthquakes/events.xy qcn/earthquakes/
+scp carlgt1@qcn-web:/var/www/qcn/earthquakes/index_jday.php qcn/earthquakes/
+scp carlgt1@qcn-web:/var/www/qcn/earthquakes/index.php qcn/earthquakes/
+scp carlgt1@qcn-web:/var/www/qcn/earthquakes/latency.php qcn/earthquakes/
+scp carlgt1@qcn-web:/var/www/qcn/earthquakes/map_quakes.php qcn/earthquakes/
+scp carlgt1@qcn-web:/var/www/qcn/earthquakes/recent_quakes.php qcn/earthquakes/
+scp carlgt1@qcn-web:/var/www/qcn/earthquakes/popup.js qcn/earthquakes/
+scp carlgt1@qcn-web:/var/www/qcn/earthquakes/view_events.php qcn/earthquakes/
+scp carlgt1@qcn-web:/var/www/qcn/earthquakes/recent_quakes.php qcn/earthquakes/
+
+#earthquakes/inc
+scp carlgt1@qcn-web:/var/www/qcn/earthquakes/inc/index_earthquake.php qcn/earthquakes/inc
+scp carlgt1@qcn-web:/var/www/qcn/earthquakes/inc/amp_v_dist.text qcn/earthquakes/inc
+scp carlgt1@qcn-web:/var/www/qcn/earthquakes/inc/bash.env qcn/earthquakes/inc
+scp carlgt1@qcn-web:/var/www/qcn/earthquakes/inc/csh.env qcn/earthquakes/inc
+scp carlgt1@qcn-web:/var/www/qcn/earthquakes/inc/common.inc qcn/earthquakes/inc
+scp carlgt1@qcn-web:/var/www/qcn/earthquakes/inc/CNelevatio2.txt qcn/earthquakes/inc
+scp carlgt1@qcn-web:/var/www/qcn/earthquakes/inc/int_v1.cpt qcn/earthquakes/inc
+scp carlgt1@qcn-web:/var/www/qcn/earthquakes/inc/dl.inc qcn/earthquakes/inc
+scp carlgt1@qcn-web:/var/www/qcn/earthquakes/inc/earthquake_email.inc qcn/earthquakes/inc
+scp carlgt1@qcn-web:/var/www/qcn/earthquakes/inc/earthquake_email.list qcn/earthquakes/inc
+scp carlgt1@qcn-web:/var/www/qcn/earthquakes/inc/gmt_map.php qcn/earthquakes/inc
+scp carlgt1@qcn-web:/var/www/qcn/earthquakes/inc/gmt_quakes.inc qcn/earthquakes/inc
+scp carlgt1@qcn-web:/var/www/qcn/earthquakes/inc/gmt_scatter_script.csh qcn/earthquakes/inc
+scp carlgt1@qcn-web:/var/www/qcn/earthquakes/inc/intensity.php qcn/earthquakes/inc
+scp carlgt1@qcn-web:/var/www/qcn/earthquakes/inc/popup.inc qcn/earthquakes/inc
+scp carlgt1@qcn-web:/var/www/qcn/earthquakes/inc/qcn_trigger_info.inc qcn/earthquakes/inc
+scp carlgt1@qcn-web:/var/www/qcn/earthquakes/inc/revise_magnitude.csh qcn/earthquakes/inc
+scp carlgt1@qcn-web:/var/www/qcn/earthquakes/inc/revise_magnitude.php qcn/earthquakes/inc
+scp carlgt1@qcn-web:/var/www/qcn/earthquakes/inc/scatter_linex.xy qcn/earthquakes/inc
+scp carlgt1@qcn-web:/var/www/qcn/earthquakes/inc/update_index_php.csh qcn/earthquakes/inc
+scp carlgt1@qcn-web:/var/www/qcn/earthquakes/inc/worldcities_names.gmt qcn/earthquakes/inc
+scp carlgt1@qcn-web:/var/www/qcn/earthquakes/inc/worldcitiespop.gmt qcn/earthquakes/inc
+scp carlgt1@qcn-web:/var/www/qcn/earthquakes/inc/drag.js qcn/earthquakes/inc
+scp carlgt1@qcn-web:/var/www/qcn/earthquakes/inc/CNtype2.txt qcn/earthquakes/inc
+scp carlgt1@qcn-web:/var/www/qcn/earthquakes/inc/CNtype2_key.txt qcn/earthquakes/inc
+scp carlgt1@qcn-web:/var/www/qcn/earthquakes/inc/amp_v_dist.text qcn/earthquakes/inc
+scp carlgt1@qcn-web:/var/www/qcn/earthquakes/inc/amp_v_dist.theo qcn/earthquakes/inc
+
+#earthquakes/view
+scp carlgt1@qcn-web:/var/www/qcn/earthquakes/view/index.php qcn/earthquakes/view
+scp carlgt1@qcn-web:/var/www/qcn/earthquakes/view/plot_data.sh qcn/earthquakes/view
+scp carlgt1@qcn-web:/var/www/qcn/earthquakes/view/update_waveform.csh.bak qcn/earthquakes/view
+scp carlgt1@qcn-web:/var/www/qcn/earthquakes/view/view_data.php qcn/earthquakes/view
+scp carlgt1@qcn-web:/var/www/qcn/earthquakes/view/plot_all_data.csh.bak qcn/earthquakes/view
+
+#rt_image
+scp carlgt1@qcn-web:/var/www/qcn/rt_image/index.php qcn/rt_image/
+scp carlgt1@qcn-web:/var/www/qcn/rt_image/ltn.php qcn/rt_image/
+scp carlgt1@qcn-web:/var/www/qcn/rt_image/rt_triggers_DTN.xyz qcn/rt_image/
+scp carlgt1@qcn-web:/var/www/qcn/rt_image/rt_triggers_LTN.xyz qcn/rt_image/
+scp carlgt1@qcn-web:/var/www/qcn/rt_image/rt_triggers.xyz qcn/rt_image/
+scp carlgt1@qcn-web:/var/www/qcn/rt_image/usb_sensors.php qcn/rt_image/
+
+#rt_image/inc
+scp carlgt1@qcn-web:/var/www/qcn/rt_image/inc/GMT_globe_grey.cpt qcn/rt_image/inc/
+scp carlgt1@qcn-web:/var/www/qcn/rt_image/inc/GMT_gray.cpt qcn/rt_image/inc/
+scp carlgt1@qcn-web:/var/www/qcn/rt_image/inc/gmt_quakes.inc qcn/rt_image/inc/
+scp carlgt1@qcn-web:/var/www/qcn/rt_image/inc/int.cpt qcn/rt_image/inc/
+scp carlgt1@qcn-web:/var/www/qcn/rt_image/inc/rt_images.sh qcn/rt_image/inc/
+scp carlgt1@qcn-web:/var/www/qcn/rt_image/inc/update_data.inc qcn/rt_image/inc/
+## end
