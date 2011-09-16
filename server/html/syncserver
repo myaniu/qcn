@@ -71,32 +71,33 @@ scp carlgt1@qcn-web:/var/www/boinc/sensor/html/ops/dbinfo.php ops/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/html/ops/generate_maptrig.php ops/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/html/ops/weekly-host.php ops/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/html/ops/.htaccess ops/
-scp carlgt1@qcn-web:/var/www/boinc/continual/html/ops/generate_maptrig.php continual/html/ops/
-scp carlgt1@qcn-web:/var/www/boinc/continual/html/inc/db.inc continual/html/inc/
-scp carlgt1@qcn-web:/var/www/boinc/continual/html/inc/prefs.inc continual/html/inc/
-scp carlgt1@qcn-web:/var/www/boinc/continual/html/inc/utils.inc continual/html/inc/
-scp carlgt1@qcn-web:/var/www/boinc/continual/html/inc/util.inc continual/html/inc/
-scp carlgt1@qcn-web:/var/www/boinc/continual/html/inc/user.inc continual/html/inc/
-scp carlgt1@qcn-web:/var/www/boinc/continual/html/inc/host.inc continual/html/inc/
-scp carlgt1@qcn-web:/var/www/boinc/continual/html/inc/cache.inc continual/html/inc/
-scp carlgt1@qcn-web:/var/www/qcn/earthquakes/inc/earthquake_email.list inc/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/html/inc/earthquake_email.inc inc/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/html/inc/email.inc inc/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/html/user/earthquake_email.php user/
-scp carlgt1@qcn-web:/var/www/boinc/continual/html/inc/email.inc continual/html/inc/
-scp carlgt1@qcn-web:/var/www/boinc/continual/html/project/common.inc continual/html/project/
-scp carlgt1@qcn-web:/var/www/boinc/continual/html/project/project.inc continual/html/project/
-scp carlgt1@qcn-web:/var/www/boinc/continual/html/project/project_specific_prefs.inc continual/html/project/
-scp carlgt1@qcn-web:/var/www/boinc/continual/html/user/calendar.jpg continual/html/user/
-scp carlgt1@qcn-web:/var/www/boinc/continual/html/user/calendarDateInput.js continual/html/user/
-scp carlgt1@qcn-web:/var/www/boinc/continual/html/user/prefs.php continual/html/user/
-scp carlgt1@qcn-web:/var/www/boinc/continual/html/user/edit_host_info_form.php continual/html/user/
-scp carlgt1@qcn-web:/var/www/boinc/continual/html/user/edit_host_info_action.php continual/html/user/
-scp carlgt1@qcn-web:/var/www/boinc/continual/html/user/maptrig.php continual/html/user/
-scp carlgt1@qcn-web:/var/www/boinc/continual/html/user/maptrigtime.php continual/html/user/
-scp carlgt1@qcn-web:/var/www/boinc/continual/html/user/account_finish.php continual/html/user/
-scp carlgt1@qcn-web:/var/www/boinc/continual/html/user/account_finish_action.php continual/html/user/
-scp carlgt1@qcn-web:/var/www/boinc/continual/html/user/index.php continual/html/user/
+
+#continual
+scp carlgt1@qcn-web:/var/www/boinc/continual/html/ops/generate_maptrig.php continual/ops/
+scp carlgt1@qcn-web:/var/www/boinc/continual/html/inc/db.inc continual/inc/
+scp carlgt1@qcn-web:/var/www/boinc/continual/html/inc/prefs.inc continual/inc/
+scp carlgt1@qcn-web:/var/www/boinc/continual/html/inc/utils.inc continual/inc/
+scp carlgt1@qcn-web:/var/www/boinc/continual/html/inc/util.inc continual/inc/
+scp carlgt1@qcn-web:/var/www/boinc/continual/html/inc/user.inc continual/inc/
+scp carlgt1@qcn-web:/var/www/boinc/continual/html/inc/host.inc continual/inc/
+scp carlgt1@qcn-web:/var/www/boinc/continual/html/inc/cache.inc continual/inc/
+scp carlgt1@qcn-web:/var/www/boinc/continual/html/inc/email.inc continual/inc/
+scp carlgt1@qcn-web:/var/www/boinc/continual/html/project/common.inc continual/project/
+scp carlgt1@qcn-web:/var/www/boinc/continual/html/project/project.inc continual/project/
+scp carlgt1@qcn-web:/var/www/boinc/continual/html/project/project_specific_prefs.inc continual/project/
+scp carlgt1@qcn-web:/var/www/boinc/continual/html/user/calendar.jpg continual/user/
+scp carlgt1@qcn-web:/var/www/boinc/continual/html/user/calendarDateInput.js continual/user/
+scp carlgt1@qcn-web:/var/www/boinc/continual/html/user/prefs.php continual/user/
+scp carlgt1@qcn-web:/var/www/boinc/continual/html/user/edit_host_info_form.php continual/user/
+scp carlgt1@qcn-web:/var/www/boinc/continual/html/user/edit_host_info_action.php continual/user/
+scp carlgt1@qcn-web:/var/www/boinc/continual/html/user/maptrig.php continual/user/
+scp carlgt1@qcn-web:/var/www/boinc/continual/html/user/maptrigtime.php continual/user/
+scp carlgt1@qcn-web:/var/www/boinc/continual/html/user/account_finish.php continual/user/
+scp carlgt1@qcn-web:/var/www/boinc/continual/html/user/account_finish_action.php continual/user/
+scp carlgt1@qcn-web:/var/www/boinc/continual/html/user/index.php continual/user/
 
 # earthquake scripts etc
 scp carlgt1@qcn-web:/var/www/qcn/earthquakes/earthquake_stats.php qcn/earthquakes/
