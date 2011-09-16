@@ -130,7 +130,7 @@ scp carlgt1@qcn-web:/var/www/qcn/earthquakes/inc/popup.inc qcn/earthquakes/inc
 scp carlgt1@qcn-web:/var/www/qcn/earthquakes/inc/qcn_trigger_info.inc qcn/earthquakes/inc
 scp carlgt1@qcn-web:/var/www/qcn/earthquakes/inc/revise_magnitude.csh qcn/earthquakes/inc
 scp carlgt1@qcn-web:/var/www/qcn/earthquakes/inc/revise_magnitude.php qcn/earthquakes/inc
-scp carlgt1@qcn-web:/var/www/qcn/earthquakes/inc/scatter_linex.xy qcn/earthquakes/inc
+scp carlgt1@qcn-web:/var/www/qcn/earthquakes/inc/scatter_lines.xy qcn/earthquakes/inc
 scp carlgt1@qcn-web:/var/www/qcn/earthquakes/inc/update_index_php.csh qcn/earthquakes/inc
 scp carlgt1@qcn-web:/var/www/qcn/earthquakes/inc/worldcities_names.gmt qcn/earthquakes/inc
 scp carlgt1@qcn-web:/var/www/qcn/earthquakes/inc/worldcitiespop.gmt qcn/earthquakes/inc
