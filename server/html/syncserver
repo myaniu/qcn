@@ -113,6 +113,7 @@ scp carlgt1@qcn-web:/var/www/qcn/earthquakes/recent_quakes.php qcn/earthquakes/
 
 #earthquakes/inc
 scp carlgt1@qcn-web:/var/www/qcn/earthquakes/inc/index_earthquake.php qcn/earthquakes/inc
+scp carlgt1@qcn-web:/var/www/qcn/earthquakes/inc/index_earthquake_sub.php qcn/earthquakes/inc
 scp carlgt1@qcn-web:/var/www/qcn/earthquakes/inc/amp_v_dist.text qcn/earthquakes/inc
 scp carlgt1@qcn-web:/var/www/qcn/earthquakes/inc/bash.env qcn/earthquakes/inc
 scp carlgt1@qcn-web:/var/www/qcn/earthquakes/inc/csh.env qcn/earthquakes/inc
