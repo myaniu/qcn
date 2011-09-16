@@ -224,6 +224,7 @@
       <cmd>
         qcn_trigmon -d 2 -sleep_interval 10 -count 6 -time_interval 15 -delete_interval 300
       </cmd>
+      <disabled />
     </daemon>
     <daemon>
       <cmd>
