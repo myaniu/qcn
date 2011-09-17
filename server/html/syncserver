@@ -163,4 +163,12 @@ scp carlgt1@qcn-web:/var/www/qcn/rt_image/inc/gmt_quakes.inc qcn/rt_image/inc/
 scp carlgt1@qcn-web:/var/www/qcn/rt_image/inc/int.cpt qcn/rt_image/inc/
 scp carlgt1@qcn-web:/var/www/qcn/rt_image/inc/rt_images.sh qcn/rt_image/inc/
 scp carlgt1@qcn-web:/var/www/qcn/rt_image/inc/update_data.inc qcn/rt_image/inc/
+
+#qcn/inc
+scp carlgt1@qcn-web:/var/www/qcn/inc/legal.inc qcn/inc/
+scp carlgt1@qcn-web:/var/www/qcn/inc/google_translate.inc qcn/inc/
+scp carlgt1@qcn-web:/var/www/qcn/inc/qcn_auto_detect.inc qcn/inc/
+scp carlgt1@qcn-web:/var/www/qcn/inc/show_notices.inc qcn/inc/
+scp carlgt1@qcn-web:/var/www/qcn/inc/contacts.inc qcn/inc/
+
 ## end
