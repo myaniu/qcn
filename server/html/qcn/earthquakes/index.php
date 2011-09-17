@@ -6,9 +6,9 @@ elseif (file_exists("inc/common.inc"))
 elseif (file_exists("common.inc"))
    require_once("common.inc");
 
-
-require_once(BASEPATH . "/qcn/inc/utils.inc");
+require_once(BASEPATH . "/qcn/inc/inc/utils.inc");
 require_once(BASEPATH . "/qcn/inc/qcn_auto_detect.inc");
+
 page_top();
 $show_mg = $_GET["show_mag"];
 

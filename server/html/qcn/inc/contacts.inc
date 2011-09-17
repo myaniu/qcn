@@ -6,7 +6,7 @@ class contact {
 
 function show_contact($short) {
    
-  $cfile = "/var/www/qcn/about/contacts/".$short."/contact.info";
+  $cfile = BASEPATH . "/qcn/about/contacts/".$short."/contact.info";
   $contents = file($cfile);
 
   foreach ($contents as $line_num => $line) {
@@ -27,16 +27,16 @@ function show_contact($short) {
     elseif ($tname=="fax")  {$fax  =$value;}
 
   }
-  $ifile = "/var/www/qcn/about/contacts/".$short."/picture_main.png";
-  $ifile2= "http://qcn.stanford.edu/about/contacts/".$short."/picture_main.png";
+  $ifile = BASEPATH . "/qcn/about/contacts/".$short."/picture_main.png";
+  $ifile2= BASEURL . "/about/contacts/".$short."/picture_main.png";
   if (file_exists($ifile)) {echo "<img src=\"".$ifile2."\" align=\"left\" height=\"115\" width=\"160\">\n";}
   
-  $ifile = "/var/www/qcn/about/contacts/".$short."/picture_main.jpg";
-  $ifile2= "http://qcn.stanford.edu/about/contacts/".$short."/picture_main.jpg";  
+  $ifile = BASEPATH . "/qcn/about/contacts/".$short."/picture_main.jpg";
+  $ifile2= BASEURL . "/about/contacts/".$short."/picture_main.jpg";  
   if (file_exists($ifile)) {echo "<img src=\"".$ifile2."\" align=\"left\" height=\"115\" width=\"160\">\n";}
   
-  $ifile = "/var/www/qcn/about/contacts/".$short."/picture_main.gif";
-  $ifile2= "http://qcn.stanford.edu/about/contacts/".$short."/picture_main.gif";
+  $ifile = BASEPATH . "/qcn/about/contacts/".$short."/picture_main.gif";
+  $ifile2= BASEURL . "/about/contacts/".$short."/picture_main.gif";
   if (file_exists($ifile)) {echo "<img src=\"".$ifile2."\" align=\"left\" height=\"115\" width=\"160\">\n";}
 
   if ($name)  {echo "<strong>$name</strong><br/>\n";}
@@ -63,7 +63,7 @@ function show_contact_short($short,$tr=null,$P_or_L=null) {
 
 */
 
-  $cfile = "/var/www/qcn/about/contacts/".$short."/contact.info";
+  $cfile = BASEPATH . "/qcn/about/contacts/".$short."/contact.info";
   $contents = file($cfile);
 
   foreach ($contents as $line_num => $line) {
@@ -95,23 +95,23 @@ function show_contact_short($short,$tr=null,$P_or_L=null) {
   }
  
 
-  echo "<td width=\"50%\"><a href=\"http://qcn.stanford.edu/about/contacts/contacts.php?dir=".$short."\">\n";
+  echo "<td width=\"50%\"><a href=\" . BASEURL . "/about/contacts/contacts.php?dir=".$short."\">\n";
 
-  $ifile = "/var/www/qcn/about/contacts/".$short."/picture_main.png";
-  $ifile2= "http://qcn.stanford.edu/about/contacts/".$short."/picture_main.png";
+  $ifile = BASEPATH . "/qcn/about/contacts/".$short."/picture_main.png";
+  $ifile2= BASEURL . "/about/contacts/".$short."/picture_main.png";
   if (file_exists($ifile)) {echo "<img src=\"".$ifile2."\" align=\"left\" height=\"".$height."\" width=\"".$width."\" hspace=\"6\">\n";}
   
-  $ifile = "/var/www/qcn/about/contacts/".$short."/picture_main.jpg";
-  $ifile2= "http://qcn.stanford.edu/about/contacts/".$short."/picture_main.jpg";  
+  $ifile = BASEPATH . "/qcn/about/contacts/".$short."/picture_main.jpg";
+  $ifile2= BASEURL . "/about/contacts/".$short."/picture_main.jpg";  
   if (file_exists($ifile)) {echo "<img src=\"".$ifile2."\" align=\"left\" height=\"".$height."\" width=\"".$width."\" hspace=\"6\">\n";}
   
-  $ifile = "/var/www/qcn/about/contacts/".$short."/picture_main.gif";
-  $ifile2= "http://qcn.stanford.edu/about/contacts/".$short."/picture_main.gif";
+  $ifile = BASEPATH . "/qcn/about/contacts/".$short."/picture_main.gif";
+  $ifile2= BASEURL . "/about/contacts/".$short."/picture_main.gif";
   if (file_exists($ifile)) {echo "<img src=\"".$ifile2."\" align=\"left\" height=\"".$height."\" width=\"".$width."\" hspace=\"6\">\n";}
 
   echo "</a>\n";
   echo "";
-  if ($name)  {echo "<a href=\"http://qcn.stanford.edu/about/contacts/".$short."/\">\n<h3>$name</h3>\n</a>";}
+  if ($name)  {echo "<a href=\" . BASEURL . "/about/contacts/".$short."/\">\n<h3>$name</h3>\n</a>";}
   if ($role)  {echo "<i>$role</i><br/>\n";}
   if ($univ)  {echo "$univ<br/>\n";}
   if ($email) {echo "<div style=\"alink:#900;vlink:#900;link:#900;\"><a href=\"mailto:$email\">$email</a><br/></div>\n";}
@@ -121,7 +121,7 @@ function show_contact_short($short,$tr=null,$P_or_L=null) {
 }
 
 function show_name($short) {
-  $cfile = "/var/www/qcn/about/contacts/".$short."/contact.info";
+  $cfile = BASEPATH . "/qcn/about/contacts/".$short."/contact.info";
 
   if (file_exists($cfile)) {
   $contents = file($cfile);
@@ -146,7 +146,7 @@ function show_name($short) {
 function show_info($short) {
 
 
-  $cfile = "/var/www/qcn/about/contacts/".$short."/contact.info";
+  $cfile = BASEPATH . "/qcn/about/contacts/".$short."/contact.info";
 
   if (file_exists($cfile)) {
   $contents = file($cfile);
@@ -212,33 +212,33 @@ function show_picture_main($short){
   $height=300;
   $width =230;
 
-  $ifile = "/var/www/qcn/about/contacts/".$short."/picture_main.png";
-  $ifile2= "http://qcn.stanford.edu/about/contacts/".$short."/picture_main.png";
+  $ifile = BASEPATH . "/qcn/about/contacts/".$short."/picture_main.png";
+  $ifile2= BASEURL . "/about/contacts/".$short."/picture_main.png";
   if (file_exists($ifile)) {echo "<img src=\"".$ifile2."\" height=\"".$height."\" width=\"".$width."\">\n";return;}
   
-  $ifile = "/var/www/qcn/about/contacts/".$short."/picture_main.jpg";
-  $ifile2= "http://qcn.stanford.edu/about/contacts/".$short."/picture_main.jpg";  
+  $ifile = BASEPATH . "/qcn/about/contacts/".$short."/picture_main.jpg";
+  $ifile2= BASEURL . "/about/contacts/".$short."/picture_main.jpg";  
   if (file_exists($ifile)) {echo "<img src=\"".$ifile2."\" height=\"".$height."\" width=\"".$width."\">\n";return;}
   
-  $ifile = "/var/www/qcn/about/contacts/".$short."/picture_main.gif";
-  $ifile2= "http://qcn.stanford.edu/about/contacts/".$short."/picture_main.gif";
+  $ifile = BASEPATH . "/qcn/about/contacts/".$short."/picture_main.gif";
+  $ifile2= BASEURL . "/about/contacts/".$short."/picture_main.gif";
   if (file_exists($ifile)) {echo "<img src=\"".$ifile2."\" height=\"".$height."\" width=\"".$width."\">\n";}
 
 }
 
 function show_picture_other($short,$num,$width,$height,$align){
 
-  $ifile = "/var/www/qcn/about/contacts/".$short."/picture_".$num.".png";
-  $ifile2= "http://qcn.stanford.edu/about/contacts/".$short."/picture_".$num.".png";
+  $ifile = BASEPATH . "/qcn/about/contacts/".$short."/picture_".$num.".png";
+  $ifile2= BASEURL . "/about/contacts/".$short."/picture_".$num.".png";
 
   if (file_exists($ifile)) {echo "<img src=\"".$ifile2."\" height=\"".$height."\" width=\"".$width."\" align=\"".$align."\">\n"; return;}
 
-  $ifile = "/var/www/qcn/about/contacts/".$short."/picture_".$num.".jpg";
-  $ifile2= "http://qcn.stanford.edu/about/contacts/".$short."/picture_$num.jpg";
+  $ifile = BASEPATH . "/qcn/about/contacts/".$short."/picture_".$num.".jpg";
+  $ifile2= BASEURL . "/about/contacts/".$short."/picture_$num.jpg";
   if (file_exists($ifile)) {echo "<img src=\"$ifile2\" height=\"$height\" width=\"$width\" align=\"$align\" hspace=\"6\">\n"; return;}
 
-  $ifile = "/var/www/qcn/about/contacts/".$short."/picture_".$num.".gif";
-  $ifile2= "http://qcn.stanford.edu/about/contacts/".$short."/picture_".$num.".gif";
+  $ifile = BASEPATH . "/qcn/about/contacts/".$short."/picture_".$num.".gif";
+  $ifile2= BASEURL . "/about/contacts/".$short."/picture_".$num.".gif";
   if (file_exists($ifile)) {echo "<img src=\"".$ifile2."\" height=\"".$height."\" width=\"".$width."\" align=\"".$align."\">\n";}
 
 }
@@ -296,7 +296,7 @@ function update_form(FormName, FieldName, FormValue)
 
 function edit_file($short,$filen,$ncol=null){
 
-  $cfile = "/var/www/qcn/about/contacts/".$short."/".$filen;
+  $cfile = BASEPATH . "/qcn/about/contacts/".$short."/".$filen;
 
   if (file_exists($cfile)) {
    $content = file($cfile);
@@ -306,7 +306,7 @@ function edit_file($short,$filen,$ncol=null){
   }
   if ($ncol) {}else{$ncol=83;}
   echo "<td>\n";
-  echo "<form name=\"".$filen."\" method=\"post\" action=\"http://qcn.stanford.edu/about/contacts/edit_contacts.php\">\n";
+  echo "<form name=\"".$filen."\" method=\"post\" action=\" . BASEURL . "/about/contacts/edit_contacts.php\">\n";
   echo "<input type=\"hidden\" name=\"dir\" value=\"".$short."\">\n";
   echo "<input type=\"hidden\" name=\"file_name\" value=\"".$filen."\">\n";
   echo "<p><textarea name=\"content\" cols=\"".$ncol."\" rows=\"25\">\n";
@@ -321,7 +321,7 @@ function edit_file($short,$filen,$ncol=null){
 
 function show_blurb($short,$name){
 
-  $cfile = "/var/www/qcn/about/contacts/".$short."/contact.about";
+  $cfile = BASEPATH . "/qcn/about/contacts/".$short."/contact.about";
   if (file_exists($cfile)) {
    $contents = file($cfile);
    list($first_name,$middle_name,$last_name) = split('[ ]',$name);
@@ -343,7 +343,7 @@ function show_blurb($short,$name){
 
 function show_q_and_a($short,$name){
 
-  $cfile = "/var/www/qcn/about/contacts/".$short."/contact.q_and_a";
+  $cfile = BASEPATH . "/qcn/about/contacts/".$short."/contact.q_and_a";
   if (file_exists($cfile)) {
 
 

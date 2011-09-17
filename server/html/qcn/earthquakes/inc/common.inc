@@ -1,4 +1,5 @@
 <?
+  date_default_timezone_set('UTC');         // Set the default time zone to UTC
  // the next 6 are special for qcn - change when moved to another server
   define("BASEPATH", "/var/www");
   define("BASEURL",  "http://qcn.stanford.edu");

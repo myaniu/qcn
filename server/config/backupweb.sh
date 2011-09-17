@@ -1,7 +1,7 @@
 #!/bin/bash
 /bin/rm -f /tmp/qcn-web-backup.tgz
 cd /var/www
-/bin/nice -n19 /bin/tar -cvzf /tmp/qcn-web-backup.tgz \
+/bin/nice -n19 /bin/tar -czf /tmp/qcn-web-backup.tgz \
   --exclude "boinc/sensor/pid_qcn-web/*" \
   --exclude "boinc/sensor/pid_qcn-web" \
   --exclude "boinc/sensor/log_qcn-web/*" \

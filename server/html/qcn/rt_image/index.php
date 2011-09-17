@@ -1,7 +1,16 @@
 <?php
-require_once("../earthquakes/inc/common.inc");
-require_once("../inc/utils.inc");
-require_once("inc/update_data.inc");
+if (file_exists("../inc/common.inc"))
+   require_once("../inc/common.inc");
+elseif (file_exists("inc/common.inc"))
+   require_once("inc/common.inc");
+elseif (file_exists("common.inc"))
+   require_once("common.inc");
+elseif (file_exists("../earthquakes/inc/common.inc"))
+   require_once("../earthquakes/inc/common.inc");
+
+
+require_once(BASEPATH . "/qcn/inc/inc/utils.inc");
+require_once(BASEPATH . "/qcn/rt_image/inc/update_data.inc");
 
 page_top();
 

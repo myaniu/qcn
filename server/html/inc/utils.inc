@@ -1,8 +1,12 @@
 <?php
-
-require_once("../project/common.inc");
-
-date_default_timezone_set('UTC');         // Set the default time zone to UTC
+if (file_exists("../project/common.inc"))
+   require_once("../project/common.inc");
+elseif (file_exists("../inc/common.inc"))
+   require_once("../inc/common.inc");
+elseif (file_exists("inc/common.inc"))
+   require_once("inc/common.inc");
+elseif (file_exists("common.inc"))
+   require_once("common.inc");
 
 function require_once_r2($file) {
 $cwd = getcwd();

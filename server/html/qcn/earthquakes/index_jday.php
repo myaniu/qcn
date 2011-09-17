@@ -7,7 +7,7 @@ elseif (file_exists("common.inc"))
    require_once("common.inc");
 
 
-require_once(BASEPATH . "/qcn/inc/utils.inc");
+require_once(BASEPATH . "/qcn/inc/inc/utils.inc");
 
 page_top();
 
