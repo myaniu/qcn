@@ -74,7 +74,7 @@ function show_nav() {
 
         //if ($user->id == 15) {
         // check for db replication timestamp
-        #$kewfile = "/var/www/boinc/sensor/html/user/max.txt";
+        #$kewfile = BASEPATH . "/boinc/sensor/html/user/max.txt";
         #if (file_exists($kewfile) && ($handle = fopen($kewfile, 'r'))) {
         #      $output = fgets($handle); // skip first line
         #      $output = fgets($handle);              fclose($handle);

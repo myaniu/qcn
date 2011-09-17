@@ -1,8 +1,14 @@
 <?php
-
-require_once("../project/common.inc");
-
-date_default_timezone_set('UTC');         // Set the default time zone to UTC
+if (file_exists("../project/common.inc"))
+   require_once("../project/common.inc");
+elseif (file_exists("../inc/common.inc"))
+   require_once("../inc/common.inc");
+elseif (file_exists("inc/common.inc"))
+   require_once("inc/common.inc");
+elseif (file_exists("common.inc"))
+   require_once("common.inc");
+if (file_exists("../../inc/common.inc"))
+   require_once("../../inc/common.inc");
 
 function require_once_r2($file) {
 $cwd = getcwd();
@@ -25,6 +31,7 @@ html_header();
 
 echo " <div id=\"container\">\n";
 
+/*
 if (!$print) {
 banner($title);
 navigation_top();
@@ -34,8 +41,9 @@ echo "     <div id=\"maincontent\">\n";
 echo "     <div id=\"maincontent\">\n";
 banner_print($title);
 }        
+*/
 
-
+echo "     <div id=\"maincontent\">\n";
 
 
 }
@@ -46,9 +54,9 @@ echo " <!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w
 echo " <html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"en\">\n";
 echo " <head>\n";
 echo " <title>Quake-Catcher Network</title>\n";
-echo " <link rel=\"stylesheet\" type=\"text/css\" href=\"" . BASEURL . "/css/base.css\" media=\"all\" />\n";
-echo " <link rel=\"stylesheet\" type=\"text/css\" href=\"" . BASEURL . "/css/top_rightsidebar.css\" media=\"screen\" />\n";
-echo " <link rel=\"stylesheet\" type=\"text/css\" href=\"" . BASEURL . "/css/print.css\" media=\"print\" />\n";
+echo " <link rel=\"stylesheet\" type=\"text/css\" href=\"" . BASEURL . "/sensor/qcn.css\" media=\"all\" />\n";
+//echo " <link rel=\"stylesheet\" type=\"text/css\" href=\"" . BASEURL . "/css/top_rightsidebar.css\" media=\"screen\" />\n";
+//echo " <link rel=\"stylesheet\" type=\"text/css\" href=\"" . BASEURL . "/css/print.css\" media=\"print\" />\n";
 echo " <script type=\"text/javascript\" src=\"" . BASEURL . "/=scripts/winpopup.js\"></script>\n";
 echo " <META name=\"description\" content=\"Quake-Catcher Network, Community Seismic Network, Strong-motion seismic netowrk, earthquakes, laptops, USB sensors, USB accelerometers, Distributed Computing, BOINC, Schools, K-12, Lesson Plans, Classroom Activities, Advanced alert, Early Warning, Rapid Aftrshock Mobilization Program, Desktop Network, Seismology, Earth Science\">\n";
 echo " <META name=\"keywords\" content=\"Quake-Catcher Network, Community Seismic Network, Strong-motion seismic netowrk, earthquakes, laptops, USB sensors, USB 
@@ -59,7 +67,7 @@ echo "<script src=\"http://www.google.com/jsapi?key=ABQIAAAAi1z8qL921_qvE089UEGa
 
 echo " </head>\n";
 echo " <body bgcolor=\"#999999\">\n";
-echo " <div id=\"skipnav\"><a href=\"#maincontent\">Skip navigation</a></div>\n";
+//echo " <div id=\"skipnav\"><a href=\"#maincontent\">Skip navigation</a></div>\n";
 
 }
 
@@ -252,7 +260,7 @@ echo "   </table>\n";
 
 function page_end(){
  $print = $_GET["print"];
-
+/*
  if (!$print) {
   echo "    </div>\n";
   echo "    <br style=\"clear: both;\" />\n";
@@ -266,7 +274,7 @@ function page_end(){
   echo "    </ul>\n";
   echo "  </div>\n";
  }
-
+*/
  echo "</div>\n";
  echo "<div id=\"copyright\" class=\"vcard\"> <!-- InstanceBeginEditable name=\"copyright\" -->&copy; <span class=\"fn org\">Quake-Catcher Network </span>.  All Rights Reserved.<!-- InstanceEndEditable --></div>\n";
 

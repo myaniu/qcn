@@ -2,6 +2,7 @@
 require_once("../inc/util.inc");
 require_once("../inc/db.inc");
 require_once("../inc/db_ops.inc");
+require_once("../project/common.inc");
 
 db_init();
 

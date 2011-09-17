@@ -7,6 +7,7 @@ require_once("../inc/db.inc");
 require_once("../inc/countries.inc");
 require_once("../inc/translation.inc");
 require_once("../inc/google_translate.inc");
+require_once("../project/common.inc");
 
 db_init();
 
@@ -112,7 +113,7 @@ echo "
 </script>
 
 <!-- 
-   <img src=\"http://qcn.stanford.edu/images/QCN-USB-Aftershocks_Cut.png\" align=\"right\" width=\"260\" height=\"320\" margin=\"6\">
+   <img src=\"" . BASEURL . "/images/QCN-USB-Aftershocks_Cut.png\" align=\"right\" width=\"260\" height=\"320\" margin=\"6\">
 -->
 </a>
 ";
@@ -318,7 +319,7 @@ echo "
       "<input type=\"checkbox\" name=\"db_loc_business\" id=\"db_loc_business\" " . 
         ($row["loc_business"] ? "checked" : "") . "> (Check if this is a business)");
 
-     row2("Are you comfortable installing the sensor yourself?  (<A HREF=\"http://qcn.stanford.edu/manuals/physical/\">Click here for directions</A>)",
+     row2("Are you comfortable installing the sensor yourself?  (<A HREF=\"" . BASEURL . "/manuals/physical/\">Click here for directions</A>)",
       "<input type=\"checkbox\" name=\"db_loc_self_install\" id=\"db_loc_self_install\" " . 
         ($row["loc_self_install"] ? "checked" : "") . "> " .
       "(Check if 'Yes - Volunteer interns can install some sensors, but we mail the rest to participants with instructions)"
@@ -662,7 +663,7 @@ n] => on [db_cpu_permission] => on [db_cpu_firewall] => on [db_cpu_internet] => 
          echo "<BR><BR><B><center><font color=red>Error in updating information - please try later or review your submission!</font></center></b><BR><BR>";
       }
 
- echo "<br><center><a href=\"http://qcn.stanford.edu/sensor/\">Return to Quake-Catcher Network Seismic Monitoring main page</a></center><br>";
+ echo "<br><center><a href=\"" . BASEURL . "/sensor/\">Return to Quake-Catcher Network Seismic Monitoring main page</a></center><br>";
 
 }
 

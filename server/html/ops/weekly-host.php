@@ -1,11 +1,12 @@
 #!/usr/local/bin/php
 <?php
-include ("/var/www/qcn/jpgraph-2.3.4/src/jpgraph.php");
-include ("/var/www/qcn/jpgraph-2.3.4/src/jpgraph_line.php");
-include ("/var/www/qcn/jpgraph-2.3.4/src/jpgraph_bar.php");
+require_once("../project/common.inc");
 
-require_once("/var/www/boinc/sensor/html/inc/db.inc");
-require_once("/var/www/boinc/sensor/html/inc/util.inc");
+include (BASEPATH . "/qcn/jpgraph-2.3.4/src/jpgraph.php");
+include (BASEPATH . "/qcn/jpgraph-2.3.4/src/jpgraph_line.php");
+
+require_once(BASEPATH . "/boinc/sensor/html/inc/db.inc");
+require_once(BASEPATH . "/boinc/sensor/html/inc/util.inc");
 
 db_init();
 
@@ -45,7 +46,7 @@ where date(from_unixtime(time_received))
 group by date(from_unixtime(time_received)) 
 order by date(from_unixtime(time_received))";
 
-$filename = "/var/www/boinc/sensor/html/user/img/weekly.png";
+$filename = BASEPATH . "/boinc/sensor/html/user/img/weekly.png";
 
 $datax = array();
 $datay = array();

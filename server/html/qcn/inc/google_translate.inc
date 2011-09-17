@@ -53,21 +53,6 @@ echo "  <script src=\"http://translate.google.com/translate_a/element.js?cb=goog
 
 function google_translate_new() {
 
-/*
-// override for the Spanish forum
-if ($language == "en" && current_url() == "http://qcn.stanford.edu:80/sensor/forum_forum.php?id=22") {
-       $language = "es";
-}
-else {
-       $language = "en";
-}
-
-// the problem is all the threads & replies in this forum have no way to tell that they are Spanish etc
-
-print current_url();
-echo "<BR>$language</BR>";
-*/
-
 echo " <div id=\"google_translate_element\"></div><script>\n";
 
 echo " function googleTranslateElementInit() { \n";

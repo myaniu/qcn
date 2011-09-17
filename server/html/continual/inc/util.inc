@@ -137,7 +137,7 @@ function page_head(
     $title, $java_onload=null, $title_plain=null, $prefix="", $head_extra=null
 ) {
     global $caching, $cache_control_extra, $did_page_head;
-require_once("/var/www/boinc/sensor/html/inc/google_translate.inc");
+require_once(BASEPATH . "/boinc/sensor/html/inc/google_translate.inc");
 
 	$did_page_head = true;
     $stylesheet = URL_BASE.STYLESHEET;
