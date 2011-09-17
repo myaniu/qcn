@@ -1,8 +1,13 @@
 <?php
-
-require_once("common.inc");
+// env vars ie global defines should be set already?
+/*if (file_exists("../inc/common.inc"))
+   require_once("../inc/common.inc");
+elseif (file_exists("inc/common.inc"))
+   require_once("inc/common.inc");
+elseif (file_exists("common.inc"))
+   require_once("common.inc");
+*/
 require_once(BASEPATH . "/qcn/inc/utils.inc");
-//require_once("gmt_quakes.php");
 
 function gmt_quake_map() {
   $event_file = "./events.xy";
@@ -11,18 +16,18 @@ function gmt_quake_map() {
 
   system("cat */event.xy > $event_file");
 
-  $gmt  = "/usr/local/gmt/";
-  $topo = "/usr/local/gmt/share/topo/topo_coarse.grd";
-  $cpt  = "/usr/local/gmt/share/topo/GMT_globe.cpt";
+  $gmt  = GMTPATH . "/";
+  $topo = GMTPATH . "/share/topo/topo_coarse.grd";
+  $cpt  = GMTPATH . "/share/topo/GMT_globe.cpt";
   $proj = "-JM15";
   $bounds = "-R-180/180/-70/70";
   $psfile = BASEPATH . "/qcn/earthquakes/images/events.ps";
   $outdir = BASEPATH . "/qcn/earthquakes/images";
 
-  system("/usr/local/gmt/bin/grdimage $topo -C$cpt $proj $bounds -X4 -Y4 -P -K > $psfile");
-  system("/usr/local/gmt/bin/pscoast -Dc $proj $bounds -W0.5p/0 -S100/150/255 -O -K >> $psfile");
-  system("/usr/local/gmt/bin/psxy $event_file $proj $bounds -O -Sa0.5 -W0.5p/255/0/0 -B60g0/30g0WSne >> $psfile");
-  system("/usr/local/gmt/bin/ps2raster $psfile -D$outdir -A -P -Tj");
+  system(GMTPATH . "/bin/grdimage $topo -C$cpt $proj $bounds -X4 -Y4 -P -K > $psfile");
+  system(GMTPATH . "/bin/pscoast -Dc $proj $bounds -W0.5p/0 -S100/150/255 -O -K >> $psfile");
+  system(GMTPATH . "/bin/psxy $event_file $proj $bounds -O -Sa0.5 -W0.5p/255/0/0 -B60g0/30g0WSne >> $psfile");
+  system(GMTPATH . "/bin/ps2raster $psfile -D$outdir -A -P -Tj");
 }
 
 function gmt_quake_map_lon_lat($lon=null,$lat=null,$dlon=null,$dlat=null) {
@@ -32,9 +37,9 @@ function gmt_quake_map_lon_lat($lon=null,$lat=null,$dlon=null,$dlat=null) {
 
   system("cat */event.xy > $event_file");
 
-  $gmt  = "/usr/local/gmt/";
-  $topo = "/usr/local/gmt/share/topo/topo30.grd";
-  $cpt  = "/usr/local/gmt/share/topo/GMT_globe.cpt";
+  $gmt  = GMTPATH . "/";
+  $topo = GMTPATH . "/share/topo/topo30.grd";
+  $cpt  = GMTPATH . "/share/topo/GMT_globe.cpt";
   $proj = "-JM15";
   if ($lon==null) {
      $bounds = "-R-180/180/-90/90";
@@ -52,10 +57,10 @@ function gmt_quake_map_lon_lat($lon=null,$lat=null,$dlon=null,$dlat=null) {
   $psfile = BASEPATH . "/qcn/earthquakes/images/events.ps";
   $outdir = BASEPATH . "/qcn/earthquakes/images";
 
-  system("/usr/local/gmt/bin/grdimage $topo -C$cpt $proj $bounds -X4 -Y4 -P -K > $psfile");
-  system("/usr/local/gmt/bin/pscoast -Df $proj $bounds -W0.5p/0 -O -K -S100/150/200 >> $psfile");
-  system("/usr/local/gmt/bin/psxy $event_file $proj $bounds -O -Sa0.25 -G255/0/0 -B0.5g0/0.5g0WSne >> $psfile");
-  system("/usr/local/gmt/bin/ps2raster $psfile -D$outdir -A -P -Tj");
+  system(GMTPATH . "/bin/grdimage $topo -C$cpt $proj $bounds -X4 -Y4 -P -K > $psfile");
+  system(GMTPATH . "/bin/pscoast -Df $proj $bounds -W0.5p/0 -O -K -S100/150/200 >> $psfile");
+  system(GMTPATH . "/bin/psxy $event_file $proj $bounds -O -Sa0.25 -G255/0/0 -B0.5g0/0.5g0WSne >> $psfile");
+  system(GMTPATH . "/bin/ps2raster $psfile -D$outdir -A -P -Tj");
 }
 
 function gmt_quake_map_lon_lat2($ln_mn=null,$ln_mx=null,$lt_mn=null,$lt_mx=null,$topo=null) {
@@ -65,8 +70,8 @@ function gmt_quake_map_lon_lat2($ln_mn=null,$ln_mx=null,$lt_mn=null,$lt_mx=null,
 
   system("cat */event.xy > $event_file");
 
-  $gmt  = "/usr/local/gmt/";
-  $cpt  = "/usr/local/gmt/share/topo/GMT_globe.cpt";
+  $gmt  = GMTPATH . "/";
+  $cpt  = GMTPATH . "/share/topo/GMT_globe.cpt";
   $proj = "-JM15";
   if ($ln_mx==null) {
      $ln_mn = -180;
@@ -94,29 +99,29 @@ function gmt_quake_map_lon_lat2($ln_mn=null,$ln_mx=null,$lt_mn=null,$lt_mx=null,
   $sea     = "-S100/150/200";
   
    if ($xtick<30) {
-    $topog = "/usr/local/gmt/share/topo/topo30.grd";
+    $topog = GMTPATH . "/share/topo/topo30.grd";
     $coast   = "-Df";
    } else {
-    $topog = "/usr/local/gmt/share/topo/topo_coarse.grd";
+    $topog = GMTPATH . "/share/topo/topo_coarse.grd";
    }
   echo $topo;
   if ($topo=="y") {
-   system("/usr/local/gmt/bin/grdimage $topog -C$cpt $proj $bounds -X4 -Y4 -P -K > $psfile");
-   system("/usr/local/gmt/bin/pscoast $coast $proj $bounds -W0.5p/0 -O -K $sea >> $psfile");
+   system(GMTPATH . "/bin/grdimage $topog -C$cpt $proj $bounds -X4 -Y4 -P -K > $psfile");
+   system(GMTPATH . "/bin/pscoast $coast $proj $bounds -W0.5p/0 -O -K $sea >> $psfile");
   } else {
-   system("/usr/local/gmt/bin/pscoast $coast $proj $bounds -W0.5p/0 -K $sea > $psfile");
+   system(GMTPATH . "/bin/pscoast $coast $proj $bounds -W0.5p/0 -K $sea > $psfile");
   }
-  system("/usr/local/gmt/bin/psxy $event_file $proj $bounds -O -Sa0.25 -G255/0/0 -W0.5p $ticks >> $psfile");
-  system("/usr/local/gmt/bin/ps2raster $psfile -D$outdir -A -P -Tj");
+  system(GMTPATH . "/bin/psxy $event_file $proj $bounds -O -Sa0.25 -G255/0/0 -W0.5p $ticks >> $psfile");
+  system(GMTPATH . "/bin/ps2raster $psfile -D$outdir -A -P -Tj");
 }
 
 
 function show_last_eq($show_mag=null) {
 
  if ($show_mag) {
-  $qfile = BASEURL . "/earthquakes/images/intensity_01.jpg";
+  $qfile = "http://qcn.stanford.edu/earthquakes/images/intensity_01.jpg";
  } else {
-  $qfile = BASEURL . "/earthquakes/images/intensity_03.jpg";
+  $qfile = "http://qcn.stanford.edu/earthquakes/images/intensity_03.jpg";
  }
 
  echo "<a href=\"".$qfile."\"><img src=\"".$qfile."\" width=\"225\" align=\"center\"></a>\n";
@@ -202,7 +207,7 @@ if ($aa > 0) {
   
   echo "<tr bgcolor=\"$bg_color\"><td>\n";
   if ( ($pwd = getcwd() == BASEPATH . "/qcn/earthquakes")||(($pwd = getcwd() == "/Var/www/qcn/earthquakes")) ) {
-     echo "<a href=\"" . BASEURL . "/earthquakes/$file1/";
+     echo "<a href=\"http://qcn.stanford.edu/earthquakes/$file1/";
   } else {
      echo "<a href=\"./$file1/";
   }
@@ -236,9 +241,9 @@ if ($aa > 0) {
 
    list($dir1,$dir2,$dir3,$dir4,$dir5,$dir6,$dir7) = split('[/]',getcwd());
    if ($dir6) {
-    echo "<a href=\"" . BASEURL . "/earthquakes/view_events.php?event=".$dir6."&amp;sub=".$file1."\">View</a>\n";
+    echo "<a href=\"http://qcn.stanford.edu/earthquakes/view_events.php?event=".$dir6."&amp;sub=".$file1."\">View</a>\n";
    } else {
-    echo "<a href=\"" . BASEURL . "/earthquakes/view_events.php?event=".$file1."\">View</a>\n";
+    echo "<a href=\"http://qcn.stanford.edu/earthquakes/view_events.php?event=".$file1."\">View</a>\n";
    }
    echo "</td></tr>\n"; 
   }
@@ -292,7 +297,7 @@ echo "
 
 </tr></table>\n
 
-<a href=\"" . BASEURL . "/images/ShakeMap_Scale.png\"><center><img src=\"" . BASEURL . "/images/ShakeMap_Scale.png\" width=\"600\" align=\"center\"></center></a> 
+<a href=\"http://qcn.stanford.edu/images/ShakeMap_Scale.png\"><center><img src=\"http://qcn.stanford.edu/images/ShakeMap_Scale.png\" width=\"600\" align=\"center\"></center></a> 
 \n";
 
 }
@@ -316,7 +321,7 @@ function plot_histogram($val_array,$xmin,$xmax,$ymin,$ymax,$dx,$xtitle,$ytitle,$
 
    fclose($fh);
 
-   $GMT = "/usr/local/gmt/bin";
+   $GMT = GMTPATH . "/bin";
    $dax = (int) (($xmax-$xmin)/5);//$dx*4;
    if ($dax <=0)   $dax = (int) (($xmax-$xmin))/5;//$dx*4;
    $daxy = (int) (($ymax-$ymin)/5);
@@ -343,6 +348,10 @@ function plot_histogram($val_array,$xmin,$xmax,$ymin,$ymax,$dx,$xtitle,$ytitle,$
    exec("$GMT/pshistogram $axes $hist_file $bounds $proj -G150/0/0 -Y5.5i -X0.5i -f -Lthinner -Z$log -W$dx $FLAG1 -P > $ps_hist");
    if ($plot_med=="y") {exec("$GMT/psxy $med_file -m $bounds $proj -W10t30_10:0 -O >> $ps_hist");}
    exec("$GMT/ps2raster $ps_hist -D" . BASEPATH . "/qcn/earthquakes/images -A -P -Tj");
+//   echo "<p>$GMT/pshistogram $axes $hist_file $bounds $proj -Ggray -Y5.5i -X0.5i -Lthinner -Z$log -W0.25 > $ps_hist\n";
+//   echo "<p>$GMT/ps2raster $ps_hist -D" . BASEPATH . "/qcn/earthquakes/images -A -P -Tj\n";
+//   exec("rm $hist_file\n");
+//   exec("rm $ps_hist\n");
    return $med;
 }
 
@@ -379,7 +388,7 @@ function dl_link($elon,$elat,$etime) {
  $hre = date('H',    $etime_e);       // Hour of event
  $mne = date('i',    $etime_e);       // closest 10 minute of event
  
- $path = BASEURL . "/continual/trdl.php?";
+ $path = "http://qcn.stanford.edu/continual/trdl.php?";
  $use_file = "cbUseFile=1";
  $loc_box = "&cbUseLat=1&LatMin=$ltmn&LatMax=$ltmx&LonMin=$lnmn&LonMax=$lnmx";
  $time_start = "&cbUseTime=1&date_start=$dys&time_hour_start=$hrs&time_minute_start=$mns";
@@ -388,7 +397,7 @@ function dl_link($elon,$elat,$etime) {
  echo "<p><strong>Download: </strong>";
  echo "<a href=\"$path$use_file$loc_box$time_start$time_end$flags\"> Continuous</a> or ";
 
- $path = BASEURL . "/sensor/trdl.php?";
+ $path = "http://qcn.stanford.edu/sensor/trdl.php?";
  $flags    = "&rb_sort=ttd&nresult=1000";
 
  echo "<a href=\"$path$loc_box$time_start$time_end$flags\">triggered</a> data\n";
@@ -522,12 +531,12 @@ function trigger_info(){
 
    if (preg_match("/conti/i","substr($sfile,0,4)")) {
       $sfile = next_ten_min($ttime,$sfile);
-       $url = UPLOADURL . "/trigger/continual/";
-      $urlhid = BASEURL . "/continual/show_host_detail.php?hostid=".$hid;
+       $url = "http://qcn-upl.stanford.edu/trigger/continual/";
+      $urlhid = "http://qcn.stanford.edu/continual/show_host_detail.php?hostid=".$hid;
    } else {
 
-     $url = UPLOADURL . "/trigger/";
-     $urlhid = BASEURL . "/sensor/show_host_detail.php?hostid=".$hid;
+     $url = "http://qcn-upl.stanford.edu/trigger/";
+     $urlhid = "http://qcn.stanford.edu/sensor/show_host_detail.php?hostid=".$hid;
 
    }
      $urlfile = $url.$sfile;
@@ -539,7 +548,7 @@ function trigger_info(){
     fclose($fp);
     echo "<td><a href=\"$urlfile\">$tid</a></td>\n";
     echo "<td><a href=\"javascript:void(0)
-         \"onclick=\"window.open(BASEURL . '/earthquakes/view/view_data.php?dat=$sfile','linkname','height=500,width=400,scrollbars=no')\">View</a></td>\n";
+         \"onclick=\"window.open('http://qcn.stanford.edu/earthquakes/view/view_data.php?dat=$sfile','linkname','height=500,width=400,scrollbars=no')\">View</a></td>\n";
    } else {
     echo "<td>$tid</td>\n";
     echo "<td>$sfile</td>\n";
@@ -560,6 +569,9 @@ function trigger_info(){
 
 function get_waveformss($event,$sub=null){
 // This function shows the trigger information for an event.
+
+
+
 
 // Get event info
 if (file_exists("event.xy")) {
@@ -594,7 +606,9 @@ list($qlon,$qlat,$qdep,$qmag,$ntrig,$qtime,$dtime,$qstd) = split('[,]',$string);
   $dir_base = BASEPATH . "/qcn/earthquakes/view/".round($qtime);
 
   if (!file_exists($dir_base)) {
+
       mkdir($dir_base);                    // Make new directory (since it doesn't exist
+
   }
 
 //  echo "<p>BASE: $dir_base\n";
@@ -622,11 +636,11 @@ list($qlon,$qlat,$qdep,$qmag,$ntrig,$qtime,$dtime,$qstd) = split('[,]',$string);
     if (preg_match("/conti/i","substr($sfile,0,4)")) {
 
        $sfile = next_ten_min($ttime,$sfile);
-       $url = UPLOADURL . "/trigger/continual/";
+       $url = "http://qcn-upl.stanford.edu/trigger/continual/";
 
     } else {
 
-       $url = UPLOADURL . "/trigger/";
+       $url = "http://qcn-upl.stanford.edu/trigger/";
 
     }
 
@@ -638,16 +652,17 @@ list($qlon,$qlat,$qdep,$qmag,$ntrig,$qtime,$dtime,$qstd) = split('[,]',$string);
     if (!@file_exists($dir)) {
 
 // Set file name
-    $file_orig = $url.$sfile;
-
-
+      $file_orig = $url.$sfile;
       $file_new = $dir.'/'.$sfile;     // New file name with directory path
+
+//echo "<BR><BR>file_orig=" . $file_orig . "<BR>file_new=" . $file_new . "<BR>dir=$dir<BR>";
+
+      //if (@$fp = fopen($file_orig,"r")) {
       if (@$fp = fopen($file_orig,"r")) {
         @mkdir($dir);                    // Make new directory (since it doesn't exist
         @fclose($fp);
-        @copy("$file_orig","$file_new"); // Copy file to new file location
+        @copy($file_orig,$file_new); // Copy file to new file location
         $dt = $ttime;
-//echo "<BR><BR>" . SHELL_CMD . " " . BASEPATH . "/qcn/earthquakes/view/update_waveform.sh $dir $dis > $dir/temp.txt" . "<BR><BR>";
         @system(SHELL_CMD . " " . BASEPATH . "/qcn/earthquakes/view/update_waveform.sh $dir $dis > $dir/temp.txt");
         fprintf($ferr,"y: %s\n",$file_orig);
         $cnt = $cnt + 1;
@@ -657,13 +672,12 @@ list($qlon,$qlat,$qdep,$qmag,$ntrig,$qtime,$dtime,$qstd) = split('[,]',$string);
     }
 
   }
+
   fclose($ferr);
   $dis_max = $dis_max + 1; $dis_min = $dis_min - 1;
-  $jpgfile = "$dir/waveform.jpg";   
-  //$jpgfile = "$dir_base/waveform.jpg";   
-echo "<BR><BR>" . SHELL_CMD . " " . BASEPATH . "/qcn/earthquakes/view/plot_all_data.sh $dir $dis > $dir/temp.txt" . "<BR><BR>";
-  if (!file_exists($jpgfile)||$cnt>0) {
-    @system(SHELL_CMD . " " . BASEPATH . "/qcn/earthquakes/view/plot_all_data.sh $dir $dis > $dir/temp.txt");
+  $jpgfile = "$dir_base/waveform.jpg";   
+  if (!@file_exists($jpgfile)||$cnt>0) {
+    @system(SHELL_CMD . " " . BASEPATH . "/qcn/earthquakes/view/plot_all_data.sh $dir_base $dis_max $dis_min > $dir_base/temp.txt");//> $dir_base/temp.txt");
   }
   rotateImage($jpgfile);
 }
@@ -711,19 +725,19 @@ function plot_seismograms() {
    $string = implode($contents);
    list($qlon,$qlat,$qdep,$qmag,$ntrig,$etime,$dtime,$qstd) = split('[,]',$string);
 
-   $GMT = "/usr/local/gmt/bin";
+   $GMT = GMTPATH . "/bin";
    $contents = file($st_file);
    $dis_max=-999;
    $dis_min= 999;
-   $sac = "/usr/local/sac/bin/sac";
-   $sgf = "/usr/local/sac/bin/sgftops";
+   $sac = SACPATH . "/bin/sac";
+   $sgf = SACPATH . "/bin/sgftops";
    $script_file = "plot_seismogram.csh";
 //   echo $script_file;
    $fh = fopen($script_file,'w');
    $pltdir = "./seis"; 
    $jpgfile = $pltdir."/waveform.jpg";
    $psfile  = $pltdir."/waveform.ps";
-   fwrite($fh,"#!" . CSHELL_CMD . " -f\n");
+   fwrite($fh,"#! /bin/csh -f\n");
 
 //   fwrite($fh,"cd ".$pltdir."\n");  // change directories to plot directory
 
@@ -805,7 +819,7 @@ function plot_seismograms() {
    fwrite($fh,"chmod 777 $pltdir/*.jpg\n");
    fclose($fh);
 
-   exec(CSHELL_CMD . " $script_file");  // Run the script
+   exec("csh $script_file");  // Run the script
 
 //   rotateImage($jpgfile);
    return 1;
@@ -839,12 +853,12 @@ imagedestroy($im);
 function full_sac_file_name($sfile,$ttime) {
    if (preg_match("/conti/i","substr($sfile,0,4)")) {
       $sfile = next_ten_min($ttime,$sfile);
-      $url = UPLOADURL . "/trigger/continual/";
-      $urlhid = BASEURL . "/continual/show_host_detail.php?hostid=".$hid;
+      $url = "http://qcn-upl.stanford.edu/trigger/continual/";
+      $urlhid = "http://qcn.stanford.edu/continual/show_host_detail.php?hostid=".$hid;
    } else {
 
-     $url = UPLOADURL . "/trigger/";
-     $urlhid = BASEURL . "/sensor/show_host_detail.php?hostid=".$hid;
+     $url = "http://qcn-upl.stanford.edu/trigger/";
+     $urlhid = "http://qcn.stanford.edu/sensor/show_host_detail.php?hostid=".$hid;
 
    }
      return $full_file = $url.$sfile;

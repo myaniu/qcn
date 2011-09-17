@@ -1,25 +1,33 @@
-#/bin/csh
-source ../inc/csh.env
+#/usr/bin/env bash
+if [ -e ../inc/bash.env ]; then
+    source ../inc/bash.env
+elif [ -e inc/bash.env ]; then
+    source inc/bash.env
+fi
 
-set dir = $argv[1]
-set dis = $argv[2]
+# for security test that dir is a subdirectory of BASEPATH (and that BASEPATH is set)
+MYDIR=$1
+MYDIS=$2
 
-cd $dir
+QCNDIR=$BASEPATH/qcn/earthquakes/view
+SACAUX=$SACPATH/aux
 
-#echo "<p>$dir $dis"
+# test that directories don't exist, aren't blank, and are in the proper place
+if [ -z $MYDIR ] || [ -z $BASEPATH ] || [ ! -e $MYDIR ] || [ `echo $MYDIR | grep -c $QCNDIR` -eq 0 ]; then
+  echo "Invalid directory passed in: '$QCNDIR' not part of '$MYDIR'"
+  exit
+fi
+
+cd $MYDIR
 
 $UNZIP_CMD -o *.zip 
-
-
 $SACPATH/bin/sac << EOF
 r *Z.sac *Y.sac *X.sac
 rmean
 div 1000000000
-add $dis
+add $MYDIS
 write over
 q
 EOF
 
 rm *.zip
-#rm temp.txt
-

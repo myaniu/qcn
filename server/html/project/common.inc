@@ -5,6 +5,7 @@
   define("UPLOADURL","http://qcn-upl.stanford.edu");
   define("UPLOADPATH","/data/QCN");
   define("GMTPATH",  "/usr/local/gmt");
+  define("SACPATH",  "/usr/local/sac");
   define("PHPPATH",  "/usr/local/bin/php");
   define("CSHELL_CMD",  "/bin/csh");
   define("SHELL_CMD",   "/bin/bash");

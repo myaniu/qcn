@@ -1,6 +1,12 @@
 <?php
-require_once("../inc/common.inc");
+if (file_exists("../inc/common.inc"))
+   require_once("../inc/common.inc");
+elseif (file_exists("inc/common.inc"))
+   require_once("inc/common.inc");
+elseif (file_exists("common.inc"))
+   require_once("common.inc");
 
+ 
 $file = $_REQUEST["dat"];
 
 // Check if this is a continual or sensor network station

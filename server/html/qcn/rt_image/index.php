@@ -6,8 +6,9 @@ require_once("inc/update_data.inc");
 page_top();
 
 echo "<p><h1>Real-Time Laptop Shaking (10 second snapshot):</h1></p>\n";
-echo "<p align=\"justify\">Is my laptop sensor working? Am I connected to the network? If you shake your laptop, you should see your position on the map light up within a few seconds (this will only work if the tap creates a stronger shaking than the normal shaking within the past minute).  If you do <b>not</b> see the map light up in the next few seconds, check that 1) your <a href=\"" . BASEURL . "manuals/qcn_drivers\">laptop's make and model is supported</a>, 2) you have  <a href=\"" . BASEURL . "manuals/boinc_install/\">installed BOINC</a> properly, and 3) you have <a href=\"" . BASEURL . "manuals/configure_qcn/\">set your location</a> proerly.</p>\n";
+echo "<p align=\"justify\">Is my laptop sensor working? Am I connected to the network? If you shake your laptop, you should see your position on the map light up within a few seconds (this will only work if the tap creates a stronger shaking than the normal shaking within the past minute).  If you do <b>not</b> see the map light up in the next few seconds, check that 1) your <a href=\"" . BASEURL . "manuals/qcn_drivers\">laptop's make and model is supported</a>, 2) you have  <a href=\"" . BASEURL . "manuals/boinc_install/\">installed BOINC</a> properly, and 3) you have <a href=\"" . BASEURL . "manuals/configure_qcn/\">set your location</a> properly.</p>\n";
 
+echo"<p><i>Note that your sensor first must have gone through the one-minute calibration before it can send a trigger and appear on this map!</i></p>";
 
 echo "<p><strong>Laptop Sensors</strong> (Click <a href=\"" . BASEURL . "/rt_image/usb_sensors.php\">here for USB sensors</a>)\n";
 
