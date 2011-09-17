@@ -144,9 +144,9 @@ scp carlgt1@qcn-web:/var/www/qcn/earthquakes/inc/amp_v_dist.theo qcn/earthquakes
 #earthquakes/view
 scp carlgt1@qcn-web:/var/www/qcn/earthquakes/view/index.php qcn/earthquakes/view
 scp carlgt1@qcn-web:/var/www/qcn/earthquakes/view/plot_data.sh qcn/earthquakes/view
-scp carlgt1@qcn-web:/var/www/qcn/earthquakes/view/update_waveform.csh.bak qcn/earthquakes/view
+scp carlgt1@qcn-web:/var/www/qcn/earthquakes/view/update_waveform.sh qcn/earthquakes/view
 scp carlgt1@qcn-web:/var/www/qcn/earthquakes/view/view_data.php qcn/earthquakes/view
-scp carlgt1@qcn-web:/var/www/qcn/earthquakes/view/plot_all_data.csh.bak qcn/earthquakes/view
+scp carlgt1@qcn-web:/var/www/qcn/earthquakes/view/plot_all_data.sh qcn/earthquakes/view
 
 #rt_image
 scp carlgt1@qcn-web:/var/www/qcn/rt_image/index.php qcn/rt_image/
