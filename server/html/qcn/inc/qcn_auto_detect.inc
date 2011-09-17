@@ -1,12 +1,12 @@
 <?php
 // env vars ie global defines should be set already?
-/*if (file_exists("../inc/common.inc"))
+if (file_exists("../inc/common.inc"))
    require_once("../inc/common.inc");
 elseif (file_exists("inc/common.inc"))
    require_once("inc/common.inc");
 elseif (file_exists("common.inc"))
    require_once("common.inc");
-*/
+
 require_once(BASEPATH . "/qcn/inc/inc/utils.inc");
 
 function gmt_quake_map() {

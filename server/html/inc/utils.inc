@@ -7,6 +7,8 @@ elseif (file_exists("inc/common.inc"))
    require_once("inc/common.inc");
 elseif (file_exists("common.inc"))
    require_once("common.inc");
+if (file_exists("../../inc/common.inc"))
+   require_once("../../inc/common.inc");
 
 function require_once_r2($file) {
 $cwd = getcwd();
