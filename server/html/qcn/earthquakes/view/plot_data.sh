@@ -8,7 +8,6 @@ fi
 # for security test that dir is a subdirectory of BASEPATH (and that BASEPATH is set)
 MYDIR=$1
 QCNDIR=$BASEPATH/qcn/earthquakes/view
-SACAUX=$SACPATH/aux
 
 # test that directories don't exist, aren't blank, and are in the proper place
 if [ -z $MYDIR ] || [ -z $BASEPATH ] || [ ! -e $MYDIR ] || [ `echo $MYDIR | grep -c $QCNDIR` -eq 0 ]; then 
@@ -40,8 +39,8 @@ EOF
 $SACPATH/bin/sgftops f001.sgf waveform.ps
 $GMTPATH/bin/ps2raster waveform.ps -D$MYDIR -A -Tj -P
 
-rm $MYDIR/*.zip
-rm $MYDIR/*.sac
-rm $MYDIR/*.sgf
-rm $MYDIR/*.ps
-rm $MYDIR/temp.txt
+rm -f $MYDIR/*.zip
+rm -f $MYDIR/*.sac
+rm -f $MYDIR/*.sgf
+rm -f $MYDIR/*.ps
+rm -f $MYDIR/temp.txt

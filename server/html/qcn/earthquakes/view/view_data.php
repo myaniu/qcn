@@ -42,6 +42,9 @@ if (!file_exists($dir))  {
 
 /*
 echo "<BR>Shell Command:<BR>";
+echo "<BR><BR>";
+echo getcwd();
+echo "<BR><BR>";
 echo $dir;
 echo "<BR><BR>";
 echo $url;
@@ -50,7 +53,7 @@ echo $file_orig;
 echo "<BR><BR>";
 echo $file_new;
 echo "<BR><BR>";
-echo CSHELL_CMD . " " . BASEPATH . "/qcn/earthquakes/view/plot_data.sh $dir > $dir/temp.txt";
+echo SHELL_CMD . " " . BASEPATH . "/qcn/earthquakes/view/plot_data.sh $dir > $dir/temp.txt";
 echo "<BR><BR>";
 die();
 */
