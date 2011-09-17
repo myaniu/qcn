@@ -12,8 +12,6 @@ cd /var/www
   --exclude "boinc/mpitest" \
   --exclude "boinc/sensor/html/cache/*" \
   --exclude "boinc/sensor/html/cache" \
-  --exclude "boinc/sensor/html/stats/*" \
-  --exclude "boinc/sensor/html/stats" \
   --exclude "boinc/continual/pid_qcn-web/*" \
   --exclude "boinc/continual/pid_qcn-web" \
   --exclude "boinc/continual/log_qcn-web/*" \
@@ -22,8 +20,6 @@ cd /var/www
   --exclude "boinc/continual/tmp_qcn-web" \
   --exclude "boinc/continual/html/cache/*" \
   --exclude "boinc/continual/html/cache" \
-  --exclude "boinc/continual/html/stats/*" \
-  --exclude "boinc/continual/html/stats" \
   --exclude "qcn/earthquakes/aichung/*" \
   --exclude "qcn/earthquakes/aichung" \
   --exclude "qcn/earthquakes/view/12*/*" \
