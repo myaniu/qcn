@@ -51,5 +51,8 @@ BASEDIR/boinc/server/html/project/bash.env
 
 5) replication of remote databases to Stanford
 
+6) don't forget config.xml and schedulers.txt with the proper BOINC scheduler URL in
+boinc/sensor/html/user and boinc/continual/html/user  !
+
 
 
