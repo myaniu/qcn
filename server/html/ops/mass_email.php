@@ -76,7 +76,9 @@ if ($receiver > 0) {
         $query = "select user.id, user.name, user.email_addr " .
           "from user, host " . 
            "where user.id=host.userid " . 
-             "and host.id in (select distinct hostid from qcn_trigger where qcn_sensorid=100 or qcn_sensorid=103)";
+             "and host.id in (select distinct hostid from qcn_trigger where os_type in ('M32','M64') and qcn_sensorid in (100, 103)) " . 
+            "group by user.id, user.name, user.email_addr";
+
         break;
     default:
         // should never happen!
