@@ -63,6 +63,7 @@ scp carlgt1@qcn-web:/var/www/boinc/sensor/html/user/trdl.php user/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/html/user/trdlreq.php user/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/html/user/calendarDateInput.js user/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/html/user/calendar.jpg user/
+scp carlgt1@qcn-web:/var/www/boinc/sensor/html/ops/mass_email.php ops/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/html/ops/db_form.php ops/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/html/ops/db_action.php ops/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/html/ops/index.php ops/
