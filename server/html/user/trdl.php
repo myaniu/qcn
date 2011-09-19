@@ -113,6 +113,7 @@ $strHostID = get_int("HostID", true);
 $strHostName = get_str("HostName", true);
 
 $quake_mag_min = get_str("quake_mag_min", true);
+$qcn_quake_mag_min = get_str("qcn_quake_mag_min", true);
 
 $qcn_sensorid = get_int("qcn_sensorid", true);
 $dateStart = get_str("date_start", true);
@@ -152,6 +153,7 @@ if ($strLonMax =="") {$strLonMax =  "180.0";}*/
 
 //if (!$quake_mag_min && (!$timeHourStart || !$dateStart)) $quake_mag_min = "3.0";  // set minimum quake mag cutoff
 if (!$quake_mag_min) $quake_mag_min = "3.0";  // set minimum quake mag cutoff
+if (!$qcn_quake_mag_min) $qcn_quake_mag_min = "3.0";  // set minimum quake mag cutoff
 
 
 // make sure these are in the right order, as the sql "between" will fail if max < min!
@@ -210,6 +212,7 @@ if ($bNoQuery) {
   $bUseQuake = 1;
   $bUseQCNQuake = 1;
   $quake_mag_min = 3.0;
+  $qcn_quake_mag_min = 3.0;
 }
 
 echo "<form name='formSelect' method=\"get\" action=trdl.php >";
@@ -245,7 +248,7 @@ echo "  <input type=\"checkbox\" id=\"cbUseFile\" name=\"cbUseFile\" value=\"0\"
   <p><input type=\"checkbox\" id=\"cbUseQuake\" name=\"cbUseQuake\" value=\"1\" " . ($bUseQuake ? "checked" : "") . "> Match USGS Quakes:&nbsp;
   Mag >= &nbsp;<input id=\"quake_mag_min\" name=\"quake_mag_min\" value=\"$quake_mag_min\" size=\"4\">
 
-  <p><input type=\"checkbox\" id=\"cbUseQCNQuake\" name=\"cbUseQCNQuake\" value=\"1\" " . ($bUseQCNQuake ? "checked" : "") . "> Show QCN-Detected 'Quakes'";
+  <p><input type=\"checkbox\" id=\"cbUseQCNQuake\" name=\"cbUseQCNQuake\" value=\"1\" " . ($bUseQCNQuake ? "checked" : "") . "> Match QCN Quakes:&nbsp;Mag >=&nbsp;<input id=\"qcn_quake_mag_min\" name=\"qcn_quake_mag_min\" value =\"$qcn_quake_mag_min\" size=\"4\">";
 
 /* Max number of Triggers per Page:*/
 echo "<p><input type=\"checkbox\" disabled=\"disabled\" checked=\"checked\"> Max Data Per Page: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input id=\"nresults\" name=\"nresults\" value=\"$nresults\" size=\"4\">\n";
@@ -459,10 +462,13 @@ if ($bUseQuake || $bUseQCNQuake) {
      $whereString .= " AND t.qcn_quakeid>0 AND q.magnitude >= " . $quake_mag_min;
   }
   else if (!$bUseQCNQuake && $bUseQCNQuake) {
-   $whereString .= " AND t.qcn_quakeid>0 AND q.guid like 'QCN_%' ";
+   $whereString .= " AND t.qcn_quakeid>0 AND q.guid like 'QCN_%' AND q.magnitude >= ". $qcn_quake_mag_min;
   }
   else { // both
-    $whereString .= " AND t.qcn_quakeid > 0 ";
+    $min = 1.;
+    if ($quake_mag_min > $qcn_quake_mag_min) $min = $quake_mag_min;
+    else $min = $qcn_quake_mag_min;
+    $whereString .= " AND t.qcn_quakeid > 0 and q.magnitude >= $min";
   }
 }
 
@@ -574,6 +580,8 @@ else {
 //$count = 1e6;
 //print "<BR><BR>$query<BR><BR>";
 
+//echo $query;
+
 if (!$bUseCSV) {
 $count = query_count($query);
 
@@ -644,6 +652,7 @@ $queryString = "&nresults=$page_entries_to_show"
        . "&LatMin=$strLatMin"
        . "&LatMax=$strLatMax"
        . "&quake_mag_min=$quake_mag_min"
+       . "&qcn_quake_mag_min=$qcn_quake_mag_min"
        . "&time_hour_start=$timeHourStart"
        . "&time_minute_start=$timeMinuteStart"
        . "&time_hour_end=$timeHourEnd"
