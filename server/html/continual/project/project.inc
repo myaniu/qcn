@@ -12,7 +12,7 @@ define("IMAGE_URL", "user_profile/images/");
 define("PROFILE_PATH", "../user_profile/");
 define("PROFILE_URL", "user_profile/");
 define("LANGUAGE_FILE", "languages.txt");
-define("STYLESHEET", "white.css");
+define("STYLESHEET", "qcn.css");
 define("COPYRIGHT_HOLDER", "Stanford University");
 define("SYS_ADMIN_EMAIL", "carlgt1@yahoo.com");
 define("UOTD_ADMIN_EMAIL", "carlgt1@yahoo.com"); # who gets user of the day pool running low e-mails?
