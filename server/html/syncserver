@@ -4,7 +4,6 @@ scp carlgt1@qcn-web:/var/www/qcnwp/wp-content/plugins/external-database-authenti
 scp carlgt1@qcn-web:/var/www/qcn/ramp/index.php ../ramp/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/project_files.xml ../config/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/gui_urls.xml ../config/
-scp carlgt1@qcn-web:/var/www/boinc/sensor/config.xml ../config/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/bin/generate_maptrig.sh ../config/
 scp carlgt1@qcn-web:/usr/local/apache2/conf/extra/httpd-ssl.conf ../config/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/bin/clean_tmpdata.sh ../config/
@@ -31,6 +30,9 @@ scp carlgt1@qcn-web:/var/www/boinc/sensor/html/project/project.inc project/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/html/project/project_news.inc project/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/html/project/project_specific_prefs.inc project/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/html/project/plate_boundary.inc project/
+scp carlgt1@qcn-web:/var/www/boinc/sensor/config.xml ../config/
+cat ../config/config.xml | grep -v 'NQu' > cc.txt
+mv cc.txt ../config/config.xml
 scp carlgt1@qcn-web:/var/www/boinc/sensor/html/user/forum_rate.php user/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/html/user/REDS_list_signup.php user/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/html/user/ramp_signup.php user/
