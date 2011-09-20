@@ -8,8 +8,6 @@ if ( test "`uname -s`" = "Darwin" ) then
 fi
 rm -f vers; gcc version.c -o vers 
 VERSION=`./vers`
-echo $VERSION
-exit
 ./set-version $VERSION
 if ( test "$VERSION" = "" ) then
    exit 1
