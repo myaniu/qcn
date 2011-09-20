@@ -7,7 +7,7 @@ fi
 
 # setup nci & non-nci version numbers for the BOINC app versions
 vnci=$1
-#vnon=`eval "echo 'scale=2; $vnci-.01'|bc"`
+vnon=`eval "echo 'scale=2; $vnci-.01'|bc"`
 
 #qcn/boinc files required
 print_common_boinc_files ()
@@ -67,25 +67,25 @@ if ( test "`uname -s`" = "Darwin" ) then
     zip -r qcnusb-mac.zip qcnusb-mac.mpkg -x@exclude.lst
 
   lipo -extract i386 qcn.app/Contents/MacOS/qcn -output qcn_${vnci}_$suffixi$ncisuffix
-  #lipo -extract i386 qcn.app/Contents/MacOS/qcn -output qcn_${vnon}_$suffixi
+  lipo -extract i386 qcn.app/Contents/MacOS/qcn -output qcn_${vnon}_$suffixi
   lipo -extract ppc qcn.app/Contents/MacOS/qcn -output qcn_${vnci}_$suffixp$ncisuffix
-  #lipo -extract ppc qcn.app/Contents/MacOS/qcn -output qcn_${vnon}_$suffixp
+  lipo -extract ppc qcn.app/Contents/MacOS/qcn -output qcn_${vnon}_$suffixp
   lipo -extract x86_64 qcn.app/Contents/MacOS/qcn -output qcn_${vnci}_$suffixs$ncisuffix
-  #lipo -extract x86_64 qcn.app/Contents/MacOS/qcn -output qcn_${vnon}_$suffixs
+  lipo -extract x86_64 qcn.app/Contents/MacOS/qcn -output qcn_${vnon}_$suffixs
 
   lipo -extract i386 qcn_graphics.app/Contents/MacOS/qcn_graphics -output qcn_graphics_${vnci}_$suffixi
-  #lipo -extract i386 qcn_graphics.app/Contents/MacOS/qcn_graphics -output qcn_graphics_${vnon}_$suffixi
+  lipo -extract i386 qcn_graphics.app/Contents/MacOS/qcn_graphics -output qcn_graphics_${vnon}_$suffixi
   lipo -extract ppc qcn_graphics.app/Contents/MacOS/qcn_graphics -output qcn_graphics_${vnci}_$suffixp
-  #lipo -extract ppc qcn_graphics.app/Contents/MacOS/qcn_graphics -output qcn_graphics_${vnon}_$suffixp
+  lipo -extract ppc qcn_graphics.app/Contents/MacOS/qcn_graphics -output qcn_graphics_${vnon}_$suffixp
   lipo -extract x86_64 qcn_graphics.app/Contents/MacOS/qcn_graphics -output qcn_graphics_${vnci}_$suffixs
-  #lipo -extract x86_64 qcn_graphics.app/Contents/MacOS/qcn_graphics -output qcn_graphics_${vnon}_$suffixs
+  lipo -extract x86_64 qcn_graphics.app/Contents/MacOS/qcn_graphics -output qcn_graphics_${vnon}_$suffixs
 
 appspathone=$suffixi$ncisuffix
-#appspathtwo=qcn_${vnon}_$suffixi
+appspathtwo=qcn_${vnon}_$suffixi
 appspaththree=$suffixp$ncisuffix
-#appspathfour=qcn_${vnon}_$suffixp
+appspathfour=qcn_${vnon}_$suffixp
 appspathfive=$suffixs$ncisuffix
-#appspathsix=qcn_${vnon}_$suffixs
+appspathsix=qcn_${vnon}_$suffixs
 
 pathpre='/var/www/boinc/sensor/apps/qcnsensor'
 pathprecont='/var/www/boinc/continual/apps/qcncontinual'
@@ -108,12 +108,18 @@ echo put $GRAPHICS >> qcnsftp.up
 echo put version_$suffixi.xml version.xml >> qcnsftp.up
 print_common_boinc_files $ntpdv
 
-#echo chdir $pathpre >> qcnsftp.up
-#echo -mkdir $appspathtwo >> qcnsftp.up
-#echo chdir $appspathtwo >> qcnsftp.up
-#echo put qcn_${vnon}_$suffixi >> qcnsftp.up
-#echo put qcn_graphics_${vnon}_$suffixi >> qcnsftp.up
-#print_common_boinc_files $ntpdv
+MAIN=qcn_${vnon}_$suffixi
+GRAPHICS=qcn_graphics_${vnon}_$suffixi
+sed s/MAIN/$MAIN/ < version.xml.in | sed s/GRAPHICS/$GRAPHICS/ > version_$suffixi.xml
+echo chdir $pathpre >> qcnsftp.up
+echo -mkdir ${vnon} >> qcnsftp.up
+echo chdir ${vnon} >> qcnsftp.up
+echo -mkdir $appspathtwo >> qcnsftp.up
+echo chdir $appspathtwo >> qcnsftp.up
+echo put $MAIN >> qcnsftp.up
+echo put $GRAPHICS >> qcnsftp.up
+echo put version_$suffixi.xml version.xml >> qcnsftp.up
+print_common_boinc_files $ntpdv
 
 MAIN=qcn_${vnci}_$suffixp$ncisuffix
 GRAPHICS=qcn_graphics_${vnci}_$suffixp 
@@ -128,13 +134,19 @@ echo put $GRAPHICS >> qcnsftp.up
 echo put version_$suffixp.xml version.xml >> qcnsftp.up
 print_common_boinc_files $ntpdv
 
+MAIN=qcn_${vnon}_$suffixi
+GRAPHICS=qcn_graphics_${vnon}_$suffixi
+sed s/MAIN/$MAIN/ < version.xml.in | sed s/GRAPHICS/$GRAPHICS/ > version_$suffixi.xml
+echo chdir $pathpre >> qcnsftp.up
+echo -mkdir ${vnon} >> qcnsftp.up
+echo chdir ${vnon} >> qcnsftp.up
+echo -mkdir $appspathfour >> qcnsftp.up
+echo chdir $appspathfour >> qcnsftp.up
+echo put $MAIN >> qcnsftp.up
+echo put $GRAPHICS >> qcnsftp.up
+echo put version_$suffixi.xml version.xml >> qcnsftp.up
+print_common_boinc_files $ntpdv
 
-#echo chdir $pathpre >> qcnsftp.up
-#echo -mkdir $appspathfour >> qcnsftp.up
-#echo chdir $appspathfour >> qcnsftp.up
-#echo put qcn_${vnon}_$suffixp >> qcnsftp.up
-#echo put qcn_graphics_${vnon}_$suffixp >> qcnsftp.up
-#print_common_boinc_files $ntpdv
 
 MAIN=qcn_${vnci}_$suffixs$ncisuffix
 GRAPHICS=qcn_graphics_${vnci}_$suffixs 
@@ -149,19 +161,19 @@ echo put $GRAPHICS >> qcnsftp.up
 echo put version_$suffixs.xml version.xml >> qcnsftp.up
 print_common_boinc_files $ntpdv
 
-#echo chdir $pathpre >> qcnsftp.up
-#echo -mkdir $appspathfive >> qcnsftp.up
-#echo chdir $appspathfive >> qcnsftp.up
-#echo put qcn_${vnci}_$suffixs$ncisuffix >> qcnsftp.up
-#echo put qcn_graphics_${vnci}_$suffixs >> qcnsftp.up
-#print_common_boinc_files $ntpdv
+MAIN=qcn_${vnon}_$suffixi
+GRAPHICS=qcn_graphics_${vnon}_$suffixi
+sed s/MAIN/$MAIN/ < version.xml.in | sed s/GRAPHICS/$GRAPHICS/ > version_$suffixi.xml
+echo chdir $pathpre >> qcnsftp.up
+echo -mkdir ${vnon} >> qcnsftp.up
+echo chdir ${vnon} >> qcnsftp.up
+echo -mkdir $appspathsix >> qcnsftp.up
+echo chdir $appspathsix >> qcnsftp.up
+echo put $MAIN >> qcnsftp.up
+echo put $GRAPHICS >> qcnsftp.up
+echo put version_$suffixi.xml version.xml >> qcnsftp.up
+print_common_boinc_files $ntpdv
 
-#echo chdir $pathpre >> qcnsftp.up
-#echo -mkdir $appspathsix >> qcnsftp.up
-#echo chdir $appspathsix >> qcnsftp.up
-#echo put qcn_${vnon}_$suffixs >> qcnsftp.up
-#echo put qcn_graphics_${vnon}_$suffixs >> qcnsftp.up
-#print_common_boinc_files $ntpdv
 
 #continual QCN/BOINC
 MAIN=qcn_${vnci}_$suffixi$ncisuffix
@@ -176,13 +188,18 @@ echo put $GRAPHICS >> qcnsftp.up
 echo put version_$suffixi.xml version.xml >> qcnsftp.up
 print_common_boinc_files $ntpdv
 
-#echo chdir $pathprecont >> qcnsftp.up
-#echo chdir ${vnci} >> qcnsftp.up
-#echo -mkdir $appspathtwo >> qcnsftp.up
-#echo chdir $appspathtwo >> qcnsftp.up
-#echo put qcn_${vnon}_$suffixi >> qcnsftp.up
-#echo put qcn_graphics_${vnon}_$suffixi >> qcnsftp.up
-#print_common_boinc_files $ntpdv
+MAIN=qcn_${vnon}_$suffixi
+GRAPHICS=qcn_graphics_${vnon}_$suffixi
+sed s/MAIN/$MAIN/ < version.xml.in | sed s/GRAPHICS/$GRAPHICS/ > version_$suffixi.xml
+echo chdir $pathpre >> qcnsftp.up
+echo -mkdir ${vnon} >> qcnsftp.up
+echo chdir ${vnon} >> qcnsftp.up
+echo -mkdir $appspathtwo >> qcnsftp.up
+echo chdir $appspathtwo >> qcnsftp.up
+echo put $MAIN >> qcnsftp.up
+echo put $GRAPHICS >> qcnsftp.up
+echo put version_$suffixi.xml version.xml >> qcnsftp.up
+print_common_boinc_files $ntpdv
 
 MAIN=qcn_${vnci}_$suffixp$ncisuffix
 GRAPHICS=qcn_graphics_${vnci}_$suffixp
@@ -196,21 +213,19 @@ echo put $GRAPHICS >> qcnsftp.up
 echo put version_$suffixp.xml version.xml >> qcnsftp.up
 print_common_boinc_files $ntpdv
 
-#echo chdir $pathprecont >> qcnsftp.up
-#echo chdir ${vnci} >> qcnsftp.up
-#echo -mkdir $appspaththree >> qcnsftp.up
-#echo chdir $appspaththree >> qcnsftp.up
-#echo put qcn_${vnci}_$suffixp$ncisuffix >> qcnsftp.up
-#echo put qcn_graphics_${vnci}_$suffixp >> qcnsftp.up
-#echo put version.xml >> qcnsftp.up
-#print_common_boinc_files $ntpdv
+MAIN=qcn_${vnon}_$suffixi
+GRAPHICS=qcn_graphics_${vnon}_$suffixi
+sed s/MAIN/$MAIN/ < version.xml.in | sed s/GRAPHICS/$GRAPHICS/ > version_$suffixi.xml
+echo chdir $pathpre >> qcnsftp.up
+echo -mkdir ${vnon} >> qcnsftp.up
+echo chdir ${vnon} >> qcnsftp.up
+echo -mkdir $appspathfour >> qcnsftp.up
+echo chdir $appspathfour >> qcnsftp.up
+echo put $MAIN >> qcnsftp.up
+echo put $GRAPHICS >> qcnsftp.up
+echo put version_$suffixi.xml version.xml >> qcnsftp.up
+print_common_boinc_files $ntpdv
 
-#echo chdir $pathprecont >> qcnsftp.up
-#echo -mkdir $appspathfour >> qcnsftp.up
-#echo chdir $appspathfour >> qcnsftp.up
-#echo put qcn_${vnon}_$suffixp >> qcnsftp.up
-#echo put qcn_graphics_${vnon}_$suffixp >> qcnsftp.up
-#print_common_boinc_files $ntpdv
 
 MAIN=qcn_${vnci}_$suffixs$ncisuffix
 GRAPHICS=qcn_graphics_${vnci}_$suffixs 
@@ -224,19 +239,18 @@ echo put $GRAPHICS >> qcnsftp.up
 echo put version_$suffixs.xml version.xml >> qcnsftp.up
 print_common_boinc_files $ntpdv
 
-#echo chdir $pathprecont >> qcnsftp.up
-#echo -mkdir $appspathfive >> qcnsftp.up
-#echo chdir $appspathfive >> qcnsftp.up
-#echo put qcn_${vnci}_$suffixs$ncisuffix >> qcnsftp.up
-#echo put qcn_graphics_${vnci}_$suffixs >> qcnsftp.up
-#print_common_boinc_files $ntpdv
-
-#echo chdir $pathprecont >> qcnsftp.up
-#echo -mkdir $appspathsix >> qcnsftp.up
-#echo chdir $appspathsix >> qcnsftp.up
-#echo put qcn_${vnon}_$suffixs >> qcnsftp.up
-#echo put qcn_graphics_${vnon}_$suffixs >> qcnsftp.up
-#print_common_boinc_files $ntpdv
+MAIN=qcn_${vnon}_$suffixi
+GRAPHICS=qcn_graphics_${vnon}_$suffixi
+sed s/MAIN/$MAIN/ < version.xml.in | sed s/GRAPHICS/$GRAPHICS/ > version_$suffixi.xml
+echo chdir $pathpre >> qcnsftp.up
+echo -mkdir ${vnon} >> qcnsftp.up
+echo chdir ${vnon} >> qcnsftp.up
+echo -mkdir $appspathsix >> qcnsftp.up
+echo chdir $appspathsix >> qcnsftp.up
+echo put $MAIN >> qcnsftp.up
+echo put $GRAPHICS >> qcnsftp.up
+echo put version_$suffixi.xml version.xml >> qcnsftp.up
+print_common_boinc_files $ntpdv
 
 
 echo exit >> qcnsftp.up
@@ -249,13 +263,18 @@ else
    suffix=i686-pc-linux-gnu
 
    appspathone=$suffix$ncisuffix
-   #appspathtwo=$suffix
+   appspathtwo=$suffix
 
    ntpdv=$ntpversion$suffix
-   #cp qcn_${vnci}_$suffix $appspathone
-   #mv qcn_${vnci}_$suffix $appspathtwo
 
-   #cp qcn_graphics_${vnci}_$suffix qcn_graphics_${vnon}_$suffix
+   MAIN_NCI=qcn_${vnci}_$suffix$ncisuffix
+   GRAPHICS_NCI=qcn_graphics_${vnci}_$suffix
+   MAIN=qcn_${vnon}_$suffix$ncisuffix
+   GRAPHICS=qcn_graphics_${vnon}_$suffix
+
+   cp qcn_${vnci}_$suffix qcn_${vnon}_$suffix$ncisuffix
+   mv qcn_${vnci}_$suffix qcn_${vnon}_$suffix
+   cp qcn_graphics_${vnci}_$suffix qcn_graphics_${vnon}_$suffix
    rm -f qcnlive-linux.zip
    rm -f qcnlive-linux-exec.zip
 
@@ -282,37 +301,50 @@ else
 
   #regular QCN/BOINC
   # now copy apps up
-  MAIN=qcn_${vnci}_$suffix$ncisuffix
-  GRAPHICS=qcn_graphics_${vnci}_$suffix
-  sed s/MAIN/$MAIN/ < version.xml.in | sed s/GRAPHICS/$GRAPHICS/ > version.xml
+  sed s/MAIN/$MAIN_NCI/ < version.xml.in | sed s/GRAPHICS/$GRAPHICS_NCI/ > version.xml
   echo chdir $pathpre >> qcnsftp.up
   echo -mkdir ${vnci} >> qcnsftp.up
   echo chdir ${vnci}  >> qcnsftp.up
   echo -mkdir $appspathone >> qcnsftp.up
   echo chdir $appspathone >> qcnsftp.up
+  echo put $MAIN_NCI >> qcnsftp.up
+  echo put $GRAPHICS_NCI >> qcnsftp.up
+  echo put version.xml >> qcnsftp.up
+  print_common_boinc_files $ntpdv
+
+  sed s/MAIN/$MAIN/ < version.xml.in | sed s/GRAPHICS/$GRAPHICS/ > version.xml
+  echo chdir $pathpre >> qcnsftp.up
+  echo -mkdir ${vnci} >> qcnsftp.up
+  echo chdir ${vnci}  >> qcnsftp.up
+  echo -mkdir $appspathtwo >> qcnsftp.up
+  echo chdir $appspathtwo >> qcnsftp.up
   echo put $MAIN >> qcnsftp.up
   echo put $GRAPHICS >> qcnsftp.up
   echo put version.xml >> qcnsftp.up
   print_common_boinc_files $ntpdv
 
-  #echo chdir ../ >> qcnsftp.up
-  #echo -mkdir $appspathtwo >> qcnsftp.up
-  #echo chdir $appspathtwo >> qcnsftp.up
-  #echo put $appspathtwo >> qcnsftp.up
-  #echo put qcn_graphics_${vnon}_$suffix >> qcnsftp.up
-  #print_common_boinc_files $ntpdv
-
   #continual QCN/BOINC
+  sed s/MAIN/$MAIN_NCI/ < version.xml.in | sed s/GRAPHICS/$GRAPHICS_NCI/ > version.xml
   echo chdir $pathprecont >> qcnsftp.up
   echo -mkdir ${vnci} >> qcnsftp.up
   echo chdir ${vnci}  >> qcnsftp.up
   echo -mkdir $appspathone >> qcnsftp.up
   echo chdir $appspathone >> qcnsftp.up
+  echo put $MAIN_NCI >> qcnsftp.up
+  echo put $GRAPHICS_NCI >> qcnsftp.up
+  echo put version.xml >> qcnsftp.up
+  print_common_boinc_files $ntpdv
+
+  sed s/MAIN/$MAIN/ < version.xml.in | sed s/GRAPHICS/$GRAPHICS/ > version.xml
+  echo chdir $pathprecont >> qcnsftp.up
+  echo -mkdir ${vnci} >> qcnsftp.up
+  echo chdir ${vnci}  >> qcnsftp.up
+  echo -mkdir $appspathtwo >> qcnsftp.up
+  echo chdir $appspathtwo >> qcnsftp.up
   echo put $MAIN >> qcnsftp.up
   echo put $GRAPHICS >> qcnsftp.up
   echo put version.xml >> qcnsftp.up
   print_common_boinc_files $ntpdv
-
   echo exit >> qcnsftp.up
 
   sftp -b qcnsftp.up carlgt1@qcn-web.stanford.edu
