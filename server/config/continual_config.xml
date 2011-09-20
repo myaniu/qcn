@@ -1,0 +1,241 @@
+<?xml version="1.0" ?>
+<boinc>
+  <config>
+    <master_url>http://qcn.stanford.edu/continual/</master_url>
+    <upload_dir>
+      /var/www/boinc/continual/upload
+    </upload_dir>
+    <send_result_abort>
+      1
+    </send_result_abort>
+    <msg_to_host/>
+    <long_name>
+      QCN Continual
+    </long_name>
+    <cgi_url>
+      http://qcn.stanford.edu/continual_cgi/
+    </cgi_url>
+    <app_dir>
+      /var/www/boinc/continual/apps
+    </app_dir>
+    <download_dir>
+      /var/www/boinc/continual/download
+    </download_dir>
+    <sched_debug_level>
+      2
+    </sched_debug_level>
+    <disable_account_creation>
+      0
+    </disable_account_creation>
+    <uldl_dir_fanout>
+      1024
+    </uldl_dir_fanout>
+    <download_url>
+      http://qcn.stanford.edu/continual/download
+    </download_url>
+    <min_core_client_version_announced> 60200 </min_core_client_version_announced>
+    <min_core_client_upgrade_deadline> 1241650148 </min_core_client_upgrade_deadline>
+    <min_core_client_version> 60200 </min_core_client_version>
+    <profile_min_credit>0</profile_min_credit>
+    <shmem_key>
+      0x1213d096
+    </shmem_key>
+    <host>
+       qcn-web
+    </host>
+    <db_host>
+       db-private
+    </db_host>
+    <db_user>
+       qcn
+    </db_user>
+    <db_name>
+       continual
+    </db_name>
+    <db_passwd>
+    </db_passwd>
+    <trigmem_db_user>
+       trigmem
+    </trigmem_db_user>
+    <trigmem_db_name>
+       trigmem
+    </trigmem_db_name>
+    <trigmem_db_passwd>
+       insertTrigMem
+    </trigmem_db_passwd>
+    <trigmem_db_host>
+       localhost
+    </trigmem_db_host>
+    <trigmem_db_port>
+       3306
+    </trigmem_db_port>
+    <show_results>
+      1
+    </show_results>
+    <key_dir>
+      /var/www/boinc/keys/
+    </key_dir>
+    <upload_url>
+      http://qcn.stanford.edu/continual_cgi/file_upload_handler
+    </upload_url>
+    <min_sendwork_interval>
+      6
+    </min_sendwork_interval>
+    <non_cpu_intensive>
+       1
+    </non_cpu_intensive>
+    <daily_result_quota>
+       10
+    </daily_result_quota>
+    <max_wus_in_progress>
+      1
+    </max_wus_in_progress>
+    <ignore_delay_bound>
+      1
+    </ignore_delay_bound>
+    <max_wus_to_send>
+      3
+    </max_wus_to_send>
+    <prefer_primary_platform/>
+  </config>
+  <tasks>
+    <task>
+      <output>
+        generate_maptrig.out
+      </output>
+      <cmd>
+        generate_maptrig.sh
+      </cmd>
+      <period>
+        30 minutes
+      </period>
+    </task>
+    <task>
+      <cmd>
+        db_dump -d 2 -dump_spec ../db_dump_spec.xml
+      </cmd>
+      <period>
+        24 hours
+      </period>
+      <disabled>
+        1
+      </disabled>
+      <output>
+        db_dump.out
+      </output>
+    </task>
+    <task>
+      <cmd>
+        autotrigger.py
+      </cmd>
+      <period>
+        1 hour
+      </period>
+      <output>
+        autotrigger.out
+      </output>
+    </task>
+    <task>
+      <cmd>
+        run_in_ops ./update_uotd.php
+      </cmd>
+      <period>
+        1 days
+      </period>
+      <disabled>
+        1
+      </disabled>
+      <output>
+        update_uotd.out
+      </output>
+    </task>
+    <task>
+      <cmd>
+        run_in_ops ./update_forum_activities.php
+      </cmd>
+      <period>
+        1 hour
+      </period>
+      <disabled>
+        1
+      </disabled>
+      <output>
+        update_forum_activities.out
+      </output>
+    </task>
+    <task>
+      <cmd>
+        update_stats -update_users -update_teams -update_hosts
+      </cmd>
+      <period>
+        7 days
+      </period>
+      <disabled>
+        1
+      </disabled>
+      <output>
+        update_stats.out
+      </output>
+    </task>
+    <task>
+      <cmd>
+        run_in_ops ./update_profile_pages.php
+      </cmd>
+      <period>
+        24 hours
+      </period>
+      <disabled>
+        1
+      </disabled>
+      <output>
+        update_profile_pages.out
+      </output>
+    </task>
+    <task>
+      <cmd>
+        run_in_ops ./team_import.php
+      </cmd>
+      <period>
+        24 hours
+      </period>
+      <disabled>
+        1
+      </disabled>
+      <output>
+        team_import.out
+      </output>
+    </task>
+    <task>
+      <cmd>
+        run_in_ops ./notify.php
+      </cmd>
+      <period>
+        24 hours
+      </period>
+      <disabled>
+        1
+      </disabled>
+      <output>
+        notify.out
+      </output>
+    </task>
+  </tasks>
+  <daemons>
+    <daemon>
+      <cmd>
+        feeder -d 2 
+      </cmd>
+    </daemon>
+    <daemon>
+      <cmd>
+        transitioner -d 2 
+      </cmd>
+    </daemon>
+    <daemon>
+      <cmd>
+        file_deleter -d 2 
+      </cmd>
+    </daemon>
+  </daemons>
+</boinc>
+

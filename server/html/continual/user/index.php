@@ -92,7 +92,7 @@ function show_nav() {
         on your computer.  Currently only certain Mac (OS X) PPC and Intel laptops are supported --
         recent ones which have a built-in accelerometer.  You can also buy an external USB accelerometer.
         <p>
-        QCN is a joint project between Stanford University and University of California at Riverside.
+        QCN is based at the Stanford University School of Earth Sciences.
         <ul>
         <li> <A HREF=\"" . BASEURL . "/index.php\">Quake Catcher Network Home Page</A>
         <li> <A HREF=\"" . BASEURL . "/about-qcn/contact-us\">Project Personnel</A>
