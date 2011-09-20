@@ -1,0 +1,15 @@
+127.0.0.1       localhost.localdomain localhost
+171.64.173.101  qcn-db.stanford.edu qcn-db
+171.64.173.104  qcn-upl.stanford.edu qcn-upl
+171.64.173.105  qcn-web.stanford.edu qcn-web
+171.64.174.17   qcn-data.stanford.edu qcn-data
+192.168.10.1    upl-private
+192.168.10.2    db-private
+192.168.10.3    web-private
+192.168.10.4    data-private
+171.64.168.69   kew.stanford.edu kew
+10.1.1.41       st1
+10.1.1.42       st2
+10.1.1.43       st3
+10.1.1.44       st4
+132.247.193.9   qcn-mx
