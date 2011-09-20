@@ -316,6 +316,10 @@ function page_head($title, $java_onload=null, $title_plain=null, $prefix="", $go
     $rssname = PROJECT . " RSS 2.0";
     $rsslink = URL_BASE."rss_main.php";
 
+       $metahttp = "<meta http-equiv=\"content-type\" content=\"text/html; charset=utf-8\"/>\n"
+         . "<link rel=\"shortcut icon\" href=\"" . BASEURL . "/favicon.ico\" type=\"image/vnd.microsoft.icon\">\n"
+         . "<link rel=\"icon\" href=\"" . BASEURL . "/favicon.ico\" type=\"image/vnd.microsoft.icon\">\n";
+
     header("Content-type: text/html; charset=utf-8");
     if (!$caching) {
         header ("Expires: Mon, 26 Jul 1997 05:00:00 UTC");    // Date in the past
@@ -338,8 +342,8 @@ function page_head($title, $java_onload=null, $title_plain=null, $prefix="", $go
        }
        else {
           echo "<html>
-            <head>\n<title>" . PROJECT . " - " . $title . "</title>\n" . 
-            $metahttp . 
+            <head>\n<title>" . PROJECT . " - " . $title . "</title>\n" .
+            $metahttp .
            "</head>\n<body>\n";
        }
 
@@ -351,10 +355,8 @@ function page_head($title, $java_onload=null, $title_plain=null, $prefix="", $go
     echo "<link rel=stylesheet type=\"text/css\" href=\"".URL_BASE."main.css\" media=\"all\" />
         <link rel=stylesheet type=\"text/css\" href=\"$stylesheet\">
         <link rel=alternate type=\"application/rss+xml\" title=\"$rssname\" href=\"$rsslink\">
-        $head_extra
         </head>
     ";
-
 
        // IE likes this first bit
        if ($google && strpos($_SERVER['HTTP_USER_AGENT'], "MSIE"))
