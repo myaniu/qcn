@@ -1,80 +1,32 @@
-/*
-main.css - general stylesheet for BOINC web pages
-
-No colors are defined here.
-Put colors in a separate stylesheet (e.g., white.css, style2.css)
-
-Use classes, not IDs.
-
-We use the following classes:
-
-table.bordered
-    a table with a border around it
-td.bordered
-    bordered table cell (admin pages only)
-td.heading
-    table cell acting as heading
-td.fieldname
-td.fieldvalue
-    table cells with name/value pairs
-td.fieldname_error
-td.fieldvalue_error
-    same, but colored to show error
-td.row0, row1
-    rows with alternating colors
-td.highlighted_row0, highlighted_row1
-    same, but highlighted
-
-... a bunch for message boards; see below
-
-In the home page:
-
-td.news
-td.uotd
-h2.headline
-div.mainnav
-
-*/
-
 a, a:link, a:visited, a:active {
-    text-decoration: none;
+	color: #0069A1;
 }
 
-a:hover { text-decoration: underline; }
-
 body {
-    font-family: Verdana, Arial, Sans Serif;
-    font-size: 13px;
-    margin: 5px 10px;
+background-image:url(/wp-content/themes/persuasion/QCN-blue/dark_bg.png);
+/*background-color:inherit@;*/
+background-repeat:repeat;background-attachment:scroll;background-position:center top;}
+/*	#background: #fff url("img/gray_gradient.png") repeat-x;
+	color: black;
+*/
 }
 
 h1 {
-    font-weight: normal;
-    margin: 10px;
+	color: #203C66;
 }
-
-h2 {
-    font-weight: normal;
-    font-size: 20px;
-}
-
-h3, h4 { font-weight: bold; }
 
 hr {
-    size: 0;
-    margin: 8px 2px;
+    border:0;
+	border-top: 2px solid #e8e8e8;
 }
 
-img {
-    border: none;
-}
-
-table {
-    padding: 4px 6px;
-    margin: 2px;
+hr.news_line {
+    border: 0;
+    border-bottom: 1px solid rgb(200, 200, 200);
 }
 
 table.bordered {
+	border-color: #e8e8e8;
     border-width: 2px;
     border-style: solid;
     -moz-border-radius: 6px;
@@ -84,90 +36,70 @@ table.bordered {
 }
 
 th {
-    font-weight: bold;
-    vertical-align: top;
-}
-
-td {
-    vertical-align: top;
-    padding: 4px;
+	background-color: #c0c0c0;
 }
 
 td.bordered {
-    border-width: 1px;
-    border-style: solid;
+	border-color: gray;
+}
+
+td.indent {
+	border-color: #fff;
 }
 
 td.heading {
-    font-weight: bold;
-    margin: 4px 0;
-    padding: 8px;
+	background-color: #d8d8d8;
 }
 
 td.fieldname {
-    text-align: right;
-    padding-right: 10px;
-    font-size: 14px;
-    margin: 2px 0;
+	background-color: #eee;
+	color: #333;
 }
 
-td.fieldvalue {
-    margin: 2px 0;
-    vertical-align: top;
-}
-
-td.fieldname_error {
-    text-align: right;
-}
-
-td.fieldvalue_error {
-    font-weight: bold;
+td.fieldname_error,
+td.fieldvalue_error  {
+	background-color: #f88;
 }
 
 td.friend {
-    text-align: center;
+	background-color: #e8e8e8;
 }
 
-.row0,
-.row1 ,
-.highlighted_row0,
+.row0 {
+	background-color: #d9d9d9;
+}
+
+.row1 {
+	background-color: #eee;
+}
+
+.highlighted_row0 {
+	background-color: #b9d9f9;
+}
+
 .highlighted_row1 {
-    text-align: left;
+	background-color: #ceeefe;
 }
 
-/*   Buttons etc.   */
+.row_hd0 {
+	background-color: #cffacf;
+}
+
+.row_hd1 {
+	background-color: #defade;
+}
+
+tr.message {
+	background-color: #e0e0e0;
+}
 
 input[type="button"],
 input[type="submit"],
-.btn {
-    padding: 4px 4px;
-    margin: 2px;
-    border-width: 1px;
-    border-style: solid;
-    font-size: 13px;
-    font-weight: normal;
-    cursor: pointer;
-    -moz-border-radius: 5px;
-    -webkit-border-radius: 5px;
-    -khtml-border-radius: 5px;
-    border-radius: 5px;
-}
-
-    /* IE6 doesn't understand [type=XXXX] so we use class "button" */
-
+.btn,
 a.button {
-    line-height: 2.4em;
-    padding: 4px 4px;
-    margin: 0px 0px;
-    border-width: 1px;
-    border-style: solid;
-    font-size: 13px;
-    font-weight: normal;
-    white-space: nowrap;
-    -moz-border-radius: 5px;
-    -webkit-border-radius: 5px;
-    -khtml-border-radius: 5px;
-    border-radius: 5px;
+	background: #EDEDED url(img/white_grad.png) repeat-x scroll left top;
+	color: black;
+	border-color: #ccc;
 }
 
 input[type="button"]:hover,
@@ -175,245 +107,89 @@ input[type="submit"]:hover,
 input.btn:hover,
 .button:hover ,
 .forum_toplinks a:hover {
-    text-decoration: none;
+	border: 1px solid #555;
+	color: #0069A1;
 }
 
 input[type="text"], input[type="password"], select, textarea {
-    border-width: 1px;
-    border-style: solid;
-    margin: 2px 4px;
-    padding: 3px;
-    -moz-border-radius: 5px;
-    -webkit-border-radius: 5px;
-    -khtml-border-radius: 5px;
-    border-radius: 5px;
+	border-color: #bbb;
 }
 
-/*   Main Page   */
+input[type="text"]:focus, input[type="password"]:focus, select:focus, textarea:focus {
+	border-color: #0069A1;
+}
 
 td.news {
-    border-width: 2px;
-    border-style: solid;
-    padding: 10px;
-    margin: 4px;
-    -moz-border-radius: 10px;
-    -webkit-border-radius: 10px;
-    -khtml-border-radius: 10px;
-    border-radius: 10px;
-}
-
-h2.headline {
-    margin-top: 0;
+	background-color: #dff0ff;
+	border-color: #add8e6;
 }
 
 td.uotd {
-    border-width: 2px;
-    border-style: solid;
-    padding: 10px;
-    margin: 4px;
-    -moz-border-radius: 10px;
-    -webkit-border-radius: 10px;
-    -khtml-border-radius: 10px;
-    border-radius: 10px;
+	background-color: #d3d3d3;
+	border-color: #eee;
 }
 
-/*   Forum   */
-
-#thread {
-    table-layout: fixed;
-    overflow: visible;
-}
-
-td.category , tr.subtitle{
-    border: none;
-    font-weight: bold;
-    margin: 6px 0;
-}
-
-th {
-    font-weight: bold;
-    margin: 4px 2px;
-    padding: 4px;
+td.category {
+   background-color: #ddd;
 }
 
 td.postheader {
-    font-size: 12px;
-    margin-left: 4px;
-    padding-left: 8px;
-    height: 28px;
-    -moz-border-radius: 0 10px 0 0;
-    -webkit-border-radius-topright: 10px;
-    -khtml-border-radius-topright: 10px;
-    border-radius-topright: 10px;
-}
-
-td.postheader form {
-    padding: 4px;
+	background-color: #eee;
+	color: #333;
 }
 
 td.postbody {
-    line-height: 140%;
-    padding: 4px 12px;
+	background-color: #fff;
 }
 
 td.postfooter {
-    font-size: 12px;
-    height: 26px;
-    margin-left: 4px;
-    padding-left: 8px;
-    -moz-border-radius: 0 0 10px 0;
-    -khtml-border-radius-bottomright: 10px;
-    -webkit-border-radius-bottomright: 10px;
-    border-radius-bottomright: 10px;
-}
-
-td.postheader .button,
-td.postfooter .button {
-    font-size: 12px;
-}
-
-tr.helpdeskseparator {
-    height: 10pt;
+	background-color: #eee;
+	color: #333;
 }
 
 tr.postseparator {
-    margin: 4px 0;
-}
-
-td.threadline {
-    text-align: left;
-    vertical-align: middle;
-}
-
-td.numbers {
-    vertical-align: middle;
-    text-align: center;
-}
-
-td.lastpost, td.threadicon {
-    vertical-align: middle;
-}
-
-.title {
-    font-size: 14px;
-    font-weight: bold;
-}
-
-.description {
-    font-size: 80%;
-    font-weight: normal;
-}
-
-td.leftcol {
-    -moz-border-radius: 10px 0 0 10px;
-    -khtml-border-radius-topleft: 10px;
-    -khtml-border-radius-bottomleft: 10px;
-    -webkit-border-radius-topleft: 10px;
-    -webkit-border-radius-bottomleft: 10px;
-    border-radius-topleft: 10px;
-    border-radius-bottomleft: 10px;
-}
-
-.authorcol {
-    width: 136px;
+	background-color: #c8c8c8;
+    border-color: #aaa;
 }
 
 div.authorcol {
-    border-width: 1px;
-    border-style: solid;
-    padding: 8px 5px;
-    width: 120px;
-    margin: 2px 0 2px 2px;
-    overflow: hidden;
-    word-wrap: break-word;
-    -moz-border-radius: 10px;
-    -webkit-border-radius: 10px;
-    -khtml-border-radius: 10px;
-    border-radius: 10px;
+	background-color: white;
+	border-color: #c8c8c8;
 }
 
 .authorinfo {
-    font-size: 11px;
+	color: #333;
 }
 
-img.authorinfo {
-    border-width: 1px;
-    border-style: solid;
-    margin: 3px 9px;
-}
-
-img.flag {
-    margin: 2px 1px;
-}
-
-.authorcol .button {
-    font-size: 12px;
-    margin: 0 4px;
-    line-height: 2.6em;
+.authorinfo img {
+	border-color: #a8a8a8;
 }
 
 blockquote.postbody {
-    border-left-width: 2px;
-    border-left-style: solid;
-    padding: 2px 6px;
-    margin: 0 6px 0 10px;
-    font-style: italic;
-}
-
-.forum_toplinks td {
-    vertical-align: middle;
-}
-
-.page_title {
-    font-size: 24px;
-    margin: 20px;
-}
-
-span.note {
-    font-weight: normal;
-    font-style: italic;
-    font-size: 0.9em;
+	border-left-color: #0089e1;
+	background-color: #f5fffa;
 }
 
 span.news_date {
-    font-size: 0.8em;
+    color: rgb(100,100,100);
+    font-size: 0.9em;
+    float: right;
 }
 
-span.news_title,
-span.inboxunread {
-    font-weight: bold;
-}
-
-.nobr{
-    white-space: nowrap;
-}
-
-.pre {
-    font-family: "Courier New", courier, monospace;
-    display: block;
-    white-space: pre;
-    overflow: auto;
+span.highlight {
+	background-color: #ffc;
 }
 
 .code {
-    font-family: "Courier New", courier, monospace;
-    display: block;
-    margin-left: 5em;
-    border-left-width: 3px;
-    border-left-style: solid;
-    padding-left: 1em;
-    white-space: nowrap;
-    overflow: auto;
+	border-left-color: #caa;
 }
 
-.smalltext {
-    font-size: 0.8em;
+.error {
+	color: #f00;
 }
 
-.error,
-.notice  {
-    font-weight: bold;
-    font-size: 1.1em;
+.notice {
+	color: #090;
 }
 
 div.pm_preview {
@@ -421,15 +197,20 @@ div.pm_preview {
     border-style: solid;
     margin: 1em;
     padding: 0.2em;
+    font-size: 1.1em;
     border-bottom-width: 1px;
     border-bottom-style: solid;
 
-    line-height: 140%;
-    padding: 4px 12px;
+	border-color: #ccc;
+	background-color: #eee;
+	border-bottom-color:  #ccc;
 }
 
-/*   IE hack   */
+/*   Server Status Page   */
 
-* html body .code {
-    white-space: normal;
-}
+td.running { background-color: #9aff4f; }
+
+td.notrunning { background-color: #feff6f; }
+
+td.disabled { background-color: #ff4f4f; }
+

@@ -6,7 +6,7 @@ require_once("../inc/util.inc");
 require_once("common.inc");
 
 $master_url = parse_config(get_config(), "<master_url>");
-define("PROJECT", "Quake-Catcher Network Continual Monitoring");
+define("PROJECT", "Quake-Catcher Network Continual Sensor Monitoring");
 define("URL_BASE", "http://qcn.stanford.edu/continual/");
 define("IMAGE_PATH", "../user_profile/images/");
 define("IMAGE_URL", "user_profile/images/");
@@ -70,9 +70,249 @@ define("MAP_ICON_2", "http://www.google.com/intl/en_us/mapfiles/ms/micons/green-
 define("MAP_ICON_3", "http://www.google.com/intl/en_us/mapfiles/ms/micons/purple-dot.png");
 define("MAP_ICON_4", "http://www.google.com/intl/en_us/mapfiles/ms/micons/yellow-dot.png");
 
+function project_wordpress_header()
+{
+
+}
+
+function project_wordpress_header2()
+{
+
+echo "
+<div id=\"header\">
+                <div id=\"header_inner\">
+                        
+                <div class=\"logo\"><a rel=\"home\" href=\"" . BASEURL . "/\" class=\"site_logo\"><img src=\"" . BASEURL . "/wp-content/uploads/2011/08/QCN_Logo_origional_small.png\" alt=\"QCN\"  /></a></div><!-- .logo --><div id=\"primary_menu\"><div class=\"jqueryslidemenu\"><ul id=\"menu-main-menu\" class=\"\"><li id=\"menu-item-334\" class=\"menu-item menu-item-type-custom menu-item-object-custom menu-item-home\"><a href=\"" . BASEURL . "\"><span>Home</span></a></li>
+<li id=\"menu-item-247\" class=\"menu-item menu-item-type-post_type menu-item-object-page\"><a href=\"" . BASEURL . "/about-qcn\"><span>About QCN</span><small>About QCN
+</small></a>
+<ul class=\"sub-menu\">
+        <li id=\"menu-item-243\" class=\"menu-item menu-item-type-post_type menu-item-object-page\"><a href=\"" . BASEURL . "/about-qcn/desktop-network\">Network</a></li>
+        <li id=\"menu-item-369\" class=\"menu-item menu-item-type-post_type menu-item-object-page\"><a href=\"" . BASEURL . "/about-qcn/aftershock-program\">Aftershock Program</a></li>
+        <li id=\"menu-item-248\" class=\"menu-item menu-item-type-post_type menu-item-object-page\"><a href=\"" . BASEURL . "/about-qcn/contact-us\">Contact Us</a></li>
+        <li id=\"menu-item-1106\" class=\"menu-item menu-item-type-post_type menu-item-object-page\"><a href=\"" . BASEURL . "/about-qcn/videos\">Videos</a></li>
+</ul>
+</li>
+<li id=\"menu-item-242\" class=\"menu-item menu-item-type-post_type menu-item-object-page\"><a href=\"" . BASEURL . "/join-qcn\"><span>Join QCN</span><small>Join QCN
+</small></a>
+<ul class=\"sub-menu\">
+        <li id=\"menu-item-37\" class=\"menu-item menu-item-type-post_type menu-item-object-page\"><a href=\"" . BASEURL . "/join-qcn/request-a-sensor\">Request a Sensor</a></li>
+        <li id=\"menu-item-628\" class=\"menu-item menu-item-type-post_type menu-item-object-page\"><a href=\"" . BASEURL . "/join-qcn/download-qcn-monitoring\">Download QCN Software</a></li>
+        <li id=\"menu-item-58\" class=\"menu-item menu-item-type-post_type menu-item-object-page\"><a href=\"" . BASEURL . "/join-qcn/manualsinstructions\">Installation Instructions</a></li>
+</ul>
+</li>
+<li id=\"menu-item-255\" class=\"menu-item menu-item-type-post_type menu-item-object-page current_page_parent\"><a href=\"" . BASEURL . "/news\"><span>News</span><small>News
+</small></a>
+<ul class=\"sub-menu\">
+        <li id=\"menu-item-884\" class=\"menu-item menu-item-type-taxonomy menu-item-object-category\"><a href=\"" . BASEURL . "/news/updates\">Updates</a></li>
+        <li id=\"menu-item-1034\" class=\"menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent\"><a href=\"" . BASEURL . "/news/events\">Events</a></li>
+        <li id=\"menu-item-1149\" class=\"menu-item menu-item-type-post_type menu-item-object-page\"><a href=\"" . BASEURL . "/press-releases\">Press Releases</a></li>
+        <li id=\"menu-item-882\" class=\"menu-item menu-item-type-taxonomy menu-item-object-category\"><a href=\"" . BASEURL . "/news/inthenews\">In the News</a></li>
+</ul>
+</li>
+<li id=\"menu-item-262\" class=\"menu-item menu-item-type-post_type menu-item-object-page\"><a href=\"" . BASEURL . "/learning\"><span>Learning</span><small>Learning
+</small></a>
+<ul class=\"sub-menu\">
+        <li id=\"menu-item-1129\" class=\"menu-item menu-item-type-post_type menu-item-object-page\"><a href=\"" . BASEURL . "/join-qcn/request-a-sensor\">Request a Sensor</a></li>
+        <li id=\"menu-item-256\" class=\"menu-item menu-item-type-post_type menu-item-object-page\"><a href=\"" . BASEURL . "/learning/qcn-interactve\">QCN Interactve</a></li>
+        <li id=\"menu-item-257\" class=\"menu-item menu-item-type-post_type menu-item-object-page\"><a href=\"" . BASEURL . "/learning/lessons-and-activities\">Lessons and Activities</a></li>
+        <li id=\"menu-item-1126\" class=\"menu-item menu-item-type-post_type menu-item-object-page\"><a href=\"" . BASEURL . "/join-qcn/download-qcn-monitoring\">Download QCN Software</a></li>
+        <li id=\"menu-item-259\" class=\"menu-item menu-item-type-post_type menu-item-object-page\"><a href=\"" . BASEURL . "/learning/learn-about-earthquakes\">Learn About Earthquakes</a></li>
+        <li id=\"menu-item-260\" class=\"menu-item menu-item-type-post_type menu-item-object-page\"><a href=\"" . BASEURL . "/learning/glossary\">Glossary</a></li>
+        <li id=\"menu-item-261\" class=\"menu-item menu-item-type-post_type menu-item-object-page\"><a href=\"" . BASEURL . "/learning/educational-affiliates\">Educational Affiliates</a></li>
+</ul>
+</li>
+<li id=\"menu-item-268\" class=\"menu-item menu-item-type-post_type menu-item-object-page\"><a href=\"" . BASEURL . "/research\"><span>Research</span><small>Research
+</small></a>
+<ul class=\"sub-menu\">
+        <li id=\"menu-item-1128\" class=\"menu-item menu-item-type-post_type menu-item-object-page\"><a href=\"" . BASEURL . "/join-qcn/request-a-sensor\">Request a Sensor</a></li>
+        <li id=\"menu-item-265\" class=\"menu-item menu-item-type-post_type menu-item-object-page\"><a href=\"" . BASEURL . "/research/data-downloads\">Data Downloads</a></li>
+        <li id=\"menu-item-266\" class=\"menu-item menu-item-type-post_type menu-item-object-page\"><a href=\"" . BASEURL . "/research/development-opportunities\">Development Opportunities</a></li>
+        <li id=\"menu-item-1127\" class=\"menu-item menu-item-type-post_type menu-item-object-page\"><a href=\"" . BASEURL . "/join-qcn/download-qcn-monitoring\">Download QCN Software</a></li>
+        <li id=\"menu-item-267\" class=\"menu-item menu-item-type-post_type menu-item-object-page\"><a href=\"" . BASEURL . "/research/research-affiliates\">Research Affiliates</a></li>
+</ul>
+</li>
+
+<li id=\"menu-item-274\" class=\"menu-item menu-item-type-post_type menu-item-object-page\"><a href=\"" . BASEURL . "/my-qcnboinc\"><span>My QCN/BOINC</span><small>My QCN/BOINC
+</small></a>
+<ul class=\"sub-menu\">
+        <li id=\"menu-item-888\" class=\"menu-item menu-item-type-post_type menu-item-object-page\"><a href=\"" . BASEURL . "/my-qcnboinc/support-forum\">Support Forum</a></li>
+        <li id=\"menu-item-269\" class=\"menu-item menu-item-type-post_type menu-item-object-page\"><a href=\"" . BASEURL . "/my-qcnboinc/my-account\">My Account</a></li>
+        <li id=\"menu-item-270\" class=\"menu-item menu-item-type-post_type menu-item-object-page\"><a href=\"" . BASEURL . "/my-qcnboinc/my-location\">My Location</a></li>
+        <li id=\"menu-item-1125\" class=\"menu-item menu-item-type-post_type menu-item-object-page\"><a href=\"" . BASEURL . "/join-qcn/download-qcn-monitoring\">Download QCN Software</a></li>
+        <li id=\"menu-item-272\" class=\"menu-item menu-item-type-post_type menu-item-object-page\"><a href=\"" . BASEURL . "/my-qcnboinc/user-database\">User Database</a></li>
+        <li id=\"menu-item-273\" class=\"menu-item menu-item-type-post_type menu-item-object-page\"><a href=\"" . BASEURL . "/my-qcnboinc/statistics\">Statistics</a></li>
+</ul>
+</li>
+</ul></div><div class=\"clearboth\"></div></div><!-- #primary_menu --></div><!-- #header_inner -->
+        </div><!-- #header -->
+";
+
+
+echo "
+
+<script type='text/javascript'>
+function wp_attempt_focus() {
+setTimeout( function() {
+try {
+d = document.getElementById('user_login');
+d.value = '';
+d.focus();
+} catch(e){}
+}, 200 );
+}
+wp_attempt_focus();
+if(typeof wpOnload=='function')wpOnload()
+</script>
+<script type='text/javascript' src=' " . BASEURL . "/wp-content/themes/persuasion/lib/scripts/prettyphoto/js/jquery.prettyPhoto.js?ver=1.3'></script>
+	<script type='text/javascript'>
+		// PrintFriendly
+		var e = document.createElement('script'); e.type='text/javascript'; e.async = true; 
+		e.src = '//cdn.printfriendly.com/printfriendly.js';
+		document.getElementsByTagName('head')[0].appendChild(e);
+	</script>
+				<script type='text/javascript'>/* <![CDATA[ */var ua = jQuery.browser;if( (!ua.msie) || (ua.version.substring(0,1) != '6' && ua.msie) ){Cufon.now();Cufon.replace('h1', { fontFamily: 'colaboratethin' });Cufon.replace('h2', { fontFamily: 'colaboratethin' });Cufon.replace('h3', { fontFamily: 'colaboratethin' });Cufon.replace('#main h4,#intro h4', { fontFamily: 'colaboratelight' });Cufon.replace('.logo a', { fontFamily: 'colaboratethin' });Cufon.replace('#intro .teaser', { fontFamily: 'colaboratelight' });Cufon.replace('#slider_module+#intro h3', { fontFamily: 'colaboratelight' });Cufon.replace('#outro,#outro a', { fontFamily: 'colaboratelight' });Cufon.replace('.toggle a,.toggle_accordion a', { fontFamily: 'colaboratelight' });Cufon.replace('#content .teaser', { fontFamily: 'colaboratelight' });Cufon.replace('#intro .intro_title',{fontFamily: 'colaboratethin',color: '-linear-gradient(#fff,#f9f9f9, #bbb)',textShadow: '1px 2px rgba(0, 0, 0, 0.25), 0px -1px rgba(0, 0, 0, 0.1)',});if ( ua.msie && ua.version.substring(0,1) == '8' ){jQuery('h1,h2,h3,#main h4,#intro h4,.logo a,#intro .teaser,#slider_module+#intro h3,#outro,#outro a,.toggle a,.toggle_accordion a,#content .teaser,#intro .intro_title').css('-ms-filter', '').css('filter', '');}else if( ua.msie && ua.version.substring(0,1) >= '9' ){jQuery('h1,h2,h3,#main h4,#intro h4,.logo a,#intro .teaser,#slider_module+#intro h3,#outro,#outro a,.toggle a,.toggle_accordion a,#content .teaser,#intro .intro_title').css('opacity', '1');}else if(!ua.msie){jQuery('h1,h2,h3,#main h4,#intro h4,.logo a,#intro .teaser,#slider_module+#intro h3,#outro,#outro a,.toggle a,.toggle_accordion a,#content .teaser,#intro .intro_title').css('opacity', '1');}} /* ]]> */</script><script type='text/javascript'>/* <![CDATA[ */jQuery( '.blog_layout1' ).preloader({ imgSelector: '.blog_index_image_load span img', imgAppend: '.blog_index_image_load' });jQuery( '.blog_layout2' ).preloader({ imgSelector: '.blog_index_image_load span img', imgAppend: '.blog_index_image_load' });jQuery( '.blog_layout3' ).preloader({ imgSelector: '.blog_index_image_load span img', imgAppend: '.blog_index_image_load' });jQuery( '.single_post_module' ).preloader({ imgSelector: '.blog_index_image_load span img', imgAppend: '.blog_index_image_load' });jQuery( '.one_column_portfolio' ).preloader({ imgSelector: '.portfolio_img_load span img', imgAppend: '.portfolio_img_load' });jQuery( '.two_column_portfolio' ).preloader({ imgSelector: '.portfolio_img_load span img', imgAppend: '.portfolio_img_load' });jQuery( '.three_column_portfolio' ).preloader({ imgSelector: '.portfolio_img_load span img', imgAppend: '.portfolio_img_load' });jQuery( '.four_column_portfolio' ).preloader({ imgSelector: '.portfolio_img_load span img', imgAppend: '.portfolio_img_load' });jQuery( '.portfolio_gallery.large_post_list' ).preloader({ imgSelector: '.portfolio_img_load span img', imgAppend: '.portfolio_img_load' });jQuery( '.portfolio_gallery.medium_post_list' ).preloader({ imgSelector: '.portfolio_img_load span img', imgAppend: '.portfolio_img_load' });jQuery( '.portfolio_gallery.small_post_list' ).preloader({ imgSelector: '.portfolio_img_load span img', imgAppend: '.portfolio_img_load' });jQuery( '#main_inner' ).preloader({ imgSelector: '.portfolio_full_image span img', imgAppend: '.portfolio_full_image' });jQuery( '#main_inner' ).preloader({ imgSelector: '.blog_sc_image_load span img', imgAppend: '.blog_sc_image_load' });jQuery( '#main_inner' ).preloader({ imgSelector: '.fancy_image_load span img', imgAppend: '.fancy_image_load' });jQuery( '#intro_inner' ).preloader({ imgSelector: '.fancy_image_load span img', imgAppend: '.fancy_image_load' });/* ]]> */</script>
+
+";
+
+echo "
+<link rel=\"shortcut icon\" href=\"" . BASEURL . "/wp-content/uploads/2011/08/favicon.png\" />
+
+<script type=\"text/javascript\">
+/* <![CDATA[ */
+	var imageResize = \"timthumb\",
+	    resizeDisabled = \"\",
+	    assetsUri = \"" . BASEURL . "/wp-content/themes/persuasion/images/assets\",
+            imageNonce = \"de93b49d9b\";
+	document.write('<style type=\"text/css\">.noscript{visibility: hidden;}h1,h2,h3,#main h4,#intro h4,.logo a,#intro .teaser,#slider_module+#intro h3,#outro,#outro a,.toggle a,.toggle_accordion a,#content .teaser,#intro .intro_title{opacity: 0;-ms-filter:\"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)\";}</style>');
+/* ]]> */
+</script>
+<meta name='robots' content='noindex,nofollow' />
+<link rel='stylesheet' id='my-style-css'  href='" . BASEURL . "/wp-content/plugins/wp-font-resizer-widget/jf.css?ver=3.2.1' type='text/css' media='all' />
+<link rel='stylesheet' id='theme-my-login-css'  href='" . BASEURL . "/wp-content/plugins/theme-my-login/theme-my-login.css?ver=6.1.4' type='text/css' media='all' />
+<link rel='stylesheet' id='tfg_style-css'  href='" . BASEURL . "/wp-content/plugins/twitter-facebook-google-plusone-share/tfg_style.css?ver=3.2.1' type='text/css' media='all' />
+<link rel='stylesheet' id='mysite_prettyphoto-css'  href='" . BASEURL . "/wp-content/themes/persuasion/lib/scripts/prettyphoto/css/prettyPhoto.css?ver=1.3' type='text/css' media='screen' />
+<link rel='stylesheet' id='bbpress-style-css'  href='" . BASEURL . "/wp-content/plugins/bbpress/bbp-themes/bbp-twentyten/css/bbpress.css?ver=20110912' type='text/css' media='screen' />
+<link rel='stylesheet' id='transposh_widget-css'  href='" . BASEURL . "/wp-content/plugins/transposh-translation-filter-for-wordpress/widgets/flags/tpw_flags.css?ver=0.7.6' type='text/css' media='all' />
+<script type='text/javascript' src='" . BASEURL . "/wp-includes/js/l10n.js?ver=20101110'></script>
+<script type='text/javascript' src='" . BASEURL . "/wp-includes/js/prototype.js?ver=1.6.1'></script>
+<script type='text/javascript' src='" . BASEURL . "/wp-includes/js/scriptaculous/wp-scriptaculous.js?ver=1.8.3'></script>
+<script type='text/javascript' src='" . BASEURL . "/wp-includes/js/scriptaculous/effects.js?ver=1.8.3'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var SBCS = {
+	sidebarID: \"sidebar\",
+	sidebarListEl: \"UL\",
+	sidebarListItemEl: \"LI\",
+	sidebarListItemPartialClassName: \"widget\",
+	sidebarWidgetTitlePartialClassName: \"widgettitle\",
+	show: \" [+]\",
+	hide: \" [-]\",
+	widgetidsdefaultcollapse: \"\"
+};
+/* ]]> */
+</script>
+<script type='text/javascript' src='" . BASEURL . "/wp-content/plugins/sidebar-widget-collapser/SidebarCollapserScript.js?ver=1.4'></script>
+<script type='text/javascript' src='" . BASEURL . "/wp-content/plugins/wp-font-resizer-widget/jq.js?ver=3.2.1'></script>
+<script type='text/javascript' src='" . BASEURL . "/wp-content/plugins/wp-font-resizer-widget/jq1.js?ver=3.2.1'></script>
+<script type='text/javascript' src='http://platform.twitter.com/widgets.js?ver=3.2.1'></script>
+<script type='text/javascript' src='http://apis.google.com/js/plusone.js?ver=3.2.1'></script>
+<script type='text/javascript' src='" . BASEURL . "/wp-includes/js/jquery/jquery.js?ver=1.6.1'></script>
+<script type='text/javascript' src='" . BASEURL . "/wp-content/themes/persuasion/lib/scripts/scrollable.min.js?ver=1.3'></script>
+<script type='text/javascript' src='" . BASEURL . "/wp-content/themes/persuasion/lib/scripts/cluetip/jquery.cluetip.js?ver=1.3'></script>
+<script type='text/javascript' src='" . BASEURL . "/wp-content/themes/persuasion/lib/scripts/custom.js?ver=1.3'></script>
+<script type='text/javascript' src='" . BASEURL . "/wp-content/themes/persuasion/lib/scripts/cufon-yui.js?ver=1.3'></script>
+<script type='text/javascript' src='" . BASEURL . "/wp-content/themes/persuasion/lib/scripts/fonts/colaboratethin.js?ver=1.3'></script>
+<script type='text/javascript' src='" . BASEURL . "/wp-content/themes/persuasion/lib/scripts/fonts/colaboratelight.js?ver=1.3'></script>
+<script type='text/javascript' src='" . BASEURL . "/wp-content/plugins/posttabs/postTabs.js?ver=3.2.1'></script>
+<link rel='index' title='QCN' href='" . BASEURL . "' />
+<meta name=\"generator\" content=\"WordPress 3.2.1\" />
+	<style type=\"text/css\">
+	    .postTabs_divs{
+	padding: 4px;	
+}
+
+
+.postTabs_titles{
+	display:none;	
+}
+
+ul.postTabs
+	{
+	margin:0px 0px 1em !important;
+	padding: 0.2em 1em 0.2em 20px !important;
+	border-bottom: 1px solid #ccc !important;
+	font-size: 11px;
+	list-style-type: none !important;
+	line-height:normal;
+	text-align: left;
+	display: block !important;
+	background: none;
+	}
+
+ul.postTabs li
+	{	
+	display: inline !important;
+	font-size: 11px;
+	line-height:normal;
+	background: none;
+	padding: 0px;
+	margin: 0px;
+	}
+  
+ul.postTabs li:before{
+content: none;	
+}  
+  	
+ul.postTabs li a
+	{
+	text-decoration: none;
+	background: #f3f3f3;
+	border: 1px solid #ccc  !important;
+	padding: 0.2em 0.4em !important;
+	color: #666 !important;
+	outline:none;	
+	cursor: pointer;
+	
+	}
+	
+ul.postTabs li.postTabs_curr a{
+	border-bottom: 1px solid #fff  !important;
+	background: #fff;
+	color: #000000 !important;
+	text-decoration: none;
+	
+	}
+
+ul.postTabs li a:hover
+	{
+	color: #666 !important;
+	background: #fff;
+	text-decoration: none;
+	
+	}
+
+.postTabsNavigation{
+	display: block !important;
+	overflow:hidden;
+}
+
+.postTabs_nav_next{
+	float:right;
+}
+
+.postTabs_nav_prev{
+	float:left;
+}
+	</style>
+	<meta name='robots' content='noindex,nofollow' />
+<link rel=\"alternate\" hreflang=\"af\" href=\"/login?loggedout=true&lang=af\"/><link rel=\"alternate\" hreflang=\"sq\" href=\"/login?loggedout=true&lang=sq\"/><link rel=\"alternate\" hreflang=\"ar\" href=\"/login?loggedout=true&lang=ar\"/><link rel=\"alternate\" hreflang=\"hy\" href=\"/login?loggedout=true&lang=hy\"/><link rel=\"alternate\" hreflang=\"az\" href=\"/login?loggedout=true&lang=az\"/><link rel=\"alternate\" hreflang=\"eu\" href=\"/login?loggedout=true&lang=eu\"/><link rel=\"alternate\" hreflang=\"be\" href=\"/login?loggedout=true&lang=be\"/><link rel=\"alternate\" hreflang=\"bn\" href=\"/login?loggedout=true&lang=bn\"/><link rel=\"alternate\" hreflang=\"bg\" href=\"/login?loggedout=true&lang=bg\"/><link rel=\"alternate\" hreflang=\"ca\" href=\"/login?loggedout=true&lang=ca\"/><link rel=\"alternate\" hreflang=\"zh\" href=\"/login?loggedout=true&lang=zh\"/><link rel=\"alternate\" hreflang=\"zh-tw\" href=\"/login?loggedout=true&lang=zh-tw\"/><link rel=\"alternate\" hreflang=\"hr\" href=\"/login?loggedout=true&lang=hr\"/><link rel=\"alternate\" hreflang=\"cs\" href=\"/login?loggedout=true&lang=cs\"/><link rel=\"alternate\" hreflang=\"da\" href=\"/login?loggedout=true&lang=da\"/><link rel=\"alternate\" hreflang=\"nl\" href=\"/login?loggedout=true&lang=nl\"/><link rel=\"alternate\" hreflang=\"eo\" href=\"/login?loggedout=true&lang=eo\"/><link rel=\"alternate\" hreflang=\"et\" href=\"/login?loggedout=true&lang=et\"/><link rel=\"alternate\" hreflang=\"fi\" href=\"/login?loggedout=true&lang=fi\"/><link rel=\"alternate\" hreflang=\"fr\" href=\"/login?loggedout=true&lang=fr\"/><link rel=\"alternate\" hreflang=\"gl\" href=\"/login?loggedout=true&lang=gl\"/><link rel=\"alternate\" hreflang=\"ka\" href=\"/login?loggedout=true&lang=ka\"/><link rel=\"alternate\" hreflang=\"de\" href=\"/login?loggedout=true&lang=de\"/><link rel=\"alternate\" hreflang=\"el\" href=\"/login?loggedout=true&lang=el\"/><link rel=\"alternate\" hreflang=\"gu\" href=\"/login?loggedout=true&lang=gu\"/><link rel=\"alternate\" hreflang=\"ht\" href=\"/login?loggedout=true&lang=ht\"/><link rel=\"alternate\" hreflang=\"he\" href=\"/login?loggedout=true&lang=he\"/><link rel=\"alternate\" hreflang=\"hi\" href=\"/login?loggedout=true&lang=hi\"/><link rel=\"alternate\" hreflang=\"hu\" href=\"/login?loggedout=true&lang=hu\"/><link rel=\"alternate\" hreflang=\"is\" href=\"/login?loggedout=true&lang=is\"/><link rel=\"alternate\" hreflang=\"id\" href=\"/login?loggedout=true&lang=id\"/><link rel=\"alternate\" hreflang=\"ga\" href=\"/login?loggedout=true&lang=ga\"/><link rel=\"alternate\" hreflang=\"it\" href=\"/login?loggedout=true&lang=it\"/><link rel=\"alternate\" hreflang=\"ja\" href=\"/login?loggedout=true&lang=ja\"/><link rel=\"alternate\" hreflang=\"kn\" href=\"/login?loggedout=true&lang=kn\"/><link rel=\"alternate\" hreflang=\"ko\" href=\"/login?loggedout=true&lang=ko\"/><link rel=\"alternate\" hreflang=\"la\" href=\"/login?loggedout=true&lang=la\"/><link rel=\"alternate\" hreflang=\"lv\" href=\"/login?loggedout=true&lang=lv\"/><link rel=\"alternate\" hreflang=\"lt\" href=\"/login?loggedout=true&lang=lt\"/><link rel=\"alternate\" hreflang=\"mk\" href=\"/login?loggedout=true&lang=mk\"/><link rel=\"alternate\" hreflang=\"ms\" href=\"/login?loggedout=true&lang=ms\"/><link rel=\"alternate\" hreflang=\"mt\" href=\"/login?loggedout=true&lang=mt\"/><link rel=\"alternate\" hreflang=\"no\" href=\"/login?loggedout=true&lang=no\"/><link rel=\"alternate\" hreflang=\"fa\" href=\"/login?loggedout=true&lang=fa\"/><link rel=\"alternate\" hreflang=\"pl\" href=\"/login?loggedout=true&lang=pl\"/><link rel=\"alternate\" hreflang=\"pt\" href=\"/login?loggedout=true&lang=pt\"/><link rel=\"alternate\" hreflang=\"ro\" href=\"/login?loggedout=true&lang=ro\"/><link rel=\"alternate\" hreflang=\"ru\" href=\"/login?loggedout=true&lang=ru\"/><link rel=\"alternate\" hreflang=\"sr\" href=\"/login?loggedout=true&lang=sr\"/><link rel=\"alternate\" hreflang=\"sk\" href=\"/login?loggedout=true&lang=sk\"/><link rel=\"alternate\" hreflang=\"sl\" href=\"/login?loggedout=true&lang=sl\"/><link rel=\"alternate\" hreflang=\"es\" href=\"/login?loggedout=true&lang=es\"/><link rel=\"alternate\" hreflang=\"sw\" href=\"/login?loggedout=true&lang=sw\"/><link rel=\"alternate\" hreflang=\"sv\" href=\"/login?loggedout=true&lang=sv\"/><link rel=\"alternate\" hreflang=\"tl\" href=\"/login?loggedout=true&lang=tl\"/><link rel=\"alternate\" hreflang=\"ta\" href=\"/login?loggedout=true&lang=ta\"/><link rel=\"alternate\" hreflang=\"te\" href=\"/login?loggedout=true&lang=te\"/><link rel=\"alternate\" hreflang=\"th\" href=\"/login?loggedout=true&lang=th\"/><link rel=\"alternate\" hreflang=\"tr\" href=\"/login?loggedout=true&lang=tr\"/><link rel=\"alternate\" hreflang=\"uk\" href=\"/login?loggedout=true&lang=uk\"/><link rel=\"alternate\" hreflang=\"ur\" href=\"/login?loggedout=true&lang=ur\"/><link rel=\"alternate\" hreflang=\"vi\" href=\"/login?loggedout=true&lang=vi\"/><link rel=\"alternate\" hreflang=\"cy\" href=\"/login?loggedout=true&lang=cy\"/><link rel=\"alternate\" hreflang=\"yi\" href=\"/login?loggedout=true&lang=yi\"/>
+";
+
+}
+
+
 function project_banner($title) {
     // Put your project title and logo here
-
     echo "<table width=\"100%\">
         <tr>
         <td><h2>$title</h2></td>
@@ -82,6 +322,8 @@ function project_banner($title) {
 }
 
 function project_footer($show_return, $show_date) {
+   // require_once(BASEPATH . "/boinc/sensor/html/inc/google_translate.inc");
+   // google_translate_new();
     echo "<br><hr noshade size=1><center>";
     if ($show_return) {
         echo "<a href=\"".URL_BASE."\">Return to ".PROJECT." main page</a><br>\n";
@@ -309,7 +551,6 @@ echo "
 function page_head($title, $java_onload=null, $title_plain=null, $prefix="", $google=false, $prefs=null, $maptrig=false, $numMarker=5, $zoomout = 0) 
 {
     global $caching, $cache_control_extra, $did_page_head;
-    require_once(BASEPATH . "/boinc/sensor/html/inc/google_translate.inc");
 
     $did_page_head = true;
     $stylesheet = URL_BASE.STYLESHEET;
@@ -332,6 +573,7 @@ function page_head($title, $java_onload=null, $title_plain=null, $prefix="", $go
        if ($google) {
           echo "<html xmlns=\"http://www.w3.org/1999/xhtml\" xmlns:v=\"urn:schemas-microsoft-com:vml\">
            <head>\n<title>" . PROJECT . " - " . $title . "</title>\n" . $metahttp;
+          project_wordpress_header();
 
          printGoogleMapsHeader();
 
@@ -342,9 +584,10 @@ function page_head($title, $java_onload=null, $title_plain=null, $prefix="", $go
        }
        else {
           echo "<html>
-            <head>\n<title>" . PROJECT . " - " . $title . "</title>\n" . 
-            $metahttp . 
-           "</head>\n<body>\n";
+            <head>\n<title>" . PROJECT . " - " . $title . "</title>\n" .
+            $metahttp;
+          project_wordpress_header();
+           echo "</head>\n<body>\n";
        }
 
     if (!$title_plain) {
@@ -357,7 +600,6 @@ function page_head($title, $java_onload=null, $title_plain=null, $prefix="", $go
         <link rel=alternate type=\"application/rss+xml\" title=\"$rssname\" href=\"$rsslink\">
         </head>
     ";
-
 
        // IE likes this first bit
        if ($google && strpos($_SERVER['HTTP_USER_AGENT'], "MSIE"))
@@ -374,8 +616,7 @@ function page_head($title, $java_onload=null, $title_plain=null, $prefix="", $go
     } else {
         echo "<body>";
     }
-    google_translate_new();
-    display_cvs_versions();
+    //display_cvs_versions();
 
     project_banner($title, $prefix);
     switch($title) {    //kludge
@@ -521,8 +762,8 @@ mysql> select * from qcn_level;
          } 
          else {
            if ($row[20] == 100) { // received_file: show file download link
-              $filename = "<A HREF=\"http://qcn-upl.stanford.edu/trigger/" . $row[21] . "\">$row[1]</A>";
-              $view = "<A HREF=\"javascript:void(0)\"onclick=\"window.open('http://qcn.stanford.edu/earthquakes/view/view_data.php?dat=".$row[1]."','linkname','height=500,width=400,scrollbars=no')\">View</a>";
+              $filename = "<A HREF=\"" . UPLOADURL . "/trigger/" . $row[21] . "\">$row[1]</A>";
+              $view = "<A HREF=\"javascript:void(0)\"onclick=\"window.open('" . BASEURL . "/earthquakes/view/view_data.php?dat=".$row[1]."','linkname','height=500,width=400,scrollbars=no')\">View</a>";
            }
            else {
               $filename = $row[1];
