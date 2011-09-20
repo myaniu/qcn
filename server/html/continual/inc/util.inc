@@ -65,7 +65,7 @@ function clear_cookie($name, $ops=false) {
         $path = substr($path, 0, -1);
         $path .= "_ops/";
     }
-    setcookie($name, '', time()-3600, $path);
+    setcookie($name, '', time()-3600, "/");
 }
 
 function get_user_from_id($id) {

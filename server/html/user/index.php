@@ -81,6 +81,7 @@ function show_nav() {
     $master_url = parse_config($config, "<master_url>");
     $no_computing = parse_config($config, "<no_computing>");
     $no_web_account_creation = parse_bool($config, "no_web_account_creation");
+    $user = get_logged_in_user(false);
     echo "<div class=\"mainnav\">
         <h2 class=headline>About ".PROJECT."</h2>
     ";
@@ -154,7 +155,6 @@ function show_nav() {
         </ul>
     ";
 
-$user = get_logged_in_user(false);
 
 // CMC changed to forum prefs 4th bit
   if (qcn_admin_user_auth($user)) {  // defined in project/project.inc
@@ -186,10 +186,13 @@ $stopped = web_stopped();
 $rssname = PROJECT . " RSS 2.0" ;
 $rsslink = URL_BASE . "rss_main.php";
 
-
+page_head(PROJECT);
+/*
 header("Content-type: text/html; charset=utf-8");
 
+
 echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">";
+
 
 echo "<html>
     <head>
@@ -203,11 +206,7 @@ echo "
     </head><body>
     <div class=page_title>".PROJECT."</div>
 ";
-
-if (!$stopped) {
-    get_logged_in_user(false);
-    show_login_info();
-}
+*/
 
 echo "
     <table cellpadding=\"8\" cellspacing=\"4\" class=bordered>
