@@ -590,7 +590,7 @@ function page_head($title, $java_onload=null, $title_plain=null, $prefix="", $go
            echo "</head>\n<body>\n";
        }
 
-    if (!$title_plain) {
+    if (!$title_plain || is_object($title_plain)) {
         echo "<html><head><title>".strip_tags($title)."</title>\n";
     } else {
         echo "<html><head><title>".strip_tags($title_plain)."</title>\n";

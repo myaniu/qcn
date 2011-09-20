@@ -37,6 +37,7 @@ if (!$hostid || $host->userid != $user->id)
    page_head("Invalid Host");
 
    echo "<BR>It appears that you do not own this host machine, therefore you cannot edit location preferences!<BR>";
+   echo "<BR><BR>If this is a new account, you may need to wait until BOINC connects and creates your Computer ID #.<BR>";
    page_tail();
    exit();
 }

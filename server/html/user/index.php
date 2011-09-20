@@ -208,6 +208,8 @@ echo "
 ";
 */
 
+include 'schedulers.txt';
+
 echo "
     <table cellpadding=\"8\" cellspacing=\"4\" class=bordered>
     <tr><td rowspan=\"2\" valign=\"top\" width=\"40%\">
