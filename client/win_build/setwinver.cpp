@@ -18,7 +18,7 @@
 int deploy_qcn(bool bQCNLive = false);  // send exe's to QCN server
 #endif
 
-void print_version_xml(const float& fVersion, const char* fname)
+void print_version_xml(const float& fVersion, const char* fname, bool bNCI)
 {
 	FILE* fileVersion = NULL;
 	if (fopen_s(&fileVersion, fname, "w") || !fileVersion) {
@@ -29,7 +29,7 @@ void print_version_xml(const float& fVersion, const char* fname)
 	fprintf(fileVersion, 
 		"<version>\n"
 		"  <file>\n"
-		"    <physical_name>qcn_%2.02f_%s__nci.exe</physical_name>\n"
+		"    <physical_name>qcn_%2.02f_%s%s.exe</physical_name>\n"
 		"    <main_program/>\n"
 		"  </file>\n"
 		"  <file>\n"
@@ -37,7 +37,7 @@ void print_version_xml(const float& fVersion, const char* fname)
 		"    <logical_name>graphics_app</logical_name>\n"
 		"  </file>\n"
 		"</version>\n",
-			fVersion, BOINC_WIN_SUFFIX
+		fVersion, BOINC_WIN_SUFFIX, (bNCI ? "__nci" : "")
 			,
 			fVersion, BOINC_WIN_SUFFIX
 	);
@@ -57,7 +57,7 @@ void printQCNFiles(FILE* fBatch, const char* strRemoteDir)
 	sprintf(fname, "version_32_%2.02f__nci.xml", fVersion);
 #endif
 
-   print_version_xml(fVersion, fname);
+   print_version_xml(fVersion, fname, true);
 
      // new BOINC handled nci (__nci)
 	// CMC note - we are assuming this directory was already created by Mac or Linux build!
@@ -91,7 +91,7 @@ void printQCNFiles(FILE* fBatch, const char* strRemoteDir)
 	sprintf(fname, "version_32_%2.02f.xml", fVersion);
 #endif
 
-        print_version_xml(fVersion, fname);
+        print_version_xml(fVersion, fname, false);
 		//fprintf(fBatch, "mkdir %2.02f\n", fVersion);
         fprintf(fBatch, "cd %2.02f\n", fVersion);
         fprintf(fBatch, "mkdir %s\n", BOINC_WIN_SUFFIX);
@@ -110,8 +110,6 @@ void printQCNFiles(FILE* fBatch, const char* strRemoteDir)
 #ifndef _WIN64
         fprintf(fBatch, "put init/MotionNodeAccelAPI.dll\n");
 #endif
-    fprintf(fBatch, "cd ..\n");
-    fprintf(fBatch, "cd ..\n");
 
 }
 
