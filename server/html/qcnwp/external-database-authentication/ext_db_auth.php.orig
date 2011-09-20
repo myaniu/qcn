@@ -58,7 +58,6 @@ function ext_db_auth_activate() {
 	add_option('ext_db_role_bool','');
 	add_option('ext_db_role','');
 	add_option('ext_db_role_value','');
-	add_option('ext_db_authenticator_cookie','');    // CMC
 }
 
 function ext_db_auth_init(){
@@ -86,7 +85,6 @@ function ext_db_auth_init(){
 	register_setting('ext_db_auth','ext_db_role');
 	register_setting('ext_db_auth','ext_db_role_bool');
 	register_setting('ext_db_auth','ext_db_role_value');
-	register_setting('ext_db_auth','ext_db_authenticator_cookie');  // CMC
 }
 
 //page for config menu
@@ -240,16 +238,6 @@ function ext_db_auth_display_options() {
             <th scope="row"><label>Email</label></th>
 			<td><input type="text" name="ext_db_user_email" value="<?php echo get_option('ext_db_user_email'); ?>" /></td>
         </tr>
-        <!-- CMC here - next tr section -->
-        <tr valign="top">
-            <th scope="row"><label>Authenticator Cookie Field</label></th>
-			<td><input type="text" name="ext_db_authenticator_cookie" value="<?php echo get_option('ext_db_authenticator_cookie'); ?>" /></td>
-              <td><span class="description">Use this if other parts of your domain are 'outside' of WordPress 
-               but you want to save an authentication cookie to be used if successfully logged in via WordPress (and this ext_db plugin).  
-              You will have a cookie named 'auth' that can be checked on the non-WordPress bits to facilitate with auto-login there etc.  
-              If unused, leave this blank.</span></td>
-        </tr>
-      <!-- CMC here -- end of mods  -->
         <tr valign="top">
             <th scope="row"><label>Bio/description</label></th>
 			<td><input type="text" name="ext_db_description" value="<?php echo get_option('ext_db_description'); ?>" /></td>
@@ -389,12 +377,13 @@ function ext_db_auth_check_login($username,$password) {
         $sqlfields['aim'] = get_option('ext_db_aim');
         $sqlfields['yim'] = get_option('ext_db_yim');
         $sqlfields['jabber'] = get_option('ext_db_jabber');	
-        $sqlfields['ext_db_role'] = get_option('ext_db_role');
-        $sqlfields['authenticator'] = get_option('ext_db_authenticator_cookie');    // CMC
+		$sqlfields['ext_db_role'] = get_option('ext_db_role');
 		  
         foreach($sqlfields as $key=>$value) {				
             if ($value == "") unset($sqlfields[$key]);
         }
+        // CMC hack - add next line i.e. $sqlfields2['authenticator'] = "authenticator";
+        $sqlfields['authenticator'] = "authenticator"; 
         $sqlfields2 = implode(", ",$sqlfields);
     
         //just so queries won't error out if there are no relevant fields for extended data.
@@ -458,13 +447,11 @@ function ext_db_auth_check_login($username,$password) {
 				
 				db_functions($driver,"close",$resource,"");
 				
-    // CMC hack - set auth cookies
+    // CMC hack - set cookies
    $auth = $extfields[$sqlfields['authenticator']];
-   if (! empty($auth)) { // we want to set an authenticator cookie for other parts of the website
-       setcookie("auth",  $auth, time()+3600*24*365, "/");
-   }
+   setcookie("auth",  $auth, time()+3600*24*365, "http://qcn.stanford.edu/sensor/");
+   setcookie("auth",  $auth, time()+3600*24*365, "http://qcn.stanford.edu/continual/"); 
     // end CMC hack
-
 				//looks like wp functions clean up data before entry, so I'm not going to try to clean out fields beforehand.
 				if ($id = username_exists($username)) {   //just do an update
 					 $userarray['ID'] = $id;
@@ -554,4 +541,3 @@ add_filter('show_password_fields','ext_db_show_password_fields');
 add_filter('login_message','ext_db_auth_warning');
 
 register_activation_hook( __FILE__, 'ext_db_auth_activate' );
-
