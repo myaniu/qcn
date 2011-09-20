@@ -174,13 +174,14 @@ int main(int argc, char** argv)
         boinc_copy(strOut[0], strOut[1]);
 	}
 
-	/*
 	// if graphics then we need to deploy the qcn apps to the server
 #ifndef _DEBUG
-	if (bDeploy) return deploy_qcn(false);
-	else 
+	#ifdef _WIN64
+	   if (bDeploy) return deploy_qcn(false);
+       else 
+	#endif
 #endif
-*/
+
 	return 0;
 }
 
