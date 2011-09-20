@@ -25,7 +25,7 @@ fi
 
 MAIN=qcn_${version}_$suffix$ncisuffix
 GRAPHICS=qcn_graphics_${version}_$suffix
-sed s/MAIN/$MAIN/ < version.xml.in | sed s/GRAPHICS/$GRAPHICS/ > version_$suffix.xml
+sed s/MAIN/$MAIN/ < version.xml.in | sed s/GRAPHICS/$GRAPHICS/ > version_$suffix$ncisuffix.xml
 
 echo chdir $pathpre >> qcnsftp.up
 echo -mkdir ${version} >> qcnsftp.up
@@ -34,7 +34,7 @@ echo -mkdir $suffix$ncisuffix >> qcnsftp.up
 echo chdir $suffix$ncisuffix >> qcnsftp.up
 echo put $MAIN >> qcnsftp.up
 echo put $GRAPHICS >> qcnsftp.up
-echo put version_$suffix.xml version.xml >> qcnsftp.up
+echo put version_$suffix$ncisuffix.xml version.xml >> qcnsftp.up
 print_common_boinc_files $ntpdv
 }
 
