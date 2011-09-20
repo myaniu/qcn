@@ -305,19 +305,28 @@ echo "
   ";
 }
 
-
 // this overrides the util.inc page_head
-//function page_head($google=false, $prefs=null)
 function page_head($title, $java_onload=null, $title_plain=null, $prefix="", $google=false, $prefs=null, $maptrig=false, $numMarker=5, $zoomout = 0) 
 {
-       $metahttp = "<meta http-equiv=\"content-type\" content=\"text/html; charset=utf-8\"/>\n"
-         . "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . STYLESHEET . "\">\n"
-         . "<link rel=\"shortcut icon\" href=\"http://qcn.stanford.edu/favicon.ico\" type=\"image/vnd.microsoft.icon\">\n"
-         . "<link rel=\"icon\" href=\"http://qcn.stanford.edu/favicon.ico\" type=\"image/vnd.microsoft.icon\">\n";
+    global $caching, $cache_control_extra, $did_page_head;
+    require_once(BASEPATH . "/boinc/sensor/html/inc/google_translate.inc");
 
+    $did_page_head = true;
+    $stylesheet = URL_BASE.STYLESHEET;
+    $rssname = PROJECT . " RSS 2.0";
+    $rsslink = URL_BASE."rss_main.php";
+
+    header("Content-type: text/html; charset=utf-8");
+    if (!$caching) {
+        header ("Expires: Mon, 26 Jul 1997 05:00:00 UTC");    // Date in the past
+        header ("Last-Modified: " . gmdate("D, d M Y H:i:s") . " UTC"); // always modified
+        header ("Cache-Control: $cache_control_extra no-cache, must-revalidate, post-check=0, pre-check=0");  // HTTP/1.1
+        header ("Pragma: no-cache");                          // HTTP/1.0
+    }
+
+     echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">\n";
        if ($google) {
-         echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">
-           <html xmlns=\"http://www.w3.org/1999/xhtml\" xmlns:v=\"urn:schemas-microsoft-com:vml\">
+          echo "<html xmlns=\"http://www.w3.org/1999/xhtml\" xmlns:v=\"urn:schemas-microsoft-com:vml\">
            <head>\n<title>" . PROJECT . " - " . $title . "</title>\n" . $metahttp;
 
          printGoogleMapsHeader();
@@ -328,12 +337,24 @@ function page_head($title, $java_onload=null, $title_plain=null, $prefix="", $go
          }
        }
        else {
-          echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">\n
-           <html>
+          echo "<html>
             <head>\n<title>" . PROJECT . " - " . $title . "</title>\n" . 
             $metahttp . 
            "</head>\n<body>\n";
        }
+
+    if (!$title_plain) {
+        echo "<html><head><title>".strip_tags($title)."</title>\n";
+    } else {
+        echo "<html><head><title>".strip_tags($title_plain)."</title>\n";
+    }
+    echo "<link rel=stylesheet type=\"text/css\" href=\"".URL_BASE."main.css\" media=\"all\" />
+        <link rel=stylesheet type=\"text/css\" href=\"$stylesheet\">
+        <link rel=alternate type=\"application/rss+xml\" title=\"$rssname\" href=\"$rsslink\">
+        $head_extra
+        </head>
+    ";
+
 
        // IE likes this first bit
        if ($google && strpos($_SERVER['HTTP_USER_AGENT'], "MSIE"))
@@ -344,6 +365,24 @@ function page_head($title, $java_onload=null, $title_plain=null, $prefix="", $go
         ";
        }
 
+
+    if ($java_onload){
+        echo "<body onload=\"".$java_onload."\">";
+    } else {
+        echo "<body>";
+    }
+    google_translate_new();
+    display_cvs_versions();
+
+    project_banner($title, $prefix);
+    switch($title) {    //kludge
+    case tra("Log in"):
+    case tra("Create an account"):
+    case tra("Server status page"):
+        break;
+    default:
+        show_login_info($prefix);
+    }
 }
 
 // disguises the curl using fake headers and a fake user agent.

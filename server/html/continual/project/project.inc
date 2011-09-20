@@ -3,9 +3,10 @@
 // CMC note -- added Google Maps stuff for QCN
 
 require_once("../inc/util.inc");
+require_once("common.inc");
 
 $master_url = parse_config(get_config(), "<master_url>");
-define("PROJECT", "Quake-Catcher Network Continual Sensor Monitoring");
+define("PROJECT", "Quake-Catcher Network Continual Monitoring");
 define("URL_BASE", "http://qcn.stanford.edu/continual/");
 define("IMAGE_PATH", "../user_profile/images/");
 define("IMAGE_URL", "user_profile/images/");
@@ -33,18 +34,14 @@ define("MIN_MAGNITUDE_D", "3.0");
 define("MIN_MAGNITUDE_W", "3.5");
 define("MIN_MAGNITUDE_M", "4.0");
 define("MIN_MAGNITUDE_H", "3.0");
-define("MAX_NUM_TRIGGER", "1000");
-define("DBNAME", "continual");
+define("MAX_NUM_TRIGGER", "500");
 
 // CMC have default global preferences
 define("GLOBAL_PREFS_DEFAULT", "<global_preferences>\n"
 . "<mod_time>" . time() . "</mod_time>\n"
 . "<leave_apps_in_memory>0</leave_apps_in_memory>\n"
 . "<suspend_while_on_batteries>0</suspend_while_on_batteries>\n"
-. "<run_on_batteries>1</run_on_batteries>\n"
-. "<run_if_user_active>1</run_if_user_active>\n"
-. "<run_gpu_if_user_active>0</run_gpu_if_user_active>\n"
-. "<idle_time_to_run>0</idle_time_to_run>\n"
+. "<idle_time_to_run>3</idle_time_to_run>\n"
 . "<suspend_if_no_recent_input>0</suspend_if_no_recent_input>\n"
 . "<cpu_scheduling_period_minutes>60</cpu_scheduling_period_minutes>\n"
 . "<work_buf_min_days>0</work_buf_min_days>\n"
@@ -61,11 +58,11 @@ define("GLOBAL_PREFS_DEFAULT", "<global_preferences>\n"
 . "<max_bytes_sec_down>0</max_bytes_sec_down>\n"
 . "<max_bytes_sec_up>0</max_bytes_sec_up>\n"
 . "<suspend_cpu_usage>0</suspend_cpu_usage>\n"
-. "</global_preferences>");
+. "</global_preferences>"); 
 
 // Email addresses separated by pipe ( | ) that will receive user reported 
 // offensive forum posts.
-define("POST_REPORT_EMAILS", "moderator1@$master_url|moderator2@$master_url");
+define("POST_REPORT_EMAILS", "carlgt1@yahoo.com|");
 
 define("MAP_ICON_0", "http://www.google.com/intl/en_us/mapfiles/ms/micons/red-dot.png");
 define("MAP_ICON_1", "http://www.google.com/intl/en_us/mapfiles/ms/micons/blue-dot.png");
@@ -149,7 +146,7 @@ function printGoogleMapsHeader()
   echo "\n<script src=\"http://maps.google.com/maps?file=api&v=2&key=ABQIAAAA7FMxjQepz_hQElGJ5tGPvhR_-dF_tBKZEzXEmb5veXIjh7ji-BSpO1s_bzlk2XSTyJa-06G_6sf7rw\" type=\"text/javascript\"></script>\n";
 } 
 
-function printGoogleMapsScript($prefs)
+function printGoogleMapsScript($prefs, $numMarker = 5, $zoomout = 0)
 {
 if (!$prefs) return;
  
@@ -157,8 +154,8 @@ echo "
 <script type=\"text/javascript\">
     //<![CDATA[
 
-   var lastOverlay = new Array(5);
-   var micon = new Array(5);
+   var lastOverlay = new Array($numMarker);
+   var micon = new Array($numMarker);
    var map;
    var geocoder;
    var iSelect = 0;
@@ -260,7 +257,7 @@ echo "
       map.addControl(new GScaleControl);
       map.addControl(new GMapTypeControl);
       geocoder = new GClientGeocoder();
-      for (i = 0 ; i < 5 ; i++) {
+      for (i = 0 ; i < $numMarker ; i++) {
         lastOverlay[i] = null;
         micon[i] = new GIcon();
         micon[i].shadow = \"http://labs.google.com/ridefinder/images/mm_20_shadow.png\";
@@ -272,15 +269,15 @@ echo "
       }
    ";
 
-   for ($i = 0 ; $i < 5 ; $i++)
+   for ($i = 0 ; $i < $numMarker ; $i++)
      echo "   micon[" . $i . "].image = \"" . constant("MAP_ICON_" . $i) . "\";\n";
 
-   for ($i = 4 ; $i >= 0 ; $i--) {
+   for ($i = ($numMarker - 1) ; $i >= 0 ; $i--) {
      echo "
       if (getElement(\"lat" . $i . "\").value != \"\" && getElement(\"lng" . $i . "\").value != \"\") {
             iSelect = " . $i . ";
             newpt = new GLatLng(getElement(\"lat" . $i . "\").value, getElement(\"lng" . $i . "\").value);
-            map.setCenter(newpt, 15);
+            map.setCenter(newpt, " . ($zoomout ? "6" : "15") . ");
             addMarker(map,newpt);
       }
      ";
@@ -308,36 +305,56 @@ echo "
   ";
 }
 
-
 // this overrides the util.inc page_head
-//function page_head($google=false, $prefs=null)
-function page_head($title, $java_onload=null, $title_plain=null, $prefix="", $google=false, $prefs=null, $maptrig=false) 
+function page_head($title, $java_onload=null, $title_plain=null, $prefix="", $google=false, $prefs=null, $maptrig=false, $numMarker=5, $zoomout = 0) 
 {
-       $metahttp = "<meta http-equiv=\"content-type\" content=\"text/html; charset=utf-8\"/>\n"
-         . "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . STYLESHEET . "\">\n"
-         . "<link rel=\"shortcut icon\" href=\"http://qcn.stanford.edu/favicon.ico\" type=\"image/vnd.microsoft.icon\">\n"
-         . "<link rel=\"icon\" href=\"http://qcn.stanford.edu/favicon.ico\" type=\"image/vnd.microsoft.icon\">\n";
+    global $caching, $cache_control_extra, $did_page_head;
+    require_once(BASEPATH . "/boinc/sensor/html/inc/google_translate.inc");
 
+    $did_page_head = true;
+    $stylesheet = URL_BASE.STYLESHEET;
+    $rssname = PROJECT . " RSS 2.0";
+    $rsslink = URL_BASE."rss_main.php";
+
+    header("Content-type: text/html; charset=utf-8");
+    if (!$caching) {
+        header ("Expires: Mon, 26 Jul 1997 05:00:00 UTC");    // Date in the past
+        header ("Last-Modified: " . gmdate("D, d M Y H:i:s") . " UTC"); // always modified
+        header ("Cache-Control: $cache_control_extra no-cache, must-revalidate, post-check=0, pre-check=0");  // HTTP/1.1
+        header ("Pragma: no-cache");                          // HTTP/1.0
+    }
+
+     echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">\n";
        if ($google) {
-         echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">
-           <html xmlns=\"http://www.w3.org/1999/xhtml\" xmlns:v=\"urn:schemas-microsoft-com:vml\">
-             $metahttp 
-           <head>\n<title>" . PROJECT . " - " . $title . "</title>\n";
+          echo "<html xmlns=\"http://www.w3.org/1999/xhtml\" xmlns:v=\"urn:schemas-microsoft-com:vml\">
+           <head>\n<title>" . PROJECT . " - " . $title . "</title>\n" . $metahttp;
 
          printGoogleMapsHeader();
 
          if (!$maptrig)  {
-            printGoogleMapsScript($prefs);
+            printGoogleMapsScript($prefs, $numMarker, $zoomout);
             echo "</head>\n<body onload=\"showMap()\" onunload=\"GUnload()\">\n";
          }
        }
        else {
-          echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">\n
-           <html>
+          echo "<html>
             <head>\n<title>" . PROJECT . " - " . $title . "</title>\n" . 
             $metahttp . 
            "</head>\n<body>\n";
        }
+
+    if (!$title_plain) {
+        echo "<html><head><title>".strip_tags($title)."</title>\n";
+    } else {
+        echo "<html><head><title>".strip_tags($title_plain)."</title>\n";
+    }
+    echo "<link rel=stylesheet type=\"text/css\" href=\"".URL_BASE."main.css\" media=\"all\" />
+        <link rel=stylesheet type=\"text/css\" href=\"$stylesheet\">
+        <link rel=alternate type=\"application/rss+xml\" title=\"$rssname\" href=\"$rsslink\">
+        $head_extra
+        </head>
+    ";
+
 
        // IE likes this first bit
        if ($google && strpos($_SERVER['HTTP_USER_AGENT'], "MSIE"))
@@ -348,6 +365,24 @@ function page_head($title, $java_onload=null, $title_plain=null, $prefix="", $go
         ";
        }
 
+
+    if ($java_onload){
+        echo "<body onload=\"".$java_onload."\">";
+    } else {
+        echo "<body>";
+    }
+    google_translate_new();
+    display_cvs_versions();
+
+    project_banner($title, $prefix);
+    switch($title) {    //kludge
+    case tra("Log in"):
+    case tra("Create an account"):
+    case tra("Server status page"):
+        break;
+    default:
+        show_login_info($prefix);
+    }
 }
 
 // disguises the curl using fake headers and a fake user agent.
@@ -397,7 +432,7 @@ function show_trigger($hostid, $heading, $private=true)
    }
 
    $sql = "select t.id,t.file,t.time_trigger,t.time_received,"
-       . "t.time_sync,t.sync_offset,t.significance, t.magnitude, " . $sqllatlng 
+       . "t.time_sync,t.sync_offset,t.significance, t.magnitude, " . $sqllatlng
        . "t.dt, t.numreset, "
        . "s.description, "
        . "t.sw_version,t.os_type,t.runtime_cpu,t.runtime_clock,t.varietyid,t.levelvalue,t.levelid,"
@@ -407,6 +442,7 @@ function show_trigger($hostid, $heading, $private=true)
        . "             LEFT JOIN qcn_quake q ON t.qcn_quakeid = q.id "
        . "WHERE hostid=$hostid order by time_trigger desc limit " . MAX_NUM_TRIGGER;
    $result=$db->do_query($sql);
+
    echo "<H2>$heading</H2>\n";
    echo "<H3>Last " . MAX_NUM_TRIGGER . " Triggers for this Computer</H3>\n";
    echo "<H5>(NB: <font color=$colorPing>grey text</font> is a 'ping' trigger to see who is running QCN)</H5>\n";
