@@ -5,12 +5,13 @@ fi
 if ( test "`uname -s`" = "Darwin" ) then
   rm -f vers; gcc version.c -o vers 
   VERSION=`./vers 1`
-else
-  rm -f vers; gcc version.c -o vers 
-  VERSION=`./vers`
 fi
+rm -f vers; gcc version.c -o vers 
+VERSION=`./vers`
+echo $VERSION
+exit
 ./set-version $VERSION
-if ( test $VERSION = "" ) then
+if ( test "$VERSION" = "" ) then
    exit 1
 fi
 if ( test "`uname -s`" = "Darwin" ) then
