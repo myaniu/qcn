@@ -26,7 +26,7 @@ int main(int argc, char** argv)
 {
    float fVal = atof(QCN_VERSION_STRING);
    if (argc==2 && !strcmp(argv[1], "1")) {
-     fVal += .01f;
+     fVal += .02f;
      print_version_file(fVal);
      printf("QCN Version Changed To %2.02f\n", fVal);
    }
