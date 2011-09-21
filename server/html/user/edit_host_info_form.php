@@ -38,7 +38,7 @@ if (!$hostid || $host->userid != $user->id)
 
    echo "<BR>It appears that you do not own this host machine, therefore you cannot edit location preferences!<BR>";
    echo "<BR><BR>If this is a new account, you may need to wait until BOINC connects and creates your Computer ID #.<BR>";
-   echo "<BR>If this is the case, wait until BOINC is finished attaching to the project, then click 'Refresh' on this page."<BR>";
+   echo "<BR>If this is the case, wait until BOINC is finished attaching to the project, then click 'Refresh' on this page.<BR>";
    page_tail();
    exit();
 }
