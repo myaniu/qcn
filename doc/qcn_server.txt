@@ -68,19 +68,15 @@ UPDATE wp_posts SET post_content = replace(post_content, 'http://qcn.stanford.ed
 
 9) edit/create .htaccess in ops e.g. htpasswd -c boinc/html/user/.htaccess admin
 
-# BEGIN WordPress
-<IfModule mod_rewrite.c>
-RewriteEngine On
-RewriteCond %{HTTP_HOST} ^.qcn.stanford.edu$ [OR]
-RewriteCond %{HTTP_HOST} ^.qcn.stanford.edu
-RewriteRule ^/?(.*)$ "http://www.ras.unam.mx/$1" [R=301,L]
-RewriteBase /
-RewriteRule ^index\.php$ - [L]
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule . /index.php [L]
-</IfModule>
-# END WordPress
+10) remove .htaccess in WordPress base if any, put in /usr/local/apache2/conf/httpd.conf in Directory for wordpress site:
+
+        RewriteEngine On
+        RewriteBase /
+        RewriteRule ^index\.php$ - [L]
+        RewriteCond %{REQUEST_FILENAME} !-f
+        RewriteCond %{REQUEST_FILENAME} !-d
+        RewriteRule . /index.php [L]
+
 
 
 
