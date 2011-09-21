@@ -56,5 +56,31 @@ boinc/sensor/html/user and boinc/continual/html/user  !
 
 7) also gui*.xml files for correct links back to project
 
-8) edit/create .htaccess in ops e.g. htpasswd -c boinc/html/user/.htaccess admin
+8) wordpress database queries
+
+use qcnwp;
+
+UPDATE wp_options SET option_value = replace(option_value, 'http://qcn.stanford.edu', 'http://www.ras.unam.mx') WHERE option_name = 'home' OR option_name = 'siteurl';
+
+UPDATE wp_posts SET guid = replace(guid, 'http://qcn.stanford.edu','http://www.ras.unam.mx');
+
+UPDATE wp_posts SET post_content = replace(post_content, 'http://qcn.stanford.edu', 'http://www.ras.unam.mx');
+
+9) edit/create .htaccess in ops e.g. htpasswd -c boinc/html/user/.htaccess admin
+
+# BEGIN WordPress
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteCond %{HTTP_HOST} ^.qcn.stanford.edu$ [OR]
+RewriteCond %{HTTP_HOST} ^.qcn.stanford.edu
+RewriteRule ^/?(.*)$ "http://www.ras.unam.mx/$1" [R=301,L]
+RewriteBase /
+RewriteRule ^index\.php$ - [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /index.php [L]
+</IfModule>
+# END WordPress
+
+
 
