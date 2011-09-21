@@ -88,3 +88,6 @@ then run ldconfig
 
 this will update the libraries
 
+12) a lot of the boinc/sensor/bin scripts *.sh & .py seem to still have hardcoded paths & database names
+
+
