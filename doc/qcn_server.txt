@@ -82,6 +82,7 @@ UPDATE wp_posts SET post_content = replace(post_content, 'http://qcn.stanford.ed
 /etc/ld.so.conf.d/qcn.conf with the entries:
 /usr/local/gmt/lib
 /usr/local/sac/lib
+/usr/local/gmt/netcdf-3.6.3/lib
 
 then run ldconfig
 
