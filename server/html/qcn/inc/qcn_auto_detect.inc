@@ -703,6 +703,8 @@ function next_ten_min($ttime,$sfile) {
 
 function show_seismograms() {
 
+return; // CMC here - this doesn't seem to be used?
+
    $ps_yn = plot_seismograms();
    if ($ps_yn >= 0) {
     echo "HI\n";
@@ -733,13 +735,14 @@ function plot_seismograms() {
    $dis_min= 999;
    $sac = SACPATH . "/bin/sac";
    $sgf = SACPATH . "/bin/sgftops";
-   $script_file = "plot_seismogram.csh";
+   $script_file = "plot_seismogram.sh";
 //   echo $script_file;
    $fh = fopen($script_file,'w');
    $pltdir = "./seis"; 
    $jpgfile = $pltdir."/waveform.jpg";
    $psfile  = $pltdir."/waveform.ps";
-   fwrite($fh,"#! /bin/csh -f\n");
+   fwrite($fh,"#!" . SHELL_CMD . " -f\n");
+   fwrite($fh,"source ../../inc/bash.env\n");
 
 //   fwrite($fh,"cd ".$pltdir."\n");  // change directories to plot directory
 
@@ -794,14 +797,16 @@ function plot_seismograms() {
      fwrite($fh,"lp n 2 co 7\n");
 //     fwrite($fh,"whiten\n");
      fwrite($fh,"add $dis\n");                     // Add distance to each trace
-     fwrite($fh,"write $iii.ZZ.sac\n");                    // write over
+     //fwrite($fh,"write $iii.ZZ.sac\n");                    // write over
+     fwrite($fh,"write $iii.Z.sac\n");    // is it really ZZ?                // write over
      fwrite($fh,"q\n");
      fwrite($fh,"EOF$iii\n\n");
     }
    }
    $dis_min = 0;
    fwrite($fh,$sac." << EOF\n");    // start sac
-   fwrite($fh,"r *.ZZ.sac\n");                      // Read and plot all files
+   //fwrite($fh,"r *.ZZ.sac\n");                      // Read and plot all files
+   fwrite($fh,"r *.Z.sac\n");                      // Read and plot all files
 
    fwrite($fh,"qdp off\n");
    fwrite($fh,"fileid off\n");
@@ -821,7 +826,7 @@ function plot_seismograms() {
    fwrite($fh,"chmod 777 $pltdir/*.jpg\n");
    fclose($fh);
 
-   exec("csh $script_file");  // Run the script
+   exec(SHELL_CMD . " " . $script_file);  // Run the script
 
 //   rotateImage($jpgfile);
    return 1;
