@@ -80,6 +80,9 @@ void printQCNFiles(FILE* fBatch, const char* strRemoteDir)
         fprintf(fBatch, "put init/MotionNodeAccelAPI.dll\n");
 #endif
 
+
+/* skip non-nci -- all boinc clients on QCN should support the nci plan class by now
+
 		fprintf(fBatch, "cd %s\n", strRemoteDir);
 
 // non-NCI
@@ -110,6 +113,7 @@ void printQCNFiles(FILE* fBatch, const char* strRemoteDir)
 #ifndef _WIN64
         fprintf(fBatch, "put init/MotionNodeAccelAPI.dll\n");
 #endif
+*/
 
 }
 
@@ -171,7 +175,7 @@ int main(int argc, char** argv)
 	}
 	else {
 		fprintf(stdout, "Successfully renamed %s to %s!\n", strIn, strOut[0]);
-        boinc_copy(strOut[0], strOut[1]);
+               // boinc_copy(strOut[0], strOut[1]);  // no need for the non-nci plan class
 	}
 
 	// if graphics then we need to deploy the qcn apps to the server

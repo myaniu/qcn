@@ -125,22 +125,22 @@ echo put \*.zip >> qcnsftp.up
 
 #regular QCN/BOINC
 print_qcn_files $vnci $suffixi $ntpdv $pathpre 1
-print_qcn_files $vnon $suffixi $ntpdv $pathpre
+#print_qcn_files $vnon $suffixi $ntpdv $pathpre
 
 print_qcn_files $vnci $suffixp $ntpdv $pathpre 1
-print_qcn_files $vnon $suffixp $ntpdv $pathpre
+#print_qcn_files $vnon $suffixp $ntpdv $pathpre
 
 print_qcn_files $vnci $suffixs $ntpdv $pathpre 1
-print_qcn_files $vnon $suffixs $ntpdv $pathpre
+#print_qcn_files $vnon $suffixs $ntpdv $pathpre
 
 print_qcn_files $vnci $suffixi $ntpdv $pathprecont 1
-print_qcn_files $vnon $suffixi $ntpdv $pathprecont
+#print_qcn_files $vnon $suffixi $ntpdv $pathprecont
 
 print_qcn_files $vnci $suffixp $ntpdv $pathprecont 1
-print_qcn_files $vnon $suffixp $ntpdv $pathprecont
+#print_qcn_files $vnon $suffixp $ntpdv $pathprecont
 
 print_qcn_files $vnci $suffixs $ntpdv $pathprecont 1
-print_qcn_files $vnon $suffixs $ntpdv $pathprecont
+#print_qcn_files $vnon $suffixs $ntpdv $pathprecont
 
 
 echo exit >> qcnsftp.up
@@ -191,9 +191,9 @@ else
 
   #regular QCN/BOINC
   print_qcn_files $vnci $suffix $ntpdv $pathpre 1
-  print_qcn_files $vnon $suffix $ntpdv $pathpre
+  #print_qcn_files $vnon $suffix $ntpdv $pathpre
   print_qcn_files $vnci $suffix $ntpdv $pathprecont 1
-  print_qcn_files $vnon $suffix $ntpdv $pathprecont
+  #print_qcn_files $vnon $suffix $ntpdv $pathprecont
 
   sftp -b qcnsftp.up carlgt1@qcn-web.stanford.edu
 fi
