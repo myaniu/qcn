@@ -78,5 +78,12 @@ UPDATE wp_posts SET post_content = replace(post_content, 'http://qcn.stanford.ed
         RewriteRule . /index.php [L]
 
 
+11) add /usr/local/gmt/lib and /usr/local/sac/lib to /etc/ld.so.conf or probably make an
+/etc/ld.so.conf.d/qcn.conf with the entries:
+/usr/local/gmt/lib
+/usr/local/sac/lib
 
+then run ldconfig
+
+this will update the libraries
 
