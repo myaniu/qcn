@@ -47,7 +47,7 @@ svn/qcn/server/boincmods
 3) symbolic links - such as /var/www/qcn/earthquakes/inc/bash.env to
 BASEDIR/boinc/server/html/project/bash.env
 
-4) email setup & email notification lists
+4) email setup, for php & python, & email notification lists
 
 5) replication of remote databases to Stanford
 
