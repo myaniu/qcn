@@ -29,6 +29,10 @@ thread_stack = 128K
 #skip-networking
 
 
+# from mysql 5.5 now use CHANGE MASTER syntax e.g.
+#CHANGE MASTER TO     MASTER_HOST = 'www.ras.unam.mx',    MASTER_USER = 'qcn',    MASTER_PASSWORD = 'qcn-mx',    
+#     MASTER_PORT = 3306,    MASTER_CONNECT_RETRY = 60;
+
 server-id=5
 relay-log=mysqld-relay-bin
 
