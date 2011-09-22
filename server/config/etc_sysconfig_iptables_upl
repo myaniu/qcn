@@ -1,0 +1,35 @@
+# Firewall configuration written by system-config-securitylevel
+# Manual customization of this file is not recommended.
+*filter
+:INPUT ACCEPT [0:0]
+:FORWARD ACCEPT [0:0]
+:OUTPUT ACCEPT [0:0]
+:RH-Firewall-1-INPUT - [0:0]
+-A INPUT -j RH-Firewall-1-INPUT
+-A FORWARD -j RH-Firewall-1-INPUT
+-A RH-Firewall-1-INPUT -i lo -j ACCEPT
+-A RH-Firewall-1-INPUT -p icmp --icmp-type any -j ACCEPT
+#
+# allow all traffic to/from private net on eth1 191.168.10.0 
+-A RH-Firewall-1-INPUT -p all -s 192.168.10.0/24 -i eth1 -j ACCEPT
+-A OUTPUT -p all -d 192.168.10.0/24 -o eth1 -j ACCEPT
+# time sync from clients
+-A RH-Firewall-1-INPUT -p udp -m udp --dport 123 -j ACCEPT
+-A RH-Firewall-1-INPUT -p tcp -m tcp --dport 123 -j ACCEPT
+# SSH
+-A RH-Firewall-1-INPUT -p tcp -m tcp -s 171.64.0.0/16 --dport 22 --tcp-flags SYN,RST,ACK SYN -j ACCEPT
+-A RH-Firewall-1-INPUT -p tcp -m tcp -s 171.66.0.0/16 --dport 22 --tcp-flags SYN,RST,ACK SYN -j ACCEPT
+# web access
+-A RH-Firewall-1-INPUT -m state --state NEW -p tcp --dport 443 -j ACCEPT
+-A RH-Firewall-1-INPUT -m state --state NEW -p tcp --dport 80 -j ACCEPT
+# mysql from Mexico
+-A RH-Firewall-1-INPUT -p tcp -m tcp -s 132.247.193.9 --dport 3306 --tcp-flags SYN,RST,ACK SYN -j ACCEPT
+#
+#-A RH-Firewall-1-INPUT -p 50 -j ACCEPT
+#-A RH-Firewall-1-INPUT -p 51 -j ACCEPT
+#-A RH-Firewall-1-INPUT -p udp --dport 5353 -d 224.0.0.251 -j ACCEPT
+#-A RH-Firewall-1-INPUT -p udp -m udp --dport 631 -j ACCEPT
+#-A RH-Firewall-1-INPUT -p tcp -m tcp --dport 631 -j ACCEPT
+-A RH-Firewall-1-INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+-A RH-Firewall-1-INPUT -j REJECT --reject-with icmp-host-prohibited
+COMMIT
