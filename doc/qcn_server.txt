@@ -109,6 +109,6 @@ NTPSERVERS="qcn-upl.stanford.edu"
 # Additional options to pass to ntpdate
 NTPOPTIONS=""
 
-add to cron:  @hourly /etc/network/if-up.d/ntpdate
+add to root cron:  @hourly /etc/network/if-up.d/ntpdate
 
 
