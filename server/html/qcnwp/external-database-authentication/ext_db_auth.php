@@ -461,7 +461,8 @@ function ext_db_auth_check_login($username,$password) {
     // CMC hack - set auth cookies
    $auth = $extfields[$sqlfields['authenticator']];
    if (! empty($auth)) { // we want to set an authenticator cookie for other parts of the website
-       setcookie("auth",  $auth, time()+3600*24*365, "/");
+       setcookie("auth",  $auth, time()+3600*24*365, "/sensor");
+       setcookie("auth",  $auth, time()+3600*24*365, "/continual");
    }
     // end CMC hack
 
@@ -532,7 +533,8 @@ function disable_function_register() {
 function disable_function() {	
 	$errors = new WP_Error();
 	$errors->add('registerdisabled', __('User registration is not available from this site, so you can\'t create an account or retrieve your password from here. See the message above.'));
-	login_header(__('Log In'), '', $errors);
+//	login_header(__('Log In'), '', $errors);
+       echo $errors['registerdisabled'];
 	?>
 	<p id="backtoblog"><a href="<?php bloginfo('url'); ?>/" title="<?php _e('Are you lost?') ?>"><?php printf(__('&larr; Back to %s'), get_bloginfo('title', 'display' )); ?></a></p>
 	<?php
@@ -543,11 +545,11 @@ function disable_function() {
 add_action('admin_init', 'ext_db_auth_init' );
 add_action('admin_menu', 'ext_db_auth_add_menu');
 add_action('wp_authenticate', 'ext_db_auth_check_login', 1, 2 );
-add_action('lost_password', 'disable_function');
-add_action('user_register', 'disable_function');
+add_action('lost_password', 'disable_function_register');
+//add_action('user_register', 'disable_function_register');
 add_action('register_form', 'disable_function_register');
-add_action('retrieve_password', 'disable_function');
-add_action('password_reset', 'disable_function');
+add_action('retrieve_password', 'disable_function_register');
+add_action('password_reset', 'disable_function_register');
 add_action('profile_personal_options','ext_db_warning');
 add_filter('login_errors','ext_db_errors');
 add_filter('show_password_fields','ext_db_show_password_fields');

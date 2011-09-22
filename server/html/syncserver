@@ -36,6 +36,7 @@ mv cc.txt ../config/config.xml
 scp carlgt1@qcn-web:/var/www/boinc/continual/config.xml ../config/continual_config.xml
 cat ../config/continual_config.xml | grep -v 'NQu' > cc.txt
 mv cc.txt ../config/continual_config.xml
+scp carlgt1@qcn-web:/var/www/boinc/sensor/html/user/forum_help_desk.php user/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/html/user/forum_rate.php user/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/html/user/REDS_list_signup.php user/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/html/user/ramp_signup.php user/
