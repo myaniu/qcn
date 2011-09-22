@@ -90,4 +90,25 @@ this will update the libraries
 
 12) a lot of the boinc/sensor/bin scripts *.sh & .py seem to still have hardcoded paths & database names
 
+13) ntpdate sync to qcn-upl.stanford.edu
+
+sudo apt-get install ntpdate
+
+cat /etc/default/ntpdate
+# The settings in this file are used by the program ntpdate-debian, but not
+# by the upstream program ntpdate.
+
+# Set to "yes" to take the server list from /etc/ntp.conf, from package ntp,
+# so you only have to keep it in one place.
+NTPDATE_USE_NTP_CONF=yes
+
+# List of NTP servers to use  (Separate multiple servers with spaces.)
+# Not used if NTPDATE_USE_NTP_CONF is yes.
+NTPSERVERS="qcn-upl.stanford.edu"
+
+# Additional options to pass to ntpdate
+NTPOPTIONS=""
+
+add to cron:  @hourly /etc/network/if-up.d/ntpdate
+
 
