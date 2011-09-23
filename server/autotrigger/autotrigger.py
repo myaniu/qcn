@@ -34,7 +34,7 @@ from datetime import datetime
 from time import strptime, mktime
 
 QUERY_QUAKE_PROCESSED = "SELECT id, time_utc, latitude, longitude, magnitude " +\
-                        "FROM qcnalpha.qcn_quake WHERE guid NOT LIKE 'QCN%' AND (processed IS NULL OR NOT processed) "
+                        "FROM sensor.qcn_quake WHERE guid NOT LIKE 'QCN%' AND (processed IS NULL OR NOT processed) "
 
 QUERY_TRIGGER_HOST_LIST = "SELECT hostid,count(*) FROM qcn_trigger "
 
@@ -51,7 +51,7 @@ QUERY_TRIGGER_HOST_WHERE = " (varietyid=0 AND " +\
                          " AND (time_trigger + (3600.0*24.0*30.0)) > unix_timestamp() ) " +\
                          ") "
 
-DBNAME = "qcnalpha"
+DBNAME = "sensor"
 DBHOST = "db-private"
 DBUSER = "root"
 DBPASSWD = ""

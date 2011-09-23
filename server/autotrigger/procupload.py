@@ -35,7 +35,7 @@ UNZIP_CMD = "/usr/bin/unzip -o -d " + UPLOAD_WEB_DIR + " "
 #UPLOAD_BACKUP_DIR = "c:\\temp\\uplbak\\"
 #UNZIP_CMD = "c:\\program files\\7-zip\\7z.exe e -y -o" + UPLOAD_WEB_DIR + " "
 
-DBNAME = "qcnalpha"
+DBNAME = "sensor"
 DBHOST = "db-private"
 DBUSER = "qcn"
 DBPASSWD = ""
@@ -44,7 +44,7 @@ QUERY = "SELECT t.id,t.hostid,t.latitude,t.longitude,t.levelvalue,t.levelid,t.fi
             "t.qcn_quakeid, q.time_utc quake_time, q.depth_km quake_depth_km, " +\
             "q.latitude quake_lat, q.longitude quake_lon, q.magnitude quake_mag " +\
               "FROM " + DBNAME + ".qcn_trigger t " +\
-              "LEFT OUTER JOIN qcnalpha.qcn_quake q ON q.id = t.qcn_quakeid " +\
+              "LEFT OUTER JOIN sensor.qcn_quake q ON q.id = t.qcn_quakeid " +\
               "WHERE t.received_file=100 AND t.id="
 
 # delete old invalid zip files > 14 days old, they'll never get uploaded or fixed
@@ -119,7 +119,7 @@ def processSingleZipFile(dbconn, myzipfile):
             shutil.move(tmpfile, newfile)
 
             # now update the qcn_trigger table!
-            myCursor.execute("UPDATE qcnalpha.qcn_trigger SET received_file=100 " +\
+            myCursor.execute("UPDATE sensor.qcn_trigger SET received_file=100 " +\
                           "WHERE file='" + name + "'")
             dbconn.commit()
 
