@@ -10,7 +10,6 @@
 # 
 # You can copy this file to /etc/my.cnf to set global options,
 # mysql-data-dir/my.cnf to set server-specific options 
-# (/data/mysql-5.1.22/var for this installation) or to
 # ~/.my.cnf to set user-specific options.
 #
 # In this file, you can use all long options that a program supports.
@@ -39,7 +38,7 @@ socket		= /tmp/mysql.sock
 # The MySQL server
 #
 [mysqld]
-datadir=/data/mysql
+datadir=/home/mysql/data
 
 # generic configuration options
 port		= 3306
@@ -104,7 +103,7 @@ max_allowed_packet = 16M
 # transaction is larger than this value, temporary file on disk is used
 # instead.  This buffer is allocated per connection on first update
 # statement in transaction
-#log-bin=/data/qcn/mysql-bin.log
+#log-bin=/home/mysql/data/mysql-bin.log
 #binlog-do-db=qcn_mexico qcn_mexico_continual
 #binlog_cache_size = 1M
 #binlog_format=mixed
@@ -245,7 +244,7 @@ tmpdir = /tmp
 # is required for both master and slave hosts. It defaults to 1 if
 # "master-host" is not set, but will MySQL will not function as a master
 # if it is omitted.
-server-id = 1
+server-id = 10
 
 # Replication Slave (comment out master section to use this)
 #
@@ -282,7 +281,6 @@ server-id = 1
 # (and different from the master)
 # defaults to 2 if master-host is set
 # but will not function as a slave if omitted
-#server-id = 2
 #
 # The replication master for this slave - required
 #master-host = <hostname>
@@ -397,7 +395,7 @@ innodb_data_file_path = data1:8G:autoextend
 
 # Set this option if you would like the InnoDB tablespace files to be
 # stored in another location. By default this is the MySQL datadir.
-innodb_data_home_dir = /data/mysql
+innodb_data_home_dir = /home/mysql/data
 
 # Number of IO threads to use for async IO operations. This value is
 # hardcoded to 4 on Unix, but on Windows disk I/O may benefit from a
@@ -449,7 +447,7 @@ innodb_log_files_in_group = 3
 # Location of the InnoDB log files. Default is the MySQL datadir. You
 # may wish to point it to a dedicated hard drive or a RAID1 volume for
 # improved performance
-innodb_log_group_home_dir = /data/mysql/log
+innodb_log_group_home_dir = /home/mysql/data/log
 
 # Maximum allowed percentage of dirty pages in the InnoDB buffer pool.
 # If it is reached, InnoDB will start flushing them out agressively to
@@ -505,3 +503,4 @@ interactive-timeout
 # sure you have set the global system limit high enough! The high value
 # is required for a large number of opened tables
 open-files-limit = 8192
+
