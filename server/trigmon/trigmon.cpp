@@ -10,7 +10,7 @@ if there were "hits" in a certain area, then flag this as a quake and put in the
 
 logic:
   1) check for numerous trickles within a region in a short time period (i.e. 10 seconds) 
-  2) if there are numerous trickles - see if this event has been reported in qcnalpha.qcn_quake - lookup by time/lat/lng
+  2) if there are numerous trickles - see if this event has been reported in sensor.qcn_quake - lookup by time/lat/lng
   3) if has been reported, use that event to tag trickles; else make an entry in qcn_quake and tag triggers
   4) request uploads from these triggers as appropriate
 
@@ -1186,7 +1186,7 @@ void QCN_UpdateQuake(const bool& bInsert, struct event& e, const int& ciOff)
    }
 
    // now go through all the correlated triggers for this event, post file upload requests, set qcn_quakeid
-   //   note to do this in the trigmem as well as the qcnalpha/continual database!
+   //   note to do this in the trigmem as well as the sensor/continual database!
    const char strBaseTrigMem[] = {"UPDATE trigmem.qcn_trigger_memory SET qcn_quakeid=%d, posted=1 WHERE db_name='%s' AND triggerid=%d"};
    const char strBaseTrig[] = {"UPDATE %s.qcn_trigger SET qcn_quakeid=%d, time_filereq=unix_timestamp(), "
          "received_file=1 WHERE id=%d AND (received_file IS NULL or received_file != 100)"};
