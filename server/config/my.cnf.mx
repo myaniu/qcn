@@ -103,13 +103,14 @@ max_allowed_packet = 16M
 # transaction is larger than this value, temporary file on disk is used
 # instead.  This buffer is allocated per connection on first update
 # statement in transaction
-#log-bin=/home/mysql/data/mysql-bin.log
-#binlog-do-db=qcn_mexico qcn_mexico_continual
-#binlog_cache_size = 1M
-#binlog_format=mixed
-#replicate-do-db=qcnwp
-#innodb_flush_log_at_trx_commit=1
-#sync_binlog=1
+
+log-bin=/home/mysql/data/mysql-bin.log
+binlog-do-db=qcn_mexico qcn_mexico_continual
+binlog_cache_size = 1M
+binlog_format=mixed
+replicate-do-db=qcnwp
+innodb_flush_log_at_trx_commit=1
+sync_binlog=1
 
 # Maximum allowed size for a single HEAP (in memory) table. This option
 # is a protection against the accidential creation of a very large HEAP
@@ -181,7 +182,7 @@ memlock
 # memory, while if you use your own stack hungry UDF functions or your
 # OS requires more stack for some operations, you might need to set this
 # to a higher value.
-thread_stack = 128K
+thread_stack = 1M
 
 # Set the default transaction isolation level. Levels available are:
 # READ-UNCOMMITTED, READ-COMMITTED, REPEATABLE-READ, SERIALIZABLE
@@ -373,6 +374,8 @@ myisam_recover
 # value. SHOW INNODB STATUS will display the current amount used.
 innodb_additional_mem_pool_size = 16M
 
+innodb_use_sys_malloc = 0
+
 # InnoDB, unlike MyISAM, uses a buffer pool to cache both indexes and
 # row data. The bigger you set this the less disk I/O is needed to
 # access data in tables. On a dedicated database server you may set this
@@ -502,5 +505,6 @@ interactive-timeout
 # Increase the amount of open files allowed per process. Warning: Make
 # sure you have set the global system limit high enough! The high value
 # is required for a large number of opened tables
-open-files-limit = 8192
+open-files-limit = 1024
+
 
