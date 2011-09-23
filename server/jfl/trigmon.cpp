@@ -76,10 +76,21 @@ void do_delete_trigmem()
             "do_delete_trigmem() error: %s\n", boincerror(retval)
         );
     }
-    else {
-        log_messages.printf(MSG_DEBUG,
-            "do_delete_trigmem(): Removed old triggers from memory\n"
+    else {  // free memory 
+       sprintf(strDelete,
+          "ALTER TABLE trigmem.qcn_trigger_memory ENGINE=MEMORY"
+       );
+       retval = trigmem_db.do_query(strDelete);
+       if (retval) {
+        log_messages.printf(MSG_CRITICAL,
+            "do_delete_trigmem() error freeing memory: %s\n", boincerror(retval)
         );
+       }
+       else {
+         log_messages.printf(MSG_DEBUG,
+            "do_delete_trigmem(): Removed old triggers from memory and freed memory\n"
+         );
+       }
     }
 }
 

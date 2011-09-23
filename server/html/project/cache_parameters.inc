@@ -8,7 +8,7 @@ define('USER_HOST_TTL', 3600);
 define('USER_PROFILE_TTL', 3600);
 define('TOP_PAGES_TTL', 43200);
 define('INDEX_PAGE_TTL', 3600);
-define('MAPTRIG_TTL', 900);
+define('MAPTRIG_TTL', 3600);
 
 // Define the max allowed cache usage and the min allowed free space
 // Both default to 100M.

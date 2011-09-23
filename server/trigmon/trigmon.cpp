@@ -70,17 +70,6 @@ void do_delete_trigmem()
       g_iTriggerDeleteInterval
     );
 
-// NEW -- clean out the qcn_trigger_memory table - latest 30 minutes of triggers should be plenty
-  $query = "delete from trigmem.qcn_trigger_memory where time_trigger<(unix_timestamp() - (30*60))";
-  $result = mysql_query($query);
-
-  // free memory
-  $query = "ALTER TABLE trigmem.qcn_trigger_memory ENGINE=MEMORY";
-  $result = mysql_query($query);
-
-
-
-
     int retval = trigmem_db.do_query(strDelete);
     if (retval) {
         log_messages.printf(MSG_CRITICAL,
