@@ -30,7 +30,7 @@ int main(int argc, char** argv) {
        fprintf(stdout, "Usage: bin/qcn_workgen wu_prefix num_wu appname\n"
          "  where wu_template is the prefix for each workunit (e.g. 'qcna')\n"
          "  and num_wu is the total number of workunits to create\n"
-         "  and appname is the BOINC app name (e.g. 'qcnalpha')\n"
+         "  and appname is the BOINC app name (e.g. 'sensor')\n"
          "  (usually run in the application boinc directory i.e. cb to /var/www/boinc/sensor  )\n"
        );
        fflush(stdout);
