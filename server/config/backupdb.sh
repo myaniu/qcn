@@ -3,7 +3,7 @@ LOCAL_FILE=/tmp/qcn-backup.sql
 LOCAL_FILE_GZ=/tmp/qcn-backup.sql.gz
 REMOTE_DIR=/mnt/data/QCN/
 /bin/rm -f $LOCAL_FILE
-/bin/nice -n19 /usr/local/mysql/bin/mysqldump -u root -pPWD --single-transaction --databases qcnwp qcnalpha continual mysql sensor_download continual_download todolist information_schema > $LOCAL_FILE
+/bin/nice -n19 /usr/local/mysql/bin/mysqldump -u root -pPWD --single-transaction --databases qcnwp sensor continual mysql sensor_download continual_download todolist information_schema > $LOCAL_FILE
 /bin/nice -n19 /bin/gzip $LOCAL_FILE
 # note for the following line need to have .ssh id between root & carlgt1 setup
 # also make sure that '.ssh/known_hosts' is setup to receive connections
