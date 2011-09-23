@@ -214,7 +214,7 @@ function display_cvs_versions(){
 }
 
 function db_error_page() {
-    page_head("Database error");
+    //page_head("Database error");
     echo tra("A database error occurred while handling your request; please try again later.");
     page_tail();
 }
@@ -224,7 +224,7 @@ function error_page($msg) {
     if ($generating_xml) {
         xml_error(-1, $msg);
     }
-    page_head(tra("Unable to handle request"));
+    //page_head(tra("Unable to handle request"));
     echo $msg;
     page_tail();
     exit();
