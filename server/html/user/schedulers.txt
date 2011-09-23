@@ -1,2 +1,2 @@
-<!-- <scheduler>http://qcn.stanford.edu/qcnalpha_cgi/cgi</scheduler> -->
-<link rel="boinc_scheduler" href="http://qcn.stanford.edu/qcnalpha_cgi/cgi">
+<!-- <scheduler>http://qcn.stanford.edu/sensor_cgi/cgi</scheduler> -->
+<link rel="boinc_scheduler" href="http://qcn.stanford.edu/sensor_cgi/cgi">

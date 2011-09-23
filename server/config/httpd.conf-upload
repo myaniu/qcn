@@ -310,21 +310,6 @@ LogLevel warn
 
 
 
-    ScriptAlias /qcn_cgi /var/www/boinc/qcnalpha/cgi-bin
-
-    # Note: projects/*/keys/ should NOT be readable!
-
-
-    <Directory "/var/www/boinc/qcnalpha/cgi-bin">
-        SetHandler fastcgi-script
-        Options +ExecCGI
-        AllowOverride AuthConfig
-        Order allow,deny
-        Allow from all
-        #CMC -- set the path to the mysql dynamic libraries, required by programs (CGI) linked to mysql
-        SetEnv DYLD_LIBRARY_PATH /usr/local/mysql/lib
-    </Directory>
-
 ###Alias /trac "/Trac/qcn/htdocs"
 ###You have to allow people to read the files in htdocs
 #<Directory "/Trac/qcn/htdocs">

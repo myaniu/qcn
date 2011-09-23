@@ -196,7 +196,6 @@ Alias /drupal /var/www/drupal
 
     # live site
     Alias /sensor     /var/www/boinc/sensor/html/user
-    Alias /qcnalpha   /var/www/boinc/sensor/html/user
     Alias /sensor_ops /var/www/boinc/sensor/html/ops
     ScriptAlias /sensor_cgi /var/www/boinc/sensor/cgi-bin
 
