@@ -71,26 +71,17 @@ if ($receiver > 0) {
         // lapsed users
         $query = "select user.id,user.name,user.email_addr from user left join result on user.id=result.userid where send_email>0 and total_credit>0 and isnull(result.id)";
         break;
-    case 6:
-        // Mac JoyWarrior users
-        $query = "select user.id, user.name, user.email_addr " .
-          "from user, host " . 
-           "where user.id=host.userid " . 
-             "and host.id in (select distinct hostid from qcn_trigger where os_type in ('M32','M64') and qcn_sensorid in (100, 103)) " . 
-            "group by user.id, user.name, user.email_addr";
-
-        break;
     default:
         // should never happen!
         exit_error("Got impossible value of receiver from selection!");
     }
     // FOR DEBUGGING
-    //$query .= " LIMIT 10";
+    $query .= " LIMIT 10";
 
     $result = mysql_query($query);
     while ($user = mysql_fetch_object($result)) {
     	// TODO: might want to also replace TOTAL_CREDIT, RAC, and similar.
-        $body_to_send = str_replace("USERNAME", $user->name, $body);
+        $body_to_send = str_replace(USERNAME, $user->name, $body);
         $body_to_send .= "\n\nTo opt out of future emails from ".PROJECT.", please edit your project preferences at ".URL_BASE."prefs.php?subset=project\n";
         $retval = send_email($user, $subject, $body_to_send);
         if ($retval) {
@@ -118,7 +109,6 @@ echo "
       <option value='3' > Successful users: total_credit > 0
       <option value='4' > Currently contributing users: total_credit > 0 and at least one result in DB
       <option value='5' > Lapsed users: total_credit > 0 but NO results in DB
-      <option value='6' > Mac JoyWarrior users
     </select>
     </td></tr>
     <tr>
