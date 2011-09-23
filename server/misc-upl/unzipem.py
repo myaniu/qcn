@@ -23,7 +23,7 @@ UPLOAD_CONTINUAL_WEB_DIR = "/data/QCN/trigger/continual/"
 ARCHIVE_DIR = "/data/QCN/trigger/archive/"
 ARCHIVE_CONTINUAL_DIR = "/data/QCN/trigger/archive/continual/"
 
-DBNAME = "qcnalpha"
+DBNAME = "sensor"
 DBHOST = "db-private"
 DBUSER = "qcn"
 DBPASSWD = ""

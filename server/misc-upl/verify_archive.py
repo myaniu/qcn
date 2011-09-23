@@ -6,12 +6,12 @@ import traceback, sys, os, time, tempfile, string, MySQLdb, shutil, zipfile
 from datetime import datetime
 from qcnutil import getFanoutDirFromZip
 
-DBNAME = "qcnalpha"
+DBNAME = "sensor"
 DBHOST = "db-private"
 DBUSER = ""
 DBPASSWD = ""
 
-# regular qcnalpha/sensor archive
+# regular sensor/sensor archive
 QUERY = "SELECT id, floor(time_trigger/10000) subdir, result_name, file FROM sensor_archive.qcn_trigger WHERE received_file=100"
 QUERY_UPDATE = "UPDATE sensor_archive.qcn_trigger SET received_file=99 WHERE id=%s"
 FROM = "/cees2/QCN/trigger/archive/"

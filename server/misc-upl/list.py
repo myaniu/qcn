@@ -25,7 +25,7 @@ ARCHIVE_CONTINUAL_DIR = "/data/QCN/trigger/archive/continual/"
 
 CONTINUAL_DIR="/data/QCN/trigger/continual/"
 
-DBNAME = "qcnalpha"
+DBNAME = "sensor"
 DBHOST = "db-private"
 DBUSER = "qcn"
 DBPASSWD = ""

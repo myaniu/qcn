@@ -22,18 +22,18 @@ UPLOAD_CONTINUAL_WEB_DIR = "/var/www/trigger/continual/"
 ARCHIVE_DIR = "/data/QCN/trigger/archive/"
 ARCHIVE_CONTINUAL_DIR = "/data/QCN/trigger/archive/continual/"
 
-DBNAME = "qcnalpha"
+DBNAME = "sensor"
 DBHOST = "db-private"
 DBUSER = "qcn"
 DBPASSWD = ""
 
-# we'll get the archive time from qcnalpha.qcn_constant table for row ArchiveTime
+# we'll get the archive time from sensor.qcn_constant table for row ArchiveTime
 ARCHIVE_TIME = 1e9
 
 # get archive constant from database
 def getArchiveTime(dbconn):
   global ARCHIVE_TIME
-  query = "SELECT value_int FROM qcnalpha.qcn_constant WHERE description='ArchiveTime'"
+  query = "SELECT value_int FROM sensor.qcn_constant WHERE description='ArchiveTime'"
   crs = dbconn.cursor()
   crs.execute(query)
   rowTime = crs.fetchone()

@@ -61,7 +61,7 @@ global FILE_CSV
 global FILE_ZIP
 
 DOWNLOAD_WEB_DIR         = "/var/www/trigger/job/"
-DBNAME = "qcnalpha"
+DBNAME = "sensor"
 DBNAME_JOB = "sensor_download"
 
 FILE_CSV                 = "qcn_scedc.csv"
@@ -120,10 +120,10 @@ and varietyid in (0,2)
 and received_file=100
 and latitude between %f and %f and longitude between %f and %f
 ) m
-LEFT JOIN qcnalpha.qcn_sensor s ON m.qcn_sensorid = s.id
-LEFT OUTER JOIN qcnalpha.qcn_align a ON m.alignid = a.id
-LEFT OUTER JOIN qcnalpha.qcn_level l ON m.levelid = l.id
-LEFT OUTER JOIN qcnalpha.qcn_quake q ON q.id = m.qcn_quakeid
+LEFT JOIN sensor.qcn_sensor s ON m.qcn_sensorid = s.id
+LEFT OUTER JOIN sensor.qcn_align a ON m.alignid = a.id
+LEFT OUTER JOIN sensor.qcn_level l ON m.levelid = l.id
+LEFT OUTER JOIN sensor.qcn_quake q ON q.id = m.qcn_quakeid
 where m.qcn_sensorid=s.id
 order by time_trigger,hostid"""  \
   % ( \
@@ -384,7 +384,7 @@ def main():
       DATE_MAX = int(res[0][1])
 
       # now chck if we need archive database or not
-      sqlts = "SELECT value_int FROM qcnalpha.qcn_constant WHERE description='ArchiveTime'"
+      sqlts = "SELECT value_int FROM sensor.qcn_constant WHERE description='ArchiveTime'"
       myCursor = dbconn.cursor()
       myCursor.execute(sqlts)
       res = myCursor.fetchall()
