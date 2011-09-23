@@ -12,16 +12,16 @@ DBUSER = ""
 DBPASSWD = ""
 
 # regular qcnalpha/sensor archive
-QUERY = "SELECT id, floor(time_trigger/10000) subdir, result_name, file FROM qcnarchive.qcn_trigger WHERE received_file=100"
-QUERY_UPDATE = "UPDATE qcnarchive.qcn_trigger SET received_file=99 WHERE id=%s"
+QUERY = "SELECT id, floor(time_trigger/10000) subdir, result_name, file FROM sensor_archive.qcn_trigger WHERE received_file=100"
+QUERY_UPDATE = "UPDATE sensor_archive.qcn_trigger SET received_file=99 WHERE id=%s"
 FROM = "/cees2/QCN/trigger/archive/"
 TO   = "/data/QCN/trigger/archive/"
 
 #continual
 #FROM = "/cees2/QCN/trigger/archive/continual/"
 #TO   = "/data/QCN/trigger/archive/continual/"
-#QUERY = "SELECT id, floor(time_trigger/10000) subdir, result_name, file FROM contarchive.qcn_trigger WHERE received_file=100"
-#QUERY_UPDATE = "UPDATE contarchive.qcn_trigger SET received_file=99 WHERE id=%s"
+#QUERY = "SELECT id, floor(time_trigger/10000) subdir, result_name, file FROM continual_archive.qcn_trigger WHERE received_file=100"
+#QUERY_UPDATE = "UPDATE continual_archive.qcn_trigger SET received_file=99 WHERE id=%s"
 
 # fields are id, subdir, result_name, file
 def validateFilePath(dbconn, id, subdir, result, fname):

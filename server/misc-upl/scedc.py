@@ -399,13 +399,13 @@ def main():
         IS_ARCHIVE = 1
         UPLOAD_WEB_DIR           = "/data/QCN/trigger/archive/"
         UPLOAD_WEB_DIR_CONTINUAL = "/data/QCN/trigger/archive/continual/"
-        DBNAME                   = "qcnarchive"
-        DBNAME_CONTINUAL         = "contarchive"
+        DBNAME                   = "sensor_archive"
+        DBNAME_CONTINUAL         = "continual_archive"
       else: 
         IS_ARCHIVE = 0
         UPLOAD_WEB_DIR           = "/var/www/trigger/"
         UPLOAD_WEB_DIR_CONTINUAL = "/var/www/trigger/continual/"
-        DBNAME                   = "qcnalpha"
+        DBNAME                   = "sensor"
         DBNAME_CONTINUAL         = "continual"
 
 

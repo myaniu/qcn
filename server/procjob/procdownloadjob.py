@@ -83,7 +83,7 @@ def SetRunType():
     icnt = icnt + 1
 
   if typeRunning != "C" and typeRunning != "S":
-    print "Must pass in C for Continual jobs, S for regular qcnalpha/sensor DB jobs"
+    print "Must pass in C for Continual jobs, S for regular sensor DB jobs"
     sys.exit(3)
 
   if typeRunning == "C":  # continual
@@ -93,15 +93,15 @@ def SetRunType():
     ARCHIVE_WEB_DIR = "/data/QCN/trigger/archive/continual/"
     DOWNLOAD_WEB_DIR = "/var/www/trigger/continual/job/"
     DBNAME = "continual"
-    DBNAME_ARCHIVE = "contarchive"
+    DBNAME_ARCHIVE = "continual_archive"
     DBNAME_JOB = "continual_download"
-  else:   #qcnalpha/sensor database
+  else:   #sensor database
     URL_DOWNLOAD_BASE = "http://qcn-upl.stanford.edu/trigger/job/"
     UPLOAD_WEB_DIR = "/var/www/trigger/"
     ARCHIVE_WEB_DIR = "/data/QCN/trigger/archive/"
     DOWNLOAD_WEB_DIR = "/var/www/trigger/job/"
-    DBNAME = "qcnalpha"
-    DBNAME_ARCHIVE = "qcnarchive"
+    DBNAME = "sensor"
+    DBNAME_ARCHIVE = "sensor_archive"
     DBNAME_JOB = "sensor_download"
 
   #UNZIP_CMD = "/usr/bin/unzip -o -d " + UPLOAD_WEB_DIR + " "
@@ -119,13 +119,13 @@ def procDownloadRequest(dbconn, outfilename, url, jobid, userid, trigidlist):
             "t.qcn_quakeid, q.time_utc quake_time, q.depth_km quake_depth_km, " +\
             "q.latitude quake_lat, q.longitude quake_lon, q.magnitude quake_mag, 0 is_archive, t.time_trigger " +\
               "FROM " + DBNAME + ".qcn_trigger t " +\
-              "LEFT OUTER JOIN qcnalpha.qcn_quake q ON q.id = t.qcn_quakeid " +\
+              "LEFT OUTER JOIN sensor.qcn_quake q ON q.id = t.qcn_quakeid " +\
               "WHERE t.received_file=100 AND t.id IN " + trigidlist + " UNION " +\
         "SELECT t.id,t.hostid,t.latitude,t.longitude,t.levelvalue,t.levelid,t.file, " +\
             "t.qcn_quakeid, q.time_utc quake_time, q.depth_km quake_depth_km, " +\
             "q.latitude quake_lat, q.longitude quake_lon, q.magnitude quake_mag, 1 is_archive, t.time_trigger " +\
               "FROM " + DBNAME_ARCHIVE + ".qcn_trigger t " +\
-              "LEFT OUTER JOIN qcnalpha.qcn_quake q ON q.id = t.qcn_quakeid " +\
+              "LEFT OUTER JOIN sensor.qcn_quake q ON q.id = t.qcn_quakeid " +\
               "WHERE t.received_file=100 AND t.id IN " + trigidlist
 
  try:
