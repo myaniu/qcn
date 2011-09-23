@@ -14,12 +14,12 @@ $result = mysql_query("CREATE TEMPORARY TABLE tmptrigger (time_received double, 
 if (!$result) exit(1);
 
 $result = mysql_query("INSERT INTO tmptrigger 
-      select time_received, hostid from qcnalpha.qcn_trigger
+      select time_received, hostid from sensor.qcn_trigger
      ");
 if (!$result) exit(2);
 
 $result = mysql_query("INSERT INTO tmptrigger 
-      select time_received, hostid from qcnarchive.qcn_trigger
+      select time_received, hostid from sensor_archive.qcn_trigger
          where time_received>(unix_timestamp()-(3600*24*190)) 
      ");
 if (!$result) exit(3);

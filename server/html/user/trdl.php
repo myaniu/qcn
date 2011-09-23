@@ -43,11 +43,11 @@ $unixtimeArchive = mktime(0, 0, 0, date("n"), 1, date("Y")) - (60*24*3600);
 $db_name = parse_config($config, "<db_name>");
 $db_archive = "";
 
-if ($db_name == "qcnalpha") {
-  $db_archive = "qcnarchive";
+if ($db_name == "sensor") {
+  $db_archive = "sensor_archive";
 }
 else if ($db_name== "continual") {
-  $db_archive = "contarchive";
+  $db_archive = "continual_archive";
 }
 
 $queryBase = "select q.id as quakeid, q.time_utc as quake_time, q.magnitude as quake_magnitude, 
@@ -60,8 +60,8 @@ t.sync_offset, t.significance, t.magnitude as trigger_mag,
 t.latitude as trigger_lat, t.longitude as trigger_lon, t.file as trigger_file, t.dt as delta_t,
 t.numreset, s.description as sensor_description, t.sw_version, t.qcn_quakeid, t.time_filereq as trigger_timereq, 
 t.received_file, REPLACE_ARCHIVE is_archive, t.varietyid, q.url quake_url
-FROM REPLACE_DB.qcn_trigger t LEFT OUTER JOIN qcnalpha.qcn_quake q ON t.qcn_quakeid = q.id
-   LEFT JOIN qcnalpha.qcn_sensor s ON t.qcn_sensorid = s.id 
+FROM REPLACE_DB.qcn_trigger t LEFT OUTER JOIN sensor.qcn_quake q ON t.qcn_quakeid = q.id
+   LEFT JOIN sensor.qcn_sensor s ON t.qcn_sensorid = s.id 
 ";
 
 // full querystring
@@ -69,7 +69,7 @@ FROM REPLACE_DB.qcn_trigger t LEFT OUTER JOIN qcnalpha.qcn_quake q ON t.qcn_quak
 
 // sort order options: tta/d  hosta/d  maga/d lata/d lona/d
 // get the archive time
-$queryTime = "SELECT value_int+1 as archive_time FROM qcnalpha.qcn_constant WHERE description='ArchiveTime'";
+$queryTime = "SELECT value_int+1 as archive_time FROM sensor.qcn_constant WHERE description='ArchiveTime'";
 $result = mysql_query($queryTime);
 if ($result) {
   $row = mysql_fetch_row($result);

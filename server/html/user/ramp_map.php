@@ -331,7 +331,7 @@ t.latitude as trigger_lat, t.longitude as trigger_lon, t.file as trigger_file, t
 t.numreset, s.description as sensor_description, t.sw_version, t.qcn_quakeid, t.time_filereq as trigger_timereq, 
 t.received_file, t.file_url
 FROM
-  qcnalpha.qcn_trigger t LEFT OUTER JOIN qcn_quake q ON t.qcn_quakeid = q.id
+  sensor.qcn_trigger t LEFT OUTER JOIN qcn_quake q ON t.qcn_quakeid = q.id
    LEFT JOIN qcn_sensor s ON t.qcn_sensorid = s.id 
 ";
 */

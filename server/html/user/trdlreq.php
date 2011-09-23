@@ -25,7 +25,7 @@ echo "<BR><BR>trigr:";
 print_r($aryDLTrigR);
 */
 
-if ($db_name == "qcnalpha") {
+if ($db_name == "sensor") {
   $DB = "sensor_download";
   $URL_UPL_BASE = UPLOADURL . "/trigger/job/u";
 }

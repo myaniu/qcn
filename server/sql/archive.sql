@@ -1,4 +1,4 @@
-UPDATE continual.qcn_trigger SET flag=1 WHERE time_trigger < (SELECT value_int+1 FROM qcnalpha.qcn_constant WHERE description='ArchiveTime');
+UPDATE continual.qcn_trigger SET flag=1 WHERE time_trigger < (SELECT value_int+1 FROM sensor.qcn_constant WHERE description='ArchiveTime');
 INSERT INTO contarchive.qcn_trigger SELECT * FROM continual.qcn_trigger WHERE flag=1;
 DELETE FROM continual.qcn_trigger WHERE flag=1;
 OPTIMIZE TABLE contarchive.qcn_trigger;
@@ -11,15 +11,15 @@ UPDATE continual.result r, continual.workunit w SET r.server_state=4 WHERE r.ser
 OPTIMIZE TABLE continual.result;
 OPTIMIZE TABLE continual.workunit;
 
-UPDATE qcnalpha.qcn_trigger SET flag=1 WHERE time_trigger < (SELECT value_int+1 FROM qcnalpha.qcn_constant WHERE description='ArchiveTime');
-INSERT INTO qcnarchive.qcn_trigger SELECT * FROM qcnalpha.qcn_trigger WHERE flag=1;
-DELETE FROM qcnalpha.qcn_trigger WHERE flag=1;
+UPDATE sensor.qcn_trigger SET flag=1 WHERE time_trigger < (SELECT value_int+1 FROM sensor.qcn_constant WHERE description='ArchiveTime');
+INSERT INTO qcnarchive.qcn_trigger SELECT * FROM sensor.qcn_trigger WHERE flag=1;
+DELETE FROM sensor.qcn_trigger WHERE flag=1;
 OPTIMIZE TABLE qcnarchive.qcn_trigger;
-OPTIMIZE TABLE qcnalpha.qcn_trigger;
-UPDATE qcnalpha.result SET xml_doc_in=NULL, xml_doc_out=NULL where server_state>2;
-UPDATE qcnalpha.workunit SET xml_doc=NULL,min_quorum=0,target_nresults=0 
-   WHERE id IN (SELECT workunitid FROM qcnalpha.result WHERE server_state>2);
-UPDATE qcnalpha.result r, qcnalpha.workunit w SET r.server_state=4 WHERE r.server_state=2
+OPTIMIZE TABLE sensor.qcn_trigger;
+UPDATE sensor.result SET xml_doc_in=NULL, xml_doc_out=NULL where server_state>2;
+UPDATE sensor.workunit SET xml_doc=NULL,min_quorum=0,target_nresults=0 
+   WHERE id IN (SELECT workunitid FROM sensor.result WHERE server_state>2);
+UPDATE sensor.result r, sensor.workunit w SET r.server_state=4 WHERE r.server_state=2
    AND r.workunitid=w.id AND w.xml_doc IS NULL;
-OPTIMIZE TABLE qcnalpha.result;
-OPTIMIZE TABLE qcnalpha.workunit;
+OPTIMIZE TABLE sensor.result;
+OPTIMIZE TABLE sensor.workunit;
