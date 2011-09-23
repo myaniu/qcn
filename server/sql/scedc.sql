@@ -9,7 +9,7 @@ select
 from
 (
 select 'Q' mydb, t.*
-from qcnalpha.qcn_trigger t
+from sensor.qcn_trigger t
 where time_trigger between unix_timestamp('2010-04-04 00:00:00') and unix_timestamp('2010-04-07 00:00:00') 
 and time_sync>0
 and varietyid in (0,2)
@@ -26,9 +26,9 @@ and varietyid in (0,2)
 and received_file=100
 and latitude between 31.5 and 37.5 and longitude between -121 and -114
 ) m
-LEFT JOIN qcnalpha.qcn_sensor s ON m.qcn_sensorid = s.id
-LEFT OUTER JOIN qcnalpha.qcn_align a ON m.alignid = a.id
-LEFT OUTER JOIN qcnalpha.qcn_level l ON m.levelid = l.id
+LEFT JOIN sensor.qcn_sensor s ON m.qcn_sensorid = s.id
+LEFT OUTER JOIN sensor.qcn_align a ON m.alignid = a.id
+LEFT OUTER JOIN sensor.qcn_level l ON m.levelid = l.id
 where m.qcn_sensorid=s.id
 order by time_trigger,hostid
 ;

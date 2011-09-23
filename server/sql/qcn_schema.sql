@@ -376,7 +376,7 @@ create index qcn_trigger_memory_file on trigmem.qcn_trigger_memory(file);
 /*
 
 insert into trigmem.qcn_trigger_memory
-   select 'qcnalpha',id,hostid,ipaddr,result_name,time_trigger,time_received,time_sync,sync_offset,
+   select 'sensor',id,hostid,ipaddr,result_name,time_trigger,time_received,time_sync,sync_offset,
       significance,magnitude,latitude,longitude,
       levelvalue, levelid, alignid, dt, numreset, qcn_sensorid, varietyid
          from qcn_trigger where time_sync>1e6 order by time_trigger desc limit 10000;

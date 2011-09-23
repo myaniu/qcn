@@ -3,7 +3,7 @@
 import sys, string, MySQLdb
 from time import time
 
-DBNAME = "qcnalpha"
+DBNAME = "sensor"
 DBHOST = "db-private"
 DBUSER = "qcn"
 DBPASSWD = "PASSWORD"
@@ -16,7 +16,7 @@ def main():
                            passwd = DBPASSWD,
                            db = DBNAME)
       cMain = dbconn.cursor()
-      cMain.execute("update qcnalpha.result set validate_state=1 where server_state=5 and outcome=1")
+      cMain.execute("update sensor.result set validate_state=1 where server_state=5 and outcome=1")
       cMain.execute("update continual.result set validate_state=1 where server_state=5 and outcome=1")
       cMain.execute("call do_stats();")
       dbconn.close()

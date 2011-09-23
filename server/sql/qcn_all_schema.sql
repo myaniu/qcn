@@ -1,6 +1,6 @@
 -- MySQL dump 10.11
 --
--- Host: db-private    Database: qcnalpha
+-- Host: db-private    Database: sensor
 -- ------------------------------------------------------
 -- Server version	6.0.6-alpha-log
 
@@ -16,12 +16,12 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Current Database: `qcnalpha`
+-- Current Database: `sensor`
 --
 
-CREATE DATABASE /*!32312 IF NOT EXISTS*/ `qcnalpha` /*!40100 DEFAULT CHARACTER SET latin1 */;
+CREATE DATABASE /*!32312 IF NOT EXISTS*/ `sensor` /*!40100 DEFAULT CHARACTER SET latin1 */;
 
-USE `qcnalpha`;
+USE `sensor`;
 
 --
 -- Table structure for table `app`
@@ -2587,12 +2587,12 @@ CREATE TABLE `workunit` (
 ) ENGINE=InnoDB AUTO_INCREMENT=150001 DEFAULT CHARSET=latin1;
 
 --
--- Current Database: `contarchive`
+-- Current Database: `continual_archive`
 --
 
-CREATE DATABASE /*!32312 IF NOT EXISTS*/ `contarchive` /*!40100 DEFAULT CHARACTER SET latin1 */;
+CREATE DATABASE /*!32312 IF NOT EXISTS*/ `continual_archive` /*!40100 DEFAULT CHARACTER SET latin1 */;
 
-USE `contarchive`;
+USE `continual_archive`;
 
 --
 -- Table structure for table `qcn_trigger`
@@ -2642,12 +2642,12 @@ CREATE TABLE `qcn_trigger` (
 ) ENGINE=InnoDB AUTO_INCREMENT=8682390 DEFAULT CHARSET=latin1;
 
 --
--- Current Database: `qcnarchive`
+-- Current Database: `sensor_archive`
 --
 
-CREATE DATABASE /*!32312 IF NOT EXISTS*/ `qcnarchive` /*!40100 DEFAULT CHARACTER SET latin1 */;
+CREATE DATABASE /*!32312 IF NOT EXISTS*/ `sensor_archive` /*!40100 DEFAULT CHARACTER SET latin1 */;
 
-USE `qcnarchive`;
+USE `sensor_archive`;
 
 --
 -- Table structure for table `qcn_trigger`

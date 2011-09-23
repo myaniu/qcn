@@ -1,4 +1,4 @@
-insert into qcnalpha.msg_to_host
+insert into sensor.msg_to_host
 (create_time,hostid,variety,handled,xml)
 select unix_timestamp(), hostid, 'abort', 0,
 concat('<trickle_down>\n<result_name>',

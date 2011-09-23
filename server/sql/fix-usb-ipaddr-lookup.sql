@@ -1,21 +1,21 @@
 // update host ipaddr's to just use one lat/lng per host
 
 create temporary table tmp_setip 
-   (select id from qcnalpha.qcn_host_ipaddr where (geoipaddrid is null or geoipaddrid=0) and ipaddr is not null and ipaddr!=''
-        and hostid not in (select hostid from qcnalpha.qcn_host_ipaddr where ipaddr is null or ipaddr='')
-        and hostid not in (select hostid from qcnalpha.qcn_host_ipaddr where (geoipaddrid is null or geoipaddrid=0) group by hostid having count(*)>1)
+   (select id from sensor.qcn_host_ipaddr where (geoipaddrid is null or geoipaddrid=0) and ipaddr is not null and ipaddr!=''
+        and hostid not in (select hostid from sensor.qcn_host_ipaddr where ipaddr is null or ipaddr='')
+        and hostid not in (select hostid from sensor.qcn_host_ipaddr where (geoipaddrid is null or geoipaddrid=0) group by hostid having count(*)>1)
 );
 
-update qcnalpha.qcn_host_ipaddr set ipaddr='' where id in (select id from tmp_setip);
+update sensor.qcn_host_ipaddr set ipaddr='' where id in (select id from tmp_setip);
 
 // update trigger table with "sole location" hosts
 
-update qcnalpha.qcn_trigger t, qcnalpha.qcn_host_ipaddr i set t.latitude=i.latitude,t.longitude=i.longitude where t.hostid=i.hostid and i.ipaddr='' and i.geoipaddrid=0;
+update sensor.qcn_trigger t, sensor.qcn_host_ipaddr i set t.latitude=i.latitude,t.longitude=i.longitude where t.hostid=i.hostid and i.ipaddr='' and i.geoipaddrid=0;
 
 // query to see which hosts in the trigger table have geoipaddr records
 
 select t.hostid, t.ipaddr, count(*) 
-   from qcnalpha.qcn_trigger t, qcnalpha.qcn_host_ipaddr i
+   from sensor.qcn_trigger t, sensor.qcn_host_ipaddr i
    where t.hostid=i.hostid and t.ipaddr=i.ipaddr and i.geoipaddrid>0 
      and round(t.latitude,5)=round(i.latitude,5) 
      and round(t.longitude,5)=round(i.longitude,5)
@@ -23,7 +23,7 @@ select t.hostid, t.ipaddr, count(*)
 
 
 select t.hostid, count(*)    
-   from qcnalpha.qcn_trigger t, qcnalpha.qcn_host_ipaddr i    
+   from sensor.qcn_trigger t, sensor.qcn_host_ipaddr i    
    where t.hostid=i.hostid and t.ipaddr=i.ipaddr and i.geoipaddrid>0
      and round(t.latitude,5)=round(i.latitude,5)
      and round(t.longitude,5)=round(i.longitude,5)

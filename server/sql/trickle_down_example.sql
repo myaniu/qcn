@@ -1,5 +1,5 @@
 // build a list of all files for a resultname & host
-insert into qcnalpha.msg_to_host
+insert into sensor.msg_to_host
 (create_time,hostid,variety,handled,xml)
 values(
 unix_timestamp(),
@@ -37,7 +37,7 @@ where hostid=570
 
 
 // uses latest result name
-insert into qcnalpha.msg_to_host
+insert into sensor.msg_to_host
 (create_time,hostid,variety,handled,xml)
 select
 unix_timestamp(), 
@@ -63,7 +63,7 @@ where t.hostid=r.hostid
 
 
 // uses result name from trigger
-insert into qcnalpha.msg_to_host
+insert into sensor.msg_to_host
 (create_time,hostid,variety,handled,xml)
 select
 unix_timestamp(), 
@@ -86,7 +86,7 @@ where t.hostid=h.id and h.userid=u.id
    AND unix_timestamp('2008-04-26 02:30')
 ;
 
-insert into qcnalpha.msg_to_host
+insert into sensor.msg_to_host
 (create_time,hostid,variety,handled,xml)
 values 
 (unix_timestamp(),

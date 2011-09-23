@@ -1,7 +1,7 @@
 /*
     this sends a 'killer trickle' for a single host/result
 */
-insert into qcnalpha.msg_to_host
+insert into sensor.msg_to_host
 (create_time,hostid,variety,handled,xml)
 select unix_timestamp(), hostid, 'abort', 0,
 concat('<trickle_down>\n<result_name>',
@@ -14,7 +14,7 @@ concat('<trickle_down>\n<result_name>',
 /*
     this sends a 'killer trickle' for hosts which have triggered in the past week
 */
-insert into qcnalpha.msg_to_host
+insert into sensor.msg_to_host
 (create_time,hostid,variety,handled,xml)
 select unix_timestamp(), hostid, 'abort', 0,
 concat('<trickle_down>\n<result_name>',
@@ -28,7 +28,7 @@ concat('<trickle_down>\n<result_name>',
 /*
     this sends a 'killer trickle' for hosts running an older version than we'd like who triggered in the past two weeks
 */
-insert into qcnalpha.msg_to_host
+insert into sensor.msg_to_host
 (create_time,hostid,variety,handled,xml)
 select unix_timestamp(), hostid, 'abort', 0,
 concat('<trickle_down>\n<result_name>',
