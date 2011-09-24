@@ -8,4 +8,4 @@ FILE_BACKUP=/home/boinc/qcn-archive-backup.sql
 /bin/rm -f $FILE_BACKUP
 /bin/nice -n19 /usr/local/mysql/bin/mysqldump -h db-private -u root -pPWD --databases sensor_archive continual_archive > $FILE_BACKUP
 /bin/nice -n19 /bin/gzip -f $FILE_BACKUP
-/usr/local/bin/python /home/boinc/trigger_archive.py
+/usr/bin/python /home/boinc/trigger_archive.py
