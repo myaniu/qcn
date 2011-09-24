@@ -1,5 +1,4 @@
-#!/usr/bin/python
-# #! /usr/bin/env python
+#! /usr/bin/env python
 
 # format of a USGS quake record from the RSS feed:
 #

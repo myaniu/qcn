@@ -1,5 +1,4 @@
-#! /usr/local/bin/python
-#// #! /usr/bin/env python
+#! /usr/bin/env python
 
 # this file will unzip the files in the upload directory
 # and move them to an http download directory for delivery via apache httpd

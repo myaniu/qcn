@@ -1,4 +1,4 @@
-#! /usr/local/bin/python
+#! /usr/bin/env python
 # break down a big trigger zip directory to subdirs based on trigger time
 # CMC note -- need to install 3rd party MySQLdb libraries for python
 import traceback, sys, os, time, tempfile, string, MySQLdb, shutil, zipfile

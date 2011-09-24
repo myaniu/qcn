@@ -1,5 +1,4 @@
-#!/usr/bin/python
-
+#! /usr/bin/env python
 #remove job files older than two months
 
 import os, time, shutil

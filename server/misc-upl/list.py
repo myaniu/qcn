@@ -1,5 +1,4 @@
-#! /usr/local/bin/python
-#// #! /usr/bin/env python
+#! /usr/bin/env python
 # archive triggers greater than 3 months into a zip file by trigger time / 10000 (roughly a day)
 # CMC note -- need to install 3rd party MySQLdb libraries for python
 import traceback, sys, os, time, tempfile, string, MySQLdb, shutil, zipfile

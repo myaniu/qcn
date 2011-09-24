@@ -1,5 +1,4 @@
-#! /usr/local/bin/python
-#// #! /usr/bin/env python
+#! /usr/bin/env python
 
 # this program will bundle up files from a continual_download.job request
 # into a single file for downloading

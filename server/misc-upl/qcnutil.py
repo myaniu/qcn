@@ -1,6 +1,4 @@
-#! /usr/local/bin/python
-#// #! /usr/bin/env python
-
+#! /usr/bin/env python
 # program to get sac metadata given trigger info
 # processes an input zip file, no database or URL info required
 #def getSACMetadata(zipinname, hostid, latTrig, lonTrig, lvlTrig, lvlType, idQuake, timeQuake, depthKmQuake, latQuake, lonQuake, magQuake):

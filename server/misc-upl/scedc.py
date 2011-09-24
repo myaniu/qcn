@@ -1,5 +1,4 @@
-#! /usr/local/bin/python
-#// #! /usr/bin/env python
+#! /usr/bin/env python
 
 # this program will bundle up files for SCEDC, also make a CSV file of the triggers/files
 
