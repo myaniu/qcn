@@ -1,7 +1,7 @@
 #!/bin/bash
 LOCAL_FILE=/tmp/qcn-backup.sql
 LOCAL_FILE_GZ=/tmp/qcn-backup.sql.gz
-REMOTE_DIR=/mnt/data/QCN/
+REMOTE_DIR=/data/QCN/
 /bin/rm -f $LOCAL_FILE
 /bin/nice -n19 /usr/local/mysql/bin/mysqldump -u root -pPWD --single-transaction --databases qcnwp sensor continual mysql sensor_download continual_download todolist information_schema > $LOCAL_FILE
 /bin/nice -n19 /bin/gzip $LOCAL_FILE
