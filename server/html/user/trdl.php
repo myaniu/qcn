@@ -580,8 +580,6 @@ else {
 //$count = 1e6;
 //print "<BR><BR>$query<BR><BR>";
 
-//echo $query;
-
 if (!$bUseCSV) {
 $count = query_count($query);
 
