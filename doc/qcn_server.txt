@@ -111,4 +111,16 @@ NTPOPTIONS=""
 
 add to root cron:  @hourly /etc/network/if-up.d/ntpdate
 
+14)  php PEAR email  -- for html/inc/email.inc -- also change EMAIL_FOM in
+project/project.inc
+
+wget http://pear.php.net/go-pear.phar
+php go-pear.phar
+pear version
+pear channel-update pear.php.net
+pear install Mail
+pear install Net_SMTP
+pear install Net_SMTP
+pear install Net_Socket
+
 
