@@ -272,24 +272,8 @@ LogLevel warn
     #Scriptsock logs/cgisock
 </IfModule>
 
-    ## Settings for BOINC project test boinc
-
-    Alias /test /var/www/boinctest/html/user
-    Alias /test_ops /var/www/boinctest/html/ops
-    ScriptAlias /test_cgi /var/www/boinctest/cgi-bin
-
-    # Note: projects/*/keys/ should NOT be readable!
-
-    <Directory "/var/www/boinctest/html">
-        Options Indexes FollowSymlinks MultiViews
-        AllowOverride AuthConfig
-        Order allow,deny
-        Allow from all
-    </Directory>
-
-    <Directory "/var/www/boinctest/cgi-bin">
-        Options ExecCGI
-        AllowOverride AuthConfig
+    Alias /carlc /var/www/carlc
+    <Directory "/var/www/carlc">
         Order allow,deny
         Allow from all
     </Directory>
@@ -301,50 +285,29 @@ LogLevel warn
     </Directory>
 
 
-    Alias /carlc /var/www/carlc
+    # Note: projects/*/keys/ should NOT be readable!
+    #ScriptAlias /qcn_cgi /var/www/boinc/qcn/cgi-bin
+    #<Directory "/var/www/boinc/qcn/cgi-bin">
+    #    Options +ExecCGI
+    #    AllowOverride AuthConfig
+    #    Order allow,deny
+    #    Allow from all
+    #</Directory>
 
-    <Directory "/var/www/carlc">
+    FastCgiServer /var/www/boinc/qcn/cgi-bin/file_upload_handler -appConnTimeout 30 -idle-timeout 30 -processes 10 -restart-delay 5
+    ScriptAlias /qcn_cgi /var/www/boinc/qcn/cgi-bin
+
+    # Note: projects/*/keys/ should NOT be readable!
+    <Directory "/var/www/boinc/qcn/cgi-bin">
+        SetHandler fastcgi-script
+        Options +ExecCGI
+        AllowOverride AuthConfig
         Order allow,deny
         Allow from all
+        #CMC -- set the path to the mysql dynamic libraries, required by programs (CGI) linked to mysql
+        SetEnv DYLD_LIBRARY_PATH /usr/local/mysql/lib
     </Directory>
 
-
-
-###Alias /trac "/Trac/qcn/htdocs"
-###You have to allow people to read the files in htdocs
-#<Directory "/Trac/qcn/htdocs">
-#	Options Indexes MultiViews
-#	AllowOverride None
-#	Order allow,deny
-#	Allow from all
-#</Directory>
-
-### Trac need to know where the database is located
-#<Location "/cgi-bin/trac.cgi">
-#	SetEnv TRAC_ENV "/Trac/qcn"
-#</Location>
-
-### You need this to allow users to authenticate
-### trac.htpasswd can be created with 
-### cmd 'htpasswd -c trac.htpasswd' (UNIX)
-### do 'man htpasswd' to see all the options
-#<Location "/cgi-bin/trac.cgi/login">
-#	AuthType Basic
-#	AuthName "trac"
-#	AuthUserFile /etc/trac.htpasswd
-#	Require valid-user
-#</Location>
-
-
-#
-# DefaultType: the default MIME type the server will use for a document
-# if it cannot otherwise determine one, such as from filename extensions.
-# If your server contains mostly text or HTML documents, "text/plain" is
-# a good value.  If most of your content is binary, such as applications
-# or images, you may want to use "application/octet-stream" instead to
-# keep browsers from trying to display binary files as though they are
-# text.
-#
 DefaultType text/plain
 
 <IfModule mime_module>
