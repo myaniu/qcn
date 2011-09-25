@@ -558,8 +558,9 @@ function page_head($title, $java_onload=null, $title_plain=null, $prefix="", $go
     $rsslink = URL_BASE."rss_main.php";
 
        $metahttp = "<meta http-equiv=\"content-type\" content=\"text/html; charset=utf-8\"/>\n"
-         . "<link rel=\"shortcut icon\" href=\"" . BASEURL . "/favicon.ico\" type=\"image/vnd.microsoft.icon\">\n"
-         . "<link rel=\"icon\" href=\"" . BASEURL . "/favicon.ico\" type=\"image/vnd.microsoft.icon\">\n";
+         . "<link rel=\"shortcut icon\" href=\"" . BASEURL . "/wp-content/uploads/2011/08/favicon.png\" />\n"
+         . "<link rel=\"shortcut icon\" href=\"" . BASEURL . "/wp-content/uploads/2011/08/favicon.png\" type=\"image/vnd.microsoft.icon\">\n"
+         . "<link rel=\"icon\" href=\"" . BASEURL . "/wp-content/uploads/2011/08/favicon.png\" type=\"image/vnd.microsoft.icon\">\n";
 
     header("Content-type: text/html; charset=utf-8");
     if (!$caching) {
