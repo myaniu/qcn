@@ -47,7 +47,7 @@
 
 
 // URL for the earthquake xml listing
-#define QCNGUI_URL_QUAKE "http://qcn.stanford.edu/qcnalpha/download/qcn-quake.xml"
+#define QCNGUI_URL_QUAKE "http://qcn.stanford.edu/sensor/download/qcn-quake.xml"
 
 #define QCNGUI_SHMEM       "quakewx"
 #define QCNGUI_SHMEM_FILE  "boinc_quakewx_0"
