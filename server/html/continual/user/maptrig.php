@@ -40,29 +40,34 @@ $title = "";
 
     $mapimg = MAP_TRIGGER;
     $cachedatafile = CACHE_PATH_MAPTRIG;
+    $cachedatafileContinual = CACHE_PATH_MAPTRIG_CONTINUAL;
     $legendbase = "Legend: <IMG SRC=\"img/qcn_32_laptop.png\"> = QCN participant laptop, <IMG SRC=\"img/qcn_32_usb.png\"> = QCN participant USB sensor, <IMG SRC=\"img/qcn_32_quake.png\"> = USGS-reported Earthquake of minimum magnitude ";
     switch($timeint) {
        case "D":
           $mapimg = MAP_TRIGGER_D;
           $cachedatafile = CACHE_PATH_MAPTRIG_D;
+          $cachedatafileContinual = CACHE_PATH_MAPTRIG_CONTINUAL_D;
           $title = "Trigger Map for the Last Day";
           $legend = $legendbase . MIN_MAGNITUDE_D;
           break;
        case "W":
           $mapimg = MAP_TRIGGER_W;
           $cachedatafile = CACHE_PATH_MAPTRIG_W;
+          $cachedatafileContinual = CACHE_PATH_MAPTRIG_CONTINUAL_W;
           $title = "Trigger Map for the Last Week";
           $legend = $legendbase . MIN_MAGNITUDE_W;
           break;
        case "M":
           $mapimg = MAP_TRIGGER_M;
           $cachedatafile = CACHE_PATH_MAPTRIG_M;
+          $cachedatafileContinual = CACHE_PATH_MAPTRIG_CONTINUAL_M;
           $title = "Trigger Map for the Last Month";
           $legend = $legendbase . MIN_MAGNITUDE_M;
           break;
        default:
           $mapimg = MAP_TRIGGER;
           $cachedatafile = CACHE_PATH_MAPTRIG;
+          $cachedatafileContinual = CACHE_PATH_MAPTRIG_CONTINUAL;
           $title = "Trigger Map for the Last 4 Hours";
           $legend = $legendbase . MIN_MAGNITUDE;
           break;
@@ -110,20 +115,39 @@ else {  // default to northern California
 
 $data = array();
 
-$cacheddata=get_cached_data(MAPTRIG_TTL, "maptrig", $cachedatafile);  // regenerate every 15 minutes
-if ($cacheddata){
-        $data = unserialize($cacheddata); // use the cached data
-} 
-/*else {
-    echo "Generating a new map, please wait...<BR>";
-    qcn_generate_world_map($data);
-}*/
+$bUseContinual = false;
+
+if (file_exists($cachedatafile)) {
+  $cacheddata=get_cached_data(MAPTRIG_TTL, "maptrig", $cachedatafile);  // regenerate every 15 minutes
+  if ($cacheddata){
+          $data = unserialize($cacheddata); // use the cached data
+  } 
+}
+
+// continual data
+if (file_exists($cachedatafileContinual)) {
+  $cacheddataContinual=get_cached_data(MAPTRIG_TTL, "maptrig", $cachedatafileContinual);  // regenerate every 15 minutes
+  if ($cacheddataContinual){
+          $bUseContinual = true;
+          $dataContinual = unserialize($cacheddataContinual); // use the cached data
+  } 
+}
 
 $i = 0;
 for ($i = 0; $i < sizeof($data); $i++) {
   if ($data[$i]) {
      $pm->addGeoPoint($data[$i]->lat, $data[$i]->lng, $data[$i]->descript, $data[$i]->is_quake, $data[$i]->is_usb);
   }
+} 
+
+if ($bUseContinual)  { // show continual points
+  $i = 0;
+  for ($i = 0; $i < sizeof($dataContinual); $i++) {
+    if ($dataContinual[$i]) {
+       $pm->addGeoPoint($dataContinual[$i]->lat, $dataContinual[$i]->lng, $dataContinual[$i]->descript, 
+           $dataContinual[$i]->is_quake, $dataContinual[$i]->is_usb);
+    }
+  } 
 }
 
 $pm->showMap();
