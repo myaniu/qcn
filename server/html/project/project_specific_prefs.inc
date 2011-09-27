@@ -11,30 +11,35 @@ function qcn_generate_world_map(&$data, $timeint)
     $minmag = MIN_MAGNITUDE;
     $mapimg = MAP_TRIGGER;
     $cachedata = CACHE_PATH_MAPTRIG;
+    $cachedataContinual = CACHE_PATH_MAPTRIG_CONTINUAL;
     switch($timeint) {
        case "D":
           $trigtime = 3600*24;
           $minmag = MIN_MAGNITUDE_D;
           $mapimg = MAP_TRIGGER_D;
           $cachedata = CACHE_PATH_MAPTRIG_D;
+          $cachedataContinual = CACHE_PATH_MAPTRIG_CONTINUAL_D;
           break;
        case "W":
           $minmag = MIN_MAGNITUDE_W;
           $trigtime = 3600*24*7;
           $mapimg = MAP_TRIGGER_W;
           $cachedata = CACHE_PATH_MAPTRIG_W;
+          $cachedataContinual = CACHE_PATH_MAPTRIG_CONTINUAL_W;
           break;
        case "M":
           $minmag = MIN_MAGNITUDE_M;
           $trigtime = 3600*24*31;
           $mapimg = MAP_TRIGGER_M;
           $cachedata = CACHE_PATH_MAPTRIG_M;
+          $cachedataContinual = CACHE_PATH_MAPTRIG_CONTINUAL_M;
           break;
        default:
           $minmag = MIN_MAGNITUDE;
           $trigtime = 3600*4;
           $mapimg = MAP_TRIGGER;
           $cachedata = CACHE_PATH_MAPTRIG;
+          $cachedataContinual = CACHE_PATH_MAPTRIG_CONTINUAL;
           break;
     }
 
