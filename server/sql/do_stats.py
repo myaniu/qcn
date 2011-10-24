@@ -16,6 +16,7 @@ def main():
                            passwd = DBPASSWD,
                            db = DBNAME)
       cMain = dbconn.cursor()
+      cMain.execute("set autocommit=1");
       cMain.execute("update sensor.result set validate_state=1 where server_state=5 and outcome=1")
       cMain.execute("update continual.result set validate_state=1 where server_state=5 and outcome=1")
       cMain.execute("call do_stats();")
@@ -29,4 +30,5 @@ def main():
 
 if __name__ == '__main__':
     main()
+
 
