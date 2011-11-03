@@ -68,6 +68,9 @@ UPDATE wp_posts SET guid = replace(guid, 'http://qcn.stanford.edu','http://qcn.t
 
 UPDATE wp_posts SET post_content = replace(post_content, 'http://qcn.stanford.edu', 'http://qcn.twgrid.org');
 
+--- also note have to edit by hand the Persuasion theme in WordPress Dashboard, replace old URL's etc
+
+
 9) edit/create .htaccess in ops e.g. htpasswd -c /home/boinc/web/boinc_passwd admin
 contents of .htaccess:
 
