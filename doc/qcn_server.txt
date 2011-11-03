@@ -62,13 +62,19 @@ boinc/sensor/html/user and boinc/continual/html/user  !
 
 use qcnwp;
 
-UPDATE wp_options SET option_value = replace(option_value, 'http://qcn.stanford.edu', 'http://www.ras.unam.mx') WHERE option_name = 'home' OR option_name = 'siteurl';
+UPDATE wp_options SET option_value = replace(option_value, 'http://qcn.stanford.edu', 'http://qcn.twgrid.org') WHERE option_name = 'home' OR option_name = 'siteurl';
 
-UPDATE wp_posts SET guid = replace(guid, 'http://qcn.stanford.edu','http://www.ras.unam.mx');
+UPDATE wp_posts SET guid = replace(guid, 'http://qcn.stanford.edu','http://qcn.twgrid.org');
 
-UPDATE wp_posts SET post_content = replace(post_content, 'http://qcn.stanford.edu', 'http://www.ras.unam.mx');
+UPDATE wp_posts SET post_content = replace(post_content, 'http://qcn.stanford.edu', 'http://qcn.twgrid.org');
 
-9) edit/create .htaccess in ops e.g. htpasswd -c boinc/html/user/.htaccess admin
+9) edit/create .htaccess in ops e.g. htpasswd -c /home/boinc/web/boinc_passwd admin
+contents of .htaccess:
+
+AuthUserFile /home/boinc/web/boinc_passwd
+AuthName EnterPassword
+AuthType Basic
+require user admin
 
 10) remove .htaccess in WordPress base if any, put in /usr/local/apache2/conf/httpd.conf in Directory for wordpress site:
 
@@ -95,6 +101,7 @@ this will update the libraries
 13) ntpdate sync to qcn-upl.stanford.edu
 
 sudo apt-get install ntpdate
+or yum install ntpdate
 
 cat /etc/default/ntpdate
 # The settings in this file are used by the program ntpdate-debian, but not
