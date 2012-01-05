@@ -13,7 +13,7 @@ require_once(BASEPATH . "/qcn/inc/qcn_auto_detect.inc");
 page_top();
 $show_mg = $_GET["show_mag"];
 
-//require_once(BASEPATH . "/qcn/earthquakes/inc/gmt_quakes.inc");
+//require_once(BASEPATH . "/qcnwp/earthquakes/inc/gmt_quakes.inc");
 //gmt_quake_map();   // Generate the earthquake map.
 
   echo "<p><h1>Earthquake Statistics:</h1></p>\n";
@@ -22,7 +22,7 @@ $show_mg = $_GET["show_mag"];
 
   echo "<hr/>\n";
 
-  if ($f_age = file_age($file_name=BASEPATH . "/qcn/earthquakes/images/earthquake_through_time_hist.jpg") > 5*60) {
+  if ($f_age = file_age($file_name=BASEPATH . "/qcnwp/earthquakes/images/earthquake_through_time_hist.jpg") > 5*60) {
     make_quake_stats();
   }
   show_quake_stats();
@@ -142,9 +142,9 @@ foreach ($files as $file1) {
  $ABC = array('A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z');
 
 
- $time_file = BASEPATH . "/qcn/earthquakes/stats/time_v_iteration.txt";
- $mag_file  = BASEPATH . "/qcn/earthquakes/stats/mag_v_iteration.txt";
- $mt_file   = BASEPATH . "/qcn/earthquakes/stats/mag_v_time.txt";
+ $time_file = BASEPATH . "/qcnwp/earthquakes/stats/time_v_iteration.txt";
+ $mag_file  = BASEPATH . "/qcnwp/earthquakes/stats/mag_v_iteration.txt";
+ $mt_file   = BASEPATH . "/qcnwp/earthquakes/stats/mag_v_time.txt";
  
  $time_now = time();
   
@@ -219,14 +219,14 @@ function psxy($ifile,$xmn,$xmx,$ymn,$ymx,$xtitle,$ytitle,$title,$name_base,$log=
 
    $bounds = "-R$xmn/$xmx/$ymn/$ymx";
    $proj   = "-JX2i/2i"; if ($log) {$proj=$proj."l";}
-   $ps_file = BASEPATH . "/qcn/earthquakes/images/".$name_base.".ps";
+   $ps_file = BASEPATH . "/qcnwp/earthquakes/images/".$name_base.".ps";
    if (!$log) {$log=1;}
    exec("$GMT/gmtset HEADER_FONT_SIZE 16"); // Set title font size
    exec("$GMT/gmtset ANNOT_FONT_SIZE_PRIMARY 12"); // Set title font size
    exec("$GMT/gmtset LABEL_FONT_SIZE 12"); // Set title font size
    exec("$GMT/gmtset HEADER_OFFSET -0.2c");  // Set title vertical offset from top of map
    exec("$GMT/psxy $ifile -m $bounds $proj $axes -W10t30_10:0 > $ps_file");
-   exec("$GMT/ps2raster $ps_file -D" . BASEPATH . "/qcn/earthquakes/images -A -P -Tj");
+   exec("$GMT/ps2raster $ps_file -D" . BASEPATH . "/qcnwp/earthquakes/images -A -P -Tj");
 }
 
 

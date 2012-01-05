@@ -9,6 +9,41 @@ elseif (file_exists("common.inc"))
 
 require_once(BASEPATH . "/qcn/inc/inc/utils.inc");
 
+
+function event_page($show_mag) {
+
+if (file_exists("../../inc/common.inc"))
+   require_once("../../inc/common.inc");
+elseif (file_exists("../inc/common.inc"))
+   require_once("../inc/common.inc");
+elseif (file_exists("../../../inc/common.inc"))
+   require_once("../../../inc/common.inc");
+
+require_once(BASEPATH . '/qcn/inc/utils.inc');
+require_once(BASEPATH . '/qcn/inc/qcn_auto_detect.inc');
+$show_mg = $_GET["show_mag"];
+page_top();
+echo "<table width=\"700\"><tr><td>\n";
+if ( ($show_mg == "y")||($show_mg=="Y") ) { event_info("y"); } else { event_info();}
+
+if ( ($show_mg=="y")||($show_mg=="Y") ) { show_maps("y"); } else { show_maps();}
+
+echo "<hr> 
+<h2>Triggers:</h2>\n";
+
+trigger_info();
+
+show_scatter_tvt(); // Show Estimated v. Observed Travel time  scatter plot
+show_scatter_avd(); // Show Amplitude v. Distance scatter plot
+show_disclaimer();
+show_viewed_on();
+show_seismograms();
+echo "</td></tr></table>\n";
+page_end();
+
+
+}
+
 function gmt_quake_map() {
   $event_file = "./events.xy";
 
@@ -118,11 +153,7 @@ function gmt_quake_map_lon_lat2($ln_mn=null,$ln_mx=null,$lt_mn=null,$lt_mx=null,
 
 function show_last_eq($show_mag=null) {
 
- if ($show_mag) {
   $qfile = BASEURL . "/earthquakes/images/intensity_01.jpg";
- } else {
-  $qfile = BASEURL . "/earthquakes/images/intensity_03.jpg";
- }
 
  echo "<a href=\"".$qfile."\"><img src=\"".$qfile."\" width=\"225\" align=\"center\"></a>\n";
 
@@ -272,32 +303,36 @@ if ( ($pwd = getcwd() == BASEPATH . "/qcn/earthquakes")||(($pwd = getcwd() == BA
 
 function show_maps($show_mag=null) {
 
-if ($show_mag) {
-  $img1 = "intensity_02";
+//if ($show_mag) {
+//  $img1 = "intensity_02";
   $img2 = "intensity_01";
+//} else {
+//  $img1 = "intensity_04";
+//  $img2 = "intensity_03";
+//}
+
+if (file_exists("./$img2.ps") ) {
+  $img1 = "./".$img2;
 } else {
-  $img1 = "intensity_04";
-  $img2 = "intensity_03";
+  $img1 = "./A/".$img2;
 }
 
-if (file_exists("./$img1.ps") ) {
-  $img1 = "./".$img1;
-  $img2 = "./".$img2;
-} else {
-  $img1 = "./A/".$img1;
+if (file_exists("./A/$img2.ps") ) {
   $img2 = "./A/".$img2;
+} else {
+  $img2 = "../A/".$img2;
 }
 
-echo "
-<p><table align=\"center\"><tr>
 
-<td width=\"50\" align=\"center\"><a href=\"$img1.jpg\"><img src=\"$img1.jpg\" width=\"325\"></a><br>Download: <a href=\"$img1.ps\">PS</a> or <a href=\"$img1.jpg\">JPEG</a> file.</td>\n
+echo "<p><table align=\"center\" width=\"650\"><tr>\n";
+
+echo "<td width=\"50\" align=\"center\"><a href=\"$img1.jpg\"><img src=\"$img1.jpg\" width=\"325\"></a><br>Download: <a href=\"$img1.ps\">PS</a> or <a href=\"$img1.jpg\">JPEG</a> file.</td>\n
 
 <td width=\"50\" align=\"center\"><a href=\"$img2.jpg\"><img src=\"$img2.jpg\" width=\"325\"></a><br>Download: <a href=\"$img2.ps\">PS</a> or <a href=\"$img2.jpg\">JPEG</a> file.</td>\n
 
-</tr></table>\n
-
-<a href=\"" . BASEURL . "/images/ShakeMap_Scale.png\"><center><img src=\"" . BASEURL . "/images/ShakeMap_Scale.png\" width=\"600\" align=\"center\"></center></a> 
+</tr></table>
+<p><a href=\"" . BASEURL . "/images/ShakeMap_Scale.png\"><center><img src=\"" . BASEURL . "/images/ShakeMap_Scale.png\" width=\"600\" align=\"center\"></center></a>
+<hr>
 \n";
 
 }
@@ -407,26 +442,52 @@ function dl_link($elon,$elat,$etime) {
 
 function event_info($show_mag=null){
 
+
 echo "<h1>Earthquake:</h1>";
 
 if (file_exists("event.xy")) {
  $efile = "event.xy";
 } else {
  $efile="A/event.xy";
- echo "HI";
 }
 
 $contents = file($efile);
 $string = implode($contents);
-list($qlon, $qlat,$qdep,$qmag,$ntrig,$qtime,$dtime,$qstd) = split('[,]',$string);
+list($qlon,$qlat,$qdep,$qmag,$ntrig,$qtime,$dtime,$qstd) = split('[,]',$string);
 echo "<p><strong>Date and Time:</strong>". date('M d Y H:i:s',$qtime)."</p>";
 echo "<p><strong>Longitude:</strong>". $qlon;
 echo "<strong> Latitude:</strong>". $qlat;
-echo "<strong> Depth:</strong>". $qdep. " km </p> \n";
+echo "<strong> Depth:</strong>". number_format($qdep,1,'.',''). " km </p> \n";
 if ($show_mag) { echo "<p><strong>Magnitude:</strong>".number_format($qmag,1,'.','')." &plusmn; ".number_format($qstd,1,'.','')." (Local estimate - for scientific use only)</p> \n";}
-dl_link($qlon, $qlat, $qtime);
+dl_link($qlon, $qlat, $qtime);   // Show the links to continuous and triggered data
+if ($efile=="A/event.xy") {
+  show_last_updated($qtime,$dtime); // Show the last time the event info was updated
+}else {
+  show_this_updated($qtime,$dtime); // Show the last time the event info was updated
+}
+// Show the first time the page 
+if (file_exists("A/event.xy")) {
+
+$efile = "A/event.xy";
+$contents = file($efile);
+$string = implode($contents);
+list($qlon,$qlat,$qdep,$qmag,$ntrig,$qtime,$dtime,$qstd) = split('[,]',$string);
+
+} else if (file_exists("../A/event.xy")) {
+
+$efile = "../A/event.xy";
+$contents = file($efile);
+$string = implode($contents);
+list($qlon,$qlat,$qdep,$qmag,$ntrig,$qtime,$dtime,$qstd) = split('[,]',$string);
+
+}
+
+if ($show_mag) { echo "<p><strong>First Magnitude:</strong>".number_format($qmag,1,'.','')." &plusmn; ".number_format($qstd,1,'.','')." (Local estimate - for scientific use only)</p> \n";}
+
+
 show_created_on($qtime,$dtime);
-echo "<hr>\n";
+
+
 }
 
 
@@ -437,7 +498,7 @@ function show_scatter_tvt() {
 // Shows the scatter plot of theoretical travel time v. observed travel time.
   echo "<hr><table>\n<tr>
   <td><img src=\"./t_scatter.jpg\" width=\"325\"></td>\n 
-  <td><p><h2>Travel Time Fit:</h2>\n
+  <td valign=\"top\"><h2>Travel Time Fit:</h2>\n
   <p>The quality of the earthquake location depends on the match between the travel times estimated from the earthquake location 
   to the observed travel times. The observed travel times come from the time the earthquake triggered the volunteer sensor 
   computer.  The estimated times are determined from the event distance divided by the speed of the wave.
@@ -452,7 +513,7 @@ function show_scatter_avd() {
 // Shows the scatter plot of theoretical travel time v. observed travel time.
   echo "<hr><table>\n<tr>
   <td><img src=\"./amp_v_dist.jpg\" width=\"325\"></td>\n 
-  <td><p><h2>Amplitude v. Distance:</h2>\n
+  <td valign=\"top\"><p><h2>Amplitude v. Distance:</h2>\n
   <p>The amplitude of earthquake ground shaking should decrease with distance.  The plot to the left shows this relationship.
   The dashed lines show the (rough) amplitudes you would expect for different magnitudes.</td></td></tr>\n
   <tr><td align=\"center\">Download <a href=\"./t_scatter.ps\">PS</a> or <a href=\"./t_scatter.jpg\">JPEG</a>\n</td><td></td></tr>\n
@@ -476,12 +537,21 @@ function show_disclaimer() {
 function show_created_on($qtime,$dtime) {
 // Shows the date/time the page was created: // 
   $ddtime = (int) ($dtime-$qtime);
-  echo "<p aling=\"justify\"><strong>Page created</strong>: ".$ddtime." seconds after the earthquake origin.\n"; 
+  echo "<p aling=\"justify\"><strong>First Detected</strong>: ".$ddtime." seconds after the earthquake origin.\n"; 
 }
 
 
+function show_last_updated($qtime,$dtime) {
+// Shows the date/time the page was last updated (with new data): // 
+  $ddtime = (int) ($dtime-$qtime);
+  echo "<p aling=\"justify\"><strong>Last Updated</strong>: ".$ddtime." seconds after the earthquake origin.\n"; 
+}
 
-
+function show_this_updated($qtime,$dtime) {
+// Shows the date/time the page was last updated (with new data): // 
+  $ddtime = (int) ($dtime-$qtime);
+  echo "<p aling=\"justify\"><strong>This Update</strong>: ".$ddtime." seconds after the earthquake origin.\n"; 
+}
 
 function show_viewed_on() {
 // Shows the date/time the page was viewed on //

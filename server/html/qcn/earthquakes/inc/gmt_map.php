@@ -10,6 +10,7 @@ require_once("common.inc");
 date_default_timezone_set('UTC');         // Set the default time zone to UTC
 
 intensity();
+
 map_quake_with_intensity();
 
 
@@ -21,32 +22,37 @@ $contents = file($efile);
 $string = implode($contents);
 list($qlon,$qlat,$qdep,$qmag,$ntrig,$etime,$dtime,$qstd,$r_squared,$misfit) = split('[,]',$string);
 
+
+if ($qmag > 7) {
+ $dec_mag = 2;
+} else {
+ $dec_mag = 1;
+}
 $dec = 100;
 $dI  = 1./$dec;
-$dy = ((int) (log10($qmag*$qmag)*$dec) / $dec);
+$dy = ((int) (log10($qmag*$qmag)*$dec) / $dec * $dec_mag );
 
 $lon_fact = abs(cos($qlat*pi()/180.))*1.05; //$lon_fact*=$lon_fact;
-$dx = ((int) (log10($qmag*$qmag)/$lon_fact*$dec)) / $dec;
+$dx = ((int) (log10($qmag*$qmag)/$lon_fact*$dec)) / $dec * $dec_mag;
 //$dx = ((int) ($dy/$lon_fact*$dec)) / $dec;
 echo "$lon_fact $dx $dy\n";
 
-$ln_mn = ((int) ($qlon*$dec))/$dec-$dx;
-$ln_mx = ((int) ($qlon*$dec))/$dec+$dx;
-$lt_mn = ((int) ($qlat*$dec))/$dec-$dy;
-$lt_mx = ((int) ($qlat*$dec))/$dec+$dy;
+
+$ln_mn = ((int) ($qlon*$dec))/$dec-(int)($dx/2*$dec+10)/$dec;
+$ln_mx = ((int) ($qlon*$dec))/$dec+(int)($dx/2*$dec+10)/$dec;
+$lt_mn = ((int) ($qlat*$dec))/$dec-(int)($dy/2*$dec+10)/$dec;
+$lt_mx = ((int) ($qlat*$dec))/$dec+(int)($dy/2*$dec+10)/$dec;
 
 echo "$ln_mn,$ln_mx,$lt_mn,$lt_mx\n";
 
 $GMT      = GMTPATH . "/bin";
 $GRID     = "-I$dI/$dI" ;
 $BOUNDS   = "-R$ln_mn/$ln_mx/$lt_mn/$lt_mx";
-$QDIR     = BASEPATH . "/qcn/earthquakes";
+$QDIR     = BASEPATH . "/qcnwp/earthquakes";
 $OUTDIR   = $edir;
 $GRDFILE  = "$OUTDIR/grid.grd" ;
 $GRADFILE = "$OUTDIR/grad.grd" ;
 $TOPO     = GMTPATH . "/share/topo/topo30_gradI.grd" ;
-$CITIES   = "$QDIR/inc/worldcitiespop.gmt";
-$CITY_NAMES = "$QDIR/inc/worldcities_names.gmt";
 $EVENT    = "$OUTDIR/event.xy";
 $STATIONS = "$OUTDIR/stations.xyz"; 
 $TCONTOUR = "$OUTDIR/t_contour.xy";
@@ -65,20 +71,19 @@ echo "GMT=$GMT\n";
 echo "pre cut:\n";
 
 exec("$GMT/grdcut $TOPO -G$GRADFILE $BOUNDS"); 
-//exec("$GMT/grdsample $TEMP $GRID -T -G$GRDFILE");
-//echo "pre surface:\n";
-exec("$GMT/surface $IFILE -S0.2 -T0.9 $GRID $BOUNDS -G$GRDFILE"); 
+exec("$GMT/surface $IFILE -S0.05 -T0.5 $GRID $BOUNDS -G$GRDFILE"); 
 
 
 echo "pre\n";
 
- for ($i = 1; $i<=4;$i++) {
+ for ($i = 1; $i<=2;$i++) {
    echo $i;
-   $ii=$i; if ($ii>2) {$ii=$ii-2;}
-   $ln_mn = ((int) ($qlon*$dec))/$dec-($ii)*$dx/2.;
-   $ln_mx = ((int) ($qlon*$dec))/$dec+($ii)*$dx/2.;
-   $lt_mn = ((int) ($qlat*$dec))/$dec-($ii)*$dy/2.;
-   $lt_mx = ((int) ($qlat*$dec))/$dec+($ii)*$dy/2.;
+   if ($i ==2) $i == 3;
+   $ii=$i; //if ($ii>2) {$ii=$ii-2;}
+   $ln_mn = ((int) ($qlon*$dec))/$dec-($ii)*$dx/2;
+   $ln_mx = ((int) ($qlon*$dec))/$dec+($ii)*$dx/2;
+   $lt_mn = ((int) ($qlat*$dec))/$dec-($ii)*$dy/2;
+   $lt_mx = ((int) ($qlat*$dec))/$dec+($ii)*$dy/2;
 
    $PSFILE   = "$OUTDIR/intensity_0$i.ps";
    $BOUNDS   = "-R$ln_mn/$ln_mx/$lt_mn/$lt_mx";
@@ -108,10 +113,6 @@ echo "pre\n";
    $txtfile = "$OUTDIR/qcn_date_0$ii.txt";
    if ($i<3){
 
-    $fh = fopen($txtfile,"w");
-    fwrite($fh, $txt);
-    fclose($fh);
-// 
     exec("$GMT/grdimage $GRDFILE -I$GRADFILE -C$CPTFILE $BOUNDS $PROJ $X1Y1 $FLAGS1 > $PSFILE");
     exec("$GMT/pscoast $COASTS $PROJ $BOUNDS $FLAGS2 -S100/150/255>> $PSFILE");
 
@@ -122,6 +123,15 @@ echo "pre\n";
     exec("$GMT/pscoast $COASTS $PROJ $BOUNDS $FLAGS1 -S100/150/255 > $PSFILE");
    }
 
+// Select a sector for the name plotting ~4 times as fast by dividing it
+   $ix = (int) ( ($qlon+180.)/90.) + 1;
+   $iy = (int) ( ($qlat+ 90.)/45.) + 1;
+
+   
+   $CITIES   = "$QDIR/inc/worldcitiespop/worldcities_pop_".$ix.".".$iy.".gmt";
+   $CITY_NAMES = "$QDIR/inc/worldcitiespop/worldcities_names_".$ix.".".$iy.".gmt";
+   echo $CITIES."   ".$CITY_NAMES;
+
    exec("$GMT/psxy $EVENT $BOUNDS $PROJ $FLAGS2 -Sa0.75 -W1p/255/0/0 >> $PSFILE"); 
    exec("$GMT/psxy $STATIONS $BOUNDS $PROJ $FLAGS2 -St0.25 -C$CPTFILE -W0.5p/100 >> $PSFILE"); 
    exec("$GMT/psxy $CITIES $BOUNDS $PROJ $FLAGS2 -Sc0.2 -G0 -W1p/255 >> $PSFILE");
@@ -130,16 +140,17 @@ echo "pre\n";
    exec("$GMT/pstext $txtfile $BOUNDS $PROJ $FLAGS2 -S0.5p >> $PSFILE");
    exec("$GMT/pstext $ts_file -N $BOUNDS $PROJ $FLAGS2 >> $PSFILE");
    exec("$GMT/pstext $TXTCON $BOUNDS $PROJ $FLAGS3 $B >> $PSFILE");
-   exec("$GMT/ps2raster $PSFILE -D$OUTDIR -A -P -Tj");
+   exec("$GMT/ps2raster $PSFILE -D$OUTDIR -E150 -A -P -Tj");
    exec("cp $OUTDIR/intensity_0$i.jpg $OUTDIR/../.");
    exec("cp $OUTDIR/intensity_0$i.jpg $QDIR/images/.");
 
  }
 
-echo "map 3 and 4 complete\n";
- exec("cp $OUTDIR/event.xy $OUTDIR/../.");                        // Copy this individual detection to group detection
- exec("cp $QDIR/inc/index_earthquake.php $OUTDIR/../index.php");  // Copy event group index to proper location
- exec("cp $QDIR/inc/index_earthquake_sub.php $OUTDIR/index.php"); // Copy individual index page here
+copy($OUTDIR."/event.xy",$OUTDIR."/../event.xy");                 // Copy detection to group directory
+copy($QDIR."/inc/index_earthquake.php",$OUTDIR."/../index.php");  // Copy wep page over to new location
+copy($QDIR."/inc/index_earthquake_sub.php",$OUTDIR."/index.php"); // Copy individual index page here
+
+
 
 echo "plot t scatter plot:\n";
 
@@ -199,7 +210,7 @@ function t_scatter_plot($GMT,$OUTDIR,$r_squared,$misfit) {
 // Text file for expected lines through scatter plot //
    $SCATLINE = "$OUTDIR/scatter_lines.xy";
    
-   $tps = $t_max/1.87;   // Time difference between P and S (or S and P) waves.
+/*   $tps = $t_max/1.87;   // Time difference between P and S (or S and P) waves.
    $fh = fopen($SCATLINE,'w');  // Open file for writing out lines
    fwrite($fh,"0,0\n");         
    fwrite($fh,"$tps,$t_max\n");
@@ -213,7 +224,7 @@ function t_scatter_plot($GMT,$OUTDIR,$r_squared,$misfit) {
    fwrite($fh,"$t_max,$tps\n");
    fwrite($fh,">\n");
    fclose($fh);                // Close file for writing out lines
-
+*/
 // Create plot using GMT psxy: //
    exec("$GMT/psxy $T_SCAT $BOUNDS $PROJ $FLAGS1 -Sx0.2 -W1p/255/0/0 > $PSFILE"); // Plot points
    exec("$GMT/psxy $SCATLINE $BOUNDS $PROJ $FLAGS2 $B -m -Wthick,-   >> $PSFILE");// Plot lines
@@ -229,7 +240,7 @@ function t_scatter_plot($GMT,$OUTDIR,$r_squared,$misfit) {
    fclose($fh);
 
    exec("$GMT/pstext $STATS $BOUNDS $PROJ $FLAGS3 $B >> $PSFILE ");
-   exec("$GMT/ps2raster $PSFILE -D$OUTDIR -A -P -Tj");
+   exec("$GMT/ps2raster $PSFILE -D$OUTDIR -E150 -A -P -Tj");
 }
 
 
@@ -293,7 +304,7 @@ function amp_v_dist_plot($GMT,$OUTDIR,$QDIR,$qlon,$qlat) {
    exec("$GMT/psxy $avd_file $BOUNDS $PROJ $FLAGS1 -Sx0.2 -W1p/255/0/0 > $PSFILE"); // Plot points
    exec("$GMT/psxy $avd_line $BOUNDS $PROJ $FLAGS2 -m -Wthick,-    >> $PSFILE");// Plot lines
    exec("$GMT/pstext $avd_text $BOUNDS $PROJ $FLAGS3 $B >> $PSFILE "); // 
-   exec("$GMT/ps2raster $PSFILE -D$OUTDIR -A -P -Tj");
+   exec("$GMT/ps2raster $PSFILE -D$OUTDIR -E150 -A -P -Tj");
 
 }
 
@@ -307,18 +318,25 @@ function intensity() {
    $string = implode($contents);
    list($qlon,$qlat,$qdep,$qmag,$ntrig,$etime,$dtime,$qstd,$r_squared,$misfit) = split('[,]',$string);
 
-   $a = -0.05;  // Distance term
-   $b =  1.8385; // Magnitude term
+   $b =  1.2385; // Magnitude term
+   $a = -0.03085*$b;  // Distance term
    $c = -7.8671; // Constant
-
-   $width = ((int) (log10($qmag*$qmag)*100.) / 100.);
 
    $dec = 100;
    $dI  = 1./$dec;
-   $dy = ((int) (log10($qmag*$qmag)*$dec) / $dec); 
 
-   $lon_fact = abs(cos($qlat*pi()/180.)); //$lon_fact*=$lon_fact;
-   $dx = ((int) (log10($qmag*$qmag)/$lon_fact*$dec)) / $dec;
+   if ($qmag >= 7.) {
+    $dec_mag = 2;
+   } else { 
+    $dec_mag = 1;
+   }
+
+   $dy = ((int) (log10($qmag*$qmag)*$dec) / $dec)*$dec_mag; 
+
+   $lon_fact = abs(cos($qlat*pi()/180.))*1.1; //$lon_fact*=$lon_fact;
+//   $lon_fact = abs(cos($qlat*pi()/180.)); //$lon_fact*=$lon_fact;
+   $dx = ((int) (log10($qmag*$qmag)/$lon_fact*$dec)) / $dec * $dec_mag;
+
 
    $x_mn = ((int) ($qlon*$dec))/$dec-$dx;
    $x_mx = ((int) ($qlon*$dec))/$dec+$dx;
@@ -327,9 +345,12 @@ function intensity() {
 
    $dx2 = 0.1;  
 
-   $nx = (int) ($dx/$dx2*2) + 1;   
-   $ny = (int) ($dy/$dx2*2) + 1;
-
+   $nx = (int) ($dx*2/$dx2) + 1;   
+   $ny = (int) ($dy*2/$dx2) + 1;
+/*   for ($ix =0; $ix<100000; $ix++) {
+   echo "$x_mn,$x_mx,$y_mn,$y_mx\n";
+   }*/
+   
    $intensity_file = "intensity_map.xyz";
    $fh = fopen($intensity_file,'w');
    for ($ix =0; $ix <$nx; $ix++) {
@@ -340,6 +361,7 @@ function intensity() {
        $dist_xy = distance($qlon,$qlat,$x,$y);
        $dist_xyz = sqrt($dist_xy*$dist_xy + $qdep*$qdep);
        
+
        $pga = exp($a*$dist_xyz + $b*$qmag + $c);
        fwrite($fh,"$x , $y , $pga, $dist_xyz \n");
      }
@@ -356,7 +378,18 @@ function intensity() {
        if ($pgah[$j]>$smag) {$smag=$pgah[$j];}
        if ($pgaz[$j]>$smag) {$smag=$pgaz[$j];}
      }
-     fwrite($fh,"$slon , $slat, $smag\n");
+     for ($ix =-1; $ix<=1 ; $ix++) {
+      $x = $slon + $dx2/3.*(float) $ix;
+      for ($iy = -1; $iy<=1 ; $iy++) {
+       $y = $slat + $dx2/3.*(float) $iy;
+       $ssmag = $smag*2.;
+       fwrite($fh,"$x , $y, $ssmag\n");
+       fwrite($fh,"$x , $y, $ssmag\n");
+       fwrite($fh,"$x , $y, $ssmag\n");
+       fwrite($fh,"$x , $y, $ssmag\n");
+       fwrite($fh,"$x , $y, $ssmag\n");
+      }
+     }
    }
    fclose($fh);
 

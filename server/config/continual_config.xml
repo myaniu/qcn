@@ -30,6 +30,8 @@
     <uldl_dir_fanout>
       1024
     </uldl_dir_fanout>
+   <dont_generate_upload_certificates/>
+   <ignore_upload_certificates/>
     <download_url>
       http://qcn.stanford.edu/continual/download
     </download_url>

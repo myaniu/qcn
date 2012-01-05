@@ -16,6 +16,8 @@
     <uldl_dir_fanout>
       1024
     </uldl_dir_fanout>
+    <dont_generate_upload_certificates/>
+    <ignore_upload_certificates/>
     <download_url>http://qcn.stanford.edu/sensor/download</download_url>
     <log_dir>/var/www/boinc/sensor/log_qcn-web</log_dir>
     <app_dir>/var/www/boinc/sensor/apps</app_dir>

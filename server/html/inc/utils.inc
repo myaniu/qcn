@@ -66,7 +66,7 @@ echo "<script src=\"http://www.google.com/jsapi?key=ABQIAAAAi1z8qL921_qvE089UEGa
 
 
 echo " </head>\n";
-echo " <body bgcolor=\"#999999\">\n";
+echo " <body bgcolor=\"#ffffff\">\n";
 //echo " <div id=\"skipnav\"><a href=\"#maincontent\">Skip navigation</a></div>\n";
 
 }
