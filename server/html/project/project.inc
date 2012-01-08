@@ -661,7 +661,7 @@ function disguise_curl($url)
   return $html; // and finally, return $html
 }
 
-function show_trigger($hostid, $heading, $private=true)
+function show_trigger($hostid, $heading, $private)//=false)
 {
    if ($hostid<1) return;
    // make a table of triggers for this host
@@ -688,9 +688,37 @@ function show_trigger($hostid, $heading, $private=true)
        . "WHERE hostid=$hostid order by time_trigger desc limit " . MAX_NUM_TRIGGER;
    $result=$db->do_query($sql);
 
+
+
+
+
+   if ($result && mysql_num_rows($result)>0) {  // we found some records
+      $i = 0;
+      while($row=mysql_fetch_array($result)) {
+         if ($row[17]==1) { // it's a ping record
+           $strTableFont = "<font color=$colorPing>";
+           $strFontEnd = "</font>";
+         } 
+         else {
+           $strTableFont = "";
+           $strFontEnd   = "";
+         }
+         if ($i == 0) {
+         if ($private) {
+          $loc_res = 4;
+         } else {
+          $loc_res = 2;
+         }
+            $lat = $row[8];
+           $lon = $row[9];
+
+   echo "<h2>Sensor Location:</h2>\n";
+   echo "<iframe src=\"http://qcn.stanford.edu/RAMP/qcn_map_sensor.php?lon=" . round($lon,$loc_res) . "&lat=" . round($lat,$loc_res) . "\" frameborder=\"0\" scrolling=\"no\" width=\"100%\" height=\"365\"></iframe>\n"; 
+
    echo "<H2>$heading</H2>\n";
    echo "<H3>Last " . MAX_NUM_TRIGGER . " Triggers for this Computer</H3>\n";
-   echo "<H5>(NB: <font color=$colorPing>grey text</font> is a 'ping' trigger to see who is running QCN)</H5>\n";
+   if ($private) {
+   echo "<H5>(NB: <font color=$colorPing>grey text</font> is a 'ping' trigger to see who is running QCN)</H5>\n";}
    start_table();
    echo "<tr><th>Trigger ID</th>
              <th>Trigger Time (UTC)</th>
@@ -706,31 +734,18 @@ function show_trigger($hostid, $heading, $private=true)
              <th>Delta T</th>
              <th>Num Reset</th>
              <th>Sensor Type</th>
-             <th>Version</th>
-             <th>OS</th>
+             <th>Version</th>";
+    if ($private) {
+    echo "
+             <th>OS</th>";
+    }
+    echo "
              <th>WU CPU Time</th>
              <th>WU Run Time</th>
              <th>File Name</th>
              <th>View</th>
              <th>Quake</th>
          </tr>";
-
-   if ($result && mysql_num_rows($result)>0) {  // we found some records
-      $i = 0;
-      while($row=mysql_fetch_array($result)) {
-         if ($i++ % 2) {
-             $bgcolor = "\"#F4F4F4\"";
-         }
-         else {
-             $bgcolor = "\"#FFFFFF\"";
-         }
-         if ($row[17]==1) { // it's a ping record
-           $strTableFont = "<font color=$colorPing>";
-           $strFontEnd = "</font>";
-         } 
-         else {
-           $strTableFont = "";
-           $strFontEnd   = "";
          }
 
          $elev = $row[18]; // level/elevation data
@@ -778,38 +793,53 @@ mysql> select * from qcn_level;
          }
 
          $quakestuff = "";
+
+        if ($row[17] != 1 || $private) {
+         if ($i++ % 2) {
+             $bgcolor = "\"#F4F4F4\"";
+         }
+         else {
+             $bgcolor = "\"#FFFFFF\"";
+         }
          if ($row[24] > 0 ) { // must have matched a quake!
-             $bgcolor = "\"#FF0000\"";  // red background for this row
+             $bgcolor = "\"#BBB\"";  // red background for this row
              $quakestuff = "<A HREF=\"" . $row[25] . "\">" . $row[24] . "</A>";
          }
-
          echo "    <tr bgcolor=$bgcolor>
                    <td>$strTableFont$row[0]$strFontEnd</td>
                    <td>$strTableFont" . time_str($row[2]) . "$strFontEnd</td>
                    <td>$strTableFont" . time_str($row[3]) . "$strFontEnd</td>
                    <td>$strTableFont". time_str($row[4]) . "$strFontEnd</td>
-                   <td>$strTableFont" . round($row[5],3) . "$strFontEnd</td>
-                   <td>$strTableFont". round($row[6],3) . "$strFontEnd</td>
-                   <td>$strTableFont". round($row[7],3) . "$strFontEnd</td>
-                   <td>$strTableFont". round($row[8],3) . "$strFontEnd</td>
-                   <td>$strTableFont". round($row[9],3) . "$strFontEnd</td>
+                   <td>$strTableFont" . round($row[5],$loc_res) . "$strFontEnd</td>
+                   <td>$strTableFont". round($row[6],$loc_res) . "$strFontEnd</td>
+                   <td>$strTableFont". round($row[7],$loc_res) . "$strFontEnd</td>
+                   <td>$strTableFont". round($row[8],$loc_res) . "$strFontEnd</td>
+                   <td>$strTableFont". round($row[9],$loc_res) . "$strFontEnd</td>
                    <td>$strTableFont". $elev . "$strFontEnd</td>
                    <td>$strTableFont". $alignment . "$strFontEnd</td>
                    <td>$strTableFont" . ($row[10] ? $row[10] : 0) . "$strFontEnd</td>
                    <td>$strTableFont$row[11]$strFontEnd</td>
                    <td>$strTableFont$row[12]$strFontEnd</td>
-                   <td>$strTableFont$row[13]$strFontEnd</td>
-                   <td>$strTableFont$row[14]$strFontEnd</td>
+                   <td>$strTableFont$row[13]$strFontEnd</td>";
+        if ($private) {
+        echo "
+                   <td>$strTableFont$row[14]$strFontEnd</td>";
+        }
+        echo "
                    <td>$strTableFont$row[15]$strFontEnd</td>
                    <td>$strTableFont$row[16]$strFontEnd</td>
                    <td>$strTableFont$filename$strFontEnd</td>
                    <td>$strTableFont$view$strFontEnd</td>
                    <td>$strTableFont$quakestuff$strFontEnd</td>
               </font></tr>";
+       }
       }
    }
 
    end_table();
+
+
+
 }
 
 function qcn_admin_user_auth($user, $exit_on_nonauth = false)
@@ -823,6 +853,18 @@ if ($user) {
 if ($exit_on_nonauth && !$auth) {
    echo "You are not authorized to use this page.  Please contact a QCN staff member.";
    exit();
+}
+return $auth;
+}
+
+
+function qcn_admin_user_check($user)
+{
+// authenticate admin-level user
+$auth = false;
+if ($user) {
+  if (!isset($user->prefs)) BoincForumPrefs::lookup($user);
+  if (substr($user->prefs->special_user, 3, 1) == "1") $auth = true;
 }
 return $auth;
 }

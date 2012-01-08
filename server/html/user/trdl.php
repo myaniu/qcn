@@ -11,12 +11,14 @@ set_time_limit(600);
 // make sure they're logged in
 $user = get_logged_in_user(true);
 
-
 // if no querystring then we are coming in "fresh" so just show a small subset ie usgs-detected quakes
 $bNoQuery = ($_SERVER["QUERY_STRING"] == null);
 
+// Check if the user is on the administrative list:
+$auth = qcn_admin_user_check($user);
+
 // authenticate admin-level user
-qcn_admin_user_auth($user, true);
+// qcn_admin_user_auth($user, true);
 
 // archive cutoff time is two months prior to the first of the current month
 //$queryArchiveTime = "SELECT unix_timestamp( concat(year(now()), '/', month(now()), '/01 00:00:00') ) - (60 * 24 * 3600) archive_time";
@@ -700,15 +702,17 @@ $bResultShow = false;
 $result = mysql_query($main_query);
 if ($result) {
    $bResultShow = true;
-    echo "(<font=small>'Request Files' = send msg to host to upload files to QCN,   'Batch Download' = request download existing file) <BR><BR>";
+    if ($auth) {
+       echo "(<font=small>'Request Files' = send msg to host to upload files to QCN,   'Batch Download' = request download existing file) <BR><BR>\n";
+    }
     echo "<form name=\"formDetail\" method=\"post\" action=trdlreq.php >";
     start_table();
-    if (!$bUseCSV && !$ftmp) qcn_trigger_header();
+    if (!$bUseCSV && !$ftmp) qcn_trigger_header($auth);
     $iii = 0;
     while ($res = mysql_fetch_object($result)) {
         
         if ($bUseCSV && $ftmp) {
-           fwrite($ftmp, qcn_trigger_detail_csv($res));
+           fwrite($ftmp, qcn_trigger_detail_csv($res,$auth,$user));
         }
         else { 
            if ($iii == 0) {
@@ -718,30 +722,33 @@ if ($result) {
             $iii = 0;
             $bg_color="#dddddd";
            }
-           qcn_trigger_detail($res,$bg_color);
+           qcn_trigger_detail($res,$bg_color,$auth,$user);
         }
     }
     end_table();
     mysql_free_result($result);
 } else {
-    echo "<h2>No results found - try different query settings</h2>";
+    echo "<h2>No results found - try different query settings</h2>\n";
 }
 
 if ($bUseCSV && $ftmp) {
   echo "<BR><BR><A HREF=\"" . $fileTemp . "\">Download CSV/Text File Here (File Size " . sprintf("%7.2f", (filesize($fileTemp) / 1e6)) . " MB)</A> (you may want to right-click to save locally)<BR><BR>";
 }
 else if ($bResultShow) {
- echo "<input type=\"hidden\" id=\"cbUseArchive\" name=\"cbUseArchive\" value=\"" . ($bUseArchive ? "1" : "") . "\"> ";
- echo "<input type=\"hidden\" id=\"db_name\" name=\"db_name\" value=\"" . $db_name . "\"> ";
+ echo "<input type=\"hidden\" id=\"cbUseArchive\" name=\"cbUseArchive\" value=\"" . ($bUseArchive ? "1" : "") . "\"> \n";
+ echo "<input type=\"hidden\" id=\"db_name\" name=\"db_name\" value=\"" . $db_name . "\">\n ";
+ if ($auth) {
+
  echo "
-  <input type=\"button\" value=\"Check All File Requests\" onclick=\"SetAllCheckBoxes('formDetail', 'cb_a_reqfile[]', true); SetAllCheckBoxes('formDetail', 'cb_r_reqfile[]', true);\" >
-  <input type=\"button\" value=\"Uncheck All File Requests\" onclick=\"SetAllCheckBoxes('formDetail', 'cb_a_reqfile[]', false); SetAllCheckBoxes('formDetail', 'cb_r_reqfile[]', false);\" >
-  <BR><BR>
-  <input type=\"button\" value=\"Check All Download Requests\" onclick=\"SetAllCheckBoxes('formDetail', 'cb_a_dlfile[]', true); SetAllCheckBoxes('formDetail', 'cb_r_dlfile[]', true);\" >
+  <input type=\"button\" value=\"Check All File Requests\" onclick=\"SetAllCheckBoxes('formDetail', 'cb_a_reqfile[]', true); SetAllCheckBoxes('formDetail', 'cb_r_reqfile[]', true);\" >\n
+  <input type=\"button\" value=\"Uncheck All File Requests\" onclick=\"SetAllCheckBoxes('formDetail', 'cb_a_reqfile[]', false); SetAllCheckBoxes('formDetail', 'cb_r_reqfile[]', false);\" >\n
+  <BR><BR>\n
+  <input type=\"button\" value=\"Check All Download Requests\" onclick=\"SetAllCheckBoxes('formDetail', 'cb_a_dlfile[]', true); SetAllCheckBoxes('formDetail', 'cb_r_dlfile[]', true);\" >\n
   <input type=\"button\" value=\"Uncheck All Download Requests\" onclick=\"SetAllCheckBoxes('formDetail', 'cb_a_dlfile[]', false); SetAllCheckBoxes('formDetail', 'cb_r_dlfile[]', false);\" >
-  <BR><BR>
-  <input type=\"submit\" value=\"Submit All Requests\" />
-  </form>";
+  <BR><BR>\n
+  <input type=\"submit\" value=\"Submit All Requests\" />\n";
+  }
+  echo "</form>\n";
 
 
   if ($start_at || $last < $count) {
@@ -779,7 +786,7 @@ function qcn_trigger_header_csv() {
     . "\n";
 }
 
-function qcn_trigger_detail_csv($res)
+function qcn_trigger_detail_csv($res,$auth,$user)
 {
     $quakestuff = "";
     if ($res->qcn_quakeid) {
@@ -799,10 +806,16 @@ function qcn_trigger_detail_csv($res)
 
    $file_url = get_file_url($res);
 
+   if ($auth || $user->id == $res->hostid) {
+    $loc_res = 4;
+   } else {
+    $loc_res = 2;
+   }
+
     return $res->triggerid . "," . $res->hostid . "," . $res->ipaddr . "," .
        $res->result_name . "," . time_str_csv($res->trigger_time) . "," . round($res->delay_time, 2) . "," .
         time_str_csv($res->trigger_sync) . "," . $res->sync_offset . "," . $res->trigger_mag . "," . $res->significance . "," .
-        round($res->trigger_lat, 8) . "," . round($res->trigger_lon, 8) . "," . ($res->numreset ? $res->numreset : 0) . "," .
+        round($res->trigger_lat, $loc_res) . "," . round($res->trigger_lon, $loc_res) . "," . ($res->numreset ? $res->numreset : 0) . "," .
         $res->delta_t . "," . $res->sensor_description . "," . $res->sw_version . "," .
         time_str_csv($res->trigger_time) . "," . ($res->received_file == 100 ? " Yes " : " No " ) . "," .
         $file_url . "," .
@@ -811,11 +824,15 @@ function qcn_trigger_detail_csv($res)
 
 }
 
-function qcn_trigger_header() {
+function qcn_trigger_header($auth) {
     echo "
-        <tr>
+        <tr>\n";
+        if ($auth) {
+    echo "
         <th><font size=\"1\">Request<BR>Files?</font size></th>
-        <th><font size=\"1\">Batch<BR>Download?</font size></th>
+        <th><font size=\"1\">Batch<BR>Download?</font size></th>\n";
+        }
+    echo "
         <th><font size=\"1\">ID</font size></th>
         <th><font size=\"1\">HostID</font size></th>
         <th><font size=\"1\">IP Addr</font size></th>
@@ -850,21 +867,29 @@ function qcn_trigger_header() {
 }
 
 
-function qcn_trigger_detail($res,$bg_color) 
+function qcn_trigger_detail($res,$bg_color,$auth,$user) 
 {
 global $unixtimeArchive;
-
+    if ($auth || $user->id == $res->hostid) {
+      $loc_res = 4;
+    } else {
+      $loc_res = 2;
+    }
   // CMC took out hostnamebyid below
     $sensor_type = $res->sensor_description;
     $archpre = $res->is_archive ? "a" : "r"; // prefix to signify if it's an archive record or not
     echo "
-        <tr bgcolor=\"".$bg_color."\">
+        <tr bgcolor=\"".$bg_color."\">\n";
+    if ($auth) {
+      echo"
         <td><font size=\"1\"><input type=\"checkbox\" name=\"cb_" . $archpre . "_reqfile[]\" id=\"cb_" . $archpre . "_reqfile[]\" value=\"$res->triggerid\"" . 
        ($res->varietyid!=0 || $res->received_file == 100 || $res->trigger_timereq>0 || $res->trigger_time < $unixtimeArchive ? " disabled " : " " ) . 
        "></font size></td>
         <td><font size=\"1\"><input type=\"checkbox\" name=\"cb_" . $archpre . "_dlfile[]\" id=\"cb_" . $archpre . "_dlfile[]\" value=\"$res->triggerid\"" . 
        ($res->received_file != 100 ? " disabled " : " " ) . 
-       "></font size></td>
+       "></font size></td>";
+    }
+    echo "
         <td><font size=\"1\">$res->triggerid</font size></td>
         <td><font size=\"1\"><a href=\"show_host_detail.php?hostid=$res->hostid\">" . $res->hostid . "</a></font size></td>
         <td><font size=\"1\">$res->ipaddr</font size></td>
@@ -875,8 +900,8 @@ global $unixtimeArchive;
         <td><font size=\"1\">$res->sync_offset</font size></td>
         <td><font size=\"1\">$res->trigger_mag</font size></td>
         <td><font size=\"1\">$res->significance</font size></td>
-        <td><font size=\"1\">" . round($res->trigger_lat,4) . "</font size></td>
-        <td><font size=\"1\">" . round($res->trigger_lon,4) . "</font size></td>
+        <td><font size=\"1\">" . round($res->trigger_lat,$loc_res) . "</font size></td>
+        <td><font size=\"1\">" . round($res->trigger_lon,$loc_res) . "</font size></td>
         <td><font size=\"1\">" . ($res->numreset ? $res->numreset : 0) . "</font size></td>
         <td><font size=\"1\">$res->delta_t</font size></td>
         <td><font size=\"1\">$sensor_type</font size></td>
@@ -901,8 +926,8 @@ global $unixtimeArchive;
            echo "<td><font size=\"1\">$res->quake_distance_km</font size></td>";
            echo "<td><font size=\"1\">$res->quake_magnitude</font size></td>";
            echo "<td><font size=\"1\">" . time_str($res->quake_time) . "</font size></td>";
-           echo "<td><font size=\"1\">$res->quake_lat</font size></td>";
-           echo "<td><font size=\"1\">$res->quake_lon</font size></td>";
+           echo "<td><font size=\"1\">" . round($res->quake_lat,$loc_res) . "</font size></td>";
+           echo "<td><font size=\"1\">" . round($res->quake_lon,$loc_res) . "</font size></td>";
            echo "<td><font size=\"1\">$res->description</font size></td>";
            echo "<td><font size=\"1\">$res->guid</font size></td>";
            echo "<td><font size=\"1\">" . ($res->is_archive ? "Y" : "N") . "</font size></td>";

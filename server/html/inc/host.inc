@@ -113,23 +113,29 @@ function show_host($host, $user, $ipprivate) {
     if (!$anonymous) {
         row2(tra("Cross project credit"), cross_project_links($host));
     }
-    row2(tra("CPU type"), "$host->p_vendor <br> $host->p_model");
-    row2(tra("Number of processors"), $host->p_ncpus);
-    if ($host->serialnum) {
-        row2(tra("Coprocessors"), gpu_desc($host->serialnum));
+    if ($ipprivate) {
+       row2(tra("CPU type"), "$host->p_vendor <br> $host->p_model");
+       row2(tra("Number of processors"), $host->p_ncpus); 
+
+       if ($host->serialnum) {
+          row2(tra("Coprocessors"), gpu_desc($host->serialnum));
+       }
+       row2(tra("Operating System"), "$host->os_name <br> $host->os_version");
     }
-    row2(tra("Operating System"), "$host->os_name <br> $host->os_version");
+
+
     $v = boinc_version($host->serialnum);
     if ($v) {
         row2(tra("BOINC version"), $v);
     }
-    $x = $host->m_nbytes/(1024*1024);
-    $y = round($x, 2);
-    row2(tra("Memory"), tra("%1 MB", $y));
-    $x = $host->m_cache/1024;
-    $y = round($x, 2);
-    row2(tra("Cache"), tra("%1 KB", $y));
-
+    if ($ipprivate) {
+     $x = $host->m_nbytes/(1024*1024);
+     $y = round($x, 2);
+     row2(tra("Memory"), tra("%1 MB", $y));
+     $x = $host->m_cache/1024;
+     $y = round($x, 2);
+     row2(tra("Cache"), tra("%1 KB", $y));
+    }
     if ($user) {
         $x = $host->m_swap/(1024*1024);
         $y = round($x, 2);
@@ -141,12 +147,14 @@ function show_host($host, $user, $ipprivate) {
         $y = round($x, 2);
         row2(tra("Free Disk Space"), tra("%1 GB", $y));
     }
-    $x = $host->p_fpops/(1000*1000);
-    $y = round($x, 2);
-    row2(tra("Measured floating point speed"), tra("%1 million ops/sec", $y));
-    $x = $host->p_iops/(1000*1000);
-    $y = round($x, 2);
-    row2(tra("Measured integer speed"), tra("%1 million ops/sec", $y));
+    if ($ipprivate) {
+     $x = $host->p_fpops/(1000*1000);
+     $y = round($x, 2);
+     row2(tra("Measured floating point speed"), tra("%1 million ops/sec", $y));
+     $x = $host->p_iops/(1000*1000);
+     $y = round($x, 2);
+     row2(tra("Measured integer speed"), tra("%1 million ops/sec", $y));
+    }
     $x = $host->n_bwup/(1024);
     $y = round($x, 2);
     if ($y > 0) {
@@ -163,9 +171,11 @@ function show_host($host, $user, $ipprivate) {
     }
     $x = $host->avg_turnaround/86400;
     row2(tra("Average turnaround time"), tra("%1 days", round($x, 2)));
-    row2(tra("Application details"),
+    if ($ipprivate) {
+     row2(tra("Application details"),
         "<a href=host_app_versions.php?hostid=$host->id>".tra("Show")."</a>"
     );
+    }
     $config = get_config();
     if (parse_bool($config, "show_results")) {
         $nresults = host_nresults($host);
