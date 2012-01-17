@@ -29,6 +29,11 @@ if (! $row["regional"]) $row["regional"] = 0;
 
 $tmpRegional = $row["regional"];
 
+// test if this page is a ChristChurch NZ special signup
+$row["ccnz"] = $GLOBALS["is_ccnz"];
+$tmpCCNZ = $row["ccnz"];
+
+
 echo "
 <center><h1>Rapid Array Mobilization Program (RAMP)</h1></center>
 ";
@@ -72,6 +77,9 @@ case "Delete":
 
   if ($tmpRegional == 1) {
      $row["regional"] = $tmpRegional; // get regional status from post or get
+  }
+  if ($tmpCCNZ == 1) {
+     $row["ccnz"] = $tmpCCNZ; // get regional status from post or get
   }
   $mylat = $row["latitude"];
   $mylng = $row["longitude"];
