@@ -23,6 +23,7 @@ SRCS = $(BOINCDIR)/db/db_base.cpp \
   $(BOINCDIR)/db/boinc_db.cpp 
 
 MAINMON  = trigmon.cpp
+MAINLOC  = qcn_locate.cpp
 MAINDISP =  display.cpp
 
 all: clean trigmonitor trigdisplay
@@ -37,6 +38,10 @@ trigdisplay:
 trigmonitor: 
 	$(CC) $(CFLAGS) $(INCLUDES) $(MAINMON) $(SRCS) $(LIBS) -o jfl_trigmonitor
 	cp jfl_trigmonitor $(INSTALLDIR)
+
+qcn_locate: 
+	$(CC) $(CFLAGS) $(INCLUDES) $(MAINLOC) $(SRCS) $(LIBS) -o qcn_locate
+	cp qcn_locate $(INSTALLDIR)
 
 
 clean:
