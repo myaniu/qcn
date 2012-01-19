@@ -139,6 +139,8 @@ CREATE TABLE `qcn_ramp_participant` (
   `loc_years_host` smallint(6) DEFAULT NULL,
   `regional` tinyint(1) NOT NULL DEFAULT '0',
   `kml_regionid` int(11) NOT NULL DEFAULT '0',
+  `quake_damage` varchar(5) NULL DEFAULT '',
+  `liquefaction` boolean NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `qcn_ramp_participant_userid` (`userid`),
   KEY `qcn_ramp_participant_kml_regionid` (`kml_regionid`)
