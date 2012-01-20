@@ -1,4 +1,4 @@
 <?
-  $is_ccnz = 1;
+  $ramp_type = "C";
   require_once("ramp_signup.php");
 ?>

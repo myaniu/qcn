@@ -41,6 +41,7 @@ scp carlgt1@qcn-web:/var/www/boinc/sensor/html/user/forum_rate.php user/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/html/user/REDS_list_signup.php user/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/html/user/ramp_signup.php user/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/html/user/rampreg_signup.php user/
+scp carlgt1@qcn-web:/var/www/boinc/sensor/html/user/rampnz_signup.php user/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/html/user/login_form.php user/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/html/user/ramp_map.php user/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/html/user/account_finish.php user/
