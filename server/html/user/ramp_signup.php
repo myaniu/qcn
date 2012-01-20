@@ -344,9 +344,9 @@ echo "
 
 
     // Liquefaction
-    $bshare = " checked ";
-    if ($row["id"] > 0 && ! $row["liquefaction"]) { 
-       $bshare = "";
+    $bshare = "";
+    if ($row["id"] > 0 && $row["liquefaction"]) { 
+       $bshare = " checked ";
     }
     row2("Did you experience liquefaction on your home/property?",
        "<input type=\"checkbox\" name=\"db_liquefaction\" id=\"db_liquefaction\" $bshare> " .
