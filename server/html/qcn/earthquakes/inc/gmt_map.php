@@ -208,7 +208,7 @@ function t_scatter_plot($GMT,$OUTDIR,$r_squared,$misfit) {
 
 // Text file for expected lines through scatter plot //
 // Text file for expected lines through scatter plot //
-   $SCATLINE = "$OUTDIR/scatter_lines.xy";
+   $SCATLINE = "/var/www/qcnwp/earthquakes/inc/scatter_lines.xy";
    
 /*   $tps = $t_max/1.87;   // Time difference between P and S (or S and P) waves.
    $fh = fopen($SCATLINE,'w');  // Open file for writing out lines
@@ -318,9 +318,9 @@ function intensity() {
    $string = implode($contents);
    list($qlon,$qlat,$qdep,$qmag,$ntrig,$etime,$dtime,$qstd,$r_squared,$misfit) = split('[,]',$string);
 
-   $b =  1.2385; // Magnitude term
+   $b =  1.8385; // Magnitude term
    $a = -0.03085*$b;  // Distance term
-   $c = -7.8671; // Constant
+   $c = -4.28; // Constant
 
    $dec = 100;
    $dI  = 1./$dec;
@@ -362,7 +362,7 @@ function intensity() {
        $dist_xyz = sqrt($dist_xy*$dist_xy + $qdep*$qdep);
        
 
-       $pga = exp($a*$dist_xyz + $b*$qmag + $c);
+       $pga = exp($a*$dist_xyz + $b*$qmag + $c*1.8)/5.;
        fwrite($fh,"$x , $y , $pga, $dist_xyz \n");
      }
 

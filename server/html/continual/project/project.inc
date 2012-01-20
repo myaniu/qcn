@@ -519,7 +519,7 @@ echo "
       if (getElement(\"lat" . $i . "\").value != \"\" && getElement(\"lng" . $i . "\").value != \"\") {
             iSelect = " . $i . ";
             newpt = new GLatLng(getElement(\"lat" . $i . "\").value, getElement(\"lng" . $i . "\").value);
-            map.setCenter(newpt, " . ($zoomout ? "6" : "15") . ");
+            map.setCenter(newpt, " . ($zoomout ? "$zoomout" : "15") . ");
             addMarker(map,newpt);
       }
      ";

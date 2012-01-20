@@ -168,7 +168,7 @@ list_quakes_n($qmax,$show_mag);
 
 function list_quakes_n($qmax,$show_mag=null){
 // This function list the quakes //
-if ($qmax<100) {chdir(BASEPATH . "/qcn/earthquakes/");}
+if ($qmax<100) {chdir(BASEPATH . "/qcnwp/earthquakes/");}
 $path = "./";
 
 $dir_handle = @opendir($path) or die("Unable to open folder");
@@ -198,7 +198,7 @@ foreach ($files as $file1) {
 
 // If there are other event directories, then create start of header
 if ($aa > 0) {
-  if ( ($pwd = getcwd() == BASEPATH . "/qcn/earthquakes")||(($pwd = getcwd() == BASEPATH . "/qcn/earthquakes")) ) {
+  if ( ($pwd = getcwd() == BASEPATH . "/qcnwp/earthquakes")||(($pwd = getcwd() == BASEPATH . "/qcn/earthquakes")) ) {
      echo "<h2>Recent Preliminary Earthquake Estimates:</h2>"; 
   }else{
      echo "<h2>Earlier Preliminary Earthquake Estimates:</h2>";
@@ -237,7 +237,7 @@ if ($aa > 0) {
   }
   
   echo "<tr bgcolor=\"$bg_color\"><td>\n";
-  if ( ($pwd = getcwd() == BASEPATH . "/qcn/earthquakes")||(($pwd = getcwd() == BASEPATH . "/qcn/earthquakes")) ) {
+  if ( ($pwd = getcwd() == BASEPATH . "/qcnwp/earthquakes")||(($pwd = getcwd() == BASEPATH . "/qcn/earthquakes")) ) {
      echo "<a href=\"" . BASEURL . "/earthquakes/$file1/";
   } else {
      echo "<a href=\"" . $file1 . "/";
@@ -291,7 +291,7 @@ if ($aa > 0) {
 }
 closedir($dir_handle);
 
-if ( ($pwd = getcwd() == BASEPATH . "/qcn/earthquakes")||(($pwd = getcwd() == BASEPATH . "/qcn/earthquakes")) ) {
+if ( ($pwd = getcwd() == BASEPATH . "/qcnwp/earthquakes")||(($pwd = getcwd() == BASEPATH . "/qcn/earthquakes")) ) {
   plot_histogram($qmag_arr,$xmin=3,$xmax=7,$ymin=0.1,$ymax=10,$dx=0.25,"Magnitude","Frequency","Magnitude Distribution",$file_name="magnitude",$log=4);
   plot_histogram($dt_detect,$xmin=0,$xmax=30,$ymin=0.1,$ymax=10,$dx=1,"Detection Time","Frequency","Detection Time Distribution",$file_name="dt_detect",$log=4);
 }
@@ -305,24 +305,30 @@ function show_maps($show_mag=null) {
 
 //if ($show_mag) {
 //  $img1 = "intensity_02";
-  $img2 = "intensity_01";
+  $img_name = "intensity_01";
 //} else {
 //  $img1 = "intensity_04";
 //  $img2 = "intensity_03";
 //}
-
-if (file_exists("./$img2.ps") ) {
-  $img1 = "./".$img2;
-} else {
-  $img1 = "./A/".$img2;
+$img1 = "./".$img_name;
+$dot = "..";
+if (file_exists("./A/".$img_name.".jpg") ) {
+  $img1 = "./A/".$img_name;
+  $dot = ".";
 }
 
-if (file_exists("./A/$img2.ps") ) {
-  $img2 = "./A/".$img2;
+$alphabet = array( A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z );
+
+$img2 = $dot."/A/".$img_name;
+foreach ($alphabet as $dir) {
+if (file_exists($dot."/".$dir."/$img_name.jpg") ) {
+  $img2 = $dot."/".$dir."/".$img_name;
 } else {
-  $img2 = "../A/".$img2;
+break;
+}
 }
 
+echo $img1." ".$img2;
 
 echo "<p><table align=\"center\" width=\"650\"><tr>\n";
 
@@ -345,7 +351,7 @@ function plot_histogram($val_array,$xmin,$xmax,$ymin,$ymax,$dx,$xtitle,$ytitle,$
 //   echo "<p>$xmin,$xmax,$ymin,$ymax,$dx</p>\n";
 //   echo $n_val;
    if ($n_val<3) {return;}
-   $hist_file = BASEPATH . "/qcn/earthquakes/stats/".$name_base."_hist.txt";
+   $hist_file = BASEPATH . "/qcnwp/earthquakes/stats/".$name_base."_hist.txt";
 //   echo "<p>".$histfile."</p>\n";
    $fh = fopen($hist_file,'w');
 
@@ -366,7 +372,7 @@ function plot_histogram($val_array,$xmin,$xmax,$ymin,$ymax,$dx,$xtitle,$ytitle,$
 //   echo "<p>Bounds: $bounds</p>\n";
    $proj   = "-JX2i/2i"; if ($log) {$proj=$proj."l";}
 //   echo "<p>Projection: $proj</p>\n";
-   $ps_hist = BASEPATH . "/qcn/earthquakes/images/".$name_base."_hist.ps";
+   $ps_hist = BASEPATH . "/qcnwp/earthquakes/images/".$name_base."_hist.ps";
 //   echo "<p>PS Histogram: $ps_hist</p>\n";
    if (!$log) {$log=1;}
   exec("$GMT/gmtset HEADER_FONT_SIZE 16"); // Set title font size
@@ -374,7 +380,7 @@ function plot_histogram($val_array,$xmin,$xmax,$ymin,$ymax,$dx,$xtitle,$ytitle,$
    exec("$GMT/gmtset LABEL_FONT_SIZE 12"); // Set title font size
    exec("$GMT/gmtset HEADER_OFFSET -0.2c");  // Set title vertical offset from top of map
    if ($plot_med=="y") {
-    $med_file = BASEPATH . "/qcn/earthquakes/images/median.xy";
+    $med_file = BASEPATH . "/qcnwp/earthquakes/images/median.xy";
     $med = median_arr($val_array);
     exec("echo \"$med $ymin\" >  $med_file");
     exec("echo \"$med $ymax\" >> $med_file");
@@ -382,9 +388,9 @@ function plot_histogram($val_array,$xmin,$xmax,$ymin,$ymax,$dx,$xtitle,$ytitle,$
    }
    exec("$GMT/pshistogram $axes $hist_file $bounds $proj -G150/0/0 -Y5.5i -X0.5i -f -Lthinner -Z$log -W$dx $FLAG1 -P > $ps_hist");
    if ($plot_med=="y") {exec("$GMT/psxy $med_file -m $bounds $proj -W10t30_10:0 -O >> $ps_hist");}
-   exec("$GMT/ps2raster $ps_hist -D" . BASEPATH . "/qcn/earthquakes/images -A -P -Tj");
+   exec("$GMT/ps2raster $ps_hist -D" . BASEPATH . "/qcnwp/earthquakes/images -A -P -Tj");
 //   echo "<p>$GMT/pshistogram $axes $hist_file $bounds $proj -Ggray -Y5.5i -X0.5i -Lthinner -Z$log -W0.25 > $ps_hist\n";
-//   echo "<p>$GMT/ps2raster $ps_hist -D" . BASEPATH . "/qcn/earthquakes/images -A -P -Tj\n";
+//   echo "<p>$GMT/ps2raster $ps_hist -D" . BASEPATH . "/qcnwp/earthquakes/images -A -P -Tj\n";
 //   exec("rm $hist_file\n");
 //   exec("rm $ps_hist\n");
    return $med;
@@ -673,7 +679,7 @@ list($qlon,$qlat,$qdep,$qmag,$ntrig,$qtime,$dtime,$qstd) = split('[,]',$string);
 //  echo "<html><head></head><body>";
 #  echo "HI\n";
 
-  $dir_base = BASEPATH . "/qcn/earthquakes/view/".round($qtime);
+  $dir_base = BASEPATH . "/qcnwp/earthquakes/view/".round($qtime);
 
   if (!file_exists($dir_base)) {
 
@@ -733,8 +739,8 @@ list($qlon,$qlat,$qdep,$qmag,$ntrig,$qtime,$dtime,$qstd) = split('[,]',$string);
         @fclose($fp);
         @copy($file_orig,$file_new); // Copy file to new file location
         $dt = $ttime;
-//echo SHELL_CMD . " " . BASEPATH . "/qcn/earthquakes/view/update_waveform.sh $dir $dis > $dir/temp.txt" . "<BR>";
-        @system(SHELL_CMD . " " . BASEPATH . "/qcn/earthquakes/view/update_waveform.sh $dir $dis > $dir/temp.txt");
+//echo SHELL_CMD . " " . BASEPATH . "/qcnwp/earthquakes/view/update_waveform.sh $dir $dis > $dir/temp.txt" . "<BR>";
+        @system(SHELL_CMD . " " . BASEPATH . "/qcnwp/earthquakes/view/update_waveform.sh $dir $dis > $dir/temp.txt");
         fprintf($ferr,"y: %s\n",$file_orig);
         $cnt = $cnt + 1;
       } else {
@@ -747,9 +753,9 @@ list($qlon,$qlat,$qdep,$qmag,$ntrig,$qtime,$dtime,$qstd) = split('[,]',$string);
   fclose($ferr);
   $dis_max = $dis_max + 1; $dis_min = $dis_min - 1;
   $jpgfile = "$dir_base/waveform.jpg";   
-//echo SHELL_CMD . " " . BASEPATH . "/qcn/earthquakes/view/plot_all_data.sh $dir_base $dis_max $dis_min > $dir_base/temp.txt" . "<BR>";
+//echo SHELL_CMD . " " . BASEPATH . "/qcnwp/earthquakes/view/plot_all_data.sh $dir_base $dis_max $dis_min > $dir_base/temp.txt" . "<BR>";
   if (!@file_exists($jpgfile)||$cnt>0) {
-    @system(SHELL_CMD . " " . BASEPATH . "/qcn/earthquakes/view/plot_all_data.sh $dir_base $dis_max $dis_min > $dir_base/temp.txt");//> $dir_base/temp.txt");
+    @system(SHELL_CMD . " " . BASEPATH . "/qcnwp/earthquakes/view/plot_all_data.sh $dir_base $dis_max $dis_min > $dir_base/temp.txt");//> $dir_base/temp.txt");
   }
   rotateImage($jpgfile);
 }

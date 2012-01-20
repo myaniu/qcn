@@ -690,7 +690,7 @@ if ($bUseCSV) {
    $fileTemp = sprintf("data/%ld_u%d.csv", time(), $user->id);
    $ftmp = fopen($fileTemp, "w");
    if ($ftmp) {
-      fwrite($ftmp, qcn_trigger_header_csv());
+      fwrite($ftmp, qcn_trigger_header_csv($auth));
    }
    else {
       $fileTemp = ""; // to check for status later on down
@@ -709,12 +709,14 @@ if ($result) {
     start_table();
     if (!$bUseCSV && !$ftmp) qcn_trigger_header($auth);
     $iii = 0;
+    $ii = 0;
     while ($res = mysql_fetch_object($result)) {
         
         if ($bUseCSV && $ftmp) {
            fwrite($ftmp, qcn_trigger_detail_csv($res,$auth,$user));
         }
         else { 
+           ++$ii;
            if ($iii == 0) {
             ++$iii;
             $bg_color="#ffffff";
@@ -723,6 +725,8 @@ if ($result) {
             $bg_color="#dddddd";
            }
            qcn_trigger_detail($res,$bg_color,$auth,$user);
+           $tlon[ii]=$res->trigger_lon;
+           $tlat[ii]=$res->trigger_lat;
         }
     }
     end_table();
@@ -776,14 +780,25 @@ else if ($bResultShow) {
     }
 
 
+//    plot_map($tlon,$tlat);
+
+
 page_tail();
 
-function qcn_trigger_header_csv() {
-   return "TriggerID, HostID, IPAddr, ResultName, TimeTrigger, Delay, TimeSync, SyncOffset, "
-    . "Magnitude, Significance, Latitude, Longitude, NumReset, DT, Sensor, Version, Time File Req, "
+function qcn_trigger_header_csv($auth) {
+   $value = "TriggerID, HostID, ";
+   if ($auth) {
+    $value = $value."IPAddr, ";
+   }
+   $value = $value ."ResultName, ";
+   $value = $value 
+    . "TimeTrigger, Delay, TimeSync, SyncOffset, "
+    . "Magnitude, Significance, Latitude, Longitude, Resets, DT, Sensor, Version, Time File Req, "
     . "Received File, File Download, View, USGS ID, Quake Dist (km), Quake Magnitude, Quake Time, "
     . "Quake Lat, Quake Long, USGS GUID, Quake Desc, Is Archive?"
     . "\n";
+
+   return $value;
 }
 
 function qcn_trigger_detail_csv($res,$auth,$user)
@@ -812,7 +827,11 @@ function qcn_trigger_detail_csv($res,$auth,$user)
     $loc_res = 2;
    }
 
-    return $res->triggerid . "," . $res->hostid . "," . $res->ipaddr . "," .
+   $value = $res->triggerid . "," . $res->hostid . ",";
+   if ($auth) {
+    $value = $value . $res->ipaddr . ",";
+   }
+   $value = $value .
        $res->result_name . "," . time_str_csv($res->trigger_time) . "," . round($res->delay_time, 2) . "," .
         time_str_csv($res->trigger_sync) . "," . $res->sync_offset . "," . $res->trigger_mag . "," . $res->significance . "," .
         round($res->trigger_lat, $loc_res) . "," . round($res->trigger_lon, $loc_res) . "," . ($res->numreset ? $res->numreset : 0) . "," .
@@ -822,35 +841,41 @@ function qcn_trigger_detail_csv($res,$auth,$user)
         $quakestuff .
         "\n";
 
+    return $value;
+
 }
 
 function qcn_trigger_header($auth) {
     echo "
         <tr>\n";
-        if ($auth) {
+   if ($auth) {
     echo "
         <th><font size=\"1\">Request<BR>Files?</font size></th>
         <th><font size=\"1\">Batch<BR>Download?</font size></th>\n";
-        }
+   }
     echo "
-        <th><font size=\"1\">ID</font size></th>
-        <th><font size=\"1\">HostID</font size></th>
-        <th><font size=\"1\">IP Addr</font size></th>
-        <th><font size=\"1\">Result</font size></th>
-        <th><font size=\"1\">TimeTrig</font size></th>
-        <th><font size=\"1\">Delay(s)</font size></th>
-        <th><font size=\"1\">TimeSync</font size></th>
-        <th><font size=\"1\">SyncOffset(s)</font size></th>
-        <th><font size=\"1\">Magnitude</font size></th>
-        <th><font size=\"1\">Significance</font size></th>
+        <th><font size=\"1\">Trigger ID</font size></th>
+        <th><font size=\"1\">Host ID</font size></th>";
+   if ($auth) {
+    echo "<th><font size=\"1\">IP Addr</font size></th>";
+   }
+//        <th><font size=\"1\">Result</font size></th>
+    echo "
+        <th><font size=\"1\">Trigger Time</font size></th>
+        <th><font size=\"1\">Time Delay (s)</font size></th>
+        <th><font size=\"1\">Time Sync</font size></th>
+        <th><font size=\"1\">Sync Offset(s)</font size></th>
+        <th><font size=\"1\">PGA|<b>a</b>|<sub>0</sub> (m/s<sup>2</sup>)</font size></th>
+        <th><font size=\"1\">Sig / Noise</font size></th>
         <th><font size=\"1\">Latitude</font size></th>
         <th><font size=\"1\">Longitude</font size></th>
-        <th><font size=\"1\">NumReset</font size></th>
-        <th><font size=\"1\">DT</font size></th>
+        <th><font size=\"1\">Number Resets</font size></th>
+        <th><font size=\"1\">dt (s)</font size></th>
         <th><font size=\"1\">Sensor</font size></th>
-        <th><font size=\"1\">Version</font size></th>
-        <th><font size=\"1\">Time File Req</font size></th>
-        <th><font size=\"1\">Received File</font size></th>
+        <th><font size=\"1\">QCN V.</font size></th>
+        <th><font size=\"1\">Time File Req</font size></th>";
+//   echo "        <th><font size=\"1\">File Received</font size></th>";
+   echo "
         <th><font size=\"1\">File Download</font size></th>
         <th><font size=\"1\">View</font size></th>
         <th><font size=\"1\">Quake ID</font size></th>
@@ -859,9 +884,10 @@ function qcn_trigger_header($auth) {
         <th><font size=\"1\">Quake Time (UTC)</font size></th>
         <th><font size=\"1\">Quake Latitude</font size></th>
         <th><font size=\"1\">Quake Longitude</font size></th>
-        <th><font size=\"1\">Quake Description</font size></th>
-        <th><font size=\"1\">USGS GUID</font size></th>
-        <th><font size=\"1\">Is Archived?</font size></th>
+        <th><font size=\"1\">Quake Description</font size></th>";
+//   echo "<th><font size=\"1\">USGS GUID</font size></th>";
+   echo "
+        <th><font size=\"1\">Archived?</font size></th>
         </tr>
     ";
 }
@@ -891,15 +917,18 @@ global $unixtimeArchive;
     }
     echo "
         <td><font size=\"1\">$res->triggerid</font size></td>
-        <td><font size=\"1\"><a href=\"show_host_detail.php?hostid=$res->hostid\">" . $res->hostid . "</a></font size></td>
-        <td><font size=\"1\">$res->ipaddr</font size></td>
-        <td><font size=\"1\">$res->result_name</font size></td>
+        <td><font size=\"1\"><a href=\"show_host_detail.php?hostid=$res->hostid\">" . $res->hostid . "</a></font size></td>";
+    if ($auth) {
+     echo "   <td><font size=\"1\">$res->ipaddr</font size></td>";
+    }
+//    echo "<td><font size=\"1\">$res->result_name</font size></td>";
+    echo "
         <td><font size=\"1\">" . time_str($res->trigger_time) . "</font size></td>
         <td><font size=\"1\">" . round($res->delay_time, 2) . "</font size></td>
         <td><font size=\"1\">" . time_str($res->trigger_sync) . "</font size></td>
-        <td><font size=\"1\">$res->sync_offset</font size></td>
-        <td><font size=\"1\">$res->trigger_mag</font size></td>
-        <td><font size=\"1\">$res->significance</font size></td>
+        <td><font size=\"1\">".round($res->sync_offset,2)."</font size></td>
+        <td><font size=\"1\">".round($res->trigger_mag,2)."</font size></td>
+        <td><font size=\"1\">".round($res->significance,2)."</font size></td>
         <td><font size=\"1\">" . round($res->trigger_lat,$loc_res) . "</font size></td>
         <td><font size=\"1\">" . round($res->trigger_lon,$loc_res) . "</font size></td>
         <td><font size=\"1\">" . ($res->numreset ? $res->numreset : 0) . "</font size></td>
@@ -908,8 +937,8 @@ global $unixtimeArchive;
         <td><font size=\"1\">$res->sw_version</font size></td>";
         
         echo "
-        <td><font size=\"1\">" . time_str($res->trigger_timereq) . "</font size></td>
-        <td><font size=\"1\">" . ($res->received_file == 100 ? " Yes " : " No " ) . "</font size></td>";
+        <td><font size=\"1\">" . time_str($res->trigger_timereq) . "</font size></td>";
+//      echo"  <td><font size=\"1\">" . ($res->received_file == 100 ? " Yes " : " No " ) . "</font size></td>";
  
         $file_url = get_file_url($res);
         if ($file_url != "N/A") {
@@ -923,13 +952,13 @@ global $unixtimeArchive;
 
         if ($res->qcn_quakeid) {
            echo "<td><font size=\"1\"><A HREF=\"$res->quake_url\">$res->qcn_quakeid</A></font size></td>";
-           echo "<td><font size=\"1\">$res->quake_distance_km</font size></td>";
-           echo "<td><font size=\"1\">$res->quake_magnitude</font size></td>";
+           echo "<td><font size=\"1\">" . round($res->quake_distance_km,2) . "</font size></td>";
+           echo "<td><font size=\"1\">" . round($res->quake_magnitude,2) . "</font size></td>";
            echo "<td><font size=\"1\">" . time_str($res->quake_time) . "</font size></td>";
            echo "<td><font size=\"1\">" . round($res->quake_lat,$loc_res) . "</font size></td>";
            echo "<td><font size=\"1\">" . round($res->quake_lon,$loc_res) . "</font size></td>";
            echo "<td><font size=\"1\">$res->description</font size></td>";
-           echo "<td><font size=\"1\">$res->guid</font size></td>";
+//           echo "<td><font size=\"1\">$res->guid</font size></td>";
            echo "<td><font size=\"1\">" . ($res->is_archive ? "Y" : "N") . "</font size></td>";
         }
         else {
@@ -940,7 +969,7 @@ global $unixtimeArchive;
            echo "<td><font size=\"1\">&nbsp</font size></td>";
            echo "<td><font size=\"1\">&nbsp</font size></td>";
            echo "<td><font size=\"1\">&nbsp</font size></td>";
-           echo "<td><font size=\"1\">&nbsp</font size></td>";
+//           echo "<td><font size=\"1\">&nbsp</font size></td>";
            echo "<td><font size=\"1\">" . ($res->is_archive ? "Y" : "N") . "</font size></td>";
         }
 

@@ -9,6 +9,7 @@ require_once("../inc/translation.inc");
 require_once("../inc/google_translate.inc");
 require_once("../project/common.inc");
 
+
 db_init();
 
 $user = get_logged_in_user(true, true);
@@ -26,21 +27,22 @@ if ($row["regional"] != 1) {
    $row["regional"] = get_int("regional", true);
 }
 if (! $row["regional"]) $row["regional"] = 0;
-
 $tmpRegional = $row["regional"];
 
 // test if this page is a ChristChurch NZ special signup
+// test if this a ramp regional entry
 $row["ccnz"] = $GLOBALS["is_ccnz"];
+if ($row["ccnz"] != 1) {
+  $row["ccnz"] = post_int("db_ccnz", true);
+}
+if ($row["ccnz"] != 1) {
+   $row["ccnz"] = get_int("ccnz", true);
+}
+if (! $row["ccnz"]) $row["ccnz"] = 0;
 $tmpCCNZ = $row["ccnz"];
 
 
-echo "
-<center><h1>Rapid Array Mobilization Program (RAMP)</h1></center>
-";
-
 //<h2>Welcome Back " . $user->name . "</h2>
-
-google_translate_new();
 
 switch ($_POST["submit"]) { 
 
@@ -83,9 +85,18 @@ case "Delete":
   }
   $mylat = $row["latitude"];
   $mylng = $row["longitude"];
-  $zoomout = 0;
+  $zoomout = 12;
 
-  if (!$mylat || !$mylng) { // use geoip
+  if ($tmpRegional || $tmpCCNZ) {  // use New Zealand
+     $mylat = -43.5;
+     $mylng = 172.6;
+     $zoomout = 12;
+  }
+
+//echo "<BR><BR>[" . $mylat . " , " . $mylng . "]<BR><BR>";;
+
+  if (!$mylat || !$mylng) { 
+    // use geoip
     //See if we can find the user's country and select it as default:
     require_once("../inc/geoip.inc");
     $gi = geoip_open("../inc/GeoIP.dat",GEOIP_STANDARD);
@@ -100,18 +111,22 @@ case "Delete":
           mysql_free_result($result);
           $mylat = $rowCC["latitude"];
           $mylng = $rowCC["longitude"];
-          $zoomout = 4;
+          $zoomout = 6;
        }
     }
-  }
-  if (!$mylat || !$mylng){ // default to New Zealand//Turkey?
-       $mylat = -43.5;//39;
-       $mylng = 172.6;//35;
-       $zoomout = 4;
   }
 
 // note this has google stuff  
 page_head("QCN RAMP Information", null, null, "", true, $psprefs, false, 1, $zoomout);
+google_translate_new();
+
+$prefix = "";
+if ($tmpRegional) $prefix = " - Regional";
+if ($tmpCCNZ) $prefix = " - Christchurch, NZ";
+
+echo "
+  <center><h1>Rapid Array Mobilization Program (RAMP)$prefix</h1></center>
+";
 
 echo "
 <script type=\"text/javascript\">
@@ -126,7 +141,7 @@ echo "
 </a>
 ";
 
-if ($is_regional == 1) echo "<center><h1>Apply for a free USB sensor if you are in a region of interest:</h1></center>\n";
+if ($is_regional == 1 || $is_ccnz == 1) echo "<center><h3>Apply for a free USB sensor if you are in a region of interest</h3></center>\n";
 
 echo "<ul><p align=\"justify\">You can add yourself to QCN RAMP by submitting the following information,
     or edit a previous submission.
@@ -135,6 +150,7 @@ echo "<ul><p align=\"justify\">You can add yourself to QCN RAMP by submitting th
 
     <input name=\"db_id\" type=\"hidden\" id=\"db_id\" size=\"20\" value=\"" . $row["id"] . "\">
     <input name=\"db_regional\" type=\"hidden\" id=\"db_regional\" size=\"20\" value=\"" . $row["regional"] . "\">
+    <input name=\"db_ccnz\" type=\"hidden\" id=\"db_ccnz\" size=\"20\" value=\"" . $row["ccnz"] . "\">
     <input name=\"lnm0\" type=\"hidden\" id=\"lnm0\" size=\"64\">
 
 <table>";
@@ -156,6 +172,7 @@ echo "<ul><p align=\"justify\">You can add yourself to QCN RAMP by submitting th
      row2("Post Code", "<input name=\"db_postcode\" type=\"text\" id=\"db_postcode\" size=\"20\" value=\"" . stripslashes($row["postcode"]) . "\">");
 
      row2_init("Country", "<select name=db_country id=db_country>");
+     if (empty($row["country"]) && ($tmpRegional || $tmpCCNZ)) $row["country"] = "New Zealand";
      print_country_select($row["country"]);
      echo "</select></td></tr>";
 
@@ -312,10 +329,18 @@ echo "
 
 
 
-   if ($row["regional"] == 1)  { // regional ramp specific information
+   if ($row["regional"] == 1 || $row["ccnz"] == 1)  { // regional ramp specific information
      echo "<tr><td colspan=2><hr></td></tr>";
-     row_heading_array(array("Regional RAMP Questions"));
-     row2("Can we affix a sensor to the floor with adhesive or screws?",
+     if ($row["regional"]) {
+        row_heading_array(array("Regional RAMP Questions"));
+     }
+     else {
+        row_heading_array(array("Christchurch RAMP Questions"));
+     }
+     if ($tmpRegional) $affixtype = "we";
+     if ($tmpCCNZ) $affixtype = "you";
+
+     row2("Can $affixtype affix a sensor to the floor with adhesive or screws?",
        "<input type=\"checkbox\" name=\"db_loc_affix_perm\" id=\"db_loc_affix_perm\" " . ($row["loc_affix_perm"] ? "checked" : "") . "> (Check if 'Yes' - If
     the sensor is not mounted, it cannot record strong motions as well)");
 
@@ -344,6 +369,7 @@ echo "
      $time_host .= "</select>";
      row2("How many years are you willing to host the sensor?", $time_host);
 
+  if ($row["regional"]) {  // only put installation day/time for regional ie not Christchurch
 
      //"<select name=\"db_cpu_os\" id=\"db_cpu_os\">";
      $time_ops = array("All Day",
@@ -467,6 +493,7 @@ echo "
 
   } // end regional extra questions
 
+  } // end regional installation day/time
 
      echo "<tr><td colspan=2><hr></td></tr>";
      row_heading_array(array("Comments"));

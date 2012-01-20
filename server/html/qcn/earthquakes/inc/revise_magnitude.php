@@ -47,7 +47,7 @@ function revise_magnitude($edir) {
     //$qmag = $qmag + exp((log($smag) + 0.00046*$dis*$dis - 0.2381*log($ptime/$dis) + 7.9727)/5.691);
 
     //#2:
-    $qmag = $qmag + exp((log($smag) + 0.0008171*$dis*$dis - 0.2752*log($ptime) + 8.6591)/5.2864);
+    //$qmag = $qmag + exp((log($smag) + 0.0008171*$dis*$dis - 0.2752*log($ptime) + 8.6591)/5.2864);
 
     //#3:
     //$qmag = $qmag + ((log($smag) + 0.00081543*$dis*$dis - 0.2752 * log($ptime) + 5.9461)/1.1479);
@@ -56,12 +56,28 @@ function revise_magnitude($edir) {
     //$qmag = $qmag + exp((log($smag) + 0.0432*$dis - 0.2752 * ($ptime) + 8.5438)/5.52);
 
     //#5 - Mag inversion:
-    $qmag2 = $qmag2 + ((0.3199*log($smag) + 0.0334*$dis - 0.0880 * log($ptime) + 4.086));
+    //$qmag2 = $qmag2 + ((0.3199*log($smag) + 0.0334*$dis - 0.0880 * log($ptime) + 4.086));
 
     //#6 - Mag inversion:
     //$qmag = $qmag + ((0.3096*log($smag) + 0.2914*sqrt($dis) - 0.0852 * log($ptime) + 3.4591));
 
-    $qmag = ($qmag + 0.25*$qmag2)/1.25;
+
+    //#2 (Updated 1/11/12):
+    $qmag = $qmag + exp((log($smag) + 0.0011*$dis*$dis - 0.2414*log($ptime) + 7.1426)/4.0736);
+
+    //#3 (Updated 1/11/12):
+    //$qmag = $qmag + ((log($smag) + 0.0011*$dis*$dis - 0.2414 * log($ptime) + 5.0244)/0.8770);
+
+   //#5 - Mag inversion (Updated 1/11/12):
+    $qmag2 = $qmag2 + ((0.4191*log($smag) + 0.0441*$dis - 0.1012 * log($ptime) + 4.4314));
+   
+    //#6 - Mag inversion (Updated 1/11/12):
+    //$qmag = $qmag + ((0.4059*log($smag) + 0.3928*sqrt($dis) - 0.0980 * log($ptime) + 3.5799));
+
+    $qmag = ($qmag + 1*$qmag2)/2;
+
+    //$qmag = $qmag2;
+
 
     echo "mag=".$qmag."  \n";
   }
@@ -88,7 +104,7 @@ function revise_magnitude($edir) {
    //$qstd = $qstd + (exp((log($smag) + 0.00046*$dis*$dis - 0.2381 * log($ptime/$dis) + 7.9727)/5.691) - $qmag)^2;
 
    //#2:
-   $qstd = $qstd + (exp((log($smag) + 0.0008171*$dis*$dis - 0.2752 * log($ptime) + 8.6591)/5.2864) - $qmag)^2;
+   //$qstd = $qstd + (exp((log($smag) + 0.0008171*$dis*$dis - 0.2752 * log($ptime) + 8.6591)/5.2864) - $qmag)^2;
 
    //3:
    //$qstd = $qstd + (((log($smag) + 0.00081543*$dis*$dis - 0.2752 * log($ptime) + 5.9461)/1.1479) - $qmag)^2;
@@ -97,12 +113,29 @@ function revise_magnitude($edir) {
    //$qstd = $qstd + (exp((log($smag) + 0.0432*$dis - 0.2752 * log($ptime) + 8.5438)/5.52) - $qmag)^2;
 
    //#5 - Mag inversion:
-   $qstd2 = $qstd2 + ((0.3199*log($smag) + 0.0334*$dis - 0.0880 * log($ptime) + 4.086) - $qmag)^2;
+   //$qstd2 = $qstd2 + ((0.3199*log($smag) + 0.0334*$dis - 0.0880 * log($ptime) + 4.086) - $qmag)^2;
 
   //#6 - Mag inversion:
    //$qstd = $qstd + ((0.3096*log($smag) + 0.2914*sqrt($dis) - 0.0852 * log($ptime) + 3.4591) - $qmag)^2;
 
-   $qstd = ($qstd + 0.25*$qstd2)/1.25;
+
+
+   //#2 (Updated 1/11/12):
+   $qstd = $qstd + (exp((log($smag) + 0.0011*$dis*$dis - 0.2414 * log($ptime) + 7.1426)/4.0736) - $qmag)^2;
+
+   //3 (Updated 1/11/12):
+   //$qstd = $qstd + (((log($smag) + 0.0011*$dis*$dis - 0.2414 * log($ptime) + 5.0244)/0.8770) - $qmag)^2;
+
+   //#5 - Mag inversion (Updated 1/11/12):
+   $qstd2 = $qstd2 + ((0.4191*log($smag) + 0.0441*$dis - 0.1012 * log($ptime) + 4.4314) - $qmag)^2;
+
+  //#6 - Mag inversion (Updated 1/11/12):
+   //$qstd = $qstd + ((0.4059*log($smag) + 0.3928*sqrt($dis) - 0.0980 * log($ptime) + 3.5799) - $qmag)^2;
+
+   $qstd = ($qstd + 1*$qstd2)/2;
+
+   //$qstd = $qstd2;
+
 
    echo "std=".$qstd."\n";
   }

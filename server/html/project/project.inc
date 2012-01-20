@@ -519,7 +519,7 @@ echo "
       if (getElement(\"lat" . $i . "\").value != \"\" && getElement(\"lng" . $i . "\").value != \"\") {
             iSelect = " . $i . ";
             newpt = new GLatLng(getElement(\"lat" . $i . "\").value, getElement(\"lng" . $i . "\").value);
-            map.setCenter(newpt, " . ($zoomout ? "6" : "15") . ");
+            map.setCenter(newpt, " . ($zoomout ? "$zoomout" : "15") . ");
             addMarker(map,newpt);
       }
      ";
@@ -694,6 +694,7 @@ function show_trigger($hostid, $heading, $private)//=false)
 
    if ($result && mysql_num_rows($result)>0) {  // we found some records
       $i = 0;
+      $j = 0;
       while($row=mysql_fetch_array($result)) {
          if ($row[17]==1) { // it's a ping record
            $strTableFont = "<font color=$colorPing>";
@@ -712,9 +713,9 @@ function show_trigger($hostid, $heading, $private)//=false)
             $lat = $row[8];
            $lon = $row[9];
 
+   if ($j == 0) {
    echo "<h2>Sensor Location:</h2>\n";
    echo "<iframe src=\"http://qcn.stanford.edu/RAMP/qcn_map_sensor.php?lon=" . round($lon,$loc_res) . "&lat=" . round($lat,$loc_res) . "\" frameborder=\"0\" scrolling=\"no\" width=\"100%\" height=\"365\"></iframe>\n"; 
-
    echo "<H2>$heading</H2>\n";
    echo "<H3>Last " . MAX_NUM_TRIGGER . " Triggers for this Computer</H3>\n";
    if ($private) {
@@ -746,8 +747,9 @@ function show_trigger($hostid, $heading, $private)//=false)
              <th>View</th>
              <th>Quake</th>
          </tr>";
-         }
-
+      $j = 1;
+         } }
+     
          $elev = $row[18]; // level/elevation data
 
 /*
@@ -802,7 +804,7 @@ mysql> select * from qcn_level;
              $bgcolor = "\"#FFFFFF\"";
          }
          if ($row[24] > 0 ) { // must have matched a quake!
-             $bgcolor = "\"#BBB\"";  // red background for this row
+             $bgcolor = "\"#dff0ff\"";  // red background for this row
              $quakestuff = "<A HREF=\"" . $row[25] . "\">" . $row[24] . "</A>";
          }
          echo "    <tr bgcolor=$bgcolor>
