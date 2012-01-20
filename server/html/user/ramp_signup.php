@@ -594,31 +594,31 @@ n] => on [db_cpu_permission] => on [db_cpu_firewall] => on [db_cpu_internet] => 
     $row["loc_day_install_saturday"] = ($_POST["db_loc_day_install_saturday"] == "on") ? 1 : 0;
 
     if ($row["loc_day_install_sunday"])
-      $row["loc_time_install_sunday"] = post_str("db_loc_time_install_sunday");
+      $row["loc_time_install_sunday"] = post_str("db_loc_time_install_sunday", true);
     else
       $row["loc_time_install_sunday"] = "";
     if ($row["loc_day_install_monday"])
-      $row["loc_time_install_monday"] = post_str("db_loc_time_install_monday");
+      $row["loc_time_install_monday"] = post_str("db_loc_time_install_monday", true);
     else
       $row["loc_time_install_monday"] = "";
     if ($row["loc_day_install_tuesday"])
-      $row["loc_time_install_tuesday"] = post_str("db_loc_time_install_tuesday");
+      $row["loc_time_install_tuesday"] = post_str("db_loc_time_install_tuesday", true);
     else
       $row["loc_time_install_tuesday"] = "";
     if ($row["loc_day_install_wednesday"])
-      $row["loc_time_install_wednesday"] = post_str("db_loc_time_install_wednesday");
+      $row["loc_time_install_wednesday"] = post_str("db_loc_time_install_wednesday", true);
     else
       $row["loc_time_install_wednesday"] = "";
     if ($row["loc_day_install_thursday"])
-      $row["loc_time_install_thursday"] = post_str("db_loc_time_install_thursday");
+      $row["loc_time_install_thursday"] = post_str("db_loc_time_install_thursday", true);
     else
       $row["loc_time_install_thursday"] = "";
     if ($row["loc_day_install_friday"])
-      $row["loc_time_install_friday"] = post_str("db_loc_time_install_friday");
+      $row["loc_time_install_friday"] = post_str("db_loc_time_install_friday", true);
     else
       $row["loc_time_install_friday"] = "";
     if ($row["loc_day_install_saturday"])
-      $row["loc_time_install_saturday"] = post_str("db_loc_time_install_saturday");
+      $row["loc_time_install_saturday"] = post_str("db_loc_time_install_saturday", true);
     else
       $row["loc_time_install_saturday"] = "";
 
