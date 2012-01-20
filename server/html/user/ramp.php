@@ -31,7 +31,10 @@ $query = "select id, fname, lname, email_addr, addr1, addr2, city, region, postc
  loc_time_install_friday,
  loc_day_install_saturday,
  loc_time_install_saturday,
- loc_years_host
+ loc_years_host, 
+  ramp_type, 
+  quake_damage, 
+  liquefaction
 from qcn_ramp_participant WHERE active=1";
 $order = "order by country, lname, fname";
 
@@ -279,7 +282,7 @@ echo "
 
 if ($strCountry != "International" && $strCountry != "None") $query .= " AND country='$strCountry' ";
 
-if ($bUseRegional) $query .= " AND regional=1";
+if ($bUseRegional) $query .= " AND ramp_type != 'G' ";
 
 //print "<BR><BR>$query<BR><BR>";
 
@@ -601,7 +604,7 @@ function qcn_ramp_header_csv() {
      . "PostCode, Country, Latitude, Longitude, Phone, Fax, ShareCoord, ShareMap, ShareUPS, "
      . "CPUType, OpSys, CPUAgeYrs, CPUFloor#, AdminRts, Permission, Firewall, Proxy, Internet, UnintPower, DistribSensor, "
      . "Home, Business, AffixPerm, SelfInstall, Sunday, SundayTime, Monday, MondayTime, Tuesday, TuesdayTime, Wednesday, WedsTime, "
-     . "Thursday, ThursdayTime, Friday, FridayTime, Saturday, SatTime, YearsHost, Comments"
+     . "Thursday, ThursdayTime, Friday, FridayTime, Saturday, SatTime, YearsHost, RampType, QuakeDamage, Liquefaction, Comments"
      . "\n";
 }
 
@@ -658,6 +661,9 @@ function qcn_ramp_detail_csv($res)
   qcn_logical($res->loc_day_install_saturday) . "\",\"" .
   $res->loc_time_install_saturday . "\"," .
   $res->loc_years_host . ", \"" . 
+  $res->ramp_type . "\", \"" .
+  $res->quake_damage . "\", \"" .
+  qcn_logical($res->liquefaction) . "\", \"" .
   $entry . "\"\n";
 
 }
@@ -712,6 +718,9 @@ function qcn_ramp_header() {
        <th>Saturday</th>
        <th>SatTime</th>
        <th>YearsHost</th>
+       <th>RampType</th>
+       <th>QuakeDamage</th>
+       <th>Liquefaction</th>
        <th>Comments</th>
        </tr>
      ";
@@ -770,7 +779,11 @@ function qcn_ramp_detail($res)
   $res->loc_time_install_friday . "</td><td>" .
   qcn_logical($res->loc_day_install_saturday) . "</td><td>" .
   $res->loc_time_install_saturday . "</td><td>" .
-  $res->loc_years_host . "</td><td width=\"15%\">" .
+  $res->loc_years_host . "</td><td>" .
+  $res->ramp_type . "</td><td>" .
+  $res->quake_damage . "</td><td>" .
+  qcn_logical($res->liquefaction) . "</td>" .
+   "<td width=\"15%\">" .
      nl2br($res->comments) . "</td>
        </tr>
     ";

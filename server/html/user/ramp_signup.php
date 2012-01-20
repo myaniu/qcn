@@ -27,26 +27,25 @@ if (empty($row["ramp_type"])) { // from a POST
 if (empty($row["ramp_type"])) { // from a GET
    $row["ramp_type"] = get_str("ramp_type", true);
 }
-if (empty($row["ramp_type"])) $row["ramp_type"] = "G";
-$strRampType = $row["ramp_type"];
 
 //<h2>Welcome Back " . $user->name . "</h2>
+$strMessage = "";
 
 switch ($_POST["submit"]) { 
 
 case "Submit":
-   doRAMPSubmit($user->id, $row["id"], $row["ramp_type"]);
+   $strMessage = doRAMPSubmit($user->id, $row["id"], $row["ramp_type"]);
    break;
 case "Delete":
    //break; -- no break, want to "refresh the fields"
   $sqlRAMP = "DELETE FROM qcn_ramp_participant WHERE id=" . $row["id"] . " AND userid=" . $user->id;
   $result = mysql_query($sqlRAMP);
   if ($result) {
-     echo "<BR><BR><B><center><font color=black>Your RAMP information has been deleted, thanks for participating!!</font></center></b><BR><BR>";
+     $strMessage = "<BR><BR><B><center><font color=black>Your RAMP information has been deleted, thanks for participating!!</font></center></b><BR><BR>";
      $row["id"] = 0;
   }
   else {
-     echo "<BR><BR><B><center><font color=red>Error in deleting record - please try later</font></center></b><BR><BR>";
+     $strMessage = "<BR><BR><B><center><font color=red>Error in deleting record - please try later</font></center></b><BR><BR>";
   }
   break;
 }
@@ -65,14 +64,16 @@ case "Delete":
       mysql_free_result($result);
   }
 
-  if ($strRampType != "G") {
-     $row["ramp_type"] = $strRampType; // get regional status from post or get
-  }
+ if (empty($row["ramp_type"])) $row["ramp_type"] = "G";
+ $strRampType = $row["ramp_type"];
+ if ($strRampType != "G") {
+    $row["ramp_type"] = $strRampType; // get regional status from post or get
+ }
   $mylat = $row["latitude"];
   $mylng = $row["longitude"];
   $zoomout = 12;
 
-  if ($strRampType == "R" || $strRampType == "C") {  // use New Zealand
+  if (!$row["id"] && ($strRampType == "R" || $strRampType == "C")) {  // use New Zealand
      $mylat = -43.5;
      $mylng = 172.6;
      $zoomout = 12;
@@ -125,6 +126,10 @@ echo "
 -->
 </a>
 ";
+
+if ($strMessage) { // print status/error message if any
+   echo $strMessage . "\n";
+}
 
 if ($strRampType == "R" || $strRampType == "C") echo "<center><h3>Apply for a free USB sensor if you are in a region of interest</h3></center>\n";
 
@@ -322,6 +327,38 @@ echo "
         row_heading_array(array("Christchurch RAMP Questions"));
      }
 
+  if ($strRampType == "C") { // christchurch fields
+   // CMC HERE - new fields
+   //   `quake_damage` varchar(5) NULL DEFAULT '',
+   //   `liquefaction` boolean NULL DEFAULT '0',
+   // row2("Sunday <input type=\"checkbox\" name=\"db_loc_day_install_sunday\" id=\"db_loc_day_install_sunday\" " . 
+   //        ($row["loc_day_install_sunday"] ? "checked" : "") . ">" ,
+   //           "<select name=\"db_loc_time_install_sunday\" id=\"db_loc_time_install_sunday\">" . $time_select[0]);
+
+
+     row2("Please describe damage to your home/property as a result of earthquake shaking",
+       "<input type=\"radio\" name=\"db_quake_damage\" id=\"db_quake_damage\" value=\"none\" " . ($row["quake_damage"] == "none" ? "checked" : "") . ">None <BR> "
+      . "<input type=\"radio\" name=\"db_quake_damage\" id=\"db_quake_damage\" value=\"low\" " . ($row["quake_damage"] == "low" ? "checked" : "") . ">Mild (little or no damage)&nbsp&nbsp<BR>  "
+       . "<input type=\"radio\" name=\"db_quake_damage\" id=\"db_quake_damage\" value=\"med\" " . ($row["quake_damage"] == "med" ? "checked" : "") . ">Moderate (significant damage to home; large cracks, fallen chimney, etc)&nbsp&nbsp<BR>  "
+       . "<input type=\"radio\" name=\"db_quake_damage\" id=\"db_quake_damage\" value=\"high\" " . ($row["quake_damage"] == "high" ? "checked" : "") . ">Severe (major structural damage to home)&nbsp&nbsp  ");
+
+
+    // Liquefaction
+    $bshare = " checked ";
+    if ($row["id"] > 0 && ! $row["liquefaction"]) { 
+       $bshare = "";
+    }
+    row2("Did you experience liquefaction on your home/property?",
+       "<input type=\"checkbox\" name=\"db_liquefaction\" id=\"db_liquefaction\" $bshare> " .
+       "<A HREF=\"http://en.wikipedia.org/wiki/Soil_liquefaction\"><I>Wikipedia on Liquefaction</I></A>");
+  
+
+
+
+  }  // end christchurch fields
+
+
+
      $affixtype = "we";
      if ($strRampType == "C") $affixtype = "you";
 
@@ -480,16 +517,6 @@ echo "
 
   } // end regional installation day/time
 
-  if ($strRampType == "C") { // christchurch fields
-   // CMC HERE - new fields
-   //   `quake_damage` varchar(5) NULL DEFAULT '',
-   //   `liquefaction` boolean NULL DEFAULT '0',
-   // row2("Sunday <input type=\"checkbox\" name=\"db_loc_day_install_sunday\" id=\"db_loc_day_install_sunday\" " . 
-   //        ($row["loc_day_install_sunday"] ? "checked" : "") . ">" ,
-   //           "<select name=\"db_loc_time_install_sunday\" id=\"db_loc_time_install_sunday\">" . $time_select[0]);
-  }  // end christchurch fields
-
-
      echo "<tr><td colspan=2><hr></td></tr>";
      row_heading_array(array("Comments"));
 
@@ -567,31 +594,31 @@ n] => on [db_cpu_permission] => on [db_cpu_firewall] => on [db_cpu_internet] => 
     $row["loc_day_install_saturday"] = ($_POST["db_loc_day_install_saturday"] == "on") ? 1 : 0;
 
     if ($row["loc_day_install_sunday"])
-      $row["loc_time_install_sunday"] = $_POST["db_loc_time_install_sunday"];
+      $row["loc_time_install_sunday"] = post_str("db_loc_time_install_sunday");
     else
       $row["loc_time_install_sunday"] = "";
     if ($row["loc_day_install_monday"])
-      $row["loc_time_install_monday"] = $_POST["db_loc_time_install_monday"];
+      $row["loc_time_install_monday"] = post_str("db_loc_time_install_monday");
     else
       $row["loc_time_install_monday"] = "";
     if ($row["loc_day_install_tuesday"])
-      $row["loc_time_install_tuesday"] = $_POST["db_loc_time_install_tuesday"];
+      $row["loc_time_install_tuesday"] = post_str("db_loc_time_install_tuesday");
     else
       $row["loc_time_install_tuesday"] = "";
     if ($row["loc_day_install_wednesday"])
-      $row["loc_time_install_wednesday"] = $_POST["db_loc_time_install_wednesday"];
+      $row["loc_time_install_wednesday"] = post_str("db_loc_time_install_wednesday");
     else
       $row["loc_time_install_wednesday"] = "";
     if ($row["loc_day_install_thursday"])
-      $row["loc_time_install_thursday"] = $_POST["db_loc_time_install_thursday"];
+      $row["loc_time_install_thursday"] = post_str("db_loc_time_install_thursday");
     else
       $row["loc_time_install_thursday"] = "";
     if ($row["loc_day_install_friday"])
-      $row["loc_time_install_friday"] = $_POST["db_loc_time_install_friday"];
+      $row["loc_time_install_friday"] = post_str("db_loc_time_install_friday");
     else
       $row["loc_time_install_friday"] = "";
     if ($row["loc_day_install_saturday"])
-      $row["loc_time_install_saturday"] = $_POST["db_loc_time_install_saturday"];
+      $row["loc_time_install_saturday"] = post_str("db_loc_time_install_saturday");
     else
       $row["loc_time_install_saturday"] = "";
 
@@ -602,8 +629,8 @@ n] => on [db_cpu_permission] => on [db_cpu_firewall] => on [db_cpu_internet] => 
     $row["loc_years_host"] = post_int("db_loc_years_host", true);
     if ($row["loc_years_host"] == "") $row["loc_years_host"] = 1;
 
-    $row["quake_damage"] = post_str("db_quake_damage");
-    $row["liquefaction"] = ($_POST["db_liquefaction"] == "on") ? 1: 0;
+    $row["quake_damage"] = post_str("db_quake_damage", true);
+    $row["liquefaction"] = ($_POST["db_liquefaction"] == "on") ? 1 : 0;
 
     $mylat = $row["latitude"];
     $mylng = $row["longitude"];
@@ -673,6 +700,8 @@ n] => on [db_cpu_permission] => on [db_cpu_firewall] => on [db_cpu_internet] => 
             loc_years_host=" . $row["loc_years_host"] . ",
             comments='" . $row["comments"] . "', 
             ramp_type='" . $row["ramp_type"] . "', 
+            quake_damage='" . $row["quake_damage"] . "', 
+            liquefaction=" . $row["liquefaction"] . ", 
             active=1, time_edit=unix_timestamp() ";
 
 //echo "<BR><BR>" . $sqlStart . $sqlSet . $sqlEnd . "<BR><BR>";
@@ -688,16 +717,14 @@ n] => on [db_cpu_permission] => on [db_cpu_firewall] => on [db_cpu_internet] => 
             }
          }
          //mysql_free_result($result);
-         echo "<BR><BR><center><B>Your submission has been saved.  Thank you for taking part in QCN RAMP!</font></center></b><BR><BR>";
+         return "<BR><BR><center><B>Your submission has been saved.  Thank you for taking part in QCN RAMP!</font></center></b><BR><BR>";
       }
       else {
 //echo $sqlStart . $sqlSet . $sqlEnd;
 
-         echo "<BR><BR><B><center><font color=red>Error in updating information - please try later or review your submission!</font></center></b><BR><BR>";
+         return "<BR><BR><B><center><font color=red>Error in updating information - please try later or review your submission!</font></center></b><BR><BR>";
       }
-
- echo "<br><center><a href=\"" . BASEURL . "/sensor/\">Return to Quake-Catcher Network Seismic Monitoring main page</a></center><br>";
-
+   return "";
 }
 
 ?>
