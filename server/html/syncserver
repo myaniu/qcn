@@ -66,6 +66,7 @@ scp carlgt1@qcn-web:/var/www/boinc/sensor/html/user/show_host_detail.php user/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/html/user/server_status.php user/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/html/user/trigger.php user/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/html/user/show_user.php user/
+scp carlgt1@qcn-web:/var/www/boinc/sensor/html/user/hosts_user.php user/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/html/user/ramp.php user/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/html/user/trdl.php user/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/html/user/trdlreq.php user/
