@@ -18,36 +18,24 @@ $psprefs = project_specific_prefs_parse($user->project_prefs);
 //$db = BoincDb::get();
 $row["id"] = post_int("db_id", true);
 
-// test if this a ramp regional entry
-$row["regional"] = $GLOBALS["is_regional"];
-if ($row["regional"] != 1) {
-  $row["regional"] = post_int("db_regional", true);
+// check the ramp type  (database field ramp_type)
+// valid types are G for global (default), R for regional, C for christchurch nz
+$row["ramp_type"] = $GLOBALS["ramp_type"];  // from a redirected page global i.e. rampnz_signup.php
+if (empty($row["ramp_type"])) { // from a POST
+  $row["ramp_type"] = post_str("db_ramp_type", true);
 }
-if ($row["regional"] != 1) {
-   $row["regional"] = get_int("regional", true);
+if (empty($row["ramp_type"])) { // from a GET
+   $row["ramp_type"] = get_str("ramp_type", true);
 }
-if (! $row["regional"]) $row["regional"] = 0;
-$tmpRegional = $row["regional"];
-
-// test if this page is a ChristChurch NZ special signup
-// test if this a ramp regional entry
-$row["ccnz"] = $GLOBALS["is_ccnz"];
-if ($row["ccnz"] != 1) {
-  $row["ccnz"] = post_int("db_ccnz", true);
-}
-if ($row["ccnz"] != 1) {
-   $row["ccnz"] = get_int("ccnz", true);
-}
-if (! $row["ccnz"]) $row["ccnz"] = 0;
-$tmpCCNZ = $row["ccnz"];
-
+if (empty($row["ramp_type"])) $row["ramp_type"] = "G";
+$strRampType = $row["ramp_type"];
 
 //<h2>Welcome Back " . $user->name . "</h2>
 
 switch ($_POST["submit"]) { 
 
 case "Submit":
-   doRAMPSubmit($user->id, $row["id"], $row["regional"]);
+   doRAMPSubmit($user->id, $row["id"], $row["ramp_type"]);
    break;
 case "Delete":
    //break; -- no break, want to "refresh the fields"
@@ -77,17 +65,14 @@ case "Delete":
       mysql_free_result($result);
   }
 
-  if ($tmpRegional == 1) {
-     $row["regional"] = $tmpRegional; // get regional status from post or get
-  }
-  if ($tmpCCNZ == 1) {
-     $row["ccnz"] = $tmpCCNZ; // get regional status from post or get
+  if ($strRampType != "G") {
+     $row["ramp_type"] = $strRampType; // get regional status from post or get
   }
   $mylat = $row["latitude"];
   $mylng = $row["longitude"];
   $zoomout = 12;
 
-  if ($tmpRegional || $tmpCCNZ) {  // use New Zealand
+  if ($strRampType == "R" || $strRampType == "C") {  // use New Zealand
      $mylat = -43.5;
      $mylng = 172.6;
      $zoomout = 12;
@@ -121,8 +106,8 @@ page_head("QCN RAMP Information", null, null, "", true, $psprefs, false, 1, $zoo
 google_translate_new();
 
 $prefix = "";
-if ($tmpRegional) $prefix = " - Regional";
-if ($tmpCCNZ) $prefix = " - Christchurch, NZ";
+if ($strRampType == "R") $prefix = " - Regional";
+else if ($strRampType == "C") $prefix = " - Christchurch, NZ";
 
 echo "
   <center><h1>Rapid Array Mobilization Program (RAMP)$prefix</h1></center>
@@ -141,7 +126,7 @@ echo "
 </a>
 ";
 
-if ($is_regional == 1 || $is_ccnz == 1) echo "<center><h3>Apply for a free USB sensor if you are in a region of interest</h3></center>\n";
+if ($strRampType == "R" || $strRampType == "C") echo "<center><h3>Apply for a free USB sensor if you are in a region of interest</h3></center>\n";
 
 echo "<ul><p align=\"justify\">You can add yourself to QCN RAMP by submitting the following information,
     or edit a previous submission.
@@ -149,8 +134,7 @@ echo "<ul><p align=\"justify\">You can add yourself to QCN RAMP by submitting th
          <form name=\"ramp_form\" method=\"post\" action=\"ramp_signup.php\">
 
     <input name=\"db_id\" type=\"hidden\" id=\"db_id\" size=\"20\" value=\"" . $row["id"] . "\">
-    <input name=\"db_regional\" type=\"hidden\" id=\"db_regional\" size=\"20\" value=\"" . $row["regional"] . "\">
-    <input name=\"db_ccnz\" type=\"hidden\" id=\"db_ccnz\" size=\"20\" value=\"" . $row["ccnz"] . "\">
+    <input name=\"db_ramp_type\" type=\"hidden\" id=\"db_ramp_type\" size=\"20\" value=\"" . $row["ramp_type"] . "\">
     <input name=\"lnm0\" type=\"hidden\" id=\"lnm0\" size=\"64\">
 
 <table>";
@@ -172,7 +156,7 @@ echo "<ul><p align=\"justify\">You can add yourself to QCN RAMP by submitting th
      row2("Post Code", "<input name=\"db_postcode\" type=\"text\" id=\"db_postcode\" size=\"20\" value=\"" . stripslashes($row["postcode"]) . "\">");
 
      row2_init("Country", "<select name=db_country id=db_country>");
-     if (empty($row["country"]) && ($tmpRegional || $tmpCCNZ)) $row["country"] = "New Zealand";
+     if (empty($row["country"]) && ($strRampType == "R" || $strRampType == "C")) $row["country"] = "New Zealand";
      print_country_select($row["country"]);
      echo "</select></td></tr>";
 
@@ -236,7 +220,7 @@ echo "
      row2("Share Your Information With a Volunteer RAMP coordinator for installation?",
        "<input type=\"checkbox\" name=\"db_bshare_coord\" id=\"db_bshare_coord \" $bshare> (some sensors are installed by QCN volunteers)" );
 
-   if ($row["regional"] != 1) {  // don't use for regional ramp
+   if ($row["ramp_type"] != "R") {  // don't use for regional ramp
      // bshare_ups == share info with UPS
      $bshare = " checked ";
      if ($row["id"] > 0 && $row["bshare_ups"] == 0) { // don't want to share
@@ -329,16 +313,17 @@ echo "
 
 
 
-   if ($row["regional"] == 1 || $row["ccnz"] == 1)  { // regional ramp specific information
+   if ($row["ramp_type"] == "R" || $row["ramp_type"] == "C")  { // regional ramp specific information
      echo "<tr><td colspan=2><hr></td></tr>";
-     if ($row["regional"]) {
+     if ($row["ramp_type"] == "R") {
         row_heading_array(array("Regional RAMP Questions"));
      }
      else {
         row_heading_array(array("Christchurch RAMP Questions"));
      }
-     if ($tmpRegional) $affixtype = "we";
-     if ($tmpCCNZ) $affixtype = "you";
+
+     $affixtype = "we";
+     if ($strRampType == "C") $affixtype = "you";
 
      row2("Can $affixtype affix a sensor to the floor with adhesive or screws?",
        "<input type=\"checkbox\" name=\"db_loc_affix_perm\" id=\"db_loc_affix_perm\" " . ($row["loc_affix_perm"] ? "checked" : "") . "> (Check if 'Yes' - If
@@ -369,7 +354,7 @@ echo "
      $time_host .= "</select>";
      row2("How many years are you willing to host the sensor?", $time_host);
 
-  if ($row["regional"]) {  // only put installation day/time for regional ie not Christchurch
+  if ($row["ramp_type"] == "R") {  // only put installation day/time for regional ie not Christchurch
 
      //"<select name=\"db_cpu_os\" id=\"db_cpu_os\">";
      $time_ops = array("All Day",
@@ -495,6 +480,16 @@ echo "
 
   } // end regional installation day/time
 
+  if ($strRampType == "C") { // christchurch fields
+   // CMC HERE - new fields
+   //   `quake_damage` varchar(5) NULL DEFAULT '',
+   //   `liquefaction` boolean NULL DEFAULT '0',
+   // row2("Sunday <input type=\"checkbox\" name=\"db_loc_day_install_sunday\" id=\"db_loc_day_install_sunday\" " . 
+   //        ($row["loc_day_install_sunday"] ? "checked" : "") . ">" ,
+   //           "<select name=\"db_loc_time_install_sunday\" id=\"db_loc_time_install_sunday\">" . $time_select[0]);
+  }  // end christchurch fields
+
+
      echo "<tr><td colspan=2><hr></td></tr>";
      row_heading_array(array("Comments"));
 
@@ -515,7 +510,7 @@ echo "<tr>
 
 page_tail();
 
-function doRAMPSubmit($userid, $rampid, $regional)
+function doRAMPSubmit($userid, $rampid, $ramp_type)
 {
 /*   print_r($_POST);Array ( [db_id] => 0 [lnm0] => [db_fname] => car [db_lname] => Christensen [db_addr1] => 14525 SW Millikan #76902 [db_addr2] => [db_city] => Beaverton [db_region] => OR [db_postcode_] => [db_country] => United States [db_phone] => +1 215 989 4276 [db_fax] => carlgt1@yahoo.com [db_email_addr] => carlgt6@hotmail.com [lat0] => [lng0] => [addrlookup] => 14525 SW Millikan #76902, , Beaverton, OR, United States [db_bshare_map] => on [db_bshare_coord] => on [db_bshare_ups] => on [db_sensor_distribute] => on [db_cpu_os] => Mac OS X (Intel) [db_cpu_age] => 5 [db_cpu_floor] => 6 [db_cpu_admi
 n] => on [db_cpu_permission] => on [db_cpu_firewall] => on [db_cpu_internet] => on [db_cpu_proxy] => on [db_cpu_unint_power] => on [db_comments] =>
@@ -524,7 +519,7 @@ n] => on [db_cpu_permission] => on [db_cpu_firewall] => on [db_cpu_internet] => 
 
     // copy over post variables to reuse in the fields below, and for the sql insert/update!
     $row["id"] = $rampid;
-    $row["regional"] = $regional;
+    $row["ramp_type"] = $ramp_type;
     $row["userid"] = $userid;
     $row["fname"] = mysql_real_escape_string(post_str("db_fname"));
     $row["lname"] = mysql_real_escape_string(post_str("db_lname"));
@@ -607,6 +602,9 @@ n] => on [db_cpu_permission] => on [db_cpu_firewall] => on [db_cpu_internet] => 
     $row["loc_years_host"] = post_int("db_loc_years_host", true);
     if ($row["loc_years_host"] == "") $row["loc_years_host"] = 1;
 
+    $row["quake_damage"] = post_str("db_quake_damage");
+    $row["liquefaction"] = ($_POST["db_liquefaction"] == "on") ? 1: 0;
+
     $mylat = $row["latitude"];
     $mylng = $row["longitude"];
     $zoomout = 1;
@@ -674,7 +672,7 @@ n] => on [db_cpu_permission] => on [db_cpu_firewall] => on [db_cpu_internet] => 
             loc_time_install_saturday='" . $row["loc_time_install_saturday"] . "',
             loc_years_host=" . $row["loc_years_host"] . ",
             comments='" . $row["comments"] . "', 
-            regional=" . $row["regional"] . ", 
+            ramp_type='" . $row["ramp_type"] . "', 
             active=1, time_edit=unix_timestamp() ";
 
 //echo "<BR><BR>" . $sqlStart . $sqlSet . $sqlEnd . "<BR><BR>";
