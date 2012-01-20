@@ -138,6 +138,7 @@ CREATE TABLE `qcn_ramp_participant` (
   `loc_time_install_saturday` varchar(20) DEFAULT '',
   `loc_years_host` smallint(6) DEFAULT NULL,
   `regional` tinyint(1) NOT NULL DEFAULT '0',
+  `ccnz` tinyint(1) NOT NULL DEFAULT '0',
   `kml_regionid` int(11) NOT NULL DEFAULT '0',
   `quake_damage` varchar(5) NULL DEFAULT '',
   `liquefaction` boolean NULL DEFAULT '0',
