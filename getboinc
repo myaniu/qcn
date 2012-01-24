@@ -10,4 +10,4 @@ svn co http://boinc.berkeley.edu/svn/trunk/boinc
 #make clean && make
 #cd zip
 #make
-cd ../qcn
+cd qcn
