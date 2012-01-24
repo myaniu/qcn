@@ -40,6 +40,7 @@ else
    SENSORS  = \
         $(SENSORDIR)/csensor_linux_usb_jw.cpp \
         $(SENSORDIR)/csensor_linux_usb_jw24f14.cpp \
+        $(SENSORDIR)/csensor_linux_usb_onavi01.cpp \
         $(SENSORDIR)/csensor_usb_motionnodeaccel.cpp 
 endif
 

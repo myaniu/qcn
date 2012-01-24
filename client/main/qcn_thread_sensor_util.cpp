@@ -131,6 +131,8 @@ void psmsForceSensor(CSensor* volatile *ppsms)
 #else
 #ifdef __APPLE_CC__
 				 *ppsms = (CSensor*) new CSensorMacUSBONavi01();
+#else // LINUX
+				 *ppsms = (CSensor*) new CSensorLinuxUSBONavi01();
 #endif
 #endif //win32 or apple
 #endif // 64-bit
@@ -284,9 +286,9 @@ bool getSensor(CSensor* volatile *ppsms)
 		   }
 	#else // Linux
 	#if defined(__LP64__) || defined(_LP64) // no motion node for 64-bit, just JWF8 and JWF14
-	   const int iMaxSensor = 2;
-	#else
 	   const int iMaxSensor = 3;
+	#else
+	   const int iMaxSensor = 4;
 	#endif
 	   // for Windows the sensor can either be a CSensorThinkpad or CSensorWinUSBJW
 	   // note we try to detect the USB sensors first (if any), then try the laptop
@@ -303,8 +305,11 @@ bool getSensor(CSensor* volatile *ppsms)
 			   case 1:
 					   *ppsms = (CSensor*) new CSensorLinuxUSBJW24F14();
 				   break;
+                           case 2:  // ONavi on Linux
+					   *ppsms = (CSensor*) new CSensorLinuxUSBONavi01();
+				   break;
 #if !defined(__LP64__) && !defined(_LP64) // no motion node for 64-bit
-			   case 2:
+			   case 3:
 				   *ppsms = (CSensor*) new CSensorUSBMotionNodeAccel();
 				   break;
 	#endif

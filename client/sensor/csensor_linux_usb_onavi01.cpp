@@ -43,7 +43,7 @@ bool CSensorLinuxUSBONavi01::detect()
         // use glob to match names, if count is > 0, we found a match
         glob_t gt;
         memset(&gt, 0x00, sizeof(glob_t));
-        if (glob(STR_LINUX_USB_ONAVI01, GLOB_NOCHECK, NULL, &gt) || !gt.gl_matchc) {  // either glob failed or no match
+        if (glob(STR_LINUX_USB_ONAVI01, GLOB_NOCHECK, NULL, &gt) || !gt.gl_pathc) {  // either glob failed or no match
            // device string failed, but try the new string onavi (really Exar USB driver) may be using
            //if (glob(STR_USB_ONAVI02, GLOB_NOCHECK, NULL, &gt) || !gt.gl_matchc) {  // either glob failed or no match
              globfree(&gt);
@@ -220,9 +220,9 @@ Values >32768 are positive g and <32768 are negative g. The sampling rate is set
 					// g  = x - 32768 * (5 / 65536) 
 					// Where: x is the data value 0 - 65536 (x0000 to xFFFF). 
 					
-					x1 = ((float) x - 32768.0f) * FLOAT_ONAVI_FACTOR * EARTH_G;
-					y1 = ((float) y - 32768.0f) * FLOAT_ONAVI_FACTOR * EARTH_G;
-					z1 = ((float) z - 32768.0f) * FLOAT_ONAVI_FACTOR * EARTH_G;
+					x1 = ((float) x - 32768.0f) * FLOAT_LINUX_ONAVI_FACTOR * EARTH_G;
+					y1 = ((float) y - 32768.0f) * FLOAT_LINUX_ONAVI_FACTOR * EARTH_G;
+					z1 = ((float) z - 32768.0f) * FLOAT_LINUX_ONAVI_FACTOR * EARTH_G;
 #endif
 					
 					x0 = x1; y0 = y1; z0 = z1;  // preserve values
@@ -269,9 +269,9 @@ Values >32768 are positive g and <32768 are negative g. The sampling rate is set
 			// g  = x - 32768 * (5 / 65536) 
 			// Where: x is the data value 0 - 65536 (x0000 to xFFFF). 
 
-			x1 = ((float) x - 32768.0f) * FLOAT_ONAVI_FACTOR * EARTH_G;
-			y1 = ((float) y - 32768.0f) * FLOAT_ONAVI_FACTOR * EARTH_G;
-			z1 = ((float) z - 32768.0f) * FLOAT_ONAVI_FACTOR * EARTH_G;
+			x1 = ((float) x - 32768.0f) * FLOAT_LINUX_ONAVI_FACTOR * EARTH_G;
+			y1 = ((float) y - 32768.0f) * FLOAT_LINUX_ONAVI_FACTOR * EARTH_G;
+			z1 = ((float) z - 32768.0f) * FLOAT_LINUX_ONAVI_FACTOR * EARTH_G;
 			
 			x0 = x1; y0 = y1; z0 = z1;  // preserve values
 

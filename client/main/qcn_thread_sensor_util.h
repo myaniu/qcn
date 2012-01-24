@@ -30,6 +30,7 @@
   #else // LINUX
     #include "csensor_linux_usb_jw.h"
     #include "csensor_linux_usb_jw24f14.h"
+    #include "csensor_linux_usb_onavi01.h"
   #endif // Win or Linux
 #endif // Apple
 // all platforms except win64 get MotionNodeAccel USB support!

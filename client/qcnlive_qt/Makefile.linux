@@ -68,6 +68,7 @@ SOURCES       = glwidget.cpp \
 		../util/gzstream.cpp \
 		../sensor/csensor_linux_usb_jw.cpp \
 		../sensor/csensor_linux_usb_jw24f14.cpp \
+		../sensor/csensor_linux_usb_onavi01.cpp \
 		../sensor/csensor_usb_motionnodeaccel.cpp \
 		../sensor/csensor.cpp \
 		../graphics/qcn_graphics.cpp \
@@ -106,6 +107,7 @@ OBJECTS       = glwidget.o \
 		gzstream.o \
 		csensor_linux_usb_jw.o \
 		csensor_linux_usb_jw24f14.o \
+		csensor_linux_usb_onavi01.o \
 		csensor_usb_motionnodeaccel.o \
 		csensor.o \
 		qcn_graphics.o \
@@ -227,7 +229,7 @@ qmake:  FORCE
 
 dist: 
 	@$(CHK_DIR_EXISTS) .tmp/QCNLive1.0.0 || $(MKDIR) .tmp/QCNLive1.0.0 
-	$(COPY_FILE) --parents $(SOURCES) $(DIST) .tmp/QCNLive1.0.0/ && $(COPY_FILE) --parents qcnqt.h glwidget.h myframe.h dlgsettings.h dlgmakequake.h qcnlive_define.h icons.h ../main/main.h ../main/define.h .tmp/QCNLive1.0.0/ && $(COPY_FILE) --parents glwidget.cpp qcnqt.cpp myframe.cpp dlgsettings.cpp dlgmakequake.cpp ../main/qcn_shmem.cpp ../main/qcn_thread_sensor.cpp ../main/qcn_thread_sensor_util.cpp ../main/qcn_thread_sensor_loop.cpp ../main/qcn_thread_time.cpp ../main/main.cpp ../util/cserialize.cpp ../util/sac.cpp ../util/qcn_thread.cpp ../util/trickleup.cpp ../util/trickledown.cpp ../util/md5.cpp ../util/execproc.cpp ../util/qcn_util.cpp ../util/qcn_signal.cpp ../util/qcn_curl.cpp ../util/ttfont.cpp ../util/gzstream.cpp ../sensor/csensor_linux_usb_jw.cpp ../sensor/csensor_linux_usb_jw24f14.cpp ../sensor/csensor_usb_motionnodeaccel.cpp ../sensor/csensor.cpp ../graphics/qcn_graphics.cpp ../graphics/qcn_2dplot.cpp ../graphics/qcn_earth.cpp ../graphics/qcn_cube.cpp ../graphics/nation_boundary.cpp ../graphics/coastline.cpp ../graphics/plate_boundary.cpp .tmp/QCNLive1.0.0/ && (cd `dirname .tmp/QCNLive1.0.0` && $(TAR) QCNLive1.0.0.tar QCNLive1.0.0 && $(COMPRESS) QCNLive1.0.0.tar) && $(MOVE) `dirname .tmp/QCNLive1.0.0`/QCNLive1.0.0.tar.gz . && $(DEL_FILE) -r .tmp/QCNLive1.0.0
+	$(COPY_FILE) --parents $(SOURCES) $(DIST) .tmp/QCNLive1.0.0/ && $(COPY_FILE) --parents qcnqt.h glwidget.h myframe.h dlgsettings.h dlgmakequake.h qcnlive_define.h icons.h ../main/main.h ../main/define.h .tmp/QCNLive1.0.0/ && $(COPY_FILE) --parents glwidget.cpp qcnqt.cpp myframe.cpp dlgsettings.cpp dlgmakequake.cpp ../main/qcn_shmem.cpp ../main/qcn_thread_sensor.cpp ../main/qcn_thread_sensor_util.cpp ../main/qcn_thread_sensor_loop.cpp ../main/qcn_thread_time.cpp ../main/main.cpp ../util/cserialize.cpp ../util/sac.cpp ../util/qcn_thread.cpp ../util/trickleup.cpp ../util/trickledown.cpp ../util/md5.cpp ../util/execproc.cpp ../util/qcn_util.cpp ../util/qcn_signal.cpp ../util/qcn_curl.cpp ../util/ttfont.cpp ../util/gzstream.cpp ../sensor/csensor_linux_usb_jw.cpp ../sensor/csensor_linux_usb_jw24f14.cpp ../sensor/csensor_linux_usb_onavi01.cpp ../sensor/csensor_usb_motionnodeaccel.cpp ../sensor/csensor.cpp ../graphics/qcn_graphics.cpp ../graphics/qcn_2dplot.cpp ../graphics/qcn_earth.cpp ../graphics/qcn_cube.cpp ../graphics/nation_boundary.cpp ../graphics/coastline.cpp ../graphics/plate_boundary.cpp .tmp/QCNLive1.0.0/ && (cd `dirname .tmp/QCNLive1.0.0` && $(TAR) QCNLive1.0.0.tar QCNLive1.0.0 && $(COMPRESS) QCNLive1.0.0.tar) && $(MOVE) `dirname .tmp/QCNLive1.0.0`/QCNLive1.0.0.tar.gz . && $(DEL_FILE) -r .tmp/QCNLive1.0.0
 
 
 clean:compiler_clean 
@@ -426,6 +428,9 @@ csensor_linux_usb_jw.o: ../sensor/csensor_linux_usb_jw.cpp ../sensor/csensor_lin
 csensor_linux_usb_jw24f14.o: ../sensor/csensor_linux_usb_jw24f14.cpp ../sensor/csensor_linux_usb_jw24f14.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o csensor_linux_usb_jw24f14.o ../sensor/csensor_linux_usb_jw24f14.cpp
 
+csensor_linux_usb_onavi01.o: ../sensor/csensor_linux_usb_onavi01.cpp ../sensor/csensor_linux_usb_onavi01.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o csensor_linux_usb_onavi01.o ../sensor/csensor_linux_usb_onavi01.cpp
+
 csensor_usb_motionnodeaccel.o: ../sensor/csensor_usb_motionnodeaccel.cpp ../sensor/csensor_usb_motionnodeaccel.h \
 		../sensor/motionnodeaccel/MotionNodeAccelAPI.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o csensor_usb_motionnodeaccel.o ../sensor/csensor_usb_motionnodeaccel.cpp
@@ -543,6 +548,7 @@ install_sources: first FORCE
 	-$(INSTALL_FILE) /home/carlgt1/projects/qcn/client/util/gzstream.cpp $(INSTALL_ROOT)/home/carlgt1/projects/qcn/client/bin/
 	-$(INSTALL_FILE) /home/carlgt1/projects/qcn/client/sensor/csensor_linux_usb_jw.cpp $(INSTALL_ROOT)/home/carlgt1/projects/qcn/client/bin/
 	-$(INSTALL_FILE) /home/carlgt1/projects/qcn/client/sensor/csensor_linux_usb_jw24f14.cpp $(INSTALL_ROOT)/home/carlgt1/projects/qcn/client/bin/
+	-$(INSTALL_FILE) /home/carlgt1/projects/qcn/client/sensor/csensor_linux_usb_onavi01.cpp $(INSTALL_ROOT)/home/carlgt1/projects/qcn/client/bin/
 	-$(INSTALL_FILE) /home/carlgt1/projects/qcn/client/sensor/csensor_usb_motionnodeaccel.cpp $(INSTALL_ROOT)/home/carlgt1/projects/qcn/client/bin/
 	-$(INSTALL_FILE) /home/carlgt1/projects/qcn/client/sensor/csensor.cpp $(INSTALL_ROOT)/home/carlgt1/projects/qcn/client/bin/
 	-$(INSTALL_FILE) /home/carlgt1/projects/qcn/client/graphics/qcn_graphics.cpp $(INSTALL_ROOT)/home/carlgt1/projects/qcn/client/bin/
@@ -592,6 +598,7 @@ uninstall_sources:  FORCE
 	 -$(DEL_FILE) -r $(INSTALL_ROOT)/home/carlgt1/projects/qcn/client/bin/gzstream.cpp 
 	 -$(DEL_FILE) -r $(INSTALL_ROOT)/home/carlgt1/projects/qcn/client/bin/csensor_linux_usb_jw.cpp 
 	 -$(DEL_FILE) -r $(INSTALL_ROOT)/home/carlgt1/projects/qcn/client/bin/csensor_linux_usb_jw24f14.cpp 
+	 -$(DEL_FILE) -r $(INSTALL_ROOT)/home/carlgt1/projects/qcn/client/bin/csensor_linux_usb_onavi01.cpp 
 	 -$(DEL_FILE) -r $(INSTALL_ROOT)/home/carlgt1/projects/qcn/client/bin/csensor_usb_motionnodeaccel.cpp 
 	 -$(DEL_FILE) -r $(INSTALL_ROOT)/home/carlgt1/projects/qcn/client/bin/csensor.cpp 
 	 -$(DEL_FILE) -r $(INSTALL_ROOT)/home/carlgt1/projects/qcn/client/bin/qcn_graphics.cpp 
