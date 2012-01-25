@@ -27,7 +27,7 @@ CSensorLinuxUSBONavi01::~CSensorLinuxUSBONavi01()
 
 void CSensorLinuxUSBONavi01::closePort()
 {
-	if (m_fd > -1) {
+    if (m_fd > -1) {
 	  close(m_fd);
     }
     m_fd = -1;
@@ -50,6 +50,7 @@ bool CSensorLinuxUSBONavi01::detect()
              return false;
            //}
         }
+
         char* strDevice = new char[_MAX_PATH];
         memset(strDevice, 0x00, sizeof(char) * _MAX_PATH);
         strncpy(strDevice, gt.gl_pathv[0], _MAX_PATH);
@@ -61,7 +62,7 @@ bool CSensorLinuxUSBONavi01::detect()
            return false;
         }
 	
-	m_fd = open(strDevice, O_RDWR); // | O_NOCTTY | O_NONBLOCK); 
+	m_fd = open(strDevice, O_RDWR | O_NOCTTY | O_NONBLOCK);
         delete [] strDevice; // don't need strDevice after this call
         strDevice = NULL;
 
@@ -84,17 +85,25 @@ bool CSensorLinuxUSBONavi01::detect()
 		closePort();
 		return false;
 	}
+
 	
 	// flow contol
 	tty.c_iflag = 0;
 	tty.c_oflag = 0;
-	tty.c_cflag = CS8 | CREAD | CLOCAL;
+        tty.c_cflag = CRTSCTS | CS8 | CLOCAL | CREAD;
 
-	if (tcsetattr(m_fd, TCSANOW, &tty) == -1 || tcsendbreak(m_fd, 10) == -1 ) { // tcflow(m_fd, TCION) == -1) { // || tcflush(m_fd, TCIOFLUSH) == -1) {
+
+        if (tcflush(m_fd, TCIOFLUSH) == -1)  {
+		closePort();
+		return false;
+        }
+
+	if (tcsetattr(m_fd, TCSANOW, &tty) == -1) { //|| tcsendbreak(m_fd, 10) == -1 ) { 
+            // tcflow(m_fd, TCION) == -1) { // || tcflush(m_fd, TCIOFLUSH) == -1) {
 		closePort();
 		return false;
 	}
-
+   
         setPort(m_fd);
 
 	setSingleSampleDT(true); // onavi samples itself
@@ -106,8 +115,7 @@ bool CSensorLinuxUSBONavi01::detect()
 	   // exists, so setPort & Type
            switch(m_usBitSensor) {
              case 12:
-	         setType(SENSOR_USB_ONAVI_A_12);
-                 break;
+	         setType(SENSOR_USB_ONAVI_A_12); break;
              case 16:
 	         setType(SENSOR_USB_ONAVI_A_16);
                  break;
@@ -152,6 +160,7 @@ Values >32768 are positive g and <32768 are negative g. The sampling rate is set
 
 	*/
 	
+
 	static float x0 = 0.0f, y0 = 0.0f, z0 = 0.0f; // keep last values
 
 	// first check for valid port
@@ -160,9 +169,11 @@ Values >32768 are positive g and <32768 are negative g. The sampling rate is set
     }
 	
 	bool bRet = true;
+        fd_set rdfs;
+	struct timeval timeout;
 	
 	const int ciLen = 9;  // use a 24 byte buffer
-    QCN_BYTE bytesIn[ciLen+1], cs;  // note pad bytesIn with null \0
+        QCN_BYTE bytesIn[ciLen+1], cs;  // note pad bytesIn with null \0
 	int x = 0, y = 0, z = 0;
 	int iCS = 0;
 	int iRead = 0;
@@ -170,24 +181,29 @@ Values >32768 are positive g and <32768 are negative g. The sampling rate is set
         x1 = x0; y1 = y0; z1 = z0;  // use last good values
 	const char cWrite[2] = {"*"};
 
-	/*
-	int iCtr = 0;
-	while ((iRead = write(m_fd, &cWrite, 1)) != 1 && iCtr++<10) {
-	    // try again, may need a little pause on the first time
-		boinc_sleep(0.1f);
-	}
-	if (iRead == 1) {   // send a * to the device to get back the data
-	*/
 	if ((iRead = write(m_fd, &cWrite, 2)) == 2) {   // send a * to the device to get back the data
-		memset(bytesIn, 0x00, ciLen+1);
-		iRead = read(m_fd, bytesIn, ciLen);
-		switch (iRead) {
-			case -1:  
-				bRet = false; // error
-				fprintf(stderr, "%f: ONavi Error in read_xyz() - read(m_fd) returned %d\n", sm->t0active, iRead);
-				fflush(stderr);
-				break;
-			case ciLen:  
+	    memset(bytesIn, 0x00, ciLen+1);
+
+	    // initialise the timeout structure
+	    timeout.tv_sec = 1; // ten second timeout
+	    timeout.tv_usec = 0;
+
+            FD_ZERO(&rdfs);
+            FD_SET(m_fd, &rdfs);
+
+            int n = select(m_fd + 1, &rdfs, NULL, NULL, &timeout);
+
+            if (n < 0) { // failed
+	       bRet = false; // error
+	       fprintf(stderr, "%f: ONavi Error in read_xyz() - select(m_fd) returned %d\n", sm->t0active, n);
+            }
+            else if (n == 0) { // timeout
+	       bRet = false; // error
+	       fprintf(stderr, "%f: ONavi Error in read_xyz() - select(m_fd) returned %d (timeout)\n", sm->t0active, n);
+            }
+            else if (FD_ISSET(m_fd, &rdfs)) { // select OK, now get the data
+                   // process the file descriptor
+// CMC HERE
 				// good data length read in, now test for appropriate characters
 				if (bytesIn[ciLen] == 0x00) { // && bytesIn[0] == 0x23 && bytesIn[1] == 0x23) {
 					// format is ##XXYYZZC\0
@@ -229,65 +245,18 @@ Values >32768 are positive g and <32768 are negative g. The sampling rate is set
 					
 					bRet = true;
 				}
-				break;
-			default:
-				fprintf(stderr, "%f: ONavi Error in read_xyz() - read(m_fd) returned %d\n", sm->t0active, iRead);
-				fflush(stderr);
-				x1 = x0; y1 = y0; z1 = z0;  // use last good values
-		}
-	}
+            }
+            else {  // error ie in the read select
+		fprintf(stderr, "%f: ONavi Error in read_xyz() - read select(m_fd) failed %d\n", sm->t0active, n);
+		fflush(stderr);
+		bRet = false;
+            }
+	} // write *
 	else {
 		fprintf(stderr, "%f: ONavi Error in read_xyz() - write(m_fd) returned %d\n", sm->t0active, iRead);
 		fflush(stderr);
 		bRet = false;
 	}
-		
-/*	
-	memset(bytesIn, 0x00, ciLen);
-	if ((iRead = read(m_fd, bytesIn, ciLen)) > 8) {
-		for (int i = ciLen-1; i >= 0; i--) { // look for hash-mark i.e. ## boundaries (two sets of ##)
-			if (bytesIn[i] == 0x23 && bytesIn[i-1] == 0x23) { // found a hash-mark set
-				if (!lOffset[1]) {
-					lOffset[1] = i;
-					i-=8;
-				}
-				else {
-					lOffset[0] = i+1; // must be the start
-					break;  // found both hash marks - can leave loop
-				}
-			}
- 		}
-		if (lOffset[0] && lOffset[1] && lOffset[1] == (lOffset[0] + 8)) { 
-			// we found both, the bytes in between are what we want (really bytes after lOffset[0]
-			x = (bytesIn[lOffset[0]] * 255) + bytesIn[lOffset[0]+1];
-			y = (bytesIn[lOffset[0]+2] * 255) + bytesIn[lOffset[0]+3];
-			z = (bytesIn[lOffset[0]+4] * 255) + bytesIn[lOffset[0]+5];
-			cs   = bytesIn[lOffset[0]+6];
-			for (int i = 0; i <= 5; i++) iCS += bytesIn[lOffset[0] + i];
-
-			// convert to g decimal value
-			// g  = x - 32768 * (5 / 65536) 
-			// Where: x is the data value 0 - 65536 (x0000 to xFFFF). 
-
-			x1 = ((float) x - 32768.0f) * FLOAT_LINUX_ONAVI_FACTOR * EARTH_G;
-			y1 = ((float) y - 32768.0f) * FLOAT_LINUX_ONAVI_FACTOR * EARTH_G;
-			z1 = ((float) z - 32768.0f) * FLOAT_LINUX_ONAVI_FACTOR * EARTH_G;
-			
-			x0 = x1; y0 = y1; z0 = z1;  // preserve values
-
-			bRet = true;
-		}
-		else {
-			x1 = x0; y1 = y0; z1 = z0;  // use last good values
-			bRet = false;  // could be just empty, return
-		}
-	}
-	else {
-		bRet = false;
-	}
-    tcflush(m_fd, TCIOFLUSH);
-*/
-	
 	return bRet;
 }
 
