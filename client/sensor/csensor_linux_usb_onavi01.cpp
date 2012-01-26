@@ -62,11 +62,11 @@ bool CSensorLinuxUSBONavi01::detect()
            return false;
         }
 	
-	m_fd = open(strDevice, O_RDWR | O_NOCTTY | O_NONBLOCK);
+	m_fd = open(strDevice, O_RDWR | O_NOCTTY);
         delete [] strDevice; // don't need strDevice after this call
         strDevice = NULL;
 
-	if (m_fd == -1) { //failure
+	if (m_fd == -1) { // failure
            return false;
         }
         
@@ -166,13 +166,13 @@ Values >32768 are positive g and <32768 are negative g. The sampling rate is set
 	// first check for valid port
 	if (getPort() < 0) {
 		   return false;
-    }
+        }
 	
 	bool bRet = true;
         fd_set rdfs;
 	struct timeval timeout;
 	
-	const int ciLen = 9;  // use a 24 byte buffer
+	const int ciLen = 8;  // use an 8 byte buffer + 1 \0 padding
         QCN_BYTE bytesIn[ciLen+1], cs;  // note pad bytesIn with null \0
 	int x = 0, y = 0, z = 0;
 	int iCS = 0;
@@ -185,7 +185,7 @@ Values >32768 are positive g and <32768 are negative g. The sampling rate is set
 	    memset(bytesIn, 0x00, ciLen+1);
 
 	    // initialise the timeout structure
-	    timeout.tv_sec = 1; // ten second timeout
+	    timeout.tv_sec = 2; // two second timeout
 	    timeout.tv_usec = 0;
 
             FD_ZERO(&rdfs);
@@ -204,6 +204,7 @@ Values >32768 are positive g and <32768 are negative g. The sampling rate is set
             else if (FD_ISSET(m_fd, &rdfs)) { // select OK, now get the data
                    // process the file descriptor
 // CMC HERE
+                if ((iRead = read(m_fd, bytesIn, ciLen)) == ciLen) {
 				// good data length read in, now test for appropriate characters
 				if (bytesIn[ciLen] == 0x00) { // && bytesIn[0] == 0x23 && bytesIn[1] == 0x23) {
 					// format is ##XXYYZZC\0
@@ -245,6 +246,7 @@ Values >32768 are positive g and <32768 are negative g. The sampling rate is set
 					
 					bRet = true;
 				}
+                    }  // read()
             }
             else {  // error ie in the read select
 		fprintf(stderr, "%f: ONavi Error in read_xyz() - read select(m_fd) failed %d\n", sm->t0active, n);
