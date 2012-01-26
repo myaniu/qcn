@@ -103,7 +103,7 @@ case "Delete":
   }
 
 // note this has google stuff  
-page_head("QCN RAMP Information", null, null, "", true, $psprefs, false, 1, $zoomout);
+page_head(null, null, null, "", true, $psprefs, false, 1, $zoomout);
 google_translate_new();
 
 $prefix = "";

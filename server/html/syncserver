@@ -1,6 +1,7 @@
 #!/bin/bash
 # note -- as you edit a file on the server, add a line here to get it locally, also don't forget to add it to subversion (& commit)
 scp carlgt1@qcn-web:/var/www/qcnwp/wp-content/plugins/external-database-authentication/* qcnwp/external-database-authentication
+scp carlgt1@qcn-web:/var/www/qcnwp/RAMP/qcn_map_network.php qcnwp/RAMP/
 scp carlgt1@qcn-web:/var/www/qcn/ramp/index.php ../ramp/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/project_files.xml ../config/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/gui_urls.xml ../config/

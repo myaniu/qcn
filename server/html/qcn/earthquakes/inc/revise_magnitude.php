@@ -63,20 +63,20 @@ function revise_magnitude($edir) {
 
 
     //#2 (Updated 1/11/12):
-    $qmag = $qmag + exp((log($smag) + 0.0011*$dis*$dis - 0.2414*log($ptime) + 7.1426)/4.0736);
+    //$qmag = $qmag + exp((log($smag) + 0.0011*$dis*$dis - 0.2414*log($ptime) + 7.1426)/4.0736);
 
     //#3 (Updated 1/11/12):
     //$qmag = $qmag + ((log($smag) + 0.0011*$dis*$dis - 0.2414 * log($ptime) + 5.0244)/0.8770);
 
    //#5 - Mag inversion (Updated 1/11/12):
-    $qmag2 = $qmag2 + ((0.4191*log($smag) + 0.0441*$dis - 0.1012 * log($ptime) + 4.4314));
+    $qmag2 = $qmag2 + ((0.2469*log($smag) + 0.0244*$dis - 0.0653 * log($ptime) + 4.1165));
    
     //#6 - Mag inversion (Updated 1/11/12):
-    //$qmag = $qmag + ((0.4059*log($smag) + 0.3928*sqrt($dis) - 0.0980 * log($ptime) + 3.5799));
+    //$qmag = $qmag + ((0.2398*log($smag) + 0.2156*sqrt($dis) - 0.0635 * log($ptime) + 3.6529));
 
-    $qmag = ($qmag + 1*$qmag2)/2;
+    //$qmag = ($qmag + 1*$qmag2)/2;
 
-    //$qmag = $qmag2;
+    $qmag = $qmag2;
 
 
     echo "mag=".$qmag."  \n";
@@ -121,20 +121,20 @@ function revise_magnitude($edir) {
 
 
    //#2 (Updated 1/11/12):
-   $qstd = $qstd + (exp((log($smag) + 0.0011*$dis*$dis - 0.2414 * log($ptime) + 7.1426)/4.0736) - $qmag)^2;
+   //$qstd = $qstd + (exp((log($smag) + 0.0011*$dis*$dis - 0.2414 * log($ptime) + 7.1426)/4.0736) - $qmag)^2;
 
    //3 (Updated 1/11/12):
    //$qstd = $qstd + (((log($smag) + 0.0011*$dis*$dis - 0.2414 * log($ptime) + 5.0244)/0.8770) - $qmag)^2;
 
    //#5 - Mag inversion (Updated 1/11/12):
-   $qstd2 = $qstd2 + ((0.4191*log($smag) + 0.0441*$dis - 0.1012 * log($ptime) + 4.4314) - $qmag)^2;
+   $qstd2 = $qstd2 + ((0.2469*log($smag) + 0.0244*$dis - 0.0653 * log($ptime) + 4.1165) - $qmag)^2;
 
-  //#6 - Mag inversion (Updated 1/11/12):
-   //$qstd = $qstd + ((0.4059*log($smag) + 0.3928*sqrt($dis) - 0.0980 * log($ptime) + 3.5799) - $qmag)^2;
+  //#6 - Mag inversion (Updated 1/24/12):
+   //$qstd = $qstd + ((0.2398*log($smag) + 0.2156*sqrt($dis) - 0.0635 * log($ptime) + 3.6529) - $qmag)^2;
 
-   $qstd = ($qstd + 1*$qstd2)/2;
+   //$qstd = ($qstd + 1*$qstd2)/2;
 
-   //$qstd = $qstd2;
+   $qstd = $qstd2;
 
 
    echo "std=".$qstd."\n";

@@ -144,6 +144,18 @@ if ($bVarietyNormal == "" && $bVarietyPing == "" && $bVarietyContinual == "") {
      $bVarietyContinual = "2"; // also show continual trigs
    }
 }
+$search_show = get_str("search_show", true);
+$plot_map = get_str("plot_map", true);
+if ($plot_map == "y") {
+ $search_show="n";
+}
+
+if ($search_show == "n" || $search_show == "N") {
+ $view_search = false;
+ if (!$nresults) {$nresults=50;}
+} else {
+ $view_search = true;
+}
 
 /*if ($strLatMin =="") {$strLatMin =  "-90.0";}
 if ($strLatMax =="") {$strLatMax =  " 90.0";}
@@ -216,7 +228,35 @@ if ($bNoQuery) {
   $quake_mag_min = 3.0;
   $qcn_quake_mag_min = 3.0;
 }
+// set last four hours for start, current time + 1 for end
+$timeStart = gmdate("U", time() - (3600*4));
+$timeEnd = gmdate("U", time() + 3600);
+if (!$dateStart) {
+  $dateStart = date("Y-m-d", $timeStart);
+  // now set the times based on timeStart & timeEnd
+  $timeHourStart = date("H", $timeStart);
+  $timeMinuteStart = "00"; //date("i", $timeStart);
+}
+if (!$dateEnd) {
+  $dateEnd = date("Y-m-d", $timeEnd);
+  $timeHourEnd   = date("H", $timeEnd);
+  $timeMinuteEnd = "00";
+}
 
+if (! $view_search) {
+ echo "<input type=\"hidden\" id=\"cbUseFile\" name=\"cbUseFile\" value=\"0\">";
+ echo "<input type=\"hidden\" id=\"cbUseQuake\" name=\"cbUseQuake\" value=\"1\">";
+ echo "<input type=\"hidden\" id=\"quake_mag_min\" name=\"quake_mag_min\" value=\"$quake_mag_min\" size=\"4\">";
+ echo "<input type=\"hidden\" id=\"qcn_quake_mag_min\" name=\"qcn_quake_mag_min\" value =\"$qcn_quake_mag_min\" size=\"4\">";
+ echo "<input type=\"hidden\" id=\"cbUseTime\" name=\"cbUseTime\" value=\"1\" >";
+ echo "<input type=\"hidden\" name=\"time_hour_start\" value=\"".$timeHourStart."\">";
+ echo "<input type=\"hidden\" name=\"time_hour_start\" value=\"".$timeMinStart."\">";
+ echo "<input type=\"hidden\" name=\"time_hour_start\" value=\"".$timeHourEnd."\">";
+ echo "<input type=\"hidden\" name=\"time_hour_start\" value=\"".$timeMinEnd."\">";
+ echo "<input type=\"hidden\" name=\"date_start\" value=\"".$dateStart."\">";
+ echo "<input type=\"hidden\" name=\"date_end\" value=\"".$dateEnd."\">";
+
+} else {
 echo "<form name='formSelect' method=\"get\" action=trdl.php >";
 //echo "<HR>Constraints:<br><br>";
 
@@ -334,22 +374,10 @@ echo "<BR><font color=red><B>Please note that triggers older than two months are
 */
 echo "<ul><table><tr><td>Start Time:</td><td>";
 
-// set last four hours for start, current time + 1 for end
-$timeStart = gmdate("U", time() - (3600*4));
-$timeEnd = gmdate("U", time() + 3600);
-if (!$dateStart) {
-  $dateStart = date("Y-m-d", $timeStart);
-  // now set the times based on timeStart & timeEnd
-  $timeHourStart = date("H", $timeStart);
-  $timeMinuteStart = "00"; //date("i", $timeStart);
-}
-if (!$dateEnd) {
-  $dateEnd = date("Y-m-d", $timeEnd);
-  $timeHourEnd   = date("H", $timeEnd);
-  $timeMinuteEnd = "00";
-}
+
 
 echo "<script>DateInput('date_start', true, 'YYYY-MM-DD', '$dateStart')</script></td><td>";
+
 
 echo "<select name=\"time_hour_start\" id=\"time_hour_start\">";
 for ($i = 0; $i < 24; $i++) {
@@ -371,6 +399,7 @@ echo "</td><tr>
 <tr><td>End Time</td><td>";
 
 echo "<script>DateInput('date_end', true, 'YYYY-MM-DD', '$dateEnd')</script></td><td>";
+
 
 echo "<select name=\"time_hour_end\">";
 for ($i = 0; $i < 24; $i++) {
@@ -432,7 +461,7 @@ echo "<center><a href=\"" . BASEURL . "/sensor/trdl.php\">Start Over</a></center
 
 
 echo "</td></tr></table>";  // End of outer table
-
+}
 
 
 echo " <H7>";
@@ -659,7 +688,9 @@ $queryString = "&nresults=$page_entries_to_show"
        . "&time_minute_end=$timeMinuteEnd"
        . "&HostID=$strHostID"
        . "&HostName=$strHostName"
-       . "&rb_sort=$sortOrder";
+       . "&rb_sort=$sortOrder"
+       . "&plot_map=$plot_map"
+       . "&search_show=$search_show";
 
 //echo "<hr>$url<hr><br>\n";
 if ($start_at || $last < $count) {
@@ -700,16 +731,20 @@ if ($bUseCSV) {
 
 $bResultShow = false;
 $result = mysql_query($main_query);
+
 if ($result) {
+   $file_out = "/var/www/qcnwp/RAMP/.temp.map.".rand(0,10000);
+   $flocs = fopen($file_out,'w'); 
    $bResultShow = true;
     if ($auth) {
        echo "(<font=small>'Request Files' = send msg to host to upload files to QCN,   'Batch Download' = request download existing file) <BR><BR>\n";
     }
     echo "<form name=\"formDetail\" method=\"post\" action=trdlreq.php >";
     start_table();
-    if (!$bUseCSV && !$ftmp) qcn_trigger_header($auth);
+    if (!$bUseCSV && !$ftmp && !$plot_map) qcn_trigger_header($auth);
     $iii = 0;
     $ii = 0;
+    $mag_last=0;
     while ($res = mysql_fetch_object($result)) {
         
         if ($bUseCSV && $ftmp) {
@@ -724,13 +759,30 @@ if ($result) {
             $iii = 0;
             $bg_color="#dddddd";
            }
-           qcn_trigger_detail($res,$bg_color,$auth,$user);
-           $tlon[ii]=$res->trigger_lon;
-           $tlat[ii]=$res->trigger_lat;
+           if ($plot_map=="y") {
+           $file_url = get_file_url($res);
+           $message = "<b>Quake</b>: ".str_replace("","",$res->description)."<ul> <b>Lon</b>: ".round($res->quake_lon,2).", <b>Lat</b>: ".round($res->quake_lat,2)."<br><b>Magnitude</b>: ".round($res->quake_magnitude,1)."</ul><p><b>Sensor</b>: <a href=\"http://qcn.stanford.edu/sensor/show_host_detail.php?hostid=".$res->hostid."\">".$res->hostid."</a><ul><b>Lon</b>: ".round($res->trigger_lon,2).", <b>Lat</b>: ".round($res->trigger_lat,2)."<br><b>Type</b>:".$res->sensor_description."<br><b>Distance</b>:".round($res->quake_distance_km,2)."</ul><p><a href=\"" . BASEURL . "/earthquakes/view/view_data.php?dat=".basename($file_url)."\"><iframe src=\"" . BASEURL . "/earthquakes/view/view_data.php?dat=".basename($file_url)."\" frameborder=\"0\" scrolling=\"no\" width=\"200\" height=\"250\">" . BASEURL . "/earthquakes/view/view_data.php?dat=".basename($file_url)."</iframe></a></font size>";
+           fprintf($flocs,"%f;%f;%s;%f;%s\n",$res->trigger_lon,$res->trigger_lat,$message,round($res->quake_magnitude,2),$res->sensor_description);
+           if ($mag_last!=round($res->quake_magnitude,2)) {
+            $mag_last=round($res->quake_magnitude,2);
+$message = "<b>Quake</b>: ".str_replace("","",$res->description)."<ul> <b>Lon</b>: ".round($res->quake_lon,2).", <b>Lat</b>: ".round($res->quake_lat,2)."<br><b>Magnitude</b>: ".round($res->quake_magnitude,1)."</ul><p><a href=\"" . BASEURL . "/earthquakes/view/view_data.php?dat=".basename($file_url)."\"><iframe src=\"" . BASEURL . "/earthquakes/view/view_data.php?dat=".basename($file_url)."\" frameborder=\"0\" scrolling=\"no\" width=\"200\" height=\"250\">" . BASEURL . "/earthquakes/view/view_data.php?dat=".basename($file_url)."</iframe></a></font size>";
+            fprintf($flocs,"%f;%f;%s;%f;%s\n",$res->quake_lon,$res->quake_lat,$message,round($res->quake_magnitude,2),"E");            
+           }
+           } else {
+            qcn_trigger_detail($res,$bg_color,$auth,$user);
+           
+           }
+
+
+
         }
     }
     end_table();
     mysql_free_result($result);
+    fclose($flocs);
+    if ($plot_map=="y") {
+      echo "<iframe src=\"" . BASEURL . "/RAMP/qcn_map_network.php?ifile=".$file_out."\" frameborder=\"0\" scrolling=\"no\" width=\"100%\" height=\"750\"></iframe>";
+    }
 } else {
     echo "<h2>No results found - try different query settings</h2>\n";
 }
