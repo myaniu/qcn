@@ -75,6 +75,7 @@ bool CSensorLinuxUSBONavi01::detect()
         }
         fcntl(m_fd, F_SETFL, 0);
 
+/*
 	// if here we opened the port, now set comm params
 	struct termios tty;
 	if (tcgetattr(m_fd, &tty) == -1) {  // get current terminal state
@@ -103,16 +104,32 @@ bool CSensorLinuxUSBONavi01::detect()
 		closePort();
 		return false;
         }
-
 	if (tcsetattr(m_fd, TCSANOW, &tty) == -1) { //|| tcsendbreak(m_fd, 10) == -1 ) { 
             // tcflow(m_fd, TCION) == -1) { // || tcflush(m_fd, TCIOFLUSH) == -1) {
 		closePort();
 		return false;
 	}
    
+*/
+
+    struct termios options;
+    tcgetattr(m_fd, &options);
+    cfsetispeed(&options, B115200);
+    cfsetospeed(&options, B115200);
+    options.c_cflag |= (CLOCAL | CREAD);
+    options.c_cflag &= ~PARENB;
+    options.c_cflag &= ~CSTOPB;
+    options.c_cflag &= ~CSIZE;
+    options.c_cflag |= CS8;
+    //options.c_cflag |= CNEW_RTSCTS;
+    if (tcsetattr(m_fd, TCSANOW, &options) == -1) {
+		closePort();
+		return false;
+    }
+
         setPort(m_fd);
 
-	setSingleSampleDT(true); // onavi samples itself
+	setSingleSampleDT(true); // Onavi does the 50Hz rate
 
         // try to read a value and get the sensor bit-type (& hence sensor type)
         float x,y,z;
@@ -188,6 +205,11 @@ Values >32768 are positive g and <32768 are negative g. The sampling rate is set
 	const char cWrite = '*';
 
 // CMC here
+ /*
+    iRead = write(m_fd, "ATZ\r", 4);
+    if (iRead < 0)
+      fprintf(stdout, "write() of 4 bytes failed!\n");
+  */
 	if ((iRead = write(m_fd, &cWrite, 1)) == 1) {   // send a * to the device to get back the data
 	    memset(bytesIn, 0x00, ciLen+1);
 
@@ -246,6 +268,9 @@ Values >32768 are positive g and <32768 are negative g. The sampling rate is set
 					y1 = ((float) y - 32768.0f) * FLOAT_LINUX_ONAVI_FACTOR * EARTH_G;
 					z1 = ((float) z - 32768.0f) * FLOAT_LINUX_ONAVI_FACTOR * EARTH_G;
 #endif
+					x1 = (float) x;
+					y1 = (float) y;
+					z1 = (float) z;
 					
 					x0 = x1; y0 = y1; z0 = z1;  // preserve values
 					
