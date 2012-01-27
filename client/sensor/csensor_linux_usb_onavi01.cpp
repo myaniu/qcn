@@ -13,7 +13,10 @@
 #include <fnmatch.h>
 #include <glob.h>
 #include "filesys.h"    // boinc_file_or_symlink_exists
+#include <unistd.h>
 #include <termios.h>
+#include <errno.h>
+#include <fcntl.h>
 
 CSensorLinuxUSBONavi01::CSensorLinuxUSBONavi01()
   : CSensor(), m_fd(-1), m_usBitSensor(0)
@@ -61,15 +64,16 @@ bool CSensorLinuxUSBONavi01::detect()
            strDevice = NULL;
            return false;
         }
-	
-	m_fd = open(strDevice, O_RDWR | O_NOCTTY);
+
+	m_fd = open(strDevice, O_RDWR | O_NOCTTY | O_NDELAY);
+
         delete [] strDevice; // don't need strDevice after this call
         strDevice = NULL;
 
 	if (m_fd == -1) { // failure
            return false;
         }
-        
+        fcntl(m_fd, F_SETFL, 0);
 
 	// if here we opened the port, now set comm params
 	struct termios tty;
@@ -86,12 +90,14 @@ bool CSensorLinuxUSBONavi01::detect()
 		return false;
 	}
 
-	
 	// flow contol
 	tty.c_iflag = 0;
 	tty.c_oflag = 0;
         tty.c_cflag = CRTSCTS | CS8 | CLOCAL | CREAD;
-
+        tty.c_cflag &= ~PARENB;
+        tty.c_cflag &= ~CSTOPB;
+        tty.c_cflag &= ~CSIZE;
+        tty.c_cflag |= CS8;
 
         if (tcflush(m_fd, TCIOFLUSH) == -1)  {
 		closePort();
@@ -179,15 +185,15 @@ Values >32768 are positive g and <32768 are negative g. The sampling rate is set
 	int iRead = 0;
 	//x1 = y1 = z1 = 0.0f; // don't init to 0 as ONavi 24-bit is having errors we need to debug
         x1 = x0; y1 = y0; z1 = z0;  // use last good values
-	const char cWrite[2] = {"*"};
+	const char cWrite = '*';
 
-	if ((iRead = write(m_fd, &cWrite, 2)) == 2) {   // send a * to the device to get back the data
+// CMC here
+	if ((iRead = write(m_fd, &cWrite, 1)) == 1) {   // send a * to the device to get back the data
 	    memset(bytesIn, 0x00, ciLen+1);
 
 	    // initialise the timeout structure
-	    timeout.tv_sec = 2; // two second timeout
+	    timeout.tv_sec = 1; // 1 second timeout
 	    timeout.tv_usec = 0;
-
             FD_ZERO(&rdfs);
             FD_SET(m_fd, &rdfs);
 
@@ -202,8 +208,7 @@ Values >32768 are positive g and <32768 are negative g. The sampling rate is set
 	       fprintf(stderr, "%f: ONavi Error in read_xyz() - select(m_fd) returned %d (timeout)\n", sm->t0active, n);
             }
             else if (FD_ISSET(m_fd, &rdfs)) { // select OK, now get the data
-                   // process the file descriptor
-// CMC HERE
+                // process the file descriptor
                 if ((iRead = read(m_fd, bytesIn, ciLen)) == ciLen) {
 				// good data length read in, now test for appropriate characters
 				if (bytesIn[ciLen] == 0x00) { // && bytesIn[0] == 0x23 && bytesIn[1] == 0x23) {
@@ -247,16 +252,18 @@ Values >32768 are positive g and <32768 are negative g. The sampling rate is set
 					bRet = true;
 				}
                     }  // read()
+                    else {
+		      fprintf(stderr, "%f: ONavi Error in read_xyz() - read error after select %d\n", sm->t0active, iRead);
+		      bRet = false;
+                    }
             }
             else {  // error ie in the read select
 		fprintf(stderr, "%f: ONavi Error in read_xyz() - read select(m_fd) failed %d\n", sm->t0active, n);
-		fflush(stderr);
 		bRet = false;
             }
 	} // write *
 	else {
 		fprintf(stderr, "%f: ONavi Error in read_xyz() - write(m_fd) returned %d\n", sm->t0active, iRead);
-		fflush(stderr);
 		bRet = false;
 	}
 	return bRet;
