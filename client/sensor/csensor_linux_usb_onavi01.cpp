@@ -268,10 +268,6 @@ Values >32768 are positive g and <32768 are negative g. The sampling rate is set
 					y1 = ((float) y - 32768.0f) * FLOAT_LINUX_ONAVI_FACTOR * EARTH_G;
 					z1 = ((float) z - 32768.0f) * FLOAT_LINUX_ONAVI_FACTOR * EARTH_G;
 #endif
-					x1 = (float) x;
-					y1 = (float) y;
-					z1 = (float) z;
-					
 					x0 = x1; y0 = y1; z0 = z1;  // preserve values
 					
 					bRet = true;
