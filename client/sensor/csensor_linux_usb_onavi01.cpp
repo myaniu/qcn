@@ -75,48 +75,11 @@ bool CSensorLinuxUSBONavi01::detect()
         }
         fcntl(m_fd, F_SETFL, 0);
 
-/*
-	// if here we opened the port, now set comm params
-	struct termios tty;
-	if (tcgetattr(m_fd, &tty) == -1) {  // get current terminal state
-		closePort();
-		return false;
-	}
-
-	cfmakeraw(&tty);  // get raw tty settings
-	
-	// set terminal speed 115.2K
-	if (cfsetspeed(&tty, B115200) == -1) {
-		closePort();
-		return false;
-	}
-
-	// flow contol
-	tty.c_iflag = 0;
-	tty.c_oflag = 0;
-        tty.c_cflag = CRTSCTS | CS8 | CLOCAL | CREAD;
-        tty.c_cflag &= ~PARENB;
-        tty.c_cflag &= ~CSTOPB;
-        tty.c_cflag &= ~CSIZE;
-        tty.c_cflag |= CS8;
-
-        if (tcflush(m_fd, TCIOFLUSH) == -1)  {
-		closePort();
-		return false;
-        }
-	if (tcsetattr(m_fd, TCSANOW, &tty) == -1) { //|| tcsendbreak(m_fd, 10) == -1 ) { 
-            // tcflow(m_fd, TCION) == -1) { // || tcflush(m_fd, TCIOFLUSH) == -1) {
-		closePort();
-		return false;
-	}
-   
-*/
-
+    // setup basic modem I/O
     struct termios options;
     tcgetattr(m_fd, &options);
     cfsetispeed(&options, B115200);
     cfsetospeed(&options, B115200);
-    // set basic "modem" options
     options.c_cflag     |= (CLOCAL | CREAD);
     options.c_lflag     &= ~(ICANON | ECHO | ECHOE | ISIG);
     options.c_oflag     &= ~OPOST;
@@ -204,12 +167,6 @@ Values >32768 are positive g and <32768 are negative g. The sampling rate is set
         x1 = x0; y1 = y0; z1 = z0;  // use last good values
 	const char cWrite = '*';
 
-// CMC here
- /*
-    iRead = write(m_fd, "ATZ\r", 4);
-    if (iRead < 0)
-      fprintf(stdout, "write() of 4 bytes failed!\n");
-  */
 	if ((iRead = write(m_fd, &cWrite, 1)) == 1) {   // send a * to the device to get back the data
 	    memset(bytesIn, 0x00, ciLen+1);
 
@@ -232,8 +189,9 @@ Values >32768 are positive g and <32768 are negative g. The sampling rate is set
             else if (FD_ISSET(m_fd, &rdfs)) { // select OK, now get the data
                 // process the file descriptor
                 if ((iRead = read(m_fd, bytesIn, ciLen)) == ciLen) {
-				// good data length read in, now test for appropriate characters
-				if (bytesIn[ciLen] == 0x00) { // && bytesIn[0] == 0x23 && bytesIn[1] == 0x23) {
+				// good data length read in, now test for appropriate characters ie start with * # $
+				if (bytesIn[ciLen] == 0x00 && 
+                                   (bytesIn[0] == 0x2A || bytesIn[0] == 0x23 || bytesIn[0] == 0x24) ) { 
 					// format is ##XXYYZZC\0
 					// we found both, the bytes in between are what we want (really bytes after lOffset[0]
                                         if (m_usBitSensor == 0) { // need to find sensor bit type i.e. 12/16/24-bit ONavi
