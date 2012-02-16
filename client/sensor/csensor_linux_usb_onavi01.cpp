@@ -83,8 +83,8 @@ bool CSensorLinuxUSBONavi01::detect()
     options.c_cflag     |= (CLOCAL | CREAD);
     options.c_lflag     &= ~(ICANON | ECHO | ECHOE | ISIG);
     options.c_oflag     &= ~OPOST;
-    options.c_cc[VMIN]  = 0;
-    options.c_cc[VTIME] = 10;
+    //options.c_cc[VMIN]  = 0;
+    //options.c_cc[VTIME] = 10;
     if (tcsetattr(m_fd, TCSANOW, &options) == -1) {
 		closePort();
 		return false;
@@ -206,11 +206,23 @@ Values >32768 are positive g and <32768 are negative g. The sampling rate is set
                                            }
                                         }
 
-					x = (bytesIn[2] * 255) + bytesIn[3];
-					y = (bytesIn[4] * 255) + bytesIn[5];
-					z = (bytesIn[6] * 255) + bytesIn[7];
-					cs   = bytesIn[8];
-					for (int i = 2; i <= 7; i++) iCS += bytesIn[i];
+
+	x = (bytesIn[2] * 255) + bytesIn[3];
+	y = (bytesIn[4] * 255) + bytesIn[5];
+	z = (bytesIn[6] * 255) + bytesIn[7];
+	cs   = bytesIn[8];
+	for (int i = 2; i <= 7; i++) iCS += bytesIn[i];
+
+
+          fprintf(stdout, "%f   %x %x %05d   %x %x %05d   %x %x %05d   %x\n", 
+                 sm->t0active, 
+                 bytesIn[2],
+                 bytesIn[3], x,
+                 bytesIn[4],
+                 bytesIn[5], y, 
+                 bytesIn[6],
+                 bytesIn[7], z,
+                 bytesIn[8]);
 
 #ifdef QCN_RAW_DATA	
 					// for testing on USGS shake table - they just want the raw integer data sent out
