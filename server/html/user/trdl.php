@@ -733,10 +733,9 @@ $bResultShow = false;
 $result = mysql_query($main_query);
 
 if ($result) {
-   $file_out = "/var/www/qcnwp/RAMP/.temp.map.".rand(0,10000);
-   $flocs = fopen($file_out,'w'); 
+$arrSensor = array();
    $bResultShow = true;
-    if ($auth) {
+    if ($auth && $plot_map!="y") {
        echo "(<font=small>'Request Files' = send msg to host to upload files to QCN,   'Batch Download' = request download existing file) <BR><BR>\n";
     }
     echo "<form name=\"formDetail\" method=\"post\" action=trdlreq.php >";
@@ -744,6 +743,7 @@ if ($result) {
     if (!$bUseCSV && !$ftmp && !$plot_map) qcn_trigger_header($auth);
     $iii = 0;
     $ii = 0;
+    $ie = 0;
     $mag_last=0;
     while ($res = mysql_fetch_object($result)) {
         
@@ -760,28 +760,28 @@ if ($result) {
             $bg_color="#dddddd";
            }
            if ($plot_map=="y") {
-           $file_url = get_file_url($res);
-           $message = "<b>Quake</b>: ".str_replace("","",$res->description)."<ul> <b>Lon</b>: ".round($res->quake_lon,2).", <b>Lat</b>: ".round($res->quake_lat,2)."<br><b>Magnitude</b>: ".round($res->quake_magnitude,1)."</ul><p><b>Sensor</b>: <a href=\"http://qcn.stanford.edu/sensor/show_host_detail.php?hostid=".$res->hostid."\">".$res->hostid."</a><ul><b>Lon</b>: ".round($res->trigger_lon,2).", <b>Lat</b>: ".round($res->trigger_lat,2)."<br><b>Type</b>:".$res->sensor_description."<br><b>Distance</b>:".round($res->quake_distance_km,2)."</ul><p><a href=\"" . BASEURL . "/earthquakes/view/view_data.php?dat=".basename($file_url)."\"><iframe src=\"" . BASEURL . "/earthquakes/view/view_data.php?dat=".basename($file_url)."\" frameborder=\"0\" scrolling=\"no\" width=\"200\" height=\"250\">" . BASEURL . "/earthquakes/view/view_data.php?dat=".basename($file_url)."</iframe></a></font size>";
-           fprintf($flocs,"%f;%f;%s;%f;%s\n",$res->trigger_lon,$res->trigger_lat,$message,round($res->quake_magnitude,2),$res->sensor_description);
-           if ($mag_last!=round($res->quake_magnitude,2)) {
-            $mag_last=round($res->quake_magnitude,2);
-$message = "<b>Quake</b>: ".str_replace("","",$res->description)."<ul> <b>Lon</b>: ".round($res->quake_lon,2).", <b>Lat</b>: ".round($res->quake_lat,2)."<br><b>Magnitude</b>: ".round($res->quake_magnitude,1)."</ul><p><a href=\"" . BASEURL . "/earthquakes/view/view_data.php?dat=".basename($file_url)."\"><iframe src=\"" . BASEURL . "/earthquakes/view/view_data.php?dat=".basename($file_url)."\" frameborder=\"0\" scrolling=\"no\" width=\"200\" height=\"250\">" . BASEURL . "/earthquakes/view/view_data.php?dat=".basename($file_url)."</iframe></a></font size>";
-            fprintf($flocs,"%f;%f;%s;%f;%s\n",$res->quake_lon,$res->quake_lat,$message,round($res->quake_magnitude,2),"E");            
-           }
+           $ie++;
+           $arrSensor[$ie]=$res;
+//           view_waveform_image_and_header($flocs,$res,$mag_last,$message1);
            } else {
             qcn_trigger_detail($res,$bg_color,$auth,$user);
-           
            }
 
 
 
         }
     }
+
+
+
     end_table();
     mysql_free_result($result);
-    fclose($flocs);
     if ($plot_map=="y") {
-      echo "<iframe src=\"" . BASEURL . "/RAMP/qcn_map_network.php?ifile=".$file_out."\" frameborder=\"0\" scrolling=\"no\" width=\"100%\" height=\"750\"></iframe>";
+      $file_out = BASEPATH."/qcnwp/earthquakes/view/.temp.map.".rand(0,10000);
+      $flocs = fopen($file_out,'w'); 
+      view_waveform_images_and_headers($flocs,$arrSensor,$mag_last,$ie);
+      fclose($flocs);
+      echo "<iframe src=\"" . BASEURL . "/earthquakes/view/qcn_map_network.php?ifile=".$file_out."\" frameborder=\"0\" scrolling=\"no\" width=\"100%\" height=\"750\"></iframe>";
     }
 } else {
     echo "<h2>No results found - try different query settings</h2>\n";
@@ -793,7 +793,7 @@ if ($bUseCSV && $ftmp) {
 else if ($bResultShow) {
  echo "<input type=\"hidden\" id=\"cbUseArchive\" name=\"cbUseArchive\" value=\"" . ($bUseArchive ? "1" : "") . "\"> \n";
  echo "<input type=\"hidden\" id=\"db_name\" name=\"db_name\" value=\"" . $db_name . "\">\n ";
- if ($auth) {
+ if ($auth && $plot_map!="y") {
 
  echo "
   <input type=\"button\" value=\"Check All File Requests\" onclick=\"SetAllCheckBoxes('formDetail', 'cb_a_reqfile[]', true); SetAllCheckBoxes('formDetail', 'cb_r_reqfile[]', true);\" >\n
@@ -836,6 +836,133 @@ else if ($bResultShow) {
 
 
 page_tail();
+
+
+function view_waveform_images_and_headers($f_out,$res_arr,$mag_last,$nt) {
+/* This function handles the output of quake, sensor, and waveform information needed for the info window in google maps*/
+   
+  // echo "ie=".$nt."\n";
+  for ($k = 0; $k<2; $k++) {
+   $sensor_lons=array();
+   $n_s=-1;
+   $quake_lons=array();
+   $n_q=-1;
+   for ($i = 1; $i <= $nt; $i++) {
+    if ($n_s==-1) {
+     $n_s=0;
+     $n_q=0; 
+     if ($k==0) {
+       $sensor_lons[$n_s]=$res_arr[$i]->trigger_lon;
+     } else {
+       $sensor_lons[$n_q]=$res_arr[$i]->quake_lon;
+     }
+     $n_ind_s[$n_s]=0;
+     $ind_s[$n_s][$n_ind_s[i]]=1;
+    } else {
+     $i_s=$n_s+1;
+     $i_q=$n_q+1;
+     for ($j = 0; $j <= $n_s;$j++) {
+      if ($k==0) {
+        if ($sensor_lons[$j]==$res_arr[$i]->trigger_lon) {$i_s=$j;};
+      } else {
+        if ($sensor_lons[$j]==$res_arr[$i]->quake_lon) {$i_s=$j;};
+      } 
+     //echo "j=".$j." Lon=".$sensor_lons[$j]." Lons=".$res_arr[$i]->trigger_lon; 
+     }
+     if ($i_s>$n_s) {$n_s++;$n_ind_s[$i_s]=-1; $sensor_lons[$i_s]=$res_arr[$i]->trigger_lon;}
+
+     $n_ind_s[$i_s]++;
+     $ind_s[$i_s][(int)$n_ind_s[$i_s]]=$i;
+     //echo "n_s".$n_s." i_s=".$i_s." n_ind_s[i_s]=".$n_ind_s[$i_s]."<br>\n";
+
+    } 
+   }
+
+   for ($i=0;$i<=$n_s;$i++){    
+    $message = "";
+    for ($j=0;$j<=$n_ind_s[$i];$j++) {
+     $res = $res_arr[(int)$ind_s[$i][$j]];
+     $file_in  = get_file_url($res_arr[(int)$ind_s[$i][$j]]);
+     if ($j==0) {$message  = view_waveform_sensor_header($res_arr[(int)$ind_s[$i][$j]],false);}
+   //  echo "j=".$j."  ind_s=".(int)$ind_s[$i][$j];
+     $message .= view_waveform_quake_header($res_arr[(int)$ind_s[$i][$j]],true);
+     $message .= view_waveform_image($file_in);
+    }
+ //   echo $message;
+    if ($k == 0) {
+    fprintf($f_out,"%f;%f;%s;%f;%s\n",$res_arr[(int)$ind_s[$i][0]]->trigger_lon,$res_arr[(int)$ind_s[$i][0]]->trigger_lat,$message,4,$res_arr[(int)$ind_s[$i][0]]->sensor_description);
+    } else {
+    if (substr($res_arr[(int)$ind_s[$i][0]]->description,0,3)=="QCN") { $typeE = "QCN"; } else { $typeE = "USGS"; }
+    fprintf($f_out,"%f;%f;%s;%f;%s\n",$res_arr[(int)$ind_s[$i][0]]->quake_lon,$res_arr[(int)$ind_s[$i][0]]->quake_lat,$message,round($res_arr[(int)$ind_s[$i][0]]->quake_magnitude,2),$typeE);
+   }    
+    }
+
+   }    
+/*   for ($i=0;$i<=$n_q;$i++){    
+    $message = "";
+    for ($j=0;$j<=$n_ind_q;$j++) {
+     $res=$res_arr[(int)$ind_q[$j]];
+     $file_in  = get_file_url($res);
+     if ($j==0) {$message = view_waveform_quake_header($res,false);
+     }
+     $message .= view_waveform_sensor_header($res,true);
+     $message .= view_waveform_image($file_in);
+    }
+*/
+   return;
+}
+
+function view_waveform_image_and_header($f_out,$res,$mag_last) {
+/* This function handles the output of quake, sensor, and waveform information needed for the info window in google maps*/
+   $file_in  = get_file_url($res);
+   $message = "";
+
+   $message  = view_waveform_quake_header($res);
+   $message .= view_waveform_sensor_header($res);
+   $message .= view_waveform_image($file_in);
+   fprintf($f_out,"%f;%f;%s;%f;%s\n",$res->trigger_lon,$res->trigger_lat,$message,round($res->quake_magnitude,2),$res->sensor_description);
+           
+/*   if ($mag_last!=round($res->quake_magnitude,2)) {
+     $mag_last =round($res->quake_magnitude,2);
+     $message  = view_waveform_quake_header($res);
+     $message .= view_waveform_image($file_in);
+     if (substr($res->description,0,3)=="QCN") { $typeE = "QCN"; } else { $typeE = "USGS"; }
+     fprintf($f_out,"%f;%f;%s;%f;%s\n",$res->quake_lon,$res->quake_lat,$message,round($res->quake_magnitude,2),$typeE);            
+   }
+*/
+   return;
+}
+
+function view_waveform_quake_header($res,$print_dist=null) {
+/* This function handles the output of the quake information needed for the info window in google maps*/
+   $message  = "<b>Quake</b>: ".str_replace("","",$res->description);
+   $message .= "<ul><b>Lon</b>: ".round($res->quake_lon,2).", <b>Lat</b>: ".round($res->quake_lat,2)."<br>";
+   $message .= "<b>Magnitude</b>: ".round($res->quake_magnitude,1)."<br>";
+   $message .= "<b>Time</b>:".time_str($res->quake_time)."<br>";
+   $message .= "<b>Reported By</b>:";
+//    if (substr($res->description,echo substr($res->description,0,3);
+   if ($print_dist) {$message .= "<br><b>Distance</b>:".round($res->quake_distance_km,2);}
+   if (substr($res->description,0,3)=="QCN") { $message .= "QCN</ul>"; } else { $message .= "USGS</ul>"; }
+   return $message;
+}
+
+function view_waveform_sensor_header($res,$print_dist=null) {
+/* This function handles the output of the sensor information needed for the info window in google maps*/
+   $message = "<p><b>Sensor</b>:".$res->hostid;// <a href=\"". BASEURL ."/sensor/show_host_detail.php?hostid=".$res->hostid."\">".$res->hostid."</a>";
+   $message .= "<ul><b>Lon</b>: ".round($res->trigger_lon,2).", <b>Lat</b>: ".round($res->trigger_lat,2)."<br>";
+   $message .= "<b>Type</b>:".$res->sensor_description;
+   if ($print_dist) {$message.="<br><b>Distance</b>:".round($res->quake_distance_km,2);}
+   $message .="</ul>";
+   return $message;
+}
+
+function view_waveform_image($file_in) {
+/* This function handles the output of the waveform information needed for the info window in google maps*/
+   $message = "<p><iframe src=\"" . BASEURL . "/earthquakes/view/view_data.php?dat=".basename($file_in)."&fthumb=200\" frameborder=\"0\" scrolling=\"auto\"></iframe>";
+   return $message;
+}
+
+
 
 function qcn_trigger_header_csv($auth) {
    $value = "TriggerID, HostID, ";
@@ -995,7 +1122,7 @@ global $unixtimeArchive;
         $file_url = get_file_url($res);
         if ($file_url != "N/A") {
           echo "<td><font size=\"1\"><a href=\"" . $file_url . "\">Download</a></font size></td>";
-          echo "<td><font size=\"1\"><a href=\"javascript:void(0)\"onclick=\"window.open('" . BASEURL . "/earthquakes/view/view_data.php?dat=".basename($file_url)."','linkname','height=500,width=400,scrollbars=no')\">View</a></font size></td>";
+          echo "<td><font size=\"1\"><a href=\"javascript:void(0)\"onclick=\"window.open('" . BASEURL . "/earthquakes/view/view_data.php?dat=".basename($file_url)."&fthumb=340','linkname','height=550,width=400,scrollbars=no')\">View</a></font size></td>";
         }
         else {
           echo "<td><font size=\"1\">N/A</font size></td>";
