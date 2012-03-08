@@ -21,14 +21,19 @@ require_once("../inc/util.inc");
 require_once("../inc/user.inc");
 require_once("../inc/host.inc");
 
-check_get_args(array("hostid", "ipprivate"));
+$hostid = $_GET["hostid"];
+if ( ! $hostid) {
+  $user = get_logged_in_user(true);
+  $hostid = $user->id;
+  $ipprivate = true;
+} else {
+  check_get_args(array("hostid", "ipprivate"));
+// Requested host id
+  $hostid = get_int("hostid");
+  $ipprivate = false;
+}
 
 BoincDb::get(true);
-
-// Requested host id
-$hostid = get_int("hostid");
-$ipprivate = false;
-
 
 if ($user->id==$hostid) $auth = true;
 
@@ -59,6 +64,7 @@ page_head("Computer $hostid");
 
 show_host($host, $user, $ipprivate);
 show_trigger($host->id,$heading,$ipprivate);
+
 page_tail();
 
 ?>

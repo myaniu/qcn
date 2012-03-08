@@ -80,87 +80,31 @@ function cross_project_links($host) {
 //
 function show_host($host, $user, $ipprivate) {
     start_table();
-    row1(tra("Computer information"));
+    row1(tra("Public Computer Information:"));
+
+// Check if volunteer wants to be anonymous:
     $anonymous = false;
-    if ($user) {
-        if ($ipprivate) {
-            row2(tra("IP address"), "$host->last_ip_addr<br>".tra("(same the last %1 times)", $host->nsame_ip_addr));
-            if ($host->last_ip_addr != $host->external_ip_addr) {
-                row2(tra("External IP address"), $host->external_ip_addr);
-            }
-        } else { 
-            row2(tra("IP address"), "<a href=show_host_detail.php?hostid=$host->id&ipprivate=1>".tra("Show IP address")."</a>");
-        }
-        row2(tra("Domain name"), $host->domain_name);
-        $x = $host->timezone/3600;
-        if ($x >= 0) $x="+$x";
-// CMC HERE
-     row2("Computer Locations", "<a href=edit_host_info_form.php?hostid=$host->id>Click Here To Select Locations For This Computer</a>");
-        row2(tra("Local Standard Time"), tra("UTC %1 hours", $x));
-        row2(tra("Name"), $host->domain_name);
-    } else {
-        $owner = lookup_user_id($host->userid);
-        if ($owner && $owner->show_hosts) {
-            row2(tra("Owner"), user_links($owner));
-        } else {
-            row2(tra("Owner"), tra("Anonymous"));
-            $anonymous = true;
-        }
+    $owner = lookup_user_id($host->userid);
+    if ($host->userid == $user) {
+       $ipprivate = true;
     }
+    if ($owner && $owner->show_hosts) {
+        row2(tra("Owner"), user_links($owner));
+    } else {
+        row2(tra("Owner"), tra("Anonymous"));
+        $anonymous = true;
+    }
+
     row2(tra("Created"), time_str($host->create_time));
     row2(tra("Total credit"), format_credit_large($host->total_credit));
     row2(tra("Average credit"), format_credit($host->expavg_credit));
     if (!$anonymous) {
         row2(tra("Cross project credit"), cross_project_links($host));
     }
-    row2(tra("CPU type"), "$host->p_vendor <br> $host->p_model");
-    row2(tra("Number of processors"), $host->p_ncpus);
-    if ($host->serialnum) {
-        row2(tra("Coprocessors"), gpu_desc($host->serialnum));
-    }
-    row2(tra("Operating System"), "$host->os_name <br> $host->os_version");
     $v = boinc_version($host->serialnum);
-    if ($v) {
-        row2(tra("BOINC version"), $v);
-    }
-    $x = $host->m_nbytes/(1024*1024);
-    $y = round($x, 2);
-    row2(tra("Memory"), tra("%1 MB", $y));
-    $x = $host->m_cache/1024;
-    $y = round($x, 2);
-    row2(tra("Cache"), tra("%1 KB", $y));
 
-    if ($user) {
-        $x = $host->m_swap/(1024*1024);
-        $y = round($x, 2);
-        row2(tra("Swap space"), tra("%1 MB", $y));
-        $x = $host->d_total/(1024*1024*1024);
-        $y = round($x, 2);
-        row2(tra("Total disk space"), tra("%1 GB", $y));
-        $x = $host->d_free/(1024*1024*1024);
-        $y = round($x, 2);
-        row2(tra("Free Disk Space"), tra("%1 GB", $y));
-    }
-    $x = $host->p_fpops/(1000*1000);
-    $y = round($x, 2);
-    row2(tra("Measured floating point speed"), tra("%1 million ops/sec", $y));
-    $x = $host->p_iops/(1000*1000);
-    $y = round($x, 2);
-    row2(tra("Measured integer speed"), tra("%1 million ops/sec", $y));
-    $x = $host->n_bwup/(1024);
-    $y = round($x, 2);
-    if ($y > 0) {
-        row2(tra("Average upload rate"), tra("%1 KB/sec", $y));
-    } else {
-        row2(tra("Average upload rate"), tra("Unknown"));
-    }
-    $x = $host->n_bwdown/(1024);
-    $y = round($x, 2);
-    if ($y > 0) {
-        row2(tra("Average download rate"), tra("%1 KB/sec", $y));
-    } else {
-        row2(tra("Average download rate"), tra("Unknown"));
-    }
+    row2(tra("Operating System"), "$host->os_name <br> $host->os_version");
+
     $x = $host->avg_turnaround/86400;
     row2(tra("Average turnaround time"), tra("%1 days", round($x, 2)));
     row2(tra("Application details"),
@@ -177,29 +121,105 @@ function show_host($host, $user, $ipprivate) {
         row2(tra("Tasks"), $results);
     }
 
-    if ($user) {
-        row2(tra("Number of times BOINC has contacted server"), $host->rpc_seqno);
-        row2(tra("Last time contacted server"), sched_log_link($host->rpc_time));
-        row2(tra("% of time BOINC is running"), 100*$host->on_frac." %");
-        if ($host->connected_frac > 0) {
-            row2(tra("While BOINC running, % of time host has an Internet connection"), 100*$host->connected_frac." %");
-        }
-        row2(tra("While BOINC running, % of time work is allowed"), 100*$host->active_frac." %");
-        if ($host->cpu_efficiency) {
-            row2(tra("Average CPU efficiency"), $host->cpu_efficiency);
-        }
-        if ($host->duration_correction_factor) {
-            row2(tra("Task duration correction factor"), $host->duration_correction_factor);
-        }
-        row2(tra("Location"), location_form($host));
-        if ($nresults == 0) {
-            $x = " | <a href=host_delete.php?hostid=$host->id".url_tokens($user->authenticator).">".tra("Delete this computer")."</a> ";
-        } else {
-            $x = "";
-        }
-        row2(tra("Merge duplicate records of this computer"), "<a href=host_edit_form.php?hostid=$host->id>".tra("Merge")."</a> $x");
-    }
     echo "</table>\n";
+
+    if ($ipprivate) {
+     start_table();
+     row1(tra("Private Computer Information:"));
+     row2(tra("Computer Name"), $host->domain_name);
+     row2(tra("CPU type"), "$host->p_vendor <br> $host->p_model");
+     row2(tra("Number of processors"), $host->p_ncpus);
+     if ($host->serialnum) {
+         row2(tra("Coprocessors"), gpu_desc($host->serialnum));
+     }
+     if ($v) {
+         row2(tra("BOINC version"), $v);
+     }
+     $x = $host->m_nbytes/(1024*1024);
+     $y = round($x, 2);
+     row2(tra("Memory"), tra("%1 MB", $y));
+     $x = $host->m_cache/1024;
+     $y = round($x, 2);
+     row2(tra("Cache"), tra("%1 KB", $y));
+
+     $x = $host->p_fpops/(1000*1000);
+     $y = round($x, 2);
+     row2(tra("Measured floating point speed"), tra("%1 million ops/sec", $y));
+     $x = $host->p_iops/(1000*1000);
+     $y = round($x, 2);
+     row2(tra("Measured integer speed"), tra("%1 million ops/sec", $y));
+
+// Disk Space:
+    row1(tra("Disk Statistics:"));
+        $x = $host->m_swap/(1024*1024);
+        $y = round($x, 2);
+        row2(tra("Swap space"), tra("%1 MB", $y));
+        $x = $host->d_total/(1024*1024*1024);
+        $y = round($x, 2);
+        row2(tra("Total disk space"), tra("%1 GB", $y));
+        $x = $host->d_free/(1024*1024*1024);
+        $y = round($x, 2);
+        row2(tra("Free Disk Space"), tra("%1 GB", $y));
+
+// Network Opperation (IP, Upload Rate, Download Rate):
+     row1(tra("Network Details:"));
+     row2(tra("IP address"), "$host->last_ip_addr<br>".tra("(same the last %1 times)", $host->nsame_ip_addr));
+     if ($host->last_ip_addr != $host->external_ip_addr) {
+        row2(tra("External IP address"), $host->external_ip_addr);
+     }
+
+     $x = $host->n_bwup/(1024); // Upload Rate:
+     $y = round($x, 2);
+     if ($y > 0) {
+         row2(tra("Average upload rate"), tra("%1 KB/sec", $y));
+     } else {
+         row2(tra("Average upload rate"), tra("Unknown"));
+     }
+
+     $x = $host->n_bwdown/(1024); // Download Rate
+     $y = round($x, 2);
+     if ($y > 0) {
+        row2(tra("Average download rate"), tra("%1 KB/sec", $y));
+     } else {
+        row2(tra("Average download rate"), tra("Unknown"));
+     }
+
+
+     $x = $host->timezone/3600;
+     if ($x >= 0) $x="+$x";
+
+// Usage:
+     row1(tra("Operation Statistics:"));
+     row2(tra("Number of times BOINC has contacted server"), $host->rpc_seqno);
+     row2(tra("Last time contacted server"), sched_log_link($host->rpc_time));
+     row2(tra("% of time BOINC is running"), 100*$host->on_frac." %");
+     if ($host->connected_frac > 0) {
+       row2(tra("While BOINC running, % of time host has an Internet connection"), 100*$host->connected_frac." %");
+     }
+     row2(tra("While BOINC running, % of time work is allowed"), 100*$host->active_frac." %");
+     if ($host->cpu_efficiency) {
+         row2(tra("Average CPU efficiency"), $host->cpu_efficiency);
+     }
+     if ($host->duration_correction_factor) {
+         row2(tra("Task duration correction factor"), $host->duration_correction_factor);
+     }
+     row2(tra("Location"), location_form($host));
+     if ($nresults == 0) {
+         $x = " | <a href=host_delete.php?hostid=$host->id".url_tokens($user->authenticator).">".tra("Delete this computer")."</a> ";
+     } else {
+         $x = "";
+     }
+     row2(tra("Merge duplicate records of this computer"), "<a href=host_edit_form.php?hostid=$host->id>".tra("Merge")."</a> $x");
+
+
+     row2(tra("Local Standard Time"), tra("UTC %1 hours", $x));
+
+//     row2("Computer Locations", "<a href=edit_host_info_form.php?hostid=$host->id>Click Here To Select Locations For This Computer</a>");
+
+     echo "</table>\n";
+    }
+
+
 
 }
 
@@ -343,23 +363,15 @@ function show_host_row($host, $i, $private, $show_owner) {
     } else {
         // This is used to show the computers of a given user
         //
-        printf("
-            <td align=right>%s</td>
-            <td align=right>%s</td>
-            <td>%s</td>
-            <td>%s</td>
-            <td>%s</td>
-            <td>%s<br><span class=note>%s</span></td>
-            <td>%s</td>
-            ",
-            format_credit($host->expavg_credit),
-            format_credit_large($host->total_credit),
-            boinc_version($host->serialnum),
-            cpu_desc($host),
-            gpu_desc($host->serialnum),
-            $host->os_name, $host->os_version,
-            sched_log_link($host->rpc_time)
-        );
+        echo "<td align=right>".format_credit($host->expavg_credit)."</td>\n";
+        echo "<td align=right>".format_credit_large($host->total_credit)."</td>\n";
+        echo "<td>".boinc_version($host->serialnum)."</td>\n";
+        if ($private) {
+           echo "<td>".cpu_desc($host)."</td>\n";
+           echo "<td>".gpu_desc($host->serialnum)."</td>\n";
+        }
+        echo "<td>".$host->os_name."<br><span class=note>".$host->os_version."</span></td>\n";
+        echo "<td>".sched_log_link($host->rpc_time)."</td>\n";
     }
 
     echo "</tr>\n";
@@ -622,9 +634,11 @@ function user_host_table_start($private, $sort, $rev, $show_all) {
     $url = link_url_rev($sort, "total_credit", $rev, $show_all);
     echo "<th><a href=$url>".tra("Total credit")."</a></th>\n";
     echo "<th>".tra("BOINC<br>version")."</th>\n";
-    $url = link_url_rev($sort, "cpu", $rev, $show_all);
-    echo "<th><a href=$url>".tra("CPU")."</a></th>\n";
-    echo "<th>".tra("GPU")."</th>\n";
+    if ($private) {
+       $url = link_url_rev($sort, "cpu", $rev, $show_all);
+       echo "<th><a href=$url>".tra("CPU")."</a></th>\n";
+       echo "<th>".tra("GPU")."</th>\n";
+    }
     $url = link_url_rev($sort, "os", $rev, $show_all);
     echo "<th><a href=$url>".tra("Operating System")."</a></th>\n";
     $url = link_url_rev($sort, "rpc_time", $rev, $show_all);

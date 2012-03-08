@@ -663,6 +663,7 @@ function disguise_curl($url)
 
 function show_trigger($hostid, $heading, $private)//=false)
 {
+
    if ($hostid<1) return;
    // make a table of triggers for this host
    $tr = null;
@@ -689,9 +690,6 @@ function show_trigger($hostid, $heading, $private)//=false)
    $result=$db->do_query($sql);
 
 
-
-
-
    if ($result && mysql_num_rows($result)>0) {  // we found some records
       $i = 0;
       $j = 0;
@@ -705,17 +703,30 @@ function show_trigger($hostid, $heading, $private)//=false)
            $strFontEnd   = "";
          }
          if ($i == 0) {
-         if ($private) {
-          $loc_res = 4;
-         } else {
-          $loc_res = 2;
-         }
-            $lat = $row[8];
+          if ($private) {
+           $loc_res = 4;
+          } else {
+           $loc_res = 2;
+          }
+           $lat = $row[8];
            $lon = $row[9];
 
+
+
    if ($j == 0) {
-   echo "<h2>Sensor Location:</h2>\n";
-   echo "<iframe src=\"http://qcn.stanford.edu/RAMP/qcn_map_sensor.php?lon=" . round($lon,$loc_res) . "&lat=" . round($lat,$loc_res) . "\" frameborder=\"0\" scrolling=\"no\" width=\"100%\" height=\"365\"></iframe>\n"; 
+
+// Plot sensor location (for first trigger only before printing the table of triggers)
+    start_table();
+    echo "<tr><th align=\"left\">Sensor Location:</th></tr>\n";
+    echo "<tr><td><table width=\"100%\"><tr><td width=\"40%\">\n";
+    echo "<iframe src=\"".BASEURL."/earthquakes/view/qcn_map_sensor.php?lon=" . round($lon,$loc_res) . "&lat=" . round($lat,$loc_res) . "\" frameborder=\"0\" scrolling=\"no\" width=\"100%\" height=\"365\" align=\"left\"></iframe>\n";
+    echo "</td><td>\n";
+    if ($private) { // Allow admin & user to edit location
+      echo "<a href=edit_host_info_form.php?hostid=".$hostid.">Click Here To Select Locations For This Computer</a>\n"; 
+    }
+    echo "</td></tr></table>\n";
+    echo "</td></tr></table>\n";
+
    echo "<H2>$heading</H2>\n";
    echo "<H3>Last " . MAX_NUM_TRIGGER . " Triggers for this Computer</H3>\n";
    if ($private) {
@@ -836,6 +847,9 @@ mysql> select * from qcn_level;
               </font></tr>";
        }
       }
+   } else {
+    start_table();
+    echo "<tr><th align=\"left\">No recent triggers found in database.</th></tr></table>\n";
    }
 
    end_table();

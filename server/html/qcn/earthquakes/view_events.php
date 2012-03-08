@@ -15,7 +15,7 @@ $event = $_GET["event"];
 $sub   = $_GET["sub"];
 
 if ($event ) {
-$dir = BASEPATH . "/qcn/earthquakes/" . $event;
+$dir = BASEPATH . "/qcnwp/earthquakes/" . $event;
 chdir($dir);
 
 get_waveformss($event,$sub);

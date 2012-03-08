@@ -328,7 +328,7 @@ break;
 }
 }
 
-echo $img1." ".$img2;
+//echo $img1." ".$img2;
 
 echo "<p><table align=\"center\" width=\"650\"><tr>\n";
 
@@ -624,7 +624,7 @@ function trigger_info(){
     fclose($fp);
     echo "<td><a href=\"$urlfile\">$tid</a></td>\n";
     echo "<td><a href=\"javascript:void(0)
-         \"onclick=\"window.open(BASEURL . '/earthquakes/view/view_data.php?dat=$sfile','linkname','height=500,width=400,scrollbars=no')\">View</a></td>\n";
+         \"onclick=\"window.open('".BASEURL."/earthquakes/view/view_data.php?dat=$sfile','linkname','height=500,width=400,scrollbars=no')\">View</a></td>\n";
    } else {
     echo "<td>$tid</td>\n";
     echo "<td>$sfile</td>\n";
