@@ -1,5 +1,36 @@
 // !$*UTF8*$!
 {
+	17346D870A6CE8561A8CD144 /* dlgmakequake.cpp */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {936, 3094}}";
+			sepNavSelRange = "{814, 0}";
+			sepNavVisRange = "{0, 1390}";
+		};
+	};
+	43141EA5150FE87F0063E2F8 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 17346D870A6CE8561A8CD144 /* dlgmakequake.cpp */;
+		name = "dlgmakequake.cpp: 26";
+		rLen = 0;
+		rLoc = 814;
+		rType = 0;
+		vrLen = 1390;
+		vrLoc = 0;
+	};
+	43141EA6150FE87F0063E2F8 /* PBXBookmark */ = {
+		isa = PBXBookmark;
+		fRef = CC21C3241233AEF9D80610DA /* qcnlive_define.h */;
+	};
+	43141EAC150FE87F0063E2F8 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = CC21C3241233AEF9D80610DA /* qcnlive_define.h */;
+		name = "qcnlive_define.h: 51";
+		rLen = 0;
+		rLoc = 1380;
+		rType = 0;
+		vrLen = 3274;
+		vrLoc = 870;
+	};
 	4359DECA14225152006F3451 /* Source Control */ = {
 		isa = PBXSourceControlManager;
 		fallbackIsa = XCSourceControlManager;
@@ -14,7 +45,7 @@
 		isa = PBXCodeSenseManager;
 		indexTemplatePath = "";
 	};
-	43E8BDFC150FE51D008CA2FD /* QCNLive */ = {
+	43F140561422645D001C0846 /* QCNLive */ = {
 		isa = PBXExecutable;
 		activeArgIndices = (
 		);
@@ -30,7 +61,6 @@
 		dataTipSortType = 0;
 		debuggerPlugin = GDBDebugging;
 		disassemblyDisplayState = 0;
-		dylibVariantSuffix = "";
 		enableDebugStr = 1;
 		environmentEntries = (
 		);
@@ -42,28 +72,13 @@
 		sourceDirectories = (
 		);
 	};
-	43F1407914226542001C0846 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		name = "dlgmakequake.cpp: 26";
-		rLen = 0;
-		rLoc = 814;
-		rType = 0;
-		vrLen = 1390;
-		vrLoc = 0;
-	};
-	8864C77FCAC1DAF10E54C235 /* QCNLive */ = {
-		activeExec = 0;
-		executables = (
-			43E8BDFC150FE51D008CA2FD /* QCNLive */,
-		);
-	};
 	91B15E841AA80083484172DE /* Project object */ = {
 		activeBuildConfigurationName = Release;
-		activeExecutable = 43E8BDFC150FE51D008CA2FD /* QCNLive */;
-		activeTarget = 8864C77FCAC1DAF10E54C235 /* QCNLive */;
+		activeExecutable = 43F140561422645D001C0846 /* QCNLive */;
+		activeTarget = B1E56B9E0881E5027F4AEEAF /* QCNLive */;
 		codeSenseManager = 4359DECB14225152006F3451 /* Code sense */;
 		executables = (
-			43E8BDFC150FE51D008CA2FD /* QCNLive */,
+			43F140561422645D001C0846 /* QCNLive */,
 		);
 		perUserDictionary = {
 			PBXConfiguration.PBXFileTableDataSource3.PBXExecutablesDataSource = {
@@ -85,7 +100,7 @@
 				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
 				PBXFileTableDataSourceColumnWidthsKey = (
 					20,
-					751,
+					663,
 					20,
 					48,
 					43,
@@ -107,7 +122,7 @@
 				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
 				PBXFileTableDataSourceColumnWidthsKey = (
 					20,
-					711,
+					623,
 					60,
 					20,
 					48,
@@ -124,14 +139,38 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 353363643;
-			PBXWorkspaceStateSaveDate = 353363643;
+			PBXPerProjectTemplateStateSaveDate = 353364042;
+			PBXWorkspaceStateSaveDate = 353364042;
 		};
 		perUserProjectItems = {
-			43F1407914226542001C0846 /* PBXTextBookmark */ = 43F1407914226542001C0846 /* PBXTextBookmark */;
+			43141EA5150FE87F0063E2F8 /* PBXTextBookmark */ = 43141EA5150FE87F0063E2F8 /* PBXTextBookmark */;
+			43141EA6150FE87F0063E2F8 /* PBXBookmark */ = 43141EA6150FE87F0063E2F8 /* PBXBookmark */;
+			43141EAC150FE87F0063E2F8 /* PBXTextBookmark */ = 43141EAC150FE87F0063E2F8 /* PBXTextBookmark */;
 		};
 		sourceControlManager = 4359DECA14225152006F3451 /* Source Control */;
 		userBuildSettings = {
+		};
+	};
+	B1E56B9E0881E5027F4AEEAF /* QCNLive */ = {
+		activeExec = 0;
+		executables = (
+			43F140561422645D001C0846 /* QCNLive */,
+		);
+	};
+	CC21C3241233AEF9D80610DA /* qcnlive_define.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1216, 1326}}";
+			sepNavSelRange = "{1380, 0}";
+			sepNavVisRange = "{870, 3274}";
+			sepNavWindowFrame = "{{15, 434}, {1148, 739}}";
+		};
+	};
+	DB65E063F5624442D7B21082 /* qcn_thread_sensor_loop.cpp */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1146, 1079}}";
+			sepNavSelRange = "{2721, 82}";
+			sepNavVisRange = "{0, 3158}";
+			sepNavWindowFrame = "{{15, 434}, {1148, 739}}";
 		};
 	};
 }
