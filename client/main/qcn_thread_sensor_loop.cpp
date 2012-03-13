@@ -39,7 +39,7 @@ void TriggerDetectionAlgorithm()
 //      int fShortTermAvgMag = 3;
 
       sm->fsig[sm->lOffset]=sm->fmag[sm->lOffset] /
-                            sqrt(sm->vari[sm->lOffset-1] + 1.0e-3f);
+                            sqrt(sm->vari[sm->lOffset-1] + (g_fThreshold*0.10f));
 // .001 to prevent divide-by-zero but so we capture any fmag & vari
       if (qcn_main::g_fPerturb[PERTURB_SHORT_TERM_AVG_MAG] > 0) {
          for (int i_off = 1; i_off < (int) qcn_main::g_fPerturb[PERTURB_SHORT_TERM_AVG_MAG]; i_off++) {
