@@ -21,9 +21,9 @@ URL_DOWNLOAD_BASE = "http://qcn-upl.stanford.edu/trigger/"
 
 # CMC note -- make sure these paths exist, or they will be created!
 TMP_DIR = "/tmp"
-UPLOAD_WEB_DIR = "/var/www/trigger/"
-UPLOAD_USB_WEB_DIR = "/var/www/trigger/usb/"
-UPLOAD_CONTINUAL_WEB_DIR = "/var/www/trigger/continual/"
+UPLOAD_WEB_DIR = "/data/QCN/trigger/"
+UPLOAD_USB_WEB_DIR = "/data/QCN/trigger/usb/"
+UPLOAD_CONTINUAL_WEB_DIR = "/data/QCN/trigger/continual/"
 UPLOAD_BOINC_DIR = "/var/www/boinc/qcn/upload/"
 #not saving original file, moves to /cees2
 #UPLOAD_BACKUP_DIR = "/home/boinc/upload_backup/"
@@ -37,7 +37,7 @@ UNZIP_CMD = "/usr/bin/unzip -o -d " + UPLOAD_WEB_DIR + " "
 DBNAME = "sensor"
 DBHOST = "db-private"
 DBUSER = "qcn"
-DBPASSWD = ""
+DBPASSWD = "PWD"
 
 QUERY = "SELECT t.id,t.hostid,t.latitude,t.longitude,t.levelvalue,t.levelid,t.file, " +\
             "t.qcn_quakeid, q.time_utc quake_time, q.depth_km quake_depth_km, " +\
