@@ -1,4 +1,5 @@
-#! /usr/bin/env python
+#! /usr/local/bin/python
+#// #! /usr/bin/env python
 # archive triggers greater than 3 months into a zip file by trigger time / 10000 (roughly a day)
 # CMC note -- need to install 3rd party MySQLdb libraries for python
 import traceback, sys, os, time, tempfile, string, MySQLdb, shutil, zipfile, qcnutil
@@ -13,18 +14,18 @@ URL_DOWNLOAD_BASE = "http://qcn-upl.stanford.edu/trigger/"
 # CMC note -- make sure these paths exist, or they will be created!
 TMP_DIR = "/tmp"
 # use the old directory
-UPLOAD_WEB_DIR = "/var/www/trigger/"
-UPLOAD_CONTINUAL_WEB_DIR = "/var/www/trigger/continual/"
+UPLOAD_WEB_DIR = "/data/QCN/trigger/"
+UPLOAD_CONTINUAL_WEB_DIR = "/data/QCN/trigger/continual/"
 
-#ARCHIVE_DIR = "/var/www/trigger/archive/"
-#ARCHIVE_CONTINUAL_DIR = "/var/www/trigger/archive/continual/"
+#ARCHIVE_DIR = "/data/QCN/trigger/archive/"
+#ARCHIVE_CONTINUAL_DIR = "/data/QCN/trigger/archive/continual/"
 ARCHIVE_DIR = "/data/QCN/trigger/archive/"
 ARCHIVE_CONTINUAL_DIR = "/data/QCN/trigger/archive/continual/"
 
 DBNAME = "sensor"
 DBHOST = "db-private"
 DBUSER = "qcn"
-DBPASSWD = ""
+DBPASSWD = "PWD"
 
 # we'll get the archive time from sensor.qcn_constant table for row ArchiveTime
 ARCHIVE_TIME = 1e9
