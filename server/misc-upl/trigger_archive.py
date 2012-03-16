@@ -17,8 +17,6 @@ TMP_DIR = "/tmp"
 UPLOAD_WEB_DIR = "/data/QCN/trigger/"
 UPLOAD_CONTINUAL_WEB_DIR = "/data/QCN/trigger/continual/"
 
-#ARCHIVE_DIR = "/data/QCN/trigger/archive/"
-#ARCHIVE_CONTINUAL_DIR = "/data/QCN/trigger/archive/continual/"
 ARCHIVE_DIR = "/data/QCN/trigger/archive/"
 ARCHIVE_CONTINUAL_DIR = "/data/QCN/trigger/archive/continual/"
 

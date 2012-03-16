@@ -29,7 +29,7 @@ global SMTPS_HOST, SMTPS_PORT, SMTPS_LOCAL_HOSTNAME, SMTPS_KEYFILE, SMTPS_CERTFI
 
 DBHOST = "db-private"
 DBUSER = "qcn"
-DBPASSWD = ""
+DBPASSWD = "PWD"
 
 SMTPS_HOST = "smtp.stanford.edu"
 SMTPS_PORT = 465
@@ -59,7 +59,7 @@ global LNG_MAX
 global FILE_CSV
 global FILE_ZIP
 
-DOWNLOAD_WEB_DIR         = "/var/www/trigger/job/"
+DOWNLOAD_WEB_DIR         = "/data/QCN/trigger/job/"
 DBNAME = "sensor"
 DBNAME_JOB = "sensor_download"
 
@@ -402,8 +402,8 @@ def main():
         DBNAME_CONTINUAL         = "continual_archive"
       else: 
         IS_ARCHIVE = 0
-        UPLOAD_WEB_DIR           = "/var/www/trigger/"
-        UPLOAD_WEB_DIR_CONTINUAL = "/var/www/trigger/continual/"
+        UPLOAD_WEB_DIR           = "/data/QCN/trigger/"
+        UPLOAD_WEB_DIR_CONTINUAL = "/data/QCN/trigger/continual/"
         DBNAME                   = "sensor"
         DBNAME_CONTINUAL         = "continual"
 

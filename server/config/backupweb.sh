@@ -36,5 +36,5 @@ cd /var/www
  1>/root/backupweb.log 2>/root/backupweb.err
 # note for the following line need to have .ssh id between root & carlgt1 setup
 # also make sure that '.ssh/known_hosts' is setup to receive connections
-/bin/nice -n19 /usr/bin/scp /tmp/qcn-web-backup.tgz carlgt1@upl-private:
+/bin/nice -n19 /usr/bin/scp /tmp/qcn-web-backup.tgz carlgt1@data-private:
 /bin/nice -n19 /bin/mv -f /tmp/qcn-web-backup.tgz /data/QCN/

@@ -30,7 +30,7 @@ os.environ["HOME"] = "/home/boinc"
 
 DBHOST = "db-private"
 DBUSER = "qcn"
-DBPASSWD = ""
+DBPASSWD = "PWD"
 
 SMTPS_HOST = "smtp.stanford.edu"
 SMTPS_PORT = 465
@@ -88,17 +88,17 @@ def SetRunType():
   if typeRunning == "C":  # continual
     URL_DOWNLOAD_BASE = "http://qcn-upl.stanford.edu/trigger/continual/job/"
     # CMC note -- make sure these paths exist
-    UPLOAD_WEB_DIR = "/var/www/trigger/continual/"
+    UPLOAD_WEB_DIR = "/data/QCN/trigger/continual/"
     ARCHIVE_WEB_DIR = "/data/QCN/trigger/archive/continual/"
-    DOWNLOAD_WEB_DIR = "/var/www/trigger/continual/job/"
+    DOWNLOAD_WEB_DIR = "/data/QCN/trigger/continual/job/"
     DBNAME = "continual"
     DBNAME_ARCHIVE = "continual_archive"
     DBNAME_JOB = "continual_download"
   else:   #sensor database
     URL_DOWNLOAD_BASE = "http://qcn-upl.stanford.edu/trigger/job/"
-    UPLOAD_WEB_DIR = "/var/www/trigger/"
+    UPLOAD_WEB_DIR = "/data/QCN/trigger/"
     ARCHIVE_WEB_DIR = "/data/QCN/trigger/archive/"
-    DOWNLOAD_WEB_DIR = "/var/www/trigger/job/"
+    DOWNLOAD_WEB_DIR = "/data/QCN/trigger/job/"
     DBNAME = "sensor"
     DBNAME_ARCHIVE = "sensor_archive"
     DBNAME_JOB = "sensor_download"
