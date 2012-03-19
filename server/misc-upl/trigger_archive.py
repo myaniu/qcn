@@ -146,7 +146,7 @@ def main():
 
       print "Using archive time = " + str(ARCHIVE_TIME)
 
-#      archiveFilesPath(False)
+      archiveFilesPath(False)
       archiveFilesPath(True)
 
       # basically we need to go to each 
