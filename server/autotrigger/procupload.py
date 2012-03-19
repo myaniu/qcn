@@ -257,7 +257,8 @@ def checkPaths():
    #      return 1
 
    return 0
-      
+     
+
 def main():
    try:
 
@@ -268,14 +269,12 @@ def main():
       lock = lockfile.FileLock("/tmp/procupload")
       while not lock.i_am_locking():
         try:
-          lock.acquire(timeout=10)    # wait up to 10 seconds
-        except lockfile.LockTimeout:
-          lock.break_lock()
-          lock.acquire()
-          sys.exit(3)
+          lock.acquire(timeout=0)
+        except:
+          raise Exception("FileLock")
 
       delFilesPath(UPLOAD_BOINC_DIR)
-         
+
       dbconn = MySQLdb.connect (host = DBHOST,
                            user = DBUSER,
                            passwd = DBPASSWD,
@@ -295,3 +294,5 @@ def main():
 if __name__ == '__main__':
     main()
 
+
+ 
