@@ -317,10 +317,10 @@ def main():
       if (checkPaths() != 0):
          sys.exit(2)
 
-      lock = lockfile.FileLock("procdownloadjob" + typeRunning + ".pid")
+      lock = lockfile.FileLock("/tmp/procdownloadjob" + typeRunning)
       while not lock.i_am_locking():
         try:
-          lock.acquire(timeout=60)    # wait up to 60 seconds
+          lock.acquire(timeout=10)    # wait up to 10 seconds
         except lockfile.LockTimeout:
           lock.break_lock()
           lock.acquire()
