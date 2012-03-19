@@ -14,13 +14,12 @@
 # move to a download location, with an email to the user of the download link
 
 
-import math, time, tempfile, smtplib, traceback, sys, os, tempfile, string, MySQLdb, shutil, zipfile
+import math, time, tempfile, smtplib, traceback, sys, os, tempfile, string, MySQLdb, shutil, zipfile, lockfile
 from datetime import datetime
 from zipfile import ZIP_STORED
 from time import strptime, mktime
 from qcnutil import getSACMetadata
 from qcnutil import getFanoutDirFromZip
-from lockfile import FileLock
 
 global DBHOST 
 global DBUSER
@@ -318,11 +317,11 @@ def main():
       if (checkPaths() != 0):
          sys.exit(2)
 
-      lock = FileLock("procdownloadjob" + typeRunning + ".pid")
+      lock = lockfile.FileLock("procdownloadjob" + typeRunning + ".pid")
       while not lock.i_am_locking():
         try:
           lock.acquire(timeout=60)    # wait up to 60 seconds
-        except LockTimeout:
+        except lockfile.LockTimeout:
           lock.break_lock()
           lock.acquire()
           sys.exit(3)

@@ -20,8 +20,9 @@ $UNZIP_CMD -o *.zip
 $SACPATH/bin/sac << EOF
 r *Z.sac *Y.sac *X.sac
 rmean
-xvport 0.1 0.3
-yvport 0.05 0.55
+xvport 0.1 0.6
+yvport 0.05 0.30
+div 1000000000
 qdp off
 #fileid l ur
 fileid off
@@ -32,7 +33,7 @@ setbb ds '( concatenate Station:' &1,kstnm ' Date:'&1,kzdate ' Time:' &,kztime '
 sc echo %ds% > temp_02.txt
 #title ' ( concatenate ' %ds% ')'
 xlabel 'time [sec]'
-ylabel 'Acceleration [nm/s/s]'
+ylabel 'Acceleration [m/s/s]'
 begg sgf
 p1
 endg sgf

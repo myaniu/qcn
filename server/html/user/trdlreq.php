@@ -44,6 +44,11 @@ $user = get_logged_in_user(true);
 // authenticate admin-level user
 qcn_admin_user_auth($user, true);
 
+$bDownloadAll = false;
+if(!empty($_REQUEST['submitDownload']))
+  $bDownloadAll = true;
+
+
 $q = new SqlQueryString();
 
 //page_head("QCN Trigger Listing");
@@ -52,8 +57,8 @@ echo "<html><head>
 </head><body " . BODY_COLOR . ">\n";
   echo TABLE . "<tr " . TITLE_COLOR . "><td>" . TITLE_FONT . "<font size=\"6\"><b><a href=\"index.php\">".PROJECT.":</a>  QCN Trigger File Request </b></font></td></tr></table>\n";
 
-procBatchDownloadRequest();
-procTriggerUploadRequest();
+procBatchDownloadRequest($bDownloadAll);
+if (!$bDownloadAll) procTriggerUploadRequest();
 
 echo "<H3>Hit the 'Back' key on your browser to return to the previous page</H3>";
 
@@ -63,7 +68,7 @@ page_tail();
 
 
 
-function procBatchDownloadRequest()
+function procBatchDownloadRequest($bDownloadAll)
 {
   global $db_name, $user, $aryDLTrigA, $aryDLTrigR, $numDLTrigA, $numDLTrigR, $DB, $URL_UPL_BASE;
 

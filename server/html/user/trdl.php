@@ -111,6 +111,7 @@ $bUseLat   = get_int("cbUseLat", true);
 $bUseSensor = get_int("cbUseSensor", true);
 $bUseTime  = get_int("cbUseTime", true);
 $bUseHost = get_int("cbUseHost", true);
+$bDownloadAll = get_int("cbDownloadAll", true);
 $strHostID = get_int("HostID", true);
 $strHostName = get_str("HostName", true);
 
@@ -186,6 +187,10 @@ if ($strLatMax < $strLatMin) {
 
 if (!$sortOrder) $sortOrder = "ttd";  // triger time desc is default sort order
 
+if ($bDownloadAll)
+{
+$nresults = 1e9;
+}
 if (!$nresults) $nresults = 200;
 if ($nresults) {
     $entries_to_show = $nresults;
@@ -244,8 +249,9 @@ if (!$dateEnd) {
 }
 
 if (! $view_search) {
- echo "<input type=\"hidden\" id=\"cbUseFile\" name=\"cbUseFile\" value=\"0\">";
- echo "<input type=\"hidden\" id=\"cbUseQuake\" name=\"cbUseQuake\" value=\"1\">";
+ echo "<input type=\"hidden\" id=\"cbUseFile\" name=\"cbUseFile\" value=\"$bUseFile\">";
+ echo "<input type=\"hidden\" id=\"cbUseQuake\" name=\"cbUseQuake\" value=\"$bUseQuake\">";
+ echo "<input type=\"hidden\" id=\"cbUseQCNQuake\" name=\"cbUseQCNQuake\" value=\"$bUseQCNQuake\">";
  echo "<input type=\"hidden\" id=\"quake_mag_min\" name=\"quake_mag_min\" value=\"$quake_mag_min\" size=\"4\">";
  echo "<input type=\"hidden\" id=\"qcn_quake_mag_min\" name=\"qcn_quake_mag_min\" value =\"$qcn_quake_mag_min\" size=\"4\">";
  echo "<input type=\"hidden\" id=\"cbUseTime\" name=\"cbUseTime\" value=\"1\" >";
@@ -286,11 +292,11 @@ echo "
   </table><br>";
 
 
-echo "  <input type=\"checkbox\" id=\"cbUseFile\" name=\"cbUseFile\" value=\"0\" " . ($bUseFile ? "checked" : "") . "> Only Show If Files Received
-  <p><input type=\"checkbox\" id=\"cbUseQuake\" name=\"cbUseQuake\" value=\"1\" " . ($bUseQuake ? "checked" : "") . "> Match USGS Quakes:&nbsp;
+echo "  <input type=\"checkbox\" id=\"cbUseFile\" name=\"cbUseFile\" value=\"$bUseFile\" " . ($bUseFile ? "checked" : "") . "> Only Show If Files Received
+  <p><input type=\"checkbox\" id=\"cbUseQuake\" name=\"cbUseQuake\" value=\"$bUseQuake\" " . ($bUseQuake ? "checked" : "") . "> Match USGS Quakes:&nbsp;
   Mag >= &nbsp;<input id=\"quake_mag_min\" name=\"quake_mag_min\" value=\"$quake_mag_min\" size=\"4\">
 
-  <p><input type=\"checkbox\" id=\"cbUseQCNQuake\" name=\"cbUseQCNQuake\" value=\"1\" " . ($bUseQCNQuake ? "checked" : "") . "> Match QCN Quakes:&nbsp;Mag >=&nbsp;<input id=\"qcn_quake_mag_min\" name=\"qcn_quake_mag_min\" value =\"$qcn_quake_mag_min\" size=\"4\">";
+  <p><input type=\"checkbox\" id=\"cbUseQCNQuake\" name=\"cbUseQCNQuake\" value=\"$bUseQCNQuake\" " . ($bUseQCNQuake ? "checked" : "") . "> Match QCN Quakes:&nbsp;Mag >=&nbsp;<input id=\"qcn_quake_mag_min\" name=\"qcn_quake_mag_min\" value =\"$qcn_quake_mag_min\" size=\"4\">";
 
 /* Max number of Triggers per Page:*/
 echo "<p><input type=\"checkbox\" disabled=\"disabled\" checked=\"checked\"> Max Data Per Page: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input id=\"nresults\" name=\"nresults\" value=\"$nresults\" size=\"4\">\n";
@@ -445,13 +451,14 @@ if ($db_name == "continual") { // only show on continual page
 echo "</ul>\n";
 
 echo "<p><input type=\"checkbox\" id=\"cbUseCSV\" name=\"cbUseCSV\" value=\"1\" " . ($bUseCSV? "checked" : "") . "> Create Text/CSV File of Triggers?";
-
+echo "<p><input type=\"checkbox\" id=\"cbDownloadAll\" name=\"cbDownloadAll\" value=\"1\"> Setup Page to Download All?";
 echo "</td></tr></table>";  // End of inner table
 
 
 
 // end the form
-echo "<center><input type=\"submit\" value=\"Submit Constraints\" name=\"btnConstraints\" id=\"btnConstraints\" /></center>\n";
+echo "<center><input type=\"submit\" value=\"Submit Constraints\" name=\"btnConstraints\" id=\"btnConstraints\" />
+</center>\n";
 echo "</form>";
 if ($db_name == "continual") {
 echo "<center><a href=\"" . BASEURL . "/continual/trdl.php\">Start Over</a></center>\n";
@@ -598,7 +605,7 @@ else {
 }
 
 //$main_query = $q->get_select_query($entries_to_show, $start_at);
-        if (!$bUseCSV && $entries_to_show) {
+        if (!$bUseCSV && !$bDownloadAll && $entries_to_show) {
             if ($start_at) {
                 $main_query = $query . " limit $start_at,$entries_to_show";
             } else {
@@ -611,15 +618,18 @@ else {
 //$count = 1e6;
 //print "<BR><BR>$query<BR><BR>";
 
-if (!$bUseCSV) {
+if (!$bUseCSV && !$bDownloadAll) { // don't count for big query
 $count = query_count($query);
+
+// CMC HERE
+//print "<BR><BR>" . $query . "<BR><BR>";
 
 if ($count < $start_at + $entries_to_show) {
     $entries_to_show = $count - $start_at;
 }
 
 $last = $start_at + $entries_to_show;
-}
+} // query count
 
 // For display, convert query string characters < and > into 'html form' so
 // that they will be displayed.
@@ -652,7 +662,7 @@ function SetAllCheckBoxes(FormName, FieldName, CheckValue)
 
  
 $start_1_offset = $start_at + 1;
-if (!$bUseCSV) {
+if (!$bUseCSV && !$bDownloadAll) {
 echo "
     <p>$count records match the query.
     Displaying $start_1_offset to $last.<p>
@@ -739,6 +749,8 @@ $arrSensor = array();
        echo "(<font=small>'Request Files' = send msg to host to upload files to QCN,   'Batch Download' = request download existing file) <BR><BR>\n";
     }
     echo "<form name=\"formDetail\" method=\"post\" action=trdlreq.php >";
+
+    printDownloadOptions($bUseCSV, $ftmp, $fileTemp, $bResultShow, $bUseArchive, $db_name, $auth, $plot_map);
     start_table();
     if (!$bUseCSV && !$ftmp && !$plot_map) qcn_trigger_header($auth);
     $iii = 0;
@@ -764,7 +776,7 @@ $arrSensor = array();
            $arrSensor[$ie]=$res;
 //           view_waveform_image_and_header($flocs,$res,$mag_last,$message1);
            } else {
-            qcn_trigger_detail($res,$bg_color,$auth,$user);
+	       qcn_trigger_detail($res,$bg_color,$auth,$user, $bDownloadAll);
            }
 
 
@@ -787,24 +799,11 @@ $arrSensor = array();
     echo "<h2>No results found - try different query settings</h2>\n";
 }
 
-if ($bUseCSV && $ftmp) {
-  echo "<BR><BR><A HREF=\"" . $fileTemp . "\">Download CSV/Text File Here (File Size " . sprintf("%7.2f", (filesize($fileTemp) / 1e6)) . " MB)</A> (you may want to right-click to save locally)<BR><BR>";
-}
-else if ($bResultShow) {
- echo "<input type=\"hidden\" id=\"cbUseArchive\" name=\"cbUseArchive\" value=\"" . ($bUseArchive ? "1" : "") . "\"> \n";
- echo "<input type=\"hidden\" id=\"db_name\" name=\"db_name\" value=\"" . $db_name . "\">\n ";
- if ($auth && $plot_map!="y") {
+  //printDownloadOptions($bUseCSV, $ftmp, $fileTemp, $bResultShow, $bUseArchive, $db_name, $auth, $plot_map);
 
- echo "
-  <input type=\"button\" value=\"Check All File Requests\" onclick=\"SetAllCheckBoxes('formDetail', 'cb_a_reqfile[]', true); SetAllCheckBoxes('formDetail', 'cb_r_reqfile[]', true);\" >\n
-  <input type=\"button\" value=\"Uncheck All File Requests\" onclick=\"SetAllCheckBoxes('formDetail', 'cb_a_reqfile[]', false); SetAllCheckBoxes('formDetail', 'cb_r_reqfile[]', false);\" >\n
-  <BR><BR>\n
-  <input type=\"button\" value=\"Check All Download Requests\" onclick=\"SetAllCheckBoxes('formDetail', 'cb_a_dlfile[]', true); SetAllCheckBoxes('formDetail', 'cb_r_dlfile[]', true);\" >\n
-  <input type=\"button\" value=\"Uncheck All Download Requests\" onclick=\"SetAllCheckBoxes('formDetail', 'cb_a_dlfile[]', false); SetAllCheckBoxes('formDetail', 'cb_r_dlfile[]', false);\" >
-  <BR><BR>\n
-  <input type=\"submit\" value=\"Submit All Requests\" />\n";
-  }
   echo "</form>\n";
+  //&nbsp&nbsp&nbsp&nbsp
+  //<input type=\"submit\" id=\"submitDownload\" name=\"submitDownload\" value=\"Download All Available Files for Query\" />\n";
 
 
   if ($start_at || $last < $count) {
@@ -826,7 +825,7 @@ else if ($bResultShow) {
     }
     echo "</td></tr></table>";
   }
-}
+
     if ($bUseCSV && $ftmp) {
       fclose($ftmp);
     }
@@ -883,11 +882,16 @@ function view_waveform_images_and_headers($f_out,$res_arr,$mag_last,$nt) {
     for ($j=0;$j<=$n_ind_s[$i];$j++) {
      $res = $res_arr[(int)$ind_s[$i][$j]];
      $file_in  = get_file_url($res_arr[(int)$ind_s[$i][$j]]);
+     if (preg_match("/N/i","substr($file,0,1)")) {
+
+     } else {
+  //   echo $file_in. "\n";
      if ($j==0) {$message  = view_waveform_sensor_header($res_arr[(int)$ind_s[$i][$j]],false);}
    //  echo "j=".$j."  ind_s=".(int)$ind_s[$i][$j];
      $message .= view_waveform_quake_header($res_arr[(int)$ind_s[$i][$j]],true);
      $message .= view_waveform_image($file_in);
     }
+}
  //   echo $message;
     if ($k == 0) {
     fprintf($f_out,"%f;%f;%s;%f;%s\n",$res_arr[(int)$ind_s[$i][0]]->trigger_lon,$res_arr[(int)$ind_s[$i][0]]->trigger_lat,$message,4,$res_arr[(int)$ind_s[$i][0]]->sensor_description);
@@ -915,6 +919,7 @@ function view_waveform_images_and_headers($f_out,$res_arr,$mag_last,$nt) {
 function view_waveform_image_and_header($f_out,$res,$mag_last) {
 /* This function handles the output of quake, sensor, and waveform information needed for the info window in google maps*/
    $file_in  = get_file_url($res);
+   //echo $file_in."";
    $message = "";
 
    $message  = view_waveform_quake_header($res);
@@ -935,30 +940,30 @@ function view_waveform_image_and_header($f_out,$res,$mag_last) {
 
 function view_waveform_quake_header($res,$print_dist=null) {
 /* This function handles the output of the quake information needed for the info window in google maps*/
-   $message  = "<b>Quake</b>: ".str_replace("","",$res->description);
-   $message .= "<ul><b>Lon</b>: ".round($res->quake_lon,2).", <b>Lat</b>: ".round($res->quake_lat,2)."<br>";
-   $message .= "<b>Magnitude</b>: ".round($res->quake_magnitude,1)."<br>";
+   $message  = "<font size=\"-3\"><br><b>Quake</b>: ".str_replace("","",$res->description);
+   $message .= "<b>Lon</b>: ".round($res->quake_lon,2).", <b>Lat</b>: ".round($res->quake_lat,2)."";
+   $message .= ", <b>Mag</b>: ".round($res->quake_magnitude,1)."<br>";
    $message .= "<b>Time</b>:".time_str($res->quake_time)."<br>";
-   $message .= "<b>Reported By</b>:";
+//   $message .= "<b>Reported By</b>:";
 //    if (substr($res->description,echo substr($res->description,0,3);
-   if ($print_dist) {$message .= "<br><b>Distance</b>:".round($res->quake_distance_km,2);}
-   if (substr($res->description,0,3)=="QCN") { $message .= "QCN</ul>"; } else { $message .= "USGS</ul>"; }
+//   if ($print_dist) {$message .= "<br><b>Distance</b>:".round($res->quake_distance_km,2);}
+//   if (substr($res->description,0,3)=="QCN") { $message .= "QCN</ul>"; } else { $message .= "USGS</font>"; }
    return $message;
 }
 
 function view_waveform_sensor_header($res,$print_dist=null) {
 /* This function handles the output of the sensor information needed for the info window in google maps*/
-   $message = "<p><b>Sensor</b>:".$res->hostid;// <a href=\"". BASEURL ."/sensor/show_host_detail.php?hostid=".$res->hostid."\">".$res->hostid."</a>";
-   $message .= "<ul><b>Lon</b>: ".round($res->trigger_lon,2).", <b>Lat</b>: ".round($res->trigger_lat,2)."<br>";
-   $message .= "<b>Type</b>:".$res->sensor_description;
+   $message = "<font size=\"-3\"></b><p><b>Sensor</b>: ".$res->hostid;// <a href=\"". BASEURL ."/sensor/show_host_detail.php?hostid=".$res->hostid."\">".$res->hostid."</a>";
+   $message .= ", <b>Lon</b>: ".round($res->trigger_lon,2).", <b>Lat</b>: ".round($res->trigger_lat,2)."";
+   $message .= ", <b>Type</b>:".$res->sensor_description;
    if ($print_dist) {$message.="<br><b>Distance</b>:".round($res->quake_distance_km,2);}
-   $message .="</ul>";
+   $message .="</font>";
    return $message;
 }
 
 function view_waveform_image($file_in) {
 /* This function handles the output of the waveform information needed for the info window in google maps*/
-   $message = "<p><iframe src=\"" . BASEURL . "/earthquakes/view/view_data.php?dat=".basename($file_in)."&fthumb=200\" frameborder=\"0\" scrolling=\"auto\"></iframe>";
+   $message = "<p><iframe src=\"" . BASEURL . "/earthquakes/view/view_data.php?dat=".basename($file_in)."&fthumb=250\" frameborder=\"0\" scrolling=\"auto\"></iframe>";
    return $message;
 }
 
@@ -1072,7 +1077,7 @@ function qcn_trigger_header($auth) {
 }
 
 
-function qcn_trigger_detail($res,$bg_color,$auth,$user) 
+function qcn_trigger_detail($res,$bg_color,$auth,$user, $bDownloadAll) 
 {
 global $unixtimeArchive;
     if ($auth || $user->id == $res->hostid) {
@@ -1083,6 +1088,7 @@ global $unixtimeArchive;
   // CMC took out hostnamebyid below
     $sensor_type = $res->sensor_description;
     $archpre = $res->is_archive ? "a" : "r"; // prefix to signify if it's an archive record or not
+    $file_url = get_file_url($res);
     echo "
         <tr bgcolor=\"".$bg_color."\">\n";
     if ($auth) {
@@ -1091,7 +1097,7 @@ global $unixtimeArchive;
        ($res->varietyid!=0 || $res->received_file == 100 || $res->trigger_timereq>0 || $res->trigger_time < $unixtimeArchive ? " disabled " : " " ) . 
        "></font size></td>
         <td><font size=\"1\"><input type=\"checkbox\" name=\"cb_" . $archpre . "_dlfile[]\" id=\"cb_" . $archpre . "_dlfile[]\" value=\"$res->triggerid\"" . 
-       ($res->received_file != 100 ? " disabled " : " " ) . 
+       (($res->received_file != 100 || file_url == "N/A") ? " disabled " : ($bDownloadAll ? " checked " : " " )) . 
        "></font size></td>";
     }
     echo "
@@ -1119,7 +1125,6 @@ global $unixtimeArchive;
         <td><font size=\"1\">" . time_str($res->trigger_timereq) . "</font size></td>";
 //      echo"  <td><font size=\"1\">" . ($res->received_file == 100 ? " Yes " : " No " ) . "</font size></td>";
  
-        $file_url = get_file_url($res);
         if ($file_url != "N/A") {
           echo "<td><font size=\"1\"><a href=\"" . $file_url . "\">Download</a></font size></td>";
           echo "<td><font size=\"1\"><a href=\"javascript:void(0)\"onclick=\"window.open('" . BASEURL . "/earthquakes/view/view_data.php?dat=".basename($file_url)."&fthumb=340','linkname','height=550,width=400,scrollbars=no')\">View</a></font size></td>";
@@ -1191,6 +1196,31 @@ if ($res->received_file == 100) {
    $fileurl .= $res->trigger_file;
 }
 return $fileurl;
+}
+
+function printDownloadOptions($bUseCSV, $ftmp, $fileTemp, $bResultShow, $bUseArchive, $db_name, $auth, $plot_map)
+{
+
+//echo "<BR>Options: $bUseCSV  $ftmp  $fileTemp  $bResultShow  $bUseARchive  $auth  $plot_map\n<BR><BR>";
+
+if ($bUseCSV && $ftmp) {
+  echo "<BR><BR><A HREF=\"" . $fileTemp . "\">Download CSV/Text File Here (File Size " . sprintf("%7.2f", (filesize($fileTemp) / 1e6)) . " MB)</A> (you may want to right-click to save locally)<BR><BR>";
+}
+else if ($bResultShow) {
+ echo "<input type=\"hidden\" id=\"cbUseArchive\" name=\"cbUseArchive\" value=\"" . ($bUseArchive ? "1" : "") . "\"> \n";
+ echo "<input type=\"hidden\" id=\"db_name\" name=\"db_name\" value=\"" . $db_name . "\">\n ";
+ if ($auth && $plot_map!="y") {
+
+ echo "
+  <input type=\"button\" value=\"Check All File Requests\" onclick=\"SetAllCheckBoxes('formDetail', 'cb_a_reqfile[]', true); SetAllCheckBoxes('formDetail', 'cb_r_reqfile[]', true);\" >\n
+  <input type=\"button\" value=\"Uncheck All File Requests\" onclick=\"SetAllCheckBoxes('formDetail', 'cb_a_reqfile[]', false); SetAllCheckBoxes('formDetail', 'cb_r_reqfile[]', false);\" >\n
+  <BR><BR>\n
+  <input type=\"button\" value=\"Check All Download Requests\" onclick=\"SetAllCheckBoxes('formDetail', 'cb_a_dlfile[]', true); SetAllCheckBoxes('formDetail', 'cb_r_dlfile[]', true);\" >\n
+  <input type=\"button\" value=\"Uncheck All Download Requests\" onclick=\"SetAllCheckBoxes('formDetail', 'cb_a_dlfile[]', false); SetAllCheckBoxes('formDetail', 'cb_r_dlfile[]', false);\" >
+  <BR><BR>\n
+  <input type=\"submit\" id=\"submitAll\" name=\"submitAll\" value=\"Submit All Requests\" /> ";
+  }
+}
 }
 
 ?>

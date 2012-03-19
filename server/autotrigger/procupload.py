@@ -12,10 +12,9 @@
 # upload server to the database server
 
 # CMC note -- need to install 3rd party MySQLdb libraries for python
-import traceback, sys, os, time, tempfile, string, MySQLdb, shutil, zipfile
+import traceback, sys, os, time, tempfile, string, MySQLdb, shutil, zipfile, lockfile
 from datetime import datetime
 from qcnutil import getSACMetadata
-from lockfile import FileLock
 
 # trigger file download URL base
 URL_DOWNLOAD_BASE = "http://qcn-upl.stanford.edu/trigger/"
@@ -266,11 +265,11 @@ def main():
       if (checkPaths() != 0):
          sys.exit(2)
 
-      lock = FileLock("procupload.pid")
+      lock = lockfile.FileLock("procupload.pid")
       while not lock.i_am_locking():
         try:
           lock.acquire(timeout=60)    # wait up to 60 seconds
-        except LockTimeout:
+        except lockfile.LockTimeout:
           lock.break_lock()
           lock.acquire()
           sys.exit(3)

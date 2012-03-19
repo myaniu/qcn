@@ -16,12 +16,20 @@ function view_data($file,$fthumb=null){
 if (!$fthumb) {$fthumb=400;}
 // Check if this is a continual or sensor network station
 if (preg_match("/conti/i","substr($file,0,4)")) {
- $url = UPLOADURL . "/trigger/continual/";
+ $url = UPLOADPATH . "/trigger/continual/";
 } else {
- $url = UPLOADURL . "/trigger/";
+ $url = UPLOADPATH . "/trigger/";
 }
 // Set file name
+
+
 $file_orig = $url.$file;
+//echo $file_orig;
+if (!file_exists($file_orig)) {
+   echo "Waveform Not Found. Try again later.";
+   return;
+}
+
 
 // Set base directory:
 $dir_base = BASEPATH . "/qcnwp/earthquakes/view";
