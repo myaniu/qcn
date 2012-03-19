@@ -280,17 +280,19 @@ varietyid smallint not null default 0,
 flag boolean not null default 0
 );
 
-create index qcn_trigger_time on qcn_trigger (time_trigger desc, varietyid asc);
-create index qcn_trigger_hostid on qcn_trigger(hostid, time_trigger, varietyid);
-create index qcn_trigger_timelatlng on qcn_trigger(time_trigger, latitude, longitude, varietyid);
-create index qcn_trigger_result_name on qcn_trigger (result_name,id,varietyid);
+create index qcn_trigger_file on qcn_trigger(file);
+create index qcn_trigger_sensorid on qcn_trigger(qcn_sensorid);
+create index qcn_trigger_quakeid on qcn_trigger(quakeid);
+create index qcn_trigger_flag on qcn_trigger(flag);
 
-create index qcn_trigger_hostid_filereq on qcn_trigger(hostid,time_filereq,received_file);
-create index qcn_trigger_quakeid on qcn_trigger (qcn_quakeid);
-create index qcn_trigger_file on qcn_trigger (file);
-create index qcn_trigger_qcn_sensorid on qcn_trigger (qcn_sensorid);
-create index qcn_trigger_qcn_quakeid on qcn_trigger (qcn_quakeid);
-create index qcn_trigger_flag on qcn_trigger (flag);
+create index qcn_trigger_time_trigger on qcn_trigger(time_trigger);
+create index qcn_trigger_hostid on qcn_trigger(hostid);
+create index qcn_trigger_time_filereq on qcn_trigger(time_filereq);
+create index qcn_trigger_received_file on qcn_trigger(received_file);
+create index qcn_trigger_varietyid on qcn_trigger(varietyid);
+create index qcn_trigger_latitude on qcn_trigger(latitude);
+create index qcn_trigger_longitude on qcn_trigger(longitude);
+create index qcn_trigger_result_name on qcn_trigger(result_name);
 
 create table qcn_trigger_followup
 (
