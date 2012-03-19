@@ -306,12 +306,12 @@ def checkPaths():
       return 1
    
    return 0
-      
+     
 def main():
    global typeRunning
    try:
       # set appropriate global vars for run type (i.e. continual or sensor)
-      SetRunType() 
+      SetRunType()
 
       # first make sure all the necessary paths are in place
       if (checkPaths() != 0):
@@ -320,11 +320,9 @@ def main():
       lock = lockfile.FileLock("/tmp/procdownloadjob" + typeRunning)
       while not lock.i_am_locking():
         try:
-          lock.acquire(timeout=10)    # wait up to 10 seconds
-        except lockfile.LockTimeout:
-          lock.break_lock()
-          lock.acquire()
-          sys.exit(3)
+          lock.acquire(timeout=0)    
+        except:
+          raise Exception("FileLock")
 
       delFilesPath(DOWNLOAD_WEB_DIR)
 
@@ -349,3 +347,4 @@ if __name__ == '__main__':
     main()
 
 
+ 
