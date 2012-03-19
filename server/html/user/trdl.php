@@ -292,8 +292,8 @@ echo "
   </table><br>";
 
 
-echo "  <input type=\"checkbox\" id=\"cbUseFile\" name=\"cbUseFile\" value=\"$bUseFile\" " . ($bUseFile ? "checked" : "") . "> Only Show If Files Received
-  <p><input type=\"checkbox\" id=\"cbUseQuake\" name=\"cbUseQuake\" value=\"$bUseQuake\" " . ($bUseQuake ? "checked" : "") . "> Match USGS Quakes:&nbsp;
+echo "  <input type=\"checkbox\" id=\"cbUseFile\" name=\"cbUseFile\" value=\"1\" " . ($bUseFile ? "checked" : "") . "> Only Show If Files Received
+  <p><input type=\"checkbox\" id=\"cbUseQuake\" name=\"cbUseQuake\" value=\"1\" " . ($bUseQuake ? "checked" : "") . "> Match USGS Quakes:&nbsp;
   Mag >= &nbsp;<input id=\"quake_mag_min\" name=\"quake_mag_min\" value=\"$quake_mag_min\" size=\"4\">
 
   <p><input type=\"checkbox\" id=\"cbUseQCNQuake\" name=\"cbUseQCNQuake\" value=\"$bUseQCNQuake\" " . ($bUseQCNQuake ? "checked" : "") . "> Match QCN Quakes:&nbsp;Mag >=&nbsp;<input id=\"qcn_quake_mag_min\" name=\"qcn_quake_mag_min\" value =\"$qcn_quake_mag_min\" size=\"4\">";
@@ -740,7 +740,11 @@ if ($bUseCSV) {
 
 
 $bResultShow = false;
-$result = mysql_query($main_query);
+// do an unbuffered query for huge selections
+if ($bDownloadAll)
+  $result = mysql_unbuffered_query($main_query);
+else
+  $result = mysql_query($main_query);
 
 if ($result) {
 $arrSensor = array();
@@ -985,7 +989,7 @@ function qcn_trigger_header_csv($auth) {
    return $value;
 }
 
-function qcn_trigger_detail_csv($res,$auth,$user)
+function qcn_trigger_detail_csv(&$res,$auth,$user)
 {
     $quakestuff = "";
     if ($res->qcn_quakeid) {
@@ -1077,7 +1081,7 @@ function qcn_trigger_header($auth) {
 }
 
 
-function qcn_trigger_detail($res,$bg_color,$auth,$user, $bDownloadAll) 
+function qcn_trigger_detail(&$res,$bg_color,$auth,$user, $bDownloadAll) 
 {
 global $unixtimeArchive;
     if ($auth || $user->id == $res->hostid) {
@@ -1101,8 +1105,8 @@ global $unixtimeArchive;
        "></font size></td>";
     }
     echo "
-        <td><font size=\"1\">$res->triggerid</font size></td>
-        <td><font size=\"1\"><a href=\"show_host_detail.php?hostid=$res->hostid\">" . $res->hostid . "</a></font size></td>";
+        <td><font size=\"1\">$res->triggerid</font size></td>";
+        echo "<td><font size=\"1\"><a href=\"show_host_detail.php?hostid=$res->hostid\">" . $res->hostid . "</a></font size></td>";
     if ($auth) {
      echo "   <td><font size=\"1\">$res->ipaddr</font size></td>";
     }
@@ -1120,7 +1124,9 @@ global $unixtimeArchive;
         <td><font size=\"1\">$res->delta_t</font size></td>
         <td><font size=\"1\">$sensor_type</font size></td>
         <td><font size=\"1\">$res->sw_version</font size></td>";
-        
+      
+ //   if (!$bDownloadAll) {
+       
         echo "
         <td><font size=\"1\">" . time_str($res->trigger_timereq) . "</font size></td>";
 //      echo"  <td><font size=\"1\">" . ($res->received_file == 100 ? " Yes " : " No " ) . "</font size></td>";
@@ -1156,7 +1162,7 @@ global $unixtimeArchive;
 //           echo "<td><font size=\"1\">&nbsp</font size></td>";
            echo "<td><font size=\"1\">" . ($res->is_archive ? "Y" : "N") . "</font size></td>";
         }
-
+//     }  // don't show everything if setup for downloadall
     echo "</tr>
     ";
 }
