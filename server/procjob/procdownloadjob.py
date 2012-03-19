@@ -20,6 +20,7 @@ from zipfile import ZIP_STORED
 from time import strptime, mktime
 from qcnutil import getSACMetadata
 from qcnutil import getFanoutDirFromZip
+from lockfile import FileLock
 
 global DBHOST 
 global DBUSER
@@ -317,6 +318,15 @@ def main():
       if (checkPaths() != 0):
          sys.exit(2)
 
+      lock = FileLock("procdownloadjob" + typeRunning + ".pid")
+      while not lock.i_am_locking():
+        try:
+          lock.acquire(timeout=60)    # wait up to 60 seconds
+        except LockTimeout:
+          lock.break_lock()
+          lock.acquire()
+          sys.exit(3)
+
       delFilesPath(DOWNLOAD_WEB_DIR)
 
       dbconn = MySQLdb.connect (host = DBHOST,
@@ -329,9 +339,11 @@ def main():
       print str(totalmb) + " MB of zip files processed"
 
       dbconn.close()
+      lock.release()
 
    except:
       traceback.print_exc()
+      lock.release()
       sys.exit(1)
 
 if __name__ == '__main__':

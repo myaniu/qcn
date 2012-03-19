@@ -15,6 +15,7 @@
 import traceback, sys, os, time, tempfile, string, MySQLdb, shutil, zipfile
 from datetime import datetime
 from qcnutil import getSACMetadata
+from lockfile import FileLock
 
 # trigger file download URL base
 URL_DOWNLOAD_BASE = "http://qcn-upl.stanford.edu/trigger/"
@@ -265,6 +266,15 @@ def main():
       if (checkPaths() != 0):
          sys.exit(2)
 
+      lock = FileLock("procupload.pid")
+      while not lock.i_am_locking():
+        try:
+          lock.acquire(timeout=60)    # wait up to 60 seconds
+        except LockTimeout:
+          lock.break_lock()
+          lock.acquire()
+          sys.exit(3)
+
       delFilesPath(UPLOAD_BOINC_DIR)
          
       dbconn = MySQLdb.connect (host = DBHOST,
@@ -276,9 +286,11 @@ def main():
       processUploadZIPFiles(dbconn)
 
       dbconn.close()
+      lock.release()
 
    except:
       traceback.print_exc()
+      lock.release()
       sys.exit(1)
 
 if __name__ == '__main__':
