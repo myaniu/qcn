@@ -24,6 +24,7 @@ $auth = qcn_admin_user_check($user);
 //$queryArchiveTime = "SELECT unix_timestamp( concat(year(now()), '/', month(now()), '/01 00:00:00') ) - (60 * 24 * 3600) archive_time";
 $try_replica = false;
 $unixtimeArchive = mktime(0, 0, 0, date("n"), 1, date("Y")) - (60*24*3600); 
+$queryCount = 0;
 
     $config = get_config();
         $user = parse_config($config, "<db_user>");
@@ -233,6 +234,9 @@ if ($bNoQuery) {
   $quake_mag_min = 3.0;
   $qcn_quake_mag_min = 3.0;
 }
+
+if (!$bUseFile && $bDownloadAll) $bUseFile = 1; // if we want to download, set the file recv flag to true
+
 // set last four hours for start, current time + 1 for end
 $timeStart = gmdate("U", time() - (3600*4));
 $timeEnd = gmdate("U", time() + 3600);
@@ -756,11 +760,12 @@ $arrSensor = array();
 
     printDownloadOptions($bUseCSV, $ftmp, $fileTemp, $bResultShow, $bUseArchive, $db_name, $auth, $plot_map);
     start_table();
-    if (!$bUseCSV && !$ftmp && !$plot_map) qcn_trigger_header($auth);
+    if (!$bUseCSV && !$ftmp && !$plot_map && !$bDownloadAll) qcn_trigger_header($auth);
     $iii = 0;
     $ii = 0;
     $ie = 0;
     $mag_last=0;
+    $queryCount = 0;
     while ($res = mysql_fetch_object($result)) {
         
         if ($bUseCSV && $ftmp) {
@@ -781,14 +786,15 @@ $arrSensor = array();
 //           view_waveform_image_and_header($flocs,$res,$mag_last,$message1);
            } else {
 	       qcn_trigger_detail($res,$bg_color,$auth,$user, $bDownloadAll);
-           }
-
-
-
+               $queryCount++;
+            }
         }
     }
 
 
+if ($bDownloadAll) {
+   echo "<p><font color='red'>$queryCount records queued for download processing.  Press 'Submit All Requests' to Confirm.</font>";
+}
 
     end_table();
     mysql_free_result($result);
@@ -1093,9 +1099,17 @@ global $unixtimeArchive;
     $sensor_type = $res->sensor_description;
     $archpre = $res->is_archive ? "a" : "r"; // prefix to signify if it's an archive record or not
     $file_url = get_file_url($res);
-    echo "
-        <tr bgcolor=\"".$bg_color."\">\n";
     if ($auth) {
+      if ($bDownloadAll) {
+        echo "<input type=\"hidden\" name=\"cb_" . $archpre . "_dlfile[]\" id=\"cb_" . $archpre . "_dlfile[]\" value=\"$res->triggerid\"" .
+             ">\n";
+        //echo "<tr><td><input type=\"hidden\" name=\"cb_" . $archpre . "_dlfile[]\" id=\"cb_" . $archpre . "_dlfile[]\" value=\"$res->triggerid\"" .
+        //     "></font size></td></tr>\n";
+        return;
+      }
+      else {
+      echo "
+        <tr bgcolor=\"".$bg_color."\">\n";
       echo"
         <td><font size=\"1\"><input type=\"checkbox\" name=\"cb_" . $archpre . "_reqfile[]\" id=\"cb_" . $archpre . "_reqfile[]\" value=\"$res->triggerid\"" . 
        ($res->varietyid!=0 || $res->received_file == 100 || $res->trigger_timereq>0 || $res->trigger_time < $unixtimeArchive ? " disabled " : " " ) . 
@@ -1103,7 +1117,9 @@ global $unixtimeArchive;
         <td><font size=\"1\"><input type=\"checkbox\" name=\"cb_" . $archpre . "_dlfile[]\" id=\"cb_" . $archpre . "_dlfile[]\" value=\"$res->triggerid\"" . 
        (($res->received_file != 100 || file_url == "N/A") ? " disabled " : ($bDownloadAll ? " checked " : " " )) . 
        "></font size></td>";
+      }
     }
+
     echo "
         <td><font size=\"1\">$res->triggerid</font size></td>";
         echo "<td><font size=\"1\"><a href=\"show_host_detail.php?hostid=$res->hostid\">" . $res->hostid . "</a></font size></td>";
@@ -1125,8 +1141,6 @@ global $unixtimeArchive;
         <td><font size=\"1\">$sensor_type</font size></td>
         <td><font size=\"1\">$res->sw_version</font size></td>";
       
- //   if (!$bDownloadAll) {
-       
         echo "
         <td><font size=\"1\">" . time_str($res->trigger_timereq) . "</font size></td>";
 //      echo"  <td><font size=\"1\">" . ($res->received_file == 100 ? " Yes " : " No " ) . "</font size></td>";
@@ -1162,7 +1176,6 @@ global $unixtimeArchive;
 //           echo "<td><font size=\"1\">&nbsp</font size></td>";
            echo "<td><font size=\"1\">" . ($res->is_archive ? "Y" : "N") . "</font size></td>";
         }
-//     }  // don't show everything if setup for downloadall
     echo "</tr>
     ";
 }
