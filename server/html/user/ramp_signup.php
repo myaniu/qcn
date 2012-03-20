@@ -19,7 +19,7 @@ $psprefs = project_specific_prefs_parse($user->project_prefs);
 $row["id"] = post_int("db_id", true);
 
 // check the ramp type  (database field ramp_type)
-// valid types are G for global (default), R for regional, C for christchurch nz
+// valid types are G for global (default), R for regional, C for christchurch nz, M for Mexico
 $row["ramp_type"] = $GLOBALS["ramp_type"];  // from a redirected page global i.e. rampnz_signup.php
 if (empty($row["ramp_type"])) { // from a POST
   $row["ramp_type"] = post_str("db_ramp_type", true);
@@ -78,6 +78,11 @@ case "Delete":
      $mylng = 172.6;
      $zoomout = 12;
   }
+  if (!$row["id"] && ($strRampType == "M")) { // Mexico
+     $mylat = 18.0;
+     $mylng = -98.0;
+     $zoomout = 7;
+  }
 
 //echo "<BR><BR>[" . $mylat . " , " . $mylng . "]<BR><BR>";;
 
@@ -109,6 +114,7 @@ google_translate_new();
 $prefix = "";
 if ($strRampType == "R") $prefix = " - Regional";
 else if ($strRampType == "C") $prefix = " - Christchurch, NZ";
+else if ($strRampType == "M") $prefix = " - Mexico";
 
 echo "
   <center><h1>Rapid Array Mobilization Program (RAMP)$prefix</h1></center>
@@ -131,7 +137,7 @@ if ($strMessage) { // print status/error message if any
    echo $strMessage . "\n";
 }
 
-if ($strRampType == "R" || $strRampType == "C") echo "<center><h3>Apply for a free USB sensor if you are in a region of interest</h3></center>\n";
+if ($strRampType == "R" || $strRampType == "C" || $strRampType == "M") echo "<center><h3>Apply for a free USB sensor if you are in a region of interest</h3></center>\n";
 
 echo "<ul><p align=\"justify\">You can add yourself to QCN RAMP by submitting the following information,
     or edit a previous submission.
@@ -162,6 +168,7 @@ echo "<ul><p align=\"justify\">You can add yourself to QCN RAMP by submitting th
 
      row2_init("Country", "<select name=db_country id=db_country>");
      if (empty($row["country"]) && ($strRampType == "R" || $strRampType == "C")) $row["country"] = "New Zealand";
+     if (empty($row["country"]) && $strRampType == "M") $row["country"] = "Mexico";
      print_country_select($row["country"]);
      echo "</select></td></tr>";
 
@@ -323,11 +330,14 @@ echo "
      if ($row["ramp_type"] == "R") {
         row_heading_array(array("Regional RAMP Questions"));
      }
-     else {
+     else if ($row["ramp_type"] == "C") {
         row_heading_array(array("Christchurch RAMP Questions"));
      }
+     else if ($row["ramp_type"] == "M") {
+        row_heading_array(array("Mexico RAMP Questions"));
+     }
 
-  if ($strRampType == "C") { // christchurch fields
+  if ($strRampType == "C" || $strRampType == "M") { // christchurch fields
    // CMC HERE - new fields
    //   `quake_damage` varchar(5) NULL DEFAULT '',
    //   `liquefaction` boolean NULL DEFAULT '0',
@@ -360,7 +370,7 @@ echo "
 
 
      $affixtype = "we";
-     if ($strRampType == "C") $affixtype = "you";
+     if ($strRampType == "C" || $strRampType == "M") $affixtype = "you";
 
      row2("Can $affixtype affix a sensor to the floor with adhesive or screws?",
        "<input type=\"checkbox\" name=\"db_loc_affix_perm\" id=\"db_loc_affix_perm\" " . ($row["loc_affix_perm"] ? "checked" : "") . "> (Check if 'Yes' - If
