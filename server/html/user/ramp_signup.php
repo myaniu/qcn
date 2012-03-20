@@ -712,7 +712,7 @@ n] => on [db_cpu_permission] => on [db_cpu_firewall] => on [db_cpu_internet] => 
             ramp_type='" . $row["ramp_type"] . "', 
             quake_damage='" . $row["quake_damage"] . "', 
             liquefaction=" . $row["liquefaction"] . ", 
-            active=1, time_edit=unix_timestamp() ";
+            active=1, time_edit=unix_timestamp() " . ($bInsert ? ", time_added=unix_timestamp() " : "");
 
 //echo "<BR><BR>" . $sqlStart . $sqlSet . $sqlEnd . "<BR><BR>";
 

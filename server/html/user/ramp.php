@@ -12,7 +12,8 @@ $user = get_logged_in_user(true);
 // authenticate admin-level user
 qcn_admin_user_auth($user, true);
 
-$query = "select id, fname, lname, email_addr, addr1, addr2, city, region, postcode, country, latitude, longitude, phone, fax, bshare_coord, bshare_map, bshare_ups, cpu_type, cpu_os, cpu_age, cpu_floor, cpu_admin, cpu_permission, cpu_firewall, cpu_proxy, cpu_internet, cpu_unint_power, sensor_distribute, comments,
+
+$query = "SELECT id, fname, lname, email_addr, addr1, addr2, city, region, postcode, country, latitude, longitude, phone, fax, bshare_coord, bshare_map, bshare_ups, cpu_type, cpu_os, cpu_age, cpu_floor, cpu_admin, cpu_permission, cpu_firewall, cpu_proxy, cpu_internet, cpu_unint_power, sensor_distribute, comments,
  loc_home,
  loc_business,
  loc_affix_perm,
@@ -34,8 +35,12 @@ $query = "select id, fname, lname, email_addr, addr1, addr2, city, region, postc
  loc_years_host, 
   ramp_type, 
   quake_damage, 
-  liquefaction
-from qcn_ramp_participant WHERE active=1";
+  liquefaction,
+ from_unixtime(time_added) time_add, 
+ from_unixtime(time_edit) time_ed,
+ completed,
+ from_unixtime(time_completed) time_comp
+from qcn_ramp_participant WHERE active=1 ";
 $order = "order by country, lname, fname";
 
 $detail = null;
@@ -43,44 +48,45 @@ $show_aggregate = false;
 
 $q = new SqlQueryString();
 
-// start $_GET
+// start $_POST
 
-$nresults = get_int("nresults", true);
-$last_pos = get_int("last_pos", true);
+$nresults = post_int("nresults", true);
+$last_pos = post_int("last_pos", true);
 
-$bUseCSV = get_int("cbUseCSV", true);
-$bUseRegional = get_int("cbUseRegional", true);
-/*$bUseArchive = get_int("cbUseArchive", true);
-$bUseFile  = get_int("cbUseFile", true);
-$bUseQuake = get_int("cbUseQuake", true);
-$bUseQCNQuake = get_int("cbUseQCNQuake", true);
-$bUseLat   = get_int("cbUseLat", true);
-$bUseSensor = get_int("cbUseSensor", true);
-$bUseTime  = get_int("cbUseTime", true);
-$bUseHost = get_int("cbUseHost", true);
-$strHostID = get_int("HostID", true);
+$bUseCSV = post_int("cbUseCSV", true);
+$bUseRegional = post_int("cbUseRegional", true);
+$bUseComp = post_int("cbUseComp", true);
+/*$bUseArchive = post_int("cbUseArchive", true);
+$bUseFile  = post_int("cbUseFile", true);
+$bUseQuake = post_int("cbUseQuake", true);
+$bUseQCNQuake = post_int("cbUseQCNQuake", true);
+$bUseLat   = post_int("cbUseLat", true);
+$bUseSensor = post_int("cbUseSensor", true);
+$bUseTime  = post_int("cbUseTime", true);
+$bUseHost = post_int("cbUseHost", true);
+$strHostID = post_int("HostID", true);
 */
-$strCountry = get_str("db_country", true);
+$strCountry = post_str("db_country", true);
 
 /*
-$qcn_sensorid = get_int("qcn_sensorid", true);
-$dateStart = get_str("date_start", true);
-$dateEnd   = get_str("date_end", true);
-$strLonMin = get_str("LonMin", true);
-$strLonMax = get_str("LonMax", true);
-$strLatMin = get_str("LatMin", true);
-$strLatMax = get_str("LatMax", true);
+$qcn_sensorid = post_int("qcn_sensorid", true);
+$dateStart = post_str("date_start", true);
+$dateEnd   = post_str("date_end", true);
+$strLonMin = post_str("LonMin", true);
+$strLonMax = post_str("LonMax", true);
+$strLatMin = post_str("LatMin", true);
+$strLatMax = post_str("LatMax", true);
 
-$timeHourStart   = get_int("time_hour_start", true);
-$timeMinuteStart = get_int("time_minute_start", true);
+$timeHourStart   = post_int("time_hour_start", true);
+$timeMinuteStart = post_int("time_minute_start", true);
 
-$timeHourEnd   = get_int("time_hour_end", true);
-$timeMinuteEnd = get_int("time_minute_end", true);
+$timeHourEnd   = post_int("time_hour_end", true);
+$timeMinuteEnd = post_int("time_minute_end", true);
 */
 
-$sortOrder = get_str("rb_sort", true);
+$sortOrder = post_str("rb_sort", true);
 
-// end $_GET
+// end $_POST
 
 /*
 // make sure these are in the right order, as the sql "between" will fail if max < min!
@@ -116,7 +122,6 @@ if ($last_pos) {
 
 page_head("QCN RAMP Participants");
 
-echo "<H2>QCN Ramp Participants</H2>";
 /*
   for ($i = 0; $i < sizeof($arrSensor); $i++)  {
      echo "<option value=" . $arrSensor[$i][0];
@@ -264,7 +269,20 @@ echo "<select name=\"rb_sort\" id=\"rb_sort\">
 
 // end the form
 
-echo "<form name=\"formFilter\" method=\"get\" action=\"ramp.php\" >";
+$aryComp = array();
+$numComp = 0;
+if(!empty($_REQUEST['submitComplete'])) {
+  if (isset($_POST["cb_comp"])) $aryComp = $_POST["cb_comp"];
+  $numComp = count($aryComp);
+}
+if ($numComp) { // we have completion requests to process
+   $updateComp = "UPDATE sensor.qcn_ramp_participant SET completed=1, time_completed=unix_timestamp() WHERE id=";
+   for ($i = 0; $i < $numComp; $i++) {
+      mysql_query($updateComp . $aryComp[$i]); 
+   }
+}
+
+echo "<form name=\"formFilter\" method=\"post\" action=\"ramp.php\" >";
 
 if (!$strCountry || $strCountry == "None") $strCountry = "International";
 echo "Filter by Country:
@@ -274,15 +292,21 @@ echo "
      </select></td></tr>
 <BR><BR>
 <input type=\"checkbox\" id=\"cbUseRegional\" name=\"cbUseRegional\" value=\"1\" " . ($bUseRegional? "checked" : "") . "> Show only Regional RAMP Signups?
+<BR>
+<input type=\"checkbox\" id=\"cbUseComp\" name=\"cbUseComp\" value=\"1\" " . ($bUseComp? "checked" : "") . "> Show Completed Signups?
 <BR><BR>
 <input type=\"checkbox\" id=\"cbUseCSV\" name=\"cbUseCSV\" value=\"1\" " . ($bUseCSV? "checked" : "") . "> Create Text/CSV File of Triggers?
 <BR><BR>
-   <input type=\"submit\" value=\"Submit Constraints\" />
-   </form> <H7>";
+   <input type=\"submit\" name=\"submitConstraint\" id=\"submitConstraint\" value=\"Submit Constraints\" />
+    <H7>";
+   //</form> <H7>";
 
 if ($strCountry != "International" && $strCountry != "None") $query .= " AND country='$strCountry' ";
 
 if ($bUseRegional) $query .= " AND ramp_type != 'G' ";
+
+if (! $bUseComp)
+   $query .= " AND completed = 0 ";
 
 //print "<BR><BR>$query<BR><BR>";
 
@@ -381,7 +405,7 @@ switch($sortOrder)
       break;
 }
 
-// CMC really need to look at archive table too
+// really need to look at archive table too
 if ($bUseArchive) {
   $query .=
    $queryNew . " WHERE " . $whereString
@@ -538,7 +562,7 @@ if ($bUseCSV) {
 
 $result = mysql_query($main_query);
 if ($result) {
-    echo "<form name=\"formDelete\" method=\"get\" action=\"ramp.php\" >";
+    //echo "<form name=\"formSubmit\" method=\"post\" action=\"ramp.php\" >";
     start_table();
     if (!$bUseCSV && !$ftmp) qcn_ramp_header();
     while ($res = mysql_fetch_object($result)) {
@@ -563,7 +587,7 @@ downloaded (i.e. 123431_u15.csv), then select 'Delimited' and then ',' (comma) o
 }
 else {
  echo "<BR><BR>
-  <input type=\"submit\" value=\"Delete Checked?\" disabled />
+  <input type=\"submit\" name=\"submitComplete\" id=\"submitComplete\" value=\"Submit Completions?\" />
   </form>";
 
   if ($start_at || $last < $count) {
@@ -604,7 +628,8 @@ function qcn_ramp_header_csv() {
      . "PostCode, Country, Latitude, Longitude, Phone, Fax, ShareCoord, ShareMap, ShareUPS, "
      . "CPUType, OpSys, CPUAgeYrs, CPUFloor#, AdminRts, Permission, Firewall, Proxy, Internet, UnintPower, DistribSensor, "
      . "Home, Business, AffixPerm, SelfInstall, Sunday, SundayTime, Monday, MondayTime, Tuesday, TuesdayTime, Wednesday, WedsTime, "
-     . "Thursday, ThursdayTime, Friday, FridayTime, Saturday, SatTime, YearsHost, RampType, QuakeDamage, Liquefaction, Comments"
+     . "Thursday, ThursdayTime, Friday, FridayTime, Saturday, SatTime, YearsHost, RampType, QuakeDamage, Liquefaction, Comments, "
+     . "Time Added, Time Edited, Completed?, Time Completed"
      . "\n";
 }
 
@@ -664,14 +689,19 @@ function qcn_ramp_detail_csv($res)
   $res->ramp_type . "\", \"" .
   $res->quake_damage . "\", \"" .
   qcn_logical($res->liquefaction) . "\", \"" .
-  $entry . "\"\n";
+  $entry . "\", \"" .
+  $res->time_add . "\", \"" .
+  $res->time_ed . "\", \"" .
+  qcn_logical($res->completed) . "\", \"" .
+  $res->time_comp . "\", \"" .
+    "\n";
 
 }
 
 function qcn_ramp_header() {
    echo "
        <tr>
-       <th>Delete?</th>
+       <th>Complete?</th>
        <th>FirstName</th>
        <th>LastName</th>
        <th>Email</th>
@@ -722,6 +752,10 @@ function qcn_ramp_header() {
        <th>QuakeDamage</th>
        <th>Liquefaction</th>
        <th>Comments</th>
+       <th>Time Added</th>
+       <th>Time Edited</th>
+       <th>Completed?</th>
+       <th>Time Completed</th>
        </tr>
      ";
 }
@@ -733,7 +767,8 @@ function qcn_ramp_detail($res)
 {
     echo "
        <tr>
-       <td><input type=\"checkbox\" name=\"cb_delete[]\" id=\"cb_delete[]\" value=\"$res->id\" disabled>" . "</td>
+       <td><input type=\"checkbox\" name=\"cb_comp[]\" id=\"cb_comp[]\" value=\"$res->id\" " 
+          . ($res->completed ? " disabled " : "") . ">" . "</td>
        <td>$res->fname</td> 
        <td>$res->lname</td>
        <td>$res->email_addr</td>
@@ -784,7 +819,11 @@ function qcn_ramp_detail($res)
   $res->quake_damage . "</td><td>" .
   qcn_logical($res->liquefaction) . "</td>" .
    "<td width=\"15%\">" .
-     nl2br($res->comments) . "</td>
+     nl2br($res->comments) . "</td><td>" .
+  $res->time_add . "</td><td>" .
+  $res->time_ed . "</td><td>" .
+  qcn_logical($res->completed) . "</td><td>" .
+  $res->time_comp . "</td>" . "
        </tr>
     ";
 }
