@@ -325,7 +325,7 @@ echo "
 
 
 
-   if ($row["ramp_type"] == "R" || $row["ramp_type"] == "C")  { // regional ramp specific information
+   if ($row["ramp_type"] == "R" || $row["ramp_type"] == "C" || $row["ramp_type"] == "M")  { // regional ramp specific information
      echo "<tr><td colspan=2><hr></td></tr>";
      if ($row["ramp_type"] == "R") {
         row_heading_array(array("Regional RAMP Questions"));
