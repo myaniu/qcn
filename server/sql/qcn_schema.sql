@@ -141,6 +141,8 @@ CREATE TABLE `qcn_ramp_participant` (
   `kml_regionid` int(11) NOT NULL DEFAULT '0',
   `quake_damage` varchar(5) NULL DEFAULT '',
   `liquefaction` boolean NULL DEFAULT '0',
+  `time_added` int(11) NULL DEFAULT '0',
+  `completed` boolean NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `qcn_ramp_participant_userid` (`userid`),
   KEY `qcn_ramp_participant_kml_regionid` (`kml_regionid`)
