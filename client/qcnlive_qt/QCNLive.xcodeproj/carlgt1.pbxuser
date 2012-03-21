@@ -17,16 +17,6 @@
 		vrLen = 1390;
 		vrLoc = 0;
 	};
-	43141EAC150FE87F0063E2F8 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = CC21C3241233AEF9D80610DA /* qcnlive_define.h */;
-		name = "qcnlive_define.h: 51";
-		rLen = 0;
-		rLoc = 1380;
-		rType = 0;
-		vrLen = 3274;
-		vrLoc = 870;
-	};
 	4359DECA14225152006F3451 /* Source Control */ = {
 		isa = PBXSourceControlManager;
 		fallbackIsa = XCSourceControlManager;
@@ -41,7 +31,16 @@
 		isa = PBXCodeSenseManager;
 		indexTemplatePath = "";
 	};
-	437840CA151A4ECC001BA5C0 /* PBXTextBookmark */ = {
+	437A0CAE151A6C330036AA9D /* XCBuildMessageTextBookmark */ = {
+		isa = PBXTextBookmark;
+		comments = "Invalid conversion from 'UInt32*' to 'uint32_t*'";
+		fRef = 990D508BE5BA379C8BE806DB /* csensor_mac_usb_jw.cpp */;
+		fallbackIsa = XCBuildMessageTextBookmark;
+		rLen = 1;
+		rLoc = 970;
+		rType = 1;
+	};
+	437A0CB3151A6C4B0036AA9D /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
 		fRef = CC21C3241233AEF9D80610DA /* qcnlive_define.h */;
 		name = "qcnlive_define.h: 51";
@@ -50,6 +49,35 @@
 		rType = 0;
 		vrLen = 3245;
 		vrLoc = 870;
+	};
+	437A0CB4151A6C4B0036AA9D /* XCBuildMessageTextBookmark */ = {
+		isa = PBXTextBookmark;
+		comments = "'uint32' was not declared in this scope";
+		fRef = 990D508BE5BA379C8BE806DB /* csensor_mac_usb_jw.cpp */;
+		fallbackIsa = XCBuildMessageTextBookmark;
+		rLen = 1;
+		rLoc = 192;
+		rType = 1;
+	};
+	437A0CE5151A6DEA0036AA9D /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 990D508BE5BA379C8BE806DB /* csensor_mac_usb_jw.cpp */;
+		name = "csensor_mac_usb_jw.cpp: 193";
+		rLen = 0;
+		rLoc = 7187;
+		rType = 0;
+		vrLen = 1505;
+		vrLoc = 6489;
+	};
+	437A0CE6151A6DEA0036AA9D /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 990D508BE5BA379C8BE806DB /* csensor_mac_usb_jw.cpp */;
+		name = "csensor_mac_usb_jw.cpp: 971";
+		rLen = 0;
+		rLoc = 34113;
+		rType = 0;
+		vrLen = 1511;
+		vrLoc = 33823;
 	};
 	43F140561422645D001C0846 /* QCNLive */ = {
 		isa = PBXExecutable;
@@ -67,6 +95,7 @@
 		dataTipSortType = 0;
 		debuggerPlugin = GDBDebugging;
 		disassemblyDisplayState = 0;
+		dylibVariantSuffix = "";
 		enableDebugStr = 1;
 		environmentEntries = (
 		);
@@ -74,12 +103,30 @@
 		executableUserSymbolLevel = 0;
 		libgmallocEnabled = 0;
 		name = QCNLive;
+		savedGlobals = {
+		};
 		showTypeColumn = 0;
 		sourceDirectories = (
 		);
 	};
+	514B45140FBAF53969785617 /* qcn_earth.cpp */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1089, 23647}}";
+			sepNavSelRange = "{42956, 0}";
+			sepNavVisRange = "{42162, 1180}";
+			sepNavWindowFrame = "{{15, 434}, {1148, 739}}";
+		};
+	};
+	812848BDA5D22688B4D10CEE /* qcn_cube.cpp */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {691, 9048}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 457}";
+		};
+	};
 	91B15E841AA80083484172DE /* Project object */ = {
-		activeBuildConfigurationName = Release;
+		activeArchitecturePreference = x86_64;
+		activeBuildConfigurationName = Debug;
 		activeExecutable = 43F140561422645D001C0846 /* QCNLive */;
 		activeTarget = B1E56B9E0881E5027F4AEEAF /* QCNLive */;
 		codeSenseManager = 4359DECB14225152006F3451 /* Code sense */;
@@ -93,7 +140,7 @@
 				PBXFileTableDataSourceColumnWidthsKey = (
 					22,
 					300,
-					639,
+					551,
 				);
 				PBXFileTableDataSourceColumnsKey = (
 					PBXExecutablesDataSource_ActiveFlagID,
@@ -145,16 +192,27 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 354045517;
-			PBXWorkspaceStateSaveDate = 354045517;
+			PBXPerProjectTemplateStateSaveDate = 354052737;
+			PBXWorkspaceStateSaveDate = 354052737;
 		};
 		perUserProjectItems = {
 			43141EA5150FE87F0063E2F8 /* PBXTextBookmark */ = 43141EA5150FE87F0063E2F8 /* PBXTextBookmark */;
-			43141EAC150FE87F0063E2F8 /* PBXTextBookmark */ = 43141EAC150FE87F0063E2F8 /* PBXTextBookmark */;
-			437840CA151A4ECC001BA5C0 /* PBXTextBookmark */ = 437840CA151A4ECC001BA5C0 /* PBXTextBookmark */;
+			437A0CAE151A6C330036AA9D /* XCBuildMessageTextBookmark */ = 437A0CAE151A6C330036AA9D /* XCBuildMessageTextBookmark */;
+			437A0CB3151A6C4B0036AA9D /* PBXTextBookmark */ = 437A0CB3151A6C4B0036AA9D /* PBXTextBookmark */;
+			437A0CB4151A6C4B0036AA9D /* XCBuildMessageTextBookmark */ = 437A0CB4151A6C4B0036AA9D /* XCBuildMessageTextBookmark */;
+			437A0CE5151A6DEA0036AA9D /* PBXTextBookmark */ = 437A0CE5151A6DEA0036AA9D /* PBXTextBookmark */;
+			437A0CE6151A6DEA0036AA9D /* PBXTextBookmark */ = 437A0CE6151A6DEA0036AA9D /* PBXTextBookmark */;
 		};
 		sourceControlManager = 4359DECA14225152006F3451 /* Source Control */;
 		userBuildSettings = {
+		};
+	};
+	990D508BE5BA379C8BE806DB /* csensor_mac_usb_jw.cpp */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1048, 14053}}";
+			sepNavSelRange = "{7187, 0}";
+			sepNavVisRange = "{6489, 1505}";
+			sepNavWindowFrame = "{{522, 308}, {1148, 739}}";
 		};
 	};
 	B1E56B9E0881E5027F4AEEAF /* QCNLive */ = {
