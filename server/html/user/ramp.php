@@ -63,7 +63,10 @@ $bUseTime  = post_int("cbUseTime", true);
 $bUseHost = post_int("cbUseHost", true);
 $strHostID = post_int("HostID", true);
 */
+$selectSort = post_str("selectSort", true);
 $strCountry = post_str("db_country", true);
+
+if (!$selectSort) $selectSort = "Last Name";
 
 /*
 $qcn_sensorid = post_int("qcn_sensorid", true);
@@ -277,6 +280,13 @@ echo "
 <input type=\"checkbox\" id=\"cbUseRegional\" name=\"cbUseRegional\" value=\"1\" " . ($bUseRegional? "checked" : "") . "> Show only Regional RAMP Signups?
 <BR>
 <input type=\"checkbox\" id=\"cbUseComp\" name=\"cbUseComp\" value=\"1\" " . ($bUseComp? "checked" : "") . "> Show Completed Signups?
+<BR>
+Sort Order: <select name=selectSort id=selectSort>
+   <option " . ($selectSort == "Last Name" ? "selected=\"selected\"" : "") . ">Last Name</option>
+   <option " . ($selectSort == "Country" ? "selected=\"selected\"" : "") . ">Country</option>
+   <option " . ($selectSort == "Time Added" ? "selected=\"selected\"" : "") . ">Time Added</option>
+   <option " . ($selectSort == "Time Completed" ? "selected=\"selected\"" : "") . ">Time Completed</option>
+</select>
 <BR><BR>
 <input type=\"checkbox\" id=\"cbUseCSV\" name=\"cbUseCSV\" value=\"1\" " . ($bUseCSV? "checked" : "") . "> Create Text/CSV File of Triggers?
 <BR><BR>
@@ -290,6 +300,23 @@ if ($bUseRegional) $query .= " AND ramp_type != 'G' ";
 
 if (! $bUseComp)
    $query .= " AND completed = 0 ";
+
+if ($selectSort) {
+   switch($selectSort) {
+      case "Last Name":
+         $query .= " ORDER BY lname ";
+         break;
+      case "Country":
+         $query .= " ORDER BY country, lname ";
+         break;
+      case "Time Added":
+         $query .= " ORDER BY time_added, lname ";
+         break;
+      case "Time Completed":
+         $query .= " ORDER BY time_completed, lname ";
+         break;
+   } 
+}
 
 $count = query_count($query);
 
