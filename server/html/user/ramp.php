@@ -43,10 +43,7 @@ $query = "SELECT id, fname, lname, email_addr, addr1, addr2, city, region, postc
 from qcn_ramp_participant WHERE active=1 ";
 $order = "order by country, lname, fname";
 
-$detail = null;
 $show_aggregate = false;
-
-$q = new SqlQueryString();
 
 // start $_POST
 
@@ -105,20 +102,6 @@ if ($strLatMax < $strLatMin) {
 
 if (!$sortOrder) $sortOrder = "ttd";  // triger time desc is default sort order
 */
-
-if (!$nresults) $nresults = 1000;
-if ($nresults) {
-    $entries_to_show = $nresults;
-} else {
-    $entries_to_show = 100;
-}
-$page_entries_to_show = $entries_to_show;
-
-if ($last_pos) {
-    $start_at = $last_pos;
-} else {
-    $start_at = 0;
-}
 
 page_head("QCN RAMP Participants");
 
@@ -282,7 +265,7 @@ if ($numComp) { // we have completion requests to process
    }
 }
 
-echo "<form name=\"formFilter\" method=\"post\" action=\"ramp.php\" >";
+echo "<form name=\"formRAMP\" method=\"post\" action=\"ramp.php\" >";
 
 if (!$strCountry || $strCountry == "None") $strCountry = "International";
 echo "Filter by Country:
@@ -308,153 +291,15 @@ if ($bUseRegional) $query .= " AND ramp_type != 'G' ";
 if (! $bUseComp)
    $query .= " AND completed = 0 ";
 
-//print "<BR><BR>$query<BR><BR>";
+$count = query_count($query);
 
-/*
-$whereString = "t.varietyid=0 ";
-
-if ($bUseFile) {
-   $whereString .= " AND t.received_file = 100 ";
-}
-
-if ($bUseHost) {
-  if ($strHostID) {
-     $whereString .= " AND t.hostid = " . $strHostID;
-  }
-  else if ($strHostName) {
-     $whereString .= " AND h.domain_name = '" . $strHostName . "'";
-  }
-}
-
-if ($bUseQuake) {
-   $whereString .= " AND t.qcn_quakeid>0 AND q.magnitude >= " . $quake_mag_min;
-}
-
-if ($bUseQCNQuake) {
-   $whereString .= " AND t.qcn_quakeid>0 AND q.guid like 'QCN_%' ";
-}
-
-if ($bUseLat) {
-   $whereString .= " AND t.latitude BETWEEN $strLatMin AND $strLatMax AND t.longitude BETWEEN $strLonMin AND $strLonMax ";
-}
-
-if ($bUseSensor) {
-   $whereString .= " AND t.qcn_sensorid=$qcn_sensorid ";
-}
-
-if ($bUseTime) {
-   $whereString .= " AND t.time_received BETWEEN unix_timestamp('" . $dateStart . " " . sprintf("%02d", $timeHourStart) . ":" . sprintf("%02d", $timeMinuteStart) . ":00') " 
-        . " AND unix_timestamp('" . $dateEnd . " " . sprintf("%02d", $timeHourEnd) . ":" . sprintf("%02d", $timeMinuteEnd) . ":00') ";
-}
-*/
-
-/*$queryNew = "select q.id as quakeid, q.time_utc as quake_time, q.magnitude as quake_magnitude, 
-q.depth_km as quake_depth, q.latitude as quake_lat,
-q.longitude as quake_lon, q.description, q.url, q.guid,
-t.id as triggerid, t.hostid, t.ipaddr, t.result_name, t.time_trigger as trigger_time, 
-(t.time_received-t.time_trigger) as delay_time, t.time_sync as trigger_sync,
-t.sync_offset, t.significance, t.magnitude as trigger_mag, 
-t.latitude as trigger_lat, t.longitude as trigger_lon, t.file as trigger_file, t.dt as delta_t,
-t.numreset, s.description as sensor_description, t.sw_version, t.qcn_quakeid, t.time_filereq as trigger_timereq, 
-t.received_file, t.file_url
-FROM
-  sensor.qcn_trigger t LEFT OUTER JOIN qcn_quake q ON t.qcn_quakeid = q.id
-   LEFT JOIN qcn_sensor s ON t.qcn_sensorid = s.id 
-";
-*/
-
-/*
-$sortString = "trigger_time DESC";
-switch($sortOrder)
-{
-   case "maga":
-      $sortString = "quake_magnitude ASC, trigger_time DESC";
-      break;
-   case "magd":
-      $sortString = "quake_magnitude DESC, trigger_time DESC";
-      break;
-   case "tta":
-      $sortString = "trigger_time ASC";
-      break;
-   case "ttd":
-      $sortString = "trigger_time DESC";
-      break;
-   case "lata":
-      $sortString = "trigger_lat ASC, trigger_lon ASC";
-      break;
-   case "latd":
-      $sortString = "trigger_lat DESC, trigger_lon DESC";
-      break;
-   case "lona":
-      $sortString = "trigger_lon ASC, trigger_lat ASC";
-      break;
-   case "lond":
-      $sortString = "trigger_lon DESC, trigger_lat DESC";
-      break;
-   case "hosta":
-      $sortString = "hostid ASC";
-      break;
-   case "hostd":
-      $sortString = "hostid DESC";
-      break;
-   case "qda":
-      $sortString = "quake_distance_km ASC, trigger_time DESC";
-      break;
-   case "qdd":
-      $sortString = "quake_distance_km DESC, trigger_time DESC";
-      break;
-}
-
-// really need to look at archive table too
-if ($bUseArchive) {
-  $query .=
-   $queryNew . " WHERE " . $whereString
-       . " UNION "
-       . $queryOld . " WHERE " . $whereString
-       . " ORDER BY " . $sortString
-     ;
-}
-else {
-  $query .=
-   $queryNew . " WHERE " . $whereString
-       . " ORDER BY " . $sortString
-     ;
-}
-*/
-
-//print "<BR><BR>$query<BR><BR>";
-
-//$main_query = $q->get_select_query($entries_to_show, $start_at);
-        if (!$bUseCSV && $entries_to_show) {
-            if ($start_at) {
-                $main_query = $query . " limit $start_at,$entries_to_show";
-            } else {
-                $main_query = $query . " limit $entries_to_show";
-            }
-        } else {
-                $main_query = $query;
-        }
-
-$count = 0;
-$last = 0;
-
-if (!$bUseCSV) {
-  $count = query_count($query);
-
-  if ($count < $start_at + $entries_to_show) {
-      $entries_to_show = $count - $start_at;
-  }
-
-  $last = $start_at + $entries_to_show;
-}
-
-// For display, convert query string characters < and > into 'html form' so
-// that they will be displayed.
-//
-//$html_text=str_replace('<', '&lt;', str_replace('>', '&gt;', $main_query));
-//echo "<p>Query: <b>$html_text</b><p>\n";
-/*
 echo "
+<BR><BR>$count records retrieved.<BR><BR>
+";
+
+if ($count) {
+echo "
+<HR>
 <script type=\"text/javascript\">
    
 function SetAllCheckBoxes(FormName, FieldName, CheckValue)
@@ -474,23 +319,12 @@ function SetAllCheckBoxes(FormName, FieldName, CheckValue)
                       objCheckBoxes[i].checked = CheckValue;
 }
 </script>
-<HR>
+  <input type=\"button\" value=\"Check All Completed\" onclick=\"SetAllCheckBoxes('formRAMP', 'cb_comp[]', true); SetAllCheckBoxes('formRAMP', 'cb_comp[]', true);\" >\n
+  <input type=\"button\" value=\"Uncheck All Completed\" onclick=\"SetAllCheckBoxes('formRAMP', 'cb_comp[]', false); SetAllCheckBoxes('formRAMP', 'cb_comp[]', false);\" >\n
+  <BR><BR>\n
 ";
-*/
+} // just show if there's a bunch of recs to show
  
-$start_1_offset = $start_at + 1;
-if (!$bUseCSV) {
-echo "
-    <p>$count records match the query.
-    Displaying $start_1_offset to $last.<p>
-";
-}
-
-$url = $q->get_url("ramp.php");
-if ($detail) {
-    $url .= "&detail=$detail";
-}
-
 /*
 $queryString = "&nresults=$page_entries_to_show"
        . "&cbUseHost=$bUseHost"
@@ -517,32 +351,11 @@ $queryString = "&nresults=$page_entries_to_show"
        . "&HostID=$strHostID"
        . "&HostName=$strHostName"
        . "&rb_sort=$sortOrder";
-*/
 $queryString = "&nresults=$page_entries_to_show"
        . "&cbUseCSV=$bUseCSV"
        . "&country=$strCountry"
        . "&rb_sort=$sortOrder";
-
-//echo "<hr>$url<hr><br>\n";
-if ($start_at || $last < $count) {
-    echo "<table border=\"1\"><tr><td width=\"100\">";
-    if ($start_at) {
-        $prev_pos = $start_at - $page_entries_to_show;
-        if ($prev_pos < 0) {
-            $prev_pos = 0;
-        }
-        echo "
-            <a href=\"$url&last_pos=$prev_pos" . $queryString . "\">Previous $page_entries_to_show</a><br>
-        ";
-    }
-    echo "</td><td width=100>";
-    if ($last < $count) {
-        echo "
-            <a href=\"$url&last_pos=$last" . $queryString . "\">Next $page_entries_to_show</a><br>
-        ";
-    }
-    echo "</td></tr></table>";
-}
+*/
 
 echo "<p>\n";
 
@@ -560,9 +373,8 @@ if ($bUseCSV) {
    }
 }
 
-$result = mysql_query($main_query);
+$result = mysql_query($query);
 if ($result) {
-    //echo "<form name=\"formSubmit\" method=\"post\" action=\"ramp.php\" >";
     start_table();
     if (!$bUseCSV && !$ftmp) qcn_ramp_header();
     while ($res = mysql_fetch_object($result)) {
@@ -589,26 +401,6 @@ else {
  echo "<BR><BR>
   <input type=\"submit\" name=\"submitComplete\" id=\"submitComplete\" value=\"Submit Completions?\" />
   </form>";
-
-  if ($start_at || $last < $count) {
-    echo "<table border=\"1\"><tr><td width=\"100\">";
-    if ($start_at) {
-        $prev_pos = $start_at - $page_entries_to_show;
-        if ($prev_pos < 0) {
-            $prev_pos = 0;
-        }
-        echo "
-            <a href=\"$url&last_pos=$prev_pos" . $queryString . "\">Previous $page_entries_to_show</a><br>
-        ";
-    }
-    echo "</td><td width=100>";
-    if ($last < $count) {
-        echo "
-            <a href=\"$url&last_pos=$last" . $queryString . "\">Next $page_entries_to_show</a><br>
-        ";
-    }
-    echo "</td></tr></table>";
-  }
 }
     if ($bUseCSV && $ftmp) {
       fclose($ftmp);
