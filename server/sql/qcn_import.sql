@@ -1,4 +1,4 @@
-create table qcn_import
+create table qcn_scedc
 (db varchar(10), 
 triggerid int(11), 
 hostid int(11), 
@@ -11,7 +11,12 @@ level_value float, level_type varchar(64), usgs_quake_time varchar(16),
 quake_depth_km float, quake_lat float, quake_lon float, quake_mag float, quake_id int(11)
 );
 
+
 /*
+
+/usr/local/mysql/bin/mysqlimport -h db-private -u root -p --ignore-lines=1 sensor qcn_scedc.csv
+
+
 I found some extra fields I'm rerunning so the csv/excel for mat will be like this, which can be "mysqlimport"-ed into a mysql table on scedc's end very easily:
 
 db, triggerid, hostid, time_utc, time_us, magnitude, significance, latitude, longitude, file, numreset, sensor, alignment, level_value, level_type, usgs_quake_time, quake_depth_km, quake_lat, quake_lon, quake_mag, quake_id
