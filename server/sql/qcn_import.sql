@@ -14,7 +14,10 @@ quake_depth_km float, quake_lat float, quake_lon float, quake_mag float, quake_i
 
 /*
 
-/usr/local/mysql/bin/mysqlimport -h db-private -u root -p --ignore-lines=1 sensor qcn_scedc.csv
+/usr/local/mysql/bin/mysqlimport -h db-private -u root -p \
+  --fields-enclosed-by='"' --fields-terminated-by=',' --local --ignore-lines=1 \
+  sensor qcn_scedc.csv
+
 
 
 I found some extra fields I'm rerunning so the csv/excel for mat will be like this, which can be "mysqlimport"-ed into a mysql table on scedc's end very easily:

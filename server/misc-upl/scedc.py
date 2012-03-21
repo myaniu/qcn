@@ -66,8 +66,8 @@ DBNAME_JOB = "sensor_download"
 FILE_CSV                 = "qcn_scedc.csv"
 FILE_ZIP                 = "qcn_scedc.zip"
   
-DATE_MIN = "2011-01-01 00:00:00"
-DATE_MAX = "2011-01-08 00:00:00"
+DATE_MIN = "2010-04-01 00:00:00"
+DATE_MAX = "2010-04-30 00:00:00"
 LAT_MIN  = 31.5
 LAT_MAX  = 37.5
 LNG_MIN  = -121.0
@@ -131,7 +131,7 @@ order by time_trigger,hostid"""  \
     )
 
   strHeader = "db, triggerid, hostid, time_utc, time_us, magnitude, significance, latitude, longitude, file, " +\
-     "numreset, sensor, alignment, level_value, level_type\n"
+     "numreset, sensor, alignment, level_value, level_type, usgs_quake_time, quake_depth_km, quake_lat, quake_lon, quake_mag, quake_id\n"
 
   tmpdir = tempfile.mkdtemp()
   myCursor = dbconn.cursor()
@@ -139,6 +139,9 @@ order by time_trigger,hostid"""  \
 
   zipoutpath = os.path.join(DOWNLOAD_WEB_DIR, FILE_ZIP)
   zipinpath = ""
+
+  #print sqlQuery
+  #os.exit(1)
 
   #strCSVFile = os.path.join(DOWNLOAD_WEB_DIR, FILE_CSV)
   strCSVFile = FILE_CSV
@@ -209,9 +212,10 @@ order by time_trigger,hostid"""  \
 
 
            # valid file - print out line of csv
-           for x in range(15):
-             fileCSV.write(str(rec[x]))
-             if x < 15:
+           for x in range(21):
+             strPrint = str(rec[x]) if rec[x] != None else ""
+             fileCSV.write("\"" + strPrint + "\"")
+             if x < 21:
                fileCSV.write(",")
            fileCSV.write("\n")
 
@@ -373,7 +377,7 @@ def main():
       res = myCursor.fetchall()
       myCursor.close()
 
-      if (res[0][0] == 0 or res[0][1] == 0) or (res[0][0] > res[0][1]):
+      if (res[0][0] == None or res[0][1] == None) or (res[0][0] > res[0][1]):
          print "Usage: ./scedc DATE_MIN DATE_MAX\n"
          print "Invalid dates entered - format is YYYY-MM-DD\n"
          dbconn.close()
