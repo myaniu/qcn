@@ -148,6 +148,12 @@ CREATE TABLE `qcn_ramp_participant` (
   KEY `qcn_ramp_participant_kml_regionid` (`kml_regionid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=112 DEFAULT CHARSET=latin1;
 
+create index qcn_ramp_participant_lname on qcn_ramp_participant(lname);
+create index qcn_ramp_participant_country on qcn_ramp_participant(country);
+create index qcn_ramp_participant_time_added on qcn_ramp_participant(time_added);
+create index qcn_ramp_participant_time_completed on qcn_ramp_participant(time_completed);
+create index qcn_ramp_participant_completed on qcn_ramp_participant(completed);
+
 create table qcn_kml_region
 (
   id int primary key auto_increment,
