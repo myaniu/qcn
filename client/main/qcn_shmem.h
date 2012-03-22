@@ -52,6 +52,7 @@ class CQCNShMem : public CSerialize
     double dMyElevationMeter;   // 'station' elevation in meters
     int    iMyElevationFloor;   // 'station' floor (-1=basement, 0=ground floor, 1=first floor, etc)
 	int iMySensor;   // user pref for preferred sensor
+	int iMyAxisSingle;
 	bool bMyOutputSAC; // if true, output in SAC format, if false, CSV
 	bool bMyContinual;   // write qcnlive output continually
     char strMyStation[SIZEOF_STATION_STRING]; // 'station' name

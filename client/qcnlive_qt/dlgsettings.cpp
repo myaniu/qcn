@@ -50,6 +50,7 @@ CDialogSettings::~CDialogSettings()
 	if (m_labelElevationMeter) delete m_labelElevationMeter;
 	if (m_labelElevationFloor) delete m_labelElevationFloor;
 	if (m_labelSensor) delete m_labelSensor;	
+	if (m_labelAxisSingle) delete m_labelAxisSingle;	
 	if (m_gridlayout) delete m_gridlayout;
 
     if (m_textctrlLatitude) delete m_textctrlLatitude;
@@ -59,6 +60,7 @@ CDialogSettings::~CDialogSettings()
 	if (m_textctrlElevationMeter) delete m_textctrlElevationMeter;
 
 	if (m_comboSensor) delete m_comboSensor;
+	if (m_comboAxisSingle) delete m_comboAxisSingle;
 	if (m_radioSAC) delete m_radioSAC;
 	if (m_radioCSV) delete m_radioCSV;
 	
@@ -90,6 +92,7 @@ void CDialogSettings::InitPointers()
 	
 	m_psms = NULL;
 	m_comboSensor = NULL;
+	m_comboAxisSingle = NULL;
 	
 	m_radioSAC = NULL;
 	m_radioCSV = NULL;
@@ -107,6 +110,7 @@ void CDialogSettings::InitPointers()
 	m_labelElevationMeter = NULL;
 	m_labelElevationFloor = NULL;
 	m_labelSensor = NULL;	
+	m_labelAxisSingle = NULL;
 	m_gridlayout = NULL;
 	
 #ifdef _WIN32
@@ -153,6 +157,13 @@ bool CDialogSettings::saveValues(QString& strError)
 	int iChoice = (qvChoice == QVariant::Invalid ? -1 : qvChoice.toInt());
 	if (iChoice >= MIN_SENSOR_USB && iChoice <= MAX_SENSOR_USB) sm->iMySensor = iChoice; // set if a valid choice
 	else sm->iMySensor = -1;
+
+	qvChoice = m_comboAxisSingle->itemData(m_comboAxisSingle->currentIndex());
+	char cChoice = (qvChoice == QVariant::Invalid ? 0x00 : qvChoice.toInt());
+	if (cChoice == 0x00 || cChoice == 'X' || cChoice == 'Y' || cChoice == 'Z') sm->iMyAxisSingle = cChoice; // set if a valid choice
+	else sm->iMyAxisSingle = 0x00;
+	if (sm->iMyAxisSingle >= 'X') sm->iMyAxisSingle -= 'W';  // this will set index to 1/2/3 for X/Y/Z
+	else sm->iMyAxisSingle = 0x00;
 	
 	if (m_radioCSV->isChecked()) sm->bMyOutputSAC = false;
 	else if (m_radioSAC->isChecked()) sm->bMyOutputSAC = true;
@@ -212,6 +223,9 @@ void CDialogSettings::CreateControls()
 	// control 8 - combo box to force sensor selection (i.e. for demos/displays)
     m_labelSensor = new QLabel(tr("Force A Specific USB Sensor To Be Used:"), this);	
 	m_comboSensor = new QComboBox(this);
+
+    m_labelAxisSingle = new QLabel(tr("Select A Single Axis To Show:"), this);	
+	m_comboAxisSingle = new QComboBox(this);
 	
 	// create an array of strings of the USB sensor choices
 	int iMyIndex = 0;
@@ -225,6 +239,12 @@ void CDialogSettings::CreateControls()
 	
 	// set default setting, will at least be 0 = No Preference
 	m_comboSensor->setCurrentIndex(iMyIndex);
+	
+	m_comboAxisSingle->addItem("None", 0x00);
+	m_comboAxisSingle->addItem("X", 'X');
+	m_comboAxisSingle->addItem("Y", 'Y');
+	m_comboAxisSingle->addItem("Z", 'Z');
+	m_comboAxisSingle->setCurrentIndex(sm->iMyAxisSingle);
 	
 	// now do the grid layout of the controls
     m_gridlayout = new QGridLayout(this);
@@ -249,6 +269,9 @@ void CDialogSettings::CreateControls()
     m_gridlayout->addWidget(m_labelSensor, 6, 0);
     m_gridlayout->addWidget(m_comboSensor, 6, 1);
 
+    m_gridlayout->addWidget(m_labelAxisSingle, 7, 0);
+    m_gridlayout->addWidget(m_comboAxisSingle, 7, 1);
+	
 	m_groupMain->setLayout(m_gridlayout);
 	
 	// layout buttons

@@ -41,6 +41,8 @@
 #define XML_FLOOR      "elf"
 #define XML_CONTINUAL  "cnt"
 #define XML_SACFORMAT  "sac"
+// #define XML_SENSOR	   "sns"
+#define XML_AXIS_SINGLE  "asng"
 #define XML_MAKEQUAKE_TIME "mqt"
 #define XML_MAKEQUAKE_COUNTDOWN "mqc"
 #define XML_MAKEQUAKE_PRINTER "mqp"

@@ -178,6 +178,7 @@ bool MyApp::get_qcnlive_prefs()
     sm->dMyElevationMeter = 0.0f; 
     sm->iMyElevationFloor = 0; 
 	sm->iMySensor = -1;
+	sm->iMyAxisSingle = 0x00;
 	sm->bMyContinual = false;  // default to no continual recording (i.e. user has to start/stop recording via the button)
 	sm->bMyOutputSAC = false;  // default to csv text output i.e. not sac
 
@@ -232,6 +233,11 @@ bool MyApp::get_qcnlive_prefs()
     sprintf(strParse, "<%s>", XML_SENSOR);
     if (!parse_int(strRead, strParse, sm->iMySensor) || sm->iMySensor <= 0)
         sm->iMySensor = -1;
+
+    // get preferred single axis if any
+    sprintf(strParse, "<%s>", XML_AXIS_SINGLE);
+    if (!parse_int(strRead, strParse, sm->iMyAxisSingle) || sm->iMyAxisSingle <= 0)
+        sm->iMyAxisSingle = 0x00;
 	
     // check for valid lat/lng range
     sprintf(strParse, "<%s>", XML_LATITUDE);
@@ -330,6 +336,7 @@ bool MyApp::set_qcnlive_prefs()
 				"<%s>%d</%s>\n"
 				"<%s>%d</%s>\n"
 				"<%s>%d</%s>\n"
+				"<%s>%d</%s>\n"
 				"<%s>%s</%s>\n"
                         ,
                     XML_X, m_rect.x(), XML_X,
@@ -342,6 +349,7 @@ bool MyApp::set_qcnlive_prefs()
                     XML_ELEVATION, sm->dMyElevationMeter, XML_ELEVATION,
                     XML_FLOOR, sm->iMyElevationFloor, XML_FLOOR,
 					XML_SENSOR, sm->iMySensor, XML_SENSOR,
+					XML_AXIS_SINGLE, sm->iMyAxisSingle, XML_AXIS_SINGLE,
 					XML_CONTINUAL, (sm->bMyContinual ? 1 : 0), XML_CONTINUAL,
 					XML_SACFORMAT, (sm->bMyOutputSAC ? 1 : 0), XML_SACFORMAT,
 			        XML_MAKEQUAKE_TIME, m_iMakeQuakeTime, XML_MAKEQUAKE_TIME,

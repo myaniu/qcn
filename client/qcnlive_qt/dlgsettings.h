@@ -29,6 +29,7 @@ private:
 	CSensor* m_psms;  // just a dummy sensor obj to get string names
 	
 	QComboBox* m_comboSensor;
+	QComboBox* m_comboAxisSingle;
 	
 	QRadioButton* m_radioSAC;
 	QRadioButton* m_radioCSV;
@@ -49,6 +50,7 @@ private:
 	QLabel* m_labelElevationMeter;
 	QLabel* m_labelElevationFloor;
 	QLabel* m_labelSensor;	
+	QLabel* m_labelAxisSingle;
 	
 	QGridLayout* m_gridlayout;
 	
