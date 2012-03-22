@@ -23,7 +23,7 @@ quake_depth_km float, quake_lat float, quake_lon float, quake_mag float, quake_i
 I found some extra fields I'm rerunning so the csv/excel for mat will be like this, which can be "mysqlimport"-ed into a mysql table on scedc's end very easily:
 
 db, triggerid, hostid, time_utc, time_us, magnitude, significance, latitude, longitude, file, numreset, sensor, alignment, level_value, level_type, usgs_quake_time, quake_depth_km, quake_lat, quake_lon, quake_mag, quake_id
-"C","10846816","484","2012-03-13 19:00:00","180.0","0.0","0.0","34.066640807","-118.441988826","continual_qcnaa_048424_000000_1331665200.zip","0","ONavi A 16-bit USB","North","12","Floor (+/- above/below surface)","","","","","","",
+"C","10846816","484","2012-03-13 19:00:00","180.0","0.0","0.0","34.066640807","-118.441988826","continual_qcnaa_048424_000000_1331665200.zip","0","ONavi B 16-bit USB","North","12","Floor (+/- above/below surface)","","","","","","",
 "C","10846810","528","2012-03-13 19:00:00","1057.0","0.0","0.0","34.0666408","-118.441988","continual_qcnaa_048582_000000_1331665200.zip","0","ONavi A 16-bit USB","North","3","Floor (+/- above/below surface)","","","","","","",
 "C","10846808","537","2012-03-13 19:00:00","9889.0","0.0","0.0","34.0666408","-118.441988","continual_qcnaa_048611_000000_1331665200.zip","0","ONavi A 16-bit USB","North","-1","Floor (+/- above/below surface)","","","","","","",
 "C","10846809","794","2012-03-13 19:00:00","19563.0","0.0","0.0","34.13654088","-118.128274977","continual_qcnaa_048606_000000_1331665200.zip","0","ONavi A 16-bit USB","North","1","Floor (+/- above/below surface)","","","","","","",
@@ -223,8 +223,8 @@ qcn_sensor
 | 102 |      1 | O1 USB                    |
 | 103 |      1 | JoyWarrior 24F14 USB      |
 | 104 |      1 | ONavi A 12-bit USB        |
-| 105 |      1 | ONavi A 16-bit USB        |
-| 106 |      1 | ONavi A 24-bit USB        |
+| 105 |      1 | ONavi B 16-bit USB        |
+| 106 |      1 | ONavi C 24-bit USB        |
 +-----+--------+---------------------------+
 
 ----------------------

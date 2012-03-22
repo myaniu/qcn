@@ -52,10 +52,10 @@
 #define SENSOR_STRLG_USB_ONAVI_A_12 "ONavi A 12-bit USB"
 #define SENSOR_STRSH_USB_ONAVI_A_12 "O2"
 
-#define SENSOR_STRLG_USB_ONAVI_A_16 "ONavi A 16-bit USB"
+#define SENSOR_STRLG_USB_ONAVI_A_16 "ONavi B 16-bit USB"
 #define SENSOR_STRSH_USB_ONAVI_A_16 "O3"
 
-#define SENSOR_STRLG_USB_ONAVI_A_24 "ONavi A 24-bit USB"
+#define SENSOR_STRLG_USB_ONAVI_A_24 "ONavi C 24-bit USB"
 #define SENSOR_STRSH_USB_ONAVI_A_24 "O4"
 
 // end sensor strings

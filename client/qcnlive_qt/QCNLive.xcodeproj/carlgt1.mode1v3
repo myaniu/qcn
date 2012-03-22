@@ -216,10 +216,10 @@
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>43C85BE7151BAB8600681E79</string>
+						<string>432CB3D2151BE84C0008A224</string>
 						<key>history</key>
 						<array>
-							<string>43C85BDA151BAAE500681E79</string>
+							<string>43C85BE7151BAB8600681E79</string>
 						</array>
 					</dict>
 					<key>SplitCount</key>
@@ -256,10 +256,10 @@
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>43C85BEA151BAB8600681E79</string>
+						<string>432CB3D3151BE84C0008A224</string>
 						<key>history</key>
 						<array>
-							<string>43C85BD9151BAADD00681E79</string>
+							<string>43C85BEA151BAB8600681E79</string>
 						</array>
 					</dict>
 					<key>SplitCount</key>
@@ -296,10 +296,10 @@
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>43C85BED151BAB8600681E79</string>
+						<string>432CB3D4151BE84C0008A224</string>
 						<key>history</key>
 						<array>
-							<string>43C85BD6151BAAAC00681E79</string>
+							<string>43C85BED151BAB8600681E79</string>
 						</array>
 					</dict>
 					<key>SplitCount</key>
@@ -336,10 +336,10 @@
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>43C85BEE151BAB8600681E79</string>
+						<string>432CB3D5151BE84C0008A224</string>
 						<key>history</key>
 						<array>
-							<string>43C85BAE151BA78A00681E79</string>
+							<string>43C85BEE151BAB8600681E79</string>
 						</array>
 					</dict>
 					<key>SplitCount</key>
@@ -376,10 +376,10 @@
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>43C85BEF151BAB8600681E79</string>
+						<string>432CB3D6151BE84C0008A224</string>
 						<key>history</key>
 						<array>
-							<string>437A0CE6151A6DEA0036AA9D</string>
+							<string>43C85BEF151BAB8600681E79</string>
 						</array>
 					</dict>
 					<key>SplitCount</key>
@@ -524,7 +524,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>1CE0B20306471E060097A5F4</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>qcnlive_define.h</string>
+								<string>qcn_shmem.h</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -532,18 +532,19 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>1CE0B20406471E060097A5F4</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>qcnlive_define.h</string>
+										<string>qcn_shmem.h</string>
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>43C85BE4151BAB8600681E79</string>
+										<string>432CB3CF151BE84C0008A224</string>
 										<key>history</key>
 										<array>
 											<string>43141EA5150FE87F0063E2F8</string>
 											<string>43C85B92151BA4F200681E79</string>
 											<string>43C85BE1151BAB8600681E79</string>
 											<string>43C85BE2151BAB8600681E79</string>
-											<string>43C85BE3151BAB8600681E79</string>
+											<string>432CB3CD151BE84C0008A224</string>
+											<string>432CB3CE151BE84C0008A224</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -555,14 +556,14 @@
 							<key>GeometryConfiguration</key>
 							<dict>
 								<key>Frame</key>
-								<string>{{0, 0}, {887, 575}}</string>
+								<string>{{0, 0}, {887, 569}}</string>
 								<key>RubberWindowFrame</key>
 								<string>197 258 1183 844 0 0 1920 1178 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
 							<key>Proportion</key>
-							<string>575pt</string>
+							<string>569pt</string>
 						</dict>
 						<dict>
 							<key>ContentConfiguration</key>
@@ -575,14 +576,14 @@
 							<key>GeometryConfiguration</key>
 							<dict>
 								<key>Frame</key>
-								<string>{{0, 580}, {887, 223}}</string>
+								<string>{{0, 574}, {887, 229}}</string>
 								<key>RubberWindowFrame</key>
 								<string>197 258 1183 844 0 0 1920 1178 </string>
 							</dict>
 							<key>Module</key>
 							<string>XCDetailModule</string>
 							<key>Proportion</key>
-							<string>223pt</string>
+							<string>229pt</string>
 						</dict>
 					</array>
 					<key>Proportion</key>
@@ -601,9 +602,9 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>43C85B95151BA4F200681E79</string>
+				<string>432CB3D0151BE84C0008A224</string>
 				<string>1CE0B1FE06471DED0097A5F4</string>
-				<string>43C85B96151BA4F200681E79</string>
+				<string>432CB3D1151BE84C0008A224</string>
 				<string>1CE0B20306471E060097A5F4</string>
 				<string>1CE0B20506471E060097A5F4</string>
 			</array>
@@ -741,16 +742,12 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>43C85BA4151BA4F200681E79</string>
-		<string>43C85BA5151BA4F200681E79</string>
-		<string>1C78EAAD065D492600B07095</string>
-		<string>1CD10A99069EF8BA00B06720</string>
+		<string>4359DED7142251AB006F3451</string>
 		<string>437A0CB8151A6C4B0036AA9D</string>
 		<string>43C85BC0151BA90600681E79</string>
 		<string>43C85BEB151BAB8600681E79</string>
 		<string>43C85BE8151BAB8600681E79</string>
 		<string>43C85BE5151BAB8600681E79</string>
-		<string>4359DED7142251AB006F3451</string>
 		<string>/Users/carlgt1/projects/qcn/client/qcnlive_qt/QCNLive.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
@@ -775,7 +772,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>1CD0528F0623707200166675</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>qcnqt.cpp</string>
+								<string></string>
 								<key>StatusBarVisibility</key>
 								<true/>
 							</dict>
@@ -792,8 +789,6 @@
 							<string>669pt</string>
 						</dict>
 						<dict>
-							<key>BecomeActive</key>
-							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
@@ -833,7 +828,7 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>4359DED7142251AB006F3451</string>
-				<string>43C85B9B151BA4F200681E79</string>
+				<string>432CB3D7151BE84C0008A224</string>
 				<string>1CD0528F0623707200166675</string>
 				<string>XCMainBuildResultsModuleGUID</string>
 			</array>
@@ -846,7 +841,7 @@
 			<key>WindowToolGUID</key>
 			<string>4359DED7142251AB006F3451</string>
 			<key>WindowToolIsVisible</key>
-			<true/>
+			<false/>
 		</dict>
 		<dict>
 			<key>FirstTimeWindowDisplayed</key>
