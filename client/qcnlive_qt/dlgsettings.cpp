@@ -224,7 +224,7 @@ void CDialogSettings::CreateControls()
     m_labelSensor = new QLabel(tr("Force A Specific USB Sensor To Be Used:"), this);	
 	m_comboSensor = new QComboBox(this);
 
-    m_labelAxisSingle = new QLabel(tr("Select A Single Axis To Show:"), this);	
+    m_labelAxisSingle = new QLabel(tr("Select Single Axis To Show (2D Plot):"), this);	
 	m_comboAxisSingle = new QComboBox(this);
 	
 	// create an array of strings of the USB sensor choices

@@ -101,6 +101,7 @@
 		389D844839024C27E3EE1BD6 /* icons.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = icons.h; sourceTree = "<group>"; };
 		3A9598F9D0008B7DC47F0F9B /* trickledown.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = trickledown.cpp; path = ../util/trickledown.cpp; sourceTree = "<group>"; };
 		40A4D687C2287AC419FAC700 /* qcn_signal.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = qcn_signal.cpp; path = ../util/qcn_signal.cpp; sourceTree = "<group>"; };
+		4381ADD0151C0A56007752DF /* qcn_2dplot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = qcn_2dplot.h; path = ../graphics/qcn_2dplot.h; sourceTree = SOURCE_ROOT; };
 		43C85BA9151BA6AC00681E79 /* qcn_shmem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = qcn_shmem.h; path = ../main/qcn_shmem.h; sourceTree = SOURCE_ROOT; };
 		43F140541422645D001C0846 /* QCNLive.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QCNLive.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		514B45140FBAF53969785617 /* qcn_earth.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = qcn_earth.cpp; path = ../graphics/qcn_earth.cpp; sourceTree = "<group>"; };
@@ -226,6 +227,14 @@
 			name = graphics;
 			sourceTree = "<group>";
 		};
+		4381ADD1151C0A5A007752DF /* graphics */ = {
+			isa = PBXGroup;
+			children = (
+				4381ADD0151C0A56007752DF /* qcn_2dplot.h */,
+			);
+			name = graphics;
+			sourceTree = "<group>";
+		};
 		43F140551422645D001C0846 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -237,6 +246,7 @@
 		4458B98565818D7E2682FA2D /* .. */ = {
 			isa = PBXGroup;
 			children = (
+				4381ADD1151C0A5A007752DF /* graphics */,
 				E9573E0CC00160A0BBA7599D /* main */,
 			);
 			name = ..;
