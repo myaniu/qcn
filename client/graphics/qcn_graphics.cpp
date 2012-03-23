@@ -293,9 +293,9 @@ const float xax_2d[3] = { -47.0, 44.0, 49.0 };
 // also note 2d array as first element/array group is with no sig, second is to show sig
 // size of each height (y) is 20 for x/y/z plot and 15 for x/y/z/s plot
 	// get rid of the .5 padding
-const float yax_2d[2][5] = { { -28.5, -8.5, 11.5, 31.5, 31.5 }, { -28.5, -13.5, 1.5, 16.5, 31.5 } } ; 
+const float yax_2d[2][4] = { { -28.5, -8.5, 11.5, 31.5 }, { -28.5, -13.5, 1.5, 16.5 } } ; 
 
-const float Y_TRIGGER_LAST[2] = { -30.0, yax_2d[0][4] }; // the Y of the trigger & timer tick line
+const float Y_TRIGGER_LAST[2] = { -30.0, yax_2d[0][3] }; // the Y of the trigger & timer tick line
 
 int  iFullScreenView = 0;  // user preferred view, can be set on cmd line
 

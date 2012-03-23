@@ -109,10 +109,10 @@ bool CSensorMacUSBONavi01::detect()
 	         setType(SENSOR_USB_ONAVI_A_12);
                  break;
              case 16:
-	         setType(SENSOR_USB_ONAVI_A_16);
+	         setType(SENSOR_USB_ONAVI_B_16);
                  break;
              case 24:
-	         setType(SENSOR_USB_ONAVI_A_24);
+	         setType(SENSOR_USB_ONAVI_C_24);
                  break;
              default: // error!
                closePort();

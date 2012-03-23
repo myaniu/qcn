@@ -725,6 +725,12 @@ void MyFrame::fileDialogSettings()
 							QMessageBox::Ok | QMessageBox::Cancel, QMessageBox::Ok) == QMessageBox::Ok)
 					close();
 			}
+			// enable/disable significance button
+			m_actionOptionSensorSignificance->setEnabled(sm->iMyAxisSingle == 0);
+			if (sm->iMyAxisSingle) {
+				qcn_2dplot::g_iShowSig = 0;
+				m_actionOptionSensorSignificance->setChecked(false);
+			}
 		}
 	    delete pcds;
 	}
@@ -1161,6 +1167,7 @@ void MyFrame::ToolBarSensor2D()
 	
 	m_toolBarOption->addAction(m_actionOptionSensorSignificance);
 	m_menuOptions->addAction(m_actionOptionSensorSignificance);
+	m_actionOptionSensorSignificance->setEnabled(sm->iMyAxisSingle == 0); // set enabled based on single axis shown
 
     AddScreenshotItem();
 	

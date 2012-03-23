@@ -230,8 +230,8 @@ enum e_sensor  { SENSOR_NOTFOUND = 0,  // 0
 	             SENSOR_USB_ONAVI_1,     // 102
 				 SENSOR_USB_JW24F14,      // 103
 	             SENSOR_USB_ONAVI_A_12,     // 104
-	             SENSOR_USB_ONAVI_A_16,     // 105
-	             SENSOR_USB_ONAVI_A_24     // 106
+	             SENSOR_USB_ONAVI_B_16,     // 105
+	             SENSOR_USB_ONAVI_C_24     // 106
                };
 
 // USB id's

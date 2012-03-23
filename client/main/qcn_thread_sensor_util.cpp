@@ -124,8 +124,8 @@ void psmsForceSensor(CSensor* volatile *ppsms)
 					break;
 			case SENSOR_USB_ONAVI_1:
                         case SENSOR_USB_ONAVI_A_12:
-                        case SENSOR_USB_ONAVI_A_16:
-                        case SENSOR_USB_ONAVI_A_24:
+                        case SENSOR_USB_ONAVI_B_16:
+                        case SENSOR_USB_ONAVI_C_24:
 #ifdef _WIN32
 				 *ppsms = (CSensor*) new CSensorWinUSBONavi01();
 #else
@@ -650,8 +650,8 @@ void SetSensorThresholdAndDiffFactor()
 			break;
 		case SENSOR_USB_ONAVI_1:
                 case SENSOR_USB_ONAVI_A_12:
-                case SENSOR_USB_ONAVI_A_16:
-                case SENSOR_USB_ONAVI_A_24:
+                case SENSOR_USB_ONAVI_B_16:
+                case SENSOR_USB_ONAVI_C_24:
 			g_fThreshold = 0.0025f;
 			g_fSensorDiffFactor = 1.10f;   // note USB sensors get a small diff factor below, instead of 33% just 10%
 			break;

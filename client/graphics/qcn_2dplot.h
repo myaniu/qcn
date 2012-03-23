@@ -2,6 +2,8 @@
 #define _QCN_2DPLOT_H_
 
 namespace qcn_2dplot {	
+	extern short g_iShowSig;
+	
 	extern void TimeZoomOut();
 	extern void TimeZoomIn();
 	extern void SensorDataZoomAuto();

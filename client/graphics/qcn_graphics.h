@@ -182,7 +182,7 @@ extern bool g_bInitGraphics;
 extern const float xax[2];
 extern const float yax[4];
 extern const float xax_2d[3];
-extern const float yax_2d[2][5]; // note the last is the very top of sig, so it's 15 + .5 padding for the sig axis which is .5 above next line
+extern const float yax_2d[2][4]; // note the last is the very top of sig, so it's 15 + .5 padding for the sig axis which is .5 above next line
 
 extern const float Y_TRIGGER_LAST[2]; // the Y of the trigger & timer tick line
 
