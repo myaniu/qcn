@@ -191,6 +191,8 @@ bool doTriggerMemoryInsert(const DB_QCN_TRIGGER& qtrig, const double* const dmxy
     qtrigmem.numreset = qtrig.numreset;
     qtrigmem.qcn_sensorid = qtrig.qcn_sensorid;
     qtrigmem.varietyid = qtrig.varietyid;
+    qtrigmem.hostipaddrid = qtrig.hostipaddrid;
+    qtrigmem.geoipaddrid = qtrig.geoipaddrid;
 
     //if (dmxy[0] > -DBL_MAX) qtrigmem.mxy1p = dmxy[0];
     //if (dmz[0] > -DBL_MAX) qtrigmem.mz1p = dmz[0];

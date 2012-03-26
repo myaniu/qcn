@@ -157,6 +157,8 @@ struct QCN_TRIGGER_MEMORY
     int qcn_sensorid;
     int varietyid;
     int qcn_quakeid;
+    int hostipaddrid;
+    int geoipaddrid;
     bool posted;
     void clear() 
      {
@@ -430,6 +432,8 @@ public:
         "qcn_sensorid=%d,"
         "varietyid=%d,"
         "qcn_quakeid=%d,"
+        "hostipaddrid=%d,"
+        "geoipaddrid=%d,"
         "posted=%d"
         ,
         db_name, triggerid, hostid, ipaddr, result_name, time_trigger, time_sync, sync_offset,
@@ -443,7 +447,7 @@ public:
         mxy4a,
         mz4a,
         latitude, longitude, strLevelValue, strLevelID, alignid,
-        file, dt, numreset, qcn_sensorid, varietyid, qcn_quakeid, posted ? 1 : 0
+        file, dt, numreset, qcn_sensorid, varietyid, qcn_quakeid, hostipaddrid, geoipaddrid, posted ? 1 : 0
       );
     }
 
@@ -491,6 +495,8 @@ public:
       qcn_sensorid = safe_atoi(r[i++]);
       varietyid = safe_atoi(r[i++]);
       qcn_quakeid = safe_atoi(r[i++]);
+      hostipaddrid = safe_atoi(r[i++]);
+      geoipaddrid = safe_atoi(r[i++]);
       posted = (bool) safe_atoi(r[i++]);
     }
 };
