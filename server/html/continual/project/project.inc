@@ -662,9 +662,9 @@ function disguise_curl($url)
 }
 
 
-
 function show_trigger($hostid, $heading, $private)//=false)
 {
+
    if ($hostid<1) return;
    // make a table of triggers for this host
    $tr = null;
@@ -683,15 +683,12 @@ function show_trigger($hostid, $heading, $private)//=false)
        . "t.dt, t.numreset, "
        . "s.description, "
        . "t.sw_version,t.os_type,t.runtime_cpu,t.runtime_clock,t.varietyid,t.levelvalue,t.levelid,"
-       . "t.received_file,t.file as file_url,t.result_name,t.alignid,t.qcn_quakeid,q.url "
+       . "t.received_file,t.file as file_url,t.result_name,t.alignid,t.qcn_quakeid,q.url, if(t.geoipaddrid=0,'N','Y') is_geoip "
        . "from qcn_trigger t "
        . "             LEFT JOIN qcn_sensor s ON t.qcn_sensorid = s.id "
        . "             LEFT JOIN qcn_quake q ON t.qcn_quakeid = q.id "
        . "WHERE hostid=$hostid order by time_trigger desc limit " . MAX_NUM_TRIGGER;
    $result=$db->do_query($sql);
-
-
-
 
 
    if ($result && mysql_num_rows($result)>0) {  // we found some records
@@ -707,15 +704,18 @@ function show_trigger($hostid, $heading, $private)//=false)
            $strFontEnd   = "";
          }
          if ($i == 0) {
-         if ($private) {
-          $loc_res = 4;
-         } else {
-          $loc_res = 2;
-         }
-            $lat = $row[8];
+          if ($private) {
+           $loc_res = 4;
+          } else {
+           $loc_res = 2;
+          }
+           $lat = $row[8];
            $lon = $row[9];
 
+
+
    if ($j == 0) {
+
 // Plot sensor location (for first trigger only before printing the table of triggers)
     start_table();
     echo "<tr><th align=\"left\">Sensor Location:</th></tr>\n";
@@ -723,18 +723,15 @@ function show_trigger($hostid, $heading, $private)//=false)
     echo "<iframe src=\"".BASEURL."/earthquakes/view/qcn_map_sensor.php?lon=" . round($lon,$loc_res) . "&lat=" . round($lat,$loc_res) . "\" frameborder=\"0\" scrolling=\"no\" width=\"100%\" height=\"365\" align=\"left\"></iframe>\n";
     echo "</td><td>\n";
     if ($private) { // Allow admin & user to edit location
-       echo "<a href=edit_host_info_form.php?hostid=".$hostid.">Click Here To Select Locations For This Computer</a>\n"; 
+      echo "<a href=edit_host_info_form.php?hostid=".$hostid.">Click Here To Select Locations For This Computer</a>\n"; 
     }
     echo "</td></tr></table>\n";
     echo "</td></tr></table>\n";
 
    echo "<H2>$heading</H2>\n";
    echo "<H3>Last " . MAX_NUM_TRIGGER . " Triggers for this Computer</H3>\n";
-   
    if ($private) {
-
    echo "<H5>(NB: <font color=$colorPing>grey text</font> is a 'ping' trigger to see who is running QCN)</H5>\n";}
-
    start_table();
    echo "<tr><th>Trigger ID</th>
              <th>Trigger Time (UTC)</th>
@@ -750,7 +747,8 @@ function show_trigger($hostid, $heading, $private)//=false)
              <th>Delta T</th>
              <th>Num Reset</th>
              <th>Sensor Type</th>
-             <th>Version</th>";
+             <th>Version</th>
+             <th>GeoIP?</th>";
     if ($private) {
     echo "
              <th>OS</th>";
@@ -837,7 +835,8 @@ mysql> select * from qcn_level;
                    <td>$strTableFont" . ($row[10] ? $row[10] : 0) . "$strFontEnd</td>
                    <td>$strTableFont$row[11]$strFontEnd</td>
                    <td>$strTableFont$row[12]$strFontEnd</td>
-                   <td>$strTableFont$row[13]$strFontEnd</td>";
+                   <td>$strTableFont$row[13]$strFontEnd</td>
+                   <td>$strTableFont$row[26]$strFontEnd</td>";
         if ($private) {
         echo "
                    <td>$strTableFont$row[14]$strFontEnd</td>";
@@ -851,25 +850,15 @@ mysql> select * from qcn_level;
               </font></tr>";
        }
       }
+   } else {
+    start_table();
+    echo "<tr><th align=\"left\">No recent triggers found in database.</th></tr></table>\n";
    }
 
    end_table();
 
 
 
-}
-
-
-
-function qcn_admin_user_check($user)
-{
-// authenticate admin-level user
-$auth = false;
-if ($user) {
-  if (!isset($user->prefs)) BoincForumPrefs::lookup($user);
-  if (substr($user->prefs->special_user, 3, 1) == "1") $auth = true;
-}
-return $auth;
 }
 
 function show_trigger2($hostid, $heading, $private=true)
@@ -1026,6 +1015,7 @@ mysql> select * from qcn_level;
    end_table();
 }
 
+
 function qcn_admin_user_auth($user, $exit_on_nonauth = false)
 {
 // authenticate admin-level user
@@ -1037,6 +1027,18 @@ if ($user) {
 if ($exit_on_nonauth && !$auth) {
    echo "You are not authorized to use this page.  Please contact a QCN staff member.";
    exit();
+}
+return $auth;
+}
+
+
+function qcn_admin_user_check($user)
+{
+// authenticate admin-level user
+$auth = false;
+if ($user) {
+  if (!isset($user->prefs)) BoincForumPrefs::lookup($user);
+  if (substr($user->prefs->special_user, 3, 1) == "1") $auth = true;
 }
 return $auth;
 }

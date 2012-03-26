@@ -682,7 +682,7 @@ function show_trigger($hostid, $heading, $private)//=false)
        . "t.dt, t.numreset, "
        . "s.description, "
        . "t.sw_version,t.os_type,t.runtime_cpu,t.runtime_clock,t.varietyid,t.levelvalue,t.levelid,"
-       . "t.received_file,t.file as file_url,t.result_name,t.alignid,t.qcn_quakeid,q.url "
+       . "t.received_file,t.file as file_url,t.result_name,t.alignid,t.qcn_quakeid,q.url, if(t.geoipaddrid=0,'N','Y') is_geoip "
        . "from qcn_trigger t "
        . "             LEFT JOIN qcn_sensor s ON t.qcn_sensorid = s.id "
        . "             LEFT JOIN qcn_quake q ON t.qcn_quakeid = q.id "
@@ -746,7 +746,8 @@ function show_trigger($hostid, $heading, $private)//=false)
              <th>Delta T</th>
              <th>Num Reset</th>
              <th>Sensor Type</th>
-             <th>Version</th>";
+             <th>Version</th>
+             <th>GeoIP?</th>";
     if ($private) {
     echo "
              <th>OS</th>";
@@ -833,7 +834,8 @@ mysql> select * from qcn_level;
                    <td>$strTableFont" . ($row[10] ? $row[10] : 0) . "$strFontEnd</td>
                    <td>$strTableFont$row[11]$strFontEnd</td>
                    <td>$strTableFont$row[12]$strFontEnd</td>
-                   <td>$strTableFont$row[13]$strFontEnd</td>";
+                   <td>$strTableFont$row[13]$strFontEnd</td>
+                   <td>$strTableFont$row[26]$strFontEnd</td>";
         if ($private) {
         echo "
                    <td>$strTableFont$row[14]$strFontEnd</td>";

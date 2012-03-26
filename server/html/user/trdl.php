@@ -62,7 +62,7 @@ t.id as triggerid, t.hostid, t.ipaddr, t.result_name, t.time_trigger as trigger_
 t.sync_offset, t.significance, t.magnitude as trigger_mag, 
 t.latitude as trigger_lat, t.longitude as trigger_lon, t.file as trigger_file, t.dt as delta_t,
 t.numreset, s.description as sensor_description, t.sw_version, t.qcn_quakeid, t.time_filereq as trigger_timereq, 
-t.received_file, REPLACE_ARCHIVE is_archive, t.varietyid, q.url quake_url
+t.received_file, REPLACE_ARCHIVE is_archive, t.varietyid, q.url quake_url, if(t.geoipaddrid=0, 'N', 'Y') is_geoip 
 FROM REPLACE_DB.qcn_trigger t LEFT OUTER JOIN sensor.qcn_quake q ON t.qcn_quakeid = q.id
    LEFT JOIN sensor.qcn_sensor s ON t.qcn_sensorid = s.id 
 ";
@@ -106,6 +106,7 @@ $last_pos = get_int("last_pos", true);
 $bUseCSV = get_int("cbUseCSV", true);
 $bUseArchive = get_int("cbUseArchive", true);
 $bUseFile  = get_int("cbUseFile", true);
+$bUseGeoIP = get_int("cbUseGeoIP", true);
 $bUseQuake = get_int("cbUseQuake", true);
 $bUseQCNQuake = get_int("cbUseQCNQuake", true);
 $bUseLat   = get_int("cbUseLat", true);
@@ -229,6 +230,7 @@ echo "<html><head>
 //if (!$bUseFile && !$bUseQuake && !$bUseQCNQuake && !$bUseLat && !$bUseTime && !$bUseSensor) $bUseTime = 1;
 if ($bNoQuery) {
   $bUseFile = 1;
+  $bUseGeoIP = 1;
   $bUseQuake = 1;
   $bUseQCNQuake = 1;
   $quake_mag_min = 3.0;
@@ -297,6 +299,7 @@ echo "
 
 
 echo "  <input type=\"checkbox\" id=\"cbUseFile\" name=\"cbUseFile\" value=\"1\" " . ($bUseFile ? "checked" : "") . "> Only Show If Files Received
+   <p><input type=\"checkbox\" id=\"cbUseGeoIP\" name=\"cbUseGeoIP\" value=\"1\" " . ($bUseGeoIP ? "checked" : "") . "> Include GeoIP Only Triggers 
   <p><input type=\"checkbox\" id=\"cbUseQuake\" name=\"cbUseQuake\" value=\"1\" " . ($bUseQuake ? "checked" : "") . "> Match USGS Quakes:&nbsp;
   Mag >= &nbsp;<input id=\"quake_mag_min\" name=\"quake_mag_min\" value=\"$quake_mag_min\" size=\"4\">
 
@@ -488,6 +491,10 @@ $whereString = "t.varietyid in ($varStr)";
 
 if ($bUseFile) {
    $whereString .= " AND t.received_file = 100 ";
+}
+
+if (!$bUseGeoIP) {
+   $whereString .= " AND t.geoipaddrid = 0 ";
 }
 
 if ($bUseHost) {
@@ -987,7 +994,7 @@ function qcn_trigger_header_csv($auth) {
    $value = $value ."ResultName, ";
    $value = $value 
     . "TimeTrigger, Delay, TimeSync, SyncOffset, "
-    . "Magnitude, Significance, Latitude, Longitude, Resets, DT, Sensor, Version, Time File Req, "
+    . "Magnitude, Significance, Latitude, Longitude, Resets, DT, Sensor, Version, GeoIP, Time File Req, "
     . "Received File, File Download, View, USGS ID, Quake Dist (km), Quake Magnitude, Quake Time, "
     . "Quake Lat, Quake Long, USGS GUID, Quake Desc, Is Archive?"
     . "\n";
@@ -1029,7 +1036,7 @@ function qcn_trigger_detail_csv(&$res,$auth,$user)
        $res->result_name . "," . time_str_csv($res->trigger_time) . "," . round($res->delay_time, 2) . "," .
         time_str_csv($res->trigger_sync) . "," . $res->sync_offset . "," . $res->trigger_mag . "," . $res->significance . "," .
         round($res->trigger_lat, $loc_res) . "," . round($res->trigger_lon, $loc_res) . "," . ($res->numreset ? $res->numreset : 0) . "," .
-        $res->delta_t . "," . $res->sensor_description . "," . $res->sw_version . "," .
+        $res->delta_t . "," . $res->sensor_description . "," . $res->sw_version . "," . $res->is_geoip . "," .
         time_str_csv($res->trigger_time) . "," . ($res->received_file == 100 ? " Yes " : " No " ) . "," .
         $file_url . "," .
         $quakestuff .
@@ -1067,6 +1074,7 @@ function qcn_trigger_header($auth) {
         <th><font size=\"1\">dt (s)</font size></th>
         <th><font size=\"1\">Sensor</font size></th>
         <th><font size=\"1\">QCN V.</font size></th>
+        <th><font size=\"1\">GeoIP?</font size></th>
         <th><font size=\"1\">Time File Req</font size></th>";
 //   echo "        <th><font size=\"1\">File Received</font size></th>";
    echo "
@@ -1139,7 +1147,8 @@ global $unixtimeArchive;
         <td><font size=\"1\">" . ($res->numreset ? $res->numreset : 0) . "</font size></td>
         <td><font size=\"1\">$res->delta_t</font size></td>
         <td><font size=\"1\">$sensor_type</font size></td>
-        <td><font size=\"1\">$res->sw_version</font size></td>";
+        <td><font size=\"1\">$res->sw_version</font size></td>
+        <td><font size=\"1\">$res->is_geoip<font size></td>";
       
         echo "
         <td><font size=\"1\">" . time_str($res->trigger_timereq) . "</font size></td>";
