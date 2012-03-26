@@ -400,6 +400,11 @@ int handle_qcn_trigger(const DB_MSG_FROM_HOST* pmfh, const int iVariety)
                  memset(qtrig.ipaddr, 0x00, sizeof(qtrig.ipaddr));
                  qtrig.latitude  = qhip.latitude;
                  qtrig.longitude = qhip.longitude;
+                 qtrig.levelvalue = qhip.levelvalue;
+                 qtrig.levelid = qhip.levelid;
+                 qtrig.alignid = qhip.alignid;
+                 qtrig.hostipaddrid = qhip.id;
+                 qtrig.geoipaddrid = qhip.geoipaddrid;
                  iRetVal = qtrig.insert();  // note if the insert fails, return code will be set and returned below
                  if (!iRetVal) { // trigger got in OK
                     doTriggerMemoryInsert(qtrig, dmxy, dmz);
@@ -427,6 +432,8 @@ int handle_qcn_trigger(const DB_MSG_FROM_HOST* pmfh, const int iVariety)
            qtrig.levelvalue = qhip.levelvalue;
            qtrig.levelid = qhip.levelid;
            qtrig.alignid = qhip.alignid;
+           qtrig.hostipaddrid = qhip.id;
+           qtrig.geoipaddrid = qhip.geoipaddrid;
            iRetVal = qtrig.insert();  // note if the insert fails, return code will be set and returned below, for update later
            if (iRetVal) { 
               strErr = new char[512];
@@ -547,6 +554,7 @@ int lookupGeoIPWebService(
                                     qhip.longitude   = qgip.longitude;
                                     qtrig.latitude   = qgip.latitude;
                                     qtrig.longitude  = qgip.longitude;
+                                    qtrig.geoipaddrid = qhip.geoipaddrid;
                                     qhip.levelvalue = 0;
                                     qhip.levelid    = 0;
                                     qhip.alignid    = 0;
@@ -554,6 +562,7 @@ int lookupGeoIPWebService(
                                     qtrig.levelid    = 0;
                                     qtrig.alignid    = 0;
                                     iReturn = qhip.insert();
+                                    qtrig.hostipaddrid = iReturn;
                                     if (!iReturn) { // success, insert trigger, if fails retcode sent below
                                         iReturn = qtrig.insert();
                                         if (iReturn) {
@@ -621,6 +630,8 @@ int lookupGeoIPWebService(
                        qtrig.alignid    = 0;
 
                        iReturn = qhip.insert();  // note if the insert fails, return code will be set and returned below
+                       qtrig.geoipaddrid = qhip.geoipaddrid;
+                       qtrig.hostipaddrid = iReturn;
                        if (!iReturn) iReturn = qtrig.insert();  // note if the insert fails, return code will be set and returned below
                        if (iReturn) { // error, print out debug info
               char* strErr = new char[512];

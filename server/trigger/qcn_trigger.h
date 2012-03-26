@@ -120,6 +120,8 @@ struct QCN_TRIGGER
     double runtime_cpu;
     int varietyid;
     int flag;
+    int hostipaddrid;
+    int geoipaddrid;
     void clear() {memset(this, 0x00, sizeof(QCN_TRIGGER));}
 };
 
@@ -327,12 +329,15 @@ public:
         "runtime_clock=%f,"
         "runtime_cpu=%f,"
         "varietyid=%d,"
-        "flag=0"
+        "flag=0,"
+        "hostipaddrid=%d,"
+        "geoipaddrid=%d"
         ,
         hostid, ipaddr, result_name, time_trigger, time_sync, sync_offset,
         significance, magnitude, latitude, longitude, strLevelValue, strLevelID, alignid,
         file, dt, numreset, qcn_sensorid, sw_version, os_type,
-        qcn_quakeid, time_filereq, received_file, runtime_clock, runtime_cpu, varietyid
+        qcn_quakeid, time_filereq, received_file, runtime_clock, runtime_cpu, varietyid, 
+        hostipaddrid, geoipaddrid
       );
     }
 
@@ -370,6 +375,8 @@ public:
       runtime_cpu = safe_atof(r[i++]);
       varietyid = safe_atoi(r[i++]);
       flag = safe_atoi(r[i++]);
+      hostipaddrid = safe_atoi(r[i++]);
+      geoipaddrid = safe_atoi(r[i++]);
     }
 };
 
