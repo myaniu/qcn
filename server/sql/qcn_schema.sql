@@ -285,7 +285,9 @@ received_file tinyint(1),
 runtime_clock double,
 runtime_cpu double,
 varietyid smallint not null default 0,
-flag boolean not null default 0
+flag boolean not null default 0,
+hostipaddrid int(11) not null default 0,
+geoipaddrid int(11) not null default 0
 );
 
 create index qcn_trigger_file on qcn_trigger(file);
