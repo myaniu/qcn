@@ -378,6 +378,8 @@ numreset int(6),
 qcn_sensorid int(3),
 varietyid smallint not null default 0,
 qcn_quakeid int not null default 0,
+hostipaddrid int(11) not null default 0,
+geoipaddrid int(11) not null default 0,
 posted boolean not null default false
 ) ENGINE = MEMORY;
 
