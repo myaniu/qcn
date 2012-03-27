@@ -52,6 +52,8 @@ global IS_ARCHIVE
 global sqlQuery
 global ZIP_CMD
 global UNZIP_CMD
+global DATE_MIN_ORIG
+global DATE_MAX_ORIG
 global DATE_MIN
 global DATE_MAX
 global LAT_MIN
@@ -147,6 +149,7 @@ order by time_trigger,hostid"""  \
   strCSVFile = os.path.join(DOWNLOAD_WEB_DIR, FILE_CSV)
   #strCSVFile = FILE_CSV
   fileCSV = open(strCSVFile, "w")
+  fileCSV.write("Query Used: Date Range: " + DATE_MIN_ORIG + " - " + DATE_MAX_ORIG + "   LatMin = " + str(LAT_MIN) + "  LatMax = " + str(LAT_MAX) + "  LngMin = " + str(LNG_MIN) + "  LngMax = " + str(LNG_MAX) + "\n") 
   fileCSV.write(strHeader)
 
   # get the resultset as a tuple
@@ -353,6 +356,8 @@ def main():
    global DBNAME_CONTINUAL
    global IS_ARCHIVE
 
+   global DATE_MIN_ORIG
+   global DATE_MAX_ORIG
    global DATE_MIN
    global DATE_MAX
    global LAT_MIN
@@ -378,6 +383,15 @@ def main():
    parser.add_option("--lng_max", dest="LNG_MAX", type="float", help="Enter Maximum Longitude [-180,180]", metavar="LNG_MAX")
    parser.add_option("-f", "--file", dest="filename", type="string", help="Enter Output Filename (filename.csv and filename.zip will be created)", metavar="filename")
    (options, args) = parser.parse_args();
+
+   if options.LAT_MIN == None:
+     options.LAT_MIN  = 31.5
+   if options.LAT_MAX == None:
+     options.LAT_MAX  = 37.5
+   if options.LNG_MIN == None:
+     options.LNG_MIN  = -121.0
+   if options.LNG_MAX == None:
+     options.LNG_MAX  = -114.0
 
    if options.DATE_MIN == None or options.DATE_MAX == None or options.LAT_MIN == None or options.LNG_MIN == None or options.LNG_MAX == None or options.filename == None:
      print parser.get_usage()
@@ -413,8 +427,10 @@ def main():
    LNG_MIN = options.LNG_MIN
    LNG_MAX = options.LNG_MAX
 
-   DATE_MIN = options.DATE_MIN
-   DATE_MAX = options.DATE_MAX
+   DATE_MIN_ORIG = options.DATE_MIN
+   DATE_MAX_ORIG = options.DATE_MAX
+   DATE_MIN = DATE_MIN_ORIG
+   DATE_MAX = DATE_MAX_ORIG
 
    try:
       cnt = 0
