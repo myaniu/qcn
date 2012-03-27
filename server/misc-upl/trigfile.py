@@ -283,6 +283,7 @@ order by time_trigger,hostid"""  \
    fileSQL.close()
    os.chdir(curdir)   # go back to regular directory so tmpdir can be erased
    myzipout.write(strCSVFile)
+   myzipout.write(strSQLFile)
    myzipout.close() 
    numbyte = os.path.getsize(zipoutpath)
    shutil.rmtree(tmpdir)    # remove temp directory
@@ -403,6 +404,7 @@ def main():
    parser.add_option("-f", "--file", dest="filename", type="string", help="Enter Output Filename (filename.csv and filename.zip will be created)", metavar="filename")
    (options, args) = parser.parse_args();
 
+   # default to SCEDC run
    if options.filename == None:
      options.filename = "qcn_scedc"
    if options.LAT_MIN == None:
@@ -417,11 +419,6 @@ def main():
      options.DATE_MAX = options.DATE_MIN
    if options.DATE_MIN == None and options.DATE_MAX != None:
      options.DATE_MIN = options.DATE_MAX
-
-   if options.DATE_MIN == None or options.DATE_MAX == None or options.LAT_MIN == None or options.LNG_MIN == None or options.LNG_MAX == None or options.filename == None:
-     print parser.get_usage()
-     print "Type './trigfile.py -h' for help"
-     sys.exit()
 
    if options.LAT_MIN < -90 or options.LAT_MIN > 90 or options.LAT_MIN > options.LAT_MAX:
      print "Incorrect Minimum Latitude, must be between -90 and 90 and less than Maximum Latitude entered."
@@ -451,10 +448,6 @@ def main():
    LNG_MIN = options.LNG_MIN
    LNG_MAX = options.LNG_MAX
 
-   DATE_MIN_ORIG = options.DATE_MIN + " 00:00:00"
-   DATE_MAX_ORIG = options.DATE_MAX + " 23:59:59"
-   DATE_MIN = DATE_MIN_ORIG
-   DATE_MAX = DATE_MAX_ORIG
 
    try:
       cnt = 0
@@ -466,9 +459,28 @@ def main():
                            db = DBNAME)
 
       # test dates
+      if options.DATE_MIN == None and options.DATE_MAX == None:
+        sqlts = "SELECT DATE_SUB(CURDATE(), INTERVAL 1 DAY) " 
+        myCursor = dbconn.cursor()
+        myCursor.execute(sqlts)
+        res = myCursor.fetchall()
+        myCursor.close()
+        if res[0][0] == None:
+          print "Cannot make SQL query to get date"
+          print "Type './trigfile.py -h' for help"
+          dbconn.close()
+          sys.exit()
+        options.DATE_MIN = str(res[0][0])
+        options.DATE_MAX = options.DATE_MIN
+
+      DATE_MIN_ORIG = options.DATE_MIN + " 00:00:00"
+      DATE_MAX_ORIG = options.DATE_MAX + " 23:59:59"
+      DATE_MIN = DATE_MIN_ORIG
+      DATE_MAX = DATE_MAX_ORIG
 
       # first get archive time
-      sqlts = "select value_int, unix_timestamp('" + DATE_MIN + "'), unix_timestamp('" + DATE_MAX + "') from sensor.qcn_constant where description='ArchiveTime'"
+      sqlts = "select value_int, unix_timestamp('" + DATE_MIN + "'), unix_timestamp('" + DATE_MAX + "'), DATE_SUB(CURDATE(), INTERVAL 1 DAY) " +\
+       "from sensor.qcn_constant where description='ArchiveTime'"
       myCursor = dbconn.cursor()
       myCursor.execute(sqlts)
       res = myCursor.fetchall()
