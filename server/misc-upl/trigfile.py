@@ -281,9 +281,10 @@ order by time_trigger,hostid"""  \
 
    fileCSV.close()
    fileSQL.close()
+   os.chdir(DOWNLOAD_WEB_DIR)   # go to download dir to zip up csv & sql files
+   myzipout.write(FILE_BASE + ".csv")
+   myzipout.write(FILE_BASE + ".sql")
    os.chdir(curdir)   # go back to regular directory so tmpdir can be erased
-   myzipout.write(strCSVFile)
-   myzipout.write(strSQLFile)
    myzipout.close() 
    numbyte = os.path.getsize(zipoutpath)
    shutil.rmtree(tmpdir)    # remove temp directory
