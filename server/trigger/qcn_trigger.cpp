@@ -552,11 +552,11 @@ int lookupGeoIPWebService(
                                if (iInsertID>0) {
                                     // now make a host record
                                     qhip.geoipaddrid = iInsertID;  // mark the geoip database id used 
-                                    qhip.latitude    = qgip.latitude;
-                                    qhip.longitude   = qgip.longitude;
+                                    qtrig.geoipaddrid = qhip.geoipaddrid;
                                     qtrig.latitude   = qgip.latitude;
                                     qtrig.longitude  = qgip.longitude;
-                                    qtrig.geoipaddrid = qhip.geoipaddrid;
+                                    qhip.latitude    = qgip.latitude;
+                                    qhip.longitude   = qgip.longitude;
                                     qhip.levelvalue = 0;
                                     qhip.levelid    = 0;
                                     qhip.alignid    = 0;
@@ -564,8 +564,8 @@ int lookupGeoIPWebService(
                                     qtrig.levelid    = 0;
                                     qtrig.alignid    = 0;
                                     iReturn = qhip.insert();
-                                    qtrig.hostipaddrid = iReturn;
                                     if (!iReturn) { // success, insert trigger, if fails retcode sent below
+                                        qtrig.hostipaddrid = qhip.db->insert_id(); // need the qcn_host_ipaddr id for trigger table
                                         iReturn = qtrig.insert();
                                         if (iReturn) {
                                             log_messages.printf(
@@ -633,8 +633,10 @@ int lookupGeoIPWebService(
 
                        iReturn = qhip.insert();  // note if the insert fails, return code will be set and returned below
                        qtrig.geoipaddrid = qhip.geoipaddrid;
-                       qtrig.hostipaddrid = iReturn;
-                       if (!iReturn) iReturn = qtrig.insert();  // note if the insert fails, return code will be set and returned below
+                       if (!iReturn) { // success, insert trigger, if fails retcode sent below
+                           qtrig.hostipaddrid = qhip.db->insert_id();
+                           iReturn = qtrig.insert();  // note if the insert fails, return code will be set and returned below
+                       }
                        if (iReturn) { // error, print out debug info
               char* strErr = new char[512];
               memset(strErr, 0x00, 512);
