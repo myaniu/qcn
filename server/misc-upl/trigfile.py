@@ -60,8 +60,7 @@ global LAT_MIN
 global LAT_MAX
 global LNG_MIN
 global LNG_MAX
-global FILE_CSV
-global FILE_ZIP
+global FILE_BASE
 
 DOWNLOAD_WEB_DIR         = "/data/QCN/trigger/job/"
 DOWNLOAD_URL             = "http://qcn-upl.stanford.edu/trigger/job/"
@@ -83,20 +82,19 @@ UNZIP_CMD = "/usr/bin/unzip -o -d "
 #  )
 
 def procRequest(dbconn):
+  global FILE_BASE
 
   sqlQuery = """select
-  m.mydb, m.id, m.hostid, 
-    from_unixtime(m.time_trigger) time_trig, FLOOR(ROUND((m.time_trigger-FLOOR(m.time_trigger)), 6) * 1e6) utime_trig,
-    from_unixtime(m.time_received) time_rec, 
-    from_unixtime(m.time_sync) time_synchronized, 
-    m.sync_offset, m.magnitude,  m.significance, 
-    m.latitude, m.longitude, m.file, m.numreset, 
-    m.dt, case m.varietyid when 0 then 'N' when 1 then 'P' when 2 then 'C' end trigtype,
-    m.hostipaddrid,m.geoipaddrid,
-    s.description sensor, IFNULL(a.description,'') alignment, 
-     IFNULL(m.levelvalue,'') level, IFNULL(l.description,'') level_type,
-   q.time_utc quake_time, q.depth_km quake_depth_km, 
-   q.latitude quake_lat, q.longitude quake_lon, q.magnitude, q.id, q.description
+    m.mydb, m.id, m.hostid, 
+    from_unixtime(m.time_trigger) time_trig, FLOOR(ROUND((m.time_trigger-FLOOR(m.time_trigger)), 6) * 1e6) utime_trig, from_unixtime(m.time_received) time_rec, 
+    from_unixtime(m.time_sync) time_synchronized, m.sync_offset, m.magnitude,  
+    m.significance,  m.latitude, m.longitude, 
+    m.file, m.numreset, m.dt,
+    case m.varietyid when 0 then 'N' when 1 then 'P' when 2 then 'C' end trigtype, m.hostipaddrid,m.geoipaddrid,
+    s.description sensor, IFNULL(a.description,'') alignment,IFNULL(m.levelvalue,'') level, 
+    IFNULL(l.description,'') level_type, from_unixtime(q.time_utc) quake_time, q.depth_km quake_depth_km, 
+    q.latitude quake_lat, q.longitude quake_lon, q.magnitude, 
+    q.id, q.description quake_desc
 from
 (
 select 'Q' mydb, 
@@ -140,17 +138,34 @@ order by time_trigger,hostid"""  \
 
   myCursor.execute(sqlQuery)
 
-  zipoutpath = os.path.join(DOWNLOAD_WEB_DIR, FILE_ZIP)
+  zipoutpath = os.path.join(DOWNLOAD_WEB_DIR, FILE_BASE + ".zip")
   zipinpath = ""
 
   #print sqlQuery
   #os.exit(1)
 
-  strCSVFile = os.path.join(DOWNLOAD_WEB_DIR, FILE_CSV)
-  #strCSVFile = FILE_CSV
+  strCSVFile = os.path.join(DOWNLOAD_WEB_DIR, FILE_BASE + ".csv")
+  strSQLFile = os.path.join(DOWNLOAD_WEB_DIR, FILE_BASE + ".sql")
   fileCSV = open(strCSVFile, "w")
+  fileSQL = open(strSQLFile, "w")
   fileCSV.write("Query Used: Date Range: " + DATE_MIN_ORIG + " - " + DATE_MAX_ORIG + "   LatMin = " + str(LAT_MIN) + "  LatMax = " + str(LAT_MAX) + "  LngMin = " + str(LNG_MIN) + "  LngMax = " + str(LNG_MAX) + "\n") 
   fileCSV.write(strHeader)
+
+  fileSQL.write("CREATE TABLE IF NOT EXISTS " + FILE_BASE + " (\n" +\
+    " db varchar(10),\n" +\
+    " triggerid int(11),\n" +\
+    " hostid int(11),\n" +\
+    " time_trig_utc datetime,\n" +\
+    " time_trig_micros int(7),\n" +\
+    " time_received datetime,\n" +\
+    " time_sync datetime, sync_offset float,\n" +\
+    " magnitude float, significance float, latitude float, longitude float,\n" +\
+    " file varchar(255),\n" +\
+    " numreset int(7), dt float, trigger_type varchar(2), hostipaddrid int(11), geoipaddrid int(11),\n" +\
+    " sensor varchar(128), alignment varchar(64),\n" +\
+    " level_value float, level_type varchar(64), usgs_quake_time datetime,\n" +\
+    " quake_depth_km float, quake_lat float, quake_lon float, quake_mag float, quake_id int(11), quake_desc varchar(128)\n" +\
+    ");\n\n")
 
   # get the resultset as a tuple
   result = myCursor.fetchall()
@@ -247,12 +262,16 @@ order by time_trigger,hostid"""  \
 
 
            # valid file - print out line of csv
-           for x in range(0,28):
+           fileSQL.write("INSERT INTO " + FILE_BASE + " VALUES (")
+           for x in range(0,29):
              strPrint = str(rec[x]) if rec[x] != None else ""
              fileCSV.write("\"" + strPrint + "\"")
+             fileSQL.write("\"" + strPrint + "\"")
              if x < 28:
                fileCSV.write(",")
+               fileSQL.write(",")
            fileCSV.write("\n")
+           fileSQL.write(");\n")
 
       except:
         print "Error " + str(errlevel) + " in myzipin " + zipinpath
@@ -261,6 +280,7 @@ order by time_trigger,hostid"""  \
         continue
 
    fileCSV.close()
+   fileSQL.close()
    os.chdir(curdir)   # go back to regular directory so tmpdir can be erased
    myzipout.write(strCSVFile)
    myzipout.close() 
@@ -364,8 +384,7 @@ def main():
    global LAT_MAX
    global LNG_MIN
    global LNG_MAX
-   global FILE_CSV
-   global FILE_ZIP
+   global FILE_BASE
 
    strDescription = "This program will create a zip file and csv file of all triggers matching " +\
        "the date range and lat/lng range entered.  The files will be placed in " + DOWNLOAD_WEB_DIR + " " +\
@@ -384,6 +403,8 @@ def main():
    parser.add_option("-f", "--file", dest="filename", type="string", help="Enter Output Filename (filename.csv and filename.zip will be created)", metavar="filename")
    (options, args) = parser.parse_args();
 
+   if options.filename == None:
+     options.filename = "qcn_scedc"
    if options.LAT_MIN == None:
      options.LAT_MIN  = 31.5
    if options.LAT_MAX == None:
@@ -392,6 +413,10 @@ def main():
      options.LNG_MIN  = -121.0
    if options.LNG_MAX == None:
      options.LNG_MAX  = -114.0
+   if options.DATE_MAX == None and options.DATE_MIN != None:
+     options.DATE_MAX = options.DATE_MIN
+   if options.DATE_MIN == None and options.DATE_MAX != None:
+     options.DATE_MIN = options.DATE_MAX
 
    if options.DATE_MIN == None or options.DATE_MAX == None or options.LAT_MIN == None or options.LNG_MIN == None or options.LNG_MAX == None or options.filename == None:
      print parser.get_usage()
@@ -419,16 +444,15 @@ def main():
      sys.exit()
 
    # OK set the global vars
-   FILE_ZIP = options.filename + ".zip"
-   FILE_CSV = options.filename + ".csv"
+   FILE_BASE = options.filename
 
    LAT_MIN = options.LAT_MIN
    LAT_MAX = options.LAT_MAX
    LNG_MIN = options.LNG_MIN
    LNG_MAX = options.LNG_MAX
 
-   DATE_MIN_ORIG = options.DATE_MIN
-   DATE_MAX_ORIG = options.DATE_MAX
+   DATE_MIN_ORIG = options.DATE_MIN + " 00:00:00"
+   DATE_MAX_ORIG = options.DATE_MAX + " 23:59:59"
    DATE_MIN = DATE_MIN_ORIG
    DATE_MAX = DATE_MAX_ORIG
 
@@ -458,6 +482,13 @@ def main():
       timeArchive = int(res[0][0])
       DATE_MIN = int(res[0][1])
       DATE_MAX = int(res[0][2])
+
+      if DATE_MIN == None or DATE_MIN < 1e6 or DATE_MAX == None or DATE_MAX < 1e6:
+         print "Error - Invalid start or end date"
+         print "Type './trigfile.py -h' for help"
+         dbconn.close()
+         sys.exit()
+
 
       if DATE_MIN > DATE_MAX:
          print "Error - start date greater than end date"
@@ -491,7 +522,7 @@ def main():
 
       dbconn.close()
 
-      print strDescription + FILE_CSV
+      print strDescription + FILE_BASE + ".zip"
 
    except:
       traceback.print_exc()
