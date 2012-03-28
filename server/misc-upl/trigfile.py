@@ -473,6 +473,9 @@ def main():
           sys.exit()
         options.DATE_MIN = str(res[0][0])
         options.DATE_MAX = options.DATE_MIN
+        # if using the default filename, add the date sub to filename
+        if options.filename == "qcn_scedc":
+          FILE_BASE = options.DATE_MIN[0:4] + options.DATE_MIN[5:7] + options.DATE_MIN[8:10] + "_" + options.filename
 
       DATE_MIN_ORIG = options.DATE_MIN + " 00:00:00"
       DATE_MAX_ORIG = options.DATE_MAX + " 23:59:59"
