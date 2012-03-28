@@ -60,8 +60,8 @@ def delFilesPath(path):
   now = time.time()
   for f in os.listdir(path):
     fname = os.path.join(path, f)
-    if os.stat(fname).st_mtime < now - 7 * 86400:
-      if os.path.isfile(fname) and f.find("qcn_scedc") == -1:
+    if os.stat(fname).st_mtime < now - (7 * 86400):
+      if os.path.isfile(fname): # and f.find("qcn_scedc") == -1:
         os.remove(fname)
 
 
@@ -306,12 +306,12 @@ def checkPaths():
       return 1
    
    return 0
-     
+      
 def main():
    global typeRunning
    try:
       # set appropriate global vars for run type (i.e. continual or sensor)
-      SetRunType()
+      SetRunType() 
 
       # first make sure all the necessary paths are in place
       if (checkPaths() != 0):
@@ -320,7 +320,7 @@ def main():
       lock = lockfile.FileLock("/tmp/procdownloadjob" + typeRunning)
       while not lock.i_am_locking():
         try:
-          lock.acquire(timeout=0)    
+          lock.acquire(timeout=0)  
         except:
           raise Exception("FileLock")
 
@@ -347,4 +347,3 @@ if __name__ == '__main__':
     main()
 
 
- 
