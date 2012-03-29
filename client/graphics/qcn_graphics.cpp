@@ -2163,7 +2163,7 @@ void mode_ortho_qcn()
 					  );
 		int viewport[4];
 		get_viewport(viewport);
-		center_screen(viewport[2], viewport[3]);
+		center_screen(viewport[2], viewport[3]);    // CMC here - this will force a pseudo 4:3 aspect ratio 
 		scale_screen_qcn(viewport[2], viewport[3]);
 }
 
