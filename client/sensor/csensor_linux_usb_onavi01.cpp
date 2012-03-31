@@ -18,6 +18,8 @@
 #include <errno.h>
 #include <fcntl.h>
 
+const int g_ciLen = 9;  // ##XXYYZZC 
+
 CSensorLinuxUSBONavi01::CSensorLinuxUSBONavi01()
   : CSensor(), m_fd(-1), m_usBitSensor(0)
 { 
@@ -65,7 +67,7 @@ bool CSensorLinuxUSBONavi01::detect()
            return false;
         }
 
-	m_fd = open(strDevice, O_RDWR | O_NOCTTY | O_NDELAY);
+	m_fd = open(strDevice, O_RDWR | O_NOCTTY);
 
         delete [] strDevice; // don't need strDevice after this call
         strDevice = NULL;
@@ -73,21 +75,24 @@ bool CSensorLinuxUSBONavi01::detect()
 	if (m_fd == -1) { // failure
            return false;
         }
-        fcntl(m_fd, F_SETFL, 0);
 
     // setup basic modem I/O
     struct termios options;
-    tcgetattr(m_fd, &options);
-    cfsetispeed(&options, B115200);
-    cfsetospeed(&options, B115200);
-    options.c_cflag     |= (CLOCAL | CREAD);
-    options.c_lflag     &= ~(ICANON | ECHO | ECHOE | ISIG);
-    options.c_oflag     &= ~OPOST;
-    //options.c_cc[VMIN]  = 0;
-    //options.c_cc[VTIME] = 10;
+    memset(&options, 0x00, sizeof(options));
+    options.c_cflag = B115200 | CRTSCTS | CS8 | CLOCAL | CREAD;
+    options.c_iflag = IGNPAR;
+    options.c_oflag = 0;
+        
+    options.c_lflag = 0;
+         
+    options.c_cc[VTIME]    = 0;  
+    options.c_cc[VMIN]     = g_ciLen;  
+        
+    tcflush(m_fd, TCIFLUSH);
+
     if (tcsetattr(m_fd, TCSANOW, &options) == -1) {
-		closePort();
-		return false;
+       closePort();
+       return false;
     }
 
         setPort(m_fd);
@@ -103,10 +108,10 @@ bool CSensorLinuxUSBONavi01::detect()
              case 12:
 	         setType(SENSOR_USB_ONAVI_A_12); break;
              case 16:
-	         setType(SENSOR_USB_ONAVI_A_16);
+	         setType(SENSOR_USB_ONAVI_B_16);
                  break;
              case 24:
-	         setType(SENSOR_USB_ONAVI_A_24);
+	         setType(SENSOR_USB_ONAVI_C_24);
                  break;
              default: // error!
                closePort();
@@ -155,67 +160,45 @@ Values >32768 are positive g and <32768 are negative g. The sampling rate is set
         }
 	
 	bool bRet = true;
-        fd_set rdfs;
-	struct timeval timeout;
 	
-	const int ciLen = 8;  // use an 8 byte buffer + 1 \0 padding
-        QCN_BYTE bytesIn[ciLen+1], cs;  // note pad bytesIn with null \0
+        QCN_BYTE bytesIn[g_ciLen+1], cs;  // note pad bytesIn with null \0
 	int x = 0, y = 0, z = 0;
 	int iCS = 0;
 	int iRead = 0;
-	//x1 = y1 = z1 = 0.0f; // don't init to 0 as ONavi 24-bit is having errors we need to debug
         x1 = x0; y1 = y0; z1 = z0;  // use last good values
 	const char cWrite = '*';
 
 	if ((iRead = write(m_fd, &cWrite, 1)) == 1) {   // send a * to the device to get back the data
-	    memset(bytesIn, 0x00, ciLen+1);
+	    memset(bytesIn, 0x00, g_ciLen+1);
 
-	    // initialise the timeout structure
-	    timeout.tv_sec = 1; // 1 second timeout
-	    timeout.tv_usec = 0;
-            FD_ZERO(&rdfs);
-            FD_SET(m_fd, &rdfs);
-
-            int n = select(m_fd + 1, &rdfs, NULL, NULL, &timeout);
-
-            if (n < 0) { // failed
-	       bRet = false; // error
-	       fprintf(stderr, "%f: ONavi Error in read_xyz() - select(m_fd) returned %d\n", sm->t0active, n);
-            }
-            else if (n == 0) { // timeout
-	       bRet = false; // error
-	       fprintf(stderr, "%f: ONavi Error in read_xyz() - select(m_fd) returned %d (timeout)\n", sm->t0active, n);
-            }
-            else if (FD_ISSET(m_fd, &rdfs)) { // select OK, now get the data
-                // process the file descriptor
-                if ((iRead = read(m_fd, bytesIn, ciLen)) == ciLen) {
-				// good data length read in, now test for appropriate characters ie start with * # $
-				if (bytesIn[ciLen] == 0x00 && 
-                                   (bytesIn[0] == 0x2A || bytesIn[0] == 0x23 || bytesIn[0] == 0x24) ) { 
-					// format is ##XXYYZZC\0
-					// we found both, the bytes in between are what we want (really bytes after lOffset[0]
-                                        if (m_usBitSensor == 0) { // need to find sensor bit type i.e. 12/16/24-bit ONavi
-					   if (bytesIn[0] == 0x2A && bytesIn[1] == 0x2A) {  // **
-                                              m_usBitSensor = 12;
-                                           }
-					   else if (bytesIn[0] == 0x23 && bytesIn[1] == 0x23) { // ##
-                                              m_usBitSensor = 16;
-                                           }
-					   else if (bytesIn[0] == 0x24 && bytesIn[1] == 0x24) {  // $$
-                                              m_usBitSensor = 24;
-                                           }
-                                        }
-
-
-	x = (bytesIn[2] * 255) + bytesIn[3];
-	y = (bytesIn[4] * 255) + bytesIn[5];
-	z = (bytesIn[6] * 255) + bytesIn[7];
-	cs   = bytesIn[8];
-	for (int i = 2; i <= 7; i++) iCS += bytesIn[i];
-
-
-          fprintf(stdout, "%f   %x %x %05d   %x %x %05d   %x %x %05d   %x\n", 
+            if ((iRead = read(m_fd, bytesIn, g_ciLen)) == g_ciLen) { // read the g_ciLen
+	       // good data length read in, now test for appropriate characters ie start with * # $
+	       if (bytesIn[g_ciLen] == 0x00 && 
+                    ((bytesIn[0] == 0x2A && bytesIn[1] == 0x2A) 
+                  || (bytesIn[0] == 0x23 && bytesIn[1] == 0x23)
+                  || (bytesIn[0] == 0x24 && bytesIn[1] == 0x24)) ) {
+	        // format is ##XXYYZZC\0
+	        // we found both, the bytes in between are what we want (really bytes after lOffset[0]
+                  if (m_usBitSensor == 0) { // need to find sensor bit type i.e. 12/16/24-bit ONavi
+                    switch(bytesIn[0]) {
+                    case 0x2A:
+                       m_usBitSensor = 12; break;
+                    case 0x23:
+                       m_usBitSensor = 16; break;
+                    case 0x24:
+                       m_usBitSensor = 24; break;
+                    }
+                  }
+          	x = (bytesIn[2] * 255) + bytesIn[3];
+	        y = (bytesIn[4] * 255) + bytesIn[5];
+	        z = (bytesIn[6] * 255) + bytesIn[7];
+	        cs   = bytesIn[8];
+/*
+	        for (int i = 2; i <= 7; i++) iCS += bytesIn[i];
+                fprintf(stdout, "%f [%c%c]  %x %x %05d   %x %x %05d   %x %x %05d   %x\n", 
                  sm->t0active, 
+                 bytesIn[0],
+                 bytesIn[1],
                  bytesIn[2],
                  bytesIn[3], x,
                  bytesIn[4],
@@ -223,41 +206,40 @@ Values >32768 are positive g and <32768 are negative g. The sampling rate is set
                  bytesIn[6],
                  bytesIn[7], z,
                  bytesIn[8]);
+*/
 
 #ifdef QCN_RAW_DATA	
-					// for testing on USGS shake table - they just want the raw integer data sent out
-					x1 = (float) x;
-					y1 = (float) y;
-					z1 = (float) z;
+	        // for testing on USGS shake table - they just want the raw integer data sent out
+         	x1 = (float) x;
+	        y1 = (float) y;
+	        z1 = (float) z;
 #else
-					// convert to g decimal value
-					// g  = x - 32768 * (5 / 65536) 
-					// Where: x is the data value 0 - 65536 (x0000 to xFFFF). 
+	// convert to g decimal value
+	// g  = x - 32768 * (5 / 65536) 
+	// Where: x is the data value 0 - 65536 (x0000 to xFFFF). 
 					
-					x1 = ((float) x - 32768.0f) * FLOAT_LINUX_ONAVI_FACTOR * EARTH_G;
-					y1 = ((float) y - 32768.0f) * FLOAT_LINUX_ONAVI_FACTOR * EARTH_G;
-					z1 = ((float) z - 32768.0f) * FLOAT_LINUX_ONAVI_FACTOR * EARTH_G;
+        	x1 = ((float) x - 32768.0f) * FLOAT_LINUX_ONAVI_FACTOR * EARTH_G;
+        	y1 = ((float) y - 32768.0f) * FLOAT_LINUX_ONAVI_FACTOR * EARTH_G;
+        	z1 = ((float) z - 32768.0f) * FLOAT_LINUX_ONAVI_FACTOR * EARTH_G;
 #endif
-					x0 = x1; y0 = y1; z0 = z1;  // preserve values
-					
-					bRet = true;
-				}
-                    }  // read()
-                    else {
-		      fprintf(stderr, "%f: ONavi Error in read_xyz() - read error after select %d\n", sm->t0active, iRead);
-		      bRet = false;
-                    }
-            }
-            else {  // error ie in the read select
-		fprintf(stderr, "%f: ONavi Error in read_xyz() - read select(m_fd) failed %d\n", sm->t0active, n);
-		bRet = false;
-            }
-	} // write *
+                x0 = x1; y0 = y1; z0 = z1;  // preserve values
+                bRet = true;
+           }
+           else { //mismatched start bytes ie not ** or ## or $$
+	      fprintf(stderr, "%f: ONavi Error in read_xyz() - mismatched start bytes %c %c\n", 
+               sm->t0active, bytesIn[0], bytesIn[1]);
+              bRet = false;
+           }
+        }
 	else {
-		fprintf(stderr, "%f: ONavi Error in read_xyz() - write(m_fd) returned %d\n", sm->t0active, iRead);
-		bRet = false;
-	}
-	return bRet;
+	   fprintf(stderr, "%f: ONavi Error in read_xyz() - read(m_fd) returned %d -- errno = %d : %s\n", sm->t0active, iRead, errno, strerror(errno));
+	   bRet = false;
+	}  // read bytesIn
+     }
+     else {
+       fprintf(stderr, "%f: ONavi Error in read_xyz() - write(*) returned %d -- errno = %d : %s\n", sm->t0active, iRead, errno, strerror(errno));
+       bRet = false;
+     }  // write *
+     return bRet;
 }
-
 
