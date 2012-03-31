@@ -84,8 +84,10 @@ bool CSensorLinuxUSBONavi01::detect()
     options.c_oflag = 0;
         
     options.c_lflag = 0;
-         
-    options.c_cc[VTIME]    = 0;  
+        
+    // read blocking conditions - force to read the whole g_ciLen otherwise we get bad truncation errors
+    //  use VTIME so it doesn't block forever (ie 1 second timeout) 
+    options.c_cc[VTIME]    = 10;  // VTIME is in .1 secs, so this times out after a second (sensor should reset) 
     options.c_cc[VMIN]     = g_ciLen;  
         
     tcflush(m_fd, TCIFLUSH);
