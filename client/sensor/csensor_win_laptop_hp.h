@@ -46,7 +46,7 @@ class CSensorWinHP  : public CSensor
         FindAccelerometerDev m_findAccelerometerDev;
         GetRealTimeXYZ m_getRealTimeXYZ;
 
-        const char m_cstrDLL[64];
+        static const char* m_cstrDLL;
 
         bool LoadLibrary();
         void Init();

@@ -238,10 +238,10 @@ bool getSensor(CSensor* volatile *ppsms)
 		   }
 	#else
 	#ifdef _WIN32
-	#ifdef _WIN64   // just thinkpad & jw8 & jw14 & onavi
-	   const int iMaxSensor = 4;
-	#else  // thinkpad, jw8, jw14, mn, onavi
+	#ifdef _WIN64   // just thinkpad & hp & jw8 & jw14 & onavi
 	   const int iMaxSensor = 5;
+	#else  // thinkpad, hp, jw8, jw14, mn, onavi
+	   const int iMaxSensor = 6;
 	#endif
 	   // for Windows the sensor can either be a CSensorThinkpad or CSensorWinUSBJW
 	   // note we try to detect the USB sensors first (if any), then try the laptop
@@ -267,6 +267,9 @@ bool getSensor(CSensor* volatile *ppsms)
 				   *ppsms = (CSensor*) new CSensorWinThinkpad();
 				   break;
 			   // no motionnode support for win64
+			   case 4:
+				   *ppsms = (CSensor*) new CSensorWinHP();
+				   break;
 #else
 			   case 2:
 				   *ppsms = (CSensor*) new CSensorUSBMotionNodeAccel();
@@ -277,12 +280,10 @@ bool getSensor(CSensor* volatile *ppsms)
 			   case 4:
 				   *ppsms = (CSensor*) new CSensorWinThinkpad();
 				   break;
-	#endif
-	#if 0
 			   case 5:
 				   *ppsms = (CSensor*) new CSensorWinHP();
 				   break;
-	#endif // no luck with the HP
+#endif
 		   }
 	#else // Linux
 	#if defined(__LP64__) || defined(_LP64) // no motion node for 64-bit, just JWF8 and JWF14

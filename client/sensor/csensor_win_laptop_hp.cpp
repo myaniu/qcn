@@ -1,4 +1,3 @@
-#if 0
 /*
  *  csensor_win_laptop_hp.cpp
  *  qcn
@@ -16,10 +15,10 @@
 
 // HP DLL to access, they also must be running the HP service
 // this would have to be in the PATH
-const char CSensorWinHP::m_cstrDLL[] = {"accelerometerdll.dll"};   
+const char* CSensorWinHP::m_cstrDLL = {"accelerometerdll.dll"};   
 
 
-CSensorWinHP::Init()
+void CSensorWinHP::Init()
 {
         memset(m_coords, 0x00, sizeof(unsigned short) * 3);
         m_bStarted = false;
