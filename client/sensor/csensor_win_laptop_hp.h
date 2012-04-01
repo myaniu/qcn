@@ -16,35 +16,10 @@
 #include <setupapi.h>
 #include "csensor.h"
 
-#define _USE_DLL_
-
-#ifndef _USE_DLL_
-// the following is the opcode into the HP laptop accelerometer to return xyz
-#define HP_XYZ_IO_CODE 0xCF50601A
-#endif
-// SetAccelerometerProperty code: 0xCF509FFC
-// GetAccelerometerProperty code: 0xCF502000
-// NotifyAccelAboutPower    code: 0xCF50A024
-
 using namespace std;
 
 // HP specific stuff 
-// info from PE explorer on the HP accel dll
-/* function prototypes and ordinals of interest
-ord 3
-unsigned char __stdcall FindAccelerometerDevice(void * *)
-
-ord 5
-unsigned long __stdcall GetRealTimeXYZ(void *,unsigned short *,struct _OVERLAPPED *)
-
-ord 6
-unsigned long __stdcall IsSoftwareEnabled(void *,unsigned char *)
-
-unsigned long __stdcall SetAccelerometerProperty(void *,enum _ACCELEROMETER_PROPERTY_FLAGS,void *)
-*/
-
-
-// DLL function signature for HP DLL -- note the use of __stdcall so Windows does the cleanup (as opposed to __cdecl)
+// function prototypes and ordinals of interest
 // Note -- the HP DLL accesses a service running on the laptop --
 // if this service isn't running the DLL function access will work but the sensor data values never change
 //typedef int (__stdcall *HPImportFunction)(HPSensorData* psd);
@@ -53,61 +28,50 @@ unsigned long __stdcall SetAccelerometerProperty(void *,enum _ACCELEROMETER_PROP
 //typedef __declspec( dllimport ) unsigned long (__stdcall *HPImportEnabled)(void *, unsigned char *); // ordinal 6
 //typedef __declspec( dllimport ) unsigned long (__stdcall *HPImportGetXYZ)(void *, unsigned short *, struct _OVERLAPPED *); // ordinal 5
 
-#ifdef _USE_DLL_
-typedef unsigned char (__stdcall *HPImportFindDevice)(LPHANDLE);  // ordinal 3 
-typedef unsigned long (__stdcall *HPImportSoftwareEnabled)(HANDLE, unsigned char *); // ordinal 6
-typedef unsigned long (__stdcall *HPImportGetXYZ)(HANDLE, unsigned short *, LPOVERLAPPED); // ordinal 5
-typedef unsigned long (__stdcall *HPImportGetProperty)(HANDLE, int, PDWORD); // ordinal 
-typedef unsigned long (__stdcall *HPImportSetProperty)(HANDLE, int, PDWORD); // ordinal 
-typedef unsigned long (__stdcall *HPImportCanSettingsChange)(HANDLE, unsigned char *);
-typedef unsigned long (__stdcall *HPImportSessionChange)(HANDLE, unsigned short const *, void *);
-typedef unsigned long (__stdcall *HPImportClearLogFile)(HANDLE);
-typedef unsigned long (__stdcall *HPImportNotifyAccelerometerAboutPower)(HANDLE,unsigned long);
-typedef void * (__stdcall *HPImportRegisterForAccelerometerDisabledEvent)(HWND,HANDLE);
-typedef void * (__stdcall *HPImportRegisterForAccelerometerDiskCountChangeEvent)(HWND,HANDLE);
-typedef void * (__stdcall *HPImportRegisterForAccelerometerEnabledEvent)(HWND,HANDLE);
-typedef void * (__stdcall *HPImportRegisterForAccelerometerParameterChangeEvent)(HWND,HANDLE);
-typedef void * (__stdcall *HPImportRegisterForAccelerometerShockEndEvent)(HWND,HANDLE);
-typedef void * (__stdcall *HPImportRegisterForAccelerometerShockSignaledEvent)(HWND,HANDLE);
-#endif
+// most of the implementation from Rafal Ostanek
+
+typedef unsigned long (__stdcall *IsSoftwareEnabled)(void *, unsigned char *);
+typedef unsigned long (__stdcall *GetRealTimeXYZ)(void *, unsigned short *, _OVERLAPPED *);
+
+typedef unsigned char (__stdcall *stdcall_FindAccelerometerDevice)(void * *);
+typedef unsigned char (__cdecl *cdecl_FindAccelerometerDevice)(void * *);
+
+typedef stdcall_FindAccelerometerDevice FindAccelerometerDev; // depends on operating system and architecture
+
+// end Rafal Ostanek
+
 
 // this is the Windows implementation of the sensor - HP
 class CSensorWinHP  : public CSensor
 {
-   private:   
-      // private member vars
-      static const char   m_cstrDLL[];   // for dll name
-      HMODULE             m_WinDLLHandle;
-      HANDLE              m_device;
-
-#ifdef _USE_DLL_
-        HPImportGetXYZ              m_FNGetXYZ;       
-        HPImportSoftwareEnabled     m_FNSoftwareEnabled;   
-        HPImportFindDevice  m_FNFindDevice;  
-        HPImportGetProperty m_FNGetProperty;
-        HPImportSetProperty m_FNSetProperty;
-        HPImportCanSettingsChange  m_FNCanSettingsChange;
-        HPImportSessionChange m_FNSessionChange;
-        HPImportClearLogFile m_FNClearLogFile;
-        HPImportNotifyAccelerometerAboutPower m_FNNotifyAboutPower;
-        HPImportRegisterForAccelerometerDisabledEvent m_FNRegDisabledEvt;
-        HPImportRegisterForAccelerometerDiskCountChangeEvent m_FNRegDiskCountChangeEvt;
-        HPImportRegisterForAccelerometerEnabledEvent m_FNRegEnabledEvt;
-        HPImportRegisterForAccelerometerParameterChangeEvent m_FNRegParamChangeEvt;
-        HPImportRegisterForAccelerometerShockEndEvent m_FNRegShockEndEvt;
-        HPImportRegisterForAccelerometerShockSignaledEvent m_FNRegShockSigEvt;
+   private: 
+#ifdef _WIN64
+        static const bool x64 = true;
 #else
-      bool getDevice();  // gets the m_device directly without using the DLL
+        static const bool x64 = false;
 #endif
-    // note that x/y/z should be scaled to +/- 2g, return values as +/- 2.0f*EARTH_G (in define.h: 9.78033 m/s^2)
-      virtual bool read_xyz(float& x1, float& y1, float& z1);  
+        short x,y,z,coords[3];
+        LPCTSTR source;
+        bool started;
+        HMODULE hLibrary;
+        HANDLE hDevice;
+        FindAccelerometerDev findAccelerometerDev;
+        GetRealTimeXYZ getRealTimeXYZ;
+        HANDLE Find();
+        bool LoadLibrary();
+        void showLastError(LPTSTR);
+
+        const char m_cstrDLL[64];
 
    public:
       CSensorWinHP();
       virtual ~CSensorWinHP();
 
-     virtual void closePort(); // closes the port if open
-     virtual bool detect();   // this detects & initializes a sensor on a Mac G4/PPC or Intel laptop, sets m_iType to 0 if not found
+      virtual void closePort(); // closes the port if open
+      virtual bool detect();   // this detects & initializes a sensor on a Mac G4/PPC or Intel laptop, sets m_iType to 0 if not found
+
+      // note that x/y/z should be scaled to +/- 2g, return values as +/- 2.0f*EARTH_G (in define.h: 9.78033 m/s^2)
+      virtual bool read_xyz(float& x1, float& y1, float& z1);  
 
 };
 
