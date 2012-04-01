@@ -9,6 +9,9 @@
  *  Copyright 2007 Stanford University
  *
  * This file contains the declarations for the CSensor-derived Windows HP laptop accelerometer
+ *
+ * NB: much of the implementatoin done by Rafal Ostenak  rostanek@op.pl
+ *     since HP seems to have changed their security model from my old version
  */
 
 #include <stdio.h>
@@ -22,46 +25,31 @@ using namespace std;
 // function prototypes and ordinals of interest
 // Note -- the HP DLL accesses a service running on the laptop --
 // if this service isn't running the DLL function access will work but the sensor data values never change
-//typedef int (__stdcall *HPImportFunction)(HPSensorData* psd);
 
-//typedef __declspec( dllimport ) unsigned char (__stdcall *HPImportFindDevice)(void **);  // ordinal 3 
-//typedef __declspec( dllimport ) unsigned long (__stdcall *HPImportEnabled)(void *, unsigned char *); // ordinal 6
-//typedef __declspec( dllimport ) unsigned long (__stdcall *HPImportGetXYZ)(void *, unsigned short *, struct _OVERLAPPED *); // ordinal 5
+typedef __declspec( dllimport ) unsigned long (__stdcall *IsSoftwareEnabled)(void *, unsigned char *);
+typedef __declspec( dllimport ) unsigned long (__stdcall *GetRealTimeXYZ)(void *, unsigned short *, _OVERLAPPED *);
 
-// most of the implementation from Rafal Ostanek
-
-typedef unsigned long (__stdcall *IsSoftwareEnabled)(void *, unsigned char *);
-typedef unsigned long (__stdcall *GetRealTimeXYZ)(void *, unsigned short *, _OVERLAPPED *);
-
-typedef unsigned char (__stdcall *stdcall_FindAccelerometerDevice)(void * *);
-typedef unsigned char (__cdecl *cdecl_FindAccelerometerDevice)(void * *);
+typedef __declspec( dllimport ) unsigned char (__stdcall *stdcall_FindAccelerometerDevice)(void * *);
+typedef __declspec( dllimport ) unsigned char (__cdecl *cdecl_FindAccelerometerDevice)(void * *);
 
 typedef stdcall_FindAccelerometerDevice FindAccelerometerDev; // depends on operating system and architecture
-
-// end Rafal Ostanek
 
 
 // this is the Windows implementation of the sensor - HP
 class CSensorWinHP  : public CSensor
 {
    private: 
-#ifdef _WIN64
-        static const bool x64 = true;
-#else
-        static const bool x64 = false;
-#endif
-        short x,y,z,coords[3];
-        LPCTSTR source;
-        bool started;
-        HMODULE hLibrary;
-        HANDLE hDevice;
-        FindAccelerometerDev findAccelerometerDev;
-        GetRealTimeXYZ getRealTimeXYZ;
-        HANDLE Find();
-        bool LoadLibrary();
-        void showLastError(LPTSTR);
+        unsigned short m_coords[3];
+        bool m_bStarted;
+        HMODULE m_hLibrary;
+        HANDLE m_hDevice;
+        FindAccelerometerDev m_findAccelerometerDev;
+        GetRealTimeXYZ m_getRealTimeXYZ;
 
         const char m_cstrDLL[64];
+
+        bool LoadLibrary();
+        void Init();
 
    public:
       CSensorWinHP();
@@ -72,7 +60,6 @@ class CSensorWinHP  : public CSensor
 
       // note that x/y/z should be scaled to +/- 2g, return values as +/- 2.0f*EARTH_G (in define.h: 9.78033 m/s^2)
       virtual bool read_xyz(float& x1, float& y1, float& z1);  
-
 };
 
 #endif  // _CSENSOR_WIN_LAPTOP_HP_H_

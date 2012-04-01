@@ -7,6 +7,9 @@
  *  Copyright 2008 Stanford University.  All rights reserved.
  *
  * Implementation file for Windows HP laptop sensor classes
+ * 
+ * NB: much of the implementatoin done by Rafal Ostenak  rostanek@op.pl
+ *     since HP seems to have changed their security model from my old version
  */
 
 #include "csensor_win_laptop_hp.h"
@@ -15,17 +18,21 @@
 // this would have to be in the PATH
 const char CSensorWinHP::m_cstrDLL[] = {"accelerometerdll.dll"};   
 
+
+CSensorWinHP::Init()
+{
+        memset(m_coords, 0x00, sizeof(unsigned short) * 3);
+        m_bStarted = false;
+        m_hLibrary = NULL;
+        m_hDevice = NULL;
+        m_getRealTimeXYZ = NULL;
+        m_findAccelerometerDev = NULL;
+}
+
 CSensorWinHP::CSensorWinHP()
   : CSensor()
 { 
-        coords[0] = 0;
-        coords[1] = 0;
-        coords[2] = 0;
-        started = false;
-        hLibrary = NULL;
-        hDevice = NULL;
-        getRealTimeXYZ = NULL;
-        findAccelerometerDev = NULL;
+   Init();
 }
 
 CSensorWinHP::~CSensorWinHP()
@@ -35,19 +42,15 @@ CSensorWinHP::~CSensorWinHP()
 
 void CSensorWinHP::closePort()
 {
-   getRealTimeXYZ = NULL;
-   findAccelerometerDev = NULL;
-   hDevice = NULL;
-   started = false;
-
-   if (hLibrary) {
-     ::FreeLibrary(hLibrary);
-     hLibrary = NULL;
+   if (m_hLibrary) {
+     ::FreeLibrary(m_hLibrary);
+     m_hLibrary = NULL;
    }
 
    if (getPort() > -1) {
       setPort();
    }
+   Init();
 }
 
 bool CSensorWinHP::detect()
@@ -71,43 +74,43 @@ bool CSensorWinHP::LoadLibrary()
 
         //printf("LoadLibrary(%S)\n", m_cstrDLL);
 
-        hLibrary = ::LoadLibrary(m_cstrDLL);
+        m_hLibrary = ::LoadLibrary(m_cstrDLL);
         //showLastError(TEXT("LoadLibrary"));
 
-        if (!hLibrary) {
+        if (!m_hLibrary) {
          //       printf("Loading DLL failed.");
                 return false;
         } 
         //else {
-          //      printf("Loaded library AccDll: %x\n",hLibrary);
+          //      printf("Loaded library AccDll: %x\n",m_hLibrary);
         //}
 
-        //isSoftwareEnabled = (IsSoftwareEnabled) GetProcAddress(hLibrary,"?IsSoftwareEnabled@@YAKPEAXPEAE@Z");
+        //isSoftwareEnabled = (IsSoftwareEnabled) GetProcAddress(m_hLibrary,"?IsSoftwareEnabled@@YAKPEAXPEAE@Z");
         //printf("isSoftwareEnabled = %x\n LastError %d\n",isSoftwareEnabled, GetLastError());
 
-        if (x64) {
-                getRealTimeXYZ = (GetRealTimeXYZ) GetProcAddress(hLibrary,"?GetRealTimeXYZ@@YAKPEAXPEAGPEAU_OVERLAPPED@@@Z"); // x64
-        } else {
-                getRealTimeXYZ = (GetRealTimeXYZ) GetProcAddress(hLibrary,"?GetRealTimeXYZ@@YGKPAXPAGPAU_OVERLAPPED@@@Z"); // x86
-        }
+#ifdef _WIN64
+                m_getRealTimeXYZ = (GetRealTimeXYZ) GetProcAddress(m_hLibrary,"?GetRealTimeXYZ@@YAKPEAXPEAGPEAU_OVERLAPPED@@@Z"); // x64
+#else
+                m_getRealTimeXYZ = (GetRealTimeXYZ) GetProcAddress(m_hLibrary,"?GetRealTimeXYZ@@YGKPAXPAGPAU_OVERLAPPED@@@Z"); // x86
+#endif
         //showLastError(TEXT("GetProcAddress(GetRealTimeXYZ...)"));
 
-        if (!getRealTimeXYZ) {
+        if (!m_getRealTimeXYZ) {
             return false;
         }
 
-        if (x64) {
-                findAccelerometerDev = (FindAccelerometerDev) GetProcAddress(hLibrary,"?FindAccelerometerDevice@@YAEPEAPEAX@Z"); // x64
-        } else {
-                findAccelerometerDev = (FindAccelerometerDev) GetProcAddress(hLibrary, "?FindAccelerometerDevice@@YGEPAPAX@Z"); // x86
-        }
+#ifdef _WIN64
+                m_findAccelerometerDev = (FindAccelerometerDev) GetProcAddress(m_hLibrary,"?FindAccelerometerDevice@@YAEPEAPEAX@Z"); // x64
+#else
+                m_findAccelerometerDev = (FindAccelerometerDev) GetProcAddress(m_hLibrary, "?FindAccelerometerDevice@@YGEPAPAX@Z"); // x86
+#endif
         //showLastError(TEXT("GetProcAddress(FindAccelerometerDevice...)"));
 
-        if (!findAccelerometerDev) {
+        if (!m_findAccelerometerDev) {
                 return false;
         }
-        findAccelerometerDev(&hDevice);
-        if (!hDevice) // NULL device
+        m_findAccelerometerDev(&m_hDevice);
+        if (!m_hDevice) // NULL device
            return false;
 
         return true;
@@ -118,18 +121,18 @@ bool CSensorWinHP::read_xyz(float& x1, float& y1, float& z1)
 
     // note that x/y/z should be scaled to +/- 2g, return values as +/- 2.0f*EARTH_G (in define.h: 9.78033 m/s^2)
 
-        if (!started) {
+        if (!m_bStarted) {
                 OVERLAPPED overlapped;
                 overlapped.hEvent = CreateEvent(NULL, TRUE, FALSE, NULL);
-                getRealTimeXYZ(hDevice, (unsigned short * )coords, &overlapped);
+                m_getRealTimeXYZ(m_hDevice, (unsigned short * )m_coords, &overlapped);
 
-                ResetEvent(overlapped.hEvent);
+                ::ResetEvent(overlapped.hEvent);
 
-                started = TRUE;
+                m_bStarted = TRUE;
         }
-        x1 = coords[0];
-        y1 = coords[1];
-        z1 = coords[2];
+        x1 = m_coords[0];
+        y1 = m_coords[1];
+        z1 = m_coords[2];
         return true;
 }
 
