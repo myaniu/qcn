@@ -7,8 +7,13 @@
  *
  * Implementation file for Windows HP laptop sensor classes
  * 
- * NB: much of the implementatoin done by Rafal Ostenak  rostanek@op.pl
+ * NB: much of the implementatoin done by Rafal Ostanek  rostanek@op.pl
  *     since HP seems to have changed their security model from my old version
+ *
+ * The HP sensor is an 8-bit 3D sensor, but seems to be very slow, ie values stay the same for a second or more,
+ * although it does seem to pick up "deltas" for trigger detection
+ *
+ *
  */
 
 #include "csensor_win_laptop_hp.h"
