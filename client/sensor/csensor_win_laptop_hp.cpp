@@ -72,7 +72,7 @@ bool CSensorWinHP::detect()
    float x,y,z;
    if ( (bFound = this->LoadLibrary()) && read_xyz(x,y,z) ) { // this checks for the HP DLL existence and function pointers into the DLL 
       this->setType(SENSOR_WIN_HP);
-      setSingleSampleDT(true);
+      setSingleSampleDT(true); // multisampling is too fast for the HP sensor
     }
     else {
       closePort(); // close handles if necessary
@@ -83,32 +83,16 @@ bool CSensorWinHP::detect()
 bool CSensorWinHP::LoadLibrary() 
 {
         DWORD attribs = ::GetFileAttributes(m_cstrDLL);
-        //showLastError(TEXT("GetFileAttributes"));
-        //printf("File attributes: %d\n", attribs);
-
-        //printf("LoadLibrary(%S)\n", m_cstrDLL);
-
         m_hLibrary = ::LoadLibrary(m_cstrDLL);
-        //showLastError(TEXT("LoadLibrary"));
-
         if (!m_hLibrary) {
          //       printf("Loading DLL failed.");
                 return false;
         } 
-        //else {
-          //      printf("Loaded library AccDll: %x\n",m_hLibrary);
-        //}
-
-        //isSoftwareEnabled = (IsSoftwareEnabled) GetProcAddress(m_hLibrary,"?IsSoftwareEnabled@@YAKPEAXPEAE@Z");
-        //printf("isSoftwareEnabled = %x\n LastError %d\n",isSoftwareEnabled, GetLastError());
-
 #ifdef _WIN64
                 m_getRealTimeXYZ = (GetRealTimeXYZ) GetProcAddress(m_hLibrary,"?GetRealTimeXYZ@@YAKPEAXPEAGPEAU_OVERLAPPED@@@Z"); // x64
 #else
                 m_getRealTimeXYZ = (GetRealTimeXYZ) GetProcAddress(m_hLibrary,"?GetRealTimeXYZ@@YGKPAXPAGPAU_OVERLAPPED@@@Z"); // x86
 #endif
-        //showLastError(TEXT("GetProcAddress(GetRealTimeXYZ...)"));
-
         if (!m_getRealTimeXYZ) {
             return false;
         }
@@ -118,8 +102,6 @@ bool CSensorWinHP::LoadLibrary()
 #else
                 m_findAccelerometerDev = (FindAccelerometerDev) GetProcAddress(m_hLibrary, "?FindAccelerometerDevice@@YGEPAPAX@Z"); // x86
 #endif
-        //showLastError(TEXT("GetProcAddress(FindAccelerometerDevice...)"));
-
         if (!m_findAccelerometerDev) {
                 return false;
         }
@@ -146,7 +128,7 @@ bool CSensorWinHP::read_xyz(float& x1, float& y1, float& z1)
 		y1 = (((float) m_coords[1] - 127.5f) / 63.75f) * EARTH_G;
 		z1 = (((float) m_coords[2] - 127.5f) / 63.75f) * EARTH_G;
 
-#if 0 //def _DEBUG
+#ifdef _DEBUG
 		static float max[3] = {-9990.,-9990.,-99999.0};
 		static float min[3] = {99990.,999990.,9999.0};
 		float test[3] = {x1, y1, z1};
