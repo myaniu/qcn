@@ -43,8 +43,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../../curl-7.21.7/include"
-				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE;CURL_STATICLIB"
+				AdditionalIncludeDirectories="../../curl-7.21.7/include;../../zlib-1.2.5"
+				PreprocessorDefinitions="WIN32;HAVE_ZLIB_H;_DEBUG;_CONSOLE;BUILDING_LIBCURL;CURL_STATICLIB"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
@@ -106,8 +106,8 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="../../curl-7.21.7/include"
-				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE;CURL_STATICLIB"
+				AdditionalIncludeDirectories="../../curl-7.21.7/include;../../zlib-1.2.5"
+				PreprocessorDefinitions="WIN32;HAVE_ZLIB_H;NDEBUG;_CONSOLE;CURL_STATICLIB;BUILDING_LIBCURL"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
 				WarningLevel="3"
@@ -166,8 +166,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../../curl-7.21.7/include"
-				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE;CURL_STATICLIB"
+				AdditionalIncludeDirectories="../../curl-7.21.7/include;../../zlib-1.2.5"
+				PreprocessorDefinitions="WIN32;HAVE_ZLIB_H;_DEBUG;_CONSOLE;BUILDING_LIBCURL;CURL_STATICLIB"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -229,8 +229,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../../curl-7.21.7/include"
-				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE;CURL_STATICLIB"
+				AdditionalIncludeDirectories="../../curl-7.21.7/include;../../zlib-1.2.5"
+				PreprocessorDefinitions="WIN32;HAVE_ZLIB_H;_DEBUG;_CONSOLE;BUILDING_LIBCURL;CURL_STATICLIB"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
@@ -293,8 +293,8 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="../../curl-7.21.7/include"
-				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE;CURL_STATICLIB"
+				AdditionalIncludeDirectories="../../curl-7.21.7/include;../../zlib-1.2.5"
+				PreprocessorDefinitions="WIN32;HAVE_ZLIB_H;NDEBUG;_CONSOLE;CURL_STATICLIB;BUILDING_LIBCURL"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
 				WarningLevel="3"
@@ -354,8 +354,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../../curl-7.21.7/include"
-				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE;CURL_STATICLIB"
+				AdditionalIncludeDirectories="../../curl-7.21.7/include;../../zlib-1.2.5"
+				PreprocessorDefinitions="WIN32;HAVE_ZLIB_H;_DEBUG;_CONSOLE;BUILDING_LIBCURL;CURL_STATICLIB"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -418,8 +418,8 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="../../curl-7.21.7/include"
-				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE;CURL_STATICLIB"
+				AdditionalIncludeDirectories="../../curl-7.21.7/include;../../zlib-1.2.5"
+				PreprocessorDefinitions="WIN32;HAVE_ZLIB_H;NDEBUG;_CONSOLE;CURL_STATICLIB;BUILDING_LIBCURL"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
 				WarningLevel="3"
@@ -482,8 +482,8 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="../../curl-7.21.7/include"
-				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE;CURL_STATICLIB"
+				AdditionalIncludeDirectories="../../curl-7.21.7/include;../../zlib-1.2.5"
+				PreprocessorDefinitions="WIN32;HAVE_ZLIB_H;NDEBUG;_CONSOLE;CURL_STATICLIB;BUILDING_LIBCURL"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
 				WarningLevel="3"
@@ -528,7 +528,11 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\axtls.c"
+				RelativePath="..\..\curl-7.21.7\lib\asyn-ares.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\curl-7.21.7\lib\asyn-thread.c"
 				>
 			</File>
 			<File
@@ -577,10 +581,6 @@
 			</File>
 			<File
 				RelativePath="..\..\curl-7.21.7\lib\curl_threads.c"
-				>
-			</File>
-			<File
-				RelativePath="..\..\curl-7.21.7\lib\cyassl.c"
 				>
 			</File>
 			<File
@@ -688,10 +688,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\idn_win32.c"
-				>
-			</File>
-			<File
 				RelativePath="..\..\curl-7.21.7\lib\if2ip.c"
 				>
 			</File>
@@ -705,14 +701,6 @@
 			</File>
 			<File
 				RelativePath="..\..\curl-7.21.7\lib\inet_pton.c"
-				>
-			</File>
-			<File
-				RelativePath="..\..\curl-7.21.7\lib\krb4.c"
-				>
-			</File>
-			<File
-				RelativePath="..\..\curl-7.21.7\lib\krb5.c"
 				>
 			</File>
 			<File
@@ -748,23 +736,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\non-ascii.c"
-				>
-			</File>
-			<File
 				RelativePath="..\..\curl-7.21.7\lib\nonblock.c"
-				>
-			</File>
-			<File
-				RelativePath="..\..\curl-7.21.7\lib\nss.c"
-				>
-			</File>
-			<File
-				RelativePath="..\..\curl-7.21.7\lib\nwlib.c"
-				>
-			</File>
-			<File
-				RelativePath="..\..\curl-7.21.7\lib\nwos.c"
 				>
 			</File>
 			<File
@@ -792,19 +764,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\qssl.c"
-				>
-			</File>
-			<File
 				RelativePath="..\..\curl-7.21.7\lib\rawstr.c"
 				>
 			</File>
 			<File
 				RelativePath="..\..\curl-7.21.7\lib\rtsp.c"
-				>
-			</File>
-			<File
-				RelativePath="..\..\curl-7.21.7\lib\security.c"
 				>
 			</File>
 			<File
@@ -832,10 +796,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\socks_gssapi.c"
-				>
-			</File>
-			<File
 				RelativePath="..\..\curl-7.21.7\lib\socks_sspi.c"
 				>
 			</File>
@@ -857,10 +817,6 @@
 			</File>
 			<File
 				RelativePath="..\..\curl-7.21.7\lib\ssluse.c"
-				>
-			</File>
-			<File
-				RelativePath="..\..\curl-7.21.7\lib\strdup.c"
 				>
 			</File>
 			<File
