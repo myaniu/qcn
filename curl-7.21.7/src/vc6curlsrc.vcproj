@@ -3526,6 +3526,10 @@
 				</FileConfiguration>
 			</File>
 		</Filter>
+		<File
+			RelativePath="..\include\Makefile.am"
+			>
+		</File>
 	</Files>
 	<Globals>
 	</Globals>
