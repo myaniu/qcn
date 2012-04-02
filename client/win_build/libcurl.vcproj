@@ -248,6 +248,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
+				OutputFile="libcurld64.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -311,6 +312,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
+				OutputFile="libcurl64.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"

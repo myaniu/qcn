@@ -129,9 +129,23 @@ bool CSensorWinHP::read_xyz(float& x1, float& y1, float& z1)
 
                 m_bStarted = TRUE;
         }
-        x1 = m_coords[0];
-        y1 = m_coords[1];
-        z1 = m_coords[2];
+
+		// 8-bit -- range is 0 to 255
+		x1 = (((float) m_coords[0] - 127.5f) / 63.75f) * EARTH_G;
+		y1 = (((float) m_coords[1] - 127.5f) / 63.75f) * EARTH_G;
+		z1 = (((float) m_coords[2] - 127.5f) / 63.75f) * EARTH_G;
+
+#ifdef _DEBUG
+		static float max[3] = {-9990.,-9990.,-99999.0};
+		static float min[3] = {99990.,999990.,9999.0};
+		float test[3] = {x1, y1, z1};
+		for (int j = 0; j < 3; j++) {
+			if (max[j] < test[j]) max[j] = test[j];
+			if (min[j] > test[j]) min[j] = test[j];
+		}
+		fprintf(stdout, "x=%f  y=%f  z=%f   max=[%f, %f, %f]   min=[%f, %f, %f]\n",
+			      test[0], test[1], test[2], max[0], max[1], max[2], min[0], min[1], min[2]);
+#endif
         return true;
 }
 
