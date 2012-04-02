@@ -21,7 +21,7 @@ const char* CSensorWinHP::m_cstrDLL = {"accelerometerdll.dll"};
 void CSensorWinHP::Init()
 {
         memset(m_coords, 0x00, sizeof(unsigned short) * 3);
-        m_bStarted = false;
+        memset(&m_overlapped, 0x00, sizeof(OVERLAPPED));
         m_hLibrary = NULL;
         m_hDevice = NULL;
         m_getRealTimeXYZ = NULL;
@@ -41,6 +41,14 @@ CSensorWinHP::~CSensorWinHP()
 
 void CSensorWinHP::closePort()
 {
+   if (m_hDevice) {
+	   ::CloseHandle(m_hDevice);
+	   m_hDevice = NULL;
+   }
+   if (m_overlapped.hEvent) {
+	   ::CloseHandle(m_overlapped.hEvent);
+	   m_overlapped.hEvent = NULL;
+   }
    if (m_hLibrary) {
      ::FreeLibrary(m_hLibrary);
      m_hLibrary = NULL;
@@ -55,9 +63,10 @@ void CSensorWinHP::closePort()
 bool CSensorWinHP::detect()
 {
    bool bFound;
-   if ( (bFound = this->LoadLibrary()) ) { // this checks for the HP DLL existence and function pointers into the DLL 
+   float x,y,z;
+   if ( (bFound = this->LoadLibrary()) && read_xyz(x,y,z) ) { // this checks for the HP DLL existence and function pointers into the DLL 
       this->setType(SENSOR_WIN_HP);
-      setSingleSampleDT(false);
+      setSingleSampleDT(true);
     }
     else {
       closePort(); // close handles if necessary
@@ -120,14 +129,10 @@ bool CSensorWinHP::read_xyz(float& x1, float& y1, float& z1)
 
     // note that x/y/z should be scaled to +/- 2g, return values as +/- 2.0f*EARTH_G (in define.h: 9.78033 m/s^2)
 
-        if (!m_bStarted) {
-                OVERLAPPED overlapped;
-                overlapped.hEvent = CreateEvent(NULL, TRUE, FALSE, NULL);
-                m_getRealTimeXYZ(m_hDevice, (unsigned short * )m_coords, &overlapped);
-
-                ::ResetEvent(overlapped.hEvent);
-
-                m_bStarted = TRUE;
+        if (!m_overlapped.hEvent) {
+			m_overlapped.hEvent = ::CreateEvent(NULL, TRUE, FALSE, NULL);
+            m_getRealTimeXYZ(m_hDevice, (unsigned short * )m_coords, &m_overlapped);
+            ::ResetEvent(m_overlapped.hEvent);
         }
 
 		// 8-bit -- range is 0 to 255
@@ -135,7 +140,7 @@ bool CSensorWinHP::read_xyz(float& x1, float& y1, float& z1)
 		y1 = (((float) m_coords[1] - 127.5f) / 63.75f) * EARTH_G;
 		z1 = (((float) m_coords[2] - 127.5f) / 63.75f) * EARTH_G;
 
-#ifdef _DEBUG
+#if 0 //def _DEBUG
 		static float max[3] = {-9990.,-9990.,-99999.0};
 		static float min[3] = {99990.,999990.,9999.0};
 		float test[3] = {x1, y1, z1};

@@ -40,11 +40,11 @@ class CSensorWinHP  : public CSensor
 {
    private: 
         unsigned short m_coords[3];
-        bool m_bStarted;
         HMODULE m_hLibrary;
         HANDLE m_hDevice;
         FindAccelerometerDev m_findAccelerometerDev;
         GetRealTimeXYZ m_getRealTimeXYZ;
+		OVERLAPPED m_overlapped;
 
         static const char* m_cstrDLL;
 
