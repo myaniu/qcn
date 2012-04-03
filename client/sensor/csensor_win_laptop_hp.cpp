@@ -75,7 +75,8 @@ bool CSensorWinHP::detect()
    bool bFound;
    float x,y,z;
    if ( (bFound = this->LoadLibrary()) && read_xyz(x,y,z) ) { // this checks for the HP DLL existence and function pointers into the DLL 
-      this->setType(SENSOR_WIN_HP);
+	  setType(SENSOR_WIN_HP);
+	  setPort(SENSOR_WIN_HP);
       setSingleSampleDT(true); // multisampling is too fast for the HP sensor
     }
     else {
@@ -89,7 +90,6 @@ bool CSensorWinHP::LoadLibrary()
         DWORD attribs = ::GetFileAttributes(m_cstrDLL);
         m_hLibrary = ::LoadLibrary(m_cstrDLL);
         if (!m_hLibrary) {
-         //       printf("Loading DLL failed.");
                 return false;
         } 
 #ifdef _WIN64
