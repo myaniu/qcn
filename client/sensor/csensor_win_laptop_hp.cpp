@@ -26,7 +26,7 @@ const char* CSensorWinHP::m_cstrDLL = {"accelerometerdll.dll"};
 
 void CSensorWinHP::Init()
 {
-        memset(m_coords, 0x00, sizeof(unsigned short) * 3);
+        memset(m_xyz, 0x00, sizeof(short) * 3);
         memset(&m_overlapped, 0x00, sizeof(OVERLAPPED));
         m_hLibrary = NULL;
         m_hDevice = NULL;
@@ -119,14 +119,14 @@ bool CSensorWinHP::read_xyz(float& x1, float& y1, float& z1)
 
         if (!m_overlapped.hEvent) {
 			m_overlapped.hEvent = ::CreateEvent(NULL, TRUE, FALSE, NULL);
-            m_getRealTimeXYZ(m_hDevice, m_coords, &m_overlapped);
+            m_getRealTimeXYZ(m_hDevice, m_xyz, &m_overlapped);
             ::ResetEvent(m_overlapped.hEvent);
         }
 
 		// 8-bit -- range is 0 to 255
-		x1 = (((float) m_coords[0] - 127.5f) / 63.75f) * EARTH_G;
-		y1 = (((float) m_coords[1] - 127.5f) / 63.75f) * EARTH_G;
-		z1 = (((float) m_coords[2] - 127.5f) / 63.75f) * EARTH_G;
+		x1 = (((float) m_xyz[0] - 127.5f) / 63.75f) * EARTH_G;
+		y1 = (((float) m_xyz[1] - 127.5f) / 63.75f) * EARTH_G;
+		z1 = (((float) m_xyz[2] - 127.5f) / 63.75f) * EARTH_G;
 
 #ifdef _DEBUG
 		static float max[3] = {-9990.,-9990.,-99999.0};
@@ -137,7 +137,7 @@ bool CSensorWinHP::read_xyz(float& x1, float& y1, float& z1)
 			if (min[j] > test[j]) min[j] = test[j];
 		}
 		fprintf(stdout, "raw=[%03d,%03d,%03d]  xyz=[%f,%f,%f]  max=[%f, %f, %f]   min=[%f, %f, %f]\n",
-			      m_coords[0], m_coords[1], m_coords[2],
+			      m_xyz[0], m_coords[1], m_coords[2],
 				  x1, y1, z1,
 				  max[0], max[1], max[2], min[0], min[1], min[2]);
 #endif

@@ -27,7 +27,7 @@ using namespace std;
 // if this service isn't running the DLL function access will work but the sensor data values never change
 
 typedef __declspec( dllimport ) unsigned long (__stdcall *IsSoftwareEnabled)(void *, unsigned char *);
-typedef __declspec( dllimport ) unsigned long (__stdcall *GetRealTimeXYZ)(void *, unsigned short *, _OVERLAPPED *);
+typedef __declspec( dllimport ) unsigned long (__stdcall *GetRealTimeXYZ)(void *, short *, _OVERLAPPED *);
 
 typedef __declspec( dllimport ) unsigned char (__stdcall *stdcall_FindAccelerometerDevice)(void * *);
 typedef __declspec( dllimport ) unsigned char (__cdecl *cdecl_FindAccelerometerDevice)(void * *);
@@ -39,7 +39,7 @@ typedef stdcall_FindAccelerometerDevice FindAccelerometerDev; // depends on oper
 class CSensorWinHP  : public CSensor
 {
    private: 
-        unsigned short m_coords[3];
+        short m_xyz[3];
         HMODULE m_hLibrary;
         HANDLE m_hDevice;
         FindAccelerometerDev m_findAccelerometerDev;
