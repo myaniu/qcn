@@ -137,7 +137,7 @@ bool CSensorWinHP::read_xyz(float& x1, float& y1, float& z1)
 			if (min[j] > test[j]) min[j] = test[j];
 		}
 		fprintf(stdout, "raw=[%03d,%03d,%03d]  xyz=[%f,%f,%f]  max=[%f, %f, %f]   min=[%f, %f, %f]\n",
-			      m_xyz[0], m_coords[1], m_coords[2],
+			      m_xyz[0], m_xyz[1], m_xyz[2],
 				  x1, y1, z1,
 				  max[0], max[1], max[2], min[0], min[1], min[2]);
 #endif
