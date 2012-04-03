@@ -11,6 +11,10 @@
  *     since HP seems to have changed their security model from my old version
  *     so I scrapped my old DLL code
  *
+ *  Here is the datasheet of accelerometer used in hp laptops:
+ *     http://www.st.com/internet/analog/product/127514.jsp
+ *   It says that it has "Programmable 12 or 16 bit data representation".
+ * 
  * The HP sensor is an 8-bit 3D sensor, but seems to be very slow, ie values stay the same for a second or more,
  * although it does seem to pick up "deltas" for trigger detection
  *
