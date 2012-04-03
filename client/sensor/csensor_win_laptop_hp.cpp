@@ -119,7 +119,7 @@ bool CSensorWinHP::read_xyz(float& x1, float& y1, float& z1)
 
         if (!m_overlapped.hEvent) {
 			m_overlapped.hEvent = ::CreateEvent(NULL, TRUE, FALSE, NULL);
-            m_getRealTimeXYZ(m_hDevice, (unsigned short * )m_coords, &m_overlapped);
+            m_getRealTimeXYZ(m_hDevice, m_coords, &m_overlapped);
             ::ResetEvent(m_overlapped.hEvent);
         }
 
@@ -131,13 +131,15 @@ bool CSensorWinHP::read_xyz(float& x1, float& y1, float& z1)
 #ifdef _DEBUG
 		static float max[3] = {-9990.,-9990.,-99999.0};
 		static float min[3] = {99990.,999990.,9999.0};
-		float test[3] = {x1, y1, z1};
+		float test[3] = {x1,y1,z1};
 		for (int j = 0; j < 3; j++) {
 			if (max[j] < test[j]) max[j] = test[j];
 			if (min[j] > test[j]) min[j] = test[j];
 		}
-		fprintf(stdout, "x=%f  y=%f  z=%f   max=[%f, %f, %f]   min=[%f, %f, %f]\n",
-			      test[0], test[1], test[2], max[0], max[1], max[2], min[0], min[1], min[2]);
+		fprintf(stdout, "raw=[%03d,%03d,%03d]  xyz=[%f,%f,%f]  max=[%f, %f, %f]   min=[%f, %f, %f]\n",
+			      m_coords[0], m_coords[1], m_coords[2],
+				  x1, y1, z1,
+				  max[0], max[1], max[2], min[0], min[1], min[2]);
 #endif
         return true;
 }
