@@ -1,5 +1,5 @@
-    rm -f qcnlive-mac-debug.zip
-    zip -r qcnlive-mac-debug.zip QCNLive.app \
+    rm -f qcnlive-mac.zip
+    zip -r qcnlive-mac.zip QCNLive.app \
        init/earthnight4096.jpg init/earthday4096.jpg \
        init/ntpdate_4.2.4p7c_universal-apple-darwin \
       init/hvt init/cbt init/hvtb init/splash.png \
