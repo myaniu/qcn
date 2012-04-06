@@ -45,6 +45,8 @@
 #define XML_AXIS_SINGLE  "asng"
 #define XML_MAKEQUAKE_TIME "mqt"
 #define XML_MAKEQUAKE_COUNTDOWN "mqc"
+#define XML_VERTICAL_TIME "vtm"
+#define XML_VERTICAL_TRIGGER "vtr"
 #define XML_MAKEQUAKE_PRINTER "mqp"
 
 

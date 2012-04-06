@@ -51,6 +51,8 @@ CDialogSettings::~CDialogSettings()
 	if (m_labelElevationFloor) delete m_labelElevationFloor;
 	if (m_labelSensor) delete m_labelSensor;	
 	if (m_labelAxisSingle) delete m_labelAxisSingle;	
+	if (m_labelVerticalTime) delete m_labelVerticalTime;
+	if (m_labelVerticalTrigger) delete m_labelVerticalTrigger;
 	if (m_gridlayout) delete m_gridlayout;
 
     if (m_textctrlLatitude) delete m_textctrlLatitude;
@@ -63,6 +65,9 @@ CDialogSettings::~CDialogSettings()
 	if (m_comboAxisSingle) delete m_comboAxisSingle;
 	if (m_radioSAC) delete m_radioSAC;
 	if (m_radioCSV) delete m_radioCSV;
+	if (m_btngrpSACCSV) delete m_btngrpSACCSV;
+	if (m_checkVerticalTime) delete m_checkVerticalTime;
+	if (m_checkVerticalTrigger) delete m_checkVerticalTrigger;
 	
 	if (m_buttonSave) delete m_buttonSave;
 	if (m_buttonCancel) delete m_buttonCancel;
@@ -96,6 +101,7 @@ void CDialogSettings::InitPointers()
 	
 	m_radioSAC = NULL;
 	m_radioCSV = NULL;
+	m_btngrpSACCSV = NULL;
 	
 	m_buttonSave = NULL;
 	m_buttonCancel = NULL;
@@ -111,7 +117,15 @@ void CDialogSettings::InitPointers()
 	m_labelElevationFloor = NULL;
 	m_labelSensor = NULL;	
 	m_labelAxisSingle = NULL;
+	
+	m_checkVerticalTime = NULL;
+	m_checkVerticalTrigger = NULL;
+	m_labelVerticalTime = NULL;
+	m_labelVerticalTrigger = NULL;
+	
+	
 	m_gridlayout = NULL;
+	
 	
 #ifdef _WIN32
 	m_psms = new CSensorWinUSBJW;
@@ -168,6 +182,14 @@ bool CDialogSettings::saveValues(QString& strError)
 	if (m_radioCSV->isChecked()) sm->bMyOutputSAC = false;
 	else if (m_radioSAC->isChecked()) sm->bMyOutputSAC = true;
 	
+	sm->bMyVerticalTime = m_checkVerticalTime->isChecked();
+	sm->bMyVerticalTrigger = m_checkVerticalTrigger->isChecked();
+
+	m_checkVerticalTime = NULL;
+	m_checkVerticalTrigger = NULL;
+	m_labelVerticalTime = NULL;
+	m_labelVerticalTrigger = NULL;
+	
 	return (bool) (strError.length() == 0);
 	
 }
@@ -216,6 +238,9 @@ void CDialogSettings::CreateControls()
 	// control 6 & 7 -- radio buttons to pick CSV/text or SAC output
 	m_radioCSV = new QRadioButton(tr("Record CSV/Text Files"), this);
 	m_radioSAC = new QRadioButton(tr("Record SAC Files"), this);
+	m_btngrpSACCSV = new QButtonGroup(this);//NULL, tr("Output Format")); // set group for radio button exclusivity
+	m_btngrpSACCSV->addButton(m_radioCSV, 0);
+	m_btngrpSACCSV->addButton(m_radioSAC, 1);
 	
 	m_radioCSV->setChecked(!sm->bMyOutputSAC);
 	m_radioSAC->setChecked(sm->bMyOutputSAC);
@@ -226,6 +251,14 @@ void CDialogSettings::CreateControls()
 
     m_labelAxisSingle = new QLabel(tr("Select Single Axis To Show (2D Plot):"), this);	
 	m_comboAxisSingle = new QComboBox(this);
+
+	m_labelVerticalTime = new QLabel(tr(""), this);	
+	m_checkVerticalTime	= new QCheckBox(tr("Show Time Markers"), this);
+	m_checkVerticalTime->setChecked(sm->bMyVerticalTime);
+
+	m_labelVerticalTrigger = new QLabel(tr(""), this);	
+	m_checkVerticalTrigger	= new QCheckBox(tr("Show Trigger Markers"), this);
+	m_checkVerticalTrigger->setChecked(sm->bMyVerticalTrigger);
 	
 	// create an array of strings of the USB sensor choices
 	int iMyIndex = 0;
@@ -262,9 +295,11 @@ void CDialogSettings::CreateControls()
 
     m_gridlayout->addWidget(m_labelElevationFloor, 4, 0);
     m_gridlayout->addWidget(m_spinctrlElevationFloor, 4, 1);
-	
-    m_gridlayout->addWidget(m_radioCSV, 5, 0);
-    m_gridlayout->addWidget(m_radioSAC, 5, 1);
+
+	//m_gridlayout->addWidget((QWidget*) m_btngrpSACCSV, 5, 0);
+
+     m_gridlayout->addWidget(m_radioCSV, 5, 0);
+     m_gridlayout->addWidget(m_radioSAC, 5, 1);
 
     m_gridlayout->addWidget(m_labelSensor, 6, 0);
     m_gridlayout->addWidget(m_comboSensor, 6, 1);
@@ -272,6 +307,12 @@ void CDialogSettings::CreateControls()
     m_gridlayout->addWidget(m_labelAxisSingle, 7, 0);
     m_gridlayout->addWidget(m_comboAxisSingle, 7, 1);
 	
+    //m_gridlayout->addWidget(m_labelVerticalTrigger, 9, 0);
+    m_gridlayout->addWidget(m_checkVerticalTrigger, 8, 0);
+	
+    //m_gridlayout->addWidget(m_labelVerticalTime, 8, 0);
+    m_gridlayout->addWidget(m_checkVerticalTime, 8, 1);
+
 	m_groupMain->setLayout(m_gridlayout);
 	
 	// layout buttons

@@ -89,6 +89,10 @@ void CQCNShMem::clear(bool bAll)
 		for (int i = 0; i < MAXI; i++) {
 			x0[i] = y0[i] = z0[i] = fsig[i] = xa[i] = ya[i] = za[i] = SAC_NULL_FLOAT;
 		}
+		
+		bMyVerticalTime = true;
+		bMyVerticalTrigger = true;
+
 
 #ifdef _DEBUG_QCNLIVE_WRAP
 		// fill up the array with fake data to test
@@ -145,12 +149,17 @@ void CQCNShMem::clear(bool bAll)
 	pshmem->bMyContinual = bMyContinual;
 	pshmem->bMyOutputSAC = bMyOutputSAC;
     strcpy(pshmem->strMyStation, strMyStation);
+	pshmem->iMyAxisSingle = iMyAxisSingle;
+	pshmem->bMyVerticalTime = bMyVerticalTime;
+	pshmem->bMyVerticalTrigger = bMyVerticalTrigger;
 
     pshmem->clock_time  = clock_time;
 	pshmem->cpu_time    = cpu_time;
 	pshmem->update_time = update_time;
 	pshmem->fraction_done = fraction_done;
+	
 
+	
     memcpy(&pshmem->statusBOINC, &statusBOINC, sizeof(BOINC_STATUS));
 
 	// handle project prefs special - note dataBOINC.proj_pref would already have been freed

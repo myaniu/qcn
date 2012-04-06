@@ -33,6 +33,10 @@ private:
 	
 	QRadioButton* m_radioSAC;
 	QRadioButton* m_radioCSV;
+	QButtonGroup* m_btngrpSACCSV;
+
+	QCheckBox* m_checkVerticalTime;
+	QCheckBox* m_checkVerticalTrigger;
 	
 	QPushButton* m_buttonSave;
 	QPushButton* m_buttonCancel;
@@ -51,6 +55,8 @@ private:
 	QLabel* m_labelElevationFloor;
 	QLabel* m_labelSensor;	
 	QLabel* m_labelAxisSingle;
+	QLabel* m_labelVerticalTime;
+	QLabel* m_labelVerticalTrigger;
 	
 	QGridLayout* m_gridlayout;
 	

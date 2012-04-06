@@ -90,7 +90,9 @@ bool canDrawTick(const float& fWhere, const bool bText)
 void draw_tick_marks()
 {  // draw vertical blue lines every 1/10/60/600 seconds depending on view size
 		// note the labels underneath are drawn in draw_text_plot
-		// show the time markers, if any
+		// show the time markers, if needed
+		if (!sm->bMyVerticalTime) return;
+	
 		glPushMatrix();
 		for (int i = 0; i < g_iTimeCtr; i++) {
 			if (lTimeLast[i] > 0.0f) { // there's a marker to place here
@@ -134,7 +136,7 @@ void draw_text()
    // now draw time text at the bottom
    char strTime[16];
    //TTFont::ttf_render_string(qcn_graphics::cfTextAlpha, fWhere, Y_TRIGGER_LAST[0] - 3.0f, 0, 800, blue, TTF_ARIAL, (const char*) strTime);
-    for (int i = 0; i < g_iTimeCtr; i++) {
+    for (int i = 0; sm->bMyVerticalTime && i < g_iTimeCtr; i++) {
        if (lTimeLast[i] > 0.0f) { // there's a marker to place here
 	     float fWhere = (float) (lTimeLastOffset[i]) / (float) PLOT_ARRAY_SIZE;
 		if (!canDrawTick(fWhere, true)) continue; // off the left edge

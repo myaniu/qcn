@@ -1103,6 +1103,9 @@ bool setupPlotMemory(const long lOffset)
 
 void draw_triggers()
 {
+	// not if they don't want to
+	if (!sm->bMyVerticalTrigger) return;
+	
     // show the triggers, if any
     glPushMatrix();
     for (int i = 0; i < MAX_TRIGGER_LAST; i++) {

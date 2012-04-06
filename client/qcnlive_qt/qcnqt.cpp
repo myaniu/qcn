@@ -286,6 +286,19 @@ bool MyApp::get_qcnlive_prefs()
     parse_int(strRead, strParse, iTmp);
 	sm->bMyOutputSAC = (bool)(iTmp > 0);
 
+    // show vertical time lines
+	iTmp = 0;
+    sprintf(strParse, "<%s>", XML_VERTICAL_TIME);
+    parse_int(strRead, strParse, iTmp);
+	sm->bMyVerticalTime = (bool)(iTmp > 0);
+
+	// show vertical trigger lines
+	iTmp = 0;
+    sprintf(strParse, "<%s>", XML_VERTICAL_TRIGGER);
+    parse_int(strRead, strParse, iTmp);
+	sm->bMyVerticalTrigger = (bool)(iTmp > 0);
+	
+	// makequake time length (default 10 seconds)
     sprintf(strParse, "<%s>", XML_MAKEQUAKE_TIME);
 	if (!parse_int(strRead, strParse, m_iMakeQuakeTime) || m_iMakeQuakeTime < 1 || m_iMakeQuakeTime > 60)
 		m_iMakeQuakeTime = 10; // default time for make-quake countdown i.e. 10 seconds
@@ -337,6 +350,8 @@ bool MyApp::set_qcnlive_prefs()
 				"<%s>%d</%s>\n"
 				"<%s>%d</%s>\n"
 				"<%s>%d</%s>\n"
+				"<%s>%d</%s>\n"
+				"<%s>%d</%s>\n"
 				"<%s>%s</%s>\n"
                         ,
                     XML_X, m_rect.x(), XML_X,
@@ -352,6 +367,8 @@ bool MyApp::set_qcnlive_prefs()
 					XML_AXIS_SINGLE, sm->iMyAxisSingle, XML_AXIS_SINGLE,
 					XML_CONTINUAL, (sm->bMyContinual ? 1 : 0), XML_CONTINUAL,
 					XML_SACFORMAT, (sm->bMyOutputSAC ? 1 : 0), XML_SACFORMAT,
+					XML_VERTICAL_TIME, (sm->bMyVerticalTime ? 1 : 0), XML_VERTICAL_TIME,
+					XML_VERTICAL_TRIGGER, (sm->bMyVerticalTrigger ? 1 : 0), XML_VERTICAL_TRIGGER,
 			        XML_MAKEQUAKE_TIME, m_iMakeQuakeTime, XML_MAKEQUAKE_TIME,
 					XML_MAKEQUAKE_COUNTDOWN, m_iMakeQuakeCountdown, XML_MAKEQUAKE_COUNTDOWN,
 					XML_MAKEQUAKE_PRINTER, (const char*) m_strMakeQuakePrinter.toAscii(), XML_MAKEQUAKE_PRINTER	
