@@ -12,7 +12,11 @@
 #include "csensor_win_laptop_thinkpad.h"
 
 // Thinkpad DLL to access, they also must be running the Thinkpad service
+#ifdef _WIN64  // seems to be a different name on Win64
+const char CSensorWinThinkpad::m_cstrDLL[] = {"sensor64.dll"};   // this would have to be in the PATH
+#else
 const char CSensorWinThinkpad::m_cstrDLL[] = {"sensor.dll"};   // this would have to be in the PATH
+#endif
 
 CSensorWinThinkpad::CSensorWinThinkpad()
   : CSensor(), m_WinDLLHandle(NULL), m_getDataThinkpad(NULL)
