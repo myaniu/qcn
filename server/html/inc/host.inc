@@ -85,12 +85,10 @@ function show_host($host, $user, $ipprivate) {
 // Check if volunteer wants to be anonymous:
     $anonymous = false;
     $owner = lookup_user_id($host->userid);
-
     if ($host->userid == $user) {
        $ipprivate = true;
     }
-
-    if ($owner && $owner->show_hosts || $ipprivate) {
+    if ($owner && $owner->show_hosts) {
         row2(tra("Owner"), user_links($owner));
     } else {
         row2(tra("Owner"), tra("Anonymous"));
@@ -128,6 +126,7 @@ function show_host($host, $user, $ipprivate) {
     if ($ipprivate) {
      start_table();
      row1(tra("Private Computer Information:"));
+     row2(tra("Computer Location Page"), "<A HREF=\"edit_host_info_form.php?hostid=" . $host->id . "\">Click Here To Set Location</A>");
      row2(tra("Computer Name"), $host->domain_name);
      row2(tra("CPU type"), "$host->p_vendor <br> $host->p_model");
      row2(tra("Number of processors"), $host->p_ncpus);
@@ -222,141 +221,6 @@ function show_host($host, $user, $ipprivate) {
     }
 
 
-
-}
-
-function show_host2($host, $user, $ipprivate) {
-    start_table();
-    row1(tra("Computer information"));
-    $anonymous = false;
-    if ($user) {
-        if ($ipprivate) {
-            row2(tra("IP address"), "$host->last_ip_addr<br>".tra("(same the last %1 times)", $host->nsame_ip_addr));
-            if ($host->last_ip_addr != $host->external_ip_addr) {
-                row2(tra("External IP address"), $host->external_ip_addr);
-            }
-        } else { 
-            row2(tra("IP address"), "<a href=show_host_detail.php?hostid=$host->id&ipprivate=1>".tra("Show IP address")."</a>");
-        }
-        row2(tra("Domain name"), $host->domain_name);
-        $x = $host->timezone/3600;
-        if ($x >= 0) $x="+$x";
-// CMC HERE
-     row2("Computer Locations", "<a href=edit_host_info_form.php?hostid=$host->id>Click Here To Select Locations For This Computer</a>");
-        row2(tra("Local Standard Time"), tra("UTC %1 hours", $x));
-        row2(tra("Name"), $host->domain_name);
-    } else {
-        $owner = lookup_user_id($host->userid);
-        if ($owner && $owner->show_hosts) {
-            row2(tra("Owner"), user_links($owner));
-        } else {
-            row2(tra("Owner"), tra("Anonymous"));
-            $anonymous = true;
-        }
-    }
-    row2(tra("Created"), time_str($host->create_time));
-    row2(tra("Total credit"), format_credit_large($host->total_credit));
-    row2(tra("Average credit"), format_credit($host->expavg_credit));
-    if (!$anonymous) {
-        row2(tra("Cross project credit"), cross_project_links($host));
-    }
-    if ($ipprivate) {
-       row2(tra("CPU type"), "$host->p_vendor <br> $host->p_model");
-       row2(tra("Number of processors"), $host->p_ncpus); 
-
-       if ($host->serialnum) {
-          row2(tra("Coprocessors"), gpu_desc($host->serialnum));
-       }
-       row2(tra("Operating System"), "$host->os_name <br> $host->os_version");
-    }
-
-
-    $v = boinc_version($host->serialnum);
-    if ($v) {
-        row2(tra("BOINC version"), $v);
-    }
-    if ($ipprivate) {
-     $x = $host->m_nbytes/(1024*1024);
-     $y = round($x, 2);
-     row2(tra("Memory"), tra("%1 MB", $y));
-     $x = $host->m_cache/1024;
-     $y = round($x, 2);
-     row2(tra("Cache"), tra("%1 KB", $y));
-    }
-    if ($user) {
-        $x = $host->m_swap/(1024*1024);
-        $y = round($x, 2);
-        row2(tra("Swap space"), tra("%1 MB", $y));
-        $x = $host->d_total/(1024*1024*1024);
-        $y = round($x, 2);
-        row2(tra("Total disk space"), tra("%1 GB", $y));
-        $x = $host->d_free/(1024*1024*1024);
-        $y = round($x, 2);
-        row2(tra("Free Disk Space"), tra("%1 GB", $y));
-    }
-    if ($ipprivate) {
-     $x = $host->p_fpops/(1000*1000);
-     $y = round($x, 2);
-     row2(tra("Measured floating point speed"), tra("%1 million ops/sec", $y));
-     $x = $host->p_iops/(1000*1000);
-     $y = round($x, 2);
-     row2(tra("Measured integer speed"), tra("%1 million ops/sec", $y));
-    }
-    $x = $host->n_bwup/(1024);
-    $y = round($x, 2);
-    if ($y > 0) {
-        row2(tra("Average upload rate"), tra("%1 KB/sec", $y));
-    } else {
-        row2(tra("Average upload rate"), tra("Unknown"));
-    }
-    $x = $host->n_bwdown/(1024);
-    $y = round($x, 2);
-    if ($y > 0) {
-        row2(tra("Average download rate"), tra("%1 KB/sec", $y));
-    } else {
-        row2(tra("Average download rate"), tra("Unknown"));
-    }
-    $x = $host->avg_turnaround/86400;
-    row2(tra("Average turnaround time"), tra("%1 days", round($x, 2)));
-    if ($ipprivate) {
-     row2(tra("Application details"),
-        "<a href=host_app_versions.php?hostid=$host->id>".tra("Show")."</a>"
-    );
-    }
-    $config = get_config();
-    if (parse_bool($config, "show_results")) {
-        $nresults = host_nresults($host);
-        if ($nresults) {
-            $results = "<a href=results.php?hostid=$host->id>$nresults</a>";
-        } else {
-            $results = "0";
-        }
-        row2(tra("Tasks"), $results);
-    }
-
-    if ($user) {
-        row2(tra("Number of times BOINC has contacted server"), $host->rpc_seqno);
-        row2(tra("Last time contacted server"), sched_log_link($host->rpc_time));
-        row2(tra("% of time BOINC is running"), 100*$host->on_frac." %");
-        if ($host->connected_frac > 0) {
-            row2(tra("While BOINC running, % of time host has an Internet connection"), 100*$host->connected_frac." %");
-        }
-        row2(tra("While BOINC running, % of time work is allowed"), 100*$host->active_frac." %");
-        if ($host->cpu_efficiency) {
-            row2(tra("Average CPU efficiency"), $host->cpu_efficiency);
-        }
-        if ($host->duration_correction_factor) {
-            row2(tra("Task duration correction factor"), $host->duration_correction_factor);
-        }
-        row2(tra("Location"), location_form($host));
-        if ($nresults == 0) {
-            $x = " | <a href=host_delete.php?hostid=$host->id".url_tokens($user->authenticator).">".tra("Delete this computer")."</a> ";
-        } else {
-            $x = "";
-        }
-        row2(tra("Merge duplicate records of this computer"), "<a href=host_edit_form.php?hostid=$host->id>".tra("Merge")."</a> $x");
-    }
-    echo "</table>\n";
 
 }
 

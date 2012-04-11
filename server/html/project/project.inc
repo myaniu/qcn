@@ -688,6 +688,7 @@ function show_trigger($hostid, $heading, $private)//=false)
        . "             LEFT JOIN qcn_quake q ON t.qcn_quakeid = q.id "
        . "WHERE hostid=$hostid order by time_trigger desc limit " . MAX_NUM_TRIGGER;
    $result=$db->do_query($sql);
+   $j = 0;
 
 
    if ($result && mysql_num_rows($result)>0) {  // we found some records
@@ -718,12 +719,12 @@ function show_trigger($hostid, $heading, $private)//=false)
 // Plot sensor location (for first trigger only before printing the table of triggers)
     start_table();
     echo "<tr><th align=\"left\">Sensor Location:</th></tr>\n";
+    if ($private) { // Allow admin & user to edit location
+      echo "<tr><td><a href=edit_host_info_form.php?hostid=".$hostid.">Click Here To Select Locations For This Computer</a></td></tr>\n"; 
+    }
     echo "<tr><td><table width=\"100%\"><tr><td width=\"40%\">\n";
     echo "<iframe src=\"".BASEURL."/earthquakes/view/qcn_map_sensor.php?lon=" . round($lon,$loc_res) . "&lat=" . round($lat,$loc_res) . "\" frameborder=\"0\" scrolling=\"no\" width=\"100%\" height=\"365\" align=\"left\"></iframe>\n";
     echo "</td><td>\n";
-    if ($private) { // Allow admin & user to edit location
-      echo "<a href=edit_host_info_form.php?hostid=".$hostid.">Click Here To Select Locations For This Computer</a>\n"; 
-    }
     echo "</td></tr></table>\n";
     echo "</td></tr></table>\n";
 
@@ -851,6 +852,7 @@ mysql> select * from qcn_level;
       }
    } else {
     start_table();
+    echo "<tr><td><a href=edit_host_info_form.php?hostid=".$hostid.">Click Here To Select Locations For This Computer</a></td></tr>\n"; 
     echo "<tr><th align=\"left\">No recent triggers found in database.</th></tr></table>\n";
    }
 

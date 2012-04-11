@@ -126,6 +126,7 @@ function show_host($host, $user, $ipprivate) {
     if ($ipprivate) {
      start_table();
      row1(tra("Private Computer Information:"));
+     row2(tra("Computer Location Page"), "<A HREF=\"edit_host_info_form.php?hostid=" . $host->id . "\">Click Here To Set Location</A>");
      row2(tra("Computer Name"), $host->domain_name);
      row2(tra("CPU type"), "$host->p_vendor <br> $host->p_model");
      row2(tra("Number of processors"), $host->p_ncpus);
