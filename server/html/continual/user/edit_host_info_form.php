@@ -348,7 +348,7 @@ echo "(Optional)  Sensor alignment state: &nbsp&nbsp&nbsp
    <option value=3 "; 
   if ($iRadioAlign==3) echo "selected=\"selected\"";
   echo  ">East</option>
-   option value=4 ";
+   <option value=4 ";
   if ($iRadioAlign==4) echo "selected=\"selected\"";
   echo ">West</option>
   <option value=5 ";

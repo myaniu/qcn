@@ -37,21 +37,13 @@ if ($rev != 1) {
 
 $sort = get_str("sort", true);
 
-$user = get_logged_in_user(true);
-if ($user) {
-  $private_admin = qcn_admin_user_check($user);
-}
-
+$user = get_logged_in_user(false);
 $userid = get_int("userid", true);
-if (!$userid) $userid = $user->id;
 
-$auth = qcn_admin_user_check($user);
-
-if ($user && $user->id == $userid || $auth) {
-//    $userid = 0;
-   $private = true;
+if ($user && $user->id == $userid) {
+    $userid = 0;
 }
-if ($private) {
+if ($userid) {
     $user = lookup_user_id($userid);
     if (!$user) {
         error_page("No such user");
@@ -60,20 +52,18 @@ if ($private) {
     if ($user->show_hosts) {
         page_head(tra("Computers belonging to %1", $user->name));
     } else {
-        page_head("Computers hidden");
-        echo tra("This user has chosen not to show information about their computers.");
+        page_head(tra("Computers hidden"));
+        echo tra(tra("This user has chosen not to show information about his or her computers."));
         page_tail();
         exit();
     }
     $private = false;
 } else {
-    $user = get_logged_in_user(true);
+    $user = get_logged_in_user();
     $userid = $user->id;
-    page_head("Redirected to your computers:");
+    page_head(tra("Your computers"));
     $private = true;
 }
-// Check if admin user
-if ($private_admin) {$private=true;}
 
 show_user_hosts($userid, $private, $show_all, $sort, $rev);
 

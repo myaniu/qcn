@@ -37,7 +37,7 @@ BoincDb::get(true);
 
 if ($user->id==$hostid) $auth = true;
 
-$ipprivate = get_str("ipprivate", true);
+if (!$ipprivate) $ipprivate = get_str("ipprivate", true);
 $host = BoincHost::lookup_id($hostid);
 if (!$host) {
     echo "Couldn't find computer (please hit \"back\")";
@@ -48,9 +48,9 @@ $user = get_logged_in_user(true);
 
 
 // Check if the user is on the administrative list:
-$ipprivate = qcn_admin_user_check($user);
+if (!$ipprivate) $ipprivate = qcn_admin_user_check($user);
 // If the user is the owner of the host, then provide private info
-if ($user->id == $hostid) {
+if ($user->hostid == $hostid && !$ipprivate) {
    $ipprivate = true;
 }
 
