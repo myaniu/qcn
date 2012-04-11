@@ -95,10 +95,10 @@ for ($i = 0; $i < 5; $i++)
    }
 }
 
-$ir = $_POST['radioAlign'];
+$ir = $_POST['cboAlign'];
 $iRadioAlign = 0;
 // verify valid value for alignment i.e. unaligned, north, wall (0,1,5) from qcn_align table
-if ($ir == 0 || $ir == 1 || $ir == 5) {
+if ($ir >= 0 && $ir <= 6) { //== 1 || $ir == 5) {
    $iRadioAlign = $ir;
 }
 

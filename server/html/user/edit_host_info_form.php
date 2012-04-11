@@ -334,12 +334,32 @@ echo ">(Optional)  Show This Computer's Exact Location on Public QCN Maps and Li
 
 // add radio buttons for type of alignment
 echo "<tr><td colspan=2>";
-echo "(Optional)  Sensor alignment state: &nbsp&nbsp&nbsp";
-echo "<input type=\"radio\" name=\"radioAlign\" value=\"0\" " . ($iRadioAlign==0 ? "checked" : "") . ">Unaligned  ";
-echo "&nbsp&nbsp&nbsp&nbsp";
-echo "<input type=\"radio\" name=\"radioAlign\" value=\"1\" " . ($iRadioAlign==1 ? "checked" : "") . ">North      ";
-echo "&nbsp&nbsp&nbsp&nbsp";
-echo "<input type=\"radio\" name=\"radioAlign\" value=\"5\" " . ($iRadioAlign==5 ? "checked" : "") . ">Wall       ";
+echo "(Optional)  Sensor alignment state: &nbsp&nbsp&nbsp
+<select id=\"cboAlign\" name=\"cboAlign\">
+  <option value=0 ";
+  if ($iRadioAlign==0) echo "selected=\"selected\"";
+  echo ">Unaligned</option>
+   <option value=1 ";
+  if ($iRadioAlign==1) echo "selected=\"selected\"";
+  echo ">Magnetic North</option>
+   <option value=2 ";
+  if ($iRadioAlign==2) echo "selected=\"selected\"";
+  echo ">South</option>
+   <option value=3 "; 
+  if ($iRadioAlign==3) echo "selected=\"selected\"";
+  echo  ">East</option>
+   option value=4 ";
+  if ($iRadioAlign==4) echo "selected=\"selected\"";
+  echo ">West</option>
+  <option value=5 ";
+  if ($iRadioAlign==5) echo "selected=\"selected\"";
+   echo ">Wall</option>
+  <option value=6 "; 
+  if ($iRadioAlign==6) echo "selected=\"selected\"";
+   echo ">True North</option>
+</select>
+";
+
 echo "</td></tr>";
 
 row2("", "<input type=submit value='Update info'>");

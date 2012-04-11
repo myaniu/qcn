@@ -53,11 +53,12 @@ insert into qcn_level values (5, 'Elevation - feet above sea level');
 
 create table qcn_align (id smallint not null primary key default 0, description varchar(64));
 insert into qcn_align values (0, 'Unaligned');
-insert into qcn_align values (1, 'North');
+insert into qcn_align values (1, 'Magnetic North');
 insert into qcn_align values (2, 'South');
 insert into qcn_align values (3, 'East');
 insert into qcn_align values (4, 'West');
 insert into qcn_align values (5, 'Wall');
+insert into qcn_align values (6, 'True North');
 
 create table qcn_variety (id smallint not null primary key default 0, description varchar(64));
 insert into qcn_variety values (-2, 'Final Stats Trigger');
