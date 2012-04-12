@@ -58,6 +58,9 @@
 #define SENSOR_STRLG_USB_ONAVI_C_24 "ONavi C 24-bit USB"
 #define SENSOR_STRSH_USB_ONAVI_C_24 "O4"
 
+#define SENSOR_STRLG_USB_PHIDGETS_1056 "Phidgets 1056 USB"
+#define SENSOR_STRSH_USB_PHIDGETS_1056 "P1"
+
 // end sensor strings
 
 map<int, CSensorType> CSensor::m_map;
@@ -116,6 +119,10 @@ CSensor::CSensor()
 
 		cst.init(SENSOR_USB_ONAVI_C_24, SENSOR_STRLG_USB_ONAVI_C_24, SENSOR_STRSH_USB_ONAVI_C_24);
 		m_map.insert(make_pair(SENSOR_USB_ONAVI_C_24, cst));
+
+		cst.init(SENSOR_USB_PHIDGETS_1056, SENSOR_STRLG_USB_PHIDGETS_1056, SENSOR_STRSH_USB_PHIDGETS_1056);
+		m_map.insert(make_pair(SENSOR_USB_PHIDGETS_1056, cst));
+
 	}
 }
 

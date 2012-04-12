@@ -218,20 +218,22 @@ enum e_quake   { QUAKE_CURRENT, QUAKE_WORLD85, QUAKE_DEADLIEST };
 
 // enumerate the various sensor types, we can trickle this int back for easier comparisons
 // don't forget to update in the csensor.cpp CSensor constructor
-enum e_sensor  { SENSOR_NOTFOUND = 0,  // 0
+enum e_sensor  { 
+                 SENSOR_NOTFOUND = 0,  // 0
                  SENSOR_MAC_PPC_TYPE1, // 1
                  SENSOR_MAC_PPC_TYPE2, // 2
                  SENSOR_MAC_PPC_TYPE3, // 3
                  SENSOR_MAC_INTEL,     // 4
                  SENSOR_WIN_THINKPAD,  // 5
-		         SENSOR_WIN_HP,        // 6
-		         SENSOR_USB_JW24F8  = 100,   // 100
-		         SENSOR_USB_MOTIONNODEACCEL, // 101
-	             SENSOR_USB_ONAVI_1,     // 102
-				 SENSOR_USB_JW24F14,      // 103
-	             SENSOR_USB_ONAVI_A_12,     // 104
-	             SENSOR_USB_ONAVI_B_16,     // 105
-	             SENSOR_USB_ONAVI_C_24     // 106
+		 SENSOR_WIN_HP,        // 6
+		 SENSOR_USB_JW24F8  = 100,   // 100
+		 SENSOR_USB_MOTIONNODEACCEL, // 101
+	         SENSOR_USB_ONAVI_1,     // 102
+  		 SENSOR_USB_JW24F14,      // 103
+	         SENSOR_USB_ONAVI_A_12,   // 104
+	         SENSOR_USB_ONAVI_B_16,   // 105
+	         SENSOR_USB_ONAVI_C_24    // 106
+	         SENSOR_USB_PHIDGETS_1056 // 107
                };
 
 // USB id's

@@ -33,8 +33,8 @@ insert into qcn_sensor values (1, 0, 'Mac PPC 1');
 insert into qcn_sensor values (2, 0, 'Mac PPC 2');
 insert into qcn_sensor values (3, 0, 'Mac PPC 3');
 insert into qcn_sensor values (4, 0, 'Mac Intel');
-insert into qcn_sensor values (5, 0, 'Lenovo Thinkpad (Windows)');
-insert into qcn_sensor values (6, 0, 'HP Laptop (Windows)');
+insert into qcn_sensor values (5, 0, 'Lenovo Thinkpad');
+insert into qcn_sensor values (6, 0, 'HP Laptop');
 insert into qcn_sensor values (100, 1, 'JoyWarrior 24F8 USB');
 insert into qcn_sensor values (101, 1, 'MotionNode Accel USB');
 insert into qcn_sensor values (102, 1, 'ONavi 1 USB');
@@ -42,6 +42,7 @@ insert into qcn_sensor values (103, 1, 'JoyWarrior 24F14 USB');
 insert into qcn_sensor values (104, 1, 'ONavi A 12-bit USB');
 insert into qcn_sensor values (105, 1, 'ONavi B 16-bit USB');
 insert into qcn_sensor values (106, 1, 'ONavi C 24-bit USB');
+insert into qcn_sensor values (107, 1, 'Phidgets 1056 USB');
 
 create table qcn_level (id smallint not null primary key, description varchar(64));
 insert into qcn_level values (0, 'N/A');
