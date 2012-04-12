@@ -78,17 +78,14 @@ function cross_project_links($host) {
 // If $user is non-null, it's both the owner of the host
 // and the logged in user (so show some extra fields)
 //
-function show_host($host, $user, $ipprivate) {
+function show_host($host, $user, $is_owner=false) {
     start_table();
     row1(tra("Public Computer Information:"));
 
 // Check if volunteer wants to be anonymous:
     $anonymous = false;
     $owner = lookup_user_id($host->userid);
-    if ($host->userid == $user) {
-       $ipprivate = true;
-    }
-    if ($owner && $owner->show_hosts) {
+    if ($owner->show_hosts) {
         row2(tra("Owner"), user_links($owner));
     } else {
         row2(tra("Owner"), tra("Anonymous"));
@@ -123,10 +120,10 @@ function show_host($host, $user, $ipprivate) {
 
     echo "</table>\n";
 
-    if ($ipprivate) {
+    if ($is_owner) {
      start_table();
      row1(tra("Private Computer Information:"));
-     row2(tra("Computer Location Page"), "<A HREF=\"edit_host_info_form.php?hostid=" . $host->id . "\">Click Here To Set Location</A>");
+     row2(tra("Computer Location Page"), "<A HREF=\"edit_host_info_form.php?hostid=" . $host->id . "\">Click Here To Verify or Set Location</A>");
      row2(tra("Computer Name"), $host->domain_name);
      row2(tra("CPU type"), "$host->p_vendor <br> $host->p_model");
      row2(tra("Number of processors"), $host->p_ncpus);
@@ -214,8 +211,6 @@ function show_host($host, $user, $ipprivate) {
 
 
      row2(tra("Local Standard Time"), tra("UTC %1 hours", $x));
-
-//     row2("Computer Locations", "<a href=edit_host_info_form.php?hostid=$host->id>Click Here To Select Locations For This Computer</a>");
 
      echo "</table>\n";
     }
@@ -308,11 +303,11 @@ function cpu_desc($host) {
 // so it's OK to show the domain name etc.
 // If private is false, show the owner's name only if they've given permission
 //
-function show_host_row($host, $i, $private, $show_owner) {
+function show_host_row($host, $i, $owner=false) {//private, $show_owner) {
     $j = $i % 2;
     $anonymous = false;
-    if (!$private) {
-        if ($show_owner) {
+    if ($owner) {
+        if ($owner) {
             $user = BoincUser::lookup_id($host->userid);
             if ($user && $user->show_hosts) {
             } else {
@@ -331,12 +326,12 @@ function show_host_row($host, $i, $private, $show_owner) {
     echo "
         </td>
     ";
-    if ($private) {
+    if ($owner) {
         echo "<td>$host->domain_name</td>\n";
         echo "<td>$host->venue</td>\n";
     } else {
         echo "<td>$i</td>\n";
-        if ($show_owner) {
+        if ($owner) {
             if ($anonymous) {
                 echo "<td>".tra("Anonymous")."</td>\n";
             } else {
@@ -344,7 +339,7 @@ function show_host_row($host, $i, $private, $show_owner) {
             }
         }
     }
-    if ($show_owner) {
+    if ($owner) {
         // This is used in the "top computers" display
         //
         printf("
@@ -367,7 +362,7 @@ function show_host_row($host, $i, $private, $show_owner) {
         echo "<td align=right>".format_credit($host->expavg_credit)."</td>\n";
         echo "<td align=right>".format_credit_large($host->total_credit)."</td>\n";
         echo "<td>".boinc_version($host->serialnum)."</td>\n";
-        if ($private) {
+        if ($owner) {
            echo "<td>".cpu_desc($host)."</td>\n";
            echo "<td>".gpu_desc($host->serialnum)."</td>\n";
         }

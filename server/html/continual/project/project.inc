@@ -662,7 +662,7 @@ function disguise_curl($url)
 }
 
 
-function show_trigger($hostid, $heading, $private)//=false)
+function show_trigger($hostid, $heading, $owner=false)
 {
 
    if ($hostid<1) return;
@@ -670,12 +670,21 @@ function show_trigger($hostid, $heading, $private)//=false)
    $tr = null;
    $colorPing = "\"#999999\"";
    $db = BoincDb::get();
-   // if $private just show lat/lng rounded to .01 so we're not showing exact addresses of participants!
-   if ($private) {
-      $sqllatlng = "round(t.latitude,2) lat, round(t.longitude,2) lng, ";
+
+   $result=$db->do_query("select count(*) from qcn_showhostlocation where hostid=$hostid");
+   $bShowHostLocation = false;
+   if ($result && mysql_num_rows($result)>0) {
+      $row=mysql_fetch_array($result);
+      if ($row[0] == 1) $bShowHostLocation = true;
+      mysql_free_result($result);
+   }
+
+   // if not $owner just show lat/lng rounded to .01 so we're not showing exact addresses of participants!
+   if ($owner || $bShowHostLocation) {
+      $sqllatlng = "t.latitude lat, t.longitude lng, ";
    }
    else {
-      $sqllatlng = "t.latitude lat, t.longitude lng, ";
+      $sqllatlng = "round(t.latitude,2) lat, round(t.longitude,2) lng, ";
    }
 
    $sql = "select t.id,t.file,t.time_trigger,t.time_received,"
@@ -688,10 +697,8 @@ function show_trigger($hostid, $heading, $private)//=false)
        . "             LEFT JOIN qcn_sensor s ON t.qcn_sensorid = s.id "
        . "             LEFT JOIN qcn_quake q ON t.qcn_quakeid = q.id "
        . "WHERE hostid=$hostid order by time_trigger desc limit " . MAX_NUM_TRIGGER;
-
    $result=$db->do_query($sql);
-   $j = 0; 
-
+   $j = 0;
 
    if ($result && mysql_num_rows($result)>0) {  // we found some records
       $i = 0;
@@ -700,40 +707,32 @@ function show_trigger($hostid, $heading, $private)//=false)
          if ($row[17]==1) { // it's a ping record
            $strTableFont = "<font color=$colorPing>";
            $strFontEnd = "</font>";
-         }
+         } 
          else {
            $strTableFont = "";
            $strFontEnd   = "";
          }
          if ($i == 0) {
-          if ($private) {
-           $loc_res = 4;
-          } else {
-           $loc_res = 2;
-          }
            $lat = $row[8];
            $lon = $row[9];
-
-
 
    if ($j == 0) {
 
 // Plot sensor location (for first trigger only before printing the table of triggers)
     start_table();
     echo "<tr><th align=\"left\">Sensor Location:</th></tr>\n";
-    if ($private) { // Allow admin & user to edit location
-      echo "<tr><td><a href=edit_host_info_form.php?hostid=".$hostid.">Click Here To Select Locations For This Computer</a></td></tr>\n";
+    if ($owner) { // Allow admin & user to edit location
+      echo "<tr><td><a href=edit_host_info_form.php?hostid=".$hostid.">Click Here To Verify or Select Locations For This Computer</a></td></tr>\n"; 
     }
     echo "<tr><td><table width=\"100%\"><tr><td width=\"40%\">\n";
-    echo "<iframe src=\"".BASEURL."/earthquakes/view/qcn_map_sensor.php?lon=" . round($lon,$loc_res) . "&lat=" . round($lat,$loc_res) . "\" frameborder=\"0\" scrolling=\"no\" width=\"100%\" height=\"365\" align=\"left\"></iframe>\n";
+    echo "<iframe src=\"".BASEURL."/earthquakes/view/qcn_map_sensor.php?lon=" . $lon . "&lat=" . $lat . "\" frameborder=\"0\" scrolling=\"no\" width=\"100%\" height=\"365\" align=\"left\"></iframe>\n";
     echo "</td><td>\n";
     echo "</td></tr></table>\n";
     echo "</td></tr></table>\n";
 
    echo "<H2>$heading</H2>\n";
-
    echo "<H3>Last " . MAX_NUM_TRIGGER . " Triggers for this Computer</H3>\n";
-   if ($private) {
+   if ($owner) {
    echo "<H5>(NB: <font color=$colorPing>grey text</font> is a 'ping' trigger to see who is running QCN)</H5>\n";}
    start_table();
    echo "<tr><th>Trigger ID</th>
@@ -752,7 +751,7 @@ function show_trigger($hostid, $heading, $private)//=false)
              <th>Sensor Type</th>
              <th>Version</th>
              <th>GeoIP?</th>";
-    if ($private) {
+    if ($owner) {
     echo "
              <th>OS</th>";
     }
@@ -812,7 +811,7 @@ mysql> select * from qcn_level;
 
          $quakestuff = "";
 
-        if ($row[17] != 1 || $private) {
+        if ($row[17] != 1 || $owner) {
          if ($i++ % 2) {
              $bgcolor = "\"#F4F4F4\"";
          }
@@ -828,11 +827,11 @@ mysql> select * from qcn_level;
                    <td>$strTableFont" . time_str($row[2]) . "$strFontEnd</td>
                    <td>$strTableFont" . time_str($row[3]) . "$strFontEnd</td>
                    <td>$strTableFont". time_str($row[4]) . "$strFontEnd</td>
-                   <td>$strTableFont" . round($row[5],$loc_res) . "$strFontEnd</td>
-                   <td>$strTableFont". round($row[6],$loc_res) . "$strFontEnd</td>
-                   <td>$strTableFont". round($row[7],$loc_res) . "$strFontEnd</td>
-                   <td>$strTableFont". round($row[8],$loc_res) . "$strFontEnd</td>
-                   <td>$strTableFont". round($row[9],$loc_res) . "$strFontEnd</td>
+                   <td>$strTableFont". $row[5] . "$strFontEnd</td>
+                   <td>$strTableFont". $row[6] . "$strFontEnd</td>
+                   <td>$strTableFont". $row[7] . "$strFontEnd</td>
+                   <td>$strTableFont". $row[8] . "$strFontEnd</td>
+                   <td>$strTableFont". $row[9] . "$strFontEnd</td>
                    <td>$strTableFont". $elev . "$strFontEnd</td>
                    <td>$strTableFont". $alignment . "$strFontEnd</td>
                    <td>$strTableFont" . ($row[10] ? $row[10] : 0) . "$strFontEnd</td>
@@ -840,7 +839,7 @@ mysql> select * from qcn_level;
                    <td>$strTableFont$row[12]$strFontEnd</td>
                    <td>$strTableFont$row[13]$strFontEnd</td>
                    <td>$strTableFont$row[26]$strFontEnd</td>";
-        if ($private) {
+        if ($owner) {
         echo "
                    <td>$strTableFont$row[14]$strFontEnd</td>";
         }
@@ -855,8 +854,8 @@ mysql> select * from qcn_level;
       }
    } else {
     start_table();
-    if ($private) { // Allow admin & user to edit location
-      echo "<tr><td><a href=edit_host_info_form.php?hostid=".$hostid.">Click Here To Select Locations For This Computer</a></td></tr>\n";
+    if ($owner) {
+       echo "<tr><td><a href=edit_host_info_form.php?hostid=".$hostid.">Click Here To Verify or Select Locations For This Computer</a></td></tr>\n"; 
     }
     echo "<tr><th align=\"left\">No recent triggers found in database.</th></tr></table>\n";
    }
@@ -865,160 +864,6 @@ mysql> select * from qcn_level;
 
 
 
-}
-
-function show_trigger2($hostid, $heading, $private=true)
-{
-   if ($hostid<1) return;
-   // make a table of triggers for this host
-   $tr = null;
-   $colorPing = "\"#999999\"";
-   $db = BoincDb::get();
-   // if $private just show lat/lng rounded to .01 so we're not showing exact addresses of participants!
-   if ($private) {
-      $sqllatlng = "round(t.latitude,2) lat, round(t.longitude,2) lng, ";
-   }
-   else {
-      $sqllatlng = "t.latitude lat, t.longitude lng, ";
-   }
-
-   $sql = "select t.id,t.file,t.time_trigger,t.time_received,"
-       . "t.time_sync,t.sync_offset,t.significance, t.magnitude, " . $sqllatlng
-       . "t.dt, t.numreset, "
-       . "s.description, "
-       . "t.sw_version,t.os_type,t.runtime_cpu,t.runtime_clock,t.varietyid,t.levelvalue,t.levelid,"
-       . "t.received_file,t.file as file_url,t.result_name,t.alignid,t.qcn_quakeid,q.url "
-       . "from qcn_trigger t "
-       . "             LEFT JOIN qcn_sensor s ON t.qcn_sensorid = s.id "
-       . "             LEFT JOIN qcn_quake q ON t.qcn_quakeid = q.id "
-       . "WHERE hostid=$hostid order by time_trigger desc limit " . MAX_NUM_TRIGGER;
-   $result=$db->do_query($sql);
-
-   echo "<H2>$heading</H2>\n";
-   echo "<H3>Last " . MAX_NUM_TRIGGER . " Triggers for this Computer</H3>\n";
-   echo "<H5>(NB: <font color=$colorPing>grey text</font> is a 'ping' trigger to see who is running QCN)</H5>\n";
-   start_table();
-   echo "<tr><th>Trigger ID</th>
-             <th>Trigger Time (UTC)</th>
-             <th>Received Time (UTC)</th>
-             <th>Sync Time (UTC)</th>
-             <th>Sync Offset</th>
-             <th>Significance</th>
-             <th>Magnitude</th>
-             <th>Latitude</th>
-             <th>Longitude</th>
-             <th>Elevation</th>
-             <th>Align</th>
-             <th>Delta T</th>
-             <th>Num Reset</th>
-             <th>Sensor Type</th>
-             <th>Version</th>
-             <th>OS</th>
-             <th>WU CPU Time</th>
-             <th>WU Run Time</th>
-             <th>File Name</th>
-             <th>View</th>
-             <th>Quake</th>
-         </tr>";
-
-   if ($result && mysql_num_rows($result)>0) {  // we found some records
-      $i = 0;
-      while($row=mysql_fetch_array($result)) {
-         if ($i++ % 2) {
-             $bgcolor = "\"#F4F4F4\"";
-         }
-         else {
-             $bgcolor = "\"#FFFFFF\"";
-         }
-         if ($row[17]==1) { // it's a ping record
-           $strTableFont = "<font color=$colorPing>";
-           $strFontEnd = "</font>";
-         } 
-         else {
-           $strTableFont = "";
-           $strFontEnd   = "";
-         }
-
-         $elev = $row[18]; // level/elevation data
-
-/*
-mysql> select * from qcn_level;
-+----+------------------------------------+
-| id | description                        |
-+----+------------------------------------+
-|  0 | N/A                                | 
-|  1 | Floor (+/- above/below surface)    | 
-|  2 | Meters (above/below surface)       | 
-|  3 | Feet (above/below surface)         | 
-|  4 | Elevation - meters above sea level | 
-|  5 | Elevation - feet above sea level   | 
-+----+------------------------------------+
-*/
-         switch($row[19]) { // level id
-            case 0:  $elev=""; break;
-            case 1:  $elev.="Fl"; break;
-            case 2:  $elev.="m"; break;
-            case 3:  $elev.="f"; break;
-            case 4:  $elev.="m(sl)"; break;
-            case 5:  $elev.="f(sl)"; break;
-         }
-
-         if ($row[17]==1) { // it's a ping record
-            $filename = " ping trigger - no file for result " . $row[22];
-            $view = "N/A";
-         } 
-         else {
-           if ($row[20] == 100) { // received_file: show file download link
-              $filename = "<A HREF=\"" . UPLOADURL . "/trigger/" . $row[21] . "\">$row[1]</A>";
-              $view = "<A HREF=\"javascript:void(0)\"onclick=\"window.open('" . BASEURL . "/earthquakes/view/view_data.php?dat=".$row[1]."','linkname','height=500,width=400,scrollbars=no')\">View</a>";
-           }
-           else {
-              $filename = $row[1];
-              $view = "N/A";
-           }
-         }
-         $alignment = "U";
-         switch($row[23]) { // alignid
-           case 1:  $alignment = "N"; break;
-           case 5:  $alignment = "W"; break;
-         }
-
-         $quakestuff = "";
-         if ($row[24] > 0 ) { // must have matched a quake!
-             $bgcolor = "\"#FF0000\"";  // red background for this row
-             $quakestuff = "<A HREF=\"" . $row[25] . "\">" . $row[24] . "</A>";
-         }
-
-         echo "    <tr bgcolor=$bgcolor>
-                   <td>$strTableFont$row[0]$strFontEnd</td>
-                   <td>$strTableFont" . time_str($row[2]) . "$strFontEnd</td>
-                   <td>$strTableFont" . time_str($row[3]) . "$strFontEnd</td>
-                   <td>$strTableFont". time_str($row[4]) . "$strFontEnd</td>
-                   <td>$strTableFont" . round($row[5],3) . "$strFontEnd</td>
-                   <td>$strTableFont". round($row[6],3) . "$strFontEnd</td>
-                   <td>$strTableFont". round($row[7],3) . "$strFontEnd</td>
-                   <td>$strTableFont". round($row[8],3) . "$strFontEnd</td>
-                   <td>$strTableFont". round($row[9],3) . "$strFontEnd</td>
-                   <td>$strTableFont". $elev . "$strFontEnd</td>
-                   <td>$strTableFont". $alignment . "$strFontEnd</td>
-                   <td>$strTableFont" . ($row[10] ? $row[10] : 0) . "$strFontEnd</td>
-                   <td>$strTableFont$row[11]$strFontEnd</td>
-                   <td>$strTableFont$row[12]$strFontEnd</td>
-                   <td>$strTableFont$row[13]$strFontEnd</td>
-                   <td>$strTableFont$row[14]$strFontEnd</td>
-                   <td>$strTableFont$row[15]$strFontEnd</td>
-                   <td>$strTableFont$row[16]$strFontEnd</td>
-                   <td>$strTableFont$filename$strFontEnd</td>
-                   <td>$strTableFont$view$strFontEnd</td>
-                   <td>$strTableFont$quakestuff$strFontEnd</td>
-              </font></tr>";
-      }
-   } else {
-    start_table();
-    echo "<tr><th align=\"left\">No recent triggers found in database.</th></tr></table>\n";
-   }
-
-   end_table();
 }
 
 

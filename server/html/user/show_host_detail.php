@@ -21,23 +21,11 @@ require_once("../inc/util.inc");
 require_once("../inc/user.inc");
 require_once("../inc/host.inc");
 
-$hostid = $_GET["hostid"];
+$hostid = get_int("hostid", false);
 if ( ! $hostid) {
-  $user = get_logged_in_user(true);
-  $hostid = $user->id;
-  $ipprivate = true;
-} else {
-  check_get_args(array("hostid", "ipprivate"));
-// Requested host id
-  $hostid = get_int("hostid");
-  $ipprivate = false;
+  exit();
 }
 
-BoincDb::get(true);
-
-if ($user->id==$hostid) $auth = true;
-
-if (!$ipprivate) $ipprivate = get_str("ipprivate", true);
 $host = BoincHost::lookup_id($hostid);
 if (!$host) {
     echo "Couldn't find computer (please hit \"back\")";
@@ -46,24 +34,18 @@ if (!$host) {
 
 $user = get_logged_in_user(true);
 
+$owner = false; // default to true ie privacy on
 
 // Check if the user is on the administrative list:
-if (!$ipprivate) $ipprivate = qcn_admin_user_check($user);
-// If the user is the owner of the host, then provide private info
-if ($user->hostid == $hostid && !$ipprivate) {
-   $ipprivate = true;
-}
+//if (!$owner) $owner = qcn_admin_user_check($user);
 
-if ($user->id != $host->userid) {
-    $user = null;
-}
+// If the user is the owner of the host, then provide private info
+if (!$owner && $host->userid == $user->id) $owner = true;
 
 page_head("Computer $hostid");
 
-
-
-show_host($host, $user, $ipprivate);
-show_trigger($host->id,$heading,$ipprivate);
+show_host($host, $user, $owner);
+show_trigger($host->id,$heading, $owner);
 
 page_tail();
 
