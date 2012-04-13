@@ -14,35 +14,25 @@
  */
 
 #include <stdio.h>
-
-// for Mac & Linux we use dlopen into the MotionNodeAccel .dylib (Mac) or .so (Linux)
-#ifndef _WIN32
-  #define __USE_DLOPEN__
-  #include <dlfcn.h>   // dlopen and dlclose
-#endif
+#include <phidget21.h>
 
 #include "main.h"
-// #include "motionnodeaccel/MotionNodeAccelAPI.h"
 
 using namespace std;
-
-typedef MotionNodeAccel * (MOTIONNODE_CALL_C_API * PtrMotionNodeAccelFactory)(int);
 
 // this is the Windows implementation of the sensor - IBM/Lenovo Thinkpad, HP, USB Stick
 class CSensorUSBPhidgets1056  : public CSensor
 {
-   private:
-#ifdef _WIN32
-      HMODULE m_WinDLLHandle;
-#else
-	  void* m_WinDLLHandle;
-#endif
-      PtrMotionNodeAccelFactory m_SymHandle;
-      MotionNodeAccel* m_node;
-
-      static const char m_cstrDLL[];   // const name defined in the cpp file  
-
-      virtual bool read_xyz(float& x1, float& y1, float& z1);  
+  private:
+	int m_iSerialNum;
+	int m_iVersion;
+	int m_iNumAccelAxes;
+	int m_iNumGyroAxes;
+	int m_iNumCompassAxes;
+	int m_iDataRateMax;
+	int m_iDataRateMin;
+	
+	virtual bool read_xyz(float& x1, float& y1, float& z1);  
 
    public:
       CSensorUSBPhidgets1056();
