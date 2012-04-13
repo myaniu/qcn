@@ -11,8 +11,13 @@
  */
 
 #include "main.h"
-#include <phidget21.h>
 #include "csensor_usb_phidgets_1056.h"
+
+const char* CSensor::getSensorStr() 
+{
+	return m_strSensor.c_str();
+}
+
 
 CSensorUSBPhidgets1056::CSensorUSBPhidgets1056()
   : CSensor(), 
@@ -67,11 +72,6 @@ bool CSensorUSBPhidgets1056::detect()
 
    if (qcn_main::g_iStop) return false;
   
-   if (!boinc_file_exists(sstrDLL.c_str())) {
-       //fprintf(stderr, "MotionNode Accel dylib file %s not found\n", sstrDLL.c_str());
-       return false;  // dylib not found, so return
-   }
-
 #ifdef __USE_DLOPEN__
    if (qcn_main::g_iStop) return false;
 

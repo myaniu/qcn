@@ -14,7 +14,13 @@
  */
 
 #include <stdio.h>
-#include <phidget21.h>
+#include <phidgets/phidget21.h>
+
+// for Mac & Linux we use dlopen into the MotionNodeAccel .dylib (Mac) or .so (Linux)
+#ifndef _WIN32
+#define __USE_DLOPEN__
+#include <dlfcn.h>   // dlopen and dlclose
+#endif
 
 #include "main.h"
 
