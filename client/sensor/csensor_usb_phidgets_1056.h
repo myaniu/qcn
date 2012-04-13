@@ -38,6 +38,18 @@ class CSensorUSBPhidgets1056  : public CSensor
 	int m_iDataRateMax;
 	int m_iDataRateMin;
 	
+	static const char m_cstrDLL[];
+	
+#ifdef _WIN32
+	HMODULE m_WinDLLHandle;
+	void* m_SymHandle;
+	void* m_node;
+#else
+	void* m_WinDLLHandle;
+	void* m_SymHandle;
+	void* m_node;
+#endif
+	
 	virtual bool read_xyz(float& x1, float& y1, float& z1);  
 
    public:

@@ -33,6 +33,10 @@
     #include "csensor_linux_usb_onavi01.h"
   #endif // Win or Linux
 #endif // Apple
+
+// all platforms try the phidgets
+#include "csensor_usb_phidgets_1056.h"
+
 // all platforms except win64 get MotionNodeAccel USB support!
 #if !defined(_WIN64) && !defined(__LP64__) && !defined(_LP64)
 #include "csensor_usb_motionnodeaccel.h"

@@ -13,11 +13,25 @@
 #include "main.h"
 #include "csensor_usb_phidgets_1056.h"
 
-const char* CSensor::getSensorStr() 
+//set the dll/so/dylib name
+#ifdef _WIN32
+const char CSensorUSBPhidgets1056::m_cstrDLL[] = {"phidgets21.dll"};
+#else
+#ifdef __APPLE_CC__
+const char CSensorUSBPhidgets1056::m_cstrDLL[] = {"phidget21.dylib"};   
+#else
+const char CSensorUSBPhidgets1056::m_cstrDLL[] = {"phidgets21.so"};   
+#endif // apple or linux
+#endif // windows˚˚
+
+/*
+
+const char* CSensorUSBPhidgets1056::getSensorStr() 
 {
 	return m_strSensor.c_str();
 }
 
+*/
 
 CSensorUSBPhidgets1056::CSensorUSBPhidgets1056()
   : CSensor(), 
@@ -35,6 +49,7 @@ void CSensorUSBPhidgets1056::closePort()
     if (getPort() > -1) {
         fprintf(stdout, "Closing %s sensor port...\n", getTypeStr());
     }
+/*
     if (m_node) {
         if (m_node->is_connected() && m_node->is_reading()) {
            m_node->stop();  // if started & reading
@@ -49,7 +64,7 @@ void CSensorUSBPhidgets1056::closePort()
            fflush(stdout);
         }
     }
-
+*/
     // close MN dll
     if (m_WinDLLHandle) {
 #ifdef __USE_DLOPEN__
@@ -73,16 +88,21 @@ bool CSensorUSBPhidgets1056::detect()
    if (qcn_main::g_iStop) return false;
   
 #ifdef __USE_DLOPEN__
-   if (qcn_main::g_iStop) return false;
 
-   m_WinDLLHandle = dlopen(sstrDLL.c_str(), RTLD_LAZY | RTLD_GLOBAL); // default
+	char strCWD[256];
+	getcwd(strCWD, 256);
+	if (!boinc_file_exists(m_cstrDLL)) {
+		fprintf(stderr, "CSensorUSBPhidgets1056: dynamic library %s not found %s\n", m_cstrDLL, strCWD);
+		return false;
+	}
+   m_WinDLLHandle = dlopen(m_cstrDLL, RTLD_LAZY | RTLD_GLOBAL); // default
    if (!m_WinDLLHandle) {
-       fprintf(stderr, "CSensorUSBPhidgets1056: dynamic library %s dlopen error %s\n", sstrDLL.c_str(), dlerror());
+       fprintf(stderr, "CSensorUSBPhidgets1056: dynamic library %s dlopen error %s\n", m_cstrDLL, dlerror());
        return false;
    }
 
    if (qcn_main::g_iStop) return false;
-
+/*
    m_SymHandle = (PtrMotionNodeAccelFactory) dlsym(m_WinDLLHandle, "MotionNodeAccel_Factory");
    if (!m_SymHandle) {
        fprintf(stderr, "CSensorUSBPhidgets1056: Could not get dlsym MotionNode Accel dylib file %s - error %s\n", sstrDLL.c_str(), dlerror());
@@ -90,9 +110,12 @@ bool CSensorUSBPhidgets1056::detect()
    }
 
    m_node = (*m_SymHandle)(MOTIONNODE_ACCEL_API_VERSION);
+ */
 #else // for Windows or not using dlopen just use the direct motionnode factory
    m_node = MotionNodeAccel::Factory();
 #endif
+	
+/*
 
    if (!m_node) {
       fprintf(stderr, "CSensorUSBPhidgets1056: Could not make MotionNode Factory\n");
@@ -119,22 +142,7 @@ bool CSensorUSBPhidgets1056::detect()
    }
 
    // set the sample rate to 100Hz to get at least 1 & possibly 2 samples at 50Hz
-   /* from Luke Tokheim:
-       Use the "set_delay" method before you connect, just like choosing the G 
-    range. The delay ranges from 0 to 1. The available sample rates are from 
-    50 to 100 Hz by 10 Hz increments. Compute the delay value with the 
-    following formula:
 
-    delay = 1 - (target_rate - minimum_rate) * 0.0125;
-
-    So, to sample at 100 Hz set the delay to:
-
-    1 - (100 - 50) * 0.0125 = 0.375
-
-    To sample at 50 Hz, set the delay to:
-
-    1 - (50 - 50) * 0.0125 = 1
-   */
    if (!m_node->set_delay(0.0f)) {
        fprintf(stderr, "CSensorUSBPhidgets1056: Could not set delay time on MotionNode Accel\n");
        closePort();
@@ -156,13 +164,13 @@ bool CSensorUSBPhidgets1056::detect()
        closePort();
        return false;
    }
-
+*/
    // OK, at this point we should be connected, so from here on out can just read_xyz until closePort()
    // set as a single sample per point
    setSingleSampleDT(true);  // mn samples itself
 
    // NB: closePort resets the type & port, so have to set again 
-   setType(SENSOR_USB_MOTIONNODEACCEL);
+   setType(SENSOR_USB_PHIDGETS_1056);
    setPort(getTypeEnum());
 
    return true;
@@ -170,21 +178,16 @@ bool CSensorUSBPhidgets1056::detect()
 
 inline bool CSensorUSBPhidgets1056::read_xyz(float& x1, float& y1, float& z1)
 {
+    bool bRet = false;
+	/*
     //MotionNodeAccel::raw_type a[3];
     MotionNodeAccel::real_type a[3];  // for data calibrated to "g"
     a[0] = a[1] = a[2] = 0.0f;
-    bool bRet = false;
     // note that x/y/z should be scaled to +/- 2g, return values as +/- 2.0f*EARTH_G (in define.h: 9.78033 m/s^2)
     // MotionNode returns +/-2g values so just multiply by EARTH_G
 
     if (m_node && m_node->sample() && m_node->get_sensor(a)) {
-/*
-  Error in motion node directions:
-The attached plot shows how data is currently being displayed in QCNLive from the MotionNode on both Mac and Windows. This suggests that all of the components are mixed up: e.g. current Z should be X (north), current X should be Y (east), current Y should be Z (Vertical). 
-//        x1 = a[0] * EARTH_G;
-//        y1 = a[1] * EARTH_G;
-//        z1 = a[2] * EARTH_G;
-*/
+
 #ifdef QCN_RAW_DATA	
         x1 = a[2];
         y1 = a[0];
@@ -196,6 +199,7 @@ The attached plot shows how data is currently being displayed in QCNLive from th
 #endif
         bRet = true;
     }
+	 */
     return bRet;
 }
 

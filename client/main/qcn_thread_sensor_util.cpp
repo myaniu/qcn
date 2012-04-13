@@ -122,6 +122,9 @@ void psmsForceSensor(CSensor* volatile *ppsms)
 			case SENSOR_USB_MOTIONNODEACCEL:
 					*ppsms = (CSensor*) new CSensorUSBMotionNodeAccel();
 					break;
+			case SENSOR_USB_PHIDGETS_1056:
+				 *ppsms = (CSensor*) new CSensorUSBPhidgets1056();
+				 break;
 			case SENSOR_USB_ONAVI_1:
                         case SENSOR_USB_ONAVI_A_12:
                         case SENSOR_USB_ONAVI_B_16:
@@ -164,9 +167,9 @@ bool getSensor(CSensor* volatile *ppsms)
 	// for Macs the sensor can either be a CSensorMacLaptop or CSensorMacUSBJW or CSensorUSBMotionNodeAccel
 	#ifdef __APPLE_CC__
 	#if defined(__LP64__) || defined(_LP64) // no motion node for 64-bit
-	   const int iMaxSensor = 4;  // JWF8, JWF14, ONavi, or Mac laptop
+	   const int iMaxSensor = 5;  // JWF8, JWF14, ONavi, Phidgets, or Mac laptop
 	#else
-	   const int iMaxSensor = 5;  // JWF8, JWF14, ONavi, MN, or laptop
+	   const int iMaxSensor = 6;  // JWF8, JWF14, ONavi, MN, Phidgets, or laptop
 	#endif
 	   
 	   // note we try to detect the USB sensors first (if any), then try the laptop
@@ -223,25 +226,31 @@ bool getSensor(CSensor* volatile *ppsms)
 				   *ppsms = (CSensor*) new CSensorMacUSBONavi01();
 				   break;
 
-#if defined(__LP64__) || defined(_LP64) // no motion node for 64-bit
-			   case 3:  // note it tries to get an external sensor first before using the internal sensor, is this good logic?
+    #if defined(__LP64__) || defined(_LP64) // no motion node for 64-bit
+			   case 3:
+				   *ppsms = (CSensor*) new CSensorUSBPhidgets1056();
+				   break;	
+			   case 4:  // note it tries to get an external sensor first before using the internal sensor, is this good logic?
 				 *ppsms = (CSensor*) new CSensorMacLaptop();
 				 break;
 	#else
 			   case 3:  // note it tries to get an external sensor first before using the internal sensor, is this good logic?
 				 *ppsms = (CSensor*) new CSensorUSBMotionNodeAccel();
 				 break;
-			   case 4:  // note it tries to get an external sensor first before using the internal sensor, is this good logic?
+			   case 4:
+				   *ppsms = (CSensor*) new CSensorUSBPhidgets1056();
+				   break;	
+			   case 5:  // note it tries to get an external sensor first before using the internal sensor, is this good logic?
 				 *ppsms = (CSensor*) new CSensorMacLaptop();
 				 break;
 	#endif
 		   }
 	#else
 	#ifdef _WIN32
-	#ifdef _WIN64   // just thinkpad & hp & jw8 & jw14 & onavi
-	   const int iMaxSensor = 5;
-	#else  // thinkpad, hp, jw8, jw14, mn, onavi
+	#ifdef _WIN64   // just thinkpad & hp & jw8 & jw14 & onavi & phidgets
 	   const int iMaxSensor = 6;
+	#else  // thinkpad, hp, jw8, jw14, mn, onavi, phidgets
+	   const int iMaxSensor = 7;
 	#endif
 	   // for Windows the sensor can either be a CSensorThinkpad or CSensorWinUSBJW
 	   // note we try to detect the USB sensors first (if any), then try the laptop
@@ -278,18 +287,21 @@ bool getSensor(CSensor* volatile *ppsms)
 				   *ppsms = (CSensor*) new CSensorWinUSBONavi01();
 				   break;
 			   case 4:
+				   *ppsms = (CSensor*) new CSensorUSBPhidgets1056();
+				   break;				   				   
+			   case 5:
 				   *ppsms = (CSensor*) new CSensorWinThinkpad();
 				   break;
-			   case 5:
+			   case 6:
 				   *ppsms = (CSensor*) new CSensorWinHP();
 				   break;
 #endif
 		   }
 	#else // Linux
-	#if defined(__LP64__) || defined(_LP64) // no motion node for 64-bit, just JWF8 and JWF14
-	   const int iMaxSensor = 3;
-	#else
+	#if defined(__LP64__) || defined(_LP64) // no motion node for 64-bit, just JWF8 and JWF14 & Phidgets
 	   const int iMaxSensor = 4;
+	#else
+	   const int iMaxSensor = 5;
 	#endif
 	   // for Windows the sensor can either be a CSensorThinkpad or CSensorWinUSBJW
 	   // note we try to detect the USB sensors first (if any), then try the laptop
@@ -306,11 +318,14 @@ bool getSensor(CSensor* volatile *ppsms)
 			   case 1:
 					   *ppsms = (CSensor*) new CSensorLinuxUSBJW24F14();
 				   break;
-                           case 2:  // ONavi on Linux
-					   *ppsms = (CSensor*) new CSensorLinuxUSBONavi01();
+			   case 2:
+				   *ppsms = (CSensor*) new CSensorUSBPhidgets1056();
+				   break;				   
+			   case 3:  // ONavi on Linux
+				   *ppsms = (CSensor*) new CSensorLinuxUSBONavi01();
 				   break;
 #if !defined(__LP64__) && !defined(_LP64) // no motion node for 64-bit
-			   case 3:
+			   case 4:
 				   *ppsms = (CSensor*) new CSensorUSBMotionNodeAccel();
 				   break;
 	#endif

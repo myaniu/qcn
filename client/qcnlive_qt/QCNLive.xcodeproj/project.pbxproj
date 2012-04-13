@@ -21,6 +21,7 @@
 		3A1936BCF2C3EDC07752A851 /* nation_boundary.cpp in Build Sources */ = {isa = PBXBuildFile; fileRef = 6F1E47B893712D3C19D185CE /* nation_boundary.cpp */; settings = {ATTRIBUTES = (); }; };
 		3BBD6E3E630068B57C2CEC5B /* moc_glwidget.cpp in Build Sources */ = {isa = PBXBuildFile; fileRef = 24FC5F21B8D858EDB1CC09E6 /* moc_glwidget.cpp */; settings = {ATTRIBUTES = (); }; };
 		3C3F4C56CEAAC0EAA95ACCD6 /* csensor_usb_motionnodeaccel.cpp in Build Sources */ = {isa = PBXBuildFile; fileRef = F9750758D0EC92FB41209DD6 /* csensor_usb_motionnodeaccel.cpp */; settings = {ATTRIBUTES = (); }; };
+		439E643D1538C7940033A634 /* csensor_usb_phidgets_1056.cpp in Build Sources */ = {isa = PBXBuildFile; fileRef = 439E643C1538C7940033A634 /* csensor_usb_phidgets_1056.cpp */; };
 		43F140571422645D001C0846 /* QCNLive.app in Project Copy */ = {isa = PBXBuildFile; fileRef = 43F140541422645D001C0846 /* QCNLive.app */; };
 		44C796EE39420FB81C48361D /* qcn_2dplot.cpp in Build Sources */ = {isa = PBXBuildFile; fileRef = 78EB6090A2080F8DAA0A8A2C /* qcn_2dplot.cpp */; settings = {ATTRIBUTES = (); }; };
 		48118D5E3A3987BF3F5161A6 /* ftgl-universal in Frameworks & Libraries */ = {isa = PBXBuildFile; fileRef = 090F09679E677D295ECC01EA /* ftgl-universal */; };
@@ -102,6 +103,19 @@
 		3A9598F9D0008B7DC47F0F9B /* trickledown.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = trickledown.cpp; path = ../util/trickledown.cpp; sourceTree = "<group>"; };
 		40A4D687C2287AC419FAC700 /* qcn_signal.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = qcn_signal.cpp; path = ../util/qcn_signal.cpp; sourceTree = "<group>"; };
 		4381ADD0151C0A56007752DF /* qcn_2dplot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = qcn_2dplot.h; path = ../graphics/qcn_2dplot.h; sourceTree = SOURCE_ROOT; };
+		439E643C1538C7940033A634 /* csensor_usb_phidgets_1056.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = csensor_usb_phidgets_1056.cpp; path = ../sensor/csensor_usb_phidgets_1056.cpp; sourceTree = SOURCE_ROOT; };
+		439E643E1538C7B80033A634 /* csensor_mac_laptop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = csensor_mac_laptop.h; path = ../sensor/csensor_mac_laptop.h; sourceTree = SOURCE_ROOT; };
+		439E643F1538C7B80033A634 /* csensor_mac_usb_jw.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = csensor_mac_usb_jw.h; path = ../sensor/csensor_mac_usb_jw.h; sourceTree = SOURCE_ROOT; };
+		439E64401538C7B80033A634 /* csensor_mac_usb_jw24f14.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = csensor_mac_usb_jw24f14.h; path = ../sensor/csensor_mac_usb_jw24f14.h; sourceTree = SOURCE_ROOT; };
+		439E64411538C7B80033A634 /* csensor_mac_usb_onavi01.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = csensor_mac_usb_onavi01.h; path = ../sensor/csensor_mac_usb_onavi01.h; sourceTree = SOURCE_ROOT; };
+		439E64421538C7B80033A634 /* csensor_usb_motionnodeaccel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = csensor_usb_motionnodeaccel.h; path = ../sensor/csensor_usb_motionnodeaccel.h; sourceTree = SOURCE_ROOT; };
+		439E64431538C7B80033A634 /* csensor_usb_phidgets_1056.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = csensor_usb_phidgets_1056.h; path = ../sensor/csensor_usb_phidgets_1056.h; sourceTree = SOURCE_ROOT; };
+		439E64471538C91A0033A634 /* csensor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = csensor.h; path = ../sensor/csensor.h; sourceTree = SOURCE_ROOT; };
+		439E64691538D1F60033A634 /* qcn_thread_graphics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = qcn_thread_graphics.h; path = ../main/qcn_thread_graphics.h; sourceTree = SOURCE_ROOT; };
+		439E646A1538D1F60033A634 /* qcn_thread_sensor_loop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = qcn_thread_sensor_loop.h; path = ../main/qcn_thread_sensor_loop.h; sourceTree = SOURCE_ROOT; };
+		439E646B1538D1F60033A634 /* qcn_thread_sensor_util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = qcn_thread_sensor_util.h; path = ../main/qcn_thread_sensor_util.h; sourceTree = SOURCE_ROOT; };
+		439E646C1538D1F60033A634 /* qcn_thread_sensor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = qcn_thread_sensor.h; path = ../main/qcn_thread_sensor.h; sourceTree = SOURCE_ROOT; };
+		439E646D1538D1F60033A634 /* qcn_thread_time.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = qcn_thread_time.h; path = ../main/qcn_thread_time.h; sourceTree = SOURCE_ROOT; };
 		43C85BA9151BA6AC00681E79 /* qcn_shmem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = qcn_shmem.h; path = ../main/qcn_shmem.h; sourceTree = SOURCE_ROOT; };
 		43F140541422645D001C0846 /* QCNLive.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QCNLive.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		514B45140FBAF53969785617 /* qcn_earth.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = qcn_earth.cpp; path = ../graphics/qcn_earth.cpp; sourceTree = "<group>"; };
@@ -235,6 +249,20 @@
 			name = graphics;
 			sourceTree = "<group>";
 		};
+		439E64451538C7D80033A634 /* sensor */ = {
+			isa = PBXGroup;
+			children = (
+				439E64471538C91A0033A634 /* csensor.h */,
+				439E643E1538C7B80033A634 /* csensor_mac_laptop.h */,
+				439E643F1538C7B80033A634 /* csensor_mac_usb_jw.h */,
+				439E64401538C7B80033A634 /* csensor_mac_usb_jw24f14.h */,
+				439E64411538C7B80033A634 /* csensor_mac_usb_onavi01.h */,
+				439E64421538C7B80033A634 /* csensor_usb_motionnodeaccel.h */,
+				439E64431538C7B80033A634 /* csensor_usb_phidgets_1056.h */,
+			);
+			name = sensor;
+			sourceTree = "<group>";
+		};
 		43F140551422645D001C0846 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -246,6 +274,7 @@
 		4458B98565818D7E2682FA2D /* .. */ = {
 			isa = PBXGroup;
 			children = (
+				439E64451538C7D80033A634 /* sensor */,
 				4381ADD1151C0A5A007752DF /* graphics */,
 				E9573E0CC00160A0BBA7599D /* main */,
 			);
@@ -309,6 +338,7 @@
 		B134B4613BC0573F04482C62 /* sensor */ = {
 			isa = PBXGroup;
 			children = (
+				439E643C1538C7940033A634 /* csensor_usb_phidgets_1056.cpp */,
 				EC81728B47CDD5B9E4954A66 /* csensor_mac_laptop.cpp */,
 				F9750758D0EC92FB41209DD6 /* csensor_usb_motionnodeaccel.cpp */,
 				9B6843302E440676EF54364B /* csensor_mac_usb_onavi01.cpp */,
@@ -333,6 +363,11 @@
 		E9573E0CC00160A0BBA7599D /* main */ = {
 			isa = PBXGroup;
 			children = (
+				439E64691538D1F60033A634 /* qcn_thread_graphics.h */,
+				439E646A1538D1F60033A634 /* qcn_thread_sensor_loop.h */,
+				439E646B1538D1F60033A634 /* qcn_thread_sensor_util.h */,
+				439E646C1538D1F60033A634 /* qcn_thread_sensor.h */,
+				439E646D1538D1F60033A634 /* qcn_thread_time.h */,
 				43C85BA9151BA6AC00681E79 /* qcn_shmem.h */,
 				76844FA38CC4181BFDA966B7 /* main.h */,
 				C24041305030985A720A617D /* define.h */,
@@ -507,6 +542,7 @@
 				E87ECDCF58FDC2B1DA157BCC /* moc_myframe.cpp in Build Sources */,
 				E4691640C717CF00C84F739A /* moc_dlgsettings.cpp in Build Sources */,
 				B5DFA8BF162D30F91C5E0323 /* moc_dlgmakequake.cpp in Build Sources */,
+				439E643D1538C7940033A634 /* csensor_usb_phidgets_1056.cpp in Build Sources */,
 			);
 			name = "Build Sources";
 			runOnlyForDeploymentPostprocessing = 0;
