@@ -202,46 +202,6 @@
 			<key>Content</key>
 			<dict>
 				<key>PBXProjectModuleGUID</key>
-				<string>439E64841538D3420033A634</string>
-				<key>PBXProjectModuleLabel</key>
-				<string>csensor_usb_phidgets_1056.cpp</string>
-				<key>PBXSplitModuleInNavigatorKey</key>
-				<dict>
-					<key>Split0</key>
-					<dict>
-						<key>PBXProjectModuleGUID</key>
-						<string>439E64851538D3420033A634</string>
-						<key>PBXProjectModuleLabel</key>
-						<string>csensor_usb_phidgets_1056.cpp</string>
-						<key>_historyCapacity</key>
-						<integer>0</integer>
-						<key>bookmark</key>
-						<string>43C4A43B1538F6CE007BD782</string>
-						<key>history</key>
-						<array>
-							<string>43C4A42C1538F6C6007BD782</string>
-						</array>
-					</dict>
-					<key>SplitCount</key>
-					<string>1</string>
-				</dict>
-				<key>StatusBarVisibility</key>
-				<true/>
-			</dict>
-			<key>Geometry</key>
-			<dict>
-				<key>Frame</key>
-				<string>{{0, 20}, {1425, 869}}</string>
-				<key>PBXModuleWindowStatusBarHidden2</key>
-				<false/>
-				<key>RubberWindowFrame</key>
-				<string>288 225 1425 910 0 0 1920 1178 </string>
-			</dict>
-		</dict>
-		<dict>
-			<key>Content</key>
-			<dict>
-				<key>PBXProjectModuleGUID</key>
 				<string>439E64871538D3420033A634</string>
 				<key>PBXProjectModuleLabel</key>
 				<string>csensor_usb_phidgets_1056.h</string>
@@ -256,10 +216,10 @@
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>43C4A43C1538F6CE007BD782</string>
+						<string>4394BA351538F91D00F94EF1</string>
 						<key>history</key>
 						<array>
-							<string>43C4A3B51538F53A007BD782</string>
+							<string>43C4A43C1538F6CE007BD782</string>
 						</array>
 					</dict>
 					<key>SplitCount</key>
@@ -282,6 +242,46 @@
 			<key>Content</key>
 			<dict>
 				<key>PBXProjectModuleGUID</key>
+				<string>439E64841538D3420033A634</string>
+				<key>PBXProjectModuleLabel</key>
+				<string>csensor_usb_phidgets_1056.cpp</string>
+				<key>PBXSplitModuleInNavigatorKey</key>
+				<dict>
+					<key>Split0</key>
+					<dict>
+						<key>PBXProjectModuleGUID</key>
+						<string>439E64851538D3420033A634</string>
+						<key>PBXProjectModuleLabel</key>
+						<string>csensor_usb_phidgets_1056.cpp</string>
+						<key>_historyCapacity</key>
+						<integer>0</integer>
+						<key>bookmark</key>
+						<string>4394BA361538F91D00F94EF1</string>
+						<key>history</key>
+						<array>
+							<string>43C4A43B1538F6CE007BD782</string>
+						</array>
+					</dict>
+					<key>SplitCount</key>
+					<string>1</string>
+				</dict>
+				<key>StatusBarVisibility</key>
+				<true/>
+			</dict>
+			<key>Geometry</key>
+			<dict>
+				<key>Frame</key>
+				<string>{{0, 20}, {1425, 869}}</string>
+				<key>PBXModuleWindowStatusBarHidden2</key>
+				<false/>
+				<key>RubberWindowFrame</key>
+				<string>288 225 1425 910 0 0 1920 1178 </string>
+			</dict>
+		</dict>
+		<dict>
+			<key>Content</key>
+			<dict>
+				<key>PBXProjectModuleGUID</key>
 				<string>43C4A3601538EEDD007BD782</string>
 				<key>PBXProjectModuleLabel</key>
 				<string>csensor_usb_motionnodeaccel.cpp</string>
@@ -296,10 +296,10 @@
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>43C4A43D1538F6CE007BD782</string>
+						<string>4394BA371538F91D00F94EF1</string>
 						<key>history</key>
 						<array>
-							<string>43C4A3521538EC35007BD782</string>
+							<string>43C4A43D1538F6CE007BD782</string>
 						</array>
 					</dict>
 					<key>SplitCount</key>
@@ -336,10 +336,10 @@
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>43C4A43E1538F6CE007BD782</string>
+						<string>4394BA381538F91D00F94EF1</string>
 						<key>history</key>
 						<array>
-							<string>43C4A3C21538F574007BD782</string>
+							<string>43C4A43E1538F6CE007BD782</string>
 						</array>
 					</dict>
 					<key>SplitCount</key>
@@ -376,10 +376,10 @@
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>43C4A43F1538F6CE007BD782</string>
+						<string>4394BA391538F91D00F94EF1</string>
 						<key>history</key>
 						<array>
-							<string>439E65431538D8550033A634</string>
+							<string>43C4A43F1538F6CE007BD782</string>
 						</array>
 					</dict>
 					<key>SplitCount</key>
@@ -416,10 +416,10 @@
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>43C4A4401538F6CE007BD782</string>
+						<string>4394BA3A1538F91D00F94EF1</string>
 						<key>history</key>
 						<array>
-							<string>439E65441538D8550033A634</string>
+							<string>43C4A4401538F6CE007BD782</string>
 						</array>
 					</dict>
 					<key>SplitCount</key>
@@ -456,10 +456,10 @@
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>43C4A4411538F6CE007BD782</string>
+						<string>4394BA3B1538F91D00F94EF1</string>
 						<key>history</key>
 						<array>
-							<string>439E65451538D8550033A634</string>
+							<string>43C4A4411538F6CE007BD782</string>
 						</array>
 					</dict>
 					<key>SplitCount</key>
@@ -496,10 +496,10 @@
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>43C4A4421538F6CE007BD782</string>
+						<string>4394BA3C1538F91D00F94EF1</string>
 						<key>history</key>
 						<array>
-							<string>439E65461538D8550033A634</string>
+							<string>43C4A4421538F6CE007BD782</string>
 						</array>
 					</dict>
 					<key>SplitCount</key>
@@ -655,7 +655,7 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>43C4A43A1538F6CE007BD782</string>
+										<string>4394BA341538F91D00F94EF1</string>
 										<key>history</key>
 										<array>
 											<string>43C85B92151BA4F200681E79</string>
@@ -672,7 +672,7 @@
 											<string>439E64EF1538D6D60033A634</string>
 											<string>43C4A35C1538EEDD007BD782</string>
 											<string>43C4A3BC1538F574007BD782</string>
-											<string>43C4A3BD1538F574007BD782</string>
+											<string>43C4A43A1538F6CE007BD782</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -684,14 +684,14 @@
 							<key>GeometryConfiguration</key>
 							<dict>
 								<key>Frame</key>
-								<string>{{0, 0}, {1032, 523}}</string>
+								<string>{{0, 0}, {1032, 515}}</string>
 								<key>RubberWindowFrame</key>
 								<string>85 247 1328 878 0 0 1920 1178 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
 							<key>Proportion</key>
-							<string>523pt</string>
+							<string>515pt</string>
 						</dict>
 						<dict>
 							<key>ContentConfiguration</key>
@@ -704,14 +704,14 @@
 							<key>GeometryConfiguration</key>
 							<dict>
 								<key>Frame</key>
-								<string>{{0, 528}, {1032, 309}}</string>
+								<string>{{0, 520}, {1032, 317}}</string>
 								<key>RubberWindowFrame</key>
 								<string>85 247 1328 878 0 0 1920 1178 </string>
 							</dict>
 							<key>Module</key>
 							<string>XCDetailModule</string>
 							<key>Proportion</key>
-							<string>309pt</string>
+							<string>317pt</string>
 						</dict>
 					</array>
 					<key>Proportion</key>
@@ -730,9 +730,9 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>43C4A33E1538EC12007BD782</string>
+				<string>4394BA031538F7E500F94EF1</string>
 				<string>1CE0B1FE06471DED0097A5F4</string>
-				<string>43C4A33F1538EC12007BD782</string>
+				<string>4394BA041538F7E500F94EF1</string>
 				<string>1CE0B20306471E060097A5F4</string>
 				<string>1CE0B20506471E060097A5F4</string>
 			</array>
@@ -870,10 +870,11 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>43C4A3DA1538F5D2007BD782</string>
-		<string>43C4A3DB1538F5D2007BD782</string>
+		<string>4394BA211538F7ED00F94EF1</string>
+		<string>4394BA221538F7ED00F94EF1</string>
 		<string>1C78EAAD065D492600B07095</string>
 		<string>1CD10A99069EF8BA00B06720</string>
+		<string>4359DED7142251AB006F3451</string>
 		<string>437A0CB8151A6C4B0036AA9D</string>
 		<string>435112B1152F56A80041F113</string>
 		<string>439E64941538D3420033A634</string>
@@ -881,9 +882,8 @@
 		<string>/Users/carlgt1/projects/qcn/client/qcnlive_qt/QCNLive.xcodeproj</string>
 		<string>43C4A3631538EEDD007BD782</string>
 		<string>43C4A3601538EEDD007BD782</string>
-		<string>4359DED7142251AB006F3451</string>
-		<string>439E64871538D3420033A634</string>
 		<string>439E64841538D3420033A634</string>
+		<string>439E64871538D3420033A634</string>
 	</array>
 	<key>WindowString</key>
 	<string>85 247 1328 878 0 0 1920 1178 </string>
@@ -907,7 +907,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>1CD0528F0623707200166675</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>csensor_usb_phidgets_1056.h</string>
+								<string></string>
 								<key>StatusBarVisibility</key>
 								<true/>
 							</dict>
@@ -924,8 +924,6 @@
 							<string>669pt</string>
 						</dict>
 						<dict>
-							<key>BecomeActive</key>
-							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
@@ -965,7 +963,7 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>4359DED7142251AB006F3451</string>
-				<string>43C4A3471538EC13007BD782</string>
+				<string>4394BA0D1538F7E500F94EF1</string>
 				<string>1CD0528F0623707200166675</string>
 				<string>XCMainBuildResultsModuleGUID</string>
 			</array>
@@ -978,7 +976,7 @@
 			<key>WindowToolGUID</key>
 			<string>4359DED7142251AB006F3451</string>
 			<key>WindowToolIsVisible</key>
-			<true/>
+			<false/>
 		</dict>
 		<dict>
 			<key>FirstTimeWindowDisplayed</key>
@@ -1087,13 +1085,13 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>1CD10A99069EF8BA00B06720</string>
-				<string>43C4A3481538EC13007BD782</string>
+				<string>4394BA191538F7ED00F94EF1</string>
 				<string>1C162984064C10D400B95A72</string>
-				<string>43C4A3491538EC13007BD782</string>
-				<string>43C4A34A1538EC13007BD782</string>
-				<string>43C4A34B1538EC13007BD782</string>
-				<string>43C4A34C1538EC13007BD782</string>
-				<string>43C4A34D1538EC13007BD782</string>
+				<string>4394BA1A1538F7ED00F94EF1</string>
+				<string>4394BA1B1538F7ED00F94EF1</string>
+				<string>4394BA1C1538F7ED00F94EF1</string>
+				<string>4394BA1D1538F7ED00F94EF1</string>
+				<string>4394BA1E1538F7ED00F94EF1</string>
 			</array>
 			<key>ToolbarConfiguration</key>
 			<string>xcode.toolbar.config.debugV3</string>
@@ -1247,7 +1245,7 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>1C78EAAD065D492600B07095</string>
-				<string>43C4A3D81538F5D2007BD782</string>
+				<string>4394BA1F1538F7ED00F94EF1</string>
 				<string>1C78EAAC065D492600B07095</string>
 			</array>
 			<key>ToolbarConfiguration</key>

@@ -40,8 +40,12 @@ using namespace std;
 #  define PHIDGETS_CALL_C_API
 #endif // WIN32
 
-// function pointers in the Phidgets shared object/dylib/DLL	
+// function pointers in the Phidgets shared object/dylib/DLL
+// CMC HERE
 typedef int 	(PHIDGETS_CALL_API * PtrCPhidget_open)  (CPhidgetHandle phid, int serialNumber);
+typedef int 	CPhidget_close (CPhidgetHandle phid)
+typedef int 	CPhidget_delete (CPhidgetHandle phid)
+
 typedef int 	(PHIDGETS_CALL_API * PtrCPhidget_waitForAttachment)  (CPhidgetHandle phid, int milliseconds);
 typedef int 	(PHIDGETS_CALL_API * PtrCPhidget_getDeviceName)  (CPhidgetHandle phid, const char **deviceName);
 typedef int 	(PHIDGETS_CALL_API * PtrCPhidget_getSerialNumber)  (CPhidgetHandle phid, int *serialNumber);
@@ -51,6 +55,20 @@ typedef int 	(PHIDGETS_CALL_API * PtrCPhidget_getLibraryVersion)  (const char **
 typedef int 	(PHIDGETS_CALL_API * PtrCPhidget_getDeviceType)  (CPhidgetHandle phid, const char **deviceType);
 typedef int 	(PHIDGETS_CALL_API * PtrCPhidget_getDeviceLabel) (CPhidgetHandle phid, const char **deviceLabel);
 
+// callback function handlers
+typedef int		(PHIDGETS_CALL_API * PtrCPhidgetSpatial_create) (CPhidgetSpatialHandle *phid);
+int 	CPhidget_set_OnDetach_Handler (CPhidgetHandle phid, int(*fptr)(CPhidgetHandle phid, void *userPtr), void *userPtr)
+int 	CPhidget_set_OnAttach_Handler (CPhidgetHandle phid, int(*fptr)(CPhidgetHandle phid, void *userPtr), void *userPtr)
+int 	CPhidget_set_OnServerConnect_Handler (CPhidgetHandle phid, int(*fptr)(CPhidgetHandle phid, void *userPtr), void *userPtr)
+int 	CPhidget_set_OnServerDisconnect_Handler (CPhidgetHandle phid, int(*fptr)(CPhidgetHandle phid, void *userPtr), void *userPtr)
+int 	CPhidget_set_OnError_Handler (CPhidgetHandle phid, int(*fptr)(CPhidgetHandle phid, void *userPtr, int errorCode, const char *errorString), void *userPtr)
+
+CPhidget_set_OnAttach_Handler((CPhidgetHandle)spatial, AttachHandler, NULL);
+CPhidget_set_OnDetach_Handler((CPhidgetHandle)spatial, DetachHandler, NULL);
+CPhidget_set_OnError_Handler((CPhidgetHandle)spatial, ErrorHandler, NULL);
+CPhidgetSpatial_set_OnSpatialData_Handler(spatial, SpatialDataHandler, NULL);
+
+// CPhidgetSpacial specific functions
 typedef int		(PHIDGETS_CALL_API * PtrCPhidgetSpatial_create) (CPhidgetSpatialHandle *phid);
 typedef int 	(PHIDGETS_CALL_API * PtrCPhidget_getErrorDescription) (int errorCode, const char **errorString);
 typedef int 	(PHIDGETS_CALL_API * PtrCPhidgetSpatial_getAccelerationAxisCount) (CPhidgetSpatialHandle phid, int *count);
@@ -95,6 +113,13 @@ class CSensorUSBPhidgets1056  : public CSensor
 	PtrCPhidget_getLibraryVersion m_PtrCPhidget_getLibraryVersion;
 	PtrCPhidget_getDeviceType m_PtrCPhidget_getDeviceType;
 	PtrCPhidget_getDeviceLabel m_PtrCPhidget_getDeviceLabel;
+	
+	// callback function handlers
+	CPhidget_set_OnAttach_Handler((CPhidgetHandle)spatial, AttachHandler, NULL);
+	CPhidget_set_OnDetach_Handler((CPhidgetHandle)spatial, DetachHandler, NULL);
+	CPhidget_set_OnError_Handler((CPhidgetHandle)spatial, ErrorHandler, NULL);
+	CPhidgetSpatial_set_OnSpatialData_Handler(spatial, SpatialDataHandler, NULL);
+	
 	
 	PtrCPhidgetSpatial_create m_PtrCPhidgetSpatial_create;
 	PtrCPhidget_getErrorDescription m_PtrCPhidget_getErrorDescription;
