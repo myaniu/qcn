@@ -72,6 +72,7 @@ SOURCES       = glwidget.cpp \
 		../sensor/csensor_mac_usb_onavi01.cpp \
 		../sensor/csensor_mac_usb_jw.cpp \
 		../sensor/csensor_mac_usb_jw24f14.cpp \
+                ../sensor/csensor_usb_phidgets_1056.cpp \
 		../sensor/csensor.cpp \
 		../graphics/qcn_graphics.cpp \
 		../graphics/qcn_2dplot.cpp \
