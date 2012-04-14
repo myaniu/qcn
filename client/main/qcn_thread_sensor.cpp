@@ -227,6 +227,20 @@ extern void* QCNThreadSensor(void*)
         }
         boinc_fraction_done(??);  // what is the fraction of a QCN workunit?  weekly workunits, so just use t0?
 */
+		
+		if (qcn_main::g_bDetach) { // test for detached sensor
+			initDemoCounters(true);
+			qcn_util::ResetCounter(WHERE_THREAD_SENSOR_DETACH, iNumResetInitial);  // probably a timing error, so retry master (outermost) loop
+			if (qcn_main::g_psms) {
+				qcn_main::g_psms->closePort();  // close the port, it will be reopened above
+                delete qcn_main::g_psms;
+                qcn_main::g_psms = NULL;
+			}
+			//#ifdef _DEBUG
+			//    bDebugTest = true;
+			//#endif
+			continue;
+		}
 
  // 4)
       // increment our main counter, if bigger than array size we have to reset & continue!
@@ -318,7 +332,7 @@ done: // ending, perhaps from a g_iStop request in the wxWidgets myApp::OnExit()
     if (qcn_main::g_psms) {
          qcn_main::g_psms->closePort();  // close the port, it will be reopened above
          delete qcn_main::g_psms;
-	 qcn_main::g_psms = NULL;
+	     qcn_main::g_psms = NULL;
     }
     if (qcn_main::g_threadSensor) qcn_main::g_threadSensor->SetRunning(false);  // mark the thread as being done
     return 0;

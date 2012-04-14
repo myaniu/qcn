@@ -161,6 +161,7 @@ extern e_endian volatile g_endian;
 	
 #ifndef QCNDEMO // qcndemo needs the g_iStop internally
 extern int volatile g_iStop;
+extern bool volatile g_bDetach;
 #endif
 extern bool volatile g_bFinished;
 extern bool volatile g_bSuspended;

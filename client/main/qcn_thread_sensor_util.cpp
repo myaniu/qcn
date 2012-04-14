@@ -118,17 +118,13 @@ void psmsForceSensor(CSensor* volatile *ppsms)
 #endif
 #endif
 				 break;
-#if !defined(__LP64__) && !defined(_LP64) // no motion node for 64-bit
-			case SENSOR_USB_MOTIONNODEACCEL:
-					*ppsms = (CSensor*) new CSensorUSBMotionNodeAccel();
-					break;
-			case SENSOR_USB_PHIDGETS_1056:
+			 case SENSOR_USB_PHIDGETS_1056:
 				 *ppsms = (CSensor*) new CSensorUSBPhidgets1056();
 				 break;
-			case SENSOR_USB_ONAVI_1:
-                        case SENSOR_USB_ONAVI_A_12:
-                        case SENSOR_USB_ONAVI_B_16:
-                        case SENSOR_USB_ONAVI_C_24:
+			 case SENSOR_USB_ONAVI_1:
+			 case SENSOR_USB_ONAVI_A_12:
+			 case SENSOR_USB_ONAVI_B_16:
+			 case SENSOR_USB_ONAVI_C_24:
 #ifdef _WIN32
 				 *ppsms = (CSensor*) new CSensorWinUSBONavi01();
 #else
@@ -138,6 +134,10 @@ void psmsForceSensor(CSensor* volatile *ppsms)
 				 *ppsms = (CSensor*) new CSensorLinuxUSBONavi01();
 #endif
 #endif //win32 or apple
+#if !defined(__LP64__) && !defined(_LP64) // no motion node for 64-bit
+			case SENSOR_USB_MOTIONNODEACCEL:
+					*ppsms = (CSensor*) new CSensorUSBMotionNodeAccel();
+					break;
 #endif // 64-bit
 				 break;
 		 }
@@ -225,21 +225,18 @@ bool getSensor(CSensor* volatile *ppsms)
 			   case 2:  // try for ONavi
 				   *ppsms = (CSensor*) new CSensorMacUSBONavi01();
 				   break;
-
-    #if defined(__LP64__) || defined(_LP64) // no motion node for 64-bit
 			   case 3:
 				   *ppsms = (CSensor*) new CSensorUSBPhidgets1056();
 				   break;	
+				   
+    #if defined(__LP64__) || defined(_LP64) // no motion node for 64-bit
 			   case 4:  // note it tries to get an external sensor first before using the internal sensor, is this good logic?
 				 *ppsms = (CSensor*) new CSensorMacLaptop();
 				 break;
 	#else
-			   case 3:  // note it tries to get an external sensor first before using the internal sensor, is this good logic?
+			   case 4:  // note it tries to get an external sensor first before using the internal sensor, is this good logic?
 				 *ppsms = (CSensor*) new CSensorUSBMotionNodeAccel();
 				 break;
-			   case 4:
-				   *ppsms = (CSensor*) new CSensorUSBPhidgets1056();
-				   break;	
 			   case 5:  // note it tries to get an external sensor first before using the internal sensor, is this good logic?
 				 *ppsms = (CSensor*) new CSensorMacLaptop();
 				 break;
@@ -392,6 +389,8 @@ bool getInitialMean(CSensor* psms)
         sm->resetSampleClock();
 	sm->fCorrectionFactor = 1.0f;
         for (int j = 1; j <= 10; j++) {
+			if (qcn_main::g_bDetach) return false;
+
 // 2)
     sm->lOffset = 0;
 #ifdef _DEBUG
@@ -440,6 +439,8 @@ bool getBaseline(CSensor* psms)
 // Measure baseline x, y, & z acceleration values for a 1 minute window
        sm->resetSampleClock();
        for (int i = 1; i < sm->iWindow + 1; i++) {             //  CREATE BASELINE AVERAGES
+		   if (qcn_main::g_bDetach) return false;
+
 // 3)
 #ifdef _DEBUG
     iCtrStart++;
@@ -675,5 +676,14 @@ void SetSensorThresholdAndDiffFactor()
 			g_fThreshold = 0.10f;
 	}
 }
+		
+int CCONV Phidgets1056DetachHandler(CPhidgetHandle spatial, void *userptr)
+{
+	// verify g_psms is not null and is a phidgets 1056
+	if (qcn_main::g_psms && qcn_main::g_psms->getTypeEnum() == SENSOR_USB_PHIDGETS_1056) {
+		qcn_main::g_bDetach = true; // simple trick to reset sensors, it will close the current port via the destructor & search for a new sensor
+	}
+}
+
 		
 #endif  //ifndef QCN_USB

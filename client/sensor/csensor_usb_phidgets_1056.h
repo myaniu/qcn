@@ -40,11 +40,14 @@ using namespace std;
 #  define PHIDGETS_CALL_C_API
 #endif // WIN32
 
+// detach handler is kept in main/qcn_thread_sensor_util.cpp to handle closing of the port etc
+extern int CCONV Phidgets1056DetachHandler(CPhidgetHandle spatial, void *userptr);
+
 // function pointers in the Phidgets shared object/dylib/DLL
 // CMC HERE
 typedef int 	(PHIDGETS_CALL_API * PtrCPhidget_open)  (CPhidgetHandle phid, int serialNumber);
-typedef int 	CPhidget_close (CPhidgetHandle phid)
-typedef int 	CPhidget_delete (CPhidgetHandle phid)
+typedef int 	(PHIDGETS_CALL_API * PtrCPhidget_close) (CPhidgetHandle phid);
+typedef int 	(PHIDGETS_CALL_API * PtrCPhidget_delete) (CPhidgetHandle phid);
 
 typedef int 	(PHIDGETS_CALL_API * PtrCPhidget_waitForAttachment)  (CPhidgetHandle phid, int milliseconds);
 typedef int 	(PHIDGETS_CALL_API * PtrCPhidget_getDeviceName)  (CPhidgetHandle phid, const char **deviceName);
@@ -56,17 +59,9 @@ typedef int 	(PHIDGETS_CALL_API * PtrCPhidget_getDeviceType)  (CPhidgetHandle ph
 typedef int 	(PHIDGETS_CALL_API * PtrCPhidget_getDeviceLabel) (CPhidgetHandle phid, const char **deviceLabel);
 
 // callback function handlers
-typedef int		(PHIDGETS_CALL_API * PtrCPhidgetSpatial_create) (CPhidgetSpatialHandle *phid);
-int 	CPhidget_set_OnDetach_Handler (CPhidgetHandle phid, int(*fptr)(CPhidgetHandle phid, void *userPtr), void *userPtr)
-int 	CPhidget_set_OnAttach_Handler (CPhidgetHandle phid, int(*fptr)(CPhidgetHandle phid, void *userPtr), void *userPtr)
-int 	CPhidget_set_OnServerConnect_Handler (CPhidgetHandle phid, int(*fptr)(CPhidgetHandle phid, void *userPtr), void *userPtr)
-int 	CPhidget_set_OnServerDisconnect_Handler (CPhidgetHandle phid, int(*fptr)(CPhidgetHandle phid, void *userPtr), void *userPtr)
-int 	CPhidget_set_OnError_Handler (CPhidgetHandle phid, int(*fptr)(CPhidgetHandle phid, void *userPtr, int errorCode, const char *errorString), void *userPtr)
-
-CPhidget_set_OnAttach_Handler((CPhidgetHandle)spatial, AttachHandler, NULL);
-CPhidget_set_OnDetach_Handler((CPhidgetHandle)spatial, DetachHandler, NULL);
-CPhidget_set_OnError_Handler((CPhidgetHandle)spatial, ErrorHandler, NULL);
-CPhidgetSpatial_set_OnSpatialData_Handler(spatial, SpatialDataHandler, NULL);
+typedef int 	(PHIDGETS_CALL_API * PtrCPhidget_set_OnDetach_Handler) (CPhidgetHandle phid, int(*fptr)(CPhidgetHandle phid, void *userPtr), void *userPtr);
+typedef int 	(PHIDGETS_CALL_API * PtrCPhidget_set_OnAttach_Handler) (CPhidgetHandle phid, int(*fptr)(CPhidgetHandle phid, void *userPtr), void *userPtr);
+typedef int 	(PHIDGETS_CALL_API * PtrCPhidget_set_OnError_Handler) (CPhidgetHandle phid, int(*fptr)(CPhidgetHandle phid, void *userPtr, int errorCode, const char *errorString), void *userPtr);
 
 // CPhidgetSpacial specific functions
 typedef int		(PHIDGETS_CALL_API * PtrCPhidgetSpatial_create) (CPhidgetSpatialHandle *phid);
@@ -81,7 +76,7 @@ typedef int 	(PHIDGETS_CALL_API * PtrCPhidgetSpatial_getDataRate) (CPhidgetSpati
 typedef int 	(PHIDGETS_CALL_API * PtrCPhidgetSpatial_setDataRate) (CPhidgetSpatialHandle phid, int milliseconds);
 typedef int 	(PHIDGETS_CALL_API * PtrCPhidgetSpatial_getDataRateMax) (CPhidgetSpatialHandle phid, int *max);
 typedef int 	(PHIDGETS_CALL_API * PtrCPhidgetSpatial_getDataRateMin) (CPhidgetSpatialHandle phid, int *min);
-
+typedef int 	(PHIDGETS_CALL_API * PtrCPhidgetSpatial_set_OnSpatialData_Handler) (CPhidgetSpatialHandle phid, int(*fptr)(CPhidgetSpatialHandle phid, void *userPtr, CPhidgetSpatial_SpatialEventDataHandle *data, int dataCount), void *userPtr);
 
 // this is the Windows implementation of the sensor - IBM/Lenovo Thinkpad, HP, USB Stick
 class CSensorUSBPhidgets1056  : public CSensor
@@ -94,6 +89,8 @@ class CSensorUSBPhidgets1056  : public CSensor
 	int m_iNumCompassAxes;
 	int m_iDataRateMax;
 	int m_iDataRateMin;
+
+	CPhidgetSpatialHandle m_handlePhidgetSpatial;
 	
 	static const char m_cstrDLL[];
 	
@@ -104,7 +101,10 @@ class CSensorUSBPhidgets1056  : public CSensor
 	void* m_handleObject;
 #endif
 	
+	
 	PtrCPhidget_open m_PtrCPhidget_open;
+	PtrCPhidget_close m_PtrCPhidget_close;
+	PtrCPhidget_delete m_PtrCPhidget_delete;
 	PtrCPhidget_waitForAttachment m_PtrCPhidget_waitForAttachment;
 	PtrCPhidget_getDeviceName m_PtrCPhidget_getDeviceName;
 	PtrCPhidget_getSerialNumber m_PtrCPhidget_getSerialNumber;
@@ -114,12 +114,11 @@ class CSensorUSBPhidgets1056  : public CSensor
 	PtrCPhidget_getDeviceType m_PtrCPhidget_getDeviceType;
 	PtrCPhidget_getDeviceLabel m_PtrCPhidget_getDeviceLabel;
 	
-	// callback function handlers
-	CPhidget_set_OnAttach_Handler((CPhidgetHandle)spatial, AttachHandler, NULL);
-	CPhidget_set_OnDetach_Handler((CPhidgetHandle)spatial, DetachHandler, NULL);
-	CPhidget_set_OnError_Handler((CPhidgetHandle)spatial, ErrorHandler, NULL);
-	CPhidgetSpatial_set_OnSpatialData_Handler(spatial, SpatialDataHandler, NULL);
-	
+	// callback function handlers	
+	PtrCPhidget_set_OnAttach_Handler m_PtrCPhidget_set_OnAttach_Handler;
+	PtrCPhidget_set_OnDetach_Handler m_PtrCPhidget_set_OnDetach_Handler;
+	PtrCPhidget_set_OnError_Handler m_PtrCPhidget_set_OnError_Handler;
+	PtrCPhidgetSpatial_set_OnSpatialData_Handler m_PtrCPhidgetSpatial_set_OnSpatialData_Handler;
 	
 	PtrCPhidgetSpatial_create m_PtrCPhidgetSpatial_create;
 	PtrCPhidget_getErrorDescription m_PtrCPhidget_getErrorDescription;
@@ -136,12 +135,14 @@ class CSensorUSBPhidgets1056  : public CSensor
 		
 	bool setupFunctionPointers();
 	virtual bool read_xyz(float& x1, float& y1, float& z1);  
-
+	virtual const char* getTypeStr(int iType = -1);  // return the sensor name for this iType
+	
    public:
       CSensorUSBPhidgets1056();
       virtual ~CSensorUSBPhidgets1056();
       virtual void closePort(); // closes the port if open
       virtual bool detect();   // this detects & initializes a sensor on a Mac G4/PPC or Intel laptop, sets m_iType to 0 if not found
+	
 };
 
 #endif

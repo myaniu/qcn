@@ -102,6 +102,7 @@
 		389D844839024C27E3EE1BD6 /* icons.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = icons.h; sourceTree = "<group>"; };
 		3A9598F9D0008B7DC47F0F9B /* trickledown.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = trickledown.cpp; path = ../util/trickledown.cpp; sourceTree = "<group>"; };
 		40A4D687C2287AC419FAC700 /* qcn_signal.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = qcn_signal.cpp; path = ../util/qcn_signal.cpp; sourceTree = "<group>"; };
+		43081F9E1539F0AB00A70CF4 /* qcn_util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = qcn_util.h; path = ../util/qcn_util.h; sourceTree = SOURCE_ROOT; };
 		4381ADD0151C0A56007752DF /* qcn_2dplot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = qcn_2dplot.h; path = ../graphics/qcn_2dplot.h; sourceTree = SOURCE_ROOT; };
 		439E643C1538C7940033A634 /* csensor_usb_phidgets_1056.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = csensor_usb_phidgets_1056.cpp; path = ../sensor/csensor_usb_phidgets_1056.cpp; sourceTree = SOURCE_ROOT; };
 		439E643E1538C7B80033A634 /* csensor_mac_laptop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = csensor_mac_laptop.h; path = ../sensor/csensor_mac_laptop.h; sourceTree = SOURCE_ROOT; };
@@ -241,6 +242,14 @@
 			name = graphics;
 			sourceTree = "<group>";
 		};
+		43081F9D1539F09300A70CF4 /* util */ = {
+			isa = PBXGroup;
+			children = (
+				43081F9E1539F0AB00A70CF4 /* qcn_util.h */,
+			);
+			name = util;
+			sourceTree = "<group>";
+		};
 		4381ADD1151C0A5A007752DF /* graphics */ = {
 			isa = PBXGroup;
 			children = (
@@ -274,6 +283,7 @@
 		4458B98565818D7E2682FA2D /* .. */ = {
 			isa = PBXGroup;
 			children = (
+				43081F9D1539F09300A70CF4 /* util */,
 				439E64451538C7D80033A634 /* sensor */,
 				4381ADD1151C0A5A007752DF /* graphics */,
 				E9573E0CC00160A0BBA7599D /* main */,

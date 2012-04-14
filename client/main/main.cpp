@@ -88,6 +88,7 @@ namespace qcn_main  {
 	
   // use volatile keyword as these are used across threads for status changes etc
   int volatile g_iStop = FALSE;  // false;   note changed to int because used in a C program (ntpdatemain) which doesn't have bool
+  bool volatile g_bDetach = false; // sensor detached
   bool volatile g_bFinished   = false;
   bool volatile g_bSuspended  = false;
   int  volatile g_iQCNReturn  = 0; // qcn return code

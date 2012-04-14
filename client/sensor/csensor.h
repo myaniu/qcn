@@ -44,6 +44,7 @@ public:
 		strncpy(m_strShort, strShort, sizeof(m_strShort)); 
 	}	
 	int getID() { return m_id; }
+	void setStr(const char* strIn) { memset(m_strLong, 0x00, sizeof(char) * 64); strncpy(m_strLong, strIn, 63); }
 	const char* getStr() { return m_strLong; }
 	const char* getStrSh() { return m_strShort; }
 	
@@ -92,8 +93,9 @@ private:
      virtual bool detect() = 0;   // this detects & initializes a sensor on a Mac G4/PPC or Intel laptop, sets m_iType to 0 if not found
 
 	 // get sensor id or string based on the map of sensors (m_map private member var initialized in constructor)
-	 const char* getTypeStr(int iType = -1);  // return the sensor name for this iType
-	 const char* getTypeStrShort(int iType = -1);  // return the sensor name (short) for this iType or m_Type if not entered
+	 //void setTypeStr(const char* strTypeStr);  // set the sensor name for this iType
+	 virtual const char* getTypeStr(int iType = -1);  // return the sensor name for this iType
+	 virtual const char* getTypeStrShort(int iType = -1);  // return the sensor name (short) for this iType or m_Type if not entered
 	 // const int getID();
 	
      // public virtual functions implemented in CSensor but can be overridden

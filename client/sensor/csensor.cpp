@@ -186,11 +186,16 @@ e_sensor CSensor::getTypeEnum()
 const char* CSensor::getTypeStr(int iType)
 {
 	if (iType == -1) iType = m_iType;  // default is to use the type for the given CSensor
-	map<int, CSensorType>::iterator iter = m_map.find(iType);
-	if (iter != m_map.end() ) 
-		return iter->second.getStr();
-	else 
-		return "";
+	//if (m_strSensor.empty()) {
+		map<int, CSensorType>::iterator iter = m_map.find(iType);
+		if (iter != m_map.end() ) 
+			return iter->second.getStr();
+		else 
+			return "";
+	//}
+	//else {
+	//	return m_strSensor.c_str();
+	//}
 }
 
 
@@ -230,9 +235,7 @@ inline bool CSensor::mean_xyz()
    pz2 = (float*) &(sm->z0);
    pt2 = (double*) &(sm->t0);
 #else
-   if (qcn_main::g_iStop || !sm) {
-       throw EXCEPTION_SHUTDOWN;   // see if we're shutting down, if so throw an exception which gets caught in the sensor_thread
-   }
+   if (qcn_main::g_iStop || !sm) throw EXCEPTION_SHUTDOWN;   // see if we're shutting down, if so throw an exception which gets caught in the sensor_thread
 
    px2 = (float*) &(sm->x0[sm->lOffset]);
    py2 = (float*) &(sm->y0[sm->lOffset]);
@@ -284,6 +287,8 @@ inline bool CSensor::mean_xyz()
 	
    // this will get executed at least once, then the time is checked to see if we have enough time left for more samples
    do {
+	   if (qcn_main::g_iStop || !sm) throw EXCEPTION_SHUTDOWN;   // see if we're shutting down, if so throw an exception which gets caught in the sensor_thread
+
        if ( (!m_bSingleSampleDT && sm->lSampleSize < SAMPLE_SIZE)
 		 || (m_bSingleSampleDT && sm->lSampleSize == 0) )  { // only go in if less than our sample # and we're not a single-sample sensor, or a single-sample sensor & haven't been in yet
            x1 = y1 = z1 = 0.0f; 

@@ -56,7 +56,6 @@ extern long   g_lDemoOffsetEnd;
 extern float  g_fThreshold; 
 extern float  g_fSensorDiffFactor; 
 
-
 // util functions to be used for the sensor thread
 // forward declaration for useful functions in this file
 extern void checkRecordState();
@@ -75,6 +74,11 @@ extern void SetSensorThresholdAndDiffFactor();
 // use to upload the entire array to a SAC file which in turn gets zipped and uploaded - used to randomly test hosts
 extern void uploadSACMem(const long lCurTime, const char* strTypeSensor);
 #endif
+
+
+// callback function for Phidgets 1056 USB sensor detached
+extern int CCONV Phidgets1056DetachHandler(CPhidgetHandle spatial, void *userptr);
+
 
 #ifdef _DEBUG
     extern void DebugTime(const int iWhere);

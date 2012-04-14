@@ -203,18 +203,15 @@ enum e_where   { WHERE_MAIN_STARTUP,
                  WHERE_MAIN_PROJPREFS, 
                  WHERE_THREAD_SENSOR_INITIAL_MEAN, 
                  WHERE_THREAD_SENSOR_BASELINE,
-                 WHERE_THREAD_SENSOR_TIME_ERROR };
+                 WHERE_THREAD_SENSOR_TIME_ERROR,
+				 WHERE_THREAD_SENSOR_DETACH
+				};
 
 // enum of quake types for the globe list
 enum e_quake   { QUAKE_CURRENT, QUAKE_WORLD85, QUAKE_DEADLIEST };
 
 // sensor information
 // if add sensors or strings here don't forget to update the class CSensor in sensor/csensor.cpp!
-
-// set to the min allowable value of a usb sensor enum as above
-#define MIN_SENSOR_USB 100
-// set to the max allowable value of a usb sensor enum as above
-#define MAX_SENSOR_USB 106
 
 // enumerate the various sensor types, we can trickle this int back for easier comparisons
 // don't forget to update in the csensor.cpp CSensor constructor
@@ -235,6 +232,12 @@ enum e_sensor  {
 	         SENSOR_USB_ONAVI_C_24,    // 106
 	         SENSOR_USB_PHIDGETS_1056 // 107
                };
+
+// set to the min allowable value of a usb sensor enum as above
+#define MIN_SENSOR_USB 100
+// set to the max allowable value of a usb sensor enum as above
+#define MAX_SENSOR_USB 107
+
 
 // USB id's
 #define USB_MOUSEWARRIOR       0x1114

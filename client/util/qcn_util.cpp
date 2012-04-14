@@ -418,6 +418,7 @@ void ResetCounter(const e_where eWhere, const int iNumResetInitial)
     if (bInHere || qcn_main::g_iStop) return;   // check for stop signal
     bInHere = true;
 
+	qcn_main::g_bDetach = false; // reset detach flag
     fprintf(stdout, "qcn_util::ResetCounter(%d)\n", eWhere);
     fflush(stdout);
 
