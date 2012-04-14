@@ -51,7 +51,7 @@ unix {
  isEmpty(IS_MAC) {
  LIBS += -Wl,-rpath,./init/ --stack=16777216 \
   -L$$BASEDIRQCN/client/linux_build \
-   -lcurl -lftgl -lfreetype \
+   -lcurl -lusb -lphidget21 -lftgl -lfreetype \
     -lboinc_graphics2 -lboinc_zip -lboinc_api -lboinc \
     -ljpeg
  }
@@ -94,6 +94,7 @@ SRC_SENSOR = $$SENSORDIR/csensor_win_laptop_hp.cpp \
            $$SENSORDIR/csensor_win_usb_jw.cpp \
            $$SENSORDIR/csensor_win_usb_jw24f14.cpp \
            $$SENSORDIR/csensor_usb_motionnodeaccel.cpp \
+           $$SENSORDIR/csensor_usb_phidgets_1056.cpp \
            $$SENSORDIR/csensor_win_usb_onavi01.cpp \
            $$SENSORDIR/csensor.cpp
 }
@@ -101,6 +102,7 @@ SRC_SENSOR = $$SENSORDIR/csensor_win_laptop_hp.cpp \
 macx{
 SRC_SENSOR = $$SENSORDIR/csensor_mac_laptop.cpp \
            $$SENSORDIR/csensor_usb_motionnodeaccel.cpp \
+           $$SENSORDIR/csensor_usb_phidgets_1056.cpp \
            $$SENSORDIR/csensor_mac_usb_onavi01.cpp \
            $$SENSORDIR/csensor_mac_usb_jw.cpp \
            $$SENSORDIR/csensor_mac_usb_jw24f14.cpp \
@@ -114,6 +116,7 @@ unix {
            $$SENSORDIR/csensor_linux_usb_jw24f14.cpp \
            $$SENSORDIR/csensor_linux_usb_onavi01.cpp \
            $$SENSORDIR/csensor_usb_motionnodeaccel.cpp \
+           $$SENSORDIR/csensor_usb_phidgets_1056.cpp \
            $$SENSORDIR/csensor.cpp
  }
 }
