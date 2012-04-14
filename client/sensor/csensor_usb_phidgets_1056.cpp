@@ -7,7 +7,7 @@
  *
  * Implementation file for cross-platform (Mac, Windows, Linux) Phidgets 1056 accelerometer USB sensor class
  *     http://www.phidgets.com/products.php?product_id=1056
- *   NB: some "Windows" terminology used, i.e. m_WinDLLHandle but it's really a shared object Mac dylib or Linux so of course
+ *   NB: some "Windows" terminology used, i.e. m_handleObject but it's really a shared object Mac dylib or Linux so of course
  */
 
 #include "main.h"
@@ -35,7 +35,7 @@ const char* CSensorUSBPhidgets1056::getSensorStr()
 
 CSensorUSBPhidgets1056::CSensorUSBPhidgets1056()
   : CSensor(), 
-     m_WinDLLHandle(NULL), m_SymHandle(NULL), m_node(NULL)
+     m_handleObject(NULL)
 { 
 }
 
@@ -44,11 +44,52 @@ CSensorUSBPhidgets1056::~CSensorUSBPhidgets1056()
    closePort();
 }
 
+bool CSensorUSBPhidgets1056::setupFunctionPointers()
+{
+#ifndef __USE_DLOPEN__
+	return true;
+#endif
+
+	if (!m_handleObject) return false;
+
+	m_PtrCPhidget_open = (PtrCPhidget_open) dlsym(m_handleObject, "CPhidget_open");
+	m_PtrCPhidget_waitForAttachment = (PtrCPhidget_waitForAttachment) dlsym(m_handleObject, "CPhidget_waitForAttachment");
+	m_PtrCPhidget_getDeviceName = (PtrCPhidget_getDeviceName) dlsym(m_handleObject, "CPhidget_getDeviceName");
+	m_PtrCPhidget_getSerialNumber = (PtrCPhidget_getSerialNumber) dlsym(m_handleObject, "CPhidget_getSerialNumber");
+	m_PtrCPhidget_getDeviceVersion = (PtrCPhidget_getDeviceVersion) dlsym(m_handleObject, "CPhidget_getDeviceVersion");
+	m_PtrCPhidget_getDeviceStatus = (PtrCPhidget_getDeviceStatus) dlsym(m_handleObject, "CPhidget_getDeviceStatus");
+	m_PtrCPhidget_getLibraryVersion = (PtrCPhidget_getLibraryVersion) dlsym(m_handleObject, "CPhidget_getLibraryVersion");
+	m_PtrCPhidgetSpatial_create = (PtrCPhidgetSpatial_create) dlsym(m_handleObject, "CPhidgetSpatial_create");
+	m_PtrCPhidget_getDeviceType = (PtrCPhidget_getDeviceType) dlsym(m_handleObject, "CPhidget_getDeviceType");
+	m_PtrCPhidget_getDeviceLabel = (PtrCPhidget_getDeviceLabel) dlsym(m_handleObject, "CPhidget_getDeviceLabel");
+
+	m_PtrCPhidget_getErrorDescription = (PtrCPhidget_getErrorDescription) dlsym(m_handleObject, "CPhidget_getErrorDescription");
+	m_PtrCPhidget_waitForAttachment = (PtrCPhidget_waitForAttachment) dlsym(m_handleObject, "CPhidget_waitForAttachment");
+	m_PtrCPhidgetSpatial_getAccelerationAxisCount = (PtrCPhidgetSpatial_getAccelerationAxisCount) dlsym(m_handleObject, "CPhidgetSpatial_getAccelerationAxisCount");
+	m_PtrCPhidgetSpatial_getGyroAxisCount = (PtrCPhidgetSpatial_getGyroAxisCount) dlsym(m_handleObject, "CPhidgetSpatial_getGyroAxisCount");
+	m_PtrCPhidgetSpatial_getCompassAxisCount = (PtrCPhidgetSpatial_getCompassAxisCount) dlsym(m_handleObject, "CPhidgetSpatial_getCompassAxisCount");
+	m_PtrCPhidgetSpatial_getAcceleration = (PtrCPhidgetSpatial_getAcceleration) dlsym(m_handleObject, "CPhidgetSpatial_getAcceleration");
+	m_PtrCPhidgetSpatial_getAccelerationMax = (PtrCPhidgetSpatial_getAccelerationMax) dlsym(m_handleObject, "CPhidgetSpatial_getAccelerationMax");
+	m_PtrCPhidgetSpatial_getAccelerationMin = (PtrCPhidgetSpatial_getAccelerationMin) dlsym(m_handleObject, "CPhidgetSpatial_getAccelerationMin");
+	m_PtrCPhidgetSpatial_getDataRate = (PtrCPhidgetSpatial_getDataRate) dlsym(m_handleObject, "CPhidgetSpatial_getDataRate");
+	m_PtrCPhidgetSpatial_setDataRate = (PtrCPhidgetSpatial_setDataRate) dlsym(m_handleObject, "CPhidgetSpatial_setDataRate");
+	m_PtrCPhidgetSpatial_getDataRateMax = (PtrCPhidgetSpatial_getDataRateMax) dlsym(m_handleObject, "CPhidgetSpatial_getDataRateMax");
+	m_PtrCPhidgetSpatial_getDataRateMin = (PtrCPhidgetSpatial_getDataRateMin) dlsym(m_handleObject, "CPhidgetSpatial_getDataRateMin");
+	
+	return true;
+}
+
+
+
 void CSensorUSBPhidgets1056::closePort()
 {
+	
     if (getPort() > -1) {
         fprintf(stdout, "Closing %s sensor port...\n", getTypeStr());
     }
+	setPort();
+	setType();
+	
 /*
     if (m_node) {
         if (m_node->is_connected() && m_node->is_reading()) {
@@ -66,17 +107,17 @@ void CSensorUSBPhidgets1056::closePort()
     }
 */
     // close MN dll
-    if (m_WinDLLHandle) {
+    if (m_handleObject) {
 #ifdef __USE_DLOPEN__
-        if (dlclose(m_WinDLLHandle)) {
+        if (dlclose(m_handleObject)) {
            fprintf(stderr, "%s: dlclose error %s\n", getTypeStr(), dlerror());
         }
 #else // probably Windows - free library
    #ifdef _WIN32
-        ::FreeLibrary(m_WinDLLHandle);
+        ::FreeLibrary(m_handleObject);
    #endif
 #endif
-	m_WinDLLHandle = NULL;
+	m_handleObject = NULL;
     }
 }
 
@@ -88,22 +129,25 @@ bool CSensorUSBPhidgets1056::detect()
    if (qcn_main::g_iStop) return false;
   
 #ifdef __USE_DLOPEN__
-
+/*
 	char strCWD[256];
 	getcwd(strCWD, 256);
 	if (!boinc_file_exists(m_cstrDLL)) {
 		fprintf(stderr, "CSensorUSBPhidgets1056: dynamic library %s not found %s\n", m_cstrDLL, strCWD);
 		return false;
 	}
-   m_WinDLLHandle = dlopen(m_cstrDLL, RTLD_LAZY | RTLD_GLOBAL); // default
-   if (!m_WinDLLHandle) {
+ */
+	
+   m_handleObject = dlopen(m_cstrDLL, RTLD_LAZY | RTLD_GLOBAL); // default
+   if (!m_handleObject) {
        fprintf(stderr, "CSensorUSBPhidgets1056: dynamic library %s dlopen error %s\n", m_cstrDLL, dlerror());
        return false;
    }
-
-   if (qcn_main::g_iStop) return false;
+	
+	// check for stop signal and function pointers
+	if (qcn_main::g_iStop || ! setupFunctionPointers()) return false;
 /*
-   m_SymHandle = (PtrMotionNodeAccelFactory) dlsym(m_WinDLLHandle, "MotionNodeAccel_Factory");
+   m_SymHandle = (PtrMotionNodeAccelFactory) dlsym(m_handleObject, "MotionNodeAccel_Factory");
    if (!m_SymHandle) {
        fprintf(stderr, "CSensorUSBPhidgets1056: Could not get dlsym MotionNode Accel dylib file %s - error %s\n", sstrDLL.c_str(), dlerror());
        return false;
