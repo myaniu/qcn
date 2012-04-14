@@ -7,7 +7,7 @@
  *
  * Implementation file for cross-platform (Mac, Windows, Linux) Phidgets 1056 accelerometer USB sensor class
  *     http://www.phidgets.com/products.php?product_id=1056
- *   NB: some "Windows" terminology used, i.e. m_handleObject but it's really a shared object Mac dylib or Linux so of course
+ *   NB: some "Windows" terminology used, i.e. m_handleLibrary but it's really a shared object Mac dylib or Linux so of course
  */
 
 #include "main.h"
@@ -15,18 +15,22 @@
 
 //set the dll/so/dylib name
 #ifdef _WIN32
-const char CSensorUSBPhidgets1056::m_cstrDLL[] = {"phidgets21.dll"};
+#ifdef _WIN64
+const char CSensorUSBPhidgets1056::m_cstrDLL[] = {"phidget21x64.dll"};
+#else
+const char CSensorUSBPhidgets1056::m_cstrDLL[] = {"phidget21.dll"};
+#endif // Win 32 v 64
 #else
 #ifdef __APPLE_CC__
 const char CSensorUSBPhidgets1056::m_cstrDLL[] = {"phidget21.dylib"};   
 #else
-const char CSensorUSBPhidgets1056::m_cstrDLL[] = {"phidgets21.so"};   
+const char CSensorUSBPhidgets1056::m_cstrDLL[] = {"phidget21.so"};   
 #endif // apple or linux
 #endif // windows˚˚
 
 CSensorUSBPhidgets1056::CSensorUSBPhidgets1056()
   : CSensor(), 
-     m_handlePhidgetSpatial(NULL), m_handleObject(NULL)
+     m_handlePhidgetSpatial(NULL), m_handleLibrary(NULL)
 { 
 	m_iSerialNum = 0;
 	m_iVersion = 0;
@@ -44,43 +48,74 @@ CSensorUSBPhidgets1056::~CSensorUSBPhidgets1056()
 
 bool CSensorUSBPhidgets1056::setupFunctionPointers()
 {
-#ifndef __USE_DLOPEN__
-	return true;
+	if (!m_handleLibrary) return false;
+
+#ifdef __USE_DLOPEN__
+	m_PtrCPhidget_open = (PtrCPhidget_open) dlsym(m_handleLibrary, "CPhidget_open");
+	m_PtrCPhidget_close = (PtrCPhidget_close) dlsym(m_handleLibrary, "CPhidget_close");
+	m_PtrCPhidget_delete = (PtrCPhidget_delete) dlsym(m_handleLibrary, "CPhidget_delete");
+	m_PtrCPhidget_waitForAttachment = (PtrCPhidget_waitForAttachment) dlsym(m_handleLibrary, "CPhidget_waitForAttachment");
+	m_PtrCPhidget_getDeviceName = (PtrCPhidget_getDeviceName) dlsym(m_handleLibrary, "CPhidget_getDeviceName");
+	m_PtrCPhidget_getSerialNumber = (PtrCPhidget_getSerialNumber) dlsym(m_handleLibrary, "CPhidget_getSerialNumber");
+	m_PtrCPhidget_getDeviceVersion = (PtrCPhidget_getDeviceVersion) dlsym(m_handleLibrary, "CPhidget_getDeviceVersion");
+	m_PtrCPhidget_getDeviceStatus = (PtrCPhidget_getDeviceStatus) dlsym(m_handleLibrary, "CPhidget_getDeviceStatus");
+	m_PtrCPhidget_getLibraryVersion = (PtrCPhidget_getLibraryVersion) dlsym(m_handleLibrary, "CPhidget_getLibraryVersion");
+	m_PtrCPhidgetSpatial_create = (PtrCPhidgetSpatial_create) dlsym(m_handleLibrary, "CPhidgetSpatial_create");
+	m_PtrCPhidget_getDeviceType = (PtrCPhidget_getDeviceType) dlsym(m_handleLibrary, "CPhidget_getDeviceType");
+	m_PtrCPhidget_getDeviceLabel = (PtrCPhidget_getDeviceLabel) dlsym(m_handleLibrary, "CPhidget_getDeviceLabel");
+
+	m_PtrCPhidget_set_OnAttach_Handler = (PtrCPhidget_set_OnAttach_Handler) dlsym(m_handleLibrary, "CPhidget_set_OnAttach_Handler");
+	m_PtrCPhidget_set_OnDetach_Handler = (PtrCPhidget_set_OnDetach_Handler) dlsym(m_handleLibrary, "CPhidget_set_OnDetach_Handler");
+	m_PtrCPhidget_set_OnError_Handler = (PtrCPhidget_set_OnError_Handler) dlsym(m_handleLibrary, "CPhidget_set_OnError_Handler");
+	m_PtrCPhidgetSpatial_set_OnSpatialData_Handler = (PtrCPhidgetSpatial_set_OnSpatialData_Handler) dlsym(m_handleLibrary, "CPhidgetSpatial_set_OnSpatialData_Handler");
+	
+	m_PtrCPhidget_getErrorDescription = (PtrCPhidget_getErrorDescription) dlsym(m_handleLibrary, "CPhidget_getErrorDescription");
+	m_PtrCPhidget_waitForAttachment = (PtrCPhidget_waitForAttachment) dlsym(m_handleLibrary, "CPhidget_waitForAttachment");
+	m_PtrCPhidgetSpatial_getAccelerationAxisCount = (PtrCPhidgetSpatial_getAccelerationAxisCount) dlsym(m_handleLibrary, "CPhidgetSpatial_getAccelerationAxisCount");
+	m_PtrCPhidgetSpatial_getGyroAxisCount = (PtrCPhidgetSpatial_getGyroAxisCount) dlsym(m_handleLibrary, "CPhidgetSpatial_getGyroAxisCount");
+	m_PtrCPhidgetSpatial_getCompassAxisCount = (PtrCPhidgetSpatial_getCompassAxisCount) dlsym(m_handleLibrary, "CPhidgetSpatial_getCompassAxisCount");
+	m_PtrCPhidgetSpatial_getAcceleration = (PtrCPhidgetSpatial_getAcceleration) dlsym(m_handleLibrary, "CPhidgetSpatial_getAcceleration");
+	m_PtrCPhidgetSpatial_getAccelerationMax = (PtrCPhidgetSpatial_getAccelerationMax) dlsym(m_handleLibrary, "CPhidgetSpatial_getAccelerationMax");
+	m_PtrCPhidgetSpatial_getAccelerationMin = (PtrCPhidgetSpatial_getAccelerationMin) dlsym(m_handleLibrary, "CPhidgetSpatial_getAccelerationMin");
+	m_PtrCPhidgetSpatial_getDataRate = (PtrCPhidgetSpatial_getDataRate) dlsym(m_handleLibrary, "CPhidgetSpatial_getDataRate");
+	m_PtrCPhidgetSpatial_setDataRate = (PtrCPhidgetSpatial_setDataRate) dlsym(m_handleLibrary, "CPhidgetSpatial_setDataRate");
+	m_PtrCPhidgetSpatial_getDataRateMax = (PtrCPhidgetSpatial_getDataRateMax) dlsym(m_handleLibrary, "CPhidgetSpatial_getDataRateMax");
+	m_PtrCPhidgetSpatial_getDataRateMin = (PtrCPhidgetSpatial_getDataRateMin) dlsym(m_handleLibrary, "CPhidgetSpatial_getDataRateMin");
+#else
+	// Windows so use GetProcAddress
+
+	m_PtrCPhidget_open = (PtrCPhidget_open) ::GetProcAddress(m_handleLibrary, "CPhidget_open");
+	m_PtrCPhidget_close = (PtrCPhidget_close) ::GetProcAddress(m_handleLibrary, "CPhidget_close");
+	m_PtrCPhidget_delete = (PtrCPhidget_delete) ::GetProcAddress(m_handleLibrary, "CPhidget_delete");
+	m_PtrCPhidget_waitForAttachment = (PtrCPhidget_waitForAttachment) ::GetProcAddress(m_handleLibrary, "CPhidget_waitForAttachment");
+	m_PtrCPhidget_getDeviceName = (PtrCPhidget_getDeviceName) ::GetProcAddress(m_handleLibrary, "CPhidget_getDeviceName");
+	m_PtrCPhidget_getSerialNumber = (PtrCPhidget_getSerialNumber) ::GetProcAddress(m_handleLibrary, "CPhidget_getSerialNumber");
+	m_PtrCPhidget_getDeviceVersion = (PtrCPhidget_getDeviceVersion) ::GetProcAddress(m_handleLibrary, "CPhidget_getDeviceVersion");
+	m_PtrCPhidget_getDeviceStatus = (PtrCPhidget_getDeviceStatus) ::GetProcAddress(m_handleLibrary, "CPhidget_getDeviceStatus");
+	m_PtrCPhidget_getLibraryVersion = (PtrCPhidget_getLibraryVersion) ::GetProcAddress(m_handleLibrary, "CPhidget_getLibraryVersion");
+	m_PtrCPhidgetSpatial_create = (PtrCPhidgetSpatial_create) ::GetProcAddress(m_handleLibrary, "CPhidgetSpatial_create");
+	m_PtrCPhidget_getDeviceType = (PtrCPhidget_getDeviceType) ::GetProcAddress(m_handleLibrary, "CPhidget_getDeviceType");
+	m_PtrCPhidget_getDeviceLabel = (PtrCPhidget_getDeviceLabel) ::GetProcAddress(m_handleLibrary, "CPhidget_getDeviceLabel");
+
+	m_PtrCPhidget_set_OnAttach_Handler = (PtrCPhidget_set_OnAttach_Handler) ::GetProcAddress(m_handleLibrary, "CPhidget_set_OnAttach_Handler");
+	m_PtrCPhidget_set_OnDetach_Handler = (PtrCPhidget_set_OnDetach_Handler) ::GetProcAddress(m_handleLibrary, "CPhidget_set_OnDetach_Handler");
+	m_PtrCPhidget_set_OnError_Handler = (PtrCPhidget_set_OnError_Handler) ::GetProcAddress(m_handleLibrary, "CPhidget_set_OnError_Handler");
+	m_PtrCPhidgetSpatial_set_OnSpatialData_Handler = (PtrCPhidgetSpatial_set_OnSpatialData_Handler) ::GetProcAddress(m_handleLibrary, "CPhidgetSpatial_set_OnSpatialData_Handler");
+	
+	m_PtrCPhidget_getErrorDescription = (PtrCPhidget_getErrorDescription) ::GetProcAddress(m_handleLibrary, "CPhidget_getErrorDescription");
+	m_PtrCPhidget_waitForAttachment = (PtrCPhidget_waitForAttachment) ::GetProcAddress(m_handleLibrary, "CPhidget_waitForAttachment");
+	m_PtrCPhidgetSpatial_getAccelerationAxisCount = (PtrCPhidgetSpatial_getAccelerationAxisCount) ::GetProcAddress(m_handleLibrary, "CPhidgetSpatial_getAccelerationAxisCount");
+	m_PtrCPhidgetSpatial_getGyroAxisCount = (PtrCPhidgetSpatial_getGyroAxisCount) ::GetProcAddress(m_handleLibrary, "CPhidgetSpatial_getGyroAxisCount");
+	m_PtrCPhidgetSpatial_getCompassAxisCount = (PtrCPhidgetSpatial_getCompassAxisCount) ::GetProcAddress(m_handleLibrary, "CPhidgetSpatial_getCompassAxisCount");
+	m_PtrCPhidgetSpatial_getAcceleration = (PtrCPhidgetSpatial_getAcceleration) ::GetProcAddress(m_handleLibrary, "CPhidgetSpatial_getAcceleration");
+	m_PtrCPhidgetSpatial_getAccelerationMax = (PtrCPhidgetSpatial_getAccelerationMax) ::GetProcAddress(m_handleLibrary, "CPhidgetSpatial_getAccelerationMax");
+	m_PtrCPhidgetSpatial_getAccelerationMin = (PtrCPhidgetSpatial_getAccelerationMin) ::GetProcAddress(m_handleLibrary, "CPhidgetSpatial_getAccelerationMin");
+	m_PtrCPhidgetSpatial_getDataRate = (PtrCPhidgetSpatial_getDataRate) ::GetProcAddress(m_handleLibrary, "CPhidgetSpatial_getDataRate");
+	m_PtrCPhidgetSpatial_setDataRate = (PtrCPhidgetSpatial_setDataRate) ::GetProcAddress(m_handleLibrary, "CPhidgetSpatial_setDataRate");
+	m_PtrCPhidgetSpatial_getDataRateMax = (PtrCPhidgetSpatial_getDataRateMax) ::GetProcAddress(m_handleLibrary, "CPhidgetSpatial_getDataRateMax");
+	m_PtrCPhidgetSpatial_getDataRateMin = (PtrCPhidgetSpatial_getDataRateMin) ::GetProcAddress(m_handleLibrary, "CPhidgetSpatial_getDataRateMin");
+
 #endif
-
-	if (!m_handleObject) return false;
-
-	m_PtrCPhidget_open = (PtrCPhidget_open) dlsym(m_handleObject, "CPhidget_open");
-	m_PtrCPhidget_close = (PtrCPhidget_close) dlsym(m_handleObject, "CPhidget_close");
-	m_PtrCPhidget_delete = (PtrCPhidget_delete) dlsym(m_handleObject, "CPhidget_delete");
-	m_PtrCPhidget_waitForAttachment = (PtrCPhidget_waitForAttachment) dlsym(m_handleObject, "CPhidget_waitForAttachment");
-	m_PtrCPhidget_getDeviceName = (PtrCPhidget_getDeviceName) dlsym(m_handleObject, "CPhidget_getDeviceName");
-	m_PtrCPhidget_getSerialNumber = (PtrCPhidget_getSerialNumber) dlsym(m_handleObject, "CPhidget_getSerialNumber");
-	m_PtrCPhidget_getDeviceVersion = (PtrCPhidget_getDeviceVersion) dlsym(m_handleObject, "CPhidget_getDeviceVersion");
-	m_PtrCPhidget_getDeviceStatus = (PtrCPhidget_getDeviceStatus) dlsym(m_handleObject, "CPhidget_getDeviceStatus");
-	m_PtrCPhidget_getLibraryVersion = (PtrCPhidget_getLibraryVersion) dlsym(m_handleObject, "CPhidget_getLibraryVersion");
-	m_PtrCPhidgetSpatial_create = (PtrCPhidgetSpatial_create) dlsym(m_handleObject, "CPhidgetSpatial_create");
-	m_PtrCPhidget_getDeviceType = (PtrCPhidget_getDeviceType) dlsym(m_handleObject, "CPhidget_getDeviceType");
-	m_PtrCPhidget_getDeviceLabel = (PtrCPhidget_getDeviceLabel) dlsym(m_handleObject, "CPhidget_getDeviceLabel");
-
-	m_PtrCPhidget_set_OnAttach_Handler = (PtrCPhidget_set_OnAttach_Handler) dlsym(m_handleObject, "CPhidget_set_OnAttach_Handler");
-	m_PtrCPhidget_set_OnDetach_Handler = (PtrCPhidget_set_OnDetach_Handler) dlsym(m_handleObject, "CPhidget_set_OnDetach_Handler");
-	m_PtrCPhidget_set_OnError_Handler = (PtrCPhidget_set_OnError_Handler) dlsym(m_handleObject, "CPhidget_set_OnError_Handler");
-	m_PtrCPhidgetSpatial_set_OnSpatialData_Handler = (PtrCPhidgetSpatial_set_OnSpatialData_Handler) dlsym(m_handleObject, "CPhidgetSpatial_set_OnSpatialData_Handler");
-	
-	m_PtrCPhidget_getErrorDescription = (PtrCPhidget_getErrorDescription) dlsym(m_handleObject, "CPhidget_getErrorDescription");
-	m_PtrCPhidget_waitForAttachment = (PtrCPhidget_waitForAttachment) dlsym(m_handleObject, "CPhidget_waitForAttachment");
-	m_PtrCPhidgetSpatial_getAccelerationAxisCount = (PtrCPhidgetSpatial_getAccelerationAxisCount) dlsym(m_handleObject, "CPhidgetSpatial_getAccelerationAxisCount");
-	m_PtrCPhidgetSpatial_getGyroAxisCount = (PtrCPhidgetSpatial_getGyroAxisCount) dlsym(m_handleObject, "CPhidgetSpatial_getGyroAxisCount");
-	m_PtrCPhidgetSpatial_getCompassAxisCount = (PtrCPhidgetSpatial_getCompassAxisCount) dlsym(m_handleObject, "CPhidgetSpatial_getCompassAxisCount");
-	m_PtrCPhidgetSpatial_getAcceleration = (PtrCPhidgetSpatial_getAcceleration) dlsym(m_handleObject, "CPhidgetSpatial_getAcceleration");
-	m_PtrCPhidgetSpatial_getAccelerationMax = (PtrCPhidgetSpatial_getAccelerationMax) dlsym(m_handleObject, "CPhidgetSpatial_getAccelerationMax");
-	m_PtrCPhidgetSpatial_getAccelerationMin = (PtrCPhidgetSpatial_getAccelerationMin) dlsym(m_handleObject, "CPhidgetSpatial_getAccelerationMin");
-	m_PtrCPhidgetSpatial_getDataRate = (PtrCPhidgetSpatial_getDataRate) dlsym(m_handleObject, "CPhidgetSpatial_getDataRate");
-	m_PtrCPhidgetSpatial_setDataRate = (PtrCPhidgetSpatial_setDataRate) dlsym(m_handleObject, "CPhidgetSpatial_setDataRate");
-	m_PtrCPhidgetSpatial_getDataRateMax = (PtrCPhidgetSpatial_getDataRateMax) dlsym(m_handleObject, "CPhidgetSpatial_getDataRateMax");
-	m_PtrCPhidgetSpatial_getDataRateMin = (PtrCPhidgetSpatial_getDataRateMin) dlsym(m_handleObject, "CPhidgetSpatial_getDataRateMin");
-	
 	// test that some choice functions aren't null
 	return (bool) (m_PtrCPhidget_open && m_PtrCPhidget_close && m_PtrCPhidget_waitForAttachment && m_PtrCPhidget_set_OnAttach_Handler 
 				   && m_PtrCPhidgetSpatial_getAccelerationAxisCount && m_PtrCPhidgetSpatial_getAcceleration && m_PtrCPhidgetSpatial_getDataRate);
@@ -96,17 +131,17 @@ void CSensorUSBPhidgets1056::closePort()
 		m_handlePhidgetSpatial = NULL;
 	}
 
-	if (m_handleObject) {
+	if (m_handleLibrary) {
 #ifdef __USE_DLOPEN__
-        if (dlclose(m_handleObject)) {
+        if (dlclose(m_handleLibrary)) {
            fprintf(stderr, "%s: dlclose error %s\n", getTypeStr(), dlerror());
         }
 #else // probably Windows - free library
    #ifdef _WIN32
-        ::FreeLibrary(m_handleObject);
+        ::FreeLibrary(m_handleLibrary);
    #endif
 #endif
-		m_handleObject = NULL;
+		m_handleLibrary = NULL;
     }
 	
 	m_iSerialNum = 0;
@@ -132,21 +167,31 @@ bool CSensorUSBPhidgets1056::detect()
    setPort();
 
    if (qcn_main::g_iStop) return false;
-  
+
+	char *strPath = new char[_MAX_PATH];
+	memset(strPath, 0x00, sizeof(char) * 256);
+
+#ifdef QCNLIVE
+	strncpy(strPath, m_cstrDLL, _MAX_PATH-1);
+#else
+	sprintf(strPath, "%s%c%s", sm->dataBOINC.project_dir, qcn_util::cPathSeparator(), m_cstrDLL);
+#endif
+
 #ifdef __USE_DLOPEN__
 	
-   m_handleObject = dlopen(m_cstrDLL, RTLD_LAZY | RTLD_GLOBAL); // default
-   if (!m_handleObject) {
+   m_handleLibrary = dlopen(strPath, RTLD_LAZY | RTLD_GLOBAL); // default
+   if (!m_handleLibrary) {
        fprintf(stderr, "CSensorUSBPhidgets1056: dynamic library %s dlopen error %s\n", m_cstrDLL, dlerror());
        return false;
    }
-	
-	// check for stop signal and function pointers
-	if (qcn_main::g_iStop || ! setupFunctionPointers()) return false;
-
 #else // for Windows or not using dlopen just use the direct motionnode factory
+   m_handleLibrary = ::LoadLibrary(strPath);
 //   m_node = MotionNodeAccel::Factory();
 #endif
+   delete [] strPath; // remove our temp var
+
+	// check for stop signal and function pointers
+	if (qcn_main::g_iStop || ! setupFunctionPointers()) return false;
 	
 	//Declare a spatial handle
 	m_handlePhidgetSpatial = NULL;
@@ -239,9 +284,9 @@ inline bool CSensorUSBPhidgets1056::read_xyz(float& x1, float& y1, float& z1)
 	m_PtrCPhidgetSpatial_getAcceleration(m_handlePhidgetSpatial, 0, &x);
 	m_PtrCPhidgetSpatial_getAcceleration(m_handlePhidgetSpatial, 1, &y);
 	m_PtrCPhidgetSpatial_getAcceleration(m_handlePhidgetSpatial, 2, &z);
-	x1 = x * EARTH_G;
-	y1 = y * EARTH_G;
-	z1 = z * EARTH_G;
+	x1 = (float) (x * EARTH_G);
+	y1 = (float) (y * EARTH_G);
+	z1 = (float) (z * EARTH_G);
     return true;
 }
 

@@ -14,7 +14,11 @@
  */
 
 #include <stdio.h>
+#ifdef _WIN32
+#include <phidgets/phidget21win.h>
+#else
 #include <phidgets/phidget21.h>
+#endif
 
 // for Mac & Linux we use dlopen into the MotionNodeAccel .dylib (Mac) or .so (Linux)
 #ifndef _WIN32
@@ -41,7 +45,7 @@ using namespace std;
 #endif // WIN32
 
 // detach handler is kept in main/qcn_thread_sensor_util.cpp to handle closing of the port etc
-extern int CCONV Phidgets1056DetachHandler(CPhidgetHandle spatial, void *userptr);
+extern int CCONV Phidgets1056DetachHandler(CPhidgetHandle spatial, void *userPtr);
 
 // function pointers in the Phidgets shared object/dylib/DLL
 // CMC HERE
@@ -59,9 +63,9 @@ typedef int 	(PHIDGETS_CALL_API * PtrCPhidget_getDeviceType)  (CPhidgetHandle ph
 typedef int 	(PHIDGETS_CALL_API * PtrCPhidget_getDeviceLabel) (CPhidgetHandle phid, const char **deviceLabel);
 
 // callback function handlers
-typedef int 	(PHIDGETS_CALL_API * PtrCPhidget_set_OnDetach_Handler) (CPhidgetHandle phid, int(*fptr)(CPhidgetHandle phid, void *userPtr), void *userPtr);
-typedef int 	(PHIDGETS_CALL_API * PtrCPhidget_set_OnAttach_Handler) (CPhidgetHandle phid, int(*fptr)(CPhidgetHandle phid, void *userPtr), void *userPtr);
-typedef int 	(PHIDGETS_CALL_API * PtrCPhidget_set_OnError_Handler) (CPhidgetHandle phid, int(*fptr)(CPhidgetHandle phid, void *userPtr, int errorCode, const char *errorString), void *userPtr);
+typedef int 	(PHIDGETS_CALL_API * PtrCPhidget_set_OnDetach_Handler) (CPhidgetHandle phid, int(CCONV *fptr)(CPhidgetHandle phid, void *userPtr), void *userPtr);
+typedef int 	(PHIDGETS_CALL_API * PtrCPhidget_set_OnAttach_Handler) (CPhidgetHandle phid, int(CCONV *fptr)(CPhidgetHandle phid, void *userPtr), void *userPtr);
+typedef int 	(PHIDGETS_CALL_API * PtrCPhidget_set_OnError_Handler) (CPhidgetHandle phid, int(CCONV *fptr)(CPhidgetHandle phid, void *userPtr, int errorCode, const char *errorString), void *userPtr);
 
 // CPhidgetSpacial specific functions
 typedef int		(PHIDGETS_CALL_API * PtrCPhidgetSpatial_create) (CPhidgetSpatialHandle *phid);
@@ -96,9 +100,9 @@ class CSensorUSBPhidgets1056  : public CSensor
 	
 	
 #ifdef _WIN32
-	HMODULE m_handleObject;
+	HMODULE m_handleLibrary;
 #else
-	void* m_handleObject;
+	void* m_handleLibrary;
 #endif
 	
 	

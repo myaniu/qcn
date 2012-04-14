@@ -1401,6 +1401,10 @@
 					>
 				</File>
 				<File
+					RelativePath="..\sensor\csensor_usb_phidgets_1056.cpp"
+					>
+				</File>
+				<File
 					RelativePath="..\sensor\csensor_win_laptop_hp.cpp"
 					>
 				</File>

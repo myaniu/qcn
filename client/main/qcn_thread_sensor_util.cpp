@@ -270,10 +270,13 @@ bool getSensor(CSensor* volatile *ppsms)
 				   *ppsms = (CSensor*) new CSensorWinUSBONavi01();
 				   break;
 			   case 3:
+				   *ppsms = (CSensor*) new CSensorUSBPhidgets1056();
+				   break;				   				   
+			   case 4:
 				   *ppsms = (CSensor*) new CSensorWinThinkpad();
 				   break;
 			   // no motionnode support for win64
-			   case 4:
+			   case 5:
 				   *ppsms = (CSensor*) new CSensorWinHP();
 				   break;
 #else
@@ -677,12 +680,13 @@ void SetSensorThresholdAndDiffFactor()
 	}
 }
 		
-int CCONV Phidgets1056DetachHandler(CPhidgetHandle spatial, void *userptr)
+int CCONV Phidgets1056DetachHandler(CPhidgetHandle spatial, void *userPtr)
 {
 	// verify g_psms is not null and is a phidgets 1056
 	if (qcn_main::g_psms && qcn_main::g_psms->getTypeEnum() == SENSOR_USB_PHIDGETS_1056) {
 		qcn_main::g_bDetach = true; // simple trick to reset sensors, it will close the current port via the destructor & search for a new sensor
 	}
+    return 0;
 }
 
 		

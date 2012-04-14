@@ -77,7 +77,7 @@ extern void uploadSACMem(const long lCurTime, const char* strTypeSensor);
 
 
 // callback function for Phidgets 1056 USB sensor detached
-extern int CCONV Phidgets1056DetachHandler(CPhidgetHandle spatial, void *userptr);
+extern int CCONV Phidgets1056DetachHandler(CPhidgetHandle spatial, void *userPtr);
 
 
 #ifdef _DEBUG
