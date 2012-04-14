@@ -7,6 +7,7 @@
          init/xyzaxesbl.jpg \
          init/qcnlogo.png \
          init/logo.jpg \
+       init/phidget21.dylib \
        init/libMotionNodeAccelAPI.dylib \
          -x@exclude.lst
 

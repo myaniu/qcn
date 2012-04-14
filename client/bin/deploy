@@ -53,10 +53,12 @@ echo put init/xyzaxesbl.jpg >> qcnsftp.up
 if ( test "`uname -s`" = "Darwin" ) then
    echo put init/earthday4096.jpg >> qcnsftp.up
    echo put init/earthnight4096.jpg >> qcnsftp.up
+   echo put init/phidget21.dylib >> qcnsftp.up
    echo put init/libMotionNodeAccelAPI.dylib >> qcnsftp.up
 else
    echo put init/earthday2048.jpg >> qcnsftp.up
    echo put init/earthnight2048.jpg >> qcnsftp.up
+   echo put init/phidget21.so >> qcnsftp.up
    echo put init/libMotionNodeAccelAPI.so >> qcnsftp.up
 fi
 }
