@@ -14,7 +14,7 @@
   make clean && make
   cp .libs/libjpeg.a ../client/linux_build/
 
-  cd ../curl-7.21.7
+  cd ../curl-7.25.0
   ./configure --disable-crypto-auth --without-ssl --disable-ldap --disable-ldaps --disable-telnet --enable-static --disable-shared
   make clean && make
   cp lib/.libs/libcurl.a ../client/linux_build/
