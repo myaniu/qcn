@@ -154,7 +154,7 @@
 
 /* The size of `long', as computed by sizeof. */
 //#define CURL_SIZEOF_LONG 8
-#ifdef __arch64__ 
+#if __x86_64__ || __ppc64__
   #define CURL_SIZEOF_LONG 8 
 #else 
   #define CURL_SIZEOF_LONG 4 
