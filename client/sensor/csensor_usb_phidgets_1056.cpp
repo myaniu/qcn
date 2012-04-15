@@ -180,6 +180,10 @@ fprintf(stdout, "In Phidget detect...\n");
 	sprintf(strPath, "%s%c%s", sm->dataBOINC.project_dir, qcn_util::cPathSeparator(), m_cstrDLL);
 #endif
 
+char strPWD[256];
+getcwd(strPWD, 256);
+fprintf(stdout, "working directory is %s   SO=%s\n", strPWD, strPath);
+
 #ifdef __USE_DLOPEN__
    m_handleLibrary = dlopen(strPath, RTLD_LAZY | RTLD_GLOBAL); // default
    if (!m_handleLibrary) {
