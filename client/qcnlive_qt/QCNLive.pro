@@ -46,6 +46,7 @@ LIBS += -framework IOKit -framework Carbon \
 ICON = qcnmac.icns
 RC_FILE = qcnmac.icns
 QMAKE_INFO_PLIST = Info.plist.mac
+DEFINES += _USE_NTPDATE_EXEC_ __USE_DLOPEN__ FTGL_LIBRARY_STATIC QCNLIVE GRAPHICS_PROGRAM APP_GRAPHICS _ZLIB QCN _THREAD_SAFE CURL_STATICLIB _ZLIB $$WINDEF
 }
 unix {
  isEmpty(IS_MAC) {
@@ -54,6 +55,7 @@ unix {
    -lcurl -lusb -lftgl -lfreetype \
     -lboinc_graphics2 -lboinc_zip -lboinc_api -lboinc \
     -ljpeg
+DEFINES += _USE_NTPDATE_EXEC_ __USE_DLOPEN__ FTGL_LIBRARY_STATIC QCNLIVE GRAPHICS_PROGRAM APP_GRAPHICS _ZLIB QCN _THREAD_SAFE CURL_STATICLIB _ZLIB $$WINDEF
  }
 }
 win32 {
@@ -64,9 +66,9 @@ qtmain.lib wsock32.lib hid.lib setupapi.lib winmm.lib \
 comctl32.lib boinc_zip.lib curllib.lib jpeglib.lib zlib.lib \
 MotionNodeAccelAPI.lib QtOpenGL4.lib QtGui4.lib QtCore4.lib \
 ftgl.lib freetype.lib boinc_lib.lib boinc_api.lib
+DEFINES += _USE_NTPDATE_EXEC_ FTGL_LIBRARY_STATIC QCNLIVE GRAPHICS_PROGRAM APP_GRAPHICS _ZLIB QCN _THREAD_SAFE CURL_STATICLIB _ZLIB $$WINDEF
 }
 
-DEFINES += _USE_NTPDATE_EXEC_ FTGL_LIBRARY_STATIC QCNLIVE GRAPHICS_PROGRAM APP_GRAPHICS _ZLIB QCN _THREAD_SAFE CURL_STATICLIB _ZLIB $$WINDEF
 
 # setup proper order of include paths
 INCLUDEPATH += \
