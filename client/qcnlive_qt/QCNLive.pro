@@ -51,7 +51,7 @@ unix {
  isEmpty(IS_MAC) {
  LIBS += -Wl,-rpath,./init/ --stack=16777216 \
   -L$$BASEDIRQCN/client/linux_build \
-   -lcurl -lusb -lphidget21 -lftgl -lfreetype \
+   -lcurl -lusb -lftgl -lfreetype \
     -lboinc_graphics2 -lboinc_zip -lboinc_api -lboinc \
     -ljpeg
  }
