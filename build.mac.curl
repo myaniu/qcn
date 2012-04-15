@@ -1,0 +1,71 @@
+#notes - upgrade libtool, autoconf, automake, and ln /usr/bin to /usr/bin/include refs as needed
+# also need to ln -s /usr/local/bin/libtoolize /usr/bin/glibtoolize
+#NB -- unlike other build.mac scripts, don't get rid of lib/ subdir as that is an important curl dir!
+#!/bin/bash
+
+#export LIBTOOL='/usr/local/bin/libtool --tag=CC'
+#export LIBTOOLIZE=/usr/local/bin/libtoolize
+#./MacOSX-Framework
+#sudo rm -rf /Library/Frameworks/libcurl.framework
+#sudo mv libcurl.framework /Library/Frameworks
+#exit
+
+chmod uog+rx configure
+export LIBTOOL='/usr/local/bin/libtool --tag=CC'
+export LIBTOOLIZE=/usr/local/bin/libtoolize
+
+#PowerPC Mac OS X 10.4 (Tiger)
+export MARCH=ppc
+export CXX=/Developer/usr/bin/g++-4.0
+export CC=/Developer/usr/bin/gcc-4.0
+export MACOSX_DEPLOYMENT_TARGET=10.4
+export SDKROOT="/Developer/SDKs/MacOSX10.4u.sdk"
+export LDFLAGS="-L$SDKROOT/usr/lib/ -isysroot $SDKROOT -Wl,-syslibroot,$SDKROOT -arch $MARCH"
+export CPPFLAGS="-O2 -I$SDKROOT/usr/include -I$SDKROOT/usr/local/include -isysroot $SDKROOT -arch $MARCH"
+export CFLAGS="-DHAVE_POSIX_STRERROR_R=1 -O2 -I$SDKROOT/usr/include -I$SDKROOT/usr/local/include -isysroot $SDKROOT -arch $MARCH"
+export CXXFLAGS="-O2 -I$SDKROOT/usr/include -I$SDKROOT/usr/local/include -isysroot $SDKROOT -arch $MARCH"
+./configure --host=$MARCH --disable-crypto-auth --without-ssl --disable-ldap --disable-ldaps --disable-telnet --enable-static --disable-shared
+make clean
+make
+mv lib/.libs/libcurl.a lib/libcurl_ppc.a
+
+#Intel 32-bit Mac
+export MARCH=i386
+export CXX=/Developer/usr/bin/g++-4.2
+export CC=/Developer/usr/bin/gcc-4.2
+export MACOSX_DEPLOYMENT_TARGET=10.5
+export SDKROOT="/Developer/SDKs/MacOSX10.5.sdk"
+export LDFLAGS="-L$SDKROOT/usr/lib/ -isysroot $SDKROOT -Wl,-syslibroot,$SDKROOT -arch $MARCH"
+export CPPFLAGS="-O2 -I$SDKROOT/usr/include -I$SDKROOT/usr/local/include -isysroot $SDKROOT -arch $MARCH"
+export CFLAGS="-DHAVE_POSIX_STRERROR_R=1 -O2 -I$SDKROOT/usr/include -I$SDKROOT/usr/local/include -isysroot $SDKROOT -arch $MARCH"
+export CXXFLAGS="-O2 -I$SDKROOT/usr/include -I$SDKROOT/usr/local/include -isysroot $SDKROOT -arch $MARCH"
+./configure --host=$MARCH --disable-crypto-auth --without-ssl --disable-ldap --disable-ldaps --disable-telnet --enable-static --disable-shared
+make clean
+make
+mv lib/.libs/libcurl.a lib/libcurl_i386.a
+# need to preserve the 32-bit build header file
+mv include/curl/curlbuild.h include/curl/curlbuild.i386.h
+
+#Intel 64-bit Mac
+export MARCH=x86_64
+export CXX=/Developer/usr/bin/g++-4.2
+export CC=/Developer/usr/bin/gcc-4.2
+export MACOSX_DEPLOYMENT_TARGET=10.6
+export SDKROOT="/Developer/SDKs/MacOSX10.6.sdk"
+export LDFLAGS="-L$SDKROOT/usr/lib/ -isysroot $SDKROOT -Wl,-syslibroot,$SDKROOT -arch $MARCH"
+export CPPFLAGS="-O2 -I$SDKROOT/usr/include -I$SDKROOT/usr/local/include -isysroot $SDKROOT -arch $MARCH"
+export CFLAGS="-DHAVE_POSIX_STRERROR_R=1 -O2 -I$SDKROOT/usr/include -I$SDKROOT/usr/local/include -isysroot $SDKROOT -arch $MARCH"
+export CXXFLAGS="-O2 -I$SDKROOT/usr/include -I$SDKROOT/usr/local/include -isysroot $SDKROOT -arch $MARCH"
+./configure --host=$MARCH --disable-crypto-auth --without-ssl --disable-ldap --disable-ldaps --disable-telnet --enable-static --disable-shared
+make clean
+make
+mv lib/.libs/libcurl.a lib/libcurl_x86_64.a
+lipo -arch ppc lib/libcurl_ppc.a -arch i386 lib/libcurl_i386.a -arch x86_64 lib/libcurl_x86_64.a -create -output libcurl-universal.a
+
+# note curl has bugs with keeping build info for universal builds so have to copy custom header over
+mv libcurl-universal.a ../client/mac_build/
+make clean
+rm lib/*.a
+mv include/curl/curlbuild.h include/curl/curlbuild.x86_64.h
+cp ../curlbuild.mac.h include/curl/curlbuild.h
+
