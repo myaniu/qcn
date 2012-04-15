@@ -176,6 +176,7 @@ else
    zip -r qcnlive-linux.zip QCNLive \
          init/earthnight2048.jpg init/earthday2048.jpg \
          init/$ntpdv $zipuplstring \
+         init/phidget21.so \
          init/libMotionNodeAccelAPI.so \
           $qtlibs \
             -x@exclude.lst
