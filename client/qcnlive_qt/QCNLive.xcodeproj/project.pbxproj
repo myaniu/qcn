@@ -563,8 +563,8 @@
 		43F1406A1422645D001C0846 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1)";
-				ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1 = "ppc i386";
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = "x86_64 i386 ppc";
 				BUILD_ROOT = /Users/carlgt1/projects/qcn/client/qcnlive_qt;
 				CC = "/usr/bin/llvm-gcc-4.2";
 				COPY_PHASE_STRIP = NO;
@@ -672,8 +672,8 @@
 		43F1406B1422645D001C0846 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1)";
-				ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1 = "ppc i386";
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = "x86_64 i386 ppc";
 				BUILD_ROOT = /Users/carlgt1/projects/qcn/client/qcnlive_qt;
 				CC = "/usr/bin/llvm-gcc-4.2";
 				COPY_PHASE_STRIP = YES;
