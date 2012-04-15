@@ -17,7 +17,7 @@ GRAPHICSDIR = $$BASEDIRQCN/client/graphics
 BINDIR = $$BASEDIRQCN/client/bin
 BAPIDIR = $$BASEDIRBOINC/api
 BLIBDIR = $$BASEDIRBOINC/lib
-CURLDIR = $$BASEDIRQCN/curl-7.21.7/include
+CURLDIR = $$BASEDIRQCN/curl-7.25.0/include
 BZDIR = $$BASEDIRQCN/bzip2-1.0.6
 
 CFLAGS = -Wall -Wno-deprecated
