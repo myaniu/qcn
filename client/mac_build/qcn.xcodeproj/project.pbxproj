@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		430D875C153B789B00620379 /* csensor_usb_phidgets_1056.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 430D875B153B789B00620379 /* csensor_usb_phidgets_1056.cpp */; };
 		43304A7510FF76BB00A823FE /* qcn_thread_sensor_util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43304A7310FF76BB00A823FE /* qcn_thread_sensor_util.cpp */; };
 		43304A7610FF76BB00A823FE /* qcn_thread_sensor_util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43304A7310FF76BB00A823FE /* qcn_thread_sensor_util.cpp */; };
 		43304A9910FF7D9000A823FE /* qcn_thread_sensor_loop.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43304A9710FF7D9000A823FE /* qcn_thread_sensor_loop.cpp */; };
@@ -93,6 +94,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		430D875B153B789B00620379 /* csensor_usb_phidgets_1056.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = csensor_usb_phidgets_1056.cpp; path = ../sensor/csensor_usb_phidgets_1056.cpp; sourceTree = SOURCE_ROOT; };
 		43304A7310FF76BB00A823FE /* qcn_thread_sensor_util.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = qcn_thread_sensor_util.cpp; path = ../main/qcn_thread_sensor_util.cpp; sourceTree = SOURCE_ROOT; };
 		43304A7810FF76D300A823FE /* qcn_thread_sensor_util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = qcn_thread_sensor_util.h; path = ../main/qcn_thread_sensor_util.h; sourceTree = SOURCE_ROOT; };
 		43304A9710FF7D9000A823FE /* qcn_thread_sensor_loop.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = qcn_thread_sensor_loop.cpp; path = ../main/qcn_thread_sensor_loop.cpp; sourceTree = SOURCE_ROOT; };
@@ -506,6 +508,7 @@
 		E3D35C120FF179B200E64121 /* sensor */ = {
 			isa = PBXGroup;
 			children = (
+				430D875B153B789B00620379 /* csensor_usb_phidgets_1056.cpp */,
 				43C1FDA5141725D900F8F3E7 /* csensor_mac_usb_generic.cpp */,
 				43E2768F1146C38F00D80E16 /* csensor_mac_usb_jw24f14.cpp */,
 				E371C7F70E2AB5D0009B4DAA /* csensor_mac_usb_jw.cpp */,
@@ -653,6 +656,7 @@
 				43304A9910FF7D9000A823FE /* qcn_thread_sensor_loop.cpp in Sources */,
 				43E276911146C38F00D80E16 /* csensor_mac_usb_jw24f14.cpp in Sources */,
 				43C1FDA6141725D900F8F3E7 /* csensor_mac_usb_generic.cpp in Sources */,
+				430D875C153B789B00620379 /* csensor_usb_phidgets_1056.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -748,8 +752,8 @@
 				PRODUCT_NAME = qcnusb;
 				SDKROOT = macosx10.5;
 				"SDKROOT[arch=i386]" = macosx10.5;
-				"SDKROOT[arch=ppc]" = macosx10.4;
-				"SDKROOT[arch=x86_64]" = macosx10.6;
+				"SDKROOT[arch=ppc]" = macosx10.5;
+				"SDKROOT[arch=x86_64]" = macosx10.5;
 				SYMROOT = ../bin;
 			};
 			name = Debug;
@@ -822,7 +826,7 @@
 				SDKROOT = macosx10.5;
 				"SDKROOT[arch=i386]" = macosx10.5;
 				"SDKROOT[arch=ppc]" = macosx10.4;
-				"SDKROOT[arch=x86_64]" = macosx10.6;
+				"SDKROOT[arch=x86_64]" = macosx10.5;
 				SYMROOT = ../bin;
 				ZERO_LINK = NO;
 			};
@@ -920,7 +924,7 @@
 				SDKROOT = macosx10.5;
 				"SDKROOT[arch=i386]" = macosx10.5;
 				"SDKROOT[arch=ppc]" = macosx10.4;
-				"SDKROOT[arch=x86_64]" = macosx10.6;
+				"SDKROOT[arch=x86_64]" = macosx10.5;
 				SYMROOT = ../bin;
 				WRAPPER_EXTENSION = app;
 			};
@@ -997,7 +1001,7 @@
 				SDKROOT = macosx10.5;
 				"SDKROOT[arch=i386]" = macosx10.5;
 				"SDKROOT[arch=ppc]" = macosx10.4;
-				"SDKROOT[arch=x86_64]" = macosx10.6;
+				"SDKROOT[arch=x86_64]" = macosx10.5;
 				SYMROOT = ../bin;
 				WRAPPER_EXTENSION = app;
 			};
@@ -1075,7 +1079,7 @@
 				SDKROOT = macosx10.5;
 				"SDKROOT[arch=i386]" = macosx10.5;
 				"SDKROOT[arch=ppc]" = macosx10.4;
-				"SDKROOT[arch=x86_64]" = macosx10.6;
+				"SDKROOT[arch=x86_64]" = macosx10.5;
 				SYMROOT = ../bin;
 			};
 			name = Debug;
@@ -1152,7 +1156,7 @@
 				SDKROOT = macosx10.5;
 				"SDKROOT[arch=i386]" = macosx10.5;
 				"SDKROOT[arch=ppc]" = macosx10.4;
-				"SDKROOT[arch=x86_64]" = macosx10.6;
+				"SDKROOT[arch=x86_64]" = macosx10.5;
 				SYMROOT = ../bin;
 				ZERO_LINK = NO;
 			};

@@ -935,11 +935,11 @@ int CSensorMacUSBJW::JWReadByteFromAddress (IOHIDDeviceInterface122 **hidInterfa
 	UInt8	writeBuffer[8];
 	int     ioReturnValue;
     
-//#if __MAC_OS_X_VERSION_MAX_ALLOWED >= 1050
-//	UInt32 readDataSize;
-//#else
+#if __MAC_OS_X_VERSION_MAX_ALLOWED >= 1050
+	uint32_t readDataSize;
+#else
 	UInt32 readDataSize; // may be a problem with Mac's 10.4 to 10.5+
-//#endif
+#endif
 	
 	*result = 0;
 	
@@ -968,7 +968,7 @@ int CSensorMacUSBJW::JWReadByteFromAddress (IOHIDDeviceInterface122 **hidInterfa
 	// read something from interface
 	readDataSize = 8;
 	ioReturnValue = (*hidInterface)->getReport (hidInterface, kIOHIDReportTypeInput,
-												0, readBuffer, (uint32_t*) &readDataSize, 100, NULL, NULL, NULL);
+												0, readBuffer, &readDataSize, 100, NULL, NULL, NULL);
     if (ioReturnValue != kIOReturnSuccess)
     {
         CFShow (CFSTR ("Could not call getReport on hid device interface"));
