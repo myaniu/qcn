@@ -53,9 +53,7 @@ unix {
   -L$$BASEDIRQCN/client/linux_build \
    -lcurl -lftgl -lfreetype \
     -lboinc_graphics2 -lboinc_zip -lboinc_api -lboinc \
-    -ljpeg \
-       $$BASEDIRQCN/client/linux_build/libusb.a \
-       $$BASEDIRQCN/client/linux_build/libusb-1.0.a
+    -ljpeg 
  }
 }
 win32 {
