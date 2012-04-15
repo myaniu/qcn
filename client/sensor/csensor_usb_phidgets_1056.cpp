@@ -180,6 +180,7 @@ bool CSensorUSBPhidgets1056::detect()
    m_handleLibrary = dlopen(strPath, RTLD_LAZY | RTLD_GLOBAL); // default
    if (!m_handleLibrary) {
        fprintf(stderr, "CSensorUSBPhidgets1056: dynamic library %s dlopen error %s\n", m_cstrDLL, dlerror());
+       delete [] strPath; // remove our temp var
        return false;
    }
 #else // for Windows or not using dlopen just use the direct motionnode factory
@@ -217,9 +218,9 @@ bool CSensorUSBPhidgets1056::detect()
 	double dTime = dtime();
 
 	if((ret = m_PtrCPhidget_waitForAttachment((CPhidgetHandle)m_handlePhidgetSpatial, 1000))) {
-	        const char *err;
-		m_PtrCPhidget_getErrorDescription(ret, &err);
-		fprintf(stderr, "Phidgets error waitForAttachment %d = %s\n", ret, err);
+	        //const char *err;
+		//m_PtrCPhidget_getErrorDescription(ret, &err);
+		//fprintf(stderr, "Phidgets error waitForAttachment %d = %s\n", ret, err);
 		closePort();
 		return false;
 	}
@@ -251,8 +252,7 @@ bool CSensorUSBPhidgets1056::detect()
 	sprintf(strSensor, "Phidgets 1056 v.%d (Serial # %d) USB", m_iVersion, m_iSerialNum);
 	setSensorStr(strSensor);
 	delete [] strSensor;
-	
-	fprintf(stdout, "Phidgets detected in %f milliseconds\n", (dtime() - dTime) * 1000.0);
+	fprintf(stdout, "%s detected in %f milliseconds\n", getTypeStr(), (dtime() - dTime) * 1000.0);
 
    // OK, at this point we should be connected, so from here on out can just read_xyz until closePort()
    // set as a single sample per point
