@@ -269,7 +269,7 @@ inline bool CSensor::mean_xyz()
 		if (fileDebug) { 
 			fprintf(fileDebug, "Falling back time:  Cur=%f  Req=%f  Err=%ld\n", dLast[3], sm->t0check, lError);
 			fprintf(fileDebug, "sensorout,%f,%f,%f,%d,%ld,%f, %f, %f, %f\n",
-					sm->t0check, sm->t0active, dTimeDiff, sm->iNumReset, sm->lSampleSize, sm->dt, dLast[0], dLast[1], dLast[2]);
+					sm->t0check, sm->t0active, dTimeDiff, sm->iNumReset, sm->lSampleSize, sm->dt, dLast[0], dLast[1], dLast[2]g);
 		}
 #endif		
           // reset if this correction exceeds our time limit or this has been done too much in one session
@@ -287,8 +287,9 @@ inline bool CSensor::mean_xyz()
 	
    // this will get executed at least once, then the time is checked to see if we have enough time left for more samples
    do {
+#ifndef QCN_USB
 	   if (qcn_main::g_iStop || !sm) throw EXCEPTION_SHUTDOWN;   // see if we're shutting down, if so throw an exception which gets caught in the sensor_thread
-
+#endif
        if ( (!m_bSingleSampleDT && sm->lSampleSize < SAMPLE_SIZE)
 		 || (m_bSingleSampleDT && sm->lSampleSize == 0) )  { // only go in if less than our sample # and we're not a single-sample sensor, or a single-sample sensor & haven't been in yet
            x1 = y1 = z1 = 0.0f; 
