@@ -68,6 +68,7 @@
   #define CURL_FORMAT_CURL_OFF_T "ld"
   #define CURL_FORMAT_CURL_OFF_TU "lu"
   #define CURL_FORMAT_OFF_T "%ld"
+  #define CURL_SIZEOF_CURL_OFF_T 4
   #define CURL_SUFFIX_CURL_OFF_T L
   #define CURL_SUFFIX_CURL_OFF_TU UL
 #else
@@ -78,6 +79,7 @@
   #define CURL_FORMAT_CURL_OFF_T "lld"
   #define CURL_FORMAT_CURL_OFF_TU "llu"
   #define CURL_FORMAT_OFF_T "%lld"
+  #define CURL_SIZEOF_CURL_OFF_T 4
   #define CURL_SUFFIX_CURL_OFF_T LL
   #define CURL_SUFFIX_CURL_OFF_TU ULL
 #endif
@@ -136,8 +138,5 @@
 
 /* Data type definition of curl_socklen_t. */
 typedef CURL_TYPEOF_CURL_SOCKLEN_T curl_socklen_t;
-
-/* The size of `curl_off_t', as computed by sizeof. */
-#define CURL_SIZEOF_CURL_OFF_T 8
 
 #endif /* __CURL_CURLBUILD_H */
