@@ -1,4 +1,3 @@
-/* include/curl/curlbuild.h.  Generated from curlbuild.h.in by configure.  */
 #ifndef __CURL_CURLBUILD_H
 #define __CURL_CURLBUILD_H
 /***************************************************************************
@@ -153,7 +152,12 @@
 #endif
 
 /* The size of `long', as computed by sizeof. */
+// #define CURL_SIZEOF_LONG 8
+#ifdef __LP64__
 #define CURL_SIZEOF_LONG 8
+#else
+#define CURL_SIZEOF_LONG 4
+#endif
 
 /* Integral data type used for curl_socklen_t. */
 #define CURL_TYPEOF_CURL_SOCKLEN_T socklen_t
