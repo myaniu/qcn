@@ -58,7 +58,7 @@ NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = x86_64-apple-darwin11.3.0
-host_triplet = x86_64-pc-none
+host_triplet = i386-pc-none
 DIST_COMMON = README $(am__configure_deps) $(srcdir)/Makefile.am \
 	$(srcdir)/Makefile.in $(srcdir)/curl-config.in \
 	$(srcdir)/libcurl.pc.in $(top_srcdir)/configure COPYING \
@@ -135,10 +135,10 @@ BUILD_UNITTESTS_FALSE =
 BUILD_UNITTESTS_TRUE = #
 CC = /Developer/usr/bin/gcc-4.2
 CCDEPMODE = depmode=gcc3
-CFLAGS = -DHAVE_POSIX_STRERROR_R=1 -O2 -isystem /Developer/SDKs/MacOSX10.6.sdk/usr/include -isystem /Developer/SDKs/MacOSX10.6.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.6.sdk -arch x86_64 -g0 -Wno-system-headers
-CONFIGURE_OPTIONS = " '--host=x86_64' '--disable-crypto-auth' '--without-ssl' '--disable-ldap' '--disable-ldaps' '--disable-telnet' '--enable-static' '--disable-shared' 'host_alias=x86_64' 'CC=/Developer/usr/bin/gcc-4.2' 'CFLAGS=-DHAVE_POSIX_STRERROR_R=1 -O2 -I/Developer/SDKs/MacOSX10.6.sdk/usr/include -I/Developer/SDKs/MacOSX10.6.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.6.sdk -arch x86_64' 'LDFLAGS=-L/Developer/SDKs/MacOSX10.6.sdk/usr/lib/ -isysroot /Developer/SDKs/MacOSX10.6.sdk -Wl,-syslibroot,/Developer/SDKs/MacOSX10.6.sdk -arch x86_64' 'CPPFLAGS=-O2 -I/Developer/SDKs/MacOSX10.6.sdk/usr/include -I/Developer/SDKs/MacOSX10.6.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.6.sdk -arch x86_64'"
+CFLAGS = -DHAVE_POSIX_STRERROR_R=1 -O2 -isystem /Developer/SDKs/MacOSX10.5.sdk/usr/include -isystem /Developer/SDKs/MacOSX10.5.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch i386 -g0 -Wno-system-headers
+CONFIGURE_OPTIONS = " '--host=i386' '--disable-crypto-auth' '--without-ssl' '--disable-ldap' '--disable-ldaps' '--disable-telnet' '--enable-static' '--disable-shared' 'host_alias=i386' 'CC=/Developer/usr/bin/gcc-4.2' 'CFLAGS=-DHAVE_POSIX_STRERROR_R=1 -O2 -I/Developer/SDKs/MacOSX10.5.sdk/usr/include -I/Developer/SDKs/MacOSX10.5.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch i386' 'LDFLAGS=-L/Developer/SDKs/MacOSX10.5.sdk/usr/lib/ -isysroot /Developer/SDKs/MacOSX10.5.sdk -Wl,-syslibroot,/Developer/SDKs/MacOSX10.5.sdk -arch i386' 'CPPFLAGS=-O2 -I/Developer/SDKs/MacOSX10.5.sdk/usr/include -I/Developer/SDKs/MacOSX10.5.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch i386'"
 CPP = /Developer/usr/bin/gcc-4.2 -E
-CPPFLAGS = -O2 -isystem /Developer/SDKs/MacOSX10.6.sdk/usr/include -isystem /Developer/SDKs/MacOSX10.6.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.6.sdk -arch x86_64
+CPPFLAGS = -O2 -isystem /Developer/SDKs/MacOSX10.5.sdk/usr/include -isystem /Developer/SDKs/MacOSX10.5.sdk/usr/local/include -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch i386
 CROSSCOMPILING_FALSE = 
 CROSSCOMPILING_TRUE = #
 CURLDEBUG_FALSE = 
@@ -191,7 +191,7 @@ INSTALL_STRIP_PROGRAM = ${SHELL} $(install_sh) -c -s
 IPV6_ENABLED = 1
 KRB4_ENABLED = 
 LD = /Developer/usr/libexec/gcc/i686-apple-darwin10/4.2.1/ld
-LDFLAGS = -L/Developer/SDKs/MacOSX10.6.sdk/usr/lib/ -isysroot /Developer/SDKs/MacOSX10.6.sdk -Wl,-syslibroot,/Developer/SDKs/MacOSX10.6.sdk -arch x86_64
+LDFLAGS = -L/Developer/SDKs/MacOSX10.5.sdk/usr/lib/ -isysroot /Developer/SDKs/MacOSX10.5.sdk -Wl,-syslibroot,/Developer/SDKs/MacOSX10.5.sdk -arch i386
 LIBCURL_LIBS = -lz
 LIBOBJS = 
 LIBS = 
@@ -287,9 +287,9 @@ datarootdir = ${prefix}/share
 docdir = ${datarootdir}/doc/${PACKAGE_TARNAME}
 dvidir = ${docdir}
 exec_prefix = ${prefix}
-host = x86_64-pc-none
-host_alias = x86_64
-host_cpu = x86_64
+host = i386-pc-none
+host_alias = i386
+host_cpu = i386
 host_os = none
 host_vendor = pc
 htmldir = ${docdir}

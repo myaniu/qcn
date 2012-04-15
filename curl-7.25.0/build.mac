@@ -45,20 +45,22 @@ make
 mv lib/.libs/libcurl.a lib/libcurl_i386.a
 
 #Intel 64-bit Mac
-export MARCH=x86_64
-export CXX=/Developer/usr/bin/g++-4.2
-export CC=/Developer/usr/bin/gcc-4.2
-export MACOSX_DEPLOYMENT_TARGET=10.6
-export SDKROOT="/Developer/SDKs/MacOSX10.6.sdk"
-export LDFLAGS="-L$SDKROOT/usr/lib/ -isysroot $SDKROOT -Wl,-syslibroot,$SDKROOT -arch $MARCH"
-export CPPFLAGS="-O2 -I$SDKROOT/usr/include -I$SDKROOT/usr/local/include -isysroot $SDKROOT -arch $MARCH"
-export CFLAGS="-DHAVE_POSIX_STRERROR_R=1 -O2 -I$SDKROOT/usr/include -I$SDKROOT/usr/local/include -isysroot $SDKROOT -arch $MARCH"
-export CXXFLAGS="-O2 -I$SDKROOT/usr/include -I$SDKROOT/usr/local/include -isysroot $SDKROOT -arch $MARCH"
-./configure --host=$MARCH --disable-crypto-auth --without-ssl --disable-ldap --disable-ldaps --disable-telnet --enable-static --disable-shared
-make clean
-make
-mv lib/.libs/libcurl.a lib/libcurl_x86_64.a
-lipo -arch ppc lib/libcurl_ppc.a -arch i386 lib/libcurl_i386.a -arch x86_64 lib/libcurl_x86_64.a -create -output libcurl-universal.a
+#export MARCH=x86_64
+#export CXX=/Developer/usr/bin/g++-4.2
+#export CC=/Developer/usr/bin/gcc-4.2
+#export MACOSX_DEPLOYMENT_TARGET=10.6
+#export SDKROOT="/Developer/SDKs/MacOSX10.6.sdk"
+#export LDFLAGS="-L$SDKROOT/usr/lib/ -isysroot $SDKROOT -Wl,-syslibroot,$SDKROOT -arch $MARCH"
+#export CPPFLAGS="-O2 -I$SDKROOT/usr/include -I$SDKROOT/usr/local/include -isysroot $SDKROOT -arch $MARCH"
+#export CFLAGS="-DHAVE_POSIX_STRERROR_R=1 -O2 -I$SDKROOT/usr/include -I$SDKROOT/usr/local/include -isysroot $SDKROOT -arch $MARCH"
+#export CXXFLAGS="-O2 -I$SDKROOT/usr/include -I$SDKROOT/usr/local/include -isysroot $SDKROOT -arch $MARCH"
+#./configure --host=$MARCH --disable-crypto-auth --without-ssl --disable-ldap --disable-ldaps --disable-telnet --enable-static --disable-shared
+#make clean
+#make
+#mv lib/.libs/libcurl.a lib/libcurl_x86_64.a
+#lipo -arch ppc lib/libcurl_ppc.a -arch i386 lib/libcurl_i386.a -arch x86_64 lib/libcurl_x86_64.a -create -output libcurl-universal.a
+
+lipo -arch ppc lib/libcurl_ppc.a -arch i386 lib/libcurl_i386.a -create -output libcurl-universal.a
 mv libcurl-universal.a ../client/mac_build/
 make clean
 rm lib/*.a
