@@ -24,7 +24,7 @@ const char CSensorUSBPhidgets1056::m_cstrDLL[] = {"phidget21.dll"};
 #ifdef __APPLE_CC__
 const char CSensorUSBPhidgets1056::m_cstrDLL[] = {"phidget21.dylib"};   
 #else
-const char CSensorUSBPhidgets1056::m_cstrDLL[] = {"phidget21.so"};   
+const char CSensorUSBPhidgets1056::m_cstrDLL[] = {"./phidget21.so"};   
 #endif // apple or linux
 #endif // windows˚˚
 
@@ -160,12 +160,8 @@ void CSensorUSBPhidgets1056::closePort()
 bool CSensorUSBPhidgets1056::detect()
 {
 	int ret;
-	//const char *err;
 	float x,y,z; //test read_xyz
 
-// CMC HERE
-fprintf(stdout, "In Phidget detect...\n");
-	
    setType();
    setPort();
 
@@ -180,19 +176,12 @@ fprintf(stdout, "In Phidget detect...\n");
 	sprintf(strPath, "%s%c%s", sm->dataBOINC.project_dir, qcn_util::cPathSeparator(), m_cstrDLL);
 #endif
 
-char strPWD[256];
-getcwd(strPWD, 256);
-fprintf(stdout, "working directory is %s   SO=%s\n", strPWD, strPath);
-
 #ifdef __USE_DLOPEN__
    m_handleLibrary = dlopen(strPath, RTLD_LAZY | RTLD_GLOBAL); // default
    if (!m_handleLibrary) {
        fprintf(stderr, "CSensorUSBPhidgets1056: dynamic library %s dlopen error %s\n", m_cstrDLL, dlerror());
        return false;
    }
-// CMC HERE
-fprintf(stdout, "In Phidget dlopen...\n");
-	
 #else // for Windows or not using dlopen just use the direct motionnode factory
    m_handleLibrary = ::LoadLibrary(strPath);
 #endif
@@ -219,9 +208,6 @@ fprintf(stdout, "In Phidget dlopen...\n");
 	//CPhidgetSpatial_set_OnSpatialData_Handler(m_handlePhidgetSpatial, SpatialDataHandler, NULL);
 	
 	//open the spatial object for device connections
-// CMC HERE
-fprintf(stdout, "In Phidget open...\n");
-	
 	if ((ret = m_PtrCPhidget_open((CPhidgetHandle) m_handlePhidgetSpatial, -1))) {
 		closePort();
 		return false;
@@ -230,12 +216,10 @@ fprintf(stdout, "In Phidget open...\n");
 	// try a second to open
 	double dTime = dtime();
 
-// CMC HERE
-fprintf(stdout, "In Phidget wait...\n");
-	
 	if((ret = m_PtrCPhidget_waitForAttachment((CPhidgetHandle)m_handlePhidgetSpatial, 1000))) {
-		//m_PtrCPhidget_getErrorDescription(ret, &err);
-		//fprintf(stderr, "Phidgets error waitForAttachment %d = %s\n", ret, err);
+	        const char *err;
+		m_PtrCPhidget_getErrorDescription(ret, &err);
+		fprintf(stderr, "Phidgets error waitForAttachment %d = %s\n", ret, err);
 		closePort();
 		return false;
 	}

@@ -20,7 +20,7 @@
 #ifdef __APPLE_CC__
    const char CSensorUSBMotionNodeAccel::m_cstrDLL[] = {"libMotionNodeAccelAPI.dylib"};   
 #else
-   const char CSensorUSBMotionNodeAccel::m_cstrDLL[] = {"libMotionNodeAccelAPI.so"};   
+   const char CSensorUSBMotionNodeAccel::m_cstrDLL[] = {"./libMotionNodeAccelAPI.so"};   
 #endif // apple or linux
 #endif // windows˚˚
 CSensorUSBMotionNodeAccel::CSensorUSBMotionNodeAccel()
