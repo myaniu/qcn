@@ -89,6 +89,7 @@ if ( test "`uname -s`" = "Darwin" ) then
     zip -r qcnlive-mac.zip QCNLive.app \
        init/earthnight4096.jpg init/earthday4096.jpg \
        init/$ntpdv $zipuplstring \
+       init/phidget21.dylib \
        init/libMotionNodeAccelAPI.dylib \
          -x@exclude.lst
     cp qcnusb.app/Contents/MacOS/qcnusb ../qcnusb/install
