@@ -64,3 +64,6 @@ lipo -arch ppc lib/libcurl_ppc.a -arch i386 lib/libcurl_i386.a -create -output l
 mv libcurl-universal.a ../client/mac_build/
 make clean
 rm lib/*.a
+mv include/curl/curlbuild.h include/curl/curlbuild.h.bak
+cp ../curlbuild.mac.h include/curl/curlbuild.h
+
