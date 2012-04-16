@@ -8,6 +8,26 @@
  * Implementation file for cross-platform (Mac, Windows, Linux) Phidgets 1056 accelerometer USB sensor class
  *     http://www.phidgets.com/products.php?product_id=1056
  *   NB: some "Windows" terminology used, i.e. m_handleLibrary but it's really a shared object Mac dylib or Linux so of course
+
+ * For Linux:
+   http://tordwessman.blogspot.com/2012/01/running-phidgets-under-linuxubuntu.html
+    You might get strange permission errors if trying to access phidget devices. This might solve it. In order for your software to access the USB port, you need to do the following changes:
+
+Make the phidget devices accessable:
+
+*) Open/create the udev rule file
+$ sudo nano /etc/udev/rules.d/80_phidget.rules
+
+*) Add the following content:
+SUBSYSTEMS=="usb", ACTION=="add", ATTRS{idVendor}=="06c2", ATTRS{idProduct}=="00[3-a][0-f]", MODE="666"
+
+*) set USB_DEVFS_PATH to /dev/bus/usb by adding to ~/.bashrc:
+export USB_DEVFS_PATH=/dev/bus/usb
+
+*) restart udev:
+$ services udev restart
+
+
  */
 
 #include "main.h"
@@ -210,6 +230,9 @@ bool CSensorUSBPhidgets1056::detect()
 	
 	//open the spatial object for device connections
 	if ((ret = m_PtrCPhidget_open((CPhidgetHandle) m_handlePhidgetSpatial, -1))) {
+	        const char *err;
+		m_PtrCPhidget_getErrorDescription(ret, &err);
+		fprintf(stderr, "Phidgets error open handle %d = %s\n", ret, err);
 		closePort();
 		return false;
 	}
