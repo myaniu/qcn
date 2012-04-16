@@ -305,7 +305,7 @@ inline bool CSensorUSBPhidgets1056::read_xyz(float& x1, float& y1, float& z1)
 	m_PtrCPhidgetSpatial_getAcceleration(m_handlePhidgetSpatial, 2, &z);
 	x1 = (float) (x * EARTH_G);
 	y1 = (float) (y * EARTH_G);
-	z1 = (float) (z * EARTH_G);
+	z1 = (float) (z * -EARTH_G);  // note the minus sign as the phidgets by default is flipped on the vertical from usual QCN sensors
     return true;
 }
 
