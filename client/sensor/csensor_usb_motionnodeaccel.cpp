@@ -105,7 +105,7 @@ bool CSensorUSBMotionNodeAccel::detect()
    m_node = (*m_SymHandle)(MOTIONNODE_ACCEL_API_VERSION);
 #else // for Windows or not using dlopen just use the direct motionnode factory
    if ( !  ( m_WinDLLHandle = ::LoadLibrary(sstrDLL.c_str()) )  ) {
-	   fprintf(stderr, "CSesorUSBMotionNodeAccel: Cannot load DLL\n");
+	   fprintf(stderr, "CSensorUSBMotionNodeAccel: Cannot load DLL\n");
 	   return false;
    }
    m_node = MotionNodeAccel::Factory();
