@@ -43,7 +43,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../../curl-7.21.7/include;../../zlib-1.2.5"
+				AdditionalIncludeDirectories="../../curl-7.25.0/include;../../zlib-1.2.5"
 				PreprocessorDefinitions="WIN32;HAVE_ZLIB_H;_DEBUG;_CONSOLE;BUILDING_LIBCURL;CURL_STATICLIB"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -62,6 +62,69 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+		</Configuration>
+		<Configuration
+			Name="Debug|x64"
+			OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			ConfigurationType="4"
+			CharacterSet="2"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				TargetEnvironment="3"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="0"
+				AdditionalIncludeDirectories="../../curl-7.25.0/include;../../zlib-1.2.5"
+				PreprocessorDefinitions="WIN32;HAVE_ZLIB_H;_DEBUG;_CONSOLE;BUILDING_LIBCURL;CURL_STATICLIB"
+				MinimalRebuild="true"
+				BasicRuntimeChecks="3"
+				RuntimeLibrary="1"
+				WarningLevel="3"
+				DebugInformationFormat="3"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLibrarianTool"
+				OutputFile="libcurld64.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -106,7 +169,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="../../curl-7.21.7/include;../../zlib-1.2.5"
+				AdditionalIncludeDirectories="../../curl-7.25.0/include;../../zlib-1.2.5"
 				PreprocessorDefinitions="WIN32;HAVE_ZLIB_H;NDEBUG;_CONSOLE;CURL_STATICLIB;BUILDING_LIBCURL"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
@@ -124,131 +187,6 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-			/>
-			<Tool
-				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCXDCMakeTool"
-			/>
-			<Tool
-				Name="VCBscMakeTool"
-			/>
-			<Tool
-				Name="VCFxCopTool"
-			/>
-			<Tool
-				Name="VCPostBuildEventTool"
-			/>
-		</Configuration>
-		<Configuration
-			Name="DebugDLL|Win32"
-			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
-			ConfigurationType="4"
-			CharacterSet="2"
-			>
-			<Tool
-				Name="VCPreBuildEventTool"
-			/>
-			<Tool
-				Name="VCCustomBuildTool"
-			/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"
-			/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
-			<Tool
-				Name="VCMIDLTool"
-			/>
-			<Tool
-				Name="VCCLCompilerTool"
-				Optimization="0"
-				AdditionalIncludeDirectories="../../curl-7.21.7/include;../../zlib-1.2.5"
-				PreprocessorDefinitions="WIN32;HAVE_ZLIB_H;_DEBUG;_CONSOLE;BUILDING_LIBCURL;CURL_STATICLIB"
-				MinimalRebuild="true"
-				BasicRuntimeChecks="3"
-				RuntimeLibrary="3"
-				WarningLevel="3"
-				DebugInformationFormat="4"
-			/>
-			<Tool
-				Name="VCManagedResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCPreLinkEventTool"
-			/>
-			<Tool
-				Name="VCLibrarianTool"
-				OutputFile="libcurldl.lib"
-			/>
-			<Tool
-				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCXDCMakeTool"
-			/>
-			<Tool
-				Name="VCBscMakeTool"
-			/>
-			<Tool
-				Name="VCFxCopTool"
-			/>
-			<Tool
-				Name="VCPostBuildEventTool"
-			/>
-		</Configuration>
-		<Configuration
-			Name="Debug|x64"
-			OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
-			ConfigurationType="4"
-			CharacterSet="2"
-			>
-			<Tool
-				Name="VCPreBuildEventTool"
-			/>
-			<Tool
-				Name="VCCustomBuildTool"
-			/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"
-			/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
-			<Tool
-				Name="VCMIDLTool"
-				TargetEnvironment="3"
-			/>
-			<Tool
-				Name="VCCLCompilerTool"
-				Optimization="0"
-				AdditionalIncludeDirectories="../../curl-7.21.7/include;../../zlib-1.2.5"
-				PreprocessorDefinitions="WIN32;HAVE_ZLIB_H;_DEBUG;_CONSOLE;BUILDING_LIBCURL;CURL_STATICLIB"
-				MinimalRebuild="true"
-				BasicRuntimeChecks="3"
-				RuntimeLibrary="1"
-				WarningLevel="3"
-				DebugInformationFormat="3"
-			/>
-			<Tool
-				Name="VCManagedResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCPreLinkEventTool"
-			/>
-			<Tool
-				Name="VCLibrarianTool"
-				OutputFile="libcurld64.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -294,7 +232,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="../../curl-7.21.7/include;../../zlib-1.2.5"
+				AdditionalIncludeDirectories="../../curl-7.25.0/include;../../zlib-1.2.5"
 				PreprocessorDefinitions="WIN32;HAVE_ZLIB_H;NDEBUG;_CONSOLE;CURL_STATICLIB;BUILDING_LIBCURL"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
@@ -313,6 +251,68 @@
 			<Tool
 				Name="VCLibrarianTool"
 				OutputFile="libcurl64.lib"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+		</Configuration>
+		<Configuration
+			Name="DebugDLL|Win32"
+			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
+			IntermediateDirectory="$(ConfigurationName)"
+			ConfigurationType="4"
+			CharacterSet="2"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="0"
+				AdditionalIncludeDirectories="../../curl-7.25.0/include;../../zlib-1.2.5"
+				PreprocessorDefinitions="WIN32;HAVE_ZLIB_H;_DEBUG;_CONSOLE;BUILDING_LIBCURL;CURL_STATICLIB"
+				MinimalRebuild="true"
+				BasicRuntimeChecks="3"
+				RuntimeLibrary="3"
+				WarningLevel="3"
+				DebugInformationFormat="4"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLibrarianTool"
+				OutputFile="libcurldl.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -356,7 +356,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../../curl-7.21.7/include;../../zlib-1.2.5"
+				AdditionalIncludeDirectories="../../curl-7.25.0/include;../../zlib-1.2.5"
 				PreprocessorDefinitions="WIN32;HAVE_ZLIB_H;_DEBUG;_CONSOLE;BUILDING_LIBCURL;CURL_STATICLIB"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -420,7 +420,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="../../curl-7.21.7/include;../../zlib-1.2.5"
+				AdditionalIncludeDirectories="../../curl-7.25.0/include;../../zlib-1.2.5"
 				PreprocessorDefinitions="WIN32;HAVE_ZLIB_H;NDEBUG;_CONSOLE;CURL_STATICLIB;BUILDING_LIBCURL"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
@@ -484,7 +484,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="../../curl-7.21.7/include;../../zlib-1.2.5"
+				AdditionalIncludeDirectories="../../curl-7.25.0/include;../../zlib-1.2.5"
 				PreprocessorDefinitions="WIN32;HAVE_ZLIB_H;NDEBUG;_CONSOLE;CURL_STATICLIB;BUILDING_LIBCURL"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
@@ -530,343 +530,339 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\asyn-ares.c"
+				RelativePath="..\..\curl-7.25.0\lib\asyn-ares.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\asyn-thread.c"
+				RelativePath="..\..\curl-7.25.0\lib\asyn-thread.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\base64.c"
+				RelativePath="..\..\curl-7.25.0\lib\base64.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\connect.c"
+				RelativePath="..\..\curl-7.25.0\lib\connect.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\content_encoding.c"
+				RelativePath="..\..\curl-7.25.0\lib\content_encoding.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\cookie.c"
+				RelativePath="..\..\curl-7.25.0\lib\cookie.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\curl_addrinfo.c"
+				RelativePath="..\..\curl-7.25.0\lib\curl_addrinfo.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\curl_fnmatch.c"
+				RelativePath="..\..\curl-7.25.0\lib\curl_fnmatch.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\curl_gethostname.c"
+				RelativePath="..\..\curl-7.25.0\lib\curl_gethostname.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\curl_memrchr.c"
+				RelativePath="..\..\curl-7.25.0\lib\curl_memrchr.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\curl_rand.c"
+				RelativePath="..\..\curl-7.25.0\lib\curl_rand.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\curl_rtmp.c"
+				RelativePath="..\..\curl-7.25.0\lib\curl_rtmp.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\curl_sspi.c"
+				RelativePath="..\..\curl-7.25.0\lib\curl_sspi.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\curl_threads.c"
+				RelativePath="..\..\curl-7.25.0\lib\curl_threads.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\dict.c"
+				RelativePath="..\..\curl-7.25.0\lib\dict.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\easy.c"
+				RelativePath="..\..\curl-7.25.0\lib\easy.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\escape.c"
+				RelativePath="..\..\curl-7.25.0\lib\escape.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\file.c"
+				RelativePath="..\..\curl-7.25.0\lib\file.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\fileinfo.c"
+				RelativePath="..\..\curl-7.25.0\lib\fileinfo.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\formdata.c"
+				RelativePath="..\..\curl-7.25.0\lib\formdata.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\ftp.c"
+				RelativePath="..\..\curl-7.25.0\lib\ftp.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\ftplistparser.c"
+				RelativePath="..\..\curl-7.25.0\lib\ftplistparser.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\getenv.c"
+				RelativePath="..\..\curl-7.25.0\lib\getenv.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\getinfo.c"
+				RelativePath="..\..\curl-7.25.0\lib\getinfo.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\gopher.c"
+				RelativePath="..\..\curl-7.25.0\lib\gopher.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\gtls.c"
+				RelativePath="..\..\curl-7.25.0\lib\gtls.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\hash.c"
+				RelativePath="..\..\curl-7.25.0\lib\hash.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\hmac.c"
+				RelativePath="..\..\curl-7.25.0\lib\hmac.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\hostasyn.c"
+				RelativePath="..\..\curl-7.25.0\lib\hostasyn.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\hostip.c"
+				RelativePath="..\..\curl-7.25.0\lib\hostip.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\hostip4.c"
+				RelativePath="..\..\curl-7.25.0\lib\hostip4.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\hostip6.c"
+				RelativePath="..\..\curl-7.25.0\lib\hostip6.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\hostsyn.c"
+				RelativePath="..\..\curl-7.25.0\lib\hostsyn.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\http.c"
+				RelativePath="..\..\curl-7.25.0\lib\http.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\http_chunks.c"
+				RelativePath="..\..\curl-7.25.0\lib\http_chunks.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\http_digest.c"
+				RelativePath="..\..\curl-7.25.0\lib\http_digest.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\http_negotiate.c"
+				RelativePath="..\..\curl-7.25.0\lib\http_negotiate.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\http_negotiate_sspi.c"
+				RelativePath="..\..\curl-7.25.0\lib\http_negotiate_sspi.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\http_ntlm.c"
+				RelativePath="..\..\curl-7.25.0\lib\http_proxy.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\http_proxy.c"
+				RelativePath="..\..\curl-7.25.0\lib\if2ip.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\if2ip.c"
+				RelativePath="..\..\curl-7.25.0\lib\imap.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\imap.c"
+				RelativePath="..\..\curl-7.25.0\lib\inet_ntop.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\inet_ntop.c"
+				RelativePath="..\..\curl-7.25.0\lib\inet_pton.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\inet_pton.c"
+				RelativePath="..\..\curl-7.25.0\lib\ldap.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\ldap.c"
+				RelativePath="..\..\curl-7.25.0\lib\llist.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\llist.c"
+				RelativePath="..\..\curl-7.25.0\lib\md4.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\md4.c"
+				RelativePath="..\..\curl-7.25.0\lib\md5.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\md5.c"
+				RelativePath="..\..\curl-7.25.0\lib\memdebug.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\memdebug.c"
+				RelativePath="..\..\curl-7.25.0\lib\mprintf.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\mprintf.c"
+				RelativePath="..\..\curl-7.25.0\lib\multi.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\multi.c"
+				RelativePath="..\..\curl-7.25.0\lib\netrc.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\netrc.c"
+				RelativePath="..\..\curl-7.25.0\lib\nonblock.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\nonblock.c"
+				RelativePath="..\..\curl-7.25.0\lib\openldap.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\openldap.c"
+				RelativePath="..\..\curl-7.25.0\lib\parsedate.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\parsedate.c"
+				RelativePath="..\..\curl-7.25.0\lib\pingpong.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\pingpong.c"
+				RelativePath="..\..\curl-7.25.0\lib\polarssl.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\polarssl.c"
+				RelativePath="..\..\curl-7.25.0\lib\pop3.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\pop3.c"
+				RelativePath="..\..\curl-7.25.0\lib\progress.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\progress.c"
+				RelativePath="..\..\curl-7.25.0\lib\rawstr.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\rawstr.c"
+				RelativePath="..\..\curl-7.25.0\lib\rtsp.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\rtsp.c"
+				RelativePath="..\..\curl-7.25.0\lib\select.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\select.c"
+				RelativePath="..\..\curl-7.25.0\lib\sendf.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\sendf.c"
+				RelativePath="..\..\curl-7.25.0\lib\share.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\share.c"
+				RelativePath="..\..\curl-7.25.0\lib\slist.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\slist.c"
+				RelativePath="..\..\curl-7.25.0\lib\smtp.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\smtp.c"
+				RelativePath="..\..\curl-7.25.0\lib\socks.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\socks.c"
+				RelativePath="..\..\curl-7.25.0\lib\socks_sspi.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\socks_sspi.c"
+				RelativePath="..\..\curl-7.25.0\lib\speedcheck.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\speedcheck.c"
+				RelativePath="..\..\curl-7.25.0\lib\splay.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\splay.c"
+				RelativePath="..\..\curl-7.25.0\lib\ssh.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\ssh.c"
+				RelativePath="..\..\curl-7.25.0\lib\sslgen.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\sslgen.c"
+				RelativePath="..\..\curl-7.25.0\lib\ssluse.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\ssluse.c"
+				RelativePath="..\..\curl-7.25.0\lib\strequal.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\strequal.c"
+				RelativePath="..\..\curl-7.25.0\lib\strerror.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\strerror.c"
+				RelativePath="..\..\curl-7.25.0\lib\strtok.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\strtok.c"
+				RelativePath="..\..\curl-7.25.0\lib\strtoofft.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\strtoofft.c"
+				RelativePath="..\..\curl-7.25.0\lib\telnet.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\telnet.c"
+				RelativePath="..\..\curl-7.25.0\lib\tftp.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\tftp.c"
+				RelativePath="..\..\curl-7.25.0\lib\timeval.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\timeval.c"
+				RelativePath="..\..\curl-7.25.0\lib\transfer.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\transfer.c"
+				RelativePath="..\..\curl-7.25.0\lib\url.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\url.c"
+				RelativePath="..\..\curl-7.25.0\lib\version.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\version.c"
+				RelativePath="..\..\curl-7.25.0\lib\warnless.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\warnless.c"
-				>
-			</File>
-			<File
-				RelativePath="..\..\curl-7.21.7\lib\wildcard.c"
+				RelativePath="..\..\curl-7.25.0\lib\wildcard.c"
 				>
 			</File>
 		</Filter>
@@ -876,103 +872,103 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\config-win32.h"
+				RelativePath="..\..\curl-7.25.0\lib\config-win32.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\connect.h"
+				RelativePath="..\..\curl-7.25.0\lib\connect.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\content_encoding.h"
+				RelativePath="..\..\curl-7.25.0\lib\content_encoding.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\curl_addrinfo.h"
+				RelativePath="..\..\curl-7.25.0\lib\curl_addrinfo.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\curl_base64.h"
+				RelativePath="..\..\curl-7.25.0\lib\curl_base64.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\curl_config.h"
+				RelativePath="..\..\curl-7.25.0\lib\curl_config.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\curl_fnmatch.h"
+				RelativePath="..\..\curl-7.25.0\lib\curl_fnmatch.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\curl_hmac.h"
+				RelativePath="..\..\curl-7.25.0\lib\curl_hmac.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\curl_ldap.h"
+				RelativePath="..\..\curl-7.25.0\lib\curl_ldap.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\curl_md5.h"
+				RelativePath="..\..\curl-7.25.0\lib\curl_md5.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\curl_memory.h"
+				RelativePath="..\..\curl-7.25.0\lib\curl_memory.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\curl_rand.h"
+				RelativePath="..\..\curl-7.25.0\lib\curl_rand.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\curl_rtmp.h"
+				RelativePath="..\..\curl-7.25.0\lib\curl_rtmp.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\curl_sspi.h"
+				RelativePath="..\..\curl-7.25.0\lib\curl_sspi.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\curl_threads.h"
+				RelativePath="..\..\curl-7.25.0\lib\curl_threads.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\cyassl.h"
+				RelativePath="..\..\curl-7.25.0\lib\cyassl.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\dict.h"
+				RelativePath="..\..\curl-7.25.0\lib\dict.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\escape.h"
+				RelativePath="..\..\curl-7.25.0\lib\escape.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\formdata.h"
+				RelativePath="..\..\curl-7.25.0\lib\formdata.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\ftp.h"
+				RelativePath="..\..\curl-7.25.0\lib\ftp.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\getinfo.h"
+				RelativePath="..\..\curl-7.25.0\lib\getinfo.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\http.h"
+				RelativePath="..\..\curl-7.25.0\lib\http.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\http_chunks.h"
+				RelativePath="..\..\curl-7.25.0\lib\http_chunks.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\http_digest.h"
+				RelativePath="..\..\curl-7.25.0\lib\http_digest.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\curl-7.21.7\lib\http_ntlm.h"
+				RelativePath="..\..\curl-7.25.0\lib\http_ntlm.h"
 				>
 			</File>
 		</Filter>

@@ -269,7 +269,7 @@ inline bool CSensor::mean_xyz()
 		if (fileDebug) { 
 			fprintf(fileDebug, "Falling back time:  Cur=%f  Req=%f  Err=%ld\n", dLast[3], sm->t0check, lError);
 			fprintf(fileDebug, "sensorout,%f,%f,%f,%d,%ld,%f, %f, %f, %f\n",
-					sm->t0check, sm->t0active, dTimeDiff, sm->iNumReset, sm->lSampleSize, sm->dt, dLast[0], dLast[1], dLast[2]g);
+					sm->t0check, sm->t0active, dTimeDiff, sm->iNumReset, sm->lSampleSize, sm->dt, dLast[0], dLast[1], dLast[2]);
 		}
 #endif		
           // reset if this correction exceeds our time limit or this has been done too much in one session
