@@ -24,6 +24,18 @@ extern unsigned * read_rgb_texture(const char *name, int *width, int *height, in
 namespace qcn_util 
 {
 
+bool setDLLPath(std::string& strPath, const std::string& cstrDLL)
+{
+#ifdef QCNLIVE  // it will already be in init, so just load the module name
+   strPath = "";
+#else  // live boinc - check in project directory
+   strPath = (const char*) sm->dataBOINC.project_dir; 
+   strPath += qcn_util::cPathSeparator();
+#endif
+   strPath += cstrDLL;
+   return (bool) boinc_file_exists(strPath.c_str());
+}
+
 char cPathSeparator()
 {
 // make it simple, only _WIN32 return \ path

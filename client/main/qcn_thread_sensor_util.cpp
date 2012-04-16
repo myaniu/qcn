@@ -281,14 +281,14 @@ bool getSensor(CSensor* volatile *ppsms)
 				   break;
 #else
 			   case 2:
-				   *ppsms = (CSensor*) new CSensorUSBMotionNodeAccel();
-				   break;
+				   *ppsms = (CSensor*) new CSensorUSBPhidgets1056();
+				   break;				   				   
 			   case 3:
 				   *ppsms = (CSensor*) new CSensorWinUSBONavi01();
 				   break;
 			   case 4:
-				   *ppsms = (CSensor*) new CSensorUSBPhidgets1056();
-				   break;				   				   
+				   *ppsms = (CSensor*) new CSensorUSBMotionNodeAccel();
+				   break;
 			   case 5:
 				   *ppsms = (CSensor*) new CSensorWinThinkpad();
 				   break;

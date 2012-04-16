@@ -27,6 +27,7 @@ namespace qcn_util
 {	
 // useful functions for all
 void FormatElapsedTime(const double& dTime, char* strFormat, int iLen);
+bool setDLLPath(std::string& strPath, const std::string& cstrDLL);
 char cPathSeparator(); // returns path sep, i.e. for strPathTrigger
 const char* os_type_str(); // returns small string of OS type i.e. M64 = 64-bit Mac
 // round number n to d decimal points 

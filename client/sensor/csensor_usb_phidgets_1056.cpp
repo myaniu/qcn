@@ -187,26 +187,23 @@ bool CSensorUSBPhidgets1056::detect()
 
    if (qcn_main::g_iStop) return false;
 
-	char *strPath = new char[_MAX_PATH];
-	memset(strPath, 0x00, sizeof(char) * 256);
+   std::string strPath;
 
-#ifdef QCNLIVE
-	strncpy(strPath, m_cstrDLL, _MAX_PATH-1);
-#else
-	sprintf(strPath, "%s%c%s", sm->dataBOINC.project_dir, qcn_util::cPathSeparator(), m_cstrDLL);
-#endif
+   // setup DLL path, if returns false then DLL doesn't exist at the path where it should
+	if (!qcn_util::setDLLPath(strPath, m_cstrDLL)) {
+		closePort();
+		return false;
+	}
 
 #ifdef __USE_DLOPEN__
-   m_handleLibrary = dlopen(strPath, RTLD_LAZY | RTLD_GLOBAL); // default
+   m_handleLibrary = dlopen(strPath.c_str(), RTLD_LAZY | RTLD_GLOBAL); // default
    if (!m_handleLibrary) {
        fprintf(stderr, "CSensorUSBPhidgets1056: dynamic library %s dlopen error %s\n", m_cstrDLL, dlerror());
-       delete [] strPath; // remove our temp var
        return false;
    }
 #else // for Windows or not using dlopen just use the direct motionnode factory
-   m_handleLibrary = ::LoadLibrary(strPath);
+   m_handleLibrary = ::LoadLibrary(strPath.c_str());
 #endif
-   delete [] strPath; // remove our temp var
 
 	// check for stop signal and function pointers
 	if (qcn_main::g_iStop || ! setupFunctionPointers()) return false;

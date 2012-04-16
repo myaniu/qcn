@@ -77,19 +77,13 @@ bool CSensorUSBMotionNodeAccel::detect()
    if (qcn_main::g_iStop) return false;
 
    // always check dll existence & try to load!
-   std::string sstrDLL;
-#ifdef QCNLIVE  // it will already be in init, so just load the module name
-   sstrDLL = "";
-#else  // live boinc - check in project directory
-   sstrDLL = (const char*) sm->dataBOINC.project_dir; 
-   sstrDLL += qcn_util::cPathSeparator();
-#endif
-   sstrDLL += m_cstrDLL;
-  
-   if (!boinc_file_exists(sstrDLL.c_str())) {
-       //fprintf(stderr, "MotionNode Accel dylib file %s not found\n", sstrDLL.c_str());
-       return false;  // dylib not found, so return
-   }
+      std::string sstrDLL;
+
+   // setup DLL path, if returns false then DLL doesn't exist at the path where it should
+	if (!qcn_util::setDLLPath(sstrDLL, m_cstrDLL)) {
+		closePort();
+		return false;
+	}
 
 #ifdef __USE_DLOPEN__
    if (qcn_main::g_iStop) return false;
@@ -110,6 +104,10 @@ bool CSensorUSBMotionNodeAccel::detect()
 
    m_node = (*m_SymHandle)(MOTIONNODE_ACCEL_API_VERSION);
 #else // for Windows or not using dlopen just use the direct motionnode factory
+   if ( !  ( m_WinDLLHandle = ::LoadLibrary(sstrDLL.c_str()) )  ) {
+	   fprintf(stderr, "CSesorUSBMotionNodeAccel: Cannot load DLL\n");
+	   return false;
+   }
    m_node = MotionNodeAccel::Factory();
 #endif
 
