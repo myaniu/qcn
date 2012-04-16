@@ -2,5 +2,5 @@
 #define QCN_VERSION_H
 #define QCN_RELEASE
 #define PACKAGE_NAME "QCN"
-#define QCN_VERSION_STRING "7.02"
+#define QCN_VERSION_STRING "7.01"
 #endif
