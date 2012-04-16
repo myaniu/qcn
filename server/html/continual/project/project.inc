@@ -803,10 +803,16 @@ mysql> select * from qcn_level;
               $view = "N/A";
            }
          }
-         $alignment = "U";
+
          switch($row[23]) { // alignid
-           case 1:  $alignment = "N"; break;
-           case 5:  $alignment = "W"; break;
+           case 0:  $alignment = "Un"; break;
+           case 1:  $alignment = "MagN"; break;
+           case 2:  $alignment = "South"; break;
+           case 3:  $alignment = "East"; break;
+           case 4:  $alignment = "Wwest"; break;
+           case 5:  $alignment = "Wall"; break;
+           case 6:  $alignment = "TruN"; break;
+           default: $alignment = "Un";
          }
 
          $quakestuff = "";
