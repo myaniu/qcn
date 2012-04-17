@@ -1,1 +1,0 @@
-xcodebuild -project qcnlive.xcodeproj -configuration 'Release PowerPC' clean build
