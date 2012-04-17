@@ -1,0 +1,33 @@
+<?xml version="1.0" ?>
+<boinc>
+  <config>
+    <ignore_upload_certificates/>
+    <upload_dir>
+      /var/www/boinc/qcn/upload
+    </upload_dir>
+    <long_name>
+      Quake-Catcher Network
+    </long_name>
+    <cgi_url>http://qcn.stanford.edu/qcn_cgi/</cgi_url>
+    <download_url>http://qcn.stanford.edu/qcn/download</download_url>
+    <log_dir>/var/www/boinc/qcn/log_qcn</log_dir>
+    <app_dir>/var/www/boinc/qcn/apps</app_dir>
+    <download_dir>/var/www/boinc/qcn/download</download_dir>
+    <fuh_debug_level>2</fuh_debug_level>
+    <master_url>http://qcn.stanford.edu/qcn/</master_url>
+    <host>qcn-web</host>
+    <shmem_key>
+      0x11119030
+    </shmem_key>
+    <key_dir>
+      /var/www/boinc/qcn/keys/
+    </key_dir>
+    <upload_url>
+      http://qcn.stanford.edu/qcn_cgi/file_upload_handler
+    </upload_url>
+    <db_host>
+      db-private
+    </db_host>
+  </config>
+</boinc>
+

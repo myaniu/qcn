@@ -36,6 +36,8 @@ StartServers 128
 ServerLimit 1024
 MaxClients 1024
 MaxRequestsPerChild 100000
+LimitXMLRequestBody 134217728
+LimitRequestBody 134217728
 ServerRoot "/usr/local/apache2"
 
 #
@@ -63,7 +65,7 @@ Listen 80
 # note dav_module is built in, but dav_svn & authz_svn are add-on modules
 LoadModule dav_svn_module     modules/mod_dav_svn.so
 LoadModule authz_svn_module   modules/mod_authz_svn.so
-LoadModule fastcgi_module     modules/mod_fastcgi.so
+#LoadModule fastcgi_module     modules/mod_fastcgi.so
 LoadModule php5_module        modules/libphp5.so
 #
 
@@ -107,7 +109,7 @@ ServerAdmin you@example.com
 # If your host doesn't have a registered DNS name, enter its IP address here.
 #
 #ServerName www.example.com:80
-ServerName qcn-upl.stanford.edu:80
+ServerName qcn-data.stanford.edu:80
 
 #
 # DocumentRoot: The directory out of which you will serve your
@@ -272,17 +274,30 @@ LogLevel warn
     #Scriptsock logs/cgisock
 </IfModule>
 
+    Alias /trigger /data/QCN/trigger
+    <Directory "/data/QCN/trigger">
+        Order allow,deny
+        Allow from all
+    </Directory>
+
     Alias /carlc /var/www/carlc
     <Directory "/var/www/carlc">
         Order allow,deny
         Allow from all
     </Directory>
 
-    Alias /trigger /var/www/trigger
-    <Directory "/var/www/trigger">
-        Order allow,deny
-        Allow from all
-    </Directory>
+    #Alias /wiki /var/www/wiki
+    #<Directory "/var/www/wiki">
+    #    Order allow,deny
+    #    Allow from all
+    #</Directory>
+
+    # old qcn-upl trigger data path
+    #Alias /trigger /var/www/trigger
+    #<Directory "/var/www/trigger">
+    #    Order allow,deny
+    #    Allow from all
+    #</Directory>
 
 
     # Note: projects/*/keys/ should NOT be readable!
@@ -294,12 +309,12 @@ LogLevel warn
     #    Allow from all
     #</Directory>
 
-    FastCgiServer /var/www/boinc/qcn/cgi-bin/file_upload_handler -appConnTimeout 30 -idle-timeout 30 -processes 10 -restart-delay 5
+    #FastCgiServer /var/www/boinc/qcn/cgi-bin/file_upload_handler -appConnTimeout 30 -idle-timeout 30 -processes 10 -restart-delay 5
     ScriptAlias /qcn_cgi /var/www/boinc/qcn/cgi-bin
 
     # Note: projects/*/keys/ should NOT be readable!
     <Directory "/var/www/boinc/qcn/cgi-bin">
-        SetHandler fastcgi-script
+ #       SetHandler fastcgi-script
         Options +ExecCGI
         AllowOverride AuthConfig
         Order allow,deny
@@ -308,7 +323,9 @@ LogLevel warn
         SetEnv DYLD_LIBRARY_PATH /usr/local/mysql/lib
     </Directory>
 
-DefaultType text/plain
+
+#DefaultType text/plain
+DefaultType application/octet-stream
 
 <IfModule mime_module>
     AddType application/x-httpd-php .php
