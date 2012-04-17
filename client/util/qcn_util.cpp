@@ -27,11 +27,11 @@ namespace qcn_util
 bool setDLLPath(std::string& strPath, const std::string& cstrDLL)
 {
 #if defined(QCNLIVE) || defined(QCN_USB)  // it will already be in init, so just load the module name
-   strPath = "";
+   strPath = ".";
 #else  // live boinc - check in project directory
    strPath = (const char*) sm->dataBOINC.project_dir; 
-   strPath += qcn_util::cPathSeparator();
 #endif
+   strPath += cPathSeparator();
    strPath += cstrDLL;
    return (bool) boinc_file_exists(strPath.c_str());
 }
