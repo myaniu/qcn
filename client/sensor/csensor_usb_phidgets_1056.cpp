@@ -17,7 +17,7 @@ Make the phidget devices accessible:
 $ sudo vi /etc/udev/rules.d/80-phidget.rules
 
 *) Add the following content:
-SUBSYSTEM=="usb", ATTRS{idVendor}=="06c2", MODE="0666"
+SUBSYSTEM=="usb", ATTRS{idVendor}=="06c2", MODE="0777"
 
 *) set USB_DEVFS_PATH to /dev/bus/usb by adding to ~/.bashrc:
 export USB_DEVFS_PATH=/dev/bus/usb
