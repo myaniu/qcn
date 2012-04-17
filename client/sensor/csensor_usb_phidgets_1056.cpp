@@ -241,7 +241,7 @@ bool CSensorUSBPhidgets1056::detect()
 	// try a second to open
 	double dTime = dtime();
 
-	if((ret = m_PtrCPhidget_waitForAttachment((CPhidgetHandle)m_handlePhidgetSpatial, 10000))) {
+	if((ret = m_PtrCPhidget_waitForAttachment((CPhidgetHandle)m_handlePhidgetSpatial, 1000))) {
 	        const char *err;
 		m_PtrCPhidget_getErrorDescription(ret, &err);
 		fprintf(stderr, "Phidgets error waitForAttachment %d = %s\n", ret, err);
