@@ -10,16 +10,14 @@
  *   NB: some "Windows" terminology used, i.e. m_handleLibrary but it's really a shared object Mac dylib or Linux so of course
 
  * For Linux:
-   http://tordwessman.blogspot.com/2012/01/running-phidgets-under-linuxubuntu.html
-    You might get strange permission errors if trying to access phidget devices. This might solve it. In order for your software to access the USB port, you need to do the following changes:
 
-Make the phidget devices accessable:
+Make the phidget devices accessible:
 
 *) Open/create the udev rule file
-$ sudo vi /etc/udev/rules.d/80_phidget.rules
+$ sudo vi /etc/udev/rules.d/80-phidget.rules
 
 *) Add the following content:
-SUBSYSTEMS=="usb", ACTION=="add", ATTRS{idVendor}=="06c2", ATTRS{idProduct}=="00[3-a][0-f]", MODE="666"
+SUBSYSTEM=="usb", ATTRS{idVendor}=="06c2", MODE="0666"
 
 *) set USB_DEVFS_PATH to /dev/bus/usb by adding to ~/.bashrc:
 export USB_DEVFS_PATH=/dev/bus/usb
