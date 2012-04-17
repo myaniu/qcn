@@ -77,11 +77,11 @@ else
  fi   # end of library or 'all' build
   cp configure.ac.linux configure.ac
   ./set-version $VERSION
-  cp client/qcnlive_qt/Makefile.linux client/qcnlive_qt/Makefile
+  cp client/qcnlive/Makefile.linux client/qcnlive/Makefile
   ./_autosetup
   ./configure --enable-client-release --disable-server
   make clean && make
-  mv client/qcnlive_qt/QCNLive client/bin/
+  mv client/qcnlive/QCNLive client/bin/
 fi
 cd client/bin
 ./deploy $VERSION $1 $2

@@ -71,7 +71,7 @@ $XCB -project qcn.xcodeproj -configuration Release -target qcn clean build
 $XCB -project qcn.xcodeproj -configuration Release -target qcn_graphics clean build
 $XCB -project qcn.xcodeproj -configuration Release -target qcnusb clean build
 #$XCB -project qcn.xcodeproj -configuration Release -target QCNLive clean build
-cd ../qcnlive_qt
+cd ../qcnlive
 rm -rf QCNLive.app
 rm -rf ../bin/QCNLive.app
 $XCB -project QCNLive.xcodeproj -configuration Release -target QCNLive clean build
