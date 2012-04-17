@@ -31,7 +31,8 @@ if OS_DARWIN
            $(SENSORDIR)/csensor_mac_laptop.cpp \
            $(SENSORDIR)/csensor_mac_usb_generic.cpp \
            $(SENSORDIR)/csensor_mac_usb_jw.cpp \
-           $(SENSORDIR)/csensor_usb_motionnodeaccel.cpp
+           $(SENSORDIR)/csensor_usb_motionnodeaccel.cpp \
+           $(SENSORDIR)/csensor_usb_phidgets_1056.cpp 
 else
    # must be Linux because I'm sure not using autoconf on Windows! ;-)
    STACKSIZE = --stack=2000000
@@ -41,7 +42,8 @@ else
         $(SENSORDIR)/csensor_linux_usb_jw.cpp \
         $(SENSORDIR)/csensor_linux_usb_jw24f14.cpp \
         $(SENSORDIR)/csensor_linux_usb_onavi01.cpp \
-        $(SENSORDIR)/csensor_usb_motionnodeaccel.cpp 
+        $(SENSORDIR)/csensor_usb_motionnodeaccel.cpp \
+        $(SENSORDIR)/csensor_usb_phidgets_1056.cpp 
 endif
 
 bin_PROGRAMS = qcn qcndemo

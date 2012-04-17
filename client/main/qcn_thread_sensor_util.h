@@ -41,7 +41,6 @@
 #if !defined(_WIN64) && !defined(__LP64__) && !defined(_LP64)
 #include "csensor_usb_motionnodeaccel.h"
 #endif
-#include "csensor_usb_phidgets_1056.h"   // cross-platform Phidgets library
 
 // global externs defined in qcn_thread_sensor.cpp
 // some globals, mainly if bDemo is true so we can have continual trigger output
