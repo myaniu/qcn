@@ -122,6 +122,7 @@ bool CSensorUSBMotionNodeAccel::detect()
    unsigned int count = 0;
    m_node->get_num_device(count);
    if (!count) {
+	   fprintf(stderr, "CSensorUSBMotionNodeAccel: no MN detected via DLL %s\n", sstrDLL.c_str());
        closePort();
        return false;
    }

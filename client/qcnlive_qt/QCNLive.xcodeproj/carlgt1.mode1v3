@@ -216,7 +216,7 @@
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>43DEAC0F153D05420048FD8F</string>
+						<string>43DEAC52153D06C60048FD8F</string>
 						<key>history</key>
 						<array>
 							<string>434C1EEC153B81D1009C5F87</string>
@@ -256,7 +256,7 @@
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>43DEAC10153D05420048FD8F</string>
+						<string>43DEAC53153D06C60048FD8F</string>
 						<key>history</key>
 						<array>
 							<string>434C1EEF153B81D1009C5F87</string>
@@ -358,7 +358,7 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>11</integer>
+									<integer>13</integer>
 									<integer>10</integer>
 									<integer>7</integer>
 									<integer>1</integer>
@@ -413,7 +413,7 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>43DEAC0E153D05420048FD8F</string>
+										<string>43DEAC51153D06C60048FD8F</string>
 										<key>history</key>
 										<array>
 											<string>43C85B92151BA4F200681E79</string>
@@ -635,7 +635,6 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>43DEAC12153D05420048FD8F</string>
 		<string>43DEAC13153D05420048FD8F</string>
 		<string>43DEAC14153D05420048FD8F</string>
 		<string>1C78EAAD065D492600B07095</string>
