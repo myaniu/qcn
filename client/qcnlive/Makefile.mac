@@ -595,11 +595,11 @@ uninstall_target:  FORCE
 
 install_sources: first FORCE
 	@$(CHK_DIR_EXISTS) $(INSTALL_ROOT)/Users/carlgt1/projects/qcn/client/bin/ || $(MKDIR) $(INSTALL_ROOT)/Users/carlgt1/projects/qcn/client/bin/ 
-	-$(INSTALL_FILE) /Users/carlgt1/projects/qcn/client/qcnlive_qt/glwidget.cpp $(INSTALL_ROOT)/Users/carlgt1/projects/qcn/client/bin/
-	-$(INSTALL_FILE) /Users/carlgt1/projects/qcn/client/qcnlive_qt/qcnqt.cpp $(INSTALL_ROOT)/Users/carlgt1/projects/qcn/client/bin/
-	-$(INSTALL_FILE) /Users/carlgt1/projects/qcn/client/qcnlive_qt/myframe.cpp $(INSTALL_ROOT)/Users/carlgt1/projects/qcn/client/bin/
-	-$(INSTALL_FILE) /Users/carlgt1/projects/qcn/client/qcnlive_qt/dlgsettings.cpp $(INSTALL_ROOT)/Users/carlgt1/projects/qcn/client/bin/
-	-$(INSTALL_FILE) /Users/carlgt1/projects/qcn/client/qcnlive_qt/dlgmakequake.cpp $(INSTALL_ROOT)/Users/carlgt1/projects/qcn/client/bin/
+	-$(INSTALL_FILE) /Users/carlgt1/projects/qcn/client/qcnlive/glwidget.cpp $(INSTALL_ROOT)/Users/carlgt1/projects/qcn/client/bin/
+	-$(INSTALL_FILE) /Users/carlgt1/projects/qcn/client/qcnlive/qcnqt.cpp $(INSTALL_ROOT)/Users/carlgt1/projects/qcn/client/bin/
+	-$(INSTALL_FILE) /Users/carlgt1/projects/qcn/client/qcnlive/myframe.cpp $(INSTALL_ROOT)/Users/carlgt1/projects/qcn/client/bin/
+	-$(INSTALL_FILE) /Users/carlgt1/projects/qcn/client/qcnlive/dlgsettings.cpp $(INSTALL_ROOT)/Users/carlgt1/projects/qcn/client/bin/
+	-$(INSTALL_FILE) /Users/carlgt1/projects/qcn/client/qcnlive/dlgmakequake.cpp $(INSTALL_ROOT)/Users/carlgt1/projects/qcn/client/bin/
 	-$(INSTALL_FILE) /Users/carlgt1/projects/qcn/client/main/qcn_shmem.cpp $(INSTALL_ROOT)/Users/carlgt1/projects/qcn/client/bin/
 	-$(INSTALL_FILE) /Users/carlgt1/projects/qcn/client/main/qcn_thread_sensor.cpp $(INSTALL_ROOT)/Users/carlgt1/projects/qcn/client/bin/
 	-$(INSTALL_FILE) /Users/carlgt1/projects/qcn/client/main/qcn_thread_sensor_util.cpp $(INSTALL_ROOT)/Users/carlgt1/projects/qcn/client/bin/
@@ -632,16 +632,16 @@ install_sources: first FORCE
 	-$(INSTALL_FILE) /Users/carlgt1/projects/qcn/client/graphics/nation_boundary.cpp $(INSTALL_ROOT)/Users/carlgt1/projects/qcn/client/bin/
 	-$(INSTALL_FILE) /Users/carlgt1/projects/qcn/client/graphics/coastline.cpp $(INSTALL_ROOT)/Users/carlgt1/projects/qcn/client/bin/
 	-$(INSTALL_FILE) /Users/carlgt1/projects/qcn/client/graphics/plate_boundary.cpp $(INSTALL_ROOT)/Users/carlgt1/projects/qcn/client/bin/
-	-$(INSTALL_FILE) /Users/carlgt1/projects/qcn/client/qcnlive_qt/qcnqt.h $(INSTALL_ROOT)/Users/carlgt1/projects/qcn/client/bin/
-	-$(INSTALL_FILE) /Users/carlgt1/projects/qcn/client/qcnlive_qt/glwidget.h $(INSTALL_ROOT)/Users/carlgt1/projects/qcn/client/bin/
-	-$(INSTALL_FILE) /Users/carlgt1/projects/qcn/client/qcnlive_qt/myframe.h $(INSTALL_ROOT)/Users/carlgt1/projects/qcn/client/bin/
-	-$(INSTALL_FILE) /Users/carlgt1/projects/qcn/client/qcnlive_qt/dlgsettings.h $(INSTALL_ROOT)/Users/carlgt1/projects/qcn/client/bin/
-	-$(INSTALL_FILE) /Users/carlgt1/projects/qcn/client/qcnlive_qt/dlgmakequake.h $(INSTALL_ROOT)/Users/carlgt1/projects/qcn/client/bin/
-	-$(INSTALL_FILE) /Users/carlgt1/projects/qcn/client/qcnlive_qt/qcnlive_define.h $(INSTALL_ROOT)/Users/carlgt1/projects/qcn/client/bin/
-	-$(INSTALL_FILE) /Users/carlgt1/projects/qcn/client/qcnlive_qt/icons.h $(INSTALL_ROOT)/Users/carlgt1/projects/qcn/client/bin/
+	-$(INSTALL_FILE) /Users/carlgt1/projects/qcn/client/qcnlive/qcnqt.h $(INSTALL_ROOT)/Users/carlgt1/projects/qcn/client/bin/
+	-$(INSTALL_FILE) /Users/carlgt1/projects/qcn/client/qcnlive/glwidget.h $(INSTALL_ROOT)/Users/carlgt1/projects/qcn/client/bin/
+	-$(INSTALL_FILE) /Users/carlgt1/projects/qcn/client/qcnlive/myframe.h $(INSTALL_ROOT)/Users/carlgt1/projects/qcn/client/bin/
+	-$(INSTALL_FILE) /Users/carlgt1/projects/qcn/client/qcnlive/dlgsettings.h $(INSTALL_ROOT)/Users/carlgt1/projects/qcn/client/bin/
+	-$(INSTALL_FILE) /Users/carlgt1/projects/qcn/client/qcnlive/dlgmakequake.h $(INSTALL_ROOT)/Users/carlgt1/projects/qcn/client/bin/
+	-$(INSTALL_FILE) /Users/carlgt1/projects/qcn/client/qcnlive/qcnlive_define.h $(INSTALL_ROOT)/Users/carlgt1/projects/qcn/client/bin/
+	-$(INSTALL_FILE) /Users/carlgt1/projects/qcn/client/qcnlive/icons.h $(INSTALL_ROOT)/Users/carlgt1/projects/qcn/client/bin/
 	-$(INSTALL_FILE) /Users/carlgt1/projects/qcn/client/main/main.h $(INSTALL_ROOT)/Users/carlgt1/projects/qcn/client/bin/
 	-$(INSTALL_FILE) /Users/carlgt1/projects/qcn/client/main/define.h $(INSTALL_ROOT)/Users/carlgt1/projects/qcn/client/bin/
-	-$(INSTALL_FILE) /Users/carlgt1/projects/qcn/client/qcnlive_qt/QCNLive.pro $(INSTALL_ROOT)/Users/carlgt1/projects/qcn/client/bin/
+	-$(INSTALL_FILE) /Users/carlgt1/projects/qcn/client/qcnlive/QCNLive.pro $(INSTALL_ROOT)/Users/carlgt1/projects/qcn/client/bin/
 
 
 uninstall_sources:  FORCE

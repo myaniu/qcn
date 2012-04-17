@@ -74,7 +74,7 @@
 		F6069D5A5DA8AA28EDB8B3C6 /* Project Copy */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
-			dstPath = /Users/carlgt1/projects/qcn/client/qcnlive_qt;
+			dstPath = /Users/carlgt1/projects/qcn/client/qcnlive;
 			dstSubfolderSpec = 0;
 			files = (
 				43F140571422645D001C0846 /* QCNLive.app in Project Copy */,
@@ -492,7 +492,7 @@
 			name = "Qt Preprocessors";
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "make -C /Users/carlgt1/projects/qcn/client/qcnlive_qt -f 'QCNLive.xcodeproj/qt_preprocess.mak'";
+			shellScript = "make -C /Users/carlgt1/projects/qcn/client/qcnlive -f 'QCNLive.xcodeproj/qt_preprocess.mak'";
 		};
 		D7BA7D76DAB5DD13389D6332 /* Qt Qmake */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -502,7 +502,7 @@
 			name = "Qt Qmake";
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "make -C /Users/carlgt1/projects/qcn/client/qcnlive_qt -f 'QCNLive.xcodeproj/qt_makeqmake.mak'";
+			shellScript = "make -C /Users/carlgt1/projects/qcn/client/qcnlive -f 'QCNLive.xcodeproj/qt_makeqmake.mak'";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -567,7 +567,7 @@
 					i386,
 					x86_64,
 				);
-				BUILD_ROOT = /Users/carlgt1/projects/qcn/client/qcnlive_qt;
+				BUILD_ROOT = /Users/carlgt1/projects/qcn/client/qcnlive;
 				CC = "/usr/bin/llvm-gcc-4.2";
 				COPY_PHASE_STRIP = NO;
 				CPLUSPLUS = "/usr/bin/llvm-g++-4.2";
@@ -678,7 +678,7 @@
 					i386,
 					x86_64,
 				);
-				BUILD_ROOT = /Users/carlgt1/projects/qcn/client/qcnlive_qt;
+				BUILD_ROOT = /Users/carlgt1/projects/qcn/client/qcnlive;
 				CC = "/usr/bin/llvm-gcc-4.2";
 				COPY_PHASE_STRIP = YES;
 				CPLUSPLUS = "/usr/bin/llvm-g++-4.2";
@@ -788,7 +788,7 @@
 					i386,
 					x86_64,
 				);
-				BUILD_ROOT = /Users/carlgt1/projects/qcn/client/qcnlive_qt;
+				BUILD_ROOT = /Users/carlgt1/projects/qcn/client/qcnlive;
 				CC = "/usr/bin/llvm-gcc-4.2";
 				CPLUSPLUS = "/usr/bin/llvm-g++-4.2";
 				DYLIB_COMPATIBILITY_VERSION = 1.0;

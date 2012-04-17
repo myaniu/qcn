@@ -17,7 +17,7 @@
 #include "qcn_earth.h"
 #include "qcn_2dplot.h"
 
-/* canonical list of all icons used for toolbar in qcn/client/qcnlive_qt/icons directory:
+/* canonical list of all icons used for toolbar in qcn/client/qcnlive/icons directory:
 
  // view
  icon_earth.xpm
