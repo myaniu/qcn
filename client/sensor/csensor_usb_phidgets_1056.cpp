@@ -16,7 +16,7 @@
 Make the phidget devices accessable:
 
 *) Open/create the udev rule file
-$ sudo nano /etc/udev/rules.d/80_phidget.rules
+$ sudo vi /etc/udev/rules.d/80_phidget.rules
 
 *) Add the following content:
 SUBSYSTEMS=="usb", ACTION=="add", ATTRS{idVendor}=="06c2", ATTRS{idProduct}=="00[3-a][0-f]", MODE="666"
@@ -26,6 +26,10 @@ export USB_DEVFS_PATH=/dev/bus/usb
 
 *) restart udev:
 $ services udev restart
+
+or
+
+ sudo /etc/init.d/udev restart
 
 
  */
@@ -237,7 +241,7 @@ bool CSensorUSBPhidgets1056::detect()
 	// try a second to open
 	double dTime = dtime();
 
-	if((ret = m_PtrCPhidget_waitForAttachment((CPhidgetHandle)m_handlePhidgetSpatial, 1000))) {
+	if((ret = m_PtrCPhidget_waitForAttachment((CPhidgetHandle)m_handlePhidgetSpatial, 10000))) {
 	        const char *err;
 		m_PtrCPhidget_getErrorDescription(ret, &err);
 		fprintf(stderr, "Phidgets error waitForAttachment %d = %s\n", ret, err);
