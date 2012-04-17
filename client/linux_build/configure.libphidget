@@ -1,0 +1,2 @@
+# build libusb as static i.e. --disable-shared
+./configure LDFLAGS=-L/home/carlgt1/projects/phidgets/libusb-0.1.12 LIBS=-lusb CFLAGS=-I/home/carlgt1/projects/phidgets/libusb-0.1.12
