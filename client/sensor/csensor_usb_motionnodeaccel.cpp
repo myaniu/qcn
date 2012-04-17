@@ -20,7 +20,7 @@
 #ifdef __APPLE_CC__
    const char CSensorUSBMotionNodeAccel::m_cstrDLL[] = {"libMotionNodeAccelAPI.dylib"};   
 #else
-   const char CSensorUSBMotionNodeAccel::m_cstrDLL[] = {"./libMotionNodeAccelAPI.so"};   
+   const char CSensorUSBMotionNodeAccel::m_cstrDLL[] = {"libMotionNodeAccelAPI.so"};   
 #endif // apple or linux
 #endif // windows˚˚
 CSensorUSBMotionNodeAccel::CSensorUSBMotionNodeAccel()
@@ -105,7 +105,7 @@ bool CSensorUSBMotionNodeAccel::detect()
    m_node = (*m_SymHandle)(MOTIONNODE_ACCEL_API_VERSION);
 #else // for Windows or not using dlopen just use the direct motionnode factory
    if ( !  ( m_WinDLLHandle = ::LoadLibrary(sstrDLL.c_str()) )  ) {
-	   fprintf(stderr, "CSensorUSBMotionNodeAccel: Cannot load DLL\n");
+	   fprintf(stderr, "CSensorUSBMotionNodeAccel: Cannot load DLL %s\n", sstrDLL.c_str());
 	   return false;
    }
    m_node = MotionNodeAccel::Factory();
