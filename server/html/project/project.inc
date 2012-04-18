@@ -811,12 +811,12 @@ mysql> select * from qcn_level;
            case 4:  $alignment = "West"; break;
            case 5:  $alignment = "Wall"; break;
            case 6:  $alignment = "TrueN"; break;
-           default: $alignment = "Un";
+           default: $alignment = "Un"; 
          }
 
          $quakestuff = "";
 
-        if ($row[17] != 1 || $owner) {
+        //if ($row[17] != 1 || $owner) {
          if ($i++ % 2) {
              $bgcolor = "\"#F4F4F4\"";
          }
@@ -855,7 +855,7 @@ mysql> select * from qcn_level;
                    <td>$strTableFont$view$strFontEnd</td>
                    <td>$strTableFont$quakestuff$strFontEnd</td>
               </font></tr>";
-       }
+       //} // dumb logic to suppress ping triggers?
       }
    } else {
     start_table();
