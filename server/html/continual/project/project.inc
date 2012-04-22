@@ -720,15 +720,15 @@ function show_trigger($hostid, $heading, $owner=false)
 
 // Plot sensor location (for first trigger only before printing the table of triggers)
     start_table();
-    echo "<tr><th align=\"left\">Sensor Location:</th></tr>\n";
-    if ($owner) { // Allow admin & user to edit location
-      echo "<tr><td><a href=edit_host_info_form.php?hostid=".$hostid.">Click Here To Verify or Select Locations For This Computer</a></td></tr>\n"; 
-    }
+    echo "<tr><th align=\"left\">Sensor Location At Last Trigger:</th></tr>\n";
     echo "<tr><td><table width=\"100%\"><tr><td width=\"40%\">\n";
     echo "<iframe src=\"".BASEURL."/earthquakes/view/qcn_map_sensor.php?lon=" . $lon . "&lat=" . $lat . "\" frameborder=\"0\" scrolling=\"no\" width=\"100%\" height=\"365\" align=\"left\"></iframe>\n";
     echo "</td><td>\n";
-    echo "</td></tr></table>\n";
-    echo "</td></tr></table>\n";
+    echo "</td></tr></tr></table>\n";
+    if ($owner) { // Allow admin & user to edit location
+      echo "<tr><td><a href=edit_host_info_form.php?hostid=".$hostid.">Click Here To Verify or Select Locations For This Computer</a></td></tr>\n"; 
+    }
+    echo "</table>\n";
 
    echo "<H2>$heading</H2>\n";
    echo "<H3>Last " . MAX_NUM_TRIGGER . " Triggers for this Computer</H3>\n";
