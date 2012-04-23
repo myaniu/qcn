@@ -168,7 +168,12 @@ bool MyFrame::Init()
 	if (settings.contains(QT_WINDOW_SETTINGS_STATE))  {
 		restoreState(settings.value(QT_WINDOW_SETTINGS_STATE).toByteArray());
 	}
-    
+	
+	qcn_graphics::g_bFullScreen = this->isFullScreen(); // get full screen state
+	if (qcn_graphics::g_bFullScreen) { // hide the toolbars in full-screen mode
+		m_toolBarOption->hide();
+		m_toolBarView->hide();
+	}
 	return true;
 }
 
@@ -239,31 +244,34 @@ void MyFrame::createActions()
 	m_actionViewEarth->setToolTip(tr("Select this view to see the latest and historical earthquakes worldwide"));
 	m_actionViewEarth->setCheckable(true);
 	m_actionViewEarth->setIcon(QIcon(icon_earth_xpm));
+	m_actionViewEarth->setShortcut(tr("Ctrl+E"));
     connect(m_actionViewEarth, SIGNAL(triggered()), this, SLOT(actionView()));
 
 	m_actionViewSensor2D = new QAction(tr("Sensor &2-dimensional"), this);
 	m_actionViewSensor2D->setToolTip(tr("Select this view to see your accelerometer output as a 2-dimensional plot"));
 	m_actionViewSensor2D->setCheckable(true);
 	m_actionViewSensor2D->setIcon(QIcon(icon_twod_xpm));
+	m_actionViewSensor2D->setShortcut(tr("Ctrl+2"));
     connect(m_actionViewSensor2D, SIGNAL(triggered()), this, SLOT(actionView()));
 
 	m_actionViewSensor3D = new QAction(tr("Sensor &3-dimensional"), this);
 	m_actionViewSensor3D->setToolTip(tr("Select this to see your accelerometer output as a 3-dimensional plot"));
 	m_actionViewSensor3D->setCheckable(true);
 	m_actionViewSensor3D->setIcon(QIcon(icon_threed_xpm));
+	m_actionViewSensor3D->setShortcut(tr("Ctrl+3"));
     connect(m_actionViewSensor3D, SIGNAL(triggered()), this, SLOT(actionView()));
 
 	m_actionViewCube = new QAction(tr("&Cube"), this);
 	m_actionViewCube->setToolTip(tr("Select this view to see a bouncing cube that responds to your accelerometer"));
 	m_actionViewCube->setCheckable(true);
 	m_actionViewCube->setIcon(QIcon(icon_cube_xpm));
+	m_actionViewCube->setShortcut(tr("Ctrl+C"));
     connect(m_actionViewCube, SIGNAL(triggered()), this, SLOT(actionView()));
 
-	/*
-	m_actionViewFullScreen = new QAction(tr("&Full Screen Mode"), this);
+	m_actionViewFullScreen = new QAction(tr("Toggle Full &Screen Mode"), this);
 	m_actionViewFullScreen->setToolTip(tr("Go into full-screen mode (ESC key to exit)"));
+	m_actionViewFullScreen->setShortcut(tr("Ctrl+S"));
     connect(m_actionViewFullScreen, SIGNAL(triggered()), this, SLOT(actionView()));
-	 */
 	
 	
 	// Option - Earth
@@ -458,10 +466,8 @@ void MyFrame::createMenus()
 	m_menuView->addAction(m_actionViewSensor3D);
 	m_menuView->addAction(m_actionViewCube);
 	
-	/*
 	m_menuView->addSeparator();
 	m_menuView->addAction(m_actionViewFullScreen);
-	 */
 	
 	// Options - these change based on the View
 	m_menuOptions = menuBar()->addMenu(tr("&Options"));
@@ -622,12 +628,20 @@ void MyFrame::actionView()
 		}
 		bChanged = true;
 	} 
-	/*
 	else if (pAction == m_actionViewFullScreen) {
-		qcn_graphics::g_bFullScreen = true;
-		this->showFullScreen();
+		if (qcn_graphics::g_bFullScreen) {
+			qcn_graphics::g_bFullScreen = false;
+			m_toolBarOption->show();
+			m_toolBarView->show();
+			this->showNormal();
+		}
+		else {
+			qcn_graphics::g_bFullScreen = true;
+			m_toolBarOption->hide();
+			m_toolBarView->hide();
+			this->showFullScreen();
+		}
 	}
-	 */
 	
 	m_actionCurrent = pAction;
     qcn_graphics::ResetPlotArray();
