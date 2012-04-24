@@ -8,13 +8,14 @@
 #include "qcn_graphics.h"
 #include "qcn_2dplot.h"
 #include "qcn_earth.h"
+#ifdef QCNLIVE
 #include "qcn_cube.h"
-#include "filesys.h"  // boinc include
-
-#ifndef QCNLIVE
-    #include "qcn_signal.h"
-    CQCNShMem* volatile sm = NULL;             // the main shared memory pointer
+#include "qcn_game_match.h"
+#else
+#include "qcn_signal.h"
+CQCNShMem* volatile sm = NULL;             // the main shared memory pointer
 #endif
+#include "filesys.h"  // boinc include
 
 using std::string;
 using std::vector;
@@ -283,6 +284,8 @@ e_view g_eView = VIEW_PLOT_3D;  // default to 3d plots unless user prefs overrid
 bool g_bFullScreen = false;         // bool to denote if we're running in fullscreen (screensaver) mode
 CEarth earth;   // earth object
 CCube cube;     // cube object
+CGameMatch gameMatch; // the match-the-accelerometer game
+	
 vector<SQuake> vsq; // a vector of earthquake data struct (see qcn_graphics.h)
 
 const float xax[2] = { -15.0, 44.0 };
@@ -1888,7 +1891,7 @@ void Render(int xs, int ys, double time_of_day)
 		case VIEW_GAME:
 			glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-			draw_logo();
+			gameMatch.RenderScene(g_width, g_height, viewpoint_distance[g_eView], pitch_angle[g_eView], roll_angle[g_eView]);
 			break;
     }
 
