@@ -1842,12 +1842,12 @@ void Render(int xs, int ys, double time_of_day)
 
     switch (g_eView) {
        case VIEW_PLOT_2D:
-	  if (qcn_2dplot::IsWhite()) { // white background for qcnlive
-	    glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
-	    //glClearColor(0.0f, 0.33984375f, 0.62109375f, 1.0f); // blue for splash screen
-	  } else {  // black background for screensaver
-	    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-          }
+			if (qcn_2dplot::IsWhite()) { // white background for qcnlive
+				glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
+				//glClearColor(0.0f, 0.33984375f, 0.62109375f, 1.0f); // blue for splash screen
+			} else {  // black background for screensaver
+				glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+			}
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 			glEnable (GL_LINE_SMOOTH);
 			glEnable (GL_BLEND);
@@ -1885,6 +1885,11 @@ void Render(int xs, int ys, double time_of_day)
 		  cube.RenderText();
           draw_text_user();
 		  break;
+		case VIEW_GAME:
+			glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+			draw_logo();
+			break;
     }
 
     glFinish();

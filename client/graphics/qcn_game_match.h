@@ -1,5 +1,5 @@
-#ifndef _QCN_GRAPHICS_H_
-#define _QCN_GRAPHICS_H_
+#ifndef _QCN_GAME_MATCH_H_
+#define _QCN_GAME_MATCH_H_
 
 #include <string>
 #include <vector>

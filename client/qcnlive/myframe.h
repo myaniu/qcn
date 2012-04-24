@@ -64,6 +64,7 @@ private:
 	QAction* m_actionViewSensor2D;
 	QAction* m_actionViewSensor3D;
 	QAction* m_actionViewCube;
+	QAction* m_actionViewGame;
 	QAction* m_actionViewFullScreen;
 	
 	QAction* m_actionOptionEarthDay;
@@ -134,6 +135,9 @@ public:
         void setTimeSliderValue(const int iPos);
 
 		void updateGLWidget();
+	
+	void fullScreenToggle(bool bFull = false);
+
 	
 private slots:
 	void fileDialogSettings();

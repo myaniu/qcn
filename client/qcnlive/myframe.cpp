@@ -229,8 +229,8 @@ void MyFrame::createActions()
     m_actionFileExit->setShortcuts(QKeySequence::Quit);
     connect(m_actionFileExit, SIGNAL(triggered()), this, SLOT(close()));	
 	
-	m_actionFileDialogSettings = new QAction(tr("&Local Settings"), this);
-	m_actionFileDialogSettings->setShortcut(tr("Ctrl+F"));
+	m_actionFileDialogSettings = new QAction(tr("Local &Settings"), this);
+	m_actionFileDialogSettings->setShortcut(tr("Ctrl+S"));
 	m_actionFileDialogSettings->setToolTip(tr("Enter local settings such as station name, latutide, longitude, elevation"));
 	connect(m_actionFileDialogSettings, SIGNAL(triggered()), this, SLOT(fileDialogSettings()));
 
@@ -268,9 +268,16 @@ void MyFrame::createActions()
 	m_actionViewCube->setShortcut(tr("Ctrl+C"));
     connect(m_actionViewCube, SIGNAL(triggered()), this, SLOT(actionView()));
 
-	m_actionViewFullScreen = new QAction(tr("Toggle Full &Screen Mode"), this);
+	m_actionViewGame = new QAction(tr("&Game"), this);
+	m_actionViewGame->setToolTip(tr("Select this view to play a game with your accelerometer"));
+	m_actionViewGame->setCheckable(true);
+	//m_actionViewGame->setIcon(QIcon(icon_cube_xpm));
+	m_actionViewGame->setShortcut(tr("Ctrl+G"));
+    connect(m_actionViewGame, SIGNAL(triggered()), this, SLOT(actionView()));
+
+	m_actionViewFullScreen = new QAction(tr("Toggle &Full Screen Mode"), this);
 	m_actionViewFullScreen->setToolTip(tr("Go into full-screen mode (ESC key to exit)"));
-	m_actionViewFullScreen->setShortcut(tr("Ctrl+S"));
+	m_actionViewFullScreen->setShortcut(tr("Ctrl+F"));
     connect(m_actionViewFullScreen, SIGNAL(triggered()), this, SLOT(actionView()));
 	
 	
@@ -465,6 +472,7 @@ void MyFrame::createMenus()
 	m_menuView->addAction(m_actionViewSensor2D);
 	m_menuView->addAction(m_actionViewSensor3D);
 	m_menuView->addAction(m_actionViewCube);
+	m_menuView->addAction(m_actionViewGame);
 	
 	m_menuView->addSeparator();
 	m_menuView->addAction(m_actionViewFullScreen);
@@ -578,6 +586,23 @@ void MyFrame::createToolbar()
 #endif
 }
 
+void MyFrame::fullScreenToggle(bool bFull)
+{
+	if (qcn_graphics::g_bFullScreen && !bFull) {
+		qcn_graphics::g_bFullScreen = false;
+		m_toolBarOption->show();
+		m_toolBarView->show();
+		this->showNormal();
+	}
+	else {
+		qcn_graphics::g_bFullScreen = true;
+		m_toolBarOption->hide();
+		m_toolBarView->hide();
+		this->showFullScreen();
+	}
+}
+
+
 void MyFrame::actionView()
 {
 	// get item from event do appropriate action (boinc_key_press!)
@@ -614,6 +639,14 @@ void MyFrame::actionView()
 		qcn_graphics::g_eView = VIEW_CUBE;
 		bChanged = true;
 	}
+	else if (pAction == m_actionViewGame)
+	{
+		//ToolBarCube();
+		m_sliderTime->hide();
+		qcn_graphics::g_eView = VIEW_GAME;
+		bChanged = true;
+		fullScreenToggle(true);
+	}
 	else if (pAction == m_actionViewEarth) 
 	{
 		m_sliderTime->hide();
@@ -629,18 +662,7 @@ void MyFrame::actionView()
 		bChanged = true;
 	} 
 	else if (pAction == m_actionViewFullScreen) {
-		if (qcn_graphics::g_bFullScreen) {
-			qcn_graphics::g_bFullScreen = false;
-			m_toolBarOption->show();
-			m_toolBarView->show();
-			this->showNormal();
-		}
-		else {
-			qcn_graphics::g_bFullScreen = true;
-			m_toolBarOption->hide();
-			m_toolBarView->hide();
-			this->showFullScreen();
-		}
+		fullScreenToggle();
 	}
 	
 	m_actionCurrent = pAction;
