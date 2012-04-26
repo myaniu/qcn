@@ -120,8 +120,6 @@ typedef enum {
  int CPhidget_getServerStatus(CPhidgetHandle phid, int *serverStatus);
  int CPhidget_getDeviceID(CPhidgetHandle phid, CPhidget_DeviceID *deviceID);
  int CPhidget_getDeviceClass(CPhidgetHandle phid, CPhidget_DeviceClass *deviceClass);
- int CPhidget_set_OnWillSleep_Handler(int( *fptr)(void *userPtr), void *userPtr);
- int CPhidget_set_OnWakeup_Handler(int( *fptr)(void *userPtr), void *userPtr);
 typedef enum {
  PHIDGET_DICTIONARY_VALUE_CHANGED = 1,
  PHIDGET_DICTIONARY_ENTRY_ADDED,
@@ -137,6 +135,8 @@ typedef struct _CPhidgetDictionaryListener *CPhidgetDictionaryListenerHandle;
     int( *fptr)(CPhidgetDictionaryHandle, void *userPtr, int errorCode, const char *errorString), void *userPtr);
  int CPhidgetDictionary_addKey(CPhidgetDictionaryHandle dict, const char *key, const char *value, int persistent);
  int CPhidgetDictionary_removeKey(CPhidgetDictionaryHandle dict, const char *pattern);
+
+
 
 typedef int( *CPhidgetDictionary_OnKeyChange_Function)(CPhidgetDictionaryHandle dict, void *userPtr,
  const char *key, const char *value, CPhidgetDictionary_keyChangeReason reason);
