@@ -76,23 +76,22 @@ bool CSensorUSBPhidgets1056::setupFunctionPointers()
 	m_PtrCPhidget_open = (PtrCPhidget_open) dlsym(m_handleLibrary, "CPhidget_open");
 	m_PtrCPhidget_close = (PtrCPhidget_close) dlsym(m_handleLibrary, "CPhidget_close");
 	m_PtrCPhidget_delete = (PtrCPhidget_delete) dlsym(m_handleLibrary, "CPhidget_delete");
-	m_PtrCPhidget_waitForAttachment = (PtrCPhidget_waitForAttachment) dlsym(m_handleLibrary, "CPhidget_waitForAttachment");
 	m_PtrCPhidget_getDeviceName = (PtrCPhidget_getDeviceName) dlsym(m_handleLibrary, "CPhidget_getDeviceName");
 	m_PtrCPhidget_getSerialNumber = (PtrCPhidget_getSerialNumber) dlsym(m_handleLibrary, "CPhidget_getSerialNumber");
 	m_PtrCPhidget_getDeviceVersion = (PtrCPhidget_getDeviceVersion) dlsym(m_handleLibrary, "CPhidget_getDeviceVersion");
 	m_PtrCPhidget_getDeviceStatus = (PtrCPhidget_getDeviceStatus) dlsym(m_handleLibrary, "CPhidget_getDeviceStatus");
 	m_PtrCPhidget_getLibraryVersion = (PtrCPhidget_getLibraryVersion) dlsym(m_handleLibrary, "CPhidget_getLibraryVersion");
-	m_PtrCPhidgetSpatial_create = (PtrCPhidgetSpatial_create) dlsym(m_handleLibrary, "CPhidgetSpatial_create");
 	m_PtrCPhidget_getDeviceType = (PtrCPhidget_getDeviceType) dlsym(m_handleLibrary, "CPhidget_getDeviceType");
 	m_PtrCPhidget_getDeviceLabel = (PtrCPhidget_getDeviceLabel) dlsym(m_handleLibrary, "CPhidget_getDeviceLabel");
 
 	m_PtrCPhidget_set_OnAttach_Handler = (PtrCPhidget_set_OnAttach_Handler) dlsym(m_handleLibrary, "CPhidget_set_OnAttach_Handler");
 	m_PtrCPhidget_set_OnDetach_Handler = (PtrCPhidget_set_OnDetach_Handler) dlsym(m_handleLibrary, "CPhidget_set_OnDetach_Handler");
 	m_PtrCPhidget_set_OnError_Handler = (PtrCPhidget_set_OnError_Handler) dlsym(m_handleLibrary, "CPhidget_set_OnError_Handler");
-	m_PtrCPhidgetSpatial_set_OnSpatialData_Handler = (PtrCPhidgetSpatial_set_OnSpatialData_Handler) dlsym(m_handleLibrary, "CPhidgetSpatial_set_OnSpatialData_Handler");
 	
 	m_PtrCPhidget_getErrorDescription = (PtrCPhidget_getErrorDescription) dlsym(m_handleLibrary, "CPhidget_getErrorDescription");
 	m_PtrCPhidget_waitForAttachment = (PtrCPhidget_waitForAttachment) dlsym(m_handleLibrary, "CPhidget_waitForAttachment");
+
+	m_PtrCPhidgetSpatial_create = (PtrCPhidgetSpatial_create) dlsym(m_handleLibrary, "CPhidgetSpatial_create");
 	m_PtrCPhidgetSpatial_getAccelerationAxisCount = (PtrCPhidgetSpatial_getAccelerationAxisCount) dlsym(m_handleLibrary, "CPhidgetSpatial_getAccelerationAxisCount");
 	m_PtrCPhidgetSpatial_getGyroAxisCount = (PtrCPhidgetSpatial_getGyroAxisCount) dlsym(m_handleLibrary, "CPhidgetSpatial_getGyroAxisCount");
 	m_PtrCPhidgetSpatial_getCompassAxisCount = (PtrCPhidgetSpatial_getCompassAxisCount) dlsym(m_handleLibrary, "CPhidgetSpatial_getCompassAxisCount");
@@ -103,13 +102,13 @@ bool CSensorUSBPhidgets1056::setupFunctionPointers()
 	m_PtrCPhidgetSpatial_setDataRate = (PtrCPhidgetSpatial_setDataRate) dlsym(m_handleLibrary, "CPhidgetSpatial_setDataRate");
 	m_PtrCPhidgetSpatial_getDataRateMax = (PtrCPhidgetSpatial_getDataRateMax) dlsym(m_handleLibrary, "CPhidgetSpatial_getDataRateMax");
 	m_PtrCPhidgetSpatial_getDataRateMin = (PtrCPhidgetSpatial_getDataRateMin) dlsym(m_handleLibrary, "CPhidgetSpatial_getDataRateMin");
+	m_PtrCPhidgetSpatial_set_OnSpatialData_Handler = (PtrCPhidgetSpatial_set_OnSpatialData_Handler) dlsym(m_handleLibrary, "CPhidgetSpatial_set_OnSpatialData_Handler");
 #else
 	// Windows so use GetProcAddress
 
 	m_PtrCPhidget_open = (PtrCPhidget_open) ::GetProcAddress(m_handleLibrary, "CPhidget_open");
 	m_PtrCPhidget_close = (PtrCPhidget_close) ::GetProcAddress(m_handleLibrary, "CPhidget_close");
 	m_PtrCPhidget_delete = (PtrCPhidget_delete) ::GetProcAddress(m_handleLibrary, "CPhidget_delete");
-	m_PtrCPhidget_waitForAttachment = (PtrCPhidget_waitForAttachment) ::GetProcAddress(m_handleLibrary, "CPhidget_waitForAttachment");
 	m_PtrCPhidget_getDeviceName = (PtrCPhidget_getDeviceName) ::GetProcAddress(m_handleLibrary, "CPhidget_getDeviceName");
 	m_PtrCPhidget_getSerialNumber = (PtrCPhidget_getSerialNumber) ::GetProcAddress(m_handleLibrary, "CPhidget_getSerialNumber");
 	m_PtrCPhidget_getDeviceVersion = (PtrCPhidget_getDeviceVersion) ::GetProcAddress(m_handleLibrary, "CPhidget_getDeviceVersion");
