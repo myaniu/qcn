@@ -1,2 +1,2 @@
 # build libusb as static i.e. --disable-shared
-./configure LDFLAGS=-L/tmp/libusb-0.1.12/.libs LIBS=-lusbpp CFLAGS=-I/tmp/libusb-0.1.12
+./configure LDFLAGS=-L/tmp/libusb-0.1.12/.libs LIBS=-lusb CFLAGS=-I/tmp/libusb-0.1.12
