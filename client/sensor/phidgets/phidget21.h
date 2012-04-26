@@ -793,4 +793,3 @@ typedef struct _CPhidgetWeightSensor *CPhidgetWeightSensorHandle;
 #ifdef __cplusplus
 }
 #endif
-
