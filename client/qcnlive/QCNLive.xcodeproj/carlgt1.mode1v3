@@ -216,7 +216,7 @@
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>438405741549DC6C008B972E</string>
+						<string>438405811549DDC9008B972E</string>
 						<key>history</key>
 						<array>
 							<string>4318146E1549D9F0005C33D6</string>
@@ -256,7 +256,7 @@
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>438405751549DC6C008B972E</string>
+						<string>438405821549DDC9008B972E</string>
 						<key>history</key>
 						<array>
 							<string>4318146F1549D9F0005C33D6</string>
@@ -296,7 +296,7 @@
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>438405761549DC6C008B972E</string>
+						<string>438405831549DDC9008B972E</string>
 						<key>history</key>
 						<array>
 							<string>431814701549D9F0005C33D6</string>
@@ -336,7 +336,7 @@
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>438405771549DC6C008B972E</string>
+						<string>438405841549DDC9008B972E</string>
 						<key>history</key>
 						<array>
 							<string>431814711549D9F0005C33D6</string>
@@ -376,7 +376,7 @@
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>438405781549DC6C008B972E</string>
+						<string>438405851549DDC9008B972E</string>
 						<key>history</key>
 						<array>
 							<string>431814721549D9F0005C33D6</string>
@@ -536,7 +536,7 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>438405711549DC6C008B972E</string>
+										<string>438405801549DDC9008B972E</string>
 										<key>history</key>
 										<array>
 											<string>43C85B92151BA4F200681E79</string>
@@ -762,6 +762,9 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
+		<string>438405871549DDC9008B972E</string>
+		<string>438405881549DDC9008B972E</string>
+		<string>1C78EAAD065D492600B07095</string>
 		<string>1CD10A99069EF8BA00B06720</string>
 		<string>4359DED7142251AB006F3451</string>
 		<string>437A0CB8151A6C4B0036AA9D</string>
@@ -1131,7 +1134,7 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>1C78EAAD065D492600B07095</string>
-				<string>43035F91154873E8002D885E</string>
+				<string>438405861549DDC9008B972E</string>
 				<string>1C78EAAC065D492600B07095</string>
 			</array>
 			<key>ToolbarConfiguration</key>
