@@ -145,6 +145,7 @@ SRC_GRAPHICS = $$GRAPHICSDIR/qcn_graphics.cpp \
       $$GRAPHICSDIR/qcn_2dplot.cpp \
       $$GRAPHICSDIR/qcn_earth.cpp \
       $$GRAPHICSDIR/qcn_cube.cpp \
+      $$GRAPHICSDIR/qcn_game_match.cpp \
       $$GRAPHICSDIR/nation_boundary.cpp \
       $$GRAPHICSDIR/coastline.cpp \
       $$GRAPHICSDIR/plate_boundary.cpp
