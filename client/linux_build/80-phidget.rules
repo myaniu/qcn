@@ -1,0 +1,3 @@
+ACTION=="add",SUBSYSTEM=="usb_device",SYSFS{idVendor}=="06c2",MODE="0666"
+ACTION=="add",SUBSYSTEM=="usb_device",SYSFS{idVendor}=="0925",MODE="0666"
+
