@@ -202,46 +202,6 @@
 			<key>Content</key>
 			<dict>
 				<key>PBXProjectModuleGUID</key>
-				<string>43C2722A15471FD300AAA142</string>
-				<key>PBXProjectModuleLabel</key>
-				<string>qcn_game_match.h</string>
-				<key>PBXSplitModuleInNavigatorKey</key>
-				<dict>
-					<key>Split0</key>
-					<dict>
-						<key>PBXProjectModuleGUID</key>
-						<string>43C2722B15471FD300AAA142</string>
-						<key>PBXProjectModuleLabel</key>
-						<string>qcn_game_match.h</string>
-						<key>_historyCapacity</key>
-						<integer>0</integer>
-						<key>bookmark</key>
-						<string>43035F98154873FF002D885E</string>
-						<key>history</key>
-						<array>
-							<string>43C272481547201100AAA142</string>
-						</array>
-					</dict>
-					<key>SplitCount</key>
-					<string>1</string>
-				</dict>
-				<key>StatusBarVisibility</key>
-				<true/>
-			</dict>
-			<key>Geometry</key>
-			<dict>
-				<key>Frame</key>
-				<string>{{0, 20}, {1651, 879}}</string>
-				<key>PBXModuleWindowStatusBarHidden2</key>
-				<false/>
-				<key>RubberWindowFrame</key>
-				<string>15 253 1651 920 0 0 1920 1178 </string>
-			</dict>
-		</dict>
-		<dict>
-			<key>Content</key>
-			<dict>
-				<key>PBXProjectModuleGUID</key>
 				<string>43C2722D15471FD300AAA142</string>
 				<key>PBXProjectModuleLabel</key>
 				<string>qcn_game_match.cpp</string>
@@ -256,10 +216,10 @@
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>43035F99154873FF002D885E</string>
+						<string>4318146E1549D9F0005C33D6</string>
 						<key>history</key>
 						<array>
-							<string>43C272491547201100AAA142</string>
+							<string>4318146A1549D9E1005C33D6</string>
 						</array>
 					</dict>
 					<key>SplitCount</key>
@@ -282,6 +242,46 @@
 			<key>Content</key>
 			<dict>
 				<key>PBXProjectModuleGUID</key>
+				<string>43C2722A15471FD300AAA142</string>
+				<key>PBXProjectModuleLabel</key>
+				<string>qcn_game_match.h</string>
+				<key>PBXSplitModuleInNavigatorKey</key>
+				<dict>
+					<key>Split0</key>
+					<dict>
+						<key>PBXProjectModuleGUID</key>
+						<string>43C2722B15471FD300AAA142</string>
+						<key>PBXProjectModuleLabel</key>
+						<string>qcn_game_match.h</string>
+						<key>_historyCapacity</key>
+						<integer>0</integer>
+						<key>bookmark</key>
+						<string>4318146F1549D9F0005C33D6</string>
+						<key>history</key>
+						<array>
+							<string>43035F98154873FF002D885E</string>
+						</array>
+					</dict>
+					<key>SplitCount</key>
+					<string>1</string>
+				</dict>
+				<key>StatusBarVisibility</key>
+				<true/>
+			</dict>
+			<key>Geometry</key>
+			<dict>
+				<key>Frame</key>
+				<string>{{0, 20}, {1651, 879}}</string>
+				<key>PBXModuleWindowStatusBarHidden2</key>
+				<false/>
+				<key>RubberWindowFrame</key>
+				<string>15 253 1651 920 0 0 1920 1178 </string>
+			</dict>
+		</dict>
+		<dict>
+			<key>Content</key>
+			<dict>
+				<key>PBXProjectModuleGUID</key>
 				<string>4332E2E71546195900DF6645</string>
 				<key>PBXProjectModuleLabel</key>
 				<string>qcnqt.cpp</string>
@@ -296,10 +296,10 @@
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>43035F9A154873FF002D885E</string>
+						<string>431814701549D9F0005C33D6</string>
 						<key>history</key>
 						<array>
-							<string>43C2724A1547201100AAA142</string>
+							<string>43035F9A154873FF002D885E</string>
 						</array>
 					</dict>
 					<key>SplitCount</key>
@@ -336,10 +336,10 @@
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>43035F9B154873FF002D885E</string>
+						<string>431814711549D9F0005C33D6</string>
 						<key>history</key>
 						<array>
-							<string>43C2724B1547201100AAA142</string>
+							<string>43035F9B154873FF002D885E</string>
 						</array>
 					</dict>
 					<key>SplitCount</key>
@@ -376,10 +376,10 @@
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>43035F9C154873FF002D885E</string>
+						<string>431814721549D9F0005C33D6</string>
 						<key>history</key>
 						<array>
-							<string>43C2724C1547201100AAA142</string>
+							<string>43035F9C154873FF002D885E</string>
 						</array>
 					</dict>
 					<key>SplitCount</key>
@@ -524,7 +524,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>1CE0B20306471E060097A5F4</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>qcn_game_match.cpp</string>
+								<string>qcn_game_match.h</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -532,11 +532,11 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>1CE0B20406471E060097A5F4</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>qcn_game_match.cpp</string>
+										<string>qcn_game_match.h</string>
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>43035F97154873FF002D885E</string>
+										<string>4318146D1549D9F0005C33D6</string>
 										<key>history</key>
 										<array>
 											<string>43C85B92151BA4F200681E79</string>
@@ -563,7 +563,8 @@
 											<string>438C91E71547179E0017C1C9</string>
 											<string>43C2722415471FD300AAA142</string>
 											<string>43C2722515471FD300AAA142</string>
-											<string>43C272471547201100AAA142</string>
+											<string>4318146B1549D9F0005C33D6</string>
+											<string>4318146C1549D9F0005C33D6</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -575,14 +576,14 @@
 							<key>GeometryConfiguration</key>
 							<dict>
 								<key>Frame</key>
-								<string>{{0, 0}, {1032, 415}}</string>
+								<string>{{0, 0}, {1032, 404}}</string>
 								<key>RubberWindowFrame</key>
 								<string>364 255 1328 878 0 0 1920 1178 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
 							<key>Proportion</key>
-							<string>415pt</string>
+							<string>404pt</string>
 						</dict>
 						<dict>
 							<key>ContentConfiguration</key>
@@ -595,14 +596,14 @@
 							<key>GeometryConfiguration</key>
 							<dict>
 								<key>Frame</key>
-								<string>{{0, 420}, {1032, 417}}</string>
+								<string>{{0, 409}, {1032, 428}}</string>
 								<key>RubberWindowFrame</key>
 								<string>364 255 1328 878 0 0 1920 1178 </string>
 							</dict>
 							<key>Module</key>
 							<string>XCDetailModule</string>
 							<key>Proportion</key>
-							<string>417pt</string>
+							<string>428pt</string>
 						</dict>
 					</array>
 					<key>Proportion</key>
@@ -621,9 +622,9 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>43035F7B154873DF002D885E</string>
+				<string>431814601549D97F005C33D6</string>
 				<string>1CE0B1FE06471DED0097A5F4</string>
-				<string>43035F7C154873DF002D885E</string>
+				<string>431814611549D97F005C33D6</string>
 				<string>1CE0B20306471E060097A5F4</string>
 				<string>1CE0B20506471E060097A5F4</string>
 			</array>
@@ -761,18 +762,13 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>43035F9D154873FF002D885E</string>
-		<string>43035F93154873E8002D885E</string>
-		<string>43035F94154873E8002D885E</string>
-		<string>1C78EAAD065D492600B07095</string>
-		<string>1CD10A99069EF8BA00B06720</string>
-		<string>4359DED7142251AB006F3451</string>
 		<string>437A0CB8151A6C4B0036AA9D</string>
 		<string>43081BCE1539D6B200A70CF4</string>
 		<string>4332E2E71546195900DF6645</string>
 		<string>/Users/carlgt1/projects/qcn/client/qcnlive/QCNLive.xcodeproj</string>
-		<string>43C2722D15471FD300AAA142</string>
 		<string>43C2722A15471FD300AAA142</string>
+		<string>4359DED7142251AB006F3451</string>
+		<string>43C2722D15471FD300AAA142</string>
 	</array>
 	<key>WindowString</key>
 	<string>364 255 1328 878 0 0 1920 1178 </string>
@@ -796,7 +792,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>1CD0528F0623707200166675</string>
 								<key>PBXProjectModuleLabel</key>
-								<string></string>
+								<string>qcn_game_match.cpp</string>
 								<key>StatusBarVisibility</key>
 								<true/>
 							</dict>
@@ -813,6 +809,8 @@
 							<string>669pt</string>
 						</dict>
 						<dict>
+							<key>BecomeActive</key>
+							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
@@ -852,7 +850,7 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>4359DED7142251AB006F3451</string>
-				<string>43035F82154873DF002D885E</string>
+				<string>431814671549D97F005C33D6</string>
 				<string>1CD0528F0623707200166675</string>
 				<string>XCMainBuildResultsModuleGUID</string>
 			</array>
@@ -865,7 +863,7 @@
 			<key>WindowToolGUID</key>
 			<string>4359DED7142251AB006F3451</string>
 			<key>WindowToolIsVisible</key>
-			<false/>
+			<true/>
 		</dict>
 		<dict>
 			<key>FirstTimeWindowDisplayed</key>

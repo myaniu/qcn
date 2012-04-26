@@ -133,6 +133,8 @@ void GLWidget::mousePressEvent(QMouseEvent *event)
 		case VIEW_EARTH_COMBINED:
 		case VIEW_CUBE:		
 			break;
+		case VIEW_GAME:		
+			break;
 	}
 
 	QCursor cursorHand(Qt::OpenHandCursor);
