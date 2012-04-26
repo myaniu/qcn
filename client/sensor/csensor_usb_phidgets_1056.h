@@ -80,7 +80,14 @@ typedef int 	(PHIDGETS_CALL_API * PtrCPhidgetSpatial_getDataRate) (CPhidgetSpati
 typedef int 	(PHIDGETS_CALL_API * PtrCPhidgetSpatial_setDataRate) (CPhidgetSpatialHandle phid, int milliseconds);
 typedef int 	(PHIDGETS_CALL_API * PtrCPhidgetSpatial_getDataRateMax) (CPhidgetSpatialHandle phid, int *max);
 typedef int 	(PHIDGETS_CALL_API * PtrCPhidgetSpatial_getDataRateMin) (CPhidgetSpatialHandle phid, int *min);
-typedef int 	(PHIDGETS_CALL_API * PtrCPhidgetSpatial_set_OnSpatialData_Handler) (CPhidgetSpatialHandle phid, int(*fptr)(CPhidgetSpatialHandle phid, void *userPtr, CPhidgetSpatial_SpatialEventDataHandle *data, int dataCount), void *userPtr);
+typedef int 	(PHIDGETS_CALL_API * PtrCPhidgetSpatial_set_OnSpatialData_Handler) (CPhidgetSpatialHandle phid, 
+   int(*fptr)(CPhidgetSpatialHandle phid, void *userPtr, CPhidgetSpatial_SpatialEventDataHandle *data, int dataCount), void *userPtr);
+
+// some useful logging stuff
+typedef int     (PHIDGETS_CALL_API * PtrCPhidget_enableLogging) (CPhidgetLog_level level, const char *outputFile);
+typedef int     (PHIDGETS_CALL_API * PtrCPhidget_disableLogging) ();
+typedef int     (PHIDGETS_CALL_API * PtrCPhidget_log) (CPhidgetLog_level level, const char *id, const char *message, ...);
+
 
 // this is the Windows implementation of the sensor - IBM/Lenovo Thinkpad, HP, USB Stick
 class CSensorUSBPhidgets1056  : public CSensor
@@ -136,7 +143,11 @@ class CSensorUSBPhidgets1056  : public CSensor
 	PtrCPhidgetSpatial_setDataRate m_PtrCPhidgetSpatial_setDataRate;
 	PtrCPhidgetSpatial_getDataRateMax m_PtrCPhidgetSpatial_getDataRateMax;
 	PtrCPhidgetSpatial_getDataRateMin m_PtrCPhidgetSpatial_getDataRateMin;
-		
+	
+	PtrCPhidget_enableLogging m_PtrCPhidget_enableLogging;
+	PtrCPhidget_disableLogging m_PtrCPhidget_disableLogging;
+	PtrCPhidget_log m_PtrCPhidget_log;
+	
 	bool setupFunctionPointers();
 	virtual bool read_xyz(float& x1, float& y1, float& z1);  
 	virtual const char* getTypeStr(int iType = -1);  // return the sensor name for this iType

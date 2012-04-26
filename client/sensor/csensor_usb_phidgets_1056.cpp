@@ -103,6 +103,11 @@ bool CSensorUSBPhidgets1056::setupFunctionPointers()
 	m_PtrCPhidgetSpatial_getDataRateMax = (PtrCPhidgetSpatial_getDataRateMax) dlsym(m_handleLibrary, "CPhidgetSpatial_getDataRateMax");
 	m_PtrCPhidgetSpatial_getDataRateMin = (PtrCPhidgetSpatial_getDataRateMin) dlsym(m_handleLibrary, "CPhidgetSpatial_getDataRateMin");
 	m_PtrCPhidgetSpatial_set_OnSpatialData_Handler = (PtrCPhidgetSpatial_set_OnSpatialData_Handler) dlsym(m_handleLibrary, "CPhidgetSpatial_set_OnSpatialData_Handler");
+
+        m_PtrCPhidget_enableLogging = (PtrCPhidget_enableLogging) dlsym(m_handleLibrary, "CPhidget_enableLogging");
+        m_PtrCPhidget_disableLogging = (PtrCPhidget_disableLogging) dlsym(m_handleLibrary, "CPhidget_disableLogging");
+        m_PtrCPhidget_log = (PtrCPhidget_log) dlsym(m_handleLibrary, "CPhidget_log");
+
 #else
 	// Windows so use GetProcAddress
 
@@ -136,6 +141,9 @@ bool CSensorUSBPhidgets1056::setupFunctionPointers()
 	m_PtrCPhidgetSpatial_getDataRateMax = (PtrCPhidgetSpatial_getDataRateMax) ::GetProcAddress(m_handleLibrary, "CPhidgetSpatial_getDataRateMax");
 	m_PtrCPhidgetSpatial_getDataRateMin = (PtrCPhidgetSpatial_getDataRateMin) ::GetProcAddress(m_handleLibrary, "CPhidgetSpatial_getDataRateMin");
 
+        m_PtrCPhidget_enableLogging = (PtrCPhidget_enableLogging) ::GetProcAddress(m_handleLibrary, "CPhidget_enableLogging");
+        m_PtrCPhidget_disableLogging = (PtrCPhidget_disableLogging) ::GetProcAddress(m_handleLibrary, "CPhidget_disableLogging");
+        m_PtrCPhidget_log = (PtrCPhidget_log) ::GetProcAddress(m_handleLibrary, "CPhidget_log");
 #endif
 	// test that some choice functions aren't null
 	return (bool) (m_PtrCPhidget_open && m_PtrCPhidget_close && m_PtrCPhidget_waitForAttachment && m_PtrCPhidget_set_OnAttach_Handler 
@@ -183,6 +191,7 @@ bool CSensorUSBPhidgets1056::detect()
 	int ret;
 	float x,y,z; //test read_xyz
 
+
    setType();
    setPort();
 
@@ -208,7 +217,12 @@ bool CSensorUSBPhidgets1056::detect()
 
 	// check for stop signal and function pointers
 	if (qcn_main::g_iStop || ! setupFunctionPointers()) return false;
-	
+
+// log Linux
+#if !defined(__APPLE_CC__) && !defined(_WIN32)	
+       m_PtrCPhidget_enableLogging(PHIDGET_LOG_VERBOSE, "phidget.txt");
+#endif
+
 	//Declare a spatial handle
 	m_handlePhidgetSpatial = NULL;
 	
@@ -238,7 +252,7 @@ bool CSensorUSBPhidgets1056::detect()
 	// try a second to open
 	double dTime = dtime();
 
-        if((ret = m_PtrCPhidget_waitForAttachment((CPhidgetHandle)m_handlePhidgetSpatial, 1500))) {
+        if((ret = m_PtrCPhidget_waitForAttachment((CPhidgetHandle)m_handlePhidgetSpatial, 5000))) {
 	        const char *err;
 		m_PtrCPhidget_getErrorDescription(ret, &err);
 		fprintf(stderr, "Phidgets error waitForAttachment %d = %s\n", ret, err);
@@ -292,6 +306,9 @@ bool CSensorUSBPhidgets1056::detect()
    // last setup a detach callback function if device is removed
 	m_PtrCPhidget_set_OnDetach_Handler((CPhidgetHandle) m_handlePhidgetSpatial, Phidgets1056DetachHandler, NULL);
 	
+#if !defined(__APPLE_CC__) && !defined(_WIN32)	
+       m_PtrCPhidget_disableLogging();
+#endif
 
    return true;
 }
