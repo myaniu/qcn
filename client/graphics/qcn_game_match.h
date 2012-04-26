@@ -25,8 +25,10 @@ class CGameMatch
 private:
     // variables
     static const int MAX_PLOT_POINTS;
+    static const int iMaxTextures;
     TEXTURE_DESC textureBackground;
-	
+
+
     GLdouble modelview_matrix[16], projection_matrix[16];
     GLint    viewport[4];
     bool bProjection; // using 2D projection?
@@ -91,7 +93,6 @@ public:
     void Resize( GLsizei iWidth, GLsizei iHeight ); 
     void RenderScene( GLsizei iWidth, GLsizei iHeight, GLfloat viewpoint, GLfloat pitch, GLfloat roll ); 
     void RenderText();
-    void DrawPlot(const GLfloat* pfEnd, const GLfloat* asize, const eCubeFace face);
     void RenderCube(const GLfloat* asize);
 	
     void MouseButton(int x, int y, int which, int is_down);

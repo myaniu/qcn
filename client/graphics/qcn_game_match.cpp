@@ -10,7 +10,7 @@
 #include "qcn_shmem.h"
 
 const int CGameMatch::iMaxTextures = 4;
-const int CGameMatch::MAX_PLOT_POINTS = 500;;
+const int CGameMatch::MAX_PLOT_POINTS = 500;
 
 // constructor
 CGameMatch::CGameMatch()  
@@ -44,8 +44,6 @@ CGameMatch::CGameMatch()
 		rotationSpeed = ROTATION_SPEED_DEFAULT;
 		bAutoRotate = true;  
 	
-	psqActive = NULL; 
-	iCluster = -1;
 	
 	//bEarthDay = true;
 	bMouseProcessed = false;
@@ -398,121 +396,6 @@ void CGameMatch::SetViewpoint(double x, double y, double z)
 			  );
 }
 
-void CGameMatch::DrawPlot(const GLfloat* pfEnd, const GLfloat* asize, const eCubeFace face)
-{
-	if (!pfEnd) return; // no plot if no sensor or we just started!
-	
-	GLfloat size = 0.0f;
-	
-	// select the right size depending on which face we're drawing 
-	switch(face) {
-		case CUBE_LEFT:
-		case CUBE_RIGHT:
-			size = asize[E_DX];
-			break;
-		case CUBE_TOP:
-		case CUBE_BOTTOM:
-			size = asize[E_DY];
-			break;
-		case CUBE_FRONT:
-		case CUBE_BACK:
-			size = asize[E_DZ];
-			break;
-	}
-	
-	// if here we're guaranteed that we have at least 100 (MAX_PLOT_POINTS) points from (pfEnd-100) to pfEnd
-	const GLfloat *pfBegin = pfEnd - MAX_PLOT_POINTS;
-	
-	// get the maximum value for scaling
-	float fmaxfactor = -1e9f, fmin = 1e9f, fmax = -1e9f; 
-	for (float *pfIt = (float*) pfBegin; pfIt <= pfEnd; pfIt++) {
-		if (*pfIt > fmax) fmax = *pfIt;
-		if (*pfIt < fmin) fmin = *pfIt;
-	}
-	if ((fmax-fmin) == 0.0f) fmax = fmin+0.01f; // no divide by zero!
-	
-	if (fmax < 0.0f) { // if negative, all values are negative, so it will be off screen unless correct, so use -fmin
-        fmaxfactor = size / (-fmin*2.0f); 
-	} 
-	else {
-        fmaxfactor = size / (fmax*2.0f);   // 1.2f is a scaling factor that looks good  
-	}
-	
-	// fprintf(stdout, "drawing plot for %f to %f - fmaxfactor=%f  size=%f\n", *pfBegin, *pfEnd, fmaxfactor, size);
-	
-	glLineWidth(1);
-	
-	/*
-	 // set the color to the RGB "inverse" of the current (cube face) color
-	 GLfloat afcolor[4] = {0,0,0,0};
-	 glGetFloatv(GL_CURRENT_COLOR, afcolor);
-	 
-	 for (int j = 0; j < 3; j++)  {
-     if (afcolor[j] == 1.0f) 
-	 afcolor[j] = 0.0f;
-     else if (afcolor[j] == 0.0f) 
-	 afcolor[j] = 1.0f;
-	 } 
-	 // invert
-	 glColor4fv(afcolor);  
-	 
-	 fprintf(stdout, "face color = %f %f %f %f\n", 
-	 afcolor[0],
-	 afcolor[1],
-	 afcolor[2],
-	 afcolor[3]);
-	 */
-	
-	glColor4fv(black);  
-	
-	glBegin(GL_LINE_STRIP);
-	int i = 0;
-	//GLfloat Xabs, Yabs, x = 0.0f, y = 0.0f, z = 0.0f;
-	GLfloat x = 0.0f, y = 0.0f, z = 0.0f;
-	for (float *pfIt = (float*) pfBegin; pfIt <= pfEnd; pfIt++) {
-        // the "absolute" X & Y values -- i.e. before we figure out the translation to the vertex etc
-        //Xabs =  // absolute x ranges from -size to +size
-        //Yabs = ;  // absolute Y is scaled to the fmaxfactor calculated above to ensure we're on the cube face
-		
-        switch(face) {
-			case CUBE_TOP:
-				x = (((float) ++i / (float) (MAX_PLOT_POINTS)) * -asize[E_DX] * 2) + asize[E_DX];  // the top of the cube, we start at x is 0
-				y = size;
-				z = ((*pfIt-fmin)/(fmax-fmin)) * asize[E_DZ];
-				break;
-			case CUBE_BOTTOM:
-				x = (((float) ++i / (float) (MAX_PLOT_POINTS)) * -asize[E_DX] * 2) + asize[E_DX];;
-				y = -size;
-				z = ((*pfIt-fmin)/(fmax-fmin)) * asize[E_DZ];
-				break;
-			case CUBE_FRONT:
-				x = (((float) ++i / (float) (MAX_PLOT_POINTS)) * -asize[E_DX] * 2) + asize[E_DX];;
-				y = ((*pfIt-fmin)/(fmax-fmin)) * asize[E_DY];
-				z = size;
-				break;
-			case CUBE_BACK:
-				x = (((float) ++i / (float) (MAX_PLOT_POINTS)) * -asize[E_DX] * 2) + asize[E_DX];;
-				y = ((*pfIt-fmin)/(fmax-fmin)) * asize[E_DY];
-				z = -size;
-				break;
-			case CUBE_LEFT:
-				x = size;
-				y = ((*pfIt-fmin)/(fmax-fmin)) * asize[E_DY];
-				z = (((float) ++i / (float) (MAX_PLOT_POINTS)) * -asize[E_DZ] * 2) + asize[E_DZ];;
-				break;
-			case CUBE_RIGHT:
-				x = -size;
-				y = ((*pfIt-fmin)/(fmax-fmin)) * asize[E_DY];
-				z = (((float) ++i / (float) (MAX_PLOT_POINTS)) * -asize[E_DZ] * 2) + asize[E_DZ];;
-				break;
-        }
-		
-		// the vertex depends on which face we're drawing from the TopLeft & BottomRight values passed in above
-        glVertex3f(x, y, z);
-	}
-	glEnd();
-}
-
 void CGameMatch::RenderCube(const GLfloat* asize)
 {
 	static double dOff[3] = {-1.0f, -1.0f, -.5f};
@@ -564,8 +447,6 @@ void CGameMatch::RenderCube(const GLfloat* asize)
 		glVertex3f(-asize[E_DX], asize[E_DY], asize[E_DZ]);      // Bottom Left Of The Quad (Top)
 		glVertex3f( asize[E_DX], asize[E_DY], asize[E_DZ]);      // Bottom Right Of The Quad (Top)
 		glEnd();
-		// note the asize in DrawPlot below should be the "y-axis" for whichever face we're looking at
-		DrawPlot(lOffset ? (const GLfloat*) &(sm->x0[lOffset]) : NULL, asize, CUBE_TOP);  // x-axis is green
 		
 		glBegin(GL_QUADS);            // Draw The Cube Using quads
 		glColor4fv(yellow);         // Color Yellow
@@ -574,7 +455,6 @@ void CGameMatch::RenderCube(const GLfloat* asize)
 		glVertex3f(-asize[E_DX],-asize[E_DY],-asize[E_DZ]);      // Bottom Left Of The Quad (Bottom)
 		glVertex3f( asize[E_DX],-asize[E_DY],-asize[E_DZ]);      // Bottom Right Of The Quad (Bottom)
 		glEnd();
-		DrawPlot(lOffset ? (const float*) &(sm->y0[lOffset]) : NULL, asize, CUBE_BOTTOM);   // y-axis is yellow
 		
 		glBegin(GL_QUADS);            // Draw The Cube Using quads
 		glColor4fv(blue);           // Color Blue 
@@ -583,7 +463,6 @@ void CGameMatch::RenderCube(const GLfloat* asize)
 		glVertex3f(-asize[E_DX],-asize[E_DY], asize[E_DZ]);      // Bottom Left Of The Quad (Front)
 		glVertex3f( asize[E_DX],-asize[E_DY], asize[E_DZ]);      // Bottom Right Of The Quad (Front)
 		glEnd();
-		DrawPlot(lOffset ? (const float*) &(sm->z0[lOffset]) : NULL, asize, CUBE_FRONT);  // z-axis is blue
 		
 		glBegin(GL_QUADS);            // Draw The Cube Using quads
 		glColor4fv(red);            // Color Red
@@ -592,7 +471,6 @@ void CGameMatch::RenderCube(const GLfloat* asize)
 		glVertex3f(-asize[E_DX], asize[E_DY],-asize[E_DZ]);      // Bottom Left Of The Quad (Back)
 		glVertex3f( asize[E_DX], asize[E_DY],-asize[E_DZ]);      // Bottom Right Of The Quad (Back)
 		glEnd();
-		DrawPlot(lOffset ? (const float*) &(sm->fsig[lOffset]) : NULL, asize, CUBE_BACK);   // fsig/significance is red
 		
 		glBegin(GL_QUADS);            // Draw The Cube Using quads
 		glColor4fv(cyan);           // Color Cyan
@@ -601,7 +479,6 @@ void CGameMatch::RenderCube(const GLfloat* asize)
 		glVertex3f(-asize[E_DX],-asize[E_DY],-asize[E_DZ]);      // Bottom Left Of The Quad (Left)
 		glVertex3f(-asize[E_DX],-asize[E_DY], asize[E_DZ]);      // Bottom Right Of The Quad (Left)
 		glEnd();
-		DrawPlot(lOffset ? (const float*) &(sm->fmag[lOffset]) : NULL, asize, CUBE_LEFT);   // magnitude
 		
 		glBegin(GL_QUADS);            // Draw The Cube Using quads
 		glColor4fv(magenta);        // Color Magenta
@@ -610,7 +487,6 @@ void CGameMatch::RenderCube(const GLfloat* asize)
 		glVertex3f( asize[E_DX],-asize[E_DY], asize[E_DZ]);      // Bottom Left Of The Quad (Right)
 		glVertex3f( asize[E_DX],-asize[E_DY],-asize[E_DZ]);      // Bottom Right Of The Quad (Right)
 		glEnd();
-		DrawPlot(lOffset ? (const float*) &(sm->vari[lOffset]) : NULL, asize, CUBE_RIGHT);   // variance
 	
 	glPopMatrix();
 	glPopMatrix(); // rotation matrix
