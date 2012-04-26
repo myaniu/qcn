@@ -1,25 +1,10 @@
+#ifndef PHIDGET_H
+#define PHIDGET_H
 #ifdef __cplusplus
 extern "C" {
 #endif
- 
-#if defined(__stdcall)  
- #define CCONV __stdcall  	
-#else 
- #if defined(__BORLANDC__) || defined(_MSC_VER) 
-  #define CCONV __stdcall  
- #else 
-  #define CCONV 
- #endif 
-#endif 
- 
-#if !defined(__int64) 
-#if !defined(__BORLANDC__) && !defined(_MSC_VER) 
-typedef long long __int64; 
-#endif 
-#endif
-
- 
 typedef struct _CPhidget *CPhidgetHandle;
+typedef long long __int64;
 typedef struct _CPhidget_Timestamp {
  int seconds;
  int microseconds;
@@ -27,11 +12,7 @@ typedef struct _CPhidget_Timestamp {
 typedef enum {
  PHIDCLASS_ACCELEROMETER = 2,
  PHIDCLASS_ADVANCEDSERVO = 3,
- PHIDCLASS_ANALOG = 22,
- PHIDCLASS_BRIDGE = 23,
  PHIDCLASS_ENCODER = 4,
- PHIDCLASS_FREQUENCYCOUNTER = 21,
- PHIDCLASS_GPS = 5,
  PHIDCLASS_INTERFACEKIT = 7,
  PHIDCLASS_IR = 19,
  PHIDCLASS_LED = 8,
@@ -39,54 +20,46 @@ typedef enum {
  PHIDCLASS_PHSENSOR = 10,
  PHIDCLASS_RFID = 11,
  PHIDCLASS_SERVO = 12,
- PHIDCLASS_SPATIAL = 20,
  PHIDCLASS_STEPPER = 13,
  PHIDCLASS_TEMPERATURESENSOR = 14,
  PHIDCLASS_TEXTLCD = 15,
  PHIDCLASS_TEXTLED = 16,
  PHIDCLASS_WEIGHTSENSOR = 17,
+ PHIDCLASS_SPATIAL = 20,
 } CPhidget_DeviceClass;
 typedef enum {
  PHIDID_ACCELEROMETER_3AXIS = 0x07E,
  PHIDID_ADVANCEDSERVO_1MOTOR = 0x082,
  PHIDID_ADVANCEDSERVO_8MOTOR = 0x03A,
- PHIDID_ANALOG_4OUTPUT = 0x037,
  PHIDID_BIPOLAR_STEPPER_1MOTOR = 0x07B,
- PHIDID_BRIDGE_4INPUT = 0x03B,
  PHIDID_ENCODER_1ENCODER_1INPUT = 0x04B,
  PHIDID_ENCODER_HS_1ENCODER = 0x080,
  PHIDID_ENCODER_HS_4ENCODER_4INPUT = 0x04F,
- PHIDID_FREQUENCYCOUNTER_2INPUT = 0x035,
- PHIDID_GPS = 0x079,
  PHIDID_INTERFACEKIT_0_0_4 = 0x040,
  PHIDID_INTERFACEKIT_0_0_8 = 0x081,
  PHIDID_INTERFACEKIT_0_16_16 = 0x044,
- PHIDID_INTERFACEKIT_2_2_2 = 0x036,
  PHIDID_INTERFACEKIT_8_8_8 = 0x045,
  PHIDID_INTERFACEKIT_8_8_8_w_LCD = 0x07D,
  PHIDID_IR = 0x04D,
+ PHIDID_LED_64 = 0x04A,
  PHIDID_LED_64_ADV = 0x04C,
  PHIDID_LINEAR_TOUCH = 0x076,
- PHIDID_MOTORCONTROL_1MOTOR = 0x03E,
  PHIDID_MOTORCONTROL_HC_2MOTOR = 0x059,
+ PHIDID_MOTORCONTROL_LV_2MOTOR_4INPUT = 0x058,
+ PHIDID_PHSENSOR = 0x074,
  PHIDID_RFID_2OUTPUT = 0x031,
  PHIDID_ROTARY_TOUCH = 0x077,
+ PHIDID_SERVO_1MOTOR = 0x039,
  PHIDID_SPATIAL_ACCEL_3AXIS = 0x07F,
  PHIDID_SPATIAL_ACCEL_GYRO_COMPASS = 0x033,
  PHIDID_TEMPERATURESENSOR = 0x070,
  PHIDID_TEMPERATURESENSOR_4 = 0x032,
- PHIDID_TEMPERATURESENSOR_IR = 0x03C,
  PHIDID_TEXTLCD_2x20_w_8_8_8 = 0x17D,
- PHIDID_TEXTLCD_ADAPTER = 0x03D,
  PHIDID_UNIPOLAR_STEPPER_4MOTOR = 0x07A,
  PHIDID_ACCELEROMETER_2AXIS = 0x071,
  PHIDID_INTERFACEKIT_0_8_8_w_LCD = 0x053,
  PHIDID_INTERFACEKIT_4_8_8 = 4,
- PHIDID_LED_64 = 0x04A,
- PHIDID_MOTORCONTROL_LV_2MOTOR_4INPUT = 0x058,
- PHIDID_PHSENSOR = 0x074,
  PHIDID_RFID = 0x030,
- PHIDID_SERVO_1MOTOR = 0x039,
  PHIDID_SERVO_1MOTOR_OLD = 2,
  PHIDID_SERVO_4MOTOR = 0x038,
  PHIDID_SERVO_4MOTOR_OLD = 3,
@@ -97,7 +70,6 @@ typedef enum {
  PHIDID_WEIGHTSENSOR = 0x072,
 } CPhidget_DeviceID;
  int CPhidget_open(CPhidgetHandle phid, int serialNumber);
- int CPhidget_openLabel(CPhidgetHandle phid, const char *label);
  int CPhidget_close(CPhidgetHandle phid);
  int CPhidget_delete(CPhidgetHandle phid);
  int CPhidget_set_OnDetach_Handler(CPhidgetHandle phid, int( *fptr)(CPhidgetHandle phid, void *userPtr), void *userPtr);
@@ -133,11 +105,15 @@ typedef struct _CPhidgetDictionaryListener *CPhidgetDictionaryListenerHandle;
  int CPhidgetDictionary_delete(CPhidgetDictionaryHandle dict);
  int CPhidgetDictionary_set_OnError_Handler(CPhidgetDictionaryHandle dict,
     int( *fptr)(CPhidgetDictionaryHandle, void *userPtr, int errorCode, const char *errorString), void *userPtr);
+
+
  int CPhidgetDictionary_addKey(CPhidgetDictionaryHandle dict, const char *key, const char *value, int persistent);
+
+
+
+
+
  int CPhidgetDictionary_removeKey(CPhidgetDictionaryHandle dict, const char *pattern);
-
-
-
 typedef int( *CPhidgetDictionary_OnKeyChange_Function)(CPhidgetDictionaryHandle dict, void *userPtr,
  const char *key, const char *value, CPhidgetDictionary_keyChangeReason reason);
  int CPhidgetDictionary_set_OnKeyChange_Handler(CPhidgetDictionaryHandle dict, CPhidgetDictionaryListenerHandle *dictlistener, const char *pattern,
@@ -161,7 +137,15 @@ typedef struct _CPhidgetManager *CPhidgetManagerHandle;
  int CPhidgetManager_set_OnError_Handler(CPhidgetManagerHandle phidm, int( *fptr)(CPhidgetManagerHandle phidm, void *userPtr, int errorCode, const char *errorString), void *userPtr);
  int CPhidgetManager_set_OnServerConnect_Handler(CPhidgetManagerHandle phidm, int ( *fptr)(CPhidgetManagerHandle phidm, void *userPtr), void *userPtr);
  int CPhidgetManager_set_OnServerDisconnect_Handler(CPhidgetManagerHandle phidm, int ( *fptr)(CPhidgetManagerHandle phidm, void *userPtr), void *userPtr);
+
+
  int CPhidgetManager_getServerID(CPhidgetManagerHandle phidm, const char **serverID);
+
+
+
+
+
+
  int CPhidgetManager_getServerAddress(CPhidgetManagerHandle phidm, const char **address, int *port);
 
 
@@ -170,9 +154,7 @@ typedef struct _CPhidgetManager *CPhidgetManagerHandle;
 
  int CPhidgetManager_getServerStatus(CPhidgetManagerHandle phidm, int *serverStatus);
  int CPhidget_openRemote(CPhidgetHandle phid, int serial, const char *serverID, const char *password);
- int CPhidget_openLabelRemote(CPhidgetHandle phid, const char *label, const char *serverID, const char *password);
  int CPhidget_openRemoteIP(CPhidgetHandle phid, int serial, const char *address, int port, const char *password);
- int CPhidget_openLabelRemoteIP(CPhidgetHandle phid, const char *label, const char *address, int port, const char *password);
  int CPhidgetManager_openRemote(CPhidgetManagerHandle phidm, const char *serverID, const char *password);
  int CPhidgetManager_openRemoteIP(CPhidgetManagerHandle phidm, const char *address, int port, const char *password);
  int CPhidgetDictionary_openRemote(CPhidgetDictionaryHandle dict, const char *serverID, const char *password);
@@ -217,13 +199,6 @@ typedef enum {
  PHIDGET_SERVO_FIRGELLI_L12_50_210_06_R,
  PHIDGET_SERVO_FIRGELLI_L12_100_50_06_R,
  PHIDGET_SERVO_FIRGELLI_L12_100_100_06_R,
- PHIDGET_SERVO_SPRINGRC_SM_S2313M,
- PHIDGET_SERVO_SPRINGRC_SM_S3317M,
- PHIDGET_SERVO_SPRINGRC_SM_S3317SR,
- PHIDGET_SERVO_SPRINGRC_SM_S4303R,
- PHIDGET_SERVO_SPRINGRC_SM_S4315M,
- PHIDGET_SERVO_SPRINGRC_SM_S4315R,
- PHIDGET_SERVO_SPRINGRC_SM_S4505B,
  PHIDGET_SERVO_USER_DEFINED
 } CPhidget_ServoType;
  int CPhidgetAdvancedServo_getMotorCount(CPhidgetAdvancedServoHandle phid, int *count);
@@ -253,6 +228,8 @@ typedef enum {
  int CPhidgetAdvancedServo_getStopped(CPhidgetAdvancedServoHandle phid, int index, int *stoppedState);
 
 
+
+
  int CPhidgetAdvancedServo_getServoType(CPhidgetAdvancedServoHandle phid, int index, CPhidget_ServoType *servoType);
 
 
@@ -262,39 +239,6 @@ typedef enum {
 
  int CPhidgetAdvancedServo_setServoType(CPhidgetAdvancedServoHandle phid, int index, CPhidget_ServoType servoType);
  int CPhidgetAdvancedServo_setServoParameters(CPhidgetAdvancedServoHandle phid, int index, double min_us,double max_us,double degrees,double velocity_max);
-typedef struct _CPhidgetAnalog *CPhidgetAnalogHandle;
- int CPhidgetAnalog_create(CPhidgetAnalogHandle *phid);
- int CPhidgetAnalog_getOutputCount(CPhidgetAnalogHandle phid, int *count);
- int CPhidgetAnalog_getVoltage(CPhidgetAnalogHandle phid, int index, double *voltage);
- int CPhidgetAnalog_setVoltage(CPhidgetAnalogHandle phid, int index, double voltage);
- int CPhidgetAnalog_getVoltageMax(CPhidgetAnalogHandle phid, int index, double *max);
- int CPhidgetAnalog_getVoltageMin(CPhidgetAnalogHandle phid, int index, double *min);
- int CPhidgetAnalog_setEnabled(CPhidgetAnalogHandle phid, int index, int enabledState);
- int CPhidgetAnalog_getEnabled(CPhidgetAnalogHandle phid, int index, int *enabledState);
-typedef enum {
- PHIDGET_BRIDGE_GAIN_1 = 1,
- PHIDGET_BRIDGE_GAIN_8,
- PHIDGET_BRIDGE_GAIN_16,
- PHIDGET_BRIDGE_GAIN_32,
- PHIDGET_BRIDGE_GAIN_64,
- PHIDGET_BRIDGE_GAIN_128,
- PHIDGET_BRIDGE_GAIN_UNKNOWN
-} CPhidgetBridge_Gain;
-typedef struct _CPhidgetBridge *CPhidgetBridgeHandle;
- int CPhidgetBridge_create(CPhidgetBridgeHandle *phid);
- int CPhidgetBridge_getInputCount(CPhidgetBridgeHandle phid, int *count);
- int CPhidgetBridge_getBridgeValue(CPhidgetBridgeHandle phid, int index, double *value);
- int CPhidgetBridge_getBridgeMax(CPhidgetBridgeHandle phid, int index, double *max);
- int CPhidgetBridge_getBridgeMin(CPhidgetBridgeHandle phid, int index, double *min);
- int CPhidgetBridge_setEnabled(CPhidgetBridgeHandle phid, int index, int enabledState);
- int CPhidgetBridge_getEnabled(CPhidgetBridgeHandle phid, int index, int *enabledState);
- int CPhidgetBridge_getGain(CPhidgetBridgeHandle phid, int index, CPhidgetBridge_Gain *gain);
- int CPhidgetBridge_setGain(CPhidgetBridgeHandle phid, int index, CPhidgetBridge_Gain gain);
- int CPhidgetBridge_getDataRate(CPhidgetBridgeHandle phid, int *milliseconds);
- int CPhidgetBridge_setDataRate(CPhidgetBridgeHandle phid, int milliseconds);
- int CPhidgetBridge_getDataRateMax(CPhidgetBridgeHandle phid, int *max);
- int CPhidgetBridge_getDataRateMin(CPhidgetBridgeHandle phid, int *min);
- int CPhidgetBridge_set_OnBridgeData_Handler(CPhidgetBridgeHandle phid, int ( *fptr)(CPhidgetBridgeHandle phid, void *userPtr, int index, double value), void *userPtr);
 typedef struct _CPhidgetEncoder *CPhidgetEncoderHandle;
  int CPhidgetEncoder_create(CPhidgetEncoderHandle *phid);
  int CPhidgetEncoder_getInputCount(CPhidgetEncoderHandle phid, int *count);
@@ -307,111 +251,6 @@ typedef struct _CPhidgetEncoder *CPhidgetEncoderHandle;
  int CPhidgetEncoder_getIndexPosition(CPhidgetEncoderHandle phid, int index, int *position);
  int CPhidgetEncoder_getEnabled(CPhidgetEncoderHandle phid, int index, int *enabledState);
  int CPhidgetEncoder_setEnabled(CPhidgetEncoderHandle phid, int index, int enabledState);
-typedef enum {
- PHIDGET_FREQUENCYCOUNTER_FILTERTYPE_ZERO_CROSSING = 1,
- PHIDGET_FREQUENCYCOUNTER_FILTERTYPE_LOGIC_LEVEL,
- PHIDGET_FREQUENCYCOUNTER_FILTERTYPE_UNKNOWN
-} CPhidgetFrequencyCounter_FilterType;
-typedef struct _CPhidgetFrequencyCounter *CPhidgetFrequencyCounterHandle;
- int CPhidgetFrequencyCounter_create(CPhidgetFrequencyCounterHandle *phid);
- int CPhidgetFrequencyCounter_getFrequencyInputCount(CPhidgetFrequencyCounterHandle phid, int *count);
- int CPhidgetFrequencyCounter_getFrequency(CPhidgetFrequencyCounterHandle phid, int index, double *frequency);
- int CPhidgetFrequencyCounter_getTotalTime(CPhidgetFrequencyCounterHandle phid, int index, __int64 *time);
- int CPhidgetFrequencyCounter_getTotalCount(CPhidgetFrequencyCounterHandle phid, int index, __int64 *count);
- int CPhidgetFrequencyCounter_setTimeout(CPhidgetFrequencyCounterHandle phid, int index, int timeout);
- int CPhidgetFrequencyCounter_getTimeout(CPhidgetFrequencyCounterHandle phid, int index, int *timeout);
- int CPhidgetFrequencyCounter_setEnabled(CPhidgetFrequencyCounterHandle phid, int index, int enabledState);
- int CPhidgetFrequencyCounter_getEnabled(CPhidgetFrequencyCounterHandle phid, int index, int *enabledState);
- int CPhidgetFrequencyCounter_setFilter(CPhidgetFrequencyCounterHandle phid, int index, CPhidgetFrequencyCounter_FilterType filter);
- int CPhidgetFrequencyCounter_getFilter(CPhidgetFrequencyCounterHandle phid, int index, CPhidgetFrequencyCounter_FilterType *filter);
- int CPhidgetFrequencyCounter_reset(CPhidgetFrequencyCounterHandle phid, int index);
- int CPhidgetFrequencyCounter_set_OnCount_Handler(CPhidgetFrequencyCounterHandle phid, int ( *fptr)(CPhidgetFrequencyCounterHandle phid, void *userPtr, int index, int time,int counts), void *userPtr);
-struct __GPSTime
-{
- short tm_ms;
- short tm_sec;
- short tm_min;
- short tm_hour;
-} typedef GPSTime;
-struct __GPSDate
-{
- short tm_mday;
- short tm_mon;
- short tm_year;
-} typedef GPSDate;
-struct __GPSSatInfo
-{
- short ID;
- short elevation;
- int azimuth;
- short SNR;
-} typedef GPSSatInfo;
-struct __GPGGA
-{
- GPSTime time;
- double latitude;
- double longitude;
- short fixQuality;
- short numSatellites;
- double horizontalDilution;
- double altitude;
- double heightOfGeoid;
-} typedef GPGGA;
-struct __GPGSA
-{
- char mode;
- short fixType;
- short satUsed[12];
- double posnDilution;
- double horizDilution;
- double vertDilution;
-} typedef GPGSA;
-struct __GPGSV
-{
- short satsInView;
- GPSSatInfo satInfo[12];
-} typedef GPGSV;
-struct __GPRMC
-{
- GPSTime time;
- char status;
- double latitude;
- double longitude;
- double speedKnots;
- double heading;
- GPSDate date;
- double magneticVariation;
- char mode;
-} typedef GPRMC;
-struct __GPVTG
-{
- double trueHeading;
- double magneticHeading;
- double speedKnots;
- double speed;
- char mode;
-} typedef GPVTG;
-struct __NMEAData
-{
- GPGGA GGA;
- GPGSA GSA;
- GPGSV GSV;
- GPRMC RMC;
- GPVTG VTG;
-} typedef NMEAData;
-typedef struct _CPhidgetGPS *CPhidgetGPSHandle;
- int CPhidgetGPS_create(CPhidgetGPSHandle *phid);
- int CPhidgetGPS_getLatitude(CPhidgetGPSHandle phid, double *latitude);
- int CPhidgetGPS_getLongitude(CPhidgetGPSHandle phid, double *longitude);
- int CPhidgetGPS_getAltitude(CPhidgetGPSHandle phid, double *altitude);
- int CPhidgetGPS_getHeading(CPhidgetGPSHandle phid, double *heading);
- int CPhidgetGPS_getVelocity(CPhidgetGPSHandle phid, double *velocity);
- int CPhidgetGPS_getTime(CPhidgetGPSHandle phid, GPSTime *time);
- int CPhidgetGPS_getDate(CPhidgetGPSHandle phid, GPSDate *date);
- int CPhidgetGPS_getPositionFixStatus(CPhidgetGPSHandle phid, int *fixStatus);
- int CPhidgetGPS_getNMEAData(CPhidgetGPSHandle phid, NMEAData *data);
- int CPhidgetGPS_set_OnPositionChange_Handler(CPhidgetGPSHandle phid, int ( *fptr)(CPhidgetGPSHandle phid, void *userPtr, double latitude,double longitude,double altitude), void *userPtr);
- int CPhidgetGPS_set_OnPositionFixStatusChange_Handler(CPhidgetGPSHandle phid, int ( *fptr)(CPhidgetGPSHandle phid, void *userPtr, int status), void *userPtr);
 typedef struct _CPhidgetInterfaceKit *CPhidgetInterfaceKitHandle;
  int CPhidgetInterfaceKit_create(CPhidgetInterfaceKitHandle *phid);
  int CPhidgetInterfaceKit_getInputCount(CPhidgetInterfaceKitHandle phid, int *count);
@@ -509,25 +348,6 @@ typedef struct _CPhidgetMotorControl *CPhidgetMotorControlHandle;
  int CPhidgetMotorControl_getInputCount(CPhidgetMotorControlHandle phid, int *count);
  int CPhidgetMotorControl_getInputState(CPhidgetMotorControlHandle phid, int index, int *inputState);
  int CPhidgetMotorControl_set_OnInputChange_Handler(CPhidgetMotorControlHandle phid, int ( *fptr)(CPhidgetMotorControlHandle phid, void *userPtr, int index, int inputState), void *userPtr);
- int CPhidgetMotorControl_getEncoderCount(CPhidgetMotorControlHandle phid, int *count);
- int CPhidgetMotorControl_getEncoderPosition(CPhidgetMotorControlHandle phid, int index, int *position);
- int CPhidgetMotorControl_setEncoderPosition(CPhidgetMotorControlHandle phid, int index, int position);
- int CPhidgetMotorControl_set_OnEncoderPositionChange_Handler(CPhidgetMotorControlHandle phid, int ( *fptr)(CPhidgetMotorControlHandle phid, void *userPtr, int index, int time,int positionChange), void *userPtr);
- int CPhidgetMotorControl_set_OnEncoderPositionUpdate_Handler(CPhidgetMotorControlHandle phid, int ( *fptr)(CPhidgetMotorControlHandle phid, void *userPtr, int index, int positionChange), void *userPtr);
- int CPhidgetMotorControl_getBackEMFSensingState(CPhidgetMotorControlHandle phid, int index, int *bEMFState);
- int CPhidgetMotorControl_setBackEMFSensingState(CPhidgetMotorControlHandle phid, int index, int bEMFState);
- int CPhidgetMotorControl_getBackEMF(CPhidgetMotorControlHandle phid, int index, double *voltage);
- int CPhidgetMotorControl_set_OnBackEMFUpdate_Handler(CPhidgetMotorControlHandle phid, int ( *fptr)(CPhidgetMotorControlHandle phid, void *userPtr, int index, double voltage), void *userPtr);
- int CPhidgetMotorControl_getSupplyVoltage(CPhidgetMotorControlHandle phid, double *supplyVoltage);
- int CPhidgetMotorControl_getBraking(CPhidgetMotorControlHandle phid, int index, double *braking);
- int CPhidgetMotorControl_setBraking(CPhidgetMotorControlHandle phid, int index, double braking);
- int CPhidgetMotorControl_getSensorCount(CPhidgetMotorControlHandle phid, int *count);
- int CPhidgetMotorControl_getSensorValue(CPhidgetMotorControlHandle phid, int index, int *sensorValue);
- int CPhidgetMotorControl_getSensorRawValue(CPhidgetMotorControlHandle phid, int index, int *sensorRawValue);
- int CPhidgetMotorControl_set_OnSensorUpdate_Handler(CPhidgetMotorControlHandle phid, int ( *fptr)(CPhidgetMotorControlHandle phid, void *userPtr, int index, int sensorValue), void *userPtr);
- int CPhidgetMotorControl_getRatiometric(CPhidgetMotorControlHandle phid, int *ratiometric);
- int CPhidgetMotorControl_setRatiometric(CPhidgetMotorControlHandle phid, int ratiometric);
- int CPhidgetMotorControl_set_OnCurrentUpdate_Handler(CPhidgetMotorControlHandle phid, int ( *fptr)(CPhidgetMotorControlHandle phid, void *userPtr, int index, double current), void *userPtr);
 typedef struct _CPhidgetPHSensor *CPhidgetPHSensorHandle;
  int CPhidgetPHSensor_create(CPhidgetPHSensorHandle *phid);
  int CPhidgetPHSensor_getPH(CPhidgetPHSensorHandle phid, double *ph);
@@ -668,27 +488,6 @@ typedef struct _CPhidgetTextLCD *CPhidgetTextLCDHandle;
  int CPhidgetTextLCD_setCustomCharacter(CPhidgetTextLCDHandle phid, int index, int var1,int var2);
  int CPhidgetTextLCD_setDisplayCharacter(CPhidgetTextLCDHandle phid, int index, int column,unsigned char character);
  int CPhidgetTextLCD_setDisplayString(CPhidgetTextLCDHandle phid, int index, char *displayString);
-typedef enum {
- PHIDGET_TEXTLCD_SCREEN_NONE = 1,
- PHIDGET_TEXTLCD_SCREEN_1x8,
- PHIDGET_TEXTLCD_SCREEN_2x8,
- PHIDGET_TEXTLCD_SCREEN_1x16,
- PHIDGET_TEXTLCD_SCREEN_2x16,
- PHIDGET_TEXTLCD_SCREEN_4x16,
- PHIDGET_TEXTLCD_SCREEN_2x20,
- PHIDGET_TEXTLCD_SCREEN_4x20,
- PHIDGET_TEXTLCD_SCREEN_2x24,
- PHIDGET_TEXTLCD_SCREEN_1x40,
- PHIDGET_TEXTLCD_SCREEN_2x40,
- PHIDGET_TEXTLCD_SCREEN_4x40,
- PHIDGET_TEXTLCD_SCREEN_UNKNOWN
-} CPhidgetTextLCD_ScreenSize;
- int CPhidgetTextLCD_getScreenCount(CPhidgetTextLCDHandle phid, int *count);
- int CPhidgetTextLCD_getScreen(CPhidgetTextLCDHandle phid, int *screenIndex);
- int CPhidgetTextLCD_setScreen(CPhidgetTextLCDHandle phid, int screenIndex);
- int CPhidgetTextLCD_getScreenSize(CPhidgetTextLCDHandle phid, CPhidgetTextLCD_ScreenSize *screenSize);
- int CPhidgetTextLCD_setScreenSize(CPhidgetTextLCDHandle phid, CPhidgetTextLCD_ScreenSize screenSize);
- int CPhidgetTextLCD_initialize(CPhidgetTextLCDHandle phid);
 typedef struct _CPhidgetTextLED *CPhidgetTextLEDHandle;
  int CPhidgetTextLED_create(CPhidgetTextLEDHandle *phid);
  int CPhidgetTextLED_getRowCount(CPhidgetTextLEDHandle phid, int *count);
@@ -792,4 +591,5 @@ typedef struct _CPhidgetWeightSensor *CPhidgetWeightSensorHandle;
 
 #ifdef __cplusplus
 }
+#endif
 #endif
