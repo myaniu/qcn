@@ -54,6 +54,7 @@ CSensorUSBPhidgets1056::CSensorUSBPhidgets1056()
   : CSensor(), 
      m_handlePhidgetSpatial(NULL), m_handleLibrary(NULL)
 { 
+        m_bLogging = false;
 	m_iSerialNum = 0;
 	m_iVersion = 0;
 	m_iNumAccelAxes = 0;
@@ -220,7 +221,10 @@ bool CSensorUSBPhidgets1056::detect()
 
 // log Linux
 #if !defined(__APPLE_CC__) && !defined(_WIN32)	
-       m_PtrCPhidget_enableLogging(PHIDGET_LOG_VERBOSE, "phidget.txt");
+       if (!m_bLogging) {
+          m_PtrCPhidget_enableLogging(PHIDGET_LOG_VERBOSE, "phidget.txt");
+          m_bLogging = true;
+       }
 #endif
 
 	//Declare a spatial handle
@@ -307,7 +311,10 @@ bool CSensorUSBPhidgets1056::detect()
 	m_PtrCPhidget_set_OnDetach_Handler((CPhidgetHandle) m_handlePhidgetSpatial, Phidgets1056DetachHandler, NULL);
 	
 #if !defined(__APPLE_CC__) && !defined(_WIN32)	
-       m_PtrCPhidget_disableLogging();
+       if (m_bLogging) {
+           m_PtrCPhidget_disableLogging();
+           m_bLogging = false;
+       }
 #endif
 
    return true;

@@ -100,6 +100,7 @@ class CSensorUSBPhidgets1056  : public CSensor
 	int m_iNumCompassAxes;
 	int m_iDataRateMax;
 	int m_iDataRateMin;
+        bool m_bLogging;
 
 	CPhidgetSpatialHandle m_handlePhidgetSpatial;
 	
