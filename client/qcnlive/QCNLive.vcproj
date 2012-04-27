@@ -5246,6 +5246,10 @@
 			</Filter>
 		</Filter>
 		<File
+			RelativePath=".\ClassDiagram1.cd"
+			>
+		</File>
+		<File
 			RelativePath="..\bin\init\icon2.ico"
 			>
 		</File>
