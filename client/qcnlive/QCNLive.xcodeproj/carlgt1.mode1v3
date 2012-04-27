@@ -216,10 +216,10 @@
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>438405811549DDC9008B972E</string>
+						<string>43F4F746154A17C20051C2B7</string>
 						<key>history</key>
 						<array>
-							<string>4318146E1549D9F0005C33D6</string>
+							<string>438405811549DDC9008B972E</string>
 						</array>
 					</dict>
 					<key>SplitCount</key>
@@ -256,10 +256,10 @@
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>438405821549DDC9008B972E</string>
+						<string>43F4F747154A17C20051C2B7</string>
 						<key>history</key>
 						<array>
-							<string>4318146F1549D9F0005C33D6</string>
+							<string>438405821549DDC9008B972E</string>
 						</array>
 					</dict>
 					<key>SplitCount</key>
@@ -296,10 +296,10 @@
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>438405831549DDC9008B972E</string>
+						<string>43F4F748154A17C20051C2B7</string>
 						<key>history</key>
 						<array>
-							<string>431814701549D9F0005C33D6</string>
+							<string>438405831549DDC9008B972E</string>
 						</array>
 					</dict>
 					<key>SplitCount</key>
@@ -336,10 +336,10 @@
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>438405841549DDC9008B972E</string>
+						<string>43F4F749154A17C20051C2B7</string>
 						<key>history</key>
 						<array>
-							<string>431814711549D9F0005C33D6</string>
+							<string>438405841549DDC9008B972E</string>
 						</array>
 					</dict>
 					<key>SplitCount</key>
@@ -376,10 +376,10 @@
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>438405851549DDC9008B972E</string>
+						<string>43F4F74A154A17C20051C2B7</string>
 						<key>history</key>
 						<array>
-							<string>431814721549D9F0005C33D6</string>
+							<string>438405851549DDC9008B972E</string>
 						</array>
 					</dict>
 					<key>SplitCount</key>
@@ -536,7 +536,7 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>438405801549DDC9008B972E</string>
+										<string>43F4F743154A17C20051C2B7</string>
 										<key>history</key>
 										<array>
 											<string>43C85B92151BA4F200681E79</string>
@@ -564,7 +564,7 @@
 											<string>43C2722415471FD300AAA142</string>
 											<string>43C2722515471FD300AAA142</string>
 											<string>4318146B1549D9F0005C33D6</string>
-											<string>4318146D1549D9F0005C33D6</string>
+											<string>438405801549DDC9008B972E</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -576,14 +576,14 @@
 							<key>GeometryConfiguration</key>
 							<dict>
 								<key>Frame</key>
-								<string>{{0, 0}, {1032, 393}}</string>
+								<string>{{0, 0}, {1032, 382}}</string>
 								<key>RubberWindowFrame</key>
 								<string>364 255 1328 878 0 0 1920 1178 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
 							<key>Proportion</key>
-							<string>393pt</string>
+							<string>382pt</string>
 						</dict>
 						<dict>
 							<key>ContentConfiguration</key>
@@ -596,14 +596,14 @@
 							<key>GeometryConfiguration</key>
 							<dict>
 								<key>Frame</key>
-								<string>{{0, 398}, {1032, 439}}</string>
+								<string>{{0, 387}, {1032, 450}}</string>
 								<key>RubberWindowFrame</key>
 								<string>364 255 1328 878 0 0 1920 1178 </string>
 							</dict>
 							<key>Module</key>
 							<string>XCDetailModule</string>
 							<key>Proportion</key>
-							<string>439pt</string>
+							<string>450pt</string>
 						</dict>
 					</array>
 					<key>Proportion</key>
@@ -622,9 +622,9 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>438405721549DC6C008B972E</string>
+				<string>43F4F744154A17C20051C2B7</string>
 				<string>1CE0B1FE06471DED0097A5F4</string>
-				<string>438405731549DC6C008B972E</string>
+				<string>43F4F745154A17C20051C2B7</string>
 				<string>1CE0B20306471E060097A5F4</string>
 				<string>1CE0B20506471E060097A5F4</string>
 			</array>
@@ -762,10 +762,6 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>438405871549DDC9008B972E</string>
-		<string>438405881549DDC9008B972E</string>
-		<string>1C78EAAD065D492600B07095</string>
-		<string>1CD10A99069EF8BA00B06720</string>
 		<string>4359DED7142251AB006F3451</string>
 		<string>437A0CB8151A6C4B0036AA9D</string>
 		<string>43081BCE1539D6B200A70CF4</string>
@@ -852,7 +848,7 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>4359DED7142251AB006F3451</string>
-				<string>438405791549DC6C008B972E</string>
+				<string>43F4F74B154A17C20051C2B7</string>
 				<string>1CD0528F0623707200166675</string>
 				<string>XCMainBuildResultsModuleGUID</string>
 			</array>
