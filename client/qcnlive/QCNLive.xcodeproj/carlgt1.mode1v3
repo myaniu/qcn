@@ -202,6 +202,46 @@
 			<key>Content</key>
 			<dict>
 				<key>PBXProjectModuleGUID</key>
+				<string>43F4F752154A180C0051C2B7</string>
+				<key>PBXProjectModuleLabel</key>
+				<string>csensor_usb_phidgets_1056.cpp</string>
+				<key>PBXSplitModuleInNavigatorKey</key>
+				<dict>
+					<key>Split0</key>
+					<dict>
+						<key>PBXProjectModuleGUID</key>
+						<string>43F4F753154A180C0051C2B7</string>
+						<key>PBXProjectModuleLabel</key>
+						<string>csensor_usb_phidgets_1056.cpp</string>
+						<key>_historyCapacity</key>
+						<integer>0</integer>
+						<key>bookmark</key>
+						<string>43F4F765154A18160051C2B7</string>
+						<key>history</key>
+						<array>
+							<string>43F4F750154A18020051C2B7</string>
+						</array>
+					</dict>
+					<key>SplitCount</key>
+					<string>1</string>
+				</dict>
+				<key>StatusBarVisibility</key>
+				<true/>
+			</dict>
+			<key>Geometry</key>
+			<dict>
+				<key>Frame</key>
+				<string>{{0, 20}, {1425, 869}}</string>
+				<key>PBXModuleWindowStatusBarHidden2</key>
+				<false/>
+				<key>RubberWindowFrame</key>
+				<string>288 263 1425 910 0 0 1920 1178 </string>
+			</dict>
+		</dict>
+		<dict>
+			<key>Content</key>
+			<dict>
+				<key>PBXProjectModuleGUID</key>
 				<string>43C2722D15471FD300AAA142</string>
 				<key>PBXProjectModuleLabel</key>
 				<string>qcn_game_match.cpp</string>
@@ -216,7 +256,7 @@
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>43F4F746154A17C20051C2B7</string>
+						<string>43F4F766154A18160051C2B7</string>
 						<key>history</key>
 						<array>
 							<string>438405811549DDC9008B972E</string>
@@ -256,7 +296,7 @@
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>43F4F747154A17C20051C2B7</string>
+						<string>43F4F767154A18160051C2B7</string>
 						<key>history</key>
 						<array>
 							<string>438405821549DDC9008B972E</string>
@@ -296,7 +336,7 @@
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>43F4F748154A17C20051C2B7</string>
+						<string>43F4F768154A18160051C2B7</string>
 						<key>history</key>
 						<array>
 							<string>438405831549DDC9008B972E</string>
@@ -336,7 +376,7 @@
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>43F4F749154A17C20051C2B7</string>
+						<string>43F4F769154A18160051C2B7</string>
 						<key>history</key>
 						<array>
 							<string>438405841549DDC9008B972E</string>
@@ -376,7 +416,7 @@
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>43F4F74A154A17C20051C2B7</string>
+						<string>43F4F76A154A18160051C2B7</string>
 						<key>history</key>
 						<array>
 							<string>438405851549DDC9008B972E</string>
@@ -481,8 +521,8 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>19</integer>
-									<integer>18</integer>
+									<integer>11</integer>
+									<integer>10</integer>
 									<integer>7</integer>
 									<integer>1</integer>
 									<integer>0</integer>
@@ -536,7 +576,7 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>43F4F743154A17C20051C2B7</string>
+										<string>43F4F764154A18160051C2B7</string>
 										<key>history</key>
 										<array>
 											<string>43C85B92151BA4F200681E79</string>
@@ -762,13 +802,18 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
+		<string>43F4F762154A180C0051C2B7</string>
+		<string>43F4F763154A180C0051C2B7</string>
+		<string>1C78EAAD065D492600B07095</string>
+		<string>1CD10A99069EF8BA00B06720</string>
 		<string>4359DED7142251AB006F3451</string>
 		<string>437A0CB8151A6C4B0036AA9D</string>
 		<string>43081BCE1539D6B200A70CF4</string>
 		<string>4332E2E71546195900DF6645</string>
-		<string>/Users/carlgt1/projects/qcn/client/qcnlive/QCNLive.xcodeproj</string>
 		<string>43C2722A15471FD300AAA142</string>
 		<string>43C2722D15471FD300AAA142</string>
+		<string>/Users/carlgt1/projects/qcn/client/qcnlive/QCNLive.xcodeproj</string>
+		<string>43F4F752154A180C0051C2B7</string>
 	</array>
 	<key>WindowString</key>
 	<string>364 255 1328 878 0 0 1920 1178 </string>
@@ -970,13 +1015,13 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>1CD10A99069EF8BA00B06720</string>
-				<string>4384057A1549DC6C008B972E</string>
+				<string>43F4F75A154A180C0051C2B7</string>
 				<string>1C162984064C10D400B95A72</string>
-				<string>4384057B1549DC6C008B972E</string>
-				<string>4384057C1549DC6C008B972E</string>
-				<string>4384057D1549DC6C008B972E</string>
-				<string>4384057E1549DC6C008B972E</string>
-				<string>4384057F1549DC6C008B972E</string>
+				<string>43F4F75B154A180C0051C2B7</string>
+				<string>43F4F75C154A180C0051C2B7</string>
+				<string>43F4F75D154A180C0051C2B7</string>
+				<string>43F4F75E154A180C0051C2B7</string>
+				<string>43F4F75F154A180C0051C2B7</string>
 			</array>
 			<key>ToolbarConfiguration</key>
 			<string>xcode.toolbar.config.debugV3</string>
@@ -1130,7 +1175,7 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>1C78EAAD065D492600B07095</string>
-				<string>438405861549DDC9008B972E</string>
+				<string>43F4F760154A180C0051C2B7</string>
 				<string>1C78EAAC065D492600B07095</string>
 			</array>
 			<key>ToolbarConfiguration</key>
