@@ -256,10 +256,12 @@ bool CSensorUSBPhidgets1056::detect()
 	// try a second to open
 	double dTime = dtime();
 
-        if((ret = m_PtrCPhidget_waitForAttachment((CPhidgetHandle)m_handlePhidgetSpatial, 5000))) {
+        if((ret = m_PtrCPhidget_waitForAttachment((CPhidgetHandle)m_handlePhidgetSpatial, 2000))) {
 	        const char *err;
 		m_PtrCPhidget_getErrorDescription(ret, &err);
+#if !defined(_WIN32) && !defined(__APPLE_CC__)
 		fprintf(stderr, "Phidgets error waitForAttachment %d = %s\n", ret, err);
+#endif
 		closePort();
 		return false;
 	}
