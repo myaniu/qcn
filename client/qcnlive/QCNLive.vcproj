@@ -657,6 +657,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,QT_LARGEFILE_SUPPORT,_USE_NTPDATE_EXEC_,QCNLIVE,GRAPHICS_PROGRAM,APP_GRAPHICS,_ZLIB,QCN,_THREAD_SAFE,CURL_STATICLIB,_ZLIB,QT_DLL,QT_OPENGL_LIB,QT_GUI_LIB,QT_CORE_LIB,QT_HAVE_MMX,QT_HAVE_3DNOW,QT_HAVE_SSE,QT_HAVE_MMXEXT,QT_HAVE_SSE2,QT_THREAD_SUPPORT,_DEBUG"
+				ResourceOutputFileName=""
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
@@ -759,6 +760,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,QT_LARGEFILE_SUPPORT,_USE_NTPDATE_EXEC_,QCNLIVE,GRAPHICS_PROGRAM,APP_GRAPHICS,_ZLIB,QCN,_THREAD_SAFE,CURL_STATICLIB,_ZLIB,QT_DLL,QT_OPENGL_LIB,QT_GUI_LIB,QT_CORE_LIB,QT_HAVE_MMX,QT_HAVE_3DNOW,QT_HAVE_SSE,QT_HAVE_MMXEXT,QT_HAVE_SSE2,QT_THREAD_SUPPORT,_DEBUG"
+				ResourceOutputFileName=""
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
@@ -1310,6 +1312,10 @@
 			</File>
 			<File
 				RelativePath="..\graphics\qcn_earth.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\graphics\qcn_game_match.cpp"
 				>
 			</File>
 			<File
