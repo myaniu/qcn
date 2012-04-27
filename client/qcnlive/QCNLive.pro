@@ -49,7 +49,7 @@ QMAKE_INFO_PLIST = Info.plist.mac
 }
 unix {
  isEmpty(IS_MAC) {
- LIBS += -Wl,-rpath,./init/ --stack=16777216 \
+ LIBS += -Wl,-rpath,./init/ \
   -L$$BASEDIRQCN/client/linux_build \
    -lcurl -lftgl -lfreetype \
     -lboinc_graphics2 -lboinc_zip -lboinc_api -lboinc \
