@@ -8,8 +8,8 @@
 #include "qcn_graphics.h"
 #include "qcn_2dplot.h"
 #include "qcn_earth.h"
-#ifdef QCNLIVE
 #include "qcn_cube.h"
+#ifdef QCNLIVE
 #include "qcn_game_match.h"
 #else
 #include "qcn_signal.h"
@@ -284,8 +284,10 @@ e_view g_eView = VIEW_PLOT_3D;  // default to 3d plots unless user prefs overrid
 bool g_bFullScreen = false;         // bool to denote if we're running in fullscreen (screensaver) mode
 CEarth earth;   // earth object
 CCube cube;     // cube object
+#ifdef QCNLIVE
 CGameMatch gameMatch; // the match-the-accelerometer game
-	
+#endif
+
 vector<SQuake> vsq; // a vector of earthquake data struct (see qcn_graphics.h)
 
 const float xax[2] = { -15.0, 44.0 };
@@ -1888,11 +1890,13 @@ void Render(int xs, int ys, double time_of_day)
 		  cube.RenderText();
           draw_text_user();
 		  break;
+#ifdef QCNLIVE
 		case VIEW_GAME:
 			glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 			gameMatch.RenderScene(g_width, g_height, viewpoint_distance[g_eView], pitch_angle[g_eView], roll_angle[g_eView]);
 			break;
+#endif
     }
 
     glFinish();
