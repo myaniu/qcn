@@ -31,6 +31,7 @@ struct SSerInfo {
 	std::string strFriendlyName;     // Full name to be displayed to a user
     bool bUsbDevice;             // Provided through a USB connection?
 	std::string strPortDesc;         // friendly name without the COMx
+	int iCOM; // Windows COM Port used
 };
 
 // this is the Windows implementation of the sensor - IBM/Lenovo Thinkpad, HP, USB Stick
