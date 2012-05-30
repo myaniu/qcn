@@ -32,7 +32,7 @@ else { // get the first host record for this user i.e. they may be a new user
   if ($hostid) $host = BoincHost::lookup_id($hostid);
 }
 
-if (!$hostid || $host->userid != $user->id)
+if (!$hostid || !$host || $host->userid != $user->id)
 {
    page_head("Invalid Host");
 
