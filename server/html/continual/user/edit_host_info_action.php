@@ -1,5 +1,6 @@
 <?php
 
+
 // the below function is quite similar to the validate_form from edit_host_info_form.php, but conforms to PHP rather than javascript
 function validate_form_line($testlat, $testlng, $testip, $testlevel, &$errmsg)
 { // check ip addresses, lat & lng
@@ -66,6 +67,7 @@ require_once("../inc/db.inc");
 require_once("../inc/util.inc");
 
 db_init();
+
 $user = get_logged_in_user();
 
 //verify this logged in user owns this host!
@@ -78,6 +80,7 @@ if (!$hostid || $host->userid != $user->id)
       "It appears that you do not own this host machine, therefore you cannot edit location preferences!"
    );
 }
+
 
 // form vars passed in are: txthidHOST, lnm[0-4], lat[0-4], lng[0-4], ipa[0-4]
 
@@ -111,6 +114,7 @@ if (!$retval) { // error, just return
    qcn_host_edit_error_page("Database Error", "Error in deleting your old IP/Lat/Lng Records!<BR><BR>Use the 'Back' button below or in your browser to check your settings/choices and try again.<BR>");
 }
 
+// now insert each new line
 // now insert each new line
 
 for ($i = 0; $i < 5; $i++) {
@@ -147,11 +151,14 @@ for ($i = 0; $i < 5; $i++) {
   }
 }
 
+page_head($errheader);
+
 // check the host map location info
 
 $iMapCount = $_POST["txthidMAPEXACT"];
 $bMapExact = $_POST["cbmapexact"];
 $txtMsg = "";
+
 
 // just update on a change i.e. went from 0 to 1 or 1 to 0
 if ( ($bMapExact && !$iMapCount) ) { // adding an ID
@@ -169,7 +176,6 @@ else {
 }
 
   // if made it here then we're fine
-  page_head($errheader);
   echo "<BR>Your host machine location records for host id# $host->id / machine name <b>$host->domain_name</b> have been successfully updated!<BR>";
   echo "<BR>Thank you for helping us locate triggers from your machine.  Rest assured that all information will only be used for locating possible seismic events.";
   echo "<BR>IP addresses saved are only the first 3 bytes (i.e. the 153.2.3 part of 153.2.3.231)";

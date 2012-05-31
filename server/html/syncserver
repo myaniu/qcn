@@ -14,6 +14,7 @@ scp carlgt1@qcn-web:/etc/init.d/httpd ../config/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/html/inc/cache.inc inc/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/html/inc/sqlquerystring.inc inc/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/html/inc/db_ops.inc inc/
+scp carlgt1@qcn-web:/var/www/boinc/sensor/html/inc/db_conn.inc inc/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/html/inc/forum.inc inc/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/html/inc/host.inc inc/
 scp carlgt1@qcn-web:/var/www/boinc/sensor/html/inc/phoogle.inc inc/
@@ -90,6 +91,7 @@ scp carlgt1@qcn-web:/var/www/boinc/sensor/html/user/earthquake_email.php user/
 #continual
 scp carlgt1@qcn-web:/var/www/boinc/continual/html/ops/generate_maptrig.php continual/ops/
 scp carlgt1@qcn-web:/var/www/boinc/continual/html/inc/db.inc continual/inc/
+scp carlgt1@qcn-web:/var/www/boinc/continual/html/inc/db_conn.inc continual/inc/
 scp carlgt1@qcn-web:/var/www/boinc/continual/html/inc/prefs.inc continual/inc/
 scp carlgt1@qcn-web:/var/www/boinc/continual/html/inc/utils.inc continual/inc/
 scp carlgt1@qcn-web:/var/www/boinc/continual/html/inc/util.inc continual/inc/
