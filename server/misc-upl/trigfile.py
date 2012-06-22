@@ -94,7 +94,7 @@ def procRequest(dbconn):
     s.description sensor, IFNULL(a.description,'') alignment,IFNULL(m.levelvalue,'') level, 
     IFNULL(l.description,'') level_type, from_unixtime(q.time_utc) quake_time, q.depth_km quake_depth_km, 
     q.latitude quake_lat, q.longitude quake_lon, q.magnitude, 
-    q.id, q.description quake_desc
+    q.id, q.description quake_desc, q.guid
 from
 (
 select 'Q' mydb, 
@@ -131,7 +131,7 @@ order by time_trigger,hostid"""  \
     )
 
   strHeader = "db, triggerid, hostid, time_trig_utc, time_trig_micros, time_received, time_sync, sync_offset, magnitude, significance, latitude, longitude, file, " +\
-     "numreset, dt, trig type, hostipaddrid, geoipaddrid, sensor, alignment, level_value, level_type, usgs_quake_time, quake_depth_km, quake_lat, quake_lon, quake_mag, quake_id, quake_desc\n"
+     "numreset, dt, trig type, hostipaddrid, geoipaddrid, sensor, alignment, level_value, level_type, usgs_quake_time, quake_depth_km, quake_lat, quake_lon, quake_mag, quake_id, quake_desc, quake_guid\n"
 
   tmpdir = tempfile.mkdtemp()
   myCursor = dbconn.cursor()
@@ -164,7 +164,7 @@ order by time_trigger,hostid"""  \
     " numreset int(7), dt float, trigger_type varchar(2), hostipaddrid int(11), geoipaddrid int(11),\n" +\
     " sensor varchar(128), alignment varchar(64),\n" +\
     " level_value float, level_type varchar(64), usgs_quake_time datetime,\n" +\
-    " quake_depth_km float, quake_lat float, quake_lon float, quake_mag float, quake_id int(11), quake_desc varchar(128)\n" +\
+    " quake_depth_km float, quake_lat float, quake_lon float, quake_mag float, quake_id int(11), quake_desc varchar(256), quake_guid varchar(256)\n" +\
     ");\n\n")
 
   # get the resultset as a tuple
@@ -211,9 +211,10 @@ order by time_trigger,hostid"""  \
 # 23| quake_depth_km 
 # 24| quake_lat 
 # 25| quake_lon 
-# 26| magnitude 
-# 27| id   
-# 28| description 
+# 26| quake_magnitude 
+# 27| quake_id   
+# 28| quake_description 
+# 29| quake_guid
 
       errlevel = 2
       #print "    ", rec[0] , "  ", rec[1], "  ", rec[2], "  ", rec[3], "  ", rec[4], "  ", rec[5], "  ", rec[6]
@@ -263,11 +264,11 @@ order by time_trigger,hostid"""  \
 
            # valid file - print out line of csv
            fileSQL.write("INSERT INTO " + FILE_BASE + " VALUES (")
-           for x in range(0,29):
+           for x in range(0,30):
              strPrint = str(rec[x]) if rec[x] != None else ""
              fileCSV.write("\"" + strPrint + "\"")
              fileSQL.write("\"" + strPrint + "\"")
-             if x < 28:
+             if x < 29:
                fileCSV.write(",")
                fileSQL.write(",")
            fileCSV.write("\n")

@@ -73,7 +73,8 @@ case "Delete":
   $mylng = $row["longitude"];
   $zoomout = 12;
 
-  if (!$row["id"] && ($strRampType == "R" || $strRampType == "C")) {  // use New Zealand
+  //if (!$row["id"] && ($strRampType == "R" || $strRampType == "C")) {  // use New Zealand
+  if (!$row["id"] && ($strRampType == "C")) {  // use New Zealand
      $mylat = -43.5;
      $mylng = 172.6;
      $zoomout = 12;
