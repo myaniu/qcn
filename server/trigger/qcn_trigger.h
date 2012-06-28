@@ -242,6 +242,17 @@ public:
     }
 };
 
+// we need to store multiple entries of host-IP address lookups per host,
+// as well as some info on number of GeoIP entries vs user-entered entries
+// this is because people are putting in IP addresses or single entries
+class qcn_host_ipaddr_multiple
+{
+   public:
+     int m_iNumGeoIP; // the number of geoip entries, usually at least 1
+     int m_iNumEntered; // the number of user IP entries entered, usually from 0 to 5
+     vector vHostIP<DB_QCN_HOST_IPADDR>;
+}
+
 class DB_QCN_GEO_IPADDR : public DB_BASE, public QCN_GEO_IPADDR 
 {
 public:
