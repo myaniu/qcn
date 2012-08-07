@@ -16,31 +16,36 @@ if ( test "`uname -s`" = "Darwin" ) then
   cp config.h.mac config.h
   ./build.mac $1 $2
 else
+ if ( test "`uname -m`" = "armv6l" ) then
+   OSBUILD='arm_build'
+ else
+   OSBUILD='$OSBUILD'
+ fi
  if (test "$1" = "all" || test "$2" = "all" || test "$1" = "libs" || test "$2" = "libs") then
   cd zlib-1.2.5
   ./configure --static
   make clean && make
-  cp libz.a ../client/linux_build/
+  cp libz.a ../client/$OSBUILD/
 
   cd ../bzip2-1.0.6
   make clean && make
-  cp libbz2.a ../client/linux_build/
+  cp libbz2.a ../client/$OSBUILD/
 
   # make sure there's a /usr/local/bin/libtool for jpeg-6b
   cd ../jpeg-6b
   ./configure --enable-static
   make clean && make
-  cp .libs/libjpeg.a ../client/linux_build/
+  cp .libs/libjpeg.a ../client/$OSBUILD/
 
   cd ../curl-7.25.0
   ./configure --disable-crypto-auth --without-ssl --disable-ldap --disable-ldaps --disable-telnet --enable-static --disable-shared
   make clean && make
-  cp lib/.libs/libcurl.a ../client/linux_build/
+  cp lib/.libs/libcurl.a ../client/$OSBUILD/
 
   cd ../freetype-2.4.6
   ./configure --enable-shared=no --enable-static=yes
   make clean && make
-  cp objs/.libs/libfreetype.a ../client/linux_build/
+  cp objs/.libs/libfreetype.a ../client/$OSBUILD/
 
   export CFLAGS=-I$PWD/../freetype-2.4.6/include
   export CPPFLAGS=-I$PWD/../freetype-2.4.6/include
@@ -48,7 +53,7 @@ else
   cd ../ftgl-2.1.3
   ./configure --enable-shared=no --enable-static=yes
   make clean && make
-  cp src/.libs/libftgl.a ../client/linux_build/
+  cp src/.libs/libftgl.a ../client/$OSBUILD/
   export CFLAGS=
   export CPPFLAGS=
   export CXXFLAGS=
@@ -69,10 +74,10 @@ else
   ./_autosetup
   ./configure --disable-client --disable-server --enable-libraries
   make clean && make
-  cp zip/libboinc_zip.a ../qcn/client/linux_build/
-  cp lib/libboinc.a ../qcn/client/linux_build/
-  cp api/libboinc_api.a ../qcn/client/linux_build/
-  cp api/libboinc_graphics2.a ../qcn/client/linux_build/
+  cp zip/libboinc_zip.a ../qcn/client/$OSBUILD/
+  cp lib/libboinc.a ../qcn/client/$OSBUILD/
+  cp api/libboinc_api.a ../qcn/client/$OSBUILD/
+  cp api/libboinc_graphics2.a ../qcn/client/$OSBUILD/
   cd ../qcn
  fi   # end of library or 'all' build
   cp configure.ac.linux configure.ac
