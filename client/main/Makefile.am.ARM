@@ -37,7 +37,7 @@ else
    # must be Linux because I'm sure not using autoconf on Windows! ;-)
    STACKSIZE = --stack=2000000
    # LIBS += -z lazy -L$(LIBNTPDIR) -lntp -ldl $(BOINC_LIB) @CLIENTLIBS@
-   LIBS += -L../sensor/phidgets -lusbarm-1.0 -lphidget21arm -z lazy -ldl $(BOINC_LIB) @CLIENTLIBS@
+   LIBS += -L../sensor/phidgets -lusbarm-1.0 -z lazy -ldl $(BOINC_LIB) @CLIENTLIBS@
    SENSORS  = \
         $(SENSORDIR)/csensor_linux_usb_jw.cpp \
         $(SENSORDIR)/csensor_linux_usb_jw24f14.cpp \
@@ -72,7 +72,7 @@ qcn_SOURCES = \
 
 qcn_DEPENDENCIES =
 #qcn_CFLAGS = -I$(NTPINCLUDEDIR) -I$(NTPDATEDIR) $(AM_CPPFLAGS) $(PTHREAD_CFLAGS)
-qcn_CPPFLAGS = -D_USE_NTPDATE_EXEC_ -I$(QCNUSBDIR) $(AM_CPPFLAGS) $(PTHREAD_CFLAGS)
+qcn_CPPFLAGS = -D__LINUX_ARM__ -D_USE_NTPDATE_EXEC_ -I$(QCNUSBDIR) $(AM_CPPFLAGS) $(PTHREAD_CFLAGS)
 #qcn_CPPFLAGS = -I$(QCNUSBDIR) $(AM_CPPFLAGS) $(PTHREAD_CFLAGS)
 qcn_LDFLAGS = $(LIBS) $(AM_LDFLAGS) -lstdc++ $(STACKSIZE) $(PTHREAD_LIBS)
 qcn_LDADD = 
