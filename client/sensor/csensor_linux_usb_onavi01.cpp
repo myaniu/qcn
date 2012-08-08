@@ -62,6 +62,7 @@ bool CSensorLinuxUSBONavi01::detect()
         globfree(&gt); // can get rid of gt now
 
 	if (!boinc_file_or_symlink_exists(strDevice)) {
+           fprintf(stderr, "Device %s does not exist\n", strDevice);
            delete [] strDevice;
            strDevice = NULL;
            return false;
@@ -73,6 +74,7 @@ bool CSensorLinuxUSBONavi01::detect()
         strDevice = NULL;
 
 	if (m_fd == -1) { // failure
+           fprintf(stderr, "Cannot create ONavi fd\n");
            return false;
         }
 
@@ -93,6 +95,7 @@ bool CSensorLinuxUSBONavi01::detect()
     tcflush(m_fd, TCIFLUSH);
 
     if (tcsetattr(m_fd, TCSANOW, &options) == -1) {
+           fprintf(stderr, "Cannot set ONavi attributes\n");
        closePort();
        return false;
     }
@@ -116,11 +119,13 @@ bool CSensorLinuxUSBONavi01::detect()
 	         setType(SENSOR_USB_ONAVI_C_24);
                  break;
              default: // error!
+               fprintf(stderr, "Error in ONavi sensor type %d bits\n", m_usBitSensor);
                closePort();
                return false;
 	   }
         }
         else {
+           fprintf(stderr, "Error in ONavi read_xyz %f,%f,%f  %d bits\n", x,y,z, m_usBitSensor);
            closePort();
            return false;
         }
