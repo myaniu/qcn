@@ -37,7 +37,7 @@ else
    # must be Linux because I'm sure not using autoconf on Windows! ;-)
    STACKSIZE = --stack=2000000
    # LIBS += -z lazy -L$(LIBNTPDIR) -lntp -ldl $(BOINC_LIB) @CLIENTLIBS@
-   LIBS += -L../sensor/phidgets -lphidgets21arm -z lazy -ldl $(BOINC_LIB) @CLIENTLIBS@
+   LIBS += -z lazy -ldl $(BOINC_LIB) @CLIENTLIBS@
    SENSORS  = \
         $(SENSORDIR)/csensor_linux_usb_jw.cpp \
         $(SENSORDIR)/csensor_linux_usb_jw24f14.cpp \
