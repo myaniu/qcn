@@ -381,9 +381,24 @@ int qcn_main(int argc, char **argv)
     } // end getting the input file data if not in demo mode
 #endif
 
+#ifdef __LINUX_ARMV6__
+   // copy over the libusb shared object
+   const char* strProjPath = (const char*) sm->dataBOINC.project_dir;
+   char* strOldSO = new char[_MAX_PATH];
+   char* strNewSO = new char[_MAX_PATH];
+   sprintf(strOldSO,"%s/%s", strProjPath, "libusb-arm-1.0.so");
+   sprintf(strNewSO,"%s/%s", strProjPath, "libusb-1.0.so");
+   if (!boinc_file_exists(strNewSO)) {
+     boinc_copy(strOldSO, strNewSO);
+   }
+   delete [] strOldSO;
+   delete [] strNewSO;
+#endif
+
     // print out our values just as a "sanity check"
     fprintf(stdout, "Significance Filter Cutoff    = %f\n", g_fPerturb[PERTURB_SIG_CUTOFF]);
     fprintf(stdout, "Short Term Average Magnitude  = %f\n", g_fPerturb[PERTURB_SHORT_TERM_AVG_MAG]);
+    fprintf(stdout, "BOINC Project Path            = %s\n", (const char*) sm->dataBOINC.project_dir);
     fflush(stdout);
  
     // OK, if not in demo mode, now get rid of old trigger files i.e. more than two weeks old
