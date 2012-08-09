@@ -25,8 +25,8 @@
 # Provides: boinc
 # Required-Start: $network
 # Required-Stop:  $network
-# Default-Start: 3 4 5 
-# Default-Stop: 0 1 2 6
+# Default-Start: 2 3 4 5 
+# Default-Stop: 0 1 6
 # Short-Description: This script monitors the BOINC client.
 # Description: This script starts the local BOINC client as a daemon
 #         For more information about BOINC (the Berkeley Open Infrastructure
