@@ -228,6 +228,7 @@ bool CSensorUSBPhidgets1056::detect()
 
    // setup DLL path, if returns false then DLL doesn't exist at the path where it should
 	if (!qcn_util::setDLLPath(strPath, m_cstrDLL)) {
+              fprintf(stderr, "Phidgets1056: Cannot set DLL Path %s\n", m_cstrDLL);
 		closePort();
 		return false;
 	}

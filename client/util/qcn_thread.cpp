@@ -127,7 +127,7 @@ bool CQCNThread::Start(bool bHighPriority)
     // set priority level if higher priority required
     if (bHighPriority) {
       iRet = pthread_attr_getschedparam (&thread_attrs, &sparam);  // first get the default scheduling params
-      sparam.sched_priority = 30;  // set the priority level
+      sparam.sched_priority = PARENT_PRIORITY;  // set the priority level
       // set the new high priority in the sched_param
       if (iRet || (iRet = pthread_attr_setschedparam (&thread_attrs, &sparam))) {
          fprintf(stderr, "CQCNThread::Start(): Error in setting thread priority %d\n", iRet);

@@ -62,7 +62,9 @@ bool CSensorLinuxUSBONavi01::detect()
         globfree(&gt); // can get rid of gt now
 
 	if (!boinc_file_or_symlink_exists(strDevice)) {
+#ifdef _DEBUG
            fprintf(stderr, "Device %s does not exist\n", strDevice);
+#endif
            delete [] strDevice;
            strDevice = NULL;
            return false;
@@ -74,7 +76,9 @@ bool CSensorLinuxUSBONavi01::detect()
         strDevice = NULL;
 
 	if (m_fd == -1) { // failure
+#ifdef _DEBUG
            fprintf(stderr, "Cannot create ONavi fd\n");
+#endif
            return false;
         }
 
