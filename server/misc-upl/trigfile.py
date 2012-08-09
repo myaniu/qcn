@@ -141,9 +141,6 @@ order by time_trigger,hostid"""  \
   zipoutpath = os.path.join(DOWNLOAD_WEB_DIR, FILE_BASE + ".zip")
   zipinpath = ""
 
-  #print sqlQuery
-  #os.exit(1)
-
   strCSVFile = os.path.join(DOWNLOAD_WEB_DIR, FILE_BASE + ".csv")
   strSQLFile = os.path.join(DOWNLOAD_WEB_DIR, FILE_BASE + ".sql")
   fileCSV = open(strCSVFile, "w")
