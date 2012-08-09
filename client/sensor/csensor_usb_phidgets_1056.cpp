@@ -48,7 +48,7 @@ const char CSensorUSBPhidgets1056::m_cstrDLL[] = {"phidget21.dll"};
 #ifdef __APPLE_CC__
 const char CSensorUSBPhidgets1056::m_cstrDLL[] = {"phidget21.dylib"};   
 #else
-#ifdef __LINUX_ARM__
+#ifdef __LINUX_ARMV6__
 const char CSensorUSBPhidgets1056::m_cstrDLL[] = {"phidget21arm.so"};   
 #else
 const char CSensorUSBPhidgets1056::m_cstrDLL[] = {"phidget21a.so"};   
