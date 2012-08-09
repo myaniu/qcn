@@ -367,8 +367,8 @@ function show_host_row($host, $i, $owner=false) {//private, $show_owner) {
            echo "<td>".gpu_desc($host->serialnum)."</td>\n";
         }
         echo "<td>".$host->os_name."<br><span class=note>".$host->os_version."</span></td>\n";
-        echo "<td>".sched_log_link($host->rpc_time)."</td>\n";
     }
+        echo "<td>".sched_log_link($host->rpc_time)."</td>\n";
 
     echo "</tr>\n";
 }
