@@ -246,13 +246,14 @@ bool CSensorUSBPhidgets1056::detect()
 	if (qcn_main::g_iStop || ! setupFunctionPointers()) return false;
 
 // log Linux
+/*
 #if !defined(__APPLE_CC__) && !defined(_WIN32)	
        if (!m_bLogging) {
           m_PtrCPhidget_enableLogging(PHIDGET_LOG_VERBOSE, "phidget.txt");
           m_bLogging = true;
        }
 #endif
-
+*/
 	//Declare a spatial handle
 	m_handlePhidgetSpatial = NULL;
 	
@@ -286,7 +287,9 @@ bool CSensorUSBPhidgets1056::detect()
 	        const char *err;
 		m_PtrCPhidget_getErrorDescription(ret, &err);
 #if !defined(_WIN32) && !defined(__APPLE_CC__)
+#ifdef _DEBUG
 		fprintf(stderr, "Phidgets error waitForAttachment %d = %s\n", ret, err);
+#endif
 #endif
 		closePort();
 		return false;
