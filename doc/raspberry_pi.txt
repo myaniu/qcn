@@ -1,3 +1,14 @@
+Seems to run best with the BOINC for ARM running in a root account (for permissions to the USB sensors)
+as a higher priority process (this BOINC for ARM compiled has modifications to allow non-compute intensive tasks 
+e.g. plan-class "nci" to run at a very high priority level).
+
+You can try by downloading and running BOINC (command-line client only e.g. no graphics/GUI):
+BOINC for Raspberry Pi ARM "Wheezy" Debian Linux:
+
+http://qcn.stanford.edu/sensor/download/boinc-arm.zip
+
+Or it may be easier to use a preconfigured SD Card image with boinc already setup so you just use "boinccmd" to 
+attach to QCN as shown below:
 
 1.2GB SD Card Image for Raspberry Pi (Debian Wheezy Linux, includes boinc installed & running as root)
 
@@ -16,9 +27,6 @@ Note you need to unmount SD Card partition (but not eject SD card) in Disk Utili
 sudo umount /dev/disk2s1
 
 Otherwise you'll get "Disk Busy" messages
-
-If needed, BOINC for Raspberry Pi ARM "Wheezy" Debian Linux:
-http://qcn.stanford.edu/sensor/download/boinc-arm.zip
 
 // my Raspberry Pi running on QCN
 http://qcn.stanford.edu/continual/show_host_detail.php?hostid=1034
