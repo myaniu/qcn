@@ -1,0 +1,30 @@
+gzip -d qcn_boinc_raspi_8gb_sd_card.img.gz
+
+Raspberry Pi:
+
+http://elinux.org/RPi_Hardware_Basic_Setup
+
+armv6l-unknown-linux-gnueabihf
+
+notes:
+1) clock seems to be bad, but corrects with ntpdate as usual
+2) onavi has the most trouble - probably usb troubles
+3) still a lot of resets, made a custom boinc-arm that runs at high priority & root
+4) need to run as root for phidgets and high priority
+5) may be best to look into an accelerometer plug-in onto the RPi board 
+   (i.e. bypass the USB interface which is the bottleneck)?
+http://qcn.stanford.edu/continual/show_host_detail.php?hostid=1034
+
+./boinccmd --project http://qcn.stanford.edu/sensor attach
+
+save sd card image:
+sudo dd if=/dev/disk2 of=./qcn_boinc_raspberry_pi.img bs=1048576
+
+burn sd card image:
+sudo dd if=./qcn_boinc_raspi.img of=/dev/disk2 bs=1048576
+
+need to unmount but not eject sd card in Disk Utility or
+umount /dev/disk2s1
+
+
+
