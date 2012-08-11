@@ -26,5 +26,19 @@ sudo dd if=./qcn_boinc_raspi.img of=/dev/disk2 bs=1048576
 need to unmount but not eject sd card in Disk Utility or
 umount /dev/disk2s1
 
+passwords for root account (& qcn account, where boinc is installed in ~/boinc) is 'qcnpi'
 
+To attach to QCN from commmand line:
+
+sudo su
+
+./boinccmd --project_attach http://qcn.stanford.edu/sensor ACCOUNT_KEY
+
+where ACCOUNT_KEY is your BOINC QCN Account Key from here:
+
+http://qcn.stanford.edu/sensor/home.php
+
+also set your location on the page for this computer entry
+
+http://qcn.stanford.edu/sensor/hosts_user.php
 
