@@ -1,5 +1,5 @@
 
-Image for Raspberry Pi (includes boinc installed & running as root)
+SD Card Image for Raspberry Pi (Debian Wheezy Linux, includes boinc installed & running as root)
 http://qcn-upl.stanford.edu/carlc/qcn_boinc_raspi_8gb_sd_card.img.gz
 
 gzip -d qcn_boinc_raspi_8gb_sd_card.img.gz
