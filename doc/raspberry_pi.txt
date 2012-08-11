@@ -1,32 +1,32 @@
+
+Image for Raspberry Pi (includes boinc installed & running as root)
+http://qcn-upl.stanford.edu/carlc/qcn_boinc_raspi_8gb_sd_card.img.gz
+
 gzip -d qcn_boinc_raspi_8gb_sd_card.img.gz
 
-Raspberry Pi:
+(expands to an 8GB image - so best to get an 8GB SD Card - Class 10 speed is best)
 
-http://elinux.org/RPi_Hardware_Basic_Setup
+to burn sd card image, assuming your root SD card is at /dev/disk2:
+sudo dd if=./qcn_boinc_raspi.img of=/dev/disk2 bs=1048576
 
-armv6l-unknown-linux-gnueabihf
+Passwords for root account (& qcn account, where boinc is installed in ~/boinc) is 'qcnpi'
 
-notes:
-1) clock seems to be bad, but corrects with ntpdate as usual
-2) onavi has the most trouble - probably usb troubles
-3) still a lot of resets, made a custom boinc-arm that runs at high priority & root
-4) need to run as root for phidgets and high priority
-5) may be best to look into an accelerometer plug-in onto the RPi board 
-   (i.e. bypass the USB interface which is the bottleneck)?
+Note you need to unmount SD Card partition (but not eject SD card) in Disk Utility or:
+sudo umount /dev/disk2s1
+
+Otherwise you'll get "Disk Busy" messages
+
+If needed, BOINC for Raspberry Pi ARM "Wheezy" Debian Linux:
+http://qcn.stanford.edu/sensor/download/boinc-arm.zip
+
+// my Raspberry Pi running on QCN
 http://qcn.stanford.edu/continual/show_host_detail.php?hostid=1034
 
 ./boinccmd --project http://qcn.stanford.edu/sensor attach
 
-save sd card image:
+to save your own SD card image:
 sudo dd if=/dev/disk2 of=./qcn_boinc_raspberry_pi.img bs=1048576
 
-burn sd card image:
-sudo dd if=./qcn_boinc_raspi.img of=/dev/disk2 bs=1048576
-
-need to unmount but not eject sd card in Disk Utility or
-umount /dev/disk2s1
-
-passwords for root account (& qcn account, where boinc is installed in ~/boinc) is 'qcnpi'
 
 To attach to QCN from commmand line:
 
@@ -41,4 +41,64 @@ http://qcn.stanford.edu/sensor/home.php
 also set your location on the page for this computer entry
 
 http://qcn.stanford.edu/sensor/hosts_user.php
+
+notes:
+1) clock seems to be bad, but corrects with ntpdate as usual
+2) onavi has the most trouble - probably usb troubles
+3) still a lot of resets, made a custom boinc-arm that runs at high priority & root
+4) need to run as root for phidgets and high priority
+5) may be best to look into an accelerometer plug-in onto the RPi board
+   (i.e. bypass the USB interface which is the bottleneck)?
+http://qcn.stanford.edu/continual/show_host_detail.php?hostid=1034
+
+get root as "sudo su"
+
+from /home/qcn/boinc run
+
+./boinccmd to get various status updates or actions on BOINC & QCN e.g.
+
+./boinccmd --get_messages
+
+usage: boinccmd [--host hostname] [--passwd passwd] command
+
+Commands:
+ --create_account URL email passwd name
+ --file_transfer URL filename op    file transfer operation
+   op = retry | abort
+ --get_cc_status
+ --get_daily_xfer_history           show network traffic history
+ --get_disk_usage                   show disk usage
+ --get_file_transfers               show file transfers
+ --get_host_info
+ --get_message_count                show largest message seqno
+ --get_messages [ seqno ]           show messages > seqno
+ --get_notices [ seqno ]            show notices > seqno
+ --get_project_config URL
+ --get_project_status               show status of all attached projects
+ --get_proxy_settings
+ --get_simple_gui_info              show status of projects and active tasks
+ --get_state                        show entire state
+ --get_tasks                        show tasks
+ --join_acct_mgr URL name passwd    attach account manager
+ --lookup_account URL email passwd
+ --network_available                retry deferred network communication
+ --project URL op                   project operation
+   op = reset | detach | update | suspend | resume | nomorework | allowmorework
+ --project_attach URL auth          attach to project
+ --quit                             tell client to exit
+ --quit_acct_mgr                    quit current account manager
+ --read_cc_config
+ --read_global_prefs_override
+ --run_benchmarks
+ --set_debts URL1 std1 ltd1 [URL2 std2 ltd2 ...]
+ --set_gpu_mode mode duration       set GPU run mode for given duration
+   mode = always | auto | never
+ --set_network_mode mode duration
+ --set_proxy_settings
+ --set_run_mode mode duration       set run mode for given duration
+   mode = always | auto | never
+ --task url task_name op            task operation
+   op = suspend | resume | abort
+ --version, -V                      show client version
+
 
