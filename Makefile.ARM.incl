@@ -5,7 +5,7 @@ BASEDIR = $(top_builddir)
 #else
 #   BOINC_DIR = $(BASEDIR)/../boinc/mac_build/build/`uname -p`_Deployment
 #endif
-LIBDIR=$(top_builddir)/client/arm_build
+LIBDIR=$(top_builddir)/client/armv6_build
 BOINC_BASEDIR = $(top_builddir)/../boinc
 BOINC_DIR = $(BOINC_BASEDIR)
 

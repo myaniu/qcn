@@ -17,7 +17,7 @@ if ( test "`uname -s`" = "Darwin" ) then
   ./build.mac $1 $2
 else
  if ( test "`uname -m`" = "armv6l" ) then
-   OSBUILD='arm_build'
+   OSBUILD='armv6_build'
  else
    OSBUILD='$OSBUILD'
  fi
