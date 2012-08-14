@@ -56,6 +56,7 @@ const char CSensorUSBPhidgets1056::m_cstrDLL[] = {"phidget21armv5.so"};
 #else
 const char CSensorUSBPhidgets1056::m_cstrDLL[] = {"phidget21a.so"};   
 #endif
+#endif  // armv6
 #endif // apple or linux
 #endif // windows˚˚
 
