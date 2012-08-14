@@ -151,7 +151,7 @@ int main(int argc, char** argv) {
        wu.rsc_fpops_est = 1e14;
        wu.rsc_fpops_bound = 1e15;
        wu.rsc_memory_bound = 1e8;
-       wu.rsc_disk_bound = 1e9;
+       wu.rsc_disk_bound = 1e8;
        wu.delay_bound = 14*86400L;
 
     if (!strcmp(strApp, APP_CONTINUAL))
