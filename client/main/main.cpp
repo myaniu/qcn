@@ -381,7 +381,8 @@ int qcn_main(int argc, char **argv)
     } // end getting the input file data if not in demo mode
 #endif
 
-#ifdef __LINUX_ARMV6__
+/*
+#if defined(__LINUX_ARMV5__) || defined(__LINUX_ARMV6__)
    // copy over the libusb shared object
    const char* strProjPath = (const char*) sm->dataBOINC.project_dir;
    char* strOldSO = new char[_MAX_PATH];
@@ -394,6 +395,7 @@ int qcn_main(int argc, char **argv)
    delete [] strOldSO;
    delete [] strNewSO;
 #endif
+*/
 
     // print out our values just as a "sanity check"
     fprintf(stdout, "Significance Filter Cutoff    = %f\n", g_fPerturb[PERTURB_SIG_CUTOFF]);

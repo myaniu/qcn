@@ -3,7 +3,7 @@ include $(top_srcdir)/Makefile.ARM.incl
 client-bin: @CLIENT_BIN_FILENAME@
 
 BINARY = @CLIENT_BIN_FILENAME@_$(QCN_VERSION_STRING)_$(build)
-
+LIBTOOL = /usr/bin/libtool
 QCNUSBDIR = $(BASEDIR)/client/qcnusb
 
 #NTPBASEDIR = $(BASEDIR)/ntp-4.2.4p5

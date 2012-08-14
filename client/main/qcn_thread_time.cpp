@@ -68,8 +68,12 @@ void* QCNThreadTime(void*)
                //  (qcn_main::g_endian == ENDIAN_LITTLE ? "i686" : "powerpc")
          );
       #else // Linux
-       #ifdef __LINUX_ARMV6__ 
+       #if defined(__LINUX_ARMV5__) || defined(__LINUX_ARMV6__) 
+        #ifdef __LINUX_ARMV5__
+         sprintf(strExec, "%s%s_armv5_linux", 
+        #else
          sprintf(strExec, "%s%s_armv6_linux", 
+        #endif
 // if using the GUI (qcnwx) need to prepend ./ as we are already in the working directory
 #ifdef QCNLIVE
                  "./",

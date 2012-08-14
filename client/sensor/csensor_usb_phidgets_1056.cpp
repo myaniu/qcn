@@ -49,7 +49,10 @@ const char CSensorUSBPhidgets1056::m_cstrDLL[] = {"phidget21.dll"};
 const char CSensorUSBPhidgets1056::m_cstrDLL[] = {"phidget21.dylib"};   
 #else
 #ifdef __LINUX_ARMV6__
-const char CSensorUSBPhidgets1056::m_cstrDLL[] = {"phidget21arm.so"};   
+const char CSensorUSBPhidgets1056::m_cstrDLL[] = {"phidget21armv6.so"};   
+#else
+#ifdef __LINUX_ARMV5__
+const char CSensorUSBPhidgets1056::m_cstrDLL[] = {"phidget21armv5.so"};   
 #else
 const char CSensorUSBPhidgets1056::m_cstrDLL[] = {"phidget21a.so"};   
 #endif
