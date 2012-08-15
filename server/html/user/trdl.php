@@ -503,11 +503,11 @@ if ($bUseHost) {
      $whereString .= " AND t.hostid = " . $strHostID;
   }
   else if ($strHostName) {
-    if (strpos($strHostName, "%")>=0) { // wildcard
-     $whereString .= " AND h.domain_name like '" . $strHostName . "'";
+    if (strpos($strHostName, "%")===FALSE) { // wildcard
+     $whereString .= " AND h.domain_name = '" . $strHostName . "'";
     }
     else {
-     $whereString .= " AND h.domain_name = '" . $strHostName . "'";
+     $whereString .= " AND h.domain_name like '" . $strHostName . "'";
     }
   }
 }
