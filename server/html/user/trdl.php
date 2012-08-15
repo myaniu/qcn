@@ -57,7 +57,7 @@ $queryBase = "select q.id as quakeid, q.time_utc as quake_time, q.magnitude as q
 q.depth_km as quake_depth, q.latitude as quake_lat, 
 q.longitude as quake_lon, q.description, q.url, q.guid,
 round(lat_lon_distance_m(q.latitude, q.longitude, t.latitude, t.longitude) / 1000.0, 3) as quake_distance_km,
-t.id as triggerid, t.hostid, t.ipaddr, t.result_name, t.time_trigger as trigger_time, 
+t.id as triggerid, t.hostid, t.ipaddr, h.domain_name hostname, t.result_name, t.time_trigger as trigger_time, 
 (t.time_received-t.time_trigger) as delay_time, t.time_sync as trigger_sync,
 t.sync_offset, t.significance, t.magnitude as trigger_mag, 
 t.latitude as trigger_lat, t.longitude as trigger_lon, t.file as trigger_file, t.dt as delta_t,
@@ -995,7 +995,7 @@ function view_waveform_image($file_in) {
 function qcn_trigger_header_csv($auth) {
    $value = "TriggerID, HostID, ";
    if ($auth) {
-    $value = $value."IPAddr, ";
+    $value = $value."IPAddr(Hostname), ";
    }
    $value = $value ."ResultName, ";
    $value = $value 
@@ -1036,7 +1036,7 @@ function qcn_trigger_detail_csv(&$res,$auth,$user)
 
    $value = $res->triggerid . "," . $res->hostid . ",";
    if ($auth) {
-    $value = $value . $res->ipaddr . ",";
+    $value = $value . $res->ipaddr . " (" . $res->hostname . "),";
    }
    $value = $value .
        $res->result_name . "," . time_str_csv($res->trigger_time) . "," . round($res->delay_time, 2) . "," .
@@ -1064,7 +1064,7 @@ function qcn_trigger_header($auth) {
         <th><font size=\"1\">Trigger ID</font size></th>
         <th><font size=\"1\">Host ID</font size></th>";
    if ($auth) {
-    echo "<th><font size=\"1\">IP Addr</font size></th>";
+    echo "<th><font size=\"1\">IP Addr/Hostname</font size></th>";
    }
 //        <th><font size=\"1\">Result</font size></th>
     echo "
@@ -1138,7 +1138,7 @@ global $unixtimeArchive;
         <td><font size=\"1\">$res->triggerid</font size></td>";
         echo "<td><font size=\"1\"><a href=\"show_host_detail.php?hostid=$res->hostid\">" . $res->hostid . "</a></font size></td>";
     if ($auth) {
-     echo "   <td><font size=\"1\">$res->ipaddr</font size></td>";
+     echo "   <td><font size=\"1\">$res->ipaddr<br>$res->hostname</font size></td>";
     }
 //    echo "<td><font size=\"1\">$res->result_name</font size></td>";
     echo "
