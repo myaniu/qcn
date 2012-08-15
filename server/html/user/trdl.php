@@ -65,6 +65,7 @@ t.numreset, s.description as sensor_description, t.sw_version, t.qcn_quakeid, t.
 t.received_file, REPLACE_ARCHIVE is_archive, t.varietyid, q.url quake_url, if(t.geoipaddrid=0, 'N', 'Y') is_geoip 
 FROM REPLACE_DB.qcn_trigger t LEFT OUTER JOIN sensor.qcn_quake q ON t.qcn_quakeid = q.id
    LEFT JOIN sensor.qcn_sensor s ON t.qcn_sensorid = s.id 
+   LEFT JOIN REPLACE_DB.host h ON t.hostid=h.id
 ";
 
 // full querystring
@@ -372,7 +373,7 @@ echo "
   <input type=\"checkbox\" id=\"cbUseHost\" name=\"cbUseHost\" value=\"1\" " . ($bUseHost? "checked" : "") . "> Show Specific Host (enter host ID # or host name)
 <ul>
     <table><tr><td>Host ID:  </td><td><input id=\"HostID\"   name=\"HostID\"   value=\"$strHostID\"  ></td></tr>
-           <tr><td>Host Name:</td><td><input id=\"HostName\" name=\"HostName\" value=\"$strHostName\"></td></tr></table>
+           <tr><td>Host Name:<BR>(% = wildcard)</td><td><input id=\"HostName\" name=\"HostName\" value=\"$strHostName\"></td></tr></table>
 </ul>";
 
 
@@ -502,7 +503,12 @@ if ($bUseHost) {
      $whereString .= " AND t.hostid = " . $strHostID;
   }
   else if ($strHostName) {
+    if (strpos($strHostName, "%")) { // wildcard
+     $whereString .= " AND h.domain_name like '" . $strHostName . "'";
+    }
+    else {
      $whereString .= " AND h.domain_name = '" . $strHostName . "'";
+    }
   }
 }
 
@@ -601,7 +607,7 @@ switch($sortOrder)
       break;
 }
 
-// CMC really need to look at archive table too
+// really need to look at archive table too
 $query = str_replace("REPLACE_DB", $db_name, $queryBase);
 $query = str_replace("REPLACE_ARCHIVE", "0", $query);
 if ($bUseArchive) {
