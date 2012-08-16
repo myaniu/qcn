@@ -1,0 +1,13 @@
+
+apt-get install libstdc++6
+apt-get install zip
+apt-get install libusb-1.0
+apt-get install ntpdate
+apt-get install joystick
+
+echo "ntpdate us.pool.ntp.org" >> /etc/rc.local
+
+set time zone, UTC is good
+
+
+
