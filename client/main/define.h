@@ -124,14 +124,17 @@ typedef vector<string> ZipFileList;
  
 #if !defined(_WIN32) && !defined(__APPLE_CC__)
    // define Linux joystick device for JoyWarrior
-   #define LINUX_JOYSTICK_NUM   6
+   #define LINUX_JOYSTICK_NUM   9
    #define LINUX_JOYSTICK_ARRAY { \
           "/dev/js0", \
           "/dev/input/js0", \
+          "/dev/input/event0", \
           "/dev/js1", \
           "/dev/input/js1", \
+          "/dev/input/event1", \
           "/dev/js2", \
           "/dev/input/js2", \
+          "/dev/input/event2", \
          }
 #endif
 
