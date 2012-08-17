@@ -51,6 +51,25 @@ also set your location on the page for this computer entry
 
 http://qcn.stanford.edu/sensor/hosts_user.php
 
+
+Once your boinc is setup, you may want to put a script to start it up automatically at boot:
+
+http://qcn.stanford.edu/sensor/download/init.d.boinc.sh
+
+copy the above file to /etc/init.d  (rename it to boinc.sh)
+chmod uog+rx boinc.sh
+
+run the Debian program to start this by default upon boot (and shutdown properly etc):
+
+as root:
+
+cd /etc/init.d
+update-rc.d boinc.sh defaults
+
+It should make the necessary links to start boinc at any run level upon boot.
+
+
+
 notes:
 1) clock seems to be bad, but corrects with ntpdate as usual
 2) onavi has the most trouble - probably usb troubles
