@@ -31,8 +31,6 @@ e.g. plan-class "nci" to run at a very high priority level).
 Note that executables can't seem to be run from external SD cards etc - only from the root file system
 (i.e. /home/qcn/boinc directory)
 
-./boinccmd --project http://qcn.stanford.edu/sensor attach
-
 To attach to QCN from commmand line:
 
 sudo su
