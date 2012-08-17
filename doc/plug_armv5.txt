@@ -16,6 +16,15 @@ echo "ntpdate us.pool.ntp.org" >> /etc/rc.local
 
 set time zone, UTC is good
 
+Tip: to get to the Dreamplug (and Internet access for the Dreamplug) - 
+ 1) plug the Dreamplug right into your Mac's ethernet (assuming you have wifi for Internet)
+ 2) then setup Internet sharing on the Mac and configure the Mac ethernet as "DHCP with Manual Address."  
+ 3) Set it to an address like 192.168.2.1.  
+ 4) Then the Dreamplug will be some unknown IP address - but you can find it by doing a ping from the Mac Terminal  
+     "ping 192.168.2.255" 
+ 5) you should see a reply from the Dreamplug  (and then it can use the Mac to get to the Internet i.e. via BOINC).
+ 6) there should be a similar means for Linux & Windows host boxes connected to the dreamplug
+
 make a "qcn" account and install boinc there
 
 To get the BOINC for ARMv5 (Dreamplug ARM Linux)
