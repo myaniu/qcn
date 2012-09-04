@@ -103,6 +103,7 @@ OBJECTS       = glwidget.o \
 		trickledown.o \
 		md5.o \
 		execproc.o \
+		texture.o \
 		qcn_util.o \
 		qcn_signal.o \
 		qcn_curl.o \
@@ -234,7 +235,7 @@ qmake:  FORCE
 
 dist: 
 	@$(CHK_DIR_EXISTS) .tmp/QCNLive1.0.0 || $(MKDIR) .tmp/QCNLive1.0.0 
-	$(COPY_FILE) --parents $(SOURCES) $(DIST) .tmp/QCNLive1.0.0/ && $(COPY_FILE) --parents qcnqt.h glwidget.h myframe.h dlgsettings.h dlgmakequake.h qcnlive_define.h icons.h ../main/main.h ../main/define.h .tmp/QCNLive1.0.0/ && $(COPY_FILE) --parents glwidget.cpp qcnqt.cpp myframe.cpp dlgsettings.cpp dlgmakequake.cpp ../main/qcn_shmem.cpp ../main/qcn_thread_sensor.cpp ../main/qcn_thread_sensor_util.cpp ../main/qcn_thread_sensor_loop.cpp ../main/qcn_thread_time.cpp ../main/main.cpp ../util/cserialize.cpp ../util/sac.cpp ../util/qcn_thread.cpp ../util/trickleup.cpp ../util/trickledown.cpp ../util/md5.cpp ../util/execproc.cpp ../util/qcn_util.cpp ../util/qcn_signal.cpp ../util/qcn_curl.cpp ../util/ttfont.cpp ../util/gzstream.cpp ../sensor/csensor_linux_usb_jw.cpp ../sensor/csensor_linux_usb_jw24f14.cpp ../sensor/csensor_linux_usb_onavi01.cpp ../sensor/csensor_usb_motionnodeaccel.cpp ../sensor/csensor_usb_phidgets_1056.cpp ../sensor/csensor.cpp ../graphics/qcn_graphics.cpp ../graphics/qcn_2dplot.cpp ../graphics/qcn_earth.cpp ../graphics/qcn_cube.cpp ../graphics/qcn_game_match.cpp ../graphics/nation_boundary.cpp ../graphics/coastline.cpp ../graphics/plate_boundary.cpp .tmp/QCNLive1.0.0/ && (cd `dirname .tmp/QCNLive1.0.0` && $(TAR) QCNLive1.0.0.tar QCNLive1.0.0 && $(COMPRESS) QCNLive1.0.0.tar) && $(MOVE) `dirname .tmp/QCNLive1.0.0`/QCNLive1.0.0.tar.gz . && $(DEL_FILE) -r .tmp/QCNLive1.0.0
+	$(COPY_FILE) --parents $(SOURCES) $(DIST) .tmp/QCNLive1.0.0/ && $(COPY_FILE) --parents qcnqt.h glwidget.h myframe.h dlgsettings.h dlgmakequake.h qcnlive_define.h icons.h ../main/main.h ../main/define.h .tmp/QCNLive1.0.0/ && $(COPY_FILE) --parents glwidget.cpp qcnqt.cpp myframe.cpp dlgsettings.cpp dlgmakequake.cpp ../main/qcn_shmem.cpp ../main/qcn_thread_sensor.cpp ../main/qcn_thread_sensor_util.cpp ../main/qcn_thread_sensor_loop.cpp ../main/qcn_thread_time.cpp ../main/main.cpp ../util/cserialize.cpp ../util/sac.cpp ../util/qcn_thread.cpp ../util/trickleup.cpp ../util/trickledown.cpp ../util/md5.cpp ../util/execproc.cpp ../util/qcn_util.cpp ../util/texture.cpp ../util/qcn_signal.cpp ../util/qcn_curl.cpp ../util/ttfont.cpp ../util/gzstream.cpp ../sensor/csensor_linux_usb_jw.cpp ../sensor/csensor_linux_usb_jw24f14.cpp ../sensor/csensor_linux_usb_onavi01.cpp ../sensor/csensor_usb_motionnodeaccel.cpp ../sensor/csensor_usb_phidgets_1056.cpp ../sensor/csensor.cpp ../graphics/qcn_graphics.cpp ../graphics/qcn_2dplot.cpp ../graphics/qcn_earth.cpp ../graphics/qcn_cube.cpp ../graphics/qcn_game_match.cpp ../graphics/nation_boundary.cpp ../graphics/coastline.cpp ../graphics/plate_boundary.cpp .tmp/QCNLive1.0.0/ && (cd `dirname .tmp/QCNLive1.0.0` && $(TAR) QCNLive1.0.0.tar QCNLive1.0.0 && $(COMPRESS) QCNLive1.0.0.tar) && $(MOVE) `dirname .tmp/QCNLive1.0.0`/QCNLive1.0.0.tar.gz . && $(DEL_FILE) -r .tmp/QCNLive1.0.0
 
 
 clean:compiler_clean 
@@ -412,6 +413,9 @@ md5.o: ../util/md5.cpp ../util/md5.h
 execproc.o: ../util/execproc.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o execproc.o ../util/execproc.cpp
 
+texture.o: ../util/texture.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o texture.o ../util/texture.cpp
+
 qcn_util.o: ../util/qcn_util.cpp ../util/qcn_util.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o qcn_util.o ../util/qcn_util.cpp
 
@@ -559,6 +563,7 @@ install_sources: first FORCE
 	-$(INSTALL_PROGRAM) /home/carlgt1/projects/qcn/client/util/execproc.cpp $(INSTALL_ROOT)/home/carlgt1/projects/qcn/client/bin/
 	-strip $(INSTALL_ROOT)/home/carlgt1/projects/qcn/client/bin/execproc.cpp
 	-$(INSTALL_FILE) /home/carlgt1/projects/qcn/client/util/qcn_util.cpp $(INSTALL_ROOT)/home/carlgt1/projects/qcn/client/bin/
+	-$(INSTALL_FILE) /home/carlgt1/projects/qcn/client/util/texture.cpp $(INSTALL_ROOT)/home/carlgt1/projects/qcn/client/bin/
 	-$(INSTALL_FILE) /home/carlgt1/projects/qcn/client/util/qcn_signal.cpp $(INSTALL_ROOT)/home/carlgt1/projects/qcn/client/bin/
 	-$(INSTALL_FILE) /home/carlgt1/projects/qcn/client/util/qcn_curl.cpp $(INSTALL_ROOT)/home/carlgt1/projects/qcn/client/bin/
 	-$(INSTALL_FILE) /home/carlgt1/projects/qcn/client/util/ttfont.cpp $(INSTALL_ROOT)/home/carlgt1/projects/qcn/client/bin/
@@ -610,6 +615,7 @@ uninstall_sources:  FORCE
 	 -$(DEL_FILE) -r $(INSTALL_ROOT)/home/carlgt1/projects/qcn/client/bin/trickledown.cpp 
 	 -$(DEL_FILE) -r $(INSTALL_ROOT)/home/carlgt1/projects/qcn/client/bin/md5.cpp 
 	 -$(DEL_FILE) -r $(INSTALL_ROOT)/home/carlgt1/projects/qcn/client/bin/execproc.cpp 
+	 -$(DEL_FILE) -r $(INSTALL_ROOT)/home/carlgt1/projects/qcn/client/bin/texture.cpp 
 	 -$(DEL_FILE) -r $(INSTALL_ROOT)/home/carlgt1/projects/qcn/client/bin/qcn_util.cpp 
 	 -$(DEL_FILE) -r $(INSTALL_ROOT)/home/carlgt1/projects/qcn/client/bin/qcn_signal.cpp 
 	 -$(DEL_FILE) -r $(INSTALL_ROOT)/home/carlgt1/projects/qcn/client/bin/qcn_curl.cpp 
