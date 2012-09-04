@@ -39,6 +39,7 @@ qcn_graphics_SOURCES = \
       $(GRAPHICSDIR)/nation_boundary.cpp \
       $(GRAPHICSDIR)/coastline.cpp \
       $(GRAPHICSDIR)/plate_boundary.cpp \
+      $(UTILDIR)/texture.cpp \
       $(UTILDIR)/qcn_util.cpp \
       $(UTILDIR)/ttfont.cpp 
 
