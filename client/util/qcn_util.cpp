@@ -17,7 +17,7 @@
 using std::string;
 
 #ifdef GRAPHICS_PROGRAM
-// this is in boinc/api/gutil.cpp - used for reading an RGB file as an alpha channel for QCN multitexture blending
+// this was in boinc/api/gutil.cpp now in qcn/client/util/texture.cpp - used for reading an RGB file as an alpha channel for QCN multitexture blending
 extern unsigned * read_rgb_texture(const char *name, int *width, int *height, int *components);
 #endif
 

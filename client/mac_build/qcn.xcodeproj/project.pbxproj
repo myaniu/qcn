@@ -12,6 +12,7 @@
 		43304A7610FF76BB00A823FE /* qcn_thread_sensor_util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43304A7310FF76BB00A823FE /* qcn_thread_sensor_util.cpp */; };
 		43304A9910FF7D9000A823FE /* qcn_thread_sensor_loop.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43304A9710FF7D9000A823FE /* qcn_thread_sensor_loop.cpp */; };
 		43304A9A10FF7D9000A823FE /* qcn_thread_sensor_loop.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43304A9710FF7D9000A823FE /* qcn_thread_sensor_loop.cpp */; };
+		4369D19515F6AEBF00FAFE27 /* texture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4369D19415F6AEBF00FAFE27 /* texture.cpp */; };
 		437FD49B1415CF21007B95DA /* libbz2-universal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 437FD49A1415CF21007B95DA /* libbz2-universal.a */; };
 		439FF8D110BD8DCF00DEFD8E /* csensor_mac_usb_onavi01.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 439FF8CF10BD8DCF00DEFD8E /* csensor_mac_usb_onavi01.cpp */; };
 		43C1FDA6141725D900F8F3E7 /* csensor_mac_usb_generic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43C1FDA5141725D900F8F3E7 /* csensor_mac_usb_generic.cpp */; };
@@ -100,6 +101,7 @@
 		43304A9710FF7D9000A823FE /* qcn_thread_sensor_loop.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = qcn_thread_sensor_loop.cpp; path = ../main/qcn_thread_sensor_loop.cpp; sourceTree = SOURCE_ROOT; };
 		43304A9C10FF7DA400A823FE /* qcn_thread_sensor_loop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = qcn_thread_sensor_loop.h; path = ../main/qcn_thread_sensor_loop.h; sourceTree = SOURCE_ROOT; };
 		4330BD5B114B11A60008D847 /* qcnusb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = qcnusb.h; path = ../qcnusb/qcnusb.h; sourceTree = SOURCE_ROOT; };
+		4369D19415F6AEBF00FAFE27 /* texture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = texture.cpp; path = ../util/texture.cpp; sourceTree = SOURCE_ROOT; };
 		437FD49A1415CF21007B95DA /* libbz2-universal.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libbz2-universal.a"; sourceTree = "<group>"; };
 		4394A75D10A20763006FF691 /* dlgsettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dlgsettings.h; sourceTree = "<group>"; };
 		4394A7B610A20763006FF691 /* icons.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = icons.h; sourceTree = "<group>"; };
@@ -329,6 +331,7 @@
 		E3C0E7A30D64E9BE0099B905 /* util */ = {
 			isa = PBXGroup;
 			children = (
+				4369D19415F6AEBF00FAFE27 /* texture.cpp */,
 				43E45A9A1292428E00D7ACEB /* ttfont.cpp */,
 				E3C0E7B40D64E9BE0099B905 /* cserialize.cpp */,
 				E3D35C130FF179E900E64121 /* qcn_signal.cpp */,
@@ -678,6 +681,7 @@
 				E3C968440FF1ABCA00F20324 /* qcn_signal.cpp in Sources */,
 				E3C966680FF19F2C00F20324 /* qcn_util.cpp in Sources */,
 				43E45A9C1292428E00D7ACEB /* ttfont.cpp in Sources */,
+				4369D19515F6AEBF00FAFE27 /* texture.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
