@@ -13,7 +13,7 @@ CXX           = g++
 DEFINES       = -DQT_WEBKIT -D_USE_NTPDATE_EXEC_ -DFTGL_LIBRARY_STATIC -DQCNLIVE -DGRAPHICS_PROGRAM -DAPP_GRAPHICS -D_ZLIB -DQCN -D_THREAD_SAFE -DCURL_STATICLIB -D_ZLIB -DQT_NO_DEBUG -DQT_OPENGL_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_SHARED
 CFLAGS        = -pipe -O2 -Wall -W -D_REENTRANT $(DEFINES)
 CXXFLAGS      = -pipe -O2 -Wall -W -D_REENTRANT $(DEFINES)
-INCPATH       = -I/usr/share/qt4/mkspecs/linux-g++ -I. -I/usr/include/qt4/QtCore -I/usr/include/qt4/QtGui -I/usr/include/qt4/QtOpenGL -I/usr/include/qt4 -I../../../qcn -I../../jpeg-6b -I../../zlib-1.2.5 -I../../bzip2-1.0.6 -I../../curl-7.25.0/include -I../../ftgl-2.1.3/include -I../../freetype-2.4.6/include -I../main -I../sensor -I../util -I../../../boinc/lib -I../../../boinc/api -I../../../boinc/zip -I../graphics -I/usr/X11R6/include -I.
+INCPATH       = -I/opt/qtsdk-2010.05/qt/mkspecs/linux-g++ -I. -I/opt/qtsdk-2010.05/qt/include/QtCore -I/opt/qtsdk-2010.05/qt/include/QtGui -I/opt/qtsdk-2010.05/qt/include/QtOpenGL -I/opt/qtsdk-2010.05/qt/include -I../../../qcn -I../../jpeg-6b -I../../zlib-1.2.5 -I../../bzip2-1.0.6 -I../../curl-7.25.0/include -I../../ftgl-2.1.3/include -I../../freetype-2.4.6/include -I../main -I../sensor -I../util -I../../../boinc/lib -I../../../boinc/api -I../../../boinc/zip -I../graphics -I/usr/X11R6/include -I.
 LINK          = g++
 LFLAGS        = -Wl,-O1
 LIBS          = $(SUBLIBS)  -L/usr/lib -L/usr/X11R6/lib -Wl,-rpath,./init/ -L/home/carlgt1/projects/qcn/client/linux_build -lcurl -lftgl -lfreetype -lboinc_graphics2 -lboinc_zip -lboinc_api -lboinc -ljpeg -lQtOpenGL -lQtGui -lQtCore -lGLU -lGL -lpthread 
@@ -128,27 +128,27 @@ OBJECTS       = glwidget.o \
 		moc_myframe.o \
 		moc_dlgsettings.o \
 		moc_dlgmakequake.o
-DIST          = /usr/share/qt4/mkspecs/common/g++.conf \
-		/usr/share/qt4/mkspecs/common/unix.conf \
-		/usr/share/qt4/mkspecs/common/linux.conf \
-		/usr/share/qt4/mkspecs/qconfig.pri \
-		/usr/share/qt4/mkspecs/modules/qt_webkit_version.pri \
-		/usr/share/qt4/mkspecs/features/qt_functions.prf \
-		/usr/share/qt4/mkspecs/features/qt_config.prf \
-		/usr/share/qt4/mkspecs/features/exclusive_builds.prf \
-		/usr/share/qt4/mkspecs/features/default_pre.prf \
-		/usr/share/qt4/mkspecs/features/release.prf \
-		/usr/share/qt4/mkspecs/features/default_post.prf \
-		/usr/share/qt4/mkspecs/features/warn_on.prf \
-		/usr/share/qt4/mkspecs/features/qt.prf \
-		/usr/share/qt4/mkspecs/features/unix/opengl.prf \
-		/usr/share/qt4/mkspecs/features/unix/thread.prf \
-		/usr/share/qt4/mkspecs/features/moc.prf \
-		/usr/share/qt4/mkspecs/features/resources.prf \
-		/usr/share/qt4/mkspecs/features/uic.prf \
-		/usr/share/qt4/mkspecs/features/yacc.prf \
-		/usr/share/qt4/mkspecs/features/lex.prf \
-		/usr/share/qt4/mkspecs/features/include_source_dir.prf \
+DIST          = /opt/qtsdk-2010.05/qt/mkspecs/common/g++.conf \
+		/opt/qtsdk-2010.05/qt/mkspecs/common/unix.conf \
+		/opt/qtsdk-2010.05/qt/mkspecs/common/linux.conf \
+		/opt/qtsdk-2010.05/qt/mkspecs/qconfig.pri \
+		/opt/qtsdk-2010.05/qt/mkspecs/modules/qt_webkit_version.pri \
+		/opt/qtsdk-2010.05/qt/mkspecs/features/qt_functions.prf \
+		/opt/qtsdk-2010.05/qt/mkspecs/features/qt_config.prf \
+		/opt/qtsdk-2010.05/qt/mkspecs/features/exclusive_builds.prf \
+		/opt/qtsdk-2010.05/qt/mkspecs/features/default_pre.prf \
+		/opt/qtsdk-2010.05/qt/mkspecs/features/release.prf \
+		/opt/qtsdk-2010.05/qt/mkspecs/features/default_post.prf \
+		/opt/qtsdk-2010.05/qt/mkspecs/features/warn_on.prf \
+		/opt/qtsdk-2010.05/qt/mkspecs/features/qt.prf \
+		/opt/qtsdk-2010.05/qt/mkspecs/features/unix/opengl.prf \
+		/opt/qtsdk-2010.05/qt/mkspecs/features/unix/thread.prf \
+		/opt/qtsdk-2010.05/qt/mkspecs/features/moc.prf \
+		/opt/qtsdk-2010.05/qt/mkspecs/features/resources.prf \
+		/opt/qtsdk-2010.05/qt/mkspecs/features/uic.prf \
+		/opt/qtsdk-2010.05/qt/mkspecs/features/yacc.prf \
+		/opt/qtsdk-2010.05/qt/mkspecs/features/lex.prf \
+		/opt/qtsdk-2010.05/qt/mkspecs/features/include_source_dir.prf \
 		QCNLive.pro
 QMAKE_TARGET  = QCNLive
 DESTDIR       = 
@@ -181,52 +181,52 @@ all: Makefile $(TARGET)
 $(TARGET):  $(OBJECTS)  
 	$(LINK) $(LFLAGS) -o $(TARGET) $(OBJECTS) $(OBJCOMP) $(LIBS)
 
-Makefile: QCNLive.pro  /usr/share/qt4/mkspecs/linux-g++/qmake.conf /usr/share/qt4/mkspecs/common/g++.conf \
-		/usr/share/qt4/mkspecs/common/unix.conf \
-		/usr/share/qt4/mkspecs/common/linux.conf \
-		/usr/share/qt4/mkspecs/qconfig.pri \
-		/usr/share/qt4/mkspecs/modules/qt_webkit_version.pri \
-		/usr/share/qt4/mkspecs/features/qt_functions.prf \
-		/usr/share/qt4/mkspecs/features/qt_config.prf \
-		/usr/share/qt4/mkspecs/features/exclusive_builds.prf \
-		/usr/share/qt4/mkspecs/features/default_pre.prf \
-		/usr/share/qt4/mkspecs/features/release.prf \
-		/usr/share/qt4/mkspecs/features/default_post.prf \
-		/usr/share/qt4/mkspecs/features/warn_on.prf \
-		/usr/share/qt4/mkspecs/features/qt.prf \
-		/usr/share/qt4/mkspecs/features/unix/opengl.prf \
-		/usr/share/qt4/mkspecs/features/unix/thread.prf \
-		/usr/share/qt4/mkspecs/features/moc.prf \
-		/usr/share/qt4/mkspecs/features/resources.prf \
-		/usr/share/qt4/mkspecs/features/uic.prf \
-		/usr/share/qt4/mkspecs/features/yacc.prf \
-		/usr/share/qt4/mkspecs/features/lex.prf \
-		/usr/share/qt4/mkspecs/features/include_source_dir.prf \
+Makefile: QCNLive.pro  /opt/qtsdk-2010.05/qt/mkspecs/linux-g++/qmake.conf /opt/qtsdk-2010.05/qt/mkspecs/common/g++.conf \
+		/opt/qtsdk-2010.05/qt/mkspecs/common/unix.conf \
+		/opt/qtsdk-2010.05/qt/mkspecs/common/linux.conf \
+		/opt/qtsdk-2010.05/qt/mkspecs/qconfig.pri \
+		/opt/qtsdk-2010.05/qt/mkspecs/modules/qt_webkit_version.pri \
+		/opt/qtsdk-2010.05/qt/mkspecs/features/qt_functions.prf \
+		/opt/qtsdk-2010.05/qt/mkspecs/features/qt_config.prf \
+		/opt/qtsdk-2010.05/qt/mkspecs/features/exclusive_builds.prf \
+		/opt/qtsdk-2010.05/qt/mkspecs/features/default_pre.prf \
+		/opt/qtsdk-2010.05/qt/mkspecs/features/release.prf \
+		/opt/qtsdk-2010.05/qt/mkspecs/features/default_post.prf \
+		/opt/qtsdk-2010.05/qt/mkspecs/features/warn_on.prf \
+		/opt/qtsdk-2010.05/qt/mkspecs/features/qt.prf \
+		/opt/qtsdk-2010.05/qt/mkspecs/features/unix/opengl.prf \
+		/opt/qtsdk-2010.05/qt/mkspecs/features/unix/thread.prf \
+		/opt/qtsdk-2010.05/qt/mkspecs/features/moc.prf \
+		/opt/qtsdk-2010.05/qt/mkspecs/features/resources.prf \
+		/opt/qtsdk-2010.05/qt/mkspecs/features/uic.prf \
+		/opt/qtsdk-2010.05/qt/mkspecs/features/yacc.prf \
+		/opt/qtsdk-2010.05/qt/mkspecs/features/lex.prf \
+		/opt/qtsdk-2010.05/qt/mkspecs/features/include_source_dir.prf \
 		/usr/lib/libQtOpenGL.prl \
 		/usr/lib/libQtGui.prl \
 		/usr/lib/libQtCore.prl
 	$(QMAKE) -o Makefile QCNLive.pro
-/usr/share/qt4/mkspecs/common/g++.conf:
-/usr/share/qt4/mkspecs/common/unix.conf:
-/usr/share/qt4/mkspecs/common/linux.conf:
-/usr/share/qt4/mkspecs/qconfig.pri:
-/usr/share/qt4/mkspecs/modules/qt_webkit_version.pri:
-/usr/share/qt4/mkspecs/features/qt_functions.prf:
-/usr/share/qt4/mkspecs/features/qt_config.prf:
-/usr/share/qt4/mkspecs/features/exclusive_builds.prf:
-/usr/share/qt4/mkspecs/features/default_pre.prf:
-/usr/share/qt4/mkspecs/features/release.prf:
-/usr/share/qt4/mkspecs/features/default_post.prf:
-/usr/share/qt4/mkspecs/features/warn_on.prf:
-/usr/share/qt4/mkspecs/features/qt.prf:
-/usr/share/qt4/mkspecs/features/unix/opengl.prf:
-/usr/share/qt4/mkspecs/features/unix/thread.prf:
-/usr/share/qt4/mkspecs/features/moc.prf:
-/usr/share/qt4/mkspecs/features/resources.prf:
-/usr/share/qt4/mkspecs/features/uic.prf:
-/usr/share/qt4/mkspecs/features/yacc.prf:
-/usr/share/qt4/mkspecs/features/lex.prf:
-/usr/share/qt4/mkspecs/features/include_source_dir.prf:
+/opt/qtsdk-2010.05/qt/mkspecs/common/g++.conf:
+/opt/qtsdk-2010.05/qt/mkspecs/common/unix.conf:
+/opt/qtsdk-2010.05/qt/mkspecs/common/linux.conf:
+/opt/qtsdk-2010.05/qt/mkspecs/qconfig.pri:
+/opt/qtsdk-2010.05/qt/mkspecs/modules/qt_webkit_version.pri:
+/opt/qtsdk-2010.05/qt/mkspecs/features/qt_functions.prf:
+/opt/qtsdk-2010.05/qt/mkspecs/features/qt_config.prf:
+/opt/qtsdk-2010.05/qt/mkspecs/features/exclusive_builds.prf:
+/opt/qtsdk-2010.05/qt/mkspecs/features/default_pre.prf:
+/opt/qtsdk-2010.05/qt/mkspecs/features/release.prf:
+/opt/qtsdk-2010.05/qt/mkspecs/features/default_post.prf:
+/opt/qtsdk-2010.05/qt/mkspecs/features/warn_on.prf:
+/opt/qtsdk-2010.05/qt/mkspecs/features/qt.prf:
+/opt/qtsdk-2010.05/qt/mkspecs/features/unix/opengl.prf:
+/opt/qtsdk-2010.05/qt/mkspecs/features/unix/thread.prf:
+/opt/qtsdk-2010.05/qt/mkspecs/features/moc.prf:
+/opt/qtsdk-2010.05/qt/mkspecs/features/resources.prf:
+/opt/qtsdk-2010.05/qt/mkspecs/features/uic.prf:
+/opt/qtsdk-2010.05/qt/mkspecs/features/yacc.prf:
+/opt/qtsdk-2010.05/qt/mkspecs/features/lex.prf:
+/opt/qtsdk-2010.05/qt/mkspecs/features/include_source_dir.prf:
 /usr/lib/libQtOpenGL.prl:
 /usr/lib/libQtGui.prl:
 /usr/lib/libQtCore.prl:
