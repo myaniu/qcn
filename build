@@ -82,6 +82,7 @@ else
  fi   # end of library or 'all' build
   cp configure.ac.linux configure.ac
   ./set-version $VERSION
+  cp client/main/Makefile.am.LINUX client/main/Makefile.am
   cp client/qcnlive/Makefile.linux client/qcnlive/Makefile
   ./_autosetup
   ./configure --enable-client-release --disable-server
