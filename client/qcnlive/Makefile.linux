@@ -61,6 +61,7 @@ SOURCES       = glwidget.cpp \
 		../util/trickledown.cpp \
 		../util/md5.cpp \
 		../util/execproc.cpp \
+		../util/texture.cpp \
 		../util/qcn_util.cpp \
 		../util/qcn_signal.cpp \
 		../util/qcn_curl.cpp \
