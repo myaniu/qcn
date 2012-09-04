@@ -1076,6 +1076,10 @@
 					>
 				</File>
 				<File
+					RelativePath="..\util\texture.cpp"
+					>
+				</File>
+				<File
 					RelativePath="..\util\ttfont.cpp"
 					>
 				</File>

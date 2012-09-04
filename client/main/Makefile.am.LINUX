@@ -27,6 +27,7 @@ if OS_DARWIN
    # LIBS += @CLIENTLIBS@ -L$(LIBNTPDIR) -lntp -ldl $(BOINC_LIB)
    LIBS += @CLIENTLIBS@ -ldl $(BOINC_LIB)
    # UTIL_CPP = $(UTILDIR)/qcn_util.cpp $(UTILDIR)/qcn_semaphore.cpp
+   GRAPHICS = 
    SENSORS = \
            $(SENSORDIR)/csensor_mac_laptop.cpp \
            $(SENSORDIR)/csensor_mac_usb_generic.cpp \
@@ -38,6 +39,7 @@ else
    STACKSIZE = --stack=2000000
    # LIBS += -z lazy -L$(LIBNTPDIR) -lntp -ldl $(BOINC_LIB) @CLIENTLIBS@
    LIBS += -z lazy -ldl $(BOINC_LIB) @CLIENTLIBS@
+   GRAPHICS = $(UTILDIR)/texture.cpp
    SENSORS  = \
         $(SENSORDIR)/csensor_linux_usb_jw.cpp \
         $(SENSORDIR)/csensor_linux_usb_jw24f14.cpp \
@@ -62,6 +64,7 @@ qcn_SOURCES = \
            $(UTILDIR)/gzstream.cpp \
            $(MAINDIR)/qcn_shmem.cpp \
            $(SENSORDIR)/csensor.cpp \
+           $(GRAPHICS) \
            $(SENSORS) \
            $(QCNUSBDIR)/qcn_shmem_usb.cpp \
            $(MAINDIR)/qcn_thread_sensor.cpp \
