@@ -135,6 +135,7 @@ SRC_UTIL = $$UTILDIR/cserialize.cpp \
            $$UTILDIR/trickledown.cpp \
            $$UTILDIR/md5.cpp \
            $$UTILDIR/execproc.cpp \
+           $$UTILDIR/texture.cpp \
            $$UTILDIR/qcn_util.cpp \
            $$UTILDIR/qcn_signal.cpp \
            $$UTILDIR/qcn_curl.cpp \
