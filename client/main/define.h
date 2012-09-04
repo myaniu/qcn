@@ -116,7 +116,9 @@ typedef vector<string> ZipFileList;
 // if the JW24F14 exceeds this amount in calibration then sensor is off 2g range
 #define Z_CORRECTION_CUTOFF_JW24F14  15.0
 
-#define WORKUNIT_COMPLETION_TIME_ELAPSED 86400.0f
+// #define WORKUNIT_COMPLETION_TIME_ELAPSED 86400.0f
+// changed to one week per workunit
+#define WORKUNIT_COMPLETION_TIME_ELAPSED 604800.0f
 #define SIZEOF_PROJECT_PREFERENCES 131072
 
 // the size of a self-appointed station string
