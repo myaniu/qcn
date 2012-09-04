@@ -42,8 +42,8 @@ export LDFLAGS=
 export CPPFLAGS=
 export CFLAGS=
 export CXXFLAGS=
-unzip -o boinc_xcode.zip -d ../boinc/mac_build/
-unzip -o boinc_zip_xcode.zip -d ../boinc/zip/
+#unzip -o boinc_xcode.zip -d ../boinc/mac_build/
+#unzip -o boinc_zip_xcode.zip -d ../boinc/zip/
 cd ../boinc/mac_build
 export XCB=/Developer/usr/bin/xcodebuild
 $XCB -project boinc.xcodeproj -configuration Deployment -target libboinc clean build
