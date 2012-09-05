@@ -594,7 +594,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/LTCG"
-				AdditionalDependencies="hid.lib setupapi.lib winmm.lib boinc_lib.lib boinc_api.lib boinc_zip.lib MotionNodeAccelAPI.lib zlib.lib"
+				AdditionalDependencies="hid.lib setupapi.lib winmm.lib boinc_libl.lib boinc_apil.lib boinc_zipl.lib MotionNodeAccelAPI.lib zlibl.lib"
 				OutputFile="../bin/qcn.exe"
 				Version=""
 				LinkIncremental="1"
@@ -1453,11 +1453,11 @@
 					>
 				</File>
 				<File
-					RelativePath="..\util\texture.cpp"
+					RelativePath="..\util\sac.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\util\sac.cpp"
+					RelativePath="..\util\texture.cpp"
 					>
 				</File>
 				<File

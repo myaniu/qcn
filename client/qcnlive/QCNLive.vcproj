@@ -1364,6 +1364,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\util\texture.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\util\trickledown.cpp"
 				>
 			</File>
