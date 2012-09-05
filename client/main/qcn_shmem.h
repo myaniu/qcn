@@ -46,7 +46,7 @@ class CQCNShMem : public CSerialize
     int iNumUpload;         // the total number of uploads for this workunit
     int iNumReset;          // the number of timing resets this session has had (diags which can be trickled up)
 	
-	// the "My" variables are for qcnlive user pref settings
+	// the "My" variables are for qcnlive user pref settings and optionally sent lat/lng elev from trickle-down
     double dMyLatitude;     // 'station' lat -- from here down gets written to SAC files in QCNLive
     double dMyLongitude;    // 'station' lng
     double dMyElevationMeter;   // 'station' elevation in meters
