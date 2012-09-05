@@ -822,7 +822,7 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq, bool bTrigger) {
                sprintf(strTemp, "\n<project_preferences>\n<project_specific>\n%s\n</project_specific>\n</project_preferences>\n", strQuake);
            }
 
-         // CMC Here - send current lat/lng & elev info for this host
+         // CMC Here - send current latitude / longitude & elev info for this host
          if (hostid) {
          }
          // CMC End

@@ -978,7 +978,7 @@ inline static const char* get_remote_addr() {
     return r ? r : "?.?.?.?";
 }
 
-void handle_msgs_from_host() {
+void handle_msgs_from_host(DB_QCN_HOST_IPADDR& qhip) { // CMC mod line
     unsigned int i;
     DB_MSG_FROM_HOST mfh;
     int retval;
@@ -1012,7 +1012,7 @@ void handle_msgs_from_host() {
         }
 
         if (iVariety > -1 ) { // it's a trigger
-            retval = handle_qcn_trigger(&mfh, iVariety);
+            retval = handle_qcn_trigger(&mfh, iVariety, qhip);
         }
         else {
             // not a real trigger or quakelist trickle, insert into msg_from_host table as usual
@@ -1092,7 +1092,7 @@ static inline bool requesting_work() {
 
 // CMC here -- added the bool below so we can bypass some things if it's a trigger trickle
 void process_request(
-    char* code_sign_key, bool bTrigger
+    char* code_sign_key, bool bTrigger, DB_QCN_HOST_IPADDR& qhip
 ) {
 //    SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, char* code_sign_key, bool bTrigger
 // void process_request(char* code_sign_key) {
@@ -1326,7 +1326,7 @@ void process_request(
     }
 
 
-    handle_msgs_from_host();
+    handle_msgs_from_host(qhip); // CMC mod line
     if (config.msg_to_host) {
         handle_msgs_to_host();
     }
@@ -1375,6 +1375,8 @@ void handle_request(FILE* fin, FILE* fout, char* code_sign_key) {
 
     // CMC here mod -- on trigger trickles, bypass trickle down's & quake/project_prefs etc
     bool bTrigger = false;
+    DB_QCN_HOST_IPADDR qhip
+    // CMC end
 
     g_request = &sreq;
     g_reply = &sreply;
@@ -1411,7 +1413,7 @@ void handle_request(FILE* fin, FILE* fout, char* code_sign_key) {
          }
          // set a bool bTrigger which we can bypass big scheduler requests (e.g. work request & quake download)
          bTrigger = (bool) (iTrigger > 0 && iTrigger == iCount); // note all trickles must be triggers, and must have 1 trickle at least!
-         process_request(code_sign_key, bTrigger);
+         process_request(code_sign_key, bTrigger, qhip);
          // CMC end section
        //  CMC end block handle_request/process_request
     } else {
@@ -1429,7 +1431,7 @@ void handle_request(FILE* fin, FILE* fout, char* code_sign_key) {
     }
 
   // CMC here -- next line to send a new param to SCHEDULER_REPLY::write e.g. to bypass quake list for project prefs etc
-     sreply.write(fout, sreq, bTrigger);
+     sreply.write(fout, sreq, bTrigger, qhip);
      //sreply.write(fout, sreq);
   // CMC end
     log_messages.printf(MSG_NORMAL,

@@ -189,7 +189,6 @@ struct QCN_QUAKE
    void clear() {memset(this, 0x00, sizeof(QCN_QUAKE));}
 };
 
-
 class DB_QCN_HOST_IPADDR : public DB_BASE, public QCN_HOST_IPADDR 
 {
 public:

@@ -211,10 +211,9 @@ bool doTriggerMemoryInsert(const DB_QCN_TRIGGER& qtrig, const double* const dmxy
 }
 
 // handle_qcn_trigger processes the trigger trickle, does the geoip or database lookup as appropriate, inserts into qcn_trigger
-int handle_qcn_trigger(const DB_MSG_FROM_HOST* pmfh, const int iVariety)
+int handle_qcn_trigger(const DB_MSG_FROM_HOST* pmfh, const int iVariety, DB_QCN_HOST_IPADDR& qhip)
 {
      // instantiate the objects
-     DB_QCN_HOST_IPADDR qhip;
      DB_QCN_GEO_IPADDR  qgip;
      DB_QCN_TRIGGER     qtrig;
      
