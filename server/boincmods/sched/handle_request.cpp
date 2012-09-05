@@ -1375,7 +1375,7 @@ void handle_request(FILE* fin, FILE* fout, char* code_sign_key) {
 
     // CMC here mod -- on trigger trickles, bypass trickle down's & quake/project_prefs etc
     bool bTrigger = false;
-    DB_QCN_HOST_IPADDR qhip
+    DB_QCN_HOST_IPADDR qhip;
     // CMC end
 
     g_request = &sreq;
