@@ -21,12 +21,16 @@
 #include <cstdio>
 #include <vector>
 
+// CMC here include line
+#include "../../qcn/server/trigger/qcn_trigger.h"
+
 #include "boinc_db.h"
 #include "common_defs.h"
 #include "md5_file.h"
 #include "coproc.h"
 
 #include "edf_sim.h"
+
 
 // for projects that support work filtering by app,
 // this records an app for which the user will accept work
@@ -510,7 +514,7 @@ struct SCHEDULER_REPLY {
     SCHEDULER_REPLY();
     ~SCHEDULER_REPLY();
 // CMC here -- added the bool below
-    int write(FILE*, SCHEDULER_REQUEST&, bool bTrigger = false);
+    int write(FILE*, SCHEDULER_REQUEST&, bool, DB_QCN_HOST_IPADDR&);
     // int write(FILE*, SCHEDULER_REQUEST&);
 // CMC end
     void insert_app_unique(APP&);

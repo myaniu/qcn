@@ -633,7 +633,7 @@ SCHEDULER_REPLY::~SCHEDULER_REPLY() {
 // CMC added bool bTrigger which is passed in from handle_request.C so we can bypass
 // quakes and other big messages (i.e. project prefs) for a trigger trickle to
 // expedite the trigger process
-int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq, bool bTrigger) {
+int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq, bool bTrigger, DB_QCN_HOST_IPADDR& qhip) {
 //int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq) {
     unsigned int i;
     char buf[BLOB_SIZE];
