@@ -39,3 +39,19 @@ concat('<trickle_down>\n<result_name>',
     group by hostid,result_name
 ;
 
+/*
+   this sends a 'killer trickle' to a new version (made a two day ago) that has bugs
+*/
+
+insert into msg_to_host
+(create_time,hostid,variety,handled,xml)
+select unix_timestamp(), hostid, 'abort', 0,
+concat('<trickle_down>\n<result_name>',
+  result_name,
+   '</result_name>\n<abort></abort>\n</trickle_down>\n')
+  from qcn_trigger where time_trigger>=unix_timestamp()-(86400*2)
+    and sw_version='7.10'
+    group by hostid,result_name
+;
+
+
