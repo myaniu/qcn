@@ -804,7 +804,6 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq, bool bTrigger, D
         //fputs(user.project_prefs, fout);
         //fputs("\n", fout);
        if (!bTrigger) { // don't send the big quake list on a trigger trickle
-         char strLatLng[_MAX_PATH];
          strTemp  = new char[APP_VERSION_XML_BLOB_SIZE];
          strQuake = NULL; // CMC note - read_file_malloc allocates this, make sure to free it! new char[APP_VERSION_XML_BLOB_SIZE];
          char strLatLng[256];
@@ -819,6 +818,8 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq, bool bTrigger, D
            if (qhip.hostid) {
              sprintf(strLatLng, "<qlatlng>\n  <lat>%f</lat>\n  <lng>%f</lng>\n  <lvv>%f</lvv>\n  <lvt>%d</lvt>\n  <al>%d</al>\n</qlatlng>",
                 qhip.latitude, qhip.longitude, qhip.levelvalue, qhip.levelid, qhip.alignid);
+                log_messages.printf(MSG_DEBUG,
+                  "sched::handle_request::qcn_host_ipadr values: %s\n", strLatLng);
            }
            // CMC End
            char* strWhere = strstr(user.project_prefs, "</project_specific>");
