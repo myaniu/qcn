@@ -843,7 +843,8 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq, bool bTrigger, D
            if (qhip.hostid) {
              strLatLng = new char[512];
              memset(strLatLng, 0x00, sizeof(char) * 512);
-             sprintf(strLatLng, "\n<qlatlng>\n  <lat>%f</lat>\n  <lng>%f</lng>\n  <lvv>%f</lvv>\n  <lvt>%d</lvt>\n  <al>%d</al>\n</qlatlng>\n",
+             sprintf(strLatLng, "\n<qlatlng>\n  <qlllat>%f</qlllat>\n  <qlllng>%f</qlllng>\n  <qlllvv>%f</qlllvv>\n"
+                                "  <qlllvt>%d</qlllvt>\n  <qllal>%d</qllal>\n</qlatlng>\n",
                 qhip.latitude, qhip.longitude, qhip.levelvalue, qhip.levelid, qhip.alignid);
                 log_messages.printf(MSG_DEBUG,
                   "sched::handle_request::qcn_host_ipadr values: %s\n", strLatLng);
