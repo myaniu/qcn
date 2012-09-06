@@ -51,6 +51,7 @@ class CQCNShMem : public CSerialize
     double dMyLongitude;    // 'station' lng
     double dMyElevationMeter;   // 'station' elevation in meters
     int    iMyElevationFloor;   // 'station' floor (-1=basement, 0=ground floor, 1=first floor, etc)
+	int iMyAlignID;   // qcn alignment id ie 0=unaligned, 1=mag north 2=south 3=east 4=west 5=wall 6=true north
 	int iMySensor;   // user pref for preferred sensor
 	int iMyAxisSingle;
 	bool bMyVerticalTime;
