@@ -72,7 +72,19 @@ define("MAP_ICON_4", "http://www.google.com/intl/en_us/mapfiles/ms/micons/yellow
 
 function project_wordpress_header()
 {
+  // CMC here - disable enter key
+echo "
+<script type=\"text/javascript\"> 
+function stopRKey(evt) { 
+  var evt = (evt) ? evt : ((event) ? event : null); 
+  var node = (evt.target) ? evt.target : ((evt.srcElement) ? evt.srcElement : null); 
+  if ((evt.keyCode == 13) && (node.type==\"text\"))  {return false;} 
+} 
+document.onkeypress = stopRKey; 
+</script>
+";
 
+  // CMC end
 }
 
 function project_wordpress_header2()

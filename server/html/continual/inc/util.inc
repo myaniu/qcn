@@ -160,6 +160,9 @@ require_once(BASEPATH . "/boinc/sensor/html/inc/google_translate.inc");
     } else {
         echo "<html><head><title>".strip_tags($title_plain)."</title>\n";
     }
+
+    project_wordpress_header();
+
     echo "<link rel=stylesheet type=\"text/css\" href=\"".URL_BASE."main.css\" media=\"all\" />
         <link rel=stylesheet type=\"text/css\" href=\"$stylesheet\">
         <link rel=alternate type=\"application/rss+xml\" title=\"$rssname\" href=\"$rsslink\">
