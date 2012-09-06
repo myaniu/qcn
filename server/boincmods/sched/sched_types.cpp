@@ -817,21 +817,21 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq, bool bTrigger, D
            const char* strWhere = strstr(user.project_prefs, "</project_specific>");
        if (bTrigger) {  // send lat/lng info back to client for this trigger
          // send lat/lng on trigger trickles
+         if (strLatLng) {
            if (strWhere) { // we found </project so prefs exist, insert lat/lng in the middle
                strTemp[0] = '\n'; // seems to like a leading newline?
                strncpy(strTemp, user.project_prefs, strWhere - user.project_prefs - 1);
-               if (strLatLng) strlcat(strTemp, strLatLng, APP_VERSION_XML_BLOB_SIZE);
+               strlcat(strTemp, strLatLng, APP_VERSION_XML_BLOB_SIZE);
                strlcat(strTemp, "</project_specific>\n</project_preferences>\n", APP_VERSION_XML_BLOB_SIZE);
            }
            else {  // blank project prefs, so just write quake data
-               if (strLatLng) 
                  sprintf(strTemp, "<project_preferences>\n<project_specific>\n%s\n</project_specific>\n</project_preferences>\n",
                      strLatLng);
            }
            fputs(strTemp, fout);
            fputs("\n", fout);
-
-       }
+         } //strLatLng
+       } // bTrigger
        else { // don't send the big quake list on a trigger trickle
          strTemp  = new char[APP_VERSION_XML_BLOB_SIZE];
          strQuake = NULL; // CMC note - read_file_malloc allocates this, make sure to free it! new char[APP_VERSION_XML_BLOB_SIZE];
@@ -844,13 +844,13 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq, bool bTrigger, D
            if (strWhere) { // we found </project so prefs exist, insert quake in the middle
                strTemp[0] = '\n'; // seems to like a leading newline?
                strncpy(strTemp, user.project_prefs, strWhere - user.project_prefs - 1);
-               strlcat(strTemp, strLatLng, APP_VERSION_XML_BLOB_SIZE);
+               if (strLatLng) strlcat(strTemp, strLatLng, APP_VERSION_XML_BLOB_SIZE);
                strlcat(strTemp, strQuake, APP_VERSION_XML_BLOB_SIZE);
                strlcat(strTemp, "\n</project_specific>\n</project_preferences>\n", APP_VERSION_XML_BLOB_SIZE);
            }
            else {  // blank project prefs, so just write quake data
                sprintf(strTemp, "\n<project_preferences>\n<project_specific>\n%s%s</project_specific>\n</project_preferences>\n", 
-                 strQuake, strLatLng);
+                 strQuake, strLatLng ? strLatLng : "");
            }
 
            fputs(strTemp, fout);
