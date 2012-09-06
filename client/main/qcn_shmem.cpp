@@ -93,7 +93,13 @@ void CQCNShMem::clear(bool bAll)
 		bMyVerticalTime = true;
 		bMyVerticalTrigger = true;
 
+		dMyLatitude = NO_LAT; 
+		dMyLongitude = NO_LNG; 
+		dMyElevationMeter = 0; 
+		iMyElevationFloor = 0; 
+		iMyAlignID = 0;
 
+		
 #ifdef _DEBUG_QCNLIVE_WRAP
 		// fill up the array with fake data to test
 		double dTimeStart = dtime() - ((float)MAXI * g_DT);
@@ -145,6 +151,7 @@ void CQCNShMem::clear(bool bAll)
     pshmem->dMyLongitude = dMyLongitude; 
     pshmem->dMyElevationMeter = dMyElevationMeter; 
     pshmem->iMyElevationFloor = iMyElevationFloor; 
+	pshmem->iMyAlignID = iMyAlignID;
     pshmem->iMySensor = iMySensor; 
 	pshmem->bMyContinual = bMyContinual;
 	pshmem->bMyOutputSAC = bMyOutputSAC;

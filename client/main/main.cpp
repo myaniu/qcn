@@ -563,8 +563,6 @@ int qcn_main(int argc, char **argv)
 
 			  // a good point to check for trickle down i.e. file request
 			  trickledown::processTrickleDown();  // from util/trickledown.cpp
-                 // parse last lat/lng from prefs file
-                 getLatLngPrefs();
 
              // see if we have an intermediate upload
 //#ifndef QCNLIVE

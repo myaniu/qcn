@@ -318,7 +318,7 @@ extern int sacio
     fTemp = (float) sm->dt;
     float_swap((QCN_CBYTE*) &fTemp, sacdata.f[esf_delta]);  // this is the delta in evenly spaced file -- we try for .02 but not guaranteed based on accelerometer grade
 
-#ifdef QCNLIVE
+//#ifdef QCNLIVE -- now using for live data via lat/lng sent in project prefs
     // if they input a valid lat/lng, enter it
     if (sm && sm->dMyLatitude != NO_LAT && sm->dMyLongitude != NO_LNG && sm->dMyLatitude != 0.0f && sm->dMyLongitude != 0.0f) {
        fTemp = (float) sm->dMyLatitude;
@@ -332,7 +332,7 @@ extern int sacio
     float_swap((QCN_CBYTE*) &fTemp, sacdata.f[esf_stel]);  // this is the delta in evenly spaced file -- we try for .02 but not guaranteed based on accelerometer grade
     fTemp = (float) sm->iMyElevationFloor;
     float_swap((QCN_CBYTE*) &fTemp, sacdata.f[esf_stdp]);  // this is the delta in evenly spaced file -- we try for .02 but not guaranteed based on accelerometer grade
-#endif
+//#endif
 	
 
 #ifdef QCN_SAC_DATA

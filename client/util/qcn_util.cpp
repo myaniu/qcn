@@ -315,6 +315,101 @@ void string_tidy(char* strIn, int length)
 		
 	} // get_fmax_components
 
+void getLatLngFromProjectPrefs()
+{
+	// this will get the user lat/lng that was set by the BOINC scheduler to have the client machine's last known lat/lng alignment etc
+	// this is so we can set data in the SAC files if available
+	// we're reusing fields usually used by QCNLive 
+	/*
+	 obviously we'll need to convert level information
+	 
+	double dMyLatitude;     // 'station' lat -- from here down gets written to SAC files in QCNLive
+    double dMyLongitude;    // 'station' lng
+    double dMyElevationMeter;   // 'station' elevation in meters
+    int    iMyElevationFloor;   // 'station' floor (-1=basement, 0=ground floor, 1=first floor, etc)
+	int iMyAlignID;   // qcn alignment id ie 0=unaligned, 1=mag north 2=south 3=east 4=west 5=wall 6=true north
+	+----+------------------------------------+
+	| id | description                        |
+	+----+------------------------------------+
+	|  0 | N/A                                |
+	|  1 | Floor (+/- above/below surface)    |
+	|  2 | Meters (above/below surface)       |
+	|  3 | Feet (above/below surface)         |
+	|  4 | Elevation - meters above sea level |
+	|  5 | Elevation - feet above sea level   |
+	+----+------------------------------------+
+	6 rows in set (0.07 sec)
+	
+	mysql> select * from qcn_align;
+	+----+----------------+
+	| id | description    |
+	+----+----------------+
+	|  0 | Unaligned      |
+	|  1 | Magnetic North |
+	|  2 | South          |
+	|  3 | East           |
+	|  4 | West           |
+	|  5 | Wall           |
+	|  6 | True North     |
+	+----+----------------+
+	 
+	 this is what the xml string in project_preferences looks like:
+	 
+	 <qlatlng>
+	 <lat>37.427017</lat>
+	 <lng>-122.149630</lng>
+	 <lvv>3.000000</lvv>
+	 <lvt>1</lvt>
+	 <al>6</al>
+	 </qlatlng>
+	 
+	*/
+	
+	// note values only get set if found so as not to overwrite if a blank prefs downloaded
+	
+	const char* strStart = strstr(sm->dataBOINC.project_preferences, "<qlatlng>");
+	const char* strEnd = strstr(sm->dataBOINC.project_preferences, "</qlatlng>");
+	const int iLen = (strEnd - strStart) + 1;
+	double dElevValue = 0.0f;
+	int iElevType = 0;
+	
+	if (!strStart || !strEnd || iLen < 1) return; // something wrong 
+	
+	// at this point sm->dataBOINC.project_preferences should be filled in
+    parse_double(strStart, "<lat>", (double&) sm->dMyLatitude);
+    parse_double(strStart, "<lng>", (double&) sm->dMyLongitude);
+    parse_int(strStart, "<al>", (int&) sm->iMyAlignID);
+
+	// elevation we need to convert floors & elevations etc
+	parse_int(strStart, "<lvt>", (int&) iElevType);
+	parse_double(strStart, "<lvv>", (double&) dElevValue);
+	
+	sm->iMyElevationFloor = iElevType;
+	switch (iElevType) {
+		case 0: // none
+			sm->dMyElevationMeter = 0;
+			break;
+		case 1: // floor # above below, so multiply by 3 meters?
+			sm->dMyElevationMeter = dElevValue * 3.0;
+			break;
+		case 2: // meters above & below ground
+			sm->dMyElevationMeter = dElevValue;
+			break;
+		case 3: // feet above below ground (so multiply by 0.3048)
+			sm->dMyElevationMeter = dElevValue * 0.3048;
+			break;
+		case 4: // actual elevation meters above sea level
+			sm->dMyElevationMeter = dElevValue;
+			break;
+		case 5: // actual elevation feet above sea level so multiply by 0.3048
+			sm->dMyElevationMeter = dElevValue * 0.3048;
+			break;
+		default:
+			sm->iMyElevationFloor = 0;
+			sm->dMyElevationMeter = 0;
+	}
+
+}
 	
 void retrieveProjectPrefs()
 {
@@ -343,6 +438,8 @@ void retrieveProjectPrefs()
 	// reset workunit name to station for qcn live
 	if (strlen(sm->strMyStation)>0) strcpy(sm->dataBOINC.wu_name, sm->strMyStation); // copy station name to workunit name
 #endif
+	// get location info from proj prefs
+	getLatLngFromProjectPrefs();
 }
 
 void getBOINCInitData(const e_where eWhere)
