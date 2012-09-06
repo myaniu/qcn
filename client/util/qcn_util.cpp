@@ -366,15 +366,17 @@ void getLatLngFromProjectPrefs()
 	*/
 	
 #ifdef QCNLIVE
+#ifndef _DEBUG
 	return;
 #endif
+#endif
 	
-	if (!sm->dataBOINC.project_preferences) return;
+	if (!sm->strProjectPreferences) return;
 	
 	// note values only get set if found so as not to overwrite if a blank prefs downloaded
 	
-	const char* strStart = strstr(sm->dataBOINC.project_preferences, "<qlatlng>");
-	const char* strEnd = strstr(sm->dataBOINC.project_preferences, "</qlatlng>");
+	const char* strStart = strstr(sm->strProjectPreferences, "<qlatlng>");
+	const char* strEnd = strstr(sm->strProjectPreferences, "</qlatlng>");
 	const int iLen = (strEnd - strStart) + 1;
 	
 	double dElevValue = 0.0f;

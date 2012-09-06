@@ -630,6 +630,7 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				OTHER_CFLAGS = (
+					"-D_DEBUG",
 					"-pipe",
 					"-g",
 					"-Wall",
