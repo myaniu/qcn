@@ -804,28 +804,36 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq, bool bTrigger, D
         //fputs(user.project_prefs, fout);
         //fputs("\n", fout);
        if (!bTrigger) { // don't send the big quake list on a trigger trickle
+         char strLatLng[_MAX_PATH];
          strTemp  = new char[APP_VERSION_XML_BLOB_SIZE];
          strQuake = NULL; // CMC note - read_file_malloc allocates this, make sure to free it! new char[APP_VERSION_XML_BLOB_SIZE];
+         char strLatLng[256];
          memset(strTemp,  0x00, sizeof(char) * APP_VERSION_XML_BLOB_SIZE);
+         memset(strLatLng, 0x00, sizeof(char) * 256);
          //memset(strQuake, 0x00, sizeof(char) * APP_VERSION_XML_BLOB_SIZE);
+
          if (boinc_file_exists("../qcn-quake.xml"))
             read_file_malloc("../qcn-quake.xml", strQuake); // strQuake holds the quake file contents
          if (strQuake && strlen(strQuake)>1 && strstr(strQuake, "<quakes>") && strstr(strQuake, "</quakes>")) { // we have valid quake data
+           // CMC Here - send current latitude / longitude & elev info for this host
+           if (qhip.hostid) {
+             sprintf(strLatLng, "<qlatlng>\n  <lat>%f</lat>\n  <lng>%f</lng>\n  <lvv>%f</lvv>\n  <lvt>%d</lvt>\n  <al>%d</al>\n</qlatlng>",
+                qhip.latitude, qhip.longitude, qhip.levelvalue, qhip.levelid, qhip.alignid);
+           }
+           // CMC End
            char* strWhere = strstr(user.project_prefs, "</project_specific>");
            if (strWhere) { // we found </project so prefs exist, insert quake in the middle
                strTemp[0] = '\n'; // seems to like a leading newline?
                strncpy(strTemp, user.project_prefs, strWhere - user.project_prefs - 1);
                strlcat(strTemp, strQuake, APP_VERSION_XML_BLOB_SIZE);
+               if (strlen(strLatLng)) strlcat(strTemp, strLatLng, APP_VERSION_XML_BLOB_SIZE);
                strlcat(strTemp, "\n</project_specific>\n</project_preferences>\n", APP_VERSION_XML_BLOB_SIZE);
            }
            else {  // blank project prefs, so just write quake data
-               sprintf(strTemp, "\n<project_preferences>\n<project_specific>\n%s\n</project_specific>\n</project_preferences>\n", strQuake);
+               sprintf(strTemp, "\n<project_preferences>\n<project_specific>\n%s\n%s\n</project_specific>\n</project_preferences>\n", 
+                 strQuake, (strlen(strLatLng) ? strLatLng : ""));
            }
 
-         // CMC Here - send current latitude / longitude & elev info for this host
-         if (hostid) {
-         }
-         // CMC End
 
            fputs(strTemp, fout);
            fputs("\n", fout);

@@ -365,9 +365,16 @@ int handle_qcn_trigger(const DB_MSG_FROM_HOST* pmfh, const int iVariety, DB_QCN_
               iVariety ? (iVariety==1 ? "ping" : "continual") : "trigger", qtrig.ipaddr
      );
 
+ // CMC HERE - change to just grab the latest qcn_host_ipaddr record for this hostid if a USB sensor (i.e. static location)
+
      // note if IP address is '' then this just becomes the user pref lat/lng if they input a record with no IP address
      // also note the sort order, non-geoip lookups (i.e. user-entered lat/lng/ipaddr) get sorted to the top
-     sprintf(strWhere, "WHERE hostid=%d AND (ipaddr='' OR ipaddr='%s') ORDER BY geoipaddrid,ipaddr", qtrig.hostid, qtrig.ipaddr);
+
+     //if (qtrig.qcn_sensorid >= 100) // usb sensor
+       sprintf(strWhere, "WHERE hostid=%d ORDER BY id DESC LIMIT 1", qtrig.hostid);
+     //else
+     //  sprintf(strWhere, "WHERE hostid=%d AND (ipaddr='' OR ipaddr='%s') ORDER BY geoipaddrid,ipaddr", qtrig.hostid, qtrig.ipaddr);
+
      iRetVal = qhip.lookup(strWhere);
      switch(iRetVal) {
         case ERR_DB_NOT_FOUND:  // this host & IP addr not found (or else it's a geopip record), check for host record with no IP, then need to lookup in geoip
