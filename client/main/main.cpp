@@ -588,7 +588,10 @@ int qcn_main(int argc, char **argv)
               // this skips the very first time in i.e. when we're just starting up, also bypasses for the continual reporting app
 			  // also make sure we didn't just have a trickle within the past INTERVAL_PING_SECONDS (30 minutes)
 			  // i.e. don't bother sending a ping since we heard from this machine anyway!
-             if (!g_iStop && g_bFirstPing && !g_bContinual && (dTimeLastTrigger + INTERVAL_PING_SECONDS < g_dTimeCurrent)) {
+             //if (!g_iStop && g_bFirstPing && !g_bContinual && (dTimeLastTrigger + INTERVAL_PING_SECONDS < g_dTimeCurrent)) {
+			  
+			  // actually let's do a ping to get the host lat/lng info and earthquake list
+			  if (!g_iStop) { // && g_bFirstPing && !g_bContinual && (dTimeLastTrigger + INTERVAL_PING_SECONDS < g_dTimeCurrent)) {
                 char *strTrigger = new char[512];
                 double dTrigTimeOffset = g_dTimeSync>0.0f ? g_dTimeOffset : 0.0f;
                 boinc_begin_critical_section();
