@@ -376,19 +376,26 @@ void getLatLngFromProjectPrefs()
 	const char* strStart = strstr(sm->dataBOINC.project_preferences, "<qlatlng>");
 	const char* strEnd = strstr(sm->dataBOINC.project_preferences, "</qlatlng>");
 	const int iLen = (strEnd - strStart) + 1;
+	
 	double dElevValue = 0.0f;
 	int iElevType = 0;
 	
-	if (!strStart || !strEnd || iLen < 1) return; // something wrong 
+	if (!strStart || !strEnd || iLen < 2) return; // something wrong 
 	
+	char* strSearch = new char[iLen];
+	memset(strSearch, 0x00, sizeof(char) * iLen);
+	strncpy(strSearch, strStart, iLen-1);
+
 	// at this point sm->dataBOINC.project_preferences should be filled in
-    parse_double(strStart, "<lat>", (double&) sm->dMyLatitude);
-    parse_double(strStart, "<lng>", (double&) sm->dMyLongitude);
-    parse_int(strStart, "<al>", (int&) sm->iMyAlignID);
+    parse_double(strSearch, "<lat>", (double&) sm->dMyLatitude);
+    parse_double(strSearch, "<lng>", (double&) sm->dMyLongitude);
+    parse_int(strSearch, "<al>", (int&) sm->iMyAlignID);
 
 	// elevation we need to convert floors & elevations etc
-	parse_int(strStart, "<lvt>", (int&) iElevType);
-	parse_double(strStart, "<lvv>", (double&) dElevValue);
+	parse_int(strSearch, "<lvt>", (int&) iElevType);
+	parse_double(strSearch, "<lvv>", (double&) dElevValue);
+	
+	delete [] strSearch;
 	
 	sm->iMyElevationFloor = iElevType;
 	switch (iElevType) {
