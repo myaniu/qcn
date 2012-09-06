@@ -42,9 +42,6 @@ using namespace std;
 
 #include "qcn_types.h"
 
-#define ESCAPE(x) escape_string(x, sizeof(x))
-#define UNESCAPE(x) unescape_string(x, sizeof(x))
-
 // the curl executable to use for Maxmind GeoIP queries (would linking to curl lib be better?  but have to tell BOINC)
 //#define EXEC_CURL     "/usr/local/bin/curl"
 //#define FORMAT_GEOIP  "-f -s 'http://geoip1.maxmind.com/b?l=0q9qp6z4BS40&i=%s.1'"

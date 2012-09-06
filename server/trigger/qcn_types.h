@@ -22,9 +22,18 @@ using namespace std;
 #endif
 
 #include "boinc_db.h"
+#include "parse.h"
+#include "str_util.h"
+#include "str_replace.h"
+#include "util.h"
+#include "filesys.h"
 
 extern DB_CONN boinc_db;
 extern DB_CONN trigmem_db;
+
+#define ESCAPE(x) escape_string(x, sizeof(x))
+#define UNESCAPE(x) unescape_string(x, sizeof(x))
+
 
 // structures matching the mySQL tables for QCN defined by qcn/server/qcn-data.sql
 

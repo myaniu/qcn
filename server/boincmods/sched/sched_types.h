@@ -22,7 +22,7 @@
 #include <vector>
 
 // CMC here include line
-#include "../../qcn/server/trigger/qcn_trigger.h"
+#include "../../qcn/server/trigger/qcn_types.h"
 
 #include "boinc_db.h"
 #include "common_defs.h"
