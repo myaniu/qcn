@@ -10,7 +10,7 @@
     <cgi_url>http://qcn.stanford.edu/sensor_cgi/</cgi_url>
     <msg_to_host/>
     <sched_debug_level>
-      2
+      3
     </sched_debug_level>
     <debug_version_select/>
     <uldl_dir_fanout>
