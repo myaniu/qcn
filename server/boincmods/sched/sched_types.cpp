@@ -816,6 +816,7 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq, bool bTrigger, D
         //
         //fputs(user.project_prefs, fout);
         //fputs("\n", fout);
+        if (! bTrigger)  { // only sent on ping trickles so every trigger doesn't make the whole quake list
         // CMC Here - send current latitude / longitude & elev info for this host
            char* strLatLng = NULL;
            if (!qhip.hostid) { // host info wasn't set, so do it here and spoof trigger info set varietyid=-1
@@ -895,15 +896,19 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq, bool bTrigger, D
          else { // send normal proj prefs
            // always send project prefs
            //
-           fputs(user.project_prefs, fout);
+           strTemp[0] = '\n'; // seems to like a leading newline?
+           strncpy(strTemp, user.project_prefs, strWhere - user.project_prefs - 1);
+           if (strLatLng) strlcat(strTemp, strLatLng, APP_VERSION_XML_BLOB_SIZE);
+           strlcat(strTemp, "\n</project_specific>\n</project_preferences>\n", APP_VERSION_XML_BLOB_SIZE);
+           fputs(strTemp, fout);
            fputs("\n", fout);
-         }
-      // } //bTrigger
+       } //bTrigger
 
       if (strTemp) delete [] strTemp;
       if (strQuake) free(strQuake);  // note malloc was used for strQuake, so use free, not delete[]!
       if (strLatLng) delete [] strLatLng;
       // CMC note -- we bypass this if a trigger trickle
+     } // ! bTrigger
      // end CMC mods
     }  // userid
 
