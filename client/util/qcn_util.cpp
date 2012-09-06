@@ -356,11 +356,11 @@ void getLatLngFromProjectPrefs()
 	 this is what the xml string in project_preferences looks like:
 	 
 	 <qlatlng>
-	 <lat>37.427017</lat>
-	 <lng>-122.149630</lng>
-	 <lvv>3.000000</lvv>
-	 <lvt>1</lvt>
-	 <al>6</al>
+	 <qlllat>37.427017</qlllat>
+	 <qlllng>-122.149630</qlllng>
+	 <qlllvv>3.000000</qlllvv>
+	 <qlllvt>1</qlllvt>
+	 <qllal>6</qllal>
 	 </qlatlng>
 	 
 	*/
@@ -389,13 +389,13 @@ void getLatLngFromProjectPrefs()
 	strncpy(strSearch, strStart, iLen-1);
 
 	// at this point sm->dataBOINC.project_preferences should be filled in
-    parse_double(strSearch, "<lat>", (double&) sm->dMyLatitude);
-    parse_double(strSearch, "<lng>", (double&) sm->dMyLongitude);
-    parse_int(strSearch, "<al>", (int&) sm->iMyAlignID);
+    parse_double(strSearch, "<qlllat>", (double&) sm->dMyLatitude);
+    parse_double(strSearch, "<qlllng>", (double&) sm->dMyLongitude);
+    parse_int(strSearch, "<qllal>", (int&) sm->iMyAlignID);
 
 	// elevation we need to convert floors & elevations etc
-	parse_int(strSearch, "<lvt>", (int&) iElevType);
-	parse_double(strSearch, "<lvv>", (double&) dElevValue);
+	parse_int(strSearch, "<qlllvt>", (int&) iElevType);
+	parse_double(strSearch, "<qlllvv>", (double&) dElevValue);
 	
 	delete [] strSearch;
 	
