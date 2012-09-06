@@ -814,7 +814,8 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq, bool bTrigger, D
                   "sched::handle_request::qcn_host_ipadr values: %s\n", strLatLng);
            }
            // CMC End
-           const char* strWhere = strstr(user.project_prefs, "</project_specific>");
+         const char* strWhere = strstr(user.project_prefs, "</project_specific>");
+         strTemp  = new char[APP_VERSION_XML_BLOB_SIZE];
        if (bTrigger) {  // send lat/lng info back to client for this trigger
          // send lat/lng on trigger trickles
          if (strLatLng) {
@@ -833,7 +834,6 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq, bool bTrigger, D
          } //strLatLng
        } // bTrigger
        else { // don't send the big quake list on a trigger trickle
-         strTemp  = new char[APP_VERSION_XML_BLOB_SIZE];
          strQuake = NULL; // CMC note - read_file_malloc allocates this, make sure to free it! new char[APP_VERSION_XML_BLOB_SIZE];
          memset(strTemp,  0x00, sizeof(char) * APP_VERSION_XML_BLOB_SIZE);
          //memset(strQuake, 0x00, sizeof(char) * APP_VERSION_XML_BLOB_SIZE);
