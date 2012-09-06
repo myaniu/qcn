@@ -58,5 +58,12 @@ extern DB_CONN boinc_db;
 extern DB_CONN trigmem_db;
 
 extern int handle_qcn_trigger(const DB_MSG_FROM_HOST* pmfh, const int iVariety, DB_QCN_HOST_IPADDR& qhip);
+extern int doTriggerHostLookup(
+   DB_QCN_HOST_IPADDR& qhip,
+   DB_QCN_GEO_IPADDR&  qgip,
+   DB_QCN_TRIGGER&     qtrig,
+   const double* dmxy,
+   const double* dmz
+);
 
 #endif  // ifndef _QCN_TRIGGER_H

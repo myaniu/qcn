@@ -219,7 +219,6 @@ int handle_qcn_trigger(const DB_MSG_FROM_HOST* pmfh, const int iVariety, DB_QCN_
      
      char strIP[32]; // temp holder for IP address
      int iRetVal = 0;
-     char* strErr = NULL;
      int iFollowUp = 0;
      bool bFollowUp = false;
      double dmxy[4], dmz[4];
@@ -352,7 +351,6 @@ int handle_qcn_trigger(const DB_MSG_FROM_HOST* pmfh, const int iVariety, DB_QCN_
 
      // OK, now just the lat/lng lookup
      // the first step will be to search into qcn_host_ipaddr to see if this exists already, sorted by geoip so user setting will be preferred
-     char strWhere[_MAX_PATH];
      
      qhip.hostid = qtrig.hostid; // important -- copy over ipaddr & hostid into other structs
      strcpy(qhip.ipaddr, qtrig.ipaddr);
@@ -365,6 +363,26 @@ int handle_qcn_trigger(const DB_MSG_FROM_HOST* pmfh, const int iVariety, DB_QCN_
               iVariety ? (iVariety==1 ? "ping" : "continual") : "trigger", qtrig.ipaddr
      );
 
+     iRetVal = doTriggerHostLookup(qhip, qgip, qtrig, dmxy, dmz);
+
+     // at this point we've inserted the appropriate records or had a database error, 
+     // so return with iRetVal (0=good, otherwise a database error which will "nak" so the trigger will be resent)
+     return iRetVal; // returns qhip.lookup error if there was a database error, so trigger won't be "ack'd" and will try again
+}
+
+
+int doTriggerHostLookup(
+   DB_QCN_HOST_IPADDR& qhip,
+   DB_QCN_GEO_IPADDR&  qgip,
+   DB_QCN_TRIGGER&     qtrig,
+   const double* dmxy,
+   const double* dmz
+)
+{
+
+   char* strErr = NULL;
+   char strWhere[_MAX_PATH];
+   int iRetVal = 0;
  // CMC HERE - change to just grab the latest qcn_host_ipaddr record for this hostid if a USB sensor (i.e. static location)
 
      // note if IP address is '' then this just becomes the user pref lat/lng if they input a record with no IP address
@@ -390,7 +408,7 @@ int handle_qcn_trigger(const DB_MSG_FROM_HOST* pmfh, const int iVariety, DB_QCN_
 
            // no record, need to do a maxmind/geoip database table lookup, and possibly web service lookup!
            sprintf(strWhere, "WHERE ipaddr='%s'", qtrig.ipaddr);
-           iRetVal = lookupGeoIPWebService(qgip.lookup(strWhere), qhip, qgip, qtrig, dmxy, dmz); 
+           iRetVal = lookupGeoIPWebService(qgip.lookup(strWhere), qhip, qgip, qtrig, dmxy, dmz);
 
            /*
 
@@ -432,6 +450,7 @@ int handle_qcn_trigger(const DB_MSG_FROM_HOST* pmfh, const int iVariety, DB_QCN_
            }
            */
            break;
+                   
         case 0:   // a qcn_host_ipaddr record found for this host & ipaddr 
            // (either a user entry with or without ipaddr key,  or previous geoip/maxmind lookup for this ipaddr)
            // copy over the lat/lng for this record into qtrig
@@ -443,7 +462,7 @@ int handle_qcn_trigger(const DB_MSG_FROM_HOST* pmfh, const int iVariety, DB_QCN_
            qtrig.hostipaddrid = qhip.id;
            qtrig.geoipaddrid = qhip.geoipaddrid;
            iRetVal = qtrig.insert();  // note if the insert fails, return code will be set and returned below, for update later
-           if (iRetVal) { 
+           if (iRetVal) {
               strErr = new char[512];
               memset(strErr, 0x00, 512);
               qtrig.db_print(strErr);
@@ -464,13 +483,10 @@ int handle_qcn_trigger(const DB_MSG_FROM_HOST* pmfh, const int iVariety, DB_QCN_
            log_messages.printf(
             SCHED_MSG_LOG::MSG_CRITICAL,
             "[QCN] [HOST#%d] [RESULTNAME=%s] [TIME=%lf] [9] Database error encountered on trigger processing!\n",
-            qtrig.hostid, qtrig.result_name, qtrig.time_received 
+            qtrig.hostid, qtrig.result_name, qtrig.time_received
            );
      }
-
-     // at this point we've inserted the appropriate records or had a database error, 
-     // so return with iRetVal (0=good, otherwise a database error which will "nak" so the trigger will be resent)
-     return iRetVal; // returns qhip.lookup error if there was a database error, so trigger won't be "ack'd" and will try again
+   return iRetVal;
 }
 
 int lookupGeoIPWebService(

@@ -38,6 +38,21 @@
 // CMC here
 #include "filesys.h"
 #include "str_replace.h"
+#include "../../qcn/server/trigger/qcn_types.h"
+
+extern int doTriggerHostLookup(
+   DB_QCN_HOST_IPADDR& qhip,
+   DB_QCN_GEO_IPADDR&  qgip,
+   DB_QCN_TRIGGER&     qtrig,
+   const double* dmxy,
+   const double* dmz
+);
+
+inline static const char* get_remote_addr() {
+    const char * r = getenv("REMOTE_ADDR");
+    return r ? r : "?.?.?.?";
+}
+
 // CMC end
 
 #ifdef _USING_FCGI_
@@ -805,6 +820,27 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq, bool bTrigger, D
         //fputs("\n", fout);
            // CMC Here - send current latitude / longitude & elev info for this host
            char* strLatLng = NULL;
+           if (!qhip.hostid) { // host info wasn't set, so do it here and spoof trigger info set varietyid=-1
+              double dmxy[4], dmz[4];
+              qhip.hostid = hostid;
+              DB_QCN_GEO_IPADDR qgip;
+              DB_QCN_TRIGGER qtrig;
+              qtrig.varietyid=-1;
+              qtrig.hostid = qhip.hostid;
+              qtrig.id = 0;
+              strncpy(qtrig.ipaddr, get_remote_addr(), 32);
+              strncpy(qgip.ipaddr, qtrig.ipaddr, 32);
+              if (doTriggerHostLookup(qhip, qgip, qtrig, dmxy, dmz)) {
+                log_messages.printf(MSG_DEBUG,
+                  "sched::handle_request::qcn_host_ipadr hostid lookup %d Failure\n", qhip.hostid);
+                 qhip.hostid = 0; //reset so bypasses the strLatLng creation below
+              }
+              else { // OK
+                log_messages.printf(MSG_DEBUG,
+                  "sched::handle_request::qcn_host_ipadr hostid lookup %d OK\n", qhip.hostid);
+              }
+           }
+
            if (qhip.hostid) {
              strLatLng = new char[512];
              memset(strLatLng, 0x00, sizeof(char) * 512);

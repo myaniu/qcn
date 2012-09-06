@@ -97,7 +97,7 @@ struct QCN_TRIGGER
     int flag;
     int hostipaddrid;
     int geoipaddrid;
-    void clear() {memset(this, 0x00, sizeof(QCN_TRIGGER));}
+    void clear() {memset(this, 0x00, sizeof(QCN_TRIGGER)); varietyid = -1; }
 };
 
 struct QCN_TRIGGER_MEMORY
@@ -168,7 +168,7 @@ class DB_QCN_HOST_IPADDR : public DB_BASE, public QCN_HOST_IPADDR
 {
 public:
     DB_QCN_HOST_IPADDR(DB_CONN* dc=0) :
-          DB_BASE("qcn_host_ipaddr", dc ? dc : &boinc_db)  { }
+          DB_BASE("qcn_host_ipaddr", dc ? dc : &boinc_db)  { clear(); }
 
     int get_id() {return id;}
 
@@ -235,7 +235,7 @@ class DB_QCN_GEO_IPADDR : public DB_BASE, public QCN_GEO_IPADDR
 {
 public:
     DB_QCN_GEO_IPADDR(DB_CONN* dc=0) :
-          DB_BASE("qcn_geo_ipaddr", dc ? dc : &boinc_db)  { }
+          DB_BASE("qcn_geo_ipaddr", dc ? dc : &boinc_db)  { clear(); }
 
     int get_id() {return id;}
 
@@ -278,7 +278,7 @@ class DB_QCN_TRIGGER : public DB_BASE, public QCN_TRIGGER
 {
 public:
     DB_QCN_TRIGGER(DB_CONN* dc=0) :
-          DB_BASE("qcn_trigger", dc ? dc : &boinc_db)  { }
+          DB_BASE("qcn_trigger", dc ? dc : &boinc_db)  { clear(); }
 
     int get_id() {return id;}
 
@@ -375,7 +375,7 @@ class DB_QCN_TRIGGER_MEMORY : public DB_BASE, public QCN_TRIGGER_MEMORY
 {
 public:
     DB_QCN_TRIGGER_MEMORY(DB_CONN* dc=0) :
-        DB_BASE("qcn_trigger_memory", dc ? dc : &trigmem_db)  { }
+        DB_BASE("qcn_trigger_memory", dc ? dc : &trigmem_db)  { clear(); }
 
     int get_id() {return triggerid;}
 
@@ -494,7 +494,7 @@ class DB_QCN_QUAKE: public DB_BASE, public QCN_QUAKE
 {
 public:
     DB_QCN_QUAKE(DB_CONN* dc=0) :
-          DB_BASE("qcn_quake", dc ? dc : &boinc_db)  { }
+          DB_BASE("qcn_quake", dc ? dc : &boinc_db)  { clear(); }
 
     int get_id() {return id;}
 
