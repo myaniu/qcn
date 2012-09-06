@@ -811,14 +811,12 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq, bool bTrigger, D
             fputs("\n", fout);
         }
 
-         // CMC here -- send latest quake list
-       // CMC note -- we bypass this if a trigger trickle
-
+   // CMC here -- send latest quake list
         // always send project prefs
         //
         //fputs(user.project_prefs, fout);
         //fputs("\n", fout);
-           // CMC Here - send current latitude / longitude & elev info for this host
+        // CMC Here - send current latitude / longitude & elev info for this host
            char* strLatLng = NULL;
            if (!qhip.hostid) { // host info wasn't set, so do it here and spoof trigger info set varietyid=-1
               double dmxy[4], dmz[4];
@@ -852,6 +850,7 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq, bool bTrigger, D
            // CMC End
          const char* strWhere = strstr(user.project_prefs, "</project_specific>");
          strTemp  = new char[APP_VERSION_XML_BLOB_SIZE];
+/*
        if (bTrigger) {  // send lat/lng info back to client for this trigger
          // send lat/lng on trigger trickles
          if (strLatLng) {
@@ -870,6 +869,7 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq, bool bTrigger, D
          } //strLatLng
        } // bTrigger
        else { // don't send the big quake list on a trigger trickle
+*/
          strQuake = NULL; // CMC note - read_file_malloc allocates this, make sure to free it! new char[APP_VERSION_XML_BLOB_SIZE];
          memset(strTemp,  0x00, sizeof(char) * APP_VERSION_XML_BLOB_SIZE);
          //memset(strQuake, 0x00, sizeof(char) * APP_VERSION_XML_BLOB_SIZE);
@@ -898,15 +898,15 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq, bool bTrigger, D
            fputs(user.project_prefs, fout);
            fputs("\n", fout);
          }
-      }
+      // } //bTrigger
 
       if (strTemp) delete [] strTemp;
       if (strQuake) free(strQuake);  // note malloc was used for strQuake, so use free, not delete[]!
       if (strLatLng) delete [] strLatLng;
       // CMC note -- we bypass this if a trigger trickle
      // end CMC mods
+    }  // userid
 
-    }
     if (hostid) {
         fprintf(fout,
             "<hostid>%d</hostid>\n",
