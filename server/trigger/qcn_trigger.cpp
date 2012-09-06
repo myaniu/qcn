@@ -370,10 +370,10 @@ int handle_qcn_trigger(const DB_MSG_FROM_HOST* pmfh, const int iVariety, DB_QCN_
      // note if IP address is '' then this just becomes the user pref lat/lng if they input a record with no IP address
      // also note the sort order, non-geoip lookups (i.e. user-entered lat/lng/ipaddr) get sorted to the top
 
-     //if (qtrig.qcn_sensorid >= 100) // usb sensor
-       sprintf(strWhere, "WHERE hostid=%d ORDER BY id DESC LIMIT 1", qtrig.hostid);
-     //else
-     //  sprintf(strWhere, "WHERE hostid=%d AND (ipaddr='' OR ipaddr='%s') ORDER BY geoipaddrid,ipaddr", qtrig.hostid, qtrig.ipaddr);
+     if (qtrig.qcn_sensorid >= 100) // usb sensor
+       sprintf(strWhere, "WHERE hostid=%d ORDER BY geoipaddrid, id LIMIT 1", qtrig.hostid);
+     else
+       sprintf(strWhere, "WHERE hostid=%d AND (ipaddr='' OR ipaddr='%s') ORDER BY geoipaddrid,ipaddr", qtrig.hostid, qtrig.ipaddr);
 
      iRetVal = qhip.lookup(strWhere);
      switch(iRetVal) {
