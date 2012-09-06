@@ -46,7 +46,13 @@ class CQCNShMem : public CSerialize
     int iNumUpload;         // the total number of uploads for this workunit
     int iNumReset;          // the number of timing resets this session has had (diags which can be trickled up)
 	
-	// the "My" variables are for qcnlive user pref settings and optionally sent lat/lng elev from trickle-down
+    // the "Tr" variables are for triggers/sac files ie to store local location info gleaned from the server in a scheduler request
+    double dTrLatitude;     // 'station' lat -- from here down gets written to SAC files in QCNLive
+    double dTrLongitude;    // 'station' lng
+    double dTrElevationMeter;   // 'station' elevation in meters
+    int    iTrElevationFloor;   // 'station' floor (-1=basement, 0=ground floor, 1=first floor, etc)
+	int iTrAlignID;   // qcn alignment id ie 0=unaligned, 1=mag north 2=south 3=east 4=west 5=wall 6=true north
+
     double dMyLatitude;     // 'station' lat -- from here down gets written to SAC files in QCNLive
     double dMyLongitude;    // 'station' lng
     double dMyElevationMeter;   // 'station' elevation in meters

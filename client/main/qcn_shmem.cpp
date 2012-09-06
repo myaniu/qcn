@@ -99,6 +99,12 @@ void CQCNShMem::clear(bool bAll)
 		iMyElevationFloor = 0; 
 		iMyAlignID = 0;
 
+		dTrLatitude = NO_LAT; 
+		dTrLongitude = NO_LNG; 
+		dTrElevationMeter = 0; 
+		iTrElevationFloor = 0; 
+		iTrAlignID = 0;
+
 		
 #ifdef _DEBUG_QCNLIVE_WRAP
 		// fill up the array with fake data to test
@@ -147,6 +153,11 @@ void CQCNShMem::clear(bool bAll)
     pshmem->iNumReset   = iNumReset;          // the number of timing resets this session has had (diags which can be trickled up)
 
 	// qcnlive user pref vars
+    pshmem->dTrLatitude = dTrLatitude; 
+    pshmem->dTrLongitude = dTrLongitude; 
+    pshmem->dTrElevationMeter = dTrElevationMeter; 
+    pshmem->iTrElevationFloor = iTrElevationFloor; 
+	pshmem->iTrAlignID = iTrAlignID;
     pshmem->dMyLatitude = dMyLatitude; 
     pshmem->dMyLongitude = dMyLongitude; 
     pshmem->dMyElevationMeter = dMyElevationMeter; 

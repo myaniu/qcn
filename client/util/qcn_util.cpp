@@ -323,11 +323,11 @@ void getLatLngFromProjectPrefs()
 	/*
 	 obviously we'll need to convert level information
 	 
-	double dMyLatitude;     // 'station' lat -- from here down gets written to SAC files in QCNLive
-    double dMyLongitude;    // 'station' lng
-    double dMyElevationMeter;   // 'station' elevation in meters
-    int    iMyElevationFloor;   // 'station' floor (-1=basement, 0=ground floor, 1=first floor, etc)
-	int iMyAlignID;   // qcn alignment id ie 0=unaligned, 1=mag north 2=south 3=east 4=west 5=wall 6=true north
+	double dTrLatitude;     // 'station' lat -- from here down gets written to SAC files in QCNLive
+    double dTrLongitude;    // 'station' lng
+    double dTrElevationMeter;   // 'station' elevation in meters
+    int    iTrElevationFloor;   // 'station' floor (-1=basement, 0=ground floor, 1=first floor, etc)
+	int iTrAlignID;   // qcn alignment id ie 0=unaligned, 1=mag north 2=south 3=east 4=west 5=wall 6=true north
 	+----+------------------------------------+
 	| id | description                        |
 	+----+------------------------------------+
@@ -389,9 +389,9 @@ void getLatLngFromProjectPrefs()
 	strncpy(strSearch, strStart, iLen-1);
 
 	// at this point sm->dataBOINC.project_preferences should be filled in
-    parse_double(strSearch, "<qlllat>", (double&) sm->dMyLatitude);
-    parse_double(strSearch, "<qlllng>", (double&) sm->dMyLongitude);
-    parse_int(strSearch, "<qllal>", (int&) sm->iMyAlignID);
+    parse_double(strSearch, "<qlllat>", (double&) sm->dTrLatitude);
+    parse_double(strSearch, "<qlllng>", (double&) sm->dTrLongitude);
+    parse_int(strSearch, "<qllal>", (int&) sm->iTrAlignID);
 
 	// elevation we need to convert floors & elevations etc
 	parse_int(strSearch, "<qlllvt>", (int&) iElevType);
@@ -399,29 +399,29 @@ void getLatLngFromProjectPrefs()
 	
 	delete [] strSearch;
 	
-	sm->iMyElevationFloor = iElevType;
+	sm->iTrElevationFloor = iElevType;
 	switch (iElevType) {
 		case 0: // none
-			sm->dMyElevationMeter = 0;
+			sm->dTrElevationMeter = 0;
 			break;
 		case 1: // floor # above below, so multiply by 3 meters?
-			sm->dMyElevationMeter = dElevValue * 3.0;
+			sm->dTrElevationMeter = dElevValue * 3.0;
 			break;
 		case 2: // meters above & below ground
-			sm->dMyElevationMeter = dElevValue;
+			sm->dTrElevationMeter = dElevValue;
 			break;
 		case 3: // feet above below ground (so multiply by 0.3048)
-			sm->dMyElevationMeter = dElevValue * 0.3048;
+			sm->dTrElevationMeter = dElevValue * 0.3048;
 			break;
 		case 4: // actual elevation meters above sea level
-			sm->dMyElevationMeter = dElevValue;
+			sm->dTrElevationMeter = dElevValue;
 			break;
 		case 5: // actual elevation feet above sea level so multiply by 0.3048
-			sm->dMyElevationMeter = dElevValue * 0.3048;
+			sm->dTrElevationMeter = dElevValue * 0.3048;
 			break;
 		default:
-			sm->iMyElevationFloor = 0;
-			sm->dMyElevationMeter = 0;
+			sm->iTrElevationFloor = 0;
+			sm->dTrElevationMeter = 0;
 	}
 
 }

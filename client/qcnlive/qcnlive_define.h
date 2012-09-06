@@ -99,7 +99,23 @@
 <rsc_fpops_bound>10000000000.000000</rsc_fpops_bound>\n \
 <rsc_memory_bound>100000000.000000</rsc_memory_bound>\n \
 <rsc_disk_bound>100000000.000000</rsc_disk_bound>\n \
-<project_preferences>\n"
+<project_preferences>\n "
+
+/*
+ \
+<color_scheme>Tahiti Sunset</color_scheme> \
+<ssp>0</ssp> \
+<lat>40.12950005266513</lat> \
+<lng>-75.32405465841292</lng> \
+<max_frames_sec>100</max_frames_sec> \
+<qlatlng> \
+<qlllat>37.427017</qlllat> \
+<qlllng>-122.149630</qlllng> \
+<qlllvv>3.000000</qlllvv> \
+<qlllvt>1</qlllvt> \
+<qllal>6</qllal> \
+</qlatlng>"
+*/
 
 #define QCNGUI_INIT_2 "\n</project_preferences>\n \
 <host_info>\n \

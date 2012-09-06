@@ -318,7 +318,7 @@ extern int sacio
     fTemp = (float) sm->dt;
     float_swap((QCN_CBYTE*) &fTemp, sacdata.f[esf_delta]);  // this is the delta in evenly spaced file -- we try for .02 but not guaranteed based on accelerometer grade
 
-//#ifdef QCNLIVE -- now using for live data via lat/lng sent in project prefs
+#ifdef QCNLIVE -- now using for live data via lat/lng sent in project prefs
     // if they input a valid lat/lng, enter it
     if (sm && sm->dMyLatitude != NO_LAT && sm->dMyLongitude != NO_LNG && sm->dMyLatitude != 0.0f && sm->dMyLongitude != 0.0f) {
        fTemp = (float) sm->dMyLatitude;
@@ -326,13 +326,24 @@ extern int sacio
        fTemp = (float) sm->dMyLongitude;
        float_swap((QCN_CBYTE*) &fTemp, sacdata.f[esf_stlo]);  
     }
-   
     // put in elevation data
     fTemp = (float) sm->dMyElevationMeter;
-    float_swap((QCN_CBYTE*) &fTemp, sacdata.f[esf_stel]);  // this is the delta in evenly spaced file -- we try for .02 but not guaranteed based on accelerometer grade
+    float_swap((QCN_CBYTE*) &fTemp, sacdata.f[esf_stel]);  
     fTemp = (float) sm->iMyElevationFloor;
-    float_swap((QCN_CBYTE*) &fTemp, sacdata.f[esf_stdp]);  // this is the delta in evenly spaced file -- we try for .02 but not guaranteed based on accelerometer grade
-//#endif
+    float_swap((QCN_CBYTE*) &fTemp, sacdata.f[esf_stdp]);  
+#else  // may have data from the scheduler request which updates lat/lng/elev info
+    if (sm && sm->dTrLatitude != NO_LAT && sm->dTrLongitude != NO_LNG && sm->dTrLatitude != 0.0f && sm->dTrLongitude != 0.0f) {
+       fTemp = (float) sm->dTrLatitude;
+       float_swap((QCN_CBYTE*) &fTemp, sacdata.f[esf_stla]);  
+       fTemp = (float) sm->dTrLongitude;
+       float_swap((QCN_CBYTE*) &fTemp, sacdata.f[esf_stlo]);  
+    }
+    // put in elevation data
+    fTemp = (float) sm->dTrElevationMeter;
+    float_swap((QCN_CBYTE*) &fTemp, sacdata.f[esf_stel]);  
+    fTemp = (float) sm->iTrElevationFloor;
+    float_swap((QCN_CBYTE*) &fTemp, sacdata.f[esf_stdp]);  
+#endif
 	
 
 #ifdef QCN_SAC_DATA
