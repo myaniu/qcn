@@ -1,5 +1,5 @@
-delete from user where id not in (select distinct userid from host);
-delete from profile where userid not in (select distinct userid from host);
+delete from user where id not in (select distinct userid from host) and id not in (select distinct userid from team);
+delete from profile where userid not in (select distinct userid from host) and userid not in (select distinct userid from team);
 
 
 select count(*) from user where id not in (select distinct userid from host);
