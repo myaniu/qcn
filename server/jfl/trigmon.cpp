@@ -155,18 +155,18 @@ int QCN_GetTriggers()
     }
 */
     // Note this will get previous quake eventid info (if updated) for the trigger
-    if ( qtm.qcn_sensorid >= ID_USB_SENSOR_START ) { //&&(bad_host<0) ) { 
+    if ( qtm.qcn_sensorid >= ID_USB_SENSOR_START && qtm.numreset < 10) { //&&(bad_host<0) ) { 
       // Only use triggers from usb accelerometers
-      t.hostid  = qtm.hostid;            // Host ID
-      t.triggerid  = qtm.triggerid;      // Trigger ID
-      t.qcn_quakeid = qtm.qcn_quakeid;   // bring in the matching quake id, if any yet!
-      t.posted = qtm.posted;             // file req posted?
+      t.hostid  = qtm.hostid;              // Host ID
+      t.triggerid  = qtm.triggerid;        // Trigger ID
+      t.qcn_quakeid = qtm.qcn_quakeid;     // bring in the matching quake id, if any yet!
+      t.posted = qtm.posted;               // file req posted?
       strncpy(t.db, qtm.db_name, sizeof(t.db)-1);   // Database Name
       strncpy(t.file, qtm.file, sizeof(t.file)-1);  // File name
       strncpy(t.result_name, qtm.result_name, sizeof(t.result_name)-1);  // File name
-      t.latitude = qtm.latitude;         // Latitude
-      t.longitude= qtm.longitude;        // Longitude
-      t.time_trigger = qtm.time_trigger; // Trigger Time
+      t.latitude = qtm.latitude;           // Latitude
+      t.longitude= qtm.longitude;          // Longitude
+      t.time_trigger = qtm.time_trigger;   // Trigger Time
       t.time_received = qtm.time_received; // Time Trigger received
       t.significance  = qtm.significance;  // Significance (Trigger detection filter)
       t.magnitude  = qtm.magnitude;        // set mag to magnitude at time of trigger
@@ -910,12 +910,12 @@ int QCN_IntensityMap(const bool& bInsertEvent, struct event& e, const int& ciOff
      // Output correlated trigger loc & magnitude
      //t[ij].triggerid,t[ij].longitude,t[ij].latitude,t[ij].time_trigger,(int) t[ij].time_received,t[ij].sig,t[ij].mag,t[ij].dis)
    }
-   fclose(fp[OUT_STATION]);                                               // Close station output file name
+   fclose(fp[OUT_STATION]);                                  // Close station output file name
    fp[OUT_STATION] = NULL;
 
 // Create contours for time rlatitudeive to identification time 
-   fp[OUT_CONT_TIME] = fopen(strPath[OUT_CONT_TIME],"w");     // Open time contours output file.
-   fp[OUT_CONT_LABEL] = fopen(strPath[OUT_CONT_LABEL],"w");     // label file for contours
+   fp[OUT_CONT_TIME] = fopen(strPath[OUT_CONT_TIME],"w");    // Open time contours output file.
+   fp[OUT_CONT_LABEL] = fopen(strPath[OUT_CONT_LABEL],"w");  // label file for contours
    if (!fp[OUT_CONT_LABEL] || !fp[OUT_CONT_TIME]) {
       retval = 1;
       log_messages.printf(MSG_CRITICAL,
@@ -929,13 +929,13 @@ int QCN_IntensityMap(const bool& bInsertEvent, struct event& e, const int& ciOff
     float dis = ((float) (j-3) * 10.+t_dif)*3.;              // Distance of time contours (10 s interval at 3km/s)
     if (dis > 0.) {                                          // Only use if distance greater than zero
      for (k=0; k<=180; k++) {                                // for each azimuth
-      float az = (float) k * 2 * pi / 180.;                      // azimuth in radians
+      float az = (float) k * 2 * pi / 180.;                  // azimuth in radians
       float dlon = sin(az)*dis/111.19/abs(cos(latr));        // Longitudinal distance
-      ln_x = e.longitude + dlon;                               // New longitude
-      lt_x = e.latitude + cos(az)*dis/111.19;                 // New latitude
-      fprintf(fp[OUT_CONT_TIME],"%f,%f\n",ln_x,lt_x);                     // Output contour
+      ln_x = e.longitude + dlon;                             // New longitude
+      lt_x = e.latitude + cos(az)*dis/111.19;                // New latitude
+      fprintf(fp[OUT_CONT_TIME],"%f,%f\n",ln_x,lt_x);        // Output contour
      }                                                       //
-     fprintf(fp[OUT_CONT_TIME],">\n");                                    // Deliminator for separation between line segments
+     fprintf(fp[OUT_CONT_TIME],">\n");                       // Deliminator for separation between line segments
      fprintf(fp[OUT_CONT_LABEL],"%f %f 12 0 1 5 \\ %d \n",ln_x,lt_x,(int) dti );// Output labels for each contour
     }
    }                                                         //
@@ -1003,7 +1003,8 @@ void QCN_DetectEvent()
    float   dist;                               // Distance between triggers
    int   nh = 0;int ih=0;                      // Number of hosts, ith host
    int   h[N_LONG]; int ind[N_LONG];           // host ids already used
-  
+   int   ind_i,ind_j;
+
    memset(h, 0x00, sizeof(int) * N_LONG);
    memset(ind, 0x00, sizeof(int) * N_LONG);
 
@@ -1021,13 +1022,16 @@ void QCN_DetectEvent()
    ind[0]=iCtr;                                // Index of host id's start at last trigger first
 
 
-   for (i=iCtr; i>=2; i--) {          // For each trigger (go backwards because triggers in order of latest first, and we want first first)
+   for (i=iCtr; i>=2; i--) {                   // For each trigger (go backwards: triggers go last to 1st, & we want 1st first)
     vt[i].c_cnt=0;                              // Zero the count of correlated triggers
     vt[i].c_ind[0]=i;                           // Index the same trigger as zeroth trigger
     ih = -10;                                    // Unassigned host id
     for (j = 0; j<=nh;j++) {                  // search through the assigned host ids
      if (vt[i].hostid == h[j]) {                  // to find a match
       ih = j;                                 // Match found
+     }
+     if (abs(vt[i].longitude-vt[j].longitude) < 0.001 && abs(vt[i].latitude-vt[j].latitude)< 0.001) {
+      ih = 1000;
      }
     }
     if (ih<0) {                               // If no match found, then
@@ -1059,6 +1063,7 @@ void QCN_DetectEvent()
        } // if vt[=j]
      } // for j
     }  // if vt[i] hostid
+    nh = 0;                                            // Clear the number of hosts
    } // for i                                          // Done correlating
 
 
@@ -1066,56 +1071,69 @@ void QCN_DetectEvent()
 /* Now we correlate triggers that are currently correlated with triggers that are correlated with the initial trigger, but not
    correlated with the initial trigger itself */
    bool bInsertEvent = false; // if true then we should insert this into qcn_quake table
-   for (i =iCtr; i>1; i--) {                   // For each trigger
+   for (i =iCtr; i>1; i--) {                    // For each trigger
     if (vt[i].c_cnt > C_CNT_MIN) {              // If more than 4 correlated triggers, possible regional event
-     for (j = i-1;j>=0; j--) {                 // Compare with all later triggers
+
+/*     for (j = i-1;j>=0; j--) {                  // Compare with all later triggers
       if (vt[j].c_cnt > C_CNT_MIN) {            // Make sure this trigger is an event all of it's own
        kl = -10;
+
        for (k = 0; k<=vt[j].c_cnt;k++) {        // Compare all potential secondary correlated triggers
         for (l = 0; l<=vt[i].c_cnt;l++) {       // Make sure trigger isn't same host as prior trigger
-         if (vt[i].c_ind[l]==vt[j].c_ind[k]) {
+         ind_i = vt[i].c_ind[l];
+         ind_j = vt[j].c_ind[k];
+         // Check if same host or same trigger
+         if ((ind_i==ind_j) || (vt[ind_i].hostid==vt[ind_j].hostid) ) {
+          kl = l;break;
+         }
+         // Check if within 10 meters
+         if ( (abs(vt[ind_i].longitude-vt[ind_j].longitude)<0.001) || (abs(vt[ind_i].latitude-vt[ind_j].latitude)<0.001)) {
           kl = l;break;
          }
         }
-        if (kl < 0) {                         // If no matching trigger, then add secondary trigger to primary trigger list
+        if (kl < 0) {                           // If no matching trigger, then add secondary trigger to primary trigger list
          vt[i].c_cnt++;
          vt[i].c_ind[vt[i].c_cnt]=vt[j].c_ind[k];
          vt[i].c_hid[vt[i].c_cnt]=vt[j].c_hid[k];
         }
         vt[k].c_cnt = 0;                        // get rid of correlated triggers (now that they are primary triggers)
        } // k
+
       } // vt[j].c_cnt
      } // j 
+*/
+
+
+
      j = i;
      bool bEventFound = false;
      e.clear(); // CMC use a temp event struct that we can fill in and update the array as necessary with the dirty bit (or insert if a new one)
-     for (k = 0; k < (int) ve.size(); k++)  { // go through all the events for a match, if not make a new event
+     for (k = 0; k < (int) ve.size(); k++)  {    // go through all the events for a match, if not make a new event
        if ( ( vt[i].time_trigger <= T_max+ve[k].e_time) && (abs(vt[i].latitude-ve[k].latitude)<=3.) ) {
              // this is a match by time & location (just using lat though?)
           bEventFound = true;
           e = ve[k];  // should have a qcn_quakeid here as it should have been inserted in the original pass
           break;
        }
-      /* if ( ( vt[i].time_trigger > T_max+ve[k].e_time)||(abs(vt[i].latitude-e.latitude)>3.) ) {
-       } */
      } // for k
-     if (!bEventFound) { // need to add a new quake event
+
+     if (!bEventFound) {                       // need to add a new quake event
         e.eventid = (long) vt[i].time_trigger; //g_idEvent++; // If new Time or location, then new event
         e.e_cnt=0;                            // Zero trigger count for event count for if new location/time
         e.dirty = true;
      }
 
-     if ((vt[i].c_cnt > e.e_cnt)||((vt[i].time_trigger-e.e_t_detect>5.)&&(vt[i].c_cnt=e.e_cnt))) { 
+     if ((vt[i].c_cnt > e.e_cnt)||((vt[i].time_trigger-e.e_t_detect>4.)&&(vt[i].c_cnt=e.e_cnt))) { 
        // Only do new event location ... if more triggers for same event (or new event - no prior triggers)
        if (!QCN_EventLocate(bEventFound, e, i) || e.e_r2 < 0.5) { 
           break; 
        }          // Stop event if no event located
        e.e_cnt = vt[i].c_cnt;
        bInsertEvent = (bool) (e.qcn_quakeid == 0); // if 0 then we don't have a quake id yet hence need to insert
-       QCN_EstimateMagnitude(e, i); //  // Estimate the magnitude of the earthquake
-       QCN_IntensityMap(bInsertEvent, e, i);   // This generates the intensity map -- also where quake info updated in the qcn_quake & qcn_trigger tables
+       QCN_EstimateMagnitude(e, i);                // Estimate the magnitude of the earthquake
+       QCN_IntensityMap(bInsertEvent, e, i);       // This generates the intensity map -- also where quake info updated in the qcn_quake & qcn_trigger tables
      }
-     if (bEventFound) { // replace element
+     if (bEventFound) {                            // replace element
         ve[k] = e;
      }
      else {
@@ -1254,13 +1272,13 @@ void QCN_EstimateMagnitude(struct event& e, const int& ciOff)
    srand ( time(NULL) );                                // Set randomization kernel
    float mag_ave[N_SHORT];                              // Average magnitude
 
-   e.magnitude = 0.f;                                    // Zero magnitude
-   for (j = 0; j <=vt[ciOff].c_cnt; j++) {                   // Bootstrap once for each trigger
+   e.magnitude = 0.f;                                   // Zero magnitude
+   for (j = 0; j <=vt[ciOff].c_cnt; j++) {              // Bootstrap once for each trigger
     mag_ave[j]=0.;                                      // Zero the average magnitude for this bootstrap
-    for (k = 0; k <= vt[ciOff].c_cnt; k++) {                 // Select one point for each trigger
-     kk = rand() % (vt[ciOff].c_cnt+1);                      // Use random trigger
-     n = vt[ciOff].c_ind[kk];                                // Index of correlated trigger
-     if ( vt[n].pors == 0 ) {                            // Use appropriate multilication factor (currently not used but will eventually)
+    for (k = 0; k <= vt[ciOff].c_cnt; k++) {            // Select one point for each trigger
+     kk = rand() % (vt[ciOff].c_cnt+1);                 // Use random trigger
+     n = vt[ciOff].c_ind[kk];                           // Index of correlated trigger
+     if ( vt[n].pors == 0 ) {                           // Use appropriate multilication factor (currently not used but will eventually)
       mul_amp = 1.f;                                    //
      } else {                                           //
       mul_amp = 1.f;                                    //
