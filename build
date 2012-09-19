@@ -17,9 +17,19 @@ if ( test "`uname -s`" = "Darwin" ) then
   ./build.mac $1 $2
 else
  if ( test "`uname -m`" = "armv6l" ) then
+   cp client/main/Makefile.am.ARM client/main/Makefile.am
    OSBUILD='armv6_build'
+   ARMFLAGS='__LINUX_ARMV6__'
  else
-   OSBUILD='$OSBUILD'
+   if ( test "`uname -m`" = "armv5tel" ) then
+     cp client/main/Makefile.am.ARM client/main/Makefile.am
+     OSBUILD='armv5_build'
+     ARMFLAGS='__LINUX_ARMV5__'
+   else
+     OSBUILD='$OSBUILD'
+     cp client/main/Makefile.am.LINUX client/main/Makefile.am
+     cp client/qcnlive/Makefile.linux client/qcnlive/Makefile
+   fi
  fi
  if (test "$1" = "all" || test "$2" = "all" || test "$1" = "libs" || test "$2" = "libs") then
   cd zlib-1.2.5
@@ -82,8 +92,6 @@ else
  fi   # end of library or 'all' build
   cp configure.ac.linux configure.ac
   ./set-version $VERSION
-  cp client/main/Makefile.am.LINUX client/main/Makefile.am
-  cp client/qcnlive/Makefile.linux client/qcnlive/Makefile
   ./_autosetup
   ./configure --enable-client-release --disable-server
   make clean && make
