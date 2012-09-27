@@ -65,7 +65,7 @@ t.numreset, s.description as sensor_description, t.sw_version, t.qcn_quakeid, t.
 t.received_file, REPLACE_ARCHIVE is_archive, t.varietyid, q.url quake_url, if(t.geoipaddrid=0, 'N', 'Y') is_geoip 
 FROM REPLACE_DB.qcn_trigger t LEFT OUTER JOIN sensor.qcn_quake q ON t.qcn_quakeid = q.id
    LEFT JOIN sensor.qcn_sensor s ON t.qcn_sensorid = s.id 
-   LEFT JOIN REPLACE_DB.host h ON t.hostid=h.id
+   LEFT JOIN REPLACE_HOSTDB.host h ON t.hostid=h.id
 ";
 
 // full querystring
@@ -608,10 +608,13 @@ switch($sortOrder)
 }
 
 // really need to look at archive table too
-$query = str_replace("REPLACE_DB", $db_name, $queryBase);
+$query = str_replace("REPLACE_HOSTDB", $db_name, $queryBase);
+$query = str_replace("REPLACE_DB", $db_name, $query);
 $query = str_replace("REPLACE_ARCHIVE", "0", $query);
 if ($bUseArchive) {
-   $query .= " WHERE " . $whereString . " UNION " . str_replace("REPLACE_DB", $db_archive, $queryBase) . " WHERE " . $whereString . " ORDER BY " . $sortString;
+   $queryArc = str_replace("REPLACE_DB", $db_archive, $queryBase);
+   $queryArc = str_replace("REPLACE_HOSTDB", $db_name, $queryArc);
+   $query .= " WHERE " . $whereString . " UNION " . $queryArc . " WHERE " . $whereString . " ORDER BY " . $sortString;
    $query = str_replace("REPLACE_ARCHIVE", "1", $query);
 }
 else {

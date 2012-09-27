@@ -35,7 +35,7 @@ $message = "<h1><strong>QCN Rapid Earthquake Detection: M$mag</strong></h1></p>
  $td1 Detected: $td2 ".date('M d Y H:i:s',$dtime)." at $dt_detect seconds after the origin time. $rt
  $td1 Stations: $td2  $n_stations $rt
  $td1 Link:  $td2 <a href=\"" . BASEURL . "/earthquakes/$edir\">" . BASEURL . "/earthquakes/$edir</a> $rt
- $td1        $td2<img src=\"" . BASEURL . "/earthquakes/$edir/intensity_03.jpg\" width=\"300\"> $rt
+ $td1        $td2<img src=\"" . BASEURL . "/earthquakes/$edir/intensity_01.jpg\" width=\"300\"> $rt
  </table>
  <p>This notice is for scientific use only (not for use as an earthquake early warning tool). This message is generated automatically by the Quake-Catcher Network&#39s Rapid Earthquake Detection System (REDS).  In some cases, REDS compromises accuracy for speed.  Updates to the magnitude are usually available even before you receive the message.  For more information about the earthquake, please click <a href=\"" . BASEURL . "/earthquakes/$edir\">here</a>. For more information about REDS, <a href=\"" . BASEURL . 
     "/earthquakes/REDS.php\">click here</a>.";

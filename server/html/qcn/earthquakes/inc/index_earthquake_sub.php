@@ -22,6 +22,7 @@ trigger_info();
 
 show_scatter_tvt(); // Show Estimated v. Observed Travel time  scatter plot
 show_scatter_avd(); // Show Amplitude v. Distance scatter plot
+show_triggers_db(); // Show the trigger database
 show_disclaimer();
 show_viewed_on();
 show_seismograms();

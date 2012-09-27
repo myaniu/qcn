@@ -445,6 +445,54 @@ function dl_link($elon,$elat,$etime) {
 }
 
 
+function show_triggers_db() {
+
+if (file_exists("event.xy")) {
+ $efile = "event.xy";
+} else {
+ $efile="A/event.xy";
+}
+
+$contents = file($efile);
+$string = implode($contents);
+list($elon,$elat,$edep,$emag,$ntrig,$etime,$dtime,$estd) = split('[,]',$string);
+
+
+// Shows the links to the download webpages //
+ $lnmn = $elon - 2.;
+ $lnmx = $elon + 2.;
+ $ltmn = $elat - 2.;
+ $ltmx = $elat + 2.;
+
+ $etime_s=$etime-(   30);          // Date/time  1 minute before earthquake
+ $etime_e=$etime+(10*60);          // Date/Time 10 minutes after eathquake 
+
+ $dys = date('Y-m-d',$etime_s);   // Date of event
+ $hrs = date('H',    $etime_s);       // Hour of event
+ $mns = date('i',    $etime_s);       // closest 10 minute of event
+
+ $dye = date('Y-m-d',$etime_e);   // Date of event
+ $hre = date('H',    $etime_e);       // Hour of event
+ $mne = date('i',    $etime_e);       // closest 10 minute of event
+ 
+ $path = BASEURL . "/continual/trdl.php?";
+ $use_file = "cbUseFile=1";
+ $loc_box = "&cbUseLat=1&LatMin=$ltmn&LatMax=$ltmx&LonMin=$lnmn&LonMax=$lnmx";
+ $time_start = "&cbUseTime=1&date_start=$dys&time_hour_start=$hrs&time_minute_start=$mns";
+ $time_end   =             "&date_end=$dye&time_hour_end=$hre&time_minute_end=$mne";
+ $flags    = "&rbUseContinual=Continual&rb_sort=ttd&nresult=200&search_show=n";
+ echo "<p>Continual Data:\n";
+ echo "<br><iframe src=\"$path$loc_box$time_start$time_end$flags\" frameborder=\"0\" scrolling=\"auto\" width=\"100%\" height=\"auto\">\n";
+ echo "</iframe>\n";
+ $path = BASEURL . "/sensor/trdl.php?";
+ $flags    = "&rb_sort=ttd&nresult=200&search_show=n";
+ echo "<p>Triggered Data:\n<br>";
+ echo "<iframe src=\"$path$loc_box$time_start$time_end$flags\" frameborder=\"0\" scrolling=\"auto\" width=\"100%\" height=\"auto\">\n";
+ echo "</iframe>\n";
+
+}
+
+
 
 function event_info($show_mag=null){
 
