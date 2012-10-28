@@ -1018,27 +1018,27 @@ void QCN_DetectEvent()
       "QCN_DetectEvent: Scanning %d triggers\n", iCtr+1
    );
 
-   h[0]=vt[iCtr].hostid;                           // First host id is last in trigger list
-   ind[0]=iCtr;                                // Index of host id's start at last trigger first
+   h[0]=vt[iCtr].hostid;                         // First host id is last in trigger list
+   ind[0]=iCtr;                                  // Index of host id's start at last trigger first
 
 
-   for (i=iCtr; i>=2; i--) {                   // For each trigger (go backwards: triggers go last to 1st, & we want 1st first)
-    vt[i].c_cnt=0;                              // Zero the count of correlated triggers
-    vt[i].c_ind[0]=i;                           // Index the same trigger as zeroth trigger
+   for (i=iCtr; i>=2; i--) {                     // For each trigger (go backwards: triggers go last to 1st, & we want 1st first)
+    vt[i].c_cnt=0;                               // Zero the count of correlated triggers
+    vt[i].c_ind[0]=i;                            // Index the same trigger as zeroth trigger
     ih = -10;                                    // Unassigned host id
-    for (j = 0; j<=nh;j++) {                  // search through the assigned host ids
-     if (vt[i].hostid == h[j]) {                  // to find a match
-      ih = j;                                 // Match found
+    for (j = 0; j<=nh;j++) {                     // search through the assigned host ids
+     if (vt[i].hostid == h[j]) {                 // to find a match
+      ih = j;                                    // Match found
      }
      if (abs(vt[i].longitude-vt[j].longitude) < 0.001 && abs(vt[i].latitude-vt[j].latitude)< 0.001) {
       ih = 1000;
      }
     }
-    if (ih<0) {                               // If no match found, then
-     nh++;                                    // add a new assigned host id
-     h[nh]=vt[i].hostid;                          // assign the new host id
-     ind[nh]=i;                               // Index the trigger
-    } else {                                  // If a prior match is found, then
+    if (ih<0) {                                  // If no match found, then
+     nh++;                                       // add a new assigned host id
+     h[nh]=vt[i].hostid;                         // assign the new host id
+     ind[nh]=i;                                  // Index the trigger
+    } else {                                     // If a prior match is found, then
 //   Save peak fmag for all triggers within 5 seconds of first arrival
      if ( (vt[i].time_trigger > vt[ind[ih]].time_trigger) && (vt[1].time_trigger < vt[ind[ih]].time_trigger + 5.) ) { 
        // Trigger is older than prior, but less than prior + 5 seconds use the higher value
@@ -1047,7 +1047,7 @@ void QCN_DetectEvent()
     }
 
     if ( (vt[i].hostid != vt[i-1].hostid) && (ih < 0) ) {        // Do not use repeating triggers
-     for (j = i-1; j>=1; j--) {                // For every other trigger
+     for (j = i-1; j>=1; j--) {                  // For every other trigger
        if ( (vt[j].hostid != vt[i].hostid) && (vt[j].hostid != vt[j-1].hostid) && (abs(vt[i].time_trigger - vt[j].time_trigger) <= T_max) ) {
         //For non-repeating triggers & triggers less than t_max apart
         dist=ang_dist_km(vt[i].longitude,vt[i].latitude,vt[j].longitude,vt[j].latitude);//Distance between triggers
@@ -1055,31 +1055,31 @@ void QCN_DetectEvent()
          vt[i].c_cnt++;                          // Add count of correlated triggers for this trigger
          if (vt[i].c_cnt>N_SHORT) {              // Make sure we don't use more correlations than array size
           vt[i].c_cnt=N_SHORT;                   // Set count to max array size
-          break;                                // Done
+          break;                                 // Done
          }
-         vt[i].c_ind[vt[i].c_cnt] = j;              // index of all correlaed triggers
-         vt[i].c_hid[vt[i].c_cnt] = vt[i].hostid;       // Index of host ids
+         vt[i].c_ind[vt[i].c_cnt] = j;           // index of all correlaed triggers
+         vt[i].c_hid[vt[i].c_cnt] = vt[i].hostid;// Index of host ids
         } // if abs
        } // if vt[=j]
      } // for j
     }  // if vt[i] hostid
-    nh = 0;                                            // Clear the number of hosts
-   } // for i                                          // Done correlating
+    nh = 0;                                      // Clear the number of hosts
+   } // for i                                    // Done correlating
 
 
 
 /* Now we correlate triggers that are currently correlated with triggers that are correlated with the initial trigger, but not
    correlated with the initial trigger itself */
    bool bInsertEvent = false; // if true then we should insert this into qcn_quake table
-   for (i =iCtr; i>1; i--) {                    // For each trigger
-    if (vt[i].c_cnt > C_CNT_MIN) {              // If more than 4 correlated triggers, possible regional event
+   for (i =iCtr; i>1; i--) {                     // For each trigger
+    if (vt[i].c_cnt > C_CNT_MIN) {               // If more than 4 correlated triggers, possible regional event
 
-/*     for (j = i-1;j>=0; j--) {                  // Compare with all later triggers
-      if (vt[j].c_cnt > C_CNT_MIN) {            // Make sure this trigger is an event all of it's own
+/*     for (j = i-1;j>=0; j--) {                 // Compare with all later triggers
+      if (vt[j].c_cnt > C_CNT_MIN) {             // Make sure this trigger is an event all of it's own
        kl = -10;
 
-       for (k = 0; k<=vt[j].c_cnt;k++) {        // Compare all potential secondary correlated triggers
-        for (l = 0; l<=vt[i].c_cnt;l++) {       // Make sure trigger isn't same host as prior trigger
+       for (k = 0; k<=vt[j].c_cnt;k++) {         // Compare all potential secondary correlated triggers
+        for (l = 0; l<=vt[i].c_cnt;l++) {        // Make sure trigger isn't same host as prior trigger
          ind_i = vt[i].c_ind[l];
          ind_j = vt[j].c_ind[k];
          // Check if same host or same trigger
@@ -1091,12 +1091,12 @@ void QCN_DetectEvent()
           kl = l;break;
          }
         }
-        if (kl < 0) {                           // If no matching trigger, then add secondary trigger to primary trigger list
+        if (kl < 0) {                            // If no matching trigger, then add secondary trigger to primary trigger list
          vt[i].c_cnt++;
          vt[i].c_ind[vt[i].c_cnt]=vt[j].c_ind[k];
          vt[i].c_hid[vt[i].c_cnt]=vt[j].c_hid[k];
         }
-        vt[k].c_cnt = 0;                        // get rid of correlated triggers (now that they are primary triggers)
+        vt[k].c_cnt = 0;                         // get rid of correlated triggers (now that they are primary triggers)
        } // k
 
       } // vt[j].c_cnt
@@ -1309,6 +1309,7 @@ void get_bad_hosts(struct bad_hosts bh) {
 int main(int argc, char** argv) 
 {
     int retval;
+    int k=0;
     // initialize random seed: 
     srand ( time(NULL) );
 
@@ -1391,6 +1392,8 @@ fprintf(stdout, "%s\n", GMT_MAP_PHP);
 
       QCN_GetTriggers();  // reads the memories from the trigger memory table into a global vector
       QCN_DetectEvent();     // searches the vector of triggers for matching events
+   k++;
+   printf("HI %d\n",k);
 
       check_stop_daemons();  // checks for a quit request
       g_dTimeCurrent = dtime();
