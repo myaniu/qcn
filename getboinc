@@ -1,6 +1,7 @@
 cd ../
 rm -rf boinc/*
-svn co http://boinc.berkeley.edu/svn/trunk/boinc
+git clone git://boinc.berkeley.edu/boinc.git
+#svn co http://boinc.berkeley.edu/svn/trunk/boinc
 #cd boinc
 #svn co http://boinc.berkeley.edu/svn/trunk/depends_projects/zip
 #mv configure.ac configure.ac.new
