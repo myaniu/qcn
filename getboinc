@@ -1,5 +1,6 @@
+#!/bin/bash
 cd ../
-rm -rf boinc/*
+rm -rf boinc
 git clone git://boinc.berkeley.edu/boinc.git
 #svn co http://boinc.berkeley.edu/svn/trunk/boinc
 #cd boinc
