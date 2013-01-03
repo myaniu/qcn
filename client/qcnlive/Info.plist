@@ -17,7 +17,7 @@
 	<key>CFBundleSignature</key>
 	<string>CMC1</string>
 	<key>CFBundleVersion</key>
-	<string>6.74</string>
+	<string>7.20</string>
 	<key>NSPrincipalClass</key>
 	<string>CarbonApp</string>
 </dict>

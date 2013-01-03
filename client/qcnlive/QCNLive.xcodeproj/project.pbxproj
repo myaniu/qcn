@@ -22,6 +22,7 @@
 		3BBD6E3E630068B57C2CEC5B /* moc_glwidget.cpp in Build Sources */ = {isa = PBXBuildFile; fileRef = 24FC5F21B8D858EDB1CC09E6 /* moc_glwidget.cpp */; settings = {ATTRIBUTES = (); }; };
 		3C3F4C56CEAAC0EAA95ACCD6 /* csensor_usb_motionnodeaccel.cpp in Build Sources */ = {isa = PBXBuildFile; fileRef = F9750758D0EC92FB41209DD6 /* csensor_usb_motionnodeaccel.cpp */; settings = {ATTRIBUTES = (); }; };
 		4369D1B715F6AF0E00FAFE27 /* texture.cpp in Build Sources */ = {isa = PBXBuildFile; fileRef = 4369D1B615F6AF0E00FAFE27 /* texture.cpp */; };
+		436E9443169642A600D9309A /* libjpeg.a in Frameworks & Libraries */ = {isa = PBXBuildFile; fileRef = 436E9442169642A600D9309A /* libjpeg.a */; };
 		438C91F5154717DF0017C1C9 /* qcn_game_match.cpp in Build Sources */ = {isa = PBXBuildFile; fileRef = 438C91F4154717DF0017C1C9 /* qcn_game_match.cpp */; };
 		439E643D1538C7940033A634 /* csensor_usb_phidgets_1056.cpp in Build Sources */ = {isa = PBXBuildFile; fileRef = 439E643C1538C7940033A634 /* csensor_usb_phidgets_1056.cpp */; };
 		43F140571422645D001C0846 /* QCNLive.app in Project Copy */ = {isa = PBXBuildFile; fileRef = 43F140541422645D001C0846 /* QCNLive.app */; };
@@ -63,7 +64,6 @@
 		CADAD7A45897992DC6074695 /* trickledown.cpp in Build Sources */ = {isa = PBXBuildFile; fileRef = 3A9598F9D0008B7DC47F0F9B /* trickledown.cpp */; settings = {ATTRIBUTES = (); }; };
 		CC6D1E155AC9BC75F6E3E6C9 /* qcn_earth.cpp in Build Sources */ = {isa = PBXBuildFile; fileRef = 514B45140FBAF53969785617 /* qcn_earth.cpp */; settings = {ATTRIBUTES = (); }; };
 		D5866380C965270EEB8EEEBE /* boinc_graphics2 in Frameworks & Libraries */ = {isa = PBXBuildFile; fileRef = DABC4D6B07B8C26FDDEDB29D /* boinc_graphics2 */; };
-		E2716A181A38026B9338F465 /* jpeg-universal in Frameworks & Libraries */ = {isa = PBXBuildFile; fileRef = DF185A2B36F50D644A4FE3C8 /* jpeg-universal */; };
 		E4691640C717CF00C84F739A /* moc_dlgsettings.cpp in Build Sources */ = {isa = PBXBuildFile; fileRef = A967499CD85FEBAF97D10FD5 /* moc_dlgsettings.cpp */; settings = {ATTRIBUTES = (); }; };
 		E787E5A238BA6285376A73A9 /* coastline.cpp in Build Sources */ = {isa = PBXBuildFile; fileRef = CAFF9A79D4C2AA52D652FBF5 /* coastline.cpp */; settings = {ATTRIBUTES = (); }; };
 		E87ECDCF58FDC2B1DA157BCC /* moc_myframe.cpp in Build Sources */ = {isa = PBXBuildFile; fileRef = E24F3CA780209F58A9D75EB0 /* moc_myframe.cpp */; settings = {ATTRIBUTES = (); }; };
@@ -106,6 +106,7 @@
 		40A4D687C2287AC419FAC700 /* qcn_signal.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = qcn_signal.cpp; path = ../util/qcn_signal.cpp; sourceTree = "<group>"; };
 		43081F9E1539F0AB00A70CF4 /* qcn_util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = qcn_util.h; path = ../util/qcn_util.h; sourceTree = SOURCE_ROOT; };
 		4369D1B615F6AF0E00FAFE27 /* texture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = texture.cpp; path = ../util/texture.cpp; sourceTree = SOURCE_ROOT; };
+		436E9442169642A600D9309A /* libjpeg.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libjpeg.a; path = ../mac_build/libjpeg.a; sourceTree = "<group>"; };
 		4381ADD0151C0A56007752DF /* qcn_2dplot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = qcn_2dplot.h; path = ../graphics/qcn_2dplot.h; sourceTree = SOURCE_ROOT; };
 		438C91F4154717DF0017C1C9 /* qcn_game_match.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = qcn_game_match.cpp; path = ../graphics/qcn_game_match.cpp; sourceTree = SOURCE_ROOT; };
 		438C91F6154717FE0017C1C9 /* qcn_cube.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = qcn_cube.h; path = ../graphics/qcn_cube.h; sourceTree = SOURCE_ROOT; };
@@ -170,7 +171,6 @@
 		DABC4D6B07B8C26FDDEDB29D /* boinc_graphics2 */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = boinc_graphics2; path = ../mac_build/libboinc_graphics2.a; sourceTree = "<group>"; };
 		DB65E063F5624442D7B21082 /* qcn_thread_sensor_loop.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = qcn_thread_sensor_loop.cpp; path = ../main/qcn_thread_sensor_loop.cpp; sourceTree = "<group>"; };
 		DE1D31CA413500D349EE841B /* cserialize.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = cserialize.cpp; path = ../util/cserialize.cpp; sourceTree = "<group>"; };
-		DF185A2B36F50D644A4FE3C8 /* jpeg-universal */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "jpeg-universal"; path = "../mac_build/libjpeg-universal.a"; sourceTree = "<group>"; };
 		DF3446C929D30FB904FE57D1 /* trickleup.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = trickleup.cpp; path = ../util/trickleup.cpp; sourceTree = "<group>"; };
 		E24F3CA780209F58A9D75EB0 /* moc_myframe.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = moc_myframe.cpp; sourceTree = "<group>"; };
 		E8BE7B67166341E311BB12E3 /* QtOpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QtOpenGL.framework; path = /Developer/Qt474/lib/QtOpenGL.framework; sourceTree = "<absolute>"; };
@@ -186,6 +186,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				436E9443169642A600D9309A /* libjpeg.a in Frameworks & Libraries */,
 				E8B9F0C58A5A7125FD5B79D3 /* IOKit.framework in Frameworks & Libraries */,
 				C8FD4A1AAA37CF2CA2824CCF /* Carbon.framework in Frameworks & Libraries */,
 				A18EF07557240F3BA17930DA /* boinc_api in Frameworks & Libraries */,
@@ -199,7 +200,6 @@
 				8C073251273FD1B8C9FD0F24 /* QtOpenGL.framework in Frameworks & Libraries */,
 				90AC9AC32B3F6DC1F893FCFA /* QtGui.framework in Frameworks & Libraries */,
 				B54DE72BACAD6976FDEC1D28 /* QtCore.framework in Frameworks & Libraries */,
-				E2716A181A38026B9338F465 /* jpeg-universal in Frameworks & Libraries */,
 				2694CAA4DD56AFC7E26BF00A /* z-universal in Frameworks & Libraries */,
 				BCEF71E1EDFB18DA77DC750B /* OpenGL.framework in Frameworks & Libraries */,
 				0C6D4628EE0B0D1479A20551 /* AGL.framework in Frameworks & Libraries */,
@@ -402,6 +402,7 @@
 		ED1E82605DD74B483AF3C982 /* External Frameworks and Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				436E9442169642A600D9309A /* libjpeg.a */,
 				B41DB44ED1FE16D3A80D5696 /* IOKit.framework */,
 				DA138F75C9F545CDAE7FB264 /* Carbon.framework */,
 				06BD91137C809FD5685A4259 /* boinc_api */,
@@ -415,7 +416,6 @@
 				E8BE7B67166341E311BB12E3 /* QtOpenGL.framework */,
 				1CA0DDA285C844EF14C98FF6 /* QtGui.framework */,
 				F04F509B3D2BB898338D752C /* QtCore.framework */,
-				DF185A2B36F50D644A4FE3C8 /* jpeg-universal */,
 				56AC31C7FFE6B1646C5B875E /* z-universal */,
 				DA18A6831232F53228631AD1 /* OpenGL.framework */,
 				C6766F86E49E9C8701C8E637 /* AGL.framework */,
@@ -579,10 +579,8 @@
 		43F1406A1422645D001C0846 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					i386,
-					x86_64,
-				);
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = "x86_64 i386 ppc";
 				BUILD_ROOT = /Users/carlgt1/projects/qcn/client/qcnlive;
 				CC = "/usr/bin/llvm-gcc-4.2";
 				COPY_PHASE_STRIP = NO;
@@ -628,7 +626,7 @@
 					/Users/carlgt1/projects/qcn/client/mac_build,
 					/Developer/Qt/lib,
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				OTHER_CFLAGS = (
 					"-D_DEBUG",
 					"-pipe",
@@ -691,10 +689,8 @@
 		43F1406B1422645D001C0846 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					i386,
-					x86_64,
-				);
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = "x86_64 i386 ppc";
 				BUILD_ROOT = /Users/carlgt1/projects/qcn/client/qcnlive;
 				CC = "/usr/bin/llvm-gcc-4.2";
 				COPY_PHASE_STRIP = YES;
@@ -739,7 +735,7 @@
 					/Users/carlgt1/projects/qcn/client/mac_build,
 					/Developer/Qt/lib,
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				OTHER_CFLAGS = (
 					"-pipe",
 					"-g",
@@ -801,10 +797,8 @@
 		43F1406C1422645D001C0846 /* Default */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					i386,
-					x86_64,
-				);
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = "x86_64 i386 ppc";
 				BUILD_ROOT = /Users/carlgt1/projects/qcn/client/qcnlive;
 				CC = "/usr/bin/llvm-gcc-4.2";
 				CPLUSPLUS = "/usr/bin/llvm-g++-4.2";
@@ -847,7 +841,7 @@
 					/Users/carlgt1/projects/qcn/client/mac_build,
 					/Developer/Qt/lib,
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				OTHER_CFLAGS = (
 					"-pipe",
 					"-g",
