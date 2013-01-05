@@ -46,6 +46,7 @@ export CXXFLAGS=
 #unzip -o boinc_zip_xcode.zip -d ../boinc/zip/
 cd ../boinc/mac_build
 export XCB=/Applications/XCode.app/Contents/Developer/usr/bin/xcodebuild
+$XCB -project boinc.xcodeproj -configuration Deployment -target jpeg clean build
 $XCB -project boinc.xcodeproj -configuration Deployment -target libboinc clean build
 $XCB USER_HEADER_SEARCH_PATHS='../lib ../../qcn/jpeg-6b /usr/X11R6/include' -project boinc.xcodeproj -configuration Deployment -target api_libboinc clean build
 $XCB USER_HEADER_SEARCH_PATHS='../lib ../../qcn/jpeg-6b /usr/X11R6/include' -project boinc.xcodeproj -configuration Deployment -target gfx2libboinc clean build
