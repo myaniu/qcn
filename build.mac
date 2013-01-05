@@ -1,6 +1,6 @@
 # note this file is needed as libraries such as ntpd, zlib, jpeg etc do not have XCode projects, but use the Linux-style autoconf/automake
 #!/bin/bash
-export XCB=/Developer/usr/bin/xcodebuild
+export XCB=/Applications/XCode.app/Contents/Developer/usr/bin/xcodebuild
 if (test "$1" = "all" || test "$2" = "all" || test "$1" = "libs" || test "$2" = "libs") then
 export CXX=
 export CC=
@@ -45,7 +45,7 @@ export CXXFLAGS=
 #unzip -o boinc_xcode.zip -d ../boinc/mac_build/
 #unzip -o boinc_zip_xcode.zip -d ../boinc/zip/
 cd ../boinc/mac_build
-export XCB=/Developer/usr/bin/xcodebuild
+export XCB=/Applications/XCode.app/Contents/Developer/usr/bin/xcodebuild
 $XCB -project boinc.xcodeproj -configuration Deployment -target libboinc clean build
 $XCB USER_HEADER_SEARCH_PATHS='../lib ../../qcn/jpeg-6b /usr/X11R6/include' -project boinc.xcodeproj -configuration Deployment -target api_libboinc clean build
 $XCB USER_HEADER_SEARCH_PATHS='../lib ../../qcn/jpeg-6b /usr/X11R6/include' -project boinc.xcodeproj -configuration Deployment -target gfx2libboinc clean build
