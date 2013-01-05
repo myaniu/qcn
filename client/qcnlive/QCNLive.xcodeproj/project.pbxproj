@@ -97,7 +97,7 @@
 		3CDD5AC0F9A69FEB54933877 /* QtWidgets.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QtWidgets.framework; path = /Developer/Qt5.0.0/5.0.0/clang_64/lib/QtWidgets.framework; sourceTree = "<absolute>"; };
 		40A4D687C2287AC419FAC700 /* qcn_signal.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = qcn_signal.cpp; path = ../util/qcn_signal.cpp; sourceTree = SOURCE_ROOT; };
 		40C54152EC097FB265228D7E /* QtCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QtCore.framework; path = /Developer/Qt5.0.0/5.0.0/clang_64/lib/QtCore.framework; sourceTree = "<absolute>"; };
-		43BF7BBA1698E0580037D0FB /* qcnlive.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = qcnlive.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		43BF7BBA1698E0580037D0FB /* QCNLive.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QCNLive.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		43BF7BC41698E2F50037D0FB /* QtPrintSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QtPrintSupport.framework; path = /Developer/Qt5.0.0/5.0.0/clang_64/lib/QtPrintSupport.framework; sourceTree = "<absolute>"; };
 		43DF49B21698E7E9000B2107 /* qcnlive.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = qcnlive.entitlements; sourceTree = SOURCE_ROOT; };
 		43DF49B41698E816000B2107 /* qcnlive.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = qcnlive.entitlements; sourceTree = SOURCE_ROOT; };
@@ -231,7 +231,7 @@
 		43BF7BBB1698E0580037D0FB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				43BF7BBA1698E0580037D0FB /* qcnlive.app */,
+				43BF7BBA1698E0580037D0FB /* QCNLive.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -407,7 +407,7 @@
 			);
 			name = QCNLive;
 			productName = qcnlive;
-			productReference = 43BF7BBA1698E0580037D0FB /* qcnlive.app */;
+			productReference = 43BF7BBA1698E0580037D0FB /* QCNLive.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -626,7 +626,7 @@
 					"-L/Users/carlgt1/projects/qcn/client/mac_build",
 					"-F/Developer/Qt5.0.0/5.0.0/clang_64/lib",
 				);
-				PRODUCT_NAME = qcnlive;
+				PRODUCT_NAME = QCNLive;
 				SDKROOT = macosx10.7;
 				SYMROOT = ../bin;
 			};
@@ -649,7 +649,7 @@
 					/Developer/Qt5.0.0/5.0.0/clang_64/lib/QtPrintSupport.framework/Versions/5,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
-				PRODUCT_NAME = qcnlive;
+				PRODUCT_NAME = QCNLive;
 				SDKROOT = macosx10.7;
 				SYMROOT = build;
 			};
@@ -673,7 +673,7 @@
 					/Developer/Qt5.0.0/5.0.0/clang_64/lib/QtPrintSupport.framework/Versions/5,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
-				PRODUCT_NAME = qcnlive;
+				PRODUCT_NAME = QCNLive;
 				SDKROOT = macosx10.7;
 				SYMROOT = build;
 			};
@@ -778,7 +778,7 @@
 					"-L/Users/carlgt1/projects/qcn/client/mac_build",
 					"-F/Developer/Qt5.0.0/5.0.0/clang_64/lib",
 				);
-				PRODUCT_NAME = qcnlive;
+				PRODUCT_NAME = QCNLive;
 				SDKROOT = macosx10.7;
 				SYMROOT = ../bin;
 			};
