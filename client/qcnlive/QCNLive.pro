@@ -94,16 +94,16 @@ SRC_SENSOR = $$SENSORDIR/csensor_win_laptop_hp.cpp \
            $$SENSORDIR/csensor_win_usb_jw.cpp \
            $$SENSORDIR/csensor_win_usb_jw24f14.cpp \
            $$SENSORDIR/csensor_usb_motionnodeaccel.cpp \
-           $$SENSORDIR/csensor_usb_phidgets_1056.cpp \
-           $$SENSORDIR/csensor_win_usb_onavi01.cpp \
+           $$SENSORDIR/csensor_usb_phidgets.cpp \
+           $$SENSORDIR/csensor_win_usb_onavi.cpp \
            $$SENSORDIR/csensor.cpp
 }
 
 macx{
 SRC_SENSOR = $$SENSORDIR/csensor_mac_laptop.cpp \
            $$SENSORDIR/csensor_usb_motionnodeaccel.cpp \
-           $$SENSORDIR/csensor_usb_phidgets_1056.cpp \
-           $$SENSORDIR/csensor_mac_usb_onavi01.cpp \
+           $$SENSORDIR/csensor_usb_phidgets.cpp \
+           $$SENSORDIR/csensor_mac_usb_onavi.cpp \
            $$SENSORDIR/csensor_mac_usb_jw.cpp \
            $$SENSORDIR/csensor_mac_usb_jw24f14.cpp \
            $$SENSORDIR/csensor.cpp
@@ -114,9 +114,9 @@ unix {
    SRC_SENSOR = \
            $$SENSORDIR/csensor_linux_usb_jw.cpp \
            $$SENSORDIR/csensor_linux_usb_jw24f14.cpp \
-           $$SENSORDIR/csensor_linux_usb_onavi01.cpp \
+           $$SENSORDIR/csensor_linux_usb_onavi.cpp \
            $$SENSORDIR/csensor_usb_motionnodeaccel.cpp \
-           $$SENSORDIR/csensor_usb_phidgets_1056.cpp \
+           $$SENSORDIR/csensor_usb_phidgets.cpp \
            $$SENSORDIR/csensor.cpp
  }
 }
