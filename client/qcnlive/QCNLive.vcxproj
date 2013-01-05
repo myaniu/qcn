@@ -156,7 +156,7 @@
       <WarningLevel>Level3</WarningLevel>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>../sensor/motionnodeaccel/MotionNodeAccelAPI.lib;glu32.lib;opengl32.lib;wsock32.lib;hid.lib;setupapi.lib;winmm.lib;comctl32.lib;boinc_zipl.lib;libcurll.lib;jpeglibl.lib;zlibl.lib;ftgll.lib;freetypel.lib;boinc_libl.lib;boinc_apil.lib;$(QTDIR)\lib\qtmain.lib;$(QTDIR)\lib\Qt5PrintSupport.lib;$(QTDIR)\lib\Qt5OpenGL.lib;$(QTDIR)\lib\Qt5Widgets.lib;$(QTDIR)\lib\Qt5Gui.lib;$(QTDIR)\lib\Qt5Core.lib;libEGL.lib;libGLESv2.lib;gdi32.lib;user32.lib;Ws2_32.lib;Wldap32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>../sensor/motionnodeaccel/MotionNodeAccelAPI.lib;glu32.lib;opengl32.lib;wsock32.lib;hid.lib;setupapi.lib;winmm.lib;comctl32.lib;boinc_zipl.lib;libcurll.lib;jpeglibl.lib;zlibl.lib;ftgll.lib;freetypel.lib;boinc_libl.lib;boinc_apil.lib;$(QTDIR)\lib\qtmain.lib;$(QTDIR)\lib\Qt5PrintSupport.lib;$(QTDIR)\lib\Qt5OpenGL.lib;$(QTDIR)\lib\Qt5Widgets.lib;$(QTDIR)\lib\Qt5Gui.lib;$(QTDIR)\lib\Qt5Core.lib;libEGL.lib;libGLESv2.lib;gdi32.lib;user32.lib;Ws2_32.lib;Wldap32.lib;psapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(QTDIR)\lib;c:/projects/qcn/client/win_build,;C:\Qt\Qt5.0.0\5.0.0\msvc2010/lib;C:\Qt\Qt5.0.0\5.0.0\msvc2010\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>"/MANIFESTDEPENDENCY:type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' publicKeyToken='6595b64144ccf1df' language='*' processorArchitecture='*'" %(AdditionalOptions)</AdditionalOptions>
       <DataExecutionPrevention>true</DataExecutionPrevention>
