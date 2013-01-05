@@ -75,7 +75,6 @@ typedef vector<string> ZipFileList;
 
 
 #ifdef QCNLIVE
- #include <qgl.h>
   #  define NUM_FONT          3
 #else
   #  define NUM_FONT          2

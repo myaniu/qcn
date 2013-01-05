@@ -11,9 +11,6 @@
   #include <math.h>
 #endif
 
-#ifdef QCNLIVE
-#include "qgl.h"
-#endif
 #include "boinc_gl.h"  // note this goes before qgl to avoid duplicate refs for Gldouble etc
 
 #include "gutil.h"
