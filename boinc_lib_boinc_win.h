@@ -285,11 +285,17 @@ void __cdecl fpreset (void);
 #define _aligned_offset_realloc(p, s, a, o)   _aligned_offset_realloc_dbg(p, s, a, o, __FILE__, __LINE__)
 #define _aligned_free(p)                      _aligned_free_dbg(p)
 
-#endif // CMC QCNLIVE
+#ifndef DEBUG_NEW
+#define DEBUG_NEW                             new
+#endif
+
+#else
 
 #ifndef DEBUG_NEW
 #define DEBUG_NEW                             new(_NORMAL_BLOCK, __FILE__, __LINE__)
 #endif
+
+#endif // CMC QCNLIVE
 
 // The following macros set and clear, respectively, given bits
 // of the C runtime library debug flag, as specified by a bitmask.
