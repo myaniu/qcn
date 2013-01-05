@@ -28,9 +28,9 @@
 		43E92973129B24EF001F3626 /* libboinc_api.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 43E9296A129B24EF001F3626 /* libboinc_api.a */; };
 		43E92974129B24EF001F3626 /* libboinc_graphics2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 43E9296B129B24EF001F3626 /* libboinc_graphics2.a */; };
 		43E92975129B24EF001F3626 /* libboinc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 43E9296C129B24EF001F3626 /* libboinc.a */; };
-		43EB68691698CCE700368222 /* libjpeg.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 43EB68681698CCE700368222 /* libjpeg.a */; };
 		43EB686C1698CDD700368222 /* csensor_mac_usb_onavi.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43EB686A1698CDD700368222 /* csensor_mac_usb_onavi.cpp */; };
 		43EB686D1698CDD700368222 /* csensor_usb_phidgets.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43EB686B1698CDD700368222 /* csensor_usb_phidgets.cpp */; };
+		43EB68711698D07600368222 /* libjpeg-universal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 43EB68701698D07600368222 /* libjpeg-universal.a */; };
 		E33EF7C00FF1DF7400CD5708 /* libboinc_zip.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E33EF7BD0FF1DF7400CD5708 /* libboinc_zip.a */; };
 		E33EF7C20FF1DF7400CD5708 /* libz-universal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E33EF7BF0FF1DF7400CD5708 /* libz-universal.a */; };
 		E33EF7C60FF1DF7500CD5708 /* libboinc_zip.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E33EF7BD0FF1DF7400CD5708 /* libboinc_zip.a */; };
@@ -117,11 +117,11 @@
 		43E9296A129B24EF001F3626 /* libboinc_api.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libboinc_api.a; sourceTree = "<group>"; };
 		43E9296B129B24EF001F3626 /* libboinc_graphics2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libboinc_graphics2.a; sourceTree = "<group>"; };
 		43E9296C129B24EF001F3626 /* libboinc.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libboinc.a; sourceTree = "<group>"; };
-		43EB68681698CCE700368222 /* libjpeg.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libjpeg.a; sourceTree = "<group>"; };
 		43EB686A1698CDD700368222 /* csensor_mac_usb_onavi.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = csensor_mac_usb_onavi.cpp; path = ../sensor/csensor_mac_usb_onavi.cpp; sourceTree = "<group>"; };
 		43EB686B1698CDD700368222 /* csensor_usb_phidgets.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = csensor_usb_phidgets.cpp; path = ../sensor/csensor_usb_phidgets.cpp; sourceTree = "<group>"; };
 		43EB686E1698CEA800368222 /* csensor_mac_usb_onavi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = csensor_mac_usb_onavi.h; path = ../sensor/csensor_mac_usb_onavi.h; sourceTree = "<group>"; };
 		43EB686F1698CEA800368222 /* csensor_usb_phidgets.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = csensor_usb_phidgets.h; path = ../sensor/csensor_usb_phidgets.h; sourceTree = "<group>"; };
+		43EB68701698D07600368222 /* libjpeg-universal.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libjpeg-universal.a"; sourceTree = "<group>"; };
 		43FF03021275F3580014B021 /* csensor_usb_motionnodeaccel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = csensor_usb_motionnodeaccel.h; path = ../sensor/csensor_usb_motionnodeaccel.h; sourceTree = SOURCE_ROOT; };
 		E3064B950F8FE8A60028A349 /* qcn_2dplot.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = qcn_2dplot.cpp; path = ../graphics/qcn_2dplot.cpp; sourceTree = SOURCE_ROOT; };
 		E3064B970F8FE8C10028A349 /* qcn_2dplot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = qcn_2dplot.h; path = ../graphics/qcn_2dplot.h; sourceTree = SOURCE_ROOT; };
@@ -221,7 +221,7 @@
 				43E9296D129B24EF001F3626 /* libboinc_api.a in Frameworks */,
 				43E9296E129B24EF001F3626 /* libboinc_graphics2.a in Frameworks */,
 				43E9296F129B24EF001F3626 /* libboinc.a in Frameworks */,
-				43EB68691698CCE700368222 /* libjpeg.a in Frameworks */,
+				43EB68711698D07600368222 /* libjpeg-universal.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -275,9 +275,9 @@
 		E3A499DB0D64E60400E51CDF = {
 			isa = PBXGroup;
 			children = (
-				43EB68681698CCE700368222 /* libjpeg.a */,
 				437FD49A1415CF21007B95DA /* libbz2-universal.a */,
 				43E9296A129B24EF001F3626 /* libboinc_api.a */,
+				43EB68701698D07600368222 /* libjpeg-universal.a */,
 				43E9296B129B24EF001F3626 /* libboinc_graphics2.a */,
 				43E9296C129B24EF001F3626 /* libboinc.a */,
 				43E45A80129241E800D7ACEB /* libfreetype-universal.a */,
