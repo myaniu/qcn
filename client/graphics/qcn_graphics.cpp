@@ -1703,7 +1703,7 @@ void Init()
     boinc_resolve_filename(IMG_LOGO, path, sizeof(path));
 #endif
 
-    if (!boinc_file_exists(path) || logo.CreateTextureJPG(path)) { // can use load_image_file but we know it's a JPG so just use that
+    if (!boinc_file_exists(path) || logo.load_image_file(path)) { // can use load_image_file but we know it's a JPG so just use that
        fprintf(stderr, "Error loading QCN logo file %s\n", path); 
     }
 
@@ -1720,9 +1720,7 @@ void Init()
        #else
            boinc_resolve_filename(IMG_LOGO_XYZAXES, path, sizeof(path));
        #endif
-	if (boinc_file_exists(path)) {
-		txXYZAxes.CreateTextureJPG(path);
-	}
+	txXYZAxes.load_image_file(path);
 
 	// XYZ axes to show at the bottom right of 2d/3d/cube view
         #ifdef QCNLIVE
@@ -1730,16 +1728,12 @@ void Init()
         #else
            boinc_resolve_filename(IMG_LOGO_XYZAXES_BLACK, path, sizeof(path));
         #endif
-	if (boinc_file_exists(path)) {
-		txXYZAxesBlack.CreateTextureJPG(path);
-	}
+	txXYZAxesBlack.load_image_file(path);
 	
 #ifdef QCNLIVE
      // check for extra logo i.e. museum logo if any
      strcpy(path, IMG_LOGO_EXTRA);  // shows up on lower right
-	 if (boinc_file_exists(path)) {
-		txAdd.CreateTextureJPG(path);
-	 }
+	 txAdd.load_image_file(path);
 
 	earth.SetMapCombined();
 #endif
@@ -2139,9 +2133,7 @@ void FaderOn()
 			char fname[32];
 			sprintf(fname, "logo%02d.jpg", g_iDemoImgCur);
 			// check for extra logo i.e. museum logo if any
-			if (boinc_file_exists(fname)) {
-                txAdd.CreateTextureJPG(fname);
-			}
+			txAdd.load_image_file(fname);
 		}
 #endif
 

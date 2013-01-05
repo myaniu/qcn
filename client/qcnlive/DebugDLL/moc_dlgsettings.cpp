@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'dlgsettings.h'
 **
-** Created: Sat Jan 5 13:36:20 2013
+** Created: Sat Jan 5 14:22:57 2013
 **      by: The Qt Meta Object Compiler version 67 (Qt 5.0.0)
 **
 ** WARNING! All changes made in this file will be lost!

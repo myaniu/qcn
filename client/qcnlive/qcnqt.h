@@ -10,12 +10,7 @@
 #ifndef _QCNLIVE_H_
 #define _QCNLIVE_H_
 
-/*
-#ifdef _WIN32
-#include <QtPlugin> Q_IMPORT_PLUGIN(QWindowsIntegrationPlugin)
-#endif
-*/
-#include <QtPlugin>
+#include <QApplication>
 #include <QtGui>
 #include <QtOpenGL>
 
@@ -23,7 +18,10 @@
  #include <QMainWindow>
  #include <QSplashScreen>
  #include <QTimer>
- #include <QPrinterInfo>
+
+#include <QPrinter>
+#include <QPrintPreviewDialog>
+#include <QPrinterInfo>
  
  #ifndef _WIN32
  #include <unistd.h>

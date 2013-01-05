@@ -224,5 +224,8 @@
     <CustomBuild Include="qcnqt.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
+    <ClInclude Include="..\graphics\qcn_graphics.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

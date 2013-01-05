@@ -104,7 +104,7 @@ CEarth::CEarth()
 void CEarth::Cleanup()
 {
    for (int i = 0; i < iMaxTextures; i++) {
-       if (texture[i].id) { // free earth day texture if required
+       if (texture[i].id || texture[i].present) { // free earth day texture if required
           glDeleteTextures(1, (const GLuint*) &(texture[i].id));
 		  texture[i].id = 0;
        }
@@ -215,13 +215,13 @@ void CEarth::LoadEarthTexture()
             }
 #endif
             if (i<2) { // first two earth views are JPG textures, not RGB alpha map which is handled below
-                texture[i].CreateTextureJPG(strImg);
+                texture[i].load_image_file(strImg);
             }
             else {     // masks are RGB, but use my special "RGB to Alpha" convertor function in qcn_util
-                //texture[i].CreateTextureRGB(strImg);
+                //texture[i].load_image_file(strImg);
                 texture[i].id = qcn_util::CreateRGBAlpha(strImg);
             }
-            if (!texture[i].id)  {
+            if (!texture[i].present)  {
                 fprintf(stderr, "Could not load %s image file\n", strImg);
                 bHaveMultitexture = false;
             }

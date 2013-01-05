@@ -5,15 +5,6 @@
 #include "qcn_curl.h"
 #include "glwidget.h"
 
-#include <QPrinter>
-#include <QPrintPreviewDialog>
-
-/* dependencies required for running:
-	QtOpenGL.framework/Versions/4/QtOpenGL (compatibility version 4.7.0, current version 4.7.0)
-	QtGui.framework/Versions/4/QtGui (compatibility version 4.7.0, current version 4.7.0)
-	QtCore.framework/Versions/4/QtCore (compatibility version 4.7.0, current version 4.7.0)
-*/
-
 // main program for Qt window
 int main(int argc, char *argv[])
 {
