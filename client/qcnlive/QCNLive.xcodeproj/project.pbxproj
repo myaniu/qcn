@@ -623,7 +623,7 @@
 				);
 				PRODUCT_NAME = qcnlive;
 				SDKROOT = macosx10.7;
-				SYMROOT = ../bin;
+				SYMROOT = build;
 			};
 			name = Debug;
 		};
@@ -645,7 +645,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = qcnlive;
 				SDKROOT = macosx10.7;
-				SYMROOT = ../bin;
+				SYMROOT = build;
 			};
 			name = Release;
 		};
@@ -668,7 +668,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = qcnlive;
 				SDKROOT = macosx10.7;
-				SYMROOT = ../bin;
+				SYMROOT = build;
 			};
 			name = Debug;
 		};
@@ -772,7 +772,7 @@
 				);
 				PRODUCT_NAME = qcnlive;
 				SDKROOT = macosx10.7;
-				SYMROOT = ../bin;
+				SYMROOT = build;
 			};
 			name = Release;
 		};
