@@ -263,12 +263,12 @@
     <ClCompile Include="..\graphics\coastline.cpp" />
     <ClCompile Include="..\sensor\csensor.cpp" />
     <ClCompile Include="..\sensor\csensor_usb_motionnodeaccel.cpp" />
-    <ClCompile Include="..\sensor\csensor_usb_phidgets_1056.cpp" />
+    <ClCompile Include="..\sensor\csensor_usb_phidgets.cpp" />
     <ClCompile Include="..\sensor\csensor_win_laptop_hp.cpp" />
     <ClCompile Include="..\sensor\csensor_win_laptop_thinkpad.cpp" />
     <ClCompile Include="..\sensor\csensor_win_usb_jw.cpp" />
     <ClCompile Include="..\sensor\csensor_win_usb_jw24f14.cpp" />
-    <ClCompile Include="..\sensor\csensor_win_usb_onavi01.cpp" />
+    <ClCompile Include="..\sensor\csensor_win_usb_onavi.cpp" />
     <ClCompile Include="..\util\cserialize.cpp" />
     <ClCompile Include="DebugDLL\moc_dlgmakequake.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseDLL|Win32'">true</ExcludedFromBuild>
@@ -281,6 +281,8 @@
     </ClCompile>
     <ClCompile Include="DebugDLL\moc_myframe.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseDLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="DebugDLL\moc_qcnqt.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseDLL|Win32'">true</ExcludedFromBuild>
@@ -328,6 +330,8 @@
     </ClCompile>
     <ClCompile Include="ReleaseDLL\moc_myframe.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugDLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="ReleaseDLL\moc_qcnqt.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>

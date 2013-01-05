@@ -16,12 +16,12 @@
   #endif
   #include "csensor_mac_usb_jw.h"
   #include "csensor_mac_usb_jw24f14.h"
-  #include "csensor_mac_usb_onavi01.h"
+  #include "csensor_mac_usb_onavi.h"
 #else
   #ifdef _WIN32
     #include "csensor_win_usb_jw.h"
     #include "csensor_win_usb_jw24f14.h"
-    #include "csensor_win_usb_onavi01.h"
+    #include "csensor_win_usb_onavi.h"
     #include "csensor_win_laptop_thinkpad.h"
     #include "csensor_win_laptop_hp.h"
     #ifndef QCNLIVE
@@ -30,12 +30,12 @@
   #else // LINUX
     #include "csensor_linux_usb_jw.h"
     #include "csensor_linux_usb_jw24f14.h"
-    #include "csensor_linux_usb_onavi01.h"
+    #include "csensor_linux_usb_onavi.h"
   #endif // Win or Linux
 #endif // Apple
 
-// all platforms try the phidgets
-#include "csensor_usb_phidgets_1056.h"
+// all platforms try the phidgets 1056 and/or 1044
+#include "csensor_usb_phidgets.h"
 
 // all platforms except win64 get MotionNodeAccel USB support!
 #if !defined(_WIN64) && !defined(__LP64__) && !defined(_LP64)

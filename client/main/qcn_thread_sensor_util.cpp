@@ -119,19 +119,22 @@ void psmsForceSensor(CSensor* volatile *ppsms)
 #endif
 				 break;
 			 case SENSOR_USB_PHIDGETS_1056:
-				 *ppsms = (CSensor*) new CSensorUSBPhidgets1056();
+				 *ppsms = (CSensor*) new CSensorUSBPhidgets(1056);
+				 break;
+			 case SENSOR_USB_PHIDGETS_1044:
+				 *ppsms = (CSensor*) new CSensorUSBPhidgets(1044);
 				 break;
 			 case SENSOR_USB_ONAVI_1:
 			 case SENSOR_USB_ONAVI_A_12:
 			 case SENSOR_USB_ONAVI_B_16:
 			 case SENSOR_USB_ONAVI_C_24:
 #ifdef _WIN32
-				 *ppsms = (CSensor*) new CSensorWinUSBONavi01();
+				 *ppsms = (CSensor*) new CSensorWinUSBONavi();
 #else
 #ifdef __APPLE_CC__
-				 *ppsms = (CSensor*) new CSensorMacUSBONavi01();
+				 *ppsms = (CSensor*) new CSensorMacUSBONavi();
 #else // LINUX
-				 *ppsms = (CSensor*) new CSensorLinuxUSBONavi01();
+				 *ppsms = (CSensor*) new CSensorLinuxUSBONavi();
 #endif
 #endif //win32 or apple
 #if !defined(__LP64__) && !defined(_LP64) // no motion node for 64-bit

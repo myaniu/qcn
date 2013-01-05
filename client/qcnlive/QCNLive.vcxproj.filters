@@ -81,13 +81,7 @@
     <ClCompile Include="..\sensor\csensor.cpp">
       <Filter>qcn_sensor</Filter>
     </ClCompile>
-    <ClCompile Include="..\sensor\csensor_win_usb_onavi01.cpp">
-      <Filter>qcn_sensor</Filter>
-    </ClCompile>
     <ClCompile Include="..\sensor\csensor_usb_motionnodeaccel.cpp">
-      <Filter>qcn_sensor</Filter>
-    </ClCompile>
-    <ClCompile Include="..\sensor\csensor_usb_phidgets_1056.cpp">
       <Filter>qcn_sensor</Filter>
     </ClCompile>
     <ClCompile Include="..\sensor\csensor_win_laptop_hp.cpp">
@@ -194,6 +188,12 @@
     </ClCompile>
     <ClCompile Include="DebugDLL\moc_qcnqt.cpp">
       <Filter>Generated Files\DebugDLL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sensor\csensor_usb_phidgets.cpp">
+      <Filter>qcn_sensor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sensor\csensor_win_usb_onavi.cpp">
+      <Filter>qcn_sensor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

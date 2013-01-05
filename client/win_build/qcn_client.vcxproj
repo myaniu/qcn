@@ -846,7 +846,6 @@
     <ClInclude Include="..\sensor\csensor_win_laptop_hp.h" />
     <ClInclude Include="..\sensor\csensor_win_laptop_thinkpad.h" />
     <ClInclude Include="..\sensor\csensor_win_usb_jw.h" />
-    <ClInclude Include="..\sensor\csensor_win_usb_onavi01.h" />
     <ClInclude Include="..\util\cserialize.h" />
     <ClInclude Include="..\main\define.h" />
     <ClInclude Include="..\util\execproc.h" />
@@ -875,12 +874,12 @@
     <ClCompile Include="..\main\qcn_thread_time.cpp" />
     <ClCompile Include="..\sensor\csensor.cpp" />
     <ClCompile Include="..\sensor\csensor_usb_motionnodeaccel.cpp" />
-    <ClCompile Include="..\sensor\csensor_usb_phidgets_1056.cpp" />
+    <ClCompile Include="..\sensor\csensor_usb_phidgets.cpp" />
     <ClCompile Include="..\sensor\csensor_win_laptop_hp.cpp" />
     <ClCompile Include="..\sensor\csensor_win_laptop_thinkpad.cpp" />
     <ClCompile Include="..\sensor\csensor_win_usb_jw.cpp" />
     <ClCompile Include="..\sensor\csensor_win_usb_jw24f14.cpp" />
-    <ClCompile Include="..\sensor\csensor_win_usb_onavi01.cpp" />
+    <ClCompile Include="..\sensor\csensor_win_usb_onavi.cpp" />
     <ClCompile Include="..\util\cserialize.cpp" />
     <ClCompile Include="..\util\execproc.cpp" />
     <ClCompile Include="..\util\gzstream.cpp" />

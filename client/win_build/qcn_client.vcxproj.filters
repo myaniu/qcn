@@ -36,9 +36,6 @@
     <ClInclude Include="..\sensor\csensor_win_usb_jw.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\sensor\csensor_win_usb_onavi01.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\util\cserialize.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -119,9 +116,6 @@
     <ClCompile Include="..\sensor\csensor_usb_motionnodeaccel.cpp">
       <Filter>Source Files\Sensor</Filter>
     </ClCompile>
-    <ClCompile Include="..\sensor\csensor_usb_phidgets_1056.cpp">
-      <Filter>Source Files\Sensor</Filter>
-    </ClCompile>
     <ClCompile Include="..\sensor\csensor_win_laptop_hp.cpp">
       <Filter>Source Files\Sensor</Filter>
     </ClCompile>
@@ -132,9 +126,6 @@
       <Filter>Source Files\Sensor</Filter>
     </ClCompile>
     <ClCompile Include="..\sensor\csensor_win_usb_jw24f14.cpp">
-      <Filter>Source Files\Sensor</Filter>
-    </ClCompile>
-    <ClCompile Include="..\sensor\csensor_win_usb_onavi01.cpp">
       <Filter>Source Files\Sensor</Filter>
     </ClCompile>
     <ClCompile Include="..\util\cserialize.cpp">
@@ -166,6 +157,12 @@
     </ClCompile>
     <ClCompile Include="..\util\trickleup.cpp">
       <Filter>Source Files\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sensor\csensor_usb_phidgets.cpp">
+      <Filter>Source Files\Sensor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sensor\csensor_win_usb_onavi.cpp">
+      <Filter>Source Files\Sensor</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

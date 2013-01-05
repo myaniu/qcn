@@ -268,12 +268,14 @@ void MyFrame::createActions()
 	m_actionViewCube->setShortcut(tr("Ctrl+C"));
     connect(m_actionViewCube, SIGNAL(triggered()), this, SLOT(actionView()));
 
+	/*
 	m_actionViewGame = new QAction(tr("&Game"), this);
 	m_actionViewGame->setToolTip(tr("Select this view to play a game with your accelerometer"));
 	m_actionViewGame->setCheckable(true);
 	//m_actionViewGame->setIcon(QIcon(icon_cube_xpm));
 	m_actionViewGame->setShortcut(tr("Ctrl+G"));
     connect(m_actionViewGame, SIGNAL(triggered()), this, SLOT(actionView()));
+	*/
 
 	m_actionViewFullScreen = new QAction(tr("Toggle &Full Screen Mode"), this);
 	m_actionViewFullScreen->setToolTip(tr("Go into full-screen mode (ESC key to exit)"));
@@ -472,7 +474,7 @@ void MyFrame::createMenus()
 	m_menuView->addAction(m_actionViewSensor2D);
 	m_menuView->addAction(m_actionViewSensor3D);
 	m_menuView->addAction(m_actionViewCube);
-	m_menuView->addAction(m_actionViewGame);
+	//m_menuView->addAction(m_actionViewGame);
 	
 	m_menuView->addSeparator();
 	m_menuView->addAction(m_actionViewFullScreen);
@@ -641,11 +643,13 @@ void MyFrame::actionView()
 	}
 	else if (pAction == m_actionViewGame)
 	{
+		/*
 		//ToolBarCube();
 		m_sliderTime->hide();
 		qcn_graphics::g_eView = VIEW_GAME;
 		bChanged = true;
 		fullScreenToggle(true);
+		*/
 	}
 	else if (pAction == m_actionViewEarth) 
 	{
