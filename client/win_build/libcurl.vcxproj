@@ -292,6 +292,7 @@
     <ClCompile Include="..\..\curl-7.25.0\lib\imap.c" />
     <ClCompile Include="..\..\curl-7.25.0\lib\inet_ntop.c" />
     <ClCompile Include="..\..\curl-7.25.0\lib\inet_pton.c" />
+    <ClCompile Include="..\..\curl-7.25.0\lib\ldap.c" />
     <ClCompile Include="..\..\curl-7.25.0\lib\llist.c" />
     <ClCompile Include="..\..\curl-7.25.0\lib\md4.c" />
     <ClCompile Include="..\..\curl-7.25.0\lib\md5.c" />

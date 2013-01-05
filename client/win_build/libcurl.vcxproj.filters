@@ -264,6 +264,9 @@
     <ClCompile Include="..\..\curl-7.25.0\lib\wildcard.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\curl-7.25.0\lib\ldap.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\curl-7.25.0\lib\config-win32.h">

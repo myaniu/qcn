@@ -270,7 +270,7 @@ void __cdecl fpreset (void);
 //   memory allocation/deallocation
 #ifdef _DEBUG
 
-// CMC QCNLIVE
+// CMC QCNLIVE -- reassigning new & malloc etc plays havoc with Qt 5.....
 #ifndef QCNLIVE
 
 #define malloc(s)                             _malloc_dbg(s, _NORMAL_BLOCK, __FILE__, __LINE__)
@@ -286,13 +286,13 @@ void __cdecl fpreset (void);
 #define _aligned_free(p)                      _aligned_free_dbg(p)
 
 #ifndef DEBUG_NEW
-#define DEBUG_NEW                             new
+#define DEBUG_NEW                             new(_NORMAL_BLOCK, __FILE__, __LINE__)
 #endif
 
 #else
 
 #ifndef DEBUG_NEW
-#define DEBUG_NEW                             new(_NORMAL_BLOCK, __FILE__, __LINE__)
+#define DEBUG_NEW                             new
 #endif
 
 #endif // CMC QCNLIVE
