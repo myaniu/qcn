@@ -7,14 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		430D875C153B789B00620379 /* csensor_usb_phidgets_1056.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 430D875B153B789B00620379 /* csensor_usb_phidgets_1056.cpp */; };
 		43304A7510FF76BB00A823FE /* qcn_thread_sensor_util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43304A7310FF76BB00A823FE /* qcn_thread_sensor_util.cpp */; };
 		43304A7610FF76BB00A823FE /* qcn_thread_sensor_util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43304A7310FF76BB00A823FE /* qcn_thread_sensor_util.cpp */; };
 		43304A9910FF7D9000A823FE /* qcn_thread_sensor_loop.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43304A9710FF7D9000A823FE /* qcn_thread_sensor_loop.cpp */; };
 		43304A9A10FF7D9000A823FE /* qcn_thread_sensor_loop.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43304A9710FF7D9000A823FE /* qcn_thread_sensor_loop.cpp */; };
 		4369D19515F6AEBF00FAFE27 /* texture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4369D19415F6AEBF00FAFE27 /* texture.cpp */; };
 		437FD49B1415CF21007B95DA /* libbz2-universal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 437FD49A1415CF21007B95DA /* libbz2-universal.a */; };
-		439FF8D110BD8DCF00DEFD8E /* csensor_mac_usb_onavi01.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 439FF8CF10BD8DCF00DEFD8E /* csensor_mac_usb_onavi01.cpp */; };
 		43C1FDA6141725D900F8F3E7 /* csensor_mac_usb_generic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43C1FDA5141725D900F8F3E7 /* csensor_mac_usb_generic.cpp */; };
 		43E276911146C38F00D80E16 /* csensor_mac_usb_jw24f14.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43E2768F1146C38F00D80E16 /* csensor_mac_usb_jw24f14.cpp */; };
 		43E276931146C38F00D80E16 /* csensor_mac_usb_jw24f14.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43E2768F1146C38F00D80E16 /* csensor_mac_usb_jw24f14.cpp */; };
@@ -30,14 +28,14 @@
 		43E92973129B24EF001F3626 /* libboinc_api.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 43E9296A129B24EF001F3626 /* libboinc_api.a */; };
 		43E92974129B24EF001F3626 /* libboinc_graphics2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 43E9296B129B24EF001F3626 /* libboinc_graphics2.a */; };
 		43E92975129B24EF001F3626 /* libboinc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 43E9296C129B24EF001F3626 /* libboinc.a */; };
+		43EB68691698CCE700368222 /* libjpeg.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 43EB68681698CCE700368222 /* libjpeg.a */; };
+		43EB686C1698CDD700368222 /* csensor_mac_usb_onavi.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43EB686A1698CDD700368222 /* csensor_mac_usb_onavi.cpp */; };
+		43EB686D1698CDD700368222 /* csensor_usb_phidgets.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43EB686B1698CDD700368222 /* csensor_usb_phidgets.cpp */; };
 		E33EF7C00FF1DF7400CD5708 /* libboinc_zip.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E33EF7BD0FF1DF7400CD5708 /* libboinc_zip.a */; };
-		E33EF7C10FF1DF7400CD5708 /* libjpeg-universal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E33EF7BE0FF1DF7400CD5708 /* libjpeg-universal.a */; };
 		E33EF7C20FF1DF7400CD5708 /* libz-universal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E33EF7BF0FF1DF7400CD5708 /* libz-universal.a */; };
 		E33EF7C60FF1DF7500CD5708 /* libboinc_zip.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E33EF7BD0FF1DF7400CD5708 /* libboinc_zip.a */; };
-		E33EF7C70FF1DF7500CD5708 /* libjpeg-universal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E33EF7BE0FF1DF7400CD5708 /* libjpeg-universal.a */; };
 		E33EF7C80FF1DF7500CD5708 /* libz-universal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E33EF7BF0FF1DF7400CD5708 /* libz-universal.a */; };
 		E33EF7C90FF1DF7500CD5708 /* libboinc_zip.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E33EF7BD0FF1DF7400CD5708 /* libboinc_zip.a */; };
-		E33EF7CA0FF1DF7500CD5708 /* libjpeg-universal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E33EF7BE0FF1DF7400CD5708 /* libjpeg-universal.a */; };
 		E33EF7CB0FF1DF7500CD5708 /* libz-universal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E33EF7BF0FF1DF7400CD5708 /* libz-universal.a */; };
 		E388F8500FF1B9A900D948DE /* qcn_shmem_usb.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3D35C190FF17AB200E64121 /* qcn_shmem_usb.cpp */; };
 		E388F8510FF1B9A900D948DE /* qcn_signal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3D35C130FF179E900E64121 /* qcn_signal.cpp */; };
@@ -95,7 +93,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		430D875B153B789B00620379 /* csensor_usb_phidgets_1056.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = csensor_usb_phidgets_1056.cpp; path = ../sensor/csensor_usb_phidgets_1056.cpp; sourceTree = SOURCE_ROOT; };
 		43304A7310FF76BB00A823FE /* qcn_thread_sensor_util.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = qcn_thread_sensor_util.cpp; path = ../main/qcn_thread_sensor_util.cpp; sourceTree = SOURCE_ROOT; };
 		43304A7810FF76D300A823FE /* qcn_thread_sensor_util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = qcn_thread_sensor_util.h; path = ../main/qcn_thread_sensor_util.h; sourceTree = SOURCE_ROOT; };
 		43304A9710FF7D9000A823FE /* qcn_thread_sensor_loop.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = qcn_thread_sensor_loop.cpp; path = ../main/qcn_thread_sensor_loop.cpp; sourceTree = SOURCE_ROOT; };
@@ -109,8 +106,6 @@
 		4394A7B910A20763006FF691 /* myframe.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = myframe.h; sourceTree = "<group>"; };
 		4394A7BB10A20763006FF691 /* myglpane.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = myglpane.h; sourceTree = "<group>"; };
 		4394A7C110A20763006FF691 /* qcnwx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = qcnwx.h; sourceTree = "<group>"; };
-		439FF8AF10BD8C7A00DEFD8E /* csensor_mac_usb_onavi01.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = csensor_mac_usb_onavi01.h; path = ../sensor/csensor_mac_usb_onavi01.h; sourceTree = SOURCE_ROOT; };
-		439FF8CF10BD8DCF00DEFD8E /* csensor_mac_usb_onavi01.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = csensor_mac_usb_onavi01.cpp; path = ../sensor/csensor_mac_usb_onavi01.cpp; sourceTree = SOURCE_ROOT; };
 		43C1FDA5141725D900F8F3E7 /* csensor_mac_usb_generic.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = csensor_mac_usb_generic.cpp; path = ../sensor/csensor_mac_usb_generic.cpp; sourceTree = "<group>"; };
 		43C1FDA71417260200F8F3E7 /* csensor_mac_usb_generic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = csensor_mac_usb_generic.h; path = ../sensor/csensor_mac_usb_generic.h; sourceTree = "<group>"; };
 		43E2768B1146C32E00D80E16 /* csensor_mac_usb_jw24f14.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = csensor_mac_usb_jw24f14.h; path = ../sensor/csensor_mac_usb_jw24f14.h; sourceTree = SOURCE_ROOT; };
@@ -122,6 +117,11 @@
 		43E9296A129B24EF001F3626 /* libboinc_api.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libboinc_api.a; sourceTree = "<group>"; };
 		43E9296B129B24EF001F3626 /* libboinc_graphics2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libboinc_graphics2.a; sourceTree = "<group>"; };
 		43E9296C129B24EF001F3626 /* libboinc.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libboinc.a; sourceTree = "<group>"; };
+		43EB68681698CCE700368222 /* libjpeg.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libjpeg.a; sourceTree = "<group>"; };
+		43EB686A1698CDD700368222 /* csensor_mac_usb_onavi.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = csensor_mac_usb_onavi.cpp; path = ../sensor/csensor_mac_usb_onavi.cpp; sourceTree = "<group>"; };
+		43EB686B1698CDD700368222 /* csensor_usb_phidgets.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = csensor_usb_phidgets.cpp; path = ../sensor/csensor_usb_phidgets.cpp; sourceTree = "<group>"; };
+		43EB686E1698CEA800368222 /* csensor_mac_usb_onavi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = csensor_mac_usb_onavi.h; path = ../sensor/csensor_mac_usb_onavi.h; sourceTree = "<group>"; };
+		43EB686F1698CEA800368222 /* csensor_usb_phidgets.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = csensor_usb_phidgets.h; path = ../sensor/csensor_usb_phidgets.h; sourceTree = "<group>"; };
 		43FF03021275F3580014B021 /* csensor_usb_motionnodeaccel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = csensor_usb_motionnodeaccel.h; path = ../sensor/csensor_usb_motionnodeaccel.h; sourceTree = SOURCE_ROOT; };
 		E3064B950F8FE8A60028A349 /* qcn_2dplot.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = qcn_2dplot.cpp; path = ../graphics/qcn_2dplot.cpp; sourceTree = SOURCE_ROOT; };
 		E3064B970F8FE8C10028A349 /* qcn_2dplot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = qcn_2dplot.h; path = ../graphics/qcn_2dplot.h; sourceTree = SOURCE_ROOT; };
@@ -130,7 +130,6 @@
 		E30F9E9E0DEC6D5F0000FACE /* csensor.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = csensor.h; path = ../sensor/csensor.h; sourceTree = SOURCE_ROOT; };
 		E3222D780FF2E3D500B25EB2 /* qcnmac.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = qcnmac.icns; path = ../qcnlive/qcnmac.icns; sourceTree = SOURCE_ROOT; };
 		E33EF7BD0FF1DF7400CD5708 /* libboinc_zip.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libboinc_zip.a; sourceTree = "<group>"; };
-		E33EF7BE0FF1DF7400CD5708 /* libjpeg-universal.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libjpeg-universal.a"; sourceTree = "<group>"; };
 		E33EF7BF0FF1DF7400CD5708 /* libz-universal.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libz-universal.a"; sourceTree = "<group>"; };
 		E371C7F60E2AB5D0009B4DAA /* csensor_mac_laptop.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = csensor_mac_laptop.cpp; path = ../sensor/csensor_mac_laptop.cpp; sourceTree = SOURCE_ROOT; };
 		E371C7F70E2AB5D0009B4DAA /* csensor_mac_usb_jw.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = csensor_mac_usb_jw.cpp; path = ../sensor/csensor_mac_usb_jw.cpp; sourceTree = SOURCE_ROOT; };
@@ -206,7 +205,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				E33EF7C00FF1DF7400CD5708 /* libboinc_zip.a in Frameworks */,
-				E33EF7C10FF1DF7400CD5708 /* libjpeg-universal.a in Frameworks */,
 				E33EF7C20FF1DF7400CD5708 /* libz-universal.a in Frameworks */,
 				43E92973129B24EF001F3626 /* libboinc_api.a in Frameworks */,
 				43E92974129B24EF001F3626 /* libboinc_graphics2.a in Frameworks */,
@@ -219,11 +217,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				E33EF7C90FF1DF7500CD5708 /* libboinc_zip.a in Frameworks */,
-				E33EF7CA0FF1DF7500CD5708 /* libjpeg-universal.a in Frameworks */,
 				E33EF7CB0FF1DF7500CD5708 /* libz-universal.a in Frameworks */,
 				43E9296D129B24EF001F3626 /* libboinc_api.a in Frameworks */,
 				43E9296E129B24EF001F3626 /* libboinc_graphics2.a in Frameworks */,
 				43E9296F129B24EF001F3626 /* libboinc.a in Frameworks */,
+				43EB68691698CCE700368222 /* libjpeg.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -233,7 +231,6 @@
 			files = (
 				437FD49B1415CF21007B95DA /* libbz2-universal.a in Frameworks */,
 				E33EF7C60FF1DF7500CD5708 /* libboinc_zip.a in Frameworks */,
-				E33EF7C70FF1DF7500CD5708 /* libjpeg-universal.a in Frameworks */,
 				E33EF7C80FF1DF7500CD5708 /* libz-universal.a in Frameworks */,
 				43E45A84129241E800D7ACEB /* libfreetype-universal.a in Frameworks */,
 				43E45A85129241E800D7ACEB /* libftgl-universal.a in Frameworks */,
@@ -263,11 +260,12 @@
 		E3583B1F0FF18FDC00057DD2 /* sensor */ = {
 			isa = PBXGroup;
 			children = (
+				43EB686E1698CEA800368222 /* csensor_mac_usb_onavi.h */,
+				43EB686F1698CEA800368222 /* csensor_usb_phidgets.h */,
 				43C1FDA71417260200F8F3E7 /* csensor_mac_usb_generic.h */,
 				43FF03021275F3580014B021 /* csensor_usb_motionnodeaccel.h */,
 				43E2768B1146C32E00D80E16 /* csensor_mac_usb_jw24f14.h */,
 				E3B747A80E8C6DFC00D401EB /* csensor_mac_usb_jw.h */,
-				439FF8AF10BD8C7A00DEFD8E /* csensor_mac_usb_onavi01.h */,
 				E3B747A60E8C6DFC00D401EB /* csensor_mac_laptop.h */,
 				E30F9E9E0DEC6D5F0000FACE /* csensor.h */,
 			);
@@ -277,6 +275,7 @@
 		E3A499DB0D64E60400E51CDF = {
 			isa = PBXGroup;
 			children = (
+				43EB68681698CCE700368222 /* libjpeg.a */,
 				437FD49A1415CF21007B95DA /* libbz2-universal.a */,
 				43E9296A129B24EF001F3626 /* libboinc_api.a */,
 				43E9296B129B24EF001F3626 /* libboinc_graphics2.a */,
@@ -285,7 +284,6 @@
 				43E45A81129241E800D7ACEB /* libftgl-universal.a */,
 				E3222D780FF2E3D500B25EB2 /* qcnmac.icns */,
 				E33EF7BD0FF1DF7400CD5708 /* libboinc_zip.a */,
-				E33EF7BE0FF1DF7400CD5708 /* libjpeg-universal.a */,
 				E33EF7BF0FF1DF7400CD5708 /* libz-universal.a */,
 				E3C0E7D90D64E9D30099B905 /* Headers */,
 				E3C0E7D80D64E9C50099B905 /* Sources */,
@@ -511,11 +509,11 @@
 		E3D35C120FF179B200E64121 /* sensor */ = {
 			isa = PBXGroup;
 			children = (
-				430D875B153B789B00620379 /* csensor_usb_phidgets_1056.cpp */,
+				43EB686A1698CDD700368222 /* csensor_mac_usb_onavi.cpp */,
+				43EB686B1698CDD700368222 /* csensor_usb_phidgets.cpp */,
 				43C1FDA5141725D900F8F3E7 /* csensor_mac_usb_generic.cpp */,
 				43E2768F1146C38F00D80E16 /* csensor_mac_usb_jw24f14.cpp */,
 				E371C7F70E2AB5D0009B4DAA /* csensor_mac_usb_jw.cpp */,
-				439FF8CF10BD8DCF00DEFD8E /* csensor_mac_usb_onavi01.cpp */,
 				E30AB1140EBB776D00DABFEF /* csensor_usb_motionnodeaccel.cpp */,
 				E371C7F60E2AB5D0009B4DAA /* csensor_mac_laptop.cpp */,
 				E30F9E9C0DEC6D4C0000FACE /* csensor.cpp */,
@@ -654,12 +652,12 @@
 				E3D35BED0FF177BD00E64121 /* trickleup.cpp in Sources */,
 				E3D35BEE0FF177BD00E64121 /* trickledown.cpp in Sources */,
 				E3D35BEF0FF177BD00E64121 /* execproc.cpp in Sources */,
-				439FF8D110BD8DCF00DEFD8E /* csensor_mac_usb_onavi01.cpp in Sources */,
 				43304A7510FF76BB00A823FE /* qcn_thread_sensor_util.cpp in Sources */,
 				43304A9910FF7D9000A823FE /* qcn_thread_sensor_loop.cpp in Sources */,
 				43E276911146C38F00D80E16 /* csensor_mac_usb_jw24f14.cpp in Sources */,
 				43C1FDA6141725D900F8F3E7 /* csensor_mac_usb_generic.cpp in Sources */,
-				430D875C153B789B00620379 /* csensor_usb_phidgets_1056.cpp in Sources */,
+				43EB686C1698CDD700368222 /* csensor_mac_usb_onavi.cpp in Sources */,
+				43EB686D1698CDD700368222 /* csensor_usb_phidgets.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -693,23 +691,17 @@
 			buildSettings = {
 				ADDITIONAL_SDKS = "";
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = (
-					ppc,
-					i386,
-					x86_64,
-				);
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)";
 				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
-				GCC_VERSION = 4.2;
-				"GCC_VERSION[sdk=macosx10.4][arch=ppc]" = 4.0;
-				"GCC_VERSION[sdk=macosx10.5][arch=i386]" = 4.2;
-				"GCC_VERSION[sdk=macosx10.6][arch=x86_64]" = 4.2;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				HEADER_SEARCH_PATHS = (
 					../../,
 					../main,
@@ -754,10 +746,7 @@
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = qcnusb;
-				SDKROOT = macosx10.5;
-				"SDKROOT[arch=i386]" = macosx10.5;
-				"SDKROOT[arch=ppc]" = macosx10.5;
-				"SDKROOT[arch=x86_64]" = macosx10.5;
+				SDKROOT = macosx10.7;
 				SYMROOT = ../bin;
 			};
 			name = Debug;
@@ -767,22 +756,15 @@
 			buildSettings = {
 				ADDITIONAL_SDKS = "";
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = (
-					ppc,
-					i386,
-					x86_64,
-				);
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)";
 				COPY_PHASE_STRIP = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEBUG_INFORMATION_FORMAT = dwarf;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
-				GCC_VERSION = 4.2;
-				"GCC_VERSION[sdk=macosx10.4][arch=ppc]" = 4.0;
-				"GCC_VERSION[sdk=macosx10.5][arch=i386]" = 4.2;
-				"GCC_VERSION[sdk=macosx10.6][arch=x86_64]" = 4.2;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				HEADER_SEARCH_PATHS = (
 					../../,
 					../main,
@@ -827,10 +809,7 @@
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = qcnusb;
-				SDKROOT = macosx10.5;
-				"SDKROOT[arch=i386]" = macosx10.5;
-				"SDKROOT[arch=ppc]" = macosx10.4;
-				"SDKROOT[arch=x86_64]" = macosx10.5;
+				SDKROOT = macosx10.7;
 				SYMROOT = ../bin;
 				ZERO_LINK = NO;
 			};
@@ -870,8 +849,7 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "";
-				"GCC_VERSION[sdk=macosx10.5][arch=i386]" = "";
-				"GCC_VERSION[sdk=macosx10.6][arch=x86_64]" = "";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				HEADER_SEARCH_PATHS = (
 					../../,
 					../main,
@@ -919,8 +897,6 @@
 				PREBINDING = NO;
 				PRODUCT_NAME = qcn;
 				SDKROOT = macosx10.7;
-				"SDKROOT[arch=i386]" = macosx10.7;
-				"SDKROOT[arch=x86_64]" = macosx10.7;
 				SYMROOT = ../bin;
 				WRAPPER_EXTENSION = app;
 			};
@@ -939,8 +915,7 @@
 				GCC_MODEL_TUNING = G4;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "";
-				"GCC_VERSION[sdk=macosx10.5][arch=i386]" = "";
-				"GCC_VERSION[sdk=macosx10.6][arch=x86_64]" = "";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				HEADER_SEARCH_PATHS = (
 					../../,
 					../main,
@@ -988,8 +963,6 @@
 				PREBINDING = NO;
 				PRODUCT_NAME = qcn;
 				SDKROOT = macosx10.7;
-				"SDKROOT[arch=i386]" = macosx10.7;
-				"SDKROOT[arch=x86_64]" = macosx10.7;
 				SYMROOT = ../bin;
 				WRAPPER_EXTENSION = app;
 			};
@@ -999,21 +972,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = (
-					ppc,
-					i386,
-					x86_64,
-				);
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				CODE_SIGN_IDENTITY = "";
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_VERSION = 4.2;
-				"GCC_VERSION[sdk=macosx10.4][arch=ppc]" = 4.0;
-				"GCC_VERSION[sdk=macosx10.5][arch=i386]" = 4.2;
-				"GCC_VERSION[sdk=macosx10.6][arch=x86_64]" = 4.2;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				HEADER_SEARCH_PATHS = (
 					../../,
 					../main,
@@ -1064,10 +1030,7 @@
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = qcn_graphics;
-				SDKROOT = macosx10.5;
-				"SDKROOT[arch=i386]" = macosx10.5;
-				"SDKROOT[arch=ppc]" = macosx10.4;
-				"SDKROOT[arch=x86_64]" = macosx10.5;
+				SDKROOT = macosx10.7;
 				SYMROOT = ../bin;
 			};
 			name = Debug;
@@ -1076,21 +1039,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = (
-					ppc,
-					i386,
-					x86_64,
-				);
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				CODE_SIGN_IDENTITY = "";
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)";
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_VERSION = 4.2;
-				"GCC_VERSION[sdk=macosx10.4][arch=ppc]" = 4.0;
-				"GCC_VERSION[sdk=macosx10.5][arch=i386]" = 4.2;
-				"GCC_VERSION[sdk=macosx10.6][arch=x86_64]" = 4.2;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				HEADER_SEARCH_PATHS = (
 					../../,
 					../main,
@@ -1141,10 +1097,7 @@
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = qcn_graphics;
-				SDKROOT = macosx10.5;
-				"SDKROOT[arch=i386]" = macosx10.5;
-				"SDKROOT[arch=ppc]" = macosx10.4;
-				"SDKROOT[arch=x86_64]" = macosx10.5;
+				SDKROOT = macosx10.7;
 				SYMROOT = ../bin;
 				ZERO_LINK = NO;
 			};

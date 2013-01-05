@@ -226,10 +226,10 @@ bool getSensor(CSensor* volatile *ppsms)
 				   }
 				   break;			   
 			   case 2:  // try for ONavi
-				   *ppsms = (CSensor*) new CSensorMacUSBONavi01();
+				   *ppsms = (CSensor*) new CSensorMacUSBONavi();
 				   break;
 			   case 3:
-				   *ppsms = (CSensor*) new CSensorUSBPhidgets1056();
+				   *ppsms = (CSensor*) new CSensorUSBPhidgets();
 				   break;	
 				   
     #if defined(__LP64__) || defined(_LP64) // no motion node for 64-bit
@@ -270,10 +270,10 @@ bool getSensor(CSensor* volatile *ppsms)
 #ifdef _WIN64
 			   // no motionnode support for win64
 			   case 2:
-				   *ppsms = (CSensor*) new CSensorWinUSBONavi01();
+				   *ppsms = (CSensor*) new CSensorWinUSBONavi();
 				   break;
 			   case 3:
-				   *ppsms = (CSensor*) new CSensorUSBPhidgets1056();
+				   *ppsms = (CSensor*) new CSensorUSBPhidgets();
 				   break;				   				   
 			   case 4:
 				   *ppsms = (CSensor*) new CSensorWinThinkpad();
@@ -284,10 +284,10 @@ bool getSensor(CSensor* volatile *ppsms)
 				   break;
 #else
 			   case 2:
-				   *ppsms = (CSensor*) new CSensorUSBPhidgets1056();
+				   *ppsms = (CSensor*) new CSensorUSBPhidgets();
 				   break;				   				   
 			   case 3:
-				   *ppsms = (CSensor*) new CSensorWinUSBONavi01();
+				   *ppsms = (CSensor*) new CSensorWinUSBONavi();
 				   break;
 			   case 4:
 				   *ppsms = (CSensor*) new CSensorUSBMotionNodeAccel();
@@ -322,10 +322,10 @@ bool getSensor(CSensor* volatile *ppsms)
 					   *ppsms = (CSensor*) new CSensorLinuxUSBJW24F14();
 				   break;
 			   case 2:
-				   *ppsms = (CSensor*) new CSensorUSBPhidgets1056();
+				   *ppsms = (CSensor*) new CSensorUSBPhidgets();
 				   break;				   
 			   case 3:  // ONavi on Linux
-				   *ppsms = (CSensor*) new CSensorLinuxUSBONavi01();
+				   *ppsms = (CSensor*) new CSensorLinuxUSBONavi();
 				   break;
 #if !defined(__LP64__) && !defined(_LP64) // no motion node for 64-bit
 			   case 4:
@@ -675,6 +675,7 @@ void SetSensorThresholdAndDiffFactor()
 		case SENSOR_USB_ONAVI_A_12:
 		case SENSOR_USB_ONAVI_B_16:
 		case SENSOR_USB_ONAVI_C_24:
+		case SENSOR_USB_PHIDGETS_1044:
 			g_fThreshold = 0.0025f;
 			g_fSensorDiffFactor = 1.10f;   // note USB sensors get a small diff factor below, instead of 33% just 10%
 			break;
@@ -687,10 +688,13 @@ void SetSensorThresholdAndDiffFactor()
 	}
 }
 		
-int CCONV Phidgets1056DetachHandler(CPhidgetHandle spatial, void *userPtr)
+int CCONV PhidgetsDetachHandler(CPhidgetHandle spatial, void *userPtr)
 {
-	// verify g_psms is not null and is a phidgets 1056
-	if (qcn_main::g_psms && qcn_main::g_psms->getTypeEnum() == SENSOR_USB_PHIDGETS_1056) {
+	// verify g_psms is not null and is a phidgets 1056/1044
+	if (qcn_main::g_psms &&
+         (qcn_main::g_psms->getTypeEnum() == SENSOR_USB_PHIDGETS_1056
+             || qcn_main::g_psms->getTypeEnum() == SENSOR_USB_PHIDGETS_1044))
+    {
 		qcn_main::g_bDetach = true; // simple trick to reset sensors, it will close the current port via the destructor & search for a new sensor
 	}
     return 0;

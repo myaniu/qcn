@@ -45,7 +45,7 @@ using namespace std;
 #endif // WIN32
 
 // detach handler is kept in main/qcn_thread_sensor_util.cpp to handle closing of the port etc
-extern int CCONV Phidgets1056DetachHandler(CPhidgetHandle spatial, void *userPtr);
+extern int CCONV PhidgetsDetachHandler(CPhidgetHandle spatial, void *userPtr);
 
 // function pointers in the Phidgets shared object/dylib/DLL
 // CMC HERE

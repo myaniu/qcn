@@ -9,23 +9,23 @@
  */
 
 #include "main.h"
-#include "csensor_mac_usb_onavi01.h"
+#include "csensor_mac_usb_onavi.h"
 #include <fnmatch.h>
 #include <glob.h>
 #include "filesys.h"    // boinc_file_or_symlink_exists
 #include <termios.h>
 
-CSensorMacUSBONavi01::CSensorMacUSBONavi01()
+CSensorMacUSBONavi::CSensorMacUSBONavi()
   : CSensor(), m_fd(-1), m_usBitSensor(0)
 { 
 }
 
-CSensorMacUSBONavi01::~CSensorMacUSBONavi01()
+CSensorMacUSBONavi::~CSensorMacUSBONavi()
 {
   closePort();
 }
 
-void CSensorMacUSBONavi01::closePort()
+void CSensorMacUSBONavi::closePort()
 {
 	if (m_fd > -1) {
 	  close(m_fd);
@@ -36,7 +36,7 @@ void CSensorMacUSBONavi01::closePort()
     setType();
 }
 
-bool CSensorMacUSBONavi01::detect()
+bool CSensorMacUSBONavi::detect()
 {
 	// first see if the port actually exists (the device is a "file" at /dev/tty.xrusbmodemNNN, given in STR_USB_ONAVI01 and now STR_USB_ONAVI02 since they seem to have changed the device name
 
@@ -127,7 +127,7 @@ bool CSensorMacUSBONavi01::detect()
     return true;
 }
 
-inline bool CSensorMacUSBONavi01::read_xyz(float& x1, float& y1, float& z1)
+inline bool CSensorMacUSBONavi::read_xyz(float& x1, float& y1, float& z1)
 {
 	/*
 We tried to keep the data as simple as possible. The data looks like: 

@@ -23,7 +23,7 @@ using namespace std;
 #define FLOAT_ONAVI_FACTOR  7.629394531250e-05f
 
 // this is the Windows implementation of the sensor - IBM/Lenovo Thinkpad, HP, USB Stick
-class CSensorMacUSBONavi01  : public CSensor
+class CSensorMacUSBONavi  : public CSensor
 {
    private:
     int m_fd;
@@ -32,8 +32,8 @@ class CSensorMacUSBONavi01  : public CSensor
       virtual bool read_xyz(float& x1, float& y1, float& z1);  
 
    public:
-      CSensorMacUSBONavi01();
-      virtual ~CSensorMacUSBONavi01();
+      CSensorMacUSBONavi();
+      virtual ~CSensorMacUSBONavi();
 
      virtual void closePort(); // closes the port if open
      virtual bool detect();   // this detects & initializes a sensor on a Mac G4/PPC or Intel laptop, sets m_iType to 0 if not found

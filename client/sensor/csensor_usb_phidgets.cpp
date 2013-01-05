@@ -344,7 +344,7 @@ bool CSensorUSBPhidgets::detect()
    }
 
    // last setup a detach callback function if device is removed
-	m_PtrCPhidget_set_OnDetach_Handler((CPhidgetHandle) m_handlePhidgetSpatial, Phidgets1056DetachHandler, NULL);
+	m_PtrCPhidget_set_OnDetach_Handler((CPhidgetHandle) m_handlePhidgetSpatial, PhidgetsDetachHandler, NULL);
 	
 #if !defined(__APPLE_CC__) && !defined(_WIN32)	
        if (m_bLogging) {
