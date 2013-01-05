@@ -45,7 +45,7 @@
 				Optimization="0"
 				WholeProgramOptimization="false"
 				AdditionalIncludeDirectories="../../;../main;../sensor;../util;../../../boinc/lib;../../zlib-1.2.5;../../../boinc/api;../../../boinc/zip"
-				PreprocessorDefinitions="_USE_NTPDATE_EXEC_;_WIN32;WIN32;_DEBUG;_CRT_SECURE_NO_DEPRECATE;_ZLIB;APP_GRAPHICS"
+				PreprocessorDefinitions="_USE_NTPDATE_EXEC_;USE_ZIPMAIN;DLL;_WIN32;WIN32;_DEBUG;_CRT_SECURE_NO_DEPRECATE;_ZLIB;APP_GRAPHICS"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
 				WarningLevel="3"
@@ -65,7 +65,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/LTCG"
-				AdditionalDependencies="hid.lib setupapi.lib winmm.lib boinc_zipd.lib boinc_apid.lib zlibd.lib boinc_libd.lib MotionNodeAccelAPI.lib ws2_32.lib wldap32.lib"
+				AdditionalDependencies="hid.lib psapi.lib setupapi.lib winmm.lib boinc_zipd.lib boinc_apid.lib zlibd.lib boinc_libd.lib MotionNodeAccelAPI.lib ws2_32.lib wldap32.lib"
 				OutputFile="../test/projects/qcn.edu_qcn/qcnd.exe"
 				Version=""
 				LinkIncremental="2"
@@ -225,7 +225,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="../../;../main;../sensor;../util;../../../boinc/lib;../../zlib-1.2.5;../../../boinc/api;../../../boinc/zip"
-				PreprocessorDefinitions="_USE_NTPDATE_EXEC_;_WIN32;NDEBUG;_WIN32;_CRT_SECURE_NO_DEPRECATE;_ZLIB;APP_GRAPHICS"
+				PreprocessorDefinitions="_USE_NTPDATE_EXEC_;USE_ZIPMAIN;DLL;_WIN32;NDEBUG;_WIN32;_CRT_SECURE_NO_DEPRECATE;_ZLIB;APP_GRAPHICS"
 				RuntimeLibrary="0"
 				ForcedIncludeFiles="windows.h"
 			/>
@@ -242,7 +242,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/LTCG"
-				AdditionalDependencies="hid.lib setupapi.lib winmm.lib boinc_lib.lib boinc_api.lib boinc_zip.lib MotionNodeAccelAPI.lib zlib.lib ws2_32.lib wldap32.lib"
+				AdditionalDependencies="hid.lib psapi.lib setupapi.lib winmm.lib boinc_lib.lib boinc_api.lib boinc_zip.lib MotionNodeAccelAPI.lib zlib.lib ws2_32.lib wldap32.lib"
 				OutputFile="../bin/qcn.exe"
 				Version=""
 				LinkIncremental="1"

@@ -51,7 +51,7 @@
 				WarningLevel="3"
 				DebugInformationFormat="4"
 				CompileAs="2"
-				ForcedIncludeFiles=""
+				ForcedIncludeFiles="windows.h,psapi.h"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -178,7 +178,7 @@
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="false"
 				DebugInformationFormat="0"
-				ForcedIncludeFiles=""
+				ForcedIncludeFiles="windows.h,psapi.h"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -303,7 +303,7 @@
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="false"
 				DebugInformationFormat="0"
-				ForcedIncludeFiles=""
+				ForcedIncludeFiles="windows.h,psapi.h"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -429,7 +429,7 @@
 				WarningLevel="3"
 				DebugInformationFormat="4"
 				CompileAs="2"
-				ForcedIncludeFiles=""
+				ForcedIncludeFiles="windows.h,psapi.h"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -557,7 +557,7 @@
 				WarningLevel="3"
 				DebugInformationFormat="4"
 				CompileAs="2"
-				ForcedIncludeFiles=""
+				ForcedIncludeFiles="windows.h,psapi.h"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -684,7 +684,7 @@
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="false"
 				DebugInformationFormat="0"
-				ForcedIncludeFiles=""
+				ForcedIncludeFiles="windows.h,psapi.h"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"

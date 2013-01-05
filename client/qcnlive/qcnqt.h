@@ -17,6 +17,7 @@
  #include <QMainWindow>
  #include <QSplashScreen>
  #include <QTimer>
+ #include <QPrinterInfo>
  
  #ifndef _WIN32
  #include <unistd.h>

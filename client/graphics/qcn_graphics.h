@@ -11,7 +11,11 @@
   #include <math.h>
 #endif
 
-#include "boinc_gl.h"
+#ifdef QCNLIVE
+#include "qgl.h"
+#endif
+#include "boinc_gl.h"  // note this goes before qgl to avoid duplicate refs for Gldouble etc
+
 #include "gutil.h"
 
 #include "reduce.h"  // boinc includes -- reduce, parse -- parses xml files, util & gutil & gl & graphics stuff etc

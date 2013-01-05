@@ -142,7 +142,7 @@ bool CDialogSettings::saveValues(QString& strError)
 {
 	strError.clear();
 	m_strLatitude = m_textctrlLatitude->text();
-    double dTest = atof((const char*) m_strLatitude.toAscii());
+    double dTest = atof((const char*) m_strLatitude.toLatin1());
     if (dTest >= -90.0f && dTest <= 90.0f) {
         sm->dMyLatitude = dTest;
 	}
@@ -151,7 +151,7 @@ bool CDialogSettings::saveValues(QString& strError)
 	}
 	
 	m_strLongitude = m_textctrlLongitude->text();
-    dTest = atof((const char*) m_strLongitude.toAscii());
+	dTest = atof((const char*) m_strLongitude.toLatin1());
     if (dTest >= -180.0f && dTest <= 180.0f) {
         sm->dMyLongitude = dTest;
 	}
@@ -161,10 +161,10 @@ bool CDialogSettings::saveValues(QString& strError)
 
 	m_strStation = m_textctrlStation->text();
     memset((char*) sm->strMyStation, 0x00, SIZEOF_STATION_STRING);
-    strlcpy((char*) sm->strMyStation, (const char*) m_strStation.toAscii(), SIZEOF_STATION_STRING);	
+    strlcpy((char*) sm->strMyStation, (const char*) m_strStation.toLatin1(), SIZEOF_STATION_STRING);	
 
 	m_strElevationMeter = m_textctrlElevationMeter->text();
-    sm->dMyElevationMeter = atof((const char*) m_strElevationMeter.toAscii());
+    sm->dMyElevationMeter = atof((const char*) m_strElevationMeter.toLatin1());
     sm->iMyElevationFloor = m_spinctrlElevationFloor->value();  // spin controls are ints anyway!
 
 	QVariant qvChoice = m_comboSensor->itemData(m_comboSensor->currentIndex());
@@ -233,7 +233,7 @@ void CDialogSettings::CreateControls()
     m_spinctrlElevationFloor->setMinimum(-200);
     m_spinctrlElevationFloor->setMaximum(200);
     m_spinctrlElevationFloor->setSingleStep(1);
-	m_spinctrlElevationFloor->setValue(atoi((const char*) m_strElevationFloor.toAscii()));
+	m_spinctrlElevationFloor->setValue(atoi((const char*) m_strElevationFloor.toLatin1()));
 
 	// control 6 & 7 -- radio buttons to pick CSV/text or SAC output
 	m_radioCSV = new QRadioButton(tr("Record CSV/Text Files"), this);

@@ -243,28 +243,28 @@ void MyFrame::createActions()
 	m_actionViewEarth = new QAction(tr("&Earthquakes"), this);
 	m_actionViewEarth->setToolTip(tr("Select this view to see the latest and historical earthquakes worldwide"));
 	m_actionViewEarth->setCheckable(true);
-	m_actionViewEarth->setIcon(QIcon(icon_earth_xpm));
+	m_actionViewEarth->setIcon(QIcon(QPixmap(icon_earth_xpm)));
 	m_actionViewEarth->setShortcut(tr("Ctrl+E"));
     connect(m_actionViewEarth, SIGNAL(triggered()), this, SLOT(actionView()));
 
 	m_actionViewSensor2D = new QAction(tr("Sensor &2-dimensional"), this);
 	m_actionViewSensor2D->setToolTip(tr("Select this view to see your accelerometer output as a 2-dimensional plot"));
 	m_actionViewSensor2D->setCheckable(true);
-	m_actionViewSensor2D->setIcon(QIcon(icon_twod_xpm));
+	m_actionViewSensor2D->setIcon(QIcon(QPixmap(icon_twod_xpm)));
 	m_actionViewSensor2D->setShortcut(tr("Ctrl+2"));
     connect(m_actionViewSensor2D, SIGNAL(triggered()), this, SLOT(actionView()));
 
 	m_actionViewSensor3D = new QAction(tr("Sensor &3-dimensional"), this);
 	m_actionViewSensor3D->setToolTip(tr("Select this to see your accelerometer output as a 3-dimensional plot"));
 	m_actionViewSensor3D->setCheckable(true);
-	m_actionViewSensor3D->setIcon(QIcon(icon_threed_xpm));
+	m_actionViewSensor3D->setIcon(QIcon(QPixmap(icon_threed_xpm)));
 	m_actionViewSensor3D->setShortcut(tr("Ctrl+3"));
     connect(m_actionViewSensor3D, SIGNAL(triggered()), this, SLOT(actionView()));
 
 	m_actionViewCube = new QAction(tr("&Cube"), this);
 	m_actionViewCube->setToolTip(tr("Select this view to see a bouncing cube that responds to your accelerometer"));
 	m_actionViewCube->setCheckable(true);
-	m_actionViewCube->setIcon(QIcon(icon_cube_xpm));
+	m_actionViewCube->setIcon(QIcon(QPixmap(icon_cube_xpm)));
 	m_actionViewCube->setShortcut(tr("Ctrl+C"));
     connect(m_actionViewCube, SIGNAL(triggered()), this, SLOT(actionView()));
 
@@ -285,122 +285,122 @@ void MyFrame::createActions()
 	m_actionOptionEarthDay = new QAction(tr("&Day"), this);
 	m_actionOptionEarthDay->setToolTip(tr("Show day view of global earthquake map"));
 	m_actionOptionEarthDay->setCheckable(true);
-	m_actionOptionEarthDay->setIcon(QIcon(icon_sun_xpm));
+	m_actionOptionEarthDay->setIcon(QIcon(QPixmap(icon_sun_xpm)));
 	connect(m_actionOptionEarthDay, SIGNAL(triggered()), this, SLOT(actionOptionEarth()));
 
 	m_actionOptionEarthNight = new QAction(tr("&Night"), this);
 	m_actionOptionEarthNight->setToolTip(tr("Show night view of global earthquake map"));
 	m_actionOptionEarthNight->setCheckable(true);
-	m_actionOptionEarthNight->setIcon(QIcon(icon_moon_xpm));
+	m_actionOptionEarthNight->setIcon(QIcon(QPixmap(icon_moon_xpm)));
 	connect(m_actionOptionEarthNight, SIGNAL(triggered()), this, SLOT(actionOptionEarth()));
 	
 	m_actionOptionEarthRotateOn = new QAction(tr("&Auto-rotate"), this);
 	m_actionOptionEarthRotateOn->setToolTip(tr("Auto-rotate the globe"));
 	m_actionOptionEarthRotateOn->setCheckable(true);
-	m_actionOptionEarthRotateOn->setIcon(QIcon(icon_spin_xpm));
+	m_actionOptionEarthRotateOn->setIcon(QIcon(QPixmap(icon_spin_xpm)));
 	connect(m_actionOptionEarthRotateOn, SIGNAL(triggered()), this, SLOT(actionOptionEarth()));
 	
 	m_actionOptionEarthRotateOff = new QAction(tr("&Stop rotation"), this);
 	m_actionOptionEarthRotateOff->setToolTip(tr("Stop rotation of the globe"));
 	m_actionOptionEarthRotateOff->setCheckable(true);
-	m_actionOptionEarthRotateOff->setIcon(QIcon(icon_nospin_xpm));
+	m_actionOptionEarthRotateOff->setIcon(QIcon(QPixmap(icon_nospin_xpm)));
 	connect(m_actionOptionEarthRotateOff, SIGNAL(triggered()), this, SLOT(actionOptionEarth()));
 	
 	m_actionOptionEarthQuakelist = new QAction(tr("&Get latest earthquakes"), this);
 	m_actionOptionEarthQuakelist->setToolTip(tr("Get the latest earthquake list from the USGS"));
 	//m_actionOptionEarthQuakelist->setCheckable(true);
-	m_actionOptionEarthQuakelist->setIcon(QIcon(icon_quakelist_xpm));
+	m_actionOptionEarthQuakelist->setIcon(QIcon(QPixmap(icon_quakelist_xpm)));
 	connect(m_actionOptionEarthQuakelist, SIGNAL(triggered()), this, SLOT(actionOptionEarth()));
 	
 	m_actionOptionEarthUSGS = new QAction(tr("&USGS Website"), this);
 	m_actionOptionEarthUSGS->setToolTip(tr("Go to the USGS website for the currently selected earthquake"));
 	//m_actionOptionEarthUSGS->setCheckable(true);
-	m_actionOptionEarthUSGS->setIcon(QIcon(icon_usgs_xpm));
+	m_actionOptionEarthUSGS->setIcon(QIcon(QPixmap(icon_usgs_xpm)));
 	connect(m_actionOptionEarthUSGS, SIGNAL(triggered()), this, SLOT(actionOptionEarth()));
 	
 	
 	// Option - Sensor (2D & 3D)
 	m_actionOptionSensorVerticalZoomAuto = new QAction(tr("Auto-Zoom Vertical Scale"), this);
 	m_actionOptionSensorVerticalZoomAuto->setToolTip(tr("Auto-Zoom Vertical Scale"));
-	m_actionOptionSensorVerticalZoomAuto->setIcon(QIcon(icon_vert_zoom_auto_xpm));
+	m_actionOptionSensorVerticalZoomAuto->setIcon(QIcon(QPixmap(icon_vert_zoom_auto_xpm)));
 	//m_actionOptionSensorVerticalZoomAuto->setCheckable(true);
 	connect(m_actionOptionSensorVerticalZoomAuto, SIGNAL(triggered()), this, SLOT(actionOptionSensor()));
 	
 	m_actionOptionSensorVerticalZoomIn = new QAction(tr("Zoom In Vertical Scale"), this);
 	m_actionOptionSensorVerticalZoomIn->setToolTip(tr("Zoom In Vertical Scale"));
-	m_actionOptionSensorVerticalZoomIn->setIcon(QIcon(icon_vert_zoom_in_xpm));
+	m_actionOptionSensorVerticalZoomIn->setIcon(QIcon(QPixmap(icon_vert_zoom_in_xpm)));
 	//m_actionOptionSensorVerticalZoomIn->setCheckable(true);
 	connect(m_actionOptionSensorVerticalZoomIn, SIGNAL(triggered()), this, SLOT(actionOptionSensor()));
 	
 	m_actionOptionSensorVerticalZoomOut = new QAction(tr("Zoom Out Vertical Scale"), this);
 	m_actionOptionSensorVerticalZoomOut->setToolTip(tr("Zoom Out Vertical Scale"));
-	m_actionOptionSensorVerticalZoomOut->setIcon(QIcon(icon_vert_zoom_out_xpm));
+	m_actionOptionSensorVerticalZoomOut->setIcon(QIcon(QPixmap(icon_vert_zoom_out_xpm)));
 	//m_actionOptionSensorVerticalZoomOut->setCheckable(true);
 	connect(m_actionOptionSensorVerticalZoomOut, SIGNAL(triggered()), this, SLOT(actionOptionSensor()));
 	
 	m_actionOptionSensorHorizontalZoomIn = new QAction(tr("Zoom In Time Scale"), this);
 	m_actionOptionSensorHorizontalZoomIn->setToolTip(tr("Zoom In Time Scale"));
-	m_actionOptionSensorHorizontalZoomIn->setIcon(QIcon(icon_horiz_zoom_in_xpm));
+	m_actionOptionSensorHorizontalZoomIn->setIcon(QIcon(QPixmap(icon_horiz_zoom_in_xpm)));
 	//m_actionOptionSensorHorizontalZoomIn->setCheckable(true);
 	connect(m_actionOptionSensorHorizontalZoomIn, SIGNAL(triggered()), this, SLOT(actionOptionSensor()));
 	
 	m_actionOptionSensorHorizontalZoomOut = new QAction(tr("Zoom Out Time Scale"), this);
 	m_actionOptionSensorHorizontalZoomOut->setToolTip(tr("Zoom Out Time Scale"));
-	m_actionOptionSensorHorizontalZoomOut->setIcon(QIcon(icon_horiz_zoom_out_xpm));
+	m_actionOptionSensorHorizontalZoomOut->setIcon(QIcon(QPixmap(icon_horiz_zoom_out_xpm)));
 	//m_actionOptionSensorHorizontalZoomOut->setCheckable(true);
 	connect(m_actionOptionSensorHorizontalZoomOut, SIGNAL(triggered()), this, SLOT(actionOptionSensor()));
 	
 	m_actionOptionSensorBack = new QAction(tr("Move Back"), this);
 	m_actionOptionSensorBack->setToolTip(tr("Move Back In Time"));
-	m_actionOptionSensorBack->setIcon(QIcon(icon_rw_xpm));
+	m_actionOptionSensorBack->setIcon(QIcon(QPixmap(icon_rw_xpm)));
 	//m_actionOptionSensorBack->setCheckable(true);
 	connect(m_actionOptionSensorBack, SIGNAL(triggered()), this, SLOT(actionOptionSensor()));
 	
 	m_actionOptionSensorPause = new QAction(tr("Pause Display"), this);
 	m_actionOptionSensorPause->setToolTip(tr("Pause Sensor Display"));
-	m_actionOptionSensorPause->setIcon(QIcon(icon_pause_xpm));
+	m_actionOptionSensorPause->setIcon(QIcon(QPixmap(icon_pause_xpm)));
 	//m_actionOptionSensorPause->setCheckable(true);
 	connect(m_actionOptionSensorPause, SIGNAL(triggered()), this, SLOT(actionOptionSensor()));
 	
 	m_actionOptionSensorResume = new QAction(tr("Start Display"), this);
 	m_actionOptionSensorResume->setToolTip(tr("Start Sensor Display"));
-	m_actionOptionSensorResume->setIcon(QIcon(icon_play_xpm));
+	m_actionOptionSensorResume->setIcon(QIcon(QPixmap(icon_play_xpm)));
 	//m_actionOptionSensorResume->setCheckable(true);
 	connect(m_actionOptionSensorResume, SIGNAL(triggered()), this, SLOT(actionOptionSensor()));
 	
 	m_actionOptionSensorRecordStart = new QAction(tr("Start Recording"), this);
 	m_actionOptionSensorRecordStart->setToolTip(tr("Start Recording Sensor Time Series"));
-	m_actionOptionSensorRecordStart->setIcon(QIcon(icon_record_xpm));
+	m_actionOptionSensorRecordStart->setIcon(QIcon(QPixmap(icon_record_xpm)));
 	m_actionOptionSensorRecordStart->setCheckable(true);
 	connect(m_actionOptionSensorRecordStart, SIGNAL(triggered()), this, SLOT(actionOptionSensor()));
 	
 	m_actionOptionSensorRecordStop = new QAction(tr("Stop Recording"), this);
 	m_actionOptionSensorRecordStop->setToolTip(tr("Stop Recording Sensor Time Series"));
-	m_actionOptionSensorRecordStop->setIcon(QIcon(icon_stop_xpm));
+	m_actionOptionSensorRecordStop->setIcon(QIcon(QPixmap(icon_stop_xpm)));
 	m_actionOptionSensorRecordStop->setCheckable(true);
 	connect(m_actionOptionSensorRecordStop, SIGNAL(triggered()), this, SLOT(actionOptionSensor()));
 	
 	m_actionOptionSensorForward = new QAction(tr("Move Forward"), this);
 	m_actionOptionSensorForward->setToolTip(tr("Move Forward In Time"));
-	m_actionOptionSensorForward->setIcon(QIcon(icon_ff_xpm));
+	m_actionOptionSensorForward->setIcon(QIcon(QPixmap(icon_ff_xpm)));
 	//m_actionOptionSensorForward->setCheckable(true);
 	connect(m_actionOptionSensorForward, SIGNAL(triggered()), this, SLOT(actionOptionSensor()));
 	
 	m_actionOptionSensorAbsolute = new QAction(tr("&Absolute sensor values"), this);
 	m_actionOptionSensorAbsolute->setToolTip(tr("Absolute sensor values"));
-	m_actionOptionSensorAbsolute->setIcon(QIcon(icon_absolute_xpm));
+	m_actionOptionSensorAbsolute->setIcon(QIcon(QPixmap(icon_absolute_xpm)));
 	m_actionOptionSensorAbsolute->setCheckable(true);
 	connect(m_actionOptionSensorAbsolute, SIGNAL(triggered()), this, SLOT(actionOptionSensor()));
 	
 	m_actionOptionSensorScaled = new QAction(tr("S&caled sensor values"), this);
 	m_actionOptionSensorScaled->setToolTip(tr("Scaled sensor values"));
-	m_actionOptionSensorScaled->setIcon(QIcon(icon_scaled_xpm));
+	m_actionOptionSensorScaled->setIcon(QIcon(QPixmap(icon_scaled_xpm)));
 	m_actionOptionSensorScaled->setCheckable(true);
 	connect(m_actionOptionSensorScaled, SIGNAL(triggered()), this, SLOT(actionOptionSensor()));
 	
 	m_actionOptionSensorSignificance = new QAction(tr("Show Significance Values"), this);
 	m_actionOptionSensorSignificance->setToolTip(tr("Show the computed significance values"));
-	m_actionOptionSensorSignificance->setIcon(QIcon(icon_sig_xpm));
+	m_actionOptionSensorSignificance->setIcon(QIcon(QPixmap(icon_sig_xpm)));
 	m_actionOptionSensorSignificance->setCheckable(true);
 	connect(m_actionOptionSensorSignificance, SIGNAL(triggered()), this, SLOT(actionOptionSensor()));
 	
@@ -409,12 +409,12 @@ void MyFrame::createActions()
 	// Option action for all (Screenshot / Logo)
 	m_actionOptionScreenshot = new QAction(tr("Screenshot"), this);
 	m_actionOptionScreenshot->setToolTip(tr("Make a screenshot and save as a JPG file in data directory"));
-	m_actionOptionScreenshot->setIcon(QIcon(icon_camera_xpm));
+	m_actionOptionScreenshot->setIcon(QIcon(QPixmap(icon_camera_xpm)));
 	connect(m_actionOptionScreenshot, SIGNAL(triggered()), this, SLOT(actionOptionScreenshot()));
 	
 	m_actionOptionLogo = new QAction(tr(""), this);
 	m_actionOptionLogo->setToolTip(tr(""));
-	//m_actionOptionLogo->setIcon(QIcon(icon_scaled_xpm));
+	//m_actionOptionLogo->setIcon(QIcon(QPixmap(icon_scaled_xpm)));
 	connect(m_actionOptionLogo, SIGNAL(triggered()), this, SLOT(actionOptionLogo()));
 		
 	

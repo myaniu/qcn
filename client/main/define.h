@@ -72,13 +72,17 @@ typedef vector<string> ZipFileList;
 #endif
 
 #ifdef GRAPHICS_PROGRAM
-#include "boinc_gl.h"
-//#include "texfont.h"
+
+
 #ifdef QCNLIVE
-#  define NUM_FONT          3
+ #include <qgl.h>
+  #  define NUM_FONT          3
 #else
-#  define NUM_FONT          2
-#endif // QCNLIVE fonts
+  #  define NUM_FONT          2
+#endif
+#include "boinc_gl.h"  // note this goes before qgl to avoid duplicate refs for Gldouble etc
+
+//#include "texfont.h"
 #  define TTF_ARIAL         0
 #  define TTF_MONOSPACE     1
 #  define TTF_ARIAL_HUGE    2

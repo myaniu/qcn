@@ -1100,6 +1100,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\..\boinc\zip\unzip\crypt.c"
+				>
+			</File>
+			<File
 				RelativePath="..\..\..\boinc\zip\unzip\explode.c"
 				>
 			</File>

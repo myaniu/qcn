@@ -1,0 +1,176 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{65f066a0-7de5-4075-8e50-d975d0402b5e}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;rc;def;r;odl;idl;hpj;bat;f90;for;f;fpp</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{4eea2fde-f772-4a25-8849-5dd02ffeba77}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;fi;fd</Extensions>
+    </Filter>
+    <Filter Include="Unzip Header Files">
+      <UniqueIdentifier>{aeb4cc18-0f87-4e8d-b557-bea425fa8531}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Zip Source Files">
+      <UniqueIdentifier>{e56c8c9a-5db5-4bee-b9ff-7b0fbcc41b44}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Unzip Source Files">
+      <UniqueIdentifier>{f815d4ad-1c42-4017-a0f2-e803bfc5dac7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Zip Header Files">
+      <UniqueIdentifier>{376435ea-9223-455c-b827-8e66d58593ea}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\boinc\zip\boinc_zip.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\boinc\zip\zip\deflate.c">
+      <Filter>Zip Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\boinc\zip\zip\trees.c">
+      <Filter>Zip Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\boinc\zip\zip\util.c">
+      <Filter>Zip Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\boinc\zip\zip\win32\win32_boinc.c">
+      <Filter>Zip Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\boinc\zip\zip\win32\win32i64.c">
+      <Filter>Zip Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\boinc\zip\zip\win32\win32zip.c">
+      <Filter>Zip Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\boinc\zip\zip\z_fileio.c">
+      <Filter>Zip Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\boinc\zip\zip\z_globals.c">
+      <Filter>Zip Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\boinc\zip\zip\win32\z_nt.c">
+      <Filter>Zip Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\boinc\zip\zip\zip.c">
+      <Filter>Zip Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\boinc\zip\zip\zipfile.c">
+      <Filter>Zip Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\boinc\zip\zip\zipup.c">
+      <Filter>Zip Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\boinc\zip\unzip\api.c">
+      <Filter>Unzip Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\boinc\zip\unzip\apihelp.c">
+      <Filter>Unzip Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\boinc\zip\unzip\crc32.c">
+      <Filter>Unzip Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\boinc\zip\unzip\crypt.c">
+      <Filter>Unzip Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\boinc\zip\unzip\explode.c">
+      <Filter>Unzip Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\boinc\zip\unzip\extract.c">
+      <Filter>Unzip Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\boinc\zip\unzip\fileio.c">
+      <Filter>Unzip Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\boinc\zip\unzip\globals.c">
+      <Filter>Unzip Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\boinc\zip\unzip\inflate.c">
+      <Filter>Unzip Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\boinc\zip\unzip\list.c">
+      <Filter>Unzip Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\boinc\zip\unzip\match.c">
+      <Filter>Unzip Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\boinc\zip\unzip\win32\nt.c">
+      <Filter>Unzip Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\boinc\zip\unzip\process.c">
+      <Filter>Unzip Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\boinc\zip\unzip\ttyio.c">
+      <Filter>Unzip Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\boinc\zip\unzip\unreduce.c">
+      <Filter>Unzip Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\boinc\zip\unzip\unshrink.c">
+      <Filter>Unzip Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\boinc\zip\unzip\unzip.c">
+      <Filter>Unzip Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\boinc\zip\unzip\win32\win32.c">
+      <Filter>Unzip Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\boinc\zip\unzip\zipinfo.c">
+      <Filter>Unzip Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\boinc\zip\boinc_zip.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\boinc\zip\unzip\consts.h">
+      <Filter>Unzip Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\boinc\zip\unzip\ebcdic.h">
+      <Filter>Unzip Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\boinc\zip\unzip\globals.h">
+      <Filter>Unzip Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\boinc\zip\unzip\inflate.h">
+      <Filter>Unzip Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\boinc\zip\unzip\tables.h">
+      <Filter>Unzip Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\boinc\zip\unzip\ttyio.h">
+      <Filter>Unzip Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\boinc\zip\unzip\unzip.h">
+      <Filter>Unzip Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\boinc\zip\unzip\unzpriv.h">
+      <Filter>Unzip Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\boinc\zip\unzip\unzvers.h">
+      <Filter>Unzip Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\boinc\zip\unzip\win32\w32cfg.h">
+      <Filter>Unzip Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\boinc\zip\zip\win32\osdep.h">
+      <Filter>Zip Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\boinc\zip\zip\revision.h">
+      <Filter>Zip Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\boinc\zip\zip\tailor.h">
+      <Filter>Zip Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\boinc\zip\zip\z_ttyio.h">
+      <Filter>Zip Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\boinc\zip\zip\zip.h">
+      <Filter>Zip Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\boinc\zip\zip\ziperr.h">
+      <Filter>Zip Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

@@ -371,7 +371,7 @@ bool MyApp::set_qcnlive_prefs()
 					XML_VERTICAL_TRIGGER, (sm->bMyVerticalTrigger ? 1 : 0), XML_VERTICAL_TRIGGER,
 			        XML_MAKEQUAKE_TIME, m_iMakeQuakeTime, XML_MAKEQUAKE_TIME,
 					XML_MAKEQUAKE_COUNTDOWN, m_iMakeQuakeCountdown, XML_MAKEQUAKE_COUNTDOWN,
-					XML_MAKEQUAKE_PRINTER, (const char*) m_strMakeQuakePrinter.toAscii(), XML_MAKEQUAKE_PRINTER	
+					XML_MAKEQUAKE_PRINTER, (const char*) m_strMakeQuakePrinter.toLatin1(), XML_MAKEQUAKE_PRINTER	
     );
 
     fclose(fp);
@@ -532,7 +532,7 @@ void MyApp::slotMakeQuake()
 	m_frame->statusBar()->showMessage(tr("Processing image..."));
 	
 	m_strQuakeJPG = qcn_graphics::ScreenshotJPG(); // this actually gets the screen grab and returns the filename
-	if (m_strQuakeJPG.isEmpty() || !boinc_file_exists(m_strQuakeJPG.toAscii()))  { //error - must not have saved pic 
+	if (m_strQuakeJPG.isEmpty() || !boinc_file_exists(m_strQuakeJPG.toLatin1()))  { //error - must not have saved pic 
 		m_frame->statusBar()->showMessage(tr("Error in this session - sorry - please try later!"), 5000);
 		m_strQuakeJPG.clear();
 		goto done;
@@ -573,7 +573,7 @@ done:
 	if (qpr) delete qpr;
 	qpr = NULL;
 	qppr = NULL;
-	if (boinc_file_exists(m_strQuakeJPG.toAscii())) boinc_delete_file(m_strQuakeJPG.toAscii()); // get rid of original file if exists
+	if (boinc_file_exists(m_strQuakeJPG.toLatin1())) boinc_delete_file(m_strQuakeJPG.toLatin1()); // get rid of original file if exists
 	m_strQuakeJPG.clear();
 	qcn_graphics::g_MakeQuake.clear(); // can reset/reuse now
 }

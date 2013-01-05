@@ -2,6 +2,8 @@
 #define _DLG_MAKEQUAKE_H_
 
 #include "qcnqt.h"
+#include <QList>
+#include <QPrinterInfo>
 
 class CDialogMakeQuake  : public QDialog
 {	

@@ -85,7 +85,7 @@ void CDialogMakeQuake::InitPointers()
 void CDialogMakeQuake::getUserString(char* strName)
 { 
 	memset(strName, 0x00, sizeof(char) * 64);
-	strncpy(strName, m_strName.toAscii(), 63);
+	strncpy(strName, m_strName.toLatin1(), 63);
 }
 
 void CDialogMakeQuake::CreateControls()
@@ -141,7 +141,6 @@ void CDialogMakeQuake::CreateControls()
 
 	m_comboPrinter->addItem(PRINTER_PDF, 0);
 	if (m_strPrinter == PRINTER_PDF) iSel = 0;
-
 	if (m_qlpi.size() > 0) {
 		QList<QPrinterInfo>::iterator itP = m_qlpi.begin();
 		while (itP != m_qlpi.end()) {
