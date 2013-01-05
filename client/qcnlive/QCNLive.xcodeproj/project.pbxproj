@@ -590,7 +590,7 @@
 		43F1406A1422645D001C0846 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				BUILD_ROOT = /Users/carlgt1/projects/qcn/client/qcnlive;
 				CC = "/usr/bin/llvm-gcc-4.2";
 				COMBINE_HIDPI_IMAGES = YES;
@@ -641,7 +641,7 @@
 					/Users/carlgt1/projects/qcn/client/mac_build,
 					/Developer/Qt/lib,
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				OTHER_CFLAGS = (
 					"-D_DEBUG",
 					"-pipe",
@@ -693,8 +693,9 @@
 				);
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = QCNLive;
-				SDKROOT = macosx10.7;
+				SDKROOT = macosx;
 				SECTORDER_FLAGS = "";
+				VALID_ARCHS = x86_64;
 				WARNING_CFLAGS = "";
 				YACCFLAGS = "-d";
 			};
@@ -703,7 +704,7 @@
 		43F1406B1422645D001C0846 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				BUILD_ROOT = /Users/carlgt1/projects/qcn/client/qcnlive;
 				CC = "/usr/bin/llvm-gcc-4.2";
 				COMBINE_HIDPI_IMAGES = YES;
@@ -753,7 +754,7 @@
 					/Users/carlgt1/projects/qcn/client/mac_build,
 					/Developer/Qt/lib,
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				OTHER_CFLAGS = (
 					"-pipe",
 					"-g",
@@ -804,8 +805,9 @@
 				);
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = QCNLive;
-				SDKROOT = macosx10.7;
+				SDKROOT = macosx;
 				SECTORDER_FLAGS = "";
+				VALID_ARCHS = x86_64;
 				WARNING_CFLAGS = "";
 				YACCFLAGS = "-d";
 			};
@@ -814,7 +816,7 @@
 		43F1406C1422645D001C0846 /* Default */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				BUILD_ROOT = /Users/carlgt1/projects/qcn/client/qcnlive;
 				CC = "/usr/bin/llvm-gcc-4.2";
 				COMBINE_HIDPI_IMAGES = YES;
@@ -862,7 +864,7 @@
 					/Users/carlgt1/projects/qcn/client/mac_build,
 					/Developer/Qt/lib,
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				OTHER_CFLAGS = (
 					"-pipe",
 					"-g",
@@ -913,8 +915,9 @@
 				);
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = QCNLive;
-				SDKROOT = macosx10.7;
+				SDKROOT = macosx;
 				SECTORDER_FLAGS = "";
+				VALID_ARCHS = x86_64;
 				WARNING_CFLAGS = "";
 				YACCFLAGS = "-d";
 			};
@@ -923,27 +926,27 @@
 		8DB1DD96F65B1BF1FFC506E0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
-				CODE_SIGN_IDENTITY = "Mac Developer";
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CODE_SIGN_IDENTITY = "";
 				COPY_PHASE_STRIP = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
-				PROVISIONING_PROFILE = "";
-				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
+				SDKROOT = macosx;
+				VALID_ARCHS = x86_64;
 			};
 			name = Debug;
 		};
 		95E1EB2E5DDD587BE5B3E548 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
-				CODE_SIGN_IDENTITY = "Mac Developer";
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CODE_SIGN_IDENTITY = "";
 				COPY_PHASE_STRIP = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
-				PROVISIONING_PROFILE = "";
-				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
+				SDKROOT = macosx;
+				VALID_ARCHS = x86_64;
 			};
 			name = Release;
 		};
