@@ -40,7 +40,7 @@ QMAKE_INFO_PLIST = "Info.plist.mac"
 LIBS += -framework IOKit -framework Carbon \
    -L$$BASEDIRQCN/client/mac_build \
      -lboinc_api -lboinc -lboinc_zip -lboinc_graphics2 \
-    -ljpeg-universal -lcurl-universal -lbz2-universal \
+    -ljpeg -lcurl-universal -lbz2-universal \
      -lz-universal -lfreetype-universal -lftgl-universal
 
 ICON = qcnmac.icns
