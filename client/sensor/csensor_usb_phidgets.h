@@ -90,7 +90,7 @@ typedef int     (PHIDGETS_CALL_API * PtrCPhidget_log) (CPhidgetLog_level level, 
 
 
 // this is the Windows implementation of the sensor - IBM/Lenovo Thinkpad, HP, USB Stick
-class CSensorUSBPhidgets1056  : public CSensor
+class CSensorUSBPhidgets  : public CSensor
 {
   private:
 	int m_iSerialNum;
@@ -101,6 +101,7 @@ class CSensorUSBPhidgets1056  : public CSensor
 	int m_iDataRateMax;
 	int m_iDataRateMin;
         bool m_bLogging;
+	int m_iModelSearch;
 
 	CPhidgetSpatialHandle m_handlePhidgetSpatial;
 	
@@ -152,10 +153,11 @@ class CSensorUSBPhidgets1056  : public CSensor
 	bool setupFunctionPointers();
 	virtual bool read_xyz(float& x1, float& y1, float& z1);  
 	virtual const char* getTypeStr(int iType = -1);  // return the sensor name for this iType
+
 	
    public:
-      CSensorUSBPhidgets1056();
-      virtual ~CSensorUSBPhidgets1056();
+      CSensorUSBPhidgets(int iModel = 1056);
+      virtual ~CSensorUSBPhidgets();
       virtual void closePort(); // closes the port if open
       virtual bool detect();   // this detects & initializes a sensor on a Mac G4/PPC or Intel laptop, sets m_iType to 0 if not found
 	

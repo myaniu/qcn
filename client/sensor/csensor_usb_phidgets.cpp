@@ -1,5 +1,5 @@
 /*
- *  csensor_usb_phidgets_1056.cpp
+ *  csensor_usb_phidgets.cpp
  *  qcn
  *
  *  Created by Carl Christensen on 08/11/2007.
@@ -33,38 +33,38 @@ or
  */
 
 #include "main.h"
-#include "csensor_usb_phidgets_1056.h"
+#include "csensor_usb_phidgets.h"
 
 //set the dll/so/dylib name
 #ifdef _WIN32  // Windows
   #define GET_PROC_ADDR ::GetProcAddress
 #ifdef _WIN64
-const char CSensorUSBPhidgets1056::m_cstrDLL[] = {"phidget21x64.dll"};
+const char CSensorUSBPhidgets::m_cstrDLL[] = {"phidget21x64.dll"};
 #else
-const char CSensorUSBPhidgets1056::m_cstrDLL[] = {"phidget21.dll"};
+const char CSensorUSBPhidgets::m_cstrDLL[] = {"phidget21.dll"};
 #endif // Win 32 v 64
 #else // Mac & Linux
   #define GET_PROC_ADDR dlsym
 #ifdef __APPLE_CC__
-const char CSensorUSBPhidgets1056::m_cstrDLL[] = {"phidget21.dylib"};   
+const char CSensorUSBPhidgets::m_cstrDLL[] = {"phidget21.dylib"};   
 #else
 #ifdef __LINUX_ARMV6__
-const char CSensorUSBPhidgets1056::m_cstrDLL[] = {"phidget21armv6.so"};   
+const char CSensorUSBPhidgets::m_cstrDLL[] = {"phidget21armv6.so"};   
 #else
 #ifdef __LINUX_ARMV5__
-const char CSensorUSBPhidgets1056::m_cstrDLL[] = {"phidget21armv5.so"};   
+const char CSensorUSBPhidgets::m_cstrDLL[] = {"phidget21armv5.so"};   
 #else
-const char CSensorUSBPhidgets1056::m_cstrDLL[] = {"phidget21a.so"};   
+const char CSensorUSBPhidgets::m_cstrDLL[] = {"phidget21a.so"};   
 #endif
 #endif  // armv6
 #endif // apple or linux
 #endif // windows˚˚
 
-CSensorUSBPhidgets1056::CSensorUSBPhidgets1056()
-  : CSensor(), 
-     m_handlePhidgetSpatial(NULL), m_handleLibrary(NULL)
+CSensorUSBPhidgets::CSensorUSBPhidgets(int iModel)
+  : CSensor(),
+	m_handlePhidgetSpatial(NULL), m_handleLibrary(NULL), m_iModelSearch(iModel)
 { 
-        m_bLogging = false;
+    m_bLogging = false;
 	m_iSerialNum = 0;
 	m_iVersion = 0;
 	m_iNumAccelAxes = 0;
@@ -74,12 +74,12 @@ CSensorUSBPhidgets1056::CSensorUSBPhidgets1056()
 	m_iDataRateMin = 0;	
 }
 
-CSensorUSBPhidgets1056::~CSensorUSBPhidgets1056()
+CSensorUSBPhidgets::~CSensorUSBPhidgets()
 {
    closePort();
 }
 
-bool CSensorUSBPhidgets1056::setupFunctionPointers()
+bool CSensorUSBPhidgets::setupFunctionPointers()
 {
 	if (!m_handleLibrary) return false;
 
@@ -183,7 +183,7 @@ bool CSensorUSBPhidgets1056::setupFunctionPointers()
 
 
 
-void CSensorUSBPhidgets1056::closePort()
+void CSensorUSBPhidgets::closePort()
 {
 	if (m_handlePhidgetSpatial) {
 		m_PtrCPhidget_close((CPhidgetHandle) m_handlePhidgetSpatial);
@@ -217,7 +217,7 @@ void CSensorUSBPhidgets1056::closePort()
 
 }
 
-bool CSensorUSBPhidgets1056::detect()
+bool CSensorUSBPhidgets::detect()
 {
 	int ret;
 	float x,y,z; //test read_xyz
@@ -240,7 +240,7 @@ bool CSensorUSBPhidgets1056::detect()
 #ifdef __USE_DLOPEN__
    m_handleLibrary = dlopen(strPath.c_str(), RTLD_LAZY | RTLD_GLOBAL); // default
    if (!m_handleLibrary) {
-       fprintf(stderr, "CSensorUSBPhidgets1056: dynamic library %s dlopen error %s\n", m_cstrDLL, dlerror());
+       fprintf(stderr, "CSensorUSBPhidgets: dynamic library %s dlopen error %s\n", m_cstrDLL, dlerror());
        return false;
    }
 #else // for Windows or not using dlopen just use the direct motionnode factory
@@ -356,7 +356,7 @@ bool CSensorUSBPhidgets1056::detect()
    return true;
 }
 
-inline bool CSensorUSBPhidgets1056::read_xyz(float& x1, float& y1, float& z1)
+inline bool CSensorUSBPhidgets::read_xyz(float& x1, float& y1, float& z1)
 {
 	if (qcn_main::g_iStop || !m_handlePhidgetSpatial) return false; // invalid handle
 	// NB: acceleration is in G's already so just multiply by Earth g 9.8
@@ -371,7 +371,7 @@ inline bool CSensorUSBPhidgets1056::read_xyz(float& x1, float& y1, float& z1)
 }
 
 // overloaded so we can substitute with the serial # and versio of the phidget
-const char* CSensorUSBPhidgets1056::getTypeStr(int iType)
+const char* CSensorUSBPhidgets::getTypeStr(int iType)
 {
 	return getSensorStr();
 }

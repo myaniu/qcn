@@ -61,6 +61,9 @@
 #define SENSOR_STRLG_USB_PHIDGETS_1056 "Phidgets 1056 USB"
 #define SENSOR_STRSH_USB_PHIDGETS_1056 "P1"
 
+#define SENSOR_STRLG_USB_PHIDGETS_1044 "Phidgets 1044 76ug USB"
+#define SENSOR_STRSH_USB_PHIDGETS_1044 "P2"
+
 // end sensor strings
 
 map<int, CSensorType> CSensor::m_map;
@@ -122,6 +125,9 @@ CSensor::CSensor()
 
 		cst.init(SENSOR_USB_PHIDGETS_1056, SENSOR_STRLG_USB_PHIDGETS_1056, SENSOR_STRSH_USB_PHIDGETS_1056);
 		m_map.insert(make_pair(SENSOR_USB_PHIDGETS_1056, cst));
+
+		cst.init(SENSOR_USB_PHIDGETS_1044, SENSOR_STRLG_USB_PHIDGETS_1044, SENSOR_STRSH_USB_PHIDGETS_1044);
+		m_map.insert(make_pair(SENSOR_USB_PHIDGETS_1044, cst));
 
 	}
 }
