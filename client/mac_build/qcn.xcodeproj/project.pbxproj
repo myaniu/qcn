@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		431757601698D45E0068B3EA /* libjpeg.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4317575F1698D45E0068B3EA /* libjpeg.a */; };
 		43304A7510FF76BB00A823FE /* qcn_thread_sensor_util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43304A7310FF76BB00A823FE /* qcn_thread_sensor_util.cpp */; };
 		43304A7610FF76BB00A823FE /* qcn_thread_sensor_util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43304A7310FF76BB00A823FE /* qcn_thread_sensor_util.cpp */; };
 		43304A9910FF7D9000A823FE /* qcn_thread_sensor_loop.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43304A9710FF7D9000A823FE /* qcn_thread_sensor_loop.cpp */; };
@@ -30,7 +31,6 @@
 		43E92975129B24EF001F3626 /* libboinc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 43E9296C129B24EF001F3626 /* libboinc.a */; };
 		43EB686C1698CDD700368222 /* csensor_mac_usb_onavi.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43EB686A1698CDD700368222 /* csensor_mac_usb_onavi.cpp */; };
 		43EB686D1698CDD700368222 /* csensor_usb_phidgets.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43EB686B1698CDD700368222 /* csensor_usb_phidgets.cpp */; };
-		43EB68711698D07600368222 /* libjpeg-universal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 43EB68701698D07600368222 /* libjpeg-universal.a */; };
 		E33EF7C00FF1DF7400CD5708 /* libboinc_zip.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E33EF7BD0FF1DF7400CD5708 /* libboinc_zip.a */; };
 		E33EF7C20FF1DF7400CD5708 /* libz-universal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E33EF7BF0FF1DF7400CD5708 /* libz-universal.a */; };
 		E33EF7C60FF1DF7500CD5708 /* libboinc_zip.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E33EF7BD0FF1DF7400CD5708 /* libboinc_zip.a */; };
@@ -93,6 +93,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		4317575F1698D45E0068B3EA /* libjpeg.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libjpeg.a; sourceTree = "<group>"; };
 		43304A7310FF76BB00A823FE /* qcn_thread_sensor_util.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = qcn_thread_sensor_util.cpp; path = ../main/qcn_thread_sensor_util.cpp; sourceTree = SOURCE_ROOT; };
 		43304A7810FF76D300A823FE /* qcn_thread_sensor_util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = qcn_thread_sensor_util.h; path = ../main/qcn_thread_sensor_util.h; sourceTree = SOURCE_ROOT; };
 		43304A9710FF7D9000A823FE /* qcn_thread_sensor_loop.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = qcn_thread_sensor_loop.cpp; path = ../main/qcn_thread_sensor_loop.cpp; sourceTree = SOURCE_ROOT; };
@@ -121,7 +122,6 @@
 		43EB686B1698CDD700368222 /* csensor_usb_phidgets.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = csensor_usb_phidgets.cpp; path = ../sensor/csensor_usb_phidgets.cpp; sourceTree = "<group>"; };
 		43EB686E1698CEA800368222 /* csensor_mac_usb_onavi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = csensor_mac_usb_onavi.h; path = ../sensor/csensor_mac_usb_onavi.h; sourceTree = "<group>"; };
 		43EB686F1698CEA800368222 /* csensor_usb_phidgets.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = csensor_usb_phidgets.h; path = ../sensor/csensor_usb_phidgets.h; sourceTree = "<group>"; };
-		43EB68701698D07600368222 /* libjpeg-universal.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libjpeg-universal.a"; sourceTree = "<group>"; };
 		43FF03021275F3580014B021 /* csensor_usb_motionnodeaccel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = csensor_usb_motionnodeaccel.h; path = ../sensor/csensor_usb_motionnodeaccel.h; sourceTree = SOURCE_ROOT; };
 		E3064B950F8FE8A60028A349 /* qcn_2dplot.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = qcn_2dplot.cpp; path = ../graphics/qcn_2dplot.cpp; sourceTree = SOURCE_ROOT; };
 		E3064B970F8FE8C10028A349 /* qcn_2dplot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = qcn_2dplot.h; path = ../graphics/qcn_2dplot.h; sourceTree = SOURCE_ROOT; };
@@ -221,7 +221,7 @@
 				43E9296D129B24EF001F3626 /* libboinc_api.a in Frameworks */,
 				43E9296E129B24EF001F3626 /* libboinc_graphics2.a in Frameworks */,
 				43E9296F129B24EF001F3626 /* libboinc.a in Frameworks */,
-				43EB68711698D07600368222 /* libjpeg-universal.a in Frameworks */,
+				431757601698D45E0068B3EA /* libjpeg.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -276,8 +276,8 @@
 			isa = PBXGroup;
 			children = (
 				437FD49A1415CF21007B95DA /* libbz2-universal.a */,
+				4317575F1698D45E0068B3EA /* libjpeg.a */,
 				43E9296A129B24EF001F3626 /* libboinc_api.a */,
-				43EB68701698D07600368222 /* libjpeg-universal.a */,
 				43E9296B129B24EF001F3626 /* libboinc_graphics2.a */,
 				43E9296C129B24EF001F3626 /* libboinc.a */,
 				43E45A80129241E800D7ACEB /* libfreetype-universal.a */,
@@ -721,9 +721,7 @@
 					"\"$(SRCROOT)/../../zlib-1.2.5\"",
 					"\"$(SRCROOT)\"",
 				);
-				"MACOSX_DEPLOYMENT_TARGET[sdk=macosx10.4][arch=ppc]" = 10.4;
-				"MACOSX_DEPLOYMENT_TARGET[sdk=macosx10.5][arch=i386]" = 10.5;
-				"MACOSX_DEPLOYMENT_TARGET[sdk=macosx10.6][arch=x86_64]" = 10.6;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				OTHER_CFLAGS = (
 					"-Wall",
 					"-W",
@@ -784,9 +782,7 @@
 					"\"$(SRCROOT)/../../zlib-1.2.5\"",
 					"\"$(SRCROOT)\"",
 				);
-				"MACOSX_DEPLOYMENT_TARGET[sdk=macosx10.4][arch=ppc]" = 10.4;
-				"MACOSX_DEPLOYMENT_TARGET[sdk=macosx10.5][arch=i386]" = 10.5;
-				"MACOSX_DEPLOYMENT_TARGET[sdk=macosx10.6][arch=x86_64]" = 10.6;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				OTHER_CFLAGS = (
 					"-Wall",
 					"-W",
@@ -870,8 +866,6 @@
 					"\"$(SRCROOT)\"",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
-				"MACOSX_DEPLOYMENT_TARGET[sdk=macosx10.5][arch=i386]" = 10.7;
-				"MACOSX_DEPLOYMENT_TARGET[sdk=macosx10.6][arch=x86_64]" = 10.7;
 				OBJROOT = ../bin;
 				OTHER_CFLAGS = (
 					"-Wall",
@@ -936,8 +930,6 @@
 					"\"$(SRCROOT)\"",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
-				"MACOSX_DEPLOYMENT_TARGET[sdk=macosx10.5][arch=i386]" = 10.7;
-				"MACOSX_DEPLOYMENT_TARGET[sdk=macosx10.6][arch=x86_64]" = 10.7;
 				OBJROOT = ../bin;
 				OTHER_CFLAGS = (
 					"-Wall",
@@ -976,6 +968,7 @@
 				CODE_SIGN_IDENTITY = "";
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)";
 				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -987,7 +980,6 @@
 					../util,
 					../graphics,
 					../qcnusb,
-					"../../jpeg-6b",
 					"../../bzip2-1.0.6",
 					"../../freetype-2.4.6/include",
 					"../../ftgl-2.1.3/include",
@@ -995,6 +987,7 @@
 					../../../boinc/lib/mac,
 					../../../boinc/api,
 					../../../boinc_zip,
+					../../../boinc/samples/jpeglib,
 				);
 				INFOPLIST_FILE = "qcn_graphics-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
@@ -1002,9 +995,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
 				);
-				"MACOSX_DEPLOYMENT_TARGET[sdk=macosx10.4][arch=ppc]" = 10.4;
-				"MACOSX_DEPLOYMENT_TARGET[sdk=macosx10.5][arch=i386]" = 10.5;
-				"MACOSX_DEPLOYMENT_TARGET[sdk=macosx10.6][arch=x86_64]" = 10.6;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				OTHER_CFLAGS = (
 					"-Wall",
 					"-DQCN",
@@ -1043,7 +1034,7 @@
 				CODE_SIGN_IDENTITY = "";
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)";
 				COPY_PHASE_STRIP = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEBUG_INFORMATION_FORMAT = dwarf;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
@@ -1054,7 +1045,6 @@
 					../util,
 					../graphics,
 					../qcnusb,
-					"../../jpeg-6b",
 					"../../bzip2-1.0.6",
 					"../../freetype-2.4.6/include",
 					"../../ftgl-2.1.3/include",
@@ -1062,6 +1052,7 @@
 					../../../boinc/lib/mac,
 					../../../boinc/api,
 					../../../boinc_zip,
+					../../../boinc/samples/jpeglib,
 				);
 				INFOPLIST_FILE = "qcn_graphics-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
@@ -1069,9 +1060,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
 				);
-				"MACOSX_DEPLOYMENT_TARGET[sdk=macosx10.4][arch=ppc]" = 10.4;
-				"MACOSX_DEPLOYMENT_TARGET[sdk=macosx10.5][arch=i386]" = 10.5;
-				"MACOSX_DEPLOYMENT_TARGET[sdk=macosx10.6][arch=x86_64]" = 10.6;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				OTHER_CFLAGS = (
 					"-Wall",
 					"-DQCN",

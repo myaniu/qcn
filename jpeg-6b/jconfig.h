@@ -8,9 +8,9 @@
 #undef void
 #undef const
 #undef CHAR_IS_UNSIGNED
-#define HAVE_STDDEF_H 
-#define HAVE_STDLIB_H 
-#undef NEED_BSD_STRINGS
+#undef HAVE_STDDEF_H
+#undef HAVE_STDLIB_H
+#define NEED_BSD_STRINGS 
 #undef NEED_SYS_TYPES_H
 #undef NEED_FAR_POINTERS
 #undef NEED_SHORT_EXTERNAL_NAMES
@@ -37,7 +37,7 @@
 
 #undef TWO_FILE_COMMANDLINE
 #undef NEED_SIGNAL_CATCHER
-#undef DONT_USE_B_MODE
+#define DONT_USE_B_MODE 
 
 /* Define this if you want percent-done progress reports from cjpeg/djpeg. */
 #undef PROGRESS_REPORT
