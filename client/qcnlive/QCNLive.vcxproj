@@ -156,7 +156,7 @@
       <WarningLevel>Level3</WarningLevel>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>../sensor/motionnodeaccel/MotionNodeAccelAPI.lib;glu32.lib;opengl32.lib;$(QTDIR)\lib\qtmain.lib;wsock32.lib;hid.lib;setupapi.lib;winmm.lib;comctl32.lib;boinc_zip.lib;curllib.lib;jpeglib.lib;zlib.lib;MotionNodeAccelAPI.lib;QtOpenGL4.lib;QtGui4.lib;QtCore4.lib;ftgl.lib;freetype.lib;boinc_lib.lib;boinc_api.lib;$(QTDIR)\lib\Qt5OpenGL.lib;$(QTDIR)\lib\Qt5Widgets.lib;$(QTDIR)\lib\Qt5Gui.lib;$(QTDIR)\lib\Qt5Core.lib;libEGL.lib;libGLESv2.lib;gdi32.lib;user32.lib;Qt5Gui.lib;Qt5OpenGL.lib;Qt5PrintSupport.lib;Qt5Widgets.lib;Qt5Core.lib;Ws2_32.lib;Wldap32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>../sensor/motionnodeaccel/MotionNodeAccelAPI.lib;glu32.lib;opengl32.lib;wsock32.lib;hid.lib;setupapi.lib;winmm.lib;comctl32.lib;boinc_zipl.lib;libcurll.lib;jpeglibl.lib;zlibl.lib;ftgll.lib;freetypel.lib;boinc_libl.lib;boinc_apil.lib;$(QTDIR)\lib\qtmain.lib;$(QTDIR)\lib\Qt5PrintSupport.lib;$(QTDIR)\lib\Qt5OpenGL.lib;$(QTDIR)\lib\Qt5Widgets.lib;$(QTDIR)\lib\Qt5Gui.lib;$(QTDIR)\lib\Qt5Core.lib;libEGL.lib;libGLESv2.lib;gdi32.lib;user32.lib;Ws2_32.lib;Wldap32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(QTDIR)\lib;c:/projects/qcn/client/win_build,;C:\Qt\Qt5.0.0\5.0.0\msvc2010/lib;C:\Qt\Qt5.0.0\5.0.0\msvc2010\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>"/MANIFESTDEPENDENCY:type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' publicKeyToken='6595b64144ccf1df' language='*' processorArchitecture='*'" %(AdditionalOptions)</AdditionalOptions>
       <DataExecutionPrevention>true</DataExecutionPrevention>
@@ -270,19 +270,6 @@
     <ClCompile Include="..\sensor\csensor_win_usb_jw24f14.cpp" />
     <ClCompile Include="..\sensor\csensor_win_usb_onavi01.cpp" />
     <ClCompile Include="..\util\cserialize.cpp" />
-    <ClCompile Include="DebugDLL\moc_dlgmakequake.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseDLL|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="DebugDLL\moc_dlgsettings.cpp" />
-    <ClCompile Include="DebugDLL\moc_glwidget.cpp" />
-    <ClCompile Include="DebugDLL\moc_myframe.cpp" />
-    <ClCompile Include="DebugDLL\moc_qcnqt.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseDLL|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
     <ClCompile Include="dlgmakequake.cpp" />
     <ClCompile Include="dlgsettings.cpp" />
     <ClCompile Include="..\util\execproc.cpp" />
@@ -313,11 +300,11 @@
     <ClCompile Include="..\util\trickledown.cpp" />
     <ClCompile Include="..\util\trickleup.cpp" />
     <ClCompile Include="..\util\ttfont.cpp" />
-    <ClCompile Include="Release\moc_qcnqt.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugDLL|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
+    <ClCompile Include="ReleaseDLL\moc_dlgmakequake.cpp" />
+    <ClCompile Include="ReleaseDLL\moc_dlgsettings.cpp" />
+    <ClCompile Include="ReleaseDLL\moc_glwidget.cpp" />
+    <ClCompile Include="ReleaseDLL\moc_myframe.cpp" />
+    <ClCompile Include="ReleaseDLL\moc_qcnqt.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\main\define.h" />
@@ -414,27 +401,6 @@
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ConfigurationName)\moc_%(Filename).cpp;%(Outputs)</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='DebugDLL|Win32'">$(ConfigurationName)\moc_%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="Release\moc_dlgmakequake.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugDLL|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="Release\moc_dlgsettings.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugDLL|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="Release\moc_glwidget.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugDLL|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="Release\moc_myframe.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugDLL|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />

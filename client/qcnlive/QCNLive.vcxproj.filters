@@ -29,9 +29,7 @@
       <UniqueIdentifier>{22864900-b939-4749-982c-2ee1caa891b9}</UniqueIdentifier>
     </Filter>
     <Filter Include="Generated Files\ReleaseDLL">
-      <UniqueIdentifier>{1e9f9162-d599-4414-bbe8-0b15bdfe88eb}</UniqueIdentifier>
-      <Extensions>cpp;moc</Extensions>
-      <SourceControlFiles>False</SourceControlFiles>
+      <UniqueIdentifier>{9b84f420-0786-43ee-97da-be246f72e407}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -155,35 +153,20 @@
     <ClCompile Include="..\util\ttfont.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Release\moc_dlgmakequake.cpp">
+    <ClCompile Include="ReleaseDLL\moc_dlgmakequake.cpp">
       <Filter>Generated Files\ReleaseDLL</Filter>
     </ClCompile>
-    <ClCompile Include="Release\moc_dlgsettings.cpp">
+    <ClCompile Include="ReleaseDLL\moc_dlgsettings.cpp">
       <Filter>Generated Files\ReleaseDLL</Filter>
     </ClCompile>
-    <ClCompile Include="Release\moc_glwidget.cpp">
+    <ClCompile Include="ReleaseDLL\moc_glwidget.cpp">
       <Filter>Generated Files\ReleaseDLL</Filter>
     </ClCompile>
-    <ClCompile Include="Release\moc_myframe.cpp">
+    <ClCompile Include="ReleaseDLL\moc_myframe.cpp">
       <Filter>Generated Files\ReleaseDLL</Filter>
     </ClCompile>
-    <ClCompile Include="Release\moc_qcnqt.cpp">
+    <ClCompile Include="ReleaseDLL\moc_qcnqt.cpp">
       <Filter>Generated Files\ReleaseDLL</Filter>
-    </ClCompile>
-    <ClCompile Include="DebugDLL\moc_dlgmakequake.cpp">
-      <Filter>Generated Files\DebugDLL</Filter>
-    </ClCompile>
-    <ClCompile Include="DebugDLL\moc_dlgsettings.cpp">
-      <Filter>Generated Files\DebugDLL</Filter>
-    </ClCompile>
-    <ClCompile Include="DebugDLL\moc_glwidget.cpp">
-      <Filter>Generated Files\DebugDLL</Filter>
-    </ClCompile>
-    <ClCompile Include="DebugDLL\moc_myframe.cpp">
-      <Filter>Generated Files\DebugDLL</Filter>
-    </ClCompile>
-    <ClCompile Include="DebugDLL\moc_qcnqt.cpp">
-      <Filter>Generated Files\DebugDLL</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
