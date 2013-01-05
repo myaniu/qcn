@@ -204,13 +204,14 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>../../../boinc/lib;../../../boinc/zip;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;DLL;_CRT_SECURE_NO_WARNINGS;NO_MKTEMP;USE_ZIPMAIN;NO_CRYPT;IZ_PWLEN=80;NO_ASM;NO_UNICODE_SUPPORT;inflate=inflate_boinc;deflate=deflate_boinc;get_crc_table=get_crc_table_boinc;longest_match=longest_match_boinc;inflate_codes=inflate_codes_boinc;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WIN32;WIN32;_DEBUG;_LIB;DLL;_CRT_SECURE_NO_WARNINGS;NO_MKTEMP;USE_ZIPMAIN;NO_CRYPT;IZ_PWLEN=80;NO_ASM;NO_UNICODE_SUPPORT;inflate=inflate_boinc;deflate=deflate_boinc;get_crc_table=get_crc_table_boinc;longest_match=longest_match_boinc;inflate_codes=inflate_codes_boinc;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <PrecompiledHeaderOutputFile>
       </PrecompiledHeaderOutputFile>
       <AssemblerListingLocation>Debug/</AssemblerListingLocation>
-      <ObjectFileName>../../../boinc/zip</ObjectFileName>
+      <ObjectFileName>
+      </ObjectFileName>
       <ProgramDataBaseFileName>Debug/</ProgramDataBaseFileName>
       <WarningLevel>Level3</WarningLevel>
       <SuppressStartupBanner>true</SuppressStartupBanner>
@@ -260,7 +261,7 @@
       <Optimization>MaxSpeed</Optimization>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
       <AdditionalIncludeDirectories>../../../boinc/lib;../../../boinc/zip;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;DLL;_CRT_SECURE_NO_WARNINGS;NO_MKTEMP;USE_ZIPMAIN;NO_CRYPT;IZ_PWLEN=80;NO_ASM;NO_UNICODE_SUPPORT;deflate=deflate_boinc;get_crc_table=get_crc_table_boinc;longest_match=longest_match_boinc;inflate_codes=inflate_codes_boinc;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WIN32;WIN32;NDEBUG;_LIB;DLL;_CRT_SECURE_NO_WARNINGS;NO_MKTEMP;USE_ZIPMAIN;NO_CRYPT;IZ_PWLEN=80;NO_ASM;NO_UNICODE_SUPPORT;inflate=inflate_boinc;deflate=deflate_boinc;get_crc_table=get_crc_table_boinc;longest_match=longest_match_boinc;inflate_codes=inflate_codes_boinc;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -315,7 +316,7 @@
       <Optimization>MaxSpeed</Optimization>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
       <AdditionalIncludeDirectories>../../../boinc/lib;../../../boinc/zip;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;DLL;_CRT_SECURE_NO_WARNINGS;NO_MKTEMP;USE_ZIPMAIN;NO_CRYPT;IZ_PWLEN=80;NO_ASM;NO_UNICODE_SUPPORT;deflate=deflate_boinc;get_crc_table=get_crc_table_boinc;longest_match=longest_match_boinc;inflate_codes=inflate_codes_boinc;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WIN32;WIN32;NDEBUG;_LIB;DLL;_CRT_SECURE_NO_WARNINGS;NO_MKTEMP;USE_ZIPMAIN;NO_CRYPT;IZ_PWLEN=80;NO_ASM;NO_UNICODE_SUPPORT;inflate=inflate_boinc;deflate=deflate_boinc;get_crc_table=get_crc_table_boinc;longest_match=longest_match_boinc;inflate_codes=inflate_codes_boinc;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -369,7 +370,7 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>../../../boinc/lib;../../../boinc/zip;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>USE_ZIPMAIN;WIN32;DLL;_MT;_DLL;API;_DEBUG;_LIB;_CRT_SECURE_NO_DEPRECATE;_USE_32BIT_TIME_T;_WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WIN32;WIN32;_DEBUG;_LIB;DLL;_CRT_SECURE_NO_WARNINGS;NO_MKTEMP;USE_ZIPMAIN;NO_CRYPT;IZ_PWLEN=80;NO_ASM;NO_UNICODE_SUPPORT;inflate=inflate_boinc;deflate=deflate_boinc;get_crc_table=get_crc_table_boinc;longest_match=longest_match_boinc;inflate_codes=inflate_codes_boinc;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <PrecompiledHeaderOutputFile>
