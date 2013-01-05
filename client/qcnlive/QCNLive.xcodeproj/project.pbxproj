@@ -530,6 +530,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CONFIGURATION_BUILD_DIR = ../bin;
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = /Developer/Qt5.0.0/5.0.0/clang_64/lib;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
@@ -627,7 +628,7 @@
 				);
 				PRODUCT_NAME = qcnlive;
 				SDKROOT = macosx10.7;
-				SYMROOT = build;
+				SYMROOT = ../bin;
 			};
 			name = Debug;
 		};
@@ -682,6 +683,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CONFIGURATION_BUILD_DIR = ../bin;
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = /Developer/Qt5.0.0/5.0.0/clang_64/lib;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
@@ -778,7 +780,7 @@
 				);
 				PRODUCT_NAME = qcnlive;
 				SDKROOT = macosx10.7;
-				SYMROOT = build;
+				SYMROOT = ../bin;
 			};
 			name = Release;
 		};
