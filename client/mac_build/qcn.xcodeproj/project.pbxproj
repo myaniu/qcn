@@ -1018,6 +1018,7 @@
 					Carbon,
 					"-framework",
 					Cocoa,
+					"-ljpeg",
 				);
 				PRODUCT_NAME = qcn_graphics;
 				SDKROOT = macosx10.7;
@@ -1082,6 +1083,7 @@
 					Carbon,
 					"-framework",
 					Cocoa,
+					"-ljpeg",
 				);
 				PRODUCT_NAME = qcn_graphics;
 				SDKROOT = macosx10.7;
