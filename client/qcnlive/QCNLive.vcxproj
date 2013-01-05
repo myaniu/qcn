@@ -163,7 +163,7 @@
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <IgnoreImportLibrary>true</IgnoreImportLibrary>
       <LinkIncremental>false</LinkIncremental>
-      <OutputFile>$(OutDir)\QCNLive.exe</OutputFile>
+      <OutputFile>..\bin\QCNLive.exe</OutputFile>
       <RandomizedBaseAddress>true</RandomizedBaseAddress>
       <SubSystem>Windows</SubSystem>
       <SuppressStartupBanner>true</SuppressStartupBanner>
@@ -270,6 +270,21 @@
     <ClCompile Include="..\sensor\csensor_win_usb_jw24f14.cpp" />
     <ClCompile Include="..\sensor\csensor_win_usb_onavi01.cpp" />
     <ClCompile Include="..\util\cserialize.cpp" />
+    <ClCompile Include="DebugDLL\moc_dlgmakequake.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseDLL|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="DebugDLL\moc_dlgsettings.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseDLL|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="DebugDLL\moc_glwidget.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseDLL|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="DebugDLL\moc_myframe.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseDLL|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="DebugDLL\moc_qcnqt.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseDLL|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="dlgmakequake.cpp" />
     <ClCompile Include="dlgsettings.cpp" />
     <ClCompile Include="..\util\execproc.cpp" />
@@ -300,11 +315,23 @@
     <ClCompile Include="..\util\trickledown.cpp" />
     <ClCompile Include="..\util\trickleup.cpp" />
     <ClCompile Include="..\util\ttfont.cpp" />
-    <ClCompile Include="ReleaseDLL\moc_dlgmakequake.cpp" />
-    <ClCompile Include="ReleaseDLL\moc_dlgsettings.cpp" />
-    <ClCompile Include="ReleaseDLL\moc_glwidget.cpp" />
-    <ClCompile Include="ReleaseDLL\moc_myframe.cpp" />
-    <ClCompile Include="ReleaseDLL\moc_qcnqt.cpp" />
+    <ClCompile Include="ReleaseDLL\moc_dlgmakequake.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugDLL|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="ReleaseDLL\moc_dlgsettings.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugDLL|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="ReleaseDLL\moc_glwidget.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugDLL|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="ReleaseDLL\moc_myframe.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugDLL|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="ReleaseDLL\moc_qcnqt.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugDLL|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\main\define.h" />

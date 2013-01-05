@@ -3,9 +3,7 @@
 #include "qcnqt.h"
 #include "qcn_graphics.h"
 #include "qcn_curl.h"
-
 #include "glwidget.h"
-#include "qcnqt.h"
 
 #include <QPrinter>
 #include <QPrintPreviewDialog>

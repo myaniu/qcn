@@ -10,6 +10,12 @@
 #ifndef _QCNLIVE_H_
 #define _QCNLIVE_H_
 
+/*
+#ifdef _WIN32
+#include <QtPlugin> Q_IMPORT_PLUGIN(QWindowsIntegrationPlugin)
+#endif
+*/
+#include <QtPlugin>
 #include <QtGui>
 #include <QtOpenGL>
 

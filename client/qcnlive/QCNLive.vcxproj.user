@@ -11,7 +11,7 @@
     <QTDIR>C:\Qt\Qt5.0.0\5.0.0\msvc2010</QTDIR>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugDLL|Win32'">
-    <LocalDebuggerEnvironment>PATH=$(QTDIR)\bin%3b"$(QTDIR)\bin%3b$(PATH)</LocalDebuggerEnvironment>
+    <LocalDebuggerEnvironment>PATH=$(QTDIR)\bin%3b$(PATH)</LocalDebuggerEnvironment>
     <QTDIR>C:\Qt\Qt5.0.0\5.0.0\msvc2010</QTDIR>
     <LocalDebuggerCommand>c:\projects\qcn\client\bin\QCNLive.exe</LocalDebuggerCommand>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>

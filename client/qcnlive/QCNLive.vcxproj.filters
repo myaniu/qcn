@@ -21,137 +21,47 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
     <Filter Include="Generated Files\DebugDLL">
       <UniqueIdentifier>{22864900-b939-4749-982c-2ee1caa891b9}</UniqueIdentifier>
     </Filter>
     <Filter Include="Generated Files\ReleaseDLL">
       <UniqueIdentifier>{9b84f420-0786-43ee-97da-be246f72e407}</UniqueIdentifier>
     </Filter>
+    <Filter Include="qcn_graphics">
+      <UniqueIdentifier>{8b337fa8-0862-486d-9c0d-9bb126cddc25}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="qcn_sensor">
+      <UniqueIdentifier>{9c6e908b-4038-4481-846a-8310371dc248}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="qcn_util">
+      <UniqueIdentifier>{1f298b4d-52e8-4ff3-ae41-014cd02a6a72}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="qcn_qt_specific">
+      <UniqueIdentifier>{4edf7f67-9c63-497a-a6e9-d07003d55cc0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="qcn_main">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\graphics\coastline.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\sensor\csensor.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\sensor\csensor_usb_motionnodeaccel.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\sensor\csensor_usb_phidgets_1056.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\sensor\csensor_win_laptop_hp.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\sensor\csensor_win_laptop_thinkpad.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\sensor\csensor_win_usb_jw.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\sensor\csensor_win_usb_jw24f14.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\sensor\csensor_win_usb_onavi01.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\util\cserialize.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="dlgmakequake.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="dlgsettings.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\util\execproc.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="glwidget.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\util\gzstream.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\main\main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\util\md5.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="myframe.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\graphics\nation_boundary.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\graphics\plate_boundary.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\graphics\qcn_2dplot.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\graphics\qcn_cube.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\util\qcn_curl.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\graphics\qcn_earth.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\graphics\qcn_game_match.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\graphics\qcn_graphics.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>qcn_main</Filter>
     </ClCompile>
     <ClCompile Include="..\main\qcn_shmem.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\util\qcn_signal.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\util\qcn_thread.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>qcn_main</Filter>
     </ClCompile>
     <ClCompile Include="..\main\qcn_thread_sensor.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>qcn_main</Filter>
     </ClCompile>
     <ClCompile Include="..\main\qcn_thread_sensor_loop.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>qcn_main</Filter>
     </ClCompile>
     <ClCompile Include="..\main\qcn_thread_sensor_util.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>qcn_main</Filter>
     </ClCompile>
     <ClCompile Include="..\main\qcn_thread_time.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\util\qcn_util.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="qcnqt.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\util\sac.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\util\texture.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\util\trickledown.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\util\trickleup.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\util\ttfont.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>qcn_main</Filter>
     </ClCompile>
     <ClCompile Include="ReleaseDLL\moc_dlgmakequake.cpp">
       <Filter>Generated Files\ReleaseDLL</Filter>
@@ -167,6 +77,123 @@
     </ClCompile>
     <ClCompile Include="ReleaseDLL\moc_qcnqt.cpp">
       <Filter>Generated Files\ReleaseDLL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sensor\csensor.cpp">
+      <Filter>qcn_sensor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sensor\csensor_win_usb_onavi01.cpp">
+      <Filter>qcn_sensor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sensor\csensor_usb_motionnodeaccel.cpp">
+      <Filter>qcn_sensor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sensor\csensor_usb_phidgets_1056.cpp">
+      <Filter>qcn_sensor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sensor\csensor_win_laptop_hp.cpp">
+      <Filter>qcn_sensor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sensor\csensor_win_laptop_thinkpad.cpp">
+      <Filter>qcn_sensor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sensor\csensor_win_usb_jw.cpp">
+      <Filter>qcn_sensor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sensor\csensor_win_usb_jw24f14.cpp">
+      <Filter>qcn_sensor</Filter>
+    </ClCompile>
+    <ClCompile Include="dlgmakequake.cpp">
+      <Filter>qcn_qt_specific</Filter>
+    </ClCompile>
+    <ClCompile Include="dlgsettings.cpp">
+      <Filter>qcn_qt_specific</Filter>
+    </ClCompile>
+    <ClCompile Include="..\graphics\coastline.cpp">
+      <Filter>qcn_graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\util\cserialize.cpp">
+      <Filter>qcn_util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\util\execproc.cpp">
+      <Filter>qcn_util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\util\gzstream.cpp">
+      <Filter>qcn_util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\util\md5.cpp">
+      <Filter>qcn_util</Filter>
+    </ClCompile>
+    <ClCompile Include="glwidget.cpp">
+      <Filter>qcn_qt_specific</Filter>
+    </ClCompile>
+    <ClCompile Include="myframe.cpp">
+      <Filter>qcn_qt_specific</Filter>
+    </ClCompile>
+    <ClCompile Include="..\graphics\nation_boundary.cpp">
+      <Filter>qcn_graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\graphics\qcn_graphics.cpp">
+      <Filter>qcn_graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\graphics\plate_boundary.cpp">
+      <Filter>qcn_graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\graphics\qcn_2dplot.cpp">
+      <Filter>qcn_graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\graphics\qcn_cube.cpp">
+      <Filter>qcn_graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\util\qcn_curl.cpp">
+      <Filter>qcn_graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\graphics\qcn_earth.cpp">
+      <Filter>qcn_graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\graphics\qcn_game_match.cpp">
+      <Filter>qcn_graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\util\qcn_signal.cpp">
+      <Filter>qcn_util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\util\qcn_thread.cpp">
+      <Filter>qcn_util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\util\qcn_util.cpp">
+      <Filter>qcn_util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\util\sac.cpp">
+      <Filter>qcn_util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\util\trickledown.cpp">
+      <Filter>qcn_util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\util\trickleup.cpp">
+      <Filter>qcn_util</Filter>
+    </ClCompile>
+    <ClCompile Include="qcnqt.cpp">
+      <Filter>qcn_qt_specific</Filter>
+    </ClCompile>
+    <ClCompile Include="..\util\texture.cpp">
+      <Filter>qcn_graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\util\ttfont.cpp">
+      <Filter>qcn_graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="DebugDLL\moc_dlgmakequake.cpp">
+      <Filter>Generated Files\DebugDLL</Filter>
+    </ClCompile>
+    <ClCompile Include="DebugDLL\moc_dlgsettings.cpp">
+      <Filter>Generated Files\DebugDLL</Filter>
+    </ClCompile>
+    <ClCompile Include="DebugDLL\moc_glwidget.cpp">
+      <Filter>Generated Files\DebugDLL</Filter>
+    </ClCompile>
+    <ClCompile Include="DebugDLL\moc_myframe.cpp">
+      <Filter>Generated Files\DebugDLL</Filter>
+    </ClCompile>
+    <ClCompile Include="DebugDLL\moc_qcnqt.cpp">
+      <Filter>Generated Files\DebugDLL</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
