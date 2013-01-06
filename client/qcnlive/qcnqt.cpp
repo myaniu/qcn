@@ -3,7 +3,7 @@
 #include "qcnqt.h"
 #include "qcn_graphics.h"
 #include "qcn_curl.h"
-#include "glwidget.h"
+#include "qcnopenglwidget.h"
 
 // main program for Qt window
 int main(int argc, char *argv[])

@@ -24,7 +24,6 @@ QCNGLWidget::QCNGLWidget(QWidget *parent)
 	// init the OpenGL graphics vars from the qcn_graphics namespace
 	qcn_graphics::graphics_main(0, NULL);
 	setAutoBufferSwap(true);
-	glInit();
 }
 
 QCNGLWidget::~QCNGLWidget()
