@@ -48,7 +48,6 @@ moc_qcnqt.cpp: /Developer/Qt5.0.0/5.0.0/clang_64/include/QtWidgets/QApplication 
 		/Developer/Qt5.0.0/5.0.0/clang_64/include/QtCore/QTimer \
 		../main/main.h \
 		../main/define.h \
-		../../../qcn/config.h.win \
 		../../../qcn/config.h \
 		../../../boinc/api/boinc_gl.h \
 		../util/qcn_util.h \
@@ -59,7 +58,6 @@ moc_qcnqt.cpp: /Developer/Qt5.0.0/5.0.0/clang_64/include/QtWidgets/QApplication 
 		../main/qcn_thread_sensor.h \
 		../util/qcn_signal.h \
 		../util/execproc.h \
-		../../../boinc/lib/boinc_win.h \
 		../sensor/csensor.h \
 		../../../boinc/api/boinc_api.h \
 		../../../boinc/lib/diagnostics.h \
@@ -95,7 +93,6 @@ moc_glwidget.cpp: qcnqt.h \
 		/Developer/Qt5.0.0/5.0.0/clang_64/include/QtCore/QTimer \
 		../main/main.h \
 		../main/define.h \
-		../../../qcn/config.h.win \
 		../../../qcn/config.h \
 		../../../boinc/api/boinc_gl.h \
 		../util/qcn_util.h \
@@ -106,7 +103,6 @@ moc_glwidget.cpp: qcnqt.h \
 		../main/qcn_thread_sensor.h \
 		../util/qcn_signal.h \
 		../util/execproc.h \
-		../../../boinc/lib/boinc_win.h \
 		../sensor/csensor.h \
 		../../../boinc/api/boinc_api.h \
 		../../../boinc/lib/diagnostics.h \
@@ -141,7 +137,6 @@ moc_myframe.cpp: qcnqt.h \
 		/Developer/Qt5.0.0/5.0.0/clang_64/include/QtCore/QTimer \
 		../main/main.h \
 		../main/define.h \
-		../../../qcn/config.h.win \
 		../../../qcn/config.h \
 		../../../boinc/api/boinc_gl.h \
 		../util/qcn_util.h \
@@ -152,7 +147,6 @@ moc_myframe.cpp: qcnqt.h \
 		../main/qcn_thread_sensor.h \
 		../util/qcn_signal.h \
 		../util/execproc.h \
-		../../../boinc/lib/boinc_win.h \
 		../sensor/csensor.h \
 		../../../boinc/api/boinc_api.h \
 		../../../boinc/lib/diagnostics.h \
@@ -187,7 +181,6 @@ moc_dlgsettings.cpp: qcnqt.h \
 		/Developer/Qt5.0.0/5.0.0/clang_64/include/QtCore/QTimer \
 		../main/main.h \
 		../main/define.h \
-		../../../qcn/config.h.win \
 		../../../qcn/config.h \
 		../../../boinc/api/boinc_gl.h \
 		../util/qcn_util.h \
@@ -198,7 +191,6 @@ moc_dlgsettings.cpp: qcnqt.h \
 		../main/qcn_thread_sensor.h \
 		../util/qcn_signal.h \
 		../util/execproc.h \
-		../../../boinc/lib/boinc_win.h \
 		../sensor/csensor.h \
 		../../../boinc/api/boinc_api.h \
 		../../../boinc/lib/diagnostics.h \
@@ -233,7 +225,6 @@ moc_dlgmakequake.cpp: qcnqt.h \
 		/Developer/Qt5.0.0/5.0.0/clang_64/include/QtCore/QTimer \
 		../main/main.h \
 		../main/define.h \
-		../../../qcn/config.h.win \
 		../../../qcn/config.h \
 		../../../boinc/api/boinc_gl.h \
 		../util/qcn_util.h \
@@ -244,7 +235,6 @@ moc_dlgmakequake.cpp: qcnqt.h \
 		../main/qcn_thread_sensor.h \
 		../util/qcn_signal.h \
 		../util/execproc.h \
-		../../../boinc/lib/boinc_win.h \
 		../sensor/csensor.h \
 		../../../boinc/api/boinc_api.h \
 		../../../boinc/lib/diagnostics.h \
