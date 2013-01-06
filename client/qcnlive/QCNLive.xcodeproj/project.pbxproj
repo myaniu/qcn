@@ -89,7 +89,7 @@
 		389D844839024C27E3EE1BD6 /* icons.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = icons.h; sourceTree = SOURCE_ROOT; };
 		3A9598F9D0008B7DC47F0F9B /* trickledown.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = trickledown.cpp; path = ../util/trickledown.cpp; sourceTree = SOURCE_ROOT; };
 		40A4D687C2287AC419FAC700 /* qcn_signal.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = qcn_signal.cpp; path = ../util/qcn_signal.cpp; sourceTree = SOURCE_ROOT; };
-		43031719169A04DB0075E451 /* qcnlive.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = qcnlive.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		43031719169A04DB0075E451 /* QCNLiveDebug.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QCNLiveDebug.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4303171D169A05F30075E451 /* qcnlive.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = qcnlive.entitlements; sourceTree = SOURCE_ROOT; };
 		51429100BF27A5856C26C3B7 /* qcnopenglwidget.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = qcnopenglwidget.cpp; sourceTree = SOURCE_ROOT; };
 		514B45140FBAF53969785617 /* qcn_earth.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = qcn_earth.cpp; path = ../graphics/qcn_earth.cpp; sourceTree = SOURCE_ROOT; };
@@ -222,7 +222,7 @@
 		4303171A169A04DB0075E451 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				43031719169A04DB0075E451 /* qcnlive.app */,
+				43031719169A04DB0075E451 /* QCNLiveDebug.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -381,7 +381,7 @@
 			);
 			name = QCNLive;
 			productName = qcnlive;
-			productReference = 43031719169A04DB0075E451 /* qcnlive.app */;
+			productReference = 43031719169A04DB0075E451 /* QCNLiveDebug.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -590,7 +590,7 @@
 					"-F/Library/Frameworks",
 					"-L/Users/carlgt1/projects/qcn/client/mac_build",
 				);
-				PRODUCT_NAME = QCNLive;
+				PRODUCT_NAME = QCNLiveDebug;
 				SDKROOT = macosx10.7;
 				SYMROOT = ../bin/;
 				VALID_ARCHS = x86_64;
@@ -606,7 +606,7 @@
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				OBJROOT = build/Release;
-				PRODUCT_NAME = qcnlive;
+				PRODUCT_NAME = QCNLive;
 				SDKROOT = macosx10.7;
 				SYMROOT = ../bin/;
 			};
@@ -622,7 +622,7 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				OBJROOT = build/Debug;
-				PRODUCT_NAME = qcnlive;
+				PRODUCT_NAME = QCNLiveDebug;
 				SDKROOT = macosx10.7;
 				SYMROOT = ../bin/;
 			};
