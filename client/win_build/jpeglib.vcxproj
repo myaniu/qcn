@@ -188,7 +188,7 @@
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <CompileAs>CompileAsC</CompileAs>
-      <AdditionalIncludeDirectories>../../../boinc/win_build</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../boinc/win_build;../../../boinc/samples/jpeglib</AdditionalIncludeDirectories>
     </ClCompile>
     <Lib>
       <OutputFile>jpeglibd.lib</OutputFile>
@@ -208,6 +208,7 @@
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <CompileAs>CompileAsC</CompileAs>
+      <AdditionalIncludeDirectories>../../../boinc/win_build;../../../boinc/samples/jpeglib</AdditionalIncludeDirectories>
     </ClCompile>
     <Lib>
       <OutputFile>jpeglibd64.lib</OutputFile>
@@ -218,7 +219,7 @@
       <PreprocessorDefinitions>_WIN32;WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <CompileAs>CompileAsC</CompileAs>
-      <AdditionalIncludeDirectories>../../../boinc/win_build</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../boinc/win_build;../../../boinc/samples/jpeglib</AdditionalIncludeDirectories>
     </ClCompile>
     <Lib>
       <OutputFile>jpeglib.lib</OutputFile>
@@ -242,7 +243,7 @@
       <PreprocessorDefinitions>_WIN32;WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <CompileAs>CompileAsC</CompileAs>
-      <AdditionalIncludeDirectories>../../../boinc/win_build</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../boinc/win_build;../../../boinc/samples/jpeglib</AdditionalIncludeDirectories>
     </ClCompile>
     <Lib>
       <OutputFile>jpeglibl.lib</OutputFile>
@@ -272,7 +273,7 @@
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <CompileAs>CompileAsC</CompileAs>
-      <AdditionalIncludeDirectories>../../../boinc/win_build</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../boinc/win_build;../../../boinc/samples/jpeglib</AdditionalIncludeDirectories>
     </ClCompile>
     <Lib>
       <OutputFile>jpeglibdl.lib</OutputFile>
@@ -308,7 +309,7 @@
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <CompileAs>CompileAsC</CompileAs>
-      <AdditionalIncludeDirectories>../../../boinc/win_build</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../boinc/win_build;../../../boinc/samples/jpeglib</AdditionalIncludeDirectories>
     </ClCompile>
     <Lib>
       <OutputFile>jpeglibdl.lib</OutputFile>
@@ -338,7 +339,7 @@
       <PreprocessorDefinitions>_WIN32;WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <CompileAs>CompileAsC</CompileAs>
-      <AdditionalIncludeDirectories>../../../boinc/win_build</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../boinc/win_build;../../../boinc/samples/jpeglib</AdditionalIncludeDirectories>
     </ClCompile>
     <Lib>
       <OutputFile>jpeglibl.lib</OutputFile>

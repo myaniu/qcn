@@ -240,7 +240,8 @@
       <PrecompiledHeaderOutputFile>
       </PrecompiledHeaderOutputFile>
       <AssemblerListingLocation>Debug/</AssemblerListingLocation>
-      <ObjectFileName>../../../boinc/zip</ObjectFileName>
+      <ObjectFileName>
+      </ObjectFileName>
       <ProgramDataBaseFileName>Debug/</ProgramDataBaseFileName>
       <WarningLevel>Level3</WarningLevel>
       <SuppressStartupBanner>true</SuppressStartupBanner>
@@ -296,7 +297,8 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <PrecompiledHeaderOutputFile>.\Release/boinc_zip.pch</PrecompiledHeaderOutputFile>
       <AssemblerListingLocation>.\Release64/</AssemblerListingLocation>
-      <ObjectFileName>.\Release64/</ObjectFileName>
+      <ObjectFileName>
+      </ObjectFileName>
       <ProgramDataBaseFileName>.\Release64/</ProgramDataBaseFileName>
       <WarningLevel>Level3</WarningLevel>
       <SuppressStartupBanner>true</SuppressStartupBanner>
@@ -351,7 +353,8 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <PrecompiledHeaderOutputFile>.\Release/boinc_zip.pch</PrecompiledHeaderOutputFile>
       <AssemblerListingLocation>.\Release64/</AssemblerListingLocation>
-      <ObjectFileName>.\Release64/</ObjectFileName>
+      <ObjectFileName>
+      </ObjectFileName>
       <ProgramDataBaseFileName>.\Release64/</ProgramDataBaseFileName>
       <WarningLevel>Level3</WarningLevel>
       <SuppressStartupBanner>true</SuppressStartupBanner>
@@ -405,7 +408,8 @@
       <PrecompiledHeaderOutputFile>
       </PrecompiledHeaderOutputFile>
       <AssemblerListingLocation>Debug/</AssemblerListingLocation>
-      <ObjectFileName>../../../boinc/zip</ObjectFileName>
+      <ObjectFileName>
+      </ObjectFileName>
       <ProgramDataBaseFileName>Debug/</ProgramDataBaseFileName>
       <WarningLevel>Level3</WarningLevel>
       <SuppressStartupBanner>true</SuppressStartupBanner>
