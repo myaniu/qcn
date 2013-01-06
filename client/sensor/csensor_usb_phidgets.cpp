@@ -131,6 +131,8 @@ bool CSensorUSBPhidgets::setupFunctionPointers()
                 "CPhidgetSpatial_getDataRateMin");
 	m_PtrCPhidgetSpatial_set_OnSpatialData_Handler = (PtrCPhidgetSpatial_set_OnSpatialData_Handler) 
               GET_PROC_ADDR(m_handleLibrary, "CPhidgetSpatial_set_OnSpatialData_Handler");
+	m_PtrCPhidget_getDeviceID = (PtrCPhidget_getDeviceID) GET_PROC_ADDR(m_handleLibrary,
+		   "CPhidget_getDeviceID");
 
         m_PtrCPhidget_enableLogging = (PtrCPhidget_enableLogging) GET_PROC_ADDR(m_handleLibrary, "CPhidget_enableLogging");
         m_PtrCPhidget_disableLogging = (PtrCPhidget_disableLogging) GET_PROC_ADDR(m_handleLibrary, "CPhidget_disableLogging");
@@ -149,7 +151,7 @@ bool CSensorUSBPhidgets::setupFunctionPointers()
 	m_PtrCPhidget_getDeviceStatus = (PtrCPhidget_getDeviceStatus) ::GetProcAddress(m_handleLibrary, "CPhidget_getDeviceStatus");
 	m_PtrCPhidget_getLibraryVersion = (PtrCPhidget_getLibraryVersion) ::GetProcAddress(m_handleLibrary, "CPhidget_getLibraryVersion");
 	m_PtrCPhidgetSpatial_create = (PtrCPhidgetSpatial_create) ::GetProcAddress(m_handleLibrary, "CPhidgetSpatial_create");
-	m_PtrCPhidget_getDeviceType = (PtrCPhidget_getDeviceType) ::GetProcAddress(m_handleLibrary, "CPhidget_getDeviceType");
+	m_PtrCPhidget_getDeviceType = (PtrCPhidget_getDeviceType) ::GetProcAddress(m_handleLibrary, "CPhidget_33");
 	m_PtrCPhidget_getDeviceLabel = (PtrCPhidget_getDeviceLabel) ::GetProcAddress(m_handleLibrary, "CPhidget_getDeviceLabel");
 
 	m_PtrCPhidget_set_OnAttach_Handler = (PtrCPhidget_set_OnAttach_Handler) ::GetProcAddress(m_handleLibrary, "CPhidget_set_OnAttach_Handler");
@@ -288,14 +290,14 @@ bool CSensorUSBPhidgets::detect()
 	// try a second to open
 	double dTime = dtime();
 
-        if((ret = m_PtrCPhidget_waitForAttachment((CPhidgetHandle)m_handlePhidgetSpatial, 2000))) {
+    if((ret = m_PtrCPhidget_waitForAttachment((CPhidgetHandle)m_handlePhidgetSpatial, 4000))) {
 	        const char *err;
 		m_PtrCPhidget_getErrorDescription(ret, &err);
-#if !defined(_WIN32) && !defined(__APPLE_CC__)
+//#if !defined(_WIN32) && !defined(__APPLE_CC__)
 #ifdef _DEBUG
 		fprintf(stderr, "Phidgets error waitForAttachment %d = %s\n", ret, err);
 #endif
-#endif
+//#endif
 		closePort();
 		return false;
 	}
@@ -316,7 +318,11 @@ bool CSensorUSBPhidgets::detect()
 	m_PtrCPhidgetSpatial_getCompassAxisCount(m_handlePhidgetSpatial, &m_iNumCompassAxes);
 	m_PtrCPhidgetSpatial_getDataRateMax(m_handlePhidgetSpatial, &m_iDataRateMax);
 	m_PtrCPhidgetSpatial_getDataRateMin(m_handlePhidgetSpatial, &m_iDataRateMin);
-	
+	m_PtrCPhidget_getDeviceName((CPhidgetHandle) m_handlePhidgetSpatial, &m_cstrDeviceName);
+	m_PtrCPhidget_getDeviceType((CPhidgetHandle) m_handlePhidgetSpatial, &m_cstrDeviceType); 
+	m_PtrCPhidget_getDeviceLabel((CPhidgetHandle) m_handlePhidgetSpatial, &m_cstrDeviceLabel); 
+	m_PtrCPhidget_getDeviceID((CPhidgetHandle) m_handlePhidgetSpatial, &m_enumPhidgetDeviceID);
+
 	if (m_iNumAccelAxes < 3) { // error as we should have 3 axes
 		fprintf(stderr, "Error - Phidgets Accel with %d axes\n", m_iNumAccelAxes);
 		closePort();
@@ -324,7 +330,7 @@ bool CSensorUSBPhidgets::detect()
 	}
 
 	char *strSensor = new char[256];
-	sprintf(strSensor, "Phidgets 1056 v.%d (Serial # %d) USB", m_iVersion, m_iSerialNum);
+	sprintf(strSensor, "%s v.%d (Serial # %d) USB", m_cstrDeviceName, m_iVersion, m_iSerialNum);
 	setSensorStr(strSensor);
 	delete [] strSensor;
 	fprintf(stdout, "%s detected in %f milliseconds\n", getTypeStr(), (dtime() - dTime) * 1000.0);
@@ -334,6 +340,7 @@ bool CSensorUSBPhidgets::detect()
    setSingleSampleDT(false);  // mn samples itself
 
    // NB: closePort resets the type & port, so have to set again 
+   // CMC here --how to differentiate 1044 vs 1056?
    setType(SENSOR_USB_PHIDGETS_1056);
    setPort(getTypeEnum());
 	

@@ -48,7 +48,6 @@ using namespace std;
 extern int CCONV PhidgetsDetachHandler(CPhidgetHandle spatial, void *userPtr);
 
 // function pointers in the Phidgets shared object/dylib/DLL
-// CMC HERE
 typedef int 	(PHIDGETS_CALL_API * PtrCPhidget_open)  (CPhidgetHandle phid, int serialNumber);
 typedef int 	(PHIDGETS_CALL_API * PtrCPhidget_close) (CPhidgetHandle phid);
 typedef int 	(PHIDGETS_CALL_API * PtrCPhidget_delete) (CPhidgetHandle phid);
@@ -61,6 +60,7 @@ typedef int 	(PHIDGETS_CALL_API * PtrCPhidget_getDeviceStatus)  (CPhidgetHandle 
 typedef int 	(PHIDGETS_CALL_API * PtrCPhidget_getLibraryVersion)  (const char **libraryVersion);
 typedef int 	(PHIDGETS_CALL_API * PtrCPhidget_getDeviceType)  (CPhidgetHandle phid, const char **deviceType);
 typedef int 	(PHIDGETS_CALL_API * PtrCPhidget_getDeviceLabel) (CPhidgetHandle phid, const char **deviceLabel);
+typedef int     (PHIDGETS_CALL_API * PtrCPhidget_getDeviceID)    (CPhidgetHandle phid, CPhidget_DeviceID *deviceID);
 
 // callback function handlers
 typedef int 	(PHIDGETS_CALL_API * PtrCPhidget_set_OnDetach_Handler) (CPhidgetHandle phid, int(CCONV *fptr)(CPhidgetHandle phid, void *userPtr), void *userPtr);
@@ -80,8 +80,7 @@ typedef int 	(PHIDGETS_CALL_API * PtrCPhidgetSpatial_getDataRate) (CPhidgetSpati
 typedef int 	(PHIDGETS_CALL_API * PtrCPhidgetSpatial_setDataRate) (CPhidgetSpatialHandle phid, int milliseconds);
 typedef int 	(PHIDGETS_CALL_API * PtrCPhidgetSpatial_getDataRateMax) (CPhidgetSpatialHandle phid, int *max);
 typedef int 	(PHIDGETS_CALL_API * PtrCPhidgetSpatial_getDataRateMin) (CPhidgetSpatialHandle phid, int *min);
-typedef int 	(PHIDGETS_CALL_API * PtrCPhidgetSpatial_set_OnSpatialData_Handler) (CPhidgetSpatialHandle phid, 
-   int(*fptr)(CPhidgetSpatialHandle phid, void *userPtr, CPhidgetSpatial_SpatialEventDataHandle *data, int dataCount), void *userPtr);
+typedef int 	(PHIDGETS_CALL_API * PtrCPhidgetSpatial_set_OnSpatialData_Handler) (CPhidgetSpatialHandle phid, CPhidget_DeviceID *deviceID);
 
 // some useful logging stuff
 typedef int     (PHIDGETS_CALL_API * PtrCPhidget_enableLogging) (CPhidgetLog_level level, const char *outputFile);
@@ -102,6 +101,10 @@ class CSensorUSBPhidgets  : public CSensor
 	int m_iDataRateMin;
         bool m_bLogging;
 	int m_iModelSearch;
+	const char* m_cstrDeviceType;
+	const char* m_cstrDeviceLabel;
+	const char* m_cstrDeviceName;
+	CPhidget_DeviceID m_enumPhidgetDeviceID;
 
 	CPhidgetSpatialHandle m_handlePhidgetSpatial;
 	
@@ -126,6 +129,7 @@ class CSensorUSBPhidgets  : public CSensor
 	PtrCPhidget_getLibraryVersion m_PtrCPhidget_getLibraryVersion;
 	PtrCPhidget_getDeviceType m_PtrCPhidget_getDeviceType;
 	PtrCPhidget_getDeviceLabel m_PtrCPhidget_getDeviceLabel;
+	PtrCPhidget_getDeviceID m_PtrCPhidget_getDeviceID;
 	
 	// callback function handlers	
 	PtrCPhidget_set_OnAttach_Handler m_PtrCPhidget_set_OnAttach_Handler;

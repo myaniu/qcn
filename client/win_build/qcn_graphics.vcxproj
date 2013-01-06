@@ -206,7 +206,7 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <WholeProgramOptimization>false</WholeProgramOptimization>
-      <AdditionalIncludeDirectories>../../zlib-1.2.5;../../;../main;../graphics;../sensor;../util;../../../boinc/lib;../../../boinc/api;../../../boinc/samples/jpeglib;../../freetype-2.4.6/include;../../../boinc/zip;../../ftgl-2.1.3/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../zlib-1.2.5;../../;../main;../graphics;../sensor;../util;../../../boinc/lib;../../../boinc/api;../../../boinc/samples/jpeglib;../../freetype-2.4.6/include;../../../boinc/zip;../../ftgl-2.1.3/include;../../../boinc/win_build;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>QCNGRAPHICS;FTGL_LIBRARY_STATIC;_WIN32;WIN32;_DEBUG;_ZLIB;_CRT_SECURE_NO_DEPRECATE;GRAPHICS_PROGRAM;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ExceptionHandling>Sync</ExceptionHandling>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -280,7 +280,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>../../zlib-1.2.5;../../;../main;../graphics;../sensor;../util;../../../boinc/lib;../../../boinc/api;../../../boinc/samples/jpeglib;../../freetype-2.4.6/include;../../../boinc/zip;../../ftgl-2.1.3/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../zlib-1.2.5;../../;../main;../graphics;../sensor;../util;../../../boinc/lib;../../../boinc/api;../../../boinc/samples/jpeglib;../../freetype-2.4.6/include;../../../boinc/zip;../../ftgl-2.1.3/include;../../../boinc/win_build;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>QCNGRAPHICS;FTGL_LIBRARY_STATIC;_WIN32;NDEBUG;_ZLIB;_CRT_SECURE_NO_DEPRECATE;GRAPHICS_PROGRAM;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <ForcedIncludeFiles>windows.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
@@ -333,7 +333,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseDLL|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>../../zlib-1.2.5;../../;../main;../graphics;../sensor;../util;../../../boinc/lib;../../../boinc/api;../../../boinc/samples/jpeglib;../../freetype-2.4.6/include;../../../boinc/zip;../../ftgl-2.1.3/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../zlib-1.2.5;../../;../main;../graphics;../sensor;../util;../../../boinc/lib;../../../boinc/api;../../../boinc/samples/jpeglib;../../freetype-2.4.6/include;../../../boinc/zip;../../ftgl-2.1.3/include;../../../boinc/win_build;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>QCNGRAPHICS;FTGL_LIBRARY_STATIC;_WIN32;NDEBUG;_ZLIB;_CRT_SECURE_NO_DEPRECATE;GRAPHICS_PROGRAM;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <ForcedIncludeFiles>windows.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
@@ -387,7 +387,7 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <WholeProgramOptimization>false</WholeProgramOptimization>
-      <AdditionalIncludeDirectories>../../zlib-1.2.5;../../;../main;../graphics;../sensor;../util;../../../boinc/lib;../../../boinc/api;../../../boinc/samples/jpeglib;../../freetype-2.4.6/include;../../../boinc/zip;../../ftgl-2.1.3/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../zlib-1.2.5;../../;../main;../graphics;../sensor;../util;../../../boinc/lib;../../../boinc/api;../../../boinc/samples/jpeglib;../../freetype-2.4.6/include;../../../boinc/zip;../../ftgl-2.1.3/include;../../../boinc/win_build;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>QCNGRAPHICS;FTGL_LIBRARY_STATIC;_WIN32;WIN32;_DEBUG;_ZLIB;_CRT_SECURE_NO_DEPRECATE;GRAPHICS_PROGRAM;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ExceptionHandling>Sync</ExceptionHandling>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -463,7 +463,7 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <WholeProgramOptimization>false</WholeProgramOptimization>
-      <AdditionalIncludeDirectories>../../zlib-1.2.5;../../;../main;../graphics;../sensor;../util;../../../boinc/lib;../../../boinc/api;../../../boinc/samples/jpeglib;../../freetype-2.4.6/include;../../../boinc/zip;../../ftgl-2.1.3/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../zlib-1.2.5;../../;../main;../graphics;../sensor;../util;../../../boinc/lib;../../../boinc/api;../../../boinc/samples/jpeglib;../../freetype-2.4.6/include;../../../boinc/zip;../../ftgl-2.1.3/include;../../../boinc/win_build;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>QCNGRAPHICS;FTGL_LIBRARY_STATIC;_WIN32;WIN32;_DEBUG;_ZLIB;_CRT_SECURE_NO_DEPRECATE;GRAPHICS_PROGRAM;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ExceptionHandling>Sync</ExceptionHandling>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -537,7 +537,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseDLLRaw|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>../../zlib-1.2.5;../../;../main;../graphics;../sensor;../util;../../../boinc/lib;../../../boinc/api;../../../boinc/samples/jpeglib;../../freetype-2.4.6/include;../../../boinc/zip;../../ftgl-2.1.3/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../zlib-1.2.5;../../;../main;../graphics;../sensor;../util;../../../boinc/lib;../../../boinc/api;../../../boinc/samples/jpeglib;../../freetype-2.4.6/include;../../../boinc/zip;../../ftgl-2.1.3/include;../../../boinc/win_build;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>QCNGRAPHICS;FTGL_LIBRARY_STATIC;_WIN32;NDEBUG;_ZLIB;_CRT_SECURE_NO_DEPRECATE;GRAPHICS_PROGRAM;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <ForcedIncludeFiles>windows.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
@@ -602,9 +602,6 @@
     <ClCompile Include="..\util\qcn_util.cpp" />
     <ClCompile Include="..\util\texture.cpp" />
     <ClCompile Include="..\util\ttfont.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\config.h.win" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\main\define.h" />

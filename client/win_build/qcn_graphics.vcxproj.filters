@@ -65,11 +65,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\config.h.win">
-      <Filter>Header Files</Filter>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="..\main\define.h">
       <Filter>Header Files</Filter>
     </ClInclude>

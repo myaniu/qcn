@@ -35,7 +35,7 @@ struct SSerInfo {
 };
 
 // this is the Windows implementation of the sensor - IBM/Lenovo Thinkpad, HP, USB Stick
-class CSensorWinUSBONavi01  : public CSensor
+class CSensorWinUSBONavi  : public CSensor
 {
    private:
 	  // usb stick stuff
@@ -53,8 +53,8 @@ class CSensorWinUSBONavi01  : public CSensor
 	  bool SearchONaviSerialPort(SSerInfo& si, const bool bIgnoreBusyPorts=true);
 
    public:
-      CSensorWinUSBONavi01();
-      virtual ~CSensorWinUSBONavi01();
+      CSensorWinUSBONavi();
+      virtual ~CSensorWinUSBONavi();
 
      virtual void closePort(); // closes the port if open
      virtual bool detect();   // this detects & initializes a sensor on a Mac G4/PPC or Intel laptop, sets m_iType to 0 if not found
