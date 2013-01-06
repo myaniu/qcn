@@ -58,11 +58,11 @@ unix {
 }
 win32 {
  LIBS += -L$$BASEDIRQCN/client/win_build, \
-c:/projects/qcn/client/win_build,../sensor/motionnodeaccel \
+c:/projects/qcn/client/win_build, \
 glu32.lib opengl32.lib gdi32.lib user32.lib \
 qtmain.lib wsock32.lib hid.lib setupapi.lib winmm.lib \
 comctl32.lib boinc_zip.lib curllib.lib jpeglib.lib zlib.lib \
-MotionNodeAccelAPI.lib Qt5OpenGL.lib Qt5Gui.lib Qt5Core.lib \
+Qt5OpenGL.lib Qt5Gui.lib Qt5Core.lib \
 ftgl.lib freetype.lib boinc_lib.lib boinc_api.lib
 }
 DEFINES += _USE_NTPDATE_EXEC_ FTGL_LIBRARY_STATIC QCNLIVE GRAPHICS_PROGRAM APP_GRAPHICS _ZLIB QCN _THREAD_SAFE CURL_STATICLIB _ZLIB $$WINDEF
@@ -93,7 +93,6 @@ SRC_SENSOR = $$SENSORDIR/csensor_win_laptop_hp.cpp \
            $$SENSORDIR/csensor_win_laptop_thinkpad.cpp \
            $$SENSORDIR/csensor_win_usb_jw.cpp \
            $$SENSORDIR/csensor_win_usb_jw24f14.cpp \
-           $$SENSORDIR/csensor_usb_motionnodeaccel.cpp \
            $$SENSORDIR/csensor_usb_phidgets.cpp \
            $$SENSORDIR/csensor_win_usb_onavi.cpp \
            $$SENSORDIR/csensor.cpp
@@ -101,7 +100,6 @@ SRC_SENSOR = $$SENSORDIR/csensor_win_laptop_hp.cpp \
 
 macx{
 SRC_SENSOR = $$SENSORDIR/csensor_mac_laptop.cpp \
-           $$SENSORDIR/csensor_usb_motionnodeaccel.cpp \
            $$SENSORDIR/csensor_usb_phidgets.cpp \
            $$SENSORDIR/csensor_mac_usb_onavi.cpp \
            $$SENSORDIR/csensor_mac_usb_jw.cpp \
@@ -115,7 +113,6 @@ unix {
            $$SENSORDIR/csensor_linux_usb_jw.cpp \
            $$SENSORDIR/csensor_linux_usb_jw24f14.cpp \
            $$SENSORDIR/csensor_linux_usb_onavi.cpp \
-           $$SENSORDIR/csensor_usb_motionnodeaccel.cpp \
            $$SENSORDIR/csensor_usb_phidgets.cpp \
            $$SENSORDIR/csensor.cpp
  }
