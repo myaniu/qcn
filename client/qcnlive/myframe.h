@@ -2,7 +2,7 @@
 #define _MYFRAME_H_
 
 #include "qcnqt.h"
-#include "glwidget.h"
+#include "qcnopenglwidget.h"
 
 #include <QApplication>
 #include <QMainWindow>
@@ -13,7 +13,7 @@
 #include <QLabel>
 #include <QDockWidget>
 
-class GLWidget;
+class QCNGLWidget;
 class MyApp;
 
 /*
@@ -40,7 +40,7 @@ private:
     QWidget* m_centralWidget;
     QScrollArea* m_glWidgetArea;
     //QScrollArea* pixmapLabelArea;
-    GLWidget* m_glWidget;
+    QCNGLWidget* m_glWidget;
 	//QStatusBar* m_statusbar;
 	QDockWidget* m_dockWidgetView;
 	QDockWidget* m_dockWidgetOption;

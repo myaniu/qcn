@@ -152,7 +152,7 @@ SRC_GRAPHICS = $$GRAPHICSDIR/qcn_graphics.cpp \
       $$GRAPHICSDIR/plate_boundary.cpp
 
 HEADERS       += qcnqt.h $$WININCLUDE \
-                glwidget.h \
+                qcnopenglwidget.h \
                 myframe.h \
                 dlgsettings.h \
                 dlgmakequake.h \
@@ -162,7 +162,7 @@ HEADERS       += qcnqt.h $$WININCLUDE \
                 $$MAINDIR/define.h
 
 
-SOURCES       = glwidget.cpp \
+SOURCES       = qcnopenglwidget.cpp \
                 qcnqt.cpp \
                 myframe.cpp \
                 dlgsettings.cpp \

@@ -43,6 +43,16 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
+    <Filter Include="Generated Files\Release">
+      <UniqueIdentifier>{c9fe81b2-03da-423a-8ed0-d0e6d0a146fc}</UniqueIdentifier>
+      <Extensions>cpp;moc</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+    <Filter Include="Generated Files\Debug">
+      <UniqueIdentifier>{0eb4642b-27a0-4f13-96f5-4296bc32f1c1}</UniqueIdentifier>
+      <Extensions>cpp;moc</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\main\main.cpp">
@@ -67,9 +77,6 @@
       <Filter>Generated Files\ReleaseDLL</Filter>
     </ClCompile>
     <ClCompile Include="ReleaseDLL\moc_dlgsettings.cpp">
-      <Filter>Generated Files\ReleaseDLL</Filter>
-    </ClCompile>
-    <ClCompile Include="ReleaseDLL\moc_glwidget.cpp">
       <Filter>Generated Files\ReleaseDLL</Filter>
     </ClCompile>
     <ClCompile Include="ReleaseDLL\moc_myframe.cpp">
@@ -116,9 +123,6 @@
     </ClCompile>
     <ClCompile Include="..\util\md5.cpp">
       <Filter>qcn_util</Filter>
-    </ClCompile>
-    <ClCompile Include="glwidget.cpp">
-      <Filter>qcn_qt_specific</Filter>
     </ClCompile>
     <ClCompile Include="myframe.cpp">
       <Filter>qcn_qt_specific</Filter>
@@ -180,9 +184,6 @@
     <ClCompile Include="DebugDLL\moc_dlgsettings.cpp">
       <Filter>Generated Files\DebugDLL</Filter>
     </ClCompile>
-    <ClCompile Include="DebugDLL\moc_glwidget.cpp">
-      <Filter>Generated Files\DebugDLL</Filter>
-    </ClCompile>
     <ClCompile Include="DebugDLL\moc_myframe.cpp">
       <Filter>Generated Files\DebugDLL</Filter>
     </ClCompile>
@@ -195,6 +196,21 @@
     <ClCompile Include="..\sensor\csensor_win_usb_onavi.cpp">
       <Filter>qcn_sensor</Filter>
     </ClCompile>
+    <ClCompile Include="qcnopenglwidget.cpp">
+      <Filter>qcn_qt_specific</Filter>
+    </ClCompile>
+    <ClCompile Include="DebugDLL\moc_qcnopenglwidget.cpp">
+      <Filter>Generated Files\DebugDLL</Filter>
+    </ClCompile>
+    <ClCompile Include="ReleaseDLL\moc_qcnopenglwidget.cpp">
+      <Filter>Generated Files\ReleaseDLL</Filter>
+    </ClCompile>
+    <ClCompile Include="Release\moc_qcnopenglwidget.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Debug\moc_qcnopenglwidget.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\main\define.h">
@@ -204,9 +220,6 @@
       <Filter>Header Files</Filter>
     </CustomBuild>
     <CustomBuild Include="dlgsettings.h">
-      <Filter>Header Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="glwidget.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
     <ClInclude Include="icons.h">
@@ -227,5 +240,10 @@
     <ClInclude Include="..\graphics\qcn_graphics.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="qcnopenglwidget.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
   </ItemGroup>
 </Project>

@@ -6,10 +6,10 @@
 
 #include <math.h>
 
-#include "glwidget.h"
+#include "qcnopenglwidget.h"
 #include "qcn_earth.h"
 
-GLWidget::GLWidget(QWidget *parent)
+QCNGLWidget::QCNGLWidget(QWidget *parent)
     : QGLWidget(parent)
 {
 	m_pframe = (MyFrame*) parent;
@@ -27,31 +27,31 @@ GLWidget::GLWidget(QWidget *parent)
 	glInit();
 }
 
-GLWidget::~GLWidget()
+QCNGLWidget::~QCNGLWidget()
 {
 	m_timer->stop();
     makeCurrent();
 }
 
-void GLWidget::setTimePosition(const double& dTime)
+void QCNGLWidget::setTimePosition(const double& dTime)
 {
 	emit TimePositionChanged(dTime);
 	updateGL();
 }
 
-void GLWidget::initializeGL()
+void QCNGLWidget::initializeGL()
 {
     if (!qcn_graphics::g_bInitGraphics) {  // first time in, need to init OpenGL settings & load bitmaps etc
         qcn_graphics::Init(); 
     }	
 }
 
-void GLWidget::paintGL()
+void QCNGLWidget::paintGL()
 {
    qcn_graphics::Render(0,0,0);
 }
 
-void GLWidget::resizeGL(int width, int height)
+void QCNGLWidget::resizeGL(int width, int height)
 {
     // call the qcn_graphics.cpp resize	
 	qcn_graphics::Resize(width, height);	
@@ -62,7 +62,7 @@ void GLWidget::resizeGL(int width, int height)
 
 /*
 
-void GLWidget::mouseDoubleClickEvent(QMouseEvent *event)
+void QCNGLWidget::mouseDoubleClickEvent(QMouseEvent *event)
 {
 	int which = whichGLUTButton(event, true);
 	switch(qcn_graphics::g_eView) {
@@ -86,7 +86,7 @@ void GLWidget::mouseDoubleClickEvent(QMouseEvent *event)
 }
 */
 
-int GLWidget::whichGLUTButton(const QMouseEvent* event, const bool bDown)
+int QCNGLWidget::whichGLUTButton(const QMouseEvent* event, const bool bDown)
 {
 	int which = GLUT_NO_BUTTON;
 	switch(event->button()) {
@@ -108,7 +108,7 @@ int GLWidget::whichGLUTButton(const QMouseEvent* event, const bool bDown)
 	return which;
 }
 
-void GLWidget::mouseReleaseEvent(QMouseEvent *event)
+void QCNGLWidget::mouseReleaseEvent(QMouseEvent *event)
 {
 	int which = whichGLUTButton(event, false);
 	qcn_graphics::MouseButton(event->x(), event->y(), which, 0);
@@ -116,7 +116,7 @@ void GLWidget::mouseReleaseEvent(QMouseEvent *event)
 	setCursor(cursorNormal);
 }
 
-void GLWidget::mousePressEvent(QMouseEvent *event)
+void QCNGLWidget::mousePressEvent(QMouseEvent *event)
 {
 	int which = whichGLUTButton(event, true);
     m_lastPos = event->pos();
@@ -146,7 +146,7 @@ void GLWidget::mousePressEvent(QMouseEvent *event)
 	
 }
 
-void GLWidget::mouseMoveEvent(QMouseEvent *event)
+void QCNGLWidget::mouseMoveEvent(QMouseEvent *event)
 {
    int dx = event->x() - m_lastPos.x();
 	const int iFactor = 10;
@@ -169,7 +169,7 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
 	}
 }
 
-void GLWidget::animate()
+void QCNGLWidget::animate()
 {
 	if (sm && m_pframe && sm->strDisplay[0]) { // little trick to display a status message to the GUI from elsewhere in the qcn system i.e. after writing a sac file
 		m_pframe->statusBar()->showMessage(sm->strDisplay, 5000);

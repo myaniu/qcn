@@ -1,5 +1,5 @@
-#ifndef _GLWIDGET_H
-#define _GLWIDGET_H
+#ifndef _QCNGLWIDGET_H
+#define _QCNGLWIDGET_H
 
 #include "qcnqt.h"
 
@@ -9,7 +9,7 @@
 class MyFrame;
 class MyGLTimer;
 
-class GLWidget : public QGLWidget
+class QCNGLWidget : public QGLWidget
 {
 private:
     Q_OBJECT
@@ -34,8 +34,8 @@ protected:
     void mouseMoveEvent(QMouseEvent *event);
 	
 public:
-    GLWidget(QWidget *parent = 0);
-    ~GLWidget();
+    QCNGLWidget(QWidget *parent = 0);
+    ~QCNGLWidget();
 
     int getWidth() const { return m_width; }
     int getHeight() const { return m_height; }

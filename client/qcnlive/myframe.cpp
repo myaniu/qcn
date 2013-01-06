@@ -119,7 +119,7 @@ bool MyFrame::Init()
     m_centralWidget = new QWidget;
     setCentralWidget(m_centralWidget);
 	
-    m_glWidget = new GLWidget(this);
+    m_glWidget = new QCNGLWidget(this);
     //pixmapLabel = new QLabel;
     m_glWidgetArea = new QScrollArea;
     m_glWidgetArea->setWidget(m_glWidget);
