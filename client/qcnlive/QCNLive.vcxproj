@@ -178,6 +178,12 @@
     <ResourceCompile>
       <PreprocessorDefinitions>_WINDOWS;UNICODE;WIN32;_USE_NTPDATE_EXEC_;FTGL_LIBRARY_STATIC;QCNLIVE;GRAPHICS_PROGRAM;APP_GRAPHICS;_ZLIB;QCN;_THREAD_SAFE;CURL_STATICLIB;_ZLIB;QT_NO_DEBUG;QT_OPENGL_LIB;QT_WIDGETS_LIB;QT_GUI_LIB;QT_CORE_LIB;QT_OPENGL_ES_2;QT_OPENGL_ES_2_ANGLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ResourceCompile>
+    <PostBuildEvent>
+      <Command>..\bin\setwinverl.exe deploy</Command>
+    </PostBuildEvent>
+    <PostBuildEvent>
+      <Message>Deploy to QCN</Message>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

@@ -74,6 +74,10 @@ void printQCNFiles(FILE* fBatch, const char* strRemoteDir)
         fprintf(fBatch, "put init/xyzaxes.jpg\n");
         fprintf(fBatch, "put init/xyzaxesbl.jpg\n");
         fprintf(fBatch, "put init/logo.jpg\n");
+        fprintf(fBatch, "put msvcp100.dll\n");
+        fprintf(fBatch, "put msvcr100.dll\n");
+        fprintf(fBatch, "put init/logo.jpg\n");
+
 #ifdef _WIN64
 		fprintf(fBatch, "put init/phidget21x64.dll\n");
 #else
@@ -82,42 +86,6 @@ void printQCNFiles(FILE* fBatch, const char* strRemoteDir)
 #endif
         fprintf(fBatch, "put init/%s_%s.exe\n", NTPDATE_EXEC_VERSION, BOINC_WIN_SUFFIX);
         fprintf(fBatch, "put %s version.xml\n", fname);
-
-
-/* skip non-nci -- all boinc clients on QCN should support the nci plan class by now
-
-		fprintf(fBatch, "cd %s\n", strRemoteDir);
-
-// non-NCI
-
-	fVersion -= .01;
-#ifdef _WIN64
-	sprintf(fname, "version_64_%2.02f.xml", fVersion);
-#else
-	sprintf(fname, "version_32_%2.02f.xml", fVersion);
-#endif
-
-        print_version_xml(fVersion, fname, false);
-		//fprintf(fBatch, "mkdir %2.02f\n", fVersion);
-        fprintf(fBatch, "cd %2.02f\n", fVersion);
-        fprintf(fBatch, "mkdir %s\n", BOINC_WIN_SUFFIX);
-        fprintf(fBatch, "cd %s\n", BOINC_WIN_SUFFIX);
-        fprintf(fBatch, "put qcn_%2.02f_%s.exe\n", fVersion, BOINC_WIN_SUFFIX);
-        fprintf(fBatch, "put qcn_graphics_%2.02f_%s.exe\n", fVersion, BOINC_WIN_SUFFIX);
-        fprintf(fBatch, "put init/hvt\n");
-        fprintf(fBatch, "put init/cbt\n");
-        fprintf(fBatch, "put init/earthday4096.jpg\n");
-        fprintf(fBatch, "put init/earthnight4096.jpg\n");
-        fprintf(fBatch, "put init/xyzaxes.jpg\n");
-        fprintf(fBatch, "put init/xyzaxesbl.jpg\n");
-        fprintf(fBatch, "put init/logo.jpg\n");
-        fprintf(fBatch, "put init/%s_%s.exe\n", NTPDATE_EXEC_VERSION, BOINC_WIN_SUFFIX);
-        fprintf(fBatch, "put %s version.xml\n", fname);
-#ifndef _WIN64
-        fprintf(fBatch, "put init/MotionNodeAccelAPI.dll\n");
-#endif
-*/
-
 }
 
 // simple program to rename Windows QCN programs to full BOINC format
@@ -231,19 +199,15 @@ int deploy_qcn(bool bQCNLive)
 
 	    boinc_delete_file(cstrQCNLive);
 
-#ifdef _WIN64
-		sprintf_s(strCmd, 1024, "%s %s %s "
-			"%s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s%s%c%s%s", ZIPCMD, cstrQCNLive,
+		sprintf_s(strCmd, 1024, "%s %s "
+			"%s %s %s %s %s %s "
+			"%s "
+			"%s %s %s %s %s %s %s %s %s %s %s %s %s%s%c%s%s",
+		 ZIPCMD, cstrQCNLive,
 			"qcnlive.exe",
-#else
-		sprintf_s(strCmd, 1024, "%s %s %s %s "
-			"%s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s%s%c%s%s", ZIPCMD, cstrQCNLive,
-			"qcnlive.exe",
-			"init/MotionNodeAccelAPI.dll",
-#endif
 			"readme-win.txt",
 			"init/qcnwin.ico",
-		     "QtCore4.dll",
+		    "QtCore4.dll",
 		   "QtGui4.dll",
 		   "QtOpenGL4.dll",
 #ifdef _WIN64
@@ -251,11 +215,13 @@ int deploy_qcn(bool bQCNLive)
 #else
 		   "init/phidget21.dll",
 #endif
+		   "msvcp100.dll",
+		   "msvcr100.dll",
 		   "init/hvt",
 		   "init/hvtb",
 		   "init/cbt",
 			"init/earthday4096.jpg",
-			  "init/qcnlogo.png",
+			"init/qcnlogo.png",
 			"init/splash.png",
 			"init/xyzaxes.jpg",
 			"init/xyzaxesbl.jpg",
