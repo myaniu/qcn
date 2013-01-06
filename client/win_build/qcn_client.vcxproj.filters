@@ -113,9 +113,6 @@
     <ClCompile Include="..\sensor\csensor.cpp">
       <Filter>Source Files\Sensor</Filter>
     </ClCompile>
-    <ClCompile Include="..\sensor\csensor_usb_motionnodeaccel.cpp">
-      <Filter>Source Files\Sensor</Filter>
-    </ClCompile>
     <ClCompile Include="..\sensor\csensor_win_laptop_hp.cpp">
       <Filter>Source Files\Sensor</Filter>
     </ClCompile>

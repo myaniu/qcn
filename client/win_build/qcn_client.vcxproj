@@ -257,7 +257,7 @@
     </ClCompile>
     <Link>
       <AdditionalOptions>/LTCG %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalDependencies>hid.lib;psapi.lib;setupapi.lib;winmm.lib;boinc_zipd.lib;boinc_apid.lib;zlibd.lib;boinc_libd.lib;MotionNodeAccelAPI.lib;ws2_32.lib;wldap32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>hid.lib;psapi.lib;setupapi.lib;winmm.lib;boinc_zipd.lib;boinc_apid.lib;zlibd.lib;boinc_libd.lib;ws2_32.lib;wldap32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>../test/projects/qcn.edu_qcn/qcnd.exe</OutputFile>
       <Version>
       </Version>
@@ -343,7 +343,7 @@
     </PreLinkEvent>
     <Link>
       <AdditionalOptions>/LTCG %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalDependencies>hid.lib;psapi.lib;setupapi.lib;winmm.lib;boinc_lib.lib;boinc_api.lib;boinc_zip.lib;MotionNodeAccelAPI.lib;zlib.lib;ws2_32.lib;wldap32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>hid.lib;psapi.lib;setupapi.lib;winmm.lib;boinc_lib.lib;boinc_api.lib;boinc_zip.lib;zlib.lib;ws2_32.lib;wldap32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>../bin/qcn.exe</OutputFile>
       <Version>
       </Version>
@@ -525,11 +525,11 @@
     </PreLinkEvent>
     <Link>
       <AdditionalOptions>/LTCG %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalDependencies>hid.lib;setupapi.lib;winmm.lib;boinc_libl.lib;boinc_apil.lib;boinc_zipl.lib;MotionNodeAccelAPI.lib;zlibl.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>hid.lib;setupapi.lib;winmm.lib;boinc_libl.lib;boinc_apil.lib;boinc_zipl.lib;zlibl.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>../bin/qcn.exe</OutputFile>
       <Version>
       </Version>
-      <AdditionalLibraryDirectories>../sensor/motionnodeaccel;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>msvcrt.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <DelayLoadDLLs>MotionNodeAccelAPI.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
       <SubSystem>Windows</SubSystem>
@@ -873,7 +873,6 @@
     <ClCompile Include="..\main\qcn_thread_sensor_util.cpp" />
     <ClCompile Include="..\main\qcn_thread_time.cpp" />
     <ClCompile Include="..\sensor\csensor.cpp" />
-    <ClCompile Include="..\sensor\csensor_usb_motionnodeaccel.cpp" />
     <ClCompile Include="..\sensor\csensor_usb_phidgets.cpp" />
     <ClCompile Include="..\sensor\csensor_win_laptop_hp.cpp" />
     <ClCompile Include="..\sensor\csensor_win_laptop_thinkpad.cpp" />

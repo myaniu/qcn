@@ -158,7 +158,7 @@
       <ForcedIncludeFiles>windows.h;GL/gl.h</ForcedIncludeFiles>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>../sensor/motionnodeaccel/MotionNodeAccelAPI.lib;glu32.lib;opengl32.lib;wsock32.lib;hid.lib;setupapi.lib;winmm.lib;comctl32.lib;boinc_zipl.lib;libcurll.lib;jpeglibl.lib;zlibl.lib;ftgll.lib;freetypel.lib;boinc_libl.lib;boinc_apil.lib;gdi32.lib;user32.lib;Ws2_32.lib;Wldap32.lib;psapi.lib;qtmain.lib;QtCore4.lib;QtGui4.lib;QtOpenGL4.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glu32.lib;opengl32.lib;wsock32.lib;hid.lib;setupapi.lib;winmm.lib;comctl32.lib;boinc_zipl.lib;libcurll.lib;jpeglibl.lib;zlibl.lib;ftgll.lib;freetypel.lib;boinc_libl.lib;boinc_apil.lib;gdi32.lib;user32.lib;Ws2_32.lib;Wldap32.lib;psapi.lib;qtmain.lib;QtCore4.lib;QtGui4.lib;QtOpenGL4.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(QTDIR)\lib;c:/projects/qcn/client/win_build/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>"/MANIFESTDEPENDENCY:type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' publicKeyToken='6595b64144ccf1df' language='*' processorArchitecture='*'" %(AdditionalOptions)</AdditionalOptions>
       <DataExecutionPrevention>true</DataExecutionPrevention>
@@ -243,7 +243,7 @@
       <ForcedIncludeFiles>windows.h;GL/gl.h</ForcedIncludeFiles>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>../sensor/motionnodeaccel/MotionNodeAccelAPI.lib;zlibdl.lib;glu32.lib;opengl32.lib;wsock32.lib;hid.lib;setupapi.lib;winmm.lib;comctl32.lib;boinc_zipdl.lib;libcurldl.lib;jpeglibdl.lib;ftgldl.lib;freetypedl.lib;boinc_libdl.lib;boinc_apidl.lib;psapi.lib;gdi32.lib;user32.lib;Ws2_32.lib;Wldap32.lib;qtmaind.lib;QtCored4.lib;QtGuid4.lib;QtOpenGLd4.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>zlibdl.lib;glu32.lib;opengl32.lib;wsock32.lib;hid.lib;setupapi.lib;winmm.lib;comctl32.lib;boinc_zipdl.lib;libcurldl.lib;jpeglibdl.lib;ftgldl.lib;freetypedl.lib;boinc_libdl.lib;boinc_apidl.lib;psapi.lib;gdi32.lib;user32.lib;Ws2_32.lib;Wldap32.lib;qtmaind.lib;QtCored4.lib;QtGuid4.lib;QtOpenGLd4.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(QTDIR)\lib;c:/projects/qcn/client/win_build;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>"/MANIFESTDEPENDENCY:type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' publicKeyToken='6595b64144ccf1df' language='*' processorArchitecture='*'" %(AdditionalOptions)</AdditionalOptions>
       <DataExecutionPrevention>true</DataExecutionPrevention>
@@ -266,7 +266,6 @@
   <ItemGroup>
     <ClCompile Include="..\graphics\coastline.cpp" />
     <ClCompile Include="..\sensor\csensor.cpp" />
-    <ClCompile Include="..\sensor\csensor_usb_motionnodeaccel.cpp" />
     <ClCompile Include="..\sensor\csensor_usb_phidgets.cpp" />
     <ClCompile Include="..\sensor\csensor_win_laptop_hp.cpp" />
     <ClCompile Include="..\sensor\csensor_win_laptop_thinkpad.cpp" />

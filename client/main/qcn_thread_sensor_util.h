@@ -37,10 +37,12 @@
 // all platforms try the phidgets 1056 and/or 1044
 #include "csensor_usb_phidgets.h"
 
+/* MN deprecated as of 01/2013
 // all platforms except win64 get MotionNodeAccel USB support!
 #if !defined(_WIN64) && !defined(__LP64__) && !defined(_LP64)
 #include "csensor_usb_motionnodeaccel.h"
 #endif
+*/
 
 // global externs defined in qcn_thread_sensor.cpp
 // some globals, mainly if bDemo is true so we can have continual trigger output

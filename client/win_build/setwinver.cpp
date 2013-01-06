@@ -77,7 +77,7 @@ void printQCNFiles(FILE* fBatch, const char* strRemoteDir)
 #ifdef _WIN64
 		fprintf(fBatch, "put init/phidget21x64.dll\n");
 #else
-        fprintf(fBatch, "put init/MotionNodeAccelAPI.dll\n");
+        //fprintf(fBatch, "put init/MotionNodeAccelAPI.dll\n");
 		fprintf(fBatch, "put init/phidget21.dll\n");
 #endif
         fprintf(fBatch, "put init/%s_%s.exe\n", NTPDATE_EXEC_VERSION, BOINC_WIN_SUFFIX);
