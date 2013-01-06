@@ -174,6 +174,7 @@ bool MyFrame::Init()
 		m_toolBarOption->hide();
 		m_toolBarView->hide();
 	}
+
 	return true;
 }
 
@@ -579,8 +580,8 @@ void MyFrame::createToolbar()
 	if (m_toolBarOption) {
 		m_toolBarOption->setObjectName("QCN_TB_OPTION");
 		m_toolBarOption->setIconSize(QSize(ICON_SIZE, ICON_SIZE));		
-		ToolBarEarth(true);
 		addToolBar(Qt::TopToolBarArea, m_toolBarOption);
+		ToolBarEarth(true);
 	} 
 	
 #ifdef __APPLE_CC__
@@ -1129,9 +1130,7 @@ void MyFrame::AddScreenshotItem()
 void MyFrame::ToolBarEarth(bool bFirst)
 {
     if (!m_toolBarOption) return; // null toolbar?
-	
-    if (bFirst) Toggle(m_actionViewEarth, true, true);
-	
+		
     if (!bFirst)
 		RemoveCurrentTools();
 	
@@ -1164,6 +1163,9 @@ void MyFrame::ToolBarEarth(bool bFirst)
 	m_menuOptions->addAction(m_actionOptionEarthUSGS);
 	
     AddScreenshotItem();
+
+	if (bFirst) 
+		Toggle(m_actionViewEarth, true, true);
 	
     SetToggleEarth();
 }

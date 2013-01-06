@@ -23,6 +23,8 @@ GLWidget::GLWidget(QWidget *parent)
 	
 	// init the OpenGL graphics vars from the qcn_graphics namespace
 	qcn_graphics::graphics_main(0, NULL);
+	setAutoBufferSwap(true);
+	glInit();
 }
 
 GLWidget::~GLWidget()
@@ -46,7 +48,7 @@ void GLWidget::initializeGL()
 
 void GLWidget::paintGL()
 {
-    qcn_graphics::Render(0,0,0);
+	qcn_graphics::Render(0,0,0);
 }
 
 void GLWidget::resizeGL(int width, int height)
