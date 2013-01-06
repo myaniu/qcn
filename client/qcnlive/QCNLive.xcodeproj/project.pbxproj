@@ -590,7 +590,7 @@
 					"-F/Library/Frameworks",
 					"-L/Users/carlgt1/projects/qcn/client/mac_build",
 				);
-				PRODUCT_NAME = qcnlive;
+				PRODUCT_NAME = QCNLive;
 				SDKROOT = macosx10.7;
 				SYMROOT = ../bin/;
 				VALID_ARCHS = x86_64;
@@ -720,7 +720,7 @@
 					"-F/Library/Frameworks",
 					"-L/Users/carlgt1/projects/qcn/client/mac_build",
 				);
-				PRODUCT_NAME = qcnlive;
+				PRODUCT_NAME = QCNLive;
 				SDKROOT = macosx10.7;
 				SYMROOT = ../bin/;
 				VALID_ARCHS = x86_64;

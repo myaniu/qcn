@@ -76,6 +76,5 @@ cd ../qcnlive
 rm -rf QCNLive.app
 rm -rf ../bin/QCNLive.app
 $XCB -project QCNLive.xcodeproj -configuration Release -target QCNLive clean build
-/Developer/Qt5.0.0/5.0.0/clang_64/bin/macdeployqt QCNLive.app 
-# CMC here - errors with Qt5 - need to manually figure out using apple's install_name_tool
 cd ../bin
+/usr/bin/macdeployqt-4.8 QCNLive.app 
