@@ -232,13 +232,12 @@ bool getSensor(CSensor* volatile *ppsms)
 			   case 4:  // note it tries to get an external sensor first before using the internal sensor, is this good logic?
 				 *ppsms = (CSensor*) new CSensorMacLaptop();
 				 break;
-	#endif
+	
 		   }
-	#else
+	#else // Apple now try Win& Linux
 	#ifdef _WIN32
 	   // thinkpad, hp, jw8, jw14, onavi, phidgets
 	   const int iMaxSensor = 6;
-	#endif
 	   // for Windows the sensor can either be a CSensorThinkpad or CSensorWinUSBJW
 	   // note we try to detect the USB sensors first (if any), then try the laptop
 		for (int i = 0; i < (bForceSensor ? 1 : iMaxSensor); i++)  {
@@ -271,7 +270,7 @@ bool getSensor(CSensor* volatile *ppsms)
 				   *ppsms = (CSensor*) new CSensorWinHP();
 				   break;
 #else
-				   */
+	  */
 			   case 2:
 				   *ppsms = (CSensor*) new CSensorUSBPhidgets();
 				   break;				   				   
