@@ -365,9 +365,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		F9914E3AE9451748DCD676C0 /* qcnlive */ = {
+		F9914E3AE9451748DCD676C0 /* QCNLive */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 17B3380A4D6A7D415E7F2E1E /* Build configuration list for PBXNativeTarget "qcnlive" */;
+			buildConfigurationList = 17B3380A4D6A7D415E7F2E1E /* Build configuration list for PBXNativeTarget "QCNLive" */;
 			buildPhases = (
 				D7BA7D76DAB5DD13389D6332 /* Qt Qmake */,
 				A0A52A2ADF7A1E2A99738674 /* Qt Preprocessors */,
@@ -379,7 +379,7 @@
 			);
 			dependencies = (
 			);
-			name = qcnlive;
+			name = QCNLive;
 			productName = qcnlive;
 			productReference = 43031719169A04DB0075E451 /* qcnlive.app */;
 			productType = "com.apple.product-type.application";
@@ -401,7 +401,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				F9914E3AE9451748DCD676C0 /* qcnlive */,
+				F9914E3AE9451748DCD676C0 /* QCNLive */,
 			);
 		};
 /* End PBXProject section */
@@ -726,7 +726,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		17B3380A4D6A7D415E7F2E1E /* Build configuration list for PBXNativeTarget "qcnlive" */ = {
+		17B3380A4D6A7D415E7F2E1E /* Build configuration list for PBXNativeTarget "QCNLive" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				BEC09A62E69C3553534FF35E /* Debug */,
