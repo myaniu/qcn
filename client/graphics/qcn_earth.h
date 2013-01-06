@@ -7,7 +7,7 @@
 // also climateprediction.net project ref: Tolu Aina  tolu@atm.ox.ac.uk
 
 #ifdef _WIN32
-#include "config.h.win"
+#include "qcn_config_win.h"
 #else
 #include "config.h"
 #endif

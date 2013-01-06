@@ -3,7 +3,7 @@
 
 // bouncing cube for QCN -- should have the plots on each face and size dependent on fmag
 #ifdef _WIN32
-#include "config.h.win"
+#include "qcn_config_win.h"
 #else
 #include "config.h"
 #endif

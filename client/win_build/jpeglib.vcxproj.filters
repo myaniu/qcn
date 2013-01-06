@@ -1,10 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
     <Filter Include="Header Files">
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
@@ -13,230 +9,213 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
     </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\jpeg-6b\cdjpeg.c">
+    <ClCompile Include="..\..\..\boinc\samples\jpeglib\jcapimin.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\jpeg-6b\jcapimin.c">
+    <ClCompile Include="..\..\..\boinc\samples\jpeglib\jcapistd.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\jpeg-6b\jcapistd.c">
+    <ClCompile Include="..\..\..\boinc\samples\jpeglib\jccoefct.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\jpeg-6b\jccoefct.c">
+    <ClCompile Include="..\..\..\boinc\samples\jpeglib\jccolor.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\jpeg-6b\jccolor.c">
+    <ClCompile Include="..\..\..\boinc\samples\jpeglib\jcdctmgr.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\jpeg-6b\jcdctmgr.c">
+    <ClCompile Include="..\..\..\boinc\samples\jpeglib\jchuff.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\jpeg-6b\jchuff.c">
+    <ClCompile Include="..\..\..\boinc\samples\jpeglib\jcinit.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\jpeg-6b\jcinit.c">
+    <ClCompile Include="..\..\..\boinc\samples\jpeglib\jcmainct.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\jpeg-6b\jcmainct.c">
+    <ClCompile Include="..\..\..\boinc\samples\jpeglib\jcmarker.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\jpeg-6b\jcmarker.c">
+    <ClCompile Include="..\..\..\boinc\samples\jpeglib\jcmaster.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\jpeg-6b\jcmaster.c">
+    <ClCompile Include="..\..\..\boinc\samples\jpeglib\jcomapi.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\jpeg-6b\jcomapi.c">
+    <ClCompile Include="..\..\..\boinc\samples\jpeglib\jcparam.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\jpeg-6b\jcparam.c">
+    <ClCompile Include="..\..\..\boinc\samples\jpeglib\jcphuff.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\jpeg-6b\jcphuff.c">
+    <ClCompile Include="..\..\..\boinc\samples\jpeglib\jcprepct.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\jpeg-6b\jcprepct.c">
+    <ClCompile Include="..\..\..\boinc\samples\jpeglib\jcsample.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\jpeg-6b\jcsample.c">
+    <ClCompile Include="..\..\..\boinc\samples\jpeglib\jctrans.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\jpeg-6b\jctrans.c">
+    <ClCompile Include="..\..\..\boinc\samples\jpeglib\jdapimin.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\jpeg-6b\jdapimin.c">
+    <ClCompile Include="..\..\..\boinc\samples\jpeglib\jdapistd.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\jpeg-6b\jdapistd.c">
+    <ClCompile Include="..\..\..\boinc\samples\jpeglib\jdatadst.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\jpeg-6b\jdatadst.c">
+    <ClCompile Include="..\..\..\boinc\samples\jpeglib\jdatasrc.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\jpeg-6b\jdatasrc.c">
+    <ClCompile Include="..\..\..\boinc\samples\jpeglib\jdcoefct.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\jpeg-6b\jdcoefct.c">
+    <ClCompile Include="..\..\..\boinc\samples\jpeglib\jdcolor.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\jpeg-6b\jdcolor.c">
+    <ClCompile Include="..\..\..\boinc\samples\jpeglib\jddctmgr.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\jpeg-6b\jddctmgr.c">
+    <ClCompile Include="..\..\..\boinc\samples\jpeglib\jdhuff.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\jpeg-6b\jdhuff.c">
+    <ClCompile Include="..\..\..\boinc\samples\jpeglib\jdinput.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\jpeg-6b\jdinput.c">
+    <ClCompile Include="..\..\..\boinc\samples\jpeglib\jdmainct.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\jpeg-6b\jdmainct.c">
+    <ClCompile Include="..\..\..\boinc\samples\jpeglib\jdmarker.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\jpeg-6b\jdmarker.c">
+    <ClCompile Include="..\..\..\boinc\samples\jpeglib\jdmaster.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\jpeg-6b\jdmaster.c">
+    <ClCompile Include="..\..\..\boinc\samples\jpeglib\jdmerge.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\jpeg-6b\jdmerge.c">
+    <ClCompile Include="..\..\..\boinc\samples\jpeglib\jdphuff.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\jpeg-6b\jdphuff.c">
+    <ClCompile Include="..\..\..\boinc\samples\jpeglib\jdpostct.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\jpeg-6b\jdpostct.c">
+    <ClCompile Include="..\..\..\boinc\samples\jpeglib\jdsample.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\jpeg-6b\jdsample.c">
+    <ClCompile Include="..\..\..\boinc\samples\jpeglib\jdtrans.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\jpeg-6b\jdtrans.c">
+    <ClCompile Include="..\..\..\boinc\samples\jpeglib\jerror.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\jpeg-6b\jerror.c">
+    <ClCompile Include="..\..\..\boinc\samples\jpeglib\jfdctflt.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\jpeg-6b\jfdctflt.c">
+    <ClCompile Include="..\..\..\boinc\samples\jpeglib\jfdctfst.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\jpeg-6b\jfdctfst.c">
+    <ClCompile Include="..\..\..\boinc\samples\jpeglib\jfdctint.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\jpeg-6b\jfdctint.c">
+    <ClCompile Include="..\..\..\boinc\samples\jpeglib\jidctflt.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\jpeg-6b\jidctflt.c">
+    <ClCompile Include="..\..\..\boinc\samples\jpeglib\jidctfst.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\jpeg-6b\jidctfst.c">
+    <ClCompile Include="..\..\..\boinc\samples\jpeglib\jidctint.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\jpeg-6b\jidctint.c">
+    <ClCompile Include="..\..\..\boinc\samples\jpeglib\jidctred.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\jpeg-6b\jidctred.c">
+    <ClCompile Include="..\..\..\boinc\samples\jpeglib\jmemmgr.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\jpeg-6b\jmemansi.c">
+    <ClCompile Include="..\..\..\boinc\samples\jpeglib\jmemnobs.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\jpeg-6b\jmemmgr.c">
+    <ClCompile Include="..\..\..\boinc\samples\jpeglib\jquant1.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\jpeg-6b\jquant1.c">
+    <ClCompile Include="..\..\..\boinc\samples\jpeglib\jquant2.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\jpeg-6b\jquant2.c">
+    <ClCompile Include="..\..\..\boinc\samples\jpeglib\jutils.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\jpeg-6b\jutils.c">
+    <ClCompile Include="..\..\..\boinc\samples\jpeglib\rdbmp.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\jpeg-6b\rdbmp.c">
+    <ClCompile Include="..\..\..\boinc\samples\jpeglib\rdcolmap.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\jpeg-6b\rdcolmap.c">
+    <ClCompile Include="..\..\..\boinc\samples\jpeglib\rdgif.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\jpeg-6b\rdgif.c">
+    <ClCompile Include="..\..\..\boinc\samples\jpeglib\rdppm.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\jpeg-6b\rdppm.c">
+    <ClCompile Include="..\..\..\boinc\samples\jpeglib\rdrle.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\jpeg-6b\rdrle.c">
+    <ClCompile Include="..\..\..\boinc\samples\jpeglib\rdswitch.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\jpeg-6b\rdswitch.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\jpeg-6b\rdtarga.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\jpeg-6b\transupp.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\jpeg-6b\wrbmp.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\jpeg-6b\wrgif.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\jpeg-6b\wrppm.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\jpeg-6b\wrrle.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\jpeg-6b\wrtarga.c">
+    <ClCompile Include="..\..\..\boinc\samples\jpeglib\rdtarga.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\jpeg-6b\cderror.h">
+    <ClInclude Include="..\..\..\boinc\samples\jpeglib\cderror.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\jpeg-6b\cdjpeg.h">
+    <ClInclude Include="..\..\..\boinc\samples\jpeglib\cdjpeg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\jpeg-6b\jchuff.h">
+    <ClInclude Include="..\..\..\boinc\samples\jpeglib\jchuff.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\jpeg-6b\jconfig.h">
+    <ClInclude Include="..\..\..\boinc\samples\jpeglib\jconfig.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\jpeg-6b\jdct.h">
+    <ClInclude Include="..\..\..\boinc\samples\jpeglib\jdct.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\jpeg-6b\jdhuff.h">
+    <ClInclude Include="..\..\..\boinc\samples\jpeglib\jdhuff.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\jpeg-6b\jerror.h">
+    <ClInclude Include="..\..\..\boinc\samples\jpeglib\jerror.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\jpeg-6b\jinclude.h">
+    <ClInclude Include="..\..\..\boinc\samples\jpeglib\jinclude.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\jpeg-6b\jmemsys.h">
+    <ClInclude Include="..\..\..\boinc\samples\jpeglib\jmemsys.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\jpeg-6b\jmorecfg.h">
+    <ClInclude Include="..\..\..\boinc\samples\jpeglib\jmorecfg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\jpeg-6b\jpeg-6b.h">
+    <ClInclude Include="..\..\..\boinc\samples\jpeglib\jpegint.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\jpeg-6b\jpegint.h">
+    <ClInclude Include="..\..\..\boinc\samples\jpeglib\jpeglib.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\jpeg-6b\jversion.h">
+    <ClInclude Include="..\..\..\boinc\samples\jpeglib\jversion.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\jpeg-6bs\transupp.h">
+    <ClInclude Include="..\..\..\boinc\win_build\win-config.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

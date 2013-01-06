@@ -5,7 +5,7 @@
 #include <windows.h>
 #include <direct.h>
 
-#include "config.h.win"
+#include "qcn_config_win.h"
 #include "version.h"  // get the version info (QCN_VERSION_STRING)
 #include "filesys.h"
 #include "define.h"

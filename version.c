@@ -12,7 +12,7 @@ void print_version_file(float fVersion)
    fprintf(fp, "#ifndef QCN_VERSION_H\n");
    fprintf(fp, "#define QCN_VERSION_H\n");
    fprintf(fp, "#define QCN_RELEASE\n");
-   fprintf(fp, "#define PACKAGE_NAME \"QCN\"\n");
+   fprintf(fp, "#define QCN_PACKAGE_NAME \"QCN\"\n");
    fprintf(fp, "#define QCN_VERSION_STRING \"%2.02f\"\n", fVersion);
    fprintf(fp, "#endif\n");
    fclose(fp);

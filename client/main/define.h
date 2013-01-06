@@ -17,7 +17,7 @@
 #include <string>
 
 #ifdef _WIN32
-   #include "config.h.win"
+   #include "qcn_config_win.h"
    #include <direct.h>
 #else
    #include "config.h"

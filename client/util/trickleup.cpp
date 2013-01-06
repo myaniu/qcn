@@ -1,7 +1,6 @@
 
 #ifdef _WIN32
-   #include <windows.h>
-   #include "config.h.win"
+   #include "qcn_config_win.h"
 #else
    #include "config.h"
 #endif

@@ -26,9 +26,7 @@
 //#include "md5.h"
 
 #ifdef _WIN32
-  #include <windows.h>
-  #include "config.h.win" // this is from the qcn/ directory
-  #include "boinc_win.h"
+  #include "qcn_config_win.h" // this is from the qcn/ directory
 #else // Mac & Linux
   #include "config.h" // this is from the qcn/ directory
   #include <cstdio>

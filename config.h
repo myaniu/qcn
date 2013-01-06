@@ -355,22 +355,22 @@
 /* #undef NO_MINUS_C_MINUS_O */
 
 /* Name of package */
-#define PACKAGE "qcn"
+#define QCN_PACKAGE "qcn"
 
 /* Define to the address where bug reports for this package should be sent. */
-#define PACKAGE_BUGREPORT ""
+#define QCN_PACKAGE_BUGREPORT ""
 
 /* Define to the full name of this package. */
-#define PACKAGE_NAME "QCN"
+#define QCN_PACKAGE_NAME "QCN"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "QCN 4.86"
+#define QCN_PACKAGE_STRING "QCN 7.20"
 
 /* Define to the one symbol short name of this package. */
-#define PACKAGE_TARNAME "qcn"
+#define QCN_PACKAGE_TARNAME "qcn"
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "4.86"
+#define QCN_PACKAGE_VERSION "7.20"
 
 /* Define to the necessary symbol if this constant uses a non-standard name on
    your system. */
