@@ -233,6 +233,7 @@
       <PreprocessorDefinitions>_WIN32;WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <CompileAs>CompileAsC</CompileAs>
+      <AdditionalIncludeDirectories>../../../boinc/win_build;../../../boinc/samples/jpeglib</AdditionalIncludeDirectories>
     </ClCompile>
     <Lib>
       <OutputFile>jpeglib64.lib</OutputFile>

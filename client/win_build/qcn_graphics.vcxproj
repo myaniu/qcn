@@ -245,7 +245,7 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <WholeProgramOptimization>false</WholeProgramOptimization>
-      <AdditionalIncludeDirectories>../../;../../ftgl-2.1.3/include;../../freetype-2.4.6\include;../main;../graphics;../sensor;../util;../../../boinc/lib;../../zlib-1.2.5;../../jpeg-6b;../../../boinc/api;../../../boinc/zip;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../;../../ftgl-2.1.3/include;../../freetype-2.4.6\include;../main;../graphics;../sensor;../util;../../../boinc/lib;../../zlib-1.2.5;../../jpeg-6b;../../../boinc/api;../../../boinc/zip;../../../boinc/samples/jpeglib;../../../boinc/win_build</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>FTGL_LIBRARY_STATIC ;_WIN64;QCNGRAPHICS;_WIN32;WIN32;_DEBUG;_ZLIB;_CRT_SECURE_NO_DEPRECATE;GRAPHICS_PROGRAM;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ExceptionHandling>Sync</ExceptionHandling>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -255,7 +255,7 @@
       <ForcedIncludeFiles>windows.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>jpeglibd64.lib;boinc_libd64.lib;boinc_apid64.lib;zlibd64.lib;boinc_zipd64.lib;opengl32.lib;glu32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>jpeglibd64.lib;boinc_libd64.lib;boinc_apid64.lib;zlibd64.lib;boinc_zipd64.lib;opengl32.lib;glu32.lib;psapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>../test/projects/qcn.edu_qcn/qcn_graphicsd.exe</OutputFile>
       <Version>
       </Version>
@@ -308,13 +308,13 @@
       <TargetEnvironment>X64</TargetEnvironment>
     </Midl>
     <ClCompile>
-      <AdditionalIncludeDirectories>../../;../../ftgl-2.1.3/include;../../freetype-2.4.6\include;../main;../graphics;../sensor;../util;../../../boinc/lib;../../zlib-1.2.5;../../jpeg-6b;../../../boinc/api;../../../boinc/zip;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>FTGL_LIBRARY_STATIC ;_WIN64;GRAPHICS_PROGRAM;QCNGRAPHICS;_WIN32;NDEBUG;_ZLIB;_CRT_SECURE_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <ForcedIncludeFiles>windows.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <AdditionalIncludeDirectories>../../;../../ftgl-2.1.3/include;../../freetype-2.4.6\include;../main;../graphics;../sensor;../util;../../../boinc/lib;../../zlib-1.2.5;../../jpeg-6b;../../../boinc/api;../../../boinc/zip;../../../boinc/samples/jpeglib;../../../boinc/win_build</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>opengl32.lib;glu32.lib;jpeglib64.lib;boinc_lib64.lib;boinc_api64.lib;zlib64.lib;boinc_zip64.lib;freetype64.lib;ftgl64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;glu32.lib;jpeglib64.lib;boinc_lib64.lib;boinc_api64.lib;zlib64.lib;boinc_zip64.lib;freetype64.lib;ftgl64.lib;psapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>../bin/qcn_graphics.exe</OutputFile>
       <Version>
       </Version>

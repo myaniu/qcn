@@ -297,7 +297,7 @@
       <ForcedIncludeFiles>windows.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>hid64.lib;setupapi.lib;winmm.lib;boinc_zipd64.lib;boinc_apid64.lib;zlibd64.lib;libcurld64.lib;boinc_libd64.lib;ws2_32.lib;wldap32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>hid64.lib;setupapi.lib;winmm.lib;boinc_zipd64.lib;boinc_apid64.lib;zlibd64.lib;libcurld64.lib;boinc_libd64.lib;ws2_32.lib;wldap32.lib;psapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>../test/projects/qcn.edu_qcn/qcnd.exe</OutputFile>
       <Version>
       </Version>
@@ -390,7 +390,7 @@
       </Command>
     </PreLinkEvent>
     <Link>
-      <AdditionalDependencies>hid64.lib;setupapi.lib;winmm.lib;boinc_lib64.lib;boinc_api64.lib;boinc_zip64.lib;zlib64.lib;ws2_32.lib;wldap32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>hid64.lib;setupapi.lib;winmm.lib;boinc_lib64.lib;boinc_api64.lib;boinc_zip64.lib;zlib64.lib;ws2_32.lib;wldap32.lib;psapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>../bin/qcn.exe</OutputFile>
       <Version>
       </Version>
