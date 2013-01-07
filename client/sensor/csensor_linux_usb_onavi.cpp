@@ -9,7 +9,7 @@
  */
 
 #include "main.h"
-#include "csensor_linux_usb_onavi01.h"
+#include "csensor_linux_usb_onavi.h"
 #include <fnmatch.h>
 #include <glob.h>
 #include "filesys.h"    // boinc_file_or_symlink_exists

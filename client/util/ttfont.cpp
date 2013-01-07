@@ -15,7 +15,6 @@
 #include "ttfont.h"
 #include "filesys.h"  // from boinc for file_exists
 
-
 namespace TTFont {
 
 FTFont* g_font[NUM_FONT] = {NULL, NULL};
