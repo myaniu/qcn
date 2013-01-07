@@ -329,8 +329,24 @@ bool CSensorUSBPhidgets::detect()
 		return false;
 	}
 
+/*  per Phidgets forum re version # :
+1056 is <300
+1042 is 300 - <400
+1044 is 400 - <500
+*/
+
+        if (m_iVersion < 300)
+           setType(SENSOR_USB_PHIDGETS_1056);
+        else if (m_iVersion >= 300 && m_iVersion < 400)
+           setType(SENSOR_USB_PHIDGETS_1042);
+        else
+           setType(SENSOR_USB_PHIDGETS_1044);
+        
+        setPort(getTypeEnum());
+
 	char *strSensor = new char[256];
-	sprintf(strSensor, "%s v.%d (Serial # %d) USB", m_cstrDeviceName, m_iVersion, m_iSerialNum);
+
+	sprintf(strSensor, "%s (Serial # %d) USB", getTypeString(), m_iSerialNum);
 	setSensorStr(strSensor);
 	delete [] strSensor;
 	fprintf(stdout, "%s detected in %f milliseconds\n", getTypeStr(), (dtime() - dTime) * 1000.0);
@@ -340,9 +356,6 @@ bool CSensorUSBPhidgets::detect()
    setSingleSampleDT(false);  // mn samples itself
 
    // NB: closePort resets the type & port, so have to set again 
-   // CMC here --how to differentiate 1044 vs 1056?
-   setType(SENSOR_USB_PHIDGETS_1056);
-   setPort(getTypeEnum());
 	
    // one last sanity check, test the xyz reading
    if (!read_xyz(x,y,z)) {
@@ -377,7 +390,7 @@ inline bool CSensorUSBPhidgets::read_xyz(float& x1, float& y1, float& z1)
     return true;
 }
 
-// overloaded so we can substitute with the serial # and versio of the phidget
+// overloaded so we can substitute with the serial # and version of the phidget
 const char* CSensorUSBPhidgets::getTypeStr(int iType)
 {
 	return getSensorStr();

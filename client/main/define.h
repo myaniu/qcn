@@ -240,7 +240,8 @@ enum e_sensor  {
 	         SENSOR_USB_ONAVI_B_16,   // 105
 	         SENSOR_USB_ONAVI_C_24,    // 106
 	         SENSOR_USB_PHIDGETS_1056, // 107
-	         SENSOR_USB_PHIDGETS_1044 // 108
+	         SENSOR_USB_PHIDGETS_1042, // 108
+	         SENSOR_USB_PHIDGETS_1044  // 109
                };
 
 // set to the min allowable value of a usb sensor enum as above

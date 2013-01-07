@@ -15,6 +15,32 @@
 
 // begin sensor strings, the ID's are the e_sensor enum in define.h
 // strings for sensor types
+/* should match the qcn_sensor table
+
+mysql> select * from qcn_sensor;
++-----+--------+-------------------------+
+| id  | is_usb | description             |
++-----+--------+-------------------------+
+|   0 |      0 | Not Found               |
+|   1 |      0 | Mac PPC 1               |
+|   2 |      0 | Mac PPC 2               |
+|   3 |      0 | Mac PPC 3               |
+|   4 |      0 | Mac Intel               |
+|   5 |      0 | Lenovo Thinkpad         |
+|   6 |      0 | HP Laptop               |
+| 100 |      1 | JoyWarrior 24F8 USB     |
+| 101 |      1 | MotionNode Accel USB    |
+| 102 |      1 | O1 USB                  |
+| 103 |      1 | JoyWarrior 24F14 USB    |
+| 104 |      1 | ONavi A 12-bit USB      |
+| 105 |      1 | ONavi B 16-bit USB      |
+| 106 |      1 | ONavi C 24-bit USB      |
+| 107 |      1 | Phidgets 1056 228ug USB |
+| 108 |      1 | Phidgets 1042 976ug USB |
+| 109 |      1 | Phidgets 1044 76ug USB  |
++-----+--------+-------------------------+
+*/
+
 #define SENSOR_STRLG_NOTFOUND "Not Found"
 #define SENSOR_STRSH_NOTFOUND ""
 
@@ -50,19 +76,22 @@
 #define SENSOR_STRSH_USB_ONAVI_1 "O1"
 
 #define SENSOR_STRLG_USB_ONAVI_A_12 "ONavi A 12-bit USB"
-#define SENSOR_STRSH_USB_ONAVI_A_12 "O2"
+#define SENSOR_STRSH_USB_ONAVI_A_12 "OA"
 
 #define SENSOR_STRLG_USB_ONAVI_B_16 "ONavi B 16-bit USB"
-#define SENSOR_STRSH_USB_ONAVI_B_16 "O3"
+#define SENSOR_STRSH_USB_ONAVI_B_16 "OB"
 
 #define SENSOR_STRLG_USB_ONAVI_C_24 "ONavi C 24-bit USB"
-#define SENSOR_STRSH_USB_ONAVI_C_24 "O4"
+#define SENSOR_STRSH_USB_ONAVI_C_24 "OC"
 
-#define SENSOR_STRLG_USB_PHIDGETS_1056 "Phidgets 1056 USB"
+#define SENSOR_STRLG_USB_PHIDGETS_1056 "Phidgets 1056 228ug USB"
 #define SENSOR_STRSH_USB_PHIDGETS_1056 "P1"
 
+#define SENSOR_STRLG_USB_PHIDGETS_1042 "Phidgets 1042 976ug USB"
+#define SENSOR_STRSH_USB_PHIDGETS_1042 "P2"
+
 #define SENSOR_STRLG_USB_PHIDGETS_1044 "Phidgets 1044 76ug USB"
-#define SENSOR_STRSH_USB_PHIDGETS_1044 "P2"
+#define SENSOR_STRSH_USB_PHIDGETS_1044 "P3"
 
 // end sensor strings
 
