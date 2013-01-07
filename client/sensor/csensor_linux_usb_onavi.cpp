@@ -20,17 +20,17 @@
 
 const int g_ciLen = 9;  // ##XXYYZZC 
 
-CSensorLinuxUSBONavi01::CSensorLinuxUSBONavi01()
+CSensorLinuxUSBONavi::CSensorLinuxUSBONavi()
   : CSensor(), m_fd(-1), m_usBitSensor(0)
 { 
 }
 
-CSensorLinuxUSBONavi01::~CSensorLinuxUSBONavi01()
+CSensorLinuxUSBONavi::~CSensorLinuxUSBONavi()
 {
   closePort();
 }
 
-void CSensorLinuxUSBONavi01::closePort()
+void CSensorLinuxUSBONavi::closePort()
 {
     if (m_fd > -1) {
 	  close(m_fd);
@@ -41,7 +41,7 @@ void CSensorLinuxUSBONavi01::closePort()
     setType();
 }
 
-bool CSensorLinuxUSBONavi01::detect()
+bool CSensorLinuxUSBONavi::detect()
 {
 	// first see if the port actually exists (the device is a "file" at /dev/ttyACM0, given in STR_LINUX_USB_ONAVI01 
 
@@ -137,7 +137,7 @@ bool CSensorLinuxUSBONavi01::detect()
     return true;
 }
 
-inline bool CSensorLinuxUSBONavi01::read_xyz(float& x1, float& y1, float& z1)
+inline bool CSensorLinuxUSBONavi::read_xyz(float& x1, float& y1, float& z1)
 {
 	/*
 We tried to keep the data as simple as possible. The data looks like: 
