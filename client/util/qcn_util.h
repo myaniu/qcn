@@ -95,9 +95,9 @@ void sendIntermediateUpload(std::string strLogicalName, std::string strFullPath)
   void DecodeJPG(jpeg_decompress_struct* cinfo, qcn_util::tImageJPG *pImageData); 
   qcn_util::tImageJPG* LoadJPG(const char* filename); 
   int CreateTextureJPG(const char* strFileName, qcn_util::tImageJPG** ppImage);
+  GLuint CreateRGBAlpha(const char* strFileName);
 #endif // not using now
   bool ScreenshotJPG(const unsigned int iWidth, const unsigned int iHeight, const char *strFile, const int iQuality = 90);
-  GLuint CreateRGBAlpha(const char* strFileName);
 #endif // graphics prog
 
 #ifdef ZIPARCHIVE
