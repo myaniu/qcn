@@ -500,7 +500,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
-				CONFIGURATION_BUILD_DIR = build/Debug;
+				CONFIGURATION_BUILD_DIR = ../bin/;
+				CONFIGURATION_TEMP_DIR = build/Debug;
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					/Library/Frameworks,
@@ -602,7 +603,8 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = qcnlive.entitlements;
 				COMBINE_HIDPI_IMAGES = YES;
-				CONFIGURATION_BUILD_DIR = build/Release;
+				CONFIGURATION_BUILD_DIR = ../bin/;
+				CONFIGURATION_TEMP_DIR = build/Release;
 				COPY_PHASE_STRIP = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
@@ -618,7 +620,8 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = qcnlive.entitlements;
 				COMBINE_HIDPI_IMAGES = YES;
-				CONFIGURATION_BUILD_DIR = build/Debug;
+				CONFIGURATION_BUILD_DIR = ../bin/;
+				CONFIGURATION_TEMP_DIR = build/Debug;
 				COPY_PHASE_STRIP = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -634,7 +637,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
-				CONFIGURATION_BUILD_DIR = build/Release;
+				CONFIGURATION_BUILD_DIR = ../bin/;
+				CONFIGURATION_TEMP_DIR = build/Release;
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					/Library/Frameworks,

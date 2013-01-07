@@ -346,7 +346,7 @@ bool CSensorUSBPhidgets::detect()
 
 	char *strSensor = new char[256];
 
-	sprintf(strSensor, "%s (Serial # %d) USB", getTypeString(), m_iSerialNum);
+	sprintf(strSensor, "%s (Serial # %d) USB", getTypeStr(), m_iSerialNum);
 	setSensorStr(strSensor);
 	delete [] strSensor;
 	fprintf(stdout, "%s detected in %f milliseconds\n", getTypeStr(), (dtime() - dTime) * 1000.0);

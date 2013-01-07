@@ -12,10 +12,6 @@
 #endif
 
 #include "boinc_gl.h"  // note this goes before qgl to avoid duplicate refs for Gldouble etc
-#if !defined(_WIN32) && !defined(__APPLE_CC_)
-  #include <GL/gl.h>
-  #include <GL/glu.h>
-#endif
 
 #include "gutil.h"
 

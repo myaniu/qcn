@@ -21,9 +21,6 @@
 #include <wx/gdicmn.h>
 #endif
 */
-#if !defined(_WIN32) && !defined(__APPLE_CC_)
-  #include <GL/gl.h>
-#endif
 
 
 namespace qcn_util 
