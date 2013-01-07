@@ -346,10 +346,10 @@ bool CSensorUSBPhidgets::detect()
 
 	char *strSensor = new char[256];
 
-	sprintf(strSensor, "%s (Serial # %d) USB", getTypeStr(), m_iSerialNum);
+	sprintf(strSensor, "%s (Serial # %d)", getTypeStr(), m_iSerialNum);
 	setSensorStr(strSensor);
 	delete [] strSensor;
-	fprintf(stdout, "%s detected in %f milliseconds\n", getTypeStr(), (dtime() - dTime) * 1000.0);
+	fprintf(stdout, "%s detected in %f milliseconds\n", getSensorStr(), (dtime() - dTime) * 1000.0);
 
    // OK, at this point we should be connected, so from here on out can just read_xyz until closePort()
    // set as a single sample per point
@@ -388,10 +388,4 @@ inline bool CSensorUSBPhidgets::read_xyz(float& x1, float& y1, float& z1)
 	y1 = (float) (y * EARTH_G);
 	z1 = (float) (z * -EARTH_G);  // note the minus sign as the phidgets by default is flipped on the vertical from usual QCN sensors
     return true;
-}
-
-// overloaded so we can substitute with the serial # and version of the phidget
-const char* CSensorUSBPhidgets::getTypeStr(int iType)
-{
-	return getSensorStr();
 }

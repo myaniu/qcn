@@ -156,7 +156,6 @@ class CSensorUSBPhidgets  : public CSensor
 	
 	bool setupFunctionPointers();
 	virtual bool read_xyz(float& x1, float& y1, float& z1);  
-	virtual const char* getTypeStr(int iType = -1);  // return the sensor name for this iType
 
 	
    public:
