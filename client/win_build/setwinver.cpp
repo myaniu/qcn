@@ -208,8 +208,8 @@ int deploy_qcn(bool bQCNLive)
 			"readme-win.txt",
 			"init/qcnwin.ico",
 		    "QtCore4.dll",
-		   "QtGui4.dll",
-		   "QtOpenGL4.dll",
+		    "QtGui4.dll",
+		    "QtOpenGL4.dll",
 #ifdef _WIN64
 		   "init/phidget21x64.dll",
 #else
@@ -220,14 +220,14 @@ int deploy_qcn(bool bQCNLive)
 		   "init/hvt",
 		   "init/hvtb",
 		   "init/cbt",
-			"init/earthday4096.jpg",
-			"init/qcnlogo.png",
-			"init/splash.png",
-			"init/xyzaxes.jpg",
-			"init/xyzaxesbl.jpg",
-			"init/logo.jpg",
-			"init/earthnight4096.jpg",
-			"init/", NTPDATE_EXEC_VERSION, '_', BOINC_WIN_SUFFIX, ".exe"
+		   "init/earthday4096.jpg",
+		   "init/qcnlogo.png",
+		   "init/splash.png",
+		   "init/xyzaxes.jpg",
+		   "init/xyzaxesbl.jpg",
+		   "init/logo.jpg",
+		   "init/earthnight4096.jpg",
+		   "init/", NTPDATE_EXEC_VERSION, '_', BOINC_WIN_SUFFIX, ".exe"
 		);
 		fprintf(stdout, "Executing %s\n", strCmd);
 
