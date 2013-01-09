@@ -1,1 +1,1 @@
-./configure LDFlAGS=-ldl --enable-dav --enable-ssl --with-ssl=/usr/local/ssl --enable-so --enable-rewrite --enable-cgi --enable-cache --enable-deflate
+./configure LDFLAGS=-ldl --enable-dav --enable-ssl --with-ssl=/usr/local/ssl --enable-so --enable-rewrite --enable-cgi --enable-cache --enable-deflate
