@@ -31,7 +31,6 @@
 
 #include "edf_sim.h"
 
-
 // for projects that support work filtering by app,
 // this records an app for which the user will accept work
 //
@@ -56,7 +55,7 @@ struct RESOURCE {
     }
 };
 
-// message intended for human eyes
+// a message for the volunteer
 //
 struct USER_MESSAGE {
     std::string message;
@@ -65,8 +64,8 @@ struct USER_MESSAGE {
 };
 
 struct HOST_USAGE {
-    double ncudas;
-    double natis;
+    int proc_type;
+    double gpu_usage;
     double gpu_ram;
     double avg_ncpus;
     double max_ncpus;
@@ -75,12 +74,12 @@ struct HOST_USAGE {
         // Taken from host_app_version elapsed time statistics if available,
         // else on estimate provided by app_plan()
     double peak_flops;
-        // stored in result.estimated_flops, and used for credit calculations
+        // stored in result.flops_estimate, and used for credit calculations
     char cmdline[256];
 
     HOST_USAGE() {
-        ncudas = 0;
-        natis = 0;
+        proc_type = PROC_TYPE_CPU;
+        gpu_usage = 0;
         gpu_ram = 0;
         avg_ncpus = 1;
         max_ncpus = 1;
@@ -88,58 +87,50 @@ struct HOST_USAGE {
         peak_flops = 0;
         strcpy(cmdline, "");
     }
-    void sequential_app(double x) {
-        ncudas = 0;
-        natis = 0;
+    void sequential_app(double flops) {
+        proc_type = PROC_TYPE_CPU;
+        gpu_usage = 0;
         gpu_ram = 0;
         avg_ncpus = 1;
         max_ncpus = 1;
-        if (x <= 0) x = 1e9;
-        projected_flops = x;
-        peak_flops = x;
+        if (flops <= 0) flops = 1e9;
+        projected_flops = flops;
+        peak_flops = flops;
         strcpy(cmdline, "");
     }
     inline bool is_sequential_app() {
-         if (ncudas) return false;
-         if (natis) return false;
+         if (proc_type != PROC_TYPE_CPU) return false;
          if (avg_ncpus != 1) return false;
          return true;
     }
     inline int resource_type() {
-        if (ncudas) {
-            return ANON_PLATFORM_NVIDIA;
-        } else if (natis) {
-            return ANON_PLATFORM_ATI;
+        switch (proc_type) {
+        case PROC_TYPE_NVIDIA_GPU: return ANON_PLATFORM_NVIDIA;
+        case PROC_TYPE_AMD_GPU: return ANON_PLATFORM_ATI;
+        case PROC_TYPE_INTEL_GPU: return ANON_PLATFORM_INTEL;
+        default: return ANON_PLATFORM_CPU;
         }
-        return ANON_PLATFORM_CPU;
-    }
-    inline const char* resource_name() {
-        if (ncudas) {
-            return "nvidia GPU";
-        } else if (natis) {
-            return "ATI GPU";
-        }
-        return "CPU";
     }
     inline bool uses_gpu() {
-        if (ncudas) return true;
-        if (natis) return true;
-        return false;
+        return (proc_type != PROC_TYPE_CPU);
     }
 };
 
-// a description of a sticky file on host.
+// a description of a sticky file on host, or a job input file
 //
 struct FILE_INFO {
     char name[256];
+    double nbytes;
+    int status;
+    bool sticky;
 
-    int parse(FILE*);
+    int parse(XML_PARSER&);
 };
 
 struct MSG_FROM_HOST_DESC {
     char variety[256];
     std::string msg_text;
-    int parse(FILE*);
+    int parse(XML_PARSER&);
 };
 
 // an app version from an anonymous-platform client
@@ -160,7 +151,7 @@ struct CLIENT_APP_VERSION {
         // if NULL, this record is a place-holder,
         // used to preserve array indices
 
-    int parse(FILE*);
+    int parse(XML_PARSER&);
 };
 
 // keep track of the best app_version for each app for this host
@@ -200,12 +191,8 @@ struct SCHED_DB_RESULT : DB_RESULT {
     // the following used by the scheduler, but not stored in the DB
     //
     char wu_name[256];
-    double fpops_per_cpu_sec;
-    double fpops_cumulative;
-    double intops_per_cpu_sec;
-    double intops_cumulative;
     int units;      // used for granting credit by # of units processed
-    int parse_from_client(FILE*);
+    int parse_from_client(XML_PARSER&);
     char platform_name[256];
     BEST_APP_VERSION bav;
 
@@ -254,7 +241,7 @@ struct OTHER_RESULT {
     bool abort_if_not_started;
     int reason;     // see codes below
 
-    int parse(FILE*);
+    int parse(XML_PARSER&);
 };
 
 #define ABORT_REASON_NOT_FOUND      1
@@ -264,7 +251,7 @@ struct OTHER_RESULT {
 
 struct CLIENT_PLATFORM {
     char name[256];
-    int parse(FILE*);
+    int parse(XML_PARSER&);
 };
 
 struct PLATFORM_LIST {
@@ -297,11 +284,14 @@ struct SCHEDULER_REQUEST {
         // currently queued jobs saturate the CPU for this long;
         // used for crude deadline check
     double duration_correction_factor;
+    double uptime;
+    double previous_uptime;
     char global_prefs_xml[BLOB_SIZE];
     char working_global_prefs_xml[BLOB_SIZE];
     char code_sign_key[4096];
 
     std::vector<CLIENT_APP_VERSION> client_app_versions;
+
     GLOBAL_PREFS global_prefs;
     char global_prefs_source_email_hash[MD5_LEN];
 
@@ -310,13 +300,21 @@ struct SCHEDULER_REQUEST {
     COPROCS coprocs;
     std::vector<SCHED_DB_RESULT> results;
         // completed results being reported
+    bool results_truncated;
+        // set if (to limit memory usage) we capped this size of "results"
+        // In this case, don't resend lost results
+        // since we don't know what was lost.
+    std::vector<RESULT> file_xfer_results;
     std::vector<MSG_FROM_HOST_DESC> msgs_from_host;
     std::vector<FILE_INFO> file_infos;
-        // sticky files reported by host for locality scheduling
+        // sticky files reported by host
+
+    // temps used by locality scheduling:
     std::vector<FILE_INFO> file_delete_candidates;
-        // sticky files reported by host, deletion candidates
+        // deletion candidates
     std::vector<FILE_INFO> files_not_needed;
-        // sticky files reported by host, no longer needed
+        // files no longer needed
+
     std::vector<OTHER_RESULT> other_results;
         // in-progress results from this project
     std::vector<IP_RESULT> ip_results;
@@ -334,10 +332,11 @@ struct SCHEDULER_REQUEST {
         // Don't modify user prefs or CPID
     int last_rpc_dayofyear;
     int current_rpc_dayofyear;
+    std::string client_opaque;
 
     SCHEDULER_REQUEST(){};
     ~SCHEDULER_REQUEST(){};
-    const char* parse(FILE*);
+    const char* parse(XML_PARSER&);
     int write(FILE*); // write request info to file: not complete
 };
 
@@ -355,12 +354,19 @@ struct DISK_LIMITS {
 struct WORK_REQ {
     bool anonymous_platform;
 
+    // the following defined if anonymous platform
+    //
+    bool client_has_apps_for_proc_type[NPROC_TYPES];
+
     // Flags used by old-style scheduling,
     // while making multiple passes through the work array
+    //
     bool infeasible_only;
     bool reliable_only;
     bool user_apps_only;
     bool beta_only;
+    bool locality_sched_lite;
+        // for LSL apps, send only jobs where client has > 0 files
 
     bool resend_lost_results;
         // this is set if the request is reporting a result
@@ -370,9 +376,8 @@ struct WORK_REQ {
         // so check and resend just in case.
 
     // user preferences
-    bool no_cuda;
-    bool no_ati;
-    bool no_cpu;
+    //
+    bool dont_use_proc_type[NPROC_TYPES];
     bool allow_non_preferred_apps;
     bool allow_beta_work;
     std::vector<APP_INFO> preferred_apps;
@@ -385,30 +390,22 @@ struct WORK_REQ {
 
     // 6.7+ clients send separate requests for different resource types:
     //
-    double cpu_req_secs;        // instance-seconds requested
-    double cpu_req_instances;   // number of idle instances, use if possible
-    double cuda_req_secs;
-    double cuda_req_instances;
-    double ati_req_secs;
-    double ati_req_instances;
-    inline bool need_cpu() {
-        return (cpu_req_secs>0) || (cpu_req_instances>0);
-    }
-    inline bool need_cuda() {
-        return (cuda_req_secs>0) || (cuda_req_instances>0);
-    }
-    inline bool need_ati() {
-        return (ati_req_secs>0) || (ati_req_instances>0);
+    double req_secs[NPROC_TYPES];
+        // instance-seconds requested
+    double req_instances[NPROC_TYPES];
+        // number of idle instances, use if possible
+    inline bool need_proc_type(int t) {
+        return (req_secs[t]>0) || (req_instances[t]>0);
     }
     inline void clear_cpu_req() {
-        cpu_req_secs = 0;
-        cpu_req_instances = 0;
+        req_secs[PROC_TYPE_CPU] = 0;
+        req_instances[PROC_TYPE_CPU] = 0;
     }
     inline void clear_gpu_req() {
-        cuda_req_secs = 0;
-        cuda_req_instances = 0;
-        ati_req_secs = 0;
-        ati_req_instances = 0;
+        for (int i=1; i<NPROC_TYPES; i++) {
+            req_secs[i] = 0;
+            req_instances[i] = 0;
+        }
     }
 
     // older clients send send a single number, the requested duration of jobs
@@ -464,15 +461,11 @@ struct WORK_REQ {
     bool hr_reject_temp;
     bool hr_reject_perm;
     bool outdated_client;
-    bool no_cuda_prefs;
-    bool no_ati_prefs;
-    bool no_cpu_prefs;
     bool max_jobs_on_host_exceeded;
     bool max_jobs_on_host_cpu_exceeded;
     bool max_jobs_on_host_gpu_exceeded;
     bool no_jobs_available;     // project has no work right now
     int max_jobs_per_rpc;
-    void update_for_result(double seconds_filled);
     void add_no_work_message(const char*);
     void get_job_limits();
 
@@ -506,13 +499,17 @@ struct SCHEDULER_REPLY {
     std::vector<std::string>result_abort_if_not_starteds;
     std::vector<MSG_TO_HOST>msgs_to_host;
     std::vector<FILE_INFO>file_deletes;
+    std::vector<std::string> file_transfer_requests;
     char code_sign_key[4096];
     char code_sign_key_signature[4096];
     bool send_msg_ack;
     bool project_is_down;
+    std::vector<APP_VERSION>old_app_versions;
+        // superceded app versions that we consider using because of
+        // homogeneous app version.
 
     SCHEDULER_REPLY();
-    ~SCHEDULER_REPLY();
+    ~SCHEDULER_REPLY(){};
 // CMC here -- added the bool below
     int write(FILE*, SCHEDULER_REQUEST&, bool, DB_QCN_HOST_IPADDR&);
     // int write(FILE*, SCHEDULER_REQUEST&);
@@ -529,6 +526,7 @@ struct SCHEDULER_REPLY {
 extern SCHEDULER_REQUEST* g_request;
 extern SCHEDULER_REPLY* g_reply;
 extern WORK_REQ* g_wreq;
+extern double capped_host_fpops();
 
 static inline void add_no_work_message(const char* m) {
     g_wreq->add_no_work_message(m);

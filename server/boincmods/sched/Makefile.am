@@ -1,5 +1,5 @@
 ## -*- mode: makefile; tab-width: 4 -*-
-## $Id: Makefile.am 23431 2011-04-24 21:33:51Z davea $
+## $Id$
 
 include $(top_srcdir)/Makefile.incl
 
@@ -19,6 +19,7 @@ libsched_sources = \
     ../db/boinc_db.cpp \
     ../db/db_base.cpp \
     ../tools/process_result_template.cpp \
+    ../tools/process_input_template.cpp \
     ../tools/backend_lib.cpp
 
 lib_LTLIBRARIES = libsched.la
@@ -91,6 +92,7 @@ cgidir = $(libexecdir)/cgi-bin
 scheddir = $(libexecdir)/sched
 
 bin_PROGRAMS = \
+	adjust_user_priority \
     delete_file \
     get_file \
     make_work \
@@ -106,6 +108,7 @@ sched_PROGRAMS = \
     db_purge \
     feeder \
     file_deleter \
+    antique_file_deleter \
     message_handler \
     sample_assimilator \
     sample_dummy_assimilator \
@@ -128,6 +131,7 @@ bin_SCRIPTS = start stop status
 noinst_HEADERS = \
     assimilate_handler.h \
     handle_request.h \
+    plan_class_spec.h \
     sched_main.h \
     sched_locality.h \
     sched_score.h \
@@ -147,18 +151,21 @@ cgi_sources = \
     handle_request.cpp \
     hr.cpp \
     hr_info.cpp \
-    sched_main.cpp \
+    plan_class_spec.cpp \
     sched_array.cpp \
     sched_assign.cpp \
     sched_customize.cpp \
+    sched_files.cpp \
     sched_hr.cpp \
-    sched_resend.cpp \
     sched_limit.cpp \
     sched_locality.cpp \
+    sched_main.cpp \
+    sched_resend.cpp \
     sched_result.cpp \
     sched_score.cpp \
     sched_send.cpp \
     sched_timezone.cpp \
+	../vda/sched_vda.cpp \
     sched_version.cpp \
     sched_types.cpp \
     time_stats_log.cpp
@@ -191,6 +198,9 @@ show_shmem_LDADD = $(SERVERLIBS)
 
 file_deleter_SOURCES = file_deleter.cpp
 file_deleter_LDADD = $(SERVERLIBS)
+
+antique_file_deleter_SOURCES = antique_file_deleter.cpp
+antique_file_deleter_LDADD = $(SERVERLIBS)
 
 VALIDATOR_SOURCES = \
 	credit.cpp \
@@ -260,6 +270,9 @@ put_file_LDADD = $(SERVERLIBS)
 
 delete_file_SOURCES = delete_file.cpp
 delete_file_LDADD = $(SERVERLIBS)
+
+adjust_user_priority_SOURCES = adjust_user_priority.cpp
+adjust_user_priority_LDADD = $(SERVERLIBS)
 
 sched_driver_SOURCES = sched_driver.cpp
 sched_driver_LDADD = $(SERVERLIBS)

@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2012 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -52,12 +52,13 @@ inline static const char* get_remote_addr() {
     const char * r = getenv("REMOTE_ADDR");
     return r ? r : "?.?.?.?";
 }
-
 // CMC end
 
 #ifdef _USING_FCGI_
 #include "boinc_fcgi.h"
 #endif
+
+using std::string;
 
 SCHEDULER_REQUEST* g_request;
 SCHEDULER_REPLY* g_reply;
@@ -77,49 +78,48 @@ void remove_quotes(char* p) {
     }
 }
 
-int CLIENT_APP_VERSION::parse(FILE* f) {
-    char buf[256];
+int CLIENT_APP_VERSION::parse(XML_PARSER& xp) {
     double x;
 
-    memset(this, 0, sizeof(CLIENT_APP_VERSION));
+    memset(this, 0, sizeof(*this));
     host_usage.avg_ncpus = 1;
-    while (fgets(buf, sizeof(buf), f)) {
-        if (match_tag(buf, "</app_version>")) {
+    while (!xp.get_tag()) {
+        if (xp.match_tag("/app_version")) {
             app = ssp->lookup_app_name(app_name);
             if (!app) return ERR_NOT_FOUND;
 
-            double f = host_usage.avg_ncpus * g_reply->host.p_fpops;
-            if (host_usage.ncudas && g_request->coprocs.nvidia.count) {
-                f += host_usage.ncudas*g_request->coprocs.nvidia.peak_flops;
+            double pf = host_usage.avg_ncpus * g_reply->host.p_fpops;
+            if (host_usage.proc_type != PROC_TYPE_CPU) {
+                COPROC* cp = g_request->coprocs.type_to_coproc(host_usage.proc_type);
+                pf += host_usage.gpu_usage*cp->peak_flops;
             }
-            if (host_usage.natis && g_request->coprocs.ati.count) {
-                f += host_usage.natis*g_request->coprocs.ati.peak_flops;
-            }
-            host_usage.peak_flops = f;
+            host_usage.peak_flops = pf;
             return 0;
         }
-        if (parse_str(buf, "<app_name>", app_name, 256)) continue;
-        if (parse_str(buf, "<platform>", platform, 256)) continue;
-        if (parse_str(buf, "<plan_class>", plan_class, 256)) continue;
-        if (parse_int(buf, "<version_num>", version_num)) continue;
-        if (parse_double(buf, "<avg_ncpus>", x)) {
+        if (xp.parse_str("app_name", app_name, 256)) continue;
+        if (xp.parse_str("platform", platform, 256)) continue;
+        if (xp.parse_str("plan_class", plan_class, 256)) continue;
+        if (xp.parse_int("version_num", version_num)) continue;
+        if (xp.parse_double("avg_ncpus", x)) {
             if (x>0) host_usage.avg_ncpus = x;
             continue;
         }
-        if (parse_double(buf, "<flops>", x)) {
+        if (xp.parse_double("flops", x)) {
             if (x>0) host_usage.projected_flops = x;
             continue;
         }
-        if (match_tag(buf, "<coproc>")) {
+        if (xp.match_tag("coproc")) {
             COPROC_REQ coproc_req;
-            MIOFILE mf;
-            mf.init_file(f);
-            int retval = coproc_req.parse(mf);
-            if (!retval && !strcmp(coproc_req.type, "CUDA")) {
-                host_usage.ncudas = coproc_req.count;
-            }
-            if (!retval && !strcmp(coproc_req.type, "ATI")) {
-                host_usage.natis = coproc_req.count;
+            int retval = coproc_req.parse(xp);
+            if (!retval) {
+                host_usage.gpu_usage = coproc_req.count;
+                if (!strcmp(coproc_req.type, "CUDA") || !strcmp(coproc_req.type, "NVIDIA")) {
+                    host_usage.proc_type = PROC_TYPE_NVIDIA_GPU;
+                } else if (!strcmp(coproc_req.type, "ATI")) {
+                    host_usage.proc_type = PROC_TYPE_AMD_GPU;
+                } else if (!strcmp(coproc_req.type, "INTEL")) {
+                    host_usage.proc_type = PROC_TYPE_INTEL_GPU;
+                }
             }
             continue;
         }
@@ -127,34 +127,33 @@ int CLIENT_APP_VERSION::parse(FILE* f) {
     return ERR_XML_PARSE;
 }
 
-int FILE_INFO::parse(FILE* f) {
-    char buf[256];
-
-    memset(this, 0, sizeof(FILE_INFO));
-    while (fgets(buf, sizeof(buf), f)) {
-        if (match_tag(buf, "</file_info>")) {
+int FILE_INFO::parse(XML_PARSER& xp) {
+    memset(this, 0, sizeof(*this));
+    while (!xp.get_tag()) {
+        if (xp.match_tag("/file_info")) {
             if (!strlen(name)) return ERR_XML_PARSE;
             return 0;
         }
-        if (parse_str(buf, "<name>", name, 256)) continue;
+        if (xp.parse_str("name", name, 256)) continue;
+        if (xp.parse_double("nbytes", nbytes)) continue;
+        if (xp.parse_int("status", status)) continue;
+        if (xp.parse_bool("sticky", sticky)) continue;
     }
     return ERR_XML_PARSE;
 }
 
-int OTHER_RESULT::parse(FILE* f) {
-    char buf[256];
-
+int OTHER_RESULT::parse(XML_PARSER& xp) {
     strcpy(name, "");
     have_plan_class = false;
     app_version = -1;
-    while (fgets(buf, sizeof(buf), f)) {
-        if (match_tag(buf, "</other_result>")) {
+    while (!xp.get_tag()) {
+        if (xp.match_tag("/other_result")) {
             if (!strcmp(name, "")) return ERR_XML_PARSE;
             return 0;
         }
-        if (parse_str(buf, "<name>", name, sizeof(name))) continue;
-        if (parse_int(buf, "<app_version>", app_version)) continue;
-        if (parse_str(buf, "<plan_class>", plan_class, sizeof(plan_class))) {
+        if (xp.parse_str("name", name, sizeof(name))) continue;
+        if (xp.parse_int("app_version", app_version)) continue;
+        if (xp.parse_str("plan_class", plan_class, sizeof(plan_class))) {
             have_plan_class = true;
             continue;
         }
@@ -162,27 +161,24 @@ int OTHER_RESULT::parse(FILE* f) {
     return ERR_XML_PARSE;
 }
 
-int IP_RESULT::parse(FILE* f) {
-    char buf[256];
-
+int IP_RESULT::parse(XML_PARSER& xp) {
     report_deadline = 0;
     cpu_time_remaining = 0;
     strcpy(name, "");
-    while (fgets(buf, sizeof(buf), f)) {
-        if (match_tag(buf, "</ip_result>")) return 0;
-        if (parse_str(buf, "<name>", name, sizeof(name))) continue;
-        if (parse_double(buf, "<report_deadline>", report_deadline)) continue;
-        if (parse_double(buf, "<cpu_time_remaining>", cpu_time_remaining)) continue;
+    while (!xp.get_tag()) {
+        if (xp.match_tag("/ip_result")) return 0;
+        if (xp.parse_str("name", name, sizeof(name))) continue;
+        if (xp.parse_double("report_deadline", report_deadline)) continue;
+        if (xp.parse_double("cpu_time_remaining", cpu_time_remaining)) continue;
     }
     return ERR_XML_PARSE;
 }
 
-int CLIENT_PLATFORM::parse(FILE* fin) {
-    char buf[256];
+int CLIENT_PLATFORM::parse(XML_PARSER& xp) {
     strcpy(name, "");
-    while (fgets(buf, sizeof(buf), fin)) {
-        if (match_tag(buf, "</alt_platform>")) return 0;
-        if (parse_str(buf, "<name>", name, sizeof(name))) continue;
+    while (!xp.get_tag()) {
+        if (xp.match_tag("/alt_platform")) return 0;
+        if (xp.parse_str("name", name, sizeof(name))) continue;
     }
     return ERR_XML_PARSE;
 }
@@ -199,8 +195,7 @@ void WORK_REQ::add_no_work_message(const char* message) {
 
 // return an error message or NULL
 //
-const char* SCHEDULER_REQUEST::parse(FILE* fin) {
-    char buf[256];
+const char* SCHEDULER_REQUEST::parse(XML_PARSER& xp) {
     SCHED_DB_RESULT result;
     int retval;
 
@@ -211,6 +206,7 @@ const char* SCHEDULER_REQUEST::parse(FILE* fin) {
     core_client_major_version = 0;
     core_client_minor_version = 0;
     core_client_release = 0;
+    core_client_version = 0;
     rpc_seqno = 0;
     work_req_seconds = 0;
     cpu_req_secs = 0;
@@ -230,54 +226,46 @@ const char* SCHEDULER_REQUEST::parse(FILE* fin) {
     client_cap_plan_class = false;
     sandbox = -1;
     allow_multiple_clients = -1;
+    results_truncated = false;
+    uptime = 0;
+    previous_uptime = 0;
 
-    // TODO: use XML_PARSER FOR THIS
-
-    if (!fgets(buf, sizeof(buf), fin)) {
-        return "fgets() failed";
+    if (xp.get_tag()) {
+        return "xp.get_tag() failed";
     }
-    if (strstr(buf, "<?xml")) {
-        fgets(buf, sizeof(buf), fin);
+    if (xp.match_tag("?xml")) {
+        xp.get_tag();
     }
-    if (!match_tag(buf, "<scheduler_request>")) return "no start tag";
-    while (fgets(buf, sizeof(buf), fin)) {
-        // If a line is too long, ignore it.
-        // This can happen e.g. if the client has bad global_prefs.xml
-        // This won't be necessary if we rewrite this using XML_PARSER
-        //
-        if (!strchr(buf, '\n')) {
-            while (fgets(buf, sizeof(buf), fin)) {
-                if (strchr(buf, '\n')) break;
-            }
-            continue;
-        }
-
-        if (match_tag(buf, "</scheduler_request>")) {
+    if (!xp.match_tag("scheduler_request")) return "no start tag";
+    while (!xp.get_tag()) {
+        if (xp.match_tag("/scheduler_request")) {
             core_client_version = 10000*core_client_major_version + 100*core_client_minor_version + core_client_release;
             return NULL;
         }
-        if (parse_str(buf, "<authenticator>", authenticator, sizeof(authenticator))) {
+        if (xp.parse_str("authenticator", authenticator, sizeof(authenticator))) {
             remove_quotes(authenticator);
             continue;
         }
-        if (parse_str(buf, "<cross_project_id>", cross_project_id, sizeof(cross_project_id))) continue;
-        if (parse_int(buf, "<hostid>", hostid)) continue;
-        if (parse_int(buf, "<rpc_seqno>", rpc_seqno)) continue;
-        if (parse_str(buf, "<platform_name>", platform.name, sizeof(platform.name))) continue;
-        if (match_tag(buf, "<alt_platform>")) {
+        if (xp.parse_str("cross_project_id", cross_project_id, sizeof(cross_project_id))) continue;
+        if (xp.parse_int("hostid", hostid)) continue;
+        if (xp.parse_int("rpc_seqno", rpc_seqno)) continue;
+        if (xp.parse_double("uptime", uptime)) continue;
+        if (xp.parse_double("previous_uptime", previous_uptime)) continue;
+        if (xp.parse_str("platform_name", platform.name, sizeof(platform.name))) continue;
+        if (xp.match_tag("alt_platform")) {
             CLIENT_PLATFORM cp;
-            retval = cp.parse(fin);
+            retval = cp.parse(xp);
             if (!retval) {
                 alt_platforms.push_back(cp);
             }
             continue;
         }
-        if (match_tag(buf, "<app_versions>")) {
-            while (fgets(buf, sizeof(buf), fin)) {
-                if (match_tag(buf, "</app_versions>")) break;
-                if (match_tag(buf, "<app_version>")) {
+        if (xp.match_tag("app_versions")) {
+            while (!xp.get_tag()) {
+                if (xp.match_tag("/app_versions")) break;
+                if (xp.match_tag("app_version")) {
                     CLIENT_APP_VERSION cav;
-                    retval = cav.parse(fin);
+                    retval = cav.parse(xp);
                     if (retval) {
                         if (!strcmp(platform.name, "anonymous")) {
                             if (retval == ERR_NOT_FOUND) {
@@ -306,62 +294,70 @@ const char* SCHEDULER_REQUEST::parse(FILE* fin) {
             }
             continue;
         }
-        if (parse_int(buf, "<core_client_major_version>", core_client_major_version)) continue;
-        if (parse_int(buf, "<core_client_minor_version>", core_client_minor_version)) continue;
-        if (parse_int(buf, "<core_client_release>", core_client_release)) continue;
-        if (parse_double(buf, "<work_req_seconds>", work_req_seconds)) continue;
-        if (parse_double(buf, "<cpu_req_secs>", cpu_req_secs)) continue;
-        if (parse_double(buf, "<cpu_req_instances>", cpu_req_instances)) continue;
-        if (parse_double(buf, "<resource_share_fraction>", resource_share_fraction)) continue;
-        if (parse_double(buf, "<rrs_fraction>", rrs_fraction)) continue;
-        if (parse_double(buf, "<prrs_fraction>", prrs_fraction)) continue;
-        if (parse_double(buf, "<estimated_delay>", cpu_estimated_delay)) continue;
-        if (parse_double(buf, "<duration_correction_factor>", host.duration_correction_factor)) continue;
-        if (match_tag(buf, "<global_preferences>")) {
+        if (xp.parse_int("core_client_major_version", core_client_major_version)) continue;
+        if (xp.parse_int("core_client_minor_version", core_client_minor_version)) continue;
+        if (xp.parse_int("core_client_release", core_client_release)) continue;
+        if (xp.parse_double("work_req_seconds", work_req_seconds)) continue;
+        if (xp.parse_double("cpu_req_secs", cpu_req_secs)) continue;
+        if (xp.parse_double("cpu_req_instances", cpu_req_instances)) continue;
+        if (xp.parse_double("resource_share_fraction", resource_share_fraction)) continue;
+        if (xp.parse_double("rrs_fraction", rrs_fraction)) continue;
+        if (xp.parse_double("prrs_fraction", prrs_fraction)) continue;
+        if (xp.parse_double("estimated_delay", cpu_estimated_delay)) continue;
+        if (xp.parse_double("duration_correction_factor", host.duration_correction_factor)) continue;
+        if (xp.match_tag("global_preferences")) {
             strcpy(global_prefs_xml, "<global_preferences>\n");
-            while (fgets(buf, sizeof(buf), fin)) {
-                if (strstr(buf, "</global_preferences>")) break;
-                safe_strcat(global_prefs_xml, buf);
-            }
+            char buf[BLOB_SIZE];
+            retval = xp.element_contents(
+                "</global_preferences>", buf, sizeof(buf)
+            );
+            if (retval) return "error copying global prefs";
+            safe_strcat(global_prefs_xml, buf);
             safe_strcat(global_prefs_xml, "</global_preferences>\n");
             continue;
         }
-        if (match_tag(buf, "<working_global_preferences>")) {
-            while (fgets(buf, sizeof(buf), fin)) {
-                if (strstr(buf, "</working_global_preferences>")) break;
-                safe_strcat(working_global_prefs_xml, buf);
-            }
+        if (xp.match_tag("working_global_preferences")) {
+            retval = xp.element_contents(
+                "</working_global_preferences>",
+                working_global_prefs_xml,
+                sizeof(working_global_prefs_xml)
+            );
+            if (retval) return "error copying working global prefs";
             continue;
         }
-        if (parse_str(buf, "<global_prefs_source_email_hash>", global_prefs_source_email_hash, sizeof(global_prefs_source_email_hash))) continue;
-        if (match_tag(buf, "<host_info>")) {
-            host.parse(fin);
+        if (xp.parse_str("global_prefs_source_email_hash", global_prefs_source_email_hash, sizeof(global_prefs_source_email_hash))) continue;
+        if (xp.match_tag("host_info")) {
+            host.parse(xp);
             continue;
         }
-        if (match_tag(buf, "<time_stats>")) {
-            host.parse_time_stats(fin);
+        if (xp.match_tag("time_stats")) {
+            host.parse_time_stats(xp);
             continue;
         }
-        if (match_tag(buf, "<time_stats_log>")) {
-            handle_time_stats_log(fin);
+        if (xp.match_tag("time_stats_log")) {
+            handle_time_stats_log(xp.f->f);
             have_time_stats_log = true;
             continue;
         }
-        if (match_tag(buf, "<net_stats>")) {
-            host.parse_net_stats(fin);
+        if (xp.match_tag("net_stats")) {
+            host.parse_net_stats(xp);
             continue;
         }
-        if (match_tag(buf, "<disk_usage>")) {
-            host.parse_disk_usage(fin);
+        if (xp.match_tag("disk_usage")) {
+            host.parse_disk_usage(xp);
             continue;
         }
-        if (match_tag(buf, "<result>")) {
-            result.parse_from_client(fin);
-#if 0   // enable if you need to limit CGI memory size
-            if (results.size() >= 1024) {
+        if (xp.match_tag("result")) {
+            retval = result.parse_from_client(xp);
+            if (retval) continue;
+            if (strstr(result.name, "download") || strstr(result.name, "upload")) {
+                file_xfer_results.push_back(result);
                 continue;
             }
-#endif
+            if (config.max_results_accepted && (int)(results.size()) >= config.max_results_accepted) {
+                results_truncated = true;
+                continue;
+            }
             // check if client is sending the same result twice.
             // Shouldn't happen, but if it does bad things will happen
             //
@@ -377,36 +373,37 @@ const char* SCHEDULER_REQUEST::parse(FILE* fin) {
             }
             continue;
         }
-        if (match_tag(buf, "<code_sign_key>")) {
-            copy_element_contents(fin, "</code_sign_key>", code_sign_key, sizeof(code_sign_key));
+        if (xp.match_tag("code_sign_key")) {
+            copy_element_contents(xp.f->f, "</code_sign_key>", code_sign_key, sizeof(code_sign_key));
+            strip_whitespace(code_sign_key);
             continue;
         }
-        if (match_tag(buf, "<msg_from_host>")) {
+        if (xp.match_tag("msg_from_host")) {
             MSG_FROM_HOST_DESC md;
-            retval = md.parse(fin);
+            retval = md.parse(xp);
             if (!retval) {
                 msgs_from_host.push_back(md);
             }
             continue;
         }
-        if (match_tag(buf, "<file_info>")) {
+        if (xp.match_tag("file_info")) {
             FILE_INFO fi;
-            retval = fi.parse(fin);
+            retval = fi.parse(xp);
             if (!retval) {
                 file_infos.push_back(fi);
             }
             continue;
         }
-        if (match_tag(buf, "<host_venue>")) {
+        if (xp.match_tag("host_venue")) {
             continue;
         }
-        if (match_tag(buf, "<other_results>")) {
+        if (xp.match_tag("other_results")) {
             have_other_results_list = true;
-            while (fgets(buf, sizeof(buf), fin)) {
-                if (match_tag(buf, "</other_results>")) break;
-                if (match_tag(buf, "<other_result>")) {
+            while (!xp.get_tag()) {
+                if (xp.match_tag("/other_results")) break;
+                if (xp.match_tag("other_result")) {
                     OTHER_RESULT o_r;
-                    retval = o_r.parse(fin);
+                    retval = o_r.parse(xp);
                     if (!retval) {
                         other_results.push_back(o_r);
                     }
@@ -414,15 +411,15 @@ const char* SCHEDULER_REQUEST::parse(FILE* fin) {
             }
             continue;
         }
-        if (match_tag(buf, "<in_progress_results>")) {
+        if (xp.match_tag("in_progress_results")) {
             have_ip_results_list = true;
             int i = 0;
             double now = time(0);
-            while (fgets(buf, sizeof(buf), fin)) {
-                if (match_tag(buf, "</in_progress_results>")) break;
-                if (match_tag(buf, "<ip_result>")) {
+            while (!xp.get_tag()) {
+                if (xp.match_tag("/in_progress_results")) break;
+                if (xp.match_tag("ip_result")) {
                     IP_RESULT ir;
-                    retval = ir.parse(fin);
+                    retval = ir.parse(xp);
                     if (!retval) {
                         if (!strlen(ir.name)) {
                             sprintf(ir.name, "ip%d", i++);
@@ -434,57 +431,51 @@ const char* SCHEDULER_REQUEST::parse(FILE* fin) {
             }
             continue;
         }
-        if (match_tag(buf, "coprocs")) {
-            MIOFILE mf;
-            mf.init_file(fin);
-            coprocs.parse(mf);
+        if (xp.match_tag("coprocs")) {
+            coprocs.parse(xp);
             continue;
         }
-        if (parse_bool(buf, "client_cap_plan_class", client_cap_plan_class)) continue;
-        if (parse_int(buf, "<sandbox>", sandbox)) continue;
-        if (parse_int(buf, "<allow_multiple_clients>", allow_multiple_clients)) continue;
+        if (xp.parse_bool("client_cap_plan_class", client_cap_plan_class)) continue;
+        if (xp.parse_int("sandbox", sandbox)) continue;
+        if (xp.parse_int("allow_multiple_clients", allow_multiple_clients)) continue;
+        if (xp.parse_string("client_opaque", client_opaque)) continue;
 
-        if (match_tag(buf, "<active_task_set>")) continue;
-        if (match_tag(buf, "<app>")) continue;
-        if (match_tag(buf, "<app_version>")) continue;
-        if (match_tag(buf, "<duration_variability>")) continue;
-        if (match_tag(buf, "<new_version_check_time>")) continue;
-        if (match_tag(buf, "<newer_version>")) continue;
-        if (match_tag(buf, "<project>")) continue;
-        if (match_tag(buf, "<project_files>")) continue;
-        if (match_tag(buf, "<proxy_info>")) continue;
-        if (match_tag(buf, "<user_network_request>")) continue;
-        if (match_tag(buf, "<user_run_request>")) continue;
-        if (match_tag(buf, "<master_url>")) continue;
-        if (match_tag(buf, "<project_name>")) continue;
-        if (match_tag(buf, "<user_name>")) continue;
-        if (match_tag(buf, "<team_name>")) continue;
-        if (match_tag(buf, "<email_hash>")) continue;
-        if (match_tag(buf, "<user_total_credit>")) continue;
-        if (match_tag(buf, "<user_expavg_credit>")) continue;
-        if (match_tag(buf, "<user_create_time>")) continue;
-        if (match_tag(buf, "<host_total_credit>")) continue;
-        if (match_tag(buf, "<host_expavg_credit>")) continue;
-        if (match_tag(buf, "<host_create_time>")) continue;
-        if (match_tag(buf, "<nrpc_failures>")) continue;
-        if (match_tag(buf, "<master_fetch_failures>")) continue;
-        if (match_tag(buf, "<min_rpc_time>")) continue;
-        if (match_tag(buf, "<short_term_debt>")) continue;
-        if (match_tag(buf, "<long_term_debt>")) continue;
-        if (match_tag(buf, "<resource_share>")) continue;
-        if (match_tag(buf, "<scheduler_url>")) continue;
-        if (match_tag(buf, "</project>")) continue;
-        if (match_tag(buf, "<?xml")) continue;
-        strip_whitespace(buf);
-        if (!strlen(buf)) continue;
+        if (xp.match_tag("active_task_set")) continue;
+        if (xp.match_tag("app")) continue;
+        if (xp.match_tag("app_version")) continue;
+        if (xp.match_tag("duration_variability")) continue;
+        if (xp.match_tag("new_version_check_time")) continue;
+        if (xp.match_tag("newer_version")) continue;
+        if (xp.match_tag("project")) continue;
+        if (xp.match_tag("project_files")) continue;
+        if (xp.match_tag("proxy_info")) continue;
+        if (xp.match_tag("user_network_request")) continue;
+        if (xp.match_tag("user_run_request")) continue;
+        if (xp.match_tag("master_url")) continue;
+        if (xp.match_tag("project_name")) continue;
+        if (xp.match_tag("user_name")) continue;
+        if (xp.match_tag("team_name")) continue;
+        if (xp.match_tag("email_hash")) continue;
+        if (xp.match_tag("user_total_credit")) continue;
+        if (xp.match_tag("user_expavg_credit")) continue;
+        if (xp.match_tag("user_create_time")) continue;
+        if (xp.match_tag("host_total_credit")) continue;
+        if (xp.match_tag("host_expavg_credit")) continue;
+        if (xp.match_tag("host_create_time")) continue;
+        if (xp.match_tag("nrpc_failures")) continue;
+        if (xp.match_tag("master_fetch_failures")) continue;
+        if (xp.match_tag("min_rpc_time")) continue;
+        if (xp.match_tag("short_term_debt")) continue;
+        if (xp.match_tag("long_term_debt")) continue;
+        if (xp.match_tag("resource_share")) continue;
+        if (xp.match_tag("scheduler_url")) continue;
+        if (xp.match_tag("/project")) continue;
+        if (xp.match_tag("?xml")) continue;
 
         log_messages.printf(MSG_NORMAL,
-            "SCHEDULER_REQUEST::parse(): unrecognized: %s\n", buf
+            "SCHEDULER_REQUEST::parse(): unexpected: %s\n", xp.parsed_tag
         );
-        MIOFILE mf;
-        mf.init_file(fin);
-        retval = skip_unrecognized(buf, mf);
-        if (retval) return "unterminated unrecognized XML";
+        xp.skip_unexpected();
     }
     return "no end tag";
 }
@@ -612,11 +603,12 @@ int SCHEDULER_REQUEST::write(FILE* fout) {
     return 0;
 }
 
-int MSG_FROM_HOST_DESC::parse(FILE* fin) {
+int MSG_FROM_HOST_DESC::parse(XML_PARSER& xp) {
     char buf[256];
 
     msg_text = "";
-    while (fgets(buf, sizeof(buf), fin)) {
+    MIOFILE& in = *(xp.f);
+    while (in.fgets(buf, sizeof(buf))) {
         if (match_tag(buf, "</msg_from_host>")) return 0;
         if (parse_str(buf, "<variety>", variety, sizeof(variety))) continue;
         msg_text += buf;
@@ -641,15 +633,12 @@ SCHEDULER_REPLY::SCHEDULER_REPLY() {
     strcpy(email_hash, "");
 }
 
-SCHEDULER_REPLY::~SCHEDULER_REPLY() {
-}
-
-
 // CMC added bool bTrigger which is passed in from handle_request.C so we can bypass
 // quakes and other big messages (i.e. project prefs) for a trigger trickle to
 // expedite the trigger process
 int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq, bool bTrigger, DB_QCN_HOST_IPADDR& qhip) {
 //int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq) {
+// end CMC
     unsigned int i;
     char buf[BLOB_SIZE];
 
@@ -669,6 +658,9 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq, bool bTrigger, D
         "<scheduler_version>%d</scheduler_version>\n",
         BOINC_MAJOR_VERSION*100+BOINC_MINOR_VERSION
     );
+    if (sreq.core_client_version >= 70028) {
+        fprintf(fout, "<dont_use_dcf/>\n");
+    }
     if (strlen(config.master_url)) {
         fprintf(fout,
             "<master_url>%s</master_url>\n",
@@ -679,13 +671,29 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq, bool bTrigger, D
         fprintf(fout, "   <ended>1</ended>\n");
     }
 
+ // CMC block to bypass on triggers
+  if (!bTrigger) {
+    if (request_delay || config.min_sendwork_interval) {
+        double min_delay_needed = 1.01*config.min_sendwork_interval;
+        if (min_delay_needed < config.min_sendwork_interval+1) {
+            min_delay_needed = config.min_sendwork_interval+1;
+        }
+        if (request_delay<min_delay_needed) {
+            request_delay = min_delay_needed;
+        }
+        fprintf(fout, "<request_delay>%f</request_delay>\n", request_delay);
+    }
+    log_messages.printf(MSG_NORMAL,
+        "Sending reply to [HOST#%d]: %d results, delay req %.2f\n",
+        host.id, wreq.njobs_sent, request_delay
+    );
+  } // CMC end bypass on triggers
+
     // if the scheduler has requested a delay OR the sysadmin has configured
     // the scheduler with a minimum time between RPCs, send a delay request.
     // Make it 1% larger than the min required to take care of time skew.
     // If this is less than one second bigger, bump up by one sec.
     //
- // CMC block to bypass on triggers
-  if (!bTrigger) {
     if (request_delay || config.min_sendwork_interval) {
         double min_delay_needed = 1.01*config.min_sendwork_interval;
         if (min_delay_needed < config.min_sendwork_interval+1) {
@@ -700,14 +708,13 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq, bool bTrigger, D
         "Sending reply to [HOST#%d]: %d results, delay req %.2f\n",
         host.id, wreq.njobs_sent, request_delay
     );
-  } // CMC end bypass on triggers
 
     if (sreq.core_client_version <= 41900) {
-        std::string msg;
-        std::string pri = "low";
+        string msg;
+        string pri = "low";
         for (i=0; i<messages.size(); i++) {
             USER_MESSAGE& um = messages[i];
-            msg += um.message + std::string(" ");
+            msg += um.message + string(" ");
             if (um.priority == "notice") {
                 pri = "notice";
             }
@@ -717,8 +724,8 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq, bool bTrigger, D
             // replace them with spaces.
             //
             while (1) {
-                std::string::size_type pos = msg.find("\n", 0);
-                if (pos == std::string::npos) break;
+                string::size_type pos = msg.find("\n", 0);
+                if (pos == string::npos) break;
                 msg.replace(pos, 1, " ");
             }
             fprintf(fout,
@@ -811,6 +818,8 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq, bool bTrigger, D
             fputs("\n", fout);
         }
 
+
+
    // CMC here -- send latest quake list
         // always send project prefs
         //
@@ -849,9 +858,11 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq, bool bTrigger, D
                 log_messages.printf(MSG_DEBUG,
                   "sched::handle_request::qcn_host_ipadr values: %s\n", strLatLng);
            }
-           // CMC End
+
+
          const char* strWhere = strstr(user.project_prefs, "</project_specific>");
          strTemp  = new char[APP_VERSION_XML_BLOB_SIZE];
+
 /*
        if (bTrigger) {  // send lat/lng info back to client for this trigger
          // send lat/lng on trigger trickles
@@ -887,7 +898,7 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq, bool bTrigger, D
                strlcat(strTemp, "\n</project_specific>\n</project_preferences>\n", APP_VERSION_XML_BLOB_SIZE);
            }
            else {  // blank project prefs, so just write quake data
-               sprintf(strTemp, "\n<project_preferences>\n<project_specific>\n%s%s</project_specific>\n</project_preferences>\n", 
+               sprintf(strTemp, "\n<project_preferences>\n<project_specific>\n%s%s</project_specific>\n</project_preferences>\n",
                  strQuake, strLatLng ? strLatLng : "");
            }
 
@@ -912,6 +923,8 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq, bool bTrigger, D
      } // ! bTrigger
      // end CMC mods
     }  // userid
+
+// CMC End
 
     if (hostid) {
         fprintf(fout,
@@ -989,6 +1002,7 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq, bool bTrigger, D
 
     for (i=0; i<wus.size(); i++) {
         fputs(wus[i].xml_doc, fout);
+        fputs("\n", fout);  // for old clients
     }
 
     for (i=0; i<results.size(); i++) {
@@ -998,7 +1012,7 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq, bool bTrigger, D
     if (strlen(code_sign_key)) {
         fputs("<code_sign_key>\n", fout);
         fputs(code_sign_key, fout);
-        fputs("</code_sign_key>\n", fout);
+        fputs("\n</code_sign_key>\n", fout);
     }
 
     if (strlen(code_sign_key_signature)) {
@@ -1030,15 +1044,29 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq, bool bTrigger, D
             file_deletes[i].name
         );
     }
+    for (i=0; i<file_transfer_requests.size(); i++) {
+        fprintf(fout, "%s", file_transfer_requests[i].c_str());
+    }
 
-    fprintf(fout,
-        "<no_cpu_apps>%d</no_cpu_apps>\n"
-        "<no_cuda_apps>%d</no_cuda_apps>\n"
-        "<no_ati_apps>%d</no_ati_apps>\n",
-        ssp->have_cpu_apps?0:1,
-        ssp->have_cuda_apps?0:1,
-        ssp->have_ati_apps?0:1
-    );
+    if (g_request->core_client_version < 73000) {
+        fprintf(fout,
+            "<no_cpu_apps>%d</no_cpu_apps>\n"
+            "<no_cuda_apps>%d</no_cuda_apps>\n"
+            "<no_ati_apps>%d</no_ati_apps>\n",
+            ssp->have_apps_for_proc_type[PROC_TYPE_CPU]?0:1,
+            ssp->have_apps_for_proc_type[PROC_TYPE_NVIDIA_GPU]?0:1,
+            ssp->have_apps_for_proc_type[PROC_TYPE_AMD_GPU]?0:1
+        );
+    } else {
+        for (i=0; i<NPROC_TYPES; i++) {
+            if (!ssp->have_apps_for_proc_type[i]) {
+                fprintf(fout,
+                    "<no_rsc_apps>%s</no_rsc_apps>\n",
+                    proc_type_name_xml(i)
+                );
+            }
+        }
+    }
     gui_urls.get_gui_urls(user, host, team, buf);
     fputs(buf, fout);
     if (project_files.text) {
@@ -1119,8 +1147,10 @@ int APP::write(FILE* fout) {
         "<app>\n"
         "    <name>%s</name>\n"
         "    <user_friendly_name>%s</user_friendly_name>\n"
+        "    <non_cpu_intensive>%d</non_cpu_intensive>\n"
         "</app>\n",
-        name, user_friendly_name
+        name, user_friendly_name,
+        non_cpu_intensive?1:0
     );
     return 0;
 }
@@ -1155,22 +1185,27 @@ int APP_VERSION::write(FILE* fout) {
             bavp->host_usage.cmdline
         );
     }
-    if (bavp->host_usage.ncudas) {
+    int pt = bavp->host_usage.proc_type;
+    if (pt != PROC_TYPE_CPU) {
+        const char* nm;
+        if (pt == PROC_TYPE_NVIDIA_GPU) {
+            // KLUDGE: older clients use "CUDA", newer ones use "NVIDIA"
+            //
+            if (g_request->core_client_version < 70000) {
+                nm = "CUDA";
+            } else {
+                nm = proc_type_name_xml(pt);
+            }
+        } else {
+            nm = proc_type_name_xml(pt);
+        }
         fprintf(fout,
             "    <coproc>\n"
-            "        <type>CUDA</type>\n"
+            "        <type>%s</type>\n"
             "        <count>%f</count>\n"
             "    </coproc>\n",
-            bavp->host_usage.ncudas
-        );
-    }
-    if (bavp->host_usage.natis) {
-        fprintf(fout,
-            "    <coproc>\n"
-            "        <type>ATI</type>\n"
-            "        <count>%f</count>\n"
-            "    </coproc>\n",
-            bavp->host_usage.natis
+            nm,
+            bavp->host_usage.gpu_usage
         );
     }
     if (bavp->host_usage.gpu_ram) {
@@ -1194,6 +1229,7 @@ int SCHED_DB_RESULT::write_to_client(FILE* fout) {
     }
     *p = 0;
     fputs(buf, fout);
+    fputs("\n", fout);  // for old clients
 
     APP_VERSION* avp = bav.avp;
     CLIENT_APP_VERSION* cavp = bav.cavp;
@@ -1218,175 +1254,176 @@ int SCHED_DB_RESULT::write_to_client(FILE* fout) {
     return 0;
 }
 
-int SCHED_DB_RESULT::parse_from_client(FILE* fin) {
-    char buf[256];
-    char tmp[BLOB_SIZE];
+int SCHED_DB_RESULT::parse_from_client(XML_PARSER& xp) {
+    double dtemp;
+    bool btemp;
+    string stemp;
+    int itemp;
 
     // should be non-zero if exit_status is not found
     exit_status = ERR_NO_EXIT_STATUS;
-    memset(this, 0, sizeof(RESULT));
-    while (fgets(buf, sizeof(buf), fin)) {
-        if (match_tag(buf, "</result>")) {
+    memset(this, 0, sizeof(*this));
+    while (!xp.get_tag()) {
+        if (xp.match_tag("/result")) {
             return 0;
         }
-        if (parse_str(buf, "<name>", name, sizeof(name))) continue;
-        if (parse_int(buf, "<state>", client_state)) continue;
-        if (parse_double(buf, "<final_cpu_time>", cpu_time)) continue;
-        if (parse_double(buf, "<final_elapsed_time>", elapsed_time)) continue;
-        if (parse_int(buf, "<exit_status>", exit_status)) continue;
-        if (parse_int(buf, "<app_version_num>", app_version_num)) continue;
-        if (parse_double(buf, "<fpops_per_cpu_sec>", fpops_per_cpu_sec)) continue;
-        if (parse_double(buf, "<fpops_cumulative>", fpops_cumulative)) continue;
-        if (parse_double(buf, "<intops_per_cpu_sec>", intops_per_cpu_sec)) continue;
-        if (parse_double(buf, "<intops_cumulative>", intops_cumulative)) continue;
-        if (match_tag(buf, "<file_info>")) {
-            safe_strcat(xml_doc_out, buf);
-            while (fgets(buf, sizeof(buf), fin)) {
-                safe_strcat(xml_doc_out, buf);
-                if (match_tag(buf, "</file_info>")) break;
-            }
+        if (xp.parse_str("name", name, sizeof(name))) continue;
+        if (xp.parse_int("state", client_state)) continue;
+        if (xp.parse_double("final_cpu_time", cpu_time)) continue;
+        if (xp.parse_double("final_elapsed_time", elapsed_time)) continue;
+        if (xp.parse_int("exit_status", exit_status)) continue;
+        if (xp.parse_int("app_version_num", app_version_num)) continue;
+        if (xp.match_tag("file_info")) {
+            string s;
+            xp.copy_element(s);
+            safe_strcat(xml_doc_out, s.c_str());
             continue;
         }
-        if (match_tag(buf, "<stderr_out>" )) {
-            while (fgets(buf, sizeof(buf), fin)) {
-                if (match_tag(buf, "</stderr_out>")) break;
-                safe_strcat(stderr_out, buf);
-            }
+        if (xp.match_tag("stderr_out" )) {
+            copy_element_contents(xp.f->f, "</stderr_out>", stderr_out, sizeof(stderr_out));
             continue;
         }
-        if (match_tag(buf, "<platform>")) continue;
-        if (match_tag(buf, "<version_num>")) continue;
-        if (match_tag(buf, "<plan_class>")) continue;
-        if (match_tag(buf, "<completed_time>")) continue;
-        if (match_tag(buf, "<file_name>")) continue;
-        if (match_tag(buf, "<file_ref>")) continue;
-        if (match_tag(buf, "</file_ref>")) continue;
-        if (match_tag(buf, "<open_name>")) continue;
-        if (match_tag(buf, "<ready_to_report>")) continue;
-        if (match_tag(buf, "<ready_to_report/>")) continue;
-        if (match_tag(buf, "<report_deadline>")) continue;
-        if (match_tag(buf, "<wu_name>")) continue;
+        if (xp.parse_string("platform", stemp)) continue;
+        if (xp.parse_int("version_num", itemp)) continue;
+        if (xp.parse_string("plan_class", stemp)) continue;
+        if (xp.parse_double("completed_time", dtemp)) continue;
+        if (xp.parse_string("file_name", stemp)) continue;
+        if (xp.match_tag("file_ref")) {
+            xp.copy_element(stemp);
+            continue;
+        }
+        if (xp.parse_string("open_name", stemp)) continue;
+        if (xp.parse_bool("ready_to_report", btemp)) continue;
+        if (xp.parse_double("report_deadline", dtemp)) continue;
+        if (xp.parse_string("wu_name", stemp)) continue;
+
+        // deprecated stuff
+        if (xp.parse_double("fpops_per_cpu_sec", dtemp)) continue;
+        if (xp.parse_double("fpops_cumulative", dtemp)) continue;
+        if (xp.parse_double("intops_per_cpu_sec", dtemp)) continue;
+        if (xp.parse_double("intops_cumulative", dtemp)) continue;
 
         log_messages.printf(MSG_NORMAL,
             "RESULT::parse_from_client(): unrecognized: %s\n",
-            buf
+            xp.parsed_tag
         );
     }
     return ERR_XML_PARSE;
 }
 
-int HOST::parse(FILE* fin) {
-    char buf[1024];
-
+int HOST::parse(XML_PARSER& xp) {
     p_ncpus = 1;
-    while (fgets(buf, sizeof(buf), fin)) {
-        if (match_tag(buf, "</host_info>")) return 0;
-        if (parse_int(buf, "<timezone>", timezone)) continue;
-        if (parse_str(buf, "<domain_name>", domain_name, sizeof(domain_name))) continue;
-        if (parse_str(buf, "<ip_addr>", last_ip_addr, sizeof(last_ip_addr))) continue;
-        if (parse_str(buf, "<host_cpid>", host_cpid, sizeof(host_cpid))) continue;
-        if (parse_int(buf, "<p_ncpus>", p_ncpus)) continue;
-        if (parse_str(buf, "<p_vendor>", p_vendor, sizeof(p_vendor))) continue;
-        if (parse_str(buf, "<p_model>", p_model, sizeof(p_model))) continue;
-        if (parse_double(buf, "<p_fpops>", p_fpops)) continue;
-        if (parse_double(buf, "<p_iops>", p_iops)) continue;
-        if (parse_double(buf, "<p_membw>", p_membw)) continue;
-        if (parse_str(buf, "<os_name>", os_name, sizeof(os_name))) continue;
-        if (parse_str(buf, "<os_version>", os_version, sizeof(os_version))) continue;
-        if (parse_double(buf, "<m_nbytes>", m_nbytes)) continue;
-        if (parse_double(buf, "<m_cache>", m_cache)) continue;
-        if (parse_double(buf, "<m_swap>", m_swap)) continue;
-        if (parse_double(buf, "<d_total>", d_total)) continue;
-        if (parse_double(buf, "<d_free>", d_free)) continue;
-        if (parse_double(buf, "<n_bwup>", n_bwup)) continue;
-        if (parse_double(buf, "<n_bwdown>", n_bwdown)) continue;
-        if (parse_str(buf, "<p_features>", p_features, sizeof(p_features))) continue;
-        if (parse_str(buf, "<virtualbox_version>", virtualbox_version, sizeof(virtualbox_version))) continue;
+    double dtemp;
+    string stemp;
+    while (!xp.get_tag()) {
+        if (xp.match_tag("/host_info")) return 0;
+        if (xp.parse_int("timezone", timezone)) continue;
+        if (xp.parse_str("domain_name", domain_name, sizeof(domain_name))) continue;
+        if (xp.parse_str("ip_addr", last_ip_addr, sizeof(last_ip_addr))) continue;
+        if (xp.parse_str("host_cpid", host_cpid, sizeof(host_cpid))) continue;
+        if (xp.parse_int("p_ncpus", p_ncpus)) continue;
+        if (xp.parse_str("p_vendor", p_vendor, sizeof(p_vendor))) continue;
+        if (xp.parse_str("p_model", p_model, sizeof(p_model))) continue;
+        if (xp.parse_double("p_fpops", p_fpops)) continue;
+        if (xp.parse_double("p_iops", p_iops)) continue;
+        if (xp.parse_double("p_membw", p_membw)) continue;
+        if (xp.parse_str("os_name", os_name, sizeof(os_name))) continue;
+        if (xp.parse_str("os_version", os_version, sizeof(os_version))) continue;
+        if (xp.parse_double("m_nbytes", m_nbytes)) continue;
+        if (xp.parse_double("m_cache", m_cache)) continue;
+        if (xp.parse_double("m_swap", m_swap)) continue;
+        if (xp.parse_double("d_total", d_total)) continue;
+        if (xp.parse_double("d_free", d_free)) continue;
+        if (xp.parse_double("n_bwup", n_bwup)) continue;
+        if (xp.parse_double("n_bwdown", n_bwdown)) continue;
+        if (xp.parse_str("p_features", p_features, sizeof(p_features))) continue;
+        if (xp.parse_str("virtualbox_version", virtualbox_version, sizeof(virtualbox_version))) continue;
+        if (xp.parse_bool("p_vm_extensions_disabled", p_vm_extensions_disabled)) continue;
 
         // parse deprecated fields to avoid error messages
         //
-        if (match_tag(buf, "<p_calculated>")) continue;
-        if (match_tag(buf, "<p_fpop_err>")) continue;
-        if (match_tag(buf, "<p_iop_err>")) continue;
-        if (match_tag(buf, "<p_membw_err>")) continue;
+        if (xp.parse_double("p_calculated", dtemp)) continue;
+        if (xp.match_tag("p_fpop_err")) continue;
+        if (xp.match_tag("p_iop_err")) continue;
+        if (xp.match_tag("p_membw_err")) continue;
 
         // fields reported by 5.5+ clients, not currently used
         //
-        if (match_tag(buf, "<p_capabilities>")) continue;
-        if (match_tag(buf, "<accelerators>")) continue;
+        if (xp.parse_string("p_capabilities", stemp)) continue;
+        if (xp.parse_string("accelerators", stemp)) continue;
 
 #if 1
         // not sure where these fields belong in the above categories
         //
-        if (match_tag(buf, "<cpu_caps>")) continue;
-        if (match_tag(buf, "<cache_l1>")) continue;
-        if (match_tag(buf, "<cache_l2>")) continue;
-        if (match_tag(buf, "<cache_l3>")) continue;
+        if (xp.parse_string("cpu_caps", stemp)) continue;
+        if (xp.parse_string("cache_l1", stemp)) continue;
+        if (xp.parse_string("cache_l2", stemp)) continue;
+        if (xp.parse_string("cache_l3", stemp)) continue;
 #endif
 
         log_messages.printf(MSG_NORMAL,
-            "HOST::parse(): unrecognized: %s\n", buf
+            "HOST::parse(): unrecognized: %s\n", xp.parsed_tag
         );
     }
     return ERR_XML_PARSE;
 }
 
 
-int HOST::parse_time_stats(FILE* fin) {
-    char buf[256];
-
-    while (fgets(buf, sizeof(buf), fin)) {
-        if (match_tag(buf, "</time_stats>")) return 0;
-        if (parse_double(buf, "<on_frac>", on_frac)) continue;
-        if (parse_double(buf, "<connected_frac>", connected_frac)) continue;
-        if (parse_double(buf, "<active_frac>", active_frac)) continue;
+int HOST::parse_time_stats(XML_PARSER& xp) {
+    while (!xp.get_tag()) {
+        if (xp.match_tag("/time_stats")) return 0;
+        if (xp.parse_double("on_frac", on_frac)) continue;
+        if (xp.parse_double("connected_frac", connected_frac)) continue;
+        if (xp.parse_double("active_frac", active_frac)) continue;
+        if (xp.parse_double("gpu_active_frac", gpu_active_frac)) continue;
+        if (xp.parse_double("cpu_and_network_available_frac", cpu_and_network_available_frac)) continue;
+        if (xp.parse_double("client_start_time", client_start_time)) continue;
+        if (xp.parse_double("previous_uptime", previous_uptime)) continue;
 #if 0
-        if (match_tag(buf, "<outages>")) continue;
-        if (match_tag(buf, "<outage>")) continue;
-        if (match_tag(buf, "<start>")) continue;
-        if (match_tag(buf, "<end>")) continue;
+        if (xp.match_tag("outages")) continue;
+        if (xp.match_tag("outage")) continue;
+        if (xp.match_tag("start")) continue;
+        if (xp.match_tag("end")) continue;
         log_messages.printf(MSG_NORMAL,
             "HOST::parse_time_stats(): unrecognized: %s\n",
-            buf
+            xp.parsed_tag
         );
 #endif
     }
     return ERR_XML_PARSE;
 }
 
-int HOST::parse_net_stats(FILE* fin) {
-    char buf[256];
-
-    while (fgets(buf, sizeof(buf), fin)) {
-        if (match_tag(buf, "</net_stats>")) return 0;
-        if (parse_double(buf, "<bwup>", n_bwup)) continue;
-        if (parse_double(buf, "<bwdown>", n_bwdown)) continue;
+int HOST::parse_net_stats(XML_PARSER& xp) {
+    double dtemp;
+    while (!xp.get_tag()) {
+        if (xp.match_tag("/net_stats")) return 0;
+        if (xp.parse_double("bwup", n_bwup)) continue;
+        if (xp.parse_double("bwdown", n_bwdown)) continue;
 
         // items reported by 5.10+ clients, not currently used
         //
-        if (match_tag(buf, "<avg_time_up>")) continue;
-        if (match_tag(buf, "<avg_up>")) continue;
-        if (match_tag(buf, "<avg_time_down>")) continue;
-        if (match_tag(buf, "<avg_down>")) continue;
+        if (xp.parse_double("avg_time_up", dtemp)) continue;
+        if (xp.parse_double("avg_up", dtemp)) continue;
+        if (xp.parse_double("avg_time_down", dtemp)) continue;
+        if (xp.parse_double("avg_down", dtemp)) continue;
 
         log_messages.printf(MSG_NORMAL,
             "HOST::parse_net_stats(): unrecognized: %s\n",
-            buf
+            xp.parsed_tag
         );
     }
     return ERR_XML_PARSE;
 }
 
-int HOST::parse_disk_usage(FILE* fin) {
-    char buf[256];
-
-    while (fgets(buf, sizeof(buf), fin)) {
-        if (match_tag(buf, "</disk_usage>")) return 0;
-        if (parse_double(buf, "<d_boinc_used_total>", d_boinc_used_total)) continue;
-        if (parse_double(buf, "<d_boinc_used_project>", d_boinc_used_project)) continue;
+int HOST::parse_disk_usage(XML_PARSER& xp) {
+    while (!xp.get_tag()) {
+        if (xp.match_tag("/disk_usage")) return 0;
+        if (xp.parse_double("d_boinc_used_total", d_boinc_used_total)) continue;
+        if (xp.parse_double("d_boinc_used_project", d_boinc_used_project)) continue;
+        if (xp.parse_double("d_project_share", d_boinc_max)) continue;
         log_messages.printf(MSG_NORMAL,
             "HOST::parse_disk_usage(): unrecognized: %s\n",
-            buf
+            xp.parsed_tag
         );
     }
     return ERR_XML_PARSE;
@@ -1531,4 +1568,16 @@ DB_HOST_APP_VERSION* quota_exceeded_version() {
     return NULL;
 }
 
-const char *BOINC_RCSID_ea659117b3 = "$Id: sched_types.cpp 23636 2011-06-06 03:40:42Z davea $";
+double capped_host_fpops() {
+    double x = g_request->host.p_fpops;
+    if (!ssp) return x;
+    if (x <= 0) {
+        return ssp->perf_info.host_fpops_50_percentile;
+    }
+    if (x > ssp->perf_info.host_fpops_95_percentile*1.1) {
+        return ssp->perf_info.host_fpops_95_percentile*1.1;
+    }
+    return x;
+}
+
+const char *BOINC_RCSID_ea659117b3 = "$Id$";

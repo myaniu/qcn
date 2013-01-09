@@ -47,7 +47,10 @@
 #include "util.h"
 #include "filesys.h"
 
+#include "sched_vda.h"
+
 #include "credit.h"
+#include "sched_files.h"
 #include "sched_main.h"
 #include "sched_types.h"
 #include "sched_util.h"
@@ -71,13 +74,17 @@ static bool find_host_by_other(DB_USER& user, HOST req_host, DB_HOST& host) {
     char buf[2048];
     char dn[512], ip[512], os[512], pm[512];
 
-#ifdef EINSTEIN_AT_HOME
-    // This is to prevent GRID hosts that manipulate their hostids from flooding E@H's DB with slow queries
-    if ((user.id == 282952) || (user.id == 243543))
-      return false;
-#endif
+    // don't dig through hosts of these users
+    // prevents flooding the DB with slow queries from users with many hosts
+    //
+    for (unsigned int i=0; i < config.dont_search_host_for_userid.size(); i++) {
+        if (user.id == config.dont_search_host_for_userid[i]) {
+            return false;
+        }    
+    }
 
-    // Only check if the fields are populated
+    // Only check if all the fields are populated
+    //
     if (strlen(req_host.domain_name) && strlen(req_host.last_ip_addr) && strlen(req_host.os_name) && strlen(req_host.p_model)) {
         strcpy(dn, req_host.domain_name);
         escape_string(dn, 512);
@@ -410,7 +417,7 @@ make_new_host:
         //
         // NOTE: If the client was run with --allow_multiple_clients, skip this.
         //
-        if ((g_request->allow_multiple_clients==1)
+        if ((g_request->allow_multiple_clients != 1)
             && find_host_by_other(user, g_request->host, host)
         ) {
             log_messages.printf(MSG_NORMAL,
@@ -502,14 +509,26 @@ static int modify_host_struct(HOST& host) {
     g_request->coprocs.summary_string(buf2, sizeof(buf2));
     strlcpy(host.serialnum, buf, sizeof(host.serialnum));
     strlcat(host.serialnum, buf2, sizeof(host.serialnum));
+    if (strlen(g_request->host.virtualbox_version)) {
+        sprintf(buf2, "[vbox|%s]", g_request->host.virtualbox_version);
+        strlcat(host.serialnum, buf2, sizeof(host.serialnum));
+    }
     if (strcmp(host.last_ip_addr, g_request->host.last_ip_addr)) {
-        strncpy(host.last_ip_addr, g_request->host.last_ip_addr, sizeof(host.last_ip_addr));
+        strncpy(
+            host.last_ip_addr, g_request->host.last_ip_addr,
+            sizeof(host.last_ip_addr)
+        );
+        host.nsame_ip_addr = 0;
     } else {
         host.nsame_ip_addr++;
     }
     host.on_frac = g_request->host.on_frac;
     host.connected_frac = g_request->host.connected_frac;
     host.active_frac = g_request->host.active_frac;
+    host.gpu_active_frac = g_request->host.gpu_active_frac;
+    host.cpu_and_network_available_frac = g_request->host.cpu_and_network_available_frac;
+    host.client_start_time = g_request->host.client_start_time;
+    host.previous_uptime = g_request->host.previous_uptime;
     host.duration_correction_factor = g_request->host.duration_correction_factor;
     host.p_ncpus = g_request->host.p_ncpus;
     strncpy(host.p_vendor, g_request->host.p_vendor, sizeof(host.p_vendor));
@@ -692,14 +711,19 @@ int handle_global_prefs() {
     g_reply->send_global_prefs = false;
     bool have_working_prefs = (strlen(g_request->working_global_prefs_xml)>0);
     bool have_master_prefs = (strlen(g_request->global_prefs_xml)>0);
+        // absent if the host has host-specific prefs
     bool have_db_prefs = (strlen(g_reply->user.global_prefs)>0);
     bool same_account = !strcmp(
         g_request->global_prefs_source_email_hash, g_reply->email_hash
     );
-    double master_mod_time=0, db_mod_time=0;
+    double master_mod_time=0, db_mod_time=0, working_mod_time=0;
     if (have_master_prefs) {
         parse_double(g_request->global_prefs_xml, "<mod_time>", master_mod_time);
         if (master_mod_time > dtime()) master_mod_time = dtime();
+    }
+    if (have_working_prefs) {
+        parse_double(g_request->working_global_prefs_xml, "<mod_time>", working_mod_time);
+        if (working_mod_time > dtime()) working_mod_time = dtime();
     }
     if (have_db_prefs) {
         parse_double(g_reply->user.global_prefs, "<mod_time>", db_mod_time);
@@ -787,14 +811,14 @@ int handle_global_prefs() {
     //
     if (config.debug_prefs) {
         log_messages.printf(MSG_NORMAL,
-            "[prefs] have db %d; dbmod %f; global mod %f\n",
-            have_db_prefs, db_mod_time, g_request->global_prefs.mod_time
+            "[prefs] have DB prefs: %d; dbmod %f; global mod %f; working mod %f\n",
+            have_db_prefs, db_mod_time, g_request->global_prefs.mod_time, working_mod_time
         );
     }
-    if (have_db_prefs && db_mod_time > master_mod_time) {
+    if (have_db_prefs && db_mod_time > master_mod_time && db_mod_time > working_mod_time) {
         if (config.debug_prefs) {
             log_messages.printf(MSG_DEBUG,
-                "[prefs] sending db prefs in reply\n"
+                "[prefs] sending DB prefs in reply\n"
             );
         }
         g_reply->send_global_prefs = true;
@@ -809,7 +833,7 @@ int handle_global_prefs() {
 bool send_code_sign_key(char* code_sign_key) {
     char* oldkey, *signature;
     int i, retval;
-    char path[256];
+    char path[MAXPATHLEN];
 
     if (strlen(g_request->code_sign_key)) {
         if (strcmp(g_request->code_sign_key, code_sign_key)) {
@@ -1021,6 +1045,7 @@ void handle_msgs_from_host(DB_QCN_HOST_IPADDR& qhip) { // CMC mod line
 //        retval = mfh.insert();
 // CMC here - end block for mfh insert
 
+
         if (retval) {
             log_messages.printf(MSG_CRITICAL,
                 "[HOST#%d] message insert failed: %s\n",
@@ -1087,6 +1112,7 @@ static inline bool requesting_work() {
     if (g_request->cpu_req_secs > 0) return true;
     if (g_request->coprocs.nvidia.count && g_request->coprocs.nvidia.req_secs) return true;
     if (g_request->coprocs.ati.count && g_request->coprocs.ati.req_secs) return true;
+    if (ssp->have_nci_app) return true;
     return false;
 }
 
@@ -1097,10 +1123,10 @@ void process_request(
 //    SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, char* code_sign_key, bool bTrigger
 // void process_request(char* code_sign_key) {
 // CMC end new declaration of process_request
-    
+
     PLATFORM* platform;
     int retval;
-    double last_rpc_time;
+    double last_rpc_time, x;
     struct tm *rpc_time_tm;
     bool ok_to_send_work = !config.dont_send_jobs;
     bool have_no_work = false;
@@ -1110,6 +1136,10 @@ void process_request(
     time_t t;
 
     memset(&g_reply->wreq, 0, sizeof(g_reply->wreq));
+
+    // if client has sticky files we don't need any more, tell it
+    //
+    do_file_delete_regex();
 
     // if different major version of BOINC, just send a message
     //
@@ -1136,11 +1166,6 @@ void process_request(
             have_no_work = ssp->no_work(g_pid);
             if (have_no_work) {
                 g_wreq->no_jobs_available = true;
-                if (config.debug_send) {
-                    log_messages.printf(MSG_NORMAL,
-                        "[send] No jobs in shmem\n"
-                    );
-                }
             }
             unlock_sema();
         }
@@ -1164,7 +1189,7 @@ void process_request(
     ) {
         g_reply->insert_message("No work available", "low");
         g_reply->set_delay(DELAY_NO_WORK_SKIP);
-        if (!config.msg_to_host) {
+        if (!config.msg_to_host && !config.enable_vda) {
             log_messages.printf(MSG_NORMAL, "No work - skipping DB access\n");
             return;
         }
@@ -1220,13 +1245,22 @@ void process_request(
         }
     }
 
+    // in deciding whether it's a new day,
+    // add a random factor (based on host ID)
+    // to smooth out network traffic over the day
+    //
+    retval = rand();
+    srand(g_reply->host.id);
+    x = drand()*86400;
+    srand(retval);
     last_rpc_time = g_reply->host.rpc_time;
-    t = g_reply->host.rpc_time;
+    t = (time_t)(g_reply->host.rpc_time + x);
     rpc_time_tm = localtime(&t);
     g_request->last_rpc_dayofyear = rpc_time_tm->tm_yday;
 
     t = time(0);
     g_reply->host.rpc_time = t;
+    t += (time_t)x;
     rpc_time_tm = localtime(&t);
     g_request->current_rpc_dayofyear = rpc_time_tm->tm_yday;
 
@@ -1242,9 +1276,14 @@ void process_request(
     //
     platform = ssp->lookup_platform(g_request->platform.name);
     if (platform) g_request->platforms.list.push_back(platform);
-    for (i=0; i<g_request->alt_platforms.size(); i++) {
-        platform = ssp->lookup_platform(g_request->alt_platforms[i].name);
-        if (platform) g_request->platforms.list.push_back(platform);
+
+    // if primary platform is anonymous, ignore alternate platforms
+    //
+    if (strcmp(g_request->platform.name, "anonymous")) {
+        for (i=0; i<g_request->alt_platforms.size(); i++) {
+            platform = ssp->lookup_platform(g_request->alt_platforms[i].name);
+            if (platform) g_request->platforms.list.push_back(platform);
+        }
     }
     if (g_request->platforms.list.size() == 0) {
         sprintf(buf, "%s %s",
@@ -1266,6 +1305,10 @@ void process_request(
     update_n_jobs_today();
 
     handle_results();
+    handle_file_xfer_results();
+    if (config.enable_vda) {
+        handle_vda();
+    }
 
     // Do this before resending lost jobs
     //
@@ -1280,6 +1323,7 @@ void process_request(
     if (g_request->have_other_results_list) {
         if (ok_to_send_work
             && (config.resend_lost_results || g_wreq->resend_lost_results)
+            && !g_request->results_truncated
         ) {
             if (resend_lost_work()) {
                 ok_to_send_work = false;
@@ -1293,6 +1337,14 @@ void process_request(
     if (requesting_work()) {
         if (!send_code_sign_key(code_sign_key)) {
             ok_to_send_work = false;
+        }
+
+        if (have_no_work) {
+            if (config.debug_send) {
+                log_messages.printf(MSG_NORMAL,
+                    "[send] No jobs in shmem cache\n"
+                );
+            }
         }
 
         // if last RPC was within config.min_sendwork_interval, don't send work
@@ -1382,12 +1434,14 @@ void handle_request(FILE* fin, FILE* fout, char* code_sign_key) {
     g_reply = &sreply;
     g_wreq = &sreply.wreq;
 
-    memset(&sreq, 0, sizeof(sreq));
     sreply.nucleus_only = true;
 
     log_messages.set_indent_level(1);
 
-    const char* p = sreq.parse(fin);
+    MIOFILE mf;
+    XML_PARSER xp(&mf);
+    mf.init_file(fin);
+    const char* p = sreq.parse(xp);
     double start_time = dtime();
     if (!p){
        // CMC here -- sreq has been parsed, see if contains a trigger
@@ -1413,22 +1467,24 @@ void handle_request(FILE* fin, FILE* fout, char* code_sign_key) {
          }
          // set a bool bTrigger which we can bypass big scheduler requests (e.g. work request & quake download)
          bTrigger = (bool) (iTrigger > 0 && iTrigger == iCount); // note all trickles must be triggers, and must have 1 trickle at least!
-         process_request(code_sign_key, bTrigger, qhip);
+
+        process_request(code_sign_key, bTrigger, qhip);
          // CMC end section
        //  CMC end block handle_request/process_request
+
+        if ((config.locality_scheduling || config.locality_scheduler_fraction) && !sreply.nucleus_only) {
+            send_file_deletes();
+        }
     } else {
         sprintf(buf, "Error in request message: %s", p);
         log_incomplete_request();
         sreply.insert_message(buf, "low");
     }
 
-    if ((config.locality_scheduling || config.locality_scheduler_fraction) && !sreply.nucleus_only) {
-        send_file_deletes();
-    }
-
     if (config.debug_user_messages) {
         log_user_messages();
     }
+
 
   // CMC here -- next line to send a new param to SCHEDULER_REPLY::write e.g. to bypass quake list for project prefs etc
      sreply.write(fout, sreq, bTrigger, qhip);
@@ -1443,4 +1499,4 @@ void handle_request(FILE* fin, FILE* fout, char* code_sign_key) {
     }
 }
 
-const char *BOINC_RCSID_2ac231f9de = "$Id: handle_request.cpp 23281 2011-03-25 22:47:49Z davea $";
+const char *BOINC_RCSID_2ac231f9de = "$Id$";
