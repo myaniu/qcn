@@ -9,10 +9,15 @@ MYSQL_LIBS = -rdynamic -L$(MYSQLDIR)/lib -lmysqlclient_r -lz -lrt -lcrypt -lnsl 
 SSL_CFLAGS = -I/usr/kerberos/include
 SSL_CXXFLAGS = -I/usr/kerberos/include
 SSL_LIBS = -L/usr/kerberos/lib64 -lssl -lcrypto -ldl -lz
+SSL_CFLAGS = -I/usr/local/ssl/include
+SSL_CXXFLAGS = -I/usr/local/ssl/include
+SSL_LIBS = -L/usr/local/ssl/lib -lssl -lcrypto -ldl -lz
 
 #QCNDIR = /var/www/boinc/continual
 QCNDIR = /var/www/boinc/sensor
 CONTDIR = /var/www/boinc/continual
+QCNDIR = /home/boinc/web/boinc/sensor
+CONTDIR = /home/boinc/web/boinc/continual
 
 LIBS = $(SSL_LIBS) -L$(BOINCDIR)/lib -lboinc -lboinc_crypt -L$(BOINCDIR)/sched -lsched $(MYSQL_LIBS)
 
