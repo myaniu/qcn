@@ -6,9 +6,6 @@ MYSQLDIR = /usr/local/mysql
 MYSQL_CFLAGS = -I$(MYSQLDIR)/include  -DUNIV_LINUX
 MYSQL_LIBS = -rdynamic -L$(MYSQLDIR)/lib -lmysqlclient_r -lz -lrt -lcrypt -lnsl -lm
 
-SSL_CFLAGS = -I/usr/kerberos/include
-SSL_CXXFLAGS = -I/usr/kerberos/include
-SSL_LIBS = -L/usr/kerberos/lib64 -lssl -lcrypto -ldl -lz
 SSL_CFLAGS = -I/usr/local/ssl/include
 SSL_CXXFLAGS = -I/usr/local/ssl/include
 SSL_LIBS = -L/usr/local/ssl/lib -lssl -lcrypto -ldl -lz
