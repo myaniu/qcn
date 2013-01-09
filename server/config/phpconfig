@@ -1,4 +1,4 @@
-./configure --disable-shared --enable-zip --with-gd --with-jpeg-dir=/usr/local/ \
+./configure --enable-shared --enable-zip --with-gd --with-jpeg-dir=/usr/local/ \
 --with-png-dir=/usr/local/ --with-xpm-dir=/usr/lib64 --with-freetype-dir=/usr/local/ \
 --with-mysql=/usr/local/mysql --with-pear --enable-sockets \
 --with-openssl=/usr/local/ssl --with-zlib --with-curl=/usr/local/ \
