@@ -10,13 +10,15 @@ SSL_CFLAGS = -I/usr/local/ssl/include
 SSL_CXXFLAGS = -I/usr/local/ssl/include
 SSL_LIBS = -L/usr/local/ssl/lib -lssl -lcrypto -ldl -lz
 
-#QCNDIR = /var/www/boinc/continual
-QCNDIR = /var/www/boinc/sensor
-CONTDIR = /var/www/boinc/continual
-QCNDIR = /home/boinc/web/boinc/sensor
-CONTDIR = /home/boinc/web/boinc/continual
+ifeq ($(shell hostname),qcn-web.stanford.edu)
+  QCNDIR = /var/www/boinc/sensor
+  CONTDIR = /var/www/boinc/continual
+else
+  QCNDIR = /home/boinc/web/boinc/sensor
+  CONTDIR = /home/boinc/web/boinc/continual
+endif
 
-LIBS = $(SSL_LIBS) -L$(BOINCDIR)/lib -lboinc -lboinc_crypt -L$(BOINCDIR)/sched -lsched $(MYSQL_LIBS)
+LIBS = -L$(BOINCDIR)/lib -lboinc -lboinc_crypt -L$(BOINCDIR)/sched -lsched $(MYSQL_LIBS) $(SSL_LIBS)
 
 INCLUDES = -I$(BOINCDIR) -I$(BOINCDIR)/lib -I$(BOINCDIR)/tools -I$(BOINCDIR)/db \
            -I$(MYSQLDIR)/include -I$(BOINCDIR)/sched

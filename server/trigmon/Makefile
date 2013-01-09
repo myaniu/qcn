@@ -4,7 +4,13 @@ CC = g++
 BOINCDIR = ../../../boinc
 MYSQLDIR = /usr/local/mysql
 SSLDIR = /usr/local/ssl
-INSTALLDIR = /var/www/boinc/sensor/bin
+
+ifeq ($(shell hostname),qcn-web.stanford.edu)
+  INSTALLDIR = /var/www/boinc/sensor/bin
+else
+  INSTALLDIR = /home/boinc/web/boinc/sensor/bin
+endif
+
 
 LIBS = -L$(MYSQLDIR)/lib -lmysqlclient_r \
   -L$(BOINCDIR)/lib -lboinc \
