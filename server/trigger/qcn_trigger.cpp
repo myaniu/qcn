@@ -511,7 +511,7 @@ int lookupGeoIPWebService(
                        strReply = new char[BYTESIZE_CURL];
                        memset(strURL, 0x00, sizeof(char) * BYTESIZE_URL);
                        memset(strReply, 0x00, sizeof(char) * BYTESIZE_CURL);
-                       sprintf(strURL, FORMAT_GEOIP, qtrig.ipaddr);
+                       sprintf(strURL, FORMAT_MAXMIND, qtrig.ipaddr);
                        if (execute_curl(strURL, strReply, 512))  {
                           // returned OK, now check strReply -- should be a single line of comma-delimited fields:
                           // Returns: ISO 3166 Two-letter Country Code, Region Code, City, Latitude, Longitude, Error code

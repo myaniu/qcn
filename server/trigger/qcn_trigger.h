@@ -44,8 +44,7 @@ using namespace std;
 
 // the curl executable to use for Maxmind GeoIP queries (would linking to curl lib be better?  but have to tell BOINC)
 //#define EXEC_CURL     "/usr/local/bin/curl"
-//#define FORMAT_GEOIP  "-f -s 'http://geoip1.maxmind.com/b?l=0q9qp6z4BS40&i=%s.1'"
-#define FORMAT_GEOIP  "https://geoip.maxmind.com/b?l=ILFoClxbJcfk&i=%s.1"
+#define FORMAT_MAXMIND "https://geoip.maxmind.com/b?l=ILFoClxbJcfk&i=%s.1"
 
 #define BYTESIZE_URL   64
 #define BYTESIZE_CURL 512
@@ -57,7 +56,6 @@ using namespace std;
 extern DB_CONN boinc_db;
 extern DB_CONN trigmem_db;
 
-extern int handle_qcn_trigger(const DB_MSG_FROM_HOST* pmfh, const int iVariety, DB_QCN_HOST_IPADDR& qhip);
 extern int doTriggerHostLookup(
    DB_QCN_HOST_IPADDR& qhip,
    DB_QCN_GEO_IPADDR&  qgip,
