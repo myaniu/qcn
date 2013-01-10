@@ -40,7 +40,9 @@
 #include "str_replace.h"
 #include "../../qcn/server/trigger/qcn_types.h"
 
-extern int doTriggerHostLookup(
+extern int qcn_process_ipaddr(char* strTrigger, int iLen);
+
+extern int qcn_doTriggerHostLookup(
    DB_QCN_HOST_IPADDR& qhip,
    DB_QCN_GEO_IPADDR&  qgip,
    DB_QCN_TRIGGER&     qtrig,
@@ -839,7 +841,7 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq, bool bTrigger, D
               strncpy(qtrig.ipaddr, get_remote_addr(), 32);
               int iIPRetval = qcn_process_ipaddr(qtrig.ipaddr, 32);
               strncpy(qgip.ipaddr, qtrig.ipaddr, 32);
-              if (iIPRetval || doTriggerHostLookup(qhip, qgip, qtrig, dmxy, dmz)) {
+              if (iIPRetval || qcn_doTriggerHostLookup(qhip, qgip, qtrig, dmxy, dmz)) {
                 log_messages.printf(MSG_DEBUG,
                   "sched::handle_request::qcn_host_ipadr hostid lookup %d Failure -- IP Addr %s\n", qhip.hostid, qtrig.ipaddr);
                  qhip.hostid = 0; //reset so bypasses the strLatLng creation below

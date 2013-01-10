@@ -323,25 +323,9 @@ int handle_qcn_trigger(const DB_MSG_FROM_HOST* pmfh, const int iVariety, DB_QCN_
 
      // let's get the proper ipaddr form
      // don't forget we only "count" the first three bytes of an IP address, so process strIP for qtrig.ipaddr...
-     char* strLast = strrchr(strIP, '.');  // this finds the last . in an ip address, so we want everything before that
-     memset(qtrig.ipaddr, 0x00, sizeof(qtrig.ipaddr));
-     if (strLast) { // we found the last bit, so let's copy over everything between to the qtrig.ipaddr structure
-        strncpy(qtrig.ipaddr, strIP, strLast-strIP); 
-     }
-
-     // now validate the IP address prefix in qtrig.ipaddr, if not in the form X.Y.Z then it's invalid
-     // and should be set to null ("")
-     strLast = strchr(strIP, '.');  // this finds the first . in an ip address, so we want everything before that
-     if (strlen(strLast)<=1 || !strchr(strLast+1, '.')) { // this finds the next ., if this is null, reset qtrig.ipaddr as it's a bad IP addr
-         // can't be a good IP prefix since strlen too small and/or only 1 . found 
-         log_messages.printf(
-           SCHED_MSG_LOG::MSG_CRITICAL,
-           "[QCN] [HOST#%d] [RESULTNAME=%s] [TIME=%lf] [0] Invalid IP address detected: %s\n",
-           qtrig.hostid, qtrig.result_name, qtrig.time_received, qtrig.ipaddr
-         );
-         memset(qtrig.ipaddr, 0x00, sizeof(qtrig.ipaddr));
-     }
-
+     qcn_process_ipaddr(strIP, 32);
+     memset(qtrig.ipaddr, 0x00, 32);
+     strncpy(qtrig.ipaddr, strIP, 31);
 
      // at this point, if a followup trigger, we can jsut update the memory table qcn_trigger_memory and split
      if (bFollowUp) {
@@ -363,15 +347,42 @@ int handle_qcn_trigger(const DB_MSG_FROM_HOST* pmfh, const int iVariety, DB_QCN_
               iVariety ? (iVariety==1 ? "ping" : "continual") : "trigger", qtrig.ipaddr
      );
 
-     iRetVal = doTriggerHostLookup(qhip, qgip, qtrig, dmxy, dmz);
+     iRetVal = qcn_doTriggerHostLookup(qhip, qgip, qtrig, dmxy, dmz);
 
      // at this point we've inserted the appropriate records or had a database error, 
      // so return with iRetVal (0=good, otherwise a database error which will "nak" so the trigger will be resent)
      return iRetVal; // returns qhip.lookup error if there was a database error, so trigger won't be "ack'd" and will try again
 }
 
+int qcn_process_ipaddr(char* strIPAddr, int iLen);
+{ // takes a full IP address (32 bits/8bytes) and converts it for QCN use 24 bits/3 bytes
+     char* strNew = new char[iLen];
+     bool bIPOK = false;
+     char* strLast = strrchr(strIPAddr, '.');  // this finds the last . in an ip address, so we want everything before that
+     memset(strNew, 0x00, sizeof(char) * iLen);
+     if (strLast > strIPAddr) { // we found the last bit, so let's copy over everything between to the qtrig.ipaddr structure
+        strncpy(strNew, strIPAddr, strLast-strIPAddr);
+        bIPOK = true;
+     }
 
-int doTriggerHostLookup(
+     // now validate the IP address prefix in qtrig.ipaddr, if not in the form X.Y.Z then it's invalid
+     // and should be set to null ("")
+     strLast = strchr(strIPAddr, '.');  // this finds the first . in an ip address, so we want everything before that
+     if (strlen(strLast)<=1 || !strchr(strLast+1, '.')) { // this finds the next ., if this is null, reset qtrig.ipaddr as it's a bad IP addr
+         // can't be a good IP prefix since strlen too small and/or only 1 . found
+         log_messages.printf(
+           SCHED_MSG_LOG::MSG_CRITICAL,
+           "[QCN] [HOST#%d] [RESULTNAME=%s] [TIME=%lf] [0] Invalid IP address detected: %s\n",
+           qtrig.hostid, qtrig.result_name, qtrig.time_received, qtrig.ipaddr
+         );
+         memset(strIPAddr, 0x00, iLen);
+         bIPOK = false;
+     }
+     delete [] strNew;
+     return (bIPOK ? 0 : 1); //success
+}
+
+int qcn_doTriggerHostLookup(
    DB_QCN_HOST_IPADDR& qhip,
    DB_QCN_GEO_IPADDR&  qgip,
    DB_QCN_TRIGGER&     qtrig,

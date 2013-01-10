@@ -56,7 +56,9 @@ using namespace std;
 extern DB_CONN boinc_db;
 extern DB_CONN trigmem_db;
 
-extern int doTriggerHostLookup(
+extern int qcn_process_ipaddr(char* strIPAddr, int iLen = 32);
+
+extern int qcn_doTriggerHostLookup(
    DB_QCN_HOST_IPADDR& qhip,
    DB_QCN_GEO_IPADDR&  qgip,
    DB_QCN_TRIGGER&     qtrig,
