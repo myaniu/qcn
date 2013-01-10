@@ -32,7 +32,7 @@ cd /var/www
   --exclude "qcn/earthquakes/SAFE*" \
   --exclude "qcn/earthquakes/12*/*" \
   --exclude "qcn/earthquakes/12*" \
- boinc/ qcn/ qcnwp/ \
+ boinc/ qcn/ qcnwp/ taskfreak-0.6.4/ \
  1>/root/backupweb.log 2>/root/backupweb.err
 # note for the following line need to have .ssh id between root & carlgt1 setup
 # also make sure that '.ssh/known_hosts' is setup to receive connections
