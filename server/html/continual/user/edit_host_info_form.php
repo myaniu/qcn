@@ -1,11 +1,12 @@
 <?php
 
+ini_set('display_errors', 0);
 require_once("../project/project.inc");
-
 require_once("../inc/prefs.inc");
 require_once("../inc/db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/utils.inc");
+
 
 db_init();
 
@@ -85,7 +86,7 @@ for ($i = 0; $i < $hllsize; $i++)
 // if $hll is empty, put in their current location via geoip
 if (!$hll || !$buserset)
 { // no user set settings, so get ip lookup from their current address
-  $ipaddr = $_SERVER['REMOTE_ADDR'];
+  $ipaddr = ""; //$_SERVER['REMOTE_ADDR'];
   $iparr = explode(".", $ipaddr);
   if (count($iparr)==4) {
      $ipaddr = $iparr[0] . "." . $iparr[1] . "." . $iparr[2]; 
@@ -102,7 +103,7 @@ if (!$hll || !$buserset)
      }
   }
   else { // I suppose we should do a geoip lookup and insert into geoip table?
-     $url = "http://geoip1.maxmind.com/b?l=0q9qp6z4BS40&i=" . $ipaddr . ".1";
+     $url = MAXMIND_URL . "&i=" . $ipaddr . ".1";
      $html = disguise_curl($url);
      if ($html) { // see if we got a good html response from maxmind for this ipaddr
        $iparr = explode(",", $html);
@@ -132,7 +133,7 @@ if (!$hll || !$buserset)
 
    $hll[$hllsize][0] = 0;
    $hll[$hllsize][1] = $ipaddr;
-   $hll[$hllsize][2] = "geoip";
+   $hll[$hllsize][2] = "";
    $hll[$hllsize][3] = $startlat;
    $hll[$hllsize][4] = $startlng;
    $hll[$hllsize][5] = "";

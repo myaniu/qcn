@@ -103,7 +103,7 @@ if (!$hll || !$buserset)
      }
   }
   else { // I suppose we should do a geoip lookup and insert into geoip table?
-     $url = "http://geoip1.maxmind.com/b?l=0q9qp6z4BS40&i=" . $ipaddr . ".1";
+     $url = MAXMIND_URL . "&i=" . $ipaddr . ".1";
      $html = disguise_curl($url);
      if ($html) { // see if we got a good html response from maxmind for this ipaddr
        $iparr = explode(",", $html);

@@ -23,7 +23,7 @@ chdir($cwd);
 
 function page_top($title=null){
 
-$print = $_GET["print"];
+//$pr = $_GET["print"];
 
 require_once(BASEPATH . "/boinc/sensor/html/inc/google_translate.inc");
 
@@ -32,7 +32,7 @@ html_header();
 echo " <div id=\"container\">\n";
 
 /*
-if (!$print) {
+if (!$pr) {
 banner($title);
 navigation_top();
 navigation_bar();
@@ -66,7 +66,7 @@ echo "<script src=\"http://www.google.com/jsapi?key=ABQIAAAAi1z8qL921_qvE089UEGa
 
 
 echo " </head>\n";
-echo " <body bgcolor=\"#999999\">\n";
+echo " <body bgcolor=\"#ffffff\">\n";
 //echo " <div id=\"skipnav\"><a href=\"#maincontent\">Skip navigation</a></div>\n";
 
 }
@@ -259,9 +259,9 @@ echo "   </table>\n";
 }
 
 function page_end(){
- $print = $_GET["print"];
 /*
- if (!$print) {
+ $pr= $_GET["print"];
+ if (!$pr) {
   echo "    </div>\n";
   echo "    <br style=\"clear: both;\" />\n";
   echo "  </div>\n";

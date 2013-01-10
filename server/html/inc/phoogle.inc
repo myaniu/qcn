@@ -30,6 +30,7 @@
 */
 
 // plate boundary data
+require_once("../project/project.inc");
 require_once("../project/plate_boundary.inc");
 
 class PhoogleMap{
@@ -58,7 +59,7 @@ class PhoogleMap{
 * apiKey
 * Google API Key
 */
-    var $apiKey = "";
+    var $apiKey = GOOGLE_MAPS_KEY;
 
 /**
 * showControl
@@ -80,12 +81,12 @@ class PhoogleMap{
     var $controlType = 'large';
     
 /**
-* zoomLevel
+* zoomIn
 * int: 0-17
 * set's the initial zoom level of the map
 */
 
-    var $zoomLevel = 4;
+    var $zoomIn = 4;
 
 
 
@@ -113,8 +114,7 @@ function addGeoPoint($lat,$long,$infoHTML,$is_quake,$is_usb){  // CMC modified f
 
 function centerMap($lat,$long){ 
     $this->centerMap = "map.setCenter(" 
-       . "new GLatLng(" . $lat . "," . $long . "), " . $this->zoomLevel . ");\n";
-    //$this->centerMap = "map.centerAndZoom(new GPoint(".$long.",".$lat."), ".$this->zoomLevel.");\n";
+       . "new google.maps.LatLng(" . $lat . "," . $long . "));\n          map.setZoom($this->zoomIn);\n"; 
 }
   
 /* 
@@ -134,8 +134,8 @@ function drawPlateBoundary() { // CMC - draws the plate boundaries in purple on 
          if ($i != sizeof($g_aPlateBoundary) - 2) { // if we're not at the end of the array, which would be two less than size of array
          echo "var polyline[" . $platecnt . "]  = new GPolyline([\n";
      } 
-  new GLatLng(37.4419, -122.1419),
-  new GLatLng(37.4519, -122.1519)
+  new google.maps.LatLng(37.4419, -122.1419),
+  new google.maps.LatLng(37.4519, -122.1519)
   }
 } 
 */
@@ -151,7 +151,8 @@ function drawPlateBoundary() { // CMC - draws the plate boundaries in purple on 
 	 if (!is_string($address)){
 		die("All Addresses must be passed as a string");
 	  }
-		$apiURL = "http://maps.google.com/maps/geo?&output=xml&key=".$this->apiKey."&q=";
+           $apiURL = "\"//maps.googleapis.com/maps/api/js?key=" . GOOGLE_MAPS_KEY
+ . "&sensor=false&v=3\"";
 		$addressData = file_get_contents($apiURL.urlencode($address));
 		
 		$results = $this->xml2array(utf8_encode($addressData));
@@ -256,7 +257,7 @@ function drawPlateBoundary() { // CMC - draws the plate boundaries in purple on 
 *               should be called in between the html <head></head> tags
 */
 	function printGoogleJS(){
-		echo "\n<script src=\"http://maps.google.com/maps?file=api&v=2&key=".$this->apiKey."\" type=\"text/javascript\"></script>\n";
+             printGoogleMapsHeader();
 	}
 /**
 * @function     showMap
@@ -267,10 +268,13 @@ function drawPlateBoundary() { // CMC - draws the plate boundaries in purple on 
             if ($this->mapWidth == 1 || $this->mapHeight == 1) { //set defaults and autosize
                 $this->mapWidth = 800;
                 $this->mapHeight = 600;
-		echo "\n<div id=\"map\" style=\"width: ".$this->mapWidth."px; height: ".$this->mapHeight."px\">\n</div>\n";
+		echo "\n<div id=\"map_canvas\" style=\"width:1000px; height:800px\">\n</div>\n";
 		echo "    <script type=\"text/javascript\">
+    //<![CDATA[
     var winwidth = 800;
     var winheight = 600;
+    var gIW = null;
+
     //Opera Netscape 6 Netscape 4x Mozilla 
     if (window.innerWidth || window.innerHeight){ 
       winwidth = window.innerWidth; 
@@ -281,94 +285,113 @@ function drawPlateBoundary() { // CMC - draws the plate boundaries in purple on 
        winwidth = document.body.clientWidth; 
        winheight = document.body.clientHeight; 
     }
+    if (self.innerWidth || self.innerHeight) {
+       winwidth = self.innerWidth;
+       winheight = self.innerHeight;
+    }
+
+  function infoWindowHandler(myIW, myMap, myMarker) {
+    if (gIW) gIW.close();
+    gIW = myIW;
+    gIW.open(myMap, myMarker);
+  }
+
     function showmap(){
-                         //<![CDATA[
-                if (GBrowserIsCompatible()) {
-      		   var map = new GMap2(document.getElementById(\"map\"), 
-                      { size:new GSize(winwidth-100, winheight-200), 
-                          draggableCursor:\"move\", 
-                          draggingCursor:\"crosshair\" 
-                        });
+     		   var map = new google.maps.Map(
+                      document.getElementById('map_canvas'), 
+                      { size:new google.maps.Size(winwidth-100, winheight-200),
+                             mapTypeId: google.maps.MapTypeId.ROADMAP
+                      }
+                    );
                  ";
-            }
+           }
             else { // we've sent in explicit sizes
-		echo "<div id=\"map\" style=\"width: ".$this->mapWidth."px; height: ".$this->mapHeight."px\">\n</div>
+		echo "<div id=\"map_canvas\" style=\"width: ".$this->mapWidth."px; height: ".$this->mapHeight."px\">\n</div>
 		    <script type=\"text/javascript\">
+                    //<![CDATA[
                     function showmap(){
-                                //<![CDATA[
-                     if (GBrowserIsCompatible()) {
-      		        var map = new GMap2(document.getElementById(\"map\"));
+      		        var map = new google.maps.Map(document.getElementById('map_canvas'),
+                                   {         mapTypeId: google.maps.MapTypeId.ROADMAP
+                                   }
+                              );
                       ";
-            }
+                 }
 
       		if (empty($this->centerMap)){
                    echo "map.setCenter(
-                       new GLatLng(" . $this->validPoints[0]['lat'] 
-                       . ", " . $this->validPoints[0]['long'] . "), 
-                         $this->zoomLevel
-                       );\n";
+                      new google.maps.LatLng(" . $this->validPoints[0]['lat'] 
+                       . ", " . $this->validPoints[0]['long'] . "));\n";
+                   echo "          map.setZoom($this->zoomIn);\n";
                 }else{
                     echo $this->centerMap;
                 }   
 
                    // CMC modified to use  station or quake icons
-		    echo "}\n
-			var iconQuake  = new GIcon();
-			var iconLaptop = new GIcon();
-			var iconUSB    = new GIcon();
-                   	iconQuake.image  = \"img/qcn_32_quake.png\";
-			iconQuake.iconSize = new GSize(32, 32);
-			iconQuake.iconAnchor = new GPoint(3, 10);
-			iconQuake.infoWindowAnchor = new GPoint(15, 15);
-                   	iconUSB.image  = \"img/qcn_32_usb.png\";
-			iconUSB.iconSize = new GSize(24,24);
-			iconUSB.iconAnchor = new GPoint(3, 10);
-			iconUSB.infoWindowAnchor = new GPoint(10, 10);
-                   	iconLaptop.image  = \"img/qcn_32_laptop.png\";
-			iconLaptop.iconSize = new GSize(24,24);
-			iconLaptop.iconAnchor = new GPoint(3, 10);
-			iconLaptop.infoWindowAnchor = new GPoint(10, 10);
-                    ";
+		    echo "
+                   	var iconQuake = \"img/qcn_32_quake.png\";
+                   	var iconLaptop = \"img/qcn_32_laptop.png\";
+                   	var iconUSB = \"img/qcn_32_usb.png\";
+                      ";
 
+    /*
 		if ($this->showControl){
-          if ($this->controlType == 'small'){echo "map.addControl(new GSmallMapControl());\n";}
-          if ($this->controlType == 'large'){echo "map.addControl(new GLargeMapControl3D());\n";}
-          echo "map.addControl(new GScaleControl());\n";
+          if ($this->controlType == 'small'){echo "map.addControl(new google.maps.SmallMapControl());\n";}
+          if ($this->controlType == 'large'){echo "map.addControl(new google.maps.LargeMapControl3D());\n";}
+          echo "map.addControl(new google.maps.ScaleControl());\n";
 			}
 		if ($this->showType){
-		echo "map.addControl(new GMapTypeControl());\n";
-		}
+		echo "map.addControl(new google.maps.MapTypeControl());\n";
+		} 
+      */
 
-	
     $numPoints = count($this->validPoints);
     for ($g = 0; $g<$numPoints; $g++){
-        echo "var point".$g." = new GPoint(".$this->validPoints[$g]['long'].",".$this->validPoints[$g]['lat'].");\n";
+        echo "var ltlg".$g." = new google.maps.LatLng(" 
+           . $this->validPoints[$g]['lat'].",".$this->validPoints[$g]['long'].");\n";
+       
           // CMC here pick the right icon
            if ($this->validPoints[$g]['is_quake']) {
-              echo "var marker".$g." = new GMarker(point".$g.", iconQuake, false);\n";
+              echo "var marker".$g." = new google.maps.Marker({ 
+                    position: ltlg".$g.", 
+                    map: map,
+                    icon: iconQuake 
+                  });\n";
            }
            else {
               if ($this->validPoints[$g]['is_usb']) {
-                 echo "var marker".$g." = new GMarker(point".$g.", iconUSB, false);\n";
+              echo "var marker".$g." = new google.maps.Marker({ 
+                    position: ltlg".$g.", 
+                    map: map,
+                    icon: iconUSB
+                  });\n";
               }
               else {
-                 echo "var marker".$g." = new GMarker(point".$g.", iconLaptop, false);\n";
+                echo "var marker".$g." = new google.maps.Marker({ 
+                    position: ltlg".$g.", 
+                    map: map,
+                    icon: iconLaptop
+                  });\n";
               }
            }
 
-           echo "
-              map.addOverlay(marker".$g.")\n
-              GEvent.addListener(marker".$g.", \"click\", function() {\n";
-              if ($this->validPoints[$g]['htmlMessage']!=null){
-              echo "marker".$g.".openInfoWindowHtml(\"".$this->validPoints[$g]['htmlMessage']."\");\n";
+              if ($this->validPoints[$g]['htmlMessage']!=null) {
+                 echo "    var iw$g= new google.maps.InfoWindow({
+                              content:  \"" . $this->validPoints[$g]['htmlMessage'] . "\"
+                           });
+                           google.maps.event.addListener(marker$g, \"click\", function() { infoWindowHandler(iw$g, map, marker$g); });\n";
               }else{
-             echo "marker".$g.".openInfoWindowHtml(\"".$this->validPoints[$g]['passedAddress']."\");\n";
-                }
-              echo "});\n";
+                 echo "    var iw$g= new google.maps.InfoWindow({
+                              content:  \"" . $this->validPoints[$g]['passedAddress']  . "\"
+                           });
+                           google.maps.event.addListener(marker$g, \"click\", function() { infoWindowHandler(iw$g, map, marker$g); });\n";
+              }
 	}
-		echo "    	//]]>\n
-		}
-		window.onload = showmap;
+
+		echo "    
+     }
+
+               google.maps.event.addDomListener(window, 'load', showmap);
+            //]]>
     	</script>\n";
 		}
  ///////////THIS BLOCK OF CODE IS FROM Roger Veciana's CLASS (assoc_array2xml) OBTAINED FROM PHPCLASSES.ORG//////////////

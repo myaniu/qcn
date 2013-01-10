@@ -24,4 +24,9 @@ define('CACHE_PATH_MAPTRIG_D', "../cache/22/maptrig.php_maptrig_d");
 define('CACHE_PATH_MAPTRIG_W', "../cache/22/maptrig.php_maptrig_w");
 define('CACHE_PATH_MAPTRIG_M', "../cache/22/maptrig.php_maptrig_m");
 
+define('CACHE_PATH_MAPTRIG_CONTINUAL',   "../../../continual/html/cache/22/maptrig.php_maptrig");
+define('CACHE_PATH_MAPTRIG_CONTINUAL_D', "../../../continual/html/cache/22/maptrig.php_maptrig_d");
+define('CACHE_PATH_MAPTRIG_CONTINUAL_W', "../../../continual/html/cache/22/maptrig.php_maptrig_w");
+define('CACHE_PATH_MAPTRIG_CONTINUAL_M', "../../../continual/html/cache/22/maptrig.php_maptrig_m");
+
 ?>

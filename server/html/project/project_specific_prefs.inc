@@ -284,7 +284,8 @@ function project_specific_host_latlng_prefs($hostid) {
     $hostid = (int) $hostid;
     if ($hostid < 1) return $hll; // invalid hostid (or sql injection attack?)
     $db = BoincDb::get();
-    $sql = "select geoipaddrid,ipaddr,location,latitude,longitude,levelvalue,levelid,alignid from qcn_host_ipaddr where hostid=$hostid order by geoipaddrid,location";
+    $sql = "select geoipaddrid,ipaddr,location,latitude,longitude,levelvalue,levelid,alignid from qcn_host_ipaddr "
+           . "where hostid=$hostid order by ipaddr, id";
     $result=$db->do_query($sql);
     if ($result && mysql_num_rows($result)>0) {  // we found some records
        while($row=mysql_fetch_array($result)) {

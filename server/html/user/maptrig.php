@@ -41,7 +41,7 @@ $title = "";
     $mapimg = MAP_TRIGGER;
     $cachedatafile = CACHE_PATH_MAPTRIG;
     $cachedatafileContinual = CACHE_PATH_MAPTRIG_CONTINUAL;
-    $legendbase = "<p align=\"center\"><font size=\"+1\"><b>Legend:</b></font><table><tr><td valign=\"center\"><IMG SRC=\"img/qcn_32_laptop.png\" height=\"24\"> = Laptop Sensor</td><td valign=\"middle\"><IMG SRC=\"img/qcn_32_usb.png\" height=\"24\"> = USB sensor</td><td valign=\"middle\"> <IMG SRC=\"img/qcn_32_quake.png\" height=\"24\"> = USGS-earthquake, magnitude >";
+    $legendbase = "<p align=\"left\"><font size=\"+1\"><b>Legend:</b></font><table><tr><td valign=\"center\"><IMG SRC=\"img/qcn_32_laptop.png\" height=\"24\"> = Laptop Sensor</td><td valign=\"middle\"><IMG SRC=\"img/qcn_32_usb.png\" height=\"24\"> = USB sensor</td><td valign=\"middle\"> <IMG SRC=\"img/qcn_32_quake.png\" height=\"24\"> = USGS-earthquake, magnitude >";
     switch($timeint) {
        case "D":
           $mapimg = MAP_TRIGGER_D;

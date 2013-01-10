@@ -10,4 +10,5 @@ qcn_generate_world_map($data, 'H');
 qcn_generate_world_map($data, 'D');
 qcn_generate_world_map($data, 'W');
 qcn_generate_world_map($data, 'M');
+
 ?>

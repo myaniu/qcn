@@ -41,47 +41,52 @@ $title = "";
     $mapimg = MAP_TRIGGER;
     $cachedatafile = CACHE_PATH_MAPTRIG;
     $cachedatafileContinual = CACHE_PATH_MAPTRIG_CONTINUAL;
-    $legendbase = "Legend: <IMG SRC=\"img/qcn_32_laptop.png\"> = QCN participant laptop, <IMG SRC=\"img/qcn_32_usb.png\"> = QCN participant USB sensor, <IMG SRC=\"img/qcn_32_quake.png\"> = USGS-reported Earthquake of minimum magnitude ";
+    $legendbase = "<p align=\"left\"><font size=\"+1\"><b>Legend:</b></font><table><tr><td valign=\"center\"><IMG SRC=\"img/qcn_32_laptop.png\" height=\"24\"> = Laptop Sensor</td><td valign=\"middle\"><IMG SRC=\"img/qcn_32_usb.png\" height=\"24\"> = USB sensor</td><td valign=\"middle\"> <IMG SRC=\"img/qcn_32_quake.png\" height=\"24\"> = USGS-earthquake, magnitude >";
     switch($timeint) {
        case "D":
           $mapimg = MAP_TRIGGER_D;
           $cachedatafile = CACHE_PATH_MAPTRIG_D;
           $cachedatafileContinual = CACHE_PATH_MAPTRIG_CONTINUAL_D;
-          $title = "Trigger Map for the Last Day";
+          $title = "Map for the Last Day";
           $legend = $legendbase . MIN_MAGNITUDE_D;
           break;
        case "W":
           $mapimg = MAP_TRIGGER_W;
           $cachedatafile = CACHE_PATH_MAPTRIG_W;
           $cachedatafileContinual = CACHE_PATH_MAPTRIG_CONTINUAL_W;
-          $title = "Trigger Map for the Last Week";
+          $title = "Map for the Last Week";
           $legend = $legendbase . MIN_MAGNITUDE_W;
           break;
        case "M":
           $mapimg = MAP_TRIGGER_M;
           $cachedatafile = CACHE_PATH_MAPTRIG_M;
           $cachedatafileContinual = CACHE_PATH_MAPTRIG_CONTINUAL_M;
-          $title = "Trigger Map for the Last Month";
+          $title = "Map for the Last Month";
           $legend = $legendbase . MIN_MAGNITUDE_M;
           break;
        default:
           $mapimg = MAP_TRIGGER;
           $cachedatafile = CACHE_PATH_MAPTRIG;
           $cachedatafileContinual = CACHE_PATH_MAPTRIG_CONTINUAL;
-          $title = "Trigger Map for the Last 4 Hours";
+          $title = "Map for the Last 4 Hours";
           $legend = $legendbase . MIN_MAGNITUDE;
           break;
     }
 
     $title .= " (Generated on " . date("F d Y H:i:s", filectime($cachedatafile)) . " UTC)";
-
-page_head(tra($title), null, $title, "", true, null, true);
+    $legend .= "</td></tr></table>\n";
+//page_head(tra($title), null, $title, "", true, null, true);
+page_head(null, null, null, "", true, null, true);
 
 echo "<h3>" . $title . "</h3>";
 echo "<h5>" . $legend . "</h5>";
-echo "<h7>Note: locations changed at the kilometer-level to protect privacy, unless participant authorized exact location be used</h7><BR>";
-echo "<I>click and drag to move map; on empty region - left dbl-click to zoom in, right dbl-click to zoom out</I><BR>";
-echo "<I>If you do not see the map or sensors or quakes, click 'Refresh' on your browser to reload the page</I><BR>";
+echo "<ul>\n";
+echo "<li><b>Note:</b> locations accurate to ~1 km for privacy (unless participant authorized exact location)<BR>";
+echo "<li><b>Navigation:</b></li><ul>\n";
+echo "    <li><b>Move Map:</b> Click and drag map on empty region.</li>\n";
+echo "    <li><b>Zoom in:</b> Double click on empty region</li>\n";
+echo "    <li><b>Zoom out:</b> Left double click (or ctrl-dble-click)</li>\n</ul>\n";
+echo "<li>Click <b>'Refresh'</b> on your browser if the map or sensors do not display.<BR>";
 
 $pm = new PhoogleMap();
 
@@ -89,7 +94,7 @@ if ($zoom) {
    $pm->zoomLevel = $zoom;
 }
 else {
-   $pm->zoomLevel = 5;
+   $pm->zoomLevel = 3;
 }
 
 if ($mapwidth) {
@@ -110,7 +115,7 @@ if ($cx && $cy) {
    $pm->centerMap($cx, $cy);
 }
 else {  // default to northern California
-   $pm->centerMap(38, -115);
+   $pm->centerMap(38, -100);
 }
 
 $data = array();

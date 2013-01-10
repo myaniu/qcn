@@ -2,14 +2,14 @@
 
 // CMC note -- added Google Maps stuff for QCN
 
-ini_set('display_errors', 0);
-
 require_once("../inc/util.inc");
 require_once("common.inc");
 
 $master_url = parse_config(get_config(), "<master_url>");
-define("PROJECT", "Quake-Catcher Network Continual Sensor Monitoring");
+define("PROJECT", "Quake-Catcher Network Continual Monitoring");
 define("URL_BASE", "http://qcn.stanford.edu/continual/");
+define("MAXMIND_URL", "http://geoip1.maxmind.com/b?l=0q9qp6z4BS40");
+define("GOOGLE_MAPS_KEY", "AIzaSyDVxlyCoT9_i3eRxVF31dLKLPVTk22ZSS4");
 define("IMAGE_PATH", "../user_profile/images/");
 define("IMAGE_URL", "user_profile/images/");
 define("PROFILE_PATH", "../user_profile/");
@@ -37,6 +37,7 @@ define("MIN_MAGNITUDE_W", "3.5");
 define("MIN_MAGNITUDE_M", "4.0");
 define("MIN_MAGNITUDE_H", "3.0");
 define("MAX_NUM_TRIGGER", "500");
+define("FORUM_QA_MERGED_MODE", true);
 
 // CMC have default global preferences
 define("GLOBAL_PREFS_DEFAULT", "<global_preferences>\n"
@@ -74,6 +75,7 @@ define("MAP_ICON_4", "http://www.google.com/intl/en_us/mapfiles/ms/micons/yellow
 
 function project_wordpress_header()
 {
+
   // CMC here - disable enter key
 echo "
 <script type=\"text/javascript\"> 
@@ -87,6 +89,7 @@ document.onkeypress = stopRKey;
 ";
 
   // CMC end
+
 }
 
 function project_wordpress_header2()
@@ -399,7 +402,9 @@ function project_forum_post_rules() {
 function printGoogleMapsHeader()
 { // note the key was registered on http://www.google.com/maps/api for qcn.stanford.edu
 //echo "<script src=\"http://maps.google.com/maps?file=api&v=1&key=ABQIAAAA7FMxjQepz_hQElGJ5tGPvhR_-dF_tBKZEzXEmb5veXIjh7ji-BSpO1s_bzlk2XSTyJa-06G_6sf7rw\""; 
-  echo "\n<script src=\"http://maps.google.com/maps?file=api&v=2&key=ABQIAAAA7FMxjQepz_hQElGJ5tGPvhR_-dF_tBKZEzXEmb5veXIjh7ji-BSpO1s_bzlk2XSTyJa-06G_6sf7rw\" type=\"text/javascript\"></script>\n";
+  echo "\n<script type=\"text/javascript\" "
+     . "src=\"//maps.googleapis.com/maps/api/js?key=" . GOOGLE_MAPS_KEY 
+ . "&sensor=false&v=3\"></script>\n";
 } 
 
 function printGoogleMapsScript($prefs, $numMarker = 5, $zoomout = 0)
@@ -410,6 +415,7 @@ echo "
 <script type=\"text/javascript\">
     //<![CDATA[
 
+   var gIW = null;
    var lastOverlay = new Array($numMarker);
    var micon = new Array($numMarker);
    var map;
@@ -424,33 +430,29 @@ echo "
 
    function clickedAddressLookup(addrline) {
 
-       geocoder.getLatLng(
-          addrline,
-          function(point) {
-            if (!point) {
+    geocoder.geocode( { address: addrline}, function(results, status) {
+      if (status == google.maps.GeocoderStatus.OK) {
+            if (!results[0].geometry.location) {
               alert(addrline + \" not found\");
-            } else { /*
-              map.setCenter(point, 13);
-              var marker = new GMarker(point);
-              map.addOverlay(marker);
-              marker.openInfoWindowHtml(address);
-              */
+            } else { 
               if (iSelect < 0) { iSelect = 0; }
-              getElement(\"lat\" + iSelect).value = point.y;
-              getElement(\"lng\" + iSelect).value = point.x;
+              getElement(\"lat\" + iSelect).value = results[0].geometry.location.lat();
+              getElement(\"lng\" + iSelect).value = results[0].geometry.location.lng();;
               getElement(\"lnm\" + iSelect).value = addrline;
-              addMarker(map, point);
+              addMarker(results[0].geometry.location);
               clickedRadio(iSelect, 1);
             }
-         }
-       );
+      } else {
+        alert(\"Geocode was not successful for the following reason: \" + status);
+      }
+    });
    }
 
    function clickedRadio(num, isselected) {
       if (isselected) {
          iSelect = num;
       }
-      moveMap(getElement(\"lat\" + iSelect).value, getElement(\"lng\" + iSelect).value);
+      moveMap(getElement(\"lat\" + iSelect).value, getElement(\"lng\" + iSelect).value, 15);
    }
 
    function clickedButton(num, bClear) {
@@ -464,89 +466,80 @@ echo "
       }
    }
 
-   function moveMap(lat, lng) {
+   function moveMap(lat, lng, zoomout) {
       if (lat != null && lat != \"\" && lng != null && lng != \"\") {
-        newpt = new GLatLng(lat, lng);
-        map.setCenter(newpt, 15);
+        newpt = new google.maps.LatLng(lat, lng);
+        map.setCenter(newpt);
+        map.setZoom(zoomout);
       }
    }
+
+  function infoWindowHandler(myIW, myMap, myMarker) {
+    if (gIW) gIW.close();
+    gIW = myIW;
+    gIW.open(myMap, myMarker);
+  }
 
    function formSetPosition(pos, ival) {
       getElement(\"lat\" + ival).value = pos.lat();
       getElement(\"lng\" + ival).value = pos.lng();
-      //getElement(\"hlat\" + ival).value = pos.lat();
-      //getElement(\"hlng\" + ival).value = pos.lng();
    }
 
    // little function to add a point
-   function addMarker(map, point)
+   function addMarker(point)
    {
+          //alert(\"LatLng=\" + String(point.lat()) + \", \" + String(point.lng()));
           if (lastOverlay[iSelect]) {
-             map.removeOverlay(lastOverlay[iSelect]);
+             lastOverlay[iSelect].setVisible(false);
              delete lastOverlay[iSelect];
              lastOverlay[iSelect] = null;
           }
-          mopts = Object(); //GMarkerOptions();
-          if (iSelect>-1) mopts.icon = micon[iSelect];
-          //mopts.draggable = true;
-          //mopts.bouncy = true;
-          lastOverlay[iSelect] = new GMarker(point, mopts);
-          //lastOverlay[iSelect].enableDragging();
-          lastOverlay[iSelect].title = iSelect;
-          map.addOverlay(lastOverlay[iSelect]);
-          formSetPosition(point, iSelect);
-          /*GEvent.addListener(lastOverlay[iSelect], 'dragstart', function() {
-            // set the new position to the one at the end of the dragging
-            iSelect = lastOverlay[iSelect].title;
+          lastOverlay[iSelect] = new google.maps.Marker({
+             map: map,
+             position: point, 
+             draggable: true,
+             title: String(iSelect),
+             icon: micon[iSelect],
+             visible: true
           });
-          GEvent.addListener(lastOverlay[iSelect], 'dragend', function() {
-            // set the new position to the one at the end of the dragging
-            formSetPosition(this.getPoint(), iSelect);
-          });*/
+          // alert(\"micon = \" + micon[iSelect]);
+          formSetPosition(point, iSelect);
    }
   
-   function showMap() 
+   function showmap() 
    {
-      if (!GBrowserIsCompatible()) return;
-      map  = new GMap2(getElement(\"map\"));
-      map.addControl(new GLargeMapControl3D);
-      map.addControl(new GScaleControl);
-      map.addControl(new GMapTypeControl);
-      geocoder = new GClientGeocoder();
+       map = new google.maps.Map(
+          getElement('map'), 
+             { 
+                 mapTypeId: google.maps.MapTypeId.ROADMAP
+             }
+          );
+      geocoder = new google.maps.Geocoder();
       for (i = 0 ; i < $numMarker ; i++) {
         lastOverlay[i] = null;
-        micon[i] = new GIcon();
-        micon[i].shadow = \"http://labs.google.com/ridefinder/images/mm_20_shadow.png\";
-        micon[i].iconSize = new GSize(32, 32);
-        micon[i].shadowSize = new GSize(60, 32);
-        micon[i].iconAnchor = new GPoint(16, 32);
-        micon[i].infoWindowAnchor = new GPoint(9, 2);
-        micon[i].infoShadowAnchor = new GPoint(12, 32);
+        micon[i] = \"\";
       }
    ";
 
-   for ($i = 0 ; $i < $numMarker ; $i++)
-     echo "   micon[" . $i . "].image = \"" . constant("MAP_ICON_" . $i) . "\";\n";
+   echo "moveMap(38, -100, 4);\n";
 
    for ($i = ($numMarker - 1) ; $i >= 0 ; $i--) {
+     echo "   micon[" . $i . "] = \"" . constant("MAP_ICON_" . $i) . "\";\n";
      echo "
       if (getElement(\"lat" . $i . "\").value != \"\" && getElement(\"lng" . $i . "\").value != \"\") {
             iSelect = " . $i . ";
-            newpt = new GLatLng(getElement(\"lat" . $i . "\").value, getElement(\"lng" . $i . "\").value);
-            map.setCenter(newpt, " . ($zoomout ? "$zoomout" : "15") . ");
-            addMarker(map,newpt);
+            newpt = new google.maps.LatLng(getElement(\"lat" . $i . "\").value, getElement(\"lng" . $i . "\").value);
+            moveMap(newpt.lat(), newpt.lng(), " . ($zoomout ? "$zoomout" : "15") . ");
+            addMarker(newpt);
       }
      ";
    }
 
 echo "
       iSelect = 0;
-      GEvent.addListener(map, 'click', function(overlay, point) {
-        //if (overlay) {
-        //   map.removeOverlay(overlay);
-        //}
-        if (point) {
-           addMarker(map, point);
+      google.maps.event.addListener(map, 'click', function(evt) {
+        if (evt && evt.latLng) {
+           addMarker(evt.latLng);
         }
       });
   }
@@ -554,9 +547,8 @@ echo "
 ";
 
 echo "
-
+    google.maps.event.addDomListener(window, 'load', showmap);
     //]]>
-
     </script>
   ";
 }
@@ -594,7 +586,7 @@ function page_head($title, $java_onload=null, $title_plain=null, $prefix="", $go
 
          if (!$maptrig)  {
             printGoogleMapsScript($prefs, $numMarker, $zoomout);
-            echo "</head>\n<body onload=\"showMap()\" onunload=\"GUnload()\">\n";
+            echo "</head>\n<body>\n";
          }
        }
        else {
@@ -617,6 +609,7 @@ function page_head($title, $java_onload=null, $title_plain=null, $prefix="", $go
     ";
 
        // IE likes this first bit
+/*
        if ($google && strpos($_SERVER['HTTP_USER_AGENT'], "MSIE"))
        {
         echo "v\\:* {
@@ -624,7 +617,7 @@ function page_head($title, $java_onload=null, $title_plain=null, $prefix="", $go
         }
         ";
        }
-
+*/
 
     if ($java_onload){
         echo "<body onload=\"".$java_onload."\">";
@@ -674,7 +667,6 @@ function disguise_curl($url)
 
   return $html; // and finally, return $html
 }
-
 
 function show_trigger($hostid, $heading, $owner=false)
 {
@@ -740,7 +732,7 @@ function show_trigger($hostid, $heading, $owner=false)
     echo "</td><td>\n";
     echo "</td></tr></tr></table>\n";
     if ($owner) { // Allow admin & user to edit location
-      echo "<tr><td><a href=edit_host_info_form.php?hostid=".$hostid.">Click Here To Verify or Select Locations For This Computer</a></td></tr>\n"; 
+      echo "<tr><td><a href=edit_host_info_form.php?hostid=".$hostid.">Click Here To Verify or Select Locations For This Computer</a></td></tr>\n";
     }
     echo "</table>\n";
 
