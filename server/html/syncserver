@@ -155,6 +155,8 @@ scp carlgt1@qcn-web:/var/www/qcn/earthquakes/inc/CNtype2.txt qcn/earthquakes/inc
 scp carlgt1@qcn-web:/var/www/qcn/earthquakes/inc/CNtype2_key.txt qcn/earthquakes/inc
 scp carlgt1@qcn-web:/var/www/qcn/earthquakes/inc/amp_v_dist.text qcn/earthquakes/inc
 scp carlgt1@qcn-web:/var/www/qcn/earthquakes/inc/amp_v_dist.theo qcn/earthquakes/inc
+scp carlgt1@qcn-web:/var/www/qcn/earthquakes/view/qcn_map_sensor.php qcn/earthquakes/view
+scp carlgt1@qcn-web:/var/www/qcn/earthquakes/view/qcn_map_network.php qcn/earthquakes/view
 
 #earthquakes/view
 scp carlgt1@qcn-web:/var/www/qcn/earthquakes/view/index.php qcn/earthquakes/view
