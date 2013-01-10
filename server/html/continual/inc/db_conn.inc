@@ -40,7 +40,7 @@ class DbConn {
         //echo "query: $q<br>\n";
         $ret = mysql_query($q, $this->db_conn);
         if (!$ret) {
-            //echo "Database Error<br>\n";
+            echo "Database Error<br>\n";
             //echo ": ", mysql_error(), "\n<pre>";
             //var_dump(debug_backtrace());
             //echo "</pre>query: $q\n";
@@ -142,6 +142,22 @@ class DbConn {
         $cnt = mysql_fetch_object($result);
         mysql_free_result($result);
         if ($cnt) return $cnt->total;
+        return null;
+    }
+    function sum($table, $field, $clause="") {
+        $query = "select sum($field) as total from ".$this->db_name.".$table $clause";
+        $result = $this->do_query($query);
+        $cnt = mysql_fetch_object($result);
+        mysql_free_result($result);
+        if ($cnt) return (double)$cnt->total;
+        return null;
+    }
+    function max($table, $field, $clause="") {
+        $query = "select max($field) as total from ".$this->db_name.".$table $clause";
+        $result = $this->do_query($query);
+        $cnt = mysql_fetch_object($result);
+        mysql_free_result($result);
+        if ($cnt) return (double)$cnt->total;
         return null;
     }
     function replace($table, $clause) {

@@ -23,7 +23,6 @@ require_once("../inc/db.inc");
 require_once("../inc/boinc_db.inc");
 require_once("../inc/translation.inc");
 require_once("../inc/profile.inc");
-require_once("../project/common.inc");
 
 // don't allow /... at the end of URL
 
@@ -31,12 +30,18 @@ if (array_key_exists("PATH_INFO", $_SERVER)) {
     die("bad URL");
 }
 
-ini_set("memory_limit", "64M");
-
-date_default_timezone_set("UTC");
+ini_set("memory_limit", "256M");
 
 if (!defined('SECURE_URL_BASE')) {
     define('SECURE_URL_BASE', URL_BASE);
+}
+
+// define TIMEZONE in project.inc
+//
+if (defined('TIMEZONE')) {
+    date_default_timezone_set(TIMEZONE);
+} else {
+    date_default_timezone_set('UTC');
 }
 
 $generating_xml = false;
@@ -66,7 +71,6 @@ function clear_cookie($name, $ops=false) {
         $path .= "_ops/";
     }
     setcookie($name, '', time()-3600, $path);
-    //setcookie($name, '', time()-3600, "/"); //$path);
 }
 
 function get_user_from_id($id) {
@@ -78,7 +82,7 @@ $g_logged_in_user = null;
 $got_logged_in_user = false;
 
 function get_logged_in_user($must_be_logged_in=true) {
-    global $g_logged_in_user, $got_logged_in_user;;
+    global $g_logged_in_user, $got_logged_in_user;
     if ($got_logged_in_user) return $g_logged_in_user;
 
     check_web_stopped();
@@ -103,18 +107,19 @@ function get_logged_in_user($must_be_logged_in=true) {
         Header("Location: login_form.php?next_url=$next_url");
         exit;
     }
+    $got_logged_in_user = true;
     return $g_logged_in_user;
 }
 
 function show_login_info($prefix="") {
     $user = get_logged_in_user(false);
     echo "
-        <table width=100% cellpadding=0 cellspacing=0>
-        <td align=right>
+        <table width=\"100%\" cellpadding=0 cellspacing=0>
+        <tr><td align=right>
     ";
     if ($user) {
         $url_tokens = url_tokens($user->authenticator);
-        echo "$user->name | <a href=".$prefix."logout.php?$url_tokens>".tra("log out")."</a>";
+        echo "<nobr>$user->name &middot; <a href=".$prefix."logout.php?$url_tokens>".tra("log out")."</a></nobr>";
     } else {
         echo "<a href=".$prefix."login_form.php>".tra("log in")."</a>";
     }
@@ -131,19 +136,22 @@ $cache_control_extra="";
 // with an existing web framework can more easily do so.
 // To do so, define page_head() in the project include file.
 //
-
-// CMC here
 if (!function_exists("page_head")){
 function page_head(
     $title, $java_onload=null, $title_plain=null, $prefix="", $head_extra=null
 ) {
     global $caching, $cache_control_extra, $did_page_head;
-require_once(BASEPATH . "/boinc/sensor/html/inc/google_translate.inc");
 
-	$did_page_head = true;
+    $did_page_head = true;
     $stylesheet = URL_BASE.STYLESHEET;
     $rssname = PROJECT . " RSS 2.0";
     $rsslink = URL_BASE."rss_main.php";
+    if (defined('STYLESHEET2')) {
+        $stylesheet2 = URL_BASE.STYLESHEET2;
+    } else {
+        $stylesheet2 = null;
+    }
+
 
     header("Content-type: text/html; charset=utf-8");
     if (!$caching) {
@@ -155,18 +163,23 @@ require_once(BASEPATH . "/boinc/sensor/html/inc/google_translate.inc");
 
     echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">";
     
-    if (!$title_plain) {
-        echo "<html><head><title>".strip_tags($title)."</title>\n";
-    } else {
-        echo "<html><head><title>".strip_tags($title_plain)."</title>\n";
+    echo "<html><head>\n";
+    if ($head_extra) {
+        echo "\n$head_extra\n";
     }
-
-    project_wordpress_header();
-
-    echo "<link rel=stylesheet type=\"text/css\" href=\"".URL_BASE."main.css\" media=\"all\" />
+    if (!$title_plain) {
+        echo "<title>".sanitize_tags($title)."</title>\n";
+    } else {
+        echo "<title>".sanitize_tags($title_plain)."</title>\n";
+    }
+    echo "<link rel=stylesheet type=\"text/css\" href=\"".URL_BASE."main.css\" media=\"all\">
         <link rel=stylesheet type=\"text/css\" href=\"$stylesheet\">
+    ";
+    if ($stylesheet2) {
+        echo "<link rel=stylesheet type=\"text/css\" href=\"$stylesheet2\">\n";
+    }
+    echo "
         <link rel=alternate type=\"application/rss+xml\" title=\"$rssname\" href=\"$rsslink\">
-        $head_extra
         </head>
     ";
     if ($java_onload){
@@ -174,7 +187,6 @@ require_once(BASEPATH . "/boinc/sensor/html/inc/google_translate.inc");
     } else {
         echo "<body>";
     }
-    google_translate_new();
     display_cvs_versions();
 
     project_banner($title, $prefix);
@@ -189,6 +201,11 @@ require_once(BASEPATH . "/boinc/sensor/html/inc/google_translate.inc");
 
 }
 }
+
+// the following must be included in header
+// for Recaptcha to work with some IE browsers
+//
+define('IE_COMPAT_MODE', '<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE8" >');
 
 function page_tail_aux($show_return, $show_date, $prefix="") {
     project_footer($show_return, $show_date, $prefix);
@@ -217,7 +234,7 @@ function display_cvs_versions(){
 }
 
 function db_error_page() {
-    //page_head("Database error");
+    page_head("Database error");
     echo tra("A database error occurred while handling your request; please try again later.");
     page_tail();
 }
@@ -227,7 +244,7 @@ function error_page($msg) {
     if ($generating_xml) {
         xml_error(-1, $msg);
     }
-    //page_head(tra("Unable to handle request"));
+    page_head(tra("Unable to handle request"));
     echo $msg;
     page_tail();
     exit();
@@ -267,7 +284,12 @@ function date_str($x) {
 
 function time_str($x) {
     if ($x == 0) return "---";
-    return gmdate('j M Y | G:i:s', $x) . " UTC";
+    return gmdate('j M Y, G:i:s', $x) . " UTC";
+}
+
+function local_time_str($x) {
+    if ($x == 0) return "---";
+    return date('j M Y, H:i T', $x);
 }
 
 function pretty_time_str($x) {
@@ -322,7 +344,7 @@ function row1($x, $ncols=2, $class="heading") {
 
 function row2($x, $y, $show_error=false) {
     if ($x=="") $x="<br>";
-    if ($y=="") $y="<br>";
+    if ($y==="") $y="<br>";
     if ($show_error) {
         $class1 = 'fieldname_error';
         $class2 = 'fieldvalue_error';
@@ -534,7 +556,7 @@ function close_output_buffer($filename) {
 }
 
 function html_info() {
-    return "<br><a href=\"bbcode.php\" target=\"_new\"><span class=\"smalltext\">".tra("Use BBCode tags to format your text")."</span></a>\n";
+    return "<br><a href=bbcode.php target=new><span class=smalltext>".tra("Use BBCode tags to format your text")."</span></a>\n";
 }
 
 // strip slashes if magic quotes in effect
@@ -556,25 +578,6 @@ function check_get_args($args) {
     }
 }
 
-// CMC here - add a get_double like get_int below
-function get_double($name, $optional=false) {
-    $x=null;
-    if (isset($_GET[$name])) $x = $_GET[$name];
-    if (!is_numeric($x)) {
-        if ($optional) {
-            if ($x) {
-                Header("Location: non_num_arg.html");
-                die;
-            }
-            return null;
-        } else {
-            Header("Location: missing_arg_$name.html");
-            die;
-        }
-    }
-    return (double)$x;
-}
-
 function get_int($name, $optional=false) {
     $x=null;
     if (isset($_GET[$name])) $x = $_GET[$name];
@@ -593,20 +596,6 @@ function get_int($name, $optional=false) {
     return (int)$x;
 }
 
-// CMC function for post of a double/float
-function post_double($name, $optional=false) {
-    $x = null;
-    if (isset($_POST[$name])) $x = $_POST[$name];
-    if (!is_numeric($x)) {
-        if ($optional) {
-            return null;
-        } else {
-            error_page("missing or bad parameter: $name; supplied: ".htmlspecialchars($x));
-        }
-    }
-    return (double)$x;
-}
-
 function post_int($name, $optional=false) {
     $x = null;
     if (isset($_POST[$name])) $x = $_POST[$name];
@@ -621,22 +610,25 @@ function post_int($name, $optional=false) {
 }
 
 function get_str($name, $optional=false) {
-    if (!isset($_GET[$name])) {
+    if (isset($_GET[$name])) {
+        $x = $_GET[$name];
+    } else {
         if (!$optional) {
             error_page("missing or bad parameter: $name");
         }
         $x = null;
-    } else {
-        $x = $_GET[$name];
     }
     return undo_magic_quotes($x);
 }
 
 function post_str($name, $optional=false) {
-    $x = null;
-    if (isset($_POST[$name])) $x = $_POST[$name];
-    if (!$x && !$optional) {
-        error_page("missing or bad parameter: $name");
+    if (isset($_POST[$name])) {
+        $x = $_POST[$name];
+    } else {
+        if (!$optional) {
+            error_page("missing or bad parameter: $name");
+        }
+        $x = null;
     }
     return undo_magic_quotes($x);
 }
@@ -738,8 +730,13 @@ function current_url() {
 // @param desc The title of the destination - typically used as a popup
 // @param class The optional CSS class of the button. Defaults to a standard button
 //
-function show_button($url, $text, $desc, $class="button") {
-    echo "<a href=\"".$url."\" title=\"".addslashes($desc)."\" class=\"".$class."\">".$text."</a>\n";
+function show_button($url, $text, $desc=null, $class="button") {
+    if (!$desc) $desc = $text;
+    echo "<a href=\"".$url."\" title=\"$desc\" class=\"".$class."\">".$text."</a>\n";
+}
+function button_text($url, $text, $desc=null, $class="button") {
+    if (!$desc) $desc = $text;
+    return "<a href=\"".$url."\" title=\"$desc\" class=\"".$class."\">".$text."</a>\n";
 }
 
 // When multiple buttons (or actions) are presented in a list you can
@@ -820,6 +817,9 @@ function get_app_types() {
         } else if (strstr($av->plan_class, "cuda")) {
             $t->cuda = true;
             $t->count++;
+        } else if (strstr($av->plan_class, "nvidia")) {
+            $t->cuda = true;
+            $t->count++;
         } else {
             $t->cpu = true;
             $t->count++;
@@ -833,6 +833,7 @@ function get_app_types() {
 // "next_url" arguments (must be local, not full URLs)
 //
 function sanitize_local_url($x) {
+    $x = trim($x, "/");
     if (strstr($x, "/")) return "";
     if (strstr($x, "<")) return "";
     if (strstr($x, "\"")) return "";
@@ -842,11 +843,7 @@ function sanitize_local_url($x) {
 // strip HTML tags
 //
 function sanitize_tags($x) {
-    if (function_exists('filter_var')) {
-        return filter_var($x, FILTER_SANITIZE_STRING);
-    } else {
-        return strip_tags($x);
-    }
+    return strip_tags($x);
 }
 
 function sanitize_numeric($x) {
@@ -865,63 +862,29 @@ function sanitize_email($x) {
     }
 }
 
-if (!function_exists("print_login_form_aux")){
-function print_login_form_aux($next_url, $user, $ramp) {
-    $x = urlencode($next_url);
-    echo "
-        <form name=\"f\" method=\"post\" action=\"" . BASEURL . "/sensor/login_action.php\">
-        <input type=\"hidden\" name=\"next_url\" value=\"$next_url\">
-    ";
+function flops_to_credit($f) {
+    return $f*(200/86400e9);
+}
 
-    if ($ramp) {
-      $x = "ramp_signup.php";
-      echo "<p><b>Please login below or <a href=\"create_account_form.php?next_url=$x\">create an account</a> to sign up for QCN RAMP.</b><BR>
-         You will be able to use this login information when you join QCN via the
-         BOINC software (i.e. when you are setting up a computer with a sensor to join QCN</p><BR>";
+function credit_to_gflop_hours($c) {
+    return $c/(200/24);
+}
+function do_download($path,$name="") {
+    if (strcmp($name,"") == 0) {
+        $name=basename($path);
     }
-
-    start_table();
-    row2("Email address:", '<input name="email_addr" size="40" tabindex="1">');
-    row2("Password:<br><span class=note><a href=get_passwd.php>Forgot password?</a></span>",
-        '<input type="password" name="passwd" size="40" tabindex="2">'
-    );
-    row2("Stay logged in on this computer",
-        '<input type="checkbox" name="stay_logged_in" checked>'
-    );
-    row2("",
-        "<input type=\"submit\" name=\"mode\" value=\"Log in\" tabindex=\"3\"><br><br>or <a href=\"create_account_form.php?next_url=$x\">create an account</a>."
-    );
-    if ($user) {
-        row1("Log out");
-        row2("You are logged in as $user->name",
-            "<a href=\"logout.php?".url_tokens($user->authenticator)."\">Log out</a>"
-        );
-    }
-    end_table();
-    echo "
-        </form>
-        <script type=\"text/javascript\">
-            document.f.email_addr.focus();
-        </script>
-    ";
+    header('Content-Description: File Transfer');
+    header('Content-Type: application/octet-stream');
+    header('Content-Disposition: attachment; filename='.$name);
+    header('Content-Transfer-Encoding: binary');
+    header('Expires: 0');
+    header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+    header('Pragma: public');
+    header('Content-Length: ' . filesize($path));
+    flush();
+    readfile($path);
 }
 
-
-if (!function_exists("print_login_form")){
-function print_login_form($ramp=false) {
-//    page_head("Please log in");
-    page_top();
-    $next_url = $_SERVER['REQUEST_URI'];
-    print_login_form_aux($next_url, null, $ramp);
-//    page_tail();
-    page_end();
-}
-}
-
-
-}
-
-
-$cvs_version_tracker[]="\$Id: util.inc 23624 2011-06-01 04:29:43Z boincadm $";  //Generated automatically - do not edit
+$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 
 ?>

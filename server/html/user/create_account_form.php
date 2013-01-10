@@ -20,6 +20,7 @@ require_once('../inc/db.inc');
 require_once('../inc/util.inc');
 require_once('../inc/countries.inc');
 require_once('../inc/translation.inc');
+require_once('../inc/recaptchalib.php');
 
 check_get_args(array("next_url", "teamid"));
 
@@ -34,7 +35,7 @@ if (defined('SECURE_URL_BASE')
 
 }
 
-page_head(tra("Create an account"));
+page_head(tra("Create an account"), null, null, null, IE_COMPAT_MODE);
 
 $config = get_config();
 if (parse_bool($config, "disable_account_creation")) {
@@ -49,8 +50,9 @@ if (parse_bool($config, "disable_account_creation")) {
 // CMC check for RAMP
 $isramp = strstr($next_url, "ramp");
 
-$wac = parse_bool($config, "web_account_creation");
-if (!$wac && !$isramp) {
+$nwac = parse_bool($config, "no_web_account_creation");
+
+if (!$wac && !$isramp && !no_computing()) {
     echo "<p>
         <b>".tra("NOTE: If you use the BOINC Manager, don't use this form. Just run BOINC, select Add Project, and enter an email address and password.")."</b></p>
     ";
@@ -114,6 +116,17 @@ row2(
     tra("Postal or ZIP Code")."<br><span class=\"description\">".tra("Optional")."</span>",
     "<input type=\"text\" name=\"postal_code\" size=\"20\">"
 );
+
+// Check if we need reCaptcha for making more safe the creation of accounts
+$publickey = parse_config($config, "<recaptcha_public_key>");
+
+if ($publickey) {
+    row2(
+        tra("Please enter the words shown in the image"),
+        recaptcha_get_html($publickey)
+    );
+}
+
 row2("",
     "<input type=\"submit\" value=\"".tra("Create account")."\">"
 );
@@ -122,6 +135,6 @@ echo "
     </form>
 ";
 
-$cvs_version_tracker[]="\$Id: create_account_form.php 23010 2011-02-09 22:11:34Z davea $";  //Generated automatically - do not edit
+$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 page_tail();
 ?>

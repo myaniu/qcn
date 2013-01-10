@@ -132,12 +132,17 @@ echo "
     <ul>
         <li><a href=\"manage_apps.php\">Manage applications</a></li>
         <li><a href=\"manage_app_versions.php\">Manage application versions</a></li>
-        <li><a href=\"cancel_wu_form.php\">Cancel workunits</a></li>
+        <li> Manage jobs
+        <ul>
+            <li><a href=\"cancel_wu_form.php\">Cancel jobs</a></li>
+            <li><a href=transition_all.php>Transition jobs</a>
+              <br><span class=note>(this can 'unstick' old jobs)</span>
+            <li><a href=\"revalidate.php\">Re-validate jobs</a></li>
+
+        </ul>
         <li><a href=\"job_times.php\">FLOP count statistics</a>
         <li><a href=\"$stripchart_cgi_url/stripchart.cgi\">Stripcharts</a>
         <li><a href=\"show_log.php\">Show/Grep logs</a>
-        <li><a href=transition_all.php>Transition all WUs</a>
-          <br><span class=note>(this can 'unstick' old WUs)</span>
         <li>
             <form method=\"get\" action=\"clear_host.php\">
             <input type=\"submit\" value=\"Clear RPC seqno\">
@@ -151,6 +156,7 @@ echo "
     <ul>
         <li><a href=\"profile_screen_form.php\">Screen user profiles </a></li>
         <li><a href=\"manage_special_users.php\">User privileges</a></li>
+        <li><a href=".URL_BASE."/manage_project.php>User job submission privileges</a></li>
         <li><a href=\"mass_email.php\">Send mass email to a selected set of users</a></li>
         <li><a href=\"problem_host.php\">Email user with misconfigured host</a></li>
         <li><form action=\"manage_user.php\">
@@ -165,7 +171,7 @@ echo "
     </table>
 ";
 
-// Application Result Summaries:
+// Result Summaries:
 
 $show_deprecated = get_str("show_deprecated", true);
 $show_only = array("all"); // Add all appids you want to display, or "all"
@@ -174,26 +180,39 @@ while ($app = mysql_fetch_object($result)) {
     if (in_array($app->id, $show_only) 
        || ( in_array("all", $show_only)
           && (!$app->deprecated || $show_deprecated)
-          )
-       ) {
+    )) {
     
-    echo "
-    <b>Result summary for <tt>$app->name</tt>:</b>
-    <ul>
-    <li> Past 24 hours:
-        <a href=\"result_summary.php?appid=$app->id&amp;nsecs=86400\">summary</a> |
-        <a href=\"pass_percentage_by_platform.php?appid=$app->id&amp;nsecs=86400\">pass percentage by platform</a> | 
-        <a href=\"failure_result_summary_by_host.php?appid=$app->id&amp;nsecs=86400\">failure by host</a> |
-        <a href=\"failure_result_summary_by_platform.php?appid=$app->id&amp;nsecs=86400\"> failure by platform</a>
-    <li>Past &nbsp;&nbsp;&nbsp;7 days:
-        <a href=\"result_summary.php?appid=$app->id&amp;nsecs=604800\">summary</a> |
-        <a href=\"pass_percentage_by_platform.php?appid=$app->id&amp;nsecs=604800\">pass percentage by platform</a> |
-        <a href=\"failure_result_summary_by_host.php?appid=$app->id&amp;nsecs=604800\">failure by host</a> |
-        <a href=\"failure_result_summary_by_platform.php?appid=$app->id&amp;nsecs=604800\">failure by platform</a>
-    </ul>
-    ";
+        echo "
+            <b>Results for <tt>$app->name</tt>:</b>
+            <ul>
+";
+        for ($i=0; $i<2; $i++) {
+            if ($i) {
+                $secs = 7*86400;
+                $period = "&nbsp;&nbsp;&nbsp;7 days";
+            } else {
+                $secs = 86400;
+                $period = "24 hours";
+            }
+            echo "
+                <li> Past $period:
+                <a href=\"result_summary.php?appid=$app->id&amp;nsecs=$secs\">
+                    summary
+                </a> |
+                <a href=\"pass_percentage_by_platform.php?appid=$app->id&amp;nsecs=$secs\">
+                    summary per app version
+                </a> | 
+                <a href=\"failure_result_summary_by_host.php?appid=$app->id&amp;nsecs=$secs\">
+                    failures broken down by (app version, host)
+                </a> |
+                <a href=\"failure_result_summary_by_platform.php?appid=$app->id&amp;nsecs=$secs\">
+                    failures broken down by (app version, error)
+                </a>
+";
+        }
+        echo " </ul> ";
     }
- }
+}
 mysql_free_result($result);
 
 if ($show_deprecated) {
@@ -218,5 +237,5 @@ echo "<h3>Periodic or special tasks</h3>
 
 admin_page_tail();
 
-$cvs_version_tracker[]="\$Id: index.php 23386 2011-04-19 20:17:51Z davea $";  //Generated automatically - do not edit
+$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 ?>

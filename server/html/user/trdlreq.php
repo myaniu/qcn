@@ -44,7 +44,8 @@ db_init();
 
 $user = get_logged_in_user(true);
 // authenticate admin-level user
-qcn_admin_user_auth($user, true);
+
+//qcn_admin_user_auth($user, true);
 
 $bDownloadAll = false;
 if(!empty($_REQUEST['submitDownload']))

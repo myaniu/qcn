@@ -2,6 +2,8 @@
 
 // CMC note -- added Google Maps stuff for QCN
 
+ini_set('display_errors', 0);
+
 require_once("../inc/util.inc");
 require_once("common.inc");
 

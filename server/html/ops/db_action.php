@@ -208,7 +208,7 @@ if ($result) {
                 show_workunit($res);
                 break;
             case "result":
-                show_result($res);
+                show_result_ops($res);
                 break;
             case "team":
                 show_team($res);
@@ -228,5 +228,5 @@ if ($result) {
 }
 
 admin_page_tail();
-$cvs_version_tracker[]="\$Id: db_action.php 15975 2008-09-07 07:40:56Z davea $";  //Generated automatically - do not edit
+$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 ?>

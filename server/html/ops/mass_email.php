@@ -77,7 +77,6 @@ if ($receiver > 0) {
     }
     // FOR DEBUGGING
     //$query .= " LIMIT 10";
-    // $query .= " AND user.id > 21574 ";
 
     $result = mysql_query($query);
     while ($user = mysql_fetch_object($result)) {

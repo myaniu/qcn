@@ -102,5 +102,5 @@ echo "</form>\n";
 print_describe_table($table, 4);
 
 admin_page_tail();
-$cvs_version_tracker[]="\$Id: db_form.php 15975 2008-09-07 07:40:56Z davea $";  //Generated automatically - do not edit
+$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 ?>

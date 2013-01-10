@@ -20,6 +20,7 @@
 // They've already entered an email address and password.
 // Now get a name, country, and zip code
 
+
 // CMC add next 2 lines
 require_once("../project/project.inc");
 require_once("../inc/prefs.inc");
@@ -27,7 +28,6 @@ require_once("../inc/prefs.inc");
 require_once('../inc/boinc_db.inc');
 require_once('../inc/util.inc');
 require_once('../inc/countries.inc');
-require_once('../inc/translation.inc');
 
 check_get_args(array("auth"));
 
@@ -38,8 +38,8 @@ if (!$user) {
 }
 // CMC here next 2 lines
 $psprefs = project_specific_prefs_parse($user->project_prefs);
-page_head("Finish account setup", true, $psprefs);
-//page_head("Finish account setup");
+page_head(tra("Finish account setup"), true, $psprefs);
+//page_head(tra("Finish account setup"));
 
 echo "
     <form action=account_finish_action.php method=post>

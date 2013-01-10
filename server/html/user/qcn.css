@@ -3,12 +3,8 @@ a, a:link, a:visited, a:active {
 }
 
 body {
-background-image:url(/wp-content/themes/persuasion/QCN-blue/dark_bg.png);
-/*background-color:inherit@;*/
-background-repeat:repeat;background-attachment:scroll;background-position:center top;}
-/*	#background: #fff url("img/gray_gradient.png") repeat-x;
+	#background: #fff url("img/gray_gradient.png") repeat-x;
 	color: black;
-*/
 }
 
 h1 {
@@ -213,4 +209,3 @@ td.running { background-color: #9aff4f; }
 td.notrunning { background-color: #feff6f; }
 
 td.disabled { background-color: #ff4f4f; }
-

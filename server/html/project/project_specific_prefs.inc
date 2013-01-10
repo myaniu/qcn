@@ -269,6 +269,7 @@ function project_specific_prefs_show($prefs, $columns=false) {
 // parse XML, fill in struct
 //
 function project_specific_prefs_parse($prefs_xml) {
+    $prefs = new stdClass();
     $prefs->ssp = parse_element($prefs_xml, "<ssp>");
     $prefs->lat = parse_element($prefs_xml, "<lat>");
     $prefs->lng = parse_element($prefs_xml, "<lng>");

@@ -18,7 +18,7 @@ echo "<table width=\"98%\"><tr>\n";
 echo "<td width=\"68%\"><p><h1>Recent Earthquakes:</h1></p></td>";
 echo "<td width=\"30%\"><p><h2>Latest Earthquake:</h2></p></td>";
 echo "</tr><tr>\n";
-echo "<td width=\"68%\"><p><img src=\"" . BASEURL . "/earthquakes/images/events.jpg\" width=\"430\"></td>\n";
+echo "<td width=\"68%\"><p><ul><img src=\"" . BASEURL . "/earthquakes/images/events.png\" width=\"430\"></ul></td>\n";
 echo "<td width=\"30%\"><p>\n";
 if ( ($show_mg=="y")||($show_mg=="Y") ) {show_last_eq("y");} else { show_last_eq();; }
 echo "</td>\n</tr></table>\n";

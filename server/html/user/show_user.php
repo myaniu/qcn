@@ -23,7 +23,7 @@
 // Object-caching and full-file caching is used to speed up queries
 // for data from this page.
 
-$cvs_version_tracker[]="\$Id: show_user.php 23228 2011-03-12 15:36:58Z Rytis $";  //Generated automatically - do not edit
+$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 
 require_once("../inc/cache.inc");
 require_once("../inc/util.inc");
@@ -32,8 +32,6 @@ require_once("../inc/boinc_db.inc");
 require_once("../inc/user.inc");
 require_once("../inc/forum.inc");
 require_once("../project/project.inc");
-
-check_get_args(array("auth", "userid", "format"));
 
 $auth = get_str("auth", true);
 if (!$auth) {
@@ -82,7 +80,7 @@ if ($format=="xml"){
         set_cached_data(USER_PAGE_TTL, serialize($data), $cache_args);
     }
     if (!$user->id) {
-        error_page("No such user found - please check the ID and try again.");
+        error_page("No such user");
     }
 
     $logged_in_user = get_logged_in_user(false);

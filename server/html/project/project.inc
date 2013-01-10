@@ -35,6 +35,7 @@ define("MIN_MAGNITUDE_W", "3.5");
 define("MIN_MAGNITUDE_M", "4.0");
 define("MIN_MAGNITUDE_H", "3.0");
 define("MAX_NUM_TRIGGER", "500");
+define("FORUM_QA_MERGED_MODE", true);
 
 // CMC have default global preferences
 define("GLOBAL_PREFS_DEFAULT", "<global_preferences>\n"

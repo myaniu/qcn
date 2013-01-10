@@ -16,7 +16,7 @@ $bNoQuery = ($_SERVER["QUERY_STRING"] == null);
 
 // Check if the user is on the administrative list:
 $auth = qcn_admin_user_check($user);
-
+$auth = true;
 // authenticate admin-level user
 // qcn_admin_user_auth($user, true);
 

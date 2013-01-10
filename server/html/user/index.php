@@ -147,7 +147,6 @@ function show_nav() {
         </ul>
         <h2 class=headline>".tra("Community")."</h2>
         <ul>
-        <li><a href=\"profile_menu.php\">".tra("Profiles")."</a>
         <li><a href=\"user_search.php\">User search</a>
         <li><a href=\"forum_index.php\">".tra("Message boards")."</a>
         <li><a href=\"stats.php\">Statistics</a>
@@ -163,7 +162,7 @@ function show_nav() {
         <ul>
         <li><a href=\"trdl.php\">".tra("Trigger Search/Upload/Download Page")."</a>
         <li><a href=\"ramp.php\">".tra("View RAMP Signups")."</a>
-        <li><a href=\"" . BASEURL . "/sensor_ops/todo\">".tra("To-Do List")."</a></ul>";
+        <li><a href=\"" . BASEURL . "/sensor/todo\">".tra("To-Do List")."</a></ul>";
         
         //if ($user->id == 15) {
         // check for db replication timestamp

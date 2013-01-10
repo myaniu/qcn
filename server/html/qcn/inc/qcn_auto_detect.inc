@@ -49,20 +49,22 @@ function gmt_quake_map() {
 
   touch($event_file);
 
-  system("cat */event.xy > $event_file");
+  if (filemtime($event_file)+5< time()) {  // Only remake event file every 5 seconds
+   system("cat */event.xy > $event_file");
 
-  $gmt  = GMTPATH . "/";
-  $topo = GMTPATH . "/share/topo/topo_coarse.grd";
-  $cpt  = GMTPATH . "/share/topo/GMT_globe.cpt";
-  $proj = "-JM15";
-  $bounds = "-R-180/180/-70/70";
-  $psfile = BASEPATH . "/qcn/earthquakes/images/events.ps";
-  $outdir = BASEPATH . "/qcn/earthquakes/images";
+   $gmt  = GMTPATH . "/";
+   $topo = GMTPATH . "/share/topo/topo_coarse.grd";
+   $cpt  = GMTPATH . "/share/topo/GMT_globe.cpt";
+   $proj = "-JM5";
+   $bounds = "-R-180/180/-70/70";
+   $psfile = BASEPATH . "/qcn/earthquakes/images/events.ps";
+   $outdir = BASEPATH . "/qcn/earthquakes/images";
 
-  system(GMTPATH . "/bin/grdimage $topo -C$cpt $proj $bounds -X4 -Y4 -P -K > $psfile");
-  system(GMTPATH . "/bin/pscoast -Dc $proj $bounds -W0.5p/0 -S100/150/255 -O -K >> $psfile");
-  system(GMTPATH . "/bin/psxy $event_file $proj $bounds -O -Sa0.5 -W0.5p/255/0/0 -B60g0/30g0WSne >> $psfile");
-  system(GMTPATH . "/bin/ps2raster $psfile -D$outdir -A -P -Tj");
+   system(GMTPATH . "/bin/grdimage $topo -C$cpt $proj $bounds -X4 -Y4 -K > $psfile");
+   system(GMTPATH . "/bin/pscoast -Dc $proj $bounds -W0.5p/0 -S100/150/255 -O -K >> $psfile");
+   system(GMTPATH . "/bin/psxy $event_file $proj $bounds -O -Sa0.5 -W0.5p/255/0/0 -B60g0/30g0WSne >> $psfile");
+   system(GMTPATH . "/bin/ps2raster $psfile -D$outdir -A -P -Tg");
+  }
 }
 
 function gmt_quake_map_lon_lat($lon=null,$lat=null,$dlon=null,$dlat=null) {

@@ -214,18 +214,17 @@ $disk_prefs = array(
 $net_prefs = array(
     new PREF_NUM(
         tra(
-            "Computer is connected to the Internet about every %1 Leave blank or 0 if always connected. %2 BOINC will try to maintain at least this much work. %3",
+            "Maintain enough tasks to keep busy for at least%1(max 10 days).%2",
             "<br><span class=note>",
-            "<br>",
             "</span>"
         ),
         "work_buf_min_days",
-        new NUM_SPEC(tra("days"), 0, 10, 0)
+        new NUM_SPEC(tra("days"), 0, 10, .1)
     ),
     new PREF_NUM(
-        tra("Maintain enough work for an additional"),
+        tra("... and up to an additional"),
         "work_buf_additional_days",
-        new NUM_SPEC(tra("days"), 0, 10, .25)
+        new NUM_SPEC(tra("days"), 0, 10, .5)
     ),
     new PREF_BOOL(
         tra(
@@ -405,13 +404,14 @@ global $venue_name;
 function get_disk_space_config() {
     global  $config;
     $config = get_config();
+    $dp = new stdClass();
     $dp->disk_max_used_gb = parse_config($config, "<default_disk_max_used_gb>");
     $dp->disk_max_used_pct = parse_config($config, "<default_disk_max_used_pct>");
     $dp->disk_min_free_gb = parse_config($config, "<default_disk_min_free_gb>");
     // set some defaults if not found
-    if (!$dp->disk_max_used_gb) $dp->disk_max_used_gb = 100;  // 100 gb
-    if (!$dp->disk_max_used_pct) $dp->disk_max_used_pct = 50; // 50 percent
-    if (!$dp->disk_min_free_gb) $dp->disk_min_free_gb=.001;   // 1 megabyte
+    if (!$dp->disk_max_used_gb) $dp->disk_max_used_gb = 0;  // no limit
+    if (!$dp->disk_max_used_pct) $dp->disk_max_used_pct = 90; // 90 percent
+    if (!$dp->disk_min_free_gb) $dp->disk_min_free_gb=.1;   // 100 MB
     // set mininimum free space scheduler allows 
     // - depends on which scheduler is running
     $dp->new_sched_flag = 1;
@@ -585,7 +585,7 @@ function default_prefs_project() {
     global $project_pref_descs;
 
     $p = null;
-    foreach($project_pref_descs as $pref) {
+    foreach ($project_pref_descs as $pref) {
         $pref->set_default($p);
     }
     $p->project_specific = project_specific_prefs_default();
@@ -815,7 +815,10 @@ function prefs_display_venue($prefs, $venue, $subset) {
             prefs_show_project($x);
             prefs_show_project_specific($x);
         }
-        row2("<br>", "<a href=prefs_edit.php?venue=$venue&subset=$subset$tokens>".tra("Edit preferences")."</a> | <a href=prefs_remove.php?venue=$venue&subset=$subset$tokens>".tra("Remove")."</a>");
+        row2("<br>",
+            "<a href=prefs_edit.php?venue=$venue&subset=$subset$tokens>".tra("Edit preferences")."</a>
+            | <a href=prefs_remove.php?venue=$venue&subset=$subset$tokens>".tra("Remove")."</a>
+        ");
         end_table();
         echo "</td></tr>\n";
     } else {
@@ -890,7 +893,9 @@ function print_prefs_display_global($user, $columns=false) {
         start_table();
         prefs_show_global($global_prefs);
         $tokens = url_tokens($user->authenticator);
-        row2("<br>", "<a href=prefs_edit.php?subset=global$tokens>".tra("Edit preferences")."</a>");
+        row2("<br>",
+            "<a href=prefs_edit.php?subset=global$tokens>".tra("Edit preferences")."</a>
+        ");
         end_table();
         echo "</td></tr>\n";
 
@@ -1171,12 +1176,10 @@ function global_prefs_update(&$user, $prefs) {
     $query = "update user set global_prefs='$prefs_xml' where id=$user->id";
     $retval = mysql_query($query);
     if (!$retval) {
-        echo tra("Update failed: ").htmlspecialchars($query)."\n";
-        echo mysql_error();
-        exit();
+        return 1;
     }
     $user->global_prefs = $prefs_xml;
-    return $retval;
+    return 0;
 }
 
 function project_prefs_update(&$user, $prefs) {
@@ -1185,8 +1188,11 @@ function project_prefs_update(&$user, $prefs) {
     $show_hosts = $user->show_hosts?1:0;
     $query = "update user set project_prefs='$prefs_xml', send_email=$send_email, show_hosts=$show_hosts where id=$user->id";
     $retval = mysql_query($query);
+    if (!$retval) {
+        return 1;
+    }
     $user->project_prefs = $prefs_xml;
-    return $retval;
+    return 0;
 }
 
 ?>

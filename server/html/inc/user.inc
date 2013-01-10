@@ -25,6 +25,7 @@ require_once("../inc/forum_db.inc");
 require_once("../inc/notify.inc");
 
 function parse_project($f) {
+    $p = new stdClass();
     $p->total_credit = 0.0;
     $p->expavg_credit = 0.0;
     while (!feof($f)) {
@@ -163,9 +164,9 @@ function show_user_stats_private($user) {
     row2(tra("Cross-project statistics"), $x);
     $x = '<a href="cert1.php">'.tra("Account").'</a>';
     if ($user->teamid) {
-        $x .= ' | <a href="cert_team.php">'.tra("Team").'</a>';
+        $x .= ' &middot; <a href="cert_team.php">'.tra("Team").'</a>';
     }
-    $x .= ' | <a href="cert_all.php">'.tra("Cross-project").'</a>';
+    $x .= ' &middot; <a href="cert_all.php">'.tra("Cross-project").'</a>';
     row2(tra("Certificate"), $x);
     row2(tra("Stats on your cell phone"), URL_BASE."userw.php?id=$user->id");
 }
@@ -208,16 +209,15 @@ function show_user_info_private($user) {
     row2(tra("%1 member since", PROJECT), date_str($user->create_time));
     $url_tokens = url_tokens($user->authenticator);
     row2(tra("Change"), "<a href=\"edit_email_form.php\">".tra("email address")."</a>
-        | <a href=\"".SECURE_URL_BASE."/edit_passwd_form.php\">".tra("password")."</a>
-        | <a href=\"edit_user_info_form.php?$url_tokens\">".tra("other account info")."</a>
-        | <a href=\"logout.php?" . $url_tokens . "\">" . tra("Log out") . "</a>
-        | <a href=\"edit_host_info_form.php\">Sensor location</a>"
+        &middot; <a href=\"".SECURE_URL_BASE."/edit_passwd_form.php\">".tra("password")."</a>
+        &middot; <a href=\"edit_user_info_form.php?$url_tokens\">".tra("other account info")."</a>"
     );
-
     row2(tra("User ID")."<br/><span class=\"note\">".tra("Used in community functions")."</span>", $user->id);
     if (!no_computing()) {
-        row2(tra("Account key")."<br/><span class=\"note\">".tra("Provides full access to your account")."</span>", $user->authenticator);
-        row2(tra("Weak account key")."<br/><span class=\"note\">".tra("Provides %1limited access%2 to your account", "<a href=\"weak_auth.php\">", "</a> ")."</span>", weak_auth($user));
+        row2(
+            tra("Account keys"),
+            "<a href=\"weak_auth.php\">".tra("View")."</a>"
+        );
     }
 
     row1("<a name=\"prefs\"></a>".tra("Preferences"));
@@ -241,7 +241,7 @@ function show_community_private($user) {
     row1(tra("Community"));
 
     if ($user->has_profile) {
-        $x = "<a href=\"view_profile.php?userid=$user->id\">".tra("View")."</a> | <a href=\"delete_profile.php\">".tra("Delete")."</a>";
+        $x = "<a href=\"view_profile.php?userid=$user->id\">".tra("View")."</a> &middot; <a href=\"delete_profile.php\">".tra("Delete")."</a>";
     } else {
         $x = "<a href=\"create_profile.php\">".tra("Create")."</a>";
     }
@@ -267,9 +267,9 @@ function show_community_private($user) {
         if ($user->teamid) {
             $team = lookup_team($user->teamid);
             $x = "<a href=\"team_display.php?teamid=$team->id\">$team->name</a>
-                | <a href=\"team_quit_form.php\">".tra("Quit team")."</a>";
+                &middot; <a href=\"team_quit_form.php\">".tra("Quit team")."</a>";
             if (is_team_admin($user, $team)) {
-                $x .= " | <a href=\"team_manage.php?teamid=$user->teamid\">".tra("Administer")."</a>";
+                $x .= " &middot; <a href=\"team_manage.php?teamid=$user->teamid\">".tra("Administer")."</a>";
             }
 
             // if there's a foundership request, notify the founder
@@ -279,7 +279,7 @@ function show_community_private($user) {
             }
             row2(tra("Member of team"), $x);
         } else {
-            row2(tra("Team"), tra("None")." | <a href=\"team_search.php\">".tra("find a team")."</a>");
+            row2(tra("Team"), tra("None")." &middot; <a href=\"team_search.php\">".tra("find a team")."</a>");
         }
         
         $teams_founded = BoincTeam::enum("userid=$user->id");
@@ -316,7 +316,9 @@ function show_user_summary_public($user) {
     row2(tra("User ID"), $user->id);
     row2(tra("%1 member since", PROJECT), date_str($user->create_time));
     row2(tra("Country"), $user->country);
-    if (strlen($user->url)) {
+    // don't show URL if user has no recent credit (spam suppression)
+    //
+    if (strlen($user->url) && $user->expavg_credit > 1) {
         row2(tra("URL"), "<a href=\"http://$user->url\">http://$user->url</a>");
     }
     if (!no_computing()) {
@@ -341,6 +343,7 @@ function show_user_summary_public($user) {
 // @param user The user to produce a community links object for
 
 function get_community_links_object($user){
+    $cache_object = new stdClass();
     $cache_object->post_count = total_posts($user);
     $cache_object->user = $user;
     $cache_object->team = lookup_team($user->teamid);
@@ -440,6 +443,22 @@ function is_banned_email_addr($email_addr) {
     return false;
 }
 
+function is_valid_user_name($name, &$reason) {
+    if (trim($name) !== $name) {
+        $reason = tra("user name cannot have leading or trailing white space");
+        return false;
+    }
+    if (strlen($name) == 0) {
+        $reason = tra("user name must be nonempty");
+        return false;
+    }
+    if (sanitize_tags($name) !== $name) {
+        $reason = tra("user name may not contain HTML tags");
+        return false;
+    }
+    return true;
+}
+
 // the following DB-escapes its args
 //
 function make_user(
@@ -455,15 +474,19 @@ function make_user(
     if (!is_valid_country($country)) return null;
 
     $email_addr = BoincDb::escape_string($email_addr);
-    $name = strip_tags($name);
+    $name = sanitize_tags($name);
     $name = BoincDb::escape_string($name);
     $passwd_hash = BoincDb::escape_string($passwd_hash);
 
     $country = BoincDb::escape_string($country);
-    $postal_code = strip_tags(BoincDb::escape_string($postal_code));
+    $postal_code = sanitize_tags(BoincDb::escape_string($postal_code));
 
-// CMC set defaults for global prefs
+ // CMC set defaults for global prefs
     $uid = BoincUser::insert("(create_time, email_addr, name, authenticator, country, postal_code, total_credit, expavg_credit, expavg_time, project_prefs, teamid,  send_email, show_hosts, cross_project_id, passwd_hash, global_prefs) values($now, '$email_addr', '$name', '$authenticator', '$country', '$postal_code', 0, 0, unix_timestamp(), '$project_prefs', $teamid, 1, 1, '$cross_project_id', '$passwd_hash','" . GLOBAL_PREFS_DEFAULT . "')");
+
+/*
+    $uid = BoincUser::insert("(create_time, email_addr, name, authenticator, country, postal_code, total_credit, expavg_credit, expavg_time, project_prefs, teamid,  send_email, show_hosts, cross_project_id, passwd_hash) values($now, '$email_addr', '$name', '$authenticator', '$country', '$postal_code', 0, 0, unix_timestamp(), '$project_prefs', $teamid, 1, 1, '$cross_project_id', '$passwd_hash')");
+*/
 
     if ($uid) {
         return BoincUser::lookup_id($uid);
@@ -472,6 +495,6 @@ function make_user(
     }
 }
 
-$cvs_version_tracker[]="\$Id: user.inc 23387 2011-04-20 14:50:50Z davea $";  //Generated automatically - do not edit
+$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 
 ?>
