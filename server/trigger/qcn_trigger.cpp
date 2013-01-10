@@ -88,6 +88,8 @@
 
 long g_curlBytes = 0L;
 
+int qcn_process_ipaddr(char* strIPAddr, int iLen);
+
 // forward declaration for the big function at the bottom of this file
 int lookupGeoIPWebService(
    const int iRetGeo,
@@ -354,7 +356,7 @@ int handle_qcn_trigger(const DB_MSG_FROM_HOST* pmfh, const int iVariety, DB_QCN_
      return iRetVal; // returns qhip.lookup error if there was a database error, so trigger won't be "ack'd" and will try again
 }
 
-int qcn_process_ipaddr(char* strIPAddr, int iLen);
+int qcn_process_ipaddr(char* strIPAddr, int iLen)
 { // takes a full IP address (32 bits/8bytes) and converts it for QCN use 24 bits/3 bytes
      char* strNew = new char[iLen];
      bool bIPOK = false;
@@ -372,8 +374,8 @@ int qcn_process_ipaddr(char* strIPAddr, int iLen);
          // can't be a good IP prefix since strlen too small and/or only 1 . found
          log_messages.printf(
            SCHED_MSG_LOG::MSG_CRITICAL,
-           "[QCN] [HOST#%d] [RESULTNAME=%s] [TIME=%lf] [0] Invalid IP address detected: %s\n",
-           qtrig.hostid, qtrig.result_name, qtrig.time_received, qtrig.ipaddr
+           "[QCN] [0] Invalid IP address detected: %s\n",
+           strIPAddr
          );
          memset(strIPAddr, 0x00, iLen);
          bIPOK = false;
