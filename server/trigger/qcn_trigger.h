@@ -45,7 +45,7 @@ using namespace std;
 // the curl executable to use for Maxmind GeoIP queries (would linking to curl lib be better?  but have to tell BOINC)
 //#define EXEC_CURL     "/usr/local/bin/curl"
 //#define FORMAT_GEOIP  "-f -s 'http://geoip1.maxmind.com/b?l=0q9qp6z4BS40&i=%s.1'"
-#define FORMAT_GEOIP  "http://geoip1.maxmind.com/b?l=0q9qp6z4BS40&i=%s.1"
+#define FORMAT_GEOIP  "https://geoip.maxmind.com/b?l=ILFoClxbJcfk&i=%s.1"
 
 #define BYTESIZE_URL   64
 #define BYTESIZE_CURL 512

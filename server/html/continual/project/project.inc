@@ -8,7 +8,7 @@ require_once("common.inc");
 $master_url = parse_config(get_config(), "<master_url>");
 define("PROJECT", "Quake-Catcher Network Continual Monitoring");
 define("URL_BASE", "http://qcn.stanford.edu/continual/");
-define("MAXMIND_URL", "http://geoip1.maxmind.com/b?l=0q9qp6z4BS40");
+define("MAXMIND_URL", "https://geoip.maxmind.com/b?l=ILFoClxbJcfk");
 define("GOOGLE_MAPS_KEY", "AIzaSyDVxlyCoT9_i3eRxVF31dLKLPVTk22ZSS4");
 define("IMAGE_PATH", "../user_profile/images/");
 define("IMAGE_URL", "user_profile/images/");
