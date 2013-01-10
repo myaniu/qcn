@@ -356,21 +356,20 @@ int handle_qcn_trigger(const DB_MSG_FROM_HOST* pmfh, const int iVariety, DB_QCN_
      return iRetVal; // returns qhip.lookup error if there was a database error, so trigger won't be "ack'd" and will try again
 }
 
+
 int qcn_process_ipaddr(char* strIPAddr, int iLen)
 { // takes a full IP address (32 bits/8bytes) and converts it for QCN use 24 bits/3 bytes
-     char* strNew = new char[iLen];
      bool bIPOK = false;
      char* strLast = strrchr(strIPAddr, '.');  // this finds the last . in an ip address, so we want everything before that
-     memset(strNew, 0x00, sizeof(char) * iLen);
      if (strLast > strIPAddr) { // we found the last bit, so let's copy over everything between to the qtrig.ipaddr structure
-        strncpy(strNew, strIPAddr, strLast-strIPAddr);
+        strLast[0] = '\0';  // put a null terminator where the last . is -- simple & effective!
         bIPOK = true;
      }
-
      // now validate the IP address prefix in qtrig.ipaddr, if not in the form X.Y.Z then it's invalid
      // and should be set to null ("")
      strLast = strchr(strIPAddr, '.');  // this finds the first . in an ip address, so we want everything before that
-     if (strlen(strLast)<=1 || !strchr(strLast+1, '.')) { // this finds the next ., if this is null, reset qtrig.ipaddr as it's a bad IP addr
+     if (!strLast || strlen(strLast) <= 1 || !strchr(strLast+1, '.')) { // this finds the next ., if this is null, reset qtrig.ipaddr as it's a bad IP addr
+         // can't be a good IP prefix since strlen too small and/or only 1 . found
          // can't be a good IP prefix since strlen too small and/or only 1 . found
          log_messages.printf(
            SCHED_MSG_LOG::MSG_CRITICAL,
@@ -380,7 +379,6 @@ int qcn_process_ipaddr(char* strIPAddr, int iLen)
          memset(strIPAddr, 0x00, iLen);
          bIPOK = false;
      }
-     delete [] strNew;
      return (bIPOK ? 0 : 1); //success
 }
 
@@ -525,7 +523,7 @@ int lookupGeoIPWebService(
                        memset(strURL, 0x00, sizeof(char) * BYTESIZE_URL);
                        memset(strReply, 0x00, sizeof(char) * BYTESIZE_CURL);
                        sprintf(strURL, FORMAT_MAXMIND, qtrig.ipaddr);
-                       if (execute_curl(strURL, strReply, 512))  {
+                       if (strlen(qtrig.ipaddr) > 6 && strlen(qtrig.ipaddr) < 16 &&  execute_curl(strURL, strReply, 512))  {
                           // returned OK, now check strReply -- should be a single line of comma-delimited fields:
                           // Returns: ISO 3166 Two-letter Country Code, Region Code, City, Latitude, Longitude, Error code
                           // good reply: (note 4 commas/5 fields)
@@ -546,8 +544,8 @@ int lookupGeoIPWebService(
                             iReturn = 0; // ip not found, but this is a bad format web service lookup, so let's not bother retrying...
                             log_messages.printf(
                               SCHED_MSG_LOG::MSG_CRITICAL,
-                              "[QCN] [HOST#%d] [RESULTNAME=%s] [TIME=%lf] [2] Maxmind/GeoIP web lookup for IP %s via %s to %s failed\n",
-                              qtrig.hostid, qtrig.result_name, qtrig.time_received, qtrig.ipaddr, "libcurl", strURL
+                              "[QCN] [HOST#%d] [RESULTNAME=%s] [TIME=%lf] [2] Maxmind/GeoIP web lookup for IP %s via %s to %s failed\nReply: %s\n",
+                              qtrig.hostid, qtrig.result_name, qtrig.time_received, qtrig.ipaddr, "libcurl", strURL, strReply
                             );
                           }
                           else {
