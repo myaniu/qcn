@@ -837,10 +837,11 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq, bool bTrigger, D
               qtrig.hostid = qhip.hostid;
               qtrig.id = 0;
               strncpy(qtrig.ipaddr, get_remote_addr(), 32);
+              int iIPRetval = qcn_process_ipaddr(qtrig.ipaddr, 32);
               strncpy(qgip.ipaddr, qtrig.ipaddr, 32);
-              if (doTriggerHostLookup(qhip, qgip, qtrig, dmxy, dmz)) {
+              if (iIPRetval || doTriggerHostLookup(qhip, qgip, qtrig, dmxy, dmz)) {
                 log_messages.printf(MSG_DEBUG,
-                  "sched::handle_request::qcn_host_ipadr hostid lookup %d Failure\n", qhip.hostid);
+                  "sched::handle_request::qcn_host_ipadr hostid lookup %d Failure -- IP Addr %s\n", qhip.hostid, qtrig.ipaddr);
                  qhip.hostid = 0; //reset so bypasses the strLatLng creation below
               }
               else { // OK
