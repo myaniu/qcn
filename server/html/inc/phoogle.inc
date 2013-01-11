@@ -81,12 +81,12 @@ class PhoogleMap{
     var $controlType = 'large';
     
 /**
-* zoomIn
+* zoomLevel
 * int: 0-17
 * set's the initial zoom level of the map
 */
 
-    var $zoomIn = 4;
+    var $zoomLevel = 4;
 
 
 
@@ -114,7 +114,7 @@ function addGeoPoint($lat,$long,$infoHTML,$is_quake,$is_usb){  // CMC modified f
 
 function centerMap($lat,$long){ 
     $this->centerMap = "map.setCenter(" 
-       . "new google.maps.LatLng(" . $lat . "," . $long . "));\n          map.setZoom($this->zoomIn);\n"; 
+       . "new google.maps.LatLng(" . $lat . "," . $long . "));\n          map.setZoom($this->zoomLevel);\n"; 
 }
   
 /* 
@@ -321,7 +321,7 @@ function drawPlateBoundary() { // CMC - draws the plate boundaries in purple on 
                    echo "map.setCenter(
                       new google.maps.LatLng(" . $this->validPoints[0]['lat'] 
                        . ", " . $this->validPoints[0]['long'] . "));\n";
-                   echo "          map.setZoom($this->zoomIn);\n";
+                   echo "          map.setZoom($this->zoomLevel);\n";
                 }else{
                     echo $this->centerMap;
                 }   
