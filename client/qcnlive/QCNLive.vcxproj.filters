@@ -243,4 +243,7 @@
       <Filter>Header Files</Filter>
     </CustomBuild>
   </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="QCNLive.rc" />
+  </ItemGroup>
 </Project>
