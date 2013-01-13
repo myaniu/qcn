@@ -35,6 +35,16 @@ or
 #include "main.h"
 #include "csensor_usb_phidgets.h"
 
+// we're using dynamic libraries for everything except i686 Linux
+#define __USE_DYLIB__ 1
+
+// for Mac & Linux we use dlopen into the Phidget .dylib (Mac) or .so (Linux)
+#ifndef _WIN32
+#define __USE_DLOPEN__
+#include <dlfcn.h>   // dlopen and dlclose
+#endif
+
+
 //set the dll/so/dylib name
 #ifdef _WIN32  // Windows
   #define GET_PROC_ADDR ::GetProcAddress
@@ -44,7 +54,12 @@ const char CSensorUSBPhidgets::m_cstrDLL[] = {"phidget21x64.dll"};
 const char CSensorUSBPhidgets::m_cstrDLL[] = {"phidget21.dll"};
 #endif // Win 32 v 64
 #else // Mac & Linux
-  #define GET_PROC_ADDR dlsym
+  #ifdef __APPLE_CC__
+     #define GET_PROC_ADDR dlsym
+  #else  // Linux - using static lib
+     #undef __USE_DYLIB__
+     #undef __USE_DLOPEN___
+  #endif
 #ifdef __APPLE_CC__
 const char CSensorUSBPhidgets::m_cstrDLL[] = {"phidget21.dylib"};   
 #else
@@ -53,7 +68,7 @@ const char CSensorUSBPhidgets::m_cstrDLL[] = {"phidget21armv6.so"};
 #else
 #ifdef __LINUX_ARMV5__
 const char CSensorUSBPhidgets::m_cstrDLL[] = {"phidget21armv5.so"};   
-#else
+#else // i686 Linux
 const char CSensorUSBPhidgets::m_cstrDLL[] = {"phidget21a.so"};   
 #endif
 #endif  // armv6
@@ -81,9 +96,32 @@ CSensorUSBPhidgets::~CSensorUSBPhidgets()
 
 bool CSensorUSBPhidgets::setupFunctionPointers()
 {
-	if (!m_handleLibrary) return false;
 
-//#ifdef __USE_DLOPEN__
+
+
+#ifdef __USE_DYLIB__
+   std::string strPath;
+   // setup DLL path, if returns false then DLL doesn't exist at the path where it should
+        if (!qcn_util::setDLLPath(strPath, m_cstrDLL)) {
+              fprintf(stderr, "Phidgets1056: Cannot set DLL Path %s\n", m_cstrDLL);
+                closePort();
+                return false;
+        }
+
+  #ifdef __USE_DLOPEN__
+    m_handleLibrary = dlopen(strPath.c_str(), RTLD_LAZY | RTLD_GLOBAL); // default
+    if (!m_handleLibrary) {
+       fprintf(stderr, "CSensorUSBPhidgets: dynamic library %s dlopen error %s\n", m_cstrDLL, dlerror());
+       return false;
+    }
+  #else // for Windows or not using dlopen just use the direct phidget lib
+    m_handleLibrary = ::LoadLibrary(strPath.c_str());
+  #endif
+#endif
+
+
+#ifdef __USE_DYLIB__
+	if (!m_handleLibrary) return false;
 	m_PtrCPhidget_open = (PtrCPhidget_open) GET_PROC_ADDR(m_handleLibrary, "CPhidget_open");
 	m_PtrCPhidget_close = (PtrCPhidget_close) GET_PROC_ADDR(m_handleLibrary, "CPhidget_close");
 	m_PtrCPhidget_delete = (PtrCPhidget_delete) GET_PROC_ADDR(m_handleLibrary, "CPhidget_delete");
@@ -138,45 +176,46 @@ bool CSensorUSBPhidgets::setupFunctionPointers()
         m_PtrCPhidget_disableLogging = (PtrCPhidget_disableLogging) GET_PROC_ADDR(m_handleLibrary, "CPhidget_disableLogging");
         m_PtrCPhidget_log = (PtrCPhidget_log) GET_PROC_ADDR(m_handleLibrary, "CPhidget_log");
 
-/*
-#else
-	// Windows so use GetProcAddress
+#else   // static lib - just get pointers to the function entry points
+        m_PtrCPhidget_open = (PtrCPhidget_open) CPhidget_open;
+        m_PtrCPhidget_close = (PtrCPhidget_close) CPhidget_close;
+        m_PtrCPhidget_delete = (PtrCPhidget_delete) CPhidget_delete;
+        m_PtrCPhidget_getDeviceName = (PtrCPhidget_getDeviceName) CPhidget_getDeviceName;
+        m_PtrCPhidget_getSerialNumber = (PtrCPhidget_getSerialNumber) CPhidget_getSerialNumber;
+        m_PtrCPhidget_getDeviceVersion = (PtrCPhidget_getDeviceVersion) CPhidget_getDeviceVersion;
+        m_PtrCPhidget_getDeviceStatus = (PtrCPhidget_getDeviceStatus) CPhidget_getDeviceStatus;
+        m_PtrCPhidget_getLibraryVersion = (PtrCPhidget_getLibraryVersion) CPhidget_getLibraryVersion;
+        m_PtrCPhidget_getDeviceType = (PtrCPhidget_getDeviceType) CPhidget_getDeviceType;
+        m_PtrCPhidget_getDeviceLabel = (PtrCPhidget_getDeviceLabel) CPhidget_getDeviceLabel;
 
-	m_PtrCPhidget_open = (PtrCPhidget_open) ::GetProcAddress(m_handleLibrary, "CPhidget_open");
-	m_PtrCPhidget_close = (PtrCPhidget_close) ::GetProcAddress(m_handleLibrary, "CPhidget_close");
-	m_PtrCPhidget_delete = (PtrCPhidget_delete) ::GetProcAddress(m_handleLibrary, "CPhidget_delete");
-	m_PtrCPhidget_getDeviceName = (PtrCPhidget_getDeviceName) ::GetProcAddress(m_handleLibrary, "CPhidget_getDeviceName");
-	m_PtrCPhidget_getSerialNumber = (PtrCPhidget_getSerialNumber) ::GetProcAddress(m_handleLibrary, "CPhidget_getSerialNumber");
-	m_PtrCPhidget_getDeviceVersion = (PtrCPhidget_getDeviceVersion) ::GetProcAddress(m_handleLibrary, "CPhidget_getDeviceVersion");
-	m_PtrCPhidget_getDeviceStatus = (PtrCPhidget_getDeviceStatus) ::GetProcAddress(m_handleLibrary, "CPhidget_getDeviceStatus");
-	m_PtrCPhidget_getLibraryVersion = (PtrCPhidget_getLibraryVersion) ::GetProcAddress(m_handleLibrary, "CPhidget_getLibraryVersion");
-	m_PtrCPhidgetSpatial_create = (PtrCPhidgetSpatial_create) ::GetProcAddress(m_handleLibrary, "CPhidgetSpatial_create");
-	m_PtrCPhidget_getDeviceType = (PtrCPhidget_getDeviceType) ::GetProcAddress(m_handleLibrary, "CPhidget_33");
-	m_PtrCPhidget_getDeviceLabel = (PtrCPhidget_getDeviceLabel) ::GetProcAddress(m_handleLibrary, "CPhidget_getDeviceLabel");
+        m_PtrCPhidget_set_OnAttach_Handler = (PtrCPhidget_set_OnAttach_Handler) CPhidget_set_OnAttach_Handler;
+        m_PtrCPhidget_set_OnDetach_Handler = (PtrCPhidget_set_OnDetach_Handler) CPhidget_set_OnDetach_Handler;
+        m_PtrCPhidget_set_OnError_Handler = (PtrCPhidget_set_OnError_Handler) CPhidget_set_OnError_Handler;
 
-	m_PtrCPhidget_set_OnAttach_Handler = (PtrCPhidget_set_OnAttach_Handler) ::GetProcAddress(m_handleLibrary, "CPhidget_set_OnAttach_Handler");
-	m_PtrCPhidget_set_OnDetach_Handler = (PtrCPhidget_set_OnDetach_Handler) ::GetProcAddress(m_handleLibrary, "CPhidget_set_OnDetach_Handler");
-	m_PtrCPhidget_set_OnError_Handler = (PtrCPhidget_set_OnError_Handler) ::GetProcAddress(m_handleLibrary, "CPhidget_set_OnError_Handler");
-	m_PtrCPhidgetSpatial_set_OnSpatialData_Handler = (PtrCPhidgetSpatial_set_OnSpatialData_Handler) ::GetProcAddress(m_handleLibrary, "CPhidgetSpatial_set_OnSpatialData_Handler");
-	
-	m_PtrCPhidget_getErrorDescription = (PtrCPhidget_getErrorDescription) ::GetProcAddress(m_handleLibrary, "CPhidget_getErrorDescription");
-	m_PtrCPhidget_waitForAttachment = (PtrCPhidget_waitForAttachment) ::GetProcAddress(m_handleLibrary, "CPhidget_waitForAttachment");
-	m_PtrCPhidgetSpatial_getAccelerationAxisCount = (PtrCPhidgetSpatial_getAccelerationAxisCount) ::GetProcAddress(m_handleLibrary, "CPhidgetSpatial_getAccelerationAxisCount");
-	m_PtrCPhidgetSpatial_getGyroAxisCount = (PtrCPhidgetSpatial_getGyroAxisCount) ::GetProcAddress(m_handleLibrary, "CPhidgetSpatial_getGyroAxisCount");
-	m_PtrCPhidgetSpatial_getCompassAxisCount = (PtrCPhidgetSpatial_getCompassAxisCount) ::GetProcAddress(m_handleLibrary, "CPhidgetSpatial_getCompassAxisCount");
-	m_PtrCPhidgetSpatial_getAcceleration = (PtrCPhidgetSpatial_getAcceleration) ::GetProcAddress(m_handleLibrary, "CPhidgetSpatial_getAcceleration");
-	m_PtrCPhidgetSpatial_getAccelerationMax = (PtrCPhidgetSpatial_getAccelerationMax) ::GetProcAddress(m_handleLibrary, "CPhidgetSpatial_getAccelerationMax");
-	m_PtrCPhidgetSpatial_getAccelerationMin = (PtrCPhidgetSpatial_getAccelerationMin) ::GetProcAddress(m_handleLibrary, "CPhidgetSpatial_getAccelerationMin");
-	m_PtrCPhidgetSpatial_getDataRate = (PtrCPhidgetSpatial_getDataRate) ::GetProcAddress(m_handleLibrary, "CPhidgetSpatial_getDataRate");
-	m_PtrCPhidgetSpatial_setDataRate = (PtrCPhidgetSpatial_setDataRate) ::GetProcAddress(m_handleLibrary, "CPhidgetSpatial_setDataRate");
-	m_PtrCPhidgetSpatial_getDataRateMax = (PtrCPhidgetSpatial_getDataRateMax) ::GetProcAddress(m_handleLibrary, "CPhidgetSpatial_getDataRateMax");
-	m_PtrCPhidgetSpatial_getDataRateMin = (PtrCPhidgetSpatial_getDataRateMin) ::GetProcAddress(m_handleLibrary, "CPhidgetSpatial_getDataRateMin");
+        m_PtrCPhidget_getErrorDescription = (PtrCPhidget_getErrorDescription) CPhidget_getErrorDescription;
+        m_PtrCPhidget_waitForAttachment = (PtrCPhidget_waitForAttachment) CPhidget_waitForAttachment;
 
-        m_PtrCPhidget_enableLogging = (PtrCPhidget_enableLogging) ::GetProcAddress(m_handleLibrary, "CPhidget_enableLogging");
-        m_PtrCPhidget_disableLogging = (PtrCPhidget_disableLogging) ::GetProcAddress(m_handleLibrary, "CPhidget_disableLogging");
-        m_PtrCPhidget_log = (PtrCPhidget_log) ::GetProcAddress(m_handleLibrary, "CPhidget_log");
+        m_PtrCPhidgetSpatial_create = (PtrCPhidgetSpatial_create) CPhidgetSpatial_create;
+        m_PtrCPhidgetSpatial_getAccelerationAxisCount = (PtrCPhidgetSpatial_getAccelerationAxisCount) CPhidgetSpatial_getAccelerationAxisCount;
+        m_PtrCPhidgetSpatial_getGyroAxisCount = (PtrCPhidgetSpatial_getGyroAxisCount) CPhidgetSpatial_getGyroAxisCount;
+        m_PtrCPhidgetSpatial_getCompassAxisCount = (PtrCPhidgetSpatial_getCompassAxisCount) CPhidgetSpatial_getCompassAxisCount;
+        m_PtrCPhidgetSpatial_getAcceleration = (PtrCPhidgetSpatial_getAcceleration) CPhidgetSpatial_getAcceleration;
+        m_PtrCPhidgetSpatial_getAccelerationMax = (PtrCPhidgetSpatial_getAccelerationMax) CPhidgetSpatial_getAccelerationMax;
+        m_PtrCPhidgetSpatial_getAccelerationMin = (PtrCPhidgetSpatial_getAccelerationMin) CPhidgetSpatial_getAccelerationMin;
+        m_PtrCPhidgetSpatial_getDataRate = (PtrCPhidgetSpatial_getDataRate) CPhidgetSpatial_getDataRate;
+        m_PtrCPhidgetSpatial_setDataRate = (PtrCPhidgetSpatial_setDataRate) CPhidgetSpatial_setDataRate;
+        m_PtrCPhidgetSpatial_getDataRateMax = (PtrCPhidgetSpatial_getDataRateMax) CPhidgetSpatial_getDataRateMax;
+        m_PtrCPhidgetSpatial_getDataRateMin = (PtrCPhidgetSpatial_getDataRateMin) CPhidgetSpatial_getDataRateMin;
+        m_PtrCPhidgetSpatial_set_OnSpatialData_Handler = (PtrCPhidgetSpatial_set_OnSpatialData_Handler)
+              CPhidgetSpatial_set_OnSpatialData_Handler;
+        m_PtrCPhidget_getDeviceID = (PtrCPhidget_getDeviceID) 
+                   CPhidget_getDeviceID;
+
+        m_PtrCPhidget_enableLogging = (PtrCPhidget_enableLogging) CPhidget_enableLogging;
+        m_PtrCPhidget_disableLogging = (PtrCPhidget_disableLogging) CPhidget_disableLogging;
+        m_PtrCPhidget_log = (PtrCPhidget_log) CPhidget_log;
+
 #endif
-*/
 
 	// test that some choice functions aren't null
 	return (bool) (m_PtrCPhidget_open && m_PtrCPhidget_close && m_PtrCPhidget_waitForAttachment && m_PtrCPhidget_set_OnAttach_Handler 
@@ -229,25 +268,6 @@ bool CSensorUSBPhidgets::detect()
    setPort();
 
    if (qcn_main::g_iStop) return false;
-
-   std::string strPath;
-
-   // setup DLL path, if returns false then DLL doesn't exist at the path where it should
-	if (!qcn_util::setDLLPath(strPath, m_cstrDLL)) {
-              fprintf(stderr, "Phidgets1056: Cannot set DLL Path %s\n", m_cstrDLL);
-		closePort();
-		return false;
-	}
-
-#ifdef __USE_DLOPEN__
-   m_handleLibrary = dlopen(strPath.c_str(), RTLD_LAZY | RTLD_GLOBAL); // default
-   if (!m_handleLibrary) {
-       fprintf(stderr, "CSensorUSBPhidgets: dynamic library %s dlopen error %s\n", m_cstrDLL, dlerror());
-       return false;
-   }
-#else // for Windows or not using dlopen just use the direct motionnode factory
-   m_handleLibrary = ::LoadLibrary(strPath.c_str());
-#endif
 
 	// check for stop signal and function pointers
 	if (qcn_main::g_iStop || ! setupFunctionPointers()) return false;

@@ -57,7 +57,7 @@ if ( test "`uname -s`" = "Darwin" ) then
 else
    echo put init/earthday2048.jpg >> qcnsftp.up
    echo put init/earthnight2048.jpg >> qcnsftp.up
-   echo put init/phidget21a.so >> qcnsftp.up
+#   echo put init/phidget21a.so >> qcnsftp.up
 fi
 }
 
@@ -173,7 +173,6 @@ else
    zip -r qcnlive-linux.zip QCNLive \
          init/earthnight2048.jpg init/earthday2048.jpg \
          init/$ntpdv $zipuplstring \
-         init/phidget21a.so \
           $qtlibs \
             -x@exclude.lst
 
