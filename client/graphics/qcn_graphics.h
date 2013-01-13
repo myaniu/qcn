@@ -88,7 +88,15 @@ struct SQuake
       bool bActive;
       e_quake eType;
 
-      SQuake() { memset(this, 0x00, sizeof(this)); };
+      SQuake() { 
+          magnitude = latitude = longitude = depth_km = 0.0;
+          num = year = month = day = hour = minute = second = 0;
+          strDesc.clear();
+          strURL.clear();
+          memset(&v, 0x00, sizeof(Point3f));
+          radius = 0.0;
+          bActive = false;
+      };
       ~SQuake() { };
 };
 
