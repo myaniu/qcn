@@ -79,10 +79,10 @@ void printQCNFiles(FILE* fBatch, const char* strRemoteDir)
         fprintf(fBatch, "put init/logo.jpg\n");
 
 #ifdef _WIN64
-		fprintf(fBatch, "put init/phidget21x64.dll\n");
+		fprintf(fBatch, "put init/phidget218-64.dll\n");
 #else
         //fprintf(fBatch, "put init/MotionNodeAccelAPI.dll\n");
-		fprintf(fBatch, "put init/phidget21.dll\n");
+		fprintf(fBatch, "put init/phidget218-32.dll\n");
 #endif
         fprintf(fBatch, "put init/%s_%s.exe\n", NTPDATE_EXEC_VERSION, BOINC_WIN_SUFFIX);
         fprintf(fBatch, "put %s version.xml\n", fname);
@@ -211,9 +211,9 @@ int deploy_qcn(bool bQCNLive)
 		    "QtGui4.dll",
 		    "QtOpenGL4.dll",
 #ifdef _WIN64
-		   "init/phidget21x64.dll",
+		   "init/phidget218-64.dll",
 #else
-		   "init/phidget21.dll",
+		   "init/phidget218-32.dll",
 #endif
 		   "msvcp100.dll",
 		   "msvcr100.dll",

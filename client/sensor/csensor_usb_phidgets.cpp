@@ -49,9 +49,9 @@ or
 #ifdef _WIN32  // Windows
   #define GET_PROC_ADDR ::GetProcAddress
 #ifdef _WIN64
-const char CSensorUSBPhidgets::m_cstrDLL[] = {"phidget21x64.dll"};
+const char CSensorUSBPhidgets::m_cstrDLL[] = {"phidget218-64.dll"};
 #else
-const char CSensorUSBPhidgets::m_cstrDLL[] = {"phidget21.dll"};
+const char CSensorUSBPhidgets::m_cstrDLL[] = {"phidget218-32.dll"};
 #endif // Win 32 v 64
 #else // Mac & Linux
   #ifdef __APPLE_CC__
