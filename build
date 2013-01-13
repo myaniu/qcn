@@ -1,6 +1,6 @@
 #!/bin/sh
 if (test "$1" = "all" || test "$2" = "all") then
-   ./getboinc
+    ./getboinc
 fi
 if ( test "`uname -s`" = "Darwin" ) then
   rm -f vers; gcc version.c -o vers 
@@ -26,7 +26,7 @@ else
      OSBUILD='armv5_build'
      ARMFLAGS='__LINUX_ARMV5__'
    else
-     OSBUILD='$OSBUILD'
+     OSBUILD='linux_build'
      cp client/main/Makefile.am.LINUX client/main/Makefile.am
      cp client/qcnlive/Makefile.linux client/qcnlive/Makefile
    fi
