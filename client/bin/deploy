@@ -53,7 +53,7 @@ echo put init/xyzaxesbl.jpg >> qcnsftp.up
 if ( test "`uname -s`" = "Darwin" ) then
    echo put init/earthday4096.jpg >> qcnsftp.up
    echo put init/earthnight4096.jpg >> qcnsftp.up
-   echo put init/phidget21.dylib >> qcnsftp.up
+   echo put init/phidget218.dylib >> qcnsftp.up
 else
    echo put init/earthday2048.jpg >> qcnsftp.up
    echo put init/earthnight2048.jpg >> qcnsftp.up
@@ -87,7 +87,7 @@ if ( test "`uname -s`" = "Darwin" ) then
     zip -r qcnlive-mac.zip QCNLive.app \
        init/earthnight4096.jpg init/earthday4096.jpg \
        init/$ntpdv $zipuplstring \
-       init/phidget21.dylib \
+       init/phidget218.dylib \
          -x@exclude.lst
     cp qcnusb.app/Contents/MacOS/qcnusb ../qcnusb/install
     cd ../qcnusb/install
