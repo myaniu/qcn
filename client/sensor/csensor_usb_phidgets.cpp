@@ -61,7 +61,7 @@ const char CSensorUSBPhidgets::m_cstrDLL[] = {"phidget21.dll"};
      #undef __USE_DLOPEN___
   #endif
 #ifdef __APPLE_CC__
-const char CSensorUSBPhidgets::m_cstrDLL[] = {"phidget21.dylib"};   
+const char CSensorUSBPhidgets::m_cstrDLL[] = {"phidget218.dylib"};   
 #else
 #ifdef __LINUX_ARMV6__
 const char CSensorUSBPhidgets::m_cstrDLL[] = {"phidget21armv6.so"};   
@@ -69,7 +69,7 @@ const char CSensorUSBPhidgets::m_cstrDLL[] = {"phidget21armv6.so"};
 #ifdef __LINUX_ARMV5__
 const char CSensorUSBPhidgets::m_cstrDLL[] = {"phidget21armv5.so"};   
 #else // i686 Linux
-const char CSensorUSBPhidgets::m_cstrDLL[] = {"phidget21a.so"};   
+const char CSensorUSBPhidgets::m_cstrDLL[] = {""};   
 #endif
 #endif  // armv6
 #endif // apple or linux
