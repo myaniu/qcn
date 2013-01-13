@@ -1,3 +1,6 @@
+#ifndef PHIDGET_H
+#define PHIDGET_H 
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -70,6 +73,7 @@ typedef enum {
  PHIDID_MOTORCONTROL_1MOTOR = 0x03E,
  PHIDID_MOTORCONTROL_HC_2MOTOR = 0x059,
  PHIDID_RFID_2OUTPUT = 0x031,
+ PHIDID_RFID_2OUTPUT_READ_WRITE = 0x034,
  PHIDID_ROTARY_TOUCH = 0x077,
  PHIDID_SPATIAL_ACCEL_3AXIS = 0x07F,
  PHIDID_SPATIAL_ACCEL_GYRO_COMPASS = 0x033,
@@ -95,7 +99,91 @@ typedef enum {
  PHIDID_TEXTLED_1x8 = 0x049,
  PHIDID_TEXTLED_4x8 = 0x048,
  PHIDID_WEIGHTSENSOR = 0x072,
+ PHIDID_FIRMWARE_UPGRADE = 0x098,
 } CPhidget_DeviceID;
+typedef enum {
+ PHIDUID_NOTHING =1,
+ PHIDUID_ACCELEROMETER_2AXIS_2G,
+ PHIDUID_ACCELEROMETER_2AXIS_10G,
+ PHIDUID_ACCELEROMETER_2AXIS_5G,
+ PHIDUID_ACCELEROMETER_3AXIS_3G,
+ PHIDUID_ADVANCEDSERVO_1MOTOR,
+ PHIDUID_ADVANCEDSERVO_8MOTOR,
+ PHIDUID_ADVANCEDSERVO_8MOTOR_PGOOD_FLAG,
+ PHIDUID_ADVANCEDSERVO_8MOTOR_CURSENSE_FIX,
+ PHIDUID_ANALOG_4OUTPUT,
+ PHIDUID_BRIDGE_4INPUT,
+ PHIDUID_ENCODER_1ENCODER_1INPUT_OLD,
+ PHIDUID_ENCODER_1ENCODER_1INPUT_v1,
+ PHIDUID_ENCODER_1ENCODER_1INPUT_v2,
+ PHIDUID_ENCODER_HS_1ENCODER,
+ PHIDUID_ENCODER_HS_4ENCODER_4INPUT,
+ PHIDUID_FREQUENCYCOUNTER_2INPUT,
+ PHIDUID_GPS,
+ PHIDUID_INTERFACEKIT_0_0_4_NO_ECHO,
+ PHIDUID_INTERFACEKIT_0_0_4,
+ PHIDUID_INTERFACEKIT_0_0_8,
+ PHIDUID_INTERFACEKIT_0_5_7,
+ PHIDUID_INTERFACEKIT_0_8_8_w_LCD,
+ PHIDUID_INTERFACEKIT_0_16_16_NO_ECHO,
+ PHIDUID_INTERFACEKIT_0_16_16_BITBUG,
+ PHIDUID_INTERFACEKIT_0_16_16,
+ PHIDUID_INTERFACEKIT_2_2_2,
+ PHIDUID_INTERFACEKIT_2_8_8,
+ PHIDUID_INTERFACEKIT_4_8_8,
+ PHIDUID_INTERFACEKIT_8_8_8_NO_ECHO,
+ PHIDUID_INTERFACEKIT_8_8_8,
+ PHIDUID_INTERFACEKIT_8_8_8_FAST,
+ PHIDUID_INTERFACEKIT_8_8_8_w_LCD_NO_ECHO,
+ PHIDUID_INTERFACEKIT_8_8_8_w_LCD,
+ PHIDUID_INTERFACEKIT_8_8_8_w_LCD_FAST,
+ PHIDUID_INTERFACEKIT_TOUCH_SLIDER,
+ PHIDUID_INTERFACEKIT_TOUCH_ROTARY,
+ PHIDUID_IR,
+ PHIDUID_LED_64,
+ PHIDUID_LED_64_ADV,
+ PHIDUID_LED_64_ADV_M3,
+ PHIDUID_MOTORCONTROL_1MOTOR,
+ PHIDUID_MOTORCONTROL_HC_2MOTOR,
+ PHIDUID_MOTORCONTROL_LV_2MOTOR_4INPUT,
+ PHIDUID_PHSENSOR,
+ PHIDUID_RFID_OLD,
+ PHIDUID_RFID,
+ PHIDUID_RFID_2OUTPUT_NO_ECHO,
+ PHIDUID_RFID_2OUTPUT,
+ PHIDUID_RFID_2OUTPUT_READ_WRITE,
+ PHIDUID_SERVO_1MOTOR_OLD,
+ PHIDUID_SERVO_4MOTOR_OLD,
+ PHIDUID_SERVO_1MOTOR_NO_ECHO,
+ PHIDUID_SERVO_1MOTOR,
+ PHIDUID_SERVO_4MOTOR_NO_ECHO,
+ PHIDUID_SERVO_4MOTOR,
+ PHIDUID_SPATIAL_ACCEL_3AXIS_1049,
+ PHIDUID_SPATIAL_ACCEL_3AXIS_1041,
+ PHIDUID_SPATIAL_ACCEL_3AXIS_1043,
+ PHIDUID_SPATIAL_ACCEL_GYRO_COMPASS_1056,
+ PHIDUID_SPATIAL_ACCEL_GYRO_COMPASS_1056_NEG_GAIN,
+ PHIDUID_SPATIAL_ACCEL_GYRO_COMPASS_1042,
+ PHIDUID_SPATIAL_ACCEL_GYRO_COMPASS_1044,
+ PHIDUID_STEPPER_BIPOLAR_1MOTOR,
+ PHIDUID_STEPPER_BIPOLAR_1MOTOR_M3,
+ PHIDUID_STEPPER_UNIPOLAR_4MOTOR,
+ PHIDUID_TEMPERATURESENSOR_OLD,
+ PHIDUID_TEMPERATURESENSOR,
+ PHIDUID_TEMPERATURESENSOR_AD22100,
+ PHIDUID_TEMPERATURESENSOR_TERMINAL_BLOCKS,
+ PHIDUID_TEMPERATURESENSOR_4,
+ PHIDUID_TEMPERATURESENSOR_IR,
+ PHIDUID_TEXTLCD_2x20,
+ PHIDUID_TEXTLCD_2x20_w_8_8_8,
+ PHIDUID_TEXTLCD_2x20_w_8_8_8_BRIGHTNESS,
+ PHIDUID_TEXTLCD_ADAPTER,
+ PHIDUID_TEXTLED_1x8,
+ PHIDUID_TEXTLED_4x8,
+ PHIDUID_WEIGHTSENSOR,
+ PHIDUID_GENERIC,
+ PHIDUID_FIRMWARE_UPGRADE
+} CPhidget_DeviceUID;
  int CPhidget_open(CPhidgetHandle phid, int serialNumber);
  int CPhidget_openLabel(CPhidgetHandle phid, const char *label);
  int CPhidget_close(CPhidgetHandle phid);
@@ -135,9 +223,6 @@ typedef struct _CPhidgetDictionaryListener *CPhidgetDictionaryListenerHandle;
     int( *fptr)(CPhidgetDictionaryHandle, void *userPtr, int errorCode, const char *errorString), void *userPtr);
  int CPhidgetDictionary_addKey(CPhidgetDictionaryHandle dict, const char *key, const char *value, int persistent);
  int CPhidgetDictionary_removeKey(CPhidgetDictionaryHandle dict, const char *pattern);
-
-
-
 typedef int( *CPhidgetDictionary_OnKeyChange_Function)(CPhidgetDictionaryHandle dict, void *userPtr,
  const char *key, const char *value, CPhidgetDictionary_keyChangeReason reason);
  int CPhidgetDictionary_set_OnKeyChange_Handler(CPhidgetDictionaryHandle dict, CPhidgetDictionaryListenerHandle *dictlistener, const char *pattern,
@@ -163,11 +248,6 @@ typedef struct _CPhidgetManager *CPhidgetManagerHandle;
  int CPhidgetManager_set_OnServerDisconnect_Handler(CPhidgetManagerHandle phidm, int ( *fptr)(CPhidgetManagerHandle phidm, void *userPtr), void *userPtr);
  int CPhidgetManager_getServerID(CPhidgetManagerHandle phidm, const char **serverID);
  int CPhidgetManager_getServerAddress(CPhidgetManagerHandle phidm, const char **address, int *port);
-
-
-
-
-
  int CPhidgetManager_getServerStatus(CPhidgetManagerHandle phidm, int *serverStatus);
  int CPhidget_openRemote(CPhidgetHandle phid, int serial, const char *serverID, const char *password);
  int CPhidget_openLabelRemote(CPhidgetHandle phid, const char *label, const char *serverID, const char *password);
@@ -251,15 +331,7 @@ typedef enum {
  int CPhidgetAdvancedServo_getEngaged(CPhidgetAdvancedServoHandle phid, int index, int *engagedState);
  int CPhidgetAdvancedServo_setEngaged(CPhidgetAdvancedServoHandle phid, int index, int engagedState);
  int CPhidgetAdvancedServo_getStopped(CPhidgetAdvancedServoHandle phid, int index, int *stoppedState);
-
-
  int CPhidgetAdvancedServo_getServoType(CPhidgetAdvancedServoHandle phid, int index, CPhidget_ServoType *servoType);
-
-
-
-
-
-
  int CPhidgetAdvancedServo_setServoType(CPhidgetAdvancedServoHandle phid, int index, CPhidget_ServoType servoType);
  int CPhidgetAdvancedServo_setServoParameters(CPhidgetAdvancedServoHandle phid, int index, double min_us,double max_us,double degrees,double velocity_max);
 typedef struct _CPhidgetAnalog *CPhidgetAnalogHandle;
@@ -304,6 +376,7 @@ typedef struct _CPhidgetEncoder *CPhidgetEncoderHandle;
  int CPhidgetEncoder_getPosition(CPhidgetEncoderHandle phid, int index, int *position);
  int CPhidgetEncoder_setPosition(CPhidgetEncoderHandle phid, int index, int position);
  int CPhidgetEncoder_set_OnPositionChange_Handler(CPhidgetEncoderHandle phid, int ( *fptr)(CPhidgetEncoderHandle phid, void *userPtr, int index, int time,int positionChange), void *userPtr);
+ int CPhidgetEncoder_set_OnIndexChange_Handler(CPhidgetEncoderHandle phid, int ( *fptr)(CPhidgetEncoderHandle phid, void *userPtr, int index, int indexPosition), void *userPtr);
  int CPhidgetEncoder_getIndexPosition(CPhidgetEncoderHandle phid, int index, int *position);
  int CPhidgetEncoder_getEnabled(CPhidgetEncoderHandle phid, int index, int *enabledState);
  int CPhidgetEncoder_setEnabled(CPhidgetEncoderHandle phid, int index, int enabledState);
@@ -488,12 +561,14 @@ typedef enum {
  PHIDGET_LED_VOLTAGE_5_0V
 } CPhidgetLED_Voltage;
  int CPhidgetLED_getLEDCount(CPhidgetLEDHandle phid, int *count);
- int CPhidgetLED_getDiscreteLED(CPhidgetLEDHandle phid, int index, int *brightness);
- int CPhidgetLED_setDiscreteLED(CPhidgetLEDHandle phid, int index, int brightness);
  int CPhidgetLED_getCurrentLimit(CPhidgetLEDHandle phid, CPhidgetLED_CurrentLimit *currentLimit);
  int CPhidgetLED_setCurrentLimit(CPhidgetLEDHandle phid, CPhidgetLED_CurrentLimit currentLimit);
  int CPhidgetLED_getVoltage(CPhidgetLEDHandle phid, CPhidgetLED_Voltage *voltage);
  int CPhidgetLED_setVoltage(CPhidgetLEDHandle phid, CPhidgetLED_Voltage voltage);
+ int CPhidgetLED_getBrightness(CPhidgetLEDHandle phid, int index, double *brightness);
+ int CPhidgetLED_setBrightness(CPhidgetLEDHandle phid, int index, double brightness);
+ int CPhidgetLED_getCurrentLimitIndexed(CPhidgetLEDHandle phid, int index, double *limit);
+ int CPhidgetLED_setCurrentLimitIndexed(CPhidgetLEDHandle phid, int index, double limit);
 typedef struct _CPhidgetMotorControl *CPhidgetMotorControlHandle;
  int CPhidgetMotorControl_create(CPhidgetMotorControlHandle *phid);
  int CPhidgetMotorControl_getMotorCount(CPhidgetMotorControlHandle phid, int *count);
@@ -542,6 +617,11 @@ typedef struct _CPhidgetPHSensor *CPhidgetPHSensorHandle;
  int CPhidgetPHSensor_setTemperature(CPhidgetPHSensorHandle phid, double temperature);
 typedef struct _CPhidgetRFID *CPhidgetRFIDHandle;
  int CPhidgetRFID_create(CPhidgetRFIDHandle *phid);
+typedef enum {
+ PHIDGET_RFID_PROTOCOL_EM4100 = 1,
+ PHIDGET_RFID_PROTOCOL_ISO11785_FDX_B,
+ PHIDGET_RFID_PROTOCOL_PHIDGETS,
+} CPhidgetRFID_Protocol;
  int CPhidgetRFID_getOutputCount(CPhidgetRFIDHandle phid, int *count);
  int CPhidgetRFID_getOutputState(CPhidgetRFIDHandle phid, int index, int *outputState);
  int CPhidgetRFID_setOutputState(CPhidgetRFIDHandle phid, int index, int outputState);
@@ -550,10 +630,11 @@ typedef struct _CPhidgetRFID *CPhidgetRFIDHandle;
  int CPhidgetRFID_setAntennaOn(CPhidgetRFIDHandle phid, int antennaState);
  int CPhidgetRFID_getLEDOn(CPhidgetRFIDHandle phid, int *LEDState);
  int CPhidgetRFID_setLEDOn(CPhidgetRFIDHandle phid, int LEDState);
- int CPhidgetRFID_getLastTag(CPhidgetRFIDHandle phid, unsigned char *tag);
+ int CPhidgetRFID_getLastTag2(CPhidgetRFIDHandle phid, char **tagString, CPhidgetRFID_Protocol *protocol);
  int CPhidgetRFID_getTagStatus(CPhidgetRFIDHandle phid, int *status);
- int CPhidgetRFID_set_OnTag_Handler(CPhidgetRFIDHandle phid, int ( *fptr)(CPhidgetRFIDHandle phid, void *userPtr, unsigned char *tag), void *userPtr);
- int CPhidgetRFID_set_OnTagLost_Handler(CPhidgetRFIDHandle phid, int ( *fptr)(CPhidgetRFIDHandle phid, void *userPtr, unsigned char *tag), void *userPtr);
+ int CPhidgetRFID_write(CPhidgetRFIDHandle phid, char *tagString, CPhidgetRFID_Protocol protocol, int lock);
+ int CPhidgetRFID_set_OnTag2_Handler(CPhidgetRFIDHandle phid, int ( *fptr)(CPhidgetRFIDHandle phid, void *userPtr, char *tagString, CPhidgetRFID_Protocol protocol), void *userPtr);
+ int CPhidgetRFID_set_OnTagLost2_Handler(CPhidgetRFIDHandle phid, int ( *fptr)(CPhidgetRFIDHandle phid, void *userPtr, char *tagString, CPhidgetRFID_Protocol protocol), void *userPtr);
 typedef struct _CPhidgetServo *CPhidgetServoHandle;
  int CPhidgetServo_create(CPhidgetServoHandle *phid);
  int CPhidgetServo_getMotorCount(CPhidgetServoHandle phid, int *count);
@@ -792,4 +873,5 @@ typedef struct _CPhidgetWeightSensor *CPhidgetWeightSensorHandle;
 
 #ifdef __cplusplus
 }
+#endif
 #endif
