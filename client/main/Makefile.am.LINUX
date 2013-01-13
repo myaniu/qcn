@@ -36,8 +36,7 @@ if OS_DARWIN
 else
    # must be Linux because I'm sure not using autoconf on Windows! ;-)
    STACKSIZE = --stack=2000000
-   # LIBS += -z lazy -L$(LIBNTPDIR) -lntp -ldl $(BOINC_LIB) @CLIENTLIBS@
-   LIBS += -z lazy -ldl $(BOINC_LIB) @CLIENTLIBS@
+   LIBS += -z lazy -ldl $(BOINC_LIB) -lphidget21 -lusb-1.0 -lrt @CLIENTLIBS@
    GRAPHICS = $(UTILDIR)/texture.cpp
    SENSORS  = \
         $(SENSORDIR)/csensor_linux_usb_jw.cpp \

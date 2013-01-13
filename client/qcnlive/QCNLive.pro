@@ -51,7 +51,7 @@ unix {
  isEmpty(IS_MAC) {
  LIBS += -Wl,-rpath,./init/ \
   -L$$BASEDIRQCN/client/linux_build \
-   -lcurl -lftgl -lfreetype -lphidget21 -lusb-1.0 \
+   -lcurl -lftgl -lfreetype -lphidget21 -lusb-1.0 -lrt \
     -lboinc_graphics2 -lboinc_zip -lboinc_api -lboinc \
     -ljpeg 
  }
