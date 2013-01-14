@@ -1,0 +1,32 @@
+body { background-color: #fff; margin:0; font-family: Lucida Grande, Verdana, Sans-serif; font-size: 14px; color: #4F5155;}
+a { color: #003399; background-color: transparent; font-weight: normal;}
+h1 { text-align: center; color: #444; background-color: transparent; border-bottom: 1px solid #D0D0D0; font-size: 16px; font-weight: bold; margin: 24px 0 2px 0; padding: 5px 0 6px 0;}
+h1.flash-alert { margin:0; color:#FFF; background-color:#990000; font-weight:normal; font-size: 14px; }
+code { font-family: Monaco, Verdana, Sans-serif; font-size: 12px; background-color: #f9f9f9; border: 1px solid #D0D0D0; color: #002166; display: block; margin: 14px 0 14px 0; padding: 12px 10px 12px 10px;}
+
+fieldset { margin:auto; width: 600px; min-height: 100px; border:1px solid #CCC; background-color: #F9F9F9; overflow:auto; padding: 20px;}
+fieldset { margin:auto; width: 400px; min-height: 100px; border:1px solid #CCC; background-color: #F9F9F9; overflow:auto; padding: 20px;}
+fieldset label { clear: left; width: 70px; text-align:right; float: left; margin:10px; }
+fieldset label.for-checkbox { float: left; clear: none; min-width: 100px; text-align:right; margin:9px 0; font-size:85%;}
+fieldset input { float: left; margin: 10px 5px 0; width:250px; border:1px solid #666; padding:3px; font-size: 14px; }  
+fieldset input.box  { width:15px; border:0;}
+fieldset input.num  { width:50px;}
+fieldset select { float: left; margin: 10px 5px 0; width:200px }  
+.spacer { clear:both; height:20px; width:100%;}
+.button { border:1px solid #333;  cursor: pointer;}
+.quantity { clear:both; position: relative; border: 1px dashed #999; padding: 0px; overflow:auto }
+table { width: 100%; border:1px solid #CCC; border-collapse: collapse; font-size: 11px; }
+table td { border: 1px solid #CCC; padding: 3px;}
+
+#container { margin:20px; padding:0;min-width:960px; }
+#container #navbar { clear:both; margin:0;  width:100%; border:1px solid #666; background-color:#EEE;}
+#container #navbar ul { padding:10px; margin:0;}
+#container #navbar ul li { display:inline; margin:0; padding: 10px; border-right: 1px solid #666;  font-size: 14px; }
+#container #navbar ul li a { text-decoration: none; color:#333; }
+#container #navbar ul li a:hover,
+#container #navbar ul li a.current { text-decoration: underline; color:#333; }
+p#userid { float:right; margin:5px; }
+table tr.striped { background-color:#EEE; }
+
+a.link-button { margin: 10px 2px; float:right;border:1px outset #000;padding:3px;text-decoration:none; color: #990000; }
+a.link-button:hover { background-color: #EEE; border: 1px inset #000; color:#666}

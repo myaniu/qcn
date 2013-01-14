@@ -1,0 +1,44 @@
+/* CSS for QCN Purchase Forms */
+
+body { font-family: arial, sans-serif; color:#333; padding:0; font-size:14px;}
+#container { margin: auto; width: 500px;}
+
+h1,h2,h3,h4 { padding:0;margin:10px auto; }
+h2,h3 { font-size:16px; text-align: center;}
+h4#message { clear:both; margin: 20px 0; color:#FFF; background-color: #990000; padding: 4px; font-weight: normal; font-size: 13px; }
+p#total { font-weight:bold; float: right;}
+cite { display: block; clear: both; font-size: 12px;  position: relative; }
+
+
+fieldset { clear:both; margin: 10px auto; padding: 10px; width: 475px;  border: 1px solid #CCC; background-color: #EEE; overflow:auto; postion: relative; top: 5px;}
+fieldset label { clear: both; width: 120px; text-align:right; float: left; margin:5px; }
+fieldset label.for-checkbox { float: left; clear: none; width:auto; text-align:left; margin: 0; font-size:80%;}
+fieldset input { float: left; margin: 5px 0; width:250px;  padding:3px; border: 1px solid #666; }  
+fieldset input.form-error { float: left; margin: 5px 0; width:250px;  padding:3px; border: 1px solid orange;}
+fieldset input.box  { width:15px; margin: 0 2px 0 10px; border:0;}
+fieldset input.num  { width:50px; }
+fieldset .date { width: 80px; }
+fieldset select { float: left; margin:5px 0; width:120px }  
+fieldset#confirm { padding: 20px; width: 560px; min-height: 30px; height: 30px;}
+.button { float: right; background-color:#FFF; border: 1px outset #666; cursor: pointer;}
+
+#copy-checkbox { margin: 10px 0; overflow: hidden}
+
+.quantity, .schoolinfo { clear:both; margin: 10px 0; position: relative; border: 1px dashed #999; padding: 0px; overflow:auto }
+
+ol li { margin: 10px 0; }
+
+table { border-collapse: collapse; }
+table h4 { margin:0; font-size: 14px; color: #000}
+table tr th { text-align: left; border-right: 1px solid #CCC; width: 300px; }
+table tr th, table tr td { text-align: left; text-indent: 10px; padding: 3px 10px; font-size: 12px; }
+table .total { border-top: 1px solid #000; }
+
+.striped { background-color: #EEE; }
+.button { float: left; width: 200px; margin: 0 70px 0 0; }
+
+hr { border-color:#666;}
+#indent { clear:both; margin: 30px; }
+.clearfix { clear:both; }
+.spacer { clear:both; height:20px; width:100%;}
+
