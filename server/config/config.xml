@@ -13,9 +13,6 @@
       2
     </sched_debug_level>
     <debug_version_select/>
-    <uldl_dir_fanout>
-      1024
-    </uldl_dir_fanout>
     <uldl_host>qcn-upl</uldl_host>
     <uldl_pid>/var/run/httpd</uldl_pid>
     <dont_generate_upload_certificates/>
