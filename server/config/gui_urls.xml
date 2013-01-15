@@ -30,4 +30,9 @@
        <url>http://qcn.stanford.edu/sensor/maptrig.php?hostid=<hostid/>&amp;zoom=16&amp;timeint=D</url>
    </gui_url>
 </gui_urls>
-
+<rss_feeds>
+    <rss_feed>
+        <url>PROJECT_URL/notices.php?userid=<userid/>&amp;auth=<rss_auth/></url>
+        <poll_interval>86400</poll_interval>
+    </rss_feed>
+</rss_feeds>
