@@ -7,8 +7,10 @@ SSLDIR = /usr/local/ssl
 
 ifeq ($(shell hostname),qcn-web.stanford.edu)
   INSTALLDIR = /var/www/boinc/sensor/bin
+  SERVER_URL = '-DQCN_SERVER_URL="qcn.stanford.edu"'
 else
   INSTALLDIR = /home/boinc/web/boinc/sensor/bin
+  SERVER_URL = '-DQCN_SERVER_URL="qcn.twgrid.org" -DQCN_REMOTE'
 endif
 
 
@@ -36,7 +38,7 @@ all: clean trigmonitor trigdisplay
 #all: clean trigmonitor
 
 trigdisplay: 
-	$(CC) $(CFLAGS) $(INCLUDES) $(MAINDISP) $(SRCS) $(LIBS) -o trigdisplay
+	$(CC) $(CFLAGS) $(SERVER_URL) $(INCLUDES) $(MAINDISP) $(SRCS) $(LIBS) -o trigdisplay
 	strip trigdisplay
 	cp trigdisplay $(INSTALLDIR)
 
