@@ -7,10 +7,10 @@ SSLDIR = /usr/local/ssl
 
 ifeq ($(shell hostname),qcn-web.stanford.edu)
   INSTALLDIR = /var/www/boinc/sensor/bin
-  SERVER_URL = '-DQCN_SERVER_URL="qcn.stanford.edu"'
+  SERVER_URL = -DQCN_SERVER_URL=\"qcn.stanford.edu\"
 else
   INSTALLDIR = /home/boinc/web/boinc/sensor/bin
-  SERVER_URL = '-DQCN_SERVER_URL="qcn.twgrid.org" -DQCN_REMOTE'
+  SERVER_URL = -DQCN_REMOTE -DQCN_SERVER_URL=\"qcn.emsc-csem.org\"
 endif
 
 
@@ -19,7 +19,7 @@ LIBS = -L$(MYSQLDIR)/lib -lmysqlclient_r \
   -L$(SSLDIR)/lib -lcrypto -lssl \
   -L/usr/local/lib -lcurl
 
-INCLUDES = -I$(BOINCDIR) -I$(BOINCDIR)/lib -I$(BOINCDIR)/tools -I$(BOINCDIR)/db \
+INCLUDES = -I$(BOINCDIR) -I$(SSLDIR)/include -I$(BOINCDIR)/lib -I$(BOINCDIR)/tools -I$(BOINCDIR)/db \
            -I$(MYSQLDIR)/include -I$(BOINCDIR)/sched -I/usr/local/include -I../../client/util
 
 SRCS = $(BOINCDIR)/db/db_base.cpp \
@@ -44,7 +44,7 @@ trigdisplay:
 
 
 trigmonitor: 
-	$(CC) $(CFLAGS) $(INCLUDES) $(MAINMON) $(SRCS) $(LIBS) -o trigmonitor
+	$(CC) $(CFLAGS) $(SERVER_URL) $(INCLUDES) $(MAINMON) $(SRCS) $(LIBS) -o trigmonitor
 	strip trigmonitor
 	cp trigmonitor $(INSTALLDIR)
 

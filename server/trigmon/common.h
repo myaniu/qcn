@@ -9,12 +9,12 @@ extern DB_CONN trigmem_db;
 #define SHELL_CMD     "/bin/bash"
 #define PHP_CMD       "/usr/local/bin/php"
 
-#ifdef QCN_REMOVE // remote server dir
+#ifdef QCN_REMOTE // remote server dir
   #define WEB_BASE_DIR "/home/boinc/web"
 #else
   #define WEB_BASE_DIR "/var/www"
 #endif
-#define EVENT_URL_BASE  "http://" QCN_SERVER_URL "/earthquakes"
+#define EVENT_URL_BASE "http://" QCN_SERVER_URL "/earthquakes"
 
 #define DB_TRIGMEM "trigmem"
 
