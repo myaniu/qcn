@@ -6,6 +6,8 @@ require_once("../inc/util.inc");
 require_once("common.inc");
 
 $master_url = parse_config(get_config(), "<master_url>");
+$is_continual = (parse_config(get_config(), "<db_name>") == "continual");
+define ("IS_CONTINUAL", $is_continual ? true : false);
 define("PROJECT", "Quake-Catcher Network Sensor Monitoring");
 define("URL_BASE", "http://qcn.stanford.edu/sensor/");
 define("MAXMIND_URL", "https://geoip.maxmind.com/b?l=ILFoClxbJcfk");
@@ -800,8 +802,10 @@ mysql> select * from qcn_level;
             $view = "N/A";
          } 
          else {
-           if ($row[20] == 100) { // received_file: show file download link
-              $filename = "<A HREF=\"" . UPLOADURL . "/trigger/" . $row[21] . "\">$row[1]</A>";
+          if ($row[20] == 100) { // received_file: show file download link
+              $filename = "<A HREF=\"" . UPLOADURL . "/trigger/"
+               . (IS_CONTINUAL ? "continual/" : "")
+                  . $row[21] . "\">$row[1]</A>";
               $view = "<A HREF=\"javascript:void(0)\"onclick=\"window.open('" . BASEURL . "/earthquakes/view/view_data.php?dat=".$row[1]."','linkname','height=500,width=400,scrollbars=no')\">View</a>";
            }
            else {
