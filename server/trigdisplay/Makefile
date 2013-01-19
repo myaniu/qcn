@@ -33,9 +33,7 @@ SRCS = $(BOINCDIR)/db/db_base.cpp \
 MAINMON  = trigmon.cpp
 MAINDISP =  display.cpp
 
-all: clean trigmonitor trigdisplay
-#all: clean trigdisplay
-#all: clean trigmonitor
+all: clean trigdisplay
 
 trigdisplay: 
 	$(CC) $(CFLAGS) $(SERVER_URL) $(INCLUDES) $(MAINDISP) $(SRCS) $(LIBS) -o trigdisplay
@@ -43,10 +41,10 @@ trigdisplay:
 	cp trigdisplay $(INSTALLDIR)
 
 
-trigmonitor: 
-	$(CC) $(CFLAGS) $(SERVER_URL) $(INCLUDES) $(MAINMON) $(SRCS) $(LIBS) -o trigmonitor
-	strip trigmonitor
-	cp trigmonitor $(INSTALLDIR)
+#trigmonitor: 
+#	$(CC) $(CFLAGS) $(SERVER_URL) $(INCLUDES) $(MAINMON) $(SRCS) $(LIBS) -o trigmonitor
+#	strip trigmonitor
+#	cp trigmonitor $(INSTALLDIR)
 
 
 clean:
