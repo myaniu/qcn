@@ -1,0 +1,63 @@
+import distutils.sysconfig
+
+BOINCDIR   = '/home/boinc/projects/boinc'
+MYSQLDIR   = '/usr/local/mysql'
+SSLDIR     = '/usr/local/ssl'
+INSTALLDIR = '/var/www/boinc/sensor/bin'
+QCNDIR     = '/home/boinc/projects/qcn'
+INCLUDEDIR = '/usr/local/include'
+
+ 
+env = Environment(SHLIBPREFIX="")
+#env.Prepend( CXXFLAGS=['-o3'] )
+#env.VariantDir('lib/','src_cpp/', duplicate=0)
+env.Append( CPPPATH=[BOINCDIR, BOINCDIR + '/lib', BOINCDIR + '/tools', BOINCDIR + '/db',
+                     BOINCDIR + '/sched',  MYSQLDIR + '/include', INCLUDEDIR, QCNDIR + '/server/trigger'] )
+
+SOURCES  =  [BOINCDIR + '/db/db_base.cpp', 
+             BOINCDIR + '/sched/sched_msgs.cpp', 
+             BOINCDIR + '/sched/sched_util.cpp',
+             BOINCDIR + '/sched/sched_limit.cpp', 
+             BOINCDIR + '/sched/sched_config.cpp', 
+             BOINCDIR + '/lib/parse.cpp', 
+             BOINCDIR + '/db/boinc_db.cpp']
+
+for file in SOURCES:
+   temp =  file.split('/') 
+   filebase = "../lib/"+temp[len(temp)-1].split('.')[0]
+   print filebase
+   SharedLibrary(filebase, file, CPPPATH=[BOINCDIR, BOINCDIR + '/lib', BOINCDIR + '/tools', BOINCDIR + '/db',
+                 BOINCDIR + '/sched',  MYSQLDIR + '/include', INCLUDEDIR, QCNDIR + '/server/trigger'],
+                 LIBPATH=[MYSQLDIR + '/lib', BOINCDIR + '/lib', SSLDIR + '/lib', '/usr/local/lib','../lib'],
+                 LIBS=['mysqlclient_r','crypto', 'ssl', 'curl', 'boinc'] )
+
+sources =['Crust2.cpp',
+          'QCNTrigger.cpp',
+          'QCNEvent.cpp',
+          'QCNBounds.cpp' ] 
+
+swigsources = ['Crust2.i',
+               'QCNTrigger.i',
+               'QCNEvent.i',
+               'QCNBounds.i']
+
+env.Append(SWIGFLAGS=['-python','-c++'],
+                  CPPPATH=[distutils.sysconfig.get_python_inc()])
+
+
+env.Append( LIBPATH=[MYSQLDIR + '/lib', BOINCDIR + '/lib', SSLDIR + '/lib', '/usr/local/lib', '../lib', './'] )
+env.Append( LIBS=['mysqlclient_r','crypto', 'ssl', 'curl', 
+                  'boinc','db_base', 'sched_msgs', 'sched_util', 
+                  'sched_limit', 'sched_config', 'parse', 'boinc_db'] )
+
+for file in sources:
+   filebase = file.split('.')[0]
+   fileso =  "_"+filebase 
+   filecpp =  filebase + ".cpp"
+   fileswig = filebase + ".i"
+   print fileso
+   env.SharedLibrary(fileso,  [filecpp, fileswig])
+
+env.SharedLibrary("_QCN",  ['QCN.cpp', 'QCN.i', '_Crust2.so', '_QCNTrigger.so', '_QCNEvent.so', '_QCNBounds.so'])
+
+
