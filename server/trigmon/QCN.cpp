@@ -40,7 +40,7 @@ QCN::QCN(const Crust2& crust2, bool isDBActivate):
         _iTriggerTimeInterval(-1),
         _iTriggerDeleteInterval(-1),
         _EMAIL(false),
-        _mapGMT(true),
+        _mapGMT(false),
         _isUpdateQuakeOut(false),
         _isDBActivate(isDBActivate)
 {
@@ -80,7 +80,7 @@ QCN::execute()
         getTriggers();  // reads the memories from the trigger memory table into a global vector
         detectEvent();     // searches the vector of triggers for matching events
         k++;
-        cout << " HI " << k << endl;
+        //cout << " HI " << k << endl;
 
         check_stop_daemons();  // checks for a quit request /home/boinc/projects/boinc/sched/sched_util.h
         dTimeCurrent = dtime();
