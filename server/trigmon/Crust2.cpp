@@ -106,12 +106,17 @@ Crust2::load()
     // Read in map and associate letters with key index:
     for (int i=0; i<=mx_cr_lt-1; i++) {                          // For each latitude
         int   ilat;                             // Index of latitude
-        fscanf(fpCrust[CRUST_MAP],"%d",&ilat);                              // Read latitude at beginning of each line
-        fscanf(fpCrust[CRUST_ELEV],"%d",&ilat);                              // Read latitude at beginning of each line
+        int retInt = fscanf(fpCrust[CRUST_MAP],"%d",&ilat);                              // Read latitude at beginning of each line
+        assert( retInt > 0);
+        retInt =fscanf(fpCrust[CRUST_ELEV],"%d",&ilat);                              // Read latitude at beginning of each line
+        assert( retInt > 0 );
 
         for(int j=0; j<=mx_cr_ln-1; j++) {                        // For each longitude
-            fscanf(fpCrust[CRUST_MAP],"%s",mod_string[i][j]);                // Read in key letters for that lat/lon location
-            fscanf(fpCrust[CRUST_ELEV],"%f",&_crm.elev[i][j]);                 // Read elevations for each longitude at this latitude
+            retInt = fscanf(fpCrust[CRUST_MAP],"%s",mod_string[i][j]);                // Read in key letters for that lat/lon location
+            assert( retInt > 0 );
+            retInt = fscanf(fpCrust[CRUST_ELEV],"%f",&_crm.elev[i][j]);                 // Read elevations for each longitude at this latitude
+            assert( retInt > 0 );
+            
 
             for(int k=0;k<=mx_cr_type-1; k++) {                   // Index the map key by searching through crk.tp
 
