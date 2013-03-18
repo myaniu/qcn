@@ -258,6 +258,7 @@ void string_tidy(char* strIn, int length)
 		double dXY, dZ;
 		int i;
 		long lCtr;
+                if (sm->dt == 0.0) sm->dt = g_DT; // this should never happen but just a sanity check to prevent divide by 0
 		const int iSec = (int) ceil(1.0 / sm->dt);
 		
 		for (int i = 0; i < 4; i++) {
@@ -292,20 +293,19 @@ void string_tidy(char* strIn, int length)
 			//	dZ = fabs(sm->z0[lCtr]);
 			dXY = sqrt(QCN_SQR(sm->x0[lCtr]-sm->xa[lCtr]) + QCN_SQR(sm->y0[lCtr]-sm->ya[lCtr]));
 			dZ = sqrt(QCN_SQR(sm->z0[lCtr]-sm->za[lCtr]));
-				
 				if (i < iSec) { // within the first second after the trigger
 					if (dXY > pfmax_xy[1]) pfmax_xy[1] = dXY;
 					if (dZ > pfmax_z[1]) pfmax_z[1] = dZ;
 				}
-				if (i < iSec * 2) { // within the second second after the trigger
+				else if (i < iSec * 2) { // within the second second after the trigger
 					if (dXY > pfmax_xy[2]) pfmax_xy[2] = dXY;
 					if (dZ > pfmax_z[2]) pfmax_z[2] = dZ;
 				}
-				
-				// within our four second region
-				if (dXY > pfmax_xy[3]) pfmax_xy[3] = dXY;
-				if (dZ > pfmax_z[3]) pfmax_z[3] = dZ;
-				
+			        else { // must be >= 2sec and < 4 sec)	
+				    // within our four second region
+				    if (dXY > pfmax_xy[3]) pfmax_xy[3] = dXY;
+				    if (dZ > pfmax_z[3]) pfmax_z[3] = dZ;
+			        }
 				lCtr++;
 			}
 		}
