@@ -191,7 +191,7 @@ $aa = 0;$aaa = 0;
 foreach ($files as $file1) {
   if(is_dir($file1)){
     if (  ($file1!=".")&&($file1!="..")&&($file1!="JUNK")&&($file1!="SAFE")&&($file1!="view")&&($file1!="inc")
-        &&($file1!="images")&&($file1!="stats")&&($file1!="aichung") ){
+        &&($file1!="images")&&($file1!="stats")&&($file1!="aichung")&&($file1!="yildirim") ){
         $aa++;
     }
   }
@@ -227,7 +227,7 @@ if ($aa > 0) {
   if(is_dir($file1)){
 
   if (  ($file1!=".")&&($file1!="..")&&($file1!="JUNK")&&($file1!="SAFE")&&($file1!="view")&&($file1!="inc")
-      &&($file1!="images")&&($file1!="stats")&&($file1!="aichung") ){
+      &&($file1!="images")&&($file1!="stats")&&($file1!="aichung")&&($file1!="yildirim") ){
 
   $aaa++;
 

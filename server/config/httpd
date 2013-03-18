@@ -6,6 +6,7 @@
 # description: Apache is a World Wide Web server.  It is used to serve \
 #	       HTML files and CGI.
 # processname: httpd
+# config: /etc/httpd/conf/httpd.conf
 # config: /etc/sysconfig/httpd
 # pidfile: /var/run/httpd.pid
 
@@ -38,7 +39,7 @@ STOP_TIMEOUT=${STOP_TIMEOUT-10}
 
 # check for 1.3 configuration
 check13 () {
-	CONFFILE=/usr/local/apache2/conf/httpd.conf
+	CONFFILE=/etc/httpd/conf/httpd.conf
 	GONE="(ServerType|BindAddress|Port|AddModule|ClearModuleList|"
 	GONE="${GONE}AgentLog|RefererLog|RefererIgnore|FancyIndexing|"
 	GONE="${GONE}AccessConfig|ResourceConfig)"
@@ -71,7 +72,7 @@ start() {
 # httpd parent to SIGKILL any errant children.
 stop() {
 	echo -n $"Stopping $prog: "
-	$apachectl stop
+	killproc -p ${pidfile} -d ${STOP_TIMEOUT} $httpd
 	RETVAL=$?
 	echo
 	[ $RETVAL = 0 ] && rm -f ${lockfile} ${pidfile}
@@ -79,12 +80,16 @@ stop() {
 reload() {
     echo -n $"Reloading $prog: "
     if ! LANG=$HTTPD_LANG $httpd $OPTIONS -t >&/dev/null; then
-        RETVAL=$?
+        RETVAL=6
         echo $"not reloading due to configuration syntax error"
         failure $"not reloading $httpd due to configuration syntax error"
     else
-        killproc -p ${pidfile} $httpd -HUP
+        # Force LSB behaviour from killproc
+        LSB=1 killproc -p ${pidfile} $httpd -HUP
         RETVAL=$?
+        if [ $RETVAL -eq 7 ]; then
+            failure $"httpd shutdown"
+        fi
     fi
     echo
 }
@@ -105,13 +110,13 @@ case "$1" in
 	stop
 	start
 	;;
-  condrestart)
-	if [ -f ${pidfile} ] ; then
+  condrestart|try-restart)
+	if status -p ${pidfile} $httpd >&/dev/null; then
 		stop
 		start
 	fi
 	;;
-  reload)
+  force-reload|reload)
         reload
 	;;
   graceful|help|configtest|fullstatus)
@@ -119,8 +124,8 @@ case "$1" in
 	RETVAL=$?
 	;;
   *)
-	echo $"Usage: $prog {start|stop|restart|condrestart|reload|status|fullstatus|graceful|help|configtest}"
-	exit 1
+	echo $"Usage: $prog {start|stop|restart|condrestart|try-restart|force-reload|reload|status|fullstatus|graceful|help|configtest}"
+	RETVAL=2
 esac
 
 exit $RETVAL

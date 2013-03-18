@@ -110,7 +110,7 @@ echo "pre\n";
 
    exec("$GMT/gmtset ANOT_FONT_SIZE 12");
 
-   $txtfile = "$OUTDIR/qcn_date_0$ii.txt";
+ //  $txtfile = "$OUTDIR/qcn_date_0$ii.txt";
    if ($i<3){
 
     exec("$GMT/grdimage $GRDFILE -I$GRADFILE -C$CPTFILE $BOUNDS $PROJ $X1Y1 $FLAGS1 > $PSFILE");
@@ -137,7 +137,7 @@ echo "pre\n";
    exec("$GMT/psxy $CITIES $BOUNDS $PROJ $FLAGS2 -Sc0.2 -G0 -W1p/255 >> $PSFILE");
    exec("$GMT/pstext $CITY_NAMES $BOUNDS $PROJ $FLAGS2 -G0 >> $PSFILE");
    exec("$GMT/psxy $TCONTOUR $BOUNDS $PROJ $FLAGS2 -m -W1p/175 >> $PSFILE"); 
-   exec("$GMT/pstext $txtfile $BOUNDS $PROJ $FLAGS2 -S0.5p >> $PSFILE");
+//   exec("$GMT/pstext $txtfile $BOUNDS $PROJ $FLAGS2 -S0.5p >> $PSFILE");
    exec("$GMT/pstext $ts_file -N $BOUNDS $PROJ $FLAGS2 >> $PSFILE");
    exec("$GMT/pstext $TXTCON $BOUNDS $PROJ $FLAGS3 $B >> $PSFILE");
    exec("$GMT/ps2raster $PSFILE -D$OUTDIR -E150 -A -P -Tj");

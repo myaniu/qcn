@@ -10,7 +10,7 @@
     <cgi_url>http://qcn.stanford.edu/sensor_cgi/</cgi_url>
     <msg_to_host/>
     <sched_debug_level>
-      2
+      3
     </sched_debug_level>
     <debug_version_select/>
     <uldl_host>qcn-upl</uldl_host>
@@ -56,8 +56,6 @@
     <min_core_client_upgrade_deadline> 1241650148 </min_core_client_upgrade_deadline>
     <min_core_client_version> 60200 </min_core_client_version>
     <profile_min_credit>0</profile_min_credit>
-    <recaptcha_public_key>6Le_tAoAAAAAAGD1Djt-vsJ9sD4KfEfiWBYazJmJ</recaptcha_public_key>
-    <recaptcha_private_key>6Le_tAoAAAAAAAxMo0svDpfZc94pfdbnVs5dyDII</recaptcha_private_key>
     <shmem_key>
       0x11119030
     </shmem_key>
@@ -83,7 +81,9 @@
     <max_wus_to_send>
       1
     </max_wus_to_send>
-    <prefer_primary_platform/>
+    <prefer_primary_platform>1</prefer_primary_platform>
+    <recaptcha_public_key>6LffX94SAAAAAGTWCdQqt1d2Dc7yOy3DZhqQ2uKi</recaptcha_public_key>
+    <recaptcha_private_key>6LffX94SAAAAAIeeBTsVj3mAMU8RmraV1WtRlThw</recaptcha_private_key>
   </config>
   <tasks>
     <task>
@@ -229,6 +229,11 @@
     <daemon>
       <cmd>
         trigdisplay -d 2 -sleep_interval 4 -time_interval 15 
+      </cmd>
+    </daemon>
+    <daemon>
+      <cmd>
+        QCNTrigMonitor -d 2 -sleep_interval 1 -time_interval 120 -delete_interval 200
       </cmd>
     </daemon>
   </daemons>
