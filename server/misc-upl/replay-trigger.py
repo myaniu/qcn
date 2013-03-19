@@ -3,8 +3,6 @@
 # this program will feed the trigmem_test.qcn_trigger_memory table fake triggers (usually on qcn-data but could be qcn-web)
 # it can "mimic" past events such as previously detected QCN or USGS earthquakes from historical trigger data
 
-bundle up files for SCEDC, also make a CSV file of the triggers/files
-
 # this will be run manually for now, can be extended for other areas of course
 
 # output file is:  http://qcn-upl.stanford.edu/trigger/job/qcn_scedc.zip
@@ -20,35 +18,27 @@ bundle up files for SCEDC, also make a CSV file of the triggers/files
 # CMC note -- need to install 3rd party MySQLdb libraries for python
 import math, tempfile, smtplib, traceback, sys, os, tempfile, string, MySQLdb, shutil, zipfile
 from datetime import datetime
-from zipfile import ZIP_STORED
+#from zipfile import ZIP_STORED
 from time import strptime, mktime
-from qcnutil import getSACMetadata
-from qcnutil import getFanoutDirFromZip
+#from qcnutil import getSACMetadata
+#from qcnutil import getFanoutDirFromZip
 from optparse import OptionParser
 
+global PROGNAME
 global DBHOST 
 global DBUSER
 global DBPASSWD
+global DBNAME
+global DB_TRIGMEM
 global SMTPS_HOST, SMTPS_PORT, SMTPS_LOCAL_HOSTNAME, SMTPS_KEYFILE, SMTPS_CERTFILE, SMTPS_TIMEOUT
 
-DBHOST = "db-private"
+PROGNAME = "replay-trigger.py"
+DBHOST = "localhost"
 DBUSER = "qcn"
-DBPASSWD = "PWD"
+DBPASSWD = "qcntest"
+DBNAME = "sensor"
+DB_TRIGMEM = "trigmem_test"
 
-SMTPS_HOST = "smtp.stanford.edu"
-SMTPS_PORT = 465
-SMTPS_LOCAL_HOSTNAME = "qcn-upl.stanford.edu"
-SMTPS_KEYFILE = "/etc/sslcerts/server.key"
-SMTPS_CERTFILE = "/etc/sslcerts/server.crt"
-SMTPS_TIMEOUT = 60
-
-
-global URL_DOWNLOAD_BASE
-global UPLOAD_WEB_DIR
-global DOWNLOAD_WEB_DIR
-global DOWNLOAD_URL
-global UPLOAD_WEB_DIR_CONTINUAL
-global DBNAME
 global DBNAME_CONTINUAL
 global DBNAME_JOB
 global IS_ARCHIVE
@@ -63,29 +53,11 @@ global LAT_MIN
 global LAT_MAX
 global LNG_MIN
 global LNG_MAX
-global FILE_BASE
+global DOWNLOAD_WEB_DIR
 
-DOWNLOAD_WEB_DIR         = "/data/QCN/trigger/job/"
-DOWNLOAD_URL             = "http://qcn-upl.stanford.edu/trigger/job/"
-
-DBNAME = "sensor"
-DBNAME_JOB = "sensor_download"
-
-# use fast zip -1 compression as the files are already compressed
-ZIP_CMD  = "/usr/bin/zip -1 "
-UNZIP_CMD = "/usr/bin/unzip -o -d "
- 
-# can use concat for direct query to csv file 
-#  concat(m.mydb, ',' , m.id, ',', m.hostid, ',',
-#    from_unixtime(m.time_trigger), ',', FLOOR(ROUND((m.time_trigger-FLOOR(m.time_trigger)), 6) * 1e6),
-#     ',',
-#    m.magnitude, ',', m.significance, ',',
-#    m.latitude, ',', m.longitude, ',', m.file,',', m.numreset, ',',
-#    s.description, ',', IFNULL(a.description,''), ',' , IFNULL(m.levelvalue,''), ',', IFNULL(l.description,'')
-#  )
+DOWNLOAD_WEB_DIR = ""
 
 def procRequest(dbconn):
-  global FILE_BASE
 
   sqlQuery = """select
     m.mydb, m.id, m.hostid, 
@@ -140,32 +112,6 @@ order by time_trigger,hostid"""  \
   myCursor = dbconn.cursor()
 
   myCursor.execute(sqlQuery)
-
-  zipoutpath = os.path.join(DOWNLOAD_WEB_DIR, FILE_BASE + ".zip")
-  zipinpath = ""
-
-  strCSVFile = os.path.join(DOWNLOAD_WEB_DIR, FILE_BASE + ".csv")
-  strSQLFile = os.path.join(DOWNLOAD_WEB_DIR, FILE_BASE + ".sql")
-  fileCSV = open(strCSVFile, "w")
-  fileSQL = open(strSQLFile, "w")
-  fileCSV.write("Query Used: Date Range: " + DATE_MIN_ORIG + " - " + DATE_MAX_ORIG + "   LatMin = " + str(LAT_MIN) + "  LatMax = " + str(LAT_MAX) + "  LngMin = " + str(LNG_MIN) + "  LngMax = " + str(LNG_MAX) + "\n") 
-  fileCSV.write(strHeader)
-
-  fileSQL.write("CREATE TABLE IF NOT EXISTS " + FILE_BASE + " (\n" +\
-    " db varchar(10),\n" +\
-    " triggerid int(11),\n" +\
-    " hostid int(11),\n" +\
-    " time_trig_utc datetime,\n" +\
-    " time_trig_micros int(7),\n" +\
-    " time_received datetime,\n" +\
-    " time_sync datetime, sync_offset float,\n" +\
-    " magnitude float, significance float, latitude float, longitude float,\n" +\
-    " file varchar(255),\n" +\
-    " numreset int(7), dt float, trigger_type varchar(2), hostipaddrid int(11), geoipaddrid int(11),\n" +\
-    " sensor varchar(128), alignment varchar(64),\n" +\
-    " level_value float, level_type varchar(64), usgs_quake_time datetime,\n" +\
-    " quake_depth_km float, quake_lat float, quake_lon float, quake_mag float, quake_id int(11), quake_desc varchar(256), quake_guid varchar(256)\n" +\
-    ");\n\n")
 
   # get the resultset as a tuple
   result = myCursor.fetchall()
@@ -262,18 +208,6 @@ order by time_trigger,hostid"""  \
              os.remove(zipinname)
 
 
-           # valid file - print out line of csv
-           fileSQL.write("INSERT INTO " + FILE_BASE + " VALUES (")
-           for x in range(0,30):
-             strPrint = str(rec[x]) if rec[x] != None else ""
-             fileCSV.write("\"" + strPrint + "\"")
-             fileSQL.write("\"" + strPrint + "\"")
-             if x < 29:
-               fileCSV.write(",")
-               fileSQL.write(",")
-           fileCSV.write("\n")
-           fileSQL.write(");\n")
-
       except:
         print "Error " + str(errlevel) + " in myzipin " + zipinpath
         traceback.print_exc()
@@ -283,8 +217,6 @@ order by time_trigger,hostid"""  \
    fileCSV.close()
    fileSQL.close()
    os.chdir(DOWNLOAD_WEB_DIR)   # go to download dir to zip up csv & sql files
-   myzipout.write(FILE_BASE + ".csv")
-   myzipout.write(FILE_BASE + ".sql")
    os.chdir(curdir)   # go back to regular directory so tmpdir can be erased
    myzipout.close() 
    numbyte = os.path.getsize(zipoutpath)
@@ -383,32 +315,31 @@ def main():
    global DATE_MAX_ORIG
    global DATE_MIN
    global DATE_MAX
+   global TIME_MIN
+   global TIME_MAX
    global LAT_MIN
    global LAT_MAX
    global LNG_MIN
    global LNG_MAX
-   global FILE_BASE
 
-   strDescription = "This program will create a zip file and csv file of all triggers matching " +\
-       "the date range and lat/lng range entered.  The files will be placed in " + DOWNLOAD_WEB_DIR + " " +\
-       "and can be downloaded at " + DOWNLOAD_URL 
+   strDescription = "This program will 'replay' past triggers into the trigmem_test.qcn_trigger_memory table on qcn-data"
 
    # get cmd-line arguments
    parser = OptionParser()
-   parser = OptionParser(description=strDescription +\
-       "filename.zip  (and filename.csv) ")
+   parser = OptionParser(description=strDescription)
    parser.add_option("--date_start", dest="DATE_MIN", type="string", help="Enter Start Date in YYYY-MM-DD format", metavar="DATE_MIN")
+   parser.add_option("--time_start", dest="TIME_MIN", type="int", help="Enter Start Time in 24-hr UTC format e.g. HHMM", metavar="TIME_MIN")
    parser.add_option("--date_end", dest="DATE_MAX", type="string", help="Enter End Date in YYYY-MM-DD format", metavar="DATE_MAX")
+   parser.add_option("--time_end", dest="TIME_MAX", type="int", help="Enter End Time in 24-hr UTC format e.g. HHMM", metavar="TIME_MAX")
    parser.add_option("--lat_min", dest="LAT_MIN", type="float", help="Enter Minimum Latitude [-90,90]", metavar="LAT_MIN")
    parser.add_option("--lat_max", dest="LAT_MAX", type="float", help="Enter Maximum Latitude [-90,90]", metavar="LAT_MAX")
    parser.add_option("--lng_min", dest="LNG_MIN", type="float", help="Enter Minimum Longitude [-180,180]", metavar="LNG_MIN")
    parser.add_option("--lng_max", dest="LNG_MAX", type="float", help="Enter Maximum Longitude [-180,180]", metavar="LNG_MAX")
-   parser.add_option("-f", "--file", dest="filename", type="string", help="Enter Output Filename (filename.csv and filename.zip will be created)", metavar="filename")
+   parser.add_option("--quake_id", dest="QUAKE_ID", type="int", help="Enter Quake ID # (run script with --quake_list n to get last n events", metavar="id")
+   parser.add_option("--quake_list", dest="QUAKE_LIST", type="int", help="Show last 'n' earthquakes with matching triggers", metavar="n")
    (options, args) = parser.parse_args();
 
    # default to SCEDC run
-   if options.filename == None:
-     options.filename = "qcn_scedc"
    if options.LAT_MIN == None:
      options.LAT_MIN  = 31.5
    if options.LAT_MAX == None:
@@ -422,28 +353,32 @@ def main():
    if options.DATE_MIN == None and options.DATE_MAX != None:
      options.DATE_MIN = options.DATE_MAX
 
-   if options.LAT_MIN < -90 or options.LAT_MIN > 90 or options.LAT_MIN > options.LAT_MAX:
-     print "Incorrect Minimum Latitude, must be between -90 and 90 and less than Maximum Latitude entered."
-     print "Type './trigfile.py -h' for help"
-     sys.exit()
+   if options.TIME_MIN != None or options.TIME_MAX != None:
+     if options.TIME_MIN < 0 or options.TIME_MAX < 0 or options.TIME_MIN > 2359 or options.TIME_MAX > 2359:
+       print "Check your times - should be between 0000 and 2359."
+       print "Type ./'" + PROGNAME + " -h' for help"
+       sys.exit()
 
-   if options.LAT_MAX < -90 or options.LAT_MAX > 90 or options.LAT_MAX < options.LAT_MIN:
-     print "Incorrect Maximum Latitude, must be between -90 and 90 and greater than Minimum Latitude entered."
-     print "Type './trigfile.py -h' for help"
-     sys.exit()
+   if options.LAT_MIN != None or options.LAT_MAX != None:
+     if options.LAT_MIN < -90 or options.LAT_MIN > 90 or options.LAT_MIN > options.LAT_MAX:
+       print "Incorrect Minimum Latitude, must be between -90 and 90 and less than Maximum Latitude entered."
+       print "Type ./'" + PROGNAME + " -h' for help"
+       sys.exit()
 
-   if options.LNG_MIN < -180 or options.LNG_MIN > 180 or options.LNG_MIN > options.LNG_MAX:
-     print "Incorrect Minimum Longitude, must be between -180 and 180 and less than Maximum Longitude entered."
-     print "Type './trigfile.py -h' for help"
-     sys.exit()
+     if options.LAT_MAX < -90 or options.LAT_MAX > 90 or options.LAT_MAX < options.LAT_MIN:
+       print "Incorrect Maximum Latitude, must be between -90 and 90 and greater than Minimum Latitude entered."
+       print "Type ./'" + PROGNAME + " -h' for help"
+       sys.exit()
 
-   if options.LNG_MAX < -180 or options.LNG_MAX > 180 or options.LNG_MAX < options.LNG_MIN:
-     print "Incorrect Maximum Longitude, must be between -180 and 180 and greater than Minimum Longitude entered."
-     print "Type './trigfile.py -h' for help"
-     sys.exit()
+     if options.LNG_MIN < -180 or options.LNG_MIN > 180 or options.LNG_MIN > options.LNG_MAX:
+       print "Incorrect Minimum Longitude, must be between -180 and 180 and less than Maximum Longitude entered."
+       print "Type ./'" + PROGNAME + " -h' for help"
+       sys.exit()
 
-   # OK set the global vars
-   FILE_BASE = options.filename
+     if options.LNG_MAX < -180 or options.LNG_MAX > 180 or options.LNG_MAX < options.LNG_MIN:
+       print "Incorrect Maximum Longitude, must be between -180 and 180 and greater than Minimum Longitude entered."
+       print "Type ./'" + PROGNAME + " -h' for help"
+       sys.exit()
 
    LAT_MIN = options.LAT_MIN
    LAT_MAX = options.LAT_MAX
@@ -469,14 +404,12 @@ def main():
         myCursor.close()
         if res[0][0] == None:
           print "Cannot make SQL query to get date"
-          print "Type './trigfile.py -h' for help"
+          print "Type './trigger_replay.py -h' for help"
           dbconn.close()
           sys.exit()
         options.DATE_MIN = str(res[0][0])
         options.DATE_MAX = options.DATE_MIN
         # if using the default filename, add the date sub to filename
-        if options.filename == "qcn_scedc":
-          FILE_BASE = options.DATE_MIN[0:4] + options.DATE_MIN[5:7] + options.DATE_MIN[8:10] + "_" + options.filename
 
       DATE_MIN_ORIG = options.DATE_MIN + " 00:00:00"
       DATE_MAX_ORIG = options.DATE_MAX + " 23:59:59"
@@ -488,11 +421,12 @@ def main():
        "from sensor.qcn_constant where description='ArchiveTime'"
       myCursor = dbconn.cursor()
       myCursor.execute(sqlts)
+
       res = myCursor.fetchall()
       myCursor.close()
       if res[0][0] == None or res[0][1] == None or res[0][2] == None:
          print "Error - cannot retrieve archive trigger time or validate min/max dates"
-         print "Type './trigfile.py -h' for help"
+         print "Type './trigger_replay.py -h' for help"
          dbconn.close()
          sys.exit()
 
@@ -502,14 +436,14 @@ def main():
 
       if DATE_MIN == None or DATE_MIN < 1e6 or DATE_MAX == None or DATE_MAX < 1e6:
          print "Error - Invalid start or end date"
-         print "Type './trigfile.py -h' for help"
+         print "Type './trigger_replay.py -h' for help"
          dbconn.close()
          sys.exit()
 
 
       if DATE_MIN > DATE_MAX:
          print "Error - start date greater than end date"
-         print "Type './trigfile.py -h' for help"
+         print "Type './trigger_replay.py -h' for help"
          dbconn.close()
          sys.exit()
 
@@ -527,19 +461,19 @@ def main():
          DBNAME_CONTINUAL         = "continual_archive"
       else: # error! 
          print "Error - dates straddle the archive time - not yet supported"
-         print "Type './trigfile.py -h' for help"
+         print "Type './trigger_replay.py -h' for help"
          dbconn.close()
          sys.exit()
 
       # first make sure all the necessary paths are in place
-      if (checkPaths() != 0):
-         sys.exit(2)
+      #if (checkPaths() != 0):
+      #   sys.exit(2)
  
-      procRequest(dbconn)
+      #procRequest(dbconn)
 
       dbconn.close()
 
-      print strDescription + FILE_BASE + ".zip"
+      print "Finished!"
 
    except:
       traceback.print_exc()
