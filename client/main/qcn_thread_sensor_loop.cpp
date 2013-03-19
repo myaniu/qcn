@@ -25,6 +25,10 @@ void TriggerDetectionAlgorithm()
         + QCN_SQR(sm->y0[sm->lOffset-sm->iWindow] - sm->ya[sm->lOffset-sm->iWindow] )
         + QCN_SQR(sm->z0[sm->lOffset-sm->iWindow] - sm->za[sm->lOffset-sm->iWindow] ) ) / sm->iWindow;
 
+    
+    if isnan(sm->vari[sm->lOffset]) {
+        fprintf(stderr, "IsNAN on sm->vari!\n");
+    }
        sm->fmag[sm->lOffset]= sqrt(QCN_SQR(sm->x0[sm->lOffset]-sm->xa[sm->lOffset-1]) +
          QCN_SQR(sm->y0[sm->lOffset]-sm->ya[sm->lOffset-1])+QCN_SQR(sm->z0[sm->lOffset]-sm->za[sm->lOffset-1]));
 
