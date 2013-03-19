@@ -77,6 +77,14 @@ struct QCN_TRIGGER
     double sync_offset;
     double significance;
     double magnitude;
+    double mxy1p;
+    double mz1p;
+    double mxy1a;
+    double mz1a;
+    double mxy2a;
+    double mz2a;
+    double mxy4a;
+    double mz4a;
     double latitude;
     double longitude;
     float  levelvalue;
@@ -303,6 +311,14 @@ public:
         "sync_offset=%f,"
         "significance=%f,"
         "magnitude=%f,"
+        "mxy1p=%f,"
+        "mz1p=%f,"
+        "mxy1a=%f,"
+        "mz1a=%f,"
+        "mxy2a=%f,"
+        "mz2a=%f,"
+        "mxy4a=%f,"
+        "mz4a=%f,"
         "latitude=%16.9f,"
         "longitude=%16.9f,"
         "levelvalue=%s,"
@@ -325,7 +341,16 @@ public:
         "geoipaddrid=%d"
         ,
         hostid, ipaddr, result_name, time_trigger, time_sync, sync_offset,
-        significance, magnitude, latitude, longitude, strLevelValue, strLevelID, alignid,
+        significance, magnitude, 
+        mxy1p,
+        mz1p,
+        mxy1a,
+        mz1a,
+        mxy2a,
+        mz2a,
+        mxy4a,
+        mz4a,
+        latitude, longitude, strLevelValue, strLevelID, alignid,
         file, dt, numreset, qcn_sensorid, sw_version, os_type,
         qcn_quakeid, time_filereq, received_file, runtime_clock, runtime_cpu, varietyid, 
         hostipaddrid, geoipaddrid
@@ -348,6 +373,22 @@ public:
       if (isnan(significance)) significance = 0;
       magnitude = safe_atof(r[i++]);
       if (isnan(magnitude)) magnitude = 0;  // some reason sig &  or mag can be NaN
+      mxy1p = safe_atof(r[i++]);
+      mz1p = safe_atof(r[i++]);
+      mxy1a = safe_atof(r[i++]);
+      mz1a = safe_atof(r[i++]);
+      mxy2a = safe_atof(r[i++]);
+      mz2a = safe_atof(r[i++]);
+      mxy4a = safe_atof(r[i++]);
+      mz4a = safe_atof(r[i++]);
+      if (isnan(mxy1p)) mxy1p = 0;
+      if (isnan(mxy1a)) mxy1a = 0;
+      if (isnan(mxy2a)) mxy2a = 0;
+      if (isnan(mxy4a)) mxy4a = 0;
+      if (isnan(mz1p)) mz1p = 0;
+      if (isnan(mz1a)) mz1a = 0;
+      if (isnan(mz2a)) mz2a = 0;
+      if (isnan(mz4a)) mz4a = 0;
       latitude = safe_atof(r[i++]);
       longitude = safe_atof(r[i++]);
       levelvalue = safe_atof(r[i++]);

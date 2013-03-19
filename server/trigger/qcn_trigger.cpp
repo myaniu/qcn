@@ -132,7 +132,7 @@ bool doTriggerMemoryUpdate(const DB_QCN_TRIGGER& qtrig, const double* dmxy, cons
   if (retval) {
        log_messages.printf(
            SCHED_MSG_LOG::MSG_CRITICAL,
-           "[QCN] [HOST#%d] [RESULTNAME=%s] [TIME=%lf] Error - could not update followup info for %s\n",
+           "[QCN] [HOST#%d] [RESULTNAME=%s] [TIME=%lf] Error - could not update followup qcn_trigger_memory info for %s\n",
             qtrig.hostid, qtrig.result_name, qtrig.time_received,
             qtrig.file
           );
@@ -140,11 +140,32 @@ bool doTriggerMemoryUpdate(const DB_QCN_TRIGGER& qtrig, const double* dmxy, cons
   else {
        log_messages.printf(
            SCHED_MSG_LOG::MSG_DEBUG,
-           "[QCN] [HOST#%d] [RESULTNAME=%s] [TIME=%lf] Successfully updated trigmem followup info for %s\n",
+           "[QCN] [HOST#%d] [RESULTNAME=%s] [TIME=%lf] Successfully updated trigmem followup qcn_trigger_memory info for %s\n",
             qtrig.hostid, qtrig.result_name, qtrig.time_received,
             qtrig.file
           );
   }
+  
+  // now try the sensor/continual qcn_trigger table update
+  sprintf(strQuery, "UPDATE qcn_trigger SET %s WHERE file='%s'", strFields, qtrig.file);
+  retval = qtrig.db->do_query(strQuery);
+  if (retval) {
+       log_messages.printf(
+           SCHED_MSG_LOG::MSG_CRITICAL,
+           "[QCN] [HOST#%d] [RESULTNAME=%s] [TIME=%lf] Error - could not update followup qcn_trigger info for %s\n",
+            qtrig.hostid, qtrig.result_name, qtrig.time_received,
+            qtrig.file
+          );
+  }
+  else {
+       log_messages.printf(
+           SCHED_MSG_LOG::MSG_DEBUG,
+           "[QCN] [HOST#%d] [RESULTNAME=%s] [TIME=%lf] Successfully updated trigmem followup qcn_trigger info for %s\n",
+            qtrig.hostid, qtrig.result_name, qtrig.time_received,
+            qtrig.file
+          );
+  }
+
   delete [] strFields;
   delete [] strQuery;
 
@@ -230,6 +251,14 @@ int handle_qcn_trigger(const DB_MSG_FROM_HOST* pmfh, const int iVariety, DB_QCN_
      }
 
      // parse out all the data into the qtrig object;
+       qtrig.mxy1p = 0.0;
+       qtrig.mz1p = 0.0;
+       qtrig.mxy1a = 0.0;
+       qtrig.mz1a = 0.0;
+       qtrig.mxy2a = 0.0;
+       qtrig.mz2a = 0.0;
+       qtrig.mxy4a = 0.0;
+       qtrig.mz4a = 0.0;
      qtrig.hostid = pmfh->hostid; // don't parse hostid, it's in the msg_from_host struct!
      if (!parse_str(pmfh->xml, "<result_name>", qtrig.result_name, sizeof(qtrig.result_name))) memset(qtrig.result_name, 0x00, sizeof(qtrig.result_name));
      if (!parse_str(pmfh->xml, "<vr>", qtrig.sw_version, sizeof(qtrig.sw_version))) memset(qtrig.sw_version, 0x00, sizeof(qtrig.sw_version));
@@ -262,6 +291,15 @@ int handle_qcn_trigger(const DB_MSG_FROM_HOST* pmfh, const int iVariety, DB_QCN_
 
        if (!parse_double(pmfh->xml, "<mxy4a>", dmxy[3])) dmxy[3] = 0;
        if (!parse_double(pmfh->xml, "<mz4a>", dmz[3])) dmz[3] = 0;
+
+       qtrig.mxy1p = dmxy[0];
+       qtrig.mz1p = dmz[0];
+       qtrig.mxy1a = dmxy[1];
+       qtrig.mz1a = dmz[1];
+       qtrig.mxy2a = dmxy[2];
+       qtrig.mz2a = dmz[2];
+       qtrig.mxy4a = dmxy[3];
+       qtrig.mz4a = dmz[3];
      }
 
 // CMC hack - change JW 7 to 100, MN 8 to 101
@@ -331,7 +369,7 @@ int handle_qcn_trigger(const DB_MSG_FROM_HOST* pmfh, const int iVariety, DB_QCN_
 
      // at this point, if a followup trigger, we can jsut update the memory table qcn_trigger_memory and split
      if (bFollowUp) {
-       doTriggerMemoryUpdate(qtrig, dmxy, dmz);
+       doTriggerMemoryUpdate(qtrig, dmxy, dmz); // update the qcn_trigger table with followup data
        return 0;
      }
 
