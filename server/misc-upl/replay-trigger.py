@@ -19,7 +19,7 @@
 import sys, os, math, traceback, tempfile, string, MySQLdb, shutil, zipfile
 from datetime import datetime
 #from zipfile import ZIP_STORED
-from time import strptime, mktime
+from time import strptime, mktime, sleep
 #from qcnutil import getSACMetadata
 #from qcnutil import getFanoutDirFromZip
 from optparse import OptionParser
@@ -325,11 +325,69 @@ order by q.id desc
    return 0
 
 # get the tuples of the triggers
-def getTriggerTuple(strWhere, iDelay):
+def getTriggerTuple(strWhere, iDelay, dbconn):
    # strWhere is the where clause ie quakeid=5445 --- iDelay is the delay time # of seconds from first trigger
-   strSQL = "select 'sensor', s.* from sensor.qcn_trigger s " + strWhere + " UNION " +\
-            "select 'continual', c.* from continual.qcn_trigger c " + strWhere
-   print strSQL
+   #strSQL = "select * from (select 'sensor', s.* from sensor.qcn_trigger s " + strWhere + " UNION " +\
+   #         "select 'continual', c.* from continual.qcn_trigger c " + strWhere + ") t order by time_trigger"
+
+   # should perhaps get first trigger for start time
+   strSQL = "select min(trigtime) from (select min(time_trigger) trigtime from sensor.qcn_trigger s " + strWhere + " UNION " +\
+            "select min(time_trigger) trigtime from continual.qcn_trigger c " + strWhere + ") t "
+
+   myCursor = dbconn.cursor()
+   myCursor.execute(strSQL)
+   row = myCursor.fetchone()
+   myCursor.close()
+   if row == None or len(row) == 0:
+     return None
+
+   timeStart = row[0] - iDelay
+
+   # now get end time of event
+   strSQL = "select max(trigtime) from (select max(time_trigger) trigtime from sensor.qcn_trigger s " + strWhere + " UNION " +\
+            "select max(time_trigger) trigtime from continual.qcn_trigger c " + strWhere + ") t "
+
+   myCursor = dbconn.cursor()
+   myCursor.execute(strSQL)
+   row = myCursor.fetchone()
+   myCursor.close()
+   if row == None or len(row) == 0:
+     return None
+
+   timeEnd = row[0] + iDelay
+
+   strSQL = "select * from (select 'sensor', s.* from sensor.qcn_trigger s " +\
+          "where time_trigger between " +\
+            str(timeStart) + " AND " + str(timeEnd) +\
+             " UNION " +\
+            "select 'continual', c.* from continual.qcn_trigger c " +\
+          "where time_trigger between " +\
+            str(timeStart) + " AND " + str(timeEnd) +\
+                ") t order by time_trigger"
+
+   #print timeStart, timeEnd 
+   #print strSQL
+   #sys.exit()
+
+   myCursor = dbconn.cursor()
+   myCursor.execute(strSQL)
+   result = myCursor.fetchall()
+   myCursor.close()
+   return result
+
+def processTriggerTuple(tt, iDelay, dbconn):
+   if len(tt) == 0:
+     print "No triggers found for your criteria!"
+     print "Type ./'" + PROGNAME + " -h' for help"
+     return 1
+   timeStart = tt[0][5]
+   play = 0
+   SLEEP_INTERVAL = 0.1
+   for t in tt:
+     while play < t[5]-timeStart+iDelay:
+        sleep(SLEEP_INTERVAL)
+        play = play + SLEEP_INTERVAL
+     print t[0], t[1], t[2], t[3], t[4], t[5]-timeStart+iDelay, t[6], t[7], t[8]
    return 0
 
 # main proc
@@ -523,7 +581,8 @@ def main():
         raise FinishedException(1)
 
       if options.QUAKE_ID != None:
-        getTriggerTuple("WHERE qcn_quakeid=" + str(options.QUAKE_ID), options.DELAY_TIME)
+        tt = getTriggerTuple("WHERE varietyid=0 and qcn_quakeid=" + str(options.QUAKE_ID), options.DELAY_TIME, dbconn)
+        processTriggerTuple(tt, options.DELAY_TIME, dbconn)
         raise FinishedException(2)
 
       dbconn.close()
