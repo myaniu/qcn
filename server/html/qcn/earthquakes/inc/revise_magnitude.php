@@ -194,13 +194,16 @@ function revise_magnitude($edir) {
     //$qmag2 = $qmag2 + ((log($smag)/($erf_tau)) + 0.59*(sqrt($dis)-sqrt(10)) + 8.328 )/(1.275);
 
     //#37 (Updated 03/04/13) - using fine inversion; Picked GNS events) <- BEST:
-    $qmag2 = $qmag2 + exp(0.0211*log($smag) + 0.0173*sqrt($dis) - 0.0267*$erf_tau + 1.4444);
+    //$qmag2 = $qmag2 + exp(0.0211*log($smag) + 0.0173*sqrt($dis) - 0.0267*$erf_tau + 1.4444);
 
     //#38 (Updated 03/04/13) - GNS: Totally new inversion technique. Solve each part separately. Use Picked data <-not working: divide by zero?:
     //$qmag2 = $qmag2 + ((log($smag)/($erf_tau)) + 0.596*(sqrt($dis)-sqrt(10)) + 6.607 )/(1.137);
 
     //#39 (Updated 03/17/13) - QCN w/ QCN locations: Totally new inversion technique. Solve each part separately. Use Picked data <- not working:
     //$qmag2 = $qmag2 + ((log($smag)/($erf_tau)) + 0.596*(sqrt($dis)-sqrt(10)) + 7.882 )/(1.161);
+
+    //#40 (Updated 03/19/13) - QCN w/ QCN locations: using fine inversion; Picked QCN events:
+    $qmag2 = $qmag2 + exp(0.0402*log($smag) + 0.0371*sqrt($dis) - 0.0621*$erf_tau + 1.4678);
 
     $qmag = $qmag2;
 
@@ -355,13 +358,16 @@ function revise_magnitude($edir) {
     //$qstd2 = $qstd2 + ((log($smag)/($erf_tau)) + 0.59*(sqrt($dis)-sqrt(10)) + 8.328 )/(1.275);
 
     //#37 (Updated 03/04/13) - using fine inversion; Picked GNS events) <- BEST:
-    $qstd2 = $qstd2 + exp(0.0211*log($smag) + 0.0173*sqrt($dis) - 0.0267*$erf_tau + 1.4444);
+    //$qstd2 = $qstd2 + exp(0.0211*log($smag) + 0.0173*sqrt($dis) - 0.0267*$erf_tau + 1.4444);
 
     //#38 (Updated 03/04/13) - GNS: Totally new inversion technique. Solve each part separately. Use Picked data <- not working: divide by zero?:
     //$qstd2 = $qstd2 + ((log($smag)/($erf_tau)) + 0.596*(sqrt($dis)-sqrt(10)) + 6.607 )/(1.137);
 
     //#39 (Updated 03/17/13) - QCN w/ QCN locations: Totally new inversion technique. Solve each part separately. Use Picked data <- not working:
     //$qstd2 = $qstd2 + ((log($smag)/($erf_tau)) + 0.596*(sqrt($dis)-sqrt(10)) + 7.882 )/(1.161);
+
+    //#40 (Updated 03/19/13) - QCN w/ QCN locations: using fine inversion; Picked QCN events:
+    $qstd2 = $qstd2 + exp(0.0402*log($smag) + 0.0371*sqrt($dis) - 0.0621*$erf_tau + 1.4678);
 
    $qstd = $qstd2;
 

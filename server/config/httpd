@@ -100,7 +100,8 @@ case "$1" in
 	start
 	;;
   stop)
-	stop
+	$apachectl -k stop
+	RETVAL=$?
 	;;
   status)
         status -p ${pidfile} $httpd

@@ -1004,7 +1004,7 @@ function qcn_trigger_header_csv($auth) {
    $value = $value 
     . "TimeTrigger, Delay, TimeSync, SyncOffset, "
     . "Magnitude, Significance, Latitude, Longitude, Resets, DT, Sensor, Version, GeoIP, Time File Req, "
-    . "Received File, File Download, View, USGS ID, Quake Dist (km), Quake Magnitude, Quake Time, "
+    . "Received File, File Download, Quake ID, Quake Dist (km), Quake Magnitude, Quake Time, "
     . "Quake Lat, Quake Long, USGS GUID, Quake Desc, Is Archive?"
     . "\n";
 
@@ -1013,20 +1013,16 @@ function qcn_trigger_header_csv($auth) {
 
 function qcn_trigger_detail_csv(&$res,$auth,$user)
 {
-    $quakestuff = "";
+    $quakestuff = ",,,,,,,,";
     if ($res->qcn_quakeid) {
           $quakestuff = $res->qcn_quakeid . "," .
              $res->quake_distance_km . "," .
              $res->quake_magnitude . "," . 
              time_str_csv($res->quake_time) . "," .
              $res->quake_lat . "," .
-             $res->quake_lon . "," .
-             $res->guid . "," .
-             $res->description . ","  .
-             $res->is_quake ? 1 : 0 . "," . $res->quake_url; 
-    }
-    else {
-          $quakestuff = ",,,,,,,,,";
+             $res->quake_lon . ",\"" .
+             $res->guid . "\",\"" .
+             $res->description . "\",";
     }
 
    $file_url = get_file_url($res);
@@ -1049,6 +1045,7 @@ function qcn_trigger_detail_csv(&$res,$auth,$user)
         time_str_csv($res->trigger_time) . "," . ($res->received_file == 100 ? " Yes " : " No " ) . "," .
         $file_url . "," .
         $quakestuff .
+         ($res->is_archive ? "Y" : "N" ) . 
         "\n";
 
     return $value;
