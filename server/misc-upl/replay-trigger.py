@@ -325,10 +325,15 @@ order by q.id desc
    return 0
 
 # get the tuples of the triggers
-def getTriggerTuple(strWhere, iDelay, dbconn):
+def getTriggerTupleTime(strWhere, iDelay, dbconn):
+   return 0
+
+# get the tuples of the triggers
+def getTriggerTupleQuakeID(idQuake, iDelay, dbconn):
    # strWhere is the where clause ie quakeid=5445 --- iDelay is the delay time # of seconds from first trigger
    #strSQL = "select * from (select 'sensor', s.* from sensor.qcn_trigger s " + strWhere + " UNION " +\
    #         "select 'continual', c.* from continual.qcn_trigger c " + strWhere + ") t order by time_trigger"
+   strWhere = "WHERE varietyid=0 and qcn_quakeid=" + str(idQuake)
 
    # should perhaps get first trigger for start time
    strSQL = "select min(trigtime) from (select min(time_trigger) trigtime from sensor.qcn_trigger s " + strWhere + " UNION " +\
@@ -382,12 +387,27 @@ def processTriggerTuple(tt, iDelay, dbconn):
      return 1
    timeStart = tt[0][5]
    play = 0
-   SLEEP_INTERVAL = 0.1
+   print "Trigger replay starting in " + str(iDelay) + " seconds...."
+   SLEEP_INTERVAL = 0.01
    for t in tt:
      while play < t[5]-timeStart+iDelay:
         sleep(SLEEP_INTERVAL)
         play = play + SLEEP_INTERVAL
      print t[0], t[1], t[2], t[3], t[4], t[5]-timeStart+iDelay, t[6], t[7], t[8]
+
+     # insert into sensor/continual.qcn_trigger table here
+     # get new trigger insert ID # and update t[] for trimem_test insert below
+
+     # insert into trigmem_test.qcn_trigger_memory table here
+
+   return 0
+
+def deleteTrigMemTest(dbconn):
+   # delete mem triggers older than 5 minutes
+   strSQL = "DELETE FROM trigmem_test.qcn_trigger_memory WHERE time_trigger < unix_timestamp() - 300"
+   myCursor = dbconn.cursor()
+   myCursor.execute(strSQL)
+   myCursor.close()
    return 0
 
 # main proc
@@ -427,10 +447,10 @@ def main():
    parser.add_option("--time_start", dest="TIME_MIN", type="int", help="Enter Start Time in 24-hr UTC format e.g. HHMM", metavar="TIME_MIN")
    parser.add_option("--date_end", dest="DATE_MAX", type="string", help="Enter End Date in YYYY-MM-DD format", metavar="DATE_MAX")
    parser.add_option("--time_end", dest="TIME_MAX", type="int", help="Enter End Time in 24-hr UTC format e.g. HHMM", metavar="TIME_MAX")
-   parser.add_option("--lat_min", dest="LAT_MIN", type="float", help="Enter Minimum Latitude [-90,90]", metavar="LAT_MIN")
-   parser.add_option("--lat_max", dest="LAT_MAX", type="float", help="Enter Maximum Latitude [-90,90]", metavar="LAT_MAX")
-   parser.add_option("--lng_min", dest="LNG_MIN", type="float", help="Enter Minimum Longitude [-180,180]", metavar="LNG_MIN")
-   parser.add_option("--lng_max", dest="LNG_MAX", type="float", help="Enter Maximum Longitude [-180,180]", metavar="LNG_MAX")
+   #parser.add_option("--lat_min", dest="LAT_MIN", type="float", help="Enter Minimum Latitude [-90,90]", metavar="LAT_MIN")
+   #parser.add_option("--lat_max", dest="LAT_MAX", type="float", help="Enter Maximum Latitude [-90,90]", metavar="LAT_MAX")
+   #parser.add_option("--lng_min", dest="LNG_MIN", type="float", help="Enter Minimum Longitude [-180,180]", metavar="LNG_MIN")
+   #parser.add_option("--lng_max", dest="LNG_MAX", type="float", help="Enter Maximum Longitude [-180,180]", metavar="LNG_MAX")
    parser.add_option("--delay", dest="DELAY_TIME", type="int", help="Number of seconds to delay until start of first trigger (default 5s)", metavar="sec")
    parser.add_option("--quake_id", dest="QUAKE_ID", type="int", help="Enter Quake ID # (run script with --quake_list n to get last n events", metavar="id")
    parser.add_option("--quake_list", dest="QUAKE_LIST", type="int", help="Show last 'n' earthquakes with matching triggers", metavar="n")
@@ -497,6 +517,12 @@ def main():
                            user = DBUSER,
                            passwd = DBPASSWD,
                            db = DBNAME)
+
+      if dbconn == None:
+         print "Database error - check connection settings"
+         raise
+
+      deleteTrigMemTest(dbconn)
 
       # test dates
       if options.DATE_MIN == None and options.DATE_MAX == None:
@@ -571,24 +597,33 @@ def main():
       # first make sure all the necessary paths are in place
       #if (checkPaths() != 0):
       #   sys.exit(2)
- 
+
+      bDone = false 
       #procRequest(dbconn)
       # quake list supercedes all ie print quake ID & info & return
-      if options.QUAKE_LIST != None:
+      if !bDone and options.QUAKE_LIST != None:
         if options.QUAKE_LIST == 0:
            options.QUAKE_LIST = 10
         printQuakeList(dbconn, options.QUAKE_LIST)
-        raise FinishedException(1)
+        bDone = true
 
-      if options.QUAKE_ID != None:
-        tt = getTriggerTuple("WHERE varietyid=0 and qcn_quakeid=" + str(options.QUAKE_ID), options.DELAY_TIME, dbconn)
+      if !bDone and options.QUAKE_ID != None:
+        tt = getTriggerTupleQuakeID(options.QUAKE_ID, options.DELAY_TIME, dbconn)
         processTriggerTuple(tt, options.DELAY_TIME, dbconn)
-        raise FinishedException(2)
+        bDone = true
+        #raise FinishedException(2)
 
+      if !bDone and options.DATE_MIN != None and options.DATE_MAX != None:
+        tt = getTriggerTupleTime(DATE_MIN, DATE_MAX, options.DELAY_TIME, dbconn)
+        processTriggerTuple(tt, options.DELAY_TIME, dbconn)
+        bDone = true
+        #raise FinishedException(3)
+
+      deleteTrigMemTest(dbconn)
       dbconn.close()
       dbconn = None
-
-      #print "Finished!"
+      print "Finished!"
+      return 0
 
 
    except FinishedException: #  as e: 
