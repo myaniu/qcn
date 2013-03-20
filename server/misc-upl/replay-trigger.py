@@ -16,7 +16,7 @@
 #
 
 # CMC note -- need to install 3rd party MySQLdb libraries for python
-import math, tempfile, smtplib, traceback, sys, os, tempfile, string, MySQLdb, shutil, zipfile
+import sys, os, math, traceback, tempfile, string, MySQLdb, shutil, zipfile
 from datetime import datetime
 #from zipfile import ZIP_STORED
 from time import strptime, mktime
@@ -302,6 +302,37 @@ def checkPaths():
    
    return 0
 
+# print out last 'numquake' quakes & count of triggers
+def printQuakeList(dbconn, numquake):
+   print "Last " + str(numquake) + " Quakes"
+   print "QuakeID, Num Triggers, Date/Time (UTC), Latitude, Longitude, Magnitude, Description"
+
+   strSQL = """select q.id, from_unixtime(q.time_utc), q.magnitude, q.latitude, q.longitude, q.description,
+((select count(*) from sensor.qcn_trigger t1 where t1.qcn_quakeid=q.id) +
+(select count(*) from continual.qcn_trigger t2 where t2.qcn_quakeid=q.id)) trigcnt
+from sensor.qcn_quake q 
+group by q.id having trigcnt>0
+order by q.id desc
+ limit """ + str(numquake)
+   #print strSQL
+   myCursor = dbconn.cursor()
+   myCursor.execute(strSQL)
+   result = myCursor.fetchall()
+   myCursor.close()
+   for rec in result:
+     print rec[0], rec[6], rec[1], rec[3], rec[4], rec[2], rec[5]
+
+   return 0
+
+# get the tuples of the triggers
+def getTriggerTuple(strWhere, iDelay):
+   # strWhere is the where clause ie quakeid=5445 --- iDelay is the delay time # of seconds from first trigger
+   strSQL = "select 'sensor', s.* from sensor.qcn_trigger s " + strWhere + " UNION " +\
+            "select 'continual', c.* from continual.qcn_trigger c " + strWhere
+   print strSQL
+   return 0
+
+# main proc
 def main():
    global UPLOAD_WEB_DIR
    global DOWNLOAD_WEB_DIR
@@ -321,6 +352,13 @@ def main():
    global LAT_MAX
    global LNG_MIN
    global LNG_MAX
+   global DELAY_TIME
+
+   class FinishedException(Exception):
+     def __init__(self, value):
+       self.value = value
+     def __str__(self):
+       return repr(self.value)
 
    strDescription = "This program will 'replay' past triggers into the trigmem_test.qcn_trigger_memory table on qcn-data"
 
@@ -335,24 +373,29 @@ def main():
    parser.add_option("--lat_max", dest="LAT_MAX", type="float", help="Enter Maximum Latitude [-90,90]", metavar="LAT_MAX")
    parser.add_option("--lng_min", dest="LNG_MIN", type="float", help="Enter Minimum Longitude [-180,180]", metavar="LNG_MIN")
    parser.add_option("--lng_max", dest="LNG_MAX", type="float", help="Enter Maximum Longitude [-180,180]", metavar="LNG_MAX")
+   parser.add_option("--delay", dest="DELAY_TIME", type="int", help="Number of seconds to delay until start of first trigger (default 5s)", metavar="sec")
    parser.add_option("--quake_id", dest="QUAKE_ID", type="int", help="Enter Quake ID # (run script with --quake_list n to get last n events", metavar="id")
    parser.add_option("--quake_list", dest="QUAKE_LIST", type="int", help="Show last 'n' earthquakes with matching triggers", metavar="n")
    (options, args) = parser.parse_args();
 
+   #lat/lng
    # default to SCEDC run
-   if options.LAT_MIN == None:
-     options.LAT_MIN  = 31.5
-   if options.LAT_MAX == None:
-     options.LAT_MAX  = 37.5
-   if options.LNG_MIN == None:
-     options.LNG_MIN  = -121.0
-   if options.LNG_MAX == None:
-     options.LNG_MAX  = -114.0
+   #if options.LAT_MIN == None:
+   #  options.LAT_MIN  = 31.5
+   #if options.LAT_MAX == None:
+   #  options.LAT_MAX  = 37.5
+   #if options.LNG_MIN == None:
+   #  options.LNG_MIN  = -121.0
+   #if options.LNG_MAX == None:
+   #  options.LNG_MAX  = -114.0
+
+   #dates
    if options.DATE_MAX == None and options.DATE_MIN != None:
      options.DATE_MAX = options.DATE_MIN
    if options.DATE_MIN == None and options.DATE_MAX != None:
      options.DATE_MIN = options.DATE_MAX
 
+   #times
    if options.TIME_MIN != None or options.TIME_MAX != None:
      if options.TIME_MIN < 0 or options.TIME_MAX < 0 or options.TIME_MIN > 2359 or options.TIME_MAX > 2359:
        print "Check your times - should be between 0000 and 2359."
@@ -385,6 +428,8 @@ def main():
    LNG_MIN = options.LNG_MIN
    LNG_MAX = options.LNG_MAX
 
+   if options.DELAY_TIME == None:
+     options.DELAY_TIME = 5
 
    try:
       cnt = 0
@@ -470,13 +515,33 @@ def main():
       #   sys.exit(2)
  
       #procRequest(dbconn)
+      # quake list supercedes all ie print quake ID & info & return
+      if options.QUAKE_LIST != None:
+        if options.QUAKE_LIST == 0:
+           options.QUAKE_LIST = 10
+        printQuakeList(dbconn, options.QUAKE_LIST)
+        raise FinishedException(1)
+
+      if options.QUAKE_ID != None:
+        getTriggerTuple("WHERE qcn_quakeid=" + str(options.QUAKE_ID), options.DELAY_TIME)
+        raise FinishedException(2)
 
       dbconn.close()
+      dbconn = None
 
-      print "Finished!"
+      #print "Finished!"
+
+
+   except FinishedException: #  as e: 
+      # just to signify we're done
+      if dbconn != None:
+        dbconn.close()
+      return 0
 
    except:
       traceback.print_exc()
+      if dbconn != None:
+         dbconn.close()
       return 3
 
 if __name__ == '__main__':

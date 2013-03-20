@@ -11,22 +11,23 @@ void TriggerDetectionAlgorithm()
       //     used to get the right "place" in case of the array being looped, but I don't see how this could
       //     happen because after the one minute mean/baseline above, we are past "iWindow" by this point
       //     as if sm->lOffset >= MAXI above will go to top of loop and reinitialize
-      sm->xa[sm->lOffset]  = sm->xa[sm->lOffset-1] + ((sm->x0[sm->lOffset] - sm->x0[sm->lOffset-sm->iWindow]) / sm->iWindow);         //  AVERAGE X
-      sm->ya[sm->lOffset]  = sm->ya[sm->lOffset-1] + ((sm->y0[sm->lOffset] - sm->y0[sm->lOffset-sm->iWindow]) / sm->iWindow);         //  AVERAGE Y
-      sm->za[sm->lOffset]  = sm->za[sm->lOffset-1] + ((sm->z0[sm->lOffset] - sm->z0[sm->lOffset-sm->iWindow]) / sm->iWindow);         //  AVERAGE Z
+      sm->xa[sm->lOffset]  = sm->xa[sm->lOffset-1] + ((sm->x0[sm->lOffset] - sm->x0[sm->lOffset-sm->iWindow]) / (float) sm->iWindow);         //  AVERAGE X
+      sm->ya[sm->lOffset]  = sm->ya[sm->lOffset-1] + ((sm->y0[sm->lOffset] - sm->y0[sm->lOffset-sm->iWindow]) / (float) sm->iWindow);         //  AVERAGE Y
+      sm->za[sm->lOffset]  = sm->za[sm->lOffset-1] + ((sm->z0[sm->lOffset] - sm->z0[sm->lOffset-sm->iWindow]) / (float) sm->iWindow);         //  AVERAGE Z
 
 // note -- the bottom three lines of the vari[i] expression are uncommented per JLF
 //   (previously in the original onepoint.c code it ended at the first sm->iWindow)
 // QCN_SQR(A) is a short-hand to square A (i.e. A^2 or A*A, not square root!)
       sm->vari[sm->lOffset] = sm->vari[sm->lOffset-1] + ( QCN_SQR(sm->x0[sm->lOffset] - sm->xa[sm->lOffset]   )
           + QCN_SQR(sm->y0[sm->lOffset]   - sm->ya[sm->lOffset]   )
-          + QCN_SQR(sm->z0[sm->lOffset]   - sm->za[sm->lOffset]   ) ) / sm->iWindow
+          + QCN_SQR(sm->z0[sm->lOffset]   - sm->za[sm->lOffset]   ) ) / (float) sm->iWindow
         - ( QCN_SQR(sm->x0[sm->lOffset-sm->iWindow] - sm->xa[sm->lOffset-sm->iWindow] )
         + QCN_SQR(sm->y0[sm->lOffset-sm->iWindow] - sm->ya[sm->lOffset-sm->iWindow] )
-        + QCN_SQR(sm->z0[sm->lOffset-sm->iWindow] - sm->za[sm->lOffset-sm->iWindow] ) ) / sm->iWindow;
+        + QCN_SQR(sm->z0[sm->lOffset-sm->iWindow] - sm->za[sm->lOffset-sm->iWindow] ) ) / (float) sm->iWindow;
 
     
     if isnan(sm->vari[sm->lOffset]) {
+        sm->vari[sm->lOffset] = sm->vari[sm->lOffset-1];  // just reuse the last value
         fprintf(stderr, "IsNAN on sm->vari!\n");
     }
        sm->fmag[sm->lOffset]= sqrt(QCN_SQR(sm->x0[sm->lOffset]-sm->xa[sm->lOffset-1]) +
@@ -52,7 +53,7 @@ void TriggerDetectionAlgorithm()
                              sqrt(sm->vari[sm->lOffset-1] + (g_fThreshold / 100.));
 // .001 to prevent divide-by-zero but so we capture any fmag & vari
          }
-         sm->fsig[sm->lOffset]=sm->fsig[sm->lOffset] / (qcn_main::g_fPerturb[PERTURB_SHORT_TERM_AVG_MAG] + 1.0f);
+         sm->fsig[sm->lOffset]=sm->fsig[sm->lOffset] / (qcn_main::g_fPerturb[PERTURB_SHORT_TERM_AVG_MAG]); // extra term  + 1.0f);
 // Normalize average magnitude over window
        }
 
