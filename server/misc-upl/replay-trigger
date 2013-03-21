@@ -22,7 +22,7 @@ global DBNAME
 global DB_TRIGMEM
 global SMTPS_HOST, SMTPS_PORT, SMTPS_LOCAL_HOSTNAME, SMTPS_KEYFILE, SMTPS_CERTFILE, SMTPS_TIMEOUT
 
-PROGNAME = "replay-trigger.py"
+PROGNAME = "replay-trigger"
 DBHOST = "localhost"
 DBUSER = "qcn"
 DBPASSWD = "qcntest"
@@ -50,14 +50,18 @@ def printQuakeList(dbconn, numquake):
    print "Last " + str(numquake) + " Quakes"
    print "QuakeID, Num Triggers, Date/Time (UTC), Latitude, Longitude, Magnitude, Description"
 
-   strSQL = """select q.id, from_unixtime(q.time_utc), q.magnitude, q.latitude, q.longitude, q.description,
-((select count(*) from sensor.qcn_trigger t1 where t1.qcn_quakeid=q.id) +
-(select count(*) from continual.qcn_trigger t2 where t2.qcn_quakeid=q.id)) trigcnt
-from sensor.qcn_quake q 
-group by q.id having trigcnt>0
-order by q.id desc
- limit """ + str(numquake)
-   #print strSQL
+   strSQL = "select q.id, from_unixtime(q.time_utc), q.magnitude, q.latitude, q.longitude, q.description, " +\
+        "(" +\
+        "(select count(*) from sensor.qcn_trigger t1 where t1.qcn_quakeid=q.id) + " +\
+        "(select count(*) from continual.qcn_trigger t2 where t2.qcn_quakeid=q.id) + " +\
+        "(select count(*) from sensor_archive.qcn_trigger t3 where t3.qcn_quakeid=q.id) + " +\
+        "(select count(*) from continual_archive.qcn_trigger t4 where t4.qcn_quakeid=q.id)" +\
+        ") trigcnt " +\
+        "from " + DBNAME + ".qcn_quake q " +\
+        "where q.magnitude > 3 group by q.id having trigcnt>0 " +\
+        "order by q.id desc " +\
+        " limit " + str(numquake) 
+
    myCursor = dbconn.cursor()
    myCursor.execute(strSQL)
    result = myCursor.fetchall()
@@ -69,21 +73,15 @@ order by q.id desc
 
 # get the tuples of the triggers for a time range
 def getTriggerTupleTime(minTime, maxTime, iDelay, dbconn):
-   strSQL = "select * from (select 'sensor', s.* from sensor.qcn_trigger s " +\
+   strSQL = "select * from (select 'sensor', s.* from " + DBNAME + ".qcn_trigger s " +\
           "where varietyid=0 AND time_trigger between " +\
             str(minTime) + " AND " + str(maxTime) +\
              " UNION " +\
-            "select 'continual', c.* from continual.qcn_trigger c " +\
+            "select 'continual', c.* from " + DBNAME_CONTINUAL + ".qcn_trigger c " +\
           "where varietyid=0 AND time_trigger between " +\
             str(minTime) + " AND " + str(maxTime) +\
                 ") t order by time_trigger"
  
-   # TODO: check archive time and select against archive tables
-
-   #print timeStart, timeEnd 
-   #print strSQL
-   #sys.exit()
-
    myCursor = dbconn.cursor()
    myCursor.execute(strSQL)
    result = myCursor.fetchall()
@@ -91,16 +89,35 @@ def getTriggerTupleTime(minTime, maxTime, iDelay, dbconn):
    return result
 
 # get the tuples of the triggers
-def getTriggerTupleQuakeID(idQuake, iDelay, dbconn):
-   # strWhere is the where clause ie quakeid=5445 --- iDelay is the delay time # of seconds from first trigger
-   #strSQL = "select * from (select 'sensor', s.* from sensor.qcn_trigger s " + strWhere + " UNION " +\
-   #         "select 'continual', c.* from continual.qcn_trigger c " + strWhere + ") t order by time_trigger"
+def getTriggerTupleQuakeID(idQuake, iDelay, timeArchive, dbconn):
+   global IS_ARCHIVE
+   global DBNAME
+   global DBNAME_CONTINUAL
+
+   # first see if quake is in archive or live database
+   strSQL =  "select time_utc from sensor.qcn_quake where id=" + str(idQuake)
+   myCursor = dbconn.cursor()
+   myCursor.execute(strSQL)
+   row = myCursor.fetchone()
+   myCursor.close()
+   if row is None:
+     return None
+
+   timeQuake = int(row[0])
+   if timeQuake >= timeArchive:
+     IS_ARCHIVE = False
+     DBNAME                   = "sensor"
+     DBNAME_CONTINUAL         = "continual"
+   else:
+     IS_ARCHIVE = True
+     DBNAME                   = "sensor_archive"
+     DBNAME_CONTINUAL         = "continual_archive"
+
    strWhere = "WHERE varietyid=0 and qcn_quakeid=" + str(idQuake)
 
    # should perhaps get first trigger for start time
-   strSQL = "select min(trigtime) from (select min(time_trigger) trigtime from sensor.qcn_trigger s " + strWhere + " UNION " +\
-            "select min(time_trigger) trigtime from continual.qcn_trigger c " + strWhere + ") t "
-
+   strSQL = "select min(trigtime) from (select min(time_trigger) trigtime from " + DBNAME + ".qcn_trigger s " + strWhere + " UNION " +\
+            "select min(time_trigger) trigtime from " + DBNAME_CONTINUAL + ".qcn_trigger c " + strWhere + ") t "
    myCursor = dbconn.cursor()
    myCursor.execute(strSQL)
    row = myCursor.fetchone()
@@ -112,9 +129,8 @@ def getTriggerTupleQuakeID(idQuake, iDelay, dbconn):
    timeStart = row[0] - iDelay
 
    # now get end time of event
-   strSQL = "select max(trigtime) from (select max(time_trigger) trigtime from sensor.qcn_trigger s " + strWhere + " UNION " +\
-            "select max(time_trigger) trigtime from continual.qcn_trigger c " + strWhere + ") t "
-
+   strSQL = "select max(trigtime) from (select max(time_trigger) trigtime from " + DBNAME + ".qcn_trigger s " + strWhere + " UNION " +\
+            "select max(time_trigger) trigtime from " + DBNAME_CONTINUAL + ".qcn_trigger c " + strWhere + ") t "
    myCursor = dbconn.cursor()
    myCursor.execute(strSQL)
    row = myCursor.fetchone()
@@ -128,25 +144,58 @@ def getTriggerTupleQuakeID(idQuake, iDelay, dbconn):
 
 
 def processTriggerTuple(tt, iDelay, dbconn):
-   if tt is None or tt[0] is None or len(tt) == 0:
+   if tt is None or len(tt) == 0:
      print "No triggers found for your criteria!"
-     print "Type ./'" + PROGNAME + " -h' for help"
+     print "Type '" + PROGNAME + " -h' for help"
      return 1
    timeStart = tt[0][5]
    play = 0
    print "Trigger replay starting in " + str(iDelay) + " seconds (Ctrl+C to stop)...."
    SLEEP_INTERVAL = 0.01
+   myCursor = dbconn.cursor()
+
    for t in tt:
      while play < t[5]-timeStart+iDelay:
         sleep(SLEEP_INTERVAL)
         play = play + SLEEP_INTERVAL
-     print t[5]-timeStart+iDelay, t[0], t[1], t[2], t[3], t[4], t[6], t[7], t[8]
 
      # insert into sensor/continual.qcn_trigger table here
      # get new trigger insert ID # and update t[] for trimem_test insert below
 
+     # note in our 't' tuple the first element t[0] is the database name, the rest [1-25] follow
+     # the qcn_trigger table structure
+     # hostid starts at 2 (id is 1 & autoincremeted by mysql, we'll get it below for the trigger_memory fields
+     #print t[0], t[1], t[2], t[3], t[4], t[5], t[6], t[7], t[8], t[9]
+     #print t[10], t[11], t[12], t[13], t[14], t[15], t[16], t[17], t[18], t[19]
+     #print t[20], t[21], t[22], t[23], t[24], t[25], t[26], t[27], t[28], t[29]
+     #print t[30], t[31], t[32], t[33], t[34], t[35], t[36], t[37], t[38]
+
+     # insert into appropriate continual or sensor database, creating new qcn_trigger id # & using current times
+     myCursor.execute("INSERT INTO " + t[0] + """.qcn_trigger  
+         (hostid, ipaddr, result_name, time_trigger, time_received, time_sync, sync_offset, significance, magnitude, 
+         mxy1p, mz1p, mxy1a, mz1a, mxy2a, mz2a, mxy4a, mz4a, 
+         latitude, longitude, levelvalue, levelid, alignid, file, dt, 
+         numreset, qcn_sensorid, sw_version, os_type, qcn_quakeid, time_filereq, received_file, runtime_clock, runtime_cpu, 
+         varietyid, flag, hostipaddrid, geoipaddrid) 
+         VALUES (%s, %s, %s, unix_timestamp(), unix_timestamp(), unix_timestamp()-60, %s, %s, %s,
+             %s, %s, %s, %s, %s, %s, %s, %s,
+             %s, %s, %s, %s, %s, %s, %s,
+             %s, %s, %s, %s, %s, %s, %s, %s, %s,
+             %s, %s, %s, %s)""", 
+       ( t[2], t[3], t[4],  t[8], t[9], t[10],\
+         t[11], t[12], t[13], t[14], t[15], t[16], t[17], t[18],\
+         t[19], t[20], t[21], t[22], t[23], t[24], t[25],\
+         t[26], t[27], t[28], t[29], t[30], t[31], t[32], t[33], t[34],\
+         t[35], t[36], t[37], t[38] ) )
+     dbconn.commit()
+     myID = dbconn.insert_id()
+
      # insert into trigmem_test.qcn_trigger_memory table here
 
+     # print out an informative line
+     print t[5]-timeStart+iDelay, t[0], myID, t[2], t[3], t[4], t[6], t[7], t[8]
+
+   myCursor.close()
    return 0
 
 def deleteTrigMemTest(dbconn):
@@ -159,10 +208,6 @@ def deleteTrigMemTest(dbconn):
 
 # main proc
 def main():
-   global UPLOAD_WEB_DIR
-   global DOWNLOAD_WEB_DIR
-   global DOWNLOAD_URL
-   global UPLOAD_WEB_DIR_CONTINUAL
    global DBNAME
    global DBNAME_CONTINUAL
    global IS_ARCHIVE
@@ -224,32 +269,6 @@ def main():
    if options.TIME_MAX is None:
      options.TIME_MAX = "00:05:00"
 
-   #if options.LAT_MIN is not None or options.LAT_MAX is not None:
-   #  if options.LAT_MIN < -90 or options.LAT_MIN > 90 or options.LAT_MIN > options.LAT_MAX:
-   #    print "Incorrect Minimum Latitude, must be between -90 and 90 and less than Maximum Latitude entered."
-   #    print "Type ./'" + PROGNAME + " -h' for help"
-   #    sys.exit()
-#
-#     if options.LAT_MAX < -90 or options.LAT_MAX > 90 or options.LAT_MAX < options.LAT_MIN:
-#       print "Incorrect Maximum Latitude, must be between -90 and 90 and greater than Minimum Latitude entered."
-#       print "Type ./'" + PROGNAME + " -h' for help"
-#       sys.exit()
-#
-#     if options.LNG_MIN < -180 or options.LNG_MIN > 180 or options.LNG_MIN > options.LNG_MAX:
-#       print "Incorrect Minimum Longitude, must be between -180 and 180 and less than Maximum Longitude entered."
-#       print "Type ./'" + PROGNAME + " -h' for help"
-#       sys.exit()
-#
-#     if options.LNG_MAX < -180 or options.LNG_MAX > 180 or options.LNG_MAX < options.LNG_MIN:
-#       print "Incorrect Maximum Longitude, must be between -180 and 180 and greater than Minimum Longitude entered."
-#       print "Type ./'" + PROGNAME + " -h' for help"
-#       sys.exit()
-#
-#   LAT_MIN = options.LAT_MIN
-#   LAT_MAX = options.LAT_MAX
-#   LNG_MIN = options.LNG_MIN
-#   LNG_MAX = options.LNG_MAX
-
    if options.DELAY_TIME is None:
      options.DELAY_TIME = 5
 
@@ -294,7 +313,7 @@ def main():
 
       if len(res) == 0 or res is None or res[0] is None:
          print "Error - cannot retrieve archive trigger time or validate min/max dates"
-         print "Type './trigger_replay.py -h' for help"
+         print "Type '" + PROGNAME + " -h' for help"
          dbconn.close()
          sys.exit()
 
@@ -304,31 +323,27 @@ def main():
 
       if DATE_MIN is None or DATE_MIN < 1e6 or DATE_MAX is None or DATE_MAX < 1e6:
          print "Error - Invalid start or end date"
-         print "Type './trigger_replay.py -h' for help"
+         print "Type '" + PROGNAME + " -h' for help"
          dbconn.close()
          sys.exit()
 
       if DATE_MIN > DATE_MAX:
          print "Error - start date greater than end date"
-         print "Type './trigger_replay.py -h' for help"
+         print "Type '" + PROGNAME + " -h' for help"
          dbconn.close()
          sys.exit()
 
       if DATE_MIN >= timeArchive and DATE_MAX >= timeArchive:
          IS_ARCHIVE = False
-         UPLOAD_WEB_DIR           = "/data/QCN/trigger/"
-         UPLOAD_WEB_DIR_CONTINUAL = "/data/QCN/trigger/continual/"
          DBNAME                   = "sensor"
          DBNAME_CONTINUAL         = "continual"
       elif DATE_MIN < timeArchive and DATE_MAX <= timeArchive:
          IS_ARCHIVE = True
-         UPLOAD_WEB_DIR           = "/data/QCN/trigger/archive/"
-         UPLOAD_WEB_DIR_CONTINUAL = "/data/QCN/trigger/archive/continual/"
          DBNAME                   = "sensor_archive"
          DBNAME_CONTINUAL         = "continual_archive"
       else: # error! 
          print "Error - dates straddle the archive time - not yet supported"
-         print "Type './trigger_replay.py -h' for help"
+         print "Type '" + PROGNAME + " -h' for help"
          dbconn.close()
          sys.exit()
 
@@ -346,7 +361,7 @@ def main():
         bDone = True
 
       if not bDone and options.QUAKE_ID is not None:
-        tt = getTriggerTupleQuakeID(options.QUAKE_ID, options.DELAY_TIME, dbconn)
+        tt = getTriggerTupleQuakeID(options.QUAKE_ID, options.DELAY_TIME, timeArchive, dbconn)
         processTriggerTuple(tt, options.DELAY_TIME, dbconn)
         bDone = True
         #raise FinishedException(2)
