@@ -5,6 +5,21 @@
 # or you can enter a date/time range of triggers to "play back"
 # note it will create new records in the qcn_trigger table of qcn_data so that they can be updated with the 'trigmon' program
 
+
+#For help/usage:
+#replay-trigger -h
+#
+#To replay triggers from a date range:
+#replay-trigger --date_start=2013-03-10 --time_start=07:00:00 --date_end=2013-03-10 --time_end=07:10:00
+#
+#To get a list of previous quakes/triggers detected or matched:
+#replay-trigger --quake_list=20
+#
+#To replay triggers from a quake ID:
+#replay-trigger --quake_id=
+#
+
+
 # note -- need to install 3rd party MySQLdb libraries for python
 import sys, os, math, traceback, tempfile, string, MySQLdb, shutil, zipfile
 from datetime import datetime
