@@ -25,6 +25,7 @@ DROP TABLE IF EXISTS `qcn_sensor`;
 CREATE TABLE `qcn_sensor` (
   `id` smallint(6) NOT NULL,
   `is_usb` tinyint(1) NOT NULL DEFAULT '0',
+  `is_gps` tinyint(1) NOT NULL DEFAULT '0',
   `description` varchar(64) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -36,7 +37,7 @@ CREATE TABLE `qcn_sensor` (
 
 LOCK TABLES `qcn_sensor` WRITE;
 /*!40000 ALTER TABLE `qcn_sensor` DISABLE KEYS */;
-INSERT INTO `qcn_sensor` VALUES (0,0,'Not Found'),(1,0,'Mac PPC 1'),(2,0,'Mac PPC 2'),(3,0,'Mac PPC 3'),(4,0,'Mac Intel'),(5,0,'Lenovo Thinkpad'),(6,0,'HP Laptop'),(100,1,'JoyWarrior 24F8 USB'),(101,1,'MotionNode Accel USB'),(102,1,'O1 USB'),(103,1,'JoyWarrior 24F14 USB'),(104,1,'ONavi A 12-bit USB'),(105,1,'ONavi B 16-bit USB'),(106,1,'ONavi C 24-bit USB'),(107,1,'Phidgets 1056 228ug USB'),(108,1,'Phidgets 1042 976ug USB'),(109,1,'Phidgets 1044 76ug USB');
+INSERT INTO `qcn_sensor` VALUES (0,0,0,'Not Found'),(1,0,0,'Mac PPC 1'),(2,0,0,'Mac PPC 2'),(3,0,0,'Mac PPC 3'),(4,0,0,'Mac Intel'),(5,0,0,'Lenovo Thinkpad'),(6,0,0,'HP Laptop'),(100,1,0,'JoyWarrior 24F8 USB'),(101,1,0,'MotionNode Accel USB'),(102,1,0,'ONavi 1 USB'),(103,1,0,'JoyWarrior 24F14 USB'),(104,1,0,'ONavi A 12-bit USB'),(105,1,0,'ONavi B 16-bit USB'),(106,1,0,'ONavi C 24-bit USB'),(107,1,0,'Phidgets 1056 228ug USB'),(108,1,0,'Phidgets 1042 976ug USB'),(109,1,0,'Phidgets 1044 76ug USB'),(110,1,0,'Phidgets 1041 976ug USB'),(111,1,0,'Phidgets 1043 76ug USB'),(1000,1,1,'Phidgets 1040 GPS USB');
 /*!40000 ALTER TABLE `qcn_sensor` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -49,4 +50,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2013-01-07  9:56:18
+-- Dump completed on 2013-03-25  8:30:22
