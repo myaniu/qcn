@@ -97,6 +97,8 @@ namespace qcn_main  {
   CQCNThread* volatile g_threadTime = NULL;
   CQCNThread* volatile g_threadMain = NULL;
 
+  //unsigned int g_aiPhidget[MAX_NUM_PHIDGETS];
+
   float g_fPerturb[MAX_PERTURB];  // our potential perturbation points (just 2 used now - sig cutoff, and avg short-term )
 
   bool g_bReadOnly = false;
@@ -111,7 +113,6 @@ namespace qcn_main  {
 #else
 	const bool g_bQCNLive = false;
 #endif
-	
   char g_strPathTrigger[_MAX_PATH] = {""};  // this is the path to trigger, doesn't change after startup
   char g_strPathContinual[_MAX_PATH] = {""}; // path for continual stuff
 

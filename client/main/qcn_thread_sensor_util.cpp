@@ -118,11 +118,12 @@ void psmsForceSensor(CSensor* volatile *ppsms)
 #endif
 #endif
 				 break;
-			 case SENSOR_USB_PHIDGETS_1056:
-				 *ppsms = (CSensor*) new CSensorUSBPhidgets(1056);
-				 break;
+			 case SENSOR_USB_PHIDGETS_1041:
+			 case SENSOR_USB_PHIDGETS_1042:
+			 case SENSOR_USB_PHIDGETS_1043:
 			 case SENSOR_USB_PHIDGETS_1044:
-				 *ppsms = (CSensor*) new CSensorUSBPhidgets(1044);
+			 case SENSOR_USB_PHIDGETS_1056:
+				 *ppsms = (CSensor*) new CSensorUSBPhidgets(sm->iMySensor);
 				 break;
 			 case SENSOR_USB_ONAVI_1:
 			 case SENSOR_USB_ONAVI_A_12:
@@ -650,6 +651,8 @@ void SetSensorThresholdAndDiffFactor()
 			break;
 		case SENSOR_USB_MOTIONNODEACCEL:
 		case SENSOR_USB_JW24F8:
+		case SENSOR_USB_PHIDGETS_1041:
+		case SENSOR_USB_PHIDGETS_1042:   // 8-bit sensors ie 1000 ug
 			g_fThreshold = 0.01f;
 			g_fSensorDiffFactor = 1.10f;   // note USB sensors get a small diff factor below, instead of 33% just 10%			
 			break;
@@ -661,7 +664,8 @@ void SetSensorThresholdAndDiffFactor()
 		case SENSOR_USB_ONAVI_A_12:
 		case SENSOR_USB_ONAVI_B_16:
 		case SENSOR_USB_ONAVI_C_24:
-		case SENSOR_USB_PHIDGETS_1044:
+		case SENSOR_USB_PHIDGETS_1043:
+		case SENSOR_USB_PHIDGETS_1044:  // 60-70ug sensors
 			g_fThreshold = 0.0025f;
 			g_fSensorDiffFactor = 1.10f;   // note USB sensors get a small diff factor below, instead of 33% just 10%
 			break;
@@ -674,12 +678,21 @@ void SetSensorThresholdAndDiffFactor()
 	}
 }
 		
+int CCONV PhidgetsAttachHandler(CPhidgetHandle spatial, void *userPtr)
+{
+   // add serial # to our phidget device array
+}
+
 int CCONV PhidgetsDetachHandler(CPhidgetHandle spatial, void *userPtr)
 {
 	// verify g_psms is not null and is a phidgets 1056/1044
 	if (qcn_main::g_psms &&
          (qcn_main::g_psms->getTypeEnum() == SENSOR_USB_PHIDGETS_1056
-             || qcn_main::g_psms->getTypeEnum() == SENSOR_USB_PHIDGETS_1044))
+            || qcn_main::g_psms->getTypeEnum() == SENSOR_USB_PHIDGETS_1044
+            || qcn_main::g_psms->getTypeEnum() == SENSOR_USB_PHIDGETS_1041
+            || qcn_main::g_psms->getTypeEnum() == SENSOR_USB_PHIDGETS_1042
+            || qcn_main::g_psms->getTypeEnum() == SENSOR_USB_PHIDGETS_1043)
+        )
     {
 		qcn_main::g_bDetach = true; // simple trick to reset sensors, it will close the current port via the destructor & search for a new sensor
 	}

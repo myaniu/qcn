@@ -172,6 +172,21 @@ bool CSensorUSBPhidgets::setupFunctionPointers()
 	m_PtrCPhidget_getDeviceID = (PtrCPhidget_getDeviceID) GET_PROC_ADDR(m_handleLibrary,
 		   "CPhidget_getDeviceID");
 
+	m_PtrCPhidgetManager_getAttachedDevices = (PtrCPhidgetManager_getAttachedDevices) GET_PROC_ADDR(m_handleLibrary,
+		   "CPhidgetManager_getAttachedDevices");
+	m_PtrCPhidgetManager_freeAttachedDevicesArray = (PtrCPhidgetManager_freeAttachedDevicesArray) GET_PROC_ADDR(m_handleLibrary,
+		   "CPhidgetManager_freeAttachedDevicesArray");
+	m_PtrCPhidgetManager_close = (PtrCPhidgetManager_close) GET_PROC_ADDR(m_handleLibrary,
+		   "CPhidgetManager_close");
+	m_PtrCPhidgetManager_create = (PtrCPhidgetManager_create) GET_PROC_ADDR(m_handleLibrary,
+		   "CPhidgetManager_create");
+	m_PtrCPhidgetManager_open = (PtrCPhidgetManager_open) GET_PROC_ADDR(m_handleLibrary,
+		   "CPhidgetManager_open");
+	m_PtrCPhidgetManager_delete = (PtrCPhidgetManager_delete) GET_PROC_ADDR(m_handleLibrary,
+		   "CPhidgetManager_delete");
+	m_PtrCPhidgetManager_free = (PtrCPhidgetManager_free) GET_PROC_ADDR(m_handleLibrary,
+		   "CPhidgetManager_free");
+
         m_PtrCPhidget_enableLogging = (PtrCPhidget_enableLogging) GET_PROC_ADDR(m_handleLibrary, "CPhidget_enableLogging");
         m_PtrCPhidget_disableLogging = (PtrCPhidget_disableLogging) GET_PROC_ADDR(m_handleLibrary, "CPhidget_disableLogging");
         m_PtrCPhidget_log = (PtrCPhidget_log) GET_PROC_ADDR(m_handleLibrary, "CPhidget_log");
@@ -210,6 +225,21 @@ bool CSensorUSBPhidgets::setupFunctionPointers()
               CPhidgetSpatial_set_OnSpatialData_Handler;
         m_PtrCPhidget_getDeviceID = (PtrCPhidget_getDeviceID) 
                    CPhidget_getDeviceID;
+
+        m_PtrCPhidgetManager_getAttachedDevices = (PtrCPhidgetManager_getAttachedDevices) 
+                   CPhidgetManager_getAttachedDevices;
+        m_PtrCPhidgetManager_freeAttachedDevicesArray = (PtrCPhidgetManager_freeAttachedDevicesArray) 
+                   CPhidgetManager_freeAttachedDevicesArray;
+        m_PtrCPhidgetManager_close = (PtrCPhidgetManager_close) 
+                   CPhidgetManager_close;
+        m_PtrCPhidgetManager_create = (PtrCPhidgetManager_create) 
+                   CPhidgetManager_create;
+        m_PtrCPhidgetManager_open = (PtrCPhidgetManager_open) 
+                   CPhidgetManager_open;
+        m_PtrCPhidgetManager_delete = (PtrCPhidgetManager_delete) 
+                   CPhidgetManager_delete;
+        m_PtrCPhidgetManager_free = (PtrCPhidgetManager_free) 
+                   CPhidgetManager_free;
 
         m_PtrCPhidget_enableLogging = (PtrCPhidget_enableLogging) CPhidget_enableLogging;
         m_PtrCPhidget_disableLogging = (PtrCPhidget_disableLogging) CPhidget_disableLogging;
@@ -256,6 +286,42 @@ void CSensorUSBPhidgets::closePort()
 	setPort();
 	setType();
 
+}
+
+bool CSensorUSBPhidgets::getList()
+{
+ CPhidgetManagerHandle manager = 0;
+  CPhidgetManager_create(&manager);
+  CPhidgetManager_open((CPhidgetManagerHandle) manager);
+ 
+  // Allow the Phidgets time to attach
+  sleep(1);
+ 
+  // Retrieve the list of attached Phidgets from the manager
+  CPhidgetHandle* phidgetList;
+  int count;
+ 
+  CPhidgetManager_getAttachedDevices((CPhidgetManagerHandle) manager, &phidgetList, &count);
+ 
+  int serialNumber;
+  const char *name;
+ 
+  // Iterate over the returned Phidget data
+  int i;
+  for (i = 0; i < count; i++) {
+      CPhidget_getDeviceName(phidgetList[i], &name);
+      CPhidget_getSerialNumber(phidgetList[i], &serialNumber);
+      printf("%s, %d\n", name, serialNumber);
+      // Store name and serial number into a persistent variable
+      ....
+  }
+ 
+  // Use the Phidget API to free the memory in the phidgetList Array    
+  CPhidgetManager_freeAttachedDevicesArray(phidgetList);
+ 
+  // Close the manager    
+  CPhidgetManager_close((CPhidgetManagerHandle) manager);
+  CPhidgetManager_delete((CPhidgetManagerHandle) manager);
 }
 
 bool CSensorUSBPhidgets::detect()
@@ -310,7 +376,7 @@ bool CSensorUSBPhidgets::detect()
 	// try a second to open
 	double dTime = dtime();
 
-    if((ret = m_PtrCPhidget_waitForAttachment((CPhidgetHandle)m_handlePhidgetSpatial, 4000))) {
+    if((ret = m_PtrCPhidget_waitForAttachment((CPhidgetHandle)m_handlePhidgetSpatial, 2000))) {
 	        const char *err;
 		m_PtrCPhidget_getErrorDescription(ret, &err);
 //#if !defined(_WIN32) && !defined(__APPLE_CC__)
@@ -343,26 +409,44 @@ bool CSensorUSBPhidgets::detect()
 	m_PtrCPhidget_getDeviceLabel((CPhidgetHandle) m_handlePhidgetSpatial, &m_cstrDeviceLabel); 
 	m_PtrCPhidget_getDeviceID((CPhidgetHandle) m_handlePhidgetSpatial, &m_enumPhidgetDeviceID);
 
-	if (m_iNumAccelAxes < 3) { // error as we should have 3 axes
+	if (m_iNumAccelAxes < 1) { // error as we should have 1 - 3 axes
 		fprintf(stderr, "Error - Phidgets Accel with %d axes\n", m_iNumAccelAxes);
 		closePort();
 		return false;
 	}
 
 /*  per Phidgets forum re version # :
+- with gyro & compass
 1056 is <300
 1042 is 300 - <400
 1044 is 400 - <500
+
+- no gyro or compass
+1041 is <300
+1043 is <400
+
 */
 
-        if (m_iVersion < 300)
-           setType(SENSOR_USB_PHIDGETS_1056);
-        else if (m_iVersion >= 300 && m_iVersion < 400)
-           setType(SENSOR_USB_PHIDGETS_1042);
-        else
-           setType(SENSOR_USB_PHIDGETS_1044);
-        
-        setPort(getTypeEnum());
+   if (m_iNumGyroAxes == 0 && m_iNumCompassAxes == 0) {
+            if (m_iVersion < 300)
+              setType(SENSOR_USB_PHIDGETS_1041);
+            else if (m_iVersion >= 300 && m_iVersion < 400)
+              setType(SENSOR_USB_PHIDGETS_1043);
+            else {
+              fprintf(stderr, "Error - Unknown Phidgets Accel with %d axes - Version %d\n", m_iNumAccelAxes, m_iVersion);
+              closePort();
+               return false;
+            }
+    }
+    else {
+            if (m_iVersion < 300)
+              setType(SENSOR_USB_PHIDGETS_1056);
+            else if (m_iVersion >= 300 && m_iVersion < 400)
+              setType(SENSOR_USB_PHIDGETS_1042);
+            else
+              setType(SENSOR_USB_PHIDGETS_1044);
+    }
+    setPort(getTypeEnum());
 
 	char *strSensor = new char[256];
 
@@ -384,7 +468,8 @@ bool CSensorUSBPhidgets::detect()
    }
 
    // last setup a detach callback function if device is removed
-	m_PtrCPhidget_set_OnDetach_Handler((CPhidgetHandle) m_handlePhidgetSpatial, PhidgetsDetachHandler, NULL);
+   m_PtrCPhidget_set_OnAttach_Handler((CPhidgetHandle) m_handlePhidgetSpatial, PhidgetsAttachHandler, NULL);
+   m_PtrCPhidget_set_OnDetach_Handler((CPhidgetHandle) m_handlePhidgetSpatial, PhidgetsDetachHandler, NULL);
 	
 #if !defined(__APPLE_CC__) && !defined(_WIN32)	
        if (m_bLogging) {

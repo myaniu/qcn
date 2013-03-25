@@ -17,28 +17,29 @@
 // strings for sensor types
 /* should match the qcn_sensor table
 
-mysql> select * from qcn_sensor;
-+-----+--------+-------------------------+
-| id  | is_usb | description             |
-+-----+--------+-------------------------+
-|   0 |      0 | Not Found               |
-|   1 |      0 | Mac PPC 1               |
-|   2 |      0 | Mac PPC 2               |
-|   3 |      0 | Mac PPC 3               |
-|   4 |      0 | Mac Intel               |
-|   5 |      0 | Lenovo Thinkpad         |
-|   6 |      0 | HP Laptop               |
-| 100 |      1 | JoyWarrior 24F8 USB     |
-| 101 |      1 | MotionNode Accel USB    |
-| 102 |      1 | O1 USB                  |
-| 103 |      1 | JoyWarrior 24F14 USB    |
-| 104 |      1 | ONavi A 12-bit USB      |
-| 105 |      1 | ONavi B 16-bit USB      |
-| 106 |      1 | ONavi C 24-bit USB      |
-| 107 |      1 | Phidgets 1056 228ug USB |
-| 108 |      1 | Phidgets 1042 976ug USB |
-| 109 |      1 | Phidgets 1044 76ug USB  |
-+-----+--------+-------------------------+
+create table qcn_sensor (id smallint not null primary key, is_usb boolean not null default 0, 
+    is_gps boolean not null default 0, description varchar(64));
+insert into qcn_sensor values (0   , 0, 0, 'Not Found');
+insert into qcn_sensor values (1   , 0, 0, 'Mac PPC 1');
+insert into qcn_sensor values (2   , 0, 0, 'Mac PPC 2');
+insert into qcn_sensor values (3   , 0, 0, 'Mac PPC 3');
+insert into qcn_sensor values (4   , 0, 0, 'Mac Intel');
+insert into qcn_sensor values (5   , 0, 0, 'Lenovo Thinkpad');
+insert into qcn_sensor values (6   , 0, 0, 'HP Laptop');
+insert into qcn_sensor values (100 , 1, 0, 'JoyWarrior 24F8 USB');
+insert into qcn_sensor values (101 , 1, 0, 'MotionNode Accel USB');
+insert into qcn_sensor values (102 , 1, 0, 'ONavi 1 USB');
+insert into qcn_sensor values (103 , 1, 0, 'JoyWarrior 24F14 USB');
+insert into qcn_sensor values (104 , 1, 0, 'ONavi A 12-bit USB');
+insert into qcn_sensor values (105 , 1, 0, 'ONavi B 16-bit USB');
+insert into qcn_sensor values (106 , 1, 0, 'ONavi C 24-bit USB');
+insert into qcn_sensor values (107 , 1, 0, 'Phidgets 1056 228ug USB');
+insert into qcn_sensor values (108 , 1, 0, 'Phidgets 1042 976ug USB');
+insert into qcn_sensor values (109 , 1, 0, 'Phidgets 1044 76ug USB');
+insert into qcn_sensor values (110 , 1, 0, 'Phidgets 1041 976ug USB');
+insert into qcn_sensor values (111 , 1, 0, 'Phidgets 1043 76ug USB');
+insert into qcn_sensor values (1000, 1, 1, 'Phidgets 1040 GPS USB');
+
 */
 
 #define SENSOR_STRLG_NOTFOUND "Not Found"
@@ -92,6 +93,12 @@ mysql> select * from qcn_sensor;
 
 #define SENSOR_STRLG_USB_PHIDGETS_1044 "Phidgets 1044 76ug USB"
 #define SENSOR_STRSH_USB_PHIDGETS_1044 "P3"
+
+#define SENSOR_STRLG_USB_PHIDGETS_1041 "Phidgets 1041 976ug USB"
+#define SENSOR_STRSH_USB_PHIDGETS_1041 "P4"
+
+#define SENSOR_STRLG_USB_PHIDGETS_1043 "Phidgets 1043 76ug USB"
+#define SENSOR_STRSH_USB_PHIDGETS_1043 "P5"
 
 // end sensor strings
 
@@ -160,6 +167,12 @@ CSensor::CSensor()
     
 		cst.init(SENSOR_USB_PHIDGETS_1042, SENSOR_STRLG_USB_PHIDGETS_1042, SENSOR_STRSH_USB_PHIDGETS_1042);
 		m_map.insert(make_pair(SENSOR_USB_PHIDGETS_1042, cst));
+
+		cst.init(SENSOR_USB_PHIDGETS_1041, SENSOR_STRLG_USB_PHIDGETS_1041, SENSOR_STRSH_USB_PHIDGETS_1041);
+		m_map.insert(make_pair(SENSOR_USB_PHIDGETS_1041, cst));
+
+		cst.init(SENSOR_USB_PHIDGETS_1043, SENSOR_STRLG_USB_PHIDGETS_1043, SENSOR_STRSH_USB_PHIDGETS_1043);
+		m_map.insert(make_pair(SENSOR_USB_PHIDGETS_1043, cst));
 
         
 	}

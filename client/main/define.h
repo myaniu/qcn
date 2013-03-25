@@ -147,6 +147,7 @@ typedef vector<string> ZipFileList;
 // for the sensor try/catch
 #define EXCEPTION_SHUTDOWN 1
 
+//#define MAX_NUM_PHIDGETS 5
 #define MAX_PERTURB 10
 
 // earth's gravity in meters per second-squared
@@ -241,13 +242,15 @@ enum e_sensor  {
 	         SENSOR_USB_ONAVI_C_24,    // 106
 	         SENSOR_USB_PHIDGETS_1056, // 107
 	         SENSOR_USB_PHIDGETS_1042, // 108
-	         SENSOR_USB_PHIDGETS_1044  // 109
+	         SENSOR_USB_PHIDGETS_1044,  // 109
+	         SENSOR_USB_PHIDGETS_1041,  // 110
+	         SENSOR_USB_PHIDGETS_1043  // 111
                };
 
 // set to the min allowable value of a usb sensor enum as above
 #define MIN_SENSOR_USB 100
 // set to the max allowable value of a usb sensor enum as above
-#define MAX_SENSOR_USB 107
+#define MAX_SENSOR_USB 111
 
 
 // USB id's

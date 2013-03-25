@@ -92,6 +92,7 @@ extern CQCNUSBState* volatile smState;
 extern CQCNShMem* volatile sm;
 #endif
 
+
 #ifndef _WIN32
 /*! environment for Mac & Linux to call execve (in execproc.cpp)
 */
@@ -156,6 +157,9 @@ void update_sharedmem();
 // some globals to extern within the qcn_main namespace
 extern CSensor* volatile g_psms; // pointer to the CSensor - so we can closePort() on a signal error
 extern e_endian volatile g_endian;
+
+// simple array to keep track of attached phidgets serial #'s, MAX_NUM_PHIDGETS is 5 in define.h
+// extern unsigned int g_aiPhidget[MAX_NUM_PHIDGETS];
 	
 #ifndef QCNDEMO // qcndemo needs the g_iStop internally
 extern int volatile g_iStop;
