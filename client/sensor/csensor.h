@@ -60,6 +60,7 @@ struct StSensor
    int iSerialNum;
    int eSensor;
    int iPort;
+   char strName[32];
 
    StSensor::StSensor() { memset(this, 0x00, sizeof(StSensor); }
 }
@@ -80,8 +81,8 @@ private:
       // note that x/y/z should be scaled to +/- 2g, return values as +/- 2.0f*EARTH_G (in define.h: 9.78033 m/s^2)
       virtual bool read_xyz(float& x1, float& y1, float& z1) = 0;   // read raw sensor data, pure virtual function subclass implemented  
 
-	  static map<int, CSensorType> m_map;  // map enum ID's to sensor name
-      vector<struct StSensor> m_sensors;
+      static map<int, CSensorType> m_map;  // map enum ID's to sensor name
+      static vector<struct StSensor> m_sensors; // store all sensors detected here
 
    public:
      CSensor();
