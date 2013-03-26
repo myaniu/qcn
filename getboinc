@@ -1,7 +1,7 @@
 #!/bin/bash
 cd ../
 rm -rf boinc
-git clone git://boinc.berkeley.edu/boinc.git
+git clone git://boinc.berkeley.edu/boinc-v2.git
 #svn co http://boinc.berkeley.edu/svn/trunk/boinc
 #cd boinc
 #svn co http://boinc.berkeley.edu/svn/trunk/depends_projects/zip
