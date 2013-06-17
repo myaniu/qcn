@@ -55,6 +55,7 @@ public:
 	
 };
 
+/*
 struct StSensor
 {
    int iSerialNum;
@@ -64,6 +65,7 @@ struct StSensor
 
    StSensor::StSensor() { memset(this, 0x00, sizeof(StSensor); }
 }
+ */
 
 // this is the base class for all QCN sensors
 class CSensor
@@ -82,7 +84,7 @@ private:
       virtual bool read_xyz(float& x1, float& y1, float& z1) = 0;   // read raw sensor data, pure virtual function subclass implemented  
 
       static map<int, CSensorType> m_map;  // map enum ID's to sensor name
-      static vector<struct StSensor> m_sensors; // store all sensors detected here
+      //static vector<struct StSensor> m_sensors; // store all sensors detected here
 
    public:
      CSensor();
@@ -101,7 +103,7 @@ private:
 
      // pure virtual functions that subclasses of CSensor (for specific sensor types) need to implement
      virtual bool detect() = 0;   // this detects & initializes a sensor on a Mac G4/PPC or Intel laptop, sets m_iType to 0 if not found
-     virtual bool detect_multiple() { m_sensors.clear(); };   // this detects & initializes a sensor on a Mac G4/PPC or Intel laptop, sets m_iType to 0 if not found
+     //virtual bool detect_multiple() { m_sensors.clear(); };   // this detects & initializes a sensor on a Mac G4/PPC or Intel laptop, sets m_iType to 0 if not found
 
 	 // get sensor id or string based on the map of sensors (m_map private member var initialized in constructor)
 	 //void setTypeStr(const char* strTypeStr);  // set the sensor name for this iType

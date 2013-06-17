@@ -172,6 +172,7 @@ bool CSensorUSBPhidgets::setupFunctionPointers()
 	m_PtrCPhidget_getDeviceID = (PtrCPhidget_getDeviceID) GET_PROC_ADDR(m_handleLibrary,
 		   "CPhidget_getDeviceID");
 
+/*
 	m_PtrCPhidgetManager_getAttachedDevices = (PtrCPhidgetManager_getAttachedDevices) GET_PROC_ADDR(m_handleLibrary,
 		   "CPhidgetManager_getAttachedDevices");
 	m_PtrCPhidgetManager_freeAttachedDevicesArray = (PtrCPhidgetManager_freeAttachedDevicesArray) GET_PROC_ADDR(m_handleLibrary,
@@ -186,7 +187,7 @@ bool CSensorUSBPhidgets::setupFunctionPointers()
 		   "CPhidgetManager_delete");
 	m_PtrCPhidgetManager_free = (PtrCPhidgetManager_free) GET_PROC_ADDR(m_handleLibrary,
 		   "CPhidgetManager_free");
-
+*/
         m_PtrCPhidget_enableLogging = (PtrCPhidget_enableLogging) GET_PROC_ADDR(m_handleLibrary, "CPhidget_enableLogging");
         m_PtrCPhidget_disableLogging = (PtrCPhidget_disableLogging) GET_PROC_ADDR(m_handleLibrary, "CPhidget_disableLogging");
         m_PtrCPhidget_log = (PtrCPhidget_log) GET_PROC_ADDR(m_handleLibrary, "CPhidget_log");
@@ -226,6 +227,7 @@ bool CSensorUSBPhidgets::setupFunctionPointers()
         m_PtrCPhidget_getDeviceID = (PtrCPhidget_getDeviceID) 
                    CPhidget_getDeviceID;
 
+/*
         m_PtrCPhidgetManager_getAttachedDevices = (PtrCPhidgetManager_getAttachedDevices) 
                    CPhidgetManager_getAttachedDevices;
         m_PtrCPhidgetManager_freeAttachedDevicesArray = (PtrCPhidgetManager_freeAttachedDevicesArray) 
@@ -240,7 +242,7 @@ bool CSensorUSBPhidgets::setupFunctionPointers()
                    CPhidgetManager_delete;
         m_PtrCPhidgetManager_free = (PtrCPhidgetManager_free) 
                    CPhidgetManager_free;
-
+*/
         m_PtrCPhidget_enableLogging = (PtrCPhidget_enableLogging) CPhidget_enableLogging;
         m_PtrCPhidget_disableLogging = (PtrCPhidget_disableLogging) CPhidget_disableLogging;
         m_PtrCPhidget_log = (PtrCPhidget_log) CPhidget_log;
@@ -288,9 +290,10 @@ void CSensorUSBPhidgets::closePort()
 
 }
 
+/*
 bool CSensorUSBPhidgets::getList()
 {
- CPhidgetManagerHandle manager = 0;
+  CPhidgetManagerHandle manager = NULL;
   CPhidgetManager_create(&manager);
   CPhidgetManager_open((CPhidgetManagerHandle) manager);
  
@@ -323,6 +326,7 @@ bool CSensorUSBPhidgets::getList()
   CPhidgetManager_close((CPhidgetManagerHandle) manager);
   CPhidgetManager_delete((CPhidgetManagerHandle) manager);
 }
+*/
 
 bool CSensorUSBPhidgets::detect()
 {

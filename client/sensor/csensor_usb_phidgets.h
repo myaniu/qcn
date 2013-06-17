@@ -39,6 +39,7 @@ using namespace std;
 #endif // WIN32
 
 // detach handler is kept in main/qcn_thread_sensor_util.cpp to handle closing of the port etc
+extern int CCONV PhidgetsAttachHandler(CPhidgetHandle spatial, void *userPtr);
 extern int CCONV PhidgetsDetachHandler(CPhidgetHandle spatial, void *userPtr);
 
 // function pointers in the Phidgets shared object/dylib/DLL
@@ -56,6 +57,7 @@ typedef int 	(PHIDGETS_CALL_API * PtrCPhidget_getDeviceType)  (CPhidgetHandle ph
 typedef int 	(PHIDGETS_CALL_API * PtrCPhidget_getDeviceLabel) (CPhidgetHandle phid, const char **deviceLabel);
 typedef int     (PHIDGETS_CALL_API * PtrCPhidget_getDeviceID)    (CPhidgetHandle phid, CPhidget_DeviceID *deviceID);
 
+/*
 typedef int 	(PHIDGETS_CALL_API * PtrCPhidgetManager_getAttachedDevices)  (CPhidgetManagerHandle phidm, CPhidgetHandle *phidArray[], int *count);
 typedef int 	(PHIDGETS_CALL_API * PtrCPhidgetManager_freeAttachedDevicesArray) (CPhidgetHandle phidArray[]);
 typedef int     (PHIDGETS_CALL_API * PtrCPhidgetManager_close) (CPhidgetManagerHandle phidm);
@@ -63,7 +65,7 @@ typedef int     (PHIDGETS_CALL_API * PtrCPhidgetManager_create) (CPhidgetManager
 typedef int     (PHIDGETS_CALL_API * PtrCPhidgetManager_open) (CPhidgetManagerHandle phidm);
 typedef int     (PHIDGETS_CALL_API * PtrCPhidgetManager_delete) (CPhidgetManagerHandle phidm);
 typedef void 	(PHIDGETS_CALL_API * PtrCPhidgetManager_free) (void *arg);
-
+*/
 
 // callback function handlers
 typedef int 	(PHIDGETS_CALL_API * PtrCPhidget_set_OnDetach_Handler) (CPhidgetHandle phid, int(CCONV *fptr)(CPhidgetHandle phid, void *userPtr), void *userPtr);
@@ -134,6 +136,7 @@ class CSensorUSBPhidgets  : public CSensor
 	PtrCPhidget_getDeviceLabel m_PtrCPhidget_getDeviceLabel;
 	PtrCPhidget_getDeviceID m_PtrCPhidget_getDeviceID;
 
+/*
         PtrCPhidgetManager_getAttachedDevices m_PtrCPhidgetManager_getAttachedDevices;
         PtrCPhidgetManager_freeAttachedDevicesArray m_PtrCPhidgetManager_freeAttachedDevicesArray;
         PtrCPhidgetManager_close m_PtrCPhidgetManager_close;
@@ -141,7 +144,7 @@ class CSensorUSBPhidgets  : public CSensor
         PtrCPhidgetManager_open m_PtrCPhidgetManager_open;
         PtrCPhidgetManager_delete m_PtrCPhidgetManager_delete;
         PtrCPhidgetManager_free m_PtrCPhidgetManager_free;
-
+*/
 	
 	// callback function handlers	
 	PtrCPhidget_set_OnAttach_Handler m_PtrCPhidget_set_OnAttach_Handler;
@@ -175,7 +178,7 @@ class CSensorUSBPhidgets  : public CSensor
       virtual ~CSensorUSBPhidgets();
       virtual void closePort(); // closes the port if open
       virtual bool detect();   // this detects & initializes a sensor on a Mac G4/PPC or Intel laptop, sets m_iType to 0 if not found
-      bool getList();   // get a list of attached phidgets devices
+      //bool getList();   // get a list of attached phidgets devices
 	
 };
 
