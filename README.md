@@ -19,7 +19,7 @@ This repository is released under the Lesser GNU Public License (LGPL) for acade
     Lesser GNU General Public License for more details.
 
     You should have received a copy of the Lesser GNU General Public License
-    along with this program.  If not, see http://www.gnu.org/licenses/lgpl.html
+    along with this program (e.g. COPYING.LESSER).  If not, see http://www.gnu.org/licenses/lgpl.html
 
 ---------------
 
