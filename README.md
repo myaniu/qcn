@@ -6,7 +6,22 @@ Primary author of all files unless otherwise noted is Carl Christensen, carlgt1@
 
 This repository is released under the Lesser GNU Public License (LGPL) for academic use and experimentation.
 
-No warrantees etc are given -- use at your own risk!
+-------------
+
+ This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    Lesser GNU General Public License for more details.
+
+    You should have received a copy of the Lesser GNU General Public License
+    along with this program.  If not, see http://www.gnu.org/licenses/lgpl.html
+
+---------------
 
 You will need various dependencies, some of which are included e.g. libcurl etc, but mainly you will need to get
 the BOINC libraries cloned parallel to the qcn directory:
