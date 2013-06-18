@@ -1,4 +1,6 @@
-This is the git repository for the Quake-Catcher Network project.
+This is the git repository for the Quake-Catcher Network project, Home Page:
+
+http://qcn.stanford.edu
 
 All files are (c) 2013 Stanford University, School of Earth Sciences
 
