@@ -698,7 +698,7 @@ function get_waveformss($event,$sub=null){
 
 
 
-
+//echo getcwd() . "\n";
 // Get event info
 if (file_exists("event.xy")) {
  $efile = "event.xy";

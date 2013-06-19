@@ -34,6 +34,9 @@ function revise_magnitude($edir) {
    for ($j=0;$j<=4;$j++) {
     if ($pgah[$j]>$smag) {$smag=$pgah[$j];}
     if ($pgaz[$j]>$smag) {$smag=$pgaz[$j];}
+    if ($pgah[$j]>$tmag[$j]) {$tmag[$j]=$pgah[$j];}
+    if ($pgaz[$j]>$tmag[$j]) {$tmag[$j]=$pgaz[$j];}
+   $tpga[$j] = sqrt(($pgah[$j] * $pgah[$j]) + ($pgaz[j] * $pgaz[j]));
    }
 
     //echo "distance:".$dis."\n";
@@ -203,7 +206,58 @@ function revise_magnitude($edir) {
     //$qmag2 = $qmag2 + ((log($smag)/($erf_tau)) + 0.596*(sqrt($dis)-sqrt(10)) + 7.882 )/(1.161);
 
     //#40 (Updated 03/19/13) - QCN w/ QCN locations: using fine inversion; Picked QCN events:
-    $qmag2 = $qmag2 + exp(0.0402*log($smag) + 0.0371*sqrt($dis) - 0.0621*$erf_tau + 1.4678);
+    //$qmag2 = $qmag2 + exp(0.0402*log($smag) + 0.0371*sqrt($dis) - 0.0621*$erf_tau + 1.4678);
+
+    //#41 (Updated 04/15/13) - Using Trigger Data:
+    //$qmag2 = $qmag2 + exp(0.01429*log($smag) + 0.0365*sqrt($dis) - 0.0136*$erf_tau + 1.5526);
+
+    //#42 (Updated 04/15/13) - Using Sensor Data:
+    //$qmag2 = $qmag2 + exp(0.01405*log($smag) + 0.0367*sqrt($dis) - 0.0444*$erf_tau + 1.5733);
+
+    //#43 (Updated 05/08/13) - Using ptime - Good for M6.3, but overall 1 Mag too high;
+    //$qmag2 = $qmag2 + exp(0.0958*log($smag) - 0.0058*sqrt($dis) - 0.2308*exp(-0.1782*$ptime)+ 2.0577);
+
+    //#44 (Updated 05/20/13) - Using ptime - Too low for M6.3, but overall ok;
+    //$qmag2 = $qmag2 + exp(0.0639*log($smag) + 0.0374*sqrt($dis) + 1.5706);
+
+    //#44 (Updated 05/09/13) - Using ptime - Good for M6.3, but overall 1 Mag too high;
+    //$qmag2 = $qmag2 + exp(0.0680*log($smag) + 1.825);
+
+    //#45 (Updated 05/09/13) - Using no time - Good for M6.3, but overall 1 Mag too high;
+    //$qmag2 = $qmag2 + exp(0.0579*log($smag) + 1.7523);
+
+    //#45 (Updated 05/09/13) - Using no time - Fits Matlab best - Way too high;
+    //$qmag2 = $qmag2 + exp(0.1062*log($smag) + 1.956);
+
+    //#46 (Updated 05/09/13) - Using no time - Good for M6.3, but overall 1 Mag too high;
+    //$qmag2 = $qmag2 + exp(0.0581*log($smag) + 0.0343*sqrt($dis) + 1.5398);
+
+    //#47 (Updated 05/17/13) - Using Fixed Culled Data:
+    //$qmag2 = $qmag2 + exp(0.0487*log($smag) + 0.0329*sqrt($dis) - 0.0558*$erf_tau + 1.4736);
+
+    //#48 (Updated 05/21/13) - Using ptime, Revised Trigger Data only - ;
+    //$qmag2 = $qmag2 + exp(0.0747*log($smag) + 0.0394*sqrt($dis) + 1.6017);
+
+    //#49 (Updated 05/21/13) - Using ptime, Revised Trigger Data and CHCH Trigger data - ;
+    //$qmag2 = $qmag2 + exp(0.0945*log($smag) + 0.0360*sqrt($dis) + 1.7377);
+    //$qmag2 = $qmag2 + exp(0.0962*log($smag) + 0.0365*sqrt($dis) + 1.7554);
+
+    //#50 (Updated 05/21/13) - using fine inversion; CHCH_CONTINUAL; Good hist, bad M6;
+    $qmag2 = $qmag2 + exp(0.0487*log($smag) + 0.0329*sqrt($dis) - 0.0558*$erf_tau + 1.4736);
+
+    //#51 (Updated 05/24/13) - Using ptime, Revised Trigger Data and CHCH Trigger data - ;
+    //$qmag2 = $qmag2 + exp(0.0785*log($smag) + 0.0384*sqrt($dis) + 1.6071);
+    $ttmag[1] = $ttmag[1] + exp(0.0785*log($tpga[0]) + 0.0384*sqrt($dis) + 1.6071);
+    $ttmag[2] = $ttmag[2] + exp(0.0721*log($tpga[1]) + 0.0388*sqrt($dis) + 1.5976);
+
+    //$ttmag[1] = $ttmag[1] + exp(0.0785*log($tmag[0]) + 0.0384*sqrt($dis) + 1.6071);
+    //$ttmag[2] = $ttmag[2] + exp(0.0721*log($tmag[1]) + 0.0388*sqrt($dis) + 1.5976);
+    //$ttmag[3] = $ttmag[3] + exp(0.0761*log($tmag[2]) + 0.0384*sqrt($dis) + 1.6315);
+    //$ttmag[4] = $ttmag[4] + exp(0.0811*log($tmag[3]) + 0.0378*sqrt($dis) + 1.6738);
+    //$ttmag[5] = $ttmag[5] + exp(0.0841*log($tmag[4]) + 0.0364*sqrt($dis) + 1.7084);
+
+    //$qmag2 = ($ttmag[1] + $ttmag[2])/2;
+    //$qmag2 = ($ttmag[1]);
 
     $qmag = $qmag2;
 
@@ -367,7 +421,60 @@ function revise_magnitude($edir) {
     //$qstd2 = $qstd2 + ((log($smag)/($erf_tau)) + 0.596*(sqrt($dis)-sqrt(10)) + 7.882 )/(1.161);
 
     //#40 (Updated 03/19/13) - QCN w/ QCN locations: using fine inversion; Picked QCN events:
-    $qstd2 = $qstd2 + exp(0.0402*log($smag) + 0.0371*sqrt($dis) - 0.0621*$erf_tau + 1.4678);
+    //$qstd2 = $qstd2 + exp(0.0402*log($smag) + 0.0371*sqrt($dis) - 0.0621*$erf_tau + 1.4678);
+
+    //#41 (Updated 04/15/13) - Using Trigger Data:
+    //$qstd2 = $qstd2 + exp(0.01429*log($smag) + 0.0365*sqrt($dis) - 0.0136*$erf_tau + 1.5526);
+
+    //#42 (Updated 04/15/13) - Using Sensor Data:
+    //$qstd2 = $qstd2 + exp(0.01405*log($smag) + 0.0367*sqrt($dis) - 0.0444*$erf_tau + 1.5733);
+
+    //#43 (Updated 05/08/13) - Using ptime - Good for M6.3, but overall 1 Mag too high;
+    //$qstd2 = $qstd2 + exp(0.0958*log($smag) - 0.0058*sqrt($dis) -0.2308*exp(-0.1782*$ptime)+ 2.0577);
+
+    //#44 (Updated 05/20/13) - Using ptime - Too low for M6.3, but overall ok;
+    //$qstd2 = $qstd2 + exp(0.0639*log($smag) + 0.0374*sqrt($dis) + 1.5706);
+
+    //#44 (Updated 05/09/13) - Using ptime - Good for M6.3, but overall 1 Mag too high;
+    //$qstd2 = $qstd2 + exp(0.0953*log($smag) + 0.0047*sqrt($dis) + 1.8299);
+
+    //#45 (Updated 05/09/13) - Using no time - Good for M6.3, but overall 1 Mag too high;
+    //$qstd2 = $qstd2 + exp(0.0579*log($smag) + 1.7523);
+
+    //#45 (Updated 05/09/13) - Using no time - Fits Matlab best - Way too high;
+    //$qstd2 = $qstd2 + exp(0.1062*log($smag) + 1.956);
+
+    //#46 (Updated 05/09/13) - Using no time - Good for M6.3, but overall 1 Mag too high;
+    //$qstd2 = $qstd2 + exp(0.0581*log($smag) + 0.0343*sqrt($dis) + 1.5398);
+
+    //#47 (Updated 05/17/13) - Using Fixed Culled Data:
+    //$qstd2 = $qstd2 + exp(0.0487*log($smag) + 0.0329*sqrt($dis) - 0.0558*$erf_tau + 1.4736);
+
+    //#48 (Updated 05/21/13) - Using ptime, Revised Trigger Data only - ;
+    //$qstd2 = $qstd2 + exp(0.0747*log($smag) + 0.0394*sqrt($dis) + 1.6017);
+
+    //#49 (Updated 05/21/13) - Using ptime, Revised Trigger Data and CHCH Trigger data - ;
+    //$qstd2 = $qstd2 + exp(0.0945*log($smag) + 0.0360*sqrt($dis) + 1.7377);
+
+    //#50 (Updated 05/21/13) - using fine inversion; CHCH_CONTINUAL; Good hist, bad M6;
+    $qstd2 = $qstd2 + exp(0.0487*log($smag) + 0.0329*sqrt($dis) - 0.0558*$erf_tau + 1.4736);
+
+    //#51 (Updated 05/24/13) - Using ptime, Revised Trigger Data and CHCH Trigger data - ;
+    //$qstd2 = $qstd2 + exp(0.0785*log($smag) + 0.0384*sqrt($dis) + 1.6071);
+    $ttstd[1] = $ttstd[1] + exp(0.0785*log($tpga[0]) + 0.0384*sqrt($dis) + 1.6071);
+    $ttstd[2] = $ttstd[2] + exp(0.0721*log($tpga[1]) + 0.0388*sqrt($dis) + 1.5976);
+    //$ttstd[3] = $ttstd[3] + exp(0.0761*log($tpga[2]) + 0.0384*sqrt($dis) + 1.6315);
+    //$ttstd[4] = $ttstd[4] + exp(0.0811*log($tpga[3]) + 0.0378*sqrt($dis) + 1.6738);
+    //$ttstd[5] = $ttstd[5] + exp(0.0841*log($tpga[4]) + 0.0364*sqrt($dis) + 1.7084);
+
+    //$ttstd[1] = $ttstd[1] + exp(0.0785*log($tmag[0]) + 0.0384*sqrt($dis) + 1.6071);
+    //$ttstd[2] = $ttstd[2] + exp(0.0721*log($tmag[1]) + 0.0388*sqrt($dis) + 1.5976);
+    //$ttstd[3] = $ttstd[3] + exp(0.0761*log($tmag[2]) + 0.0384*sqrt($dis) + 1.6315);
+    //$ttstd[4] = $ttstd[4] + exp(0.0811*log($tmag[3]) + 0.0378*sqrt($dis) + 1.6738);
+    //$ttstd[5] = $ttstd[5] + exp(0.0841*log($tmag[4]) + 0.0364*sqrt($dis) + 1.7084);
+
+    //$qstd2 = ($ttstd[1] + $ttstd[2] + $ttstd[3] + $ttstd[4] + $ttstd[5])/5;
+    //$qstd2 = ($ttstd[1]);
 
    $qstd = $qstd2;
 
